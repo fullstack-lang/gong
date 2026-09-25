@@ -20,13 +20,10 @@ import (
 type ModelGongStructInsertionId int
 
 const (
-	ModelGongStructInsertionCommitCheckout ModelGongStructInsertionId = iota
-	ModelGongStructInsertionStageFunctions
+	ModelGongStructInsertionStageFunctions ModelGongStructInsertionId = iota
 	ModelGongStructInsertionArrayDefintion
 	ModelGongStructInsertionArrayInitialisation
 	ModelGongStructInsertionArrayReset
-	ModelGongStructInsertionUnmarshallDeclarations
-	ModelGongStructInsertionUnmarshallPointersInitializations
 	ModelGongStructInsertionComputeNbInstances
 
 	ModelGongStructInsertionGenericGetReverseFields
@@ -67,10 +64,6 @@ const (
 
 var ModelGongStructSubTemplateCode map[ModelGongStructInsertionId]string = // new line
 map[ModelGongStructInsertionId]string{
-	ModelGongStructInsertionCommitCheckout: `
-	Commit{{Structname}}({{structname}} *{{Structname}})
-	Checkout{{Structname}}({{structname}} *{{Structname}})`,
-
 	ModelGongStructInsertionGenericGetReverseFields: `
 	case *{{Structname}}:{{ListOfReverseFields}}`,
 
@@ -105,23 +98,13 @@ func ({{structname}} *{{Structname}}) GongGetGongstructName() string {
 }
 `,
 	ModelGongStructInsertionMapStringReset: `
-	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}})
-	for {{structname}} := range stage.{{Structname}}s {
-		stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
-	}
+	__gong__rebuildMapString(stage.{{Structname}}s, &stage.{{Structname}}s_mapString)
 `,
 
 	ModelGongStructInsertionStageFunctions: `
 // Stage puts {{structname}} to the model stage
 func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
-	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
-		stage.{{Structname}}s[{{structname}}] = struct{}{}
-		stage.{{Structname}}_stagedOrder[{{structname}}] = stage.{{Structname}}Order
-		stage.{{Structname}}_orderStaged[stage.{{Structname}}Order] = {{structname}}
-		stage.{{Structname}}Order++
-	}
-	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
-
+	__gong__stage(stage.{{Structname}}s, stage.{{Structname}}_stagedOrder, stage.{{Structname}}_orderStaged, &stage.{{Structname}}Order, stage.{{Structname}}s_mapString, {{structname}}, {{structname}}.Name)
 	return {{structname}}
 }
 
@@ -131,59 +114,22 @@ func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
 // - force the order if the order is equal or greater than the stage.{{Structname}}Order
 // - update stage.{{Structname}}Order accordingly
 func ({{structname}} *{{Structname}}) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
-		stage.{{Structname}}s[{{structname}}] = struct{}{}
-
-		if order > stage.{{Structname}}Order {
-			stage.{{Structname}}Order = order
-		}
-		stage.{{Structname}}_stagedOrder[{{structname}}] = order
-		stage.{{Structname}}_orderStaged[order] = {{structname}}
-		stage.{{Structname}}Order++
-	}
-	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
+	__gong__stagePreserveOrder(stage.{{Structname}}s, stage.{{Structname}}_stagedOrder, stage.{{Structname}}_orderStaged, &stage.{{Structname}}Order, stage.{{Structname}}s_mapString, {{structname}}, order, {{structname}}.Name)
 }
 
 // Unstage removes {{structname}} off the model stage
 func ({{structname}} *{{Structname}}) Unstage(stage *Stage) *{{Structname}} {
-	delete(stage.{{Structname}}s, {{structname}})
-	// issue1150
-	// delete(stage.{{Structname}}_stagedOrder, {{structname}})
-	delete(stage.{{Structname}}s_mapString, {{structname}}.Name)
-
+	__gong__unstage(stage.{{Structname}}s, stage.{{Structname}}s_mapString, {{structname}}, {{structname}}.Name)
 	return {{structname}}
 }
 
 // UnstageVoid removes {{structname}} off the model stage
 func ({{structname}} *{{Structname}}) UnstageVoid(stage *Stage) {
-	delete(stage.{{Structname}}s, {{structname}})
-	// issue1150
-	// delete(stage.{{Structname}}_stagedOrder, {{structname}})
-	delete(stage.{{Structname}}s_mapString, {{structname}}.Name)
-}
-
-// commit {{structname}} to the back repo (if it is already staged)
-func ({{structname}} *{{Structname}}) Commit(stage *Stage) *{{Structname}} {
-	if _, ok := stage.{{Structname}}s[{{structname}}]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.Commit{{Structname}}({{structname}})
-		}
-	}
-	return {{structname}}
+	{{structname}}.Unstage(stage)
 }
 
 func ({{structname}} *{{Structname}}) StageVoid(stage *Stage) {
 	{{structname}}.Stage(stage)
-}
-
-// Checkout {{structname}} to the back repo (if it is already staged)
-func ({{structname}} *{{Structname}}) Checkout(stage *Stage) *{{Structname}} {
-	if _, ok := stage.{{Structname}}s[{{structname}}]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.Checkout{{Structname}}({{structname}})
-		}
-	}
-	return {{structname}}
 }
 
 // for satisfaction of GongStruct interface
@@ -211,7 +157,6 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	OnAfter{{Structname}}CreateCallback GongOnAfterCreateInterface[{{Structname}}]
 	OnAfter{{Structname}}UpdateCallback GongOnAfterUpdateInterface[{{Structname}}]
 	OnAfter{{Structname}}DeleteCallback GongOnAfterDeleteInterface[{{Structname}}]
-	OnAfter{{Structname}}ReadCallback   GongOnAfterReadInterface[{{Structname}}]
 `,
 
 	ModelGongStructInsertionArrayInitialisation: `
@@ -220,44 +165,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 `,
 
 	ModelGongStructInsertionArrayReset: `
-	stage.{{Structname}}s = make(map[*{{Structname}}]struct{})
-	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}})
-	stage.{{Structname}}_stagedOrder = make(map[*{{Structname}}]uint)
-	stage.{{Structname}}Order = 0
-`,
-
-	ModelGongStructInsertionUnmarshallDeclarations: `
-
-	{{structname}}Ordered := []*{{Structname}}{}
-	for {{structname}} := range stage.{{Structname}}s {
-		{{structname}}Ordered = append({{structname}}Ordered, {{structname}})
-	}
-	sort.Slice({{structname}}Ordered[:], func(i, j int) bool {
-		return {{structname}}Ordered[i].Name < {{structname}}Ordered[j].Name
-	})
-	for _, {{structname}} := range {{structname}}Ordered {
-
-		id = {{structname}}.GongGetIdentifier(stage)
-
-		decl = GongIdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral({{structname}}.Name))
-		identifiersDecl += decl
-
-		// Initialisation of values{{ValuesInitialization}}
-	}
-`,
-
-	ModelGongStructInsertionUnmarshallPointersInitializations: `
-	for _, {{structname}} := range {{structname}}Ordered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = {{structname}}.GongGetIdentifier(stage)
-
-		// Initialisation of values{{PointersInitialization}}
-	}
+	__gong__resetStageType(&stage.{{Structname}}s, &stage.{{Structname}}s_mapString, &stage.{{Structname}}_stagedOrder, &stage.{{Structname}}Order)
 `,
 
 	ModelGongStructInsertionComputeNbInstances: `
@@ -321,39 +229,13 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 
 	ModelGongNamedStructSortedOrderInstances: `
 	case *{{Structname}}:
-		tmp := __gong__getStructInstancesByOrder(stage.{{Structname}}s, stage.{{Structname}}_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *{{Structname}} implements.
-			res = append(res, any(v).(T))
-		}
-		return res`,
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.{{Structname}}s, stage.{{Structname}}_stagedOrder))`,
 
 	ModelGongStructResetHard: `
-	var max{{Structname}}Order uint
-	var found{{Structname}} bool
-	for _, order := range stage.{{Structname}}_stagedOrder {
-		if !found{{Structname}} || order > max{{Structname}}Order {
-			max{{Structname}}Order = order
-			found{{Structname}} = true
-		}
-	}
-	if found{{Structname}} {
-		stage.{{Structname}}Order = max{{Structname}}Order + 1
-	} else {
-		stage.{{Structname}}Order = 0
-	}
+	stage.{{Structname}}Order = __gong__recomputeOrder(stage.{{Structname}}_stagedOrder)
 `,
 	ModelGongStructInsertionClearReferences: `
-	stage.{{Structname}}s_reference = make(map[*{{Structname}}]*{{Structname}})
-	stage.{{Structname}}s_instance = make(map[*{{Structname}}]*{{Structname}})
-	stage.{{Structname}}s_referenceOrder = make(map[*{{Structname}}]uint)
+	__gong__clearReferences(&stage.{{Structname}}s_reference, &stage.{{Structname}}s_instance, &stage.{{Structname}}s_referenceOrder)
 `,
 }
 

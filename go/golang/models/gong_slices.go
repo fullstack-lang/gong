@@ -243,14 +243,86 @@ func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
 }
 
+func __gong__appendInstances[T interface {
+	comparable
+	GongstructIF
+}](res []GongstructIF, m map[T]struct{}) []GongstructIF {
+	for instance := range m {
+		res = append(res, instance)
+	}
+	return res
+}
+
+func __gong__getUUID(stage *Stage, instance GongstructIF) string {
+	if __gong__, ok := any(instance).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+	return GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(instance), uint64(stage.GetOrder(instance)))
+}
+
+func __gong__computeReferencePass1[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	staged map[T]struct{},
+	ref *map[T]T,
+	refOrder *map[T]uint,
+	inst *map[T]T,
+) {
+	*ref = make(map[T]T, len(staged))
+	*refOrder = make(map[T]uint, len(staged))
+	*inst = make(map[T]T, len(staged))
+	for instance := range staged {
+		_copy := instance.GongCopy().(T)
+		(*ref)[instance] = _copy
+		(*inst)[_copy] = instance
+		(*refOrder)[_copy] = instance.GongGetOrder(stage)
+	}
+}
+
+func __gong__computeReferencePass2[T interface {
+	comparable
+	GongstructIF
+	GongReconstructPointersFromReferences(*Stage, T)
+}](staged map[T]struct{}, reference map[T]T, stage *Stage) {
+	for instance := range staged {
+		reference[instance].GongReconstructPointersFromReferences(stage, instance)
+	}
+}
+
+func __gong__getOrder[T comparable](stagedOrder, refOrder map[T]uint, instance T, typeName string) uint {
+	if order, ok := stagedOrder[instance]; ok {
+		return order
+	}
+	if order, ok := refOrder[instance]; ok {
+		return order
+	}
+	log.Printf("instance %p of type %s was not staged and does not have a reference order", any(instance), typeName)
+	return 0
+}
+
+func __gong__formatIdentifier(s GongstructIF, order uint) string {
+	return fmt.Sprintf("__%s__%08d_", s.GongGetGongstructName(), order)
+}
+
+func __gong__marshallIdentifier(identifier, structName, name string) string {
+	decl := strings.ReplaceAll(GongIdentifiersDecls, "{{Identifier}}", identifier)
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", structName)
+	return strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(name))
+}
+
+func __gong__marshallUnstaging(identifier string) string {
+	return strings.ReplaceAll(GongUnstageStmt, "{{Identifier}}", identifier)
+}
+
 // end of template
 `
 
 type GongSliceGongstructInsertionId int
 
 const (
-	GongSliceCase GongSliceGongstructInsertionId = iota
-	GongSliceReverseMapCompute
+	GongSliceReverseMapCompute GongSliceGongstructInsertionId = iota
 	GongSliceGetInstances
 	GongSliceGongCopy
 	GongSliceGongGetUUID
@@ -266,18 +338,12 @@ const (
 
 var GongSliceGongstructSubTemplateCode map[GongSliceGongstructInsertionId]string = // new line
 map[GongSliceGongstructInsertionId]string{
-	GongSliceCase: `
-	case *{{Structname}}:
-		// insertion point per field{{perFieldCode}}
-`,
 	GongSliceReverseMapCompute: `
 	// Compute reverse map for named struct {{Structname}}
 	// insertion point per field{{sliceOfPointerFieldReverseMapComputationCode}}
 `,
 	GongSliceGetInstances: `
-	for instance := range stage.{{Structname}}s {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.{{Structname}}s)
 `,
 	GongSliceGongCopy: `
 func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
@@ -287,14 +353,8 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 }
 `,
 	GongSliceGongGetUUID: `
-func ({{structname}} *{{Structname}}) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any({{structname}}).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer({{structname}}), uint64(stage.GetOrder({{structname}})))
-	return
+func ({{structname}} *{{Structname}}) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, {{structname}})
 }
 `,
 	GongSliceGongComputeDifference: `
@@ -317,61 +377,36 @@ func ({{structname}} *{{Structname}}) GongGetUUID(stage *Stage) (uuid string) {
 	)`,
 
 	GongSliceGongComputeReferencePass1: `
-	stage.{{Structname}}s_reference = make(map[*{{Structname}}]*{{Structname}})
-	stage.{{Structname}}s_referenceOrder = make(map[*{{Structname}}]uint) // diff Unstage needs the reference order
-	stage.{{Structname}}s_instance = make(map[*{{Structname}}]*{{Structname}})
-	for instance := range stage.{{Structname}}s {
-		_copy := instance.GongCopy().(*{{Structname}})
-		stage.{{Structname}}s_reference[instance] = _copy
-		stage.{{Structname}}s_instance[_copy] = instance
-		stage.{{Structname}}s_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.{{Structname}}s, &stage.{{Structname}}s_reference, &stage.{{Structname}}s_referenceOrder, &stage.{{Structname}}s_instance)
 `,
 
 	GongSliceGongComputeReferencePass2: `
-	for instance := range stage.{{Structname}}s {
-		reference := stage.{{Structname}}s_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.{{Structname}}s, stage.{{Structname}}s_reference, stage)
 `,
 
 	GongSliceGongGetOrder: `
 func ({{structname}} *{{Structname}}) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.{{Structname}}_stagedOrder[{{structname}}]; ok {
-		return order
-	}
-	if order, ok := stage.{{Structname}}s_referenceOrder[{{structname}}]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type {{Structname}} was not staged and does not have a reference order", {{structname}})
-		return 0
-	}
+	return __gong__getOrder(stage.{{Structname}}_stagedOrder, stage.{{Structname}}s_referenceOrder, {{structname}}, "{{Structname}}")
 }
 `,
 	GongSliceGongGetIdentifier: `
 func ({{structname}} *{{Structname}}) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", {{structname}}.GongGetGongstructName(), {{structname}}.GongGetOrder(stage))
+	return __gong__formatIdentifier({{structname}}, {{structname}}.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func ({{structname}} *{{Structname}}) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", {{structname}}.GongGetGongstructName(), {{structname}}.GongGetOrder(stage))
+	return {{structname}}.GongGetIdentifier(stage)
 }
 `,
 	GongSliceMarshallDeclaration: `
-func ({{structname}} *{{Structname}}) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral({{structname}}.Name))
-	return
+func ({{structname}} *{{Structname}}) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier({{structname}}.GongGetIdentifier(stage), "{{Structname}}", {{structname}}.Name)
 }
 `,
 	GongSliceMarshallUnstaging: `
-func ({{structname}} *{{Structname}}) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetReferenceIdentifier(stage))
-	return
+func ({{structname}} *{{Structname}}) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging({{structname}}.GongGetReferenceIdentifier(stage))
 }
 `,
 }
@@ -379,32 +414,11 @@ func ({{structname}} *{{Structname}}) GongMarshallUnstaging(stage *Stage) (decl 
 type GongSliceSubTemplateId int
 
 const (
-	GongSliceSubTmplSliceOfPointersToStruct GongSliceSubTemplateId = iota
-	GongSliceSubTmplSliceOfPointersReverseMapComputation
+	GongSliceSubTmplSliceOfPointersReverseMapComputation GongSliceSubTemplateId = iota
 )
 
 var GongSliceFileFieldFieldSubTemplateCode map[GongSliceSubTemplateId]string = // declaration of the sub templates
 map[GongSliceSubTemplateId]string{
-	GongSliceSubTmplSliceOfPointersToStruct: `
-		if fieldName == "{{FieldName}}" {
-
-			// walk all instances of the owning type
-			for _instance := range *stage.GetInstancesSet[OwningType]() {
-				if any(_instance).(*{{Structname}}) != owningInstanceInfered {
-					_inferedTypeInstance := any(_instance).(*{{Structname}})
-					reference := make([]FieldType, 0)
-					targetFieldSlice := any(_inferedTypeInstance.{{FieldName}}).([]FieldType)
-					copy(targetFieldSlice, reference)
-					_inferedTypeInstance.{{FieldName}} = _inferedTypeInstance.{{FieldName}}[0:]
-					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
-							_inferedTypeInstance.{{FieldName}} =
-								append(_inferedTypeInstance.{{FieldName}}, any(fieldInstance).(*{{AssociationStructName}}))
-						}
-					}
-				}
-			}
-		}`,
 	GongSliceSubTmplSliceOfPointersReverseMapComputation: `
 	stage.{{Structname}}_{{FieldNameForReverseMapField}}_reverseMap = make(map[*{{AssociationStructName}}]*{{Structname}})
 	for {{structname}} := range stage.{{Structname}}s {
@@ -457,7 +471,6 @@ func CodeGeneratorModelGongSlice(
 				continue
 			}
 
-			perFieldCode := ""
 			sliceOfPointerFieldReverseMapComputationCode := ""
 
 			for _, field := range gongStruct.Fields {
@@ -478,11 +491,6 @@ func CodeGeneratorModelGongSlice(
 					if field.GongStruct.IsOmittedForMarshalling {
 						continue
 					}
-					perFieldCode += models.Replace3(
-						GongSliceFileFieldFieldSubTemplateCode[GongSliceSubTmplSliceOfPointersToStruct],
-						"{{FieldName}}", field.Name,
-						"{{AssociationStructName}}", field.GongStruct.Name,
-						"{{associationStructName}}", strings.ToLower(field.GongStruct.Name))
 					sliceOfPointerFieldReverseMapComputationCode += models.Replace4(
 						GongSliceFileFieldFieldSubTemplateCode[GongSliceSubTmplSliceOfPointersReverseMapComputation],
 						"{{FieldNameForReverseMapField}}", fieldNameForReverseMapField,
@@ -495,18 +503,17 @@ func CodeGeneratorModelGongSlice(
 
 			}
 
-			perFieldCode = models.Replace2(perFieldCode,
-				"{{structname}}", strings.ToLower(gongStruct.Name),
-				"{{Structname}}", gongStruct.Name)
-
 			sliceOfPointerFieldReverseMapComputationCode = models.Replace2(sliceOfPointerFieldReverseMapComputationCode,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			generatedCodeFromSubTemplate := models.Replace4(GongSliceGongstructSubTemplateCode[subStructTemplate],
+			if subStructTemplate == GongSliceReverseMapCompute && sliceOfPointerFieldReverseMapComputationCode == "" {
+				continue
+			}
+
+			generatedCodeFromSubTemplate := models.Replace3(GongSliceGongstructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
-				"{{perFieldCode}}", perFieldCode,
 				"{{sliceOfPointerFieldReverseMapComputationCode}}", sliceOfPointerFieldReverseMapComputationCode)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate

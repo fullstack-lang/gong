@@ -20,52 +20,22 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct Command
-	// insertion point per field
-
-	// Compute reverse map for named struct DummyAgent
-	// insertion point per field
-
-	// Compute reverse map for named struct Engine
-	// insertion point per field
-
-	// Compute reverse map for named struct Event
-	// insertion point per field
-
-	// Compute reverse map for named struct Status
-	// insertion point per field
-
-	// Compute reverse map for named struct UpdateState
-	// insertion point per field
-
 	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.Commands {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Commands)
 
-	for instance := range stage.DummyAgents {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.DummyAgents)
 
-	for instance := range stage.Engines {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Engines)
 
-	for instance := range stage.Events {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Events)
 
-	for instance := range stage.Statuss {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Statuss)
 
-	for instance := range stage.UpdateStates {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.UpdateStates)
 
 	return
 }
@@ -108,64 +78,28 @@ func (updatestate *UpdateState) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
-func (command *Command) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(command).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(command), uint64(stage.GetOrder(command)))
-	return
+func (command *Command) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, command)
 }
 
-func (dummyagent *DummyAgent) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(dummyagent).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(dummyagent), uint64(stage.GetOrder(dummyagent)))
-	return
+func (dummyagent *DummyAgent) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, dummyagent)
 }
 
-func (engine *Engine) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(engine).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(engine), uint64(stage.GetOrder(engine)))
-	return
+func (engine *Engine) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, engine)
 }
 
-func (event *Event) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(event).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(event), uint64(stage.GetOrder(event)))
-	return
+func (event *Event) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, event)
 }
 
-func (status *Status) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(status).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(status), uint64(stage.GetOrder(status)))
-	return
+func (status *Status) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, status)
 }
 
-func (updatestate *UpdateState) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(updatestate).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(updatestate), uint64(stage.GetOrder(updatestate)))
-	return
+func (updatestate *UpdateState) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, updatestate)
 }
 
 
@@ -405,96 +339,30 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.Commands_reference = make(map[*Command]*Command)
-	stage.Commands_referenceOrder = make(map[*Command]uint) // diff Unstage needs the reference order
-	stage.Commands_instance = make(map[*Command]*Command)
-	for instance := range stage.Commands {
-		_copy := instance.GongCopy().(*Command)
-		stage.Commands_reference[instance] = _copy
-		stage.Commands_instance[_copy] = instance
-		stage.Commands_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Commands, &stage.Commands_reference, &stage.Commands_referenceOrder, &stage.Commands_instance)
 
-	stage.DummyAgents_reference = make(map[*DummyAgent]*DummyAgent)
-	stage.DummyAgents_referenceOrder = make(map[*DummyAgent]uint) // diff Unstage needs the reference order
-	stage.DummyAgents_instance = make(map[*DummyAgent]*DummyAgent)
-	for instance := range stage.DummyAgents {
-		_copy := instance.GongCopy().(*DummyAgent)
-		stage.DummyAgents_reference[instance] = _copy
-		stage.DummyAgents_instance[_copy] = instance
-		stage.DummyAgents_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.DummyAgents, &stage.DummyAgents_reference, &stage.DummyAgents_referenceOrder, &stage.DummyAgents_instance)
 
-	stage.Engines_reference = make(map[*Engine]*Engine)
-	stage.Engines_referenceOrder = make(map[*Engine]uint) // diff Unstage needs the reference order
-	stage.Engines_instance = make(map[*Engine]*Engine)
-	for instance := range stage.Engines {
-		_copy := instance.GongCopy().(*Engine)
-		stage.Engines_reference[instance] = _copy
-		stage.Engines_instance[_copy] = instance
-		stage.Engines_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Engines, &stage.Engines_reference, &stage.Engines_referenceOrder, &stage.Engines_instance)
 
-	stage.Events_reference = make(map[*Event]*Event)
-	stage.Events_referenceOrder = make(map[*Event]uint) // diff Unstage needs the reference order
-	stage.Events_instance = make(map[*Event]*Event)
-	for instance := range stage.Events {
-		_copy := instance.GongCopy().(*Event)
-		stage.Events_reference[instance] = _copy
-		stage.Events_instance[_copy] = instance
-		stage.Events_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Events, &stage.Events_reference, &stage.Events_referenceOrder, &stage.Events_instance)
 
-	stage.Statuss_reference = make(map[*Status]*Status)
-	stage.Statuss_referenceOrder = make(map[*Status]uint) // diff Unstage needs the reference order
-	stage.Statuss_instance = make(map[*Status]*Status)
-	for instance := range stage.Statuss {
-		_copy := instance.GongCopy().(*Status)
-		stage.Statuss_reference[instance] = _copy
-		stage.Statuss_instance[_copy] = instance
-		stage.Statuss_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Statuss, &stage.Statuss_reference, &stage.Statuss_referenceOrder, &stage.Statuss_instance)
 
-	stage.UpdateStates_reference = make(map[*UpdateState]*UpdateState)
-	stage.UpdateStates_referenceOrder = make(map[*UpdateState]uint) // diff Unstage needs the reference order
-	stage.UpdateStates_instance = make(map[*UpdateState]*UpdateState)
-	for instance := range stage.UpdateStates {
-		_copy := instance.GongCopy().(*UpdateState)
-		stage.UpdateStates_reference[instance] = _copy
-		stage.UpdateStates_instance[_copy] = instance
-		stage.UpdateStates_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.UpdateStates, &stage.UpdateStates_reference, &stage.UpdateStates_referenceOrder, &stage.UpdateStates_instance)
 
 	// insertion point per named struct
-	for instance := range stage.Commands {
-		reference := stage.Commands_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Commands, stage.Commands_reference, stage)
 
-	for instance := range stage.DummyAgents {
-		reference := stage.DummyAgents_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.DummyAgents, stage.DummyAgents_reference, stage)
 
-	for instance := range stage.Engines {
-		reference := stage.Engines_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Engines, stage.Engines_reference, stage)
 
-	for instance := range stage.Events {
-		reference := stage.Events_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Events, stage.Events_reference, stage)
 
-	for instance := range stage.Statuss {
-		reference := stage.Statuss_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Statuss, stage.Statuss_reference, stage)
 
-	for instance := range stage.UpdateStates {
-		reference := stage.UpdateStates_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.UpdateStates, stage.UpdateStates_reference, stage)
 
 	stage.recomputeOrders()
 }
@@ -507,75 +375,27 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (command *Command) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Command_stagedOrder[command]; ok {
-		return order
-	}
-	if order, ok := stage.Commands_referenceOrder[command]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Command was not staged and does not have a reference order", command)
-		return 0
-	}
+	return __gong__getOrder(stage.Command_stagedOrder, stage.Commands_referenceOrder, command, "Command")
 }
 
 func (dummyagent *DummyAgent) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.DummyAgent_stagedOrder[dummyagent]; ok {
-		return order
-	}
-	if order, ok := stage.DummyAgents_referenceOrder[dummyagent]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type DummyAgent was not staged and does not have a reference order", dummyagent)
-		return 0
-	}
+	return __gong__getOrder(stage.DummyAgent_stagedOrder, stage.DummyAgents_referenceOrder, dummyagent, "DummyAgent")
 }
 
 func (engine *Engine) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Engine_stagedOrder[engine]; ok {
-		return order
-	}
-	if order, ok := stage.Engines_referenceOrder[engine]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Engine was not staged and does not have a reference order", engine)
-		return 0
-	}
+	return __gong__getOrder(stage.Engine_stagedOrder, stage.Engines_referenceOrder, engine, "Engine")
 }
 
 func (event *Event) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Event_stagedOrder[event]; ok {
-		return order
-	}
-	if order, ok := stage.Events_referenceOrder[event]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Event was not staged and does not have a reference order", event)
-		return 0
-	}
+	return __gong__getOrder(stage.Event_stagedOrder, stage.Events_referenceOrder, event, "Event")
 }
 
 func (status *Status) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Status_stagedOrder[status]; ok {
-		return order
-	}
-	if order, ok := stage.Statuss_referenceOrder[status]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Status was not staged and does not have a reference order", status)
-		return 0
-	}
+	return __gong__getOrder(stage.Status_stagedOrder, stage.Statuss_referenceOrder, status, "Status")
 }
 
 func (updatestate *UpdateState) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.UpdateState_stagedOrder[updatestate]; ok {
-		return order
-	}
-	if order, ok := stage.UpdateStates_referenceOrder[updatestate]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type UpdateState was not staged and does not have a reference order", updatestate)
-		return 0
-	}
+	return __gong__getOrder(stage.UpdateState_stagedOrder, stage.UpdateStates_referenceOrder, updatestate, "UpdateState")
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -584,145 +404,109 @@ func (updatestate *UpdateState) GongGetOrder(stage *Stage) uint {
 // It is used to identify instances across sessions
 // insertion point per named struct
 func (command *Command) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", command.GongGetGongstructName(), command.GongGetOrder(stage))
+	return __gong__formatIdentifier(command, command.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (command *Command) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", command.GongGetGongstructName(), command.GongGetOrder(stage))
+	return command.GongGetIdentifier(stage)
 }
 
 func (dummyagent *DummyAgent) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", dummyagent.GongGetGongstructName(), dummyagent.GongGetOrder(stage))
+	return __gong__formatIdentifier(dummyagent, dummyagent.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (dummyagent *DummyAgent) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", dummyagent.GongGetGongstructName(), dummyagent.GongGetOrder(stage))
+	return dummyagent.GongGetIdentifier(stage)
 }
 
 func (engine *Engine) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", engine.GongGetGongstructName(), engine.GongGetOrder(stage))
+	return __gong__formatIdentifier(engine, engine.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (engine *Engine) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", engine.GongGetGongstructName(), engine.GongGetOrder(stage))
+	return engine.GongGetIdentifier(stage)
 }
 
 func (event *Event) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", event.GongGetGongstructName(), event.GongGetOrder(stage))
+	return __gong__formatIdentifier(event, event.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (event *Event) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", event.GongGetGongstructName(), event.GongGetOrder(stage))
+	return event.GongGetIdentifier(stage)
 }
 
 func (status *Status) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", status.GongGetGongstructName(), status.GongGetOrder(stage))
+	return __gong__formatIdentifier(status, status.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (status *Status) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", status.GongGetGongstructName(), status.GongGetOrder(stage))
+	return status.GongGetIdentifier(stage)
 }
 
 func (updatestate *UpdateState) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", updatestate.GongGetGongstructName(), updatestate.GongGetOrder(stage))
+	return __gong__formatIdentifier(updatestate, updatestate.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (updatestate *UpdateState) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", updatestate.GongGetGongstructName(), updatestate.GongGetOrder(stage))
+	return updatestate.GongGetIdentifier(stage)
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (command *Command) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", command.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Command")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(command.Name))
-	return
+func (command *Command) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(command.GongGetIdentifier(stage), "Command", command.Name)
 }
 
-func (dummyagent *DummyAgent) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", dummyagent.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DummyAgent")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dummyagent.Name))
-	return
+func (dummyagent *DummyAgent) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(dummyagent.GongGetIdentifier(stage), "DummyAgent", dummyagent.Name)
 }
 
-func (engine *Engine) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", engine.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Engine")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(engine.Name))
-	return
+func (engine *Engine) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(engine.GongGetIdentifier(stage), "Engine", engine.Name)
 }
 
-func (event *Event) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", event.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Event")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(event.Name))
-	return
+func (event *Event) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(event.GongGetIdentifier(stage), "Event", event.Name)
 }
 
-func (status *Status) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", status.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Status")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(status.Name))
-	return
+func (status *Status) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(status.GongGetIdentifier(stage), "Status", status.Name)
 }
 
-func (updatestate *UpdateState) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", updatestate.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "UpdateState")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(updatestate.Name))
-	return
+func (updatestate *UpdateState) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(updatestate.GongGetIdentifier(stage), "UpdateState", updatestate.Name)
 }
 
 // insertion point for unstaging
-func (command *Command) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", command.GongGetReferenceIdentifier(stage))
-	return
+func (command *Command) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(command.GongGetReferenceIdentifier(stage))
 }
 
-func (dummyagent *DummyAgent) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", dummyagent.GongGetReferenceIdentifier(stage))
-	return
+func (dummyagent *DummyAgent) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(dummyagent.GongGetReferenceIdentifier(stage))
 }
 
-func (engine *Engine) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", engine.GongGetReferenceIdentifier(stage))
-	return
+func (engine *Engine) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(engine.GongGetReferenceIdentifier(stage))
 }
 
-func (event *Event) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", event.GongGetReferenceIdentifier(stage))
-	return
+func (event *Event) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(event.GongGetReferenceIdentifier(stage))
 }
 
-func (status *Status) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", status.GongGetReferenceIdentifier(stage))
-	return
+func (status *Status) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(status.GongGetReferenceIdentifier(stage))
 }
 
-func (updatestate *UpdateState) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", updatestate.GongGetReferenceIdentifier(stage))
-	return
+func (updatestate *UpdateState) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(updatestate.GongGetReferenceIdentifier(stage))
 }
 
 func GongIntToLetters(number int32) (letters string) {
@@ -766,6 +550,79 @@ func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 5. Format and return the byte array as a standard UUID string
 	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
 		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
+}
+
+func __gong__appendInstances[T interface {
+	comparable
+	GongstructIF
+}](res []GongstructIF, m map[T]struct{}) []GongstructIF {
+	for instance := range m {
+		res = append(res, instance)
+	}
+	return res
+}
+
+func __gong__getUUID(stage *Stage, instance GongstructIF) string {
+	if __gong__, ok := any(instance).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+	return GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(instance), uint64(stage.GetOrder(instance)))
+}
+
+func __gong__computeReferencePass1[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	staged map[T]struct{},
+	ref *map[T]T,
+	refOrder *map[T]uint,
+	inst *map[T]T,
+) {
+	*ref = make(map[T]T, len(staged))
+	*refOrder = make(map[T]uint, len(staged))
+	*inst = make(map[T]T, len(staged))
+	for instance := range staged {
+		_copy := instance.GongCopy().(T)
+		(*ref)[instance] = _copy
+		(*inst)[_copy] = instance
+		(*refOrder)[_copy] = instance.GongGetOrder(stage)
+	}
+}
+
+func __gong__computeReferencePass2[T interface {
+	comparable
+	GongstructIF
+	GongReconstructPointersFromReferences(*Stage, T)
+}](staged map[T]struct{}, reference map[T]T, stage *Stage) {
+	for instance := range staged {
+		reference[instance].GongReconstructPointersFromReferences(stage, instance)
+	}
+}
+
+func __gong__getOrder[T comparable](stagedOrder, refOrder map[T]uint, instance T, typeName string) uint {
+	if order, ok := stagedOrder[instance]; ok {
+		return order
+	}
+	if order, ok := refOrder[instance]; ok {
+		return order
+	}
+	log.Printf("instance %p of type %s was not staged and does not have a reference order", any(instance), typeName)
+	return 0
+}
+
+func __gong__formatIdentifier(s GongstructIF, order uint) string {
+	return fmt.Sprintf("__%s__%08d_", s.GongGetGongstructName(), order)
+}
+
+func __gong__marshallIdentifier(identifier, structName, name string) string {
+	decl := strings.ReplaceAll(GongIdentifiersDecls, "{{Identifier}}", identifier)
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", structName)
+	return strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(name))
+}
+
+func __gong__marshallUnstaging(identifier string) string {
+	return strings.ReplaceAll(GongUnstageStmt, "{{Identifier}}", identifier)
 }
 
 // end of template

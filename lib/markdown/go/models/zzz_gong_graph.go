@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,52 +15,24 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (content *Content) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Contents[content]
-
-	return
+func (content *Content) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Contents[content]
+	return ok
 }
 
-func (stage *Stage) IsStagedContent(content *Content) (ok bool) {
-
-	return content.GongIsStaged(stage)
+func (jpgimage *JpgImage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.JpgImages[jpgimage]
+	return ok
 }
 
-func (jpgimage *JpgImage) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.JpgImages[jpgimage]
-
-	return
+func (pngimage *PngImage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.PngImages[pngimage]
+	return ok
 }
 
-func (stage *Stage) IsStagedJpgImage(jpgimage *JpgImage) (ok bool) {
-
-	return jpgimage.GongIsStaged(stage)
-}
-
-func (pngimage *PngImage) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.PngImages[pngimage]
-
-	return
-}
-
-func (stage *Stage) IsStagedPngImage(pngimage *PngImage) (ok bool) {
-
-	return pngimage.GongIsStaged(stage)
-}
-
-func (svgimage *SvgImage) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SvgImages[svgimage]
-
-	return
-}
-
-func (stage *Stage) IsStagedSvgImage(svgimage *SvgImage) (ok bool) {
-
-	return svgimage.GongIsStaged(stage)
+func (svgimage *SvgImage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SvgImages[svgimage]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -69,10 +44,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (content *Content) GongStageBranch(stage *Stage) {
-	stage.StageBranchContent(content)
-}
-
-func (stage *Stage) StageBranchContent(content *Content) {
 
 	// check if instance is already staged
 	if stage.IsStaged(content) {
@@ -88,10 +59,6 @@ func (stage *Stage) StageBranchContent(content *Content) {
 }
 
 func (jpgimage *JpgImage) GongStageBranch(stage *Stage) {
-	stage.StageBranchJpgImage(jpgimage)
-}
-
-func (stage *Stage) StageBranchJpgImage(jpgimage *JpgImage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(jpgimage) {
@@ -107,10 +74,6 @@ func (stage *Stage) StageBranchJpgImage(jpgimage *JpgImage) {
 }
 
 func (pngimage *PngImage) GongStageBranch(stage *Stage) {
-	stage.StageBranchPngImage(pngimage)
-}
-
-func (stage *Stage) StageBranchPngImage(pngimage *PngImage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(pngimage) {
@@ -126,10 +89,6 @@ func (stage *Stage) StageBranchPngImage(pngimage *PngImage) {
 }
 
 func (svgimage *SvgImage) GongStageBranch(stage *Stage) {
-	stage.StageBranchSvgImage(svgimage)
-}
-
-func (stage *Stage) StageBranchSvgImage(svgimage *SvgImage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(svgimage) {
@@ -179,15 +138,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchContent(mapOrigCopy map[any]any, contentFrom *Content) (contentTo *Content) {
-
-	// contentFrom has already been copied
-	if _contentTo, ok := mapOrigCopy[contentFrom]; ok {
-		contentTo = _contentTo.(*Content)
+	var alreadyCopied bool
+	contentTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, contentFrom)
+	if alreadyCopied {
 		return
 	}
-
-	contentTo = new(Content)
-	mapOrigCopy[contentFrom] = contentTo
 	contentFrom.GongCopyBasicFields(contentTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -198,15 +153,11 @@ func GongCopyBranchContent(mapOrigCopy map[any]any, contentFrom *Content) (conte
 }
 
 func GongCopyBranchJpgImage(mapOrigCopy map[any]any, jpgimageFrom *JpgImage) (jpgimageTo *JpgImage) {
-
-	// jpgimageFrom has already been copied
-	if _jpgimageTo, ok := mapOrigCopy[jpgimageFrom]; ok {
-		jpgimageTo = _jpgimageTo.(*JpgImage)
+	var alreadyCopied bool
+	jpgimageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, jpgimageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	jpgimageTo = new(JpgImage)
-	mapOrigCopy[jpgimageFrom] = jpgimageTo
 	jpgimageFrom.GongCopyBasicFields(jpgimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -217,15 +168,11 @@ func GongCopyBranchJpgImage(mapOrigCopy map[any]any, jpgimageFrom *JpgImage) (jp
 }
 
 func GongCopyBranchPngImage(mapOrigCopy map[any]any, pngimageFrom *PngImage) (pngimageTo *PngImage) {
-
-	// pngimageFrom has already been copied
-	if _pngimageTo, ok := mapOrigCopy[pngimageFrom]; ok {
-		pngimageTo = _pngimageTo.(*PngImage)
+	var alreadyCopied bool
+	pngimageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, pngimageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	pngimageTo = new(PngImage)
-	mapOrigCopy[pngimageFrom] = pngimageTo
 	pngimageFrom.GongCopyBasicFields(pngimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -236,15 +183,11 @@ func GongCopyBranchPngImage(mapOrigCopy map[any]any, pngimageFrom *PngImage) (pn
 }
 
 func GongCopyBranchSvgImage(mapOrigCopy map[any]any, svgimageFrom *SvgImage) (svgimageTo *SvgImage) {
-
-	// svgimageFrom has already been copied
-	if _svgimageTo, ok := mapOrigCopy[svgimageFrom]; ok {
-		svgimageTo = _svgimageTo.(*SvgImage)
+	var alreadyCopied bool
+	svgimageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, svgimageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	svgimageTo = new(SvgImage)
-	mapOrigCopy[svgimageFrom] = svgimageTo
 	svgimageFrom.GongCopyBasicFields(svgimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -267,10 +210,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (content *Content) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchContent(content)
-}
-
-func (stage *Stage) UnstageBranchContent(content *Content) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(content) {
@@ -286,10 +225,6 @@ func (stage *Stage) UnstageBranchContent(content *Content) {
 }
 
 func (jpgimage *JpgImage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchJpgImage(jpgimage)
-}
-
-func (stage *Stage) UnstageBranchJpgImage(jpgimage *JpgImage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(jpgimage) {
@@ -305,10 +240,6 @@ func (stage *Stage) UnstageBranchJpgImage(jpgimage *JpgImage) {
 }
 
 func (pngimage *PngImage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchPngImage(pngimage)
-}
-
-func (stage *Stage) UnstageBranchPngImage(pngimage *PngImage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(pngimage) {
@@ -324,10 +255,6 @@ func (stage *Stage) UnstageBranchPngImage(pngimage *PngImage) {
 }
 
 func (svgimage *SvgImage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSvgImage(svgimage)
-}
-
-func (stage *Stage) UnstageBranchSvgImage(svgimage *SvgImage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(svgimage) {
@@ -517,4 +444,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

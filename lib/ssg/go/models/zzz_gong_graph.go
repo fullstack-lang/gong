@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,100 +15,44 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (chapter *Chapter) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Chapters[chapter]
-
-	return
+func (chapter *Chapter) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Chapters[chapter]
+	return ok
 }
 
-func (stage *Stage) IsStagedChapter(chapter *Chapter) (ok bool) {
-
-	return chapter.GongIsStaged(stage)
+func (content *Content) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Contents[content]
+	return ok
 }
 
-func (content *Content) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Contents[content]
-
-	return
+func (downloadablefile *DownloadableFile) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DownloadableFiles[downloadablefile]
+	return ok
 }
 
-func (stage *Stage) IsStagedContent(content *Content) (ok bool) {
-
-	return content.GongIsStaged(stage)
+func (jpgimage *JpgImage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.JpgImages[jpgimage]
+	return ok
 }
 
-func (downloadablefile *DownloadableFile) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DownloadableFiles[downloadablefile]
-
-	return
+func (page *Page) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Pages[page]
+	return ok
 }
 
-func (stage *Stage) IsStagedDownloadableFile(downloadablefile *DownloadableFile) (ok bool) {
-
-	return downloadablefile.GongIsStaged(stage)
+func (pngimage *PngImage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.PngImages[pngimage]
+	return ok
 }
 
-func (jpgimage *JpgImage) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.JpgImages[jpgimage]
-
-	return
+func (section *Section) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Sections[section]
+	return ok
 }
 
-func (stage *Stage) IsStagedJpgImage(jpgimage *JpgImage) (ok bool) {
-
-	return jpgimage.GongIsStaged(stage)
-}
-
-func (page *Page) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Pages[page]
-
-	return
-}
-
-func (stage *Stage) IsStagedPage(page *Page) (ok bool) {
-
-	return page.GongIsStaged(stage)
-}
-
-func (pngimage *PngImage) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.PngImages[pngimage]
-
-	return
-}
-
-func (stage *Stage) IsStagedPngImage(pngimage *PngImage) (ok bool) {
-
-	return pngimage.GongIsStaged(stage)
-}
-
-func (section *Section) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Sections[section]
-
-	return
-}
-
-func (stage *Stage) IsStagedSection(section *Section) (ok bool) {
-
-	return section.GongIsStaged(stage)
-}
-
-func (svgimage *SvgImage) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SvgImages[svgimage]
-
-	return
-}
-
-func (stage *Stage) IsStagedSvgImage(svgimage *SvgImage) (ok bool) {
-
-	return svgimage.GongIsStaged(stage)
+func (svgimage *SvgImage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SvgImages[svgimage]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -117,10 +64,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (chapter *Chapter) GongStageBranch(stage *Stage) {
-	stage.StageBranchChapter(chapter)
-}
-
-func (stage *Stage) StageBranchChapter(chapter *Chapter) {
 
 	// check if instance is already staged
 	if stage.IsStaged(chapter) {
@@ -145,10 +88,6 @@ func (stage *Stage) StageBranchChapter(chapter *Chapter) {
 }
 
 func (content *Content) GongStageBranch(stage *Stage) {
-	stage.StageBranchContent(content)
-}
-
-func (stage *Stage) StageBranchContent(content *Content) {
 
 	// check if instance is already staged
 	if stage.IsStaged(content) {
@@ -167,10 +106,6 @@ func (stage *Stage) StageBranchContent(content *Content) {
 }
 
 func (downloadablefile *DownloadableFile) GongStageBranch(stage *Stage) {
-	stage.StageBranchDownloadableFile(downloadablefile)
-}
-
-func (stage *Stage) StageBranchDownloadableFile(downloadablefile *DownloadableFile) {
 
 	// check if instance is already staged
 	if stage.IsStaged(downloadablefile) {
@@ -186,10 +121,6 @@ func (stage *Stage) StageBranchDownloadableFile(downloadablefile *DownloadableFi
 }
 
 func (jpgimage *JpgImage) GongStageBranch(stage *Stage) {
-	stage.StageBranchJpgImage(jpgimage)
-}
-
-func (stage *Stage) StageBranchJpgImage(jpgimage *JpgImage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(jpgimage) {
@@ -205,10 +136,6 @@ func (stage *Stage) StageBranchJpgImage(jpgimage *JpgImage) {
 }
 
 func (page *Page) GongStageBranch(stage *Stage) {
-	stage.StageBranchPage(page)
-}
-
-func (stage *Stage) StageBranchPage(page *Page) {
 
 	// check if instance is already staged
 	if stage.IsStaged(page) {
@@ -227,10 +154,6 @@ func (stage *Stage) StageBranchPage(page *Page) {
 }
 
 func (pngimage *PngImage) GongStageBranch(stage *Stage) {
-	stage.StageBranchPngImage(pngimage)
-}
-
-func (stage *Stage) StageBranchPngImage(pngimage *PngImage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(pngimage) {
@@ -246,10 +169,6 @@ func (stage *Stage) StageBranchPngImage(pngimage *PngImage) {
 }
 
 func (section *Section) GongStageBranch(stage *Stage) {
-	stage.StageBranchSection(section)
-}
-
-func (stage *Stage) StageBranchSection(section *Section) {
 
 	// check if instance is already staged
 	if stage.IsStaged(section) {
@@ -277,10 +196,6 @@ func (stage *Stage) StageBranchSection(section *Section) {
 }
 
 func (svgimage *SvgImage) GongStageBranch(stage *Stage) {
-	stage.StageBranchSvgImage(svgimage)
-}
-
-func (stage *Stage) StageBranchSvgImage(svgimage *SvgImage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(svgimage) {
@@ -346,15 +261,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchChapter(mapOrigCopy map[any]any, chapterFrom *Chapter) (chapterTo *Chapter) {
-
-	// chapterFrom has already been copied
-	if _chapterTo, ok := mapOrigCopy[chapterFrom]; ok {
-		chapterTo = _chapterTo.(*Chapter)
+	var alreadyCopied bool
+	chapterTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, chapterFrom)
+	if alreadyCopied {
 		return
 	}
-
-	chapterTo = new(Chapter)
-	mapOrigCopy[chapterFrom] = chapterTo
 	chapterFrom.GongCopyBasicFields(chapterTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -374,15 +285,11 @@ func GongCopyBranchChapter(mapOrigCopy map[any]any, chapterFrom *Chapter) (chapt
 }
 
 func GongCopyBranchContent(mapOrigCopy map[any]any, contentFrom *Content) (contentTo *Content) {
-
-	// contentFrom has already been copied
-	if _contentTo, ok := mapOrigCopy[contentFrom]; ok {
-		contentTo = _contentTo.(*Content)
+	var alreadyCopied bool
+	contentTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, contentFrom)
+	if alreadyCopied {
 		return
 	}
-
-	contentTo = new(Content)
-	mapOrigCopy[contentFrom] = contentTo
 	contentFrom.GongCopyBasicFields(contentTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -396,15 +303,11 @@ func GongCopyBranchContent(mapOrigCopy map[any]any, contentFrom *Content) (conte
 }
 
 func GongCopyBranchDownloadableFile(mapOrigCopy map[any]any, downloadablefileFrom *DownloadableFile) (downloadablefileTo *DownloadableFile) {
-
-	// downloadablefileFrom has already been copied
-	if _downloadablefileTo, ok := mapOrigCopy[downloadablefileFrom]; ok {
-		downloadablefileTo = _downloadablefileTo.(*DownloadableFile)
+	var alreadyCopied bool
+	downloadablefileTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, downloadablefileFrom)
+	if alreadyCopied {
 		return
 	}
-
-	downloadablefileTo = new(DownloadableFile)
-	mapOrigCopy[downloadablefileFrom] = downloadablefileTo
 	downloadablefileFrom.GongCopyBasicFields(downloadablefileTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -415,15 +318,11 @@ func GongCopyBranchDownloadableFile(mapOrigCopy map[any]any, downloadablefileFro
 }
 
 func GongCopyBranchJpgImage(mapOrigCopy map[any]any, jpgimageFrom *JpgImage) (jpgimageTo *JpgImage) {
-
-	// jpgimageFrom has already been copied
-	if _jpgimageTo, ok := mapOrigCopy[jpgimageFrom]; ok {
-		jpgimageTo = _jpgimageTo.(*JpgImage)
+	var alreadyCopied bool
+	jpgimageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, jpgimageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	jpgimageTo = new(JpgImage)
-	mapOrigCopy[jpgimageFrom] = jpgimageTo
 	jpgimageFrom.GongCopyBasicFields(jpgimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -434,15 +333,11 @@ func GongCopyBranchJpgImage(mapOrigCopy map[any]any, jpgimageFrom *JpgImage) (jp
 }
 
 func GongCopyBranchPage(mapOrigCopy map[any]any, pageFrom *Page) (pageTo *Page) {
-
-	// pageFrom has already been copied
-	if _pageTo, ok := mapOrigCopy[pageFrom]; ok {
-		pageTo = _pageTo.(*Page)
+	var alreadyCopied bool
+	pageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, pageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	pageTo = new(Page)
-	mapOrigCopy[pageFrom] = pageTo
 	pageFrom.GongCopyBasicFields(pageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -456,15 +351,11 @@ func GongCopyBranchPage(mapOrigCopy map[any]any, pageFrom *Page) (pageTo *Page) 
 }
 
 func GongCopyBranchPngImage(mapOrigCopy map[any]any, pngimageFrom *PngImage) (pngimageTo *PngImage) {
-
-	// pngimageFrom has already been copied
-	if _pngimageTo, ok := mapOrigCopy[pngimageFrom]; ok {
-		pngimageTo = _pngimageTo.(*PngImage)
+	var alreadyCopied bool
+	pngimageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, pngimageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	pngimageTo = new(PngImage)
-	mapOrigCopy[pngimageFrom] = pngimageTo
 	pngimageFrom.GongCopyBasicFields(pngimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -475,15 +366,11 @@ func GongCopyBranchPngImage(mapOrigCopy map[any]any, pngimageFrom *PngImage) (pn
 }
 
 func GongCopyBranchSection(mapOrigCopy map[any]any, sectionFrom *Section) (sectionTo *Section) {
-
-	// sectionFrom has already been copied
-	if _sectionTo, ok := mapOrigCopy[sectionFrom]; ok {
-		sectionTo = _sectionTo.(*Section)
+	var alreadyCopied bool
+	sectionTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, sectionFrom)
+	if alreadyCopied {
 		return
 	}
-
-	sectionTo = new(Section)
-	mapOrigCopy[sectionFrom] = sectionTo
 	sectionFrom.GongCopyBasicFields(sectionTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -506,15 +393,11 @@ func GongCopyBranchSection(mapOrigCopy map[any]any, sectionFrom *Section) (secti
 }
 
 func GongCopyBranchSvgImage(mapOrigCopy map[any]any, svgimageFrom *SvgImage) (svgimageTo *SvgImage) {
-
-	// svgimageFrom has already been copied
-	if _svgimageTo, ok := mapOrigCopy[svgimageFrom]; ok {
-		svgimageTo = _svgimageTo.(*SvgImage)
+	var alreadyCopied bool
+	svgimageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, svgimageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	svgimageTo = new(SvgImage)
-	mapOrigCopy[svgimageFrom] = svgimageTo
 	svgimageFrom.GongCopyBasicFields(svgimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -537,10 +420,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (chapter *Chapter) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchChapter(chapter)
-}
-
-func (stage *Stage) UnstageBranchChapter(chapter *Chapter) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(chapter) {
@@ -565,10 +444,6 @@ func (stage *Stage) UnstageBranchChapter(chapter *Chapter) {
 }
 
 func (content *Content) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchContent(content)
-}
-
-func (stage *Stage) UnstageBranchContent(content *Content) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(content) {
@@ -587,10 +462,6 @@ func (stage *Stage) UnstageBranchContent(content *Content) {
 }
 
 func (downloadablefile *DownloadableFile) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDownloadableFile(downloadablefile)
-}
-
-func (stage *Stage) UnstageBranchDownloadableFile(downloadablefile *DownloadableFile) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(downloadablefile) {
@@ -606,10 +477,6 @@ func (stage *Stage) UnstageBranchDownloadableFile(downloadablefile *Downloadable
 }
 
 func (jpgimage *JpgImage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchJpgImage(jpgimage)
-}
-
-func (stage *Stage) UnstageBranchJpgImage(jpgimage *JpgImage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(jpgimage) {
@@ -625,10 +492,6 @@ func (stage *Stage) UnstageBranchJpgImage(jpgimage *JpgImage) {
 }
 
 func (page *Page) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchPage(page)
-}
-
-func (stage *Stage) UnstageBranchPage(page *Page) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(page) {
@@ -647,10 +510,6 @@ func (stage *Stage) UnstageBranchPage(page *Page) {
 }
 
 func (pngimage *PngImage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchPngImage(pngimage)
-}
-
-func (stage *Stage) UnstageBranchPngImage(pngimage *PngImage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(pngimage) {
@@ -666,10 +525,6 @@ func (stage *Stage) UnstageBranchPngImage(pngimage *PngImage) {
 }
 
 func (section *Section) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSection(section)
-}
-
-func (stage *Stage) UnstageBranchSection(section *Section) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(section) {
@@ -697,10 +552,6 @@ func (stage *Stage) UnstageBranchSection(section *Section) {
 }
 
 func (svgimage *SvgImage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSvgImage(svgimage)
-}
-
-func (stage *Stage) UnstageBranchSvgImage(svgimage *SvgImage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(svgimage) {
@@ -719,27 +570,15 @@ func (stage *Stage) UnstageBranchSvgImage(svgimage *SvgImage) {
 func (reference *Chapter) GongReconstructPointersFromReferences(stage *Stage, instance *Chapter) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Sections = reference.Sections[:0]
-	for _, _b := range instance.Sections {
-		reference.Sections = append(reference.Sections, stage.Sections_reference[_b])
-	}
-	reference.Pages = reference.Pages[:0]
-	for _, _b := range instance.Pages {
-		reference.Pages = append(reference.Pages, stage.Pages_reference[_b])
-	}
-	reference.SubChapters = reference.SubChapters[:0]
-	for _, _b := range instance.SubChapters {
-		reference.SubChapters = append(reference.SubChapters, stage.Chapters_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Sections, stage.Sections_reference, instance.Sections)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Pages, stage.Pages_reference, instance.Pages)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SubChapters, stage.Chapters_reference, instance.SubChapters)
 }
 
 func (reference *Content) GongReconstructPointersFromReferences(stage *Stage, instance *Content) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Chapters = reference.Chapters[:0]
-	for _, _b := range instance.Chapters {
-		reference.Chapters = append(reference.Chapters, stage.Chapters_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Chapters, stage.Chapters_reference, instance.Chapters)
 }
 
 func (reference *DownloadableFile) GongReconstructPointersFromReferences(stage *Stage, instance *DownloadableFile) {
@@ -755,10 +594,7 @@ func (reference *JpgImage) GongReconstructPointersFromReferences(stage *Stage, i
 func (reference *Page) GongReconstructPointersFromReferences(stage *Stage, instance *Page) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Sections = reference.Sections[:0]
-	for _, _b := range instance.Sections {
-		reference.Sections = append(reference.Sections, stage.Sections_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Sections, stage.Sections_reference, instance.Sections)
 }
 
 func (reference *PngImage) GongReconstructPointersFromReferences(stage *Stage, instance *PngImage) {
@@ -768,18 +604,10 @@ func (reference *PngImage) GongReconstructPointersFromReferences(stage *Stage, i
 
 func (reference *Section) GongReconstructPointersFromReferences(stage *Stage, instance *Section) {
 	// insertion point for pointers field
-	if instance.SvgImage != nil {
-		reference.SvgImage = stage.SvgImages_reference[instance.SvgImage]
-	}
-	if instance.PngImage != nil {
-		reference.PngImage = stage.PngImages_reference[instance.PngImage]
-	}
-	if instance.JpgImage != nil {
-		reference.JpgImage = stage.JpgImages_reference[instance.JpgImage]
-	}
-	if instance.DownloadableFile != nil {
-		reference.DownloadableFile = stage.DownloadableFiles_reference[instance.DownloadableFile]
-	}
+	__gong__reconstructPointer(&reference.SvgImage, stage.SvgImages_reference, instance.SvgImage)
+	__gong__reconstructPointer(&reference.PngImage, stage.PngImages_reference, instance.PngImage)
+	__gong__reconstructPointer(&reference.JpgImage, stage.JpgImages_reference, instance.JpgImage)
+	__gong__reconstructPointer(&reference.DownloadableFile, stage.DownloadableFiles_reference, instance.DownloadableFile)
 	// insertion point for slice of pointers field
 }
 
@@ -792,39 +620,15 @@ func (reference *SvgImage) GongReconstructPointersFromReferences(stage *Stage, i
 func (reference *Chapter) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Sections []*Section
-	for _, _reference := range reference.Sections {
-		if _instance, ok := stage.Sections_instance[_reference]; ok {
-			_Sections = append(_Sections, _instance)
-		}
-	}
-	reference.Sections = _Sections
-	var _Pages []*Page
-	for _, _reference := range reference.Pages {
-		if _instance, ok := stage.Pages_instance[_reference]; ok {
-			_Pages = append(_Pages, _instance)
-		}
-	}
-	reference.Pages = _Pages
-	var _SubChapters []*Chapter
-	for _, _reference := range reference.SubChapters {
-		if _instance, ok := stage.Chapters_instance[_reference]; ok {
-			_SubChapters = append(_SubChapters, _instance)
-		}
-	}
-	reference.SubChapters = _SubChapters
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Sections, stage.Sections_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Pages, stage.Pages_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SubChapters, stage.Chapters_instance)
 }
 
 func (reference *Content) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Chapters []*Chapter
-	for _, _reference := range reference.Chapters {
-		if _instance, ok := stage.Chapters_instance[_reference]; ok {
-			_Chapters = append(_Chapters, _instance)
-		}
-	}
-	reference.Chapters = _Chapters
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Chapters, stage.Chapters_instance)
 }
 
 func (reference *DownloadableFile) GongReconstructPointersFromInstances(stage *Stage) {
@@ -840,13 +644,7 @@ func (reference *JpgImage) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Page) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Sections []*Section
-	for _, _reference := range reference.Sections {
-		if _instance, ok := stage.Sections_instance[_reference]; ok {
-			_Sections = append(_Sections, _instance)
-		}
-	}
-	reference.Sections = _Sections
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Sections, stage.Sections_instance)
 }
 
 func (reference *PngImage) GongReconstructPointersFromInstances(stage *Stage) {
@@ -856,30 +654,10 @@ func (reference *PngImage) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *Section) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.SvgImage; _reference != nil {
-		reference.SvgImage = nil
-		if _instance, ok := stage.SvgImages_instance[_reference]; ok {
-			reference.SvgImage = _instance
-		}
-	}
-	if _reference := reference.PngImage; _reference != nil {
-		reference.PngImage = nil
-		if _instance, ok := stage.PngImages_instance[_reference]; ok {
-			reference.PngImage = _instance
-		}
-	}
-	if _reference := reference.JpgImage; _reference != nil {
-		reference.JpgImage = nil
-		if _instance, ok := stage.JpgImages_instance[_reference]; ok {
-			reference.JpgImage = _instance
-		}
-	}
-	if _reference := reference.DownloadableFile; _reference != nil {
-		reference.DownloadableFile = nil
-		if _instance, ok := stage.DownloadableFiles_instance[_reference]; ok {
-			reference.DownloadableFile = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.SvgImage, stage.SvgImages_instance)
+	__gong__reconstructPointerFromInstance(&reference.PngImage, stage.PngImages_instance)
+	__gong__reconstructPointerFromInstance(&reference.JpgImage, stage.JpgImages_instance)
+	__gong__reconstructPointerFromInstance(&reference.DownloadableFile, stage.DownloadableFiles_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -899,100 +677,13 @@ func (chapter *Chapter) GongDiff(stage *Stage, chapterOther *Chapter) (diffs []s
 	if chapter.MardownContent != chapterOther.MardownContent {
 		diffs = append(diffs, chapter.GongMarshallField(stage, "MardownContent"))
 	}
-	SectionsDifferent := false
-	if len(chapter.Sections) != len(chapterOther.Sections) {
-		SectionsDifferent = true
-	} else {
-		for i := range chapter.Sections {
-			if (chapter.Sections[i] == nil) != (chapterOther.Sections[i] == nil) {
-				SectionsDifferent = true
-				break
-			} else if chapter.Sections[i] != nil && chapterOther.Sections[i] != nil {
-				// this is a pointer comparaison
-				if chapter.Sections[i] != chapterOther.Sections[i] {
-					SectionsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SectionsDifferent {
-		ops := stage.Diff(
-			chapter,
-			"Sections",
-			len(chapterOther.Sections),
-			len(chapter.Sections),
-			func(i, j int) bool {
-				return chapterOther.Sections[i] == chapter.Sections[j]
-			},
-			func(j int) string {
-				return chapter.Sections[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, chapter, "Sections", chapterOther.Sections, chapter.Sections); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	PagesDifferent := false
-	if len(chapter.Pages) != len(chapterOther.Pages) {
-		PagesDifferent = true
-	} else {
-		for i := range chapter.Pages {
-			if (chapter.Pages[i] == nil) != (chapterOther.Pages[i] == nil) {
-				PagesDifferent = true
-				break
-			} else if chapter.Pages[i] != nil && chapterOther.Pages[i] != nil {
-				// this is a pointer comparaison
-				if chapter.Pages[i] != chapterOther.Pages[i] {
-					PagesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if PagesDifferent {
-		ops := stage.Diff(
-			chapter,
-			"Pages",
-			len(chapterOther.Pages),
-			len(chapter.Pages),
-			func(i, j int) bool {
-				return chapterOther.Pages[i] == chapter.Pages[j]
-			},
-			func(j int) string {
-				return chapter.Pages[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, chapter, "Pages", chapterOther.Pages, chapter.Pages); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	SubChaptersDifferent := false
-	if len(chapter.SubChapters) != len(chapterOther.SubChapters) {
-		SubChaptersDifferent = true
-	} else {
-		for i := range chapter.SubChapters {
-			if (chapter.SubChapters[i] == nil) != (chapterOther.SubChapters[i] == nil) {
-				SubChaptersDifferent = true
-				break
-			} else if chapter.SubChapters[i] != nil && chapterOther.SubChapters[i] != nil {
-				// this is a pointer comparaison
-				if chapter.SubChapters[i] != chapterOther.SubChapters[i] {
-					SubChaptersDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SubChaptersDifferent {
-		ops := stage.Diff(
-			chapter,
-			"SubChapters",
-			len(chapterOther.SubChapters),
-			len(chapter.SubChapters),
-			func(i, j int) bool {
-				return chapterOther.SubChapters[i] == chapter.SubChapters[j]
-			},
-			func(j int) string {
-				return chapter.SubChapters[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, chapter, "SubChapters", chapterOther.SubChapters, chapter.SubChapters); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -1036,36 +727,7 @@ func (content *Content) GongDiff(stage *Stage, contentOther *Content) (diffs []s
 	if content.Target != contentOther.Target {
 		diffs = append(diffs, content.GongMarshallField(stage, "Target"))
 	}
-	ChaptersDifferent := false
-	if len(content.Chapters) != len(contentOther.Chapters) {
-		ChaptersDifferent = true
-	} else {
-		for i := range content.Chapters {
-			if (content.Chapters[i] == nil) != (contentOther.Chapters[i] == nil) {
-				ChaptersDifferent = true
-				break
-			} else if content.Chapters[i] != nil && contentOther.Chapters[i] != nil {
-				// this is a pointer comparaison
-				if content.Chapters[i] != contentOther.Chapters[i] {
-					ChaptersDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ChaptersDifferent {
-		ops := stage.Diff(
-			content,
-			"Chapters",
-			len(contentOther.Chapters),
-			len(content.Chapters),
-			func(i, j int) bool {
-				return contentOther.Chapters[i] == content.Chapters[j]
-			},
-			func(j int) string {
-				return content.Chapters[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, content, "Chapters", contentOther.Chapters, content.Chapters); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if content.VersionInfo != contentOther.VersionInfo {
@@ -1113,36 +775,7 @@ func (page *Page) GongDiff(stage *Stage, pageOther *Page) (diffs []string) {
 	if page.MardownContent != pageOther.MardownContent {
 		diffs = append(diffs, page.GongMarshallField(stage, "MardownContent"))
 	}
-	SectionsDifferent := false
-	if len(page.Sections) != len(pageOther.Sections) {
-		SectionsDifferent = true
-	} else {
-		for i := range page.Sections {
-			if (page.Sections[i] == nil) != (pageOther.Sections[i] == nil) {
-				SectionsDifferent = true
-				break
-			} else if page.Sections[i] != nil && pageOther.Sections[i] != nil {
-				// this is a pointer comparaison
-				if page.Sections[i] != pageOther.Sections[i] {
-					SectionsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SectionsDifferent {
-		ops := stage.Diff(
-			page,
-			"Sections",
-			len(pageOther.Sections),
-			len(page.Sections),
-			func(i, j int) bool {
-				return pageOther.Sections[i] == page.Sections[j]
-			},
-			func(j int) string {
-				return page.Sections[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, page, "Sections", pageOther.Sections, page.Sections); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -1176,36 +809,20 @@ func (section *Section) GongDiff(stage *Stage, sectionOther *Section) (diffs []s
 	if section.IsImage != sectionOther.IsImage {
 		diffs = append(diffs, section.GongMarshallField(stage, "IsImage"))
 	}
-	if (section.SvgImage == nil) != (sectionOther.SvgImage == nil) {
+	if section.SvgImage != sectionOther.SvgImage {
 		diffs = append(diffs, section.GongMarshallField(stage, "SvgImage"))
-	} else if section.SvgImage != nil && sectionOther.SvgImage != nil {
-		if section.SvgImage != sectionOther.SvgImage {
-			diffs = append(diffs, section.GongMarshallField(stage, "SvgImage"))
-		}
 	}
-	if (section.PngImage == nil) != (sectionOther.PngImage == nil) {
+	if section.PngImage != sectionOther.PngImage {
 		diffs = append(diffs, section.GongMarshallField(stage, "PngImage"))
-	} else if section.PngImage != nil && sectionOther.PngImage != nil {
-		if section.PngImage != sectionOther.PngImage {
-			diffs = append(diffs, section.GongMarshallField(stage, "PngImage"))
-		}
 	}
-	if (section.JpgImage == nil) != (sectionOther.JpgImage == nil) {
+	if section.JpgImage != sectionOther.JpgImage {
 		diffs = append(diffs, section.GongMarshallField(stage, "JpgImage"))
-	} else if section.JpgImage != nil && sectionOther.JpgImage != nil {
-		if section.JpgImage != sectionOther.JpgImage {
-			diffs = append(diffs, section.GongMarshallField(stage, "JpgImage"))
-		}
 	}
 	if section.IsDownloadableFile != sectionOther.IsDownloadableFile {
 		diffs = append(diffs, section.GongMarshallField(stage, "IsDownloadableFile"))
 	}
-	if (section.DownloadableFile == nil) != (sectionOther.DownloadableFile == nil) {
+	if section.DownloadableFile != sectionOther.DownloadableFile {
 		diffs = append(diffs, section.GongMarshallField(stage, "DownloadableFile"))
-	} else if section.DownloadableFile != nil && sectionOther.DownloadableFile != nil {
-		if section.DownloadableFile != sectionOther.DownloadableFile {
-			diffs = append(diffs, section.GongMarshallField(stage, "DownloadableFile"))
-		}
 	}
 
 	return
@@ -1301,4 +918,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

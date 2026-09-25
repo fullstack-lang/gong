@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,88 +15,39 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (astruct *Astruct) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Astructs[astruct]
-
-	return
+func (astruct *Astruct) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Astructs[astruct]
+	return ok
 }
 
-func (stage *Stage) IsStagedAstruct(astruct *Astruct) (ok bool) {
-
-	return astruct.GongIsStaged(stage)
+func (astructbstruct2use *AstructBstruct2Use) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.AstructBstruct2Uses[astructbstruct2use]
+	return ok
 }
 
-func (astructbstruct2use *AstructBstruct2Use) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.AstructBstruct2Uses[astructbstruct2use]
-
-	return
+func (astructbstructuse *AstructBstructUse) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.AstructBstructUses[astructbstructuse]
+	return ok
 }
 
-func (stage *Stage) IsStagedAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) (ok bool) {
-
-	return astructbstruct2use.GongIsStaged(stage)
+func (bstruct *Bstruct) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Bstructs[bstruct]
+	return ok
 }
 
-func (astructbstructuse *AstructBstructUse) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.AstructBstructUses[astructbstructuse]
-
-	return
+func (dstruct *Dstruct) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Dstructs[dstruct]
+	return ok
 }
 
-func (stage *Stage) IsStagedAstructBstructUse(astructbstructuse *AstructBstructUse) (ok bool) {
-
-	return astructbstructuse.GongIsStaged(stage)
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]
+	return ok
 }
 
-func (bstruct *Bstruct) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Bstructs[bstruct]
-
-	return
-}
-
-func (stage *Stage) IsStagedBstruct(bstruct *Bstruct) (ok bool) {
-
-	return bstruct.GongIsStaged(stage)
-}
-
-func (dstruct *Dstruct) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Dstructs[dstruct]
-
-	return
-}
-
-func (stage *Stage) IsStagedDstruct(dstruct *Dstruct) (ok bool) {
-
-	return dstruct.GongIsStaged(stage)
-}
-
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]
-
-	return
-}
-
-func (stage *Stage) IsStagedF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890) (ok bool) {
-
-	return f0123456789012345678901234567890.GongIsStaged(stage)
-}
-
-func (gstruct *Gstruct) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Gstructs[gstruct]
-
-	return
-}
-
-func (stage *Stage) IsStagedGstruct(gstruct *Gstruct) (ok bool) {
-
-	return gstruct.GongIsStaged(stage)
+func (gstruct *Gstruct) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Gstructs[gstruct]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -105,10 +59,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (astruct *Astruct) GongStageBranch(stage *Stage) {
-	stage.StageBranchAstruct(astruct)
-}
-
-func (stage *Stage) StageBranchAstruct(astruct *Astruct) {
 
 	// check if instance is already staged
 	if stage.IsStaged(astruct) {
@@ -169,10 +119,6 @@ func (stage *Stage) StageBranchAstruct(astruct *Astruct) {
 }
 
 func (astructbstruct2use *AstructBstruct2Use) GongStageBranch(stage *Stage) {
-	stage.StageBranchAstructBstruct2Use(astructbstruct2use)
-}
-
-func (stage *Stage) StageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 
 	// check if instance is already staged
 	if stage.IsStaged(astructbstruct2use) {
@@ -191,10 +137,6 @@ func (stage *Stage) StageBranchAstructBstruct2Use(astructbstruct2use *AstructBst
 }
 
 func (astructbstructuse *AstructBstructUse) GongStageBranch(stage *Stage) {
-	stage.StageBranchAstructBstructUse(astructbstructuse)
-}
-
-func (stage *Stage) StageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
 
 	// check if instance is already staged
 	if stage.IsStaged(astructbstructuse) {
@@ -213,10 +155,6 @@ func (stage *Stage) StageBranchAstructBstructUse(astructbstructuse *AstructBstru
 }
 
 func (bstruct *Bstruct) GongStageBranch(stage *Stage) {
-	stage.StageBranchBstruct(bstruct)
-}
-
-func (stage *Stage) StageBranchBstruct(bstruct *Bstruct) {
 
 	// check if instance is already staged
 	if stage.IsStaged(bstruct) {
@@ -232,10 +170,6 @@ func (stage *Stage) StageBranchBstruct(bstruct *Bstruct) {
 }
 
 func (dstruct *Dstruct) GongStageBranch(stage *Stage) {
-	stage.StageBranchDstruct(dstruct)
-}
-
-func (stage *Stage) StageBranchDstruct(dstruct *Dstruct) {
 
 	// check if instance is already staged
 	if stage.IsStaged(dstruct) {
@@ -260,10 +194,6 @@ func (stage *Stage) StageBranchDstruct(dstruct *Dstruct) {
 }
 
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongStageBranch(stage *Stage) {
-	stage.StageBranchF0123456789012345678901234567890(f0123456789012345678901234567890)
-}
-
-func (stage *Stage) StageBranchF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890) {
 
 	// check if instance is already staged
 	if stage.IsStaged(f0123456789012345678901234567890) {
@@ -279,10 +209,6 @@ func (stage *Stage) StageBranchF0123456789012345678901234567890(f012345678901234
 }
 
 func (gstruct *Gstruct) GongStageBranch(stage *Stage) {
-	stage.StageBranchGstruct(gstruct)
-}
-
-func (stage *Stage) StageBranchGstruct(gstruct *Gstruct) {
 
 	// check if instance is already staged
 	if stage.IsStaged(gstruct) {
@@ -344,15 +270,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astructTo *Astruct) {
-
-	// astructFrom has already been copied
-	if _astructTo, ok := mapOrigCopy[astructFrom]; ok {
-		astructTo = _astructTo.(*Astruct)
+	var alreadyCopied bool
+	astructTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, astructFrom)
+	if alreadyCopied {
 		return
 	}
-
-	astructTo = new(Astruct)
-	mapOrigCopy[astructFrom] = astructTo
 	astructFrom.GongCopyBasicFields(astructTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -408,15 +330,11 @@ func GongCopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astru
 }
 
 func GongCopyBranchAstructBstruct2Use(mapOrigCopy map[any]any, astructbstruct2useFrom *AstructBstruct2Use) (astructbstruct2useTo *AstructBstruct2Use) {
-
-	// astructbstruct2useFrom has already been copied
-	if _astructbstruct2useTo, ok := mapOrigCopy[astructbstruct2useFrom]; ok {
-		astructbstruct2useTo = _astructbstruct2useTo.(*AstructBstruct2Use)
+	var alreadyCopied bool
+	astructbstruct2useTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, astructbstruct2useFrom)
+	if alreadyCopied {
 		return
 	}
-
-	astructbstruct2useTo = new(AstructBstruct2Use)
-	mapOrigCopy[astructbstruct2useFrom] = astructbstruct2useTo
 	astructbstruct2useFrom.GongCopyBasicFields(astructbstruct2useTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -430,15 +348,11 @@ func GongCopyBranchAstructBstruct2Use(mapOrigCopy map[any]any, astructbstruct2us
 }
 
 func GongCopyBranchAstructBstructUse(mapOrigCopy map[any]any, astructbstructuseFrom *AstructBstructUse) (astructbstructuseTo *AstructBstructUse) {
-
-	// astructbstructuseFrom has already been copied
-	if _astructbstructuseTo, ok := mapOrigCopy[astructbstructuseFrom]; ok {
-		astructbstructuseTo = _astructbstructuseTo.(*AstructBstructUse)
+	var alreadyCopied bool
+	astructbstructuseTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, astructbstructuseFrom)
+	if alreadyCopied {
 		return
 	}
-
-	astructbstructuseTo = new(AstructBstructUse)
-	mapOrigCopy[astructbstructuseFrom] = astructbstructuseTo
 	astructbstructuseFrom.GongCopyBasicFields(astructbstructuseTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -452,15 +366,11 @@ func GongCopyBranchAstructBstructUse(mapOrigCopy map[any]any, astructbstructuseF
 }
 
 func GongCopyBranchBstruct(mapOrigCopy map[any]any, bstructFrom *Bstruct) (bstructTo *Bstruct) {
-
-	// bstructFrom has already been copied
-	if _bstructTo, ok := mapOrigCopy[bstructFrom]; ok {
-		bstructTo = _bstructTo.(*Bstruct)
+	var alreadyCopied bool
+	bstructTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, bstructFrom)
+	if alreadyCopied {
 		return
 	}
-
-	bstructTo = new(Bstruct)
-	mapOrigCopy[bstructFrom] = bstructTo
 	bstructFrom.GongCopyBasicFields(bstructTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -471,15 +381,11 @@ func GongCopyBranchBstruct(mapOrigCopy map[any]any, bstructFrom *Bstruct) (bstru
 }
 
 func GongCopyBranchDstruct(mapOrigCopy map[any]any, dstructFrom *Dstruct) (dstructTo *Dstruct) {
-
-	// dstructFrom has already been copied
-	if _dstructTo, ok := mapOrigCopy[dstructFrom]; ok {
-		dstructTo = _dstructTo.(*Dstruct)
+	var alreadyCopied bool
+	dstructTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, dstructFrom)
+	if alreadyCopied {
 		return
 	}
-
-	dstructTo = new(Dstruct)
-	mapOrigCopy[dstructFrom] = dstructTo
 	dstructFrom.GongCopyBasicFields(dstructTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -499,15 +405,11 @@ func GongCopyBranchDstruct(mapOrigCopy map[any]any, dstructFrom *Dstruct) (dstru
 }
 
 func GongCopyBranchF0123456789012345678901234567890(mapOrigCopy map[any]any, f0123456789012345678901234567890From *F0123456789012345678901234567890) (f0123456789012345678901234567890To *F0123456789012345678901234567890) {
-
-	// f0123456789012345678901234567890From has already been copied
-	if _f0123456789012345678901234567890To, ok := mapOrigCopy[f0123456789012345678901234567890From]; ok {
-		f0123456789012345678901234567890To = _f0123456789012345678901234567890To.(*F0123456789012345678901234567890)
+	var alreadyCopied bool
+	f0123456789012345678901234567890To, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, f0123456789012345678901234567890From)
+	if alreadyCopied {
 		return
 	}
-
-	f0123456789012345678901234567890To = new(F0123456789012345678901234567890)
-	mapOrigCopy[f0123456789012345678901234567890From] = f0123456789012345678901234567890To
 	f0123456789012345678901234567890From.GongCopyBasicFields(f0123456789012345678901234567890To)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -518,15 +420,11 @@ func GongCopyBranchF0123456789012345678901234567890(mapOrigCopy map[any]any, f01
 }
 
 func GongCopyBranchGstruct(mapOrigCopy map[any]any, gstructFrom *Gstruct) (gstructTo *Gstruct) {
-
-	// gstructFrom has already been copied
-	if _gstructTo, ok := mapOrigCopy[gstructFrom]; ok {
-		gstructTo = _gstructTo.(*Gstruct)
+	var alreadyCopied bool
+	gstructTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, gstructFrom)
+	if alreadyCopied {
 		return
 	}
-
-	gstructTo = new(Gstruct)
-	mapOrigCopy[gstructFrom] = gstructTo
 	gstructFrom.GongCopyBasicFields(gstructTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -549,10 +447,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (astruct *Astruct) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchAstruct(astruct)
-}
-
-func (stage *Stage) UnstageBranchAstruct(astruct *Astruct) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(astruct) {
@@ -613,10 +507,6 @@ func (stage *Stage) UnstageBranchAstruct(astruct *Astruct) {
 }
 
 func (astructbstruct2use *AstructBstruct2Use) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchAstructBstruct2Use(astructbstruct2use)
-}
-
-func (stage *Stage) UnstageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(astructbstruct2use) {
@@ -635,10 +525,6 @@ func (stage *Stage) UnstageBranchAstructBstruct2Use(astructbstruct2use *AstructB
 }
 
 func (astructbstructuse *AstructBstructUse) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchAstructBstructUse(astructbstructuse)
-}
-
-func (stage *Stage) UnstageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(astructbstructuse) {
@@ -657,10 +543,6 @@ func (stage *Stage) UnstageBranchAstructBstructUse(astructbstructuse *AstructBst
 }
 
 func (bstruct *Bstruct) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchBstruct(bstruct)
-}
-
-func (stage *Stage) UnstageBranchBstruct(bstruct *Bstruct) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(bstruct) {
@@ -676,10 +558,6 @@ func (stage *Stage) UnstageBranchBstruct(bstruct *Bstruct) {
 }
 
 func (dstruct *Dstruct) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDstruct(dstruct)
-}
-
-func (stage *Stage) UnstageBranchDstruct(dstruct *Dstruct) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(dstruct) {
@@ -704,10 +582,6 @@ func (stage *Stage) UnstageBranchDstruct(dstruct *Dstruct) {
 }
 
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchF0123456789012345678901234567890(f0123456789012345678901234567890)
-}
-
-func (stage *Stage) UnstageBranchF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(f0123456789012345678901234567890) {
@@ -723,10 +597,6 @@ func (stage *Stage) UnstageBranchF0123456789012345678901234567890(f0123456789012
 }
 
 func (gstruct *Gstruct) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchGstruct(gstruct)
-}
-
-func (stage *Stage) UnstageBranchGstruct(gstruct *Gstruct) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(gstruct) {
@@ -744,73 +614,33 @@ func (stage *Stage) UnstageBranchGstruct(gstruct *Gstruct) {
 // insertion point for pointer reconstruction from references
 func (reference *Astruct) GongReconstructPointersFromReferences(stage *Stage, instance *Astruct) {
 	// insertion point for pointers field
-	if instance.Associationtob != nil {
-		reference.Associationtob = stage.Bstructs_reference[instance.Associationtob]
-	}
-	if instance.Anotherassociationtob_2 != nil {
-		reference.Anotherassociationtob_2 = stage.Bstructs_reference[instance.Anotherassociationtob_2]
-	}
-	if instance.Bstruct != nil {
-		reference.Bstruct = stage.Bstructs_reference[instance.Bstruct]
-	}
-	if instance.Bstruct2 != nil {
-		reference.Bstruct2 = stage.Bstructs_reference[instance.Bstruct2]
-	}
-	if instance.Dstruct != nil {
-		reference.Dstruct = stage.Dstructs_reference[instance.Dstruct]
-	}
-	if instance.Dstruct2 != nil {
-		reference.Dstruct2 = stage.Dstructs_reference[instance.Dstruct2]
-	}
-	if instance.Dstruct3 != nil {
-		reference.Dstruct3 = stage.Dstructs_reference[instance.Dstruct3]
-	}
-	if instance.Dstruct4 != nil {
-		reference.Dstruct4 = stage.Dstructs_reference[instance.Dstruct4]
-	}
-	if instance.AnAstruct != nil {
-		reference.AnAstruct = stage.Astructs_reference[instance.AnAstruct]
-	}
+	__gong__reconstructPointer(&reference.Associationtob, stage.Bstructs_reference, instance.Associationtob)
+	__gong__reconstructPointer(&reference.Anotherassociationtob_2, stage.Bstructs_reference, instance.Anotherassociationtob_2)
+	__gong__reconstructPointer(&reference.Bstruct, stage.Bstructs_reference, instance.Bstruct)
+	__gong__reconstructPointer(&reference.Bstruct2, stage.Bstructs_reference, instance.Bstruct2)
+	__gong__reconstructPointer(&reference.Dstruct, stage.Dstructs_reference, instance.Dstruct)
+	__gong__reconstructPointer(&reference.Dstruct2, stage.Dstructs_reference, instance.Dstruct2)
+	__gong__reconstructPointer(&reference.Dstruct3, stage.Dstructs_reference, instance.Dstruct3)
+	__gong__reconstructPointer(&reference.Dstruct4, stage.Dstructs_reference, instance.Dstruct4)
+	__gong__reconstructPointer(&reference.AnAstruct, stage.Astructs_reference, instance.AnAstruct)
 	// insertion point for slice of pointers field
-	reference.Anarrayofb = reference.Anarrayofb[:0]
-	for _, _b := range instance.Anarrayofb {
-		reference.Anarrayofb = append(reference.Anarrayofb, stage.Bstructs_reference[_b])
-	}
-	reference.Dstruct4s = reference.Dstruct4s[:0]
-	for _, _b := range instance.Dstruct4s {
-		reference.Dstruct4s = append(reference.Dstruct4s, stage.Dstructs_reference[_b])
-	}
-	reference.Anarrayofa = reference.Anarrayofa[:0]
-	for _, _b := range instance.Anarrayofa {
-		reference.Anarrayofa = append(reference.Anarrayofa, stage.Astructs_reference[_b])
-	}
-	reference.Anotherarrayofb = reference.Anotherarrayofb[:0]
-	for _, _b := range instance.Anotherarrayofb {
-		reference.Anotherarrayofb = append(reference.Anotherarrayofb, stage.Bstructs_reference[_b])
-	}
-	reference.AnarrayofbUse = reference.AnarrayofbUse[:0]
-	for _, _b := range instance.AnarrayofbUse {
-		reference.AnarrayofbUse = append(reference.AnarrayofbUse, stage.AstructBstructUses_reference[_b])
-	}
-	reference.Anarrayofb2Use = reference.Anarrayofb2Use[:0]
-	for _, _b := range instance.Anarrayofb2Use {
-		reference.Anarrayofb2Use = append(reference.Anarrayofb2Use, stage.AstructBstruct2Uses_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Anarrayofb, stage.Bstructs_reference, instance.Anarrayofb)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Dstruct4s, stage.Dstructs_reference, instance.Dstruct4s)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Anarrayofa, stage.Astructs_reference, instance.Anarrayofa)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Anotherarrayofb, stage.Bstructs_reference, instance.Anotherarrayofb)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.AnarrayofbUse, stage.AstructBstructUses_reference, instance.AnarrayofbUse)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Anarrayofb2Use, stage.AstructBstruct2Uses_reference, instance.Anarrayofb2Use)
 }
 
 func (reference *AstructBstruct2Use) GongReconstructPointersFromReferences(stage *Stage, instance *AstructBstruct2Use) {
 	// insertion point for pointers field
-	if instance.Bstrcut2 != nil {
-		reference.Bstrcut2 = stage.Bstructs_reference[instance.Bstrcut2]
-	}
+	__gong__reconstructPointer(&reference.Bstrcut2, stage.Bstructs_reference, instance.Bstrcut2)
 	// insertion point for slice of pointers field
 }
 
 func (reference *AstructBstructUse) GongReconstructPointersFromReferences(stage *Stage, instance *AstructBstructUse) {
 	// insertion point for pointers field
-	if instance.Bstruct2 != nil {
-		reference.Bstruct2 = stage.Bstructs_reference[instance.Bstruct2]
-	}
+	__gong__reconstructPointer(&reference.Bstruct2, stage.Bstructs_reference, instance.Bstruct2)
 	// insertion point for slice of pointers field
 }
 
@@ -821,18 +651,10 @@ func (reference *Bstruct) GongReconstructPointersFromReferences(stage *Stage, in
 
 func (reference *Dstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Dstruct) {
 	// insertion point for pointers field
-	if instance.Gstruct != nil {
-		reference.Gstruct = stage.Gstructs_reference[instance.Gstruct]
-	}
+	__gong__reconstructPointer(&reference.Gstruct, stage.Gstructs_reference, instance.Gstruct)
 	// insertion point for slice of pointers field
-	reference.Anarrayofb = reference.Anarrayofb[:0]
-	for _, _b := range instance.Anarrayofb {
-		reference.Anarrayofb = append(reference.Anarrayofb, stage.Bstructs_reference[_b])
-	}
-	reference.Gstructs = reference.Gstructs[:0]
-	for _, _b := range instance.Gstructs {
-		reference.Gstructs = append(reference.Gstructs, stage.Gstructs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Anarrayofb, stage.Bstructs_reference, instance.Anarrayofb)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Gstructs, stage.Gstructs_reference, instance.Gstructs)
 }
 
 func (reference *F0123456789012345678901234567890) GongReconstructPointersFromReferences(stage *Stage, instance *F0123456789012345678901234567890) {
@@ -848,124 +670,33 @@ func (reference *Gstruct) GongReconstructPointersFromReferences(stage *Stage, in
 // insertion point for pointer reconstruction from instances
 func (reference *Astruct) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Associationtob; _reference != nil {
-		reference.Associationtob = nil
-		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
-			reference.Associationtob = _instance
-		}
-	}
-	if _reference := reference.Anotherassociationtob_2; _reference != nil {
-		reference.Anotherassociationtob_2 = nil
-		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
-			reference.Anotherassociationtob_2 = _instance
-		}
-	}
-	if _reference := reference.Bstruct; _reference != nil {
-		reference.Bstruct = nil
-		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
-			reference.Bstruct = _instance
-		}
-	}
-	if _reference := reference.Bstruct2; _reference != nil {
-		reference.Bstruct2 = nil
-		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
-			reference.Bstruct2 = _instance
-		}
-	}
-	if _reference := reference.Dstruct; _reference != nil {
-		reference.Dstruct = nil
-		if _instance, ok := stage.Dstructs_instance[_reference]; ok {
-			reference.Dstruct = _instance
-		}
-	}
-	if _reference := reference.Dstruct2; _reference != nil {
-		reference.Dstruct2 = nil
-		if _instance, ok := stage.Dstructs_instance[_reference]; ok {
-			reference.Dstruct2 = _instance
-		}
-	}
-	if _reference := reference.Dstruct3; _reference != nil {
-		reference.Dstruct3 = nil
-		if _instance, ok := stage.Dstructs_instance[_reference]; ok {
-			reference.Dstruct3 = _instance
-		}
-	}
-	if _reference := reference.Dstruct4; _reference != nil {
-		reference.Dstruct4 = nil
-		if _instance, ok := stage.Dstructs_instance[_reference]; ok {
-			reference.Dstruct4 = _instance
-		}
-	}
-	if _reference := reference.AnAstruct; _reference != nil {
-		reference.AnAstruct = nil
-		if _instance, ok := stage.Astructs_instance[_reference]; ok {
-			reference.AnAstruct = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Associationtob, stage.Bstructs_instance)
+	__gong__reconstructPointerFromInstance(&reference.Anotherassociationtob_2, stage.Bstructs_instance)
+	__gong__reconstructPointerFromInstance(&reference.Bstruct, stage.Bstructs_instance)
+	__gong__reconstructPointerFromInstance(&reference.Bstruct2, stage.Bstructs_instance)
+	__gong__reconstructPointerFromInstance(&reference.Dstruct, stage.Dstructs_instance)
+	__gong__reconstructPointerFromInstance(&reference.Dstruct2, stage.Dstructs_instance)
+	__gong__reconstructPointerFromInstance(&reference.Dstruct3, stage.Dstructs_instance)
+	__gong__reconstructPointerFromInstance(&reference.Dstruct4, stage.Dstructs_instance)
+	__gong__reconstructPointerFromInstance(&reference.AnAstruct, stage.Astructs_instance)
 	// insertion point for slice of pointers fields
-	var _Anarrayofb []*Bstruct
-	for _, _reference := range reference.Anarrayofb {
-		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
-			_Anarrayofb = append(_Anarrayofb, _instance)
-		}
-	}
-	reference.Anarrayofb = _Anarrayofb
-	var _Dstruct4s []*Dstruct
-	for _, _reference := range reference.Dstruct4s {
-		if _instance, ok := stage.Dstructs_instance[_reference]; ok {
-			_Dstruct4s = append(_Dstruct4s, _instance)
-		}
-	}
-	reference.Dstruct4s = _Dstruct4s
-	var _Anarrayofa []*Astruct
-	for _, _reference := range reference.Anarrayofa {
-		if _instance, ok := stage.Astructs_instance[_reference]; ok {
-			_Anarrayofa = append(_Anarrayofa, _instance)
-		}
-	}
-	reference.Anarrayofa = _Anarrayofa
-	var _Anotherarrayofb []*Bstruct
-	for _, _reference := range reference.Anotherarrayofb {
-		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
-			_Anotherarrayofb = append(_Anotherarrayofb, _instance)
-		}
-	}
-	reference.Anotherarrayofb = _Anotherarrayofb
-	var _AnarrayofbUse []*AstructBstructUse
-	for _, _reference := range reference.AnarrayofbUse {
-		if _instance, ok := stage.AstructBstructUses_instance[_reference]; ok {
-			_AnarrayofbUse = append(_AnarrayofbUse, _instance)
-		}
-	}
-	reference.AnarrayofbUse = _AnarrayofbUse
-	var _Anarrayofb2Use []*AstructBstruct2Use
-	for _, _reference := range reference.Anarrayofb2Use {
-		if _instance, ok := stage.AstructBstruct2Uses_instance[_reference]; ok {
-			_Anarrayofb2Use = append(_Anarrayofb2Use, _instance)
-		}
-	}
-	reference.Anarrayofb2Use = _Anarrayofb2Use
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Anarrayofb, stage.Bstructs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Dstruct4s, stage.Dstructs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Anarrayofa, stage.Astructs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Anotherarrayofb, stage.Bstructs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.AnarrayofbUse, stage.AstructBstructUses_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Anarrayofb2Use, stage.AstructBstruct2Uses_instance)
 }
 
 func (reference *AstructBstruct2Use) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Bstrcut2; _reference != nil {
-		reference.Bstrcut2 = nil
-		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
-			reference.Bstrcut2 = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Bstrcut2, stage.Bstructs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *AstructBstructUse) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Bstruct2; _reference != nil {
-		reference.Bstruct2 = nil
-		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
-			reference.Bstruct2 = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Bstruct2, stage.Bstructs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -976,27 +707,10 @@ func (reference *Bstruct) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *Dstruct) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Gstruct; _reference != nil {
-		reference.Gstruct = nil
-		if _instance, ok := stage.Gstructs_instance[_reference]; ok {
-			reference.Gstruct = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Gstruct, stage.Gstructs_instance)
 	// insertion point for slice of pointers fields
-	var _Anarrayofb []*Bstruct
-	for _, _reference := range reference.Anarrayofb {
-		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
-			_Anarrayofb = append(_Anarrayofb, _instance)
-		}
-	}
-	reference.Anarrayofb = _Anarrayofb
-	var _Gstructs []*Gstruct
-	for _, _reference := range reference.Gstructs {
-		if _instance, ok := stage.Gstructs_instance[_reference]; ok {
-			_Gstructs = append(_Gstructs, _instance)
-		}
-	}
-	reference.Gstructs = _Gstructs
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Anarrayofb, stage.Bstructs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Gstructs, stage.Gstructs_instance)
 }
 
 func (reference *F0123456789012345678901234567890) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1020,51 +734,14 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 	if astruct.Field != astructOther.Field {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Field"))
 	}
-	if (astruct.Associationtob == nil) != (astructOther.Associationtob == nil) {
+	if astruct.Associationtob != astructOther.Associationtob {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Associationtob"))
-	} else if astruct.Associationtob != nil && astructOther.Associationtob != nil {
-		if astruct.Associationtob != astructOther.Associationtob {
-			diffs = append(diffs, astruct.GongMarshallField(stage, "Associationtob"))
-		}
 	}
-	AnarrayofbDifferent := false
-	if len(astruct.Anarrayofb) != len(astructOther.Anarrayofb) {
-		AnarrayofbDifferent = true
-	} else {
-		for i := range astruct.Anarrayofb {
-			if (astruct.Anarrayofb[i] == nil) != (astructOther.Anarrayofb[i] == nil) {
-				AnarrayofbDifferent = true
-				break
-			} else if astruct.Anarrayofb[i] != nil && astructOther.Anarrayofb[i] != nil {
-				// this is a pointer comparaison
-				if astruct.Anarrayofb[i] != astructOther.Anarrayofb[i] {
-					AnarrayofbDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnarrayofbDifferent {
-		ops := stage.Diff(
-			astruct,
-			"Anarrayofb",
-			len(astructOther.Anarrayofb),
-			len(astruct.Anarrayofb),
-			func(i, j int) bool {
-				return astructOther.Anarrayofb[i] == astruct.Anarrayofb[j]
-			},
-			func(j int) string {
-				return astruct.Anarrayofb[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, astruct, "Anarrayofb", astructOther.Anarrayofb, astruct.Anarrayofb); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if (astruct.Anotherassociationtob_2 == nil) != (astructOther.Anotherassociationtob_2 == nil) {
+	if astruct.Anotherassociationtob_2 != astructOther.Anotherassociationtob_2 {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Anotherassociationtob_2"))
-	} else if astruct.Anotherassociationtob_2 != nil && astructOther.Anotherassociationtob_2 != nil {
-		if astruct.Anotherassociationtob_2 != astructOther.Anotherassociationtob_2 {
-			diffs = append(diffs, astruct.GongMarshallField(stage, "Anotherassociationtob_2"))
-		}
 	}
 	if astruct.Date != astructOther.Date {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Date"))
@@ -1093,78 +770,25 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 	if astruct.CFloatfield != astructOther.CFloatfield {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "CFloatfield"))
 	}
-	if (astruct.Bstruct == nil) != (astructOther.Bstruct == nil) {
+	if astruct.Bstruct != astructOther.Bstruct {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Bstruct"))
-	} else if astruct.Bstruct != nil && astructOther.Bstruct != nil {
-		if astruct.Bstruct != astructOther.Bstruct {
-			diffs = append(diffs, astruct.GongMarshallField(stage, "Bstruct"))
-		}
 	}
-	if (astruct.Bstruct2 == nil) != (astructOther.Bstruct2 == nil) {
+	if astruct.Bstruct2 != astructOther.Bstruct2 {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Bstruct2"))
-	} else if astruct.Bstruct2 != nil && astructOther.Bstruct2 != nil {
-		if astruct.Bstruct2 != astructOther.Bstruct2 {
-			diffs = append(diffs, astruct.GongMarshallField(stage, "Bstruct2"))
-		}
 	}
-	if (astruct.Dstruct == nil) != (astructOther.Dstruct == nil) {
+	if astruct.Dstruct != astructOther.Dstruct {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct"))
-	} else if astruct.Dstruct != nil && astructOther.Dstruct != nil {
-		if astruct.Dstruct != astructOther.Dstruct {
-			diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct"))
-		}
 	}
-	if (astruct.Dstruct2 == nil) != (astructOther.Dstruct2 == nil) {
+	if astruct.Dstruct2 != astructOther.Dstruct2 {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct2"))
-	} else if astruct.Dstruct2 != nil && astructOther.Dstruct2 != nil {
-		if astruct.Dstruct2 != astructOther.Dstruct2 {
-			diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct2"))
-		}
 	}
-	if (astruct.Dstruct3 == nil) != (astructOther.Dstruct3 == nil) {
+	if astruct.Dstruct3 != astructOther.Dstruct3 {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct3"))
-	} else if astruct.Dstruct3 != nil && astructOther.Dstruct3 != nil {
-		if astruct.Dstruct3 != astructOther.Dstruct3 {
-			diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct3"))
-		}
 	}
-	if (astruct.Dstruct4 == nil) != (astructOther.Dstruct4 == nil) {
+	if astruct.Dstruct4 != astructOther.Dstruct4 {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct4"))
-	} else if astruct.Dstruct4 != nil && astructOther.Dstruct4 != nil {
-		if astruct.Dstruct4 != astructOther.Dstruct4 {
-			diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct4"))
-		}
 	}
-	Dstruct4sDifferent := false
-	if len(astruct.Dstruct4s) != len(astructOther.Dstruct4s) {
-		Dstruct4sDifferent = true
-	} else {
-		for i := range astruct.Dstruct4s {
-			if (astruct.Dstruct4s[i] == nil) != (astructOther.Dstruct4s[i] == nil) {
-				Dstruct4sDifferent = true
-				break
-			} else if astruct.Dstruct4s[i] != nil && astructOther.Dstruct4s[i] != nil {
-				// this is a pointer comparaison
-				if astruct.Dstruct4s[i] != astructOther.Dstruct4s[i] {
-					Dstruct4sDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if Dstruct4sDifferent {
-		ops := stage.Diff(
-			astruct,
-			"Dstruct4s",
-			len(astructOther.Dstruct4s),
-			len(astruct.Dstruct4s),
-			func(i, j int) bool {
-				return astructOther.Dstruct4s[i] == astruct.Dstruct4s[j]
-			},
-			func(j int) string {
-				return astruct.Dstruct4s[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, astruct, "Dstruct4s", astructOther.Dstruct4s, astruct.Dstruct4s); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if astruct.Floatfield != astructOther.Floatfield {
@@ -1179,140 +803,20 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 	if astruct.Duration1 != astructOther.Duration1 {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Duration1"))
 	}
-	AnarrayofaDifferent := false
-	if len(astruct.Anarrayofa) != len(astructOther.Anarrayofa) {
-		AnarrayofaDifferent = true
-	} else {
-		for i := range astruct.Anarrayofa {
-			if (astruct.Anarrayofa[i] == nil) != (astructOther.Anarrayofa[i] == nil) {
-				AnarrayofaDifferent = true
-				break
-			} else if astruct.Anarrayofa[i] != nil && astructOther.Anarrayofa[i] != nil {
-				// this is a pointer comparaison
-				if astruct.Anarrayofa[i] != astructOther.Anarrayofa[i] {
-					AnarrayofaDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnarrayofaDifferent {
-		ops := stage.Diff(
-			astruct,
-			"Anarrayofa",
-			len(astructOther.Anarrayofa),
-			len(astruct.Anarrayofa),
-			func(i, j int) bool {
-				return astructOther.Anarrayofa[i] == astruct.Anarrayofa[j]
-			},
-			func(j int) string {
-				return astruct.Anarrayofa[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, astruct, "Anarrayofa", astructOther.Anarrayofa, astruct.Anarrayofa); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AnotherarrayofbDifferent := false
-	if len(astruct.Anotherarrayofb) != len(astructOther.Anotherarrayofb) {
-		AnotherarrayofbDifferent = true
-	} else {
-		for i := range astruct.Anotherarrayofb {
-			if (astruct.Anotherarrayofb[i] == nil) != (astructOther.Anotherarrayofb[i] == nil) {
-				AnotherarrayofbDifferent = true
-				break
-			} else if astruct.Anotherarrayofb[i] != nil && astructOther.Anotherarrayofb[i] != nil {
-				// this is a pointer comparaison
-				if astruct.Anotherarrayofb[i] != astructOther.Anotherarrayofb[i] {
-					AnotherarrayofbDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnotherarrayofbDifferent {
-		ops := stage.Diff(
-			astruct,
-			"Anotherarrayofb",
-			len(astructOther.Anotherarrayofb),
-			len(astruct.Anotherarrayofb),
-			func(i, j int) bool {
-				return astructOther.Anotherarrayofb[i] == astruct.Anotherarrayofb[j]
-			},
-			func(j int) string {
-				return astruct.Anotherarrayofb[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, astruct, "Anotherarrayofb", astructOther.Anotherarrayofb, astruct.Anotherarrayofb); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AnarrayofbUseDifferent := false
-	if len(astruct.AnarrayofbUse) != len(astructOther.AnarrayofbUse) {
-		AnarrayofbUseDifferent = true
-	} else {
-		for i := range astruct.AnarrayofbUse {
-			if (astruct.AnarrayofbUse[i] == nil) != (astructOther.AnarrayofbUse[i] == nil) {
-				AnarrayofbUseDifferent = true
-				break
-			} else if astruct.AnarrayofbUse[i] != nil && astructOther.AnarrayofbUse[i] != nil {
-				// this is a pointer comparaison
-				if astruct.AnarrayofbUse[i] != astructOther.AnarrayofbUse[i] {
-					AnarrayofbUseDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnarrayofbUseDifferent {
-		ops := stage.Diff(
-			astruct,
-			"AnarrayofbUse",
-			len(astructOther.AnarrayofbUse),
-			len(astruct.AnarrayofbUse),
-			func(i, j int) bool {
-				return astructOther.AnarrayofbUse[i] == astruct.AnarrayofbUse[j]
-			},
-			func(j int) string {
-				return astruct.AnarrayofbUse[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, astruct, "AnarrayofbUse", astructOther.AnarrayofbUse, astruct.AnarrayofbUse); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	Anarrayofb2UseDifferent := false
-	if len(astruct.Anarrayofb2Use) != len(astructOther.Anarrayofb2Use) {
-		Anarrayofb2UseDifferent = true
-	} else {
-		for i := range astruct.Anarrayofb2Use {
-			if (astruct.Anarrayofb2Use[i] == nil) != (astructOther.Anarrayofb2Use[i] == nil) {
-				Anarrayofb2UseDifferent = true
-				break
-			} else if astruct.Anarrayofb2Use[i] != nil && astructOther.Anarrayofb2Use[i] != nil {
-				// this is a pointer comparaison
-				if astruct.Anarrayofb2Use[i] != astructOther.Anarrayofb2Use[i] {
-					Anarrayofb2UseDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if Anarrayofb2UseDifferent {
-		ops := stage.Diff(
-			astruct,
-			"Anarrayofb2Use",
-			len(astructOther.Anarrayofb2Use),
-			len(astruct.Anarrayofb2Use),
-			func(i, j int) bool {
-				return astructOther.Anarrayofb2Use[i] == astruct.Anarrayofb2Use[j]
-			},
-			func(j int) string {
-				return astruct.Anarrayofb2Use[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, astruct, "Anarrayofb2Use", astructOther.Anarrayofb2Use, astruct.Anarrayofb2Use); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if (astruct.AnAstruct == nil) != (astructOther.AnAstruct == nil) {
+	if astruct.AnAstruct != astructOther.AnAstruct {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "AnAstruct"))
-	} else if astruct.AnAstruct != nil && astructOther.AnAstruct != nil {
-		if astruct.AnAstruct != astructOther.AnAstruct {
-			diffs = append(diffs, astruct.GongMarshallField(stage, "AnAstruct"))
-		}
 	}
 	if astruct.TextFieldBespokeSize != astructOther.TextFieldBespokeSize {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "TextFieldBespokeSize"))
@@ -1331,12 +835,8 @@ func (astructbstruct2use *AstructBstruct2Use) GongDiff(stage *Stage, astructbstr
 	if astructbstruct2use.Name != astructbstruct2useOther.Name {
 		diffs = append(diffs, astructbstruct2use.GongMarshallField(stage, "Name"))
 	}
-	if (astructbstruct2use.Bstrcut2 == nil) != (astructbstruct2useOther.Bstrcut2 == nil) {
+	if astructbstruct2use.Bstrcut2 != astructbstruct2useOther.Bstrcut2 {
 		diffs = append(diffs, astructbstruct2use.GongMarshallField(stage, "Bstrcut2"))
-	} else if astructbstruct2use.Bstrcut2 != nil && astructbstruct2useOther.Bstrcut2 != nil {
-		if astructbstruct2use.Bstrcut2 != astructbstruct2useOther.Bstrcut2 {
-			diffs = append(diffs, astructbstruct2use.GongMarshallField(stage, "Bstrcut2"))
-		}
 	}
 
 	return
@@ -1349,12 +849,8 @@ func (astructbstructuse *AstructBstructUse) GongDiff(stage *Stage, astructbstruc
 	if astructbstructuse.Name != astructbstructuseOther.Name {
 		diffs = append(diffs, astructbstructuse.GongMarshallField(stage, "Name"))
 	}
-	if (astructbstructuse.Bstruct2 == nil) != (astructbstructuseOther.Bstruct2 == nil) {
+	if astructbstructuse.Bstruct2 != astructbstructuseOther.Bstruct2 {
 		diffs = append(diffs, astructbstructuse.GongMarshallField(stage, "Bstruct2"))
-	} else if astructbstructuse.Bstruct2 != nil && astructbstructuseOther.Bstruct2 != nil {
-		if astructbstructuse.Bstruct2 != astructbstructuseOther.Bstruct2 {
-			diffs = append(diffs, astructbstructuse.GongMarshallField(stage, "Bstruct2"))
-		}
 	}
 
 	return
@@ -1387,75 +883,13 @@ func (dstruct *Dstruct) GongDiff(stage *Stage, dstructOther *Dstruct) (diffs []s
 	if dstruct.Name != dstructOther.Name {
 		diffs = append(diffs, dstruct.GongMarshallField(stage, "Name"))
 	}
-	AnarrayofbDifferent := false
-	if len(dstruct.Anarrayofb) != len(dstructOther.Anarrayofb) {
-		AnarrayofbDifferent = true
-	} else {
-		for i := range dstruct.Anarrayofb {
-			if (dstruct.Anarrayofb[i] == nil) != (dstructOther.Anarrayofb[i] == nil) {
-				AnarrayofbDifferent = true
-				break
-			} else if dstruct.Anarrayofb[i] != nil && dstructOther.Anarrayofb[i] != nil {
-				// this is a pointer comparaison
-				if dstruct.Anarrayofb[i] != dstructOther.Anarrayofb[i] {
-					AnarrayofbDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnarrayofbDifferent {
-		ops := stage.Diff(
-			dstruct,
-			"Anarrayofb",
-			len(dstructOther.Anarrayofb),
-			len(dstruct.Anarrayofb),
-			func(i, j int) bool {
-				return dstructOther.Anarrayofb[i] == dstruct.Anarrayofb[j]
-			},
-			func(j int) string {
-				return dstruct.Anarrayofb[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, dstruct, "Anarrayofb", dstructOther.Anarrayofb, dstruct.Anarrayofb); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if (dstruct.Gstruct == nil) != (dstructOther.Gstruct == nil) {
+	if dstruct.Gstruct != dstructOther.Gstruct {
 		diffs = append(diffs, dstruct.GongMarshallField(stage, "Gstruct"))
-	} else if dstruct.Gstruct != nil && dstructOther.Gstruct != nil {
-		if dstruct.Gstruct != dstructOther.Gstruct {
-			diffs = append(diffs, dstruct.GongMarshallField(stage, "Gstruct"))
-		}
 	}
-	GstructsDifferent := false
-	if len(dstruct.Gstructs) != len(dstructOther.Gstructs) {
-		GstructsDifferent = true
-	} else {
-		for i := range dstruct.Gstructs {
-			if (dstruct.Gstructs[i] == nil) != (dstructOther.Gstructs[i] == nil) {
-				GstructsDifferent = true
-				break
-			} else if dstruct.Gstructs[i] != nil && dstructOther.Gstructs[i] != nil {
-				// this is a pointer comparaison
-				if dstruct.Gstructs[i] != dstructOther.Gstructs[i] {
-					GstructsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GstructsDifferent {
-		ops := stage.Diff(
-			dstruct,
-			"Gstructs",
-			len(dstructOther.Gstructs),
-			len(dstruct.Gstructs),
-			func(i, j int) bool {
-				return dstructOther.Gstructs[i] == dstruct.Gstructs[j]
-			},
-			func(j int) string {
-				return dstruct.Gstructs[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, dstruct, "Gstructs", dstructOther.Gstructs, dstruct.Gstructs); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -1572,4 +1006,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

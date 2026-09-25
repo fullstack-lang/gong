@@ -30,28 +30,16 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct B
-	// insertion point per field
-
-	// Compute reverse map for named struct C
-	// insertion point per field
-
 	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.As {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.As)
 
-	for instance := range stage.Bs {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Bs)
 
-	for instance := range stage.Cs {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Cs)
 
 	return
 }
@@ -76,34 +64,16 @@ func (c *C) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
-func (a *A) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(a).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(a), uint64(stage.GetOrder(a)))
-	return
+func (a *A) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, a)
 }
 
-func (b *B) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(b).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(b), uint64(stage.GetOrder(b)))
-	return
+func (b *B) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, b)
 }
 
-func (c *C) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(c).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(c), uint64(stage.GetOrder(c)))
-	return
+func (c *C) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, c)
 }
 
 
@@ -275,51 +245,18 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.As_reference = make(map[*A]*A)
-	stage.As_referenceOrder = make(map[*A]uint) // diff Unstage needs the reference order
-	stage.As_instance = make(map[*A]*A)
-	for instance := range stage.As {
-		_copy := instance.GongCopy().(*A)
-		stage.As_reference[instance] = _copy
-		stage.As_instance[_copy] = instance
-		stage.As_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.As, &stage.As_reference, &stage.As_referenceOrder, &stage.As_instance)
 
-	stage.Bs_reference = make(map[*B]*B)
-	stage.Bs_referenceOrder = make(map[*B]uint) // diff Unstage needs the reference order
-	stage.Bs_instance = make(map[*B]*B)
-	for instance := range stage.Bs {
-		_copy := instance.GongCopy().(*B)
-		stage.Bs_reference[instance] = _copy
-		stage.Bs_instance[_copy] = instance
-		stage.Bs_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Bs, &stage.Bs_reference, &stage.Bs_referenceOrder, &stage.Bs_instance)
 
-	stage.Cs_reference = make(map[*C]*C)
-	stage.Cs_referenceOrder = make(map[*C]uint) // diff Unstage needs the reference order
-	stage.Cs_instance = make(map[*C]*C)
-	for instance := range stage.Cs {
-		_copy := instance.GongCopy().(*C)
-		stage.Cs_reference[instance] = _copy
-		stage.Cs_instance[_copy] = instance
-		stage.Cs_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Cs, &stage.Cs_reference, &stage.Cs_referenceOrder, &stage.Cs_instance)
 
 	// insertion point per named struct
-	for instance := range stage.As {
-		reference := stage.As_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.As, stage.As_reference, stage)
 
-	for instance := range stage.Bs {
-		reference := stage.Bs_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Bs, stage.Bs_reference, stage)
 
-	for instance := range stage.Cs {
-		reference := stage.Cs_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Cs, stage.Cs_reference, stage)
 
 	stage.recomputeOrders()
 }
@@ -332,39 +269,15 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (a *A) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.A_stagedOrder[a]; ok {
-		return order
-	}
-	if order, ok := stage.As_referenceOrder[a]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type A was not staged and does not have a reference order", a)
-		return 0
-	}
+	return __gong__getOrder(stage.A_stagedOrder, stage.As_referenceOrder, a, "A")
 }
 
 func (b *B) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.B_stagedOrder[b]; ok {
-		return order
-	}
-	if order, ok := stage.Bs_referenceOrder[b]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type B was not staged and does not have a reference order", b)
-		return 0
-	}
+	return __gong__getOrder(stage.B_stagedOrder, stage.Bs_referenceOrder, b, "B")
 }
 
 func (c *C) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.C_stagedOrder[c]; ok {
-		return order
-	}
-	if order, ok := stage.Cs_referenceOrder[c]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type C was not staged and does not have a reference order", c)
-		return 0
-	}
+	return __gong__getOrder(stage.C_stagedOrder, stage.Cs_referenceOrder, c, "C")
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -373,76 +286,58 @@ func (c *C) GongGetOrder(stage *Stage) uint {
 // It is used to identify instances across sessions
 // insertion point per named struct
 func (a *A) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", a.GongGetGongstructName(), a.GongGetOrder(stage))
+	return __gong__formatIdentifier(a, a.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (a *A) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", a.GongGetGongstructName(), a.GongGetOrder(stage))
+	return a.GongGetIdentifier(stage)
 }
 
 func (b *B) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", b.GongGetGongstructName(), b.GongGetOrder(stage))
+	return __gong__formatIdentifier(b, b.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (b *B) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", b.GongGetGongstructName(), b.GongGetOrder(stage))
+	return b.GongGetIdentifier(stage)
 }
 
 func (c *C) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", c.GongGetGongstructName(), c.GongGetOrder(stage))
+	return __gong__formatIdentifier(c, c.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (c *C) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", c.GongGetGongstructName(), c.GongGetOrder(stage))
+	return c.GongGetIdentifier(stage)
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (a *A) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", a.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "A")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a.Name))
-	return
+func (a *A) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(a.GongGetIdentifier(stage), "A", a.Name)
 }
 
-func (b *B) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", b.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "B")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(b.Name))
-	return
+func (b *B) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(b.GongGetIdentifier(stage), "B", b.Name)
 }
 
-func (c *C) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", c.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "C")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(c.Name))
-	return
+func (c *C) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(c.GongGetIdentifier(stage), "C", c.Name)
 }
 
 // insertion point for unstaging
-func (a *A) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", a.GongGetReferenceIdentifier(stage))
-	return
+func (a *A) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(a.GongGetReferenceIdentifier(stage))
 }
 
-func (b *B) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", b.GongGetReferenceIdentifier(stage))
-	return
+func (b *B) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(b.GongGetReferenceIdentifier(stage))
 }
 
-func (c *C) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", c.GongGetReferenceIdentifier(stage))
-	return
+func (c *C) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(c.GongGetReferenceIdentifier(stage))
 }
 
 func GongIntToLetters(number int32) (letters string) {
@@ -486,6 +381,79 @@ func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 5. Format and return the byte array as a standard UUID string
 	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
 		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
+}
+
+func __gong__appendInstances[T interface {
+	comparable
+	GongstructIF
+}](res []GongstructIF, m map[T]struct{}) []GongstructIF {
+	for instance := range m {
+		res = append(res, instance)
+	}
+	return res
+}
+
+func __gong__getUUID(stage *Stage, instance GongstructIF) string {
+	if __gong__, ok := any(instance).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+	return GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(instance), uint64(stage.GetOrder(instance)))
+}
+
+func __gong__computeReferencePass1[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	staged map[T]struct{},
+	ref *map[T]T,
+	refOrder *map[T]uint,
+	inst *map[T]T,
+) {
+	*ref = make(map[T]T, len(staged))
+	*refOrder = make(map[T]uint, len(staged))
+	*inst = make(map[T]T, len(staged))
+	for instance := range staged {
+		_copy := instance.GongCopy().(T)
+		(*ref)[instance] = _copy
+		(*inst)[_copy] = instance
+		(*refOrder)[_copy] = instance.GongGetOrder(stage)
+	}
+}
+
+func __gong__computeReferencePass2[T interface {
+	comparable
+	GongstructIF
+	GongReconstructPointersFromReferences(*Stage, T)
+}](staged map[T]struct{}, reference map[T]T, stage *Stage) {
+	for instance := range staged {
+		reference[instance].GongReconstructPointersFromReferences(stage, instance)
+	}
+}
+
+func __gong__getOrder[T comparable](stagedOrder, refOrder map[T]uint, instance T, typeName string) uint {
+	if order, ok := stagedOrder[instance]; ok {
+		return order
+	}
+	if order, ok := refOrder[instance]; ok {
+		return order
+	}
+	log.Printf("instance %p of type %s was not staged and does not have a reference order", any(instance), typeName)
+	return 0
+}
+
+func __gong__formatIdentifier(s GongstructIF, order uint) string {
+	return fmt.Sprintf("__%s__%08d_", s.GongGetGongstructName(), order)
+}
+
+func __gong__marshallIdentifier(identifier, structName, name string) string {
+	decl := strings.ReplaceAll(GongIdentifiersDecls, "{{Identifier}}", identifier)
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", structName)
+	return strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(name))
+}
+
+func __gong__marshallUnstaging(identifier string) string {
+	return strings.ReplaceAll(GongUnstageStmt, "{{Identifier}}", identifier)
 }
 
 // end of template

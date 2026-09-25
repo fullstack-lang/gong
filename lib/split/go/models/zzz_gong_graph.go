@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,244 +15,104 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (assplit *AsSplit) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.AsSplits[assplit]
-
-	return
+func (assplit *AsSplit) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.AsSplits[assplit]
+	return ok
 }
 
-func (stage *Stage) IsStagedAsSplit(assplit *AsSplit) (ok bool) {
-
-	return assplit.GongIsStaged(stage)
+func (assplitarea *AsSplitArea) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.AsSplitAreas[assplitarea]
+	return ok
 }
 
-func (assplitarea *AsSplitArea) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.AsSplitAreas[assplitarea]
-
-	return
+func (button *Button) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Buttons[button]
+	return ok
 }
 
-func (stage *Stage) IsStagedAsSplitArea(assplitarea *AsSplitArea) (ok bool) {
-
-	return assplitarea.GongIsStaged(stage)
+func (cursor *Cursor) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Cursors[cursor]
+	return ok
 }
 
-func (button *Button) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Buttons[button]
-
-	return
+func (favicon *FavIcon) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.FavIcons[favicon]
+	return ok
 }
 
-func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
-
-	return button.GongIsStaged(stage)
+func (form *Form) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Forms[form]
+	return ok
 }
 
-func (cursor *Cursor) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Cursors[cursor]
-
-	return
+func (load *Load) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Loads[load]
+	return ok
 }
 
-func (stage *Stage) IsStagedCursor(cursor *Cursor) (ok bool) {
-
-	return cursor.GongIsStaged(stage)
+func (logoontheleft *LogoOnTheLeft) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.LogoOnTheLefts[logoontheleft]
+	return ok
 }
 
-func (favicon *FavIcon) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.FavIcons[favicon]
-
-	return
+func (logoontheright *LogoOnTheRight) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.LogoOnTheRights[logoontheright]
+	return ok
 }
 
-func (stage *Stage) IsStagedFavIcon(favicon *FavIcon) (ok bool) {
-
-	return favicon.GongIsStaged(stage)
+func (markdown *Markdown) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Markdowns[markdown]
+	return ok
 }
 
-func (form *Form) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Forms[form]
-
-	return
+func (slider *Slider) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Sliders[slider]
+	return ok
 }
 
-func (stage *Stage) IsStagedForm(form *Form) (ok bool) {
-
-	return form.GongIsStaged(stage)
+func (split *Split) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Splits[split]
+	return ok
 }
 
-func (load *Load) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Loads[load]
-
-	return
+func (svg *Svg) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Svgs[svg]
+	return ok
 }
 
-func (stage *Stage) IsStagedLoad(load *Load) (ok bool) {
-
-	return load.GongIsStaged(stage)
+func (table *Table) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Tables[table]
+	return ok
 }
 
-func (logoontheleft *LogoOnTheLeft) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.LogoOnTheLefts[logoontheleft]
-
-	return
+func (threejs *Threejs) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Threejss[threejs]
+	return ok
 }
 
-func (stage *Stage) IsStagedLogoOnTheLeft(logoontheleft *LogoOnTheLeft) (ok bool) {
-
-	return logoontheleft.GongIsStaged(stage)
+func (title *Title) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Titles[title]
+	return ok
 }
 
-func (logoontheright *LogoOnTheRight) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.LogoOnTheRights[logoontheright]
-
-	return
+func (tone *Tone) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Tones[tone]
+	return ok
 }
 
-func (stage *Stage) IsStagedLogoOnTheRight(logoontheright *LogoOnTheRight) (ok bool) {
-
-	return logoontheright.GongIsStaged(stage)
+func (tree *Tree) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Trees[tree]
+	return ok
 }
 
-func (markdown *Markdown) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Markdowns[markdown]
-
-	return
+func (view *View) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Views[view]
+	return ok
 }
 
-func (stage *Stage) IsStagedMarkdown(markdown *Markdown) (ok bool) {
-
-	return markdown.GongIsStaged(stage)
-}
-
-func (slider *Slider) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Sliders[slider]
-
-	return
-}
-
-func (stage *Stage) IsStagedSlider(slider *Slider) (ok bool) {
-
-	return slider.GongIsStaged(stage)
-}
-
-func (split *Split) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Splits[split]
-
-	return
-}
-
-func (stage *Stage) IsStagedSplit(split *Split) (ok bool) {
-
-	return split.GongIsStaged(stage)
-}
-
-func (svg *Svg) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Svgs[svg]
-
-	return
-}
-
-func (stage *Stage) IsStagedSvg(svg *Svg) (ok bool) {
-
-	return svg.GongIsStaged(stage)
-}
-
-func (table *Table) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Tables[table]
-
-	return
-}
-
-func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
-
-	return table.GongIsStaged(stage)
-}
-
-func (threejs *Threejs) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Threejss[threejs]
-
-	return
-}
-
-func (stage *Stage) IsStagedThreejs(threejs *Threejs) (ok bool) {
-
-	return threejs.GongIsStaged(stage)
-}
-
-func (title *Title) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Titles[title]
-
-	return
-}
-
-func (stage *Stage) IsStagedTitle(title *Title) (ok bool) {
-
-	return title.GongIsStaged(stage)
-}
-
-func (tone *Tone) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Tones[tone]
-
-	return
-}
-
-func (stage *Stage) IsStagedTone(tone *Tone) (ok bool) {
-
-	return tone.GongIsStaged(stage)
-}
-
-func (tree *Tree) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Trees[tree]
-
-	return
-}
-
-func (stage *Stage) IsStagedTree(tree *Tree) (ok bool) {
-
-	return tree.GongIsStaged(stage)
-}
-
-func (view *View) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Views[view]
-
-	return
-}
-
-func (stage *Stage) IsStagedView(view *View) (ok bool) {
-
-	return view.GongIsStaged(stage)
-}
-
-func (xlsx *Xlsx) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Xlsxs[xlsx]
-
-	return
-}
-
-func (stage *Stage) IsStagedXlsx(xlsx *Xlsx) (ok bool) {
-
-	return xlsx.GongIsStaged(stage)
+func (xlsx *Xlsx) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Xlsxs[xlsx]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -261,10 +124,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (assplit *AsSplit) GongStageBranch(stage *Stage) {
-	stage.StageBranchAsSplit(assplit)
-}
-
-func (stage *Stage) StageBranchAsSplit(assplit *AsSplit) {
 
 	// check if instance is already staged
 	if stage.IsStaged(assplit) {
@@ -283,10 +142,6 @@ func (stage *Stage) StageBranchAsSplit(assplit *AsSplit) {
 }
 
 func (assplitarea *AsSplitArea) GongStageBranch(stage *Stage) {
-	stage.StageBranchAsSplitArea(assplitarea)
-}
-
-func (stage *Stage) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 
 	// check if instance is already staged
 	if stage.IsStaged(assplitarea) {
@@ -344,10 +199,6 @@ func (stage *Stage) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 }
 
 func (button *Button) GongStageBranch(stage *Stage) {
-	stage.StageBranchButton(button)
-}
-
-func (stage *Stage) StageBranchButton(button *Button) {
 
 	// check if instance is already staged
 	if stage.IsStaged(button) {
@@ -363,10 +214,6 @@ func (stage *Stage) StageBranchButton(button *Button) {
 }
 
 func (cursor *Cursor) GongStageBranch(stage *Stage) {
-	stage.StageBranchCursor(cursor)
-}
-
-func (stage *Stage) StageBranchCursor(cursor *Cursor) {
 
 	// check if instance is already staged
 	if stage.IsStaged(cursor) {
@@ -382,10 +229,6 @@ func (stage *Stage) StageBranchCursor(cursor *Cursor) {
 }
 
 func (favicon *FavIcon) GongStageBranch(stage *Stage) {
-	stage.StageBranchFavIcon(favicon)
-}
-
-func (stage *Stage) StageBranchFavIcon(favicon *FavIcon) {
 
 	// check if instance is already staged
 	if stage.IsStaged(favicon) {
@@ -401,10 +244,6 @@ func (stage *Stage) StageBranchFavIcon(favicon *FavIcon) {
 }
 
 func (form *Form) GongStageBranch(stage *Stage) {
-	stage.StageBranchForm(form)
-}
-
-func (stage *Stage) StageBranchForm(form *Form) {
 
 	// check if instance is already staged
 	if stage.IsStaged(form) {
@@ -420,10 +259,6 @@ func (stage *Stage) StageBranchForm(form *Form) {
 }
 
 func (load *Load) GongStageBranch(stage *Stage) {
-	stage.StageBranchLoad(load)
-}
-
-func (stage *Stage) StageBranchLoad(load *Load) {
 
 	// check if instance is already staged
 	if stage.IsStaged(load) {
@@ -439,10 +274,6 @@ func (stage *Stage) StageBranchLoad(load *Load) {
 }
 
 func (logoontheleft *LogoOnTheLeft) GongStageBranch(stage *Stage) {
-	stage.StageBranchLogoOnTheLeft(logoontheleft)
-}
-
-func (stage *Stage) StageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
 
 	// check if instance is already staged
 	if stage.IsStaged(logoontheleft) {
@@ -458,10 +289,6 @@ func (stage *Stage) StageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
 }
 
 func (logoontheright *LogoOnTheRight) GongStageBranch(stage *Stage) {
-	stage.StageBranchLogoOnTheRight(logoontheright)
-}
-
-func (stage *Stage) StageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) {
 
 	// check if instance is already staged
 	if stage.IsStaged(logoontheright) {
@@ -477,10 +304,6 @@ func (stage *Stage) StageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) {
 }
 
 func (markdown *Markdown) GongStageBranch(stage *Stage) {
-	stage.StageBranchMarkdown(markdown)
-}
-
-func (stage *Stage) StageBranchMarkdown(markdown *Markdown) {
 
 	// check if instance is already staged
 	if stage.IsStaged(markdown) {
@@ -496,10 +319,6 @@ func (stage *Stage) StageBranchMarkdown(markdown *Markdown) {
 }
 
 func (slider *Slider) GongStageBranch(stage *Stage) {
-	stage.StageBranchSlider(slider)
-}
-
-func (stage *Stage) StageBranchSlider(slider *Slider) {
 
 	// check if instance is already staged
 	if stage.IsStaged(slider) {
@@ -515,10 +334,6 @@ func (stage *Stage) StageBranchSlider(slider *Slider) {
 }
 
 func (split *Split) GongStageBranch(stage *Stage) {
-	stage.StageBranchSplit(split)
-}
-
-func (stage *Stage) StageBranchSplit(split *Split) {
 
 	// check if instance is already staged
 	if stage.IsStaged(split) {
@@ -534,10 +349,6 @@ func (stage *Stage) StageBranchSplit(split *Split) {
 }
 
 func (svg *Svg) GongStageBranch(stage *Stage) {
-	stage.StageBranchSvg(svg)
-}
-
-func (stage *Stage) StageBranchSvg(svg *Svg) {
 
 	// check if instance is already staged
 	if stage.IsStaged(svg) {
@@ -553,10 +364,6 @@ func (stage *Stage) StageBranchSvg(svg *Svg) {
 }
 
 func (table *Table) GongStageBranch(stage *Stage) {
-	stage.StageBranchTable(table)
-}
-
-func (stage *Stage) StageBranchTable(table *Table) {
 
 	// check if instance is already staged
 	if stage.IsStaged(table) {
@@ -572,10 +379,6 @@ func (stage *Stage) StageBranchTable(table *Table) {
 }
 
 func (threejs *Threejs) GongStageBranch(stage *Stage) {
-	stage.StageBranchThreejs(threejs)
-}
-
-func (stage *Stage) StageBranchThreejs(threejs *Threejs) {
 
 	// check if instance is already staged
 	if stage.IsStaged(threejs) {
@@ -591,10 +394,6 @@ func (stage *Stage) StageBranchThreejs(threejs *Threejs) {
 }
 
 func (title *Title) GongStageBranch(stage *Stage) {
-	stage.StageBranchTitle(title)
-}
-
-func (stage *Stage) StageBranchTitle(title *Title) {
 
 	// check if instance is already staged
 	if stage.IsStaged(title) {
@@ -610,10 +409,6 @@ func (stage *Stage) StageBranchTitle(title *Title) {
 }
 
 func (tone *Tone) GongStageBranch(stage *Stage) {
-	stage.StageBranchTone(tone)
-}
-
-func (stage *Stage) StageBranchTone(tone *Tone) {
 
 	// check if instance is already staged
 	if stage.IsStaged(tone) {
@@ -629,10 +424,6 @@ func (stage *Stage) StageBranchTone(tone *Tone) {
 }
 
 func (tree *Tree) GongStageBranch(stage *Stage) {
-	stage.StageBranchTree(tree)
-}
-
-func (stage *Stage) StageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
 	if stage.IsStaged(tree) {
@@ -648,10 +439,6 @@ func (stage *Stage) StageBranchTree(tree *Tree) {
 }
 
 func (view *View) GongStageBranch(stage *Stage) {
-	stage.StageBranchView(view)
-}
-
-func (stage *Stage) StageBranchView(view *View) {
 
 	// check if instance is already staged
 	if stage.IsStaged(view) {
@@ -670,10 +457,6 @@ func (stage *Stage) StageBranchView(view *View) {
 }
 
 func (xlsx *Xlsx) GongStageBranch(stage *Stage) {
-	stage.StageBranchXlsx(xlsx)
-}
-
-func (stage *Stage) StageBranchXlsx(xlsx *Xlsx) {
 
 	// check if instance is already staged
 	if stage.IsStaged(xlsx) {
@@ -787,15 +570,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchAsSplit(mapOrigCopy map[any]any, assplitFrom *AsSplit) (assplitTo *AsSplit) {
-
-	// assplitFrom has already been copied
-	if _assplitTo, ok := mapOrigCopy[assplitFrom]; ok {
-		assplitTo = _assplitTo.(*AsSplit)
+	var alreadyCopied bool
+	assplitTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, assplitFrom)
+	if alreadyCopied {
 		return
 	}
-
-	assplitTo = new(AsSplit)
-	mapOrigCopy[assplitFrom] = assplitTo
 	assplitFrom.GongCopyBasicFields(assplitTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -809,15 +588,11 @@ func GongCopyBranchAsSplit(mapOrigCopy map[any]any, assplitFrom *AsSplit) (asspl
 }
 
 func GongCopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea) (assplitareaTo *AsSplitArea) {
-
-	// assplitareaFrom has already been copied
-	if _assplitareaTo, ok := mapOrigCopy[assplitareaFrom]; ok {
-		assplitareaTo = _assplitareaTo.(*AsSplitArea)
+	var alreadyCopied bool
+	assplitareaTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, assplitareaFrom)
+	if alreadyCopied {
 		return
 	}
-
-	assplitareaTo = new(AsSplitArea)
-	mapOrigCopy[assplitareaFrom] = assplitareaTo
 	assplitareaFrom.GongCopyBasicFields(assplitareaTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -870,15 +645,11 @@ func GongCopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplit
 }
 
 func GongCopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
-
-	// buttonFrom has already been copied
-	if _buttonTo, ok := mapOrigCopy[buttonFrom]; ok {
-		buttonTo = _buttonTo.(*Button)
+	var alreadyCopied bool
+	buttonTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, buttonFrom)
+	if alreadyCopied {
 		return
 	}
-
-	buttonTo = new(Button)
-	mapOrigCopy[buttonFrom] = buttonTo
 	buttonFrom.GongCopyBasicFields(buttonTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -889,15 +660,11 @@ func GongCopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo
 }
 
 func GongCopyBranchCursor(mapOrigCopy map[any]any, cursorFrom *Cursor) (cursorTo *Cursor) {
-
-	// cursorFrom has already been copied
-	if _cursorTo, ok := mapOrigCopy[cursorFrom]; ok {
-		cursorTo = _cursorTo.(*Cursor)
+	var alreadyCopied bool
+	cursorTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, cursorFrom)
+	if alreadyCopied {
 		return
 	}
-
-	cursorTo = new(Cursor)
-	mapOrigCopy[cursorFrom] = cursorTo
 	cursorFrom.GongCopyBasicFields(cursorTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -908,15 +675,11 @@ func GongCopyBranchCursor(mapOrigCopy map[any]any, cursorFrom *Cursor) (cursorTo
 }
 
 func GongCopyBranchFavIcon(mapOrigCopy map[any]any, faviconFrom *FavIcon) (faviconTo *FavIcon) {
-
-	// faviconFrom has already been copied
-	if _faviconTo, ok := mapOrigCopy[faviconFrom]; ok {
-		faviconTo = _faviconTo.(*FavIcon)
+	var alreadyCopied bool
+	faviconTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, faviconFrom)
+	if alreadyCopied {
 		return
 	}
-
-	faviconTo = new(FavIcon)
-	mapOrigCopy[faviconFrom] = faviconTo
 	faviconFrom.GongCopyBasicFields(faviconTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -927,15 +690,11 @@ func GongCopyBranchFavIcon(mapOrigCopy map[any]any, faviconFrom *FavIcon) (favic
 }
 
 func GongCopyBranchForm(mapOrigCopy map[any]any, formFrom *Form) (formTo *Form) {
-
-	// formFrom has already been copied
-	if _formTo, ok := mapOrigCopy[formFrom]; ok {
-		formTo = _formTo.(*Form)
+	var alreadyCopied bool
+	formTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, formFrom)
+	if alreadyCopied {
 		return
 	}
-
-	formTo = new(Form)
-	mapOrigCopy[formFrom] = formTo
 	formFrom.GongCopyBasicFields(formTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -946,15 +705,11 @@ func GongCopyBranchForm(mapOrigCopy map[any]any, formFrom *Form) (formTo *Form) 
 }
 
 func GongCopyBranchLoad(mapOrigCopy map[any]any, loadFrom *Load) (loadTo *Load) {
-
-	// loadFrom has already been copied
-	if _loadTo, ok := mapOrigCopy[loadFrom]; ok {
-		loadTo = _loadTo.(*Load)
+	var alreadyCopied bool
+	loadTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, loadFrom)
+	if alreadyCopied {
 		return
 	}
-
-	loadTo = new(Load)
-	mapOrigCopy[loadFrom] = loadTo
 	loadFrom.GongCopyBasicFields(loadTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -965,15 +720,11 @@ func GongCopyBranchLoad(mapOrigCopy map[any]any, loadFrom *Load) (loadTo *Load) 
 }
 
 func GongCopyBranchLogoOnTheLeft(mapOrigCopy map[any]any, logoontheleftFrom *LogoOnTheLeft) (logoontheleftTo *LogoOnTheLeft) {
-
-	// logoontheleftFrom has already been copied
-	if _logoontheleftTo, ok := mapOrigCopy[logoontheleftFrom]; ok {
-		logoontheleftTo = _logoontheleftTo.(*LogoOnTheLeft)
+	var alreadyCopied bool
+	logoontheleftTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, logoontheleftFrom)
+	if alreadyCopied {
 		return
 	}
-
-	logoontheleftTo = new(LogoOnTheLeft)
-	mapOrigCopy[logoontheleftFrom] = logoontheleftTo
 	logoontheleftFrom.GongCopyBasicFields(logoontheleftTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -984,15 +735,11 @@ func GongCopyBranchLogoOnTheLeft(mapOrigCopy map[any]any, logoontheleftFrom *Log
 }
 
 func GongCopyBranchLogoOnTheRight(mapOrigCopy map[any]any, logoontherightFrom *LogoOnTheRight) (logoontherightTo *LogoOnTheRight) {
-
-	// logoontherightFrom has already been copied
-	if _logoontherightTo, ok := mapOrigCopy[logoontherightFrom]; ok {
-		logoontherightTo = _logoontherightTo.(*LogoOnTheRight)
+	var alreadyCopied bool
+	logoontherightTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, logoontherightFrom)
+	if alreadyCopied {
 		return
 	}
-
-	logoontherightTo = new(LogoOnTheRight)
-	mapOrigCopy[logoontherightFrom] = logoontherightTo
 	logoontherightFrom.GongCopyBasicFields(logoontherightTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1003,15 +750,11 @@ func GongCopyBranchLogoOnTheRight(mapOrigCopy map[any]any, logoontherightFrom *L
 }
 
 func GongCopyBranchMarkdown(mapOrigCopy map[any]any, markdownFrom *Markdown) (markdownTo *Markdown) {
-
-	// markdownFrom has already been copied
-	if _markdownTo, ok := mapOrigCopy[markdownFrom]; ok {
-		markdownTo = _markdownTo.(*Markdown)
+	var alreadyCopied bool
+	markdownTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, markdownFrom)
+	if alreadyCopied {
 		return
 	}
-
-	markdownTo = new(Markdown)
-	mapOrigCopy[markdownFrom] = markdownTo
 	markdownFrom.GongCopyBasicFields(markdownTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1022,15 +765,11 @@ func GongCopyBranchMarkdown(mapOrigCopy map[any]any, markdownFrom *Markdown) (ma
 }
 
 func GongCopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo *Slider) {
-
-	// sliderFrom has already been copied
-	if _sliderTo, ok := mapOrigCopy[sliderFrom]; ok {
-		sliderTo = _sliderTo.(*Slider)
+	var alreadyCopied bool
+	sliderTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, sliderFrom)
+	if alreadyCopied {
 		return
 	}
-
-	sliderTo = new(Slider)
-	mapOrigCopy[sliderFrom] = sliderTo
 	sliderFrom.GongCopyBasicFields(sliderTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1041,15 +780,11 @@ func GongCopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo
 }
 
 func GongCopyBranchSplit(mapOrigCopy map[any]any, splitFrom *Split) (splitTo *Split) {
-
-	// splitFrom has already been copied
-	if _splitTo, ok := mapOrigCopy[splitFrom]; ok {
-		splitTo = _splitTo.(*Split)
+	var alreadyCopied bool
+	splitTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, splitFrom)
+	if alreadyCopied {
 		return
 	}
-
-	splitTo = new(Split)
-	mapOrigCopy[splitFrom] = splitTo
 	splitFrom.GongCopyBasicFields(splitTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1060,15 +795,11 @@ func GongCopyBranchSplit(mapOrigCopy map[any]any, splitFrom *Split) (splitTo *Sp
 }
 
 func GongCopyBranchSvg(mapOrigCopy map[any]any, svgFrom *Svg) (svgTo *Svg) {
-
-	// svgFrom has already been copied
-	if _svgTo, ok := mapOrigCopy[svgFrom]; ok {
-		svgTo = _svgTo.(*Svg)
+	var alreadyCopied bool
+	svgTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, svgFrom)
+	if alreadyCopied {
 		return
 	}
-
-	svgTo = new(Svg)
-	mapOrigCopy[svgFrom] = svgTo
 	svgFrom.GongCopyBasicFields(svgTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1079,15 +810,11 @@ func GongCopyBranchSvg(mapOrigCopy map[any]any, svgFrom *Svg) (svgTo *Svg) {
 }
 
 func GongCopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table) {
-
-	// tableFrom has already been copied
-	if _tableTo, ok := mapOrigCopy[tableFrom]; ok {
-		tableTo = _tableTo.(*Table)
+	var alreadyCopied bool
+	tableTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, tableFrom)
+	if alreadyCopied {
 		return
 	}
-
-	tableTo = new(Table)
-	mapOrigCopy[tableFrom] = tableTo
 	tableFrom.GongCopyBasicFields(tableTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1098,15 +825,11 @@ func GongCopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Ta
 }
 
 func GongCopyBranchThreejs(mapOrigCopy map[any]any, threejsFrom *Threejs) (threejsTo *Threejs) {
-
-	// threejsFrom has already been copied
-	if _threejsTo, ok := mapOrigCopy[threejsFrom]; ok {
-		threejsTo = _threejsTo.(*Threejs)
+	var alreadyCopied bool
+	threejsTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, threejsFrom)
+	if alreadyCopied {
 		return
 	}
-
-	threejsTo = new(Threejs)
-	mapOrigCopy[threejsFrom] = threejsTo
 	threejsFrom.GongCopyBasicFields(threejsTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1117,15 +840,11 @@ func GongCopyBranchThreejs(mapOrigCopy map[any]any, threejsFrom *Threejs) (three
 }
 
 func GongCopyBranchTitle(mapOrigCopy map[any]any, titleFrom *Title) (titleTo *Title) {
-
-	// titleFrom has already been copied
-	if _titleTo, ok := mapOrigCopy[titleFrom]; ok {
-		titleTo = _titleTo.(*Title)
+	var alreadyCopied bool
+	titleTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, titleFrom)
+	if alreadyCopied {
 		return
 	}
-
-	titleTo = new(Title)
-	mapOrigCopy[titleFrom] = titleTo
 	titleFrom.GongCopyBasicFields(titleTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1136,15 +855,11 @@ func GongCopyBranchTitle(mapOrigCopy map[any]any, titleFrom *Title) (titleTo *Ti
 }
 
 func GongCopyBranchTone(mapOrigCopy map[any]any, toneFrom *Tone) (toneTo *Tone) {
-
-	// toneFrom has already been copied
-	if _toneTo, ok := mapOrigCopy[toneFrom]; ok {
-		toneTo = _toneTo.(*Tone)
+	var alreadyCopied bool
+	toneTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, toneFrom)
+	if alreadyCopied {
 		return
 	}
-
-	toneTo = new(Tone)
-	mapOrigCopy[toneFrom] = toneTo
 	toneFrom.GongCopyBasicFields(toneTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1155,15 +870,11 @@ func GongCopyBranchTone(mapOrigCopy map[any]any, toneFrom *Tone) (toneTo *Tone) 
 }
 
 func GongCopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) {
-
-	// treeFrom has already been copied
-	if _treeTo, ok := mapOrigCopy[treeFrom]; ok {
-		treeTo = _treeTo.(*Tree)
+	var alreadyCopied bool
+	treeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, treeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	treeTo = new(Tree)
-	mapOrigCopy[treeFrom] = treeTo
 	treeFrom.GongCopyBasicFields(treeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1174,15 +885,11 @@ func GongCopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) 
 }
 
 func GongCopyBranchView(mapOrigCopy map[any]any, viewFrom *View) (viewTo *View) {
-
-	// viewFrom has already been copied
-	if _viewTo, ok := mapOrigCopy[viewFrom]; ok {
-		viewTo = _viewTo.(*View)
+	var alreadyCopied bool
+	viewTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, viewFrom)
+	if alreadyCopied {
 		return
 	}
-
-	viewTo = new(View)
-	mapOrigCopy[viewFrom] = viewTo
 	viewFrom.GongCopyBasicFields(viewTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1196,15 +903,11 @@ func GongCopyBranchView(mapOrigCopy map[any]any, viewFrom *View) (viewTo *View) 
 }
 
 func GongCopyBranchXlsx(mapOrigCopy map[any]any, xlsxFrom *Xlsx) (xlsxTo *Xlsx) {
-
-	// xlsxFrom has already been copied
-	if _xlsxTo, ok := mapOrigCopy[xlsxFrom]; ok {
-		xlsxTo = _xlsxTo.(*Xlsx)
+	var alreadyCopied bool
+	xlsxTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, xlsxFrom)
+	if alreadyCopied {
 		return
 	}
-
-	xlsxTo = new(Xlsx)
-	mapOrigCopy[xlsxFrom] = xlsxTo
 	xlsxFrom.GongCopyBasicFields(xlsxTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1227,10 +930,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (assplit *AsSplit) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchAsSplit(assplit)
-}
-
-func (stage *Stage) UnstageBranchAsSplit(assplit *AsSplit) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(assplit) {
@@ -1249,10 +948,6 @@ func (stage *Stage) UnstageBranchAsSplit(assplit *AsSplit) {
 }
 
 func (assplitarea *AsSplitArea) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchAsSplitArea(assplitarea)
-}
-
-func (stage *Stage) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(assplitarea) {
@@ -1310,10 +1005,6 @@ func (stage *Stage) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 }
 
 func (button *Button) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchButton(button)
-}
-
-func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(button) {
@@ -1329,10 +1020,6 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 }
 
 func (cursor *Cursor) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchCursor(cursor)
-}
-
-func (stage *Stage) UnstageBranchCursor(cursor *Cursor) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(cursor) {
@@ -1348,10 +1035,6 @@ func (stage *Stage) UnstageBranchCursor(cursor *Cursor) {
 }
 
 func (favicon *FavIcon) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchFavIcon(favicon)
-}
-
-func (stage *Stage) UnstageBranchFavIcon(favicon *FavIcon) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(favicon) {
@@ -1367,10 +1050,6 @@ func (stage *Stage) UnstageBranchFavIcon(favicon *FavIcon) {
 }
 
 func (form *Form) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchForm(form)
-}
-
-func (stage *Stage) UnstageBranchForm(form *Form) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(form) {
@@ -1386,10 +1065,6 @@ func (stage *Stage) UnstageBranchForm(form *Form) {
 }
 
 func (load *Load) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLoad(load)
-}
-
-func (stage *Stage) UnstageBranchLoad(load *Load) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(load) {
@@ -1405,10 +1080,6 @@ func (stage *Stage) UnstageBranchLoad(load *Load) {
 }
 
 func (logoontheleft *LogoOnTheLeft) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLogoOnTheLeft(logoontheleft)
-}
-
-func (stage *Stage) UnstageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(logoontheleft) {
@@ -1424,10 +1095,6 @@ func (stage *Stage) UnstageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
 }
 
 func (logoontheright *LogoOnTheRight) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLogoOnTheRight(logoontheright)
-}
-
-func (stage *Stage) UnstageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(logoontheright) {
@@ -1443,10 +1110,6 @@ func (stage *Stage) UnstageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) 
 }
 
 func (markdown *Markdown) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchMarkdown(markdown)
-}
-
-func (stage *Stage) UnstageBranchMarkdown(markdown *Markdown) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(markdown) {
@@ -1462,10 +1125,6 @@ func (stage *Stage) UnstageBranchMarkdown(markdown *Markdown) {
 }
 
 func (slider *Slider) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSlider(slider)
-}
-
-func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(slider) {
@@ -1481,10 +1140,6 @@ func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 }
 
 func (split *Split) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSplit(split)
-}
-
-func (stage *Stage) UnstageBranchSplit(split *Split) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(split) {
@@ -1500,10 +1155,6 @@ func (stage *Stage) UnstageBranchSplit(split *Split) {
 }
 
 func (svg *Svg) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSvg(svg)
-}
-
-func (stage *Stage) UnstageBranchSvg(svg *Svg) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(svg) {
@@ -1519,10 +1170,6 @@ func (stage *Stage) UnstageBranchSvg(svg *Svg) {
 }
 
 func (table *Table) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchTable(table)
-}
-
-func (stage *Stage) UnstageBranchTable(table *Table) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(table) {
@@ -1538,10 +1185,6 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 }
 
 func (threejs *Threejs) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchThreejs(threejs)
-}
-
-func (stage *Stage) UnstageBranchThreejs(threejs *Threejs) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(threejs) {
@@ -1557,10 +1200,6 @@ func (stage *Stage) UnstageBranchThreejs(threejs *Threejs) {
 }
 
 func (title *Title) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchTitle(title)
-}
-
-func (stage *Stage) UnstageBranchTitle(title *Title) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(title) {
@@ -1576,10 +1215,6 @@ func (stage *Stage) UnstageBranchTitle(title *Title) {
 }
 
 func (tone *Tone) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchTone(tone)
-}
-
-func (stage *Stage) UnstageBranchTone(tone *Tone) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(tone) {
@@ -1595,10 +1230,6 @@ func (stage *Stage) UnstageBranchTone(tone *Tone) {
 }
 
 func (tree *Tree) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchTree(tree)
-}
-
-func (stage *Stage) UnstageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(tree) {
@@ -1614,10 +1245,6 @@ func (stage *Stage) UnstageBranchTree(tree *Tree) {
 }
 
 func (view *View) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchView(view)
-}
-
-func (stage *Stage) UnstageBranchView(view *View) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(view) {
@@ -1636,10 +1263,6 @@ func (stage *Stage) UnstageBranchView(view *View) {
 }
 
 func (xlsx *Xlsx) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchXlsx(xlsx)
-}
-
-func (stage *Stage) UnstageBranchXlsx(xlsx *Xlsx) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(xlsx) {
@@ -1658,56 +1281,25 @@ func (stage *Stage) UnstageBranchXlsx(xlsx *Xlsx) {
 func (reference *AsSplit) GongReconstructPointersFromReferences(stage *Stage, instance *AsSplit) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.AsSplitAreas = reference.AsSplitAreas[:0]
-	for _, _b := range instance.AsSplitAreas {
-		reference.AsSplitAreas = append(reference.AsSplitAreas, stage.AsSplitAreas_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.AsSplitAreas, stage.AsSplitAreas_reference, instance.AsSplitAreas)
 }
 
 func (reference *AsSplitArea) GongReconstructPointersFromReferences(stage *Stage, instance *AsSplitArea) {
 	// insertion point for pointers field
-	if instance.AsSplit != nil {
-		reference.AsSplit = stage.AsSplits_reference[instance.AsSplit]
-	}
-	if instance.Button != nil {
-		reference.Button = stage.Buttons_reference[instance.Button]
-	}
-	if instance.Cursor != nil {
-		reference.Cursor = stage.Cursors_reference[instance.Cursor]
-	}
-	if instance.Form != nil {
-		reference.Form = stage.Forms_reference[instance.Form]
-	}
-	if instance.Load != nil {
-		reference.Load = stage.Loads_reference[instance.Load]
-	}
-	if instance.Markdown != nil {
-		reference.Markdown = stage.Markdowns_reference[instance.Markdown]
-	}
-	if instance.Slider != nil {
-		reference.Slider = stage.Sliders_reference[instance.Slider]
-	}
-	if instance.Split != nil {
-		reference.Split = stage.Splits_reference[instance.Split]
-	}
-	if instance.Svg != nil {
-		reference.Svg = stage.Svgs_reference[instance.Svg]
-	}
-	if instance.Table != nil {
-		reference.Table = stage.Tables_reference[instance.Table]
-	}
-	if instance.Tone != nil {
-		reference.Tone = stage.Tones_reference[instance.Tone]
-	}
-	if instance.Tree != nil {
-		reference.Tree = stage.Trees_reference[instance.Tree]
-	}
-	if instance.Threejs != nil {
-		reference.Threejs = stage.Threejss_reference[instance.Threejs]
-	}
-	if instance.Xlsx != nil {
-		reference.Xlsx = stage.Xlsxs_reference[instance.Xlsx]
-	}
+	__gong__reconstructPointer(&reference.AsSplit, stage.AsSplits_reference, instance.AsSplit)
+	__gong__reconstructPointer(&reference.Button, stage.Buttons_reference, instance.Button)
+	__gong__reconstructPointer(&reference.Cursor, stage.Cursors_reference, instance.Cursor)
+	__gong__reconstructPointer(&reference.Form, stage.Forms_reference, instance.Form)
+	__gong__reconstructPointer(&reference.Load, stage.Loads_reference, instance.Load)
+	__gong__reconstructPointer(&reference.Markdown, stage.Markdowns_reference, instance.Markdown)
+	__gong__reconstructPointer(&reference.Slider, stage.Sliders_reference, instance.Slider)
+	__gong__reconstructPointer(&reference.Split, stage.Splits_reference, instance.Split)
+	__gong__reconstructPointer(&reference.Svg, stage.Svgs_reference, instance.Svg)
+	__gong__reconstructPointer(&reference.Table, stage.Tables_reference, instance.Table)
+	__gong__reconstructPointer(&reference.Tone, stage.Tones_reference, instance.Tone)
+	__gong__reconstructPointer(&reference.Tree, stage.Trees_reference, instance.Tree)
+	__gong__reconstructPointer(&reference.Threejs, stage.Threejss_reference, instance.Threejs)
+	__gong__reconstructPointer(&reference.Xlsx, stage.Xlsxs_reference, instance.Xlsx)
 	// insertion point for slice of pointers field
 }
 
@@ -1794,10 +1386,7 @@ func (reference *Tree) GongReconstructPointersFromReferences(stage *Stage, insta
 func (reference *View) GongReconstructPointersFromReferences(stage *Stage, instance *View) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.RootAsSplitAreas = reference.RootAsSplitAreas[:0]
-	for _, _b := range instance.RootAsSplitAreas {
-		reference.RootAsSplitAreas = append(reference.RootAsSplitAreas, stage.AsSplitAreas_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RootAsSplitAreas, stage.AsSplitAreas_reference, instance.RootAsSplitAreas)
 }
 
 func (reference *Xlsx) GongReconstructPointersFromReferences(stage *Stage, instance *Xlsx) {
@@ -1809,101 +1398,25 @@ func (reference *Xlsx) GongReconstructPointersFromReferences(stage *Stage, insta
 func (reference *AsSplit) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _AsSplitAreas []*AsSplitArea
-	for _, _reference := range reference.AsSplitAreas {
-		if _instance, ok := stage.AsSplitAreas_instance[_reference]; ok {
-			_AsSplitAreas = append(_AsSplitAreas, _instance)
-		}
-	}
-	reference.AsSplitAreas = _AsSplitAreas
+	__gong__reconstructSliceOfPointersFromInstances(&reference.AsSplitAreas, stage.AsSplitAreas_instance)
 }
 
 func (reference *AsSplitArea) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.AsSplit; _reference != nil {
-		reference.AsSplit = nil
-		if _instance, ok := stage.AsSplits_instance[_reference]; ok {
-			reference.AsSplit = _instance
-		}
-	}
-	if _reference := reference.Button; _reference != nil {
-		reference.Button = nil
-		if _instance, ok := stage.Buttons_instance[_reference]; ok {
-			reference.Button = _instance
-		}
-	}
-	if _reference := reference.Cursor; _reference != nil {
-		reference.Cursor = nil
-		if _instance, ok := stage.Cursors_instance[_reference]; ok {
-			reference.Cursor = _instance
-		}
-	}
-	if _reference := reference.Form; _reference != nil {
-		reference.Form = nil
-		if _instance, ok := stage.Forms_instance[_reference]; ok {
-			reference.Form = _instance
-		}
-	}
-	if _reference := reference.Load; _reference != nil {
-		reference.Load = nil
-		if _instance, ok := stage.Loads_instance[_reference]; ok {
-			reference.Load = _instance
-		}
-	}
-	if _reference := reference.Markdown; _reference != nil {
-		reference.Markdown = nil
-		if _instance, ok := stage.Markdowns_instance[_reference]; ok {
-			reference.Markdown = _instance
-		}
-	}
-	if _reference := reference.Slider; _reference != nil {
-		reference.Slider = nil
-		if _instance, ok := stage.Sliders_instance[_reference]; ok {
-			reference.Slider = _instance
-		}
-	}
-	if _reference := reference.Split; _reference != nil {
-		reference.Split = nil
-		if _instance, ok := stage.Splits_instance[_reference]; ok {
-			reference.Split = _instance
-		}
-	}
-	if _reference := reference.Svg; _reference != nil {
-		reference.Svg = nil
-		if _instance, ok := stage.Svgs_instance[_reference]; ok {
-			reference.Svg = _instance
-		}
-	}
-	if _reference := reference.Table; _reference != nil {
-		reference.Table = nil
-		if _instance, ok := stage.Tables_instance[_reference]; ok {
-			reference.Table = _instance
-		}
-	}
-	if _reference := reference.Tone; _reference != nil {
-		reference.Tone = nil
-		if _instance, ok := stage.Tones_instance[_reference]; ok {
-			reference.Tone = _instance
-		}
-	}
-	if _reference := reference.Tree; _reference != nil {
-		reference.Tree = nil
-		if _instance, ok := stage.Trees_instance[_reference]; ok {
-			reference.Tree = _instance
-		}
-	}
-	if _reference := reference.Threejs; _reference != nil {
-		reference.Threejs = nil
-		if _instance, ok := stage.Threejss_instance[_reference]; ok {
-			reference.Threejs = _instance
-		}
-	}
-	if _reference := reference.Xlsx; _reference != nil {
-		reference.Xlsx = nil
-		if _instance, ok := stage.Xlsxs_instance[_reference]; ok {
-			reference.Xlsx = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.AsSplit, stage.AsSplits_instance)
+	__gong__reconstructPointerFromInstance(&reference.Button, stage.Buttons_instance)
+	__gong__reconstructPointerFromInstance(&reference.Cursor, stage.Cursors_instance)
+	__gong__reconstructPointerFromInstance(&reference.Form, stage.Forms_instance)
+	__gong__reconstructPointerFromInstance(&reference.Load, stage.Loads_instance)
+	__gong__reconstructPointerFromInstance(&reference.Markdown, stage.Markdowns_instance)
+	__gong__reconstructPointerFromInstance(&reference.Slider, stage.Sliders_instance)
+	__gong__reconstructPointerFromInstance(&reference.Split, stage.Splits_instance)
+	__gong__reconstructPointerFromInstance(&reference.Svg, stage.Svgs_instance)
+	__gong__reconstructPointerFromInstance(&reference.Table, stage.Tables_instance)
+	__gong__reconstructPointerFromInstance(&reference.Tone, stage.Tones_instance)
+	__gong__reconstructPointerFromInstance(&reference.Tree, stage.Trees_instance)
+	__gong__reconstructPointerFromInstance(&reference.Threejs, stage.Threejss_instance)
+	__gong__reconstructPointerFromInstance(&reference.Xlsx, stage.Xlsxs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -1990,13 +1503,7 @@ func (reference *Tree) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *View) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _RootAsSplitAreas []*AsSplitArea
-	for _, _reference := range reference.RootAsSplitAreas {
-		if _instance, ok := stage.AsSplitAreas_instance[_reference]; ok {
-			_RootAsSplitAreas = append(_RootAsSplitAreas, _instance)
-		}
-	}
-	reference.RootAsSplitAreas = _RootAsSplitAreas
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RootAsSplitAreas, stage.AsSplitAreas_instance)
 }
 
 func (reference *Xlsx) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2015,36 +1522,7 @@ func (assplit *AsSplit) GongDiff(stage *Stage, assplitOther *AsSplit) (diffs []s
 	if assplit.Direction != assplitOther.Direction {
 		diffs = append(diffs, assplit.GongMarshallField(stage, "Direction"))
 	}
-	AsSplitAreasDifferent := false
-	if len(assplit.AsSplitAreas) != len(assplitOther.AsSplitAreas) {
-		AsSplitAreasDifferent = true
-	} else {
-		for i := range assplit.AsSplitAreas {
-			if (assplit.AsSplitAreas[i] == nil) != (assplitOther.AsSplitAreas[i] == nil) {
-				AsSplitAreasDifferent = true
-				break
-			} else if assplit.AsSplitAreas[i] != nil && assplitOther.AsSplitAreas[i] != nil {
-				// this is a pointer comparaison
-				if assplit.AsSplitAreas[i] != assplitOther.AsSplitAreas[i] {
-					AsSplitAreasDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AsSplitAreasDifferent {
-		ops := stage.Diff(
-			assplit,
-			"AsSplitAreas",
-			len(assplitOther.AsSplitAreas),
-			len(assplit.AsSplitAreas),
-			func(i, j int) bool {
-				return assplitOther.AsSplitAreas[i] == assplit.AsSplitAreas[j]
-			},
-			func(j int) string {
-				return assplit.AsSplitAreas[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, assplit, "AsSplitAreas", assplitOther.AsSplitAreas, assplit.AsSplitAreas); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if assplit.IsSizeInPixel != assplitOther.IsSizeInPixel {
@@ -2076,103 +1554,47 @@ func (assplitarea *AsSplitArea) GongDiff(stage *Stage, assplitareaOther *AsSplit
 	if assplitarea.IsAny != assplitareaOther.IsAny {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "IsAny"))
 	}
-	if (assplitarea.AsSplit == nil) != (assplitareaOther.AsSplit == nil) {
+	if assplitarea.AsSplit != assplitareaOther.AsSplit {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "AsSplit"))
-	} else if assplitarea.AsSplit != nil && assplitareaOther.AsSplit != nil {
-		if assplitarea.AsSplit != assplitareaOther.AsSplit {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "AsSplit"))
-		}
 	}
-	if (assplitarea.Button == nil) != (assplitareaOther.Button == nil) {
+	if assplitarea.Button != assplitareaOther.Button {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Button"))
-	} else if assplitarea.Button != nil && assplitareaOther.Button != nil {
-		if assplitarea.Button != assplitareaOther.Button {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Button"))
-		}
 	}
-	if (assplitarea.Cursor == nil) != (assplitareaOther.Cursor == nil) {
+	if assplitarea.Cursor != assplitareaOther.Cursor {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Cursor"))
-	} else if assplitarea.Cursor != nil && assplitareaOther.Cursor != nil {
-		if assplitarea.Cursor != assplitareaOther.Cursor {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Cursor"))
-		}
 	}
-	if (assplitarea.Form == nil) != (assplitareaOther.Form == nil) {
+	if assplitarea.Form != assplitareaOther.Form {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form"))
-	} else if assplitarea.Form != nil && assplitareaOther.Form != nil {
-		if assplitarea.Form != assplitareaOther.Form {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form"))
-		}
 	}
-	if (assplitarea.Load == nil) != (assplitareaOther.Load == nil) {
+	if assplitarea.Load != assplitareaOther.Load {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Load"))
-	} else if assplitarea.Load != nil && assplitareaOther.Load != nil {
-		if assplitarea.Load != assplitareaOther.Load {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Load"))
-		}
 	}
-	if (assplitarea.Markdown == nil) != (assplitareaOther.Markdown == nil) {
+	if assplitarea.Markdown != assplitareaOther.Markdown {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Markdown"))
-	} else if assplitarea.Markdown != nil && assplitareaOther.Markdown != nil {
-		if assplitarea.Markdown != assplitareaOther.Markdown {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Markdown"))
-		}
 	}
-	if (assplitarea.Slider == nil) != (assplitareaOther.Slider == nil) {
+	if assplitarea.Slider != assplitareaOther.Slider {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Slider"))
-	} else if assplitarea.Slider != nil && assplitareaOther.Slider != nil {
-		if assplitarea.Slider != assplitareaOther.Slider {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Slider"))
-		}
 	}
-	if (assplitarea.Split == nil) != (assplitareaOther.Split == nil) {
+	if assplitarea.Split != assplitareaOther.Split {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Split"))
-	} else if assplitarea.Split != nil && assplitareaOther.Split != nil {
-		if assplitarea.Split != assplitareaOther.Split {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Split"))
-		}
 	}
-	if (assplitarea.Svg == nil) != (assplitareaOther.Svg == nil) {
+	if assplitarea.Svg != assplitareaOther.Svg {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Svg"))
-	} else if assplitarea.Svg != nil && assplitareaOther.Svg != nil {
-		if assplitarea.Svg != assplitareaOther.Svg {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Svg"))
-		}
 	}
-	if (assplitarea.Table == nil) != (assplitareaOther.Table == nil) {
+	if assplitarea.Table != assplitareaOther.Table {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Table"))
-	} else if assplitarea.Table != nil && assplitareaOther.Table != nil {
-		if assplitarea.Table != assplitareaOther.Table {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Table"))
-		}
 	}
-	if (assplitarea.Tone == nil) != (assplitareaOther.Tone == nil) {
+	if assplitarea.Tone != assplitareaOther.Tone {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tone"))
-	} else if assplitarea.Tone != nil && assplitareaOther.Tone != nil {
-		if assplitarea.Tone != assplitareaOther.Tone {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tone"))
-		}
 	}
-	if (assplitarea.Tree == nil) != (assplitareaOther.Tree == nil) {
+	if assplitarea.Tree != assplitareaOther.Tree {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tree"))
-	} else if assplitarea.Tree != nil && assplitareaOther.Tree != nil {
-		if assplitarea.Tree != assplitareaOther.Tree {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tree"))
-		}
 	}
-	if (assplitarea.Threejs == nil) != (assplitareaOther.Threejs == nil) {
+	if assplitarea.Threejs != assplitareaOther.Threejs {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Threejs"))
-	} else if assplitarea.Threejs != nil && assplitareaOther.Threejs != nil {
-		if assplitarea.Threejs != assplitareaOther.Threejs {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Threejs"))
-		}
 	}
-	if (assplitarea.Xlsx == nil) != (assplitareaOther.Xlsx == nil) {
+	if assplitarea.Xlsx != assplitareaOther.Xlsx {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Xlsx"))
-	} else if assplitarea.Xlsx != nil && assplitareaOther.Xlsx != nil {
-		if assplitarea.Xlsx != assplitareaOther.Xlsx {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Xlsx"))
-		}
 	}
 	if assplitarea.HasDiv != assplitareaOther.HasDiv {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "HasDiv"))
@@ -2433,36 +1855,7 @@ func (view *View) GongDiff(stage *Stage, viewOther *View) (diffs []string) {
 	if view.ShowViewName != viewOther.ShowViewName {
 		diffs = append(diffs, view.GongMarshallField(stage, "ShowViewName"))
 	}
-	RootAsSplitAreasDifferent := false
-	if len(view.RootAsSplitAreas) != len(viewOther.RootAsSplitAreas) {
-		RootAsSplitAreasDifferent = true
-	} else {
-		for i := range view.RootAsSplitAreas {
-			if (view.RootAsSplitAreas[i] == nil) != (viewOther.RootAsSplitAreas[i] == nil) {
-				RootAsSplitAreasDifferent = true
-				break
-			} else if view.RootAsSplitAreas[i] != nil && viewOther.RootAsSplitAreas[i] != nil {
-				// this is a pointer comparaison
-				if view.RootAsSplitAreas[i] != viewOther.RootAsSplitAreas[i] {
-					RootAsSplitAreasDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RootAsSplitAreasDifferent {
-		ops := stage.Diff(
-			view,
-			"RootAsSplitAreas",
-			len(viewOther.RootAsSplitAreas),
-			len(view.RootAsSplitAreas),
-			func(i, j int) bool {
-				return viewOther.RootAsSplitAreas[i] == view.RootAsSplitAreas[j]
-			},
-			func(j int) string {
-				return view.RootAsSplitAreas[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, view, "RootAsSplitAreas", viewOther.RootAsSplitAreas, view.RootAsSplitAreas); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if view.IsSelectedView != viewOther.IsSelectedView {
@@ -2577,4 +1970,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

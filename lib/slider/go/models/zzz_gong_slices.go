@@ -20,9 +20,6 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct Checkbox
-	// insertion point per field
-
 	// Compute reverse map for named struct Group
 	// insertion point per field
 	stage.Group_Sliders_reverseMap = make(map[*Slider]*Group)
@@ -50,29 +47,18 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct Slider
-	// insertion point per field
-
 	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.Checkboxs {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Checkboxs)
 
-	for instance := range stage.Groups {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Groups)
 
-	for instance := range stage.Layouts {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Layouts)
 
-	for instance := range stage.Sliders {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Sliders)
 
 	return
 }
@@ -103,44 +89,20 @@ func (slider *Slider) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
-func (checkbox *Checkbox) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(checkbox).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(checkbox), uint64(stage.GetOrder(checkbox)))
-	return
+func (checkbox *Checkbox) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, checkbox)
 }
 
-func (group *Group) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(group).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(group), uint64(stage.GetOrder(group)))
-	return
+func (group *Group) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, group)
 }
 
-func (layout *Layout) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(layout).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(layout), uint64(stage.GetOrder(layout)))
-	return
+func (layout *Layout) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, layout)
 }
 
-func (slider *Slider) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(slider).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(slider), uint64(stage.GetOrder(slider)))
-	return
+func (slider *Slider) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, slider)
 }
 
 
@@ -346,66 +308,22 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.Checkboxs_reference = make(map[*Checkbox]*Checkbox)
-	stage.Checkboxs_referenceOrder = make(map[*Checkbox]uint) // diff Unstage needs the reference order
-	stage.Checkboxs_instance = make(map[*Checkbox]*Checkbox)
-	for instance := range stage.Checkboxs {
-		_copy := instance.GongCopy().(*Checkbox)
-		stage.Checkboxs_reference[instance] = _copy
-		stage.Checkboxs_instance[_copy] = instance
-		stage.Checkboxs_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Checkboxs, &stage.Checkboxs_reference, &stage.Checkboxs_referenceOrder, &stage.Checkboxs_instance)
 
-	stage.Groups_reference = make(map[*Group]*Group)
-	stage.Groups_referenceOrder = make(map[*Group]uint) // diff Unstage needs the reference order
-	stage.Groups_instance = make(map[*Group]*Group)
-	for instance := range stage.Groups {
-		_copy := instance.GongCopy().(*Group)
-		stage.Groups_reference[instance] = _copy
-		stage.Groups_instance[_copy] = instance
-		stage.Groups_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Groups, &stage.Groups_reference, &stage.Groups_referenceOrder, &stage.Groups_instance)
 
-	stage.Layouts_reference = make(map[*Layout]*Layout)
-	stage.Layouts_referenceOrder = make(map[*Layout]uint) // diff Unstage needs the reference order
-	stage.Layouts_instance = make(map[*Layout]*Layout)
-	for instance := range stage.Layouts {
-		_copy := instance.GongCopy().(*Layout)
-		stage.Layouts_reference[instance] = _copy
-		stage.Layouts_instance[_copy] = instance
-		stage.Layouts_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Layouts, &stage.Layouts_reference, &stage.Layouts_referenceOrder, &stage.Layouts_instance)
 
-	stage.Sliders_reference = make(map[*Slider]*Slider)
-	stage.Sliders_referenceOrder = make(map[*Slider]uint) // diff Unstage needs the reference order
-	stage.Sliders_instance = make(map[*Slider]*Slider)
-	for instance := range stage.Sliders {
-		_copy := instance.GongCopy().(*Slider)
-		stage.Sliders_reference[instance] = _copy
-		stage.Sliders_instance[_copy] = instance
-		stage.Sliders_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Sliders, &stage.Sliders_reference, &stage.Sliders_referenceOrder, &stage.Sliders_instance)
 
 	// insertion point per named struct
-	for instance := range stage.Checkboxs {
-		reference := stage.Checkboxs_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Checkboxs, stage.Checkboxs_reference, stage)
 
-	for instance := range stage.Groups {
-		reference := stage.Groups_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Groups, stage.Groups_reference, stage)
 
-	for instance := range stage.Layouts {
-		reference := stage.Layouts_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Layouts, stage.Layouts_reference, stage)
 
-	for instance := range stage.Sliders {
-		reference := stage.Sliders_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Sliders, stage.Sliders_reference, stage)
 
 	stage.recomputeOrders()
 }
@@ -418,51 +336,19 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (checkbox *Checkbox) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Checkbox_stagedOrder[checkbox]; ok {
-		return order
-	}
-	if order, ok := stage.Checkboxs_referenceOrder[checkbox]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Checkbox was not staged and does not have a reference order", checkbox)
-		return 0
-	}
+	return __gong__getOrder(stage.Checkbox_stagedOrder, stage.Checkboxs_referenceOrder, checkbox, "Checkbox")
 }
 
 func (group *Group) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Group_stagedOrder[group]; ok {
-		return order
-	}
-	if order, ok := stage.Groups_referenceOrder[group]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Group was not staged and does not have a reference order", group)
-		return 0
-	}
+	return __gong__getOrder(stage.Group_stagedOrder, stage.Groups_referenceOrder, group, "Group")
 }
 
 func (layout *Layout) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Layout_stagedOrder[layout]; ok {
-		return order
-	}
-	if order, ok := stage.Layouts_referenceOrder[layout]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Layout was not staged and does not have a reference order", layout)
-		return 0
-	}
+	return __gong__getOrder(stage.Layout_stagedOrder, stage.Layouts_referenceOrder, layout, "Layout")
 }
 
 func (slider *Slider) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Slider_stagedOrder[slider]; ok {
-		return order
-	}
-	if order, ok := stage.Sliders_referenceOrder[slider]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Slider was not staged and does not have a reference order", slider)
-		return 0
-	}
+	return __gong__getOrder(stage.Slider_stagedOrder, stage.Sliders_referenceOrder, slider, "Slider")
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -471,99 +357,75 @@ func (slider *Slider) GongGetOrder(stage *Stage) uint {
 // It is used to identify instances across sessions
 // insertion point per named struct
 func (checkbox *Checkbox) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", checkbox.GongGetGongstructName(), checkbox.GongGetOrder(stage))
+	return __gong__formatIdentifier(checkbox, checkbox.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (checkbox *Checkbox) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", checkbox.GongGetGongstructName(), checkbox.GongGetOrder(stage))
+	return checkbox.GongGetIdentifier(stage)
 }
 
 func (group *Group) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", group.GongGetGongstructName(), group.GongGetOrder(stage))
+	return __gong__formatIdentifier(group, group.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (group *Group) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", group.GongGetGongstructName(), group.GongGetOrder(stage))
+	return group.GongGetIdentifier(stage)
 }
 
 func (layout *Layout) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", layout.GongGetGongstructName(), layout.GongGetOrder(stage))
+	return __gong__formatIdentifier(layout, layout.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (layout *Layout) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", layout.GongGetGongstructName(), layout.GongGetOrder(stage))
+	return layout.GongGetIdentifier(stage)
 }
 
 func (slider *Slider) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", slider.GongGetGongstructName(), slider.GongGetOrder(stage))
+	return __gong__formatIdentifier(slider, slider.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (slider *Slider) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", slider.GongGetGongstructName(), slider.GongGetOrder(stage))
+	return slider.GongGetIdentifier(stage)
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (checkbox *Checkbox) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Checkbox")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(checkbox.Name))
-	return
+func (checkbox *Checkbox) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(checkbox.GongGetIdentifier(stage), "Checkbox", checkbox.Name)
 }
 
-func (group *Group) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", group.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Group")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group.Name))
-	return
+func (group *Group) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(group.GongGetIdentifier(stage), "Group", group.Name)
 }
 
-func (layout *Layout) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", layout.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Layout")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(layout.Name))
-	return
+func (layout *Layout) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(layout.GongGetIdentifier(stage), "Layout", layout.Name)
 }
 
-func (slider *Slider) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", slider.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Slider")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slider.Name))
-	return
+func (slider *Slider) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(slider.GongGetIdentifier(stage), "Slider", slider.Name)
 }
 
 // insertion point for unstaging
-func (checkbox *Checkbox) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", checkbox.GongGetReferenceIdentifier(stage))
-	return
+func (checkbox *Checkbox) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(checkbox.GongGetReferenceIdentifier(stage))
 }
 
-func (group *Group) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", group.GongGetReferenceIdentifier(stage))
-	return
+func (group *Group) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(group.GongGetReferenceIdentifier(stage))
 }
 
-func (layout *Layout) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", layout.GongGetReferenceIdentifier(stage))
-	return
+func (layout *Layout) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(layout.GongGetReferenceIdentifier(stage))
 }
 
-func (slider *Slider) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", slider.GongGetReferenceIdentifier(stage))
-	return
+func (slider *Slider) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(slider.GongGetReferenceIdentifier(stage))
 }
 
 func GongIntToLetters(number int32) (letters string) {
@@ -607,6 +469,79 @@ func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 5. Format and return the byte array as a standard UUID string
 	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
 		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
+}
+
+func __gong__appendInstances[T interface {
+	comparable
+	GongstructIF
+}](res []GongstructIF, m map[T]struct{}) []GongstructIF {
+	for instance := range m {
+		res = append(res, instance)
+	}
+	return res
+}
+
+func __gong__getUUID(stage *Stage, instance GongstructIF) string {
+	if __gong__, ok := any(instance).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+	return GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(instance), uint64(stage.GetOrder(instance)))
+}
+
+func __gong__computeReferencePass1[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	staged map[T]struct{},
+	ref *map[T]T,
+	refOrder *map[T]uint,
+	inst *map[T]T,
+) {
+	*ref = make(map[T]T, len(staged))
+	*refOrder = make(map[T]uint, len(staged))
+	*inst = make(map[T]T, len(staged))
+	for instance := range staged {
+		_copy := instance.GongCopy().(T)
+		(*ref)[instance] = _copy
+		(*inst)[_copy] = instance
+		(*refOrder)[_copy] = instance.GongGetOrder(stage)
+	}
+}
+
+func __gong__computeReferencePass2[T interface {
+	comparable
+	GongstructIF
+	GongReconstructPointersFromReferences(*Stage, T)
+}](staged map[T]struct{}, reference map[T]T, stage *Stage) {
+	for instance := range staged {
+		reference[instance].GongReconstructPointersFromReferences(stage, instance)
+	}
+}
+
+func __gong__getOrder[T comparable](stagedOrder, refOrder map[T]uint, instance T, typeName string) uint {
+	if order, ok := stagedOrder[instance]; ok {
+		return order
+	}
+	if order, ok := refOrder[instance]; ok {
+		return order
+	}
+	log.Printf("instance %p of type %s was not staged and does not have a reference order", any(instance), typeName)
+	return 0
+}
+
+func __gong__formatIdentifier(s GongstructIF, order uint) string {
+	return fmt.Sprintf("__%s__%08d_", s.GongGetGongstructName(), order)
+}
+
+func __gong__marshallIdentifier(identifier, structName, name string) string {
+	decl := strings.ReplaceAll(GongIdentifiersDecls, "{{Identifier}}", identifier)
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", structName)
+	return strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(name))
+}
+
+func __gong__marshallUnstaging(identifier string) string {
+	return strings.ReplaceAll(GongUnstageStmt, "{{Identifier}}", identifier)
 }
 
 // end of template

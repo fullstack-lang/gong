@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterCheckBoxCreateCallback GongOnAfterCreateInterface[CheckBox]
 	OnAfterCheckBoxUpdateCallback GongOnAfterUpdateInterface[CheckBox]
 	OnAfterCheckBoxDeleteCallback GongOnAfterDeleteInterface[CheckBox]
-	OnAfterCheckBoxReadCallback   GongOnAfterReadInterface[CheckBox]
 
 	FormDivs                map[*FormDiv]struct{}
 	FormDivs_instance       map[*FormDiv]*FormDiv
@@ -151,7 +150,6 @@ type Stage struct {
 	OnAfterFormDivCreateCallback GongOnAfterCreateInterface[FormDiv]
 	OnAfterFormDivUpdateCallback GongOnAfterUpdateInterface[FormDiv]
 	OnAfterFormDivDeleteCallback GongOnAfterDeleteInterface[FormDiv]
-	OnAfterFormDivReadCallback   GongOnAfterReadInterface[FormDiv]
 
 	FormEditAssocButtons                map[*FormEditAssocButton]struct{}
 	FormEditAssocButtons_instance       map[*FormEditAssocButton]*FormEditAssocButton
@@ -166,7 +164,6 @@ type Stage struct {
 	OnAfterFormEditAssocButtonCreateCallback GongOnAfterCreateInterface[FormEditAssocButton]
 	OnAfterFormEditAssocButtonUpdateCallback GongOnAfterUpdateInterface[FormEditAssocButton]
 	OnAfterFormEditAssocButtonDeleteCallback GongOnAfterDeleteInterface[FormEditAssocButton]
-	OnAfterFormEditAssocButtonReadCallback   GongOnAfterReadInterface[FormEditAssocButton]
 
 	FormFields                map[*FormField]struct{}
 	FormFields_instance       map[*FormField]*FormField
@@ -181,7 +178,6 @@ type Stage struct {
 	OnAfterFormFieldCreateCallback GongOnAfterCreateInterface[FormField]
 	OnAfterFormFieldUpdateCallback GongOnAfterUpdateInterface[FormField]
 	OnAfterFormFieldDeleteCallback GongOnAfterDeleteInterface[FormField]
-	OnAfterFormFieldReadCallback   GongOnAfterReadInterface[FormField]
 
 	FormFieldDates                map[*FormFieldDate]struct{}
 	FormFieldDates_instance       map[*FormFieldDate]*FormFieldDate
@@ -196,7 +192,6 @@ type Stage struct {
 	OnAfterFormFieldDateCreateCallback GongOnAfterCreateInterface[FormFieldDate]
 	OnAfterFormFieldDateUpdateCallback GongOnAfterUpdateInterface[FormFieldDate]
 	OnAfterFormFieldDateDeleteCallback GongOnAfterDeleteInterface[FormFieldDate]
-	OnAfterFormFieldDateReadCallback   GongOnAfterReadInterface[FormFieldDate]
 
 	FormFieldDateTimes                map[*FormFieldDateTime]struct{}
 	FormFieldDateTimes_instance       map[*FormFieldDateTime]*FormFieldDateTime
@@ -211,7 +206,6 @@ type Stage struct {
 	OnAfterFormFieldDateTimeCreateCallback GongOnAfterCreateInterface[FormFieldDateTime]
 	OnAfterFormFieldDateTimeUpdateCallback GongOnAfterUpdateInterface[FormFieldDateTime]
 	OnAfterFormFieldDateTimeDeleteCallback GongOnAfterDeleteInterface[FormFieldDateTime]
-	OnAfterFormFieldDateTimeReadCallback   GongOnAfterReadInterface[FormFieldDateTime]
 
 	FormFieldFloat64s                map[*FormFieldFloat64]struct{}
 	FormFieldFloat64s_instance       map[*FormFieldFloat64]*FormFieldFloat64
@@ -226,7 +220,6 @@ type Stage struct {
 	OnAfterFormFieldFloat64CreateCallback GongOnAfterCreateInterface[FormFieldFloat64]
 	OnAfterFormFieldFloat64UpdateCallback GongOnAfterUpdateInterface[FormFieldFloat64]
 	OnAfterFormFieldFloat64DeleteCallback GongOnAfterDeleteInterface[FormFieldFloat64]
-	OnAfterFormFieldFloat64ReadCallback   GongOnAfterReadInterface[FormFieldFloat64]
 
 	FormFieldInts                map[*FormFieldInt]struct{}
 	FormFieldInts_instance       map[*FormFieldInt]*FormFieldInt
@@ -241,7 +234,6 @@ type Stage struct {
 	OnAfterFormFieldIntCreateCallback GongOnAfterCreateInterface[FormFieldInt]
 	OnAfterFormFieldIntUpdateCallback GongOnAfterUpdateInterface[FormFieldInt]
 	OnAfterFormFieldIntDeleteCallback GongOnAfterDeleteInterface[FormFieldInt]
-	OnAfterFormFieldIntReadCallback   GongOnAfterReadInterface[FormFieldInt]
 
 	FormFieldSelects                map[*FormFieldSelect]struct{}
 	FormFieldSelects_instance       map[*FormFieldSelect]*FormFieldSelect
@@ -258,7 +250,6 @@ type Stage struct {
 	OnAfterFormFieldSelectCreateCallback GongOnAfterCreateInterface[FormFieldSelect]
 	OnAfterFormFieldSelectUpdateCallback GongOnAfterUpdateInterface[FormFieldSelect]
 	OnAfterFormFieldSelectDeleteCallback GongOnAfterDeleteInterface[FormFieldSelect]
-	OnAfterFormFieldSelectReadCallback   GongOnAfterReadInterface[FormFieldSelect]
 
 	FormFieldStrings                map[*FormFieldString]struct{}
 	FormFieldStrings_instance       map[*FormFieldString]*FormFieldString
@@ -273,7 +264,6 @@ type Stage struct {
 	OnAfterFormFieldStringCreateCallback GongOnAfterCreateInterface[FormFieldString]
 	OnAfterFormFieldStringUpdateCallback GongOnAfterUpdateInterface[FormFieldString]
 	OnAfterFormFieldStringDeleteCallback GongOnAfterDeleteInterface[FormFieldString]
-	OnAfterFormFieldStringReadCallback   GongOnAfterReadInterface[FormFieldString]
 
 	FormFieldTimes                map[*FormFieldTime]struct{}
 	FormFieldTimes_instance       map[*FormFieldTime]*FormFieldTime
@@ -288,7 +278,6 @@ type Stage struct {
 	OnAfterFormFieldTimeCreateCallback GongOnAfterCreateInterface[FormFieldTime]
 	OnAfterFormFieldTimeUpdateCallback GongOnAfterUpdateInterface[FormFieldTime]
 	OnAfterFormFieldTimeDeleteCallback GongOnAfterDeleteInterface[FormFieldTime]
-	OnAfterFormFieldTimeReadCallback   GongOnAfterReadInterface[FormFieldTime]
 
 	FormGroups                map[*FormGroup]struct{}
 	FormGroups_instance       map[*FormGroup]*FormGroup
@@ -305,7 +294,6 @@ type Stage struct {
 	OnAfterFormGroupCreateCallback GongOnAfterCreateInterface[FormGroup]
 	OnAfterFormGroupUpdateCallback GongOnAfterUpdateInterface[FormGroup]
 	OnAfterFormGroupDeleteCallback GongOnAfterDeleteInterface[FormGroup]
-	OnAfterFormGroupReadCallback   GongOnAfterReadInterface[FormGroup]
 
 	FormSortAssocButtons                map[*FormSortAssocButton]struct{}
 	FormSortAssocButtons_instance       map[*FormSortAssocButton]*FormSortAssocButton
@@ -320,7 +308,6 @@ type Stage struct {
 	OnAfterFormSortAssocButtonCreateCallback GongOnAfterCreateInterface[FormSortAssocButton]
 	OnAfterFormSortAssocButtonUpdateCallback GongOnAfterUpdateInterface[FormSortAssocButton]
 	OnAfterFormSortAssocButtonDeleteCallback GongOnAfterDeleteInterface[FormSortAssocButton]
-	OnAfterFormSortAssocButtonReadCallback   GongOnAfterReadInterface[FormSortAssocButton]
 
 	Options                map[*Option]struct{}
 	Options_instance       map[*Option]*Option
@@ -335,7 +322,6 @@ type Stage struct {
 	OnAfterOptionCreateCallback GongOnAfterCreateInterface[Option]
 	OnAfterOptionUpdateCallback GongOnAfterUpdateInterface[Option]
 	OnAfterOptionDeleteCallback GongOnAfterDeleteInterface[Option]
-	OnAfterOptionReadCallback   GongOnAfterReadInterface[Option]
 
 	BackRepo GongBackRepoInterface
 
@@ -570,61 +556,33 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.CheckBoxs_reference = make(map[*CheckBox]*CheckBox)
-	stage.CheckBoxs_instance = make(map[*CheckBox]*CheckBox)
-	stage.CheckBoxs_referenceOrder = make(map[*CheckBox]uint)
+	__gong__clearReferences(&stage.CheckBoxs_reference, &stage.CheckBoxs_instance, &stage.CheckBoxs_referenceOrder)
 
-	stage.FormDivs_reference = make(map[*FormDiv]*FormDiv)
-	stage.FormDivs_instance = make(map[*FormDiv]*FormDiv)
-	stage.FormDivs_referenceOrder = make(map[*FormDiv]uint)
+	__gong__clearReferences(&stage.FormDivs_reference, &stage.FormDivs_instance, &stage.FormDivs_referenceOrder)
 
-	stage.FormEditAssocButtons_reference = make(map[*FormEditAssocButton]*FormEditAssocButton)
-	stage.FormEditAssocButtons_instance = make(map[*FormEditAssocButton]*FormEditAssocButton)
-	stage.FormEditAssocButtons_referenceOrder = make(map[*FormEditAssocButton]uint)
+	__gong__clearReferences(&stage.FormEditAssocButtons_reference, &stage.FormEditAssocButtons_instance, &stage.FormEditAssocButtons_referenceOrder)
 
-	stage.FormFields_reference = make(map[*FormField]*FormField)
-	stage.FormFields_instance = make(map[*FormField]*FormField)
-	stage.FormFields_referenceOrder = make(map[*FormField]uint)
+	__gong__clearReferences(&stage.FormFields_reference, &stage.FormFields_instance, &stage.FormFields_referenceOrder)
 
-	stage.FormFieldDates_reference = make(map[*FormFieldDate]*FormFieldDate)
-	stage.FormFieldDates_instance = make(map[*FormFieldDate]*FormFieldDate)
-	stage.FormFieldDates_referenceOrder = make(map[*FormFieldDate]uint)
+	__gong__clearReferences(&stage.FormFieldDates_reference, &stage.FormFieldDates_instance, &stage.FormFieldDates_referenceOrder)
 
-	stage.FormFieldDateTimes_reference = make(map[*FormFieldDateTime]*FormFieldDateTime)
-	stage.FormFieldDateTimes_instance = make(map[*FormFieldDateTime]*FormFieldDateTime)
-	stage.FormFieldDateTimes_referenceOrder = make(map[*FormFieldDateTime]uint)
+	__gong__clearReferences(&stage.FormFieldDateTimes_reference, &stage.FormFieldDateTimes_instance, &stage.FormFieldDateTimes_referenceOrder)
 
-	stage.FormFieldFloat64s_reference = make(map[*FormFieldFloat64]*FormFieldFloat64)
-	stage.FormFieldFloat64s_instance = make(map[*FormFieldFloat64]*FormFieldFloat64)
-	stage.FormFieldFloat64s_referenceOrder = make(map[*FormFieldFloat64]uint)
+	__gong__clearReferences(&stage.FormFieldFloat64s_reference, &stage.FormFieldFloat64s_instance, &stage.FormFieldFloat64s_referenceOrder)
 
-	stage.FormFieldInts_reference = make(map[*FormFieldInt]*FormFieldInt)
-	stage.FormFieldInts_instance = make(map[*FormFieldInt]*FormFieldInt)
-	stage.FormFieldInts_referenceOrder = make(map[*FormFieldInt]uint)
+	__gong__clearReferences(&stage.FormFieldInts_reference, &stage.FormFieldInts_instance, &stage.FormFieldInts_referenceOrder)
 
-	stage.FormFieldSelects_reference = make(map[*FormFieldSelect]*FormFieldSelect)
-	stage.FormFieldSelects_instance = make(map[*FormFieldSelect]*FormFieldSelect)
-	stage.FormFieldSelects_referenceOrder = make(map[*FormFieldSelect]uint)
+	__gong__clearReferences(&stage.FormFieldSelects_reference, &stage.FormFieldSelects_instance, &stage.FormFieldSelects_referenceOrder)
 
-	stage.FormFieldStrings_reference = make(map[*FormFieldString]*FormFieldString)
-	stage.FormFieldStrings_instance = make(map[*FormFieldString]*FormFieldString)
-	stage.FormFieldStrings_referenceOrder = make(map[*FormFieldString]uint)
+	__gong__clearReferences(&stage.FormFieldStrings_reference, &stage.FormFieldStrings_instance, &stage.FormFieldStrings_referenceOrder)
 
-	stage.FormFieldTimes_reference = make(map[*FormFieldTime]*FormFieldTime)
-	stage.FormFieldTimes_instance = make(map[*FormFieldTime]*FormFieldTime)
-	stage.FormFieldTimes_referenceOrder = make(map[*FormFieldTime]uint)
+	__gong__clearReferences(&stage.FormFieldTimes_reference, &stage.FormFieldTimes_instance, &stage.FormFieldTimes_referenceOrder)
 
-	stage.FormGroups_reference = make(map[*FormGroup]*FormGroup)
-	stage.FormGroups_instance = make(map[*FormGroup]*FormGroup)
-	stage.FormGroups_referenceOrder = make(map[*FormGroup]uint)
+	__gong__clearReferences(&stage.FormGroups_reference, &stage.FormGroups_instance, &stage.FormGroups_referenceOrder)
 
-	stage.FormSortAssocButtons_reference = make(map[*FormSortAssocButton]*FormSortAssocButton)
-	stage.FormSortAssocButtons_instance = make(map[*FormSortAssocButton]*FormSortAssocButton)
-	stage.FormSortAssocButtons_referenceOrder = make(map[*FormSortAssocButton]uint)
+	__gong__clearReferences(&stage.FormSortAssocButtons_reference, &stage.FormSortAssocButtons_instance, &stage.FormSortAssocButtons_referenceOrder)
 
-	stage.Options_reference = make(map[*Option]*Option)
-	stage.Options_instance = make(map[*Option]*Option)
-	stage.Options_referenceOrder = make(map[*Option]uint)
+	__gong__clearReferences(&stage.Options_reference, &stage.Options_instance, &stage.Options_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -653,201 +611,33 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxCheckBoxOrder uint
-	var foundCheckBox bool
-	for _, order := range stage.CheckBox_stagedOrder {
-		if !foundCheckBox || order > maxCheckBoxOrder {
-			maxCheckBoxOrder = order
-			foundCheckBox = true
-		}
-	}
-	if foundCheckBox {
-		stage.CheckBoxOrder = maxCheckBoxOrder + 1
-	} else {
-		stage.CheckBoxOrder = 0
-	}
+	stage.CheckBoxOrder = __gong__recomputeOrder(stage.CheckBox_stagedOrder)
 
-	var maxFormDivOrder uint
-	var foundFormDiv bool
-	for _, order := range stage.FormDiv_stagedOrder {
-		if !foundFormDiv || order > maxFormDivOrder {
-			maxFormDivOrder = order
-			foundFormDiv = true
-		}
-	}
-	if foundFormDiv {
-		stage.FormDivOrder = maxFormDivOrder + 1
-	} else {
-		stage.FormDivOrder = 0
-	}
+	stage.FormDivOrder = __gong__recomputeOrder(stage.FormDiv_stagedOrder)
 
-	var maxFormEditAssocButtonOrder uint
-	var foundFormEditAssocButton bool
-	for _, order := range stage.FormEditAssocButton_stagedOrder {
-		if !foundFormEditAssocButton || order > maxFormEditAssocButtonOrder {
-			maxFormEditAssocButtonOrder = order
-			foundFormEditAssocButton = true
-		}
-	}
-	if foundFormEditAssocButton {
-		stage.FormEditAssocButtonOrder = maxFormEditAssocButtonOrder + 1
-	} else {
-		stage.FormEditAssocButtonOrder = 0
-	}
+	stage.FormEditAssocButtonOrder = __gong__recomputeOrder(stage.FormEditAssocButton_stagedOrder)
 
-	var maxFormFieldOrder uint
-	var foundFormField bool
-	for _, order := range stage.FormField_stagedOrder {
-		if !foundFormField || order > maxFormFieldOrder {
-			maxFormFieldOrder = order
-			foundFormField = true
-		}
-	}
-	if foundFormField {
-		stage.FormFieldOrder = maxFormFieldOrder + 1
-	} else {
-		stage.FormFieldOrder = 0
-	}
+	stage.FormFieldOrder = __gong__recomputeOrder(stage.FormField_stagedOrder)
 
-	var maxFormFieldDateOrder uint
-	var foundFormFieldDate bool
-	for _, order := range stage.FormFieldDate_stagedOrder {
-		if !foundFormFieldDate || order > maxFormFieldDateOrder {
-			maxFormFieldDateOrder = order
-			foundFormFieldDate = true
-		}
-	}
-	if foundFormFieldDate {
-		stage.FormFieldDateOrder = maxFormFieldDateOrder + 1
-	} else {
-		stage.FormFieldDateOrder = 0
-	}
+	stage.FormFieldDateOrder = __gong__recomputeOrder(stage.FormFieldDate_stagedOrder)
 
-	var maxFormFieldDateTimeOrder uint
-	var foundFormFieldDateTime bool
-	for _, order := range stage.FormFieldDateTime_stagedOrder {
-		if !foundFormFieldDateTime || order > maxFormFieldDateTimeOrder {
-			maxFormFieldDateTimeOrder = order
-			foundFormFieldDateTime = true
-		}
-	}
-	if foundFormFieldDateTime {
-		stage.FormFieldDateTimeOrder = maxFormFieldDateTimeOrder + 1
-	} else {
-		stage.FormFieldDateTimeOrder = 0
-	}
+	stage.FormFieldDateTimeOrder = __gong__recomputeOrder(stage.FormFieldDateTime_stagedOrder)
 
-	var maxFormFieldFloat64Order uint
-	var foundFormFieldFloat64 bool
-	for _, order := range stage.FormFieldFloat64_stagedOrder {
-		if !foundFormFieldFloat64 || order > maxFormFieldFloat64Order {
-			maxFormFieldFloat64Order = order
-			foundFormFieldFloat64 = true
-		}
-	}
-	if foundFormFieldFloat64 {
-		stage.FormFieldFloat64Order = maxFormFieldFloat64Order + 1
-	} else {
-		stage.FormFieldFloat64Order = 0
-	}
+	stage.FormFieldFloat64Order = __gong__recomputeOrder(stage.FormFieldFloat64_stagedOrder)
 
-	var maxFormFieldIntOrder uint
-	var foundFormFieldInt bool
-	for _, order := range stage.FormFieldInt_stagedOrder {
-		if !foundFormFieldInt || order > maxFormFieldIntOrder {
-			maxFormFieldIntOrder = order
-			foundFormFieldInt = true
-		}
-	}
-	if foundFormFieldInt {
-		stage.FormFieldIntOrder = maxFormFieldIntOrder + 1
-	} else {
-		stage.FormFieldIntOrder = 0
-	}
+	stage.FormFieldIntOrder = __gong__recomputeOrder(stage.FormFieldInt_stagedOrder)
 
-	var maxFormFieldSelectOrder uint
-	var foundFormFieldSelect bool
-	for _, order := range stage.FormFieldSelect_stagedOrder {
-		if !foundFormFieldSelect || order > maxFormFieldSelectOrder {
-			maxFormFieldSelectOrder = order
-			foundFormFieldSelect = true
-		}
-	}
-	if foundFormFieldSelect {
-		stage.FormFieldSelectOrder = maxFormFieldSelectOrder + 1
-	} else {
-		stage.FormFieldSelectOrder = 0
-	}
+	stage.FormFieldSelectOrder = __gong__recomputeOrder(stage.FormFieldSelect_stagedOrder)
 
-	var maxFormFieldStringOrder uint
-	var foundFormFieldString bool
-	for _, order := range stage.FormFieldString_stagedOrder {
-		if !foundFormFieldString || order > maxFormFieldStringOrder {
-			maxFormFieldStringOrder = order
-			foundFormFieldString = true
-		}
-	}
-	if foundFormFieldString {
-		stage.FormFieldStringOrder = maxFormFieldStringOrder + 1
-	} else {
-		stage.FormFieldStringOrder = 0
-	}
+	stage.FormFieldStringOrder = __gong__recomputeOrder(stage.FormFieldString_stagedOrder)
 
-	var maxFormFieldTimeOrder uint
-	var foundFormFieldTime bool
-	for _, order := range stage.FormFieldTime_stagedOrder {
-		if !foundFormFieldTime || order > maxFormFieldTimeOrder {
-			maxFormFieldTimeOrder = order
-			foundFormFieldTime = true
-		}
-	}
-	if foundFormFieldTime {
-		stage.FormFieldTimeOrder = maxFormFieldTimeOrder + 1
-	} else {
-		stage.FormFieldTimeOrder = 0
-	}
+	stage.FormFieldTimeOrder = __gong__recomputeOrder(stage.FormFieldTime_stagedOrder)
 
-	var maxFormGroupOrder uint
-	var foundFormGroup bool
-	for _, order := range stage.FormGroup_stagedOrder {
-		if !foundFormGroup || order > maxFormGroupOrder {
-			maxFormGroupOrder = order
-			foundFormGroup = true
-		}
-	}
-	if foundFormGroup {
-		stage.FormGroupOrder = maxFormGroupOrder + 1
-	} else {
-		stage.FormGroupOrder = 0
-	}
+	stage.FormGroupOrder = __gong__recomputeOrder(stage.FormGroup_stagedOrder)
 
-	var maxFormSortAssocButtonOrder uint
-	var foundFormSortAssocButton bool
-	for _, order := range stage.FormSortAssocButton_stagedOrder {
-		if !foundFormSortAssocButton || order > maxFormSortAssocButtonOrder {
-			maxFormSortAssocButtonOrder = order
-			foundFormSortAssocButton = true
-		}
-	}
-	if foundFormSortAssocButton {
-		stage.FormSortAssocButtonOrder = maxFormSortAssocButtonOrder + 1
-	} else {
-		stage.FormSortAssocButtonOrder = 0
-	}
+	stage.FormSortAssocButtonOrder = __gong__recomputeOrder(stage.FormSortAssocButton_stagedOrder)
 
-	var maxOptionOrder uint
-	var foundOption bool
-	for _, order := range stage.Option_stagedOrder {
-		if !foundOption || order > maxOptionOrder {
-			maxOptionOrder = order
-			foundOption = true
-		}
-	}
-	if foundOption {
-		stage.OptionOrder = maxOptionOrder + 1
-	} else {
-		stage.OptionOrder = 0
-	}
+	stage.OptionOrder = __gong__recomputeOrder(stage.Option_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -879,201 +669,33 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *CheckBox:
-		tmp := __gong__getStructInstancesByOrder(stage.CheckBoxs, stage.CheckBox_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *CheckBox implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CheckBoxs, stage.CheckBox_stagedOrder))
 	case *FormDiv:
-		tmp := __gong__getStructInstancesByOrder(stage.FormDivs, stage.FormDiv_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FormDiv implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormDivs, stage.FormDiv_stagedOrder))
 	case *FormEditAssocButton:
-		tmp := __gong__getStructInstancesByOrder(stage.FormEditAssocButtons, stage.FormEditAssocButton_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FormEditAssocButton implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormEditAssocButtons, stage.FormEditAssocButton_stagedOrder))
 	case *FormField:
-		tmp := __gong__getStructInstancesByOrder(stage.FormFields, stage.FormField_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FormField implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFields, stage.FormField_stagedOrder))
 	case *FormFieldDate:
-		tmp := __gong__getStructInstancesByOrder(stage.FormFieldDates, stage.FormFieldDate_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FormFieldDate implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldDates, stage.FormFieldDate_stagedOrder))
 	case *FormFieldDateTime:
-		tmp := __gong__getStructInstancesByOrder(stage.FormFieldDateTimes, stage.FormFieldDateTime_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FormFieldDateTime implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldDateTimes, stage.FormFieldDateTime_stagedOrder))
 	case *FormFieldFloat64:
-		tmp := __gong__getStructInstancesByOrder(stage.FormFieldFloat64s, stage.FormFieldFloat64_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FormFieldFloat64 implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldFloat64s, stage.FormFieldFloat64_stagedOrder))
 	case *FormFieldInt:
-		tmp := __gong__getStructInstancesByOrder(stage.FormFieldInts, stage.FormFieldInt_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FormFieldInt implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldInts, stage.FormFieldInt_stagedOrder))
 	case *FormFieldSelect:
-		tmp := __gong__getStructInstancesByOrder(stage.FormFieldSelects, stage.FormFieldSelect_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FormFieldSelect implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldSelects, stage.FormFieldSelect_stagedOrder))
 	case *FormFieldString:
-		tmp := __gong__getStructInstancesByOrder(stage.FormFieldStrings, stage.FormFieldString_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FormFieldString implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldStrings, stage.FormFieldString_stagedOrder))
 	case *FormFieldTime:
-		tmp := __gong__getStructInstancesByOrder(stage.FormFieldTimes, stage.FormFieldTime_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FormFieldTime implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldTimes, stage.FormFieldTime_stagedOrder))
 	case *FormGroup:
-		tmp := __gong__getStructInstancesByOrder(stage.FormGroups, stage.FormGroup_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FormGroup implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormGroups, stage.FormGroup_stagedOrder))
 	case *FormSortAssocButton:
-		tmp := __gong__getStructInstancesByOrder(stage.FormSortAssocButtons, stage.FormSortAssocButton_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FormSortAssocButton implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormSortAssocButtons, stage.FormSortAssocButton_stagedOrder))
 	case *Option:
-		tmp := __gong__getStructInstancesByOrder(stage.Options, stage.Option_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Option implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Options, stage.Option_stagedOrder))
 
 	}
 	return
@@ -1100,6 +722,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/form/go/models"
 }
@@ -1123,14 +841,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -1153,35 +863,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitCheckBox(checkbox *CheckBox)
-	CheckoutCheckBox(checkbox *CheckBox)
-	CommitFormDiv(formdiv *FormDiv)
-	CheckoutFormDiv(formdiv *FormDiv)
-	CommitFormEditAssocButton(formeditassocbutton *FormEditAssocButton)
-	CheckoutFormEditAssocButton(formeditassocbutton *FormEditAssocButton)
-	CommitFormField(formfield *FormField)
-	CheckoutFormField(formfield *FormField)
-	CommitFormFieldDate(formfielddate *FormFieldDate)
-	CheckoutFormFieldDate(formfielddate *FormFieldDate)
-	CommitFormFieldDateTime(formfielddatetime *FormFieldDateTime)
-	CheckoutFormFieldDateTime(formfielddatetime *FormFieldDateTime)
-	CommitFormFieldFloat64(formfieldfloat64 *FormFieldFloat64)
-	CheckoutFormFieldFloat64(formfieldfloat64 *FormFieldFloat64)
-	CommitFormFieldInt(formfieldint *FormFieldInt)
-	CheckoutFormFieldInt(formfieldint *FormFieldInt)
-	CommitFormFieldSelect(formfieldselect *FormFieldSelect)
-	CheckoutFormFieldSelect(formfieldselect *FormFieldSelect)
-	CommitFormFieldString(formfieldstring *FormFieldString)
-	CheckoutFormFieldString(formfieldstring *FormFieldString)
-	CommitFormFieldTime(formfieldtime *FormFieldTime)
-	CheckoutFormFieldTime(formfieldtime *FormFieldTime)
-	CommitFormGroup(formgroup *FormGroup)
-	CheckoutFormGroup(formgroup *FormGroup)
-	CommitFormSortAssocButton(formsortassocbutton *FormSortAssocButton)
-	CheckoutFormSortAssocButton(formsortassocbutton *FormSortAssocButton)
-	CommitOption(option *Option)
-	CheckoutOption(option *Option)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -1499,14 +1180,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts checkbox to the model stage
 func (checkbox *CheckBox) Stage(stage *Stage) *CheckBox {
-	if _, ok := stage.CheckBoxs[checkbox]; !ok {
-		stage.CheckBoxs[checkbox] = struct{}{}
-		stage.CheckBox_stagedOrder[checkbox] = stage.CheckBoxOrder
-		stage.CheckBox_orderStaged[stage.CheckBoxOrder] = checkbox
-		stage.CheckBoxOrder++
-	}
-	stage.CheckBoxs_mapString[checkbox.Name] = checkbox
-
+	__gong__stage(stage.CheckBoxs, stage.CheckBox_stagedOrder, stage.CheckBox_orderStaged, &stage.CheckBoxOrder, stage.CheckBoxs_mapString, checkbox, checkbox.Name)
 	return checkbox
 }
 
@@ -1516,59 +1190,22 @@ func (checkbox *CheckBox) Stage(stage *Stage) *CheckBox {
 // - force the order if the order is equal or greater than the stage.CheckBoxOrder
 // - update stage.CheckBoxOrder accordingly
 func (checkbox *CheckBox) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.CheckBoxs[checkbox]; !ok {
-		stage.CheckBoxs[checkbox] = struct{}{}
-
-		if order > stage.CheckBoxOrder {
-			stage.CheckBoxOrder = order
-		}
-		stage.CheckBox_stagedOrder[checkbox] = order
-		stage.CheckBox_orderStaged[order] = checkbox
-		stage.CheckBoxOrder++
-	}
-	stage.CheckBoxs_mapString[checkbox.Name] = checkbox
+	__gong__stagePreserveOrder(stage.CheckBoxs, stage.CheckBox_stagedOrder, stage.CheckBox_orderStaged, &stage.CheckBoxOrder, stage.CheckBoxs_mapString, checkbox, order, checkbox.Name)
 }
 
 // Unstage removes checkbox off the model stage
 func (checkbox *CheckBox) Unstage(stage *Stage) *CheckBox {
-	delete(stage.CheckBoxs, checkbox)
-	// issue1150
-	// delete(stage.CheckBox_stagedOrder, checkbox)
-	delete(stage.CheckBoxs_mapString, checkbox.Name)
-
+	__gong__unstage(stage.CheckBoxs, stage.CheckBoxs_mapString, checkbox, checkbox.Name)
 	return checkbox
 }
 
 // UnstageVoid removes checkbox off the model stage
 func (checkbox *CheckBox) UnstageVoid(stage *Stage) {
-	delete(stage.CheckBoxs, checkbox)
-	// issue1150
-	// delete(stage.CheckBox_stagedOrder, checkbox)
-	delete(stage.CheckBoxs_mapString, checkbox.Name)
-}
-
-// commit checkbox to the back repo (if it is already staged)
-func (checkbox *CheckBox) Commit(stage *Stage) *CheckBox {
-	if _, ok := stage.CheckBoxs[checkbox]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCheckBox(checkbox)
-		}
-	}
-	return checkbox
+	checkbox.Unstage(stage)
 }
 
 func (checkbox *CheckBox) StageVoid(stage *Stage) {
 	checkbox.Stage(stage)
-}
-
-// Checkout checkbox to the back repo (if it is already staged)
-func (checkbox *CheckBox) Checkout(stage *Stage) *CheckBox {
-	if _, ok := stage.CheckBoxs[checkbox]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCheckBox(checkbox)
-		}
-	}
-	return checkbox
 }
 
 // for satisfaction of GongStruct interface
@@ -1583,14 +1220,7 @@ func (checkbox *CheckBox) SetName(name string) {
 
 // Stage puts formdiv to the model stage
 func (formdiv *FormDiv) Stage(stage *Stage) *FormDiv {
-	if _, ok := stage.FormDivs[formdiv]; !ok {
-		stage.FormDivs[formdiv] = struct{}{}
-		stage.FormDiv_stagedOrder[formdiv] = stage.FormDivOrder
-		stage.FormDiv_orderStaged[stage.FormDivOrder] = formdiv
-		stage.FormDivOrder++
-	}
-	stage.FormDivs_mapString[formdiv.Name] = formdiv
-
+	__gong__stage(stage.FormDivs, stage.FormDiv_stagedOrder, stage.FormDiv_orderStaged, &stage.FormDivOrder, stage.FormDivs_mapString, formdiv, formdiv.Name)
 	return formdiv
 }
 
@@ -1600,59 +1230,22 @@ func (formdiv *FormDiv) Stage(stage *Stage) *FormDiv {
 // - force the order if the order is equal or greater than the stage.FormDivOrder
 // - update stage.FormDivOrder accordingly
 func (formdiv *FormDiv) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FormDivs[formdiv]; !ok {
-		stage.FormDivs[formdiv] = struct{}{}
-
-		if order > stage.FormDivOrder {
-			stage.FormDivOrder = order
-		}
-		stage.FormDiv_stagedOrder[formdiv] = order
-		stage.FormDiv_orderStaged[order] = formdiv
-		stage.FormDivOrder++
-	}
-	stage.FormDivs_mapString[formdiv.Name] = formdiv
+	__gong__stagePreserveOrder(stage.FormDivs, stage.FormDiv_stagedOrder, stage.FormDiv_orderStaged, &stage.FormDivOrder, stage.FormDivs_mapString, formdiv, order, formdiv.Name)
 }
 
 // Unstage removes formdiv off the model stage
 func (formdiv *FormDiv) Unstage(stage *Stage) *FormDiv {
-	delete(stage.FormDivs, formdiv)
-	// issue1150
-	// delete(stage.FormDiv_stagedOrder, formdiv)
-	delete(stage.FormDivs_mapString, formdiv.Name)
-
+	__gong__unstage(stage.FormDivs, stage.FormDivs_mapString, formdiv, formdiv.Name)
 	return formdiv
 }
 
 // UnstageVoid removes formdiv off the model stage
 func (formdiv *FormDiv) UnstageVoid(stage *Stage) {
-	delete(stage.FormDivs, formdiv)
-	// issue1150
-	// delete(stage.FormDiv_stagedOrder, formdiv)
-	delete(stage.FormDivs_mapString, formdiv.Name)
-}
-
-// commit formdiv to the back repo (if it is already staged)
-func (formdiv *FormDiv) Commit(stage *Stage) *FormDiv {
-	if _, ok := stage.FormDivs[formdiv]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFormDiv(formdiv)
-		}
-	}
-	return formdiv
+	formdiv.Unstage(stage)
 }
 
 func (formdiv *FormDiv) StageVoid(stage *Stage) {
 	formdiv.Stage(stage)
-}
-
-// Checkout formdiv to the back repo (if it is already staged)
-func (formdiv *FormDiv) Checkout(stage *Stage) *FormDiv {
-	if _, ok := stage.FormDivs[formdiv]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFormDiv(formdiv)
-		}
-	}
-	return formdiv
 }
 
 // for satisfaction of GongStruct interface
@@ -1667,14 +1260,7 @@ func (formdiv *FormDiv) SetName(name string) {
 
 // Stage puts formeditassocbutton to the model stage
 func (formeditassocbutton *FormEditAssocButton) Stage(stage *Stage) *FormEditAssocButton {
-	if _, ok := stage.FormEditAssocButtons[formeditassocbutton]; !ok {
-		stage.FormEditAssocButtons[formeditassocbutton] = struct{}{}
-		stage.FormEditAssocButton_stagedOrder[formeditassocbutton] = stage.FormEditAssocButtonOrder
-		stage.FormEditAssocButton_orderStaged[stage.FormEditAssocButtonOrder] = formeditassocbutton
-		stage.FormEditAssocButtonOrder++
-	}
-	stage.FormEditAssocButtons_mapString[formeditassocbutton.Name] = formeditassocbutton
-
+	__gong__stage(stage.FormEditAssocButtons, stage.FormEditAssocButton_stagedOrder, stage.FormEditAssocButton_orderStaged, &stage.FormEditAssocButtonOrder, stage.FormEditAssocButtons_mapString, formeditassocbutton, formeditassocbutton.Name)
 	return formeditassocbutton
 }
 
@@ -1684,59 +1270,22 @@ func (formeditassocbutton *FormEditAssocButton) Stage(stage *Stage) *FormEditAss
 // - force the order if the order is equal or greater than the stage.FormEditAssocButtonOrder
 // - update stage.FormEditAssocButtonOrder accordingly
 func (formeditassocbutton *FormEditAssocButton) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FormEditAssocButtons[formeditassocbutton]; !ok {
-		stage.FormEditAssocButtons[formeditassocbutton] = struct{}{}
-
-		if order > stage.FormEditAssocButtonOrder {
-			stage.FormEditAssocButtonOrder = order
-		}
-		stage.FormEditAssocButton_stagedOrder[formeditassocbutton] = order
-		stage.FormEditAssocButton_orderStaged[order] = formeditassocbutton
-		stage.FormEditAssocButtonOrder++
-	}
-	stage.FormEditAssocButtons_mapString[formeditassocbutton.Name] = formeditassocbutton
+	__gong__stagePreserveOrder(stage.FormEditAssocButtons, stage.FormEditAssocButton_stagedOrder, stage.FormEditAssocButton_orderStaged, &stage.FormEditAssocButtonOrder, stage.FormEditAssocButtons_mapString, formeditassocbutton, order, formeditassocbutton.Name)
 }
 
 // Unstage removes formeditassocbutton off the model stage
 func (formeditassocbutton *FormEditAssocButton) Unstage(stage *Stage) *FormEditAssocButton {
-	delete(stage.FormEditAssocButtons, formeditassocbutton)
-	// issue1150
-	// delete(stage.FormEditAssocButton_stagedOrder, formeditassocbutton)
-	delete(stage.FormEditAssocButtons_mapString, formeditassocbutton.Name)
-
+	__gong__unstage(stage.FormEditAssocButtons, stage.FormEditAssocButtons_mapString, formeditassocbutton, formeditassocbutton.Name)
 	return formeditassocbutton
 }
 
 // UnstageVoid removes formeditassocbutton off the model stage
 func (formeditassocbutton *FormEditAssocButton) UnstageVoid(stage *Stage) {
-	delete(stage.FormEditAssocButtons, formeditassocbutton)
-	// issue1150
-	// delete(stage.FormEditAssocButton_stagedOrder, formeditassocbutton)
-	delete(stage.FormEditAssocButtons_mapString, formeditassocbutton.Name)
-}
-
-// commit formeditassocbutton to the back repo (if it is already staged)
-func (formeditassocbutton *FormEditAssocButton) Commit(stage *Stage) *FormEditAssocButton {
-	if _, ok := stage.FormEditAssocButtons[formeditassocbutton]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFormEditAssocButton(formeditassocbutton)
-		}
-	}
-	return formeditassocbutton
+	formeditassocbutton.Unstage(stage)
 }
 
 func (formeditassocbutton *FormEditAssocButton) StageVoid(stage *Stage) {
 	formeditassocbutton.Stage(stage)
-}
-
-// Checkout formeditassocbutton to the back repo (if it is already staged)
-func (formeditassocbutton *FormEditAssocButton) Checkout(stage *Stage) *FormEditAssocButton {
-	if _, ok := stage.FormEditAssocButtons[formeditassocbutton]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFormEditAssocButton(formeditassocbutton)
-		}
-	}
-	return formeditassocbutton
 }
 
 // for satisfaction of GongStruct interface
@@ -1751,14 +1300,7 @@ func (formeditassocbutton *FormEditAssocButton) SetName(name string) {
 
 // Stage puts formfield to the model stage
 func (formfield *FormField) Stage(stage *Stage) *FormField {
-	if _, ok := stage.FormFields[formfield]; !ok {
-		stage.FormFields[formfield] = struct{}{}
-		stage.FormField_stagedOrder[formfield] = stage.FormFieldOrder
-		stage.FormField_orderStaged[stage.FormFieldOrder] = formfield
-		stage.FormFieldOrder++
-	}
-	stage.FormFields_mapString[formfield.Name] = formfield
-
+	__gong__stage(stage.FormFields, stage.FormField_stagedOrder, stage.FormField_orderStaged, &stage.FormFieldOrder, stage.FormFields_mapString, formfield, formfield.Name)
 	return formfield
 }
 
@@ -1768,59 +1310,22 @@ func (formfield *FormField) Stage(stage *Stage) *FormField {
 // - force the order if the order is equal or greater than the stage.FormFieldOrder
 // - update stage.FormFieldOrder accordingly
 func (formfield *FormField) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FormFields[formfield]; !ok {
-		stage.FormFields[formfield] = struct{}{}
-
-		if order > stage.FormFieldOrder {
-			stage.FormFieldOrder = order
-		}
-		stage.FormField_stagedOrder[formfield] = order
-		stage.FormField_orderStaged[order] = formfield
-		stage.FormFieldOrder++
-	}
-	stage.FormFields_mapString[formfield.Name] = formfield
+	__gong__stagePreserveOrder(stage.FormFields, stage.FormField_stagedOrder, stage.FormField_orderStaged, &stage.FormFieldOrder, stage.FormFields_mapString, formfield, order, formfield.Name)
 }
 
 // Unstage removes formfield off the model stage
 func (formfield *FormField) Unstage(stage *Stage) *FormField {
-	delete(stage.FormFields, formfield)
-	// issue1150
-	// delete(stage.FormField_stagedOrder, formfield)
-	delete(stage.FormFields_mapString, formfield.Name)
-
+	__gong__unstage(stage.FormFields, stage.FormFields_mapString, formfield, formfield.Name)
 	return formfield
 }
 
 // UnstageVoid removes formfield off the model stage
 func (formfield *FormField) UnstageVoid(stage *Stage) {
-	delete(stage.FormFields, formfield)
-	// issue1150
-	// delete(stage.FormField_stagedOrder, formfield)
-	delete(stage.FormFields_mapString, formfield.Name)
-}
-
-// commit formfield to the back repo (if it is already staged)
-func (formfield *FormField) Commit(stage *Stage) *FormField {
-	if _, ok := stage.FormFields[formfield]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFormField(formfield)
-		}
-	}
-	return formfield
+	formfield.Unstage(stage)
 }
 
 func (formfield *FormField) StageVoid(stage *Stage) {
 	formfield.Stage(stage)
-}
-
-// Checkout formfield to the back repo (if it is already staged)
-func (formfield *FormField) Checkout(stage *Stage) *FormField {
-	if _, ok := stage.FormFields[formfield]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFormField(formfield)
-		}
-	}
-	return formfield
 }
 
 // for satisfaction of GongStruct interface
@@ -1835,14 +1340,7 @@ func (formfield *FormField) SetName(name string) {
 
 // Stage puts formfielddate to the model stage
 func (formfielddate *FormFieldDate) Stage(stage *Stage) *FormFieldDate {
-	if _, ok := stage.FormFieldDates[formfielddate]; !ok {
-		stage.FormFieldDates[formfielddate] = struct{}{}
-		stage.FormFieldDate_stagedOrder[formfielddate] = stage.FormFieldDateOrder
-		stage.FormFieldDate_orderStaged[stage.FormFieldDateOrder] = formfielddate
-		stage.FormFieldDateOrder++
-	}
-	stage.FormFieldDates_mapString[formfielddate.Name] = formfielddate
-
+	__gong__stage(stage.FormFieldDates, stage.FormFieldDate_stagedOrder, stage.FormFieldDate_orderStaged, &stage.FormFieldDateOrder, stage.FormFieldDates_mapString, formfielddate, formfielddate.Name)
 	return formfielddate
 }
 
@@ -1852,59 +1350,22 @@ func (formfielddate *FormFieldDate) Stage(stage *Stage) *FormFieldDate {
 // - force the order if the order is equal or greater than the stage.FormFieldDateOrder
 // - update stage.FormFieldDateOrder accordingly
 func (formfielddate *FormFieldDate) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FormFieldDates[formfielddate]; !ok {
-		stage.FormFieldDates[formfielddate] = struct{}{}
-
-		if order > stage.FormFieldDateOrder {
-			stage.FormFieldDateOrder = order
-		}
-		stage.FormFieldDate_stagedOrder[formfielddate] = order
-		stage.FormFieldDate_orderStaged[order] = formfielddate
-		stage.FormFieldDateOrder++
-	}
-	stage.FormFieldDates_mapString[formfielddate.Name] = formfielddate
+	__gong__stagePreserveOrder(stage.FormFieldDates, stage.FormFieldDate_stagedOrder, stage.FormFieldDate_orderStaged, &stage.FormFieldDateOrder, stage.FormFieldDates_mapString, formfielddate, order, formfielddate.Name)
 }
 
 // Unstage removes formfielddate off the model stage
 func (formfielddate *FormFieldDate) Unstage(stage *Stage) *FormFieldDate {
-	delete(stage.FormFieldDates, formfielddate)
-	// issue1150
-	// delete(stage.FormFieldDate_stagedOrder, formfielddate)
-	delete(stage.FormFieldDates_mapString, formfielddate.Name)
-
+	__gong__unstage(stage.FormFieldDates, stage.FormFieldDates_mapString, formfielddate, formfielddate.Name)
 	return formfielddate
 }
 
 // UnstageVoid removes formfielddate off the model stage
 func (formfielddate *FormFieldDate) UnstageVoid(stage *Stage) {
-	delete(stage.FormFieldDates, formfielddate)
-	// issue1150
-	// delete(stage.FormFieldDate_stagedOrder, formfielddate)
-	delete(stage.FormFieldDates_mapString, formfielddate.Name)
-}
-
-// commit formfielddate to the back repo (if it is already staged)
-func (formfielddate *FormFieldDate) Commit(stage *Stage) *FormFieldDate {
-	if _, ok := stage.FormFieldDates[formfielddate]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFormFieldDate(formfielddate)
-		}
-	}
-	return formfielddate
+	formfielddate.Unstage(stage)
 }
 
 func (formfielddate *FormFieldDate) StageVoid(stage *Stage) {
 	formfielddate.Stage(stage)
-}
-
-// Checkout formfielddate to the back repo (if it is already staged)
-func (formfielddate *FormFieldDate) Checkout(stage *Stage) *FormFieldDate {
-	if _, ok := stage.FormFieldDates[formfielddate]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFormFieldDate(formfielddate)
-		}
-	}
-	return formfielddate
 }
 
 // for satisfaction of GongStruct interface
@@ -1919,14 +1380,7 @@ func (formfielddate *FormFieldDate) SetName(name string) {
 
 // Stage puts formfielddatetime to the model stage
 func (formfielddatetime *FormFieldDateTime) Stage(stage *Stage) *FormFieldDateTime {
-	if _, ok := stage.FormFieldDateTimes[formfielddatetime]; !ok {
-		stage.FormFieldDateTimes[formfielddatetime] = struct{}{}
-		stage.FormFieldDateTime_stagedOrder[formfielddatetime] = stage.FormFieldDateTimeOrder
-		stage.FormFieldDateTime_orderStaged[stage.FormFieldDateTimeOrder] = formfielddatetime
-		stage.FormFieldDateTimeOrder++
-	}
-	stage.FormFieldDateTimes_mapString[formfielddatetime.Name] = formfielddatetime
-
+	__gong__stage(stage.FormFieldDateTimes, stage.FormFieldDateTime_stagedOrder, stage.FormFieldDateTime_orderStaged, &stage.FormFieldDateTimeOrder, stage.FormFieldDateTimes_mapString, formfielddatetime, formfielddatetime.Name)
 	return formfielddatetime
 }
 
@@ -1936,59 +1390,22 @@ func (formfielddatetime *FormFieldDateTime) Stage(stage *Stage) *FormFieldDateTi
 // - force the order if the order is equal or greater than the stage.FormFieldDateTimeOrder
 // - update stage.FormFieldDateTimeOrder accordingly
 func (formfielddatetime *FormFieldDateTime) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FormFieldDateTimes[formfielddatetime]; !ok {
-		stage.FormFieldDateTimes[formfielddatetime] = struct{}{}
-
-		if order > stage.FormFieldDateTimeOrder {
-			stage.FormFieldDateTimeOrder = order
-		}
-		stage.FormFieldDateTime_stagedOrder[formfielddatetime] = order
-		stage.FormFieldDateTime_orderStaged[order] = formfielddatetime
-		stage.FormFieldDateTimeOrder++
-	}
-	stage.FormFieldDateTimes_mapString[formfielddatetime.Name] = formfielddatetime
+	__gong__stagePreserveOrder(stage.FormFieldDateTimes, stage.FormFieldDateTime_stagedOrder, stage.FormFieldDateTime_orderStaged, &stage.FormFieldDateTimeOrder, stage.FormFieldDateTimes_mapString, formfielddatetime, order, formfielddatetime.Name)
 }
 
 // Unstage removes formfielddatetime off the model stage
 func (formfielddatetime *FormFieldDateTime) Unstage(stage *Stage) *FormFieldDateTime {
-	delete(stage.FormFieldDateTimes, formfielddatetime)
-	// issue1150
-	// delete(stage.FormFieldDateTime_stagedOrder, formfielddatetime)
-	delete(stage.FormFieldDateTimes_mapString, formfielddatetime.Name)
-
+	__gong__unstage(stage.FormFieldDateTimes, stage.FormFieldDateTimes_mapString, formfielddatetime, formfielddatetime.Name)
 	return formfielddatetime
 }
 
 // UnstageVoid removes formfielddatetime off the model stage
 func (formfielddatetime *FormFieldDateTime) UnstageVoid(stage *Stage) {
-	delete(stage.FormFieldDateTimes, formfielddatetime)
-	// issue1150
-	// delete(stage.FormFieldDateTime_stagedOrder, formfielddatetime)
-	delete(stage.FormFieldDateTimes_mapString, formfielddatetime.Name)
-}
-
-// commit formfielddatetime to the back repo (if it is already staged)
-func (formfielddatetime *FormFieldDateTime) Commit(stage *Stage) *FormFieldDateTime {
-	if _, ok := stage.FormFieldDateTimes[formfielddatetime]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFormFieldDateTime(formfielddatetime)
-		}
-	}
-	return formfielddatetime
+	formfielddatetime.Unstage(stage)
 }
 
 func (formfielddatetime *FormFieldDateTime) StageVoid(stage *Stage) {
 	formfielddatetime.Stage(stage)
-}
-
-// Checkout formfielddatetime to the back repo (if it is already staged)
-func (formfielddatetime *FormFieldDateTime) Checkout(stage *Stage) *FormFieldDateTime {
-	if _, ok := stage.FormFieldDateTimes[formfielddatetime]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFormFieldDateTime(formfielddatetime)
-		}
-	}
-	return formfielddatetime
 }
 
 // for satisfaction of GongStruct interface
@@ -2003,14 +1420,7 @@ func (formfielddatetime *FormFieldDateTime) SetName(name string) {
 
 // Stage puts formfieldfloat64 to the model stage
 func (formfieldfloat64 *FormFieldFloat64) Stage(stage *Stage) *FormFieldFloat64 {
-	if _, ok := stage.FormFieldFloat64s[formfieldfloat64]; !ok {
-		stage.FormFieldFloat64s[formfieldfloat64] = struct{}{}
-		stage.FormFieldFloat64_stagedOrder[formfieldfloat64] = stage.FormFieldFloat64Order
-		stage.FormFieldFloat64_orderStaged[stage.FormFieldFloat64Order] = formfieldfloat64
-		stage.FormFieldFloat64Order++
-	}
-	stage.FormFieldFloat64s_mapString[formfieldfloat64.Name] = formfieldfloat64
-
+	__gong__stage(stage.FormFieldFloat64s, stage.FormFieldFloat64_stagedOrder, stage.FormFieldFloat64_orderStaged, &stage.FormFieldFloat64Order, stage.FormFieldFloat64s_mapString, formfieldfloat64, formfieldfloat64.Name)
 	return formfieldfloat64
 }
 
@@ -2020,59 +1430,22 @@ func (formfieldfloat64 *FormFieldFloat64) Stage(stage *Stage) *FormFieldFloat64 
 // - force the order if the order is equal or greater than the stage.FormFieldFloat64Order
 // - update stage.FormFieldFloat64Order accordingly
 func (formfieldfloat64 *FormFieldFloat64) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FormFieldFloat64s[formfieldfloat64]; !ok {
-		stage.FormFieldFloat64s[formfieldfloat64] = struct{}{}
-
-		if order > stage.FormFieldFloat64Order {
-			stage.FormFieldFloat64Order = order
-		}
-		stage.FormFieldFloat64_stagedOrder[formfieldfloat64] = order
-		stage.FormFieldFloat64_orderStaged[order] = formfieldfloat64
-		stage.FormFieldFloat64Order++
-	}
-	stage.FormFieldFloat64s_mapString[formfieldfloat64.Name] = formfieldfloat64
+	__gong__stagePreserveOrder(stage.FormFieldFloat64s, stage.FormFieldFloat64_stagedOrder, stage.FormFieldFloat64_orderStaged, &stage.FormFieldFloat64Order, stage.FormFieldFloat64s_mapString, formfieldfloat64, order, formfieldfloat64.Name)
 }
 
 // Unstage removes formfieldfloat64 off the model stage
 func (formfieldfloat64 *FormFieldFloat64) Unstage(stage *Stage) *FormFieldFloat64 {
-	delete(stage.FormFieldFloat64s, formfieldfloat64)
-	// issue1150
-	// delete(stage.FormFieldFloat64_stagedOrder, formfieldfloat64)
-	delete(stage.FormFieldFloat64s_mapString, formfieldfloat64.Name)
-
+	__gong__unstage(stage.FormFieldFloat64s, stage.FormFieldFloat64s_mapString, formfieldfloat64, formfieldfloat64.Name)
 	return formfieldfloat64
 }
 
 // UnstageVoid removes formfieldfloat64 off the model stage
 func (formfieldfloat64 *FormFieldFloat64) UnstageVoid(stage *Stage) {
-	delete(stage.FormFieldFloat64s, formfieldfloat64)
-	// issue1150
-	// delete(stage.FormFieldFloat64_stagedOrder, formfieldfloat64)
-	delete(stage.FormFieldFloat64s_mapString, formfieldfloat64.Name)
-}
-
-// commit formfieldfloat64 to the back repo (if it is already staged)
-func (formfieldfloat64 *FormFieldFloat64) Commit(stage *Stage) *FormFieldFloat64 {
-	if _, ok := stage.FormFieldFloat64s[formfieldfloat64]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFormFieldFloat64(formfieldfloat64)
-		}
-	}
-	return formfieldfloat64
+	formfieldfloat64.Unstage(stage)
 }
 
 func (formfieldfloat64 *FormFieldFloat64) StageVoid(stage *Stage) {
 	formfieldfloat64.Stage(stage)
-}
-
-// Checkout formfieldfloat64 to the back repo (if it is already staged)
-func (formfieldfloat64 *FormFieldFloat64) Checkout(stage *Stage) *FormFieldFloat64 {
-	if _, ok := stage.FormFieldFloat64s[formfieldfloat64]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFormFieldFloat64(formfieldfloat64)
-		}
-	}
-	return formfieldfloat64
 }
 
 // for satisfaction of GongStruct interface
@@ -2087,14 +1460,7 @@ func (formfieldfloat64 *FormFieldFloat64) SetName(name string) {
 
 // Stage puts formfieldint to the model stage
 func (formfieldint *FormFieldInt) Stage(stage *Stage) *FormFieldInt {
-	if _, ok := stage.FormFieldInts[formfieldint]; !ok {
-		stage.FormFieldInts[formfieldint] = struct{}{}
-		stage.FormFieldInt_stagedOrder[formfieldint] = stage.FormFieldIntOrder
-		stage.FormFieldInt_orderStaged[stage.FormFieldIntOrder] = formfieldint
-		stage.FormFieldIntOrder++
-	}
-	stage.FormFieldInts_mapString[formfieldint.Name] = formfieldint
-
+	__gong__stage(stage.FormFieldInts, stage.FormFieldInt_stagedOrder, stage.FormFieldInt_orderStaged, &stage.FormFieldIntOrder, stage.FormFieldInts_mapString, formfieldint, formfieldint.Name)
 	return formfieldint
 }
 
@@ -2104,59 +1470,22 @@ func (formfieldint *FormFieldInt) Stage(stage *Stage) *FormFieldInt {
 // - force the order if the order is equal or greater than the stage.FormFieldIntOrder
 // - update stage.FormFieldIntOrder accordingly
 func (formfieldint *FormFieldInt) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FormFieldInts[formfieldint]; !ok {
-		stage.FormFieldInts[formfieldint] = struct{}{}
-
-		if order > stage.FormFieldIntOrder {
-			stage.FormFieldIntOrder = order
-		}
-		stage.FormFieldInt_stagedOrder[formfieldint] = order
-		stage.FormFieldInt_orderStaged[order] = formfieldint
-		stage.FormFieldIntOrder++
-	}
-	stage.FormFieldInts_mapString[formfieldint.Name] = formfieldint
+	__gong__stagePreserveOrder(stage.FormFieldInts, stage.FormFieldInt_stagedOrder, stage.FormFieldInt_orderStaged, &stage.FormFieldIntOrder, stage.FormFieldInts_mapString, formfieldint, order, formfieldint.Name)
 }
 
 // Unstage removes formfieldint off the model stage
 func (formfieldint *FormFieldInt) Unstage(stage *Stage) *FormFieldInt {
-	delete(stage.FormFieldInts, formfieldint)
-	// issue1150
-	// delete(stage.FormFieldInt_stagedOrder, formfieldint)
-	delete(stage.FormFieldInts_mapString, formfieldint.Name)
-
+	__gong__unstage(stage.FormFieldInts, stage.FormFieldInts_mapString, formfieldint, formfieldint.Name)
 	return formfieldint
 }
 
 // UnstageVoid removes formfieldint off the model stage
 func (formfieldint *FormFieldInt) UnstageVoid(stage *Stage) {
-	delete(stage.FormFieldInts, formfieldint)
-	// issue1150
-	// delete(stage.FormFieldInt_stagedOrder, formfieldint)
-	delete(stage.FormFieldInts_mapString, formfieldint.Name)
-}
-
-// commit formfieldint to the back repo (if it is already staged)
-func (formfieldint *FormFieldInt) Commit(stage *Stage) *FormFieldInt {
-	if _, ok := stage.FormFieldInts[formfieldint]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFormFieldInt(formfieldint)
-		}
-	}
-	return formfieldint
+	formfieldint.Unstage(stage)
 }
 
 func (formfieldint *FormFieldInt) StageVoid(stage *Stage) {
 	formfieldint.Stage(stage)
-}
-
-// Checkout formfieldint to the back repo (if it is already staged)
-func (formfieldint *FormFieldInt) Checkout(stage *Stage) *FormFieldInt {
-	if _, ok := stage.FormFieldInts[formfieldint]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFormFieldInt(formfieldint)
-		}
-	}
-	return formfieldint
 }
 
 // for satisfaction of GongStruct interface
@@ -2171,14 +1500,7 @@ func (formfieldint *FormFieldInt) SetName(name string) {
 
 // Stage puts formfieldselect to the model stage
 func (formfieldselect *FormFieldSelect) Stage(stage *Stage) *FormFieldSelect {
-	if _, ok := stage.FormFieldSelects[formfieldselect]; !ok {
-		stage.FormFieldSelects[formfieldselect] = struct{}{}
-		stage.FormFieldSelect_stagedOrder[formfieldselect] = stage.FormFieldSelectOrder
-		stage.FormFieldSelect_orderStaged[stage.FormFieldSelectOrder] = formfieldselect
-		stage.FormFieldSelectOrder++
-	}
-	stage.FormFieldSelects_mapString[formfieldselect.Name] = formfieldselect
-
+	__gong__stage(stage.FormFieldSelects, stage.FormFieldSelect_stagedOrder, stage.FormFieldSelect_orderStaged, &stage.FormFieldSelectOrder, stage.FormFieldSelects_mapString, formfieldselect, formfieldselect.Name)
 	return formfieldselect
 }
 
@@ -2188,59 +1510,22 @@ func (formfieldselect *FormFieldSelect) Stage(stage *Stage) *FormFieldSelect {
 // - force the order if the order is equal or greater than the stage.FormFieldSelectOrder
 // - update stage.FormFieldSelectOrder accordingly
 func (formfieldselect *FormFieldSelect) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FormFieldSelects[formfieldselect]; !ok {
-		stage.FormFieldSelects[formfieldselect] = struct{}{}
-
-		if order > stage.FormFieldSelectOrder {
-			stage.FormFieldSelectOrder = order
-		}
-		stage.FormFieldSelect_stagedOrder[formfieldselect] = order
-		stage.FormFieldSelect_orderStaged[order] = formfieldselect
-		stage.FormFieldSelectOrder++
-	}
-	stage.FormFieldSelects_mapString[formfieldselect.Name] = formfieldselect
+	__gong__stagePreserveOrder(stage.FormFieldSelects, stage.FormFieldSelect_stagedOrder, stage.FormFieldSelect_orderStaged, &stage.FormFieldSelectOrder, stage.FormFieldSelects_mapString, formfieldselect, order, formfieldselect.Name)
 }
 
 // Unstage removes formfieldselect off the model stage
 func (formfieldselect *FormFieldSelect) Unstage(stage *Stage) *FormFieldSelect {
-	delete(stage.FormFieldSelects, formfieldselect)
-	// issue1150
-	// delete(stage.FormFieldSelect_stagedOrder, formfieldselect)
-	delete(stage.FormFieldSelects_mapString, formfieldselect.Name)
-
+	__gong__unstage(stage.FormFieldSelects, stage.FormFieldSelects_mapString, formfieldselect, formfieldselect.Name)
 	return formfieldselect
 }
 
 // UnstageVoid removes formfieldselect off the model stage
 func (formfieldselect *FormFieldSelect) UnstageVoid(stage *Stage) {
-	delete(stage.FormFieldSelects, formfieldselect)
-	// issue1150
-	// delete(stage.FormFieldSelect_stagedOrder, formfieldselect)
-	delete(stage.FormFieldSelects_mapString, formfieldselect.Name)
-}
-
-// commit formfieldselect to the back repo (if it is already staged)
-func (formfieldselect *FormFieldSelect) Commit(stage *Stage) *FormFieldSelect {
-	if _, ok := stage.FormFieldSelects[formfieldselect]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFormFieldSelect(formfieldselect)
-		}
-	}
-	return formfieldselect
+	formfieldselect.Unstage(stage)
 }
 
 func (formfieldselect *FormFieldSelect) StageVoid(stage *Stage) {
 	formfieldselect.Stage(stage)
-}
-
-// Checkout formfieldselect to the back repo (if it is already staged)
-func (formfieldselect *FormFieldSelect) Checkout(stage *Stage) *FormFieldSelect {
-	if _, ok := stage.FormFieldSelects[formfieldselect]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFormFieldSelect(formfieldselect)
-		}
-	}
-	return formfieldselect
 }
 
 // for satisfaction of GongStruct interface
@@ -2255,14 +1540,7 @@ func (formfieldselect *FormFieldSelect) SetName(name string) {
 
 // Stage puts formfieldstring to the model stage
 func (formfieldstring *FormFieldString) Stage(stage *Stage) *FormFieldString {
-	if _, ok := stage.FormFieldStrings[formfieldstring]; !ok {
-		stage.FormFieldStrings[formfieldstring] = struct{}{}
-		stage.FormFieldString_stagedOrder[formfieldstring] = stage.FormFieldStringOrder
-		stage.FormFieldString_orderStaged[stage.FormFieldStringOrder] = formfieldstring
-		stage.FormFieldStringOrder++
-	}
-	stage.FormFieldStrings_mapString[formfieldstring.Name] = formfieldstring
-
+	__gong__stage(stage.FormFieldStrings, stage.FormFieldString_stagedOrder, stage.FormFieldString_orderStaged, &stage.FormFieldStringOrder, stage.FormFieldStrings_mapString, formfieldstring, formfieldstring.Name)
 	return formfieldstring
 }
 
@@ -2272,59 +1550,22 @@ func (formfieldstring *FormFieldString) Stage(stage *Stage) *FormFieldString {
 // - force the order if the order is equal or greater than the stage.FormFieldStringOrder
 // - update stage.FormFieldStringOrder accordingly
 func (formfieldstring *FormFieldString) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FormFieldStrings[formfieldstring]; !ok {
-		stage.FormFieldStrings[formfieldstring] = struct{}{}
-
-		if order > stage.FormFieldStringOrder {
-			stage.FormFieldStringOrder = order
-		}
-		stage.FormFieldString_stagedOrder[formfieldstring] = order
-		stage.FormFieldString_orderStaged[order] = formfieldstring
-		stage.FormFieldStringOrder++
-	}
-	stage.FormFieldStrings_mapString[formfieldstring.Name] = formfieldstring
+	__gong__stagePreserveOrder(stage.FormFieldStrings, stage.FormFieldString_stagedOrder, stage.FormFieldString_orderStaged, &stage.FormFieldStringOrder, stage.FormFieldStrings_mapString, formfieldstring, order, formfieldstring.Name)
 }
 
 // Unstage removes formfieldstring off the model stage
 func (formfieldstring *FormFieldString) Unstage(stage *Stage) *FormFieldString {
-	delete(stage.FormFieldStrings, formfieldstring)
-	// issue1150
-	// delete(stage.FormFieldString_stagedOrder, formfieldstring)
-	delete(stage.FormFieldStrings_mapString, formfieldstring.Name)
-
+	__gong__unstage(stage.FormFieldStrings, stage.FormFieldStrings_mapString, formfieldstring, formfieldstring.Name)
 	return formfieldstring
 }
 
 // UnstageVoid removes formfieldstring off the model stage
 func (formfieldstring *FormFieldString) UnstageVoid(stage *Stage) {
-	delete(stage.FormFieldStrings, formfieldstring)
-	// issue1150
-	// delete(stage.FormFieldString_stagedOrder, formfieldstring)
-	delete(stage.FormFieldStrings_mapString, formfieldstring.Name)
-}
-
-// commit formfieldstring to the back repo (if it is already staged)
-func (formfieldstring *FormFieldString) Commit(stage *Stage) *FormFieldString {
-	if _, ok := stage.FormFieldStrings[formfieldstring]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFormFieldString(formfieldstring)
-		}
-	}
-	return formfieldstring
+	formfieldstring.Unstage(stage)
 }
 
 func (formfieldstring *FormFieldString) StageVoid(stage *Stage) {
 	formfieldstring.Stage(stage)
-}
-
-// Checkout formfieldstring to the back repo (if it is already staged)
-func (formfieldstring *FormFieldString) Checkout(stage *Stage) *FormFieldString {
-	if _, ok := stage.FormFieldStrings[formfieldstring]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFormFieldString(formfieldstring)
-		}
-	}
-	return formfieldstring
 }
 
 // for satisfaction of GongStruct interface
@@ -2339,14 +1580,7 @@ func (formfieldstring *FormFieldString) SetName(name string) {
 
 // Stage puts formfieldtime to the model stage
 func (formfieldtime *FormFieldTime) Stage(stage *Stage) *FormFieldTime {
-	if _, ok := stage.FormFieldTimes[formfieldtime]; !ok {
-		stage.FormFieldTimes[formfieldtime] = struct{}{}
-		stage.FormFieldTime_stagedOrder[formfieldtime] = stage.FormFieldTimeOrder
-		stage.FormFieldTime_orderStaged[stage.FormFieldTimeOrder] = formfieldtime
-		stage.FormFieldTimeOrder++
-	}
-	stage.FormFieldTimes_mapString[formfieldtime.Name] = formfieldtime
-
+	__gong__stage(stage.FormFieldTimes, stage.FormFieldTime_stagedOrder, stage.FormFieldTime_orderStaged, &stage.FormFieldTimeOrder, stage.FormFieldTimes_mapString, formfieldtime, formfieldtime.Name)
 	return formfieldtime
 }
 
@@ -2356,59 +1590,22 @@ func (formfieldtime *FormFieldTime) Stage(stage *Stage) *FormFieldTime {
 // - force the order if the order is equal or greater than the stage.FormFieldTimeOrder
 // - update stage.FormFieldTimeOrder accordingly
 func (formfieldtime *FormFieldTime) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FormFieldTimes[formfieldtime]; !ok {
-		stage.FormFieldTimes[formfieldtime] = struct{}{}
-
-		if order > stage.FormFieldTimeOrder {
-			stage.FormFieldTimeOrder = order
-		}
-		stage.FormFieldTime_stagedOrder[formfieldtime] = order
-		stage.FormFieldTime_orderStaged[order] = formfieldtime
-		stage.FormFieldTimeOrder++
-	}
-	stage.FormFieldTimes_mapString[formfieldtime.Name] = formfieldtime
+	__gong__stagePreserveOrder(stage.FormFieldTimes, stage.FormFieldTime_stagedOrder, stage.FormFieldTime_orderStaged, &stage.FormFieldTimeOrder, stage.FormFieldTimes_mapString, formfieldtime, order, formfieldtime.Name)
 }
 
 // Unstage removes formfieldtime off the model stage
 func (formfieldtime *FormFieldTime) Unstage(stage *Stage) *FormFieldTime {
-	delete(stage.FormFieldTimes, formfieldtime)
-	// issue1150
-	// delete(stage.FormFieldTime_stagedOrder, formfieldtime)
-	delete(stage.FormFieldTimes_mapString, formfieldtime.Name)
-
+	__gong__unstage(stage.FormFieldTimes, stage.FormFieldTimes_mapString, formfieldtime, formfieldtime.Name)
 	return formfieldtime
 }
 
 // UnstageVoid removes formfieldtime off the model stage
 func (formfieldtime *FormFieldTime) UnstageVoid(stage *Stage) {
-	delete(stage.FormFieldTimes, formfieldtime)
-	// issue1150
-	// delete(stage.FormFieldTime_stagedOrder, formfieldtime)
-	delete(stage.FormFieldTimes_mapString, formfieldtime.Name)
-}
-
-// commit formfieldtime to the back repo (if it is already staged)
-func (formfieldtime *FormFieldTime) Commit(stage *Stage) *FormFieldTime {
-	if _, ok := stage.FormFieldTimes[formfieldtime]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFormFieldTime(formfieldtime)
-		}
-	}
-	return formfieldtime
+	formfieldtime.Unstage(stage)
 }
 
 func (formfieldtime *FormFieldTime) StageVoid(stage *Stage) {
 	formfieldtime.Stage(stage)
-}
-
-// Checkout formfieldtime to the back repo (if it is already staged)
-func (formfieldtime *FormFieldTime) Checkout(stage *Stage) *FormFieldTime {
-	if _, ok := stage.FormFieldTimes[formfieldtime]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFormFieldTime(formfieldtime)
-		}
-	}
-	return formfieldtime
 }
 
 // for satisfaction of GongStruct interface
@@ -2423,14 +1620,7 @@ func (formfieldtime *FormFieldTime) SetName(name string) {
 
 // Stage puts formgroup to the model stage
 func (formgroup *FormGroup) Stage(stage *Stage) *FormGroup {
-	if _, ok := stage.FormGroups[formgroup]; !ok {
-		stage.FormGroups[formgroup] = struct{}{}
-		stage.FormGroup_stagedOrder[formgroup] = stage.FormGroupOrder
-		stage.FormGroup_orderStaged[stage.FormGroupOrder] = formgroup
-		stage.FormGroupOrder++
-	}
-	stage.FormGroups_mapString[formgroup.Name] = formgroup
-
+	__gong__stage(stage.FormGroups, stage.FormGroup_stagedOrder, stage.FormGroup_orderStaged, &stage.FormGroupOrder, stage.FormGroups_mapString, formgroup, formgroup.Name)
 	return formgroup
 }
 
@@ -2440,59 +1630,22 @@ func (formgroup *FormGroup) Stage(stage *Stage) *FormGroup {
 // - force the order if the order is equal or greater than the stage.FormGroupOrder
 // - update stage.FormGroupOrder accordingly
 func (formgroup *FormGroup) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FormGroups[formgroup]; !ok {
-		stage.FormGroups[formgroup] = struct{}{}
-
-		if order > stage.FormGroupOrder {
-			stage.FormGroupOrder = order
-		}
-		stage.FormGroup_stagedOrder[formgroup] = order
-		stage.FormGroup_orderStaged[order] = formgroup
-		stage.FormGroupOrder++
-	}
-	stage.FormGroups_mapString[formgroup.Name] = formgroup
+	__gong__stagePreserveOrder(stage.FormGroups, stage.FormGroup_stagedOrder, stage.FormGroup_orderStaged, &stage.FormGroupOrder, stage.FormGroups_mapString, formgroup, order, formgroup.Name)
 }
 
 // Unstage removes formgroup off the model stage
 func (formgroup *FormGroup) Unstage(stage *Stage) *FormGroup {
-	delete(stage.FormGroups, formgroup)
-	// issue1150
-	// delete(stage.FormGroup_stagedOrder, formgroup)
-	delete(stage.FormGroups_mapString, formgroup.Name)
-
+	__gong__unstage(stage.FormGroups, stage.FormGroups_mapString, formgroup, formgroup.Name)
 	return formgroup
 }
 
 // UnstageVoid removes formgroup off the model stage
 func (formgroup *FormGroup) UnstageVoid(stage *Stage) {
-	delete(stage.FormGroups, formgroup)
-	// issue1150
-	// delete(stage.FormGroup_stagedOrder, formgroup)
-	delete(stage.FormGroups_mapString, formgroup.Name)
-}
-
-// commit formgroup to the back repo (if it is already staged)
-func (formgroup *FormGroup) Commit(stage *Stage) *FormGroup {
-	if _, ok := stage.FormGroups[formgroup]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFormGroup(formgroup)
-		}
-	}
-	return formgroup
+	formgroup.Unstage(stage)
 }
 
 func (formgroup *FormGroup) StageVoid(stage *Stage) {
 	formgroup.Stage(stage)
-}
-
-// Checkout formgroup to the back repo (if it is already staged)
-func (formgroup *FormGroup) Checkout(stage *Stage) *FormGroup {
-	if _, ok := stage.FormGroups[formgroup]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFormGroup(formgroup)
-		}
-	}
-	return formgroup
 }
 
 // for satisfaction of GongStruct interface
@@ -2507,14 +1660,7 @@ func (formgroup *FormGroup) SetName(name string) {
 
 // Stage puts formsortassocbutton to the model stage
 func (formsortassocbutton *FormSortAssocButton) Stage(stage *Stage) *FormSortAssocButton {
-	if _, ok := stage.FormSortAssocButtons[formsortassocbutton]; !ok {
-		stage.FormSortAssocButtons[formsortassocbutton] = struct{}{}
-		stage.FormSortAssocButton_stagedOrder[formsortassocbutton] = stage.FormSortAssocButtonOrder
-		stage.FormSortAssocButton_orderStaged[stage.FormSortAssocButtonOrder] = formsortassocbutton
-		stage.FormSortAssocButtonOrder++
-	}
-	stage.FormSortAssocButtons_mapString[formsortassocbutton.Name] = formsortassocbutton
-
+	__gong__stage(stage.FormSortAssocButtons, stage.FormSortAssocButton_stagedOrder, stage.FormSortAssocButton_orderStaged, &stage.FormSortAssocButtonOrder, stage.FormSortAssocButtons_mapString, formsortassocbutton, formsortassocbutton.Name)
 	return formsortassocbutton
 }
 
@@ -2524,59 +1670,22 @@ func (formsortassocbutton *FormSortAssocButton) Stage(stage *Stage) *FormSortAss
 // - force the order if the order is equal or greater than the stage.FormSortAssocButtonOrder
 // - update stage.FormSortAssocButtonOrder accordingly
 func (formsortassocbutton *FormSortAssocButton) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FormSortAssocButtons[formsortassocbutton]; !ok {
-		stage.FormSortAssocButtons[formsortassocbutton] = struct{}{}
-
-		if order > stage.FormSortAssocButtonOrder {
-			stage.FormSortAssocButtonOrder = order
-		}
-		stage.FormSortAssocButton_stagedOrder[formsortassocbutton] = order
-		stage.FormSortAssocButton_orderStaged[order] = formsortassocbutton
-		stage.FormSortAssocButtonOrder++
-	}
-	stage.FormSortAssocButtons_mapString[formsortassocbutton.Name] = formsortassocbutton
+	__gong__stagePreserveOrder(stage.FormSortAssocButtons, stage.FormSortAssocButton_stagedOrder, stage.FormSortAssocButton_orderStaged, &stage.FormSortAssocButtonOrder, stage.FormSortAssocButtons_mapString, formsortassocbutton, order, formsortassocbutton.Name)
 }
 
 // Unstage removes formsortassocbutton off the model stage
 func (formsortassocbutton *FormSortAssocButton) Unstage(stage *Stage) *FormSortAssocButton {
-	delete(stage.FormSortAssocButtons, formsortassocbutton)
-	// issue1150
-	// delete(stage.FormSortAssocButton_stagedOrder, formsortassocbutton)
-	delete(stage.FormSortAssocButtons_mapString, formsortassocbutton.Name)
-
+	__gong__unstage(stage.FormSortAssocButtons, stage.FormSortAssocButtons_mapString, formsortassocbutton, formsortassocbutton.Name)
 	return formsortassocbutton
 }
 
 // UnstageVoid removes formsortassocbutton off the model stage
 func (formsortassocbutton *FormSortAssocButton) UnstageVoid(stage *Stage) {
-	delete(stage.FormSortAssocButtons, formsortassocbutton)
-	// issue1150
-	// delete(stage.FormSortAssocButton_stagedOrder, formsortassocbutton)
-	delete(stage.FormSortAssocButtons_mapString, formsortassocbutton.Name)
-}
-
-// commit formsortassocbutton to the back repo (if it is already staged)
-func (formsortassocbutton *FormSortAssocButton) Commit(stage *Stage) *FormSortAssocButton {
-	if _, ok := stage.FormSortAssocButtons[formsortassocbutton]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFormSortAssocButton(formsortassocbutton)
-		}
-	}
-	return formsortassocbutton
+	formsortassocbutton.Unstage(stage)
 }
 
 func (formsortassocbutton *FormSortAssocButton) StageVoid(stage *Stage) {
 	formsortassocbutton.Stage(stage)
-}
-
-// Checkout formsortassocbutton to the back repo (if it is already staged)
-func (formsortassocbutton *FormSortAssocButton) Checkout(stage *Stage) *FormSortAssocButton {
-	if _, ok := stage.FormSortAssocButtons[formsortassocbutton]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFormSortAssocButton(formsortassocbutton)
-		}
-	}
-	return formsortassocbutton
 }
 
 // for satisfaction of GongStruct interface
@@ -2591,14 +1700,7 @@ func (formsortassocbutton *FormSortAssocButton) SetName(name string) {
 
 // Stage puts option to the model stage
 func (option *Option) Stage(stage *Stage) *Option {
-	if _, ok := stage.Options[option]; !ok {
-		stage.Options[option] = struct{}{}
-		stage.Option_stagedOrder[option] = stage.OptionOrder
-		stage.Option_orderStaged[stage.OptionOrder] = option
-		stage.OptionOrder++
-	}
-	stage.Options_mapString[option.Name] = option
-
+	__gong__stage(stage.Options, stage.Option_stagedOrder, stage.Option_orderStaged, &stage.OptionOrder, stage.Options_mapString, option, option.Name)
 	return option
 }
 
@@ -2608,59 +1710,22 @@ func (option *Option) Stage(stage *Stage) *Option {
 // - force the order if the order is equal or greater than the stage.OptionOrder
 // - update stage.OptionOrder accordingly
 func (option *Option) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Options[option]; !ok {
-		stage.Options[option] = struct{}{}
-
-		if order > stage.OptionOrder {
-			stage.OptionOrder = order
-		}
-		stage.Option_stagedOrder[option] = order
-		stage.Option_orderStaged[order] = option
-		stage.OptionOrder++
-	}
-	stage.Options_mapString[option.Name] = option
+	__gong__stagePreserveOrder(stage.Options, stage.Option_stagedOrder, stage.Option_orderStaged, &stage.OptionOrder, stage.Options_mapString, option, order, option.Name)
 }
 
 // Unstage removes option off the model stage
 func (option *Option) Unstage(stage *Stage) *Option {
-	delete(stage.Options, option)
-	// issue1150
-	// delete(stage.Option_stagedOrder, option)
-	delete(stage.Options_mapString, option.Name)
-
+	__gong__unstage(stage.Options, stage.Options_mapString, option, option.Name)
 	return option
 }
 
 // UnstageVoid removes option off the model stage
 func (option *Option) UnstageVoid(stage *Stage) {
-	delete(stage.Options, option)
-	// issue1150
-	// delete(stage.Option_stagedOrder, option)
-	delete(stage.Options_mapString, option.Name)
-}
-
-// commit option to the back repo (if it is already staged)
-func (option *Option) Commit(stage *Stage) *Option {
-	if _, ok := stage.Options[option]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitOption(option)
-		}
-	}
-	return option
+	option.Unstage(stage)
 }
 
 func (option *Option) StageVoid(stage *Stage) {
 	option.Stage(stage)
-}
-
-// Checkout option to the back repo (if it is already staged)
-func (option *Option) Checkout(stage *Stage) *Option {
-	if _, ok := stage.Options[option]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutOption(option)
-		}
-	}
-	return option
 }
 
 // for satisfaction of GongStruct interface
@@ -2674,75 +1739,33 @@ func (option *Option) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.CheckBoxs = make(map[*CheckBox]struct{})
-	stage.CheckBoxs_mapString = make(map[string]*CheckBox)
-	stage.CheckBox_stagedOrder = make(map[*CheckBox]uint)
-	stage.CheckBoxOrder = 0
+	__gong__resetStageType(&stage.CheckBoxs, &stage.CheckBoxs_mapString, &stage.CheckBox_stagedOrder, &stage.CheckBoxOrder)
 
-	stage.FormDivs = make(map[*FormDiv]struct{})
-	stage.FormDivs_mapString = make(map[string]*FormDiv)
-	stage.FormDiv_stagedOrder = make(map[*FormDiv]uint)
-	stage.FormDivOrder = 0
+	__gong__resetStageType(&stage.FormDivs, &stage.FormDivs_mapString, &stage.FormDiv_stagedOrder, &stage.FormDivOrder)
 
-	stage.FormEditAssocButtons = make(map[*FormEditAssocButton]struct{})
-	stage.FormEditAssocButtons_mapString = make(map[string]*FormEditAssocButton)
-	stage.FormEditAssocButton_stagedOrder = make(map[*FormEditAssocButton]uint)
-	stage.FormEditAssocButtonOrder = 0
+	__gong__resetStageType(&stage.FormEditAssocButtons, &stage.FormEditAssocButtons_mapString, &stage.FormEditAssocButton_stagedOrder, &stage.FormEditAssocButtonOrder)
 
-	stage.FormFields = make(map[*FormField]struct{})
-	stage.FormFields_mapString = make(map[string]*FormField)
-	stage.FormField_stagedOrder = make(map[*FormField]uint)
-	stage.FormFieldOrder = 0
+	__gong__resetStageType(&stage.FormFields, &stage.FormFields_mapString, &stage.FormField_stagedOrder, &stage.FormFieldOrder)
 
-	stage.FormFieldDates = make(map[*FormFieldDate]struct{})
-	stage.FormFieldDates_mapString = make(map[string]*FormFieldDate)
-	stage.FormFieldDate_stagedOrder = make(map[*FormFieldDate]uint)
-	stage.FormFieldDateOrder = 0
+	__gong__resetStageType(&stage.FormFieldDates, &stage.FormFieldDates_mapString, &stage.FormFieldDate_stagedOrder, &stage.FormFieldDateOrder)
 
-	stage.FormFieldDateTimes = make(map[*FormFieldDateTime]struct{})
-	stage.FormFieldDateTimes_mapString = make(map[string]*FormFieldDateTime)
-	stage.FormFieldDateTime_stagedOrder = make(map[*FormFieldDateTime]uint)
-	stage.FormFieldDateTimeOrder = 0
+	__gong__resetStageType(&stage.FormFieldDateTimes, &stage.FormFieldDateTimes_mapString, &stage.FormFieldDateTime_stagedOrder, &stage.FormFieldDateTimeOrder)
 
-	stage.FormFieldFloat64s = make(map[*FormFieldFloat64]struct{})
-	stage.FormFieldFloat64s_mapString = make(map[string]*FormFieldFloat64)
-	stage.FormFieldFloat64_stagedOrder = make(map[*FormFieldFloat64]uint)
-	stage.FormFieldFloat64Order = 0
+	__gong__resetStageType(&stage.FormFieldFloat64s, &stage.FormFieldFloat64s_mapString, &stage.FormFieldFloat64_stagedOrder, &stage.FormFieldFloat64Order)
 
-	stage.FormFieldInts = make(map[*FormFieldInt]struct{})
-	stage.FormFieldInts_mapString = make(map[string]*FormFieldInt)
-	stage.FormFieldInt_stagedOrder = make(map[*FormFieldInt]uint)
-	stage.FormFieldIntOrder = 0
+	__gong__resetStageType(&stage.FormFieldInts, &stage.FormFieldInts_mapString, &stage.FormFieldInt_stagedOrder, &stage.FormFieldIntOrder)
 
-	stage.FormFieldSelects = make(map[*FormFieldSelect]struct{})
-	stage.FormFieldSelects_mapString = make(map[string]*FormFieldSelect)
-	stage.FormFieldSelect_stagedOrder = make(map[*FormFieldSelect]uint)
-	stage.FormFieldSelectOrder = 0
+	__gong__resetStageType(&stage.FormFieldSelects, &stage.FormFieldSelects_mapString, &stage.FormFieldSelect_stagedOrder, &stage.FormFieldSelectOrder)
 
-	stage.FormFieldStrings = make(map[*FormFieldString]struct{})
-	stage.FormFieldStrings_mapString = make(map[string]*FormFieldString)
-	stage.FormFieldString_stagedOrder = make(map[*FormFieldString]uint)
-	stage.FormFieldStringOrder = 0
+	__gong__resetStageType(&stage.FormFieldStrings, &stage.FormFieldStrings_mapString, &stage.FormFieldString_stagedOrder, &stage.FormFieldStringOrder)
 
-	stage.FormFieldTimes = make(map[*FormFieldTime]struct{})
-	stage.FormFieldTimes_mapString = make(map[string]*FormFieldTime)
-	stage.FormFieldTime_stagedOrder = make(map[*FormFieldTime]uint)
-	stage.FormFieldTimeOrder = 0
+	__gong__resetStageType(&stage.FormFieldTimes, &stage.FormFieldTimes_mapString, &stage.FormFieldTime_stagedOrder, &stage.FormFieldTimeOrder)
 
-	stage.FormGroups = make(map[*FormGroup]struct{})
-	stage.FormGroups_mapString = make(map[string]*FormGroup)
-	stage.FormGroup_stagedOrder = make(map[*FormGroup]uint)
-	stage.FormGroupOrder = 0
+	__gong__resetStageType(&stage.FormGroups, &stage.FormGroups_mapString, &stage.FormGroup_stagedOrder, &stage.FormGroupOrder)
 
-	stage.FormSortAssocButtons = make(map[*FormSortAssocButton]struct{})
-	stage.FormSortAssocButtons_mapString = make(map[string]*FormSortAssocButton)
-	stage.FormSortAssocButton_stagedOrder = make(map[*FormSortAssocButton]uint)
-	stage.FormSortAssocButtonOrder = 0
+	__gong__resetStageType(&stage.FormSortAssocButtons, &stage.FormSortAssocButtons_mapString, &stage.FormSortAssocButton_stagedOrder, &stage.FormSortAssocButtonOrder)
 
-	stage.Options = make(map[*Option]struct{})
-	stage.Options_mapString = make(map[string]*Option)
-	stage.Option_stagedOrder = make(map[*Option]uint)
-	stage.OptionOrder = 0
+	__gong__resetStageType(&stage.Options, &stage.Options_mapString, &stage.Option_stagedOrder, &stage.OptionOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -2781,7 +1804,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -4427,75 +3449,33 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.CheckBoxs_mapString = make(map[string]*CheckBox)
-	for checkbox := range stage.CheckBoxs {
-		stage.CheckBoxs_mapString[checkbox.Name] = checkbox
-	}
+	__gong__rebuildMapString(stage.CheckBoxs, &stage.CheckBoxs_mapString)
 
-	stage.FormDivs_mapString = make(map[string]*FormDiv)
-	for formdiv := range stage.FormDivs {
-		stage.FormDivs_mapString[formdiv.Name] = formdiv
-	}
+	__gong__rebuildMapString(stage.FormDivs, &stage.FormDivs_mapString)
 
-	stage.FormEditAssocButtons_mapString = make(map[string]*FormEditAssocButton)
-	for formeditassocbutton := range stage.FormEditAssocButtons {
-		stage.FormEditAssocButtons_mapString[formeditassocbutton.Name] = formeditassocbutton
-	}
+	__gong__rebuildMapString(stage.FormEditAssocButtons, &stage.FormEditAssocButtons_mapString)
 
-	stage.FormFields_mapString = make(map[string]*FormField)
-	for formfield := range stage.FormFields {
-		stage.FormFields_mapString[formfield.Name] = formfield
-	}
+	__gong__rebuildMapString(stage.FormFields, &stage.FormFields_mapString)
 
-	stage.FormFieldDates_mapString = make(map[string]*FormFieldDate)
-	for formfielddate := range stage.FormFieldDates {
-		stage.FormFieldDates_mapString[formfielddate.Name] = formfielddate
-	}
+	__gong__rebuildMapString(stage.FormFieldDates, &stage.FormFieldDates_mapString)
 
-	stage.FormFieldDateTimes_mapString = make(map[string]*FormFieldDateTime)
-	for formfielddatetime := range stage.FormFieldDateTimes {
-		stage.FormFieldDateTimes_mapString[formfielddatetime.Name] = formfielddatetime
-	}
+	__gong__rebuildMapString(stage.FormFieldDateTimes, &stage.FormFieldDateTimes_mapString)
 
-	stage.FormFieldFloat64s_mapString = make(map[string]*FormFieldFloat64)
-	for formfieldfloat64 := range stage.FormFieldFloat64s {
-		stage.FormFieldFloat64s_mapString[formfieldfloat64.Name] = formfieldfloat64
-	}
+	__gong__rebuildMapString(stage.FormFieldFloat64s, &stage.FormFieldFloat64s_mapString)
 
-	stage.FormFieldInts_mapString = make(map[string]*FormFieldInt)
-	for formfieldint := range stage.FormFieldInts {
-		stage.FormFieldInts_mapString[formfieldint.Name] = formfieldint
-	}
+	__gong__rebuildMapString(stage.FormFieldInts, &stage.FormFieldInts_mapString)
 
-	stage.FormFieldSelects_mapString = make(map[string]*FormFieldSelect)
-	for formfieldselect := range stage.FormFieldSelects {
-		stage.FormFieldSelects_mapString[formfieldselect.Name] = formfieldselect
-	}
+	__gong__rebuildMapString(stage.FormFieldSelects, &stage.FormFieldSelects_mapString)
 
-	stage.FormFieldStrings_mapString = make(map[string]*FormFieldString)
-	for formfieldstring := range stage.FormFieldStrings {
-		stage.FormFieldStrings_mapString[formfieldstring.Name] = formfieldstring
-	}
+	__gong__rebuildMapString(stage.FormFieldStrings, &stage.FormFieldStrings_mapString)
 
-	stage.FormFieldTimes_mapString = make(map[string]*FormFieldTime)
-	for formfieldtime := range stage.FormFieldTimes {
-		stage.FormFieldTimes_mapString[formfieldtime.Name] = formfieldtime
-	}
+	__gong__rebuildMapString(stage.FormFieldTimes, &stage.FormFieldTimes_mapString)
 
-	stage.FormGroups_mapString = make(map[string]*FormGroup)
-	for formgroup := range stage.FormGroups {
-		stage.FormGroups_mapString[formgroup.Name] = formgroup
-	}
+	__gong__rebuildMapString(stage.FormGroups, &stage.FormGroups_mapString)
 
-	stage.FormSortAssocButtons_mapString = make(map[string]*FormSortAssocButton)
-	for formsortassocbutton := range stage.FormSortAssocButtons {
-		stage.FormSortAssocButtons_mapString[formsortassocbutton.Name] = formsortassocbutton
-	}
+	__gong__rebuildMapString(stage.FormSortAssocButtons, &stage.FormSortAssocButtons_mapString)
 
-	stage.Options_mapString = make(map[string]*Option)
-	for option := range stage.Options {
-		stage.Options_mapString[option.Name] = option
-	}
+	__gong__rebuildMapString(stage.Options, &stage.Options_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

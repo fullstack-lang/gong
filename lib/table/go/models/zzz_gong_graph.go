@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,136 +15,59 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (button *Button) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Buttons[button]
-
-	return
+func (button *Button) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Buttons[button]
+	return ok
 }
 
-func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
-
-	return button.GongIsStaged(stage)
+func (cell *Cell) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Cells[cell]
+	return ok
 }
 
-func (cell *Cell) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Cells[cell]
-
-	return
+func (cellboolean *CellBoolean) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.CellBooleans[cellboolean]
+	return ok
 }
 
-func (stage *Stage) IsStagedCell(cell *Cell) (ok bool) {
-
-	return cell.GongIsStaged(stage)
+func (cellfloat64 *CellFloat64) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.CellFloat64s[cellfloat64]
+	return ok
 }
 
-func (cellboolean *CellBoolean) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.CellBooleans[cellboolean]
-
-	return
+func (cellicon *CellIcon) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.CellIcons[cellicon]
+	return ok
 }
 
-func (stage *Stage) IsStagedCellBoolean(cellboolean *CellBoolean) (ok bool) {
-
-	return cellboolean.GongIsStaged(stage)
+func (cellint *CellInt) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.CellInts[cellint]
+	return ok
 }
 
-func (cellfloat64 *CellFloat64) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.CellFloat64s[cellfloat64]
-
-	return
+func (cellstring *CellString) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.CellStrings[cellstring]
+	return ok
 }
 
-func (stage *Stage) IsStagedCellFloat64(cellfloat64 *CellFloat64) (ok bool) {
-
-	return cellfloat64.GongIsStaged(stage)
+func (displayedcolumn *DisplayedColumn) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DisplayedColumns[displayedcolumn]
+	return ok
 }
 
-func (cellicon *CellIcon) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.CellIcons[cellicon]
-
-	return
+func (row *Row) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Rows[row]
+	return ok
 }
 
-func (stage *Stage) IsStagedCellIcon(cellicon *CellIcon) (ok bool) {
-
-	return cellicon.GongIsStaged(stage)
+func (svgicon *SVGIcon) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SVGIcons[svgicon]
+	return ok
 }
 
-func (cellint *CellInt) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.CellInts[cellint]
-
-	return
-}
-
-func (stage *Stage) IsStagedCellInt(cellint *CellInt) (ok bool) {
-
-	return cellint.GongIsStaged(stage)
-}
-
-func (cellstring *CellString) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.CellStrings[cellstring]
-
-	return
-}
-
-func (stage *Stage) IsStagedCellString(cellstring *CellString) (ok bool) {
-
-	return cellstring.GongIsStaged(stage)
-}
-
-func (displayedcolumn *DisplayedColumn) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DisplayedColumns[displayedcolumn]
-
-	return
-}
-
-func (stage *Stage) IsStagedDisplayedColumn(displayedcolumn *DisplayedColumn) (ok bool) {
-
-	return displayedcolumn.GongIsStaged(stage)
-}
-
-func (row *Row) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Rows[row]
-
-	return
-}
-
-func (stage *Stage) IsStagedRow(row *Row) (ok bool) {
-
-	return row.GongIsStaged(stage)
-}
-
-func (svgicon *SVGIcon) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SVGIcons[svgicon]
-
-	return
-}
-
-func (stage *Stage) IsStagedSVGIcon(svgicon *SVGIcon) (ok bool) {
-
-	return svgicon.GongIsStaged(stage)
-}
-
-func (table *Table) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Tables[table]
-
-	return
-}
-
-func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
-
-	return table.GongIsStaged(stage)
+func (table *Table) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Tables[table]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -153,10 +79,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (button *Button) GongStageBranch(stage *Stage) {
-	stage.StageBranchButton(button)
-}
-
-func (stage *Stage) StageBranchButton(button *Button) {
 
 	// check if instance is already staged
 	if stage.IsStaged(button) {
@@ -175,10 +97,6 @@ func (stage *Stage) StageBranchButton(button *Button) {
 }
 
 func (cell *Cell) GongStageBranch(stage *Stage) {
-	stage.StageBranchCell(cell)
-}
-
-func (stage *Stage) StageBranchCell(cell *Cell) {
 
 	// check if instance is already staged
 	if stage.IsStaged(cell) {
@@ -209,10 +127,6 @@ func (stage *Stage) StageBranchCell(cell *Cell) {
 }
 
 func (cellboolean *CellBoolean) GongStageBranch(stage *Stage) {
-	stage.StageBranchCellBoolean(cellboolean)
-}
-
-func (stage *Stage) StageBranchCellBoolean(cellboolean *CellBoolean) {
 
 	// check if instance is already staged
 	if stage.IsStaged(cellboolean) {
@@ -228,10 +142,6 @@ func (stage *Stage) StageBranchCellBoolean(cellboolean *CellBoolean) {
 }
 
 func (cellfloat64 *CellFloat64) GongStageBranch(stage *Stage) {
-	stage.StageBranchCellFloat64(cellfloat64)
-}
-
-func (stage *Stage) StageBranchCellFloat64(cellfloat64 *CellFloat64) {
 
 	// check if instance is already staged
 	if stage.IsStaged(cellfloat64) {
@@ -247,10 +157,6 @@ func (stage *Stage) StageBranchCellFloat64(cellfloat64 *CellFloat64) {
 }
 
 func (cellicon *CellIcon) GongStageBranch(stage *Stage) {
-	stage.StageBranchCellIcon(cellicon)
-}
-
-func (stage *Stage) StageBranchCellIcon(cellicon *CellIcon) {
 
 	// check if instance is already staged
 	if stage.IsStaged(cellicon) {
@@ -266,10 +172,6 @@ func (stage *Stage) StageBranchCellIcon(cellicon *CellIcon) {
 }
 
 func (cellint *CellInt) GongStageBranch(stage *Stage) {
-	stage.StageBranchCellInt(cellint)
-}
-
-func (stage *Stage) StageBranchCellInt(cellint *CellInt) {
 
 	// check if instance is already staged
 	if stage.IsStaged(cellint) {
@@ -285,10 +187,6 @@ func (stage *Stage) StageBranchCellInt(cellint *CellInt) {
 }
 
 func (cellstring *CellString) GongStageBranch(stage *Stage) {
-	stage.StageBranchCellString(cellstring)
-}
-
-func (stage *Stage) StageBranchCellString(cellstring *CellString) {
 
 	// check if instance is already staged
 	if stage.IsStaged(cellstring) {
@@ -304,10 +202,6 @@ func (stage *Stage) StageBranchCellString(cellstring *CellString) {
 }
 
 func (displayedcolumn *DisplayedColumn) GongStageBranch(stage *Stage) {
-	stage.StageBranchDisplayedColumn(displayedcolumn)
-}
-
-func (stage *Stage) StageBranchDisplayedColumn(displayedcolumn *DisplayedColumn) {
 
 	// check if instance is already staged
 	if stage.IsStaged(displayedcolumn) {
@@ -323,10 +217,6 @@ func (stage *Stage) StageBranchDisplayedColumn(displayedcolumn *DisplayedColumn)
 }
 
 func (row *Row) GongStageBranch(stage *Stage) {
-	stage.StageBranchRow(row)
-}
-
-func (stage *Stage) StageBranchRow(row *Row) {
 
 	// check if instance is already staged
 	if stage.IsStaged(row) {
@@ -345,10 +235,6 @@ func (stage *Stage) StageBranchRow(row *Row) {
 }
 
 func (svgicon *SVGIcon) GongStageBranch(stage *Stage) {
-	stage.StageBranchSVGIcon(svgicon)
-}
-
-func (stage *Stage) StageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
 	if stage.IsStaged(svgicon) {
@@ -364,10 +250,6 @@ func (stage *Stage) StageBranchSVGIcon(svgicon *SVGIcon) {
 }
 
 func (table *Table) GongStageBranch(stage *Stage) {
-	stage.StageBranchTable(table)
-}
-
-func (stage *Stage) StageBranchTable(table *Table) {
 
 	// check if instance is already staged
 	if stage.IsStaged(table) {
@@ -457,15 +339,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
-
-	// buttonFrom has already been copied
-	if _buttonTo, ok := mapOrigCopy[buttonFrom]; ok {
-		buttonTo = _buttonTo.(*Button)
+	var alreadyCopied bool
+	buttonTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, buttonFrom)
+	if alreadyCopied {
 		return
 	}
-
-	buttonTo = new(Button)
-	mapOrigCopy[buttonFrom] = buttonTo
 	buttonFrom.GongCopyBasicFields(buttonTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -479,15 +357,11 @@ func GongCopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo
 }
 
 func GongCopyBranchCell(mapOrigCopy map[any]any, cellFrom *Cell) (cellTo *Cell) {
-
-	// cellFrom has already been copied
-	if _cellTo, ok := mapOrigCopy[cellFrom]; ok {
-		cellTo = _cellTo.(*Cell)
+	var alreadyCopied bool
+	cellTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, cellFrom)
+	if alreadyCopied {
 		return
 	}
-
-	cellTo = new(Cell)
-	mapOrigCopy[cellFrom] = cellTo
 	cellFrom.GongCopyBasicFields(cellTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -513,15 +387,11 @@ func GongCopyBranchCell(mapOrigCopy map[any]any, cellFrom *Cell) (cellTo *Cell) 
 }
 
 func GongCopyBranchCellBoolean(mapOrigCopy map[any]any, cellbooleanFrom *CellBoolean) (cellbooleanTo *CellBoolean) {
-
-	// cellbooleanFrom has already been copied
-	if _cellbooleanTo, ok := mapOrigCopy[cellbooleanFrom]; ok {
-		cellbooleanTo = _cellbooleanTo.(*CellBoolean)
+	var alreadyCopied bool
+	cellbooleanTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, cellbooleanFrom)
+	if alreadyCopied {
 		return
 	}
-
-	cellbooleanTo = new(CellBoolean)
-	mapOrigCopy[cellbooleanFrom] = cellbooleanTo
 	cellbooleanFrom.GongCopyBasicFields(cellbooleanTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -532,15 +402,11 @@ func GongCopyBranchCellBoolean(mapOrigCopy map[any]any, cellbooleanFrom *CellBoo
 }
 
 func GongCopyBranchCellFloat64(mapOrigCopy map[any]any, cellfloat64From *CellFloat64) (cellfloat64To *CellFloat64) {
-
-	// cellfloat64From has already been copied
-	if _cellfloat64To, ok := mapOrigCopy[cellfloat64From]; ok {
-		cellfloat64To = _cellfloat64To.(*CellFloat64)
+	var alreadyCopied bool
+	cellfloat64To, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, cellfloat64From)
+	if alreadyCopied {
 		return
 	}
-
-	cellfloat64To = new(CellFloat64)
-	mapOrigCopy[cellfloat64From] = cellfloat64To
 	cellfloat64From.GongCopyBasicFields(cellfloat64To)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -551,15 +417,11 @@ func GongCopyBranchCellFloat64(mapOrigCopy map[any]any, cellfloat64From *CellFlo
 }
 
 func GongCopyBranchCellIcon(mapOrigCopy map[any]any, celliconFrom *CellIcon) (celliconTo *CellIcon) {
-
-	// celliconFrom has already been copied
-	if _celliconTo, ok := mapOrigCopy[celliconFrom]; ok {
-		celliconTo = _celliconTo.(*CellIcon)
+	var alreadyCopied bool
+	celliconTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, celliconFrom)
+	if alreadyCopied {
 		return
 	}
-
-	celliconTo = new(CellIcon)
-	mapOrigCopy[celliconFrom] = celliconTo
 	celliconFrom.GongCopyBasicFields(celliconTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -570,15 +432,11 @@ func GongCopyBranchCellIcon(mapOrigCopy map[any]any, celliconFrom *CellIcon) (ce
 }
 
 func GongCopyBranchCellInt(mapOrigCopy map[any]any, cellintFrom *CellInt) (cellintTo *CellInt) {
-
-	// cellintFrom has already been copied
-	if _cellintTo, ok := mapOrigCopy[cellintFrom]; ok {
-		cellintTo = _cellintTo.(*CellInt)
+	var alreadyCopied bool
+	cellintTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, cellintFrom)
+	if alreadyCopied {
 		return
 	}
-
-	cellintTo = new(CellInt)
-	mapOrigCopy[cellintFrom] = cellintTo
 	cellintFrom.GongCopyBasicFields(cellintTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -589,15 +447,11 @@ func GongCopyBranchCellInt(mapOrigCopy map[any]any, cellintFrom *CellInt) (celli
 }
 
 func GongCopyBranchCellString(mapOrigCopy map[any]any, cellstringFrom *CellString) (cellstringTo *CellString) {
-
-	// cellstringFrom has already been copied
-	if _cellstringTo, ok := mapOrigCopy[cellstringFrom]; ok {
-		cellstringTo = _cellstringTo.(*CellString)
+	var alreadyCopied bool
+	cellstringTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, cellstringFrom)
+	if alreadyCopied {
 		return
 	}
-
-	cellstringTo = new(CellString)
-	mapOrigCopy[cellstringFrom] = cellstringTo
 	cellstringFrom.GongCopyBasicFields(cellstringTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -608,15 +462,11 @@ func GongCopyBranchCellString(mapOrigCopy map[any]any, cellstringFrom *CellStrin
 }
 
 func GongCopyBranchDisplayedColumn(mapOrigCopy map[any]any, displayedcolumnFrom *DisplayedColumn) (displayedcolumnTo *DisplayedColumn) {
-
-	// displayedcolumnFrom has already been copied
-	if _displayedcolumnTo, ok := mapOrigCopy[displayedcolumnFrom]; ok {
-		displayedcolumnTo = _displayedcolumnTo.(*DisplayedColumn)
+	var alreadyCopied bool
+	displayedcolumnTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, displayedcolumnFrom)
+	if alreadyCopied {
 		return
 	}
-
-	displayedcolumnTo = new(DisplayedColumn)
-	mapOrigCopy[displayedcolumnFrom] = displayedcolumnTo
 	displayedcolumnFrom.GongCopyBasicFields(displayedcolumnTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -627,15 +477,11 @@ func GongCopyBranchDisplayedColumn(mapOrigCopy map[any]any, displayedcolumnFrom 
 }
 
 func GongCopyBranchRow(mapOrigCopy map[any]any, rowFrom *Row) (rowTo *Row) {
-
-	// rowFrom has already been copied
-	if _rowTo, ok := mapOrigCopy[rowFrom]; ok {
-		rowTo = _rowTo.(*Row)
+	var alreadyCopied bool
+	rowTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, rowFrom)
+	if alreadyCopied {
 		return
 	}
-
-	rowTo = new(Row)
-	mapOrigCopy[rowFrom] = rowTo
 	rowFrom.GongCopyBasicFields(rowTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -649,15 +495,11 @@ func GongCopyBranchRow(mapOrigCopy map[any]any, rowFrom *Row) (rowTo *Row) {
 }
 
 func GongCopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo *SVGIcon) {
-
-	// svgiconFrom has already been copied
-	if _svgiconTo, ok := mapOrigCopy[svgiconFrom]; ok {
-		svgiconTo = _svgiconTo.(*SVGIcon)
+	var alreadyCopied bool
+	svgiconTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, svgiconFrom)
+	if alreadyCopied {
 		return
 	}
-
-	svgiconTo = new(SVGIcon)
-	mapOrigCopy[svgiconFrom] = svgiconTo
 	svgiconFrom.GongCopyBasicFields(svgiconTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -668,15 +510,11 @@ func GongCopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgic
 }
 
 func GongCopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table) {
-
-	// tableFrom has already been copied
-	if _tableTo, ok := mapOrigCopy[tableFrom]; ok {
-		tableTo = _tableTo.(*Table)
+	var alreadyCopied bool
+	tableTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, tableFrom)
+	if alreadyCopied {
 		return
 	}
-
-	tableTo = new(Table)
-	mapOrigCopy[tableFrom] = tableTo
 	tableFrom.GongCopyBasicFields(tableTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -711,10 +549,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (button *Button) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchButton(button)
-}
-
-func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(button) {
@@ -733,10 +567,6 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 }
 
 func (cell *Cell) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchCell(cell)
-}
-
-func (stage *Stage) UnstageBranchCell(cell *Cell) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(cell) {
@@ -767,10 +597,6 @@ func (stage *Stage) UnstageBranchCell(cell *Cell) {
 }
 
 func (cellboolean *CellBoolean) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchCellBoolean(cellboolean)
-}
-
-func (stage *Stage) UnstageBranchCellBoolean(cellboolean *CellBoolean) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(cellboolean) {
@@ -786,10 +612,6 @@ func (stage *Stage) UnstageBranchCellBoolean(cellboolean *CellBoolean) {
 }
 
 func (cellfloat64 *CellFloat64) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchCellFloat64(cellfloat64)
-}
-
-func (stage *Stage) UnstageBranchCellFloat64(cellfloat64 *CellFloat64) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(cellfloat64) {
@@ -805,10 +627,6 @@ func (stage *Stage) UnstageBranchCellFloat64(cellfloat64 *CellFloat64) {
 }
 
 func (cellicon *CellIcon) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchCellIcon(cellicon)
-}
-
-func (stage *Stage) UnstageBranchCellIcon(cellicon *CellIcon) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(cellicon) {
@@ -824,10 +642,6 @@ func (stage *Stage) UnstageBranchCellIcon(cellicon *CellIcon) {
 }
 
 func (cellint *CellInt) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchCellInt(cellint)
-}
-
-func (stage *Stage) UnstageBranchCellInt(cellint *CellInt) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(cellint) {
@@ -843,10 +657,6 @@ func (stage *Stage) UnstageBranchCellInt(cellint *CellInt) {
 }
 
 func (cellstring *CellString) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchCellString(cellstring)
-}
-
-func (stage *Stage) UnstageBranchCellString(cellstring *CellString) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(cellstring) {
@@ -862,10 +672,6 @@ func (stage *Stage) UnstageBranchCellString(cellstring *CellString) {
 }
 
 func (displayedcolumn *DisplayedColumn) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDisplayedColumn(displayedcolumn)
-}
-
-func (stage *Stage) UnstageBranchDisplayedColumn(displayedcolumn *DisplayedColumn) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(displayedcolumn) {
@@ -881,10 +687,6 @@ func (stage *Stage) UnstageBranchDisplayedColumn(displayedcolumn *DisplayedColum
 }
 
 func (row *Row) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchRow(row)
-}
-
-func (stage *Stage) UnstageBranchRow(row *Row) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(row) {
@@ -903,10 +705,6 @@ func (stage *Stage) UnstageBranchRow(row *Row) {
 }
 
 func (svgicon *SVGIcon) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSVGIcon(svgicon)
-}
-
-func (stage *Stage) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(svgicon) {
@@ -922,10 +720,6 @@ func (stage *Stage) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 }
 
 func (table *Table) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchTable(table)
-}
-
-func (stage *Stage) UnstageBranchTable(table *Table) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(table) {
@@ -955,29 +749,17 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 // insertion point for pointer reconstruction from references
 func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, instance *Button) {
 	// insertion point for pointers field
-	if instance.SVGIcon != nil {
-		reference.SVGIcon = stage.SVGIcons_reference[instance.SVGIcon]
-	}
+	__gong__reconstructPointer(&reference.SVGIcon, stage.SVGIcons_reference, instance.SVGIcon)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Cell) GongReconstructPointersFromReferences(stage *Stage, instance *Cell) {
 	// insertion point for pointers field
-	if instance.CellString != nil {
-		reference.CellString = stage.CellStrings_reference[instance.CellString]
-	}
-	if instance.CellFloat64 != nil {
-		reference.CellFloat64 = stage.CellFloat64s_reference[instance.CellFloat64]
-	}
-	if instance.CellInt != nil {
-		reference.CellInt = stage.CellInts_reference[instance.CellInt]
-	}
-	if instance.CellBool != nil {
-		reference.CellBool = stage.CellBooleans_reference[instance.CellBool]
-	}
-	if instance.CellIcon != nil {
-		reference.CellIcon = stage.CellIcons_reference[instance.CellIcon]
-	}
+	__gong__reconstructPointer(&reference.CellString, stage.CellStrings_reference, instance.CellString)
+	__gong__reconstructPointer(&reference.CellFloat64, stage.CellFloat64s_reference, instance.CellFloat64)
+	__gong__reconstructPointer(&reference.CellInt, stage.CellInts_reference, instance.CellInt)
+	__gong__reconstructPointer(&reference.CellBool, stage.CellBooleans_reference, instance.CellBool)
+	__gong__reconstructPointer(&reference.CellIcon, stage.CellIcons_reference, instance.CellIcon)
 	// insertion point for slice of pointers field
 }
 
@@ -1014,10 +796,7 @@ func (reference *DisplayedColumn) GongReconstructPointersFromReferences(stage *S
 func (reference *Row) GongReconstructPointersFromReferences(stage *Stage, instance *Row) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Cells = reference.Cells[:0]
-	for _, _b := range instance.Cells {
-		reference.Cells = append(reference.Cells, stage.Cells_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Cells, stage.Cells_reference, instance.Cells)
 }
 
 func (reference *SVGIcon) GongReconstructPointersFromReferences(stage *Stage, instance *SVGIcon) {
@@ -1028,68 +807,26 @@ func (reference *SVGIcon) GongReconstructPointersFromReferences(stage *Stage, in
 func (reference *Table) GongReconstructPointersFromReferences(stage *Stage, instance *Table) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.DisplayedColumns = reference.DisplayedColumns[:0]
-	for _, _b := range instance.DisplayedColumns {
-		reference.DisplayedColumns = append(reference.DisplayedColumns, stage.DisplayedColumns_reference[_b])
-	}
-	reference.Rows = reference.Rows[:0]
-	for _, _b := range instance.Rows {
-		reference.Rows = append(reference.Rows, stage.Rows_reference[_b])
-	}
-	reference.RowsSelectedForBulkDelete = reference.RowsSelectedForBulkDelete[:0]
-	for _, _b := range instance.RowsSelectedForBulkDelete {
-		reference.RowsSelectedForBulkDelete = append(reference.RowsSelectedForBulkDelete, stage.Rows_reference[_b])
-	}
-	reference.Buttons = reference.Buttons[:0]
-	for _, _b := range instance.Buttons {
-		reference.Buttons = append(reference.Buttons, stage.Buttons_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DisplayedColumns, stage.DisplayedColumns_reference, instance.DisplayedColumns)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Rows, stage.Rows_reference, instance.Rows)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RowsSelectedForBulkDelete, stage.Rows_reference, instance.RowsSelectedForBulkDelete)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Buttons, stage.Buttons_reference, instance.Buttons)
 }
 
 // insertion point for pointer reconstruction from instances
 func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.SVGIcon; _reference != nil {
-		reference.SVGIcon = nil
-		if _instance, ok := stage.SVGIcons_instance[_reference]; ok {
-			reference.SVGIcon = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.SVGIcon, stage.SVGIcons_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Cell) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.CellString; _reference != nil {
-		reference.CellString = nil
-		if _instance, ok := stage.CellStrings_instance[_reference]; ok {
-			reference.CellString = _instance
-		}
-	}
-	if _reference := reference.CellFloat64; _reference != nil {
-		reference.CellFloat64 = nil
-		if _instance, ok := stage.CellFloat64s_instance[_reference]; ok {
-			reference.CellFloat64 = _instance
-		}
-	}
-	if _reference := reference.CellInt; _reference != nil {
-		reference.CellInt = nil
-		if _instance, ok := stage.CellInts_instance[_reference]; ok {
-			reference.CellInt = _instance
-		}
-	}
-	if _reference := reference.CellBool; _reference != nil {
-		reference.CellBool = nil
-		if _instance, ok := stage.CellBooleans_instance[_reference]; ok {
-			reference.CellBool = _instance
-		}
-	}
-	if _reference := reference.CellIcon; _reference != nil {
-		reference.CellIcon = nil
-		if _instance, ok := stage.CellIcons_instance[_reference]; ok {
-			reference.CellIcon = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.CellString, stage.CellStrings_instance)
+	__gong__reconstructPointerFromInstance(&reference.CellFloat64, stage.CellFloat64s_instance)
+	__gong__reconstructPointerFromInstance(&reference.CellInt, stage.CellInts_instance)
+	__gong__reconstructPointerFromInstance(&reference.CellBool, stage.CellBooleans_instance)
+	__gong__reconstructPointerFromInstance(&reference.CellIcon, stage.CellIcons_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -1126,13 +863,7 @@ func (reference *DisplayedColumn) GongReconstructPointersFromInstances(stage *St
 func (reference *Row) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Cells []*Cell
-	for _, _reference := range reference.Cells {
-		if _instance, ok := stage.Cells_instance[_reference]; ok {
-			_Cells = append(_Cells, _instance)
-		}
-	}
-	reference.Cells = _Cells
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Cells, stage.Cells_instance)
 }
 
 func (reference *SVGIcon) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1143,34 +874,10 @@ func (reference *SVGIcon) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Table) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _DisplayedColumns []*DisplayedColumn
-	for _, _reference := range reference.DisplayedColumns {
-		if _instance, ok := stage.DisplayedColumns_instance[_reference]; ok {
-			_DisplayedColumns = append(_DisplayedColumns, _instance)
-		}
-	}
-	reference.DisplayedColumns = _DisplayedColumns
-	var _Rows []*Row
-	for _, _reference := range reference.Rows {
-		if _instance, ok := stage.Rows_instance[_reference]; ok {
-			_Rows = append(_Rows, _instance)
-		}
-	}
-	reference.Rows = _Rows
-	var _RowsSelectedForBulkDelete []*Row
-	for _, _reference := range reference.RowsSelectedForBulkDelete {
-		if _instance, ok := stage.Rows_instance[_reference]; ok {
-			_RowsSelectedForBulkDelete = append(_RowsSelectedForBulkDelete, _instance)
-		}
-	}
-	reference.RowsSelectedForBulkDelete = _RowsSelectedForBulkDelete
-	var _Buttons []*Button
-	for _, _reference := range reference.Buttons {
-		if _instance, ok := stage.Buttons_instance[_reference]; ok {
-			_Buttons = append(_Buttons, _instance)
-		}
-	}
-	reference.Buttons = _Buttons
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DisplayedColumns, stage.DisplayedColumns_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Rows, stage.Rows_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RowsSelectedForBulkDelete, stage.Rows_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Buttons, stage.Buttons_instance)
 }
 
 // insertion point for diff per struct
@@ -1184,12 +891,8 @@ func (button *Button) GongDiff(stage *Stage, buttonOther *Button) (diffs []strin
 	if button.Icon != buttonOther.Icon {
 		diffs = append(diffs, button.GongMarshallField(stage, "Icon"))
 	}
-	if (button.SVGIcon == nil) != (buttonOther.SVGIcon == nil) {
+	if button.SVGIcon != buttonOther.SVGIcon {
 		diffs = append(diffs, button.GongMarshallField(stage, "SVGIcon"))
-	} else if button.SVGIcon != nil && buttonOther.SVGIcon != nil {
-		if button.SVGIcon != buttonOther.SVGIcon {
-			diffs = append(diffs, button.GongMarshallField(stage, "SVGIcon"))
-		}
 	}
 	if button.IsDisabled != buttonOther.IsDisabled {
 		diffs = append(diffs, button.GongMarshallField(stage, "IsDisabled"))
@@ -1214,40 +917,20 @@ func (cell *Cell) GongDiff(stage *Stage, cellOther *Cell) (diffs []string) {
 	if cell.Name != cellOther.Name {
 		diffs = append(diffs, cell.GongMarshallField(stage, "Name"))
 	}
-	if (cell.CellString == nil) != (cellOther.CellString == nil) {
+	if cell.CellString != cellOther.CellString {
 		diffs = append(diffs, cell.GongMarshallField(stage, "CellString"))
-	} else if cell.CellString != nil && cellOther.CellString != nil {
-		if cell.CellString != cellOther.CellString {
-			diffs = append(diffs, cell.GongMarshallField(stage, "CellString"))
-		}
 	}
-	if (cell.CellFloat64 == nil) != (cellOther.CellFloat64 == nil) {
+	if cell.CellFloat64 != cellOther.CellFloat64 {
 		diffs = append(diffs, cell.GongMarshallField(stage, "CellFloat64"))
-	} else if cell.CellFloat64 != nil && cellOther.CellFloat64 != nil {
-		if cell.CellFloat64 != cellOther.CellFloat64 {
-			diffs = append(diffs, cell.GongMarshallField(stage, "CellFloat64"))
-		}
 	}
-	if (cell.CellInt == nil) != (cellOther.CellInt == nil) {
+	if cell.CellInt != cellOther.CellInt {
 		diffs = append(diffs, cell.GongMarshallField(stage, "CellInt"))
-	} else if cell.CellInt != nil && cellOther.CellInt != nil {
-		if cell.CellInt != cellOther.CellInt {
-			diffs = append(diffs, cell.GongMarshallField(stage, "CellInt"))
-		}
 	}
-	if (cell.CellBool == nil) != (cellOther.CellBool == nil) {
+	if cell.CellBool != cellOther.CellBool {
 		diffs = append(diffs, cell.GongMarshallField(stage, "CellBool"))
-	} else if cell.CellBool != nil && cellOther.CellBool != nil {
-		if cell.CellBool != cellOther.CellBool {
-			diffs = append(diffs, cell.GongMarshallField(stage, "CellBool"))
-		}
 	}
-	if (cell.CellIcon == nil) != (cellOther.CellIcon == nil) {
+	if cell.CellIcon != cellOther.CellIcon {
 		diffs = append(diffs, cell.GongMarshallField(stage, "CellIcon"))
-	} else if cell.CellIcon != nil && cellOther.CellIcon != nil {
-		if cell.CellIcon != cellOther.CellIcon {
-			diffs = append(diffs, cell.GongMarshallField(stage, "CellIcon"))
-		}
 	}
 
 	return
@@ -1347,36 +1030,7 @@ func (row *Row) GongDiff(stage *Stage, rowOther *Row) (diffs []string) {
 	if row.Name != rowOther.Name {
 		diffs = append(diffs, row.GongMarshallField(stage, "Name"))
 	}
-	CellsDifferent := false
-	if len(row.Cells) != len(rowOther.Cells) {
-		CellsDifferent = true
-	} else {
-		for i := range row.Cells {
-			if (row.Cells[i] == nil) != (rowOther.Cells[i] == nil) {
-				CellsDifferent = true
-				break
-			} else if row.Cells[i] != nil && rowOther.Cells[i] != nil {
-				// this is a pointer comparaison
-				if row.Cells[i] != rowOther.Cells[i] {
-					CellsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if CellsDifferent {
-		ops := stage.Diff(
-			row,
-			"Cells",
-			len(rowOther.Cells),
-			len(row.Cells),
-			func(i, j int) bool {
-				return rowOther.Cells[i] == row.Cells[j]
-			},
-			func(j int) string {
-				return row.Cells[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, row, "Cells", rowOther.Cells, row.Cells); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if row.IsChecked != rowOther.IsChecked {
@@ -1407,68 +1061,10 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 	if table.Name != tableOther.Name {
 		diffs = append(diffs, table.GongMarshallField(stage, "Name"))
 	}
-	DisplayedColumnsDifferent := false
-	if len(table.DisplayedColumns) != len(tableOther.DisplayedColumns) {
-		DisplayedColumnsDifferent = true
-	} else {
-		for i := range table.DisplayedColumns {
-			if (table.DisplayedColumns[i] == nil) != (tableOther.DisplayedColumns[i] == nil) {
-				DisplayedColumnsDifferent = true
-				break
-			} else if table.DisplayedColumns[i] != nil && tableOther.DisplayedColumns[i] != nil {
-				// this is a pointer comparaison
-				if table.DisplayedColumns[i] != tableOther.DisplayedColumns[i] {
-					DisplayedColumnsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DisplayedColumnsDifferent {
-		ops := stage.Diff(
-			table,
-			"DisplayedColumns",
-			len(tableOther.DisplayedColumns),
-			len(table.DisplayedColumns),
-			func(i, j int) bool {
-				return tableOther.DisplayedColumns[i] == table.DisplayedColumns[j]
-			},
-			func(j int) string {
-				return table.DisplayedColumns[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, table, "DisplayedColumns", tableOther.DisplayedColumns, table.DisplayedColumns); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	RowsDifferent := false
-	if len(table.Rows) != len(tableOther.Rows) {
-		RowsDifferent = true
-	} else {
-		for i := range table.Rows {
-			if (table.Rows[i] == nil) != (tableOther.Rows[i] == nil) {
-				RowsDifferent = true
-				break
-			} else if table.Rows[i] != nil && tableOther.Rows[i] != nil {
-				// this is a pointer comparaison
-				if table.Rows[i] != tableOther.Rows[i] {
-					RowsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RowsDifferent {
-		ops := stage.Diff(
-			table,
-			"Rows",
-			len(tableOther.Rows),
-			len(table.Rows),
-			func(i, j int) bool {
-				return tableOther.Rows[i] == table.Rows[j]
-			},
-			func(j int) string {
-				return table.Rows[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, table, "Rows", tableOther.Rows, table.Rows); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if table.HasFiltering != tableOther.HasFiltering {
@@ -1495,36 +1091,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 	if table.BulkDeleteButtonTooltip != tableOther.BulkDeleteButtonTooltip {
 		diffs = append(diffs, table.GongMarshallField(stage, "BulkDeleteButtonTooltip"))
 	}
-	RowsSelectedForBulkDeleteDifferent := false
-	if len(table.RowsSelectedForBulkDelete) != len(tableOther.RowsSelectedForBulkDelete) {
-		RowsSelectedForBulkDeleteDifferent = true
-	} else {
-		for i := range table.RowsSelectedForBulkDelete {
-			if (table.RowsSelectedForBulkDelete[i] == nil) != (tableOther.RowsSelectedForBulkDelete[i] == nil) {
-				RowsSelectedForBulkDeleteDifferent = true
-				break
-			} else if table.RowsSelectedForBulkDelete[i] != nil && tableOther.RowsSelectedForBulkDelete[i] != nil {
-				// this is a pointer comparaison
-				if table.RowsSelectedForBulkDelete[i] != tableOther.RowsSelectedForBulkDelete[i] {
-					RowsSelectedForBulkDeleteDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RowsSelectedForBulkDeleteDifferent {
-		ops := stage.Diff(
-			table,
-			"RowsSelectedForBulkDelete",
-			len(tableOther.RowsSelectedForBulkDelete),
-			len(table.RowsSelectedForBulkDelete),
-			func(i, j int) bool {
-				return tableOther.RowsSelectedForBulkDelete[i] == table.RowsSelectedForBulkDelete[j]
-			},
-			func(j int) string {
-				return table.RowsSelectedForBulkDelete[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, table, "RowsSelectedForBulkDelete", tableOther.RowsSelectedForBulkDelete, table.RowsSelectedForBulkDelete); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if table.CanDragDropRows != tableOther.CanDragDropRows {
@@ -1539,36 +1106,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 	if table.NbOfStickyColumns != tableOther.NbOfStickyColumns {
 		diffs = append(diffs, table.GongMarshallField(stage, "NbOfStickyColumns"))
 	}
-	ButtonsDifferent := false
-	if len(table.Buttons) != len(tableOther.Buttons) {
-		ButtonsDifferent = true
-	} else {
-		for i := range table.Buttons {
-			if (table.Buttons[i] == nil) != (tableOther.Buttons[i] == nil) {
-				ButtonsDifferent = true
-				break
-			} else if table.Buttons[i] != nil && tableOther.Buttons[i] != nil {
-				// this is a pointer comparaison
-				if table.Buttons[i] != tableOther.Buttons[i] {
-					ButtonsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ButtonsDifferent {
-		ops := stage.Diff(
-			table,
-			"Buttons",
-			len(tableOther.Buttons),
-			len(table.Buttons),
-			func(i, j int) bool {
-				return tableOther.Buttons[i] == table.Buttons[j]
-			},
-			func(j int) string {
-				return table.Buttons[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, table, "Buttons", tableOther.Buttons, table.Buttons); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -1651,4 +1189,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

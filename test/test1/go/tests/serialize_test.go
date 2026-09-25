@@ -17,8 +17,8 @@ func TestSerialize(t *testing.T) {
 	stack := test_stack.NewTranscientStack(r, "test", false)
 	stage := stack.Stage
 
-	bclass1 := (&models.Bstruct{Name: "B1"}).Stage(stage).Commit(stage)
-	bclass2 := (&models.Bstruct{Name: "B2"}).Stage(stage).Commit(stage)
+	bclass1 := (&models.Bstruct{Name: "B1"}).Stage(stage)
+	bclass2 := (&models.Bstruct{Name: "B2"}).Stage(stage)
 
 	aclass1 := (&models.Astruct{
 		Name:                "A1",
@@ -26,7 +26,7 @@ func TestSerialize(t *testing.T) {
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
-	}).Stage(stage).Commit(stage)
+	}).Stage(stage)
 
 	aclass1.Anarrayofb = append(aclass1.Anarrayofb, bclass2)
 	aclass1.Anarrayofb = append(aclass1.Anarrayofb, bclass1)
@@ -37,7 +37,7 @@ func TestSerialize(t *testing.T) {
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
-	}).Stage(stage).Commit(stage)
+	}).Stage(stage)
 
 	aclass3.Anarrayofb = append(aclass1.Anarrayofb, bclass2)
 
@@ -47,7 +47,7 @@ func TestSerialize(t *testing.T) {
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
-	}).Stage(stage).Commit(stage)
+	}).Stage(stage)
 
 	aclass2.Anarrayofb = append(aclass1.Anarrayofb, bclass2)
 

@@ -6,9 +6,3 @@ func (inst *ClockAbstract) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	res = ""
 	return
 }
-
-// insertion point
-func (inst *ClockAbstract) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-	res = nil
-	return res
-}

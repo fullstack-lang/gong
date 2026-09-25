@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,160 +15,69 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (artefacttype *ArtefactType) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ArtefactTypes[artefacttype]
-
-	return
+func (artefacttype *ArtefactType) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ArtefactTypes[artefacttype]
+	return ok
 }
 
-func (stage *Stage) IsStagedArtefactType(artefacttype *ArtefactType) (ok bool) {
-
-	return artefacttype.GongIsStaged(stage)
+func (artefacttypeshape *ArtefactTypeShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ArtefactTypeShapes[artefacttypeshape]
+	return ok
 }
 
-func (artefacttypeshape *ArtefactTypeShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ArtefactTypeShapes[artefacttypeshape]
-
-	return
+func (artist *Artist) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Artists[artist]
+	return ok
 }
 
-func (stage *Stage) IsStagedArtefactTypeShape(artefacttypeshape *ArtefactTypeShape) (ok bool) {
-
-	return artefacttypeshape.GongIsStaged(stage)
+func (artistshape *ArtistShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ArtistShapes[artistshape]
+	return ok
 }
 
-func (artist *Artist) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Artists[artist]
-
-	return
+func (controlpointshape *ControlPointShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ControlPointShapes[controlpointshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedArtist(artist *Artist) (ok bool) {
-
-	return artist.GongIsStaged(stage)
+func (desk *Desk) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Desks[desk]
+	return ok
 }
 
-func (artistshape *ArtistShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ArtistShapes[artistshape]
-
-	return
+func (diagram *Diagram) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Diagrams[diagram]
+	return ok
 }
 
-func (stage *Stage) IsStagedArtistShape(artistshape *ArtistShape) (ok bool) {
-
-	return artistshape.GongIsStaged(stage)
+func (influence *Influence) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Influences[influence]
+	return ok
 }
 
-func (controlpointshape *ControlPointShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ControlPointShapes[controlpointshape]
-
-	return
+func (influenceshape *InfluenceShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.InfluenceShapes[influenceshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedControlPointShape(controlpointshape *ControlPointShape) (ok bool) {
-
-	return controlpointshape.GongIsStaged(stage)
+func (library *Library) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Librarys[library]
+	return ok
 }
 
-func (desk *Desk) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Desks[desk]
-
-	return
+func (movement *Movement) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Movements[movement]
+	return ok
 }
 
-func (stage *Stage) IsStagedDesk(desk *Desk) (ok bool) {
-
-	return desk.GongIsStaged(stage)
+func (movementshape *MovementShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.MovementShapes[movementshape]
+	return ok
 }
 
-func (diagram *Diagram) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Diagrams[diagram]
-
-	return
-}
-
-func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
-
-	return diagram.GongIsStaged(stage)
-}
-
-func (influence *Influence) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Influences[influence]
-
-	return
-}
-
-func (stage *Stage) IsStagedInfluence(influence *Influence) (ok bool) {
-
-	return influence.GongIsStaged(stage)
-}
-
-func (influenceshape *InfluenceShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.InfluenceShapes[influenceshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedInfluenceShape(influenceshape *InfluenceShape) (ok bool) {
-
-	return influenceshape.GongIsStaged(stage)
-}
-
-func (library *Library) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Librarys[library]
-
-	return
-}
-
-func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
-
-	return library.GongIsStaged(stage)
-}
-
-func (movement *Movement) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Movements[movement]
-
-	return
-}
-
-func (stage *Stage) IsStagedMovement(movement *Movement) (ok bool) {
-
-	return movement.GongIsStaged(stage)
-}
-
-func (movementshape *MovementShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.MovementShapes[movementshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedMovementShape(movementshape *MovementShape) (ok bool) {
-
-	return movementshape.GongIsStaged(stage)
-}
-
-func (place *Place) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Places[place]
-
-	return
-}
-
-func (stage *Stage) IsStagedPlace(place *Place) (ok bool) {
-
-	return place.GongIsStaged(stage)
+func (place *Place) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Places[place]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -177,10 +89,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (artefacttype *ArtefactType) GongStageBranch(stage *Stage) {
-	stage.StageBranchArtefactType(artefacttype)
-}
-
-func (stage *Stage) StageBranchArtefactType(artefacttype *ArtefactType) {
 
 	// check if instance is already staged
 	if stage.IsStaged(artefacttype) {
@@ -196,10 +104,6 @@ func (stage *Stage) StageBranchArtefactType(artefacttype *ArtefactType) {
 }
 
 func (artefacttypeshape *ArtefactTypeShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchArtefactTypeShape(artefacttypeshape)
-}
-
-func (stage *Stage) StageBranchArtefactTypeShape(artefacttypeshape *ArtefactTypeShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(artefacttypeshape) {
@@ -218,10 +122,6 @@ func (stage *Stage) StageBranchArtefactTypeShape(artefacttypeshape *ArtefactType
 }
 
 func (artist *Artist) GongStageBranch(stage *Stage) {
-	stage.StageBranchArtist(artist)
-}
-
-func (stage *Stage) StageBranchArtist(artist *Artist) {
 
 	// check if instance is already staged
 	if stage.IsStaged(artist) {
@@ -240,10 +140,6 @@ func (stage *Stage) StageBranchArtist(artist *Artist) {
 }
 
 func (artistshape *ArtistShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchArtistShape(artistshape)
-}
-
-func (stage *Stage) StageBranchArtistShape(artistshape *ArtistShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(artistshape) {
@@ -262,10 +158,6 @@ func (stage *Stage) StageBranchArtistShape(artistshape *ArtistShape) {
 }
 
 func (controlpointshape *ControlPointShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchControlPointShape(controlpointshape)
-}
-
-func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPointShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(controlpointshape) {
@@ -281,10 +173,6 @@ func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPoint
 }
 
 func (desk *Desk) GongStageBranch(stage *Stage) {
-	stage.StageBranchDesk(desk)
-}
-
-func (stage *Stage) StageBranchDesk(desk *Desk) {
 
 	// check if instance is already staged
 	if stage.IsStaged(desk) {
@@ -303,10 +191,6 @@ func (stage *Stage) StageBranchDesk(desk *Desk) {
 }
 
 func (diagram *Diagram) GongStageBranch(stage *Stage) {
-	stage.StageBranchDiagram(diagram)
-}
-
-func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
 	if stage.IsStaged(diagram) {
@@ -334,10 +218,6 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 }
 
 func (influence *Influence) GongStageBranch(stage *Stage) {
-	stage.StageBranchInfluence(influence)
-}
-
-func (stage *Stage) StageBranchInfluence(influence *Influence) {
 
 	// check if instance is already staged
 	if stage.IsStaged(influence) {
@@ -371,10 +251,6 @@ func (stage *Stage) StageBranchInfluence(influence *Influence) {
 }
 
 func (influenceshape *InfluenceShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchInfluenceShape(influenceshape)
-}
-
-func (stage *Stage) StageBranchInfluenceShape(influenceshape *InfluenceShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(influenceshape) {
@@ -396,10 +272,6 @@ func (stage *Stage) StageBranchInfluenceShape(influenceshape *InfluenceShape) {
 }
 
 func (library *Library) GongStageBranch(stage *Stage) {
-	stage.StageBranchLibrary(library)
-}
-
-func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
 	if stage.IsStaged(library) {
@@ -421,10 +293,6 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 }
 
 func (movement *Movement) GongStageBranch(stage *Stage) {
-	stage.StageBranchMovement(movement)
-}
-
-func (stage *Stage) StageBranchMovement(movement *Movement) {
 
 	// check if instance is already staged
 	if stage.IsStaged(movement) {
@@ -443,10 +311,6 @@ func (stage *Stage) StageBranchMovement(movement *Movement) {
 }
 
 func (movementshape *MovementShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchMovementShape(movementshape)
-}
-
-func (stage *Stage) StageBranchMovementShape(movementshape *MovementShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(movementshape) {
@@ -465,10 +329,6 @@ func (stage *Stage) StageBranchMovementShape(movementshape *MovementShape) {
 }
 
 func (place *Place) GongStageBranch(stage *Stage) {
-	stage.StageBranchPlace(place)
-}
-
-func (stage *Stage) StageBranchPlace(place *Place) {
 
 	// check if instance is already staged
 	if stage.IsStaged(place) {
@@ -554,15 +414,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchArtefactType(mapOrigCopy map[any]any, artefacttypeFrom *ArtefactType) (artefacttypeTo *ArtefactType) {
-
-	// artefacttypeFrom has already been copied
-	if _artefacttypeTo, ok := mapOrigCopy[artefacttypeFrom]; ok {
-		artefacttypeTo = _artefacttypeTo.(*ArtefactType)
+	var alreadyCopied bool
+	artefacttypeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, artefacttypeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	artefacttypeTo = new(ArtefactType)
-	mapOrigCopy[artefacttypeFrom] = artefacttypeTo
 	artefacttypeFrom.GongCopyBasicFields(artefacttypeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -573,15 +429,11 @@ func GongCopyBranchArtefactType(mapOrigCopy map[any]any, artefacttypeFrom *Artef
 }
 
 func GongCopyBranchArtefactTypeShape(mapOrigCopy map[any]any, artefacttypeshapeFrom *ArtefactTypeShape) (artefacttypeshapeTo *ArtefactTypeShape) {
-
-	// artefacttypeshapeFrom has already been copied
-	if _artefacttypeshapeTo, ok := mapOrigCopy[artefacttypeshapeFrom]; ok {
-		artefacttypeshapeTo = _artefacttypeshapeTo.(*ArtefactTypeShape)
+	var alreadyCopied bool
+	artefacttypeshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, artefacttypeshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	artefacttypeshapeTo = new(ArtefactTypeShape)
-	mapOrigCopy[artefacttypeshapeFrom] = artefacttypeshapeTo
 	artefacttypeshapeFrom.GongCopyBasicFields(artefacttypeshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -595,15 +447,11 @@ func GongCopyBranchArtefactTypeShape(mapOrigCopy map[any]any, artefacttypeshapeF
 }
 
 func GongCopyBranchArtist(mapOrigCopy map[any]any, artistFrom *Artist) (artistTo *Artist) {
-
-	// artistFrom has already been copied
-	if _artistTo, ok := mapOrigCopy[artistFrom]; ok {
-		artistTo = _artistTo.(*Artist)
+	var alreadyCopied bool
+	artistTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, artistFrom)
+	if alreadyCopied {
 		return
 	}
-
-	artistTo = new(Artist)
-	mapOrigCopy[artistFrom] = artistTo
 	artistFrom.GongCopyBasicFields(artistTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -617,15 +465,11 @@ func GongCopyBranchArtist(mapOrigCopy map[any]any, artistFrom *Artist) (artistTo
 }
 
 func GongCopyBranchArtistShape(mapOrigCopy map[any]any, artistshapeFrom *ArtistShape) (artistshapeTo *ArtistShape) {
-
-	// artistshapeFrom has already been copied
-	if _artistshapeTo, ok := mapOrigCopy[artistshapeFrom]; ok {
-		artistshapeTo = _artistshapeTo.(*ArtistShape)
+	var alreadyCopied bool
+	artistshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, artistshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	artistshapeTo = new(ArtistShape)
-	mapOrigCopy[artistshapeFrom] = artistshapeTo
 	artistshapeFrom.GongCopyBasicFields(artistshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -639,15 +483,11 @@ func GongCopyBranchArtistShape(mapOrigCopy map[any]any, artistshapeFrom *ArtistS
 }
 
 func GongCopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom *ControlPointShape) (controlpointshapeTo *ControlPointShape) {
-
-	// controlpointshapeFrom has already been copied
-	if _controlpointshapeTo, ok := mapOrigCopy[controlpointshapeFrom]; ok {
-		controlpointshapeTo = _controlpointshapeTo.(*ControlPointShape)
+	var alreadyCopied bool
+	controlpointshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, controlpointshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	controlpointshapeTo = new(ControlPointShape)
-	mapOrigCopy[controlpointshapeFrom] = controlpointshapeTo
 	controlpointshapeFrom.GongCopyBasicFields(controlpointshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -658,15 +498,11 @@ func GongCopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeF
 }
 
 func GongCopyBranchDesk(mapOrigCopy map[any]any, deskFrom *Desk) (deskTo *Desk) {
-
-	// deskFrom has already been copied
-	if _deskTo, ok := mapOrigCopy[deskFrom]; ok {
-		deskTo = _deskTo.(*Desk)
+	var alreadyCopied bool
+	deskTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, deskFrom)
+	if alreadyCopied {
 		return
 	}
-
-	deskTo = new(Desk)
-	mapOrigCopy[deskFrom] = deskTo
 	deskFrom.GongCopyBasicFields(deskTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -680,15 +516,11 @@ func GongCopyBranchDesk(mapOrigCopy map[any]any, deskFrom *Desk) (deskTo *Desk) 
 }
 
 func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
-
-	// diagramFrom has already been copied
-	if _diagramTo, ok := mapOrigCopy[diagramFrom]; ok {
-		diagramTo = _diagramTo.(*Diagram)
+	var alreadyCopied bool
+	diagramTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, diagramFrom)
+	if alreadyCopied {
 		return
 	}
-
-	diagramTo = new(Diagram)
-	mapOrigCopy[diagramFrom] = diagramTo
 	diagramFrom.GongCopyBasicFields(diagramTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -711,15 +543,11 @@ func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagr
 }
 
 func GongCopyBranchInfluence(mapOrigCopy map[any]any, influenceFrom *Influence) (influenceTo *Influence) {
-
-	// influenceFrom has already been copied
-	if _influenceTo, ok := mapOrigCopy[influenceFrom]; ok {
-		influenceTo = _influenceTo.(*Influence)
+	var alreadyCopied bool
+	influenceTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, influenceFrom)
+	if alreadyCopied {
 		return
 	}
-
-	influenceTo = new(Influence)
-	mapOrigCopy[influenceFrom] = influenceTo
 	influenceFrom.GongCopyBasicFields(influenceTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -748,15 +576,11 @@ func GongCopyBranchInfluence(mapOrigCopy map[any]any, influenceFrom *Influence) 
 }
 
 func GongCopyBranchInfluenceShape(mapOrigCopy map[any]any, influenceshapeFrom *InfluenceShape) (influenceshapeTo *InfluenceShape) {
-
-	// influenceshapeFrom has already been copied
-	if _influenceshapeTo, ok := mapOrigCopy[influenceshapeFrom]; ok {
-		influenceshapeTo = _influenceshapeTo.(*InfluenceShape)
+	var alreadyCopied bool
+	influenceshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, influenceshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	influenceshapeTo = new(InfluenceShape)
-	mapOrigCopy[influenceshapeFrom] = influenceshapeTo
 	influenceshapeFrom.GongCopyBasicFields(influenceshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -773,15 +597,11 @@ func GongCopyBranchInfluenceShape(mapOrigCopy map[any]any, influenceshapeFrom *I
 }
 
 func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
-
-	// libraryFrom has already been copied
-	if _libraryTo, ok := mapOrigCopy[libraryFrom]; ok {
-		libraryTo = _libraryTo.(*Library)
+	var alreadyCopied bool
+	libraryTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, libraryFrom)
+	if alreadyCopied {
 		return
 	}
-
-	libraryTo = new(Library)
-	mapOrigCopy[libraryFrom] = libraryTo
 	libraryFrom.GongCopyBasicFields(libraryTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -798,15 +618,11 @@ func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libra
 }
 
 func GongCopyBranchMovement(mapOrigCopy map[any]any, movementFrom *Movement) (movementTo *Movement) {
-
-	// movementFrom has already been copied
-	if _movementTo, ok := mapOrigCopy[movementFrom]; ok {
-		movementTo = _movementTo.(*Movement)
+	var alreadyCopied bool
+	movementTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, movementFrom)
+	if alreadyCopied {
 		return
 	}
-
-	movementTo = new(Movement)
-	mapOrigCopy[movementFrom] = movementTo
 	movementFrom.GongCopyBasicFields(movementTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -820,15 +636,11 @@ func GongCopyBranchMovement(mapOrigCopy map[any]any, movementFrom *Movement) (mo
 }
 
 func GongCopyBranchMovementShape(mapOrigCopy map[any]any, movementshapeFrom *MovementShape) (movementshapeTo *MovementShape) {
-
-	// movementshapeFrom has already been copied
-	if _movementshapeTo, ok := mapOrigCopy[movementshapeFrom]; ok {
-		movementshapeTo = _movementshapeTo.(*MovementShape)
+	var alreadyCopied bool
+	movementshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, movementshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	movementshapeTo = new(MovementShape)
-	mapOrigCopy[movementshapeFrom] = movementshapeTo
 	movementshapeFrom.GongCopyBasicFields(movementshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -842,15 +654,11 @@ func GongCopyBranchMovementShape(mapOrigCopy map[any]any, movementshapeFrom *Mov
 }
 
 func GongCopyBranchPlace(mapOrigCopy map[any]any, placeFrom *Place) (placeTo *Place) {
-
-	// placeFrom has already been copied
-	if _placeTo, ok := mapOrigCopy[placeFrom]; ok {
-		placeTo = _placeTo.(*Place)
+	var alreadyCopied bool
+	placeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, placeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	placeTo = new(Place)
-	mapOrigCopy[placeFrom] = placeTo
 	placeFrom.GongCopyBasicFields(placeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -873,10 +681,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (artefacttype *ArtefactType) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchArtefactType(artefacttype)
-}
-
-func (stage *Stage) UnstageBranchArtefactType(artefacttype *ArtefactType) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(artefacttype) {
@@ -892,10 +696,6 @@ func (stage *Stage) UnstageBranchArtefactType(artefacttype *ArtefactType) {
 }
 
 func (artefacttypeshape *ArtefactTypeShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchArtefactTypeShape(artefacttypeshape)
-}
-
-func (stage *Stage) UnstageBranchArtefactTypeShape(artefacttypeshape *ArtefactTypeShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(artefacttypeshape) {
@@ -914,10 +714,6 @@ func (stage *Stage) UnstageBranchArtefactTypeShape(artefacttypeshape *ArtefactTy
 }
 
 func (artist *Artist) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchArtist(artist)
-}
-
-func (stage *Stage) UnstageBranchArtist(artist *Artist) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(artist) {
@@ -936,10 +732,6 @@ func (stage *Stage) UnstageBranchArtist(artist *Artist) {
 }
 
 func (artistshape *ArtistShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchArtistShape(artistshape)
-}
-
-func (stage *Stage) UnstageBranchArtistShape(artistshape *ArtistShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(artistshape) {
@@ -958,10 +750,6 @@ func (stage *Stage) UnstageBranchArtistShape(artistshape *ArtistShape) {
 }
 
 func (controlpointshape *ControlPointShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchControlPointShape(controlpointshape)
-}
-
-func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPointShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(controlpointshape) {
@@ -977,10 +765,6 @@ func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPoi
 }
 
 func (desk *Desk) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDesk(desk)
-}
-
-func (stage *Stage) UnstageBranchDesk(desk *Desk) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(desk) {
@@ -999,10 +783,6 @@ func (stage *Stage) UnstageBranchDesk(desk *Desk) {
 }
 
 func (diagram *Diagram) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDiagram(diagram)
-}
-
-func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(diagram) {
@@ -1030,10 +810,6 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 }
 
 func (influence *Influence) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchInfluence(influence)
-}
-
-func (stage *Stage) UnstageBranchInfluence(influence *Influence) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(influence) {
@@ -1067,10 +843,6 @@ func (stage *Stage) UnstageBranchInfluence(influence *Influence) {
 }
 
 func (influenceshape *InfluenceShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchInfluenceShape(influenceshape)
-}
-
-func (stage *Stage) UnstageBranchInfluenceShape(influenceshape *InfluenceShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(influenceshape) {
@@ -1092,10 +864,6 @@ func (stage *Stage) UnstageBranchInfluenceShape(influenceshape *InfluenceShape) 
 }
 
 func (library *Library) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLibrary(library)
-}
-
-func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(library) {
@@ -1117,10 +885,6 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 }
 
 func (movement *Movement) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchMovement(movement)
-}
-
-func (stage *Stage) UnstageBranchMovement(movement *Movement) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(movement) {
@@ -1139,10 +903,6 @@ func (stage *Stage) UnstageBranchMovement(movement *Movement) {
 }
 
 func (movementshape *MovementShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchMovementShape(movementshape)
-}
-
-func (stage *Stage) UnstageBranchMovementShape(movementshape *MovementShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(movementshape) {
@@ -1161,10 +921,6 @@ func (stage *Stage) UnstageBranchMovementShape(movementshape *MovementShape) {
 }
 
 func (place *Place) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchPlace(place)
-}
-
-func (stage *Stage) UnstageBranchPlace(place *Place) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(place) {
@@ -1187,25 +943,19 @@ func (reference *ArtefactType) GongReconstructPointersFromReferences(stage *Stag
 
 func (reference *ArtefactTypeShape) GongReconstructPointersFromReferences(stage *Stage, instance *ArtefactTypeShape) {
 	// insertion point for pointers field
-	if instance.ArtefactType != nil {
-		reference.ArtefactType = stage.ArtefactTypes_reference[instance.ArtefactType]
-	}
+	__gong__reconstructPointer(&reference.ArtefactType, stage.ArtefactTypes_reference, instance.ArtefactType)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Artist) GongReconstructPointersFromReferences(stage *Stage, instance *Artist) {
 	// insertion point for pointers field
-	if instance.Place != nil {
-		reference.Place = stage.Places_reference[instance.Place]
-	}
+	__gong__reconstructPointer(&reference.Place, stage.Places_reference, instance.Place)
 	// insertion point for slice of pointers field
 }
 
 func (reference *ArtistShape) GongReconstructPointersFromReferences(stage *Stage, instance *ArtistShape) {
 	// insertion point for pointers field
-	if instance.Artist != nil {
-		reference.Artist = stage.Artists_reference[instance.Artist]
-	}
+	__gong__reconstructPointer(&reference.Artist, stage.Artists_reference, instance.Artist)
 	// insertion point for slice of pointers field
 }
 
@@ -1216,95 +966,53 @@ func (reference *ControlPointShape) GongReconstructPointersFromReferences(stage 
 
 func (reference *Desk) GongReconstructPointersFromReferences(stage *Stage, instance *Desk) {
 	// insertion point for pointers field
-	if instance.SelectedDiagram != nil {
-		reference.SelectedDiagram = stage.Diagrams_reference[instance.SelectedDiagram]
-	}
+	__gong__reconstructPointer(&reference.SelectedDiagram, stage.Diagrams_reference, instance.SelectedDiagram)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.MovementShapes = reference.MovementShapes[:0]
-	for _, _b := range instance.MovementShapes {
-		reference.MovementShapes = append(reference.MovementShapes, stage.MovementShapes_reference[_b])
-	}
-	reference.ArtefactTypeShapes = reference.ArtefactTypeShapes[:0]
-	for _, _b := range instance.ArtefactTypeShapes {
-		reference.ArtefactTypeShapes = append(reference.ArtefactTypeShapes, stage.ArtefactTypeShapes_reference[_b])
-	}
-	reference.ArtistShapes = reference.ArtistShapes[:0]
-	for _, _b := range instance.ArtistShapes {
-		reference.ArtistShapes = append(reference.ArtistShapes, stage.ArtistShapes_reference[_b])
-	}
-	reference.InfluenceShapes = reference.InfluenceShapes[:0]
-	for _, _b := range instance.InfluenceShapes {
-		reference.InfluenceShapes = append(reference.InfluenceShapes, stage.InfluenceShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.MovementShapes, stage.MovementShapes_reference, instance.MovementShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ArtefactTypeShapes, stage.ArtefactTypeShapes_reference, instance.ArtefactTypeShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ArtistShapes, stage.ArtistShapes_reference, instance.ArtistShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.InfluenceShapes, stage.InfluenceShapes_reference, instance.InfluenceShapes)
 }
 
 func (reference *Influence) GongReconstructPointersFromReferences(stage *Stage, instance *Influence) {
 	// insertion point for pointers field
-	if instance.SourceMovement != nil {
-		reference.SourceMovement = stage.Movements_reference[instance.SourceMovement]
-	}
-	if instance.SourceArtefactType != nil {
-		reference.SourceArtefactType = stage.ArtefactTypes_reference[instance.SourceArtefactType]
-	}
-	if instance.SourceArtist != nil {
-		reference.SourceArtist = stage.Artists_reference[instance.SourceArtist]
-	}
-	if instance.TargetMovement != nil {
-		reference.TargetMovement = stage.Movements_reference[instance.TargetMovement]
-	}
-	if instance.TargetArtefactType != nil {
-		reference.TargetArtefactType = stage.ArtefactTypes_reference[instance.TargetArtefactType]
-	}
-	if instance.TargetArtist != nil {
-		reference.TargetArtist = stage.Artists_reference[instance.TargetArtist]
-	}
+	__gong__reconstructPointer(&reference.SourceMovement, stage.Movements_reference, instance.SourceMovement)
+	__gong__reconstructPointer(&reference.SourceArtefactType, stage.ArtefactTypes_reference, instance.SourceArtefactType)
+	__gong__reconstructPointer(&reference.SourceArtist, stage.Artists_reference, instance.SourceArtist)
+	__gong__reconstructPointer(&reference.TargetMovement, stage.Movements_reference, instance.TargetMovement)
+	__gong__reconstructPointer(&reference.TargetArtefactType, stage.ArtefactTypes_reference, instance.TargetArtefactType)
+	__gong__reconstructPointer(&reference.TargetArtist, stage.Artists_reference, instance.TargetArtist)
 	// insertion point for slice of pointers field
 }
 
 func (reference *InfluenceShape) GongReconstructPointersFromReferences(stage *Stage, instance *InfluenceShape) {
 	// insertion point for pointers field
-	if instance.Influence != nil {
-		reference.Influence = stage.Influences_reference[instance.Influence]
-	}
+	__gong__reconstructPointer(&reference.Influence, stage.Influences_reference, instance.Influence)
 	// insertion point for slice of pointers field
-	reference.ControlPointShapes = reference.ControlPointShapes[:0]
-	for _, _b := range instance.ControlPointShapes {
-		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.SubLibraries = reference.SubLibraries[:0]
-	for _, _b := range instance.SubLibraries {
-		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
-	}
-	reference.SubLibrariesWhoseNodeIsExpanded = reference.SubLibrariesWhoseNodeIsExpanded[:0]
-	for _, _b := range instance.SubLibrariesWhoseNodeIsExpanded {
-		reference.SubLibrariesWhoseNodeIsExpanded = append(reference.SubLibrariesWhoseNodeIsExpanded, stage.Librarys_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SubLibraries, stage.Librarys_reference, instance.SubLibraries)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SubLibrariesWhoseNodeIsExpanded, stage.Librarys_reference, instance.SubLibrariesWhoseNodeIsExpanded)
 }
 
 func (reference *Movement) GongReconstructPointersFromReferences(stage *Stage, instance *Movement) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Places = reference.Places[:0]
-	for _, _b := range instance.Places {
-		reference.Places = append(reference.Places, stage.Places_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Places, stage.Places_reference, instance.Places)
 }
 
 func (reference *MovementShape) GongReconstructPointersFromReferences(stage *Stage, instance *MovementShape) {
 	// insertion point for pointers field
-	if instance.Movement != nil {
-		reference.Movement = stage.Movements_reference[instance.Movement]
-	}
+	__gong__reconstructPointer(&reference.Movement, stage.Movements_reference, instance.Movement)
 	// insertion point for slice of pointers field
 }
 
@@ -1321,34 +1029,19 @@ func (reference *ArtefactType) GongReconstructPointersFromInstances(stage *Stage
 
 func (reference *ArtefactTypeShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ArtefactType; _reference != nil {
-		reference.ArtefactType = nil
-		if _instance, ok := stage.ArtefactTypes_instance[_reference]; ok {
-			reference.ArtefactType = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ArtefactType, stage.ArtefactTypes_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Artist) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Place; _reference != nil {
-		reference.Place = nil
-		if _instance, ok := stage.Places_instance[_reference]; ok {
-			reference.Place = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Place, stage.Places_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *ArtistShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Artist; _reference != nil {
-		reference.Artist = nil
-		if _instance, ok := stage.Artists_instance[_reference]; ok {
-			reference.Artist = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Artist, stage.Artists_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -1359,146 +1052,53 @@ func (reference *ControlPointShape) GongReconstructPointersFromInstances(stage *
 
 func (reference *Desk) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.SelectedDiagram; _reference != nil {
-		reference.SelectedDiagram = nil
-		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
-			reference.SelectedDiagram = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.SelectedDiagram, stage.Diagrams_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _MovementShapes []*MovementShape
-	for _, _reference := range reference.MovementShapes {
-		if _instance, ok := stage.MovementShapes_instance[_reference]; ok {
-			_MovementShapes = append(_MovementShapes, _instance)
-		}
-	}
-	reference.MovementShapes = _MovementShapes
-	var _ArtefactTypeShapes []*ArtefactTypeShape
-	for _, _reference := range reference.ArtefactTypeShapes {
-		if _instance, ok := stage.ArtefactTypeShapes_instance[_reference]; ok {
-			_ArtefactTypeShapes = append(_ArtefactTypeShapes, _instance)
-		}
-	}
-	reference.ArtefactTypeShapes = _ArtefactTypeShapes
-	var _ArtistShapes []*ArtistShape
-	for _, _reference := range reference.ArtistShapes {
-		if _instance, ok := stage.ArtistShapes_instance[_reference]; ok {
-			_ArtistShapes = append(_ArtistShapes, _instance)
-		}
-	}
-	reference.ArtistShapes = _ArtistShapes
-	var _InfluenceShapes []*InfluenceShape
-	for _, _reference := range reference.InfluenceShapes {
-		if _instance, ok := stage.InfluenceShapes_instance[_reference]; ok {
-			_InfluenceShapes = append(_InfluenceShapes, _instance)
-		}
-	}
-	reference.InfluenceShapes = _InfluenceShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.MovementShapes, stage.MovementShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ArtefactTypeShapes, stage.ArtefactTypeShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ArtistShapes, stage.ArtistShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.InfluenceShapes, stage.InfluenceShapes_instance)
 }
 
 func (reference *Influence) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.SourceMovement; _reference != nil {
-		reference.SourceMovement = nil
-		if _instance, ok := stage.Movements_instance[_reference]; ok {
-			reference.SourceMovement = _instance
-		}
-	}
-	if _reference := reference.SourceArtefactType; _reference != nil {
-		reference.SourceArtefactType = nil
-		if _instance, ok := stage.ArtefactTypes_instance[_reference]; ok {
-			reference.SourceArtefactType = _instance
-		}
-	}
-	if _reference := reference.SourceArtist; _reference != nil {
-		reference.SourceArtist = nil
-		if _instance, ok := stage.Artists_instance[_reference]; ok {
-			reference.SourceArtist = _instance
-		}
-	}
-	if _reference := reference.TargetMovement; _reference != nil {
-		reference.TargetMovement = nil
-		if _instance, ok := stage.Movements_instance[_reference]; ok {
-			reference.TargetMovement = _instance
-		}
-	}
-	if _reference := reference.TargetArtefactType; _reference != nil {
-		reference.TargetArtefactType = nil
-		if _instance, ok := stage.ArtefactTypes_instance[_reference]; ok {
-			reference.TargetArtefactType = _instance
-		}
-	}
-	if _reference := reference.TargetArtist; _reference != nil {
-		reference.TargetArtist = nil
-		if _instance, ok := stage.Artists_instance[_reference]; ok {
-			reference.TargetArtist = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.SourceMovement, stage.Movements_instance)
+	__gong__reconstructPointerFromInstance(&reference.SourceArtefactType, stage.ArtefactTypes_instance)
+	__gong__reconstructPointerFromInstance(&reference.SourceArtist, stage.Artists_instance)
+	__gong__reconstructPointerFromInstance(&reference.TargetMovement, stage.Movements_instance)
+	__gong__reconstructPointerFromInstance(&reference.TargetArtefactType, stage.ArtefactTypes_instance)
+	__gong__reconstructPointerFromInstance(&reference.TargetArtist, stage.Artists_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *InfluenceShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Influence; _reference != nil {
-		reference.Influence = nil
-		if _instance, ok := stage.Influences_instance[_reference]; ok {
-			reference.Influence = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Influence, stage.Influences_instance)
 	// insertion point for slice of pointers fields
-	var _ControlPointShapes []*ControlPointShape
-	for _, _reference := range reference.ControlPointShapes {
-		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
-			_ControlPointShapes = append(_ControlPointShapes, _instance)
-		}
-	}
-	reference.ControlPointShapes = _ControlPointShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _SubLibraries []*Library
-	for _, _reference := range reference.SubLibraries {
-		if _instance, ok := stage.Librarys_instance[_reference]; ok {
-			_SubLibraries = append(_SubLibraries, _instance)
-		}
-	}
-	reference.SubLibraries = _SubLibraries
-	var _SubLibrariesWhoseNodeIsExpanded []*Library
-	for _, _reference := range reference.SubLibrariesWhoseNodeIsExpanded {
-		if _instance, ok := stage.Librarys_instance[_reference]; ok {
-			_SubLibrariesWhoseNodeIsExpanded = append(_SubLibrariesWhoseNodeIsExpanded, _instance)
-		}
-	}
-	reference.SubLibrariesWhoseNodeIsExpanded = _SubLibrariesWhoseNodeIsExpanded
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SubLibraries, stage.Librarys_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SubLibrariesWhoseNodeIsExpanded, stage.Librarys_instance)
 }
 
 func (reference *Movement) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Places []*Place
-	for _, _reference := range reference.Places {
-		if _instance, ok := stage.Places_instance[_reference]; ok {
-			_Places = append(_Places, _instance)
-		}
-	}
-	reference.Places = _Places
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Places, stage.Places_instance)
 }
 
 func (reference *MovementShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Movement; _reference != nil {
-		reference.Movement = nil
-		if _instance, ok := stage.Movements_instance[_reference]; ok {
-			reference.Movement = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Movement, stage.Movements_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -1532,12 +1132,8 @@ func (artefacttypeshape *ArtefactTypeShape) GongDiff(stage *Stage, artefacttypes
 	if artefacttypeshape.Name != artefacttypeshapeOther.Name {
 		diffs = append(diffs, artefacttypeshape.GongMarshallField(stage, "Name"))
 	}
-	if (artefacttypeshape.ArtefactType == nil) != (artefacttypeshapeOther.ArtefactType == nil) {
+	if artefacttypeshape.ArtefactType != artefacttypeshapeOther.ArtefactType {
 		diffs = append(diffs, artefacttypeshape.GongMarshallField(stage, "ArtefactType"))
-	} else if artefacttypeshape.ArtefactType != nil && artefacttypeshapeOther.ArtefactType != nil {
-		if artefacttypeshape.ArtefactType != artefacttypeshapeOther.ArtefactType {
-			diffs = append(diffs, artefacttypeshape.GongMarshallField(stage, "ArtefactType"))
-		}
 	}
 	if artefacttypeshape.X != artefacttypeshapeOther.X {
 		diffs = append(diffs, artefacttypeshape.GongMarshallField(stage, "X"))
@@ -1577,12 +1173,8 @@ func (artist *Artist) GongDiff(stage *Stage, artistOther *Artist) (diffs []strin
 	if artist.DateOfDeath != artistOther.DateOfDeath {
 		diffs = append(diffs, artist.GongMarshallField(stage, "DateOfDeath"))
 	}
-	if (artist.Place == nil) != (artistOther.Place == nil) {
+	if artist.Place != artistOther.Place {
 		diffs = append(diffs, artist.GongMarshallField(stage, "Place"))
-	} else if artist.Place != nil && artistOther.Place != nil {
-		if artist.Place != artistOther.Place {
-			diffs = append(diffs, artist.GongMarshallField(stage, "Place"))
-		}
 	}
 
 	return
@@ -1595,12 +1187,8 @@ func (artistshape *ArtistShape) GongDiff(stage *Stage, artistshapeOther *ArtistS
 	if artistshape.Name != artistshapeOther.Name {
 		diffs = append(diffs, artistshape.GongMarshallField(stage, "Name"))
 	}
-	if (artistshape.Artist == nil) != (artistshapeOther.Artist == nil) {
+	if artistshape.Artist != artistshapeOther.Artist {
 		diffs = append(diffs, artistshape.GongMarshallField(stage, "Artist"))
-	} else if artistshape.Artist != nil && artistshapeOther.Artist != nil {
-		if artistshape.Artist != artistshapeOther.Artist {
-			diffs = append(diffs, artistshape.GongMarshallField(stage, "Artist"))
-		}
 	}
 	if artistshape.X != artistshapeOther.X {
 		diffs = append(diffs, artistshape.GongMarshallField(stage, "X"))
@@ -1672,12 +1260,8 @@ func (desk *Desk) GongDiff(stage *Stage, deskOther *Desk) (diffs []string) {
 	if desk.Name != deskOther.Name {
 		diffs = append(diffs, desk.GongMarshallField(stage, "Name"))
 	}
-	if (desk.SelectedDiagram == nil) != (deskOther.SelectedDiagram == nil) {
+	if desk.SelectedDiagram != deskOther.SelectedDiagram {
 		diffs = append(diffs, desk.GongMarshallField(stage, "SelectedDiagram"))
-	} else if desk.SelectedDiagram != nil && deskOther.SelectedDiagram != nil {
-		if desk.SelectedDiagram != deskOther.SelectedDiagram {
-			diffs = append(diffs, desk.GongMarshallField(stage, "SelectedDiagram"))
-		}
 	}
 
 	return
@@ -1699,132 +1283,16 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.IsChecked != diagramOther.IsChecked {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
 	}
-	MovementShapesDifferent := false
-	if len(diagram.MovementShapes) != len(diagramOther.MovementShapes) {
-		MovementShapesDifferent = true
-	} else {
-		for i := range diagram.MovementShapes {
-			if (diagram.MovementShapes[i] == nil) != (diagramOther.MovementShapes[i] == nil) {
-				MovementShapesDifferent = true
-				break
-			} else if diagram.MovementShapes[i] != nil && diagramOther.MovementShapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.MovementShapes[i] != diagramOther.MovementShapes[i] {
-					MovementShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if MovementShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"MovementShapes",
-			len(diagramOther.MovementShapes),
-			len(diagram.MovementShapes),
-			func(i, j int) bool {
-				return diagramOther.MovementShapes[i] == diagram.MovementShapes[j]
-			},
-			func(j int) string {
-				return diagram.MovementShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "MovementShapes", diagramOther.MovementShapes, diagram.MovementShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ArtefactTypeShapesDifferent := false
-	if len(diagram.ArtefactTypeShapes) != len(diagramOther.ArtefactTypeShapes) {
-		ArtefactTypeShapesDifferent = true
-	} else {
-		for i := range diagram.ArtefactTypeShapes {
-			if (diagram.ArtefactTypeShapes[i] == nil) != (diagramOther.ArtefactTypeShapes[i] == nil) {
-				ArtefactTypeShapesDifferent = true
-				break
-			} else if diagram.ArtefactTypeShapes[i] != nil && diagramOther.ArtefactTypeShapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ArtefactTypeShapes[i] != diagramOther.ArtefactTypeShapes[i] {
-					ArtefactTypeShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ArtefactTypeShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ArtefactTypeShapes",
-			len(diagramOther.ArtefactTypeShapes),
-			len(diagram.ArtefactTypeShapes),
-			func(i, j int) bool {
-				return diagramOther.ArtefactTypeShapes[i] == diagram.ArtefactTypeShapes[j]
-			},
-			func(j int) string {
-				return diagram.ArtefactTypeShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ArtefactTypeShapes", diagramOther.ArtefactTypeShapes, diagram.ArtefactTypeShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ArtistShapesDifferent := false
-	if len(diagram.ArtistShapes) != len(diagramOther.ArtistShapes) {
-		ArtistShapesDifferent = true
-	} else {
-		for i := range diagram.ArtistShapes {
-			if (diagram.ArtistShapes[i] == nil) != (diagramOther.ArtistShapes[i] == nil) {
-				ArtistShapesDifferent = true
-				break
-			} else if diagram.ArtistShapes[i] != nil && diagramOther.ArtistShapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ArtistShapes[i] != diagramOther.ArtistShapes[i] {
-					ArtistShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ArtistShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ArtistShapes",
-			len(diagramOther.ArtistShapes),
-			len(diagram.ArtistShapes),
-			func(i, j int) bool {
-				return diagramOther.ArtistShapes[i] == diagram.ArtistShapes[j]
-			},
-			func(j int) string {
-				return diagram.ArtistShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ArtistShapes", diagramOther.ArtistShapes, diagram.ArtistShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	InfluenceShapesDifferent := false
-	if len(diagram.InfluenceShapes) != len(diagramOther.InfluenceShapes) {
-		InfluenceShapesDifferent = true
-	} else {
-		for i := range diagram.InfluenceShapes {
-			if (diagram.InfluenceShapes[i] == nil) != (diagramOther.InfluenceShapes[i] == nil) {
-				InfluenceShapesDifferent = true
-				break
-			} else if diagram.InfluenceShapes[i] != nil && diagramOther.InfluenceShapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.InfluenceShapes[i] != diagramOther.InfluenceShapes[i] {
-					InfluenceShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if InfluenceShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"InfluenceShapes",
-			len(diagramOther.InfluenceShapes),
-			len(diagram.InfluenceShapes),
-			func(i, j int) bool {
-				return diagramOther.InfluenceShapes[i] == diagram.InfluenceShapes[j]
-			},
-			func(j int) string {
-				return diagram.InfluenceShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "InfluenceShapes", diagramOther.InfluenceShapes, diagram.InfluenceShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsEditable != diagramOther.IsEditable {
@@ -2096,47 +1564,23 @@ func (influence *Influence) GongDiff(stage *Stage, influenceOther *Influence) (d
 	if influence.IsExpanded != influenceOther.IsExpanded {
 		diffs = append(diffs, influence.GongMarshallField(stage, "IsExpanded"))
 	}
-	if (influence.SourceMovement == nil) != (influenceOther.SourceMovement == nil) {
+	if influence.SourceMovement != influenceOther.SourceMovement {
 		diffs = append(diffs, influence.GongMarshallField(stage, "SourceMovement"))
-	} else if influence.SourceMovement != nil && influenceOther.SourceMovement != nil {
-		if influence.SourceMovement != influenceOther.SourceMovement {
-			diffs = append(diffs, influence.GongMarshallField(stage, "SourceMovement"))
-		}
 	}
-	if (influence.SourceArtefactType == nil) != (influenceOther.SourceArtefactType == nil) {
+	if influence.SourceArtefactType != influenceOther.SourceArtefactType {
 		diffs = append(diffs, influence.GongMarshallField(stage, "SourceArtefactType"))
-	} else if influence.SourceArtefactType != nil && influenceOther.SourceArtefactType != nil {
-		if influence.SourceArtefactType != influenceOther.SourceArtefactType {
-			diffs = append(diffs, influence.GongMarshallField(stage, "SourceArtefactType"))
-		}
 	}
-	if (influence.SourceArtist == nil) != (influenceOther.SourceArtist == nil) {
+	if influence.SourceArtist != influenceOther.SourceArtist {
 		diffs = append(diffs, influence.GongMarshallField(stage, "SourceArtist"))
-	} else if influence.SourceArtist != nil && influenceOther.SourceArtist != nil {
-		if influence.SourceArtist != influenceOther.SourceArtist {
-			diffs = append(diffs, influence.GongMarshallField(stage, "SourceArtist"))
-		}
 	}
-	if (influence.TargetMovement == nil) != (influenceOther.TargetMovement == nil) {
+	if influence.TargetMovement != influenceOther.TargetMovement {
 		diffs = append(diffs, influence.GongMarshallField(stage, "TargetMovement"))
-	} else if influence.TargetMovement != nil && influenceOther.TargetMovement != nil {
-		if influence.TargetMovement != influenceOther.TargetMovement {
-			diffs = append(diffs, influence.GongMarshallField(stage, "TargetMovement"))
-		}
 	}
-	if (influence.TargetArtefactType == nil) != (influenceOther.TargetArtefactType == nil) {
+	if influence.TargetArtefactType != influenceOther.TargetArtefactType {
 		diffs = append(diffs, influence.GongMarshallField(stage, "TargetArtefactType"))
-	} else if influence.TargetArtefactType != nil && influenceOther.TargetArtefactType != nil {
-		if influence.TargetArtefactType != influenceOther.TargetArtefactType {
-			diffs = append(diffs, influence.GongMarshallField(stage, "TargetArtefactType"))
-		}
 	}
-	if (influence.TargetArtist == nil) != (influenceOther.TargetArtist == nil) {
+	if influence.TargetArtist != influenceOther.TargetArtist {
 		diffs = append(diffs, influence.GongMarshallField(stage, "TargetArtist"))
-	} else if influence.TargetArtist != nil && influenceOther.TargetArtist != nil {
-		if influence.TargetArtist != influenceOther.TargetArtist {
-			diffs = append(diffs, influence.GongMarshallField(stage, "TargetArtist"))
-		}
 	}
 	if influence.IsHypothtical != influenceOther.IsHypothtical {
 		diffs = append(diffs, influence.GongMarshallField(stage, "IsHypothtical"))
@@ -2152,46 +1596,13 @@ func (influenceshape *InfluenceShape) GongDiff(stage *Stage, influenceshapeOther
 	if influenceshape.Name != influenceshapeOther.Name {
 		diffs = append(diffs, influenceshape.GongMarshallField(stage, "Name"))
 	}
-	if (influenceshape.Influence == nil) != (influenceshapeOther.Influence == nil) {
+	if influenceshape.Influence != influenceshapeOther.Influence {
 		diffs = append(diffs, influenceshape.GongMarshallField(stage, "Influence"))
-	} else if influenceshape.Influence != nil && influenceshapeOther.Influence != nil {
-		if influenceshape.Influence != influenceshapeOther.Influence {
-			diffs = append(diffs, influenceshape.GongMarshallField(stage, "Influence"))
-		}
 	}
 	if influenceshape.IsHidden != influenceshapeOther.IsHidden {
 		diffs = append(diffs, influenceshape.GongMarshallField(stage, "IsHidden"))
 	}
-	ControlPointShapesDifferent := false
-	if len(influenceshape.ControlPointShapes) != len(influenceshapeOther.ControlPointShapes) {
-		ControlPointShapesDifferent = true
-	} else {
-		for i := range influenceshape.ControlPointShapes {
-			if (influenceshape.ControlPointShapes[i] == nil) != (influenceshapeOther.ControlPointShapes[i] == nil) {
-				ControlPointShapesDifferent = true
-				break
-			} else if influenceshape.ControlPointShapes[i] != nil && influenceshapeOther.ControlPointShapes[i] != nil {
-				// this is a pointer comparaison
-				if influenceshape.ControlPointShapes[i] != influenceshapeOther.ControlPointShapes[i] {
-					ControlPointShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ControlPointShapesDifferent {
-		ops := stage.Diff(
-			influenceshape,
-			"ControlPointShapes",
-			len(influenceshapeOther.ControlPointShapes),
-			len(influenceshape.ControlPointShapes),
-			func(i, j int) bool {
-				return influenceshapeOther.ControlPointShapes[i] == influenceshape.ControlPointShapes[j]
-			},
-			func(j int) string {
-				return influenceshape.ControlPointShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, influenceshape, "ControlPointShapes", influenceshapeOther.ControlPointShapes, influenceshape.ControlPointShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -2217,71 +1628,13 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.IsRootLibrary != libraryOther.IsRootLibrary {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
 	}
-	SubLibrariesDifferent := false
-	if len(library.SubLibraries) != len(libraryOther.SubLibraries) {
-		SubLibrariesDifferent = true
-	} else {
-		for i := range library.SubLibraries {
-			if (library.SubLibraries[i] == nil) != (libraryOther.SubLibraries[i] == nil) {
-				SubLibrariesDifferent = true
-				break
-			} else if library.SubLibraries[i] != nil && libraryOther.SubLibraries[i] != nil {
-				// this is a pointer comparaison
-				if library.SubLibraries[i] != libraryOther.SubLibraries[i] {
-					SubLibrariesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SubLibrariesDifferent {
-		ops := stage.Diff(
-			library,
-			"SubLibraries",
-			len(libraryOther.SubLibraries),
-			len(library.SubLibraries),
-			func(i, j int) bool {
-				return libraryOther.SubLibraries[i] == library.SubLibraries[j]
-			},
-			func(j int) string {
-				return library.SubLibraries[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, library, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if library.IsSubLibrariesNodeExpanded != libraryOther.IsSubLibrariesNodeExpanded {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
 	}
-	SubLibrariesWhoseNodeIsExpandedDifferent := false
-	if len(library.SubLibrariesWhoseNodeIsExpanded) != len(libraryOther.SubLibrariesWhoseNodeIsExpanded) {
-		SubLibrariesWhoseNodeIsExpandedDifferent = true
-	} else {
-		for i := range library.SubLibrariesWhoseNodeIsExpanded {
-			if (library.SubLibrariesWhoseNodeIsExpanded[i] == nil) != (libraryOther.SubLibrariesWhoseNodeIsExpanded[i] == nil) {
-				SubLibrariesWhoseNodeIsExpandedDifferent = true
-				break
-			} else if library.SubLibrariesWhoseNodeIsExpanded[i] != nil && libraryOther.SubLibrariesWhoseNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if library.SubLibrariesWhoseNodeIsExpanded[i] != libraryOther.SubLibrariesWhoseNodeIsExpanded[i] {
-					SubLibrariesWhoseNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SubLibrariesWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			library,
-			"SubLibrariesWhoseNodeIsExpanded",
-			len(libraryOther.SubLibrariesWhoseNodeIsExpanded),
-			len(library.SubLibrariesWhoseNodeIsExpanded),
-			func(i, j int) bool {
-				return libraryOther.SubLibrariesWhoseNodeIsExpanded[i] == library.SubLibrariesWhoseNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return library.SubLibrariesWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, library, "SubLibrariesWhoseNodeIsExpanded", libraryOther.SubLibrariesWhoseNodeIsExpanded, library.SubLibrariesWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
@@ -2316,36 +1669,7 @@ func (movement *Movement) GongDiff(stage *Stage, movementOther *Movement) (diffs
 	if movement.HideDate != movementOther.HideDate {
 		diffs = append(diffs, movement.GongMarshallField(stage, "HideDate"))
 	}
-	PlacesDifferent := false
-	if len(movement.Places) != len(movementOther.Places) {
-		PlacesDifferent = true
-	} else {
-		for i := range movement.Places {
-			if (movement.Places[i] == nil) != (movementOther.Places[i] == nil) {
-				PlacesDifferent = true
-				break
-			} else if movement.Places[i] != nil && movementOther.Places[i] != nil {
-				// this is a pointer comparaison
-				if movement.Places[i] != movementOther.Places[i] {
-					PlacesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if PlacesDifferent {
-		ops := stage.Diff(
-			movement,
-			"Places",
-			len(movementOther.Places),
-			len(movement.Places),
-			func(i, j int) bool {
-				return movementOther.Places[i] == movement.Places[j]
-			},
-			func(j int) string {
-				return movement.Places[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, movement, "Places", movementOther.Places, movement.Places); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if movement.HasTaxonomicFilter != movementOther.HasTaxonomicFilter {
@@ -2380,12 +1704,8 @@ func (movementshape *MovementShape) GongDiff(stage *Stage, movementshapeOther *M
 	if movementshape.Name != movementshapeOther.Name {
 		diffs = append(diffs, movementshape.GongMarshallField(stage, "Name"))
 	}
-	if (movementshape.Movement == nil) != (movementshapeOther.Movement == nil) {
+	if movementshape.Movement != movementshapeOther.Movement {
 		diffs = append(diffs, movementshape.GongMarshallField(stage, "Movement"))
-	} else if movementshape.Movement != nil && movementshapeOther.Movement != nil {
-		if movementshape.Movement != movementshapeOther.Movement {
-			diffs = append(diffs, movementshape.GongMarshallField(stage, "Movement"))
-		}
 	}
 	if movementshape.X != movementshapeOther.X {
 		diffs = append(diffs, movementshape.GongMarshallField(stage, "X"))
@@ -2493,4 +1813,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

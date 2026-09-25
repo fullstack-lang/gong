@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,292 +15,124 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (animate *Animate) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Animates[animate]
-
-	return
+func (animate *Animate) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Animates[animate]
+	return ok
 }
 
-func (stage *Stage) IsStagedAnimate(animate *Animate) (ok bool) {
-
-	return animate.GongIsStaged(stage)
+func (circle *Circle) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Circles[circle]
+	return ok
 }
 
-func (circle *Circle) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Circles[circle]
-
-	return
+func (condition *Condition) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Conditions[condition]
+	return ok
 }
 
-func (stage *Stage) IsStagedCircle(circle *Circle) (ok bool) {
-
-	return circle.GongIsStaged(stage)
+func (controlpoint *ControlPoint) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ControlPoints[controlpoint]
+	return ok
 }
 
-func (condition *Condition) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Conditions[condition]
-
-	return
+func (ellipse *Ellipse) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Ellipses[ellipse]
+	return ok
 }
 
-func (stage *Stage) IsStagedCondition(condition *Condition) (ok bool) {
-
-	return condition.GongIsStaged(stage)
+func (filetodownload *FileToDownload) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.FileToDownloads[filetodownload]
+	return ok
 }
 
-func (controlpoint *ControlPoint) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ControlPoints[controlpoint]
-
-	return
+func (layer *Layer) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Layers[layer]
+	return ok
 }
 
-func (stage *Stage) IsStagedControlPoint(controlpoint *ControlPoint) (ok bool) {
-
-	return controlpoint.GongIsStaged(stage)
+func (line *Line) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Lines[line]
+	return ok
 }
 
-func (ellipse *Ellipse) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Ellipses[ellipse]
-
-	return
+func (link *Link) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Links[link]
+	return ok
 }
 
-func (stage *Stage) IsStagedEllipse(ellipse *Ellipse) (ok bool) {
-
-	return ellipse.GongIsStaged(stage)
+func (linkanchoredpath *LinkAnchoredPath) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.LinkAnchoredPaths[linkanchoredpath]
+	return ok
 }
 
-func (filetodownload *FileToDownload) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.FileToDownloads[filetodownload]
-
-	return
+func (linkanchoredtext *LinkAnchoredText) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.LinkAnchoredTexts[linkanchoredtext]
+	return ok
 }
 
-func (stage *Stage) IsStagedFileToDownload(filetodownload *FileToDownload) (ok bool) {
-
-	return filetodownload.GongIsStaged(stage)
+func (path *Path) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Paths[path]
+	return ok
 }
 
-func (layer *Layer) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Layers[layer]
-
-	return
+func (point *Point) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Points[point]
+	return ok
 }
 
-func (stage *Stage) IsStagedLayer(layer *Layer) (ok bool) {
-
-	return layer.GongIsStaged(stage)
+func (polygone *Polygone) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Polygones[polygone]
+	return ok
 }
 
-func (line *Line) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Lines[line]
-
-	return
+func (polyline *Polyline) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Polylines[polyline]
+	return ok
 }
 
-func (stage *Stage) IsStagedLine(line *Line) (ok bool) {
-
-	return line.GongIsStaged(stage)
+func (rect *Rect) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Rects[rect]
+	return ok
 }
 
-func (link *Link) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Links[link]
-
-	return
+func (rectanchoredpath *RectAnchoredPath) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.RectAnchoredPaths[rectanchoredpath]
+	return ok
 }
 
-func (stage *Stage) IsStagedLink(link *Link) (ok bool) {
-
-	return link.GongIsStaged(stage)
+func (rectanchoredpngimage *RectAnchoredPngImage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.RectAnchoredPngImages[rectanchoredpngimage]
+	return ok
 }
 
-func (linkanchoredpath *LinkAnchoredPath) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.LinkAnchoredPaths[linkanchoredpath]
-
-	return
+func (rectanchoredrect *RectAnchoredRect) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.RectAnchoredRects[rectanchoredrect]
+	return ok
 }
 
-func (stage *Stage) IsStagedLinkAnchoredPath(linkanchoredpath *LinkAnchoredPath) (ok bool) {
-
-	return linkanchoredpath.GongIsStaged(stage)
+func (rectanchoredtext *RectAnchoredText) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.RectAnchoredTexts[rectanchoredtext]
+	return ok
 }
 
-func (linkanchoredtext *LinkAnchoredText) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.LinkAnchoredTexts[linkanchoredtext]
-
-	return
+func (rectlinklink *RectLinkLink) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.RectLinkLinks[rectlinklink]
+	return ok
 }
 
-func (stage *Stage) IsStagedLinkAnchoredText(linkanchoredtext *LinkAnchoredText) (ok bool) {
-
-	return linkanchoredtext.GongIsStaged(stage)
+func (svg *SVG) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SVGs[svg]
+	return ok
 }
 
-func (path *Path) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Paths[path]
-
-	return
+func (svgtext *SvgText) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SvgTexts[svgtext]
+	return ok
 }
 
-func (stage *Stage) IsStagedPath(path *Path) (ok bool) {
-
-	return path.GongIsStaged(stage)
-}
-
-func (point *Point) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Points[point]
-
-	return
-}
-
-func (stage *Stage) IsStagedPoint(point *Point) (ok bool) {
-
-	return point.GongIsStaged(stage)
-}
-
-func (polygone *Polygone) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Polygones[polygone]
-
-	return
-}
-
-func (stage *Stage) IsStagedPolygone(polygone *Polygone) (ok bool) {
-
-	return polygone.GongIsStaged(stage)
-}
-
-func (polyline *Polyline) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Polylines[polyline]
-
-	return
-}
-
-func (stage *Stage) IsStagedPolyline(polyline *Polyline) (ok bool) {
-
-	return polyline.GongIsStaged(stage)
-}
-
-func (rect *Rect) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Rects[rect]
-
-	return
-}
-
-func (stage *Stage) IsStagedRect(rect *Rect) (ok bool) {
-
-	return rect.GongIsStaged(stage)
-}
-
-func (rectanchoredpath *RectAnchoredPath) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.RectAnchoredPaths[rectanchoredpath]
-
-	return
-}
-
-func (stage *Stage) IsStagedRectAnchoredPath(rectanchoredpath *RectAnchoredPath) (ok bool) {
-
-	return rectanchoredpath.GongIsStaged(stage)
-}
-
-func (rectanchoredpngimage *RectAnchoredPngImage) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.RectAnchoredPngImages[rectanchoredpngimage]
-
-	return
-}
-
-func (stage *Stage) IsStagedRectAnchoredPngImage(rectanchoredpngimage *RectAnchoredPngImage) (ok bool) {
-
-	return rectanchoredpngimage.GongIsStaged(stage)
-}
-
-func (rectanchoredrect *RectAnchoredRect) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.RectAnchoredRects[rectanchoredrect]
-
-	return
-}
-
-func (stage *Stage) IsStagedRectAnchoredRect(rectanchoredrect *RectAnchoredRect) (ok bool) {
-
-	return rectanchoredrect.GongIsStaged(stage)
-}
-
-func (rectanchoredtext *RectAnchoredText) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.RectAnchoredTexts[rectanchoredtext]
-
-	return
-}
-
-func (stage *Stage) IsStagedRectAnchoredText(rectanchoredtext *RectAnchoredText) (ok bool) {
-
-	return rectanchoredtext.GongIsStaged(stage)
-}
-
-func (rectlinklink *RectLinkLink) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.RectLinkLinks[rectlinklink]
-
-	return
-}
-
-func (stage *Stage) IsStagedRectLinkLink(rectlinklink *RectLinkLink) (ok bool) {
-
-	return rectlinklink.GongIsStaged(stage)
-}
-
-func (svg *SVG) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SVGs[svg]
-
-	return
-}
-
-func (stage *Stage) IsStagedSVG(svg *SVG) (ok bool) {
-
-	return svg.GongIsStaged(stage)
-}
-
-func (svgtext *SvgText) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SvgTexts[svgtext]
-
-	return
-}
-
-func (stage *Stage) IsStagedSvgText(svgtext *SvgText) (ok bool) {
-
-	return svgtext.GongIsStaged(stage)
-}
-
-func (text *Text) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Texts[text]
-
-	return
-}
-
-func (stage *Stage) IsStagedText(text *Text) (ok bool) {
-
-	return text.GongIsStaged(stage)
+func (text *Text) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Texts[text]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -309,10 +144,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (animate *Animate) GongStageBranch(stage *Stage) {
-	stage.StageBranchAnimate(animate)
-}
-
-func (stage *Stage) StageBranchAnimate(animate *Animate) {
 
 	// check if instance is already staged
 	if stage.IsStaged(animate) {
@@ -328,10 +159,6 @@ func (stage *Stage) StageBranchAnimate(animate *Animate) {
 }
 
 func (circle *Circle) GongStageBranch(stage *Stage) {
-	stage.StageBranchCircle(circle)
-}
-
-func (stage *Stage) StageBranchCircle(circle *Circle) {
 
 	// check if instance is already staged
 	if stage.IsStaged(circle) {
@@ -350,10 +177,6 @@ func (stage *Stage) StageBranchCircle(circle *Circle) {
 }
 
 func (condition *Condition) GongStageBranch(stage *Stage) {
-	stage.StageBranchCondition(condition)
-}
-
-func (stage *Stage) StageBranchCondition(condition *Condition) {
 
 	// check if instance is already staged
 	if stage.IsStaged(condition) {
@@ -369,10 +192,6 @@ func (stage *Stage) StageBranchCondition(condition *Condition) {
 }
 
 func (controlpoint *ControlPoint) GongStageBranch(stage *Stage) {
-	stage.StageBranchControlPoint(controlpoint)
-}
-
-func (stage *Stage) StageBranchControlPoint(controlpoint *ControlPoint) {
 
 	// check if instance is already staged
 	if stage.IsStaged(controlpoint) {
@@ -391,10 +210,6 @@ func (stage *Stage) StageBranchControlPoint(controlpoint *ControlPoint) {
 }
 
 func (ellipse *Ellipse) GongStageBranch(stage *Stage) {
-	stage.StageBranchEllipse(ellipse)
-}
-
-func (stage *Stage) StageBranchEllipse(ellipse *Ellipse) {
 
 	// check if instance is already staged
 	if stage.IsStaged(ellipse) {
@@ -413,10 +228,6 @@ func (stage *Stage) StageBranchEllipse(ellipse *Ellipse) {
 }
 
 func (filetodownload *FileToDownload) GongStageBranch(stage *Stage) {
-	stage.StageBranchFileToDownload(filetodownload)
-}
-
-func (stage *Stage) StageBranchFileToDownload(filetodownload *FileToDownload) {
 
 	// check if instance is already staged
 	if stage.IsStaged(filetodownload) {
@@ -432,10 +243,6 @@ func (stage *Stage) StageBranchFileToDownload(filetodownload *FileToDownload) {
 }
 
 func (layer *Layer) GongStageBranch(stage *Stage) {
-	stage.StageBranchLayer(layer)
-}
-
-func (stage *Stage) StageBranchLayer(layer *Layer) {
 
 	// check if instance is already staged
 	if stage.IsStaged(layer) {
@@ -481,10 +288,6 @@ func (stage *Stage) StageBranchLayer(layer *Layer) {
 }
 
 func (line *Line) GongStageBranch(stage *Stage) {
-	stage.StageBranchLine(line)
-}
-
-func (stage *Stage) StageBranchLine(line *Line) {
 
 	// check if instance is already staged
 	if stage.IsStaged(line) {
@@ -503,10 +306,6 @@ func (stage *Stage) StageBranchLine(line *Line) {
 }
 
 func (link *Link) GongStageBranch(stage *Stage) {
-	stage.StageBranchLink(link)
-}
-
-func (stage *Stage) StageBranchLink(link *Link) {
 
 	// check if instance is already staged
 	if stage.IsStaged(link) {
@@ -549,10 +348,6 @@ func (stage *Stage) StageBranchLink(link *Link) {
 }
 
 func (linkanchoredpath *LinkAnchoredPath) GongStageBranch(stage *Stage) {
-	stage.StageBranchLinkAnchoredPath(linkanchoredpath)
-}
-
-func (stage *Stage) StageBranchLinkAnchoredPath(linkanchoredpath *LinkAnchoredPath) {
 
 	// check if instance is already staged
 	if stage.IsStaged(linkanchoredpath) {
@@ -568,10 +363,6 @@ func (stage *Stage) StageBranchLinkAnchoredPath(linkanchoredpath *LinkAnchoredPa
 }
 
 func (linkanchoredtext *LinkAnchoredText) GongStageBranch(stage *Stage) {
-	stage.StageBranchLinkAnchoredText(linkanchoredtext)
-}
-
-func (stage *Stage) StageBranchLinkAnchoredText(linkanchoredtext *LinkAnchoredText) {
 
 	// check if instance is already staged
 	if stage.IsStaged(linkanchoredtext) {
@@ -590,10 +381,6 @@ func (stage *Stage) StageBranchLinkAnchoredText(linkanchoredtext *LinkAnchoredTe
 }
 
 func (path *Path) GongStageBranch(stage *Stage) {
-	stage.StageBranchPath(path)
-}
-
-func (stage *Stage) StageBranchPath(path *Path) {
 
 	// check if instance is already staged
 	if stage.IsStaged(path) {
@@ -612,10 +399,6 @@ func (stage *Stage) StageBranchPath(path *Path) {
 }
 
 func (point *Point) GongStageBranch(stage *Stage) {
-	stage.StageBranchPoint(point)
-}
-
-func (stage *Stage) StageBranchPoint(point *Point) {
 
 	// check if instance is already staged
 	if stage.IsStaged(point) {
@@ -631,10 +414,6 @@ func (stage *Stage) StageBranchPoint(point *Point) {
 }
 
 func (polygone *Polygone) GongStageBranch(stage *Stage) {
-	stage.StageBranchPolygone(polygone)
-}
-
-func (stage *Stage) StageBranchPolygone(polygone *Polygone) {
 
 	// check if instance is already staged
 	if stage.IsStaged(polygone) {
@@ -653,10 +432,6 @@ func (stage *Stage) StageBranchPolygone(polygone *Polygone) {
 }
 
 func (polyline *Polyline) GongStageBranch(stage *Stage) {
-	stage.StageBranchPolyline(polyline)
-}
-
-func (stage *Stage) StageBranchPolyline(polyline *Polyline) {
 
 	// check if instance is already staged
 	if stage.IsStaged(polyline) {
@@ -675,10 +450,6 @@ func (stage *Stage) StageBranchPolyline(polyline *Polyline) {
 }
 
 func (rect *Rect) GongStageBranch(stage *Stage) {
-	stage.StageBranchRect(rect)
-}
-
-func (stage *Stage) StageBranchRect(rect *Rect) {
 
 	// check if instance is already staged
 	if stage.IsStaged(rect) {
@@ -727,10 +498,6 @@ func (stage *Stage) StageBranchRect(rect *Rect) {
 }
 
 func (rectanchoredpath *RectAnchoredPath) GongStageBranch(stage *Stage) {
-	stage.StageBranchRectAnchoredPath(rectanchoredpath)
-}
-
-func (stage *Stage) StageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPath) {
 
 	// check if instance is already staged
 	if stage.IsStaged(rectanchoredpath) {
@@ -746,10 +513,6 @@ func (stage *Stage) StageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPa
 }
 
 func (rectanchoredpngimage *RectAnchoredPngImage) GongStageBranch(stage *Stage) {
-	stage.StageBranchRectAnchoredPngImage(rectanchoredpngimage)
-}
-
-func (stage *Stage) StageBranchRectAnchoredPngImage(rectanchoredpngimage *RectAnchoredPngImage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(rectanchoredpngimage) {
@@ -765,10 +528,6 @@ func (stage *Stage) StageBranchRectAnchoredPngImage(rectanchoredpngimage *RectAn
 }
 
 func (rectanchoredrect *RectAnchoredRect) GongStageBranch(stage *Stage) {
-	stage.StageBranchRectAnchoredRect(rectanchoredrect)
-}
-
-func (stage *Stage) StageBranchRectAnchoredRect(rectanchoredrect *RectAnchoredRect) {
 
 	// check if instance is already staged
 	if stage.IsStaged(rectanchoredrect) {
@@ -784,10 +543,6 @@ func (stage *Stage) StageBranchRectAnchoredRect(rectanchoredrect *RectAnchoredRe
 }
 
 func (rectanchoredtext *RectAnchoredText) GongStageBranch(stage *Stage) {
-	stage.StageBranchRectAnchoredText(rectanchoredtext)
-}
-
-func (stage *Stage) StageBranchRectAnchoredText(rectanchoredtext *RectAnchoredText) {
 
 	// check if instance is already staged
 	if stage.IsStaged(rectanchoredtext) {
@@ -806,10 +561,6 @@ func (stage *Stage) StageBranchRectAnchoredText(rectanchoredtext *RectAnchoredTe
 }
 
 func (rectlinklink *RectLinkLink) GongStageBranch(stage *Stage) {
-	stage.StageBranchRectLinkLink(rectlinklink)
-}
-
-func (stage *Stage) StageBranchRectLinkLink(rectlinklink *RectLinkLink) {
 
 	// check if instance is already staged
 	if stage.IsStaged(rectlinklink) {
@@ -831,10 +582,6 @@ func (stage *Stage) StageBranchRectLinkLink(rectlinklink *RectLinkLink) {
 }
 
 func (svg *SVG) GongStageBranch(stage *Stage) {
-	stage.StageBranchSVG(svg)
-}
-
-func (stage *Stage) StageBranchSVG(svg *SVG) {
 
 	// check if instance is already staged
 	if stage.IsStaged(svg) {
@@ -859,10 +606,6 @@ func (stage *Stage) StageBranchSVG(svg *SVG) {
 }
 
 func (svgtext *SvgText) GongStageBranch(stage *Stage) {
-	stage.StageBranchSvgText(svgtext)
-}
-
-func (stage *Stage) StageBranchSvgText(svgtext *SvgText) {
 
 	// check if instance is already staged
 	if stage.IsStaged(svgtext) {
@@ -878,10 +621,6 @@ func (stage *Stage) StageBranchSvgText(svgtext *SvgText) {
 }
 
 func (text *Text) GongStageBranch(stage *Stage) {
-	stage.StageBranchText(text)
-}
-
-func (stage *Stage) StageBranchText(text *Text) {
 
 	// check if instance is already staged
 	if stage.IsStaged(text) {
@@ -1014,15 +753,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchAnimate(mapOrigCopy map[any]any, animateFrom *Animate) (animateTo *Animate) {
-
-	// animateFrom has already been copied
-	if _animateTo, ok := mapOrigCopy[animateFrom]; ok {
-		animateTo = _animateTo.(*Animate)
+	var alreadyCopied bool
+	animateTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, animateFrom)
+	if alreadyCopied {
 		return
 	}
-
-	animateTo = new(Animate)
-	mapOrigCopy[animateFrom] = animateTo
 	animateFrom.GongCopyBasicFields(animateTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1033,15 +768,11 @@ func GongCopyBranchAnimate(mapOrigCopy map[any]any, animateFrom *Animate) (anima
 }
 
 func GongCopyBranchCircle(mapOrigCopy map[any]any, circleFrom *Circle) (circleTo *Circle) {
-
-	// circleFrom has already been copied
-	if _circleTo, ok := mapOrigCopy[circleFrom]; ok {
-		circleTo = _circleTo.(*Circle)
+	var alreadyCopied bool
+	circleTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, circleFrom)
+	if alreadyCopied {
 		return
 	}
-
-	circleTo = new(Circle)
-	mapOrigCopy[circleFrom] = circleTo
 	circleFrom.GongCopyBasicFields(circleTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1055,15 +786,11 @@ func GongCopyBranchCircle(mapOrigCopy map[any]any, circleFrom *Circle) (circleTo
 }
 
 func GongCopyBranchCondition(mapOrigCopy map[any]any, conditionFrom *Condition) (conditionTo *Condition) {
-
-	// conditionFrom has already been copied
-	if _conditionTo, ok := mapOrigCopy[conditionFrom]; ok {
-		conditionTo = _conditionTo.(*Condition)
+	var alreadyCopied bool
+	conditionTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, conditionFrom)
+	if alreadyCopied {
 		return
 	}
-
-	conditionTo = new(Condition)
-	mapOrigCopy[conditionFrom] = conditionTo
 	conditionFrom.GongCopyBasicFields(conditionTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1074,15 +801,11 @@ func GongCopyBranchCondition(mapOrigCopy map[any]any, conditionFrom *Condition) 
 }
 
 func GongCopyBranchControlPoint(mapOrigCopy map[any]any, controlpointFrom *ControlPoint) (controlpointTo *ControlPoint) {
-
-	// controlpointFrom has already been copied
-	if _controlpointTo, ok := mapOrigCopy[controlpointFrom]; ok {
-		controlpointTo = _controlpointTo.(*ControlPoint)
+	var alreadyCopied bool
+	controlpointTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, controlpointFrom)
+	if alreadyCopied {
 		return
 	}
-
-	controlpointTo = new(ControlPoint)
-	mapOrigCopy[controlpointFrom] = controlpointTo
 	controlpointFrom.GongCopyBasicFields(controlpointTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1096,15 +819,11 @@ func GongCopyBranchControlPoint(mapOrigCopy map[any]any, controlpointFrom *Contr
 }
 
 func GongCopyBranchEllipse(mapOrigCopy map[any]any, ellipseFrom *Ellipse) (ellipseTo *Ellipse) {
-
-	// ellipseFrom has already been copied
-	if _ellipseTo, ok := mapOrigCopy[ellipseFrom]; ok {
-		ellipseTo = _ellipseTo.(*Ellipse)
+	var alreadyCopied bool
+	ellipseTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, ellipseFrom)
+	if alreadyCopied {
 		return
 	}
-
-	ellipseTo = new(Ellipse)
-	mapOrigCopy[ellipseFrom] = ellipseTo
 	ellipseFrom.GongCopyBasicFields(ellipseTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1118,15 +837,11 @@ func GongCopyBranchEllipse(mapOrigCopy map[any]any, ellipseFrom *Ellipse) (ellip
 }
 
 func GongCopyBranchFileToDownload(mapOrigCopy map[any]any, filetodownloadFrom *FileToDownload) (filetodownloadTo *FileToDownload) {
-
-	// filetodownloadFrom has already been copied
-	if _filetodownloadTo, ok := mapOrigCopy[filetodownloadFrom]; ok {
-		filetodownloadTo = _filetodownloadTo.(*FileToDownload)
+	var alreadyCopied bool
+	filetodownloadTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, filetodownloadFrom)
+	if alreadyCopied {
 		return
 	}
-
-	filetodownloadTo = new(FileToDownload)
-	mapOrigCopy[filetodownloadFrom] = filetodownloadTo
 	filetodownloadFrom.GongCopyBasicFields(filetodownloadTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1137,15 +852,11 @@ func GongCopyBranchFileToDownload(mapOrigCopy map[any]any, filetodownloadFrom *F
 }
 
 func GongCopyBranchLayer(mapOrigCopy map[any]any, layerFrom *Layer) (layerTo *Layer) {
-
-	// layerFrom has already been copied
-	if _layerTo, ok := mapOrigCopy[layerFrom]; ok {
-		layerTo = _layerTo.(*Layer)
+	var alreadyCopied bool
+	layerTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, layerFrom)
+	if alreadyCopied {
 		return
 	}
-
-	layerTo = new(Layer)
-	mapOrigCopy[layerFrom] = layerTo
 	layerFrom.GongCopyBasicFields(layerTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1186,15 +897,11 @@ func GongCopyBranchLayer(mapOrigCopy map[any]any, layerFrom *Layer) (layerTo *La
 }
 
 func GongCopyBranchLine(mapOrigCopy map[any]any, lineFrom *Line) (lineTo *Line) {
-
-	// lineFrom has already been copied
-	if _lineTo, ok := mapOrigCopy[lineFrom]; ok {
-		lineTo = _lineTo.(*Line)
+	var alreadyCopied bool
+	lineTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, lineFrom)
+	if alreadyCopied {
 		return
 	}
-
-	lineTo = new(Line)
-	mapOrigCopy[lineFrom] = lineTo
 	lineFrom.GongCopyBasicFields(lineTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1208,15 +915,11 @@ func GongCopyBranchLine(mapOrigCopy map[any]any, lineFrom *Line) (lineTo *Line) 
 }
 
 func GongCopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
-
-	// linkFrom has already been copied
-	if _linkTo, ok := mapOrigCopy[linkFrom]; ok {
-		linkTo = _linkTo.(*Link)
+	var alreadyCopied bool
+	linkTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, linkFrom)
+	if alreadyCopied {
 		return
 	}
-
-	linkTo = new(Link)
-	mapOrigCopy[linkFrom] = linkTo
 	linkFrom.GongCopyBasicFields(linkTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1254,15 +957,11 @@ func GongCopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) 
 }
 
 func GongCopyBranchLinkAnchoredPath(mapOrigCopy map[any]any, linkanchoredpathFrom *LinkAnchoredPath) (linkanchoredpathTo *LinkAnchoredPath) {
-
-	// linkanchoredpathFrom has already been copied
-	if _linkanchoredpathTo, ok := mapOrigCopy[linkanchoredpathFrom]; ok {
-		linkanchoredpathTo = _linkanchoredpathTo.(*LinkAnchoredPath)
+	var alreadyCopied bool
+	linkanchoredpathTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, linkanchoredpathFrom)
+	if alreadyCopied {
 		return
 	}
-
-	linkanchoredpathTo = new(LinkAnchoredPath)
-	mapOrigCopy[linkanchoredpathFrom] = linkanchoredpathTo
 	linkanchoredpathFrom.GongCopyBasicFields(linkanchoredpathTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1273,15 +972,11 @@ func GongCopyBranchLinkAnchoredPath(mapOrigCopy map[any]any, linkanchoredpathFro
 }
 
 func GongCopyBranchLinkAnchoredText(mapOrigCopy map[any]any, linkanchoredtextFrom *LinkAnchoredText) (linkanchoredtextTo *LinkAnchoredText) {
-
-	// linkanchoredtextFrom has already been copied
-	if _linkanchoredtextTo, ok := mapOrigCopy[linkanchoredtextFrom]; ok {
-		linkanchoredtextTo = _linkanchoredtextTo.(*LinkAnchoredText)
+	var alreadyCopied bool
+	linkanchoredtextTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, linkanchoredtextFrom)
+	if alreadyCopied {
 		return
 	}
-
-	linkanchoredtextTo = new(LinkAnchoredText)
-	mapOrigCopy[linkanchoredtextFrom] = linkanchoredtextTo
 	linkanchoredtextFrom.GongCopyBasicFields(linkanchoredtextTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1295,15 +990,11 @@ func GongCopyBranchLinkAnchoredText(mapOrigCopy map[any]any, linkanchoredtextFro
 }
 
 func GongCopyBranchPath(mapOrigCopy map[any]any, pathFrom *Path) (pathTo *Path) {
-
-	// pathFrom has already been copied
-	if _pathTo, ok := mapOrigCopy[pathFrom]; ok {
-		pathTo = _pathTo.(*Path)
+	var alreadyCopied bool
+	pathTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, pathFrom)
+	if alreadyCopied {
 		return
 	}
-
-	pathTo = new(Path)
-	mapOrigCopy[pathFrom] = pathTo
 	pathFrom.GongCopyBasicFields(pathTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1317,15 +1008,11 @@ func GongCopyBranchPath(mapOrigCopy map[any]any, pathFrom *Path) (pathTo *Path) 
 }
 
 func GongCopyBranchPoint(mapOrigCopy map[any]any, pointFrom *Point) (pointTo *Point) {
-
-	// pointFrom has already been copied
-	if _pointTo, ok := mapOrigCopy[pointFrom]; ok {
-		pointTo = _pointTo.(*Point)
+	var alreadyCopied bool
+	pointTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, pointFrom)
+	if alreadyCopied {
 		return
 	}
-
-	pointTo = new(Point)
-	mapOrigCopy[pointFrom] = pointTo
 	pointFrom.GongCopyBasicFields(pointTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1336,15 +1023,11 @@ func GongCopyBranchPoint(mapOrigCopy map[any]any, pointFrom *Point) (pointTo *Po
 }
 
 func GongCopyBranchPolygone(mapOrigCopy map[any]any, polygoneFrom *Polygone) (polygoneTo *Polygone) {
-
-	// polygoneFrom has already been copied
-	if _polygoneTo, ok := mapOrigCopy[polygoneFrom]; ok {
-		polygoneTo = _polygoneTo.(*Polygone)
+	var alreadyCopied bool
+	polygoneTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, polygoneFrom)
+	if alreadyCopied {
 		return
 	}
-
-	polygoneTo = new(Polygone)
-	mapOrigCopy[polygoneFrom] = polygoneTo
 	polygoneFrom.GongCopyBasicFields(polygoneTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1358,15 +1041,11 @@ func GongCopyBranchPolygone(mapOrigCopy map[any]any, polygoneFrom *Polygone) (po
 }
 
 func GongCopyBranchPolyline(mapOrigCopy map[any]any, polylineFrom *Polyline) (polylineTo *Polyline) {
-
-	// polylineFrom has already been copied
-	if _polylineTo, ok := mapOrigCopy[polylineFrom]; ok {
-		polylineTo = _polylineTo.(*Polyline)
+	var alreadyCopied bool
+	polylineTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, polylineFrom)
+	if alreadyCopied {
 		return
 	}
-
-	polylineTo = new(Polyline)
-	mapOrigCopy[polylineFrom] = polylineTo
 	polylineFrom.GongCopyBasicFields(polylineTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1380,15 +1059,11 @@ func GongCopyBranchPolyline(mapOrigCopy map[any]any, polylineFrom *Polyline) (po
 }
 
 func GongCopyBranchRect(mapOrigCopy map[any]any, rectFrom *Rect) (rectTo *Rect) {
-
-	// rectFrom has already been copied
-	if _rectTo, ok := mapOrigCopy[rectFrom]; ok {
-		rectTo = _rectTo.(*Rect)
+	var alreadyCopied bool
+	rectTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, rectFrom)
+	if alreadyCopied {
 		return
 	}
-
-	rectTo = new(Rect)
-	mapOrigCopy[rectFrom] = rectTo
 	rectFrom.GongCopyBasicFields(rectTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1432,15 +1107,11 @@ func GongCopyBranchRect(mapOrigCopy map[any]any, rectFrom *Rect) (rectTo *Rect) 
 }
 
 func GongCopyBranchRectAnchoredPath(mapOrigCopy map[any]any, rectanchoredpathFrom *RectAnchoredPath) (rectanchoredpathTo *RectAnchoredPath) {
-
-	// rectanchoredpathFrom has already been copied
-	if _rectanchoredpathTo, ok := mapOrigCopy[rectanchoredpathFrom]; ok {
-		rectanchoredpathTo = _rectanchoredpathTo.(*RectAnchoredPath)
+	var alreadyCopied bool
+	rectanchoredpathTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, rectanchoredpathFrom)
+	if alreadyCopied {
 		return
 	}
-
-	rectanchoredpathTo = new(RectAnchoredPath)
-	mapOrigCopy[rectanchoredpathFrom] = rectanchoredpathTo
 	rectanchoredpathFrom.GongCopyBasicFields(rectanchoredpathTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1451,15 +1122,11 @@ func GongCopyBranchRectAnchoredPath(mapOrigCopy map[any]any, rectanchoredpathFro
 }
 
 func GongCopyBranchRectAnchoredPngImage(mapOrigCopy map[any]any, rectanchoredpngimageFrom *RectAnchoredPngImage) (rectanchoredpngimageTo *RectAnchoredPngImage) {
-
-	// rectanchoredpngimageFrom has already been copied
-	if _rectanchoredpngimageTo, ok := mapOrigCopy[rectanchoredpngimageFrom]; ok {
-		rectanchoredpngimageTo = _rectanchoredpngimageTo.(*RectAnchoredPngImage)
+	var alreadyCopied bool
+	rectanchoredpngimageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, rectanchoredpngimageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	rectanchoredpngimageTo = new(RectAnchoredPngImage)
-	mapOrigCopy[rectanchoredpngimageFrom] = rectanchoredpngimageTo
 	rectanchoredpngimageFrom.GongCopyBasicFields(rectanchoredpngimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1470,15 +1137,11 @@ func GongCopyBranchRectAnchoredPngImage(mapOrigCopy map[any]any, rectanchoredpng
 }
 
 func GongCopyBranchRectAnchoredRect(mapOrigCopy map[any]any, rectanchoredrectFrom *RectAnchoredRect) (rectanchoredrectTo *RectAnchoredRect) {
-
-	// rectanchoredrectFrom has already been copied
-	if _rectanchoredrectTo, ok := mapOrigCopy[rectanchoredrectFrom]; ok {
-		rectanchoredrectTo = _rectanchoredrectTo.(*RectAnchoredRect)
+	var alreadyCopied bool
+	rectanchoredrectTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, rectanchoredrectFrom)
+	if alreadyCopied {
 		return
 	}
-
-	rectanchoredrectTo = new(RectAnchoredRect)
-	mapOrigCopy[rectanchoredrectFrom] = rectanchoredrectTo
 	rectanchoredrectFrom.GongCopyBasicFields(rectanchoredrectTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1489,15 +1152,11 @@ func GongCopyBranchRectAnchoredRect(mapOrigCopy map[any]any, rectanchoredrectFro
 }
 
 func GongCopyBranchRectAnchoredText(mapOrigCopy map[any]any, rectanchoredtextFrom *RectAnchoredText) (rectanchoredtextTo *RectAnchoredText) {
-
-	// rectanchoredtextFrom has already been copied
-	if _rectanchoredtextTo, ok := mapOrigCopy[rectanchoredtextFrom]; ok {
-		rectanchoredtextTo = _rectanchoredtextTo.(*RectAnchoredText)
+	var alreadyCopied bool
+	rectanchoredtextTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, rectanchoredtextFrom)
+	if alreadyCopied {
 		return
 	}
-
-	rectanchoredtextTo = new(RectAnchoredText)
-	mapOrigCopy[rectanchoredtextFrom] = rectanchoredtextTo
 	rectanchoredtextFrom.GongCopyBasicFields(rectanchoredtextTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1511,15 +1170,11 @@ func GongCopyBranchRectAnchoredText(mapOrigCopy map[any]any, rectanchoredtextFro
 }
 
 func GongCopyBranchRectLinkLink(mapOrigCopy map[any]any, rectlinklinkFrom *RectLinkLink) (rectlinklinkTo *RectLinkLink) {
-
-	// rectlinklinkFrom has already been copied
-	if _rectlinklinkTo, ok := mapOrigCopy[rectlinklinkFrom]; ok {
-		rectlinklinkTo = _rectlinklinkTo.(*RectLinkLink)
+	var alreadyCopied bool
+	rectlinklinkTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, rectlinklinkFrom)
+	if alreadyCopied {
 		return
 	}
-
-	rectlinklinkTo = new(RectLinkLink)
-	mapOrigCopy[rectlinklinkFrom] = rectlinklinkTo
 	rectlinklinkFrom.GongCopyBasicFields(rectlinklinkTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1536,15 +1191,11 @@ func GongCopyBranchRectLinkLink(mapOrigCopy map[any]any, rectlinklinkFrom *RectL
 }
 
 func GongCopyBranchSVG(mapOrigCopy map[any]any, svgFrom *SVG) (svgTo *SVG) {
-
-	// svgFrom has already been copied
-	if _svgTo, ok := mapOrigCopy[svgFrom]; ok {
-		svgTo = _svgTo.(*SVG)
+	var alreadyCopied bool
+	svgTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, svgFrom)
+	if alreadyCopied {
 		return
 	}
-
-	svgTo = new(SVG)
-	mapOrigCopy[svgFrom] = svgTo
 	svgFrom.GongCopyBasicFields(svgTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1564,15 +1215,11 @@ func GongCopyBranchSVG(mapOrigCopy map[any]any, svgFrom *SVG) (svgTo *SVG) {
 }
 
 func GongCopyBranchSvgText(mapOrigCopy map[any]any, svgtextFrom *SvgText) (svgtextTo *SvgText) {
-
-	// svgtextFrom has already been copied
-	if _svgtextTo, ok := mapOrigCopy[svgtextFrom]; ok {
-		svgtextTo = _svgtextTo.(*SvgText)
+	var alreadyCopied bool
+	svgtextTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, svgtextFrom)
+	if alreadyCopied {
 		return
 	}
-
-	svgtextTo = new(SvgText)
-	mapOrigCopy[svgtextFrom] = svgtextTo
 	svgtextFrom.GongCopyBasicFields(svgtextTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1583,15 +1230,11 @@ func GongCopyBranchSvgText(mapOrigCopy map[any]any, svgtextFrom *SvgText) (svgte
 }
 
 func GongCopyBranchText(mapOrigCopy map[any]any, textFrom *Text) (textTo *Text) {
-
-	// textFrom has already been copied
-	if _textTo, ok := mapOrigCopy[textFrom]; ok {
-		textTo = _textTo.(*Text)
+	var alreadyCopied bool
+	textTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, textFrom)
+	if alreadyCopied {
 		return
 	}
-
-	textTo = new(Text)
-	mapOrigCopy[textFrom] = textTo
 	textFrom.GongCopyBasicFields(textTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1617,10 +1260,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (animate *Animate) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchAnimate(animate)
-}
-
-func (stage *Stage) UnstageBranchAnimate(animate *Animate) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(animate) {
@@ -1636,10 +1275,6 @@ func (stage *Stage) UnstageBranchAnimate(animate *Animate) {
 }
 
 func (circle *Circle) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchCircle(circle)
-}
-
-func (stage *Stage) UnstageBranchCircle(circle *Circle) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(circle) {
@@ -1658,10 +1293,6 @@ func (stage *Stage) UnstageBranchCircle(circle *Circle) {
 }
 
 func (condition *Condition) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchCondition(condition)
-}
-
-func (stage *Stage) UnstageBranchCondition(condition *Condition) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(condition) {
@@ -1677,10 +1308,6 @@ func (stage *Stage) UnstageBranchCondition(condition *Condition) {
 }
 
 func (controlpoint *ControlPoint) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchControlPoint(controlpoint)
-}
-
-func (stage *Stage) UnstageBranchControlPoint(controlpoint *ControlPoint) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(controlpoint) {
@@ -1699,10 +1326,6 @@ func (stage *Stage) UnstageBranchControlPoint(controlpoint *ControlPoint) {
 }
 
 func (ellipse *Ellipse) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchEllipse(ellipse)
-}
-
-func (stage *Stage) UnstageBranchEllipse(ellipse *Ellipse) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(ellipse) {
@@ -1721,10 +1344,6 @@ func (stage *Stage) UnstageBranchEllipse(ellipse *Ellipse) {
 }
 
 func (filetodownload *FileToDownload) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchFileToDownload(filetodownload)
-}
-
-func (stage *Stage) UnstageBranchFileToDownload(filetodownload *FileToDownload) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(filetodownload) {
@@ -1740,10 +1359,6 @@ func (stage *Stage) UnstageBranchFileToDownload(filetodownload *FileToDownload) 
 }
 
 func (layer *Layer) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLayer(layer)
-}
-
-func (stage *Stage) UnstageBranchLayer(layer *Layer) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(layer) {
@@ -1789,10 +1404,6 @@ func (stage *Stage) UnstageBranchLayer(layer *Layer) {
 }
 
 func (line *Line) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLine(line)
-}
-
-func (stage *Stage) UnstageBranchLine(line *Line) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(line) {
@@ -1811,10 +1422,6 @@ func (stage *Stage) UnstageBranchLine(line *Line) {
 }
 
 func (link *Link) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLink(link)
-}
-
-func (stage *Stage) UnstageBranchLink(link *Link) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(link) {
@@ -1857,10 +1464,6 @@ func (stage *Stage) UnstageBranchLink(link *Link) {
 }
 
 func (linkanchoredpath *LinkAnchoredPath) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLinkAnchoredPath(linkanchoredpath)
-}
-
-func (stage *Stage) UnstageBranchLinkAnchoredPath(linkanchoredpath *LinkAnchoredPath) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(linkanchoredpath) {
@@ -1876,10 +1479,6 @@ func (stage *Stage) UnstageBranchLinkAnchoredPath(linkanchoredpath *LinkAnchored
 }
 
 func (linkanchoredtext *LinkAnchoredText) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLinkAnchoredText(linkanchoredtext)
-}
-
-func (stage *Stage) UnstageBranchLinkAnchoredText(linkanchoredtext *LinkAnchoredText) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(linkanchoredtext) {
@@ -1898,10 +1497,6 @@ func (stage *Stage) UnstageBranchLinkAnchoredText(linkanchoredtext *LinkAnchored
 }
 
 func (path *Path) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchPath(path)
-}
-
-func (stage *Stage) UnstageBranchPath(path *Path) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(path) {
@@ -1920,10 +1515,6 @@ func (stage *Stage) UnstageBranchPath(path *Path) {
 }
 
 func (point *Point) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchPoint(point)
-}
-
-func (stage *Stage) UnstageBranchPoint(point *Point) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(point) {
@@ -1939,10 +1530,6 @@ func (stage *Stage) UnstageBranchPoint(point *Point) {
 }
 
 func (polygone *Polygone) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchPolygone(polygone)
-}
-
-func (stage *Stage) UnstageBranchPolygone(polygone *Polygone) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(polygone) {
@@ -1961,10 +1548,6 @@ func (stage *Stage) UnstageBranchPolygone(polygone *Polygone) {
 }
 
 func (polyline *Polyline) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchPolyline(polyline)
-}
-
-func (stage *Stage) UnstageBranchPolyline(polyline *Polyline) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(polyline) {
@@ -1983,10 +1566,6 @@ func (stage *Stage) UnstageBranchPolyline(polyline *Polyline) {
 }
 
 func (rect *Rect) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchRect(rect)
-}
-
-func (stage *Stage) UnstageBranchRect(rect *Rect) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(rect) {
@@ -2035,10 +1614,6 @@ func (stage *Stage) UnstageBranchRect(rect *Rect) {
 }
 
 func (rectanchoredpath *RectAnchoredPath) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchRectAnchoredPath(rectanchoredpath)
-}
-
-func (stage *Stage) UnstageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPath) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(rectanchoredpath) {
@@ -2054,10 +1629,6 @@ func (stage *Stage) UnstageBranchRectAnchoredPath(rectanchoredpath *RectAnchored
 }
 
 func (rectanchoredpngimage *RectAnchoredPngImage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchRectAnchoredPngImage(rectanchoredpngimage)
-}
-
-func (stage *Stage) UnstageBranchRectAnchoredPngImage(rectanchoredpngimage *RectAnchoredPngImage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(rectanchoredpngimage) {
@@ -2073,10 +1644,6 @@ func (stage *Stage) UnstageBranchRectAnchoredPngImage(rectanchoredpngimage *Rect
 }
 
 func (rectanchoredrect *RectAnchoredRect) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchRectAnchoredRect(rectanchoredrect)
-}
-
-func (stage *Stage) UnstageBranchRectAnchoredRect(rectanchoredrect *RectAnchoredRect) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(rectanchoredrect) {
@@ -2092,10 +1659,6 @@ func (stage *Stage) UnstageBranchRectAnchoredRect(rectanchoredrect *RectAnchored
 }
 
 func (rectanchoredtext *RectAnchoredText) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchRectAnchoredText(rectanchoredtext)
-}
-
-func (stage *Stage) UnstageBranchRectAnchoredText(rectanchoredtext *RectAnchoredText) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(rectanchoredtext) {
@@ -2114,10 +1677,6 @@ func (stage *Stage) UnstageBranchRectAnchoredText(rectanchoredtext *RectAnchored
 }
 
 func (rectlinklink *RectLinkLink) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchRectLinkLink(rectlinklink)
-}
-
-func (stage *Stage) UnstageBranchRectLinkLink(rectlinklink *RectLinkLink) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(rectlinklink) {
@@ -2139,10 +1698,6 @@ func (stage *Stage) UnstageBranchRectLinkLink(rectlinklink *RectLinkLink) {
 }
 
 func (svg *SVG) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSVG(svg)
-}
-
-func (stage *Stage) UnstageBranchSVG(svg *SVG) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(svg) {
@@ -2167,10 +1722,6 @@ func (stage *Stage) UnstageBranchSVG(svg *SVG) {
 }
 
 func (svgtext *SvgText) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSvgText(svgtext)
-}
-
-func (stage *Stage) UnstageBranchSvgText(svgtext *SvgText) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(svgtext) {
@@ -2186,10 +1737,6 @@ func (stage *Stage) UnstageBranchSvgText(svgtext *SvgText) {
 }
 
 func (text *Text) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchText(text)
-}
-
-func (stage *Stage) UnstageBranchText(text *Text) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(text) {
@@ -2216,10 +1763,7 @@ func (reference *Animate) GongReconstructPointersFromReferences(stage *Stage, in
 func (reference *Circle) GongReconstructPointersFromReferences(stage *Stage, instance *Circle) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Animations = reference.Animations[:0]
-	for _, _b := range instance.Animations {
-		reference.Animations = append(reference.Animations, stage.Animates_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Animations, stage.Animates_reference, instance.Animations)
 }
 
 func (reference *Condition) GongReconstructPointersFromReferences(stage *Stage, instance *Condition) {
@@ -2229,19 +1773,14 @@ func (reference *Condition) GongReconstructPointersFromReferences(stage *Stage, 
 
 func (reference *ControlPoint) GongReconstructPointersFromReferences(stage *Stage, instance *ControlPoint) {
 	// insertion point for pointers field
-	if instance.ClosestRect != nil {
-		reference.ClosestRect = stage.Rects_reference[instance.ClosestRect]
-	}
+	__gong__reconstructPointer(&reference.ClosestRect, stage.Rects_reference, instance.ClosestRect)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Ellipse) GongReconstructPointersFromReferences(stage *Stage, instance *Ellipse) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Animates = reference.Animates[:0]
-	for _, _b := range instance.Animates {
-		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Animates, stage.Animates_reference, instance.Animates)
 }
 
 func (reference *FileToDownload) GongReconstructPointersFromReferences(stage *Stage, instance *FileToDownload) {
@@ -2252,94 +1791,36 @@ func (reference *FileToDownload) GongReconstructPointersFromReferences(stage *St
 func (reference *Layer) GongReconstructPointersFromReferences(stage *Stage, instance *Layer) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Rects = reference.Rects[:0]
-	for _, _b := range instance.Rects {
-		reference.Rects = append(reference.Rects, stage.Rects_reference[_b])
-	}
-	reference.Texts = reference.Texts[:0]
-	for _, _b := range instance.Texts {
-		reference.Texts = append(reference.Texts, stage.Texts_reference[_b])
-	}
-	reference.Circles = reference.Circles[:0]
-	for _, _b := range instance.Circles {
-		reference.Circles = append(reference.Circles, stage.Circles_reference[_b])
-	}
-	reference.Lines = reference.Lines[:0]
-	for _, _b := range instance.Lines {
-		reference.Lines = append(reference.Lines, stage.Lines_reference[_b])
-	}
-	reference.Ellipses = reference.Ellipses[:0]
-	for _, _b := range instance.Ellipses {
-		reference.Ellipses = append(reference.Ellipses, stage.Ellipses_reference[_b])
-	}
-	reference.Polylines = reference.Polylines[:0]
-	for _, _b := range instance.Polylines {
-		reference.Polylines = append(reference.Polylines, stage.Polylines_reference[_b])
-	}
-	reference.Polygones = reference.Polygones[:0]
-	for _, _b := range instance.Polygones {
-		reference.Polygones = append(reference.Polygones, stage.Polygones_reference[_b])
-	}
-	reference.Paths = reference.Paths[:0]
-	for _, _b := range instance.Paths {
-		reference.Paths = append(reference.Paths, stage.Paths_reference[_b])
-	}
-	reference.Links = reference.Links[:0]
-	for _, _b := range instance.Links {
-		reference.Links = append(reference.Links, stage.Links_reference[_b])
-	}
-	reference.RectLinkLinks = reference.RectLinkLinks[:0]
-	for _, _b := range instance.RectLinkLinks {
-		reference.RectLinkLinks = append(reference.RectLinkLinks, stage.RectLinkLinks_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Rects, stage.Rects_reference, instance.Rects)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Texts, stage.Texts_reference, instance.Texts)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Circles, stage.Circles_reference, instance.Circles)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Lines, stage.Lines_reference, instance.Lines)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Ellipses, stage.Ellipses_reference, instance.Ellipses)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Polylines, stage.Polylines_reference, instance.Polylines)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Polygones, stage.Polygones_reference, instance.Polygones)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Paths, stage.Paths_reference, instance.Paths)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Links, stage.Links_reference, instance.Links)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RectLinkLinks, stage.RectLinkLinks_reference, instance.RectLinkLinks)
 }
 
 func (reference *Line) GongReconstructPointersFromReferences(stage *Stage, instance *Line) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Animates = reference.Animates[:0]
-	for _, _b := range instance.Animates {
-		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Animates, stage.Animates_reference, instance.Animates)
 }
 
 func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, instance *Link) {
 	// insertion point for pointers field
-	if instance.Start != nil {
-		reference.Start = stage.Rects_reference[instance.Start]
-	}
-	if instance.End != nil {
-		reference.End = stage.Rects_reference[instance.End]
-	}
+	__gong__reconstructPointer(&reference.Start, stage.Rects_reference, instance.Start)
+	__gong__reconstructPointer(&reference.End, stage.Rects_reference, instance.End)
 	// insertion point for slice of pointers field
-	reference.TextAtArrowStart = reference.TextAtArrowStart[:0]
-	for _, _b := range instance.TextAtArrowStart {
-		reference.TextAtArrowStart = append(reference.TextAtArrowStart, stage.LinkAnchoredTexts_reference[_b])
-	}
-	reference.TextAtArrowEnd = reference.TextAtArrowEnd[:0]
-	for _, _b := range instance.TextAtArrowEnd {
-		reference.TextAtArrowEnd = append(reference.TextAtArrowEnd, stage.LinkAnchoredTexts_reference[_b])
-	}
-	reference.TextAtCorner = reference.TextAtCorner[:0]
-	for _, _b := range instance.TextAtCorner {
-		reference.TextAtCorner = append(reference.TextAtCorner, stage.LinkAnchoredTexts_reference[_b])
-	}
-	reference.PathAtArrowStart = reference.PathAtArrowStart[:0]
-	for _, _b := range instance.PathAtArrowStart {
-		reference.PathAtArrowStart = append(reference.PathAtArrowStart, stage.LinkAnchoredPaths_reference[_b])
-	}
-	reference.PathAtArrowEnd = reference.PathAtArrowEnd[:0]
-	for _, _b := range instance.PathAtArrowEnd {
-		reference.PathAtArrowEnd = append(reference.PathAtArrowEnd, stage.LinkAnchoredPaths_reference[_b])
-	}
-	reference.PathAtCorner = reference.PathAtCorner[:0]
-	for _, _b := range instance.PathAtCorner {
-		reference.PathAtCorner = append(reference.PathAtCorner, stage.LinkAnchoredPaths_reference[_b])
-	}
-	reference.ControlPoints = reference.ControlPoints[:0]
-	for _, _b := range instance.ControlPoints {
-		reference.ControlPoints = append(reference.ControlPoints, stage.ControlPoints_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.TextAtArrowStart, stage.LinkAnchoredTexts_reference, instance.TextAtArrowStart)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.TextAtArrowEnd, stage.LinkAnchoredTexts_reference, instance.TextAtArrowEnd)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.TextAtCorner, stage.LinkAnchoredTexts_reference, instance.TextAtCorner)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.PathAtArrowStart, stage.LinkAnchoredPaths_reference, instance.PathAtArrowStart)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.PathAtArrowEnd, stage.LinkAnchoredPaths_reference, instance.PathAtArrowEnd)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.PathAtCorner, stage.LinkAnchoredPaths_reference, instance.PathAtCorner)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPoints, stage.ControlPoints_reference, instance.ControlPoints)
 }
 
 func (reference *LinkAnchoredPath) GongReconstructPointersFromReferences(stage *Stage, instance *LinkAnchoredPath) {
@@ -2350,19 +1831,13 @@ func (reference *LinkAnchoredPath) GongReconstructPointersFromReferences(stage *
 func (reference *LinkAnchoredText) GongReconstructPointersFromReferences(stage *Stage, instance *LinkAnchoredText) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Animates = reference.Animates[:0]
-	for _, _b := range instance.Animates {
-		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Animates, stage.Animates_reference, instance.Animates)
 }
 
 func (reference *Path) GongReconstructPointersFromReferences(stage *Stage, instance *Path) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Animates = reference.Animates[:0]
-	for _, _b := range instance.Animates {
-		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Animates, stage.Animates_reference, instance.Animates)
 }
 
 func (reference *Point) GongReconstructPointersFromReferences(stage *Stage, instance *Point) {
@@ -2373,66 +1848,29 @@ func (reference *Point) GongReconstructPointersFromReferences(stage *Stage, inst
 func (reference *Polygone) GongReconstructPointersFromReferences(stage *Stage, instance *Polygone) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Animates = reference.Animates[:0]
-	for _, _b := range instance.Animates {
-		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Animates, stage.Animates_reference, instance.Animates)
 }
 
 func (reference *Polyline) GongReconstructPointersFromReferences(stage *Stage, instance *Polyline) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Animates = reference.Animates[:0]
-	for _, _b := range instance.Animates {
-		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Animates, stage.Animates_reference, instance.Animates)
 }
 
 func (reference *Rect) GongReconstructPointersFromReferences(stage *Stage, instance *Rect) {
 	// insertion point for pointers field
-	if instance.EnclosingRect != nil {
-		reference.EnclosingRect = stage.Rects_reference[instance.EnclosingRect]
-	}
-	if instance.AnchoredTo != nil {
-		reference.AnchoredTo = stage.Rects_reference[instance.AnchoredTo]
-	}
+	__gong__reconstructPointer(&reference.EnclosingRect, stage.Rects_reference, instance.EnclosingRect)
+	__gong__reconstructPointer(&reference.AnchoredTo, stage.Rects_reference, instance.AnchoredTo)
 	// insertion point for slice of pointers field
-	reference.Peers = reference.Peers[:0]
-	for _, _b := range instance.Peers {
-		reference.Peers = append(reference.Peers, stage.Rects_reference[_b])
-	}
-	reference.Obstacles = reference.Obstacles[:0]
-	for _, _b := range instance.Obstacles {
-		reference.Obstacles = append(reference.Obstacles, stage.Rects_reference[_b])
-	}
-	reference.HoveringTrigger = reference.HoveringTrigger[:0]
-	for _, _b := range instance.HoveringTrigger {
-		reference.HoveringTrigger = append(reference.HoveringTrigger, stage.Conditions_reference[_b])
-	}
-	reference.DisplayConditions = reference.DisplayConditions[:0]
-	for _, _b := range instance.DisplayConditions {
-		reference.DisplayConditions = append(reference.DisplayConditions, stage.Conditions_reference[_b])
-	}
-	reference.Animations = reference.Animations[:0]
-	for _, _b := range instance.Animations {
-		reference.Animations = append(reference.Animations, stage.Animates_reference[_b])
-	}
-	reference.RectAnchoredTexts = reference.RectAnchoredTexts[:0]
-	for _, _b := range instance.RectAnchoredTexts {
-		reference.RectAnchoredTexts = append(reference.RectAnchoredTexts, stage.RectAnchoredTexts_reference[_b])
-	}
-	reference.RectAnchoredRects = reference.RectAnchoredRects[:0]
-	for _, _b := range instance.RectAnchoredRects {
-		reference.RectAnchoredRects = append(reference.RectAnchoredRects, stage.RectAnchoredRects_reference[_b])
-	}
-	reference.RectAnchoredPaths = reference.RectAnchoredPaths[:0]
-	for _, _b := range instance.RectAnchoredPaths {
-		reference.RectAnchoredPaths = append(reference.RectAnchoredPaths, stage.RectAnchoredPaths_reference[_b])
-	}
-	reference.RectAnchoredPngImages = reference.RectAnchoredPngImages[:0]
-	for _, _b := range instance.RectAnchoredPngImages {
-		reference.RectAnchoredPngImages = append(reference.RectAnchoredPngImages, stage.RectAnchoredPngImages_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Peers, stage.Rects_reference, instance.Peers)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Obstacles, stage.Rects_reference, instance.Obstacles)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.HoveringTrigger, stage.Conditions_reference, instance.HoveringTrigger)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DisplayConditions, stage.Conditions_reference, instance.DisplayConditions)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Animations, stage.Animates_reference, instance.Animations)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RectAnchoredTexts, stage.RectAnchoredTexts_reference, instance.RectAnchoredTexts)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RectAnchoredRects, stage.RectAnchoredRects_reference, instance.RectAnchoredRects)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RectAnchoredPaths, stage.RectAnchoredPaths_reference, instance.RectAnchoredPaths)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RectAnchoredPngImages, stage.RectAnchoredPngImages_reference, instance.RectAnchoredPngImages)
 }
 
 func (reference *RectAnchoredPath) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredPath) {
@@ -2453,36 +1891,22 @@ func (reference *RectAnchoredRect) GongReconstructPointersFromReferences(stage *
 func (reference *RectAnchoredText) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredText) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Animates = reference.Animates[:0]
-	for _, _b := range instance.Animates {
-		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Animates, stage.Animates_reference, instance.Animates)
 }
 
 func (reference *RectLinkLink) GongReconstructPointersFromReferences(stage *Stage, instance *RectLinkLink) {
 	// insertion point for pointers field
-	if instance.Start != nil {
-		reference.Start = stage.Rects_reference[instance.Start]
-	}
-	if instance.End != nil {
-		reference.End = stage.Links_reference[instance.End]
-	}
+	__gong__reconstructPointer(&reference.Start, stage.Rects_reference, instance.Start)
+	__gong__reconstructPointer(&reference.End, stage.Links_reference, instance.End)
 	// insertion point for slice of pointers field
 }
 
 func (reference *SVG) GongReconstructPointersFromReferences(stage *Stage, instance *SVG) {
 	// insertion point for pointers field
-	if instance.StartRect != nil {
-		reference.StartRect = stage.Rects_reference[instance.StartRect]
-	}
-	if instance.EndRect != nil {
-		reference.EndRect = stage.Rects_reference[instance.EndRect]
-	}
+	__gong__reconstructPointer(&reference.StartRect, stage.Rects_reference, instance.StartRect)
+	__gong__reconstructPointer(&reference.EndRect, stage.Rects_reference, instance.EndRect)
 	// insertion point for slice of pointers field
-	reference.Layers = reference.Layers[:0]
-	for _, _b := range instance.Layers {
-		reference.Layers = append(reference.Layers, stage.Layers_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Layers, stage.Layers_reference, instance.Layers)
 }
 
 func (reference *SvgText) GongReconstructPointersFromReferences(stage *Stage, instance *SvgText) {
@@ -2493,10 +1917,7 @@ func (reference *SvgText) GongReconstructPointersFromReferences(stage *Stage, in
 func (reference *Text) GongReconstructPointersFromReferences(stage *Stage, instance *Text) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Animates = reference.Animates[:0]
-	for _, _b := range instance.Animates {
-		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Animates, stage.Animates_reference, instance.Animates)
 }
 
 // insertion point for pointer reconstruction from instances
@@ -2508,13 +1929,7 @@ func (reference *Animate) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Circle) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Animations []*Animate
-	for _, _reference := range reference.Animations {
-		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animations = append(_Animations, _instance)
-		}
-	}
-	reference.Animations = _Animations
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Animations, stage.Animates_instance)
 }
 
 func (reference *Condition) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2524,25 +1939,14 @@ func (reference *Condition) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *ControlPoint) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ClosestRect; _reference != nil {
-		reference.ClosestRect = nil
-		if _instance, ok := stage.Rects_instance[_reference]; ok {
-			reference.ClosestRect = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ClosestRect, stage.Rects_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Ellipse) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Animates []*Animate
-	for _, _reference := range reference.Animates {
-		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, _instance)
-		}
-	}
-	reference.Animates = _Animates
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Animates, stage.Animates_instance)
 }
 
 func (reference *FileToDownload) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2553,154 +1957,36 @@ func (reference *FileToDownload) GongReconstructPointersFromInstances(stage *Sta
 func (reference *Layer) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Rects []*Rect
-	for _, _reference := range reference.Rects {
-		if _instance, ok := stage.Rects_instance[_reference]; ok {
-			_Rects = append(_Rects, _instance)
-		}
-	}
-	reference.Rects = _Rects
-	var _Texts []*Text
-	for _, _reference := range reference.Texts {
-		if _instance, ok := stage.Texts_instance[_reference]; ok {
-			_Texts = append(_Texts, _instance)
-		}
-	}
-	reference.Texts = _Texts
-	var _Circles []*Circle
-	for _, _reference := range reference.Circles {
-		if _instance, ok := stage.Circles_instance[_reference]; ok {
-			_Circles = append(_Circles, _instance)
-		}
-	}
-	reference.Circles = _Circles
-	var _Lines []*Line
-	for _, _reference := range reference.Lines {
-		if _instance, ok := stage.Lines_instance[_reference]; ok {
-			_Lines = append(_Lines, _instance)
-		}
-	}
-	reference.Lines = _Lines
-	var _Ellipses []*Ellipse
-	for _, _reference := range reference.Ellipses {
-		if _instance, ok := stage.Ellipses_instance[_reference]; ok {
-			_Ellipses = append(_Ellipses, _instance)
-		}
-	}
-	reference.Ellipses = _Ellipses
-	var _Polylines []*Polyline
-	for _, _reference := range reference.Polylines {
-		if _instance, ok := stage.Polylines_instance[_reference]; ok {
-			_Polylines = append(_Polylines, _instance)
-		}
-	}
-	reference.Polylines = _Polylines
-	var _Polygones []*Polygone
-	for _, _reference := range reference.Polygones {
-		if _instance, ok := stage.Polygones_instance[_reference]; ok {
-			_Polygones = append(_Polygones, _instance)
-		}
-	}
-	reference.Polygones = _Polygones
-	var _Paths []*Path
-	for _, _reference := range reference.Paths {
-		if _instance, ok := stage.Paths_instance[_reference]; ok {
-			_Paths = append(_Paths, _instance)
-		}
-	}
-	reference.Paths = _Paths
-	var _Links []*Link
-	for _, _reference := range reference.Links {
-		if _instance, ok := stage.Links_instance[_reference]; ok {
-			_Links = append(_Links, _instance)
-		}
-	}
-	reference.Links = _Links
-	var _RectLinkLinks []*RectLinkLink
-	for _, _reference := range reference.RectLinkLinks {
-		if _instance, ok := stage.RectLinkLinks_instance[_reference]; ok {
-			_RectLinkLinks = append(_RectLinkLinks, _instance)
-		}
-	}
-	reference.RectLinkLinks = _RectLinkLinks
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Rects, stage.Rects_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Texts, stage.Texts_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Circles, stage.Circles_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Lines, stage.Lines_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Ellipses, stage.Ellipses_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Polylines, stage.Polylines_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Polygones, stage.Polygones_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Paths, stage.Paths_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Links, stage.Links_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RectLinkLinks, stage.RectLinkLinks_instance)
 }
 
 func (reference *Line) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Animates []*Animate
-	for _, _reference := range reference.Animates {
-		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, _instance)
-		}
-	}
-	reference.Animates = _Animates
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Animates, stage.Animates_instance)
 }
 
 func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Start; _reference != nil {
-		reference.Start = nil
-		if _instance, ok := stage.Rects_instance[_reference]; ok {
-			reference.Start = _instance
-		}
-	}
-	if _reference := reference.End; _reference != nil {
-		reference.End = nil
-		if _instance, ok := stage.Rects_instance[_reference]; ok {
-			reference.End = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Start, stage.Rects_instance)
+	__gong__reconstructPointerFromInstance(&reference.End, stage.Rects_instance)
 	// insertion point for slice of pointers fields
-	var _TextAtArrowStart []*LinkAnchoredText
-	for _, _reference := range reference.TextAtArrowStart {
-		if _instance, ok := stage.LinkAnchoredTexts_instance[_reference]; ok {
-			_TextAtArrowStart = append(_TextAtArrowStart, _instance)
-		}
-	}
-	reference.TextAtArrowStart = _TextAtArrowStart
-	var _TextAtArrowEnd []*LinkAnchoredText
-	for _, _reference := range reference.TextAtArrowEnd {
-		if _instance, ok := stage.LinkAnchoredTexts_instance[_reference]; ok {
-			_TextAtArrowEnd = append(_TextAtArrowEnd, _instance)
-		}
-	}
-	reference.TextAtArrowEnd = _TextAtArrowEnd
-	var _TextAtCorner []*LinkAnchoredText
-	for _, _reference := range reference.TextAtCorner {
-		if _instance, ok := stage.LinkAnchoredTexts_instance[_reference]; ok {
-			_TextAtCorner = append(_TextAtCorner, _instance)
-		}
-	}
-	reference.TextAtCorner = _TextAtCorner
-	var _PathAtArrowStart []*LinkAnchoredPath
-	for _, _reference := range reference.PathAtArrowStart {
-		if _instance, ok := stage.LinkAnchoredPaths_instance[_reference]; ok {
-			_PathAtArrowStart = append(_PathAtArrowStart, _instance)
-		}
-	}
-	reference.PathAtArrowStart = _PathAtArrowStart
-	var _PathAtArrowEnd []*LinkAnchoredPath
-	for _, _reference := range reference.PathAtArrowEnd {
-		if _instance, ok := stage.LinkAnchoredPaths_instance[_reference]; ok {
-			_PathAtArrowEnd = append(_PathAtArrowEnd, _instance)
-		}
-	}
-	reference.PathAtArrowEnd = _PathAtArrowEnd
-	var _PathAtCorner []*LinkAnchoredPath
-	for _, _reference := range reference.PathAtCorner {
-		if _instance, ok := stage.LinkAnchoredPaths_instance[_reference]; ok {
-			_PathAtCorner = append(_PathAtCorner, _instance)
-		}
-	}
-	reference.PathAtCorner = _PathAtCorner
-	var _ControlPoints []*ControlPoint
-	for _, _reference := range reference.ControlPoints {
-		if _instance, ok := stage.ControlPoints_instance[_reference]; ok {
-			_ControlPoints = append(_ControlPoints, _instance)
-		}
-	}
-	reference.ControlPoints = _ControlPoints
+	__gong__reconstructSliceOfPointersFromInstances(&reference.TextAtArrowStart, stage.LinkAnchoredTexts_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.TextAtArrowEnd, stage.LinkAnchoredTexts_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.TextAtCorner, stage.LinkAnchoredTexts_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.PathAtArrowStart, stage.LinkAnchoredPaths_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.PathAtArrowEnd, stage.LinkAnchoredPaths_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.PathAtCorner, stage.LinkAnchoredPaths_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPoints, stage.ControlPoints_instance)
 }
 
 func (reference *LinkAnchoredPath) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2711,25 +1997,13 @@ func (reference *LinkAnchoredPath) GongReconstructPointersFromInstances(stage *S
 func (reference *LinkAnchoredText) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Animates []*Animate
-	for _, _reference := range reference.Animates {
-		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, _instance)
-		}
-	}
-	reference.Animates = _Animates
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Animates, stage.Animates_instance)
 }
 
 func (reference *Path) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Animates []*Animate
-	for _, _reference := range reference.Animates {
-		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, _instance)
-		}
-	}
-	reference.Animates = _Animates
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Animates, stage.Animates_instance)
 }
 
 func (reference *Point) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2740,105 +2014,29 @@ func (reference *Point) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Polygone) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Animates []*Animate
-	for _, _reference := range reference.Animates {
-		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, _instance)
-		}
-	}
-	reference.Animates = _Animates
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Animates, stage.Animates_instance)
 }
 
 func (reference *Polyline) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Animates []*Animate
-	for _, _reference := range reference.Animates {
-		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, _instance)
-		}
-	}
-	reference.Animates = _Animates
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Animates, stage.Animates_instance)
 }
 
 func (reference *Rect) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.EnclosingRect; _reference != nil {
-		reference.EnclosingRect = nil
-		if _instance, ok := stage.Rects_instance[_reference]; ok {
-			reference.EnclosingRect = _instance
-		}
-	}
-	if _reference := reference.AnchoredTo; _reference != nil {
-		reference.AnchoredTo = nil
-		if _instance, ok := stage.Rects_instance[_reference]; ok {
-			reference.AnchoredTo = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.EnclosingRect, stage.Rects_instance)
+	__gong__reconstructPointerFromInstance(&reference.AnchoredTo, stage.Rects_instance)
 	// insertion point for slice of pointers fields
-	var _Peers []*Rect
-	for _, _reference := range reference.Peers {
-		if _instance, ok := stage.Rects_instance[_reference]; ok {
-			_Peers = append(_Peers, _instance)
-		}
-	}
-	reference.Peers = _Peers
-	var _Obstacles []*Rect
-	for _, _reference := range reference.Obstacles {
-		if _instance, ok := stage.Rects_instance[_reference]; ok {
-			_Obstacles = append(_Obstacles, _instance)
-		}
-	}
-	reference.Obstacles = _Obstacles
-	var _HoveringTrigger []*Condition
-	for _, _reference := range reference.HoveringTrigger {
-		if _instance, ok := stage.Conditions_instance[_reference]; ok {
-			_HoveringTrigger = append(_HoveringTrigger, _instance)
-		}
-	}
-	reference.HoveringTrigger = _HoveringTrigger
-	var _DisplayConditions []*Condition
-	for _, _reference := range reference.DisplayConditions {
-		if _instance, ok := stage.Conditions_instance[_reference]; ok {
-			_DisplayConditions = append(_DisplayConditions, _instance)
-		}
-	}
-	reference.DisplayConditions = _DisplayConditions
-	var _Animations []*Animate
-	for _, _reference := range reference.Animations {
-		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animations = append(_Animations, _instance)
-		}
-	}
-	reference.Animations = _Animations
-	var _RectAnchoredTexts []*RectAnchoredText
-	for _, _reference := range reference.RectAnchoredTexts {
-		if _instance, ok := stage.RectAnchoredTexts_instance[_reference]; ok {
-			_RectAnchoredTexts = append(_RectAnchoredTexts, _instance)
-		}
-	}
-	reference.RectAnchoredTexts = _RectAnchoredTexts
-	var _RectAnchoredRects []*RectAnchoredRect
-	for _, _reference := range reference.RectAnchoredRects {
-		if _instance, ok := stage.RectAnchoredRects_instance[_reference]; ok {
-			_RectAnchoredRects = append(_RectAnchoredRects, _instance)
-		}
-	}
-	reference.RectAnchoredRects = _RectAnchoredRects
-	var _RectAnchoredPaths []*RectAnchoredPath
-	for _, _reference := range reference.RectAnchoredPaths {
-		if _instance, ok := stage.RectAnchoredPaths_instance[_reference]; ok {
-			_RectAnchoredPaths = append(_RectAnchoredPaths, _instance)
-		}
-	}
-	reference.RectAnchoredPaths = _RectAnchoredPaths
-	var _RectAnchoredPngImages []*RectAnchoredPngImage
-	for _, _reference := range reference.RectAnchoredPngImages {
-		if _instance, ok := stage.RectAnchoredPngImages_instance[_reference]; ok {
-			_RectAnchoredPngImages = append(_RectAnchoredPngImages, _instance)
-		}
-	}
-	reference.RectAnchoredPngImages = _RectAnchoredPngImages
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Peers, stage.Rects_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Obstacles, stage.Rects_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.HoveringTrigger, stage.Conditions_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DisplayConditions, stage.Conditions_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Animations, stage.Animates_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RectAnchoredTexts, stage.RectAnchoredTexts_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RectAnchoredRects, stage.RectAnchoredRects_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RectAnchoredPaths, stage.RectAnchoredPaths_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RectAnchoredPngImages, stage.RectAnchoredPngImages_instance)
 }
 
 func (reference *RectAnchoredPath) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2859,54 +2057,22 @@ func (reference *RectAnchoredRect) GongReconstructPointersFromInstances(stage *S
 func (reference *RectAnchoredText) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Animates []*Animate
-	for _, _reference := range reference.Animates {
-		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, _instance)
-		}
-	}
-	reference.Animates = _Animates
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Animates, stage.Animates_instance)
 }
 
 func (reference *RectLinkLink) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Start; _reference != nil {
-		reference.Start = nil
-		if _instance, ok := stage.Rects_instance[_reference]; ok {
-			reference.Start = _instance
-		}
-	}
-	if _reference := reference.End; _reference != nil {
-		reference.End = nil
-		if _instance, ok := stage.Links_instance[_reference]; ok {
-			reference.End = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Start, stage.Rects_instance)
+	__gong__reconstructPointerFromInstance(&reference.End, stage.Links_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *SVG) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.StartRect; _reference != nil {
-		reference.StartRect = nil
-		if _instance, ok := stage.Rects_instance[_reference]; ok {
-			reference.StartRect = _instance
-		}
-	}
-	if _reference := reference.EndRect; _reference != nil {
-		reference.EndRect = nil
-		if _instance, ok := stage.Rects_instance[_reference]; ok {
-			reference.EndRect = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.StartRect, stage.Rects_instance)
+	__gong__reconstructPointerFromInstance(&reference.EndRect, stage.Rects_instance)
 	// insertion point for slice of pointers fields
-	var _Layers []*Layer
-	for _, _reference := range reference.Layers {
-		if _instance, ok := stage.Layers_instance[_reference]; ok {
-			_Layers = append(_Layers, _instance)
-		}
-	}
-	reference.Layers = _Layers
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Layers, stage.Layers_instance)
 }
 
 func (reference *SvgText) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2917,13 +2083,7 @@ func (reference *SvgText) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Text) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Animates []*Animate
-	for _, _reference := range reference.Animates {
-		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, _instance)
-		}
-	}
-	reference.Animates = _Animates
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Animates, stage.Animates_instance)
 }
 
 // insertion point for diff per struct
@@ -2996,36 +2156,7 @@ func (circle *Circle) GongDiff(stage *Stage, circleOther *Circle) (diffs []strin
 	if circle.Transform != circleOther.Transform {
 		diffs = append(diffs, circle.GongMarshallField(stage, "Transform"))
 	}
-	AnimationsDifferent := false
-	if len(circle.Animations) != len(circleOther.Animations) {
-		AnimationsDifferent = true
-	} else {
-		for i := range circle.Animations {
-			if (circle.Animations[i] == nil) != (circleOther.Animations[i] == nil) {
-				AnimationsDifferent = true
-				break
-			} else if circle.Animations[i] != nil && circleOther.Animations[i] != nil {
-				// this is a pointer comparaison
-				if circle.Animations[i] != circleOther.Animations[i] {
-					AnimationsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnimationsDifferent {
-		ops := stage.Diff(
-			circle,
-			"Animations",
-			len(circleOther.Animations),
-			len(circle.Animations),
-			func(i, j int) bool {
-				return circleOther.Animations[i] == circle.Animations[j]
-			},
-			func(j int) string {
-				return circle.Animations[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, circle, "Animations", circleOther.Animations, circle.Animations); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -3056,12 +2187,8 @@ func (controlpoint *ControlPoint) GongDiff(stage *Stage, controlpointOther *Cont
 	if controlpoint.Y_Relative != controlpointOther.Y_Relative {
 		diffs = append(diffs, controlpoint.GongMarshallField(stage, "Y_Relative"))
 	}
-	if (controlpoint.ClosestRect == nil) != (controlpointOther.ClosestRect == nil) {
+	if controlpoint.ClosestRect != controlpointOther.ClosestRect {
 		diffs = append(diffs, controlpoint.GongMarshallField(stage, "ClosestRect"))
-	} else if controlpoint.ClosestRect != nil && controlpointOther.ClosestRect != nil {
-		if controlpoint.ClosestRect != controlpointOther.ClosestRect {
-			diffs = append(diffs, controlpoint.GongMarshallField(stage, "ClosestRect"))
-		}
 	}
 
 	return
@@ -3110,36 +2237,7 @@ func (ellipse *Ellipse) GongDiff(stage *Stage, ellipseOther *Ellipse) (diffs []s
 	if ellipse.Transform != ellipseOther.Transform {
 		diffs = append(diffs, ellipse.GongMarshallField(stage, "Transform"))
 	}
-	AnimatesDifferent := false
-	if len(ellipse.Animates) != len(ellipseOther.Animates) {
-		AnimatesDifferent = true
-	} else {
-		for i := range ellipse.Animates {
-			if (ellipse.Animates[i] == nil) != (ellipseOther.Animates[i] == nil) {
-				AnimatesDifferent = true
-				break
-			} else if ellipse.Animates[i] != nil && ellipseOther.Animates[i] != nil {
-				// this is a pointer comparaison
-				if ellipse.Animates[i] != ellipseOther.Animates[i] {
-					AnimatesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnimatesDifferent {
-		ops := stage.Diff(
-			ellipse,
-			"Animates",
-			len(ellipseOther.Animates),
-			len(ellipse.Animates),
-			func(i, j int) bool {
-				return ellipseOther.Animates[i] == ellipse.Animates[j]
-			},
-			func(j int) string {
-				return ellipse.Animates[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, ellipse, "Animates", ellipseOther.Animates, ellipse.Animates); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -3167,324 +2265,34 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 	if layer.Name != layerOther.Name {
 		diffs = append(diffs, layer.GongMarshallField(stage, "Name"))
 	}
-	RectsDifferent := false
-	if len(layer.Rects) != len(layerOther.Rects) {
-		RectsDifferent = true
-	} else {
-		for i := range layer.Rects {
-			if (layer.Rects[i] == nil) != (layerOther.Rects[i] == nil) {
-				RectsDifferent = true
-				break
-			} else if layer.Rects[i] != nil && layerOther.Rects[i] != nil {
-				// this is a pointer comparaison
-				if layer.Rects[i] != layerOther.Rects[i] {
-					RectsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RectsDifferent {
-		ops := stage.Diff(
-			layer,
-			"Rects",
-			len(layerOther.Rects),
-			len(layer.Rects),
-			func(i, j int) bool {
-				return layerOther.Rects[i] == layer.Rects[j]
-			},
-			func(j int) string {
-				return layer.Rects[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, layer, "Rects", layerOther.Rects, layer.Rects); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	TextsDifferent := false
-	if len(layer.Texts) != len(layerOther.Texts) {
-		TextsDifferent = true
-	} else {
-		for i := range layer.Texts {
-			if (layer.Texts[i] == nil) != (layerOther.Texts[i] == nil) {
-				TextsDifferent = true
-				break
-			} else if layer.Texts[i] != nil && layerOther.Texts[i] != nil {
-				// this is a pointer comparaison
-				if layer.Texts[i] != layerOther.Texts[i] {
-					TextsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if TextsDifferent {
-		ops := stage.Diff(
-			layer,
-			"Texts",
-			len(layerOther.Texts),
-			len(layer.Texts),
-			func(i, j int) bool {
-				return layerOther.Texts[i] == layer.Texts[j]
-			},
-			func(j int) string {
-				return layer.Texts[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, layer, "Texts", layerOther.Texts, layer.Texts); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	CirclesDifferent := false
-	if len(layer.Circles) != len(layerOther.Circles) {
-		CirclesDifferent = true
-	} else {
-		for i := range layer.Circles {
-			if (layer.Circles[i] == nil) != (layerOther.Circles[i] == nil) {
-				CirclesDifferent = true
-				break
-			} else if layer.Circles[i] != nil && layerOther.Circles[i] != nil {
-				// this is a pointer comparaison
-				if layer.Circles[i] != layerOther.Circles[i] {
-					CirclesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if CirclesDifferent {
-		ops := stage.Diff(
-			layer,
-			"Circles",
-			len(layerOther.Circles),
-			len(layer.Circles),
-			func(i, j int) bool {
-				return layerOther.Circles[i] == layer.Circles[j]
-			},
-			func(j int) string {
-				return layer.Circles[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, layer, "Circles", layerOther.Circles, layer.Circles); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	LinesDifferent := false
-	if len(layer.Lines) != len(layerOther.Lines) {
-		LinesDifferent = true
-	} else {
-		for i := range layer.Lines {
-			if (layer.Lines[i] == nil) != (layerOther.Lines[i] == nil) {
-				LinesDifferent = true
-				break
-			} else if layer.Lines[i] != nil && layerOther.Lines[i] != nil {
-				// this is a pointer comparaison
-				if layer.Lines[i] != layerOther.Lines[i] {
-					LinesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if LinesDifferent {
-		ops := stage.Diff(
-			layer,
-			"Lines",
-			len(layerOther.Lines),
-			len(layer.Lines),
-			func(i, j int) bool {
-				return layerOther.Lines[i] == layer.Lines[j]
-			},
-			func(j int) string {
-				return layer.Lines[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, layer, "Lines", layerOther.Lines, layer.Lines); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	EllipsesDifferent := false
-	if len(layer.Ellipses) != len(layerOther.Ellipses) {
-		EllipsesDifferent = true
-	} else {
-		for i := range layer.Ellipses {
-			if (layer.Ellipses[i] == nil) != (layerOther.Ellipses[i] == nil) {
-				EllipsesDifferent = true
-				break
-			} else if layer.Ellipses[i] != nil && layerOther.Ellipses[i] != nil {
-				// this is a pointer comparaison
-				if layer.Ellipses[i] != layerOther.Ellipses[i] {
-					EllipsesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if EllipsesDifferent {
-		ops := stage.Diff(
-			layer,
-			"Ellipses",
-			len(layerOther.Ellipses),
-			len(layer.Ellipses),
-			func(i, j int) bool {
-				return layerOther.Ellipses[i] == layer.Ellipses[j]
-			},
-			func(j int) string {
-				return layer.Ellipses[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, layer, "Ellipses", layerOther.Ellipses, layer.Ellipses); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	PolylinesDifferent := false
-	if len(layer.Polylines) != len(layerOther.Polylines) {
-		PolylinesDifferent = true
-	} else {
-		for i := range layer.Polylines {
-			if (layer.Polylines[i] == nil) != (layerOther.Polylines[i] == nil) {
-				PolylinesDifferent = true
-				break
-			} else if layer.Polylines[i] != nil && layerOther.Polylines[i] != nil {
-				// this is a pointer comparaison
-				if layer.Polylines[i] != layerOther.Polylines[i] {
-					PolylinesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if PolylinesDifferent {
-		ops := stage.Diff(
-			layer,
-			"Polylines",
-			len(layerOther.Polylines),
-			len(layer.Polylines),
-			func(i, j int) bool {
-				return layerOther.Polylines[i] == layer.Polylines[j]
-			},
-			func(j int) string {
-				return layer.Polylines[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, layer, "Polylines", layerOther.Polylines, layer.Polylines); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	PolygonesDifferent := false
-	if len(layer.Polygones) != len(layerOther.Polygones) {
-		PolygonesDifferent = true
-	} else {
-		for i := range layer.Polygones {
-			if (layer.Polygones[i] == nil) != (layerOther.Polygones[i] == nil) {
-				PolygonesDifferent = true
-				break
-			} else if layer.Polygones[i] != nil && layerOther.Polygones[i] != nil {
-				// this is a pointer comparaison
-				if layer.Polygones[i] != layerOther.Polygones[i] {
-					PolygonesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if PolygonesDifferent {
-		ops := stage.Diff(
-			layer,
-			"Polygones",
-			len(layerOther.Polygones),
-			len(layer.Polygones),
-			func(i, j int) bool {
-				return layerOther.Polygones[i] == layer.Polygones[j]
-			},
-			func(j int) string {
-				return layer.Polygones[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, layer, "Polygones", layerOther.Polygones, layer.Polygones); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	PathsDifferent := false
-	if len(layer.Paths) != len(layerOther.Paths) {
-		PathsDifferent = true
-	} else {
-		for i := range layer.Paths {
-			if (layer.Paths[i] == nil) != (layerOther.Paths[i] == nil) {
-				PathsDifferent = true
-				break
-			} else if layer.Paths[i] != nil && layerOther.Paths[i] != nil {
-				// this is a pointer comparaison
-				if layer.Paths[i] != layerOther.Paths[i] {
-					PathsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if PathsDifferent {
-		ops := stage.Diff(
-			layer,
-			"Paths",
-			len(layerOther.Paths),
-			len(layer.Paths),
-			func(i, j int) bool {
-				return layerOther.Paths[i] == layer.Paths[j]
-			},
-			func(j int) string {
-				return layer.Paths[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, layer, "Paths", layerOther.Paths, layer.Paths); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	LinksDifferent := false
-	if len(layer.Links) != len(layerOther.Links) {
-		LinksDifferent = true
-	} else {
-		for i := range layer.Links {
-			if (layer.Links[i] == nil) != (layerOther.Links[i] == nil) {
-				LinksDifferent = true
-				break
-			} else if layer.Links[i] != nil && layerOther.Links[i] != nil {
-				// this is a pointer comparaison
-				if layer.Links[i] != layerOther.Links[i] {
-					LinksDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if LinksDifferent {
-		ops := stage.Diff(
-			layer,
-			"Links",
-			len(layerOther.Links),
-			len(layer.Links),
-			func(i, j int) bool {
-				return layerOther.Links[i] == layer.Links[j]
-			},
-			func(j int) string {
-				return layer.Links[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, layer, "Links", layerOther.Links, layer.Links); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	RectLinkLinksDifferent := false
-	if len(layer.RectLinkLinks) != len(layerOther.RectLinkLinks) {
-		RectLinkLinksDifferent = true
-	} else {
-		for i := range layer.RectLinkLinks {
-			if (layer.RectLinkLinks[i] == nil) != (layerOther.RectLinkLinks[i] == nil) {
-				RectLinkLinksDifferent = true
-				break
-			} else if layer.RectLinkLinks[i] != nil && layerOther.RectLinkLinks[i] != nil {
-				// this is a pointer comparaison
-				if layer.RectLinkLinks[i] != layerOther.RectLinkLinks[i] {
-					RectLinkLinksDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RectLinkLinksDifferent {
-		ops := stage.Diff(
-			layer,
-			"RectLinkLinks",
-			len(layerOther.RectLinkLinks),
-			len(layer.RectLinkLinks),
-			func(i, j int) bool {
-				return layerOther.RectLinkLinks[i] == layer.RectLinkLinks[j]
-			},
-			func(j int) string {
-				return layer.RectLinkLinks[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, layer, "RectLinkLinks", layerOther.RectLinkLinks, layer.RectLinkLinks); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -3534,36 +2342,7 @@ func (line *Line) GongDiff(stage *Stage, lineOther *Line) (diffs []string) {
 	if line.Transform != lineOther.Transform {
 		diffs = append(diffs, line.GongMarshallField(stage, "Transform"))
 	}
-	AnimatesDifferent := false
-	if len(line.Animates) != len(lineOther.Animates) {
-		AnimatesDifferent = true
-	} else {
-		for i := range line.Animates {
-			if (line.Animates[i] == nil) != (lineOther.Animates[i] == nil) {
-				AnimatesDifferent = true
-				break
-			} else if line.Animates[i] != nil && lineOther.Animates[i] != nil {
-				// this is a pointer comparaison
-				if line.Animates[i] != lineOther.Animates[i] {
-					AnimatesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnimatesDifferent {
-		ops := stage.Diff(
-			line,
-			"Animates",
-			len(lineOther.Animates),
-			len(line.Animates),
-			func(i, j int) bool {
-				return lineOther.Animates[i] == line.Animates[j]
-			},
-			func(j int) string {
-				return line.Animates[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, line, "Animates", lineOther.Animates, line.Animates); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if line.MouseClickX != lineOther.MouseClickX {
@@ -3589,22 +2368,14 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 	if link.IsBezierCurve != linkOther.IsBezierCurve {
 		diffs = append(diffs, link.GongMarshallField(stage, "IsBezierCurve"))
 	}
-	if (link.Start == nil) != (linkOther.Start == nil) {
+	if link.Start != linkOther.Start {
 		diffs = append(diffs, link.GongMarshallField(stage, "Start"))
-	} else if link.Start != nil && linkOther.Start != nil {
-		if link.Start != linkOther.Start {
-			diffs = append(diffs, link.GongMarshallField(stage, "Start"))
-		}
 	}
 	if link.StartAnchorType != linkOther.StartAnchorType {
 		diffs = append(diffs, link.GongMarshallField(stage, "StartAnchorType"))
 	}
-	if (link.End == nil) != (linkOther.End == nil) {
+	if link.End != linkOther.End {
 		diffs = append(diffs, link.GongMarshallField(stage, "End"))
-	} else if link.End != nil && linkOther.End != nil {
-		if link.End != linkOther.End {
-			diffs = append(diffs, link.GongMarshallField(stage, "End"))
-		}
 	}
 	if link.EndAnchorType != linkOther.EndAnchorType {
 		diffs = append(diffs, link.GongMarshallField(stage, "EndAnchorType"))
@@ -3645,228 +2416,25 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 	if link.StartArrowOffset != linkOther.StartArrowOffset {
 		diffs = append(diffs, link.GongMarshallField(stage, "StartArrowOffset"))
 	}
-	TextAtArrowStartDifferent := false
-	if len(link.TextAtArrowStart) != len(linkOther.TextAtArrowStart) {
-		TextAtArrowStartDifferent = true
-	} else {
-		for i := range link.TextAtArrowStart {
-			if (link.TextAtArrowStart[i] == nil) != (linkOther.TextAtArrowStart[i] == nil) {
-				TextAtArrowStartDifferent = true
-				break
-			} else if link.TextAtArrowStart[i] != nil && linkOther.TextAtArrowStart[i] != nil {
-				// this is a pointer comparaison
-				if link.TextAtArrowStart[i] != linkOther.TextAtArrowStart[i] {
-					TextAtArrowStartDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if TextAtArrowStartDifferent {
-		ops := stage.Diff(
-			link,
-			"TextAtArrowStart",
-			len(linkOther.TextAtArrowStart),
-			len(link.TextAtArrowStart),
-			func(i, j int) bool {
-				return linkOther.TextAtArrowStart[i] == link.TextAtArrowStart[j]
-			},
-			func(j int) string {
-				return link.TextAtArrowStart[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, link, "TextAtArrowStart", linkOther.TextAtArrowStart, link.TextAtArrowStart); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	TextAtArrowEndDifferent := false
-	if len(link.TextAtArrowEnd) != len(linkOther.TextAtArrowEnd) {
-		TextAtArrowEndDifferent = true
-	} else {
-		for i := range link.TextAtArrowEnd {
-			if (link.TextAtArrowEnd[i] == nil) != (linkOther.TextAtArrowEnd[i] == nil) {
-				TextAtArrowEndDifferent = true
-				break
-			} else if link.TextAtArrowEnd[i] != nil && linkOther.TextAtArrowEnd[i] != nil {
-				// this is a pointer comparaison
-				if link.TextAtArrowEnd[i] != linkOther.TextAtArrowEnd[i] {
-					TextAtArrowEndDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if TextAtArrowEndDifferent {
-		ops := stage.Diff(
-			link,
-			"TextAtArrowEnd",
-			len(linkOther.TextAtArrowEnd),
-			len(link.TextAtArrowEnd),
-			func(i, j int) bool {
-				return linkOther.TextAtArrowEnd[i] == link.TextAtArrowEnd[j]
-			},
-			func(j int) string {
-				return link.TextAtArrowEnd[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, link, "TextAtArrowEnd", linkOther.TextAtArrowEnd, link.TextAtArrowEnd); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	TextAtCornerDifferent := false
-	if len(link.TextAtCorner) != len(linkOther.TextAtCorner) {
-		TextAtCornerDifferent = true
-	} else {
-		for i := range link.TextAtCorner {
-			if (link.TextAtCorner[i] == nil) != (linkOther.TextAtCorner[i] == nil) {
-				TextAtCornerDifferent = true
-				break
-			} else if link.TextAtCorner[i] != nil && linkOther.TextAtCorner[i] != nil {
-				// this is a pointer comparaison
-				if link.TextAtCorner[i] != linkOther.TextAtCorner[i] {
-					TextAtCornerDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if TextAtCornerDifferent {
-		ops := stage.Diff(
-			link,
-			"TextAtCorner",
-			len(linkOther.TextAtCorner),
-			len(link.TextAtCorner),
-			func(i, j int) bool {
-				return linkOther.TextAtCorner[i] == link.TextAtCorner[j]
-			},
-			func(j int) string {
-				return link.TextAtCorner[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, link, "TextAtCorner", linkOther.TextAtCorner, link.TextAtCorner); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	PathAtArrowStartDifferent := false
-	if len(link.PathAtArrowStart) != len(linkOther.PathAtArrowStart) {
-		PathAtArrowStartDifferent = true
-	} else {
-		for i := range link.PathAtArrowStart {
-			if (link.PathAtArrowStart[i] == nil) != (linkOther.PathAtArrowStart[i] == nil) {
-				PathAtArrowStartDifferent = true
-				break
-			} else if link.PathAtArrowStart[i] != nil && linkOther.PathAtArrowStart[i] != nil {
-				// this is a pointer comparaison
-				if link.PathAtArrowStart[i] != linkOther.PathAtArrowStart[i] {
-					PathAtArrowStartDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if PathAtArrowStartDifferent {
-		ops := stage.Diff(
-			link,
-			"PathAtArrowStart",
-			len(linkOther.PathAtArrowStart),
-			len(link.PathAtArrowStart),
-			func(i, j int) bool {
-				return linkOther.PathAtArrowStart[i] == link.PathAtArrowStart[j]
-			},
-			func(j int) string {
-				return link.PathAtArrowStart[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, link, "PathAtArrowStart", linkOther.PathAtArrowStart, link.PathAtArrowStart); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	PathAtArrowEndDifferent := false
-	if len(link.PathAtArrowEnd) != len(linkOther.PathAtArrowEnd) {
-		PathAtArrowEndDifferent = true
-	} else {
-		for i := range link.PathAtArrowEnd {
-			if (link.PathAtArrowEnd[i] == nil) != (linkOther.PathAtArrowEnd[i] == nil) {
-				PathAtArrowEndDifferent = true
-				break
-			} else if link.PathAtArrowEnd[i] != nil && linkOther.PathAtArrowEnd[i] != nil {
-				// this is a pointer comparaison
-				if link.PathAtArrowEnd[i] != linkOther.PathAtArrowEnd[i] {
-					PathAtArrowEndDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if PathAtArrowEndDifferent {
-		ops := stage.Diff(
-			link,
-			"PathAtArrowEnd",
-			len(linkOther.PathAtArrowEnd),
-			len(link.PathAtArrowEnd),
-			func(i, j int) bool {
-				return linkOther.PathAtArrowEnd[i] == link.PathAtArrowEnd[j]
-			},
-			func(j int) string {
-				return link.PathAtArrowEnd[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, link, "PathAtArrowEnd", linkOther.PathAtArrowEnd, link.PathAtArrowEnd); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	PathAtCornerDifferent := false
-	if len(link.PathAtCorner) != len(linkOther.PathAtCorner) {
-		PathAtCornerDifferent = true
-	} else {
-		for i := range link.PathAtCorner {
-			if (link.PathAtCorner[i] == nil) != (linkOther.PathAtCorner[i] == nil) {
-				PathAtCornerDifferent = true
-				break
-			} else if link.PathAtCorner[i] != nil && linkOther.PathAtCorner[i] != nil {
-				// this is a pointer comparaison
-				if link.PathAtCorner[i] != linkOther.PathAtCorner[i] {
-					PathAtCornerDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if PathAtCornerDifferent {
-		ops := stage.Diff(
-			link,
-			"PathAtCorner",
-			len(linkOther.PathAtCorner),
-			len(link.PathAtCorner),
-			func(i, j int) bool {
-				return linkOther.PathAtCorner[i] == link.PathAtCorner[j]
-			},
-			func(j int) string {
-				return link.PathAtCorner[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, link, "PathAtCorner", linkOther.PathAtCorner, link.PathAtCorner); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ControlPointsDifferent := false
-	if len(link.ControlPoints) != len(linkOther.ControlPoints) {
-		ControlPointsDifferent = true
-	} else {
-		for i := range link.ControlPoints {
-			if (link.ControlPoints[i] == nil) != (linkOther.ControlPoints[i] == nil) {
-				ControlPointsDifferent = true
-				break
-			} else if link.ControlPoints[i] != nil && linkOther.ControlPoints[i] != nil {
-				// this is a pointer comparaison
-				if link.ControlPoints[i] != linkOther.ControlPoints[i] {
-					ControlPointsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ControlPointsDifferent {
-		ops := stage.Diff(
-			link,
-			"ControlPoints",
-			len(linkOther.ControlPoints),
-			len(link.ControlPoints),
-			func(i, j int) bool {
-				return linkOther.ControlPoints[i] == link.ControlPoints[j]
-			},
-			func(j int) string {
-				return link.ControlPoints[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, link, "ControlPoints", linkOther.ControlPoints, link.ControlPoints); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if link.Color != linkOther.Color {
@@ -4020,36 +2588,7 @@ func (linkanchoredtext *LinkAnchoredText) GongDiff(stage *Stage, linkanchoredtex
 	if linkanchoredtext.Transform != linkanchoredtextOther.Transform {
 		diffs = append(diffs, linkanchoredtext.GongMarshallField(stage, "Transform"))
 	}
-	AnimatesDifferent := false
-	if len(linkanchoredtext.Animates) != len(linkanchoredtextOther.Animates) {
-		AnimatesDifferent = true
-	} else {
-		for i := range linkanchoredtext.Animates {
-			if (linkanchoredtext.Animates[i] == nil) != (linkanchoredtextOther.Animates[i] == nil) {
-				AnimatesDifferent = true
-				break
-			} else if linkanchoredtext.Animates[i] != nil && linkanchoredtextOther.Animates[i] != nil {
-				// this is a pointer comparaison
-				if linkanchoredtext.Animates[i] != linkanchoredtextOther.Animates[i] {
-					AnimatesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnimatesDifferent {
-		ops := stage.Diff(
-			linkanchoredtext,
-			"Animates",
-			len(linkanchoredtextOther.Animates),
-			len(linkanchoredtext.Animates),
-			func(i, j int) bool {
-				return linkanchoredtextOther.Animates[i] == linkanchoredtext.Animates[j]
-			},
-			func(j int) string {
-				return linkanchoredtext.Animates[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, linkanchoredtext, "Animates", linkanchoredtextOther.Animates, linkanchoredtext.Animates); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4090,36 +2629,7 @@ func (path *Path) GongDiff(stage *Stage, pathOther *Path) (diffs []string) {
 	if path.Transform != pathOther.Transform {
 		diffs = append(diffs, path.GongMarshallField(stage, "Transform"))
 	}
-	AnimatesDifferent := false
-	if len(path.Animates) != len(pathOther.Animates) {
-		AnimatesDifferent = true
-	} else {
-		for i := range path.Animates {
-			if (path.Animates[i] == nil) != (pathOther.Animates[i] == nil) {
-				AnimatesDifferent = true
-				break
-			} else if path.Animates[i] != nil && pathOther.Animates[i] != nil {
-				// this is a pointer comparaison
-				if path.Animates[i] != pathOther.Animates[i] {
-					AnimatesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnimatesDifferent {
-		ops := stage.Diff(
-			path,
-			"Animates",
-			len(pathOther.Animates),
-			len(path.Animates),
-			func(i, j int) bool {
-				return pathOther.Animates[i] == path.Animates[j]
-			},
-			func(j int) string {
-				return path.Animates[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, path, "Animates", pathOther.Animates, path.Animates); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4177,36 +2687,7 @@ func (polygone *Polygone) GongDiff(stage *Stage, polygoneOther *Polygone) (diffs
 	if polygone.Transform != polygoneOther.Transform {
 		diffs = append(diffs, polygone.GongMarshallField(stage, "Transform"))
 	}
-	AnimatesDifferent := false
-	if len(polygone.Animates) != len(polygoneOther.Animates) {
-		AnimatesDifferent = true
-	} else {
-		for i := range polygone.Animates {
-			if (polygone.Animates[i] == nil) != (polygoneOther.Animates[i] == nil) {
-				AnimatesDifferent = true
-				break
-			} else if polygone.Animates[i] != nil && polygoneOther.Animates[i] != nil {
-				// this is a pointer comparaison
-				if polygone.Animates[i] != polygoneOther.Animates[i] {
-					AnimatesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnimatesDifferent {
-		ops := stage.Diff(
-			polygone,
-			"Animates",
-			len(polygoneOther.Animates),
-			len(polygone.Animates),
-			func(i, j int) bool {
-				return polygoneOther.Animates[i] == polygone.Animates[j]
-			},
-			func(j int) string {
-				return polygone.Animates[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, polygone, "Animates", polygoneOther.Animates, polygone.Animates); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4247,36 +2728,7 @@ func (polyline *Polyline) GongDiff(stage *Stage, polylineOther *Polyline) (diffs
 	if polyline.Transform != polylineOther.Transform {
 		diffs = append(diffs, polyline.GongMarshallField(stage, "Transform"))
 	}
-	AnimatesDifferent := false
-	if len(polyline.Animates) != len(polylineOther.Animates) {
-		AnimatesDifferent = true
-	} else {
-		for i := range polyline.Animates {
-			if (polyline.Animates[i] == nil) != (polylineOther.Animates[i] == nil) {
-				AnimatesDifferent = true
-				break
-			} else if polyline.Animates[i] != nil && polylineOther.Animates[i] != nil {
-				// this is a pointer comparaison
-				if polyline.Animates[i] != polylineOther.Animates[i] {
-					AnimatesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnimatesDifferent {
-		ops := stage.Diff(
-			polyline,
-			"Animates",
-			len(polylineOther.Animates),
-			len(polyline.Animates),
-			func(i, j int) bool {
-				return polylineOther.Animates[i] == polyline.Animates[j]
-			},
-			func(j int) string {
-				return polyline.Animates[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, polyline, "Animates", polylineOther.Animates, polyline.Animates); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4305,83 +2757,17 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 	if rect.RX != rectOther.RX {
 		diffs = append(diffs, rect.GongMarshallField(stage, "RX"))
 	}
-	PeersDifferent := false
-	if len(rect.Peers) != len(rectOther.Peers) {
-		PeersDifferent = true
-	} else {
-		for i := range rect.Peers {
-			if (rect.Peers[i] == nil) != (rectOther.Peers[i] == nil) {
-				PeersDifferent = true
-				break
-			} else if rect.Peers[i] != nil && rectOther.Peers[i] != nil {
-				// this is a pointer comparaison
-				if rect.Peers[i] != rectOther.Peers[i] {
-					PeersDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if PeersDifferent {
-		ops := stage.Diff(
-			rect,
-			"Peers",
-			len(rectOther.Peers),
-			len(rect.Peers),
-			func(i, j int) bool {
-				return rectOther.Peers[i] == rect.Peers[j]
-			},
-			func(j int) string {
-				return rect.Peers[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, rect, "Peers", rectOther.Peers, rect.Peers); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if (rect.EnclosingRect == nil) != (rectOther.EnclosingRect == nil) {
+	if rect.EnclosingRect != rectOther.EnclosingRect {
 		diffs = append(diffs, rect.GongMarshallField(stage, "EnclosingRect"))
-	} else if rect.EnclosingRect != nil && rectOther.EnclosingRect != nil {
-		if rect.EnclosingRect != rectOther.EnclosingRect {
-			diffs = append(diffs, rect.GongMarshallField(stage, "EnclosingRect"))
-		}
 	}
-	ObstaclesDifferent := false
-	if len(rect.Obstacles) != len(rectOther.Obstacles) {
-		ObstaclesDifferent = true
-	} else {
-		for i := range rect.Obstacles {
-			if (rect.Obstacles[i] == nil) != (rectOther.Obstacles[i] == nil) {
-				ObstaclesDifferent = true
-				break
-			} else if rect.Obstacles[i] != nil && rectOther.Obstacles[i] != nil {
-				// this is a pointer comparaison
-				if rect.Obstacles[i] != rectOther.Obstacles[i] {
-					ObstaclesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ObstaclesDifferent {
-		ops := stage.Diff(
-			rect,
-			"Obstacles",
-			len(rectOther.Obstacles),
-			len(rect.Obstacles),
-			func(i, j int) bool {
-				return rectOther.Obstacles[i] == rect.Obstacles[j]
-			},
-			func(j int) string {
-				return rect.Obstacles[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, rect, "Obstacles", rectOther.Obstacles, rect.Obstacles); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if (rect.AnchoredTo == nil) != (rectOther.AnchoredTo == nil) {
+	if rect.AnchoredTo != rectOther.AnchoredTo {
 		diffs = append(diffs, rect.GongMarshallField(stage, "AnchoredTo"))
-	} else if rect.AnchoredTo != nil && rectOther.AnchoredTo != nil {
-		if rect.AnchoredTo != rectOther.AnchoredTo {
-			diffs = append(diffs, rect.GongMarshallField(stage, "AnchoredTo"))
-		}
 	}
 	if rect.Color != rectOther.Color {
 		diffs = append(diffs, rect.GongMarshallField(stage, "Color"))
@@ -4407,100 +2793,13 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 	if rect.Transform != rectOther.Transform {
 		diffs = append(diffs, rect.GongMarshallField(stage, "Transform"))
 	}
-	HoveringTriggerDifferent := false
-	if len(rect.HoveringTrigger) != len(rectOther.HoveringTrigger) {
-		HoveringTriggerDifferent = true
-	} else {
-		for i := range rect.HoveringTrigger {
-			if (rect.HoveringTrigger[i] == nil) != (rectOther.HoveringTrigger[i] == nil) {
-				HoveringTriggerDifferent = true
-				break
-			} else if rect.HoveringTrigger[i] != nil && rectOther.HoveringTrigger[i] != nil {
-				// this is a pointer comparaison
-				if rect.HoveringTrigger[i] != rectOther.HoveringTrigger[i] {
-					HoveringTriggerDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if HoveringTriggerDifferent {
-		ops := stage.Diff(
-			rect,
-			"HoveringTrigger",
-			len(rectOther.HoveringTrigger),
-			len(rect.HoveringTrigger),
-			func(i, j int) bool {
-				return rectOther.HoveringTrigger[i] == rect.HoveringTrigger[j]
-			},
-			func(j int) string {
-				return rect.HoveringTrigger[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, rect, "HoveringTrigger", rectOther.HoveringTrigger, rect.HoveringTrigger); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	DisplayConditionsDifferent := false
-	if len(rect.DisplayConditions) != len(rectOther.DisplayConditions) {
-		DisplayConditionsDifferent = true
-	} else {
-		for i := range rect.DisplayConditions {
-			if (rect.DisplayConditions[i] == nil) != (rectOther.DisplayConditions[i] == nil) {
-				DisplayConditionsDifferent = true
-				break
-			} else if rect.DisplayConditions[i] != nil && rectOther.DisplayConditions[i] != nil {
-				// this is a pointer comparaison
-				if rect.DisplayConditions[i] != rectOther.DisplayConditions[i] {
-					DisplayConditionsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DisplayConditionsDifferent {
-		ops := stage.Diff(
-			rect,
-			"DisplayConditions",
-			len(rectOther.DisplayConditions),
-			len(rect.DisplayConditions),
-			func(i, j int) bool {
-				return rectOther.DisplayConditions[i] == rect.DisplayConditions[j]
-			},
-			func(j int) string {
-				return rect.DisplayConditions[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, rect, "DisplayConditions", rectOther.DisplayConditions, rect.DisplayConditions); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AnimationsDifferent := false
-	if len(rect.Animations) != len(rectOther.Animations) {
-		AnimationsDifferent = true
-	} else {
-		for i := range rect.Animations {
-			if (rect.Animations[i] == nil) != (rectOther.Animations[i] == nil) {
-				AnimationsDifferent = true
-				break
-			} else if rect.Animations[i] != nil && rectOther.Animations[i] != nil {
-				// this is a pointer comparaison
-				if rect.Animations[i] != rectOther.Animations[i] {
-					AnimationsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnimationsDifferent {
-		ops := stage.Diff(
-			rect,
-			"Animations",
-			len(rectOther.Animations),
-			len(rect.Animations),
-			func(i, j int) bool {
-				return rectOther.Animations[i] == rect.Animations[j]
-			},
-			func(j int) string {
-				return rect.Animations[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, rect, "Animations", rectOther.Animations, rect.Animations); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if rect.IsSelectable != rectOther.IsSelectable {
@@ -4542,132 +2841,16 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 	if rect.CanMoveVerticaly != rectOther.CanMoveVerticaly {
 		diffs = append(diffs, rect.GongMarshallField(stage, "CanMoveVerticaly"))
 	}
-	RectAnchoredTextsDifferent := false
-	if len(rect.RectAnchoredTexts) != len(rectOther.RectAnchoredTexts) {
-		RectAnchoredTextsDifferent = true
-	} else {
-		for i := range rect.RectAnchoredTexts {
-			if (rect.RectAnchoredTexts[i] == nil) != (rectOther.RectAnchoredTexts[i] == nil) {
-				RectAnchoredTextsDifferent = true
-				break
-			} else if rect.RectAnchoredTexts[i] != nil && rectOther.RectAnchoredTexts[i] != nil {
-				// this is a pointer comparaison
-				if rect.RectAnchoredTexts[i] != rectOther.RectAnchoredTexts[i] {
-					RectAnchoredTextsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RectAnchoredTextsDifferent {
-		ops := stage.Diff(
-			rect,
-			"RectAnchoredTexts",
-			len(rectOther.RectAnchoredTexts),
-			len(rect.RectAnchoredTexts),
-			func(i, j int) bool {
-				return rectOther.RectAnchoredTexts[i] == rect.RectAnchoredTexts[j]
-			},
-			func(j int) string {
-				return rect.RectAnchoredTexts[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, rect, "RectAnchoredTexts", rectOther.RectAnchoredTexts, rect.RectAnchoredTexts); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	RectAnchoredRectsDifferent := false
-	if len(rect.RectAnchoredRects) != len(rectOther.RectAnchoredRects) {
-		RectAnchoredRectsDifferent = true
-	} else {
-		for i := range rect.RectAnchoredRects {
-			if (rect.RectAnchoredRects[i] == nil) != (rectOther.RectAnchoredRects[i] == nil) {
-				RectAnchoredRectsDifferent = true
-				break
-			} else if rect.RectAnchoredRects[i] != nil && rectOther.RectAnchoredRects[i] != nil {
-				// this is a pointer comparaison
-				if rect.RectAnchoredRects[i] != rectOther.RectAnchoredRects[i] {
-					RectAnchoredRectsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RectAnchoredRectsDifferent {
-		ops := stage.Diff(
-			rect,
-			"RectAnchoredRects",
-			len(rectOther.RectAnchoredRects),
-			len(rect.RectAnchoredRects),
-			func(i, j int) bool {
-				return rectOther.RectAnchoredRects[i] == rect.RectAnchoredRects[j]
-			},
-			func(j int) string {
-				return rect.RectAnchoredRects[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, rect, "RectAnchoredRects", rectOther.RectAnchoredRects, rect.RectAnchoredRects); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	RectAnchoredPathsDifferent := false
-	if len(rect.RectAnchoredPaths) != len(rectOther.RectAnchoredPaths) {
-		RectAnchoredPathsDifferent = true
-	} else {
-		for i := range rect.RectAnchoredPaths {
-			if (rect.RectAnchoredPaths[i] == nil) != (rectOther.RectAnchoredPaths[i] == nil) {
-				RectAnchoredPathsDifferent = true
-				break
-			} else if rect.RectAnchoredPaths[i] != nil && rectOther.RectAnchoredPaths[i] != nil {
-				// this is a pointer comparaison
-				if rect.RectAnchoredPaths[i] != rectOther.RectAnchoredPaths[i] {
-					RectAnchoredPathsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RectAnchoredPathsDifferent {
-		ops := stage.Diff(
-			rect,
-			"RectAnchoredPaths",
-			len(rectOther.RectAnchoredPaths),
-			len(rect.RectAnchoredPaths),
-			func(i, j int) bool {
-				return rectOther.RectAnchoredPaths[i] == rect.RectAnchoredPaths[j]
-			},
-			func(j int) string {
-				return rect.RectAnchoredPaths[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, rect, "RectAnchoredPaths", rectOther.RectAnchoredPaths, rect.RectAnchoredPaths); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	RectAnchoredPngImagesDifferent := false
-	if len(rect.RectAnchoredPngImages) != len(rectOther.RectAnchoredPngImages) {
-		RectAnchoredPngImagesDifferent = true
-	} else {
-		for i := range rect.RectAnchoredPngImages {
-			if (rect.RectAnchoredPngImages[i] == nil) != (rectOther.RectAnchoredPngImages[i] == nil) {
-				RectAnchoredPngImagesDifferent = true
-				break
-			} else if rect.RectAnchoredPngImages[i] != nil && rectOther.RectAnchoredPngImages[i] != nil {
-				// this is a pointer comparaison
-				if rect.RectAnchoredPngImages[i] != rectOther.RectAnchoredPngImages[i] {
-					RectAnchoredPngImagesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RectAnchoredPngImagesDifferent {
-		ops := stage.Diff(
-			rect,
-			"RectAnchoredPngImages",
-			len(rectOther.RectAnchoredPngImages),
-			len(rect.RectAnchoredPngImages),
-			func(i, j int) bool {
-				return rectOther.RectAnchoredPngImages[i] == rect.RectAnchoredPngImages[j]
-			},
-			func(j int) string {
-				return rect.RectAnchoredPngImages[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, rect, "RectAnchoredPngImages", rectOther.RectAnchoredPngImages, rect.RectAnchoredPngImages); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if rect.ChangeColorWhenHovered != rectOther.ChangeColorWhenHovered {
@@ -4945,36 +3128,7 @@ func (rectanchoredtext *RectAnchoredText) GongDiff(stage *Stage, rectanchoredtex
 	if rectanchoredtext.Transform != rectanchoredtextOther.Transform {
 		diffs = append(diffs, rectanchoredtext.GongMarshallField(stage, "Transform"))
 	}
-	AnimatesDifferent := false
-	if len(rectanchoredtext.Animates) != len(rectanchoredtextOther.Animates) {
-		AnimatesDifferent = true
-	} else {
-		for i := range rectanchoredtext.Animates {
-			if (rectanchoredtext.Animates[i] == nil) != (rectanchoredtextOther.Animates[i] == nil) {
-				AnimatesDifferent = true
-				break
-			} else if rectanchoredtext.Animates[i] != nil && rectanchoredtextOther.Animates[i] != nil {
-				// this is a pointer comparaison
-				if rectanchoredtext.Animates[i] != rectanchoredtextOther.Animates[i] {
-					AnimatesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnimatesDifferent {
-		ops := stage.Diff(
-			rectanchoredtext,
-			"Animates",
-			len(rectanchoredtextOther.Animates),
-			len(rectanchoredtext.Animates),
-			func(i, j int) bool {
-				return rectanchoredtextOther.Animates[i] == rectanchoredtext.Animates[j]
-			},
-			func(j int) string {
-				return rectanchoredtext.Animates[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, rectanchoredtext, "Animates", rectanchoredtextOther.Animates, rectanchoredtext.Animates); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if rectanchoredtext.URLPath != rectanchoredtextOther.URLPath {
@@ -4994,19 +3148,11 @@ func (rectlinklink *RectLinkLink) GongDiff(stage *Stage, rectlinklinkOther *Rect
 	if rectlinklink.Name != rectlinklinkOther.Name {
 		diffs = append(diffs, rectlinklink.GongMarshallField(stage, "Name"))
 	}
-	if (rectlinklink.Start == nil) != (rectlinklinkOther.Start == nil) {
+	if rectlinklink.Start != rectlinklinkOther.Start {
 		diffs = append(diffs, rectlinklink.GongMarshallField(stage, "Start"))
-	} else if rectlinklink.Start != nil && rectlinklinkOther.Start != nil {
-		if rectlinklink.Start != rectlinklinkOther.Start {
-			diffs = append(diffs, rectlinklink.GongMarshallField(stage, "Start"))
-		}
 	}
-	if (rectlinklink.End == nil) != (rectlinklinkOther.End == nil) {
+	if rectlinklink.End != rectlinklinkOther.End {
 		diffs = append(diffs, rectlinklink.GongMarshallField(stage, "End"))
-	} else if rectlinklink.End != nil && rectlinklinkOther.End != nil {
-		if rectlinklink.End != rectlinklinkOther.End {
-			diffs = append(diffs, rectlinklink.GongMarshallField(stage, "End"))
-		}
 	}
 	if rectlinklink.TargetAnchorPosition != rectlinklinkOther.TargetAnchorPosition {
 		diffs = append(diffs, rectlinklink.GongMarshallField(stage, "TargetAnchorPosition"))
@@ -5046,54 +3192,17 @@ func (svg *SVG) GongDiff(stage *Stage, svgOther *SVG) (diffs []string) {
 	if svg.Name != svgOther.Name {
 		diffs = append(diffs, svg.GongMarshallField(stage, "Name"))
 	}
-	LayersDifferent := false
-	if len(svg.Layers) != len(svgOther.Layers) {
-		LayersDifferent = true
-	} else {
-		for i := range svg.Layers {
-			if (svg.Layers[i] == nil) != (svgOther.Layers[i] == nil) {
-				LayersDifferent = true
-				break
-			} else if svg.Layers[i] != nil && svgOther.Layers[i] != nil {
-				// this is a pointer comparaison
-				if svg.Layers[i] != svgOther.Layers[i] {
-					LayersDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if LayersDifferent {
-		ops := stage.Diff(
-			svg,
-			"Layers",
-			len(svgOther.Layers),
-			len(svg.Layers),
-			func(i, j int) bool {
-				return svgOther.Layers[i] == svg.Layers[j]
-			},
-			func(j int) string {
-				return svg.Layers[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, svg, "Layers", svgOther.Layers, svg.Layers); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if svg.DrawingState != svgOther.DrawingState {
 		diffs = append(diffs, svg.GongMarshallField(stage, "DrawingState"))
 	}
-	if (svg.StartRect == nil) != (svgOther.StartRect == nil) {
+	if svg.StartRect != svgOther.StartRect {
 		diffs = append(diffs, svg.GongMarshallField(stage, "StartRect"))
-	} else if svg.StartRect != nil && svgOther.StartRect != nil {
-		if svg.StartRect != svgOther.StartRect {
-			diffs = append(diffs, svg.GongMarshallField(stage, "StartRect"))
-		}
 	}
-	if (svg.EndRect == nil) != (svgOther.EndRect == nil) {
+	if svg.EndRect != svgOther.EndRect {
 		diffs = append(diffs, svg.GongMarshallField(stage, "EndRect"))
-	} else if svg.EndRect != nil && svgOther.EndRect != nil {
-		if svg.EndRect != svgOther.EndRect {
-			diffs = append(diffs, svg.GongMarshallField(stage, "EndRect"))
-		}
 	}
 	if svg.IsEditable != svgOther.IsEditable {
 		diffs = append(diffs, svg.GongMarshallField(stage, "IsEditable"))
@@ -5207,36 +3316,7 @@ func (text *Text) GongDiff(stage *Stage, textOther *Text) (diffs []string) {
 	if text.WhiteSpace != textOther.WhiteSpace {
 		diffs = append(diffs, text.GongMarshallField(stage, "WhiteSpace"))
 	}
-	AnimatesDifferent := false
-	if len(text.Animates) != len(textOther.Animates) {
-		AnimatesDifferent = true
-	} else {
-		for i := range text.Animates {
-			if (text.Animates[i] == nil) != (textOther.Animates[i] == nil) {
-				AnimatesDifferent = true
-				break
-			} else if text.Animates[i] != nil && textOther.Animates[i] != nil {
-				// this is a pointer comparaison
-				if text.Animates[i] != textOther.Animates[i] {
-					AnimatesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnimatesDifferent {
-		ops := stage.Diff(
-			text,
-			"Animates",
-			len(textOther.Animates),
-			len(text.Animates),
-			func(i, j int) bool {
-				return textOther.Animates[i] == text.Animates[j]
-			},
-			func(j int) string {
-				return text.Animates[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, text, "Animates", textOther.Animates, text.Animates); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -5319,4 +3399,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterFileToDownloadCreateCallback GongOnAfterCreateInterface[FileToDownload]
 	OnAfterFileToDownloadUpdateCallback GongOnAfterUpdateInterface[FileToDownload]
 	OnAfterFileToDownloadDeleteCallback GongOnAfterDeleteInterface[FileToDownload]
-	OnAfterFileToDownloadReadCallback   GongOnAfterReadInterface[FileToDownload]
 
 	FileToUploads                map[*FileToUpload]struct{}
 	FileToUploads_instance       map[*FileToUpload]*FileToUpload
@@ -147,7 +146,6 @@ type Stage struct {
 	OnAfterFileToUploadCreateCallback GongOnAfterCreateInterface[FileToUpload]
 	OnAfterFileToUploadUpdateCallback GongOnAfterUpdateInterface[FileToUpload]
 	OnAfterFileToUploadDeleteCallback GongOnAfterDeleteInterface[FileToUpload]
-	OnAfterFileToUploadReadCallback   GongOnAfterReadInterface[FileToUpload]
 
 	Messages                map[*Message]struct{}
 	Messages_instance       map[*Message]*Message
@@ -162,7 +160,6 @@ type Stage struct {
 	OnAfterMessageCreateCallback GongOnAfterCreateInterface[Message]
 	OnAfterMessageUpdateCallback GongOnAfterUpdateInterface[Message]
 	OnAfterMessageDeleteCallback GongOnAfterDeleteInterface[Message]
-	OnAfterMessageReadCallback   GongOnAfterReadInterface[Message]
 
 	BackRepo GongBackRepoInterface
 
@@ -397,17 +394,11 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.FileToDownloads_reference = make(map[*FileToDownload]*FileToDownload)
-	stage.FileToDownloads_instance = make(map[*FileToDownload]*FileToDownload)
-	stage.FileToDownloads_referenceOrder = make(map[*FileToDownload]uint)
+	__gong__clearReferences(&stage.FileToDownloads_reference, &stage.FileToDownloads_instance, &stage.FileToDownloads_referenceOrder)
 
-	stage.FileToUploads_reference = make(map[*FileToUpload]*FileToUpload)
-	stage.FileToUploads_instance = make(map[*FileToUpload]*FileToUpload)
-	stage.FileToUploads_referenceOrder = make(map[*FileToUpload]uint)
+	__gong__clearReferences(&stage.FileToUploads_reference, &stage.FileToUploads_instance, &stage.FileToUploads_referenceOrder)
 
-	stage.Messages_reference = make(map[*Message]*Message)
-	stage.Messages_instance = make(map[*Message]*Message)
-	stage.Messages_referenceOrder = make(map[*Message]uint)
+	__gong__clearReferences(&stage.Messages_reference, &stage.Messages_instance, &stage.Messages_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -436,47 +427,11 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxFileToDownloadOrder uint
-	var foundFileToDownload bool
-	for _, order := range stage.FileToDownload_stagedOrder {
-		if !foundFileToDownload || order > maxFileToDownloadOrder {
-			maxFileToDownloadOrder = order
-			foundFileToDownload = true
-		}
-	}
-	if foundFileToDownload {
-		stage.FileToDownloadOrder = maxFileToDownloadOrder + 1
-	} else {
-		stage.FileToDownloadOrder = 0
-	}
+	stage.FileToDownloadOrder = __gong__recomputeOrder(stage.FileToDownload_stagedOrder)
 
-	var maxFileToUploadOrder uint
-	var foundFileToUpload bool
-	for _, order := range stage.FileToUpload_stagedOrder {
-		if !foundFileToUpload || order > maxFileToUploadOrder {
-			maxFileToUploadOrder = order
-			foundFileToUpload = true
-		}
-	}
-	if foundFileToUpload {
-		stage.FileToUploadOrder = maxFileToUploadOrder + 1
-	} else {
-		stage.FileToUploadOrder = 0
-	}
+	stage.FileToUploadOrder = __gong__recomputeOrder(stage.FileToUpload_stagedOrder)
 
-	var maxMessageOrder uint
-	var foundMessage bool
-	for _, order := range stage.Message_stagedOrder {
-		if !foundMessage || order > maxMessageOrder {
-			maxMessageOrder = order
-			foundMessage = true
-		}
-	}
-	if foundMessage {
-		stage.MessageOrder = maxMessageOrder + 1
-	} else {
-		stage.MessageOrder = 0
-	}
+	stage.MessageOrder = __gong__recomputeOrder(stage.Message_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -508,47 +463,11 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *FileToDownload:
-		tmp := __gong__getStructInstancesByOrder(stage.FileToDownloads, stage.FileToDownload_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FileToDownload implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FileToDownloads, stage.FileToDownload_stagedOrder))
 	case *FileToUpload:
-		tmp := __gong__getStructInstancesByOrder(stage.FileToUploads, stage.FileToUpload_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *FileToUpload implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FileToUploads, stage.FileToUpload_stagedOrder))
 	case *Message:
-		tmp := __gong__getStructInstancesByOrder(stage.Messages, stage.Message_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Message implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Messages, stage.Message_stagedOrder))
 
 	}
 	return
@@ -575,6 +494,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/load/go/models"
 }
@@ -598,14 +613,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -628,13 +635,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitFileToDownload(filetodownload *FileToDownload)
-	CheckoutFileToDownload(filetodownload *FileToDownload)
-	CommitFileToUpload(filetoupload *FileToUpload)
-	CheckoutFileToUpload(filetoupload *FileToUpload)
-	CommitMessage(message *Message)
-	CheckoutMessage(message *Message)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -820,14 +820,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts filetodownload to the model stage
 func (filetodownload *FileToDownload) Stage(stage *Stage) *FileToDownload {
-	if _, ok := stage.FileToDownloads[filetodownload]; !ok {
-		stage.FileToDownloads[filetodownload] = struct{}{}
-		stage.FileToDownload_stagedOrder[filetodownload] = stage.FileToDownloadOrder
-		stage.FileToDownload_orderStaged[stage.FileToDownloadOrder] = filetodownload
-		stage.FileToDownloadOrder++
-	}
-	stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
-
+	__gong__stage(stage.FileToDownloads, stage.FileToDownload_stagedOrder, stage.FileToDownload_orderStaged, &stage.FileToDownloadOrder, stage.FileToDownloads_mapString, filetodownload, filetodownload.Name)
 	return filetodownload
 }
 
@@ -837,59 +830,22 @@ func (filetodownload *FileToDownload) Stage(stage *Stage) *FileToDownload {
 // - force the order if the order is equal or greater than the stage.FileToDownloadOrder
 // - update stage.FileToDownloadOrder accordingly
 func (filetodownload *FileToDownload) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FileToDownloads[filetodownload]; !ok {
-		stage.FileToDownloads[filetodownload] = struct{}{}
-
-		if order > stage.FileToDownloadOrder {
-			stage.FileToDownloadOrder = order
-		}
-		stage.FileToDownload_stagedOrder[filetodownload] = order
-		stage.FileToDownload_orderStaged[order] = filetodownload
-		stage.FileToDownloadOrder++
-	}
-	stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
+	__gong__stagePreserveOrder(stage.FileToDownloads, stage.FileToDownload_stagedOrder, stage.FileToDownload_orderStaged, &stage.FileToDownloadOrder, stage.FileToDownloads_mapString, filetodownload, order, filetodownload.Name)
 }
 
 // Unstage removes filetodownload off the model stage
 func (filetodownload *FileToDownload) Unstage(stage *Stage) *FileToDownload {
-	delete(stage.FileToDownloads, filetodownload)
-	// issue1150
-	// delete(stage.FileToDownload_stagedOrder, filetodownload)
-	delete(stage.FileToDownloads_mapString, filetodownload.Name)
-
+	__gong__unstage(stage.FileToDownloads, stage.FileToDownloads_mapString, filetodownload, filetodownload.Name)
 	return filetodownload
 }
 
 // UnstageVoid removes filetodownload off the model stage
 func (filetodownload *FileToDownload) UnstageVoid(stage *Stage) {
-	delete(stage.FileToDownloads, filetodownload)
-	// issue1150
-	// delete(stage.FileToDownload_stagedOrder, filetodownload)
-	delete(stage.FileToDownloads_mapString, filetodownload.Name)
-}
-
-// commit filetodownload to the back repo (if it is already staged)
-func (filetodownload *FileToDownload) Commit(stage *Stage) *FileToDownload {
-	if _, ok := stage.FileToDownloads[filetodownload]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFileToDownload(filetodownload)
-		}
-	}
-	return filetodownload
+	filetodownload.Unstage(stage)
 }
 
 func (filetodownload *FileToDownload) StageVoid(stage *Stage) {
 	filetodownload.Stage(stage)
-}
-
-// Checkout filetodownload to the back repo (if it is already staged)
-func (filetodownload *FileToDownload) Checkout(stage *Stage) *FileToDownload {
-	if _, ok := stage.FileToDownloads[filetodownload]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFileToDownload(filetodownload)
-		}
-	}
-	return filetodownload
 }
 
 // for satisfaction of GongStruct interface
@@ -904,14 +860,7 @@ func (filetodownload *FileToDownload) SetName(name string) {
 
 // Stage puts filetoupload to the model stage
 func (filetoupload *FileToUpload) Stage(stage *Stage) *FileToUpload {
-	if _, ok := stage.FileToUploads[filetoupload]; !ok {
-		stage.FileToUploads[filetoupload] = struct{}{}
-		stage.FileToUpload_stagedOrder[filetoupload] = stage.FileToUploadOrder
-		stage.FileToUpload_orderStaged[stage.FileToUploadOrder] = filetoupload
-		stage.FileToUploadOrder++
-	}
-	stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
-
+	__gong__stage(stage.FileToUploads, stage.FileToUpload_stagedOrder, stage.FileToUpload_orderStaged, &stage.FileToUploadOrder, stage.FileToUploads_mapString, filetoupload, filetoupload.Name)
 	return filetoupload
 }
 
@@ -921,59 +870,22 @@ func (filetoupload *FileToUpload) Stage(stage *Stage) *FileToUpload {
 // - force the order if the order is equal or greater than the stage.FileToUploadOrder
 // - update stage.FileToUploadOrder accordingly
 func (filetoupload *FileToUpload) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.FileToUploads[filetoupload]; !ok {
-		stage.FileToUploads[filetoupload] = struct{}{}
-
-		if order > stage.FileToUploadOrder {
-			stage.FileToUploadOrder = order
-		}
-		stage.FileToUpload_stagedOrder[filetoupload] = order
-		stage.FileToUpload_orderStaged[order] = filetoupload
-		stage.FileToUploadOrder++
-	}
-	stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
+	__gong__stagePreserveOrder(stage.FileToUploads, stage.FileToUpload_stagedOrder, stage.FileToUpload_orderStaged, &stage.FileToUploadOrder, stage.FileToUploads_mapString, filetoupload, order, filetoupload.Name)
 }
 
 // Unstage removes filetoupload off the model stage
 func (filetoupload *FileToUpload) Unstage(stage *Stage) *FileToUpload {
-	delete(stage.FileToUploads, filetoupload)
-	// issue1150
-	// delete(stage.FileToUpload_stagedOrder, filetoupload)
-	delete(stage.FileToUploads_mapString, filetoupload.Name)
-
+	__gong__unstage(stage.FileToUploads, stage.FileToUploads_mapString, filetoupload, filetoupload.Name)
 	return filetoupload
 }
 
 // UnstageVoid removes filetoupload off the model stage
 func (filetoupload *FileToUpload) UnstageVoid(stage *Stage) {
-	delete(stage.FileToUploads, filetoupload)
-	// issue1150
-	// delete(stage.FileToUpload_stagedOrder, filetoupload)
-	delete(stage.FileToUploads_mapString, filetoupload.Name)
-}
-
-// commit filetoupload to the back repo (if it is already staged)
-func (filetoupload *FileToUpload) Commit(stage *Stage) *FileToUpload {
-	if _, ok := stage.FileToUploads[filetoupload]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFileToUpload(filetoupload)
-		}
-	}
-	return filetoupload
+	filetoupload.Unstage(stage)
 }
 
 func (filetoupload *FileToUpload) StageVoid(stage *Stage) {
 	filetoupload.Stage(stage)
-}
-
-// Checkout filetoupload to the back repo (if it is already staged)
-func (filetoupload *FileToUpload) Checkout(stage *Stage) *FileToUpload {
-	if _, ok := stage.FileToUploads[filetoupload]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFileToUpload(filetoupload)
-		}
-	}
-	return filetoupload
 }
 
 // for satisfaction of GongStruct interface
@@ -988,14 +900,7 @@ func (filetoupload *FileToUpload) SetName(name string) {
 
 // Stage puts message to the model stage
 func (message *Message) Stage(stage *Stage) *Message {
-	if _, ok := stage.Messages[message]; !ok {
-		stage.Messages[message] = struct{}{}
-		stage.Message_stagedOrder[message] = stage.MessageOrder
-		stage.Message_orderStaged[stage.MessageOrder] = message
-		stage.MessageOrder++
-	}
-	stage.Messages_mapString[message.Name] = message
-
+	__gong__stage(stage.Messages, stage.Message_stagedOrder, stage.Message_orderStaged, &stage.MessageOrder, stage.Messages_mapString, message, message.Name)
 	return message
 }
 
@@ -1005,59 +910,22 @@ func (message *Message) Stage(stage *Stage) *Message {
 // - force the order if the order is equal or greater than the stage.MessageOrder
 // - update stage.MessageOrder accordingly
 func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Messages[message]; !ok {
-		stage.Messages[message] = struct{}{}
-
-		if order > stage.MessageOrder {
-			stage.MessageOrder = order
-		}
-		stage.Message_stagedOrder[message] = order
-		stage.Message_orderStaged[order] = message
-		stage.MessageOrder++
-	}
-	stage.Messages_mapString[message.Name] = message
+	__gong__stagePreserveOrder(stage.Messages, stage.Message_stagedOrder, stage.Message_orderStaged, &stage.MessageOrder, stage.Messages_mapString, message, order, message.Name)
 }
 
 // Unstage removes message off the model stage
 func (message *Message) Unstage(stage *Stage) *Message {
-	delete(stage.Messages, message)
-	// issue1150
-	// delete(stage.Message_stagedOrder, message)
-	delete(stage.Messages_mapString, message.Name)
-
+	__gong__unstage(stage.Messages, stage.Messages_mapString, message, message.Name)
 	return message
 }
 
 // UnstageVoid removes message off the model stage
 func (message *Message) UnstageVoid(stage *Stage) {
-	delete(stage.Messages, message)
-	// issue1150
-	// delete(stage.Message_stagedOrder, message)
-	delete(stage.Messages_mapString, message.Name)
-}
-
-// commit message to the back repo (if it is already staged)
-func (message *Message) Commit(stage *Stage) *Message {
-	if _, ok := stage.Messages[message]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitMessage(message)
-		}
-	}
-	return message
+	message.Unstage(stage)
 }
 
 func (message *Message) StageVoid(stage *Stage) {
 	message.Stage(stage)
-}
-
-// Checkout message to the back repo (if it is already staged)
-func (message *Message) Checkout(stage *Stage) *Message {
-	if _, ok := stage.Messages[message]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutMessage(message)
-		}
-	}
-	return message
 }
 
 // for satisfaction of GongStruct interface
@@ -1071,20 +939,11 @@ func (message *Message) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.FileToDownloads = make(map[*FileToDownload]struct{})
-	stage.FileToDownloads_mapString = make(map[string]*FileToDownload)
-	stage.FileToDownload_stagedOrder = make(map[*FileToDownload]uint)
-	stage.FileToDownloadOrder = 0
+	__gong__resetStageType(&stage.FileToDownloads, &stage.FileToDownloads_mapString, &stage.FileToDownload_stagedOrder, &stage.FileToDownloadOrder)
 
-	stage.FileToUploads = make(map[*FileToUpload]struct{})
-	stage.FileToUploads_mapString = make(map[string]*FileToUpload)
-	stage.FileToUpload_stagedOrder = make(map[*FileToUpload]uint)
-	stage.FileToUploadOrder = 0
+	__gong__resetStageType(&stage.FileToUploads, &stage.FileToUploads_mapString, &stage.FileToUpload_stagedOrder, &stage.FileToUploadOrder)
 
-	stage.Messages = make(map[*Message]struct{})
-	stage.Messages_mapString = make(map[string]*Message)
-	stage.Message_stagedOrder = make(map[*Message]uint)
-	stage.MessageOrder = 0
+	__gong__resetStageType(&stage.Messages, &stage.Messages_mapString, &stage.Message_stagedOrder, &stage.MessageOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -1123,7 +982,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -1516,20 +1374,11 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.FileToDownloads_mapString = make(map[string]*FileToDownload)
-	for filetodownload := range stage.FileToDownloads {
-		stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
-	}
+	__gong__rebuildMapString(stage.FileToDownloads, &stage.FileToDownloads_mapString)
 
-	stage.FileToUploads_mapString = make(map[string]*FileToUpload)
-	for filetoupload := range stage.FileToUploads {
-		stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
-	}
+	__gong__rebuildMapString(stage.FileToUploads, &stage.FileToUploads_mapString)
 
-	stage.Messages_mapString = make(map[string]*Message)
-	for message := range stage.Messages {
-		stage.Messages_mapString[message.Name] = message
-	}
+	__gong__rebuildMapString(stage.Messages, &stage.Messages_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

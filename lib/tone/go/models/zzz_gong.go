@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterFreqencyCreateCallback GongOnAfterCreateInterface[Freqency]
 	OnAfterFreqencyUpdateCallback GongOnAfterUpdateInterface[Freqency]
 	OnAfterFreqencyDeleteCallback GongOnAfterDeleteInterface[Freqency]
-	OnAfterFreqencyReadCallback   GongOnAfterReadInterface[Freqency]
 
 	Notes                map[*Note]struct{}
 	Notes_instance       map[*Note]*Note
@@ -149,7 +148,6 @@ type Stage struct {
 	OnAfterNoteCreateCallback GongOnAfterCreateInterface[Note]
 	OnAfterNoteUpdateCallback GongOnAfterUpdateInterface[Note]
 	OnAfterNoteDeleteCallback GongOnAfterDeleteInterface[Note]
-	OnAfterNoteReadCallback   GongOnAfterReadInterface[Note]
 
 	Players                map[*Player]struct{}
 	Players_instance       map[*Player]*Player
@@ -164,7 +162,6 @@ type Stage struct {
 	OnAfterPlayerCreateCallback GongOnAfterCreateInterface[Player]
 	OnAfterPlayerUpdateCallback GongOnAfterUpdateInterface[Player]
 	OnAfterPlayerDeleteCallback GongOnAfterDeleteInterface[Player]
-	OnAfterPlayerReadCallback   GongOnAfterReadInterface[Player]
 
 	BackRepo GongBackRepoInterface
 
@@ -399,17 +396,11 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.Freqencys_reference = make(map[*Freqency]*Freqency)
-	stage.Freqencys_instance = make(map[*Freqency]*Freqency)
-	stage.Freqencys_referenceOrder = make(map[*Freqency]uint)
+	__gong__clearReferences(&stage.Freqencys_reference, &stage.Freqencys_instance, &stage.Freqencys_referenceOrder)
 
-	stage.Notes_reference = make(map[*Note]*Note)
-	stage.Notes_instance = make(map[*Note]*Note)
-	stage.Notes_referenceOrder = make(map[*Note]uint)
+	__gong__clearReferences(&stage.Notes_reference, &stage.Notes_instance, &stage.Notes_referenceOrder)
 
-	stage.Players_reference = make(map[*Player]*Player)
-	stage.Players_instance = make(map[*Player]*Player)
-	stage.Players_referenceOrder = make(map[*Player]uint)
+	__gong__clearReferences(&stage.Players_reference, &stage.Players_instance, &stage.Players_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -438,47 +429,11 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxFreqencyOrder uint
-	var foundFreqency bool
-	for _, order := range stage.Freqency_stagedOrder {
-		if !foundFreqency || order > maxFreqencyOrder {
-			maxFreqencyOrder = order
-			foundFreqency = true
-		}
-	}
-	if foundFreqency {
-		stage.FreqencyOrder = maxFreqencyOrder + 1
-	} else {
-		stage.FreqencyOrder = 0
-	}
+	stage.FreqencyOrder = __gong__recomputeOrder(stage.Freqency_stagedOrder)
 
-	var maxNoteOrder uint
-	var foundNote bool
-	for _, order := range stage.Note_stagedOrder {
-		if !foundNote || order > maxNoteOrder {
-			maxNoteOrder = order
-			foundNote = true
-		}
-	}
-	if foundNote {
-		stage.NoteOrder = maxNoteOrder + 1
-	} else {
-		stage.NoteOrder = 0
-	}
+	stage.NoteOrder = __gong__recomputeOrder(stage.Note_stagedOrder)
 
-	var maxPlayerOrder uint
-	var foundPlayer bool
-	for _, order := range stage.Player_stagedOrder {
-		if !foundPlayer || order > maxPlayerOrder {
-			maxPlayerOrder = order
-			foundPlayer = true
-		}
-	}
-	if foundPlayer {
-		stage.PlayerOrder = maxPlayerOrder + 1
-	} else {
-		stage.PlayerOrder = 0
-	}
+	stage.PlayerOrder = __gong__recomputeOrder(stage.Player_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -510,47 +465,11 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *Freqency:
-		tmp := __gong__getStructInstancesByOrder(stage.Freqencys, stage.Freqency_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Freqency implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Freqencys, stage.Freqency_stagedOrder))
 	case *Note:
-		tmp := __gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Note implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder))
 	case *Player:
-		tmp := __gong__getStructInstancesByOrder(stage.Players, stage.Player_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Player implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Players, stage.Player_stagedOrder))
 
 	}
 	return
@@ -577,6 +496,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/tone/go/models"
 }
@@ -600,14 +615,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -630,13 +637,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitFreqency(freqency *Freqency)
-	CheckoutFreqency(freqency *Freqency)
-	CommitNote(note *Note)
-	CheckoutNote(note *Note)
-	CommitPlayer(player *Player)
-	CheckoutPlayer(player *Player)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -822,14 +822,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts freqency to the model stage
 func (freqency *Freqency) Stage(stage *Stage) *Freqency {
-	if _, ok := stage.Freqencys[freqency]; !ok {
-		stage.Freqencys[freqency] = struct{}{}
-		stage.Freqency_stagedOrder[freqency] = stage.FreqencyOrder
-		stage.Freqency_orderStaged[stage.FreqencyOrder] = freqency
-		stage.FreqencyOrder++
-	}
-	stage.Freqencys_mapString[freqency.Name] = freqency
-
+	__gong__stage(stage.Freqencys, stage.Freqency_stagedOrder, stage.Freqency_orderStaged, &stage.FreqencyOrder, stage.Freqencys_mapString, freqency, freqency.Name)
 	return freqency
 }
 
@@ -839,59 +832,22 @@ func (freqency *Freqency) Stage(stage *Stage) *Freqency {
 // - force the order if the order is equal or greater than the stage.FreqencyOrder
 // - update stage.FreqencyOrder accordingly
 func (freqency *Freqency) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Freqencys[freqency]; !ok {
-		stage.Freqencys[freqency] = struct{}{}
-
-		if order > stage.FreqencyOrder {
-			stage.FreqencyOrder = order
-		}
-		stage.Freqency_stagedOrder[freqency] = order
-		stage.Freqency_orderStaged[order] = freqency
-		stage.FreqencyOrder++
-	}
-	stage.Freqencys_mapString[freqency.Name] = freqency
+	__gong__stagePreserveOrder(stage.Freqencys, stage.Freqency_stagedOrder, stage.Freqency_orderStaged, &stage.FreqencyOrder, stage.Freqencys_mapString, freqency, order, freqency.Name)
 }
 
 // Unstage removes freqency off the model stage
 func (freqency *Freqency) Unstage(stage *Stage) *Freqency {
-	delete(stage.Freqencys, freqency)
-	// issue1150
-	// delete(stage.Freqency_stagedOrder, freqency)
-	delete(stage.Freqencys_mapString, freqency.Name)
-
+	__gong__unstage(stage.Freqencys, stage.Freqencys_mapString, freqency, freqency.Name)
 	return freqency
 }
 
 // UnstageVoid removes freqency off the model stage
 func (freqency *Freqency) UnstageVoid(stage *Stage) {
-	delete(stage.Freqencys, freqency)
-	// issue1150
-	// delete(stage.Freqency_stagedOrder, freqency)
-	delete(stage.Freqencys_mapString, freqency.Name)
-}
-
-// commit freqency to the back repo (if it is already staged)
-func (freqency *Freqency) Commit(stage *Stage) *Freqency {
-	if _, ok := stage.Freqencys[freqency]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFreqency(freqency)
-		}
-	}
-	return freqency
+	freqency.Unstage(stage)
 }
 
 func (freqency *Freqency) StageVoid(stage *Stage) {
 	freqency.Stage(stage)
-}
-
-// Checkout freqency to the back repo (if it is already staged)
-func (freqency *Freqency) Checkout(stage *Stage) *Freqency {
-	if _, ok := stage.Freqencys[freqency]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFreqency(freqency)
-		}
-	}
-	return freqency
 }
 
 // for satisfaction of GongStruct interface
@@ -906,14 +862,7 @@ func (freqency *Freqency) SetName(name string) {
 
 // Stage puts note to the model stage
 func (note *Note) Stage(stage *Stage) *Note {
-	if _, ok := stage.Notes[note]; !ok {
-		stage.Notes[note] = struct{}{}
-		stage.Note_stagedOrder[note] = stage.NoteOrder
-		stage.Note_orderStaged[stage.NoteOrder] = note
-		stage.NoteOrder++
-	}
-	stage.Notes_mapString[note.Name] = note
-
+	__gong__stage(stage.Notes, stage.Note_stagedOrder, stage.Note_orderStaged, &stage.NoteOrder, stage.Notes_mapString, note, note.Name)
 	return note
 }
 
@@ -923,59 +872,22 @@ func (note *Note) Stage(stage *Stage) *Note {
 // - force the order if the order is equal or greater than the stage.NoteOrder
 // - update stage.NoteOrder accordingly
 func (note *Note) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Notes[note]; !ok {
-		stage.Notes[note] = struct{}{}
-
-		if order > stage.NoteOrder {
-			stage.NoteOrder = order
-		}
-		stage.Note_stagedOrder[note] = order
-		stage.Note_orderStaged[order] = note
-		stage.NoteOrder++
-	}
-	stage.Notes_mapString[note.Name] = note
+	__gong__stagePreserveOrder(stage.Notes, stage.Note_stagedOrder, stage.Note_orderStaged, &stage.NoteOrder, stage.Notes_mapString, note, order, note.Name)
 }
 
 // Unstage removes note off the model stage
 func (note *Note) Unstage(stage *Stage) *Note {
-	delete(stage.Notes, note)
-	// issue1150
-	// delete(stage.Note_stagedOrder, note)
-	delete(stage.Notes_mapString, note.Name)
-
+	__gong__unstage(stage.Notes, stage.Notes_mapString, note, note.Name)
 	return note
 }
 
 // UnstageVoid removes note off the model stage
 func (note *Note) UnstageVoid(stage *Stage) {
-	delete(stage.Notes, note)
-	// issue1150
-	// delete(stage.Note_stagedOrder, note)
-	delete(stage.Notes_mapString, note.Name)
-}
-
-// commit note to the back repo (if it is already staged)
-func (note *Note) Commit(stage *Stage) *Note {
-	if _, ok := stage.Notes[note]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitNote(note)
-		}
-	}
-	return note
+	note.Unstage(stage)
 }
 
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
-}
-
-// Checkout note to the back repo (if it is already staged)
-func (note *Note) Checkout(stage *Stage) *Note {
-	if _, ok := stage.Notes[note]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutNote(note)
-		}
-	}
-	return note
 }
 
 // for satisfaction of GongStruct interface
@@ -990,14 +902,7 @@ func (note *Note) SetName(name string) {
 
 // Stage puts player to the model stage
 func (player *Player) Stage(stage *Stage) *Player {
-	if _, ok := stage.Players[player]; !ok {
-		stage.Players[player] = struct{}{}
-		stage.Player_stagedOrder[player] = stage.PlayerOrder
-		stage.Player_orderStaged[stage.PlayerOrder] = player
-		stage.PlayerOrder++
-	}
-	stage.Players_mapString[player.Name] = player
-
+	__gong__stage(stage.Players, stage.Player_stagedOrder, stage.Player_orderStaged, &stage.PlayerOrder, stage.Players_mapString, player, player.Name)
 	return player
 }
 
@@ -1007,59 +912,22 @@ func (player *Player) Stage(stage *Stage) *Player {
 // - force the order if the order is equal or greater than the stage.PlayerOrder
 // - update stage.PlayerOrder accordingly
 func (player *Player) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Players[player]; !ok {
-		stage.Players[player] = struct{}{}
-
-		if order > stage.PlayerOrder {
-			stage.PlayerOrder = order
-		}
-		stage.Player_stagedOrder[player] = order
-		stage.Player_orderStaged[order] = player
-		stage.PlayerOrder++
-	}
-	stage.Players_mapString[player.Name] = player
+	__gong__stagePreserveOrder(stage.Players, stage.Player_stagedOrder, stage.Player_orderStaged, &stage.PlayerOrder, stage.Players_mapString, player, order, player.Name)
 }
 
 // Unstage removes player off the model stage
 func (player *Player) Unstage(stage *Stage) *Player {
-	delete(stage.Players, player)
-	// issue1150
-	// delete(stage.Player_stagedOrder, player)
-	delete(stage.Players_mapString, player.Name)
-
+	__gong__unstage(stage.Players, stage.Players_mapString, player, player.Name)
 	return player
 }
 
 // UnstageVoid removes player off the model stage
 func (player *Player) UnstageVoid(stage *Stage) {
-	delete(stage.Players, player)
-	// issue1150
-	// delete(stage.Player_stagedOrder, player)
-	delete(stage.Players_mapString, player.Name)
-}
-
-// commit player to the back repo (if it is already staged)
-func (player *Player) Commit(stage *Stage) *Player {
-	if _, ok := stage.Players[player]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitPlayer(player)
-		}
-	}
-	return player
+	player.Unstage(stage)
 }
 
 func (player *Player) StageVoid(stage *Stage) {
 	player.Stage(stage)
-}
-
-// Checkout player to the back repo (if it is already staged)
-func (player *Player) Checkout(stage *Stage) *Player {
-	if _, ok := stage.Players[player]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutPlayer(player)
-		}
-	}
-	return player
 }
 
 // for satisfaction of GongStruct interface
@@ -1073,20 +941,11 @@ func (player *Player) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Freqencys = make(map[*Freqency]struct{})
-	stage.Freqencys_mapString = make(map[string]*Freqency)
-	stage.Freqency_stagedOrder = make(map[*Freqency]uint)
-	stage.FreqencyOrder = 0
+	__gong__resetStageType(&stage.Freqencys, &stage.Freqencys_mapString, &stage.Freqency_stagedOrder, &stage.FreqencyOrder)
 
-	stage.Notes = make(map[*Note]struct{})
-	stage.Notes_mapString = make(map[string]*Note)
-	stage.Note_stagedOrder = make(map[*Note]uint)
-	stage.NoteOrder = 0
+	__gong__resetStageType(&stage.Notes, &stage.Notes_mapString, &stage.Note_stagedOrder, &stage.NoteOrder)
 
-	stage.Players = make(map[*Player]struct{})
-	stage.Players_mapString = make(map[string]*Player)
-	stage.Player_stagedOrder = make(map[*Player]uint)
-	stage.PlayerOrder = 0
+	__gong__resetStageType(&stage.Players, &stage.Players_mapString, &stage.Player_stagedOrder, &stage.PlayerOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -1125,7 +984,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -1574,20 +1432,11 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.Freqencys_mapString = make(map[string]*Freqency)
-	for freqency := range stage.Freqencys {
-		stage.Freqencys_mapString[freqency.Name] = freqency
-	}
+	__gong__rebuildMapString(stage.Freqencys, &stage.Freqencys_mapString)
 
-	stage.Notes_mapString = make(map[string]*Note)
-	for note := range stage.Notes {
-		stage.Notes_mapString[note.Name] = note
-	}
+	__gong__rebuildMapString(stage.Notes, &stage.Notes_mapString)
 
-	stage.Players_mapString = make(map[string]*Player)
-	for player := range stage.Players {
-		stage.Players_mapString[player.Name] = player
-	}
+	__gong__rebuildMapString(stage.Players, &stage.Players_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

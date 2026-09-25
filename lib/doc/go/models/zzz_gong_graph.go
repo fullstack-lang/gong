@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,112 +15,49 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (attributeshape *AttributeShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.AttributeShapes[attributeshape]
-
-	return
+func (attributeshape *AttributeShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.AttributeShapes[attributeshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedAttributeShape(attributeshape *AttributeShape) (ok bool) {
-
-	return attributeshape.GongIsStaged(stage)
+func (classdiagram *Classdiagram) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Classdiagrams[classdiagram]
+	return ok
 }
 
-func (classdiagram *Classdiagram) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Classdiagrams[classdiagram]
-
-	return
+func (diagrampackage *DiagramPackage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DiagramPackages[diagrampackage]
+	return ok
 }
 
-func (stage *Stage) IsStagedClassdiagram(classdiagram *Classdiagram) (ok bool) {
-
-	return classdiagram.GongIsStaged(stage)
+func (gongenumshape *GongEnumShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.GongEnumShapes[gongenumshape]
+	return ok
 }
 
-func (diagrampackage *DiagramPackage) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DiagramPackages[diagrampackage]
-
-	return
+func (gongenumvalueshape *GongEnumValueShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.GongEnumValueShapes[gongenumvalueshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedDiagramPackage(diagrampackage *DiagramPackage) (ok bool) {
-
-	return diagrampackage.GongIsStaged(stage)
+func (gongnotelinkshape *GongNoteLinkShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.GongNoteLinkShapes[gongnotelinkshape]
+	return ok
 }
 
-func (gongenumshape *GongEnumShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.GongEnumShapes[gongenumshape]
-
-	return
+func (gongnoteshape *GongNoteShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.GongNoteShapes[gongnoteshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedGongEnumShape(gongenumshape *GongEnumShape) (ok bool) {
-
-	return gongenumshape.GongIsStaged(stage)
+func (gongstructshape *GongStructShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.GongStructShapes[gongstructshape]
+	return ok
 }
 
-func (gongenumvalueshape *GongEnumValueShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.GongEnumValueShapes[gongenumvalueshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedGongEnumValueShape(gongenumvalueshape *GongEnumValueShape) (ok bool) {
-
-	return gongenumvalueshape.GongIsStaged(stage)
-}
-
-func (gongnotelinkshape *GongNoteLinkShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.GongNoteLinkShapes[gongnotelinkshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedGongNoteLinkShape(gongnotelinkshape *GongNoteLinkShape) (ok bool) {
-
-	return gongnotelinkshape.GongIsStaged(stage)
-}
-
-func (gongnoteshape *GongNoteShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.GongNoteShapes[gongnoteshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedGongNoteShape(gongnoteshape *GongNoteShape) (ok bool) {
-
-	return gongnoteshape.GongIsStaged(stage)
-}
-
-func (gongstructshape *GongStructShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.GongStructShapes[gongstructshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedGongStructShape(gongstructshape *GongStructShape) (ok bool) {
-
-	return gongstructshape.GongIsStaged(stage)
-}
-
-func (linkshape *LinkShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.LinkShapes[linkshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedLinkShape(linkshape *LinkShape) (ok bool) {
-
-	return linkshape.GongIsStaged(stage)
+func (linkshape *LinkShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.LinkShapes[linkshape]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -129,10 +69,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (attributeshape *AttributeShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchAttributeShape(attributeshape)
-}
-
-func (stage *Stage) StageBranchAttributeShape(attributeshape *AttributeShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attributeshape) {
@@ -148,10 +84,6 @@ func (stage *Stage) StageBranchAttributeShape(attributeshape *AttributeShape) {
 }
 
 func (classdiagram *Classdiagram) GongStageBranch(stage *Stage) {
-	stage.StageBranchClassdiagram(classdiagram)
-}
-
-func (stage *Stage) StageBranchClassdiagram(classdiagram *Classdiagram) {
 
 	// check if instance is already staged
 	if stage.IsStaged(classdiagram) {
@@ -176,10 +108,6 @@ func (stage *Stage) StageBranchClassdiagram(classdiagram *Classdiagram) {
 }
 
 func (diagrampackage *DiagramPackage) GongStageBranch(stage *Stage) {
-	stage.StageBranchDiagramPackage(diagrampackage)
-}
-
-func (stage *Stage) StageBranchDiagramPackage(diagrampackage *DiagramPackage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(diagrampackage) {
@@ -201,10 +129,6 @@ func (stage *Stage) StageBranchDiagramPackage(diagrampackage *DiagramPackage) {
 }
 
 func (gongenumshape *GongEnumShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchGongEnumShape(gongenumshape)
-}
-
-func (stage *Stage) StageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(gongenumshape) {
@@ -223,10 +147,6 @@ func (stage *Stage) StageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 }
 
 func (gongenumvalueshape *GongEnumValueShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchGongEnumValueShape(gongenumvalueshape)
-}
-
-func (stage *Stage) StageBranchGongEnumValueShape(gongenumvalueshape *GongEnumValueShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(gongenumvalueshape) {
@@ -242,10 +162,6 @@ func (stage *Stage) StageBranchGongEnumValueShape(gongenumvalueshape *GongEnumVa
 }
 
 func (gongnotelinkshape *GongNoteLinkShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchGongNoteLinkShape(gongnotelinkshape)
-}
-
-func (stage *Stage) StageBranchGongNoteLinkShape(gongnotelinkshape *GongNoteLinkShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(gongnotelinkshape) {
@@ -261,10 +177,6 @@ func (stage *Stage) StageBranchGongNoteLinkShape(gongnotelinkshape *GongNoteLink
 }
 
 func (gongnoteshape *GongNoteShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchGongNoteShape(gongnoteshape)
-}
-
-func (stage *Stage) StageBranchGongNoteShape(gongnoteshape *GongNoteShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(gongnoteshape) {
@@ -283,10 +195,6 @@ func (stage *Stage) StageBranchGongNoteShape(gongnoteshape *GongNoteShape) {
 }
 
 func (gongstructshape *GongStructShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchGongStructShape(gongstructshape)
-}
-
-func (stage *Stage) StageBranchGongStructShape(gongstructshape *GongStructShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(gongstructshape) {
@@ -308,10 +216,6 @@ func (stage *Stage) StageBranchGongStructShape(gongstructshape *GongStructShape)
 }
 
 func (linkshape *LinkShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchLinkShape(linkshape)
-}
-
-func (stage *Stage) StageBranchLinkShape(linkshape *LinkShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(linkshape) {
@@ -381,15 +285,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchAttributeShape(mapOrigCopy map[any]any, attributeshapeFrom *AttributeShape) (attributeshapeTo *AttributeShape) {
-
-	// attributeshapeFrom has already been copied
-	if _attributeshapeTo, ok := mapOrigCopy[attributeshapeFrom]; ok {
-		attributeshapeTo = _attributeshapeTo.(*AttributeShape)
+	var alreadyCopied bool
+	attributeshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attributeshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attributeshapeTo = new(AttributeShape)
-	mapOrigCopy[attributeshapeFrom] = attributeshapeTo
 	attributeshapeFrom.GongCopyBasicFields(attributeshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -400,15 +300,11 @@ func GongCopyBranchAttributeShape(mapOrigCopy map[any]any, attributeshapeFrom *A
 }
 
 func GongCopyBranchClassdiagram(mapOrigCopy map[any]any, classdiagramFrom *Classdiagram) (classdiagramTo *Classdiagram) {
-
-	// classdiagramFrom has already been copied
-	if _classdiagramTo, ok := mapOrigCopy[classdiagramFrom]; ok {
-		classdiagramTo = _classdiagramTo.(*Classdiagram)
+	var alreadyCopied bool
+	classdiagramTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, classdiagramFrom)
+	if alreadyCopied {
 		return
 	}
-
-	classdiagramTo = new(Classdiagram)
-	mapOrigCopy[classdiagramFrom] = classdiagramTo
 	classdiagramFrom.GongCopyBasicFields(classdiagramTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -428,15 +324,11 @@ func GongCopyBranchClassdiagram(mapOrigCopy map[any]any, classdiagramFrom *Class
 }
 
 func GongCopyBranchDiagramPackage(mapOrigCopy map[any]any, diagrampackageFrom *DiagramPackage) (diagrampackageTo *DiagramPackage) {
-
-	// diagrampackageFrom has already been copied
-	if _diagrampackageTo, ok := mapOrigCopy[diagrampackageFrom]; ok {
-		diagrampackageTo = _diagrampackageTo.(*DiagramPackage)
+	var alreadyCopied bool
+	diagrampackageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, diagrampackageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	diagrampackageTo = new(DiagramPackage)
-	mapOrigCopy[diagrampackageFrom] = diagrampackageTo
 	diagrampackageFrom.GongCopyBasicFields(diagrampackageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -453,15 +345,11 @@ func GongCopyBranchDiagramPackage(mapOrigCopy map[any]any, diagrampackageFrom *D
 }
 
 func GongCopyBranchGongEnumShape(mapOrigCopy map[any]any, gongenumshapeFrom *GongEnumShape) (gongenumshapeTo *GongEnumShape) {
-
-	// gongenumshapeFrom has already been copied
-	if _gongenumshapeTo, ok := mapOrigCopy[gongenumshapeFrom]; ok {
-		gongenumshapeTo = _gongenumshapeTo.(*GongEnumShape)
+	var alreadyCopied bool
+	gongenumshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, gongenumshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	gongenumshapeTo = new(GongEnumShape)
-	mapOrigCopy[gongenumshapeFrom] = gongenumshapeTo
 	gongenumshapeFrom.GongCopyBasicFields(gongenumshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -475,15 +363,11 @@ func GongCopyBranchGongEnumShape(mapOrigCopy map[any]any, gongenumshapeFrom *Gon
 }
 
 func GongCopyBranchGongEnumValueShape(mapOrigCopy map[any]any, gongenumvalueshapeFrom *GongEnumValueShape) (gongenumvalueshapeTo *GongEnumValueShape) {
-
-	// gongenumvalueshapeFrom has already been copied
-	if _gongenumvalueshapeTo, ok := mapOrigCopy[gongenumvalueshapeFrom]; ok {
-		gongenumvalueshapeTo = _gongenumvalueshapeTo.(*GongEnumValueShape)
+	var alreadyCopied bool
+	gongenumvalueshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, gongenumvalueshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	gongenumvalueshapeTo = new(GongEnumValueShape)
-	mapOrigCopy[gongenumvalueshapeFrom] = gongenumvalueshapeTo
 	gongenumvalueshapeFrom.GongCopyBasicFields(gongenumvalueshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -494,15 +378,11 @@ func GongCopyBranchGongEnumValueShape(mapOrigCopy map[any]any, gongenumvalueshap
 }
 
 func GongCopyBranchGongNoteLinkShape(mapOrigCopy map[any]any, gongnotelinkshapeFrom *GongNoteLinkShape) (gongnotelinkshapeTo *GongNoteLinkShape) {
-
-	// gongnotelinkshapeFrom has already been copied
-	if _gongnotelinkshapeTo, ok := mapOrigCopy[gongnotelinkshapeFrom]; ok {
-		gongnotelinkshapeTo = _gongnotelinkshapeTo.(*GongNoteLinkShape)
+	var alreadyCopied bool
+	gongnotelinkshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, gongnotelinkshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	gongnotelinkshapeTo = new(GongNoteLinkShape)
-	mapOrigCopy[gongnotelinkshapeFrom] = gongnotelinkshapeTo
 	gongnotelinkshapeFrom.GongCopyBasicFields(gongnotelinkshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -513,15 +393,11 @@ func GongCopyBranchGongNoteLinkShape(mapOrigCopy map[any]any, gongnotelinkshapeF
 }
 
 func GongCopyBranchGongNoteShape(mapOrigCopy map[any]any, gongnoteshapeFrom *GongNoteShape) (gongnoteshapeTo *GongNoteShape) {
-
-	// gongnoteshapeFrom has already been copied
-	if _gongnoteshapeTo, ok := mapOrigCopy[gongnoteshapeFrom]; ok {
-		gongnoteshapeTo = _gongnoteshapeTo.(*GongNoteShape)
+	var alreadyCopied bool
+	gongnoteshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, gongnoteshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	gongnoteshapeTo = new(GongNoteShape)
-	mapOrigCopy[gongnoteshapeFrom] = gongnoteshapeTo
 	gongnoteshapeFrom.GongCopyBasicFields(gongnoteshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -535,15 +411,11 @@ func GongCopyBranchGongNoteShape(mapOrigCopy map[any]any, gongnoteshapeFrom *Gon
 }
 
 func GongCopyBranchGongStructShape(mapOrigCopy map[any]any, gongstructshapeFrom *GongStructShape) (gongstructshapeTo *GongStructShape) {
-
-	// gongstructshapeFrom has already been copied
-	if _gongstructshapeTo, ok := mapOrigCopy[gongstructshapeFrom]; ok {
-		gongstructshapeTo = _gongstructshapeTo.(*GongStructShape)
+	var alreadyCopied bool
+	gongstructshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, gongstructshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	gongstructshapeTo = new(GongStructShape)
-	mapOrigCopy[gongstructshapeFrom] = gongstructshapeTo
 	gongstructshapeFrom.GongCopyBasicFields(gongstructshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -560,15 +432,11 @@ func GongCopyBranchGongStructShape(mapOrigCopy map[any]any, gongstructshapeFrom 
 }
 
 func GongCopyBranchLinkShape(mapOrigCopy map[any]any, linkshapeFrom *LinkShape) (linkshapeTo *LinkShape) {
-
-	// linkshapeFrom has already been copied
-	if _linkshapeTo, ok := mapOrigCopy[linkshapeFrom]; ok {
-		linkshapeTo = _linkshapeTo.(*LinkShape)
+	var alreadyCopied bool
+	linkshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, linkshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	linkshapeTo = new(LinkShape)
-	mapOrigCopy[linkshapeFrom] = linkshapeTo
 	linkshapeFrom.GongCopyBasicFields(linkshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -591,10 +459,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (attributeshape *AttributeShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchAttributeShape(attributeshape)
-}
-
-func (stage *Stage) UnstageBranchAttributeShape(attributeshape *AttributeShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attributeshape) {
@@ -610,10 +474,6 @@ func (stage *Stage) UnstageBranchAttributeShape(attributeshape *AttributeShape) 
 }
 
 func (classdiagram *Classdiagram) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchClassdiagram(classdiagram)
-}
-
-func (stage *Stage) UnstageBranchClassdiagram(classdiagram *Classdiagram) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(classdiagram) {
@@ -638,10 +498,6 @@ func (stage *Stage) UnstageBranchClassdiagram(classdiagram *Classdiagram) {
 }
 
 func (diagrampackage *DiagramPackage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDiagramPackage(diagrampackage)
-}
-
-func (stage *Stage) UnstageBranchDiagramPackage(diagrampackage *DiagramPackage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(diagrampackage) {
@@ -663,10 +519,6 @@ func (stage *Stage) UnstageBranchDiagramPackage(diagrampackage *DiagramPackage) 
 }
 
 func (gongenumshape *GongEnumShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchGongEnumShape(gongenumshape)
-}
-
-func (stage *Stage) UnstageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(gongenumshape) {
@@ -685,10 +537,6 @@ func (stage *Stage) UnstageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 }
 
 func (gongenumvalueshape *GongEnumValueShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchGongEnumValueShape(gongenumvalueshape)
-}
-
-func (stage *Stage) UnstageBranchGongEnumValueShape(gongenumvalueshape *GongEnumValueShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(gongenumvalueshape) {
@@ -704,10 +552,6 @@ func (stage *Stage) UnstageBranchGongEnumValueShape(gongenumvalueshape *GongEnum
 }
 
 func (gongnotelinkshape *GongNoteLinkShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchGongNoteLinkShape(gongnotelinkshape)
-}
-
-func (stage *Stage) UnstageBranchGongNoteLinkShape(gongnotelinkshape *GongNoteLinkShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(gongnotelinkshape) {
@@ -723,10 +567,6 @@ func (stage *Stage) UnstageBranchGongNoteLinkShape(gongnotelinkshape *GongNoteLi
 }
 
 func (gongnoteshape *GongNoteShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchGongNoteShape(gongnoteshape)
-}
-
-func (stage *Stage) UnstageBranchGongNoteShape(gongnoteshape *GongNoteShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(gongnoteshape) {
@@ -745,10 +585,6 @@ func (stage *Stage) UnstageBranchGongNoteShape(gongnoteshape *GongNoteShape) {
 }
 
 func (gongstructshape *GongStructShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchGongStructShape(gongstructshape)
-}
-
-func (stage *Stage) UnstageBranchGongStructShape(gongstructshape *GongStructShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(gongstructshape) {
@@ -770,10 +606,6 @@ func (stage *Stage) UnstageBranchGongStructShape(gongstructshape *GongStructShap
 }
 
 func (linkshape *LinkShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLinkShape(linkshape)
-}
-
-func (stage *Stage) UnstageBranchLinkShape(linkshape *LinkShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(linkshape) {
@@ -797,39 +629,22 @@ func (reference *AttributeShape) GongReconstructPointersFromReferences(stage *St
 func (reference *Classdiagram) GongReconstructPointersFromReferences(stage *Stage, instance *Classdiagram) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.GongStructShapes = reference.GongStructShapes[:0]
-	for _, _b := range instance.GongStructShapes {
-		reference.GongStructShapes = append(reference.GongStructShapes, stage.GongStructShapes_reference[_b])
-	}
-	reference.GongEnumShapes = reference.GongEnumShapes[:0]
-	for _, _b := range instance.GongEnumShapes {
-		reference.GongEnumShapes = append(reference.GongEnumShapes, stage.GongEnumShapes_reference[_b])
-	}
-	reference.GongNoteShapes = reference.GongNoteShapes[:0]
-	for _, _b := range instance.GongNoteShapes {
-		reference.GongNoteShapes = append(reference.GongNoteShapes, stage.GongNoteShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.GongStructShapes, stage.GongStructShapes_reference, instance.GongStructShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.GongEnumShapes, stage.GongEnumShapes_reference, instance.GongEnumShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.GongNoteShapes, stage.GongNoteShapes_reference, instance.GongNoteShapes)
 }
 
 func (reference *DiagramPackage) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramPackage) {
 	// insertion point for pointers field
-	if instance.SelectedClassdiagram != nil {
-		reference.SelectedClassdiagram = stage.Classdiagrams_reference[instance.SelectedClassdiagram]
-	}
+	__gong__reconstructPointer(&reference.SelectedClassdiagram, stage.Classdiagrams_reference, instance.SelectedClassdiagram)
 	// insertion point for slice of pointers field
-	reference.Classdiagrams = reference.Classdiagrams[:0]
-	for _, _b := range instance.Classdiagrams {
-		reference.Classdiagrams = append(reference.Classdiagrams, stage.Classdiagrams_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Classdiagrams, stage.Classdiagrams_reference, instance.Classdiagrams)
 }
 
 func (reference *GongEnumShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongEnumShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.GongEnumValueShapes = reference.GongEnumValueShapes[:0]
-	for _, _b := range instance.GongEnumValueShapes {
-		reference.GongEnumValueShapes = append(reference.GongEnumValueShapes, stage.GongEnumValueShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.GongEnumValueShapes, stage.GongEnumValueShapes_reference, instance.GongEnumValueShapes)
 }
 
 func (reference *GongEnumValueShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongEnumValueShape) {
@@ -845,23 +660,14 @@ func (reference *GongNoteLinkShape) GongReconstructPointersFromReferences(stage 
 func (reference *GongNoteShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongNoteShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.GongNoteLinkShapes = reference.GongNoteLinkShapes[:0]
-	for _, _b := range instance.GongNoteLinkShapes {
-		reference.GongNoteLinkShapes = append(reference.GongNoteLinkShapes, stage.GongNoteLinkShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.GongNoteLinkShapes, stage.GongNoteLinkShapes_reference, instance.GongNoteLinkShapes)
 }
 
 func (reference *GongStructShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongStructShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.AttributeShapes = reference.AttributeShapes[:0]
-	for _, _b := range instance.AttributeShapes {
-		reference.AttributeShapes = append(reference.AttributeShapes, stage.AttributeShapes_reference[_b])
-	}
-	reference.LinkShapes = reference.LinkShapes[:0]
-	for _, _b := range instance.LinkShapes {
-		reference.LinkShapes = append(reference.LinkShapes, stage.LinkShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.AttributeShapes, stage.AttributeShapes_reference, instance.AttributeShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.LinkShapes, stage.LinkShapes_reference, instance.LinkShapes)
 }
 
 func (reference *LinkShape) GongReconstructPointersFromReferences(stage *Stage, instance *LinkShape) {
@@ -878,57 +684,22 @@ func (reference *AttributeShape) GongReconstructPointersFromInstances(stage *Sta
 func (reference *Classdiagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _GongStructShapes []*GongStructShape
-	for _, _reference := range reference.GongStructShapes {
-		if _instance, ok := stage.GongStructShapes_instance[_reference]; ok {
-			_GongStructShapes = append(_GongStructShapes, _instance)
-		}
-	}
-	reference.GongStructShapes = _GongStructShapes
-	var _GongEnumShapes []*GongEnumShape
-	for _, _reference := range reference.GongEnumShapes {
-		if _instance, ok := stage.GongEnumShapes_instance[_reference]; ok {
-			_GongEnumShapes = append(_GongEnumShapes, _instance)
-		}
-	}
-	reference.GongEnumShapes = _GongEnumShapes
-	var _GongNoteShapes []*GongNoteShape
-	for _, _reference := range reference.GongNoteShapes {
-		if _instance, ok := stage.GongNoteShapes_instance[_reference]; ok {
-			_GongNoteShapes = append(_GongNoteShapes, _instance)
-		}
-	}
-	reference.GongNoteShapes = _GongNoteShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.GongStructShapes, stage.GongStructShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.GongEnumShapes, stage.GongEnumShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.GongNoteShapes, stage.GongNoteShapes_instance)
 }
 
 func (reference *DiagramPackage) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.SelectedClassdiagram; _reference != nil {
-		reference.SelectedClassdiagram = nil
-		if _instance, ok := stage.Classdiagrams_instance[_reference]; ok {
-			reference.SelectedClassdiagram = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.SelectedClassdiagram, stage.Classdiagrams_instance)
 	// insertion point for slice of pointers fields
-	var _Classdiagrams []*Classdiagram
-	for _, _reference := range reference.Classdiagrams {
-		if _instance, ok := stage.Classdiagrams_instance[_reference]; ok {
-			_Classdiagrams = append(_Classdiagrams, _instance)
-		}
-	}
-	reference.Classdiagrams = _Classdiagrams
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Classdiagrams, stage.Classdiagrams_instance)
 }
 
 func (reference *GongEnumShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _GongEnumValueShapes []*GongEnumValueShape
-	for _, _reference := range reference.GongEnumValueShapes {
-		if _instance, ok := stage.GongEnumValueShapes_instance[_reference]; ok {
-			_GongEnumValueShapes = append(_GongEnumValueShapes, _instance)
-		}
-	}
-	reference.GongEnumValueShapes = _GongEnumValueShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.GongEnumValueShapes, stage.GongEnumValueShapes_instance)
 }
 
 func (reference *GongEnumValueShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -944,32 +715,14 @@ func (reference *GongNoteLinkShape) GongReconstructPointersFromInstances(stage *
 func (reference *GongNoteShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _GongNoteLinkShapes []*GongNoteLinkShape
-	for _, _reference := range reference.GongNoteLinkShapes {
-		if _instance, ok := stage.GongNoteLinkShapes_instance[_reference]; ok {
-			_GongNoteLinkShapes = append(_GongNoteLinkShapes, _instance)
-		}
-	}
-	reference.GongNoteLinkShapes = _GongNoteLinkShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.GongNoteLinkShapes, stage.GongNoteLinkShapes_instance)
 }
 
 func (reference *GongStructShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _AttributeShapes []*AttributeShape
-	for _, _reference := range reference.AttributeShapes {
-		if _instance, ok := stage.AttributeShapes_instance[_reference]; ok {
-			_AttributeShapes = append(_AttributeShapes, _instance)
-		}
-	}
-	reference.AttributeShapes = _AttributeShapes
-	var _LinkShapes []*LinkShape
-	for _, _reference := range reference.LinkShapes {
-		if _instance, ok := stage.LinkShapes_instance[_reference]; ok {
-			_LinkShapes = append(_LinkShapes, _instance)
-		}
-	}
-	reference.LinkShapes = _LinkShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.AttributeShapes, stage.AttributeShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.LinkShapes, stage.LinkShapes_instance)
 }
 
 func (reference *LinkShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1014,100 +767,13 @@ func (classdiagram *Classdiagram) GongDiff(stage *Stage, classdiagramOther *Clas
 	if classdiagram.IsIncludedInStaticWebSite != classdiagramOther.IsIncludedInStaticWebSite {
 		diffs = append(diffs, classdiagram.GongMarshallField(stage, "IsIncludedInStaticWebSite"))
 	}
-	GongStructShapesDifferent := false
-	if len(classdiagram.GongStructShapes) != len(classdiagramOther.GongStructShapes) {
-		GongStructShapesDifferent = true
-	} else {
-		for i := range classdiagram.GongStructShapes {
-			if (classdiagram.GongStructShapes[i] == nil) != (classdiagramOther.GongStructShapes[i] == nil) {
-				GongStructShapesDifferent = true
-				break
-			} else if classdiagram.GongStructShapes[i] != nil && classdiagramOther.GongStructShapes[i] != nil {
-				// this is a pointer comparaison
-				if classdiagram.GongStructShapes[i] != classdiagramOther.GongStructShapes[i] {
-					GongStructShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GongStructShapesDifferent {
-		ops := stage.Diff(
-			classdiagram,
-			"GongStructShapes",
-			len(classdiagramOther.GongStructShapes),
-			len(classdiagram.GongStructShapes),
-			func(i, j int) bool {
-				return classdiagramOther.GongStructShapes[i] == classdiagram.GongStructShapes[j]
-			},
-			func(j int) string {
-				return classdiagram.GongStructShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, classdiagram, "GongStructShapes", classdiagramOther.GongStructShapes, classdiagram.GongStructShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	GongEnumShapesDifferent := false
-	if len(classdiagram.GongEnumShapes) != len(classdiagramOther.GongEnumShapes) {
-		GongEnumShapesDifferent = true
-	} else {
-		for i := range classdiagram.GongEnumShapes {
-			if (classdiagram.GongEnumShapes[i] == nil) != (classdiagramOther.GongEnumShapes[i] == nil) {
-				GongEnumShapesDifferent = true
-				break
-			} else if classdiagram.GongEnumShapes[i] != nil && classdiagramOther.GongEnumShapes[i] != nil {
-				// this is a pointer comparaison
-				if classdiagram.GongEnumShapes[i] != classdiagramOther.GongEnumShapes[i] {
-					GongEnumShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GongEnumShapesDifferent {
-		ops := stage.Diff(
-			classdiagram,
-			"GongEnumShapes",
-			len(classdiagramOther.GongEnumShapes),
-			len(classdiagram.GongEnumShapes),
-			func(i, j int) bool {
-				return classdiagramOther.GongEnumShapes[i] == classdiagram.GongEnumShapes[j]
-			},
-			func(j int) string {
-				return classdiagram.GongEnumShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, classdiagram, "GongEnumShapes", classdiagramOther.GongEnumShapes, classdiagram.GongEnumShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	GongNoteShapesDifferent := false
-	if len(classdiagram.GongNoteShapes) != len(classdiagramOther.GongNoteShapes) {
-		GongNoteShapesDifferent = true
-	} else {
-		for i := range classdiagram.GongNoteShapes {
-			if (classdiagram.GongNoteShapes[i] == nil) != (classdiagramOther.GongNoteShapes[i] == nil) {
-				GongNoteShapesDifferent = true
-				break
-			} else if classdiagram.GongNoteShapes[i] != nil && classdiagramOther.GongNoteShapes[i] != nil {
-				// this is a pointer comparaison
-				if classdiagram.GongNoteShapes[i] != classdiagramOther.GongNoteShapes[i] {
-					GongNoteShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GongNoteShapesDifferent {
-		ops := stage.Diff(
-			classdiagram,
-			"GongNoteShapes",
-			len(classdiagramOther.GongNoteShapes),
-			len(classdiagram.GongNoteShapes),
-			func(i, j int) bool {
-				return classdiagramOther.GongNoteShapes[i] == classdiagram.GongNoteShapes[j]
-			},
-			func(j int) string {
-				return classdiagram.GongNoteShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, classdiagram, "GongNoteShapes", classdiagramOther.GongNoteShapes, classdiagram.GongNoteShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if classdiagram.ShowNbInstances != classdiagramOther.ShowNbInstances {
@@ -1160,44 +826,11 @@ func (diagrampackage *DiagramPackage) GongDiff(stage *Stage, diagrampackageOther
 	if diagrampackage.GongModelPath != diagrampackageOther.GongModelPath {
 		diffs = append(diffs, diagrampackage.GongMarshallField(stage, "GongModelPath"))
 	}
-	ClassdiagramsDifferent := false
-	if len(diagrampackage.Classdiagrams) != len(diagrampackageOther.Classdiagrams) {
-		ClassdiagramsDifferent = true
-	} else {
-		for i := range diagrampackage.Classdiagrams {
-			if (diagrampackage.Classdiagrams[i] == nil) != (diagrampackageOther.Classdiagrams[i] == nil) {
-				ClassdiagramsDifferent = true
-				break
-			} else if diagrampackage.Classdiagrams[i] != nil && diagrampackageOther.Classdiagrams[i] != nil {
-				// this is a pointer comparaison
-				if diagrampackage.Classdiagrams[i] != diagrampackageOther.Classdiagrams[i] {
-					ClassdiagramsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ClassdiagramsDifferent {
-		ops := stage.Diff(
-			diagrampackage,
-			"Classdiagrams",
-			len(diagrampackageOther.Classdiagrams),
-			len(diagrampackage.Classdiagrams),
-			func(i, j int) bool {
-				return diagrampackageOther.Classdiagrams[i] == diagrampackage.Classdiagrams[j]
-			},
-			func(j int) string {
-				return diagrampackage.Classdiagrams[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagrampackage, "Classdiagrams", diagrampackageOther.Classdiagrams, diagrampackage.Classdiagrams); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if (diagrampackage.SelectedClassdiagram == nil) != (diagrampackageOther.SelectedClassdiagram == nil) {
+	if diagrampackage.SelectedClassdiagram != diagrampackageOther.SelectedClassdiagram {
 		diffs = append(diffs, diagrampackage.GongMarshallField(stage, "SelectedClassdiagram"))
-	} else if diagrampackage.SelectedClassdiagram != nil && diagrampackageOther.SelectedClassdiagram != nil {
-		if diagrampackage.SelectedClassdiagram != diagrampackageOther.SelectedClassdiagram {
-			diffs = append(diffs, diagrampackage.GongMarshallField(stage, "SelectedClassdiagram"))
-		}
 	}
 	if diagrampackage.AbsolutePathToDiagramPackage != diagrampackageOther.AbsolutePathToDiagramPackage {
 		diffs = append(diffs, diagrampackage.GongMarshallField(stage, "AbsolutePathToDiagramPackage"))
@@ -1231,36 +864,7 @@ func (gongenumshape *GongEnumShape) GongDiff(stage *Stage, gongenumshapeOther *G
 	if gongenumshape.IdentifierMeta != gongenumshapeOther.IdentifierMeta {
 		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "IdentifierMeta"))
 	}
-	GongEnumValueShapesDifferent := false
-	if len(gongenumshape.GongEnumValueShapes) != len(gongenumshapeOther.GongEnumValueShapes) {
-		GongEnumValueShapesDifferent = true
-	} else {
-		for i := range gongenumshape.GongEnumValueShapes {
-			if (gongenumshape.GongEnumValueShapes[i] == nil) != (gongenumshapeOther.GongEnumValueShapes[i] == nil) {
-				GongEnumValueShapesDifferent = true
-				break
-			} else if gongenumshape.GongEnumValueShapes[i] != nil && gongenumshapeOther.GongEnumValueShapes[i] != nil {
-				// this is a pointer comparaison
-				if gongenumshape.GongEnumValueShapes[i] != gongenumshapeOther.GongEnumValueShapes[i] {
-					GongEnumValueShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GongEnumValueShapesDifferent {
-		ops := stage.Diff(
-			gongenumshape,
-			"GongEnumValueShapes",
-			len(gongenumshapeOther.GongEnumValueShapes),
-			len(gongenumshape.GongEnumValueShapes),
-			func(i, j int) bool {
-				return gongenumshapeOther.GongEnumValueShapes[i] == gongenumshape.GongEnumValueShapes[j]
-			},
-			func(j int) string {
-				return gongenumshape.GongEnumValueShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, gongenumshape, "GongEnumValueShapes", gongenumshapeOther.GongEnumValueShapes, gongenumshape.GongEnumValueShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if gongenumshape.IsExpanded != gongenumshapeOther.IsExpanded {
@@ -1335,36 +939,7 @@ func (gongnoteshape *GongNoteShape) GongDiff(stage *Stage, gongnoteshapeOther *G
 	if gongnoteshape.Matched != gongnoteshapeOther.Matched {
 		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "Matched"))
 	}
-	GongNoteLinkShapesDifferent := false
-	if len(gongnoteshape.GongNoteLinkShapes) != len(gongnoteshapeOther.GongNoteLinkShapes) {
-		GongNoteLinkShapesDifferent = true
-	} else {
-		for i := range gongnoteshape.GongNoteLinkShapes {
-			if (gongnoteshape.GongNoteLinkShapes[i] == nil) != (gongnoteshapeOther.GongNoteLinkShapes[i] == nil) {
-				GongNoteLinkShapesDifferent = true
-				break
-			} else if gongnoteshape.GongNoteLinkShapes[i] != nil && gongnoteshapeOther.GongNoteLinkShapes[i] != nil {
-				// this is a pointer comparaison
-				if gongnoteshape.GongNoteLinkShapes[i] != gongnoteshapeOther.GongNoteLinkShapes[i] {
-					GongNoteLinkShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GongNoteLinkShapesDifferent {
-		ops := stage.Diff(
-			gongnoteshape,
-			"GongNoteLinkShapes",
-			len(gongnoteshapeOther.GongNoteLinkShapes),
-			len(gongnoteshape.GongNoteLinkShapes),
-			func(i, j int) bool {
-				return gongnoteshapeOther.GongNoteLinkShapes[i] == gongnoteshape.GongNoteLinkShapes[j]
-			},
-			func(j int) string {
-				return gongnoteshape.GongNoteLinkShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, gongnoteshape, "GongNoteLinkShapes", gongnoteshapeOther.GongNoteLinkShapes, gongnoteshape.GongNoteLinkShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if gongnoteshape.IsExpanded != gongnoteshapeOther.IsExpanded {
@@ -1399,68 +974,10 @@ func (gongstructshape *GongStructShape) GongDiff(stage *Stage, gongstructshapeOt
 	if gongstructshape.IdentifierMeta != gongstructshapeOther.IdentifierMeta {
 		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "IdentifierMeta"))
 	}
-	AttributeShapesDifferent := false
-	if len(gongstructshape.AttributeShapes) != len(gongstructshapeOther.AttributeShapes) {
-		AttributeShapesDifferent = true
-	} else {
-		for i := range gongstructshape.AttributeShapes {
-			if (gongstructshape.AttributeShapes[i] == nil) != (gongstructshapeOther.AttributeShapes[i] == nil) {
-				AttributeShapesDifferent = true
-				break
-			} else if gongstructshape.AttributeShapes[i] != nil && gongstructshapeOther.AttributeShapes[i] != nil {
-				// this is a pointer comparaison
-				if gongstructshape.AttributeShapes[i] != gongstructshapeOther.AttributeShapes[i] {
-					AttributeShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AttributeShapesDifferent {
-		ops := stage.Diff(
-			gongstructshape,
-			"AttributeShapes",
-			len(gongstructshapeOther.AttributeShapes),
-			len(gongstructshape.AttributeShapes),
-			func(i, j int) bool {
-				return gongstructshapeOther.AttributeShapes[i] == gongstructshape.AttributeShapes[j]
-			},
-			func(j int) string {
-				return gongstructshape.AttributeShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, gongstructshape, "AttributeShapes", gongstructshapeOther.AttributeShapes, gongstructshape.AttributeShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	LinkShapesDifferent := false
-	if len(gongstructshape.LinkShapes) != len(gongstructshapeOther.LinkShapes) {
-		LinkShapesDifferent = true
-	} else {
-		for i := range gongstructshape.LinkShapes {
-			if (gongstructshape.LinkShapes[i] == nil) != (gongstructshapeOther.LinkShapes[i] == nil) {
-				LinkShapesDifferent = true
-				break
-			} else if gongstructshape.LinkShapes[i] != nil && gongstructshapeOther.LinkShapes[i] != nil {
-				// this is a pointer comparaison
-				if gongstructshape.LinkShapes[i] != gongstructshapeOther.LinkShapes[i] {
-					LinkShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if LinkShapesDifferent {
-		ops := stage.Diff(
-			gongstructshape,
-			"LinkShapes",
-			len(gongstructshapeOther.LinkShapes),
-			len(gongstructshape.LinkShapes),
-			func(i, j int) bool {
-				return gongstructshapeOther.LinkShapes[i] == gongstructshape.LinkShapes[j]
-			},
-			func(j int) string {
-				return gongstructshape.LinkShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, gongstructshape, "LinkShapes", gongstructshapeOther.LinkShapes, gongstructshape.LinkShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if gongstructshape.IsSelected != gongstructshapeOther.IsSelected {
@@ -1608,4 +1125,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

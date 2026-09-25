@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,52 +15,24 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (booktype *BookType) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.BookTypes[booktype]
-
-	return
+func (booktype *BookType) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.BookTypes[booktype]
+	return ok
 }
 
-func (stage *Stage) IsStagedBookType(booktype *BookType) (ok bool) {
-
-	return booktype.GongIsStaged(stage)
+func (books *Books) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Bookss[books]
+	return ok
 }
 
-func (books *Books) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Bookss[books]
-
-	return
+func (credit *Credit) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Credits[credit]
+	return ok
 }
 
-func (stage *Stage) IsStagedBooks(books *Books) (ok bool) {
-
-	return books.GongIsStaged(stage)
-}
-
-func (credit *Credit) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Credits[credit]
-
-	return
-}
-
-func (stage *Stage) IsStagedCredit(credit *Credit) (ok bool) {
-
-	return credit.GongIsStaged(stage)
-}
-
-func (link *Link) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Links[link]
-
-	return
-}
-
-func (stage *Stage) IsStagedLink(link *Link) (ok bool) {
-
-	return link.GongIsStaged(stage)
+func (link *Link) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Links[link]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -69,10 +44,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (booktype *BookType) GongStageBranch(stage *Stage) {
-	stage.StageBranchBookType(booktype)
-}
-
-func (stage *Stage) StageBranchBookType(booktype *BookType) {
 
 	// check if instance is already staged
 	if stage.IsStaged(booktype) {
@@ -91,10 +62,6 @@ func (stage *Stage) StageBranchBookType(booktype *BookType) {
 }
 
 func (books *Books) GongStageBranch(stage *Stage) {
-	stage.StageBranchBooks(books)
-}
-
-func (stage *Stage) StageBranchBooks(books *Books) {
 
 	// check if instance is already staged
 	if stage.IsStaged(books) {
@@ -113,10 +80,6 @@ func (stage *Stage) StageBranchBooks(books *Books) {
 }
 
 func (credit *Credit) GongStageBranch(stage *Stage) {
-	stage.StageBranchCredit(credit)
-}
-
-func (stage *Stage) StageBranchCredit(credit *Credit) {
 
 	// check if instance is already staged
 	if stage.IsStaged(credit) {
@@ -135,10 +98,6 @@ func (stage *Stage) StageBranchCredit(credit *Credit) {
 }
 
 func (link *Link) GongStageBranch(stage *Stage) {
-	stage.StageBranchLink(link)
-}
-
-func (stage *Stage) StageBranchLink(link *Link) {
 
 	// check if instance is already staged
 	if stage.IsStaged(link) {
@@ -188,15 +147,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchBookType(mapOrigCopy map[any]any, booktypeFrom *BookType) (booktypeTo *BookType) {
-
-	// booktypeFrom has already been copied
-	if _booktypeTo, ok := mapOrigCopy[booktypeFrom]; ok {
-		booktypeTo = _booktypeTo.(*BookType)
+	var alreadyCopied bool
+	booktypeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, booktypeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	booktypeTo = new(BookType)
-	mapOrigCopy[booktypeFrom] = booktypeTo
 	booktypeFrom.GongCopyBasicFields(booktypeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -210,15 +165,11 @@ func GongCopyBranchBookType(mapOrigCopy map[any]any, booktypeFrom *BookType) (bo
 }
 
 func GongCopyBranchBooks(mapOrigCopy map[any]any, booksFrom *Books) (booksTo *Books) {
-
-	// booksFrom has already been copied
-	if _booksTo, ok := mapOrigCopy[booksFrom]; ok {
-		booksTo = _booksTo.(*Books)
+	var alreadyCopied bool
+	booksTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, booksFrom)
+	if alreadyCopied {
 		return
 	}
-
-	booksTo = new(Books)
-	mapOrigCopy[booksFrom] = booksTo
 	booksFrom.GongCopyBasicFields(booksTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -232,15 +183,11 @@ func GongCopyBranchBooks(mapOrigCopy map[any]any, booksFrom *Books) (booksTo *Bo
 }
 
 func GongCopyBranchCredit(mapOrigCopy map[any]any, creditFrom *Credit) (creditTo *Credit) {
-
-	// creditFrom has already been copied
-	if _creditTo, ok := mapOrigCopy[creditFrom]; ok {
-		creditTo = _creditTo.(*Credit)
+	var alreadyCopied bool
+	creditTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, creditFrom)
+	if alreadyCopied {
 		return
 	}
-
-	creditTo = new(Credit)
-	mapOrigCopy[creditFrom] = creditTo
 	creditFrom.GongCopyBasicFields(creditTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -254,15 +201,11 @@ func GongCopyBranchCredit(mapOrigCopy map[any]any, creditFrom *Credit) (creditTo
 }
 
 func GongCopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
-
-	// linkFrom has already been copied
-	if _linkTo, ok := mapOrigCopy[linkFrom]; ok {
-		linkTo = _linkTo.(*Link)
+	var alreadyCopied bool
+	linkTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, linkFrom)
+	if alreadyCopied {
 		return
 	}
-
-	linkTo = new(Link)
-	mapOrigCopy[linkFrom] = linkTo
 	linkFrom.GongCopyBasicFields(linkTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -285,10 +228,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (booktype *BookType) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchBookType(booktype)
-}
-
-func (stage *Stage) UnstageBranchBookType(booktype *BookType) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(booktype) {
@@ -307,10 +246,6 @@ func (stage *Stage) UnstageBranchBookType(booktype *BookType) {
 }
 
 func (books *Books) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchBooks(books)
-}
-
-func (stage *Stage) UnstageBranchBooks(books *Books) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(books) {
@@ -329,10 +264,6 @@ func (stage *Stage) UnstageBranchBooks(books *Books) {
 }
 
 func (credit *Credit) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchCredit(credit)
-}
-
-func (stage *Stage) UnstageBranchCredit(credit *Credit) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(credit) {
@@ -351,10 +282,6 @@ func (stage *Stage) UnstageBranchCredit(credit *Credit) {
 }
 
 func (link *Link) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLink(link)
-}
-
-func (stage *Stage) UnstageBranchLink(link *Link) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(link) {
@@ -373,28 +300,19 @@ func (stage *Stage) UnstageBranchLink(link *Link) {
 func (reference *BookType) GongReconstructPointersFromReferences(stage *Stage, instance *BookType) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Credit = reference.Credit[:0]
-	for _, _b := range instance.Credit {
-		reference.Credit = append(reference.Credit, stage.Credits_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Credit, stage.Credits_reference, instance.Credit)
 }
 
 func (reference *Books) GongReconstructPointersFromReferences(stage *Stage, instance *Books) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Book = reference.Book[:0]
-	for _, _b := range instance.Book {
-		reference.Book = append(reference.Book, stage.BookTypes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Book, stage.BookTypes_reference, instance.Book)
 }
 
 func (reference *Credit) GongReconstructPointersFromReferences(stage *Stage, instance *Credit) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Link = reference.Link[:0]
-	for _, _b := range instance.Link {
-		reference.Link = append(reference.Link, stage.Links_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Link, stage.Links_reference, instance.Link)
 }
 
 func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, instance *Link) {
@@ -406,37 +324,19 @@ func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, insta
 func (reference *BookType) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Credit []*Credit
-	for _, _reference := range reference.Credit {
-		if _instance, ok := stage.Credits_instance[_reference]; ok {
-			_Credit = append(_Credit, _instance)
-		}
-	}
-	reference.Credit = _Credit
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Credit, stage.Credits_instance)
 }
 
 func (reference *Books) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Book []*BookType
-	for _, _reference := range reference.Book {
-		if _instance, ok := stage.BookTypes_instance[_reference]; ok {
-			_Book = append(_Book, _instance)
-		}
-	}
-	reference.Book = _Book
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Book, stage.BookTypes_instance)
 }
 
 func (reference *Credit) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Link []*Link
-	for _, _reference := range reference.Link {
-		if _instance, ok := stage.Links_instance[_reference]; ok {
-			_Link = append(_Link, _instance)
-		}
-	}
-	reference.Link = _Link
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Link, stage.Links_instance)
 }
 
 func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) {
@@ -473,36 +373,7 @@ func (booktype *BookType) GongDiff(stage *Stage, booktypeOther *BookType) (diffs
 	if booktype.Format != booktypeOther.Format {
 		diffs = append(diffs, booktype.GongMarshallField(stage, "Format"))
 	}
-	CreditDifferent := false
-	if len(booktype.Credit) != len(booktypeOther.Credit) {
-		CreditDifferent = true
-	} else {
-		for i := range booktype.Credit {
-			if (booktype.Credit[i] == nil) != (booktypeOther.Credit[i] == nil) {
-				CreditDifferent = true
-				break
-			} else if booktype.Credit[i] != nil && booktypeOther.Credit[i] != nil {
-				// this is a pointer comparaison
-				if booktype.Credit[i] != booktypeOther.Credit[i] {
-					CreditDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if CreditDifferent {
-		ops := stage.Diff(
-			booktype,
-			"Credit",
-			len(booktypeOther.Credit),
-			len(booktype.Credit),
-			func(i, j int) bool {
-				return booktypeOther.Credit[i] == booktype.Credit[j]
-			},
-			func(j int) string {
-				return booktype.Credit[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, booktype, "Credit", booktypeOther.Credit, booktype.Credit); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -516,36 +387,7 @@ func (books *Books) GongDiff(stage *Stage, booksOther *Books) (diffs []string) {
 	if books.Name != booksOther.Name {
 		diffs = append(diffs, books.GongMarshallField(stage, "Name"))
 	}
-	BookDifferent := false
-	if len(books.Book) != len(booksOther.Book) {
-		BookDifferent = true
-	} else {
-		for i := range books.Book {
-			if (books.Book[i] == nil) != (booksOther.Book[i] == nil) {
-				BookDifferent = true
-				break
-			} else if books.Book[i] != nil && booksOther.Book[i] != nil {
-				// this is a pointer comparaison
-				if books.Book[i] != booksOther.Book[i] {
-					BookDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if BookDifferent {
-		ops := stage.Diff(
-			books,
-			"Book",
-			len(booksOther.Book),
-			len(books.Book),
-			func(i, j int) bool {
-				return booksOther.Book[i] == books.Book[j]
-			},
-			func(j int) string {
-				return books.Book[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, books, "Book", booksOther.Book, books.Book); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -565,36 +407,7 @@ func (credit *Credit) GongDiff(stage *Stage, creditOther *Credit) (diffs []strin
 	if credit.Credit_type != creditOther.Credit_type {
 		diffs = append(diffs, credit.GongMarshallField(stage, "Credit_type"))
 	}
-	LinkDifferent := false
-	if len(credit.Link) != len(creditOther.Link) {
-		LinkDifferent = true
-	} else {
-		for i := range credit.Link {
-			if (credit.Link[i] == nil) != (creditOther.Link[i] == nil) {
-				LinkDifferent = true
-				break
-			} else if credit.Link[i] != nil && creditOther.Link[i] != nil {
-				// this is a pointer comparaison
-				if credit.Link[i] != creditOther.Link[i] {
-					LinkDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if LinkDifferent {
-		ops := stage.Diff(
-			credit,
-			"Link",
-			len(creditOther.Link),
-			len(credit.Link),
-			func(i, j int) bool {
-				return creditOther.Link[i] == credit.Link[j]
-			},
-			func(j int) string {
-				return credit.Link[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, credit, "Link", creditOther.Link, credit.Link); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if credit.Credit_words != creditOther.Credit_words {
@@ -700,4 +513,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

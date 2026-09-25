@@ -16,7 +16,10 @@ import (
 const ModelGongGraphFileTemplate = `// generated code - do not edit
 package {{PkgGoName}}
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -145,6 +148,76 @@ func (stage *Stage) Diff(
 
 	return ops
 }
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
+}
 `
 
 // insertion points are places where the code is
@@ -171,25 +244,14 @@ map[ModelGongGraphStructInsertionId]string{
 
 	ModelGongGraphStructInsertionIsStaged: "",
 	ModelGongGraphStructInsertionIsStagedPerStruct: `
-func ({{structname}} *{{Structname}}) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.{{Structname}}s[{{structname}}]
-
-	return
-}
-
-func (stage *Stage) IsStaged{{Structname}}({{structname}} *{{Structname}}) (ok bool) {
-
-	return {{structname}}.GongIsStaged(stage)
+func ({{structname}} *{{Structname}}) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.{{Structname}}s[{{structname}}]
+	return ok
 }
 `,
 	ModelGongGraphStructInsertionStageBranch: "",
 	ModelGongGraphStructInsertionStageBranchPerStruct: `
 func ({{structname}} *{{Structname}}) GongStageBranch(stage *Stage) {
-	stage.StageBranch{{Structname}}({{structname}})
-}
-
-func (stage *Stage) StageBranch{{Structname}}({{structname}} *{{Structname}}) {
 
 	// check if instance is already staged
 	if stage.IsStaged({{structname}}) {
@@ -211,15 +273,11 @@ func (stage *Stage) StageBranch{{Structname}}({{structname}} *{{Structname}}) {
 `,
 	ModelGongGraphStructInsertionCopyBranchPerStruct: `
 func GongCopyBranch{{Structname}}(mapOrigCopy map[any]any, {{structname}}From *{{Structname}}) ({{structname}}To *{{Structname}}) {
-
-	// {{structname}}From has already been copied
-	if _{{structname}}To, ok := mapOrigCopy[{{structname}}From]; ok {
-		{{structname}}To = _{{structname}}To.(*{{Structname}})
+	var alreadyCopied bool
+	{{structname}}To, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, {{structname}}From)
+	if alreadyCopied {
 		return
 	}
-
-	{{structname}}To = new({{Structname}})
-	mapOrigCopy[{{structname}}From] = {{structname}}To
 	{{structname}}From.GongCopyBasicFields({{structname}}To)
 
 	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
@@ -232,10 +290,6 @@ func GongCopyBranch{{Structname}}(mapOrigCopy map[any]any, {{structname}}From *{
 	ModelGongGraphStructInsertionUnstageBranch: "",
 	ModelGongGraphStructInsertionUnstageBranchPerStruct: `
 func ({{structname}} *{{Structname}}) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranch{{Structname}}({{structname}})
-}
-
-func (stage *Stage) UnstageBranch{{Structname}}({{structname}} *{{Structname}}) {
 
 	// check if instance is already staged
 	if !stage.IsStaged({{structname}}) {
@@ -331,71 +385,22 @@ map[GongGraphFilePerStructSubTemplateId]string{
 		diffs = append(diffs, {{structname}}.GongMarshallField(stage, "{{FieldName}}"))
 	}`,
 	GongGraphPointerFieldDiff: `
-	if ({{structname}}.{{FieldName}} == nil) != ({{structname}}Other.{{FieldName}} == nil) {
+	if {{structname}}.{{FieldName}} != {{structname}}Other.{{FieldName}} {
 		diffs = append(diffs, {{structname}}.GongMarshallField(stage, "{{FieldName}}"))
-	} else if {{structname}}.{{FieldName}} != nil && {{structname}}Other.{{FieldName}} != nil {
-		if {{structname}}.{{FieldName}} != {{structname}}Other.{{FieldName}} {
-			diffs = append(diffs, {{structname}}.GongMarshallField(stage, "{{FieldName}}"))
-		}
 	}`,
 	GongGraphSliceOfPointerFieldDiff: `
-	{{FieldName}}Different := false
-	if len({{structname}}.{{FieldName}}) != len({{structname}}Other.{{FieldName}}) {
-		{{FieldName}}Different = true
-	} else {
-		for i := range {{structname}}.{{FieldName}} {
-			if ({{structname}}.{{FieldName}}[i] == nil) != ({{structname}}Other.{{FieldName}}[i] == nil) {
-				{{FieldName}}Different = true
-				break
-			} else if {{structname}}.{{FieldName}}[i] != nil && {{structname}}Other.{{FieldName}}[i] != nil {
-				// this is a pointer comparaison
-				if {{structname}}.{{FieldName}}[i] != {{structname}}Other.{{FieldName}}[i] {
-					{{FieldName}}Different = true
-					break
-				}
-			}
-		}
-	}
-	if {{FieldName}}Different {
-		ops := stage.Diff(
-			{{structname}},
-			"{{FieldName}}",
-			len({{structname}}Other.{{FieldName}}),
-			len({{structname}}.{{FieldName}}),
-			func(i, j int) bool {
-				return {{structname}}Other.{{FieldName}}[i] == {{structname}}.{{FieldName}}[j]
-			},
-			func(j int) string {
-				return {{structname}}.{{FieldName}}[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, {{structname}}, "{{FieldName}}", {{structname}}Other.{{FieldName}}, {{structname}}.{{FieldName}}); ops != "" {
 		diffs = append(diffs, ops)
 	}`,
 
 	GongGraphPointerFieldReconstructPointersFromReferences: `
-	if instance.{{FieldName}} != nil {
-		reference.{{FieldName}} = stage.{{AssocStructName}}s_reference[instance.{{FieldName}}]
-	}`,
+	__gong__reconstructPointer(&reference.{{FieldName}}, stage.{{AssocStructName}}s_reference, instance.{{FieldName}})`,
 	GongGraphPointerFieldReconstructPointersFromInstances: `
-	if _reference := reference.{{FieldName}}; _reference != nil {
-		reference.{{FieldName}} = nil
-		if _instance, ok := stage.{{AssocStructName}}s_instance[_reference]; ok {
-			reference.{{FieldName}} = _instance
-		}
-	}`,
+	__gong__reconstructPointerFromInstance(&reference.{{FieldName}}, stage.{{AssocStructName}}s_instance)`,
 	GongGraphSliceOfPointersFieldReconstructPointersFromReferences: `
-	reference.{{FieldName}} = reference.{{FieldName}}[:0]
-	for _, _b := range instance.{{FieldName}} {
-		reference.{{FieldName}} = append(reference.{{FieldName}}, stage.{{AssocStructName}}s_reference[_b])
-	}`,
+	__gong__reconstructSliceOfPointersFromReferences(&reference.{{FieldName}}, stage.{{AssocStructName}}s_reference, instance.{{FieldName}})`,
 	GongGraphSliceOfPointersFieldReconstructPointersFromInstances: `
-	var _{{FieldName}} []*{{AssocStructName}}
-	for _, _reference := range reference.{{FieldName}} {
-		if _instance, ok := stage.{{AssocStructName}}s_instance[_reference]; ok {
-			_{{FieldName}} = append(_{{FieldName}}, _instance)
-		}
-	}
-	reference.{{FieldName}} = _{{FieldName}}`,
+	__gong__reconstructSliceOfPointersFromInstances(&reference.{{FieldName}}, stage.{{AssocStructName}}s_instance)`,
 }
 
 func CodeGeneratorModelGongGraph(

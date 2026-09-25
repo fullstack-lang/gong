@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,64 +15,29 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (displayselection *DisplaySelection) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DisplaySelections[displayselection]
-
-	return
+func (displayselection *DisplaySelection) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DisplaySelections[displayselection]
+	return ok
 }
 
-func (stage *Stage) IsStagedDisplaySelection(displayselection *DisplaySelection) (ok bool) {
-
-	return displayselection.GongIsStaged(stage)
+func (xlcell *XLCell) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.XLCells[xlcell]
+	return ok
 }
 
-func (xlcell *XLCell) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.XLCells[xlcell]
-
-	return
+func (xlfile *XLFile) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.XLFiles[xlfile]
+	return ok
 }
 
-func (stage *Stage) IsStagedXLCell(xlcell *XLCell) (ok bool) {
-
-	return xlcell.GongIsStaged(stage)
+func (xlrow *XLRow) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.XLRows[xlrow]
+	return ok
 }
 
-func (xlfile *XLFile) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.XLFiles[xlfile]
-
-	return
-}
-
-func (stage *Stage) IsStagedXLFile(xlfile *XLFile) (ok bool) {
-
-	return xlfile.GongIsStaged(stage)
-}
-
-func (xlrow *XLRow) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.XLRows[xlrow]
-
-	return
-}
-
-func (stage *Stage) IsStagedXLRow(xlrow *XLRow) (ok bool) {
-
-	return xlrow.GongIsStaged(stage)
-}
-
-func (xlsheet *XLSheet) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.XLSheets[xlsheet]
-
-	return
-}
-
-func (stage *Stage) IsStagedXLSheet(xlsheet *XLSheet) (ok bool) {
-
-	return xlsheet.GongIsStaged(stage)
+func (xlsheet *XLSheet) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.XLSheets[xlsheet]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -81,10 +49,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (displayselection *DisplaySelection) GongStageBranch(stage *Stage) {
-	stage.StageBranchDisplaySelection(displayselection)
-}
-
-func (stage *Stage) StageBranchDisplaySelection(displayselection *DisplaySelection) {
 
 	// check if instance is already staged
 	if stage.IsStaged(displayselection) {
@@ -106,10 +70,6 @@ func (stage *Stage) StageBranchDisplaySelection(displayselection *DisplaySelecti
 }
 
 func (xlcell *XLCell) GongStageBranch(stage *Stage) {
-	stage.StageBranchXLCell(xlcell)
-}
-
-func (stage *Stage) StageBranchXLCell(xlcell *XLCell) {
 
 	// check if instance is already staged
 	if stage.IsStaged(xlcell) {
@@ -125,10 +85,6 @@ func (stage *Stage) StageBranchXLCell(xlcell *XLCell) {
 }
 
 func (xlfile *XLFile) GongStageBranch(stage *Stage) {
-	stage.StageBranchXLFile(xlfile)
-}
-
-func (stage *Stage) StageBranchXLFile(xlfile *XLFile) {
 
 	// check if instance is already staged
 	if stage.IsStaged(xlfile) {
@@ -147,10 +103,6 @@ func (stage *Stage) StageBranchXLFile(xlfile *XLFile) {
 }
 
 func (xlrow *XLRow) GongStageBranch(stage *Stage) {
-	stage.StageBranchXLRow(xlrow)
-}
-
-func (stage *Stage) StageBranchXLRow(xlrow *XLRow) {
 
 	// check if instance is already staged
 	if stage.IsStaged(xlrow) {
@@ -169,10 +121,6 @@ func (stage *Stage) StageBranchXLRow(xlrow *XLRow) {
 }
 
 func (xlsheet *XLSheet) GongStageBranch(stage *Stage) {
-	stage.StageBranchXLSheet(xlsheet)
-}
-
-func (stage *Stage) StageBranchXLSheet(xlsheet *XLSheet) {
 
 	// check if instance is already staged
 	if stage.IsStaged(xlsheet) {
@@ -232,15 +180,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchDisplaySelection(mapOrigCopy map[any]any, displayselectionFrom *DisplaySelection) (displayselectionTo *DisplaySelection) {
-
-	// displayselectionFrom has already been copied
-	if _displayselectionTo, ok := mapOrigCopy[displayselectionFrom]; ok {
-		displayselectionTo = _displayselectionTo.(*DisplaySelection)
+	var alreadyCopied bool
+	displayselectionTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, displayselectionFrom)
+	if alreadyCopied {
 		return
 	}
-
-	displayselectionTo = new(DisplaySelection)
-	mapOrigCopy[displayselectionFrom] = displayselectionTo
 	displayselectionFrom.GongCopyBasicFields(displayselectionTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -257,15 +201,11 @@ func GongCopyBranchDisplaySelection(mapOrigCopy map[any]any, displayselectionFro
 }
 
 func GongCopyBranchXLCell(mapOrigCopy map[any]any, xlcellFrom *XLCell) (xlcellTo *XLCell) {
-
-	// xlcellFrom has already been copied
-	if _xlcellTo, ok := mapOrigCopy[xlcellFrom]; ok {
-		xlcellTo = _xlcellTo.(*XLCell)
+	var alreadyCopied bool
+	xlcellTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, xlcellFrom)
+	if alreadyCopied {
 		return
 	}
-
-	xlcellTo = new(XLCell)
-	mapOrigCopy[xlcellFrom] = xlcellTo
 	xlcellFrom.GongCopyBasicFields(xlcellTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -276,15 +216,11 @@ func GongCopyBranchXLCell(mapOrigCopy map[any]any, xlcellFrom *XLCell) (xlcellTo
 }
 
 func GongCopyBranchXLFile(mapOrigCopy map[any]any, xlfileFrom *XLFile) (xlfileTo *XLFile) {
-
-	// xlfileFrom has already been copied
-	if _xlfileTo, ok := mapOrigCopy[xlfileFrom]; ok {
-		xlfileTo = _xlfileTo.(*XLFile)
+	var alreadyCopied bool
+	xlfileTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, xlfileFrom)
+	if alreadyCopied {
 		return
 	}
-
-	xlfileTo = new(XLFile)
-	mapOrigCopy[xlfileFrom] = xlfileTo
 	xlfileFrom.GongCopyBasicFields(xlfileTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -298,15 +234,11 @@ func GongCopyBranchXLFile(mapOrigCopy map[any]any, xlfileFrom *XLFile) (xlfileTo
 }
 
 func GongCopyBranchXLRow(mapOrigCopy map[any]any, xlrowFrom *XLRow) (xlrowTo *XLRow) {
-
-	// xlrowFrom has already been copied
-	if _xlrowTo, ok := mapOrigCopy[xlrowFrom]; ok {
-		xlrowTo = _xlrowTo.(*XLRow)
+	var alreadyCopied bool
+	xlrowTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, xlrowFrom)
+	if alreadyCopied {
 		return
 	}
-
-	xlrowTo = new(XLRow)
-	mapOrigCopy[xlrowFrom] = xlrowTo
 	xlrowFrom.GongCopyBasicFields(xlrowTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -320,15 +252,11 @@ func GongCopyBranchXLRow(mapOrigCopy map[any]any, xlrowFrom *XLRow) (xlrowTo *XL
 }
 
 func GongCopyBranchXLSheet(mapOrigCopy map[any]any, xlsheetFrom *XLSheet) (xlsheetTo *XLSheet) {
-
-	// xlsheetFrom has already been copied
-	if _xlsheetTo, ok := mapOrigCopy[xlsheetFrom]; ok {
-		xlsheetTo = _xlsheetTo.(*XLSheet)
+	var alreadyCopied bool
+	xlsheetTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, xlsheetFrom)
+	if alreadyCopied {
 		return
 	}
-
-	xlsheetTo = new(XLSheet)
-	mapOrigCopy[xlsheetFrom] = xlsheetTo
 	xlsheetFrom.GongCopyBasicFields(xlsheetTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -357,10 +285,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (displayselection *DisplaySelection) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDisplaySelection(displayselection)
-}
-
-func (stage *Stage) UnstageBranchDisplaySelection(displayselection *DisplaySelection) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(displayselection) {
@@ -382,10 +306,6 @@ func (stage *Stage) UnstageBranchDisplaySelection(displayselection *DisplaySelec
 }
 
 func (xlcell *XLCell) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchXLCell(xlcell)
-}
-
-func (stage *Stage) UnstageBranchXLCell(xlcell *XLCell) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(xlcell) {
@@ -401,10 +321,6 @@ func (stage *Stage) UnstageBranchXLCell(xlcell *XLCell) {
 }
 
 func (xlfile *XLFile) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchXLFile(xlfile)
-}
-
-func (stage *Stage) UnstageBranchXLFile(xlfile *XLFile) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(xlfile) {
@@ -423,10 +339,6 @@ func (stage *Stage) UnstageBranchXLFile(xlfile *XLFile) {
 }
 
 func (xlrow *XLRow) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchXLRow(xlrow)
-}
-
-func (stage *Stage) UnstageBranchXLRow(xlrow *XLRow) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(xlrow) {
@@ -445,10 +357,6 @@ func (stage *Stage) UnstageBranchXLRow(xlrow *XLRow) {
 }
 
 func (xlsheet *XLSheet) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchXLSheet(xlsheet)
-}
-
-func (stage *Stage) UnstageBranchXLSheet(xlsheet *XLSheet) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(xlsheet) {
@@ -472,12 +380,8 @@ func (stage *Stage) UnstageBranchXLSheet(xlsheet *XLSheet) {
 // insertion point for pointer reconstruction from references
 func (reference *DisplaySelection) GongReconstructPointersFromReferences(stage *Stage, instance *DisplaySelection) {
 	// insertion point for pointers field
-	if instance.XLFile != nil {
-		reference.XLFile = stage.XLFiles_reference[instance.XLFile]
-	}
-	if instance.XLSheet != nil {
-		reference.XLSheet = stage.XLSheets_reference[instance.XLSheet]
-	}
+	__gong__reconstructPointer(&reference.XLFile, stage.XLFiles_reference, instance.XLFile)
+	__gong__reconstructPointer(&reference.XLSheet, stage.XLSheets_reference, instance.XLSheet)
 	// insertion point for slice of pointers field
 }
 
@@ -489,49 +393,27 @@ func (reference *XLCell) GongReconstructPointersFromReferences(stage *Stage, ins
 func (reference *XLFile) GongReconstructPointersFromReferences(stage *Stage, instance *XLFile) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Sheets = reference.Sheets[:0]
-	for _, _b := range instance.Sheets {
-		reference.Sheets = append(reference.Sheets, stage.XLSheets_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Sheets, stage.XLSheets_reference, instance.Sheets)
 }
 
 func (reference *XLRow) GongReconstructPointersFromReferences(stage *Stage, instance *XLRow) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Cells = reference.Cells[:0]
-	for _, _b := range instance.Cells {
-		reference.Cells = append(reference.Cells, stage.XLCells_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Cells, stage.XLCells_reference, instance.Cells)
 }
 
 func (reference *XLSheet) GongReconstructPointersFromReferences(stage *Stage, instance *XLSheet) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Rows = reference.Rows[:0]
-	for _, _b := range instance.Rows {
-		reference.Rows = append(reference.Rows, stage.XLRows_reference[_b])
-	}
-	reference.SheetCells = reference.SheetCells[:0]
-	for _, _b := range instance.SheetCells {
-		reference.SheetCells = append(reference.SheetCells, stage.XLCells_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Rows, stage.XLRows_reference, instance.Rows)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SheetCells, stage.XLCells_reference, instance.SheetCells)
 }
 
 // insertion point for pointer reconstruction from instances
 func (reference *DisplaySelection) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.XLFile; _reference != nil {
-		reference.XLFile = nil
-		if _instance, ok := stage.XLFiles_instance[_reference]; ok {
-			reference.XLFile = _instance
-		}
-	}
-	if _reference := reference.XLSheet; _reference != nil {
-		reference.XLSheet = nil
-		if _instance, ok := stage.XLSheets_instance[_reference]; ok {
-			reference.XLSheet = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.XLFile, stage.XLFiles_instance)
+	__gong__reconstructPointerFromInstance(&reference.XLSheet, stage.XLSheets_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -543,44 +425,20 @@ func (reference *XLCell) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *XLFile) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Sheets []*XLSheet
-	for _, _reference := range reference.Sheets {
-		if _instance, ok := stage.XLSheets_instance[_reference]; ok {
-			_Sheets = append(_Sheets, _instance)
-		}
-	}
-	reference.Sheets = _Sheets
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Sheets, stage.XLSheets_instance)
 }
 
 func (reference *XLRow) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Cells []*XLCell
-	for _, _reference := range reference.Cells {
-		if _instance, ok := stage.XLCells_instance[_reference]; ok {
-			_Cells = append(_Cells, _instance)
-		}
-	}
-	reference.Cells = _Cells
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Cells, stage.XLCells_instance)
 }
 
 func (reference *XLSheet) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Rows []*XLRow
-	for _, _reference := range reference.Rows {
-		if _instance, ok := stage.XLRows_instance[_reference]; ok {
-			_Rows = append(_Rows, _instance)
-		}
-	}
-	reference.Rows = _Rows
-	var _SheetCells []*XLCell
-	for _, _reference := range reference.SheetCells {
-		if _instance, ok := stage.XLCells_instance[_reference]; ok {
-			_SheetCells = append(_SheetCells, _instance)
-		}
-	}
-	reference.SheetCells = _SheetCells
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Rows, stage.XLRows_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SheetCells, stage.XLCells_instance)
 }
 
 // insertion point for diff per struct
@@ -591,19 +449,11 @@ func (displayselection *DisplaySelection) GongDiff(stage *Stage, displayselectio
 	if displayselection.Name != displayselectionOther.Name {
 		diffs = append(diffs, displayselection.GongMarshallField(stage, "Name"))
 	}
-	if (displayselection.XLFile == nil) != (displayselectionOther.XLFile == nil) {
+	if displayselection.XLFile != displayselectionOther.XLFile {
 		diffs = append(diffs, displayselection.GongMarshallField(stage, "XLFile"))
-	} else if displayselection.XLFile != nil && displayselectionOther.XLFile != nil {
-		if displayselection.XLFile != displayselectionOther.XLFile {
-			diffs = append(diffs, displayselection.GongMarshallField(stage, "XLFile"))
-		}
 	}
-	if (displayselection.XLSheet == nil) != (displayselectionOther.XLSheet == nil) {
+	if displayselection.XLSheet != displayselectionOther.XLSheet {
 		diffs = append(diffs, displayselection.GongMarshallField(stage, "XLSheet"))
-	} else if displayselection.XLSheet != nil && displayselectionOther.XLSheet != nil {
-		if displayselection.XLSheet != displayselectionOther.XLSheet {
-			diffs = append(diffs, displayselection.GongMarshallField(stage, "XLSheet"))
-		}
 	}
 
 	return
@@ -636,36 +486,7 @@ func (xlfile *XLFile) GongDiff(stage *Stage, xlfileOther *XLFile) (diffs []strin
 	if xlfile.NbSheets != xlfileOther.NbSheets {
 		diffs = append(diffs, xlfile.GongMarshallField(stage, "NbSheets"))
 	}
-	SheetsDifferent := false
-	if len(xlfile.Sheets) != len(xlfileOther.Sheets) {
-		SheetsDifferent = true
-	} else {
-		for i := range xlfile.Sheets {
-			if (xlfile.Sheets[i] == nil) != (xlfileOther.Sheets[i] == nil) {
-				SheetsDifferent = true
-				break
-			} else if xlfile.Sheets[i] != nil && xlfileOther.Sheets[i] != nil {
-				// this is a pointer comparaison
-				if xlfile.Sheets[i] != xlfileOther.Sheets[i] {
-					SheetsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SheetsDifferent {
-		ops := stage.Diff(
-			xlfile,
-			"Sheets",
-			len(xlfileOther.Sheets),
-			len(xlfile.Sheets),
-			func(i, j int) bool {
-				return xlfileOther.Sheets[i] == xlfile.Sheets[j]
-			},
-			func(j int) string {
-				return xlfile.Sheets[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, xlfile, "Sheets", xlfileOther.Sheets, xlfile.Sheets); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -682,36 +503,7 @@ func (xlrow *XLRow) GongDiff(stage *Stage, xlrowOther *XLRow) (diffs []string) {
 	if xlrow.RowIndex != xlrowOther.RowIndex {
 		diffs = append(diffs, xlrow.GongMarshallField(stage, "RowIndex"))
 	}
-	CellsDifferent := false
-	if len(xlrow.Cells) != len(xlrowOther.Cells) {
-		CellsDifferent = true
-	} else {
-		for i := range xlrow.Cells {
-			if (xlrow.Cells[i] == nil) != (xlrowOther.Cells[i] == nil) {
-				CellsDifferent = true
-				break
-			} else if xlrow.Cells[i] != nil && xlrowOther.Cells[i] != nil {
-				// this is a pointer comparaison
-				if xlrow.Cells[i] != xlrowOther.Cells[i] {
-					CellsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if CellsDifferent {
-		ops := stage.Diff(
-			xlrow,
-			"Cells",
-			len(xlrowOther.Cells),
-			len(xlrow.Cells),
-			func(i, j int) bool {
-				return xlrowOther.Cells[i] == xlrow.Cells[j]
-			},
-			func(j int) string {
-				return xlrow.Cells[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, xlrow, "Cells", xlrowOther.Cells, xlrow.Cells); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -734,68 +526,10 @@ func (xlsheet *XLSheet) GongDiff(stage *Stage, xlsheetOther *XLSheet) (diffs []s
 	if xlsheet.NbRows != xlsheetOther.NbRows {
 		diffs = append(diffs, xlsheet.GongMarshallField(stage, "NbRows"))
 	}
-	RowsDifferent := false
-	if len(xlsheet.Rows) != len(xlsheetOther.Rows) {
-		RowsDifferent = true
-	} else {
-		for i := range xlsheet.Rows {
-			if (xlsheet.Rows[i] == nil) != (xlsheetOther.Rows[i] == nil) {
-				RowsDifferent = true
-				break
-			} else if xlsheet.Rows[i] != nil && xlsheetOther.Rows[i] != nil {
-				// this is a pointer comparaison
-				if xlsheet.Rows[i] != xlsheetOther.Rows[i] {
-					RowsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RowsDifferent {
-		ops := stage.Diff(
-			xlsheet,
-			"Rows",
-			len(xlsheetOther.Rows),
-			len(xlsheet.Rows),
-			func(i, j int) bool {
-				return xlsheetOther.Rows[i] == xlsheet.Rows[j]
-			},
-			func(j int) string {
-				return xlsheet.Rows[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, xlsheet, "Rows", xlsheetOther.Rows, xlsheet.Rows); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	SheetCellsDifferent := false
-	if len(xlsheet.SheetCells) != len(xlsheetOther.SheetCells) {
-		SheetCellsDifferent = true
-	} else {
-		for i := range xlsheet.SheetCells {
-			if (xlsheet.SheetCells[i] == nil) != (xlsheetOther.SheetCells[i] == nil) {
-				SheetCellsDifferent = true
-				break
-			} else if xlsheet.SheetCells[i] != nil && xlsheetOther.SheetCells[i] != nil {
-				// this is a pointer comparaison
-				if xlsheet.SheetCells[i] != xlsheetOther.SheetCells[i] {
-					SheetCellsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SheetCellsDifferent {
-		ops := stage.Diff(
-			xlsheet,
-			"SheetCells",
-			len(xlsheetOther.SheetCells),
-			len(xlsheet.SheetCells),
-			func(i, j int) bool {
-				return xlsheetOther.SheetCells[i] == xlsheet.SheetCells[j]
-			},
-			func(j int) string {
-				return xlsheet.SheetCells[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, xlsheet, "SheetCells", xlsheetOther.SheetCells, xlsheet.SheetCells); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -878,4 +612,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

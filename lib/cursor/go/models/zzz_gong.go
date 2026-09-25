@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterCursorCreateCallback GongOnAfterCreateInterface[Cursor]
 	OnAfterCursorUpdateCallback GongOnAfterUpdateInterface[Cursor]
 	OnAfterCursorDeleteCallback GongOnAfterDeleteInterface[Cursor]
-	OnAfterCursorReadCallback   GongOnAfterReadInterface[Cursor]
 
 	BackRepo GongBackRepoInterface
 
@@ -367,9 +366,7 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.Cursors_reference = make(map[*Cursor]*Cursor)
-	stage.Cursors_instance = make(map[*Cursor]*Cursor)
-	stage.Cursors_referenceOrder = make(map[*Cursor]uint)
+	__gong__clearReferences(&stage.Cursors_reference, &stage.Cursors_instance, &stage.Cursors_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -398,19 +395,7 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxCursorOrder uint
-	var foundCursor bool
-	for _, order := range stage.Cursor_stagedOrder {
-		if !foundCursor || order > maxCursorOrder {
-			maxCursorOrder = order
-			foundCursor = true
-		}
-	}
-	if foundCursor {
-		stage.CursorOrder = maxCursorOrder + 1
-	} else {
-		stage.CursorOrder = 0
-	}
+	stage.CursorOrder = __gong__recomputeOrder(stage.Cursor_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -442,19 +427,7 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *Cursor:
-		tmp := __gong__getStructInstancesByOrder(stage.Cursors, stage.Cursor_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Cursor implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Cursors, stage.Cursor_stagedOrder))
 
 	}
 	return
@@ -481,6 +454,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/cursor/go/models"
 }
@@ -504,14 +573,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -534,9 +595,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitCursor(cursor *Cursor)
-	CheckoutCursor(cursor *Cursor)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -698,14 +756,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts cursor to the model stage
 func (cursor *Cursor) Stage(stage *Stage) *Cursor {
-	if _, ok := stage.Cursors[cursor]; !ok {
-		stage.Cursors[cursor] = struct{}{}
-		stage.Cursor_stagedOrder[cursor] = stage.CursorOrder
-		stage.Cursor_orderStaged[stage.CursorOrder] = cursor
-		stage.CursorOrder++
-	}
-	stage.Cursors_mapString[cursor.Name] = cursor
-
+	__gong__stage(stage.Cursors, stage.Cursor_stagedOrder, stage.Cursor_orderStaged, &stage.CursorOrder, stage.Cursors_mapString, cursor, cursor.Name)
 	return cursor
 }
 
@@ -715,59 +766,22 @@ func (cursor *Cursor) Stage(stage *Stage) *Cursor {
 // - force the order if the order is equal or greater than the stage.CursorOrder
 // - update stage.CursorOrder accordingly
 func (cursor *Cursor) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Cursors[cursor]; !ok {
-		stage.Cursors[cursor] = struct{}{}
-
-		if order > stage.CursorOrder {
-			stage.CursorOrder = order
-		}
-		stage.Cursor_stagedOrder[cursor] = order
-		stage.Cursor_orderStaged[order] = cursor
-		stage.CursorOrder++
-	}
-	stage.Cursors_mapString[cursor.Name] = cursor
+	__gong__stagePreserveOrder(stage.Cursors, stage.Cursor_stagedOrder, stage.Cursor_orderStaged, &stage.CursorOrder, stage.Cursors_mapString, cursor, order, cursor.Name)
 }
 
 // Unstage removes cursor off the model stage
 func (cursor *Cursor) Unstage(stage *Stage) *Cursor {
-	delete(stage.Cursors, cursor)
-	// issue1150
-	// delete(stage.Cursor_stagedOrder, cursor)
-	delete(stage.Cursors_mapString, cursor.Name)
-
+	__gong__unstage(stage.Cursors, stage.Cursors_mapString, cursor, cursor.Name)
 	return cursor
 }
 
 // UnstageVoid removes cursor off the model stage
 func (cursor *Cursor) UnstageVoid(stage *Stage) {
-	delete(stage.Cursors, cursor)
-	// issue1150
-	// delete(stage.Cursor_stagedOrder, cursor)
-	delete(stage.Cursors_mapString, cursor.Name)
-}
-
-// commit cursor to the back repo (if it is already staged)
-func (cursor *Cursor) Commit(stage *Stage) *Cursor {
-	if _, ok := stage.Cursors[cursor]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCursor(cursor)
-		}
-	}
-	return cursor
+	cursor.Unstage(stage)
 }
 
 func (cursor *Cursor) StageVoid(stage *Stage) {
 	cursor.Stage(stage)
-}
-
-// Checkout cursor to the back repo (if it is already staged)
-func (cursor *Cursor) Checkout(stage *Stage) *Cursor {
-	if _, ok := stage.Cursors[cursor]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCursor(cursor)
-		}
-	}
-	return cursor
 }
 
 // for satisfaction of GongStruct interface
@@ -781,10 +795,7 @@ func (cursor *Cursor) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Cursors = make(map[*Cursor]struct{})
-	stage.Cursors_mapString = make(map[string]*Cursor)
-	stage.Cursor_stagedOrder = make(map[*Cursor]uint)
-	stage.CursorOrder = 0
+	__gong__resetStageType(&stage.Cursors, &stage.Cursors_mapString, &stage.Cursor_stagedOrder, &stage.CursorOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -823,7 +834,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -1216,10 +1226,7 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.Cursors_mapString = make(map[string]*Cursor)
-	for cursor := range stage.Cursors {
-		stage.Cursors_mapString[cursor.Name] = cursor
-	}
+	__gong__rebuildMapString(stage.Cursors, &stage.Cursors_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

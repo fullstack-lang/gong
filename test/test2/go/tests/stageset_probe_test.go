@@ -125,8 +125,8 @@ func TestStageSetProbe(t *testing.T) {
 		tableInst = tbl
 		break
 	}
-	if tableInst.Name != "A" {
-		t.Fatalf("expected table name 'A', got %s", tableInst.Name)
+	if tableInst.Name != "models.A" {
+		t.Fatalf("expected table name 'models.A', got %s", tableInst.Name)
 	}
 	if len(tableInst.Rows) != 1 {
 		t.Fatalf("expected 1 row in table 'A', got %d", len(tableInst.Rows))
@@ -170,7 +170,6 @@ func TestStageSetProbe(t *testing.T) {
 	for _, formDiv := range formGroup.FormDivs {
 		if formDiv.Name == "Name" && len(formDiv.FormFields) > 0 && formDiv.FormFields[0].FormFieldString != nil {
 			formDiv.FormFields[0].FormFieldString.Value = "A2"
-			formDiv.FormFields[0].FormFieldString.Commit(formStage)
 		}
 	}
 	formStage.Commit()

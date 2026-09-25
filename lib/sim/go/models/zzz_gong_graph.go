@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,76 +15,34 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (command *Command) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Commands[command]
-
-	return
+func (command *Command) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Commands[command]
+	return ok
 }
 
-func (stage *Stage) IsStagedCommand(command *Command) (ok bool) {
-
-	return command.GongIsStaged(stage)
+func (dummyagent *DummyAgent) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DummyAgents[dummyagent]
+	return ok
 }
 
-func (dummyagent *DummyAgent) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DummyAgents[dummyagent]
-
-	return
+func (engine *Engine) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Engines[engine]
+	return ok
 }
 
-func (stage *Stage) IsStagedDummyAgent(dummyagent *DummyAgent) (ok bool) {
-
-	return dummyagent.GongIsStaged(stage)
+func (event *Event) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Events[event]
+	return ok
 }
 
-func (engine *Engine) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Engines[engine]
-
-	return
+func (status *Status) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Statuss[status]
+	return ok
 }
 
-func (stage *Stage) IsStagedEngine(engine *Engine) (ok bool) {
-
-	return engine.GongIsStaged(stage)
-}
-
-func (event *Event) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Events[event]
-
-	return
-}
-
-func (stage *Stage) IsStagedEvent(event *Event) (ok bool) {
-
-	return event.GongIsStaged(stage)
-}
-
-func (status *Status) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Statuss[status]
-
-	return
-}
-
-func (stage *Stage) IsStagedStatus(status *Status) (ok bool) {
-
-	return status.GongIsStaged(stage)
-}
-
-func (updatestate *UpdateState) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.UpdateStates[updatestate]
-
-	return
-}
-
-func (stage *Stage) IsStagedUpdateState(updatestate *UpdateState) (ok bool) {
-
-	return updatestate.GongIsStaged(stage)
+func (updatestate *UpdateState) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.UpdateStates[updatestate]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -93,10 +54,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (command *Command) GongStageBranch(stage *Stage) {
-	stage.StageBranchCommand(command)
-}
-
-func (stage *Stage) StageBranchCommand(command *Command) {
 
 	// check if instance is already staged
 	if stage.IsStaged(command) {
@@ -115,10 +72,6 @@ func (stage *Stage) StageBranchCommand(command *Command) {
 }
 
 func (dummyagent *DummyAgent) GongStageBranch(stage *Stage) {
-	stage.StageBranchDummyAgent(dummyagent)
-}
-
-func (stage *Stage) StageBranchDummyAgent(dummyagent *DummyAgent) {
 
 	// check if instance is already staged
 	if stage.IsStaged(dummyagent) {
@@ -134,10 +87,6 @@ func (stage *Stage) StageBranchDummyAgent(dummyagent *DummyAgent) {
 }
 
 func (engine *Engine) GongStageBranch(stage *Stage) {
-	stage.StageBranchEngine(engine)
-}
-
-func (stage *Stage) StageBranchEngine(engine *Engine) {
 
 	// check if instance is already staged
 	if stage.IsStaged(engine) {
@@ -153,10 +102,6 @@ func (stage *Stage) StageBranchEngine(engine *Engine) {
 }
 
 func (event *Event) GongStageBranch(stage *Stage) {
-	stage.StageBranchEvent(event)
-}
-
-func (stage *Stage) StageBranchEvent(event *Event) {
 
 	// check if instance is already staged
 	if stage.IsStaged(event) {
@@ -172,10 +117,6 @@ func (stage *Stage) StageBranchEvent(event *Event) {
 }
 
 func (status *Status) GongStageBranch(stage *Stage) {
-	stage.StageBranchStatus(status)
-}
-
-func (stage *Stage) StageBranchStatus(status *Status) {
 
 	// check if instance is already staged
 	if stage.IsStaged(status) {
@@ -191,10 +132,6 @@ func (stage *Stage) StageBranchStatus(status *Status) {
 }
 
 func (updatestate *UpdateState) GongStageBranch(stage *Stage) {
-	stage.StageBranchUpdateState(updatestate)
-}
-
-func (stage *Stage) StageBranchUpdateState(updatestate *UpdateState) {
 
 	// check if instance is already staged
 	if stage.IsStaged(updatestate) {
@@ -252,15 +189,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchCommand(mapOrigCopy map[any]any, commandFrom *Command) (commandTo *Command) {
-
-	// commandFrom has already been copied
-	if _commandTo, ok := mapOrigCopy[commandFrom]; ok {
-		commandTo = _commandTo.(*Command)
+	var alreadyCopied bool
+	commandTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, commandFrom)
+	if alreadyCopied {
 		return
 	}
-
-	commandTo = new(Command)
-	mapOrigCopy[commandFrom] = commandTo
 	commandFrom.GongCopyBasicFields(commandTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -274,15 +207,11 @@ func GongCopyBranchCommand(mapOrigCopy map[any]any, commandFrom *Command) (comma
 }
 
 func GongCopyBranchDummyAgent(mapOrigCopy map[any]any, dummyagentFrom *DummyAgent) (dummyagentTo *DummyAgent) {
-
-	// dummyagentFrom has already been copied
-	if _dummyagentTo, ok := mapOrigCopy[dummyagentFrom]; ok {
-		dummyagentTo = _dummyagentTo.(*DummyAgent)
+	var alreadyCopied bool
+	dummyagentTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, dummyagentFrom)
+	if alreadyCopied {
 		return
 	}
-
-	dummyagentTo = new(DummyAgent)
-	mapOrigCopy[dummyagentFrom] = dummyagentTo
 	dummyagentFrom.GongCopyBasicFields(dummyagentTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -293,15 +222,11 @@ func GongCopyBranchDummyAgent(mapOrigCopy map[any]any, dummyagentFrom *DummyAgen
 }
 
 func GongCopyBranchEngine(mapOrigCopy map[any]any, engineFrom *Engine) (engineTo *Engine) {
-
-	// engineFrom has already been copied
-	if _engineTo, ok := mapOrigCopy[engineFrom]; ok {
-		engineTo = _engineTo.(*Engine)
+	var alreadyCopied bool
+	engineTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, engineFrom)
+	if alreadyCopied {
 		return
 	}
-
-	engineTo = new(Engine)
-	mapOrigCopy[engineFrom] = engineTo
 	engineFrom.GongCopyBasicFields(engineTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -312,15 +237,11 @@ func GongCopyBranchEngine(mapOrigCopy map[any]any, engineFrom *Engine) (engineTo
 }
 
 func GongCopyBranchEvent(mapOrigCopy map[any]any, eventFrom *Event) (eventTo *Event) {
-
-	// eventFrom has already been copied
-	if _eventTo, ok := mapOrigCopy[eventFrom]; ok {
-		eventTo = _eventTo.(*Event)
+	var alreadyCopied bool
+	eventTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, eventFrom)
+	if alreadyCopied {
 		return
 	}
-
-	eventTo = new(Event)
-	mapOrigCopy[eventFrom] = eventTo
 	eventFrom.GongCopyBasicFields(eventTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -331,15 +252,11 @@ func GongCopyBranchEvent(mapOrigCopy map[any]any, eventFrom *Event) (eventTo *Ev
 }
 
 func GongCopyBranchStatus(mapOrigCopy map[any]any, statusFrom *Status) (statusTo *Status) {
-
-	// statusFrom has already been copied
-	if _statusTo, ok := mapOrigCopy[statusFrom]; ok {
-		statusTo = _statusTo.(*Status)
+	var alreadyCopied bool
+	statusTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, statusFrom)
+	if alreadyCopied {
 		return
 	}
-
-	statusTo = new(Status)
-	mapOrigCopy[statusFrom] = statusTo
 	statusFrom.GongCopyBasicFields(statusTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -350,15 +267,11 @@ func GongCopyBranchStatus(mapOrigCopy map[any]any, statusFrom *Status) (statusTo
 }
 
 func GongCopyBranchUpdateState(mapOrigCopy map[any]any, updatestateFrom *UpdateState) (updatestateTo *UpdateState) {
-
-	// updatestateFrom has already been copied
-	if _updatestateTo, ok := mapOrigCopy[updatestateFrom]; ok {
-		updatestateTo = _updatestateTo.(*UpdateState)
+	var alreadyCopied bool
+	updatestateTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, updatestateFrom)
+	if alreadyCopied {
 		return
 	}
-
-	updatestateTo = new(UpdateState)
-	mapOrigCopy[updatestateFrom] = updatestateTo
 	updatestateFrom.GongCopyBasicFields(updatestateTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -381,10 +294,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (command *Command) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchCommand(command)
-}
-
-func (stage *Stage) UnstageBranchCommand(command *Command) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(command) {
@@ -403,10 +312,6 @@ func (stage *Stage) UnstageBranchCommand(command *Command) {
 }
 
 func (dummyagent *DummyAgent) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDummyAgent(dummyagent)
-}
-
-func (stage *Stage) UnstageBranchDummyAgent(dummyagent *DummyAgent) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(dummyagent) {
@@ -422,10 +327,6 @@ func (stage *Stage) UnstageBranchDummyAgent(dummyagent *DummyAgent) {
 }
 
 func (engine *Engine) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchEngine(engine)
-}
-
-func (stage *Stage) UnstageBranchEngine(engine *Engine) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(engine) {
@@ -441,10 +342,6 @@ func (stage *Stage) UnstageBranchEngine(engine *Engine) {
 }
 
 func (event *Event) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchEvent(event)
-}
-
-func (stage *Stage) UnstageBranchEvent(event *Event) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(event) {
@@ -460,10 +357,6 @@ func (stage *Stage) UnstageBranchEvent(event *Event) {
 }
 
 func (status *Status) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchStatus(status)
-}
-
-func (stage *Stage) UnstageBranchStatus(status *Status) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(status) {
@@ -479,10 +372,6 @@ func (stage *Stage) UnstageBranchStatus(status *Status) {
 }
 
 func (updatestate *UpdateState) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchUpdateState(updatestate)
-}
-
-func (stage *Stage) UnstageBranchUpdateState(updatestate *UpdateState) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(updatestate) {
@@ -500,9 +389,7 @@ func (stage *Stage) UnstageBranchUpdateState(updatestate *UpdateState) {
 // insertion point for pointer reconstruction from references
 func (reference *Command) GongReconstructPointersFromReferences(stage *Stage, instance *Command) {
 	// insertion point for pointers field
-	if instance.Engine != nil {
-		reference.Engine = stage.Engines_reference[instance.Engine]
-	}
+	__gong__reconstructPointer(&reference.Engine, stage.Engines_reference, instance.Engine)
 	// insertion point for slice of pointers field
 }
 
@@ -534,12 +421,7 @@ func (reference *UpdateState) GongReconstructPointersFromReferences(stage *Stage
 // insertion point for pointer reconstruction from instances
 func (reference *Command) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Engine; _reference != nil {
-		reference.Engine = nil
-		if _instance, ok := stage.Engines_instance[_reference]; ok {
-			reference.Engine = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Engine, stage.Engines_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -582,12 +464,8 @@ func (command *Command) GongDiff(stage *Stage, commandOther *Command) (diffs []s
 	if command.CommandDate != commandOther.CommandDate {
 		diffs = append(diffs, command.GongMarshallField(stage, "CommandDate"))
 	}
-	if (command.Engine == nil) != (commandOther.Engine == nil) {
+	if command.Engine != commandOther.Engine {
 		diffs = append(diffs, command.GongMarshallField(stage, "Engine"))
-	} else if command.Engine != nil && commandOther.Engine != nil {
-		if command.Engine != commandOther.Engine {
-			diffs = append(diffs, command.GongMarshallField(stage, "Engine"))
-		}
 	}
 
 	return
@@ -772,4 +650,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

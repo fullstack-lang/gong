@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterButtonCreateCallback GongOnAfterCreateInterface[Button]
 	OnAfterButtonUpdateCallback GongOnAfterUpdateInterface[Button]
 	OnAfterButtonDeleteCallback GongOnAfterDeleteInterface[Button]
-	OnAfterButtonReadCallback   GongOnAfterReadInterface[Button]
 
 	Cells                map[*Cell]struct{}
 	Cells_instance       map[*Cell]*Cell
@@ -147,7 +146,6 @@ type Stage struct {
 	OnAfterCellCreateCallback GongOnAfterCreateInterface[Cell]
 	OnAfterCellUpdateCallback GongOnAfterUpdateInterface[Cell]
 	OnAfterCellDeleteCallback GongOnAfterDeleteInterface[Cell]
-	OnAfterCellReadCallback   GongOnAfterReadInterface[Cell]
 
 	CellBooleans                map[*CellBoolean]struct{}
 	CellBooleans_instance       map[*CellBoolean]*CellBoolean
@@ -162,7 +160,6 @@ type Stage struct {
 	OnAfterCellBooleanCreateCallback GongOnAfterCreateInterface[CellBoolean]
 	OnAfterCellBooleanUpdateCallback GongOnAfterUpdateInterface[CellBoolean]
 	OnAfterCellBooleanDeleteCallback GongOnAfterDeleteInterface[CellBoolean]
-	OnAfterCellBooleanReadCallback   GongOnAfterReadInterface[CellBoolean]
 
 	CellFloat64s                map[*CellFloat64]struct{}
 	CellFloat64s_instance       map[*CellFloat64]*CellFloat64
@@ -177,7 +174,6 @@ type Stage struct {
 	OnAfterCellFloat64CreateCallback GongOnAfterCreateInterface[CellFloat64]
 	OnAfterCellFloat64UpdateCallback GongOnAfterUpdateInterface[CellFloat64]
 	OnAfterCellFloat64DeleteCallback GongOnAfterDeleteInterface[CellFloat64]
-	OnAfterCellFloat64ReadCallback   GongOnAfterReadInterface[CellFloat64]
 
 	CellIcons                map[*CellIcon]struct{}
 	CellIcons_instance       map[*CellIcon]*CellIcon
@@ -192,7 +188,6 @@ type Stage struct {
 	OnAfterCellIconCreateCallback GongOnAfterCreateInterface[CellIcon]
 	OnAfterCellIconUpdateCallback GongOnAfterUpdateInterface[CellIcon]
 	OnAfterCellIconDeleteCallback GongOnAfterDeleteInterface[CellIcon]
-	OnAfterCellIconReadCallback   GongOnAfterReadInterface[CellIcon]
 
 	CellInts                map[*CellInt]struct{}
 	CellInts_instance       map[*CellInt]*CellInt
@@ -207,7 +202,6 @@ type Stage struct {
 	OnAfterCellIntCreateCallback GongOnAfterCreateInterface[CellInt]
 	OnAfterCellIntUpdateCallback GongOnAfterUpdateInterface[CellInt]
 	OnAfterCellIntDeleteCallback GongOnAfterDeleteInterface[CellInt]
-	OnAfterCellIntReadCallback   GongOnAfterReadInterface[CellInt]
 
 	CellStrings                map[*CellString]struct{}
 	CellStrings_instance       map[*CellString]*CellString
@@ -222,7 +216,6 @@ type Stage struct {
 	OnAfterCellStringCreateCallback GongOnAfterCreateInterface[CellString]
 	OnAfterCellStringUpdateCallback GongOnAfterUpdateInterface[CellString]
 	OnAfterCellStringDeleteCallback GongOnAfterDeleteInterface[CellString]
-	OnAfterCellStringReadCallback   GongOnAfterReadInterface[CellString]
 
 	DisplayedColumns                map[*DisplayedColumn]struct{}
 	DisplayedColumns_instance       map[*DisplayedColumn]*DisplayedColumn
@@ -237,7 +230,6 @@ type Stage struct {
 	OnAfterDisplayedColumnCreateCallback GongOnAfterCreateInterface[DisplayedColumn]
 	OnAfterDisplayedColumnUpdateCallback GongOnAfterUpdateInterface[DisplayedColumn]
 	OnAfterDisplayedColumnDeleteCallback GongOnAfterDeleteInterface[DisplayedColumn]
-	OnAfterDisplayedColumnReadCallback   GongOnAfterReadInterface[DisplayedColumn]
 
 	Rows                map[*Row]struct{}
 	Rows_instance       map[*Row]*Row
@@ -254,7 +246,6 @@ type Stage struct {
 	OnAfterRowCreateCallback GongOnAfterCreateInterface[Row]
 	OnAfterRowUpdateCallback GongOnAfterUpdateInterface[Row]
 	OnAfterRowDeleteCallback GongOnAfterDeleteInterface[Row]
-	OnAfterRowReadCallback   GongOnAfterReadInterface[Row]
 
 	SVGIcons                map[*SVGIcon]struct{}
 	SVGIcons_instance       map[*SVGIcon]*SVGIcon
@@ -269,7 +260,6 @@ type Stage struct {
 	OnAfterSVGIconCreateCallback GongOnAfterCreateInterface[SVGIcon]
 	OnAfterSVGIconUpdateCallback GongOnAfterUpdateInterface[SVGIcon]
 	OnAfterSVGIconDeleteCallback GongOnAfterDeleteInterface[SVGIcon]
-	OnAfterSVGIconReadCallback   GongOnAfterReadInterface[SVGIcon]
 
 	Tables                map[*Table]struct{}
 	Tables_instance       map[*Table]*Table
@@ -292,7 +282,6 @@ type Stage struct {
 	OnAfterTableCreateCallback GongOnAfterCreateInterface[Table]
 	OnAfterTableUpdateCallback GongOnAfterUpdateInterface[Table]
 	OnAfterTableDeleteCallback GongOnAfterDeleteInterface[Table]
-	OnAfterTableReadCallback   GongOnAfterReadInterface[Table]
 
 	BackRepo GongBackRepoInterface
 
@@ -527,49 +516,27 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.Buttons_reference = make(map[*Button]*Button)
-	stage.Buttons_instance = make(map[*Button]*Button)
-	stage.Buttons_referenceOrder = make(map[*Button]uint)
+	__gong__clearReferences(&stage.Buttons_reference, &stage.Buttons_instance, &stage.Buttons_referenceOrder)
 
-	stage.Cells_reference = make(map[*Cell]*Cell)
-	stage.Cells_instance = make(map[*Cell]*Cell)
-	stage.Cells_referenceOrder = make(map[*Cell]uint)
+	__gong__clearReferences(&stage.Cells_reference, &stage.Cells_instance, &stage.Cells_referenceOrder)
 
-	stage.CellBooleans_reference = make(map[*CellBoolean]*CellBoolean)
-	stage.CellBooleans_instance = make(map[*CellBoolean]*CellBoolean)
-	stage.CellBooleans_referenceOrder = make(map[*CellBoolean]uint)
+	__gong__clearReferences(&stage.CellBooleans_reference, &stage.CellBooleans_instance, &stage.CellBooleans_referenceOrder)
 
-	stage.CellFloat64s_reference = make(map[*CellFloat64]*CellFloat64)
-	stage.CellFloat64s_instance = make(map[*CellFloat64]*CellFloat64)
-	stage.CellFloat64s_referenceOrder = make(map[*CellFloat64]uint)
+	__gong__clearReferences(&stage.CellFloat64s_reference, &stage.CellFloat64s_instance, &stage.CellFloat64s_referenceOrder)
 
-	stage.CellIcons_reference = make(map[*CellIcon]*CellIcon)
-	stage.CellIcons_instance = make(map[*CellIcon]*CellIcon)
-	stage.CellIcons_referenceOrder = make(map[*CellIcon]uint)
+	__gong__clearReferences(&stage.CellIcons_reference, &stage.CellIcons_instance, &stage.CellIcons_referenceOrder)
 
-	stage.CellInts_reference = make(map[*CellInt]*CellInt)
-	stage.CellInts_instance = make(map[*CellInt]*CellInt)
-	stage.CellInts_referenceOrder = make(map[*CellInt]uint)
+	__gong__clearReferences(&stage.CellInts_reference, &stage.CellInts_instance, &stage.CellInts_referenceOrder)
 
-	stage.CellStrings_reference = make(map[*CellString]*CellString)
-	stage.CellStrings_instance = make(map[*CellString]*CellString)
-	stage.CellStrings_referenceOrder = make(map[*CellString]uint)
+	__gong__clearReferences(&stage.CellStrings_reference, &stage.CellStrings_instance, &stage.CellStrings_referenceOrder)
 
-	stage.DisplayedColumns_reference = make(map[*DisplayedColumn]*DisplayedColumn)
-	stage.DisplayedColumns_instance = make(map[*DisplayedColumn]*DisplayedColumn)
-	stage.DisplayedColumns_referenceOrder = make(map[*DisplayedColumn]uint)
+	__gong__clearReferences(&stage.DisplayedColumns_reference, &stage.DisplayedColumns_instance, &stage.DisplayedColumns_referenceOrder)
 
-	stage.Rows_reference = make(map[*Row]*Row)
-	stage.Rows_instance = make(map[*Row]*Row)
-	stage.Rows_referenceOrder = make(map[*Row]uint)
+	__gong__clearReferences(&stage.Rows_reference, &stage.Rows_instance, &stage.Rows_referenceOrder)
 
-	stage.SVGIcons_reference = make(map[*SVGIcon]*SVGIcon)
-	stage.SVGIcons_instance = make(map[*SVGIcon]*SVGIcon)
-	stage.SVGIcons_referenceOrder = make(map[*SVGIcon]uint)
+	__gong__clearReferences(&stage.SVGIcons_reference, &stage.SVGIcons_instance, &stage.SVGIcons_referenceOrder)
 
-	stage.Tables_reference = make(map[*Table]*Table)
-	stage.Tables_instance = make(map[*Table]*Table)
-	stage.Tables_referenceOrder = make(map[*Table]uint)
+	__gong__clearReferences(&stage.Tables_reference, &stage.Tables_instance, &stage.Tables_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -598,159 +565,27 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxButtonOrder uint
-	var foundButton bool
-	for _, order := range stage.Button_stagedOrder {
-		if !foundButton || order > maxButtonOrder {
-			maxButtonOrder = order
-			foundButton = true
-		}
-	}
-	if foundButton {
-		stage.ButtonOrder = maxButtonOrder + 1
-	} else {
-		stage.ButtonOrder = 0
-	}
+	stage.ButtonOrder = __gong__recomputeOrder(stage.Button_stagedOrder)
 
-	var maxCellOrder uint
-	var foundCell bool
-	for _, order := range stage.Cell_stagedOrder {
-		if !foundCell || order > maxCellOrder {
-			maxCellOrder = order
-			foundCell = true
-		}
-	}
-	if foundCell {
-		stage.CellOrder = maxCellOrder + 1
-	} else {
-		stage.CellOrder = 0
-	}
+	stage.CellOrder = __gong__recomputeOrder(stage.Cell_stagedOrder)
 
-	var maxCellBooleanOrder uint
-	var foundCellBoolean bool
-	for _, order := range stage.CellBoolean_stagedOrder {
-		if !foundCellBoolean || order > maxCellBooleanOrder {
-			maxCellBooleanOrder = order
-			foundCellBoolean = true
-		}
-	}
-	if foundCellBoolean {
-		stage.CellBooleanOrder = maxCellBooleanOrder + 1
-	} else {
-		stage.CellBooleanOrder = 0
-	}
+	stage.CellBooleanOrder = __gong__recomputeOrder(stage.CellBoolean_stagedOrder)
 
-	var maxCellFloat64Order uint
-	var foundCellFloat64 bool
-	for _, order := range stage.CellFloat64_stagedOrder {
-		if !foundCellFloat64 || order > maxCellFloat64Order {
-			maxCellFloat64Order = order
-			foundCellFloat64 = true
-		}
-	}
-	if foundCellFloat64 {
-		stage.CellFloat64Order = maxCellFloat64Order + 1
-	} else {
-		stage.CellFloat64Order = 0
-	}
+	stage.CellFloat64Order = __gong__recomputeOrder(stage.CellFloat64_stagedOrder)
 
-	var maxCellIconOrder uint
-	var foundCellIcon bool
-	for _, order := range stage.CellIcon_stagedOrder {
-		if !foundCellIcon || order > maxCellIconOrder {
-			maxCellIconOrder = order
-			foundCellIcon = true
-		}
-	}
-	if foundCellIcon {
-		stage.CellIconOrder = maxCellIconOrder + 1
-	} else {
-		stage.CellIconOrder = 0
-	}
+	stage.CellIconOrder = __gong__recomputeOrder(stage.CellIcon_stagedOrder)
 
-	var maxCellIntOrder uint
-	var foundCellInt bool
-	for _, order := range stage.CellInt_stagedOrder {
-		if !foundCellInt || order > maxCellIntOrder {
-			maxCellIntOrder = order
-			foundCellInt = true
-		}
-	}
-	if foundCellInt {
-		stage.CellIntOrder = maxCellIntOrder + 1
-	} else {
-		stage.CellIntOrder = 0
-	}
+	stage.CellIntOrder = __gong__recomputeOrder(stage.CellInt_stagedOrder)
 
-	var maxCellStringOrder uint
-	var foundCellString bool
-	for _, order := range stage.CellString_stagedOrder {
-		if !foundCellString || order > maxCellStringOrder {
-			maxCellStringOrder = order
-			foundCellString = true
-		}
-	}
-	if foundCellString {
-		stage.CellStringOrder = maxCellStringOrder + 1
-	} else {
-		stage.CellStringOrder = 0
-	}
+	stage.CellStringOrder = __gong__recomputeOrder(stage.CellString_stagedOrder)
 
-	var maxDisplayedColumnOrder uint
-	var foundDisplayedColumn bool
-	for _, order := range stage.DisplayedColumn_stagedOrder {
-		if !foundDisplayedColumn || order > maxDisplayedColumnOrder {
-			maxDisplayedColumnOrder = order
-			foundDisplayedColumn = true
-		}
-	}
-	if foundDisplayedColumn {
-		stage.DisplayedColumnOrder = maxDisplayedColumnOrder + 1
-	} else {
-		stage.DisplayedColumnOrder = 0
-	}
+	stage.DisplayedColumnOrder = __gong__recomputeOrder(stage.DisplayedColumn_stagedOrder)
 
-	var maxRowOrder uint
-	var foundRow bool
-	for _, order := range stage.Row_stagedOrder {
-		if !foundRow || order > maxRowOrder {
-			maxRowOrder = order
-			foundRow = true
-		}
-	}
-	if foundRow {
-		stage.RowOrder = maxRowOrder + 1
-	} else {
-		stage.RowOrder = 0
-	}
+	stage.RowOrder = __gong__recomputeOrder(stage.Row_stagedOrder)
 
-	var maxSVGIconOrder uint
-	var foundSVGIcon bool
-	for _, order := range stage.SVGIcon_stagedOrder {
-		if !foundSVGIcon || order > maxSVGIconOrder {
-			maxSVGIconOrder = order
-			foundSVGIcon = true
-		}
-	}
-	if foundSVGIcon {
-		stage.SVGIconOrder = maxSVGIconOrder + 1
-	} else {
-		stage.SVGIconOrder = 0
-	}
+	stage.SVGIconOrder = __gong__recomputeOrder(stage.SVGIcon_stagedOrder)
 
-	var maxTableOrder uint
-	var foundTable bool
-	for _, order := range stage.Table_stagedOrder {
-		if !foundTable || order > maxTableOrder {
-			maxTableOrder = order
-			foundTable = true
-		}
-	}
-	if foundTable {
-		stage.TableOrder = maxTableOrder + 1
-	} else {
-		stage.TableOrder = 0
-	}
+	stage.TableOrder = __gong__recomputeOrder(stage.Table_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -782,159 +617,27 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *Button:
-		tmp := __gong__getStructInstancesByOrder(stage.Buttons, stage.Button_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Button implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Buttons, stage.Button_stagedOrder))
 	case *Cell:
-		tmp := __gong__getStructInstancesByOrder(stage.Cells, stage.Cell_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Cell implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Cells, stage.Cell_stagedOrder))
 	case *CellBoolean:
-		tmp := __gong__getStructInstancesByOrder(stage.CellBooleans, stage.CellBoolean_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *CellBoolean implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CellBooleans, stage.CellBoolean_stagedOrder))
 	case *CellFloat64:
-		tmp := __gong__getStructInstancesByOrder(stage.CellFloat64s, stage.CellFloat64_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *CellFloat64 implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CellFloat64s, stage.CellFloat64_stagedOrder))
 	case *CellIcon:
-		tmp := __gong__getStructInstancesByOrder(stage.CellIcons, stage.CellIcon_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *CellIcon implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CellIcons, stage.CellIcon_stagedOrder))
 	case *CellInt:
-		tmp := __gong__getStructInstancesByOrder(stage.CellInts, stage.CellInt_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *CellInt implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CellInts, stage.CellInt_stagedOrder))
 	case *CellString:
-		tmp := __gong__getStructInstancesByOrder(stage.CellStrings, stage.CellString_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *CellString implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CellStrings, stage.CellString_stagedOrder))
 	case *DisplayedColumn:
-		tmp := __gong__getStructInstancesByOrder(stage.DisplayedColumns, stage.DisplayedColumn_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *DisplayedColumn implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DisplayedColumns, stage.DisplayedColumn_stagedOrder))
 	case *Row:
-		tmp := __gong__getStructInstancesByOrder(stage.Rows, stage.Row_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Row implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Rows, stage.Row_stagedOrder))
 	case *SVGIcon:
-		tmp := __gong__getStructInstancesByOrder(stage.SVGIcons, stage.SVGIcon_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *SVGIcon implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SVGIcons, stage.SVGIcon_stagedOrder))
 	case *Table:
-		tmp := __gong__getStructInstancesByOrder(stage.Tables, stage.Table_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Table implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tables, stage.Table_stagedOrder))
 
 	}
 	return
@@ -961,6 +664,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/table/go/models"
 }
@@ -984,14 +783,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -1014,29 +805,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitButton(button *Button)
-	CheckoutButton(button *Button)
-	CommitCell(cell *Cell)
-	CheckoutCell(cell *Cell)
-	CommitCellBoolean(cellboolean *CellBoolean)
-	CheckoutCellBoolean(cellboolean *CellBoolean)
-	CommitCellFloat64(cellfloat64 *CellFloat64)
-	CheckoutCellFloat64(cellfloat64 *CellFloat64)
-	CommitCellIcon(cellicon *CellIcon)
-	CheckoutCellIcon(cellicon *CellIcon)
-	CommitCellInt(cellint *CellInt)
-	CheckoutCellInt(cellint *CellInt)
-	CommitCellString(cellstring *CellString)
-	CheckoutCellString(cellstring *CellString)
-	CommitDisplayedColumn(displayedcolumn *DisplayedColumn)
-	CheckoutDisplayedColumn(displayedcolumn *DisplayedColumn)
-	CommitRow(row *Row)
-	CheckoutRow(row *Row)
-	CommitSVGIcon(svgicon *SVGIcon)
-	CheckoutSVGIcon(svgicon *SVGIcon)
-	CommitTable(table *Table)
-	CheckoutTable(table *Table)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -1318,14 +1086,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts button to the model stage
 func (button *Button) Stage(stage *Stage) *Button {
-	if _, ok := stage.Buttons[button]; !ok {
-		stage.Buttons[button] = struct{}{}
-		stage.Button_stagedOrder[button] = stage.ButtonOrder
-		stage.Button_orderStaged[stage.ButtonOrder] = button
-		stage.ButtonOrder++
-	}
-	stage.Buttons_mapString[button.Name] = button
-
+	__gong__stage(stage.Buttons, stage.Button_stagedOrder, stage.Button_orderStaged, &stage.ButtonOrder, stage.Buttons_mapString, button, button.Name)
 	return button
 }
 
@@ -1335,59 +1096,22 @@ func (button *Button) Stage(stage *Stage) *Button {
 // - force the order if the order is equal or greater than the stage.ButtonOrder
 // - update stage.ButtonOrder accordingly
 func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Buttons[button]; !ok {
-		stage.Buttons[button] = struct{}{}
-
-		if order > stage.ButtonOrder {
-			stage.ButtonOrder = order
-		}
-		stage.Button_stagedOrder[button] = order
-		stage.Button_orderStaged[order] = button
-		stage.ButtonOrder++
-	}
-	stage.Buttons_mapString[button.Name] = button
+	__gong__stagePreserveOrder(stage.Buttons, stage.Button_stagedOrder, stage.Button_orderStaged, &stage.ButtonOrder, stage.Buttons_mapString, button, order, button.Name)
 }
 
 // Unstage removes button off the model stage
 func (button *Button) Unstage(stage *Stage) *Button {
-	delete(stage.Buttons, button)
-	// issue1150
-	// delete(stage.Button_stagedOrder, button)
-	delete(stage.Buttons_mapString, button.Name)
-
+	__gong__unstage(stage.Buttons, stage.Buttons_mapString, button, button.Name)
 	return button
 }
 
 // UnstageVoid removes button off the model stage
 func (button *Button) UnstageVoid(stage *Stage) {
-	delete(stage.Buttons, button)
-	// issue1150
-	// delete(stage.Button_stagedOrder, button)
-	delete(stage.Buttons_mapString, button.Name)
-}
-
-// commit button to the back repo (if it is already staged)
-func (button *Button) Commit(stage *Stage) *Button {
-	if _, ok := stage.Buttons[button]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitButton(button)
-		}
-	}
-	return button
+	button.Unstage(stage)
 }
 
 func (button *Button) StageVoid(stage *Stage) {
 	button.Stage(stage)
-}
-
-// Checkout button to the back repo (if it is already staged)
-func (button *Button) Checkout(stage *Stage) *Button {
-	if _, ok := stage.Buttons[button]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutButton(button)
-		}
-	}
-	return button
 }
 
 // for satisfaction of GongStruct interface
@@ -1402,14 +1126,7 @@ func (button *Button) SetName(name string) {
 
 // Stage puts cell to the model stage
 func (cell *Cell) Stage(stage *Stage) *Cell {
-	if _, ok := stage.Cells[cell]; !ok {
-		stage.Cells[cell] = struct{}{}
-		stage.Cell_stagedOrder[cell] = stage.CellOrder
-		stage.Cell_orderStaged[stage.CellOrder] = cell
-		stage.CellOrder++
-	}
-	stage.Cells_mapString[cell.Name] = cell
-
+	__gong__stage(stage.Cells, stage.Cell_stagedOrder, stage.Cell_orderStaged, &stage.CellOrder, stage.Cells_mapString, cell, cell.Name)
 	return cell
 }
 
@@ -1419,59 +1136,22 @@ func (cell *Cell) Stage(stage *Stage) *Cell {
 // - force the order if the order is equal or greater than the stage.CellOrder
 // - update stage.CellOrder accordingly
 func (cell *Cell) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Cells[cell]; !ok {
-		stage.Cells[cell] = struct{}{}
-
-		if order > stage.CellOrder {
-			stage.CellOrder = order
-		}
-		stage.Cell_stagedOrder[cell] = order
-		stage.Cell_orderStaged[order] = cell
-		stage.CellOrder++
-	}
-	stage.Cells_mapString[cell.Name] = cell
+	__gong__stagePreserveOrder(stage.Cells, stage.Cell_stagedOrder, stage.Cell_orderStaged, &stage.CellOrder, stage.Cells_mapString, cell, order, cell.Name)
 }
 
 // Unstage removes cell off the model stage
 func (cell *Cell) Unstage(stage *Stage) *Cell {
-	delete(stage.Cells, cell)
-	// issue1150
-	// delete(stage.Cell_stagedOrder, cell)
-	delete(stage.Cells_mapString, cell.Name)
-
+	__gong__unstage(stage.Cells, stage.Cells_mapString, cell, cell.Name)
 	return cell
 }
 
 // UnstageVoid removes cell off the model stage
 func (cell *Cell) UnstageVoid(stage *Stage) {
-	delete(stage.Cells, cell)
-	// issue1150
-	// delete(stage.Cell_stagedOrder, cell)
-	delete(stage.Cells_mapString, cell.Name)
-}
-
-// commit cell to the back repo (if it is already staged)
-func (cell *Cell) Commit(stage *Stage) *Cell {
-	if _, ok := stage.Cells[cell]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCell(cell)
-		}
-	}
-	return cell
+	cell.Unstage(stage)
 }
 
 func (cell *Cell) StageVoid(stage *Stage) {
 	cell.Stage(stage)
-}
-
-// Checkout cell to the back repo (if it is already staged)
-func (cell *Cell) Checkout(stage *Stage) *Cell {
-	if _, ok := stage.Cells[cell]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCell(cell)
-		}
-	}
-	return cell
 }
 
 // for satisfaction of GongStruct interface
@@ -1486,14 +1166,7 @@ func (cell *Cell) SetName(name string) {
 
 // Stage puts cellboolean to the model stage
 func (cellboolean *CellBoolean) Stage(stage *Stage) *CellBoolean {
-	if _, ok := stage.CellBooleans[cellboolean]; !ok {
-		stage.CellBooleans[cellboolean] = struct{}{}
-		stage.CellBoolean_stagedOrder[cellboolean] = stage.CellBooleanOrder
-		stage.CellBoolean_orderStaged[stage.CellBooleanOrder] = cellboolean
-		stage.CellBooleanOrder++
-	}
-	stage.CellBooleans_mapString[cellboolean.Name] = cellboolean
-
+	__gong__stage(stage.CellBooleans, stage.CellBoolean_stagedOrder, stage.CellBoolean_orderStaged, &stage.CellBooleanOrder, stage.CellBooleans_mapString, cellboolean, cellboolean.Name)
 	return cellboolean
 }
 
@@ -1503,59 +1176,22 @@ func (cellboolean *CellBoolean) Stage(stage *Stage) *CellBoolean {
 // - force the order if the order is equal or greater than the stage.CellBooleanOrder
 // - update stage.CellBooleanOrder accordingly
 func (cellboolean *CellBoolean) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.CellBooleans[cellboolean]; !ok {
-		stage.CellBooleans[cellboolean] = struct{}{}
-
-		if order > stage.CellBooleanOrder {
-			stage.CellBooleanOrder = order
-		}
-		stage.CellBoolean_stagedOrder[cellboolean] = order
-		stage.CellBoolean_orderStaged[order] = cellboolean
-		stage.CellBooleanOrder++
-	}
-	stage.CellBooleans_mapString[cellboolean.Name] = cellboolean
+	__gong__stagePreserveOrder(stage.CellBooleans, stage.CellBoolean_stagedOrder, stage.CellBoolean_orderStaged, &stage.CellBooleanOrder, stage.CellBooleans_mapString, cellboolean, order, cellboolean.Name)
 }
 
 // Unstage removes cellboolean off the model stage
 func (cellboolean *CellBoolean) Unstage(stage *Stage) *CellBoolean {
-	delete(stage.CellBooleans, cellboolean)
-	// issue1150
-	// delete(stage.CellBoolean_stagedOrder, cellboolean)
-	delete(stage.CellBooleans_mapString, cellboolean.Name)
-
+	__gong__unstage(stage.CellBooleans, stage.CellBooleans_mapString, cellboolean, cellboolean.Name)
 	return cellboolean
 }
 
 // UnstageVoid removes cellboolean off the model stage
 func (cellboolean *CellBoolean) UnstageVoid(stage *Stage) {
-	delete(stage.CellBooleans, cellboolean)
-	// issue1150
-	// delete(stage.CellBoolean_stagedOrder, cellboolean)
-	delete(stage.CellBooleans_mapString, cellboolean.Name)
-}
-
-// commit cellboolean to the back repo (if it is already staged)
-func (cellboolean *CellBoolean) Commit(stage *Stage) *CellBoolean {
-	if _, ok := stage.CellBooleans[cellboolean]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCellBoolean(cellboolean)
-		}
-	}
-	return cellboolean
+	cellboolean.Unstage(stage)
 }
 
 func (cellboolean *CellBoolean) StageVoid(stage *Stage) {
 	cellboolean.Stage(stage)
-}
-
-// Checkout cellboolean to the back repo (if it is already staged)
-func (cellboolean *CellBoolean) Checkout(stage *Stage) *CellBoolean {
-	if _, ok := stage.CellBooleans[cellboolean]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCellBoolean(cellboolean)
-		}
-	}
-	return cellboolean
 }
 
 // for satisfaction of GongStruct interface
@@ -1570,14 +1206,7 @@ func (cellboolean *CellBoolean) SetName(name string) {
 
 // Stage puts cellfloat64 to the model stage
 func (cellfloat64 *CellFloat64) Stage(stage *Stage) *CellFloat64 {
-	if _, ok := stage.CellFloat64s[cellfloat64]; !ok {
-		stage.CellFloat64s[cellfloat64] = struct{}{}
-		stage.CellFloat64_stagedOrder[cellfloat64] = stage.CellFloat64Order
-		stage.CellFloat64_orderStaged[stage.CellFloat64Order] = cellfloat64
-		stage.CellFloat64Order++
-	}
-	stage.CellFloat64s_mapString[cellfloat64.Name] = cellfloat64
-
+	__gong__stage(stage.CellFloat64s, stage.CellFloat64_stagedOrder, stage.CellFloat64_orderStaged, &stage.CellFloat64Order, stage.CellFloat64s_mapString, cellfloat64, cellfloat64.Name)
 	return cellfloat64
 }
 
@@ -1587,59 +1216,22 @@ func (cellfloat64 *CellFloat64) Stage(stage *Stage) *CellFloat64 {
 // - force the order if the order is equal or greater than the stage.CellFloat64Order
 // - update stage.CellFloat64Order accordingly
 func (cellfloat64 *CellFloat64) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.CellFloat64s[cellfloat64]; !ok {
-		stage.CellFloat64s[cellfloat64] = struct{}{}
-
-		if order > stage.CellFloat64Order {
-			stage.CellFloat64Order = order
-		}
-		stage.CellFloat64_stagedOrder[cellfloat64] = order
-		stage.CellFloat64_orderStaged[order] = cellfloat64
-		stage.CellFloat64Order++
-	}
-	stage.CellFloat64s_mapString[cellfloat64.Name] = cellfloat64
+	__gong__stagePreserveOrder(stage.CellFloat64s, stage.CellFloat64_stagedOrder, stage.CellFloat64_orderStaged, &stage.CellFloat64Order, stage.CellFloat64s_mapString, cellfloat64, order, cellfloat64.Name)
 }
 
 // Unstage removes cellfloat64 off the model stage
 func (cellfloat64 *CellFloat64) Unstage(stage *Stage) *CellFloat64 {
-	delete(stage.CellFloat64s, cellfloat64)
-	// issue1150
-	// delete(stage.CellFloat64_stagedOrder, cellfloat64)
-	delete(stage.CellFloat64s_mapString, cellfloat64.Name)
-
+	__gong__unstage(stage.CellFloat64s, stage.CellFloat64s_mapString, cellfloat64, cellfloat64.Name)
 	return cellfloat64
 }
 
 // UnstageVoid removes cellfloat64 off the model stage
 func (cellfloat64 *CellFloat64) UnstageVoid(stage *Stage) {
-	delete(stage.CellFloat64s, cellfloat64)
-	// issue1150
-	// delete(stage.CellFloat64_stagedOrder, cellfloat64)
-	delete(stage.CellFloat64s_mapString, cellfloat64.Name)
-}
-
-// commit cellfloat64 to the back repo (if it is already staged)
-func (cellfloat64 *CellFloat64) Commit(stage *Stage) *CellFloat64 {
-	if _, ok := stage.CellFloat64s[cellfloat64]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCellFloat64(cellfloat64)
-		}
-	}
-	return cellfloat64
+	cellfloat64.Unstage(stage)
 }
 
 func (cellfloat64 *CellFloat64) StageVoid(stage *Stage) {
 	cellfloat64.Stage(stage)
-}
-
-// Checkout cellfloat64 to the back repo (if it is already staged)
-func (cellfloat64 *CellFloat64) Checkout(stage *Stage) *CellFloat64 {
-	if _, ok := stage.CellFloat64s[cellfloat64]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCellFloat64(cellfloat64)
-		}
-	}
-	return cellfloat64
 }
 
 // for satisfaction of GongStruct interface
@@ -1654,14 +1246,7 @@ func (cellfloat64 *CellFloat64) SetName(name string) {
 
 // Stage puts cellicon to the model stage
 func (cellicon *CellIcon) Stage(stage *Stage) *CellIcon {
-	if _, ok := stage.CellIcons[cellicon]; !ok {
-		stage.CellIcons[cellicon] = struct{}{}
-		stage.CellIcon_stagedOrder[cellicon] = stage.CellIconOrder
-		stage.CellIcon_orderStaged[stage.CellIconOrder] = cellicon
-		stage.CellIconOrder++
-	}
-	stage.CellIcons_mapString[cellicon.Name] = cellicon
-
+	__gong__stage(stage.CellIcons, stage.CellIcon_stagedOrder, stage.CellIcon_orderStaged, &stage.CellIconOrder, stage.CellIcons_mapString, cellicon, cellicon.Name)
 	return cellicon
 }
 
@@ -1671,59 +1256,22 @@ func (cellicon *CellIcon) Stage(stage *Stage) *CellIcon {
 // - force the order if the order is equal or greater than the stage.CellIconOrder
 // - update stage.CellIconOrder accordingly
 func (cellicon *CellIcon) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.CellIcons[cellicon]; !ok {
-		stage.CellIcons[cellicon] = struct{}{}
-
-		if order > stage.CellIconOrder {
-			stage.CellIconOrder = order
-		}
-		stage.CellIcon_stagedOrder[cellicon] = order
-		stage.CellIcon_orderStaged[order] = cellicon
-		stage.CellIconOrder++
-	}
-	stage.CellIcons_mapString[cellicon.Name] = cellicon
+	__gong__stagePreserveOrder(stage.CellIcons, stage.CellIcon_stagedOrder, stage.CellIcon_orderStaged, &stage.CellIconOrder, stage.CellIcons_mapString, cellicon, order, cellicon.Name)
 }
 
 // Unstage removes cellicon off the model stage
 func (cellicon *CellIcon) Unstage(stage *Stage) *CellIcon {
-	delete(stage.CellIcons, cellicon)
-	// issue1150
-	// delete(stage.CellIcon_stagedOrder, cellicon)
-	delete(stage.CellIcons_mapString, cellicon.Name)
-
+	__gong__unstage(stage.CellIcons, stage.CellIcons_mapString, cellicon, cellicon.Name)
 	return cellicon
 }
 
 // UnstageVoid removes cellicon off the model stage
 func (cellicon *CellIcon) UnstageVoid(stage *Stage) {
-	delete(stage.CellIcons, cellicon)
-	// issue1150
-	// delete(stage.CellIcon_stagedOrder, cellicon)
-	delete(stage.CellIcons_mapString, cellicon.Name)
-}
-
-// commit cellicon to the back repo (if it is already staged)
-func (cellicon *CellIcon) Commit(stage *Stage) *CellIcon {
-	if _, ok := stage.CellIcons[cellicon]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCellIcon(cellicon)
-		}
-	}
-	return cellicon
+	cellicon.Unstage(stage)
 }
 
 func (cellicon *CellIcon) StageVoid(stage *Stage) {
 	cellicon.Stage(stage)
-}
-
-// Checkout cellicon to the back repo (if it is already staged)
-func (cellicon *CellIcon) Checkout(stage *Stage) *CellIcon {
-	if _, ok := stage.CellIcons[cellicon]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCellIcon(cellicon)
-		}
-	}
-	return cellicon
 }
 
 // for satisfaction of GongStruct interface
@@ -1738,14 +1286,7 @@ func (cellicon *CellIcon) SetName(name string) {
 
 // Stage puts cellint to the model stage
 func (cellint *CellInt) Stage(stage *Stage) *CellInt {
-	if _, ok := stage.CellInts[cellint]; !ok {
-		stage.CellInts[cellint] = struct{}{}
-		stage.CellInt_stagedOrder[cellint] = stage.CellIntOrder
-		stage.CellInt_orderStaged[stage.CellIntOrder] = cellint
-		stage.CellIntOrder++
-	}
-	stage.CellInts_mapString[cellint.Name] = cellint
-
+	__gong__stage(stage.CellInts, stage.CellInt_stagedOrder, stage.CellInt_orderStaged, &stage.CellIntOrder, stage.CellInts_mapString, cellint, cellint.Name)
 	return cellint
 }
 
@@ -1755,59 +1296,22 @@ func (cellint *CellInt) Stage(stage *Stage) *CellInt {
 // - force the order if the order is equal or greater than the stage.CellIntOrder
 // - update stage.CellIntOrder accordingly
 func (cellint *CellInt) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.CellInts[cellint]; !ok {
-		stage.CellInts[cellint] = struct{}{}
-
-		if order > stage.CellIntOrder {
-			stage.CellIntOrder = order
-		}
-		stage.CellInt_stagedOrder[cellint] = order
-		stage.CellInt_orderStaged[order] = cellint
-		stage.CellIntOrder++
-	}
-	stage.CellInts_mapString[cellint.Name] = cellint
+	__gong__stagePreserveOrder(stage.CellInts, stage.CellInt_stagedOrder, stage.CellInt_orderStaged, &stage.CellIntOrder, stage.CellInts_mapString, cellint, order, cellint.Name)
 }
 
 // Unstage removes cellint off the model stage
 func (cellint *CellInt) Unstage(stage *Stage) *CellInt {
-	delete(stage.CellInts, cellint)
-	// issue1150
-	// delete(stage.CellInt_stagedOrder, cellint)
-	delete(stage.CellInts_mapString, cellint.Name)
-
+	__gong__unstage(stage.CellInts, stage.CellInts_mapString, cellint, cellint.Name)
 	return cellint
 }
 
 // UnstageVoid removes cellint off the model stage
 func (cellint *CellInt) UnstageVoid(stage *Stage) {
-	delete(stage.CellInts, cellint)
-	// issue1150
-	// delete(stage.CellInt_stagedOrder, cellint)
-	delete(stage.CellInts_mapString, cellint.Name)
-}
-
-// commit cellint to the back repo (if it is already staged)
-func (cellint *CellInt) Commit(stage *Stage) *CellInt {
-	if _, ok := stage.CellInts[cellint]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCellInt(cellint)
-		}
-	}
-	return cellint
+	cellint.Unstage(stage)
 }
 
 func (cellint *CellInt) StageVoid(stage *Stage) {
 	cellint.Stage(stage)
-}
-
-// Checkout cellint to the back repo (if it is already staged)
-func (cellint *CellInt) Checkout(stage *Stage) *CellInt {
-	if _, ok := stage.CellInts[cellint]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCellInt(cellint)
-		}
-	}
-	return cellint
 }
 
 // for satisfaction of GongStruct interface
@@ -1822,14 +1326,7 @@ func (cellint *CellInt) SetName(name string) {
 
 // Stage puts cellstring to the model stage
 func (cellstring *CellString) Stage(stage *Stage) *CellString {
-	if _, ok := stage.CellStrings[cellstring]; !ok {
-		stage.CellStrings[cellstring] = struct{}{}
-		stage.CellString_stagedOrder[cellstring] = stage.CellStringOrder
-		stage.CellString_orderStaged[stage.CellStringOrder] = cellstring
-		stage.CellStringOrder++
-	}
-	stage.CellStrings_mapString[cellstring.Name] = cellstring
-
+	__gong__stage(stage.CellStrings, stage.CellString_stagedOrder, stage.CellString_orderStaged, &stage.CellStringOrder, stage.CellStrings_mapString, cellstring, cellstring.Name)
 	return cellstring
 }
 
@@ -1839,59 +1336,22 @@ func (cellstring *CellString) Stage(stage *Stage) *CellString {
 // - force the order if the order is equal or greater than the stage.CellStringOrder
 // - update stage.CellStringOrder accordingly
 func (cellstring *CellString) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.CellStrings[cellstring]; !ok {
-		stage.CellStrings[cellstring] = struct{}{}
-
-		if order > stage.CellStringOrder {
-			stage.CellStringOrder = order
-		}
-		stage.CellString_stagedOrder[cellstring] = order
-		stage.CellString_orderStaged[order] = cellstring
-		stage.CellStringOrder++
-	}
-	stage.CellStrings_mapString[cellstring.Name] = cellstring
+	__gong__stagePreserveOrder(stage.CellStrings, stage.CellString_stagedOrder, stage.CellString_orderStaged, &stage.CellStringOrder, stage.CellStrings_mapString, cellstring, order, cellstring.Name)
 }
 
 // Unstage removes cellstring off the model stage
 func (cellstring *CellString) Unstage(stage *Stage) *CellString {
-	delete(stage.CellStrings, cellstring)
-	// issue1150
-	// delete(stage.CellString_stagedOrder, cellstring)
-	delete(stage.CellStrings_mapString, cellstring.Name)
-
+	__gong__unstage(stage.CellStrings, stage.CellStrings_mapString, cellstring, cellstring.Name)
 	return cellstring
 }
 
 // UnstageVoid removes cellstring off the model stage
 func (cellstring *CellString) UnstageVoid(stage *Stage) {
-	delete(stage.CellStrings, cellstring)
-	// issue1150
-	// delete(stage.CellString_stagedOrder, cellstring)
-	delete(stage.CellStrings_mapString, cellstring.Name)
-}
-
-// commit cellstring to the back repo (if it is already staged)
-func (cellstring *CellString) Commit(stage *Stage) *CellString {
-	if _, ok := stage.CellStrings[cellstring]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCellString(cellstring)
-		}
-	}
-	return cellstring
+	cellstring.Unstage(stage)
 }
 
 func (cellstring *CellString) StageVoid(stage *Stage) {
 	cellstring.Stage(stage)
-}
-
-// Checkout cellstring to the back repo (if it is already staged)
-func (cellstring *CellString) Checkout(stage *Stage) *CellString {
-	if _, ok := stage.CellStrings[cellstring]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCellString(cellstring)
-		}
-	}
-	return cellstring
 }
 
 // for satisfaction of GongStruct interface
@@ -1906,14 +1366,7 @@ func (cellstring *CellString) SetName(name string) {
 
 // Stage puts displayedcolumn to the model stage
 func (displayedcolumn *DisplayedColumn) Stage(stage *Stage) *DisplayedColumn {
-	if _, ok := stage.DisplayedColumns[displayedcolumn]; !ok {
-		stage.DisplayedColumns[displayedcolumn] = struct{}{}
-		stage.DisplayedColumn_stagedOrder[displayedcolumn] = stage.DisplayedColumnOrder
-		stage.DisplayedColumn_orderStaged[stage.DisplayedColumnOrder] = displayedcolumn
-		stage.DisplayedColumnOrder++
-	}
-	stage.DisplayedColumns_mapString[displayedcolumn.Name] = displayedcolumn
-
+	__gong__stage(stage.DisplayedColumns, stage.DisplayedColumn_stagedOrder, stage.DisplayedColumn_orderStaged, &stage.DisplayedColumnOrder, stage.DisplayedColumns_mapString, displayedcolumn, displayedcolumn.Name)
 	return displayedcolumn
 }
 
@@ -1923,59 +1376,22 @@ func (displayedcolumn *DisplayedColumn) Stage(stage *Stage) *DisplayedColumn {
 // - force the order if the order is equal or greater than the stage.DisplayedColumnOrder
 // - update stage.DisplayedColumnOrder accordingly
 func (displayedcolumn *DisplayedColumn) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.DisplayedColumns[displayedcolumn]; !ok {
-		stage.DisplayedColumns[displayedcolumn] = struct{}{}
-
-		if order > stage.DisplayedColumnOrder {
-			stage.DisplayedColumnOrder = order
-		}
-		stage.DisplayedColumn_stagedOrder[displayedcolumn] = order
-		stage.DisplayedColumn_orderStaged[order] = displayedcolumn
-		stage.DisplayedColumnOrder++
-	}
-	stage.DisplayedColumns_mapString[displayedcolumn.Name] = displayedcolumn
+	__gong__stagePreserveOrder(stage.DisplayedColumns, stage.DisplayedColumn_stagedOrder, stage.DisplayedColumn_orderStaged, &stage.DisplayedColumnOrder, stage.DisplayedColumns_mapString, displayedcolumn, order, displayedcolumn.Name)
 }
 
 // Unstage removes displayedcolumn off the model stage
 func (displayedcolumn *DisplayedColumn) Unstage(stage *Stage) *DisplayedColumn {
-	delete(stage.DisplayedColumns, displayedcolumn)
-	// issue1150
-	// delete(stage.DisplayedColumn_stagedOrder, displayedcolumn)
-	delete(stage.DisplayedColumns_mapString, displayedcolumn.Name)
-
+	__gong__unstage(stage.DisplayedColumns, stage.DisplayedColumns_mapString, displayedcolumn, displayedcolumn.Name)
 	return displayedcolumn
 }
 
 // UnstageVoid removes displayedcolumn off the model stage
 func (displayedcolumn *DisplayedColumn) UnstageVoid(stage *Stage) {
-	delete(stage.DisplayedColumns, displayedcolumn)
-	// issue1150
-	// delete(stage.DisplayedColumn_stagedOrder, displayedcolumn)
-	delete(stage.DisplayedColumns_mapString, displayedcolumn.Name)
-}
-
-// commit displayedcolumn to the back repo (if it is already staged)
-func (displayedcolumn *DisplayedColumn) Commit(stage *Stage) *DisplayedColumn {
-	if _, ok := stage.DisplayedColumns[displayedcolumn]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitDisplayedColumn(displayedcolumn)
-		}
-	}
-	return displayedcolumn
+	displayedcolumn.Unstage(stage)
 }
 
 func (displayedcolumn *DisplayedColumn) StageVoid(stage *Stage) {
 	displayedcolumn.Stage(stage)
-}
-
-// Checkout displayedcolumn to the back repo (if it is already staged)
-func (displayedcolumn *DisplayedColumn) Checkout(stage *Stage) *DisplayedColumn {
-	if _, ok := stage.DisplayedColumns[displayedcolumn]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutDisplayedColumn(displayedcolumn)
-		}
-	}
-	return displayedcolumn
 }
 
 // for satisfaction of GongStruct interface
@@ -1990,14 +1406,7 @@ func (displayedcolumn *DisplayedColumn) SetName(name string) {
 
 // Stage puts row to the model stage
 func (row *Row) Stage(stage *Stage) *Row {
-	if _, ok := stage.Rows[row]; !ok {
-		stage.Rows[row] = struct{}{}
-		stage.Row_stagedOrder[row] = stage.RowOrder
-		stage.Row_orderStaged[stage.RowOrder] = row
-		stage.RowOrder++
-	}
-	stage.Rows_mapString[row.Name] = row
-
+	__gong__stage(stage.Rows, stage.Row_stagedOrder, stage.Row_orderStaged, &stage.RowOrder, stage.Rows_mapString, row, row.Name)
 	return row
 }
 
@@ -2007,59 +1416,22 @@ func (row *Row) Stage(stage *Stage) *Row {
 // - force the order if the order is equal or greater than the stage.RowOrder
 // - update stage.RowOrder accordingly
 func (row *Row) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Rows[row]; !ok {
-		stage.Rows[row] = struct{}{}
-
-		if order > stage.RowOrder {
-			stage.RowOrder = order
-		}
-		stage.Row_stagedOrder[row] = order
-		stage.Row_orderStaged[order] = row
-		stage.RowOrder++
-	}
-	stage.Rows_mapString[row.Name] = row
+	__gong__stagePreserveOrder(stage.Rows, stage.Row_stagedOrder, stage.Row_orderStaged, &stage.RowOrder, stage.Rows_mapString, row, order, row.Name)
 }
 
 // Unstage removes row off the model stage
 func (row *Row) Unstage(stage *Stage) *Row {
-	delete(stage.Rows, row)
-	// issue1150
-	// delete(stage.Row_stagedOrder, row)
-	delete(stage.Rows_mapString, row.Name)
-
+	__gong__unstage(stage.Rows, stage.Rows_mapString, row, row.Name)
 	return row
 }
 
 // UnstageVoid removes row off the model stage
 func (row *Row) UnstageVoid(stage *Stage) {
-	delete(stage.Rows, row)
-	// issue1150
-	// delete(stage.Row_stagedOrder, row)
-	delete(stage.Rows_mapString, row.Name)
-}
-
-// commit row to the back repo (if it is already staged)
-func (row *Row) Commit(stage *Stage) *Row {
-	if _, ok := stage.Rows[row]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitRow(row)
-		}
-	}
-	return row
+	row.Unstage(stage)
 }
 
 func (row *Row) StageVoid(stage *Stage) {
 	row.Stage(stage)
-}
-
-// Checkout row to the back repo (if it is already staged)
-func (row *Row) Checkout(stage *Stage) *Row {
-	if _, ok := stage.Rows[row]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutRow(row)
-		}
-	}
-	return row
 }
 
 // for satisfaction of GongStruct interface
@@ -2074,14 +1446,7 @@ func (row *Row) SetName(name string) {
 
 // Stage puts svgicon to the model stage
 func (svgicon *SVGIcon) Stage(stage *Stage) *SVGIcon {
-	if _, ok := stage.SVGIcons[svgicon]; !ok {
-		stage.SVGIcons[svgicon] = struct{}{}
-		stage.SVGIcon_stagedOrder[svgicon] = stage.SVGIconOrder
-		stage.SVGIcon_orderStaged[stage.SVGIconOrder] = svgicon
-		stage.SVGIconOrder++
-	}
-	stage.SVGIcons_mapString[svgicon.Name] = svgicon
-
+	__gong__stage(stage.SVGIcons, stage.SVGIcon_stagedOrder, stage.SVGIcon_orderStaged, &stage.SVGIconOrder, stage.SVGIcons_mapString, svgicon, svgicon.Name)
 	return svgicon
 }
 
@@ -2091,59 +1456,22 @@ func (svgicon *SVGIcon) Stage(stage *Stage) *SVGIcon {
 // - force the order if the order is equal or greater than the stage.SVGIconOrder
 // - update stage.SVGIconOrder accordingly
 func (svgicon *SVGIcon) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.SVGIcons[svgicon]; !ok {
-		stage.SVGIcons[svgicon] = struct{}{}
-
-		if order > stage.SVGIconOrder {
-			stage.SVGIconOrder = order
-		}
-		stage.SVGIcon_stagedOrder[svgicon] = order
-		stage.SVGIcon_orderStaged[order] = svgicon
-		stage.SVGIconOrder++
-	}
-	stage.SVGIcons_mapString[svgicon.Name] = svgicon
+	__gong__stagePreserveOrder(stage.SVGIcons, stage.SVGIcon_stagedOrder, stage.SVGIcon_orderStaged, &stage.SVGIconOrder, stage.SVGIcons_mapString, svgicon, order, svgicon.Name)
 }
 
 // Unstage removes svgicon off the model stage
 func (svgicon *SVGIcon) Unstage(stage *Stage) *SVGIcon {
-	delete(stage.SVGIcons, svgicon)
-	// issue1150
-	// delete(stage.SVGIcon_stagedOrder, svgicon)
-	delete(stage.SVGIcons_mapString, svgicon.Name)
-
+	__gong__unstage(stage.SVGIcons, stage.SVGIcons_mapString, svgicon, svgicon.Name)
 	return svgicon
 }
 
 // UnstageVoid removes svgicon off the model stage
 func (svgicon *SVGIcon) UnstageVoid(stage *Stage) {
-	delete(stage.SVGIcons, svgicon)
-	// issue1150
-	// delete(stage.SVGIcon_stagedOrder, svgicon)
-	delete(stage.SVGIcons_mapString, svgicon.Name)
-}
-
-// commit svgicon to the back repo (if it is already staged)
-func (svgicon *SVGIcon) Commit(stage *Stage) *SVGIcon {
-	if _, ok := stage.SVGIcons[svgicon]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitSVGIcon(svgicon)
-		}
-	}
-	return svgicon
+	svgicon.Unstage(stage)
 }
 
 func (svgicon *SVGIcon) StageVoid(stage *Stage) {
 	svgicon.Stage(stage)
-}
-
-// Checkout svgicon to the back repo (if it is already staged)
-func (svgicon *SVGIcon) Checkout(stage *Stage) *SVGIcon {
-	if _, ok := stage.SVGIcons[svgicon]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutSVGIcon(svgicon)
-		}
-	}
-	return svgicon
 }
 
 // for satisfaction of GongStruct interface
@@ -2158,14 +1486,7 @@ func (svgicon *SVGIcon) SetName(name string) {
 
 // Stage puts table to the model stage
 func (table *Table) Stage(stage *Stage) *Table {
-	if _, ok := stage.Tables[table]; !ok {
-		stage.Tables[table] = struct{}{}
-		stage.Table_stagedOrder[table] = stage.TableOrder
-		stage.Table_orderStaged[stage.TableOrder] = table
-		stage.TableOrder++
-	}
-	stage.Tables_mapString[table.Name] = table
-
+	__gong__stage(stage.Tables, stage.Table_stagedOrder, stage.Table_orderStaged, &stage.TableOrder, stage.Tables_mapString, table, table.Name)
 	return table
 }
 
@@ -2175,59 +1496,22 @@ func (table *Table) Stage(stage *Stage) *Table {
 // - force the order if the order is equal or greater than the stage.TableOrder
 // - update stage.TableOrder accordingly
 func (table *Table) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Tables[table]; !ok {
-		stage.Tables[table] = struct{}{}
-
-		if order > stage.TableOrder {
-			stage.TableOrder = order
-		}
-		stage.Table_stagedOrder[table] = order
-		stage.Table_orderStaged[order] = table
-		stage.TableOrder++
-	}
-	stage.Tables_mapString[table.Name] = table
+	__gong__stagePreserveOrder(stage.Tables, stage.Table_stagedOrder, stage.Table_orderStaged, &stage.TableOrder, stage.Tables_mapString, table, order, table.Name)
 }
 
 // Unstage removes table off the model stage
 func (table *Table) Unstage(stage *Stage) *Table {
-	delete(stage.Tables, table)
-	// issue1150
-	// delete(stage.Table_stagedOrder, table)
-	delete(stage.Tables_mapString, table.Name)
-
+	__gong__unstage(stage.Tables, stage.Tables_mapString, table, table.Name)
 	return table
 }
 
 // UnstageVoid removes table off the model stage
 func (table *Table) UnstageVoid(stage *Stage) {
-	delete(stage.Tables, table)
-	// issue1150
-	// delete(stage.Table_stagedOrder, table)
-	delete(stage.Tables_mapString, table.Name)
-}
-
-// commit table to the back repo (if it is already staged)
-func (table *Table) Commit(stage *Stage) *Table {
-	if _, ok := stage.Tables[table]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitTable(table)
-		}
-	}
-	return table
+	table.Unstage(stage)
 }
 
 func (table *Table) StageVoid(stage *Stage) {
 	table.Stage(stage)
-}
-
-// Checkout table to the back repo (if it is already staged)
-func (table *Table) Checkout(stage *Stage) *Table {
-	if _, ok := stage.Tables[table]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutTable(table)
-		}
-	}
-	return table
 }
 
 // for satisfaction of GongStruct interface
@@ -2241,60 +1525,27 @@ func (table *Table) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Buttons = make(map[*Button]struct{})
-	stage.Buttons_mapString = make(map[string]*Button)
-	stage.Button_stagedOrder = make(map[*Button]uint)
-	stage.ButtonOrder = 0
+	__gong__resetStageType(&stage.Buttons, &stage.Buttons_mapString, &stage.Button_stagedOrder, &stage.ButtonOrder)
 
-	stage.Cells = make(map[*Cell]struct{})
-	stage.Cells_mapString = make(map[string]*Cell)
-	stage.Cell_stagedOrder = make(map[*Cell]uint)
-	stage.CellOrder = 0
+	__gong__resetStageType(&stage.Cells, &stage.Cells_mapString, &stage.Cell_stagedOrder, &stage.CellOrder)
 
-	stage.CellBooleans = make(map[*CellBoolean]struct{})
-	stage.CellBooleans_mapString = make(map[string]*CellBoolean)
-	stage.CellBoolean_stagedOrder = make(map[*CellBoolean]uint)
-	stage.CellBooleanOrder = 0
+	__gong__resetStageType(&stage.CellBooleans, &stage.CellBooleans_mapString, &stage.CellBoolean_stagedOrder, &stage.CellBooleanOrder)
 
-	stage.CellFloat64s = make(map[*CellFloat64]struct{})
-	stage.CellFloat64s_mapString = make(map[string]*CellFloat64)
-	stage.CellFloat64_stagedOrder = make(map[*CellFloat64]uint)
-	stage.CellFloat64Order = 0
+	__gong__resetStageType(&stage.CellFloat64s, &stage.CellFloat64s_mapString, &stage.CellFloat64_stagedOrder, &stage.CellFloat64Order)
 
-	stage.CellIcons = make(map[*CellIcon]struct{})
-	stage.CellIcons_mapString = make(map[string]*CellIcon)
-	stage.CellIcon_stagedOrder = make(map[*CellIcon]uint)
-	stage.CellIconOrder = 0
+	__gong__resetStageType(&stage.CellIcons, &stage.CellIcons_mapString, &stage.CellIcon_stagedOrder, &stage.CellIconOrder)
 
-	stage.CellInts = make(map[*CellInt]struct{})
-	stage.CellInts_mapString = make(map[string]*CellInt)
-	stage.CellInt_stagedOrder = make(map[*CellInt]uint)
-	stage.CellIntOrder = 0
+	__gong__resetStageType(&stage.CellInts, &stage.CellInts_mapString, &stage.CellInt_stagedOrder, &stage.CellIntOrder)
 
-	stage.CellStrings = make(map[*CellString]struct{})
-	stage.CellStrings_mapString = make(map[string]*CellString)
-	stage.CellString_stagedOrder = make(map[*CellString]uint)
-	stage.CellStringOrder = 0
+	__gong__resetStageType(&stage.CellStrings, &stage.CellStrings_mapString, &stage.CellString_stagedOrder, &stage.CellStringOrder)
 
-	stage.DisplayedColumns = make(map[*DisplayedColumn]struct{})
-	stage.DisplayedColumns_mapString = make(map[string]*DisplayedColumn)
-	stage.DisplayedColumn_stagedOrder = make(map[*DisplayedColumn]uint)
-	stage.DisplayedColumnOrder = 0
+	__gong__resetStageType(&stage.DisplayedColumns, &stage.DisplayedColumns_mapString, &stage.DisplayedColumn_stagedOrder, &stage.DisplayedColumnOrder)
 
-	stage.Rows = make(map[*Row]struct{})
-	stage.Rows_mapString = make(map[string]*Row)
-	stage.Row_stagedOrder = make(map[*Row]uint)
-	stage.RowOrder = 0
+	__gong__resetStageType(&stage.Rows, &stage.Rows_mapString, &stage.Row_stagedOrder, &stage.RowOrder)
 
-	stage.SVGIcons = make(map[*SVGIcon]struct{})
-	stage.SVGIcons_mapString = make(map[string]*SVGIcon)
-	stage.SVGIcon_stagedOrder = make(map[*SVGIcon]uint)
-	stage.SVGIconOrder = 0
+	__gong__resetStageType(&stage.SVGIcons, &stage.SVGIcons_mapString, &stage.SVGIcon_stagedOrder, &stage.SVGIconOrder)
 
-	stage.Tables = make(map[*Table]struct{})
-	stage.Tables_mapString = make(map[string]*Table)
-	stage.Table_stagedOrder = make(map[*Table]uint)
-	stage.TableOrder = 0
+	__gong__resetStageType(&stage.Tables, &stage.Tables_mapString, &stage.Table_stagedOrder, &stage.TableOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -2333,7 +1584,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -3587,60 +2837,27 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.Buttons_mapString = make(map[string]*Button)
-	for button := range stage.Buttons {
-		stage.Buttons_mapString[button.Name] = button
-	}
+	__gong__rebuildMapString(stage.Buttons, &stage.Buttons_mapString)
 
-	stage.Cells_mapString = make(map[string]*Cell)
-	for cell := range stage.Cells {
-		stage.Cells_mapString[cell.Name] = cell
-	}
+	__gong__rebuildMapString(stage.Cells, &stage.Cells_mapString)
 
-	stage.CellBooleans_mapString = make(map[string]*CellBoolean)
-	for cellboolean := range stage.CellBooleans {
-		stage.CellBooleans_mapString[cellboolean.Name] = cellboolean
-	}
+	__gong__rebuildMapString(stage.CellBooleans, &stage.CellBooleans_mapString)
 
-	stage.CellFloat64s_mapString = make(map[string]*CellFloat64)
-	for cellfloat64 := range stage.CellFloat64s {
-		stage.CellFloat64s_mapString[cellfloat64.Name] = cellfloat64
-	}
+	__gong__rebuildMapString(stage.CellFloat64s, &stage.CellFloat64s_mapString)
 
-	stage.CellIcons_mapString = make(map[string]*CellIcon)
-	for cellicon := range stage.CellIcons {
-		stage.CellIcons_mapString[cellicon.Name] = cellicon
-	}
+	__gong__rebuildMapString(stage.CellIcons, &stage.CellIcons_mapString)
 
-	stage.CellInts_mapString = make(map[string]*CellInt)
-	for cellint := range stage.CellInts {
-		stage.CellInts_mapString[cellint.Name] = cellint
-	}
+	__gong__rebuildMapString(stage.CellInts, &stage.CellInts_mapString)
 
-	stage.CellStrings_mapString = make(map[string]*CellString)
-	for cellstring := range stage.CellStrings {
-		stage.CellStrings_mapString[cellstring.Name] = cellstring
-	}
+	__gong__rebuildMapString(stage.CellStrings, &stage.CellStrings_mapString)
 
-	stage.DisplayedColumns_mapString = make(map[string]*DisplayedColumn)
-	for displayedcolumn := range stage.DisplayedColumns {
-		stage.DisplayedColumns_mapString[displayedcolumn.Name] = displayedcolumn
-	}
+	__gong__rebuildMapString(stage.DisplayedColumns, &stage.DisplayedColumns_mapString)
 
-	stage.Rows_mapString = make(map[string]*Row)
-	for row := range stage.Rows {
-		stage.Rows_mapString[row.Name] = row
-	}
+	__gong__rebuildMapString(stage.Rows, &stage.Rows_mapString)
 
-	stage.SVGIcons_mapString = make(map[string]*SVGIcon)
-	for svgicon := range stage.SVGIcons {
-		stage.SVGIcons_mapString[svgicon.Name] = svgicon
-	}
+	__gong__rebuildMapString(stage.SVGIcons, &stage.SVGIcons_mapString)
 
-	stage.Tables_mapString = make(map[string]*Table)
-	for table := range stage.Tables {
-		stage.Tables_mapString[table.Name] = table
-	}
+	__gong__rebuildMapString(stage.Tables, &stage.Tables_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

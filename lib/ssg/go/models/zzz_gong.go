@@ -138,7 +138,6 @@ type Stage struct {
 	OnAfterChapterCreateCallback GongOnAfterCreateInterface[Chapter]
 	OnAfterChapterUpdateCallback GongOnAfterUpdateInterface[Chapter]
 	OnAfterChapterDeleteCallback GongOnAfterDeleteInterface[Chapter]
-	OnAfterChapterReadCallback   GongOnAfterReadInterface[Chapter]
 
 	Contents                map[*Content]struct{}
 	Contents_instance       map[*Content]*Content
@@ -155,7 +154,6 @@ type Stage struct {
 	OnAfterContentCreateCallback GongOnAfterCreateInterface[Content]
 	OnAfterContentUpdateCallback GongOnAfterUpdateInterface[Content]
 	OnAfterContentDeleteCallback GongOnAfterDeleteInterface[Content]
-	OnAfterContentReadCallback   GongOnAfterReadInterface[Content]
 
 	DownloadableFiles                map[*DownloadableFile]struct{}
 	DownloadableFiles_instance       map[*DownloadableFile]*DownloadableFile
@@ -170,7 +168,6 @@ type Stage struct {
 	OnAfterDownloadableFileCreateCallback GongOnAfterCreateInterface[DownloadableFile]
 	OnAfterDownloadableFileUpdateCallback GongOnAfterUpdateInterface[DownloadableFile]
 	OnAfterDownloadableFileDeleteCallback GongOnAfterDeleteInterface[DownloadableFile]
-	OnAfterDownloadableFileReadCallback   GongOnAfterReadInterface[DownloadableFile]
 
 	JpgImages                map[*JpgImage]struct{}
 	JpgImages_instance       map[*JpgImage]*JpgImage
@@ -185,7 +182,6 @@ type Stage struct {
 	OnAfterJpgImageCreateCallback GongOnAfterCreateInterface[JpgImage]
 	OnAfterJpgImageUpdateCallback GongOnAfterUpdateInterface[JpgImage]
 	OnAfterJpgImageDeleteCallback GongOnAfterDeleteInterface[JpgImage]
-	OnAfterJpgImageReadCallback   GongOnAfterReadInterface[JpgImage]
 
 	Pages                map[*Page]struct{}
 	Pages_instance       map[*Page]*Page
@@ -202,7 +198,6 @@ type Stage struct {
 	OnAfterPageCreateCallback GongOnAfterCreateInterface[Page]
 	OnAfterPageUpdateCallback GongOnAfterUpdateInterface[Page]
 	OnAfterPageDeleteCallback GongOnAfterDeleteInterface[Page]
-	OnAfterPageReadCallback   GongOnAfterReadInterface[Page]
 
 	PngImages                map[*PngImage]struct{}
 	PngImages_instance       map[*PngImage]*PngImage
@@ -217,7 +212,6 @@ type Stage struct {
 	OnAfterPngImageCreateCallback GongOnAfterCreateInterface[PngImage]
 	OnAfterPngImageUpdateCallback GongOnAfterUpdateInterface[PngImage]
 	OnAfterPngImageDeleteCallback GongOnAfterDeleteInterface[PngImage]
-	OnAfterPngImageReadCallback   GongOnAfterReadInterface[PngImage]
 
 	Sections                map[*Section]struct{}
 	Sections_instance       map[*Section]*Section
@@ -232,7 +226,6 @@ type Stage struct {
 	OnAfterSectionCreateCallback GongOnAfterCreateInterface[Section]
 	OnAfterSectionUpdateCallback GongOnAfterUpdateInterface[Section]
 	OnAfterSectionDeleteCallback GongOnAfterDeleteInterface[Section]
-	OnAfterSectionReadCallback   GongOnAfterReadInterface[Section]
 
 	SvgImages                map[*SvgImage]struct{}
 	SvgImages_instance       map[*SvgImage]*SvgImage
@@ -247,7 +240,6 @@ type Stage struct {
 	OnAfterSvgImageCreateCallback GongOnAfterCreateInterface[SvgImage]
 	OnAfterSvgImageUpdateCallback GongOnAfterUpdateInterface[SvgImage]
 	OnAfterSvgImageDeleteCallback GongOnAfterDeleteInterface[SvgImage]
-	OnAfterSvgImageReadCallback   GongOnAfterReadInterface[SvgImage]
 
 	BackRepo GongBackRepoInterface
 
@@ -482,37 +474,21 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.Chapters_reference = make(map[*Chapter]*Chapter)
-	stage.Chapters_instance = make(map[*Chapter]*Chapter)
-	stage.Chapters_referenceOrder = make(map[*Chapter]uint)
+	__gong__clearReferences(&stage.Chapters_reference, &stage.Chapters_instance, &stage.Chapters_referenceOrder)
 
-	stage.Contents_reference = make(map[*Content]*Content)
-	stage.Contents_instance = make(map[*Content]*Content)
-	stage.Contents_referenceOrder = make(map[*Content]uint)
+	__gong__clearReferences(&stage.Contents_reference, &stage.Contents_instance, &stage.Contents_referenceOrder)
 
-	stage.DownloadableFiles_reference = make(map[*DownloadableFile]*DownloadableFile)
-	stage.DownloadableFiles_instance = make(map[*DownloadableFile]*DownloadableFile)
-	stage.DownloadableFiles_referenceOrder = make(map[*DownloadableFile]uint)
+	__gong__clearReferences(&stage.DownloadableFiles_reference, &stage.DownloadableFiles_instance, &stage.DownloadableFiles_referenceOrder)
 
-	stage.JpgImages_reference = make(map[*JpgImage]*JpgImage)
-	stage.JpgImages_instance = make(map[*JpgImage]*JpgImage)
-	stage.JpgImages_referenceOrder = make(map[*JpgImage]uint)
+	__gong__clearReferences(&stage.JpgImages_reference, &stage.JpgImages_instance, &stage.JpgImages_referenceOrder)
 
-	stage.Pages_reference = make(map[*Page]*Page)
-	stage.Pages_instance = make(map[*Page]*Page)
-	stage.Pages_referenceOrder = make(map[*Page]uint)
+	__gong__clearReferences(&stage.Pages_reference, &stage.Pages_instance, &stage.Pages_referenceOrder)
 
-	stage.PngImages_reference = make(map[*PngImage]*PngImage)
-	stage.PngImages_instance = make(map[*PngImage]*PngImage)
-	stage.PngImages_referenceOrder = make(map[*PngImage]uint)
+	__gong__clearReferences(&stage.PngImages_reference, &stage.PngImages_instance, &stage.PngImages_referenceOrder)
 
-	stage.Sections_reference = make(map[*Section]*Section)
-	stage.Sections_instance = make(map[*Section]*Section)
-	stage.Sections_referenceOrder = make(map[*Section]uint)
+	__gong__clearReferences(&stage.Sections_reference, &stage.Sections_instance, &stage.Sections_referenceOrder)
 
-	stage.SvgImages_reference = make(map[*SvgImage]*SvgImage)
-	stage.SvgImages_instance = make(map[*SvgImage]*SvgImage)
-	stage.SvgImages_referenceOrder = make(map[*SvgImage]uint)
+	__gong__clearReferences(&stage.SvgImages_reference, &stage.SvgImages_instance, &stage.SvgImages_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -541,117 +517,21 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxChapterOrder uint
-	var foundChapter bool
-	for _, order := range stage.Chapter_stagedOrder {
-		if !foundChapter || order > maxChapterOrder {
-			maxChapterOrder = order
-			foundChapter = true
-		}
-	}
-	if foundChapter {
-		stage.ChapterOrder = maxChapterOrder + 1
-	} else {
-		stage.ChapterOrder = 0
-	}
+	stage.ChapterOrder = __gong__recomputeOrder(stage.Chapter_stagedOrder)
 
-	var maxContentOrder uint
-	var foundContent bool
-	for _, order := range stage.Content_stagedOrder {
-		if !foundContent || order > maxContentOrder {
-			maxContentOrder = order
-			foundContent = true
-		}
-	}
-	if foundContent {
-		stage.ContentOrder = maxContentOrder + 1
-	} else {
-		stage.ContentOrder = 0
-	}
+	stage.ContentOrder = __gong__recomputeOrder(stage.Content_stagedOrder)
 
-	var maxDownloadableFileOrder uint
-	var foundDownloadableFile bool
-	for _, order := range stage.DownloadableFile_stagedOrder {
-		if !foundDownloadableFile || order > maxDownloadableFileOrder {
-			maxDownloadableFileOrder = order
-			foundDownloadableFile = true
-		}
-	}
-	if foundDownloadableFile {
-		stage.DownloadableFileOrder = maxDownloadableFileOrder + 1
-	} else {
-		stage.DownloadableFileOrder = 0
-	}
+	stage.DownloadableFileOrder = __gong__recomputeOrder(stage.DownloadableFile_stagedOrder)
 
-	var maxJpgImageOrder uint
-	var foundJpgImage bool
-	for _, order := range stage.JpgImage_stagedOrder {
-		if !foundJpgImage || order > maxJpgImageOrder {
-			maxJpgImageOrder = order
-			foundJpgImage = true
-		}
-	}
-	if foundJpgImage {
-		stage.JpgImageOrder = maxJpgImageOrder + 1
-	} else {
-		stage.JpgImageOrder = 0
-	}
+	stage.JpgImageOrder = __gong__recomputeOrder(stage.JpgImage_stagedOrder)
 
-	var maxPageOrder uint
-	var foundPage bool
-	for _, order := range stage.Page_stagedOrder {
-		if !foundPage || order > maxPageOrder {
-			maxPageOrder = order
-			foundPage = true
-		}
-	}
-	if foundPage {
-		stage.PageOrder = maxPageOrder + 1
-	} else {
-		stage.PageOrder = 0
-	}
+	stage.PageOrder = __gong__recomputeOrder(stage.Page_stagedOrder)
 
-	var maxPngImageOrder uint
-	var foundPngImage bool
-	for _, order := range stage.PngImage_stagedOrder {
-		if !foundPngImage || order > maxPngImageOrder {
-			maxPngImageOrder = order
-			foundPngImage = true
-		}
-	}
-	if foundPngImage {
-		stage.PngImageOrder = maxPngImageOrder + 1
-	} else {
-		stage.PngImageOrder = 0
-	}
+	stage.PngImageOrder = __gong__recomputeOrder(stage.PngImage_stagedOrder)
 
-	var maxSectionOrder uint
-	var foundSection bool
-	for _, order := range stage.Section_stagedOrder {
-		if !foundSection || order > maxSectionOrder {
-			maxSectionOrder = order
-			foundSection = true
-		}
-	}
-	if foundSection {
-		stage.SectionOrder = maxSectionOrder + 1
-	} else {
-		stage.SectionOrder = 0
-	}
+	stage.SectionOrder = __gong__recomputeOrder(stage.Section_stagedOrder)
 
-	var maxSvgImageOrder uint
-	var foundSvgImage bool
-	for _, order := range stage.SvgImage_stagedOrder {
-		if !foundSvgImage || order > maxSvgImageOrder {
-			maxSvgImageOrder = order
-			foundSvgImage = true
-		}
-	}
-	if foundSvgImage {
-		stage.SvgImageOrder = maxSvgImageOrder + 1
-	} else {
-		stage.SvgImageOrder = 0
-	}
+	stage.SvgImageOrder = __gong__recomputeOrder(stage.SvgImage_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -683,117 +563,21 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *Chapter:
-		tmp := __gong__getStructInstancesByOrder(stage.Chapters, stage.Chapter_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Chapter implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Chapters, stage.Chapter_stagedOrder))
 	case *Content:
-		tmp := __gong__getStructInstancesByOrder(stage.Contents, stage.Content_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Content implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Contents, stage.Content_stagedOrder))
 	case *DownloadableFile:
-		tmp := __gong__getStructInstancesByOrder(stage.DownloadableFiles, stage.DownloadableFile_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *DownloadableFile implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DownloadableFiles, stage.DownloadableFile_stagedOrder))
 	case *JpgImage:
-		tmp := __gong__getStructInstancesByOrder(stage.JpgImages, stage.JpgImage_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *JpgImage implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.JpgImages, stage.JpgImage_stagedOrder))
 	case *Page:
-		tmp := __gong__getStructInstancesByOrder(stage.Pages, stage.Page_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Page implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Pages, stage.Page_stagedOrder))
 	case *PngImage:
-		tmp := __gong__getStructInstancesByOrder(stage.PngImages, stage.PngImage_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *PngImage implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PngImages, stage.PngImage_stagedOrder))
 	case *Section:
-		tmp := __gong__getStructInstancesByOrder(stage.Sections, stage.Section_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Section implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Sections, stage.Section_stagedOrder))
 	case *SvgImage:
-		tmp := __gong__getStructInstancesByOrder(stage.SvgImages, stage.SvgImage_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *SvgImage implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SvgImages, stage.SvgImage_stagedOrder))
 
 	}
 	return
@@ -820,6 +604,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/ssg/go/models"
 }
@@ -843,14 +723,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -873,23 +745,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitChapter(chapter *Chapter)
-	CheckoutChapter(chapter *Chapter)
-	CommitContent(content *Content)
-	CheckoutContent(content *Content)
-	CommitDownloadableFile(downloadablefile *DownloadableFile)
-	CheckoutDownloadableFile(downloadablefile *DownloadableFile)
-	CommitJpgImage(jpgimage *JpgImage)
-	CheckoutJpgImage(jpgimage *JpgImage)
-	CommitPage(page *Page)
-	CheckoutPage(page *Page)
-	CommitPngImage(pngimage *PngImage)
-	CheckoutPngImage(pngimage *PngImage)
-	CommitSection(section *Section)
-	CheckoutSection(section *Section)
-	CommitSvgImage(svgimage *SvgImage)
-	CheckoutSvgImage(svgimage *SvgImage)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -1135,14 +990,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts chapter to the model stage
 func (chapter *Chapter) Stage(stage *Stage) *Chapter {
-	if _, ok := stage.Chapters[chapter]; !ok {
-		stage.Chapters[chapter] = struct{}{}
-		stage.Chapter_stagedOrder[chapter] = stage.ChapterOrder
-		stage.Chapter_orderStaged[stage.ChapterOrder] = chapter
-		stage.ChapterOrder++
-	}
-	stage.Chapters_mapString[chapter.Name] = chapter
-
+	__gong__stage(stage.Chapters, stage.Chapter_stagedOrder, stage.Chapter_orderStaged, &stage.ChapterOrder, stage.Chapters_mapString, chapter, chapter.Name)
 	return chapter
 }
 
@@ -1152,59 +1000,22 @@ func (chapter *Chapter) Stage(stage *Stage) *Chapter {
 // - force the order if the order is equal or greater than the stage.ChapterOrder
 // - update stage.ChapterOrder accordingly
 func (chapter *Chapter) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Chapters[chapter]; !ok {
-		stage.Chapters[chapter] = struct{}{}
-
-		if order > stage.ChapterOrder {
-			stage.ChapterOrder = order
-		}
-		stage.Chapter_stagedOrder[chapter] = order
-		stage.Chapter_orderStaged[order] = chapter
-		stage.ChapterOrder++
-	}
-	stage.Chapters_mapString[chapter.Name] = chapter
+	__gong__stagePreserveOrder(stage.Chapters, stage.Chapter_stagedOrder, stage.Chapter_orderStaged, &stage.ChapterOrder, stage.Chapters_mapString, chapter, order, chapter.Name)
 }
 
 // Unstage removes chapter off the model stage
 func (chapter *Chapter) Unstage(stage *Stage) *Chapter {
-	delete(stage.Chapters, chapter)
-	// issue1150
-	// delete(stage.Chapter_stagedOrder, chapter)
-	delete(stage.Chapters_mapString, chapter.Name)
-
+	__gong__unstage(stage.Chapters, stage.Chapters_mapString, chapter, chapter.Name)
 	return chapter
 }
 
 // UnstageVoid removes chapter off the model stage
 func (chapter *Chapter) UnstageVoid(stage *Stage) {
-	delete(stage.Chapters, chapter)
-	// issue1150
-	// delete(stage.Chapter_stagedOrder, chapter)
-	delete(stage.Chapters_mapString, chapter.Name)
-}
-
-// commit chapter to the back repo (if it is already staged)
-func (chapter *Chapter) Commit(stage *Stage) *Chapter {
-	if _, ok := stage.Chapters[chapter]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitChapter(chapter)
-		}
-	}
-	return chapter
+	chapter.Unstage(stage)
 }
 
 func (chapter *Chapter) StageVoid(stage *Stage) {
 	chapter.Stage(stage)
-}
-
-// Checkout chapter to the back repo (if it is already staged)
-func (chapter *Chapter) Checkout(stage *Stage) *Chapter {
-	if _, ok := stage.Chapters[chapter]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutChapter(chapter)
-		}
-	}
-	return chapter
 }
 
 // for satisfaction of GongStruct interface
@@ -1219,14 +1030,7 @@ func (chapter *Chapter) SetName(name string) {
 
 // Stage puts content to the model stage
 func (content *Content) Stage(stage *Stage) *Content {
-	if _, ok := stage.Contents[content]; !ok {
-		stage.Contents[content] = struct{}{}
-		stage.Content_stagedOrder[content] = stage.ContentOrder
-		stage.Content_orderStaged[stage.ContentOrder] = content
-		stage.ContentOrder++
-	}
-	stage.Contents_mapString[content.Name] = content
-
+	__gong__stage(stage.Contents, stage.Content_stagedOrder, stage.Content_orderStaged, &stage.ContentOrder, stage.Contents_mapString, content, content.Name)
 	return content
 }
 
@@ -1236,59 +1040,22 @@ func (content *Content) Stage(stage *Stage) *Content {
 // - force the order if the order is equal or greater than the stage.ContentOrder
 // - update stage.ContentOrder accordingly
 func (content *Content) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Contents[content]; !ok {
-		stage.Contents[content] = struct{}{}
-
-		if order > stage.ContentOrder {
-			stage.ContentOrder = order
-		}
-		stage.Content_stagedOrder[content] = order
-		stage.Content_orderStaged[order] = content
-		stage.ContentOrder++
-	}
-	stage.Contents_mapString[content.Name] = content
+	__gong__stagePreserveOrder(stage.Contents, stage.Content_stagedOrder, stage.Content_orderStaged, &stage.ContentOrder, stage.Contents_mapString, content, order, content.Name)
 }
 
 // Unstage removes content off the model stage
 func (content *Content) Unstage(stage *Stage) *Content {
-	delete(stage.Contents, content)
-	// issue1150
-	// delete(stage.Content_stagedOrder, content)
-	delete(stage.Contents_mapString, content.Name)
-
+	__gong__unstage(stage.Contents, stage.Contents_mapString, content, content.Name)
 	return content
 }
 
 // UnstageVoid removes content off the model stage
 func (content *Content) UnstageVoid(stage *Stage) {
-	delete(stage.Contents, content)
-	// issue1150
-	// delete(stage.Content_stagedOrder, content)
-	delete(stage.Contents_mapString, content.Name)
-}
-
-// commit content to the back repo (if it is already staged)
-func (content *Content) Commit(stage *Stage) *Content {
-	if _, ok := stage.Contents[content]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitContent(content)
-		}
-	}
-	return content
+	content.Unstage(stage)
 }
 
 func (content *Content) StageVoid(stage *Stage) {
 	content.Stage(stage)
-}
-
-// Checkout content to the back repo (if it is already staged)
-func (content *Content) Checkout(stage *Stage) *Content {
-	if _, ok := stage.Contents[content]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutContent(content)
-		}
-	}
-	return content
 }
 
 // for satisfaction of GongStruct interface
@@ -1303,14 +1070,7 @@ func (content *Content) SetName(name string) {
 
 // Stage puts downloadablefile to the model stage
 func (downloadablefile *DownloadableFile) Stage(stage *Stage) *DownloadableFile {
-	if _, ok := stage.DownloadableFiles[downloadablefile]; !ok {
-		stage.DownloadableFiles[downloadablefile] = struct{}{}
-		stage.DownloadableFile_stagedOrder[downloadablefile] = stage.DownloadableFileOrder
-		stage.DownloadableFile_orderStaged[stage.DownloadableFileOrder] = downloadablefile
-		stage.DownloadableFileOrder++
-	}
-	stage.DownloadableFiles_mapString[downloadablefile.Name] = downloadablefile
-
+	__gong__stage(stage.DownloadableFiles, stage.DownloadableFile_stagedOrder, stage.DownloadableFile_orderStaged, &stage.DownloadableFileOrder, stage.DownloadableFiles_mapString, downloadablefile, downloadablefile.Name)
 	return downloadablefile
 }
 
@@ -1320,59 +1080,22 @@ func (downloadablefile *DownloadableFile) Stage(stage *Stage) *DownloadableFile 
 // - force the order if the order is equal or greater than the stage.DownloadableFileOrder
 // - update stage.DownloadableFileOrder accordingly
 func (downloadablefile *DownloadableFile) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.DownloadableFiles[downloadablefile]; !ok {
-		stage.DownloadableFiles[downloadablefile] = struct{}{}
-
-		if order > stage.DownloadableFileOrder {
-			stage.DownloadableFileOrder = order
-		}
-		stage.DownloadableFile_stagedOrder[downloadablefile] = order
-		stage.DownloadableFile_orderStaged[order] = downloadablefile
-		stage.DownloadableFileOrder++
-	}
-	stage.DownloadableFiles_mapString[downloadablefile.Name] = downloadablefile
+	__gong__stagePreserveOrder(stage.DownloadableFiles, stage.DownloadableFile_stagedOrder, stage.DownloadableFile_orderStaged, &stage.DownloadableFileOrder, stage.DownloadableFiles_mapString, downloadablefile, order, downloadablefile.Name)
 }
 
 // Unstage removes downloadablefile off the model stage
 func (downloadablefile *DownloadableFile) Unstage(stage *Stage) *DownloadableFile {
-	delete(stage.DownloadableFiles, downloadablefile)
-	// issue1150
-	// delete(stage.DownloadableFile_stagedOrder, downloadablefile)
-	delete(stage.DownloadableFiles_mapString, downloadablefile.Name)
-
+	__gong__unstage(stage.DownloadableFiles, stage.DownloadableFiles_mapString, downloadablefile, downloadablefile.Name)
 	return downloadablefile
 }
 
 // UnstageVoid removes downloadablefile off the model stage
 func (downloadablefile *DownloadableFile) UnstageVoid(stage *Stage) {
-	delete(stage.DownloadableFiles, downloadablefile)
-	// issue1150
-	// delete(stage.DownloadableFile_stagedOrder, downloadablefile)
-	delete(stage.DownloadableFiles_mapString, downloadablefile.Name)
-}
-
-// commit downloadablefile to the back repo (if it is already staged)
-func (downloadablefile *DownloadableFile) Commit(stage *Stage) *DownloadableFile {
-	if _, ok := stage.DownloadableFiles[downloadablefile]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitDownloadableFile(downloadablefile)
-		}
-	}
-	return downloadablefile
+	downloadablefile.Unstage(stage)
 }
 
 func (downloadablefile *DownloadableFile) StageVoid(stage *Stage) {
 	downloadablefile.Stage(stage)
-}
-
-// Checkout downloadablefile to the back repo (if it is already staged)
-func (downloadablefile *DownloadableFile) Checkout(stage *Stage) *DownloadableFile {
-	if _, ok := stage.DownloadableFiles[downloadablefile]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutDownloadableFile(downloadablefile)
-		}
-	}
-	return downloadablefile
 }
 
 // for satisfaction of GongStruct interface
@@ -1387,14 +1110,7 @@ func (downloadablefile *DownloadableFile) SetName(name string) {
 
 // Stage puts jpgimage to the model stage
 func (jpgimage *JpgImage) Stage(stage *Stage) *JpgImage {
-	if _, ok := stage.JpgImages[jpgimage]; !ok {
-		stage.JpgImages[jpgimage] = struct{}{}
-		stage.JpgImage_stagedOrder[jpgimage] = stage.JpgImageOrder
-		stage.JpgImage_orderStaged[stage.JpgImageOrder] = jpgimage
-		stage.JpgImageOrder++
-	}
-	stage.JpgImages_mapString[jpgimage.Name] = jpgimage
-
+	__gong__stage(stage.JpgImages, stage.JpgImage_stagedOrder, stage.JpgImage_orderStaged, &stage.JpgImageOrder, stage.JpgImages_mapString, jpgimage, jpgimage.Name)
 	return jpgimage
 }
 
@@ -1404,59 +1120,22 @@ func (jpgimage *JpgImage) Stage(stage *Stage) *JpgImage {
 // - force the order if the order is equal or greater than the stage.JpgImageOrder
 // - update stage.JpgImageOrder accordingly
 func (jpgimage *JpgImage) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.JpgImages[jpgimage]; !ok {
-		stage.JpgImages[jpgimage] = struct{}{}
-
-		if order > stage.JpgImageOrder {
-			stage.JpgImageOrder = order
-		}
-		stage.JpgImage_stagedOrder[jpgimage] = order
-		stage.JpgImage_orderStaged[order] = jpgimage
-		stage.JpgImageOrder++
-	}
-	stage.JpgImages_mapString[jpgimage.Name] = jpgimage
+	__gong__stagePreserveOrder(stage.JpgImages, stage.JpgImage_stagedOrder, stage.JpgImage_orderStaged, &stage.JpgImageOrder, stage.JpgImages_mapString, jpgimage, order, jpgimage.Name)
 }
 
 // Unstage removes jpgimage off the model stage
 func (jpgimage *JpgImage) Unstage(stage *Stage) *JpgImage {
-	delete(stage.JpgImages, jpgimage)
-	// issue1150
-	// delete(stage.JpgImage_stagedOrder, jpgimage)
-	delete(stage.JpgImages_mapString, jpgimage.Name)
-
+	__gong__unstage(stage.JpgImages, stage.JpgImages_mapString, jpgimage, jpgimage.Name)
 	return jpgimage
 }
 
 // UnstageVoid removes jpgimage off the model stage
 func (jpgimage *JpgImage) UnstageVoid(stage *Stage) {
-	delete(stage.JpgImages, jpgimage)
-	// issue1150
-	// delete(stage.JpgImage_stagedOrder, jpgimage)
-	delete(stage.JpgImages_mapString, jpgimage.Name)
-}
-
-// commit jpgimage to the back repo (if it is already staged)
-func (jpgimage *JpgImage) Commit(stage *Stage) *JpgImage {
-	if _, ok := stage.JpgImages[jpgimage]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitJpgImage(jpgimage)
-		}
-	}
-	return jpgimage
+	jpgimage.Unstage(stage)
 }
 
 func (jpgimage *JpgImage) StageVoid(stage *Stage) {
 	jpgimage.Stage(stage)
-}
-
-// Checkout jpgimage to the back repo (if it is already staged)
-func (jpgimage *JpgImage) Checkout(stage *Stage) *JpgImage {
-	if _, ok := stage.JpgImages[jpgimage]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutJpgImage(jpgimage)
-		}
-	}
-	return jpgimage
 }
 
 // for satisfaction of GongStruct interface
@@ -1471,14 +1150,7 @@ func (jpgimage *JpgImage) SetName(name string) {
 
 // Stage puts page to the model stage
 func (page *Page) Stage(stage *Stage) *Page {
-	if _, ok := stage.Pages[page]; !ok {
-		stage.Pages[page] = struct{}{}
-		stage.Page_stagedOrder[page] = stage.PageOrder
-		stage.Page_orderStaged[stage.PageOrder] = page
-		stage.PageOrder++
-	}
-	stage.Pages_mapString[page.Name] = page
-
+	__gong__stage(stage.Pages, stage.Page_stagedOrder, stage.Page_orderStaged, &stage.PageOrder, stage.Pages_mapString, page, page.Name)
 	return page
 }
 
@@ -1488,59 +1160,22 @@ func (page *Page) Stage(stage *Stage) *Page {
 // - force the order if the order is equal or greater than the stage.PageOrder
 // - update stage.PageOrder accordingly
 func (page *Page) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Pages[page]; !ok {
-		stage.Pages[page] = struct{}{}
-
-		if order > stage.PageOrder {
-			stage.PageOrder = order
-		}
-		stage.Page_stagedOrder[page] = order
-		stage.Page_orderStaged[order] = page
-		stage.PageOrder++
-	}
-	stage.Pages_mapString[page.Name] = page
+	__gong__stagePreserveOrder(stage.Pages, stage.Page_stagedOrder, stage.Page_orderStaged, &stage.PageOrder, stage.Pages_mapString, page, order, page.Name)
 }
 
 // Unstage removes page off the model stage
 func (page *Page) Unstage(stage *Stage) *Page {
-	delete(stage.Pages, page)
-	// issue1150
-	// delete(stage.Page_stagedOrder, page)
-	delete(stage.Pages_mapString, page.Name)
-
+	__gong__unstage(stage.Pages, stage.Pages_mapString, page, page.Name)
 	return page
 }
 
 // UnstageVoid removes page off the model stage
 func (page *Page) UnstageVoid(stage *Stage) {
-	delete(stage.Pages, page)
-	// issue1150
-	// delete(stage.Page_stagedOrder, page)
-	delete(stage.Pages_mapString, page.Name)
-}
-
-// commit page to the back repo (if it is already staged)
-func (page *Page) Commit(stage *Stage) *Page {
-	if _, ok := stage.Pages[page]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitPage(page)
-		}
-	}
-	return page
+	page.Unstage(stage)
 }
 
 func (page *Page) StageVoid(stage *Stage) {
 	page.Stage(stage)
-}
-
-// Checkout page to the back repo (if it is already staged)
-func (page *Page) Checkout(stage *Stage) *Page {
-	if _, ok := stage.Pages[page]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutPage(page)
-		}
-	}
-	return page
 }
 
 // for satisfaction of GongStruct interface
@@ -1555,14 +1190,7 @@ func (page *Page) SetName(name string) {
 
 // Stage puts pngimage to the model stage
 func (pngimage *PngImage) Stage(stage *Stage) *PngImage {
-	if _, ok := stage.PngImages[pngimage]; !ok {
-		stage.PngImages[pngimage] = struct{}{}
-		stage.PngImage_stagedOrder[pngimage] = stage.PngImageOrder
-		stage.PngImage_orderStaged[stage.PngImageOrder] = pngimage
-		stage.PngImageOrder++
-	}
-	stage.PngImages_mapString[pngimage.Name] = pngimage
-
+	__gong__stage(stage.PngImages, stage.PngImage_stagedOrder, stage.PngImage_orderStaged, &stage.PngImageOrder, stage.PngImages_mapString, pngimage, pngimage.Name)
 	return pngimage
 }
 
@@ -1572,59 +1200,22 @@ func (pngimage *PngImage) Stage(stage *Stage) *PngImage {
 // - force the order if the order is equal or greater than the stage.PngImageOrder
 // - update stage.PngImageOrder accordingly
 func (pngimage *PngImage) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.PngImages[pngimage]; !ok {
-		stage.PngImages[pngimage] = struct{}{}
-
-		if order > stage.PngImageOrder {
-			stage.PngImageOrder = order
-		}
-		stage.PngImage_stagedOrder[pngimage] = order
-		stage.PngImage_orderStaged[order] = pngimage
-		stage.PngImageOrder++
-	}
-	stage.PngImages_mapString[pngimage.Name] = pngimage
+	__gong__stagePreserveOrder(stage.PngImages, stage.PngImage_stagedOrder, stage.PngImage_orderStaged, &stage.PngImageOrder, stage.PngImages_mapString, pngimage, order, pngimage.Name)
 }
 
 // Unstage removes pngimage off the model stage
 func (pngimage *PngImage) Unstage(stage *Stage) *PngImage {
-	delete(stage.PngImages, pngimage)
-	// issue1150
-	// delete(stage.PngImage_stagedOrder, pngimage)
-	delete(stage.PngImages_mapString, pngimage.Name)
-
+	__gong__unstage(stage.PngImages, stage.PngImages_mapString, pngimage, pngimage.Name)
 	return pngimage
 }
 
 // UnstageVoid removes pngimage off the model stage
 func (pngimage *PngImage) UnstageVoid(stage *Stage) {
-	delete(stage.PngImages, pngimage)
-	// issue1150
-	// delete(stage.PngImage_stagedOrder, pngimage)
-	delete(stage.PngImages_mapString, pngimage.Name)
-}
-
-// commit pngimage to the back repo (if it is already staged)
-func (pngimage *PngImage) Commit(stage *Stage) *PngImage {
-	if _, ok := stage.PngImages[pngimage]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitPngImage(pngimage)
-		}
-	}
-	return pngimage
+	pngimage.Unstage(stage)
 }
 
 func (pngimage *PngImage) StageVoid(stage *Stage) {
 	pngimage.Stage(stage)
-}
-
-// Checkout pngimage to the back repo (if it is already staged)
-func (pngimage *PngImage) Checkout(stage *Stage) *PngImage {
-	if _, ok := stage.PngImages[pngimage]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutPngImage(pngimage)
-		}
-	}
-	return pngimage
 }
 
 // for satisfaction of GongStruct interface
@@ -1639,14 +1230,7 @@ func (pngimage *PngImage) SetName(name string) {
 
 // Stage puts section to the model stage
 func (section *Section) Stage(stage *Stage) *Section {
-	if _, ok := stage.Sections[section]; !ok {
-		stage.Sections[section] = struct{}{}
-		stage.Section_stagedOrder[section] = stage.SectionOrder
-		stage.Section_orderStaged[stage.SectionOrder] = section
-		stage.SectionOrder++
-	}
-	stage.Sections_mapString[section.Name] = section
-
+	__gong__stage(stage.Sections, stage.Section_stagedOrder, stage.Section_orderStaged, &stage.SectionOrder, stage.Sections_mapString, section, section.Name)
 	return section
 }
 
@@ -1656,59 +1240,22 @@ func (section *Section) Stage(stage *Stage) *Section {
 // - force the order if the order is equal or greater than the stage.SectionOrder
 // - update stage.SectionOrder accordingly
 func (section *Section) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Sections[section]; !ok {
-		stage.Sections[section] = struct{}{}
-
-		if order > stage.SectionOrder {
-			stage.SectionOrder = order
-		}
-		stage.Section_stagedOrder[section] = order
-		stage.Section_orderStaged[order] = section
-		stage.SectionOrder++
-	}
-	stage.Sections_mapString[section.Name] = section
+	__gong__stagePreserveOrder(stage.Sections, stage.Section_stagedOrder, stage.Section_orderStaged, &stage.SectionOrder, stage.Sections_mapString, section, order, section.Name)
 }
 
 // Unstage removes section off the model stage
 func (section *Section) Unstage(stage *Stage) *Section {
-	delete(stage.Sections, section)
-	// issue1150
-	// delete(stage.Section_stagedOrder, section)
-	delete(stage.Sections_mapString, section.Name)
-
+	__gong__unstage(stage.Sections, stage.Sections_mapString, section, section.Name)
 	return section
 }
 
 // UnstageVoid removes section off the model stage
 func (section *Section) UnstageVoid(stage *Stage) {
-	delete(stage.Sections, section)
-	// issue1150
-	// delete(stage.Section_stagedOrder, section)
-	delete(stage.Sections_mapString, section.Name)
-}
-
-// commit section to the back repo (if it is already staged)
-func (section *Section) Commit(stage *Stage) *Section {
-	if _, ok := stage.Sections[section]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitSection(section)
-		}
-	}
-	return section
+	section.Unstage(stage)
 }
 
 func (section *Section) StageVoid(stage *Stage) {
 	section.Stage(stage)
-}
-
-// Checkout section to the back repo (if it is already staged)
-func (section *Section) Checkout(stage *Stage) *Section {
-	if _, ok := stage.Sections[section]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutSection(section)
-		}
-	}
-	return section
 }
 
 // for satisfaction of GongStruct interface
@@ -1723,14 +1270,7 @@ func (section *Section) SetName(name string) {
 
 // Stage puts svgimage to the model stage
 func (svgimage *SvgImage) Stage(stage *Stage) *SvgImage {
-	if _, ok := stage.SvgImages[svgimage]; !ok {
-		stage.SvgImages[svgimage] = struct{}{}
-		stage.SvgImage_stagedOrder[svgimage] = stage.SvgImageOrder
-		stage.SvgImage_orderStaged[stage.SvgImageOrder] = svgimage
-		stage.SvgImageOrder++
-	}
-	stage.SvgImages_mapString[svgimage.Name] = svgimage
-
+	__gong__stage(stage.SvgImages, stage.SvgImage_stagedOrder, stage.SvgImage_orderStaged, &stage.SvgImageOrder, stage.SvgImages_mapString, svgimage, svgimage.Name)
 	return svgimage
 }
 
@@ -1740,59 +1280,22 @@ func (svgimage *SvgImage) Stage(stage *Stage) *SvgImage {
 // - force the order if the order is equal or greater than the stage.SvgImageOrder
 // - update stage.SvgImageOrder accordingly
 func (svgimage *SvgImage) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.SvgImages[svgimage]; !ok {
-		stage.SvgImages[svgimage] = struct{}{}
-
-		if order > stage.SvgImageOrder {
-			stage.SvgImageOrder = order
-		}
-		stage.SvgImage_stagedOrder[svgimage] = order
-		stage.SvgImage_orderStaged[order] = svgimage
-		stage.SvgImageOrder++
-	}
-	stage.SvgImages_mapString[svgimage.Name] = svgimage
+	__gong__stagePreserveOrder(stage.SvgImages, stage.SvgImage_stagedOrder, stage.SvgImage_orderStaged, &stage.SvgImageOrder, stage.SvgImages_mapString, svgimage, order, svgimage.Name)
 }
 
 // Unstage removes svgimage off the model stage
 func (svgimage *SvgImage) Unstage(stage *Stage) *SvgImage {
-	delete(stage.SvgImages, svgimage)
-	// issue1150
-	// delete(stage.SvgImage_stagedOrder, svgimage)
-	delete(stage.SvgImages_mapString, svgimage.Name)
-
+	__gong__unstage(stage.SvgImages, stage.SvgImages_mapString, svgimage, svgimage.Name)
 	return svgimage
 }
 
 // UnstageVoid removes svgimage off the model stage
 func (svgimage *SvgImage) UnstageVoid(stage *Stage) {
-	delete(stage.SvgImages, svgimage)
-	// issue1150
-	// delete(stage.SvgImage_stagedOrder, svgimage)
-	delete(stage.SvgImages_mapString, svgimage.Name)
-}
-
-// commit svgimage to the back repo (if it is already staged)
-func (svgimage *SvgImage) Commit(stage *Stage) *SvgImage {
-	if _, ok := stage.SvgImages[svgimage]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitSvgImage(svgimage)
-		}
-	}
-	return svgimage
+	svgimage.Unstage(stage)
 }
 
 func (svgimage *SvgImage) StageVoid(stage *Stage) {
 	svgimage.Stage(stage)
-}
-
-// Checkout svgimage to the back repo (if it is already staged)
-func (svgimage *SvgImage) Checkout(stage *Stage) *SvgImage {
-	if _, ok := stage.SvgImages[svgimage]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutSvgImage(svgimage)
-		}
-	}
-	return svgimage
 }
 
 // for satisfaction of GongStruct interface
@@ -1806,45 +1309,21 @@ func (svgimage *SvgImage) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Chapters = make(map[*Chapter]struct{})
-	stage.Chapters_mapString = make(map[string]*Chapter)
-	stage.Chapter_stagedOrder = make(map[*Chapter]uint)
-	stage.ChapterOrder = 0
+	__gong__resetStageType(&stage.Chapters, &stage.Chapters_mapString, &stage.Chapter_stagedOrder, &stage.ChapterOrder)
 
-	stage.Contents = make(map[*Content]struct{})
-	stage.Contents_mapString = make(map[string]*Content)
-	stage.Content_stagedOrder = make(map[*Content]uint)
-	stage.ContentOrder = 0
+	__gong__resetStageType(&stage.Contents, &stage.Contents_mapString, &stage.Content_stagedOrder, &stage.ContentOrder)
 
-	stage.DownloadableFiles = make(map[*DownloadableFile]struct{})
-	stage.DownloadableFiles_mapString = make(map[string]*DownloadableFile)
-	stage.DownloadableFile_stagedOrder = make(map[*DownloadableFile]uint)
-	stage.DownloadableFileOrder = 0
+	__gong__resetStageType(&stage.DownloadableFiles, &stage.DownloadableFiles_mapString, &stage.DownloadableFile_stagedOrder, &stage.DownloadableFileOrder)
 
-	stage.JpgImages = make(map[*JpgImage]struct{})
-	stage.JpgImages_mapString = make(map[string]*JpgImage)
-	stage.JpgImage_stagedOrder = make(map[*JpgImage]uint)
-	stage.JpgImageOrder = 0
+	__gong__resetStageType(&stage.JpgImages, &stage.JpgImages_mapString, &stage.JpgImage_stagedOrder, &stage.JpgImageOrder)
 
-	stage.Pages = make(map[*Page]struct{})
-	stage.Pages_mapString = make(map[string]*Page)
-	stage.Page_stagedOrder = make(map[*Page]uint)
-	stage.PageOrder = 0
+	__gong__resetStageType(&stage.Pages, &stage.Pages_mapString, &stage.Page_stagedOrder, &stage.PageOrder)
 
-	stage.PngImages = make(map[*PngImage]struct{})
-	stage.PngImages_mapString = make(map[string]*PngImage)
-	stage.PngImage_stagedOrder = make(map[*PngImage]uint)
-	stage.PngImageOrder = 0
+	__gong__resetStageType(&stage.PngImages, &stage.PngImages_mapString, &stage.PngImage_stagedOrder, &stage.PngImageOrder)
 
-	stage.Sections = make(map[*Section]struct{})
-	stage.Sections_mapString = make(map[string]*Section)
-	stage.Section_stagedOrder = make(map[*Section]uint)
-	stage.SectionOrder = 0
+	__gong__resetStageType(&stage.Sections, &stage.Sections_mapString, &stage.Section_stagedOrder, &stage.SectionOrder)
 
-	stage.SvgImages = make(map[*SvgImage]struct{})
-	stage.SvgImages_mapString = make(map[string]*SvgImage)
-	stage.SvgImage_stagedOrder = make(map[*SvgImage]uint)
-	stage.SvgImageOrder = 0
+	__gong__resetStageType(&stage.SvgImages, &stage.SvgImages_mapString, &stage.SvgImage_stagedOrder, &stage.SvgImageOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -1883,7 +1362,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -2882,45 +2360,21 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.Chapters_mapString = make(map[string]*Chapter)
-	for chapter := range stage.Chapters {
-		stage.Chapters_mapString[chapter.Name] = chapter
-	}
+	__gong__rebuildMapString(stage.Chapters, &stage.Chapters_mapString)
 
-	stage.Contents_mapString = make(map[string]*Content)
-	for content := range stage.Contents {
-		stage.Contents_mapString[content.Name] = content
-	}
+	__gong__rebuildMapString(stage.Contents, &stage.Contents_mapString)
 
-	stage.DownloadableFiles_mapString = make(map[string]*DownloadableFile)
-	for downloadablefile := range stage.DownloadableFiles {
-		stage.DownloadableFiles_mapString[downloadablefile.Name] = downloadablefile
-	}
+	__gong__rebuildMapString(stage.DownloadableFiles, &stage.DownloadableFiles_mapString)
 
-	stage.JpgImages_mapString = make(map[string]*JpgImage)
-	for jpgimage := range stage.JpgImages {
-		stage.JpgImages_mapString[jpgimage.Name] = jpgimage
-	}
+	__gong__rebuildMapString(stage.JpgImages, &stage.JpgImages_mapString)
 
-	stage.Pages_mapString = make(map[string]*Page)
-	for page := range stage.Pages {
-		stage.Pages_mapString[page.Name] = page
-	}
+	__gong__rebuildMapString(stage.Pages, &stage.Pages_mapString)
 
-	stage.PngImages_mapString = make(map[string]*PngImage)
-	for pngimage := range stage.PngImages {
-		stage.PngImages_mapString[pngimage.Name] = pngimage
-	}
+	__gong__rebuildMapString(stage.PngImages, &stage.PngImages_mapString)
 
-	stage.Sections_mapString = make(map[string]*Section)
-	for section := range stage.Sections {
-		stage.Sections_mapString[section.Name] = section
-	}
+	__gong__rebuildMapString(stage.Sections, &stage.Sections_mapString)
 
-	stage.SvgImages_mapString = make(map[string]*SvgImage)
-	for svgimage := range stage.SvgImages {
-		stage.SvgImages_mapString[svgimage.Name] = svgimage
-	}
+	__gong__rebuildMapString(stage.SvgImages, &stage.SvgImages_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

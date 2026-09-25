@@ -20,31 +20,16 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct FileToDownload
-	// insertion point per field
-
-	// Compute reverse map for named struct FileToUpload
-	// insertion point per field
-
-	// Compute reverse map for named struct Message
-	// insertion point per field
-
 	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.FileToDownloads {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.FileToDownloads)
 
-	for instance := range stage.FileToUploads {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.FileToUploads)
 
-	for instance := range stage.Messages {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Messages)
 
 	return
 }
@@ -69,34 +54,16 @@ func (message *Message) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
-func (filetodownload *FileToDownload) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(filetodownload).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(filetodownload), uint64(stage.GetOrder(filetodownload)))
-	return
+func (filetodownload *FileToDownload) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, filetodownload)
 }
 
-func (filetoupload *FileToUpload) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(filetoupload).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(filetoupload), uint64(stage.GetOrder(filetoupload)))
-	return
+func (filetoupload *FileToUpload) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, filetoupload)
 }
 
-func (message *Message) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(message).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(message), uint64(stage.GetOrder(message)))
-	return
+func (message *Message) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, message)
 }
 
 
@@ -285,51 +252,18 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.FileToDownloads_reference = make(map[*FileToDownload]*FileToDownload)
-	stage.FileToDownloads_referenceOrder = make(map[*FileToDownload]uint) // diff Unstage needs the reference order
-	stage.FileToDownloads_instance = make(map[*FileToDownload]*FileToDownload)
-	for instance := range stage.FileToDownloads {
-		_copy := instance.GongCopy().(*FileToDownload)
-		stage.FileToDownloads_reference[instance] = _copy
-		stage.FileToDownloads_instance[_copy] = instance
-		stage.FileToDownloads_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.FileToDownloads, &stage.FileToDownloads_reference, &stage.FileToDownloads_referenceOrder, &stage.FileToDownloads_instance)
 
-	stage.FileToUploads_reference = make(map[*FileToUpload]*FileToUpload)
-	stage.FileToUploads_referenceOrder = make(map[*FileToUpload]uint) // diff Unstage needs the reference order
-	stage.FileToUploads_instance = make(map[*FileToUpload]*FileToUpload)
-	for instance := range stage.FileToUploads {
-		_copy := instance.GongCopy().(*FileToUpload)
-		stage.FileToUploads_reference[instance] = _copy
-		stage.FileToUploads_instance[_copy] = instance
-		stage.FileToUploads_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.FileToUploads, &stage.FileToUploads_reference, &stage.FileToUploads_referenceOrder, &stage.FileToUploads_instance)
 
-	stage.Messages_reference = make(map[*Message]*Message)
-	stage.Messages_referenceOrder = make(map[*Message]uint) // diff Unstage needs the reference order
-	stage.Messages_instance = make(map[*Message]*Message)
-	for instance := range stage.Messages {
-		_copy := instance.GongCopy().(*Message)
-		stage.Messages_reference[instance] = _copy
-		stage.Messages_instance[_copy] = instance
-		stage.Messages_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Messages, &stage.Messages_reference, &stage.Messages_referenceOrder, &stage.Messages_instance)
 
 	// insertion point per named struct
-	for instance := range stage.FileToDownloads {
-		reference := stage.FileToDownloads_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.FileToDownloads, stage.FileToDownloads_reference, stage)
 
-	for instance := range stage.FileToUploads {
-		reference := stage.FileToUploads_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.FileToUploads, stage.FileToUploads_reference, stage)
 
-	for instance := range stage.Messages {
-		reference := stage.Messages_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Messages, stage.Messages_reference, stage)
 
 	stage.recomputeOrders()
 }
@@ -342,39 +276,15 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (filetodownload *FileToDownload) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.FileToDownload_stagedOrder[filetodownload]; ok {
-		return order
-	}
-	if order, ok := stage.FileToDownloads_referenceOrder[filetodownload]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type FileToDownload was not staged and does not have a reference order", filetodownload)
-		return 0
-	}
+	return __gong__getOrder(stage.FileToDownload_stagedOrder, stage.FileToDownloads_referenceOrder, filetodownload, "FileToDownload")
 }
 
 func (filetoupload *FileToUpload) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.FileToUpload_stagedOrder[filetoupload]; ok {
-		return order
-	}
-	if order, ok := stage.FileToUploads_referenceOrder[filetoupload]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type FileToUpload was not staged and does not have a reference order", filetoupload)
-		return 0
-	}
+	return __gong__getOrder(stage.FileToUpload_stagedOrder, stage.FileToUploads_referenceOrder, filetoupload, "FileToUpload")
 }
 
 func (message *Message) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Message_stagedOrder[message]; ok {
-		return order
-	}
-	if order, ok := stage.Messages_referenceOrder[message]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Message was not staged and does not have a reference order", message)
-		return 0
-	}
+	return __gong__getOrder(stage.Message_stagedOrder, stage.Messages_referenceOrder, message, "Message")
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -383,76 +293,58 @@ func (message *Message) GongGetOrder(stage *Stage) uint {
 // It is used to identify instances across sessions
 // insertion point per named struct
 func (filetodownload *FileToDownload) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", filetodownload.GongGetGongstructName(), filetodownload.GongGetOrder(stage))
+	return __gong__formatIdentifier(filetodownload, filetodownload.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (filetodownload *FileToDownload) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", filetodownload.GongGetGongstructName(), filetodownload.GongGetOrder(stage))
+	return filetodownload.GongGetIdentifier(stage)
 }
 
 func (filetoupload *FileToUpload) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", filetoupload.GongGetGongstructName(), filetoupload.GongGetOrder(stage))
+	return __gong__formatIdentifier(filetoupload, filetoupload.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (filetoupload *FileToUpload) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", filetoupload.GongGetGongstructName(), filetoupload.GongGetOrder(stage))
+	return filetoupload.GongGetIdentifier(stage)
 }
 
 func (message *Message) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", message.GongGetGongstructName(), message.GongGetOrder(stage))
+	return __gong__formatIdentifier(message, message.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (message *Message) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", message.GongGetGongstructName(), message.GongGetOrder(stage))
+	return message.GongGetIdentifier(stage)
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (filetodownload *FileToDownload) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToDownload")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(filetodownload.Name))
-	return
+func (filetodownload *FileToDownload) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(filetodownload.GongGetIdentifier(stage), "FileToDownload", filetodownload.Name)
 }
 
-func (filetoupload *FileToUpload) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToUpload")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(filetoupload.Name))
-	return
+func (filetoupload *FileToUpload) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(filetoupload.GongGetIdentifier(stage), "FileToUpload", filetoupload.Name)
 }
 
-func (message *Message) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Message")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(message.Name))
-	return
+func (message *Message) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(message.GongGetIdentifier(stage), "Message", message.Name)
 }
 
 // insertion point for unstaging
-func (filetodownload *FileToDownload) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetodownload.GongGetReferenceIdentifier(stage))
-	return
+func (filetodownload *FileToDownload) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(filetodownload.GongGetReferenceIdentifier(stage))
 }
 
-func (filetoupload *FileToUpload) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetoupload.GongGetReferenceIdentifier(stage))
-	return
+func (filetoupload *FileToUpload) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(filetoupload.GongGetReferenceIdentifier(stage))
 }
 
-func (message *Message) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetReferenceIdentifier(stage))
-	return
+func (message *Message) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(message.GongGetReferenceIdentifier(stage))
 }
 
 func GongIntToLetters(number int32) (letters string) {
@@ -496,6 +388,79 @@ func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 5. Format and return the byte array as a standard UUID string
 	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
 		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
+}
+
+func __gong__appendInstances[T interface {
+	comparable
+	GongstructIF
+}](res []GongstructIF, m map[T]struct{}) []GongstructIF {
+	for instance := range m {
+		res = append(res, instance)
+	}
+	return res
+}
+
+func __gong__getUUID(stage *Stage, instance GongstructIF) string {
+	if __gong__, ok := any(instance).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+	return GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(instance), uint64(stage.GetOrder(instance)))
+}
+
+func __gong__computeReferencePass1[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	staged map[T]struct{},
+	ref *map[T]T,
+	refOrder *map[T]uint,
+	inst *map[T]T,
+) {
+	*ref = make(map[T]T, len(staged))
+	*refOrder = make(map[T]uint, len(staged))
+	*inst = make(map[T]T, len(staged))
+	for instance := range staged {
+		_copy := instance.GongCopy().(T)
+		(*ref)[instance] = _copy
+		(*inst)[_copy] = instance
+		(*refOrder)[_copy] = instance.GongGetOrder(stage)
+	}
+}
+
+func __gong__computeReferencePass2[T interface {
+	comparable
+	GongstructIF
+	GongReconstructPointersFromReferences(*Stage, T)
+}](staged map[T]struct{}, reference map[T]T, stage *Stage) {
+	for instance := range staged {
+		reference[instance].GongReconstructPointersFromReferences(stage, instance)
+	}
+}
+
+func __gong__getOrder[T comparable](stagedOrder, refOrder map[T]uint, instance T, typeName string) uint {
+	if order, ok := stagedOrder[instance]; ok {
+		return order
+	}
+	if order, ok := refOrder[instance]; ok {
+		return order
+	}
+	log.Printf("instance %p of type %s was not staged and does not have a reference order", any(instance), typeName)
+	return 0
+}
+
+func __gong__formatIdentifier(s GongstructIF, order uint) string {
+	return fmt.Sprintf("__%s__%08d_", s.GongGetGongstructName(), order)
+}
+
+func __gong__marshallIdentifier(identifier, structName, name string) string {
+	decl := strings.ReplaceAll(GongIdentifiersDecls, "{{Identifier}}", identifier)
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", structName)
+	return strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(name))
+}
+
+func __gong__marshallUnstaging(identifier string) string {
+	return strings.ReplaceAll(GongUnstageStmt, "{{Identifier}}", identifier)
 }
 
 // end of template

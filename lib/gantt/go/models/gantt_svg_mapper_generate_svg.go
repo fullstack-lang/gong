@@ -209,7 +209,6 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 
 				if someethingChanged {
 					log.Println(diffStart, diffEnd)
-					bar.Commit(gongganttStage)
 					gongganttStage.Commit()
 				}
 			}

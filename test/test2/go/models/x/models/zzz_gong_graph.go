@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,16 +15,9 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (submodel *SubModel) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SubModels[submodel]
-
-	return
-}
-
-func (stage *Stage) IsStagedSubModel(submodel *SubModel) (ok bool) {
-
-	return submodel.GongIsStaged(stage)
+func (submodel *SubModel) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SubModels[submodel]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -33,10 +29,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (submodel *SubModel) GongStageBranch(stage *Stage) {
-	stage.StageBranchSubModel(submodel)
-}
-
-func (stage *Stage) StageBranchSubModel(submodel *SubModel) {
 
 	// check if instance is already staged
 	if stage.IsStaged(submodel) {
@@ -74,15 +66,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchSubModel(mapOrigCopy map[any]any, submodelFrom *SubModel) (submodelTo *SubModel) {
-
-	// submodelFrom has already been copied
-	if _submodelTo, ok := mapOrigCopy[submodelFrom]; ok {
-		submodelTo = _submodelTo.(*SubModel)
+	var alreadyCopied bool
+	submodelTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, submodelFrom)
+	if alreadyCopied {
 		return
 	}
-
-	submodelTo = new(SubModel)
-	mapOrigCopy[submodelFrom] = submodelTo
 	submodelFrom.GongCopyBasicFields(submodelTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -105,10 +93,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (submodel *SubModel) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSubModel(submodel)
-}
-
-func (stage *Stage) UnstageBranchSubModel(submodel *SubModel) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(submodel) {
@@ -223,4 +207,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

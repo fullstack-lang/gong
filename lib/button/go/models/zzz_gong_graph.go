@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,64 +15,29 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (button *Button) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Buttons[button]
-
-	return
+func (button *Button) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Buttons[button]
+	return ok
 }
 
-func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
-
-	return button.GongIsStaged(stage)
+func (buttontoggle *ButtonToggle) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ButtonToggles[buttontoggle]
+	return ok
 }
 
-func (buttontoggle *ButtonToggle) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ButtonToggles[buttontoggle]
-
-	return
+func (group *Group) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Groups[group]
+	return ok
 }
 
-func (stage *Stage) IsStagedButtonToggle(buttontoggle *ButtonToggle) (ok bool) {
-
-	return buttontoggle.GongIsStaged(stage)
+func (grouptoogle *GroupToogle) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.GroupToogles[grouptoogle]
+	return ok
 }
 
-func (group *Group) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Groups[group]
-
-	return
-}
-
-func (stage *Stage) IsStagedGroup(group *Group) (ok bool) {
-
-	return group.GongIsStaged(stage)
-}
-
-func (grouptoogle *GroupToogle) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.GroupToogles[grouptoogle]
-
-	return
-}
-
-func (stage *Stage) IsStagedGroupToogle(grouptoogle *GroupToogle) (ok bool) {
-
-	return grouptoogle.GongIsStaged(stage)
-}
-
-func (layout *Layout) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Layouts[layout]
-
-	return
-}
-
-func (stage *Stage) IsStagedLayout(layout *Layout) (ok bool) {
-
-	return layout.GongIsStaged(stage)
+func (layout *Layout) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Layouts[layout]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -81,10 +49,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (button *Button) GongStageBranch(stage *Stage) {
-	stage.StageBranchButton(button)
-}
-
-func (stage *Stage) StageBranchButton(button *Button) {
 
 	// check if instance is already staged
 	if stage.IsStaged(button) {
@@ -100,10 +64,6 @@ func (stage *Stage) StageBranchButton(button *Button) {
 }
 
 func (buttontoggle *ButtonToggle) GongStageBranch(stage *Stage) {
-	stage.StageBranchButtonToggle(buttontoggle)
-}
-
-func (stage *Stage) StageBranchButtonToggle(buttontoggle *ButtonToggle) {
 
 	// check if instance is already staged
 	if stage.IsStaged(buttontoggle) {
@@ -119,10 +79,6 @@ func (stage *Stage) StageBranchButtonToggle(buttontoggle *ButtonToggle) {
 }
 
 func (group *Group) GongStageBranch(stage *Stage) {
-	stage.StageBranchGroup(group)
-}
-
-func (stage *Stage) StageBranchGroup(group *Group) {
 
 	// check if instance is already staged
 	if stage.IsStaged(group) {
@@ -141,10 +97,6 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 }
 
 func (grouptoogle *GroupToogle) GongStageBranch(stage *Stage) {
-	stage.StageBranchGroupToogle(grouptoogle)
-}
-
-func (stage *Stage) StageBranchGroupToogle(grouptoogle *GroupToogle) {
 
 	// check if instance is already staged
 	if stage.IsStaged(grouptoogle) {
@@ -163,10 +115,6 @@ func (stage *Stage) StageBranchGroupToogle(grouptoogle *GroupToogle) {
 }
 
 func (layout *Layout) GongStageBranch(stage *Stage) {
-	stage.StageBranchLayout(layout)
-}
-
-func (stage *Stage) StageBranchLayout(layout *Layout) {
 
 	// check if instance is already staged
 	if stage.IsStaged(layout) {
@@ -226,15 +174,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
-
-	// buttonFrom has already been copied
-	if _buttonTo, ok := mapOrigCopy[buttonFrom]; ok {
-		buttonTo = _buttonTo.(*Button)
+	var alreadyCopied bool
+	buttonTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, buttonFrom)
+	if alreadyCopied {
 		return
 	}
-
-	buttonTo = new(Button)
-	mapOrigCopy[buttonFrom] = buttonTo
 	buttonFrom.GongCopyBasicFields(buttonTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -245,15 +189,11 @@ func GongCopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo
 }
 
 func GongCopyBranchButtonToggle(mapOrigCopy map[any]any, buttontoggleFrom *ButtonToggle) (buttontoggleTo *ButtonToggle) {
-
-	// buttontoggleFrom has already been copied
-	if _buttontoggleTo, ok := mapOrigCopy[buttontoggleFrom]; ok {
-		buttontoggleTo = _buttontoggleTo.(*ButtonToggle)
+	var alreadyCopied bool
+	buttontoggleTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, buttontoggleFrom)
+	if alreadyCopied {
 		return
 	}
-
-	buttontoggleTo = new(ButtonToggle)
-	mapOrigCopy[buttontoggleFrom] = buttontoggleTo
 	buttontoggleFrom.GongCopyBasicFields(buttontoggleTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -264,15 +204,11 @@ func GongCopyBranchButtonToggle(mapOrigCopy map[any]any, buttontoggleFrom *Butto
 }
 
 func GongCopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group) {
-
-	// groupFrom has already been copied
-	if _groupTo, ok := mapOrigCopy[groupFrom]; ok {
-		groupTo = _groupTo.(*Group)
+	var alreadyCopied bool
+	groupTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, groupFrom)
+	if alreadyCopied {
 		return
 	}
-
-	groupTo = new(Group)
-	mapOrigCopy[groupFrom] = groupTo
 	groupFrom.GongCopyBasicFields(groupTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -286,15 +222,11 @@ func GongCopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Gr
 }
 
 func GongCopyBranchGroupToogle(mapOrigCopy map[any]any, grouptoogleFrom *GroupToogle) (grouptoogleTo *GroupToogle) {
-
-	// grouptoogleFrom has already been copied
-	if _grouptoogleTo, ok := mapOrigCopy[grouptoogleFrom]; ok {
-		grouptoogleTo = _grouptoogleTo.(*GroupToogle)
+	var alreadyCopied bool
+	grouptoogleTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, grouptoogleFrom)
+	if alreadyCopied {
 		return
 	}
-
-	grouptoogleTo = new(GroupToogle)
-	mapOrigCopy[grouptoogleFrom] = grouptoogleTo
 	grouptoogleFrom.GongCopyBasicFields(grouptoogleTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -308,15 +240,11 @@ func GongCopyBranchGroupToogle(mapOrigCopy map[any]any, grouptoogleFrom *GroupTo
 }
 
 func GongCopyBranchLayout(mapOrigCopy map[any]any, layoutFrom *Layout) (layoutTo *Layout) {
-
-	// layoutFrom has already been copied
-	if _layoutTo, ok := mapOrigCopy[layoutFrom]; ok {
-		layoutTo = _layoutTo.(*Layout)
+	var alreadyCopied bool
+	layoutTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, layoutFrom)
+	if alreadyCopied {
 		return
 	}
-
-	layoutTo = new(Layout)
-	mapOrigCopy[layoutFrom] = layoutTo
 	layoutFrom.GongCopyBasicFields(layoutTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -345,10 +273,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (button *Button) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchButton(button)
-}
-
-func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(button) {
@@ -364,10 +288,6 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 }
 
 func (buttontoggle *ButtonToggle) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchButtonToggle(buttontoggle)
-}
-
-func (stage *Stage) UnstageBranchButtonToggle(buttontoggle *ButtonToggle) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(buttontoggle) {
@@ -383,10 +303,6 @@ func (stage *Stage) UnstageBranchButtonToggle(buttontoggle *ButtonToggle) {
 }
 
 func (group *Group) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchGroup(group)
-}
-
-func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(group) {
@@ -405,10 +321,6 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 }
 
 func (grouptoogle *GroupToogle) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchGroupToogle(grouptoogle)
-}
-
-func (stage *Stage) UnstageBranchGroupToogle(grouptoogle *GroupToogle) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(grouptoogle) {
@@ -427,10 +339,6 @@ func (stage *Stage) UnstageBranchGroupToogle(grouptoogle *GroupToogle) {
 }
 
 func (layout *Layout) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLayout(layout)
-}
-
-func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(layout) {
@@ -465,32 +373,20 @@ func (reference *ButtonToggle) GongReconstructPointersFromReferences(stage *Stag
 func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Buttons = reference.Buttons[:0]
-	for _, _b := range instance.Buttons {
-		reference.Buttons = append(reference.Buttons, stage.Buttons_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Buttons, stage.Buttons_reference, instance.Buttons)
 }
 
 func (reference *GroupToogle) GongReconstructPointersFromReferences(stage *Stage, instance *GroupToogle) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.ButtonToggles = reference.ButtonToggles[:0]
-	for _, _b := range instance.ButtonToggles {
-		reference.ButtonToggles = append(reference.ButtonToggles, stage.ButtonToggles_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ButtonToggles, stage.ButtonToggles_reference, instance.ButtonToggles)
 }
 
 func (reference *Layout) GongReconstructPointersFromReferences(stage *Stage, instance *Layout) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Groups = reference.Groups[:0]
-	for _, _b := range instance.Groups {
-		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
-	}
-	reference.GroupToogles = reference.GroupToogles[:0]
-	for _, _b := range instance.GroupToogles {
-		reference.GroupToogles = append(reference.GroupToogles, stage.GroupToogles_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Groups, stage.Groups_reference, instance.Groups)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.GroupToogles, stage.GroupToogles_reference, instance.GroupToogles)
 }
 
 // insertion point for pointer reconstruction from instances
@@ -507,44 +403,20 @@ func (reference *ButtonToggle) GongReconstructPointersFromInstances(stage *Stage
 func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Buttons []*Button
-	for _, _reference := range reference.Buttons {
-		if _instance, ok := stage.Buttons_instance[_reference]; ok {
-			_Buttons = append(_Buttons, _instance)
-		}
-	}
-	reference.Buttons = _Buttons
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Buttons, stage.Buttons_instance)
 }
 
 func (reference *GroupToogle) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _ButtonToggles []*ButtonToggle
-	for _, _reference := range reference.ButtonToggles {
-		if _instance, ok := stage.ButtonToggles_instance[_reference]; ok {
-			_ButtonToggles = append(_ButtonToggles, _instance)
-		}
-	}
-	reference.ButtonToggles = _ButtonToggles
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ButtonToggles, stage.ButtonToggles_instance)
 }
 
 func (reference *Layout) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Groups []*Group
-	for _, _reference := range reference.Groups {
-		if _instance, ok := stage.Groups_instance[_reference]; ok {
-			_Groups = append(_Groups, _instance)
-		}
-	}
-	reference.Groups = _Groups
-	var _GroupToogles []*GroupToogle
-	for _, _reference := range reference.GroupToogles {
-		if _instance, ok := stage.GroupToogles_instance[_reference]; ok {
-			_GroupToogles = append(_GroupToogles, _instance)
-		}
-	}
-	reference.GroupToogles = _GroupToogles
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Groups, stage.Groups_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.GroupToogles, stage.GroupToogles_instance)
 }
 
 // insertion point for diff per struct
@@ -619,36 +491,7 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 	if group.Percentage != groupOther.Percentage {
 		diffs = append(diffs, group.GongMarshallField(stage, "Percentage"))
 	}
-	ButtonsDifferent := false
-	if len(group.Buttons) != len(groupOther.Buttons) {
-		ButtonsDifferent = true
-	} else {
-		for i := range group.Buttons {
-			if (group.Buttons[i] == nil) != (groupOther.Buttons[i] == nil) {
-				ButtonsDifferent = true
-				break
-			} else if group.Buttons[i] != nil && groupOther.Buttons[i] != nil {
-				// this is a pointer comparaison
-				if group.Buttons[i] != groupOther.Buttons[i] {
-					ButtonsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ButtonsDifferent {
-		ops := stage.Diff(
-			group,
-			"Buttons",
-			len(groupOther.Buttons),
-			len(group.Buttons),
-			func(i, j int) bool {
-				return groupOther.Buttons[i] == group.Buttons[j]
-			},
-			func(j int) string {
-				return group.Buttons[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, group, "Buttons", groupOther.Buttons, group.Buttons); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if group.NbColumns != groupOther.NbColumns {
@@ -668,36 +511,7 @@ func (grouptoogle *GroupToogle) GongDiff(stage *Stage, grouptoogleOther *GroupTo
 	if grouptoogle.Percentage != grouptoogleOther.Percentage {
 		diffs = append(diffs, grouptoogle.GongMarshallField(stage, "Percentage"))
 	}
-	ButtonTogglesDifferent := false
-	if len(grouptoogle.ButtonToggles) != len(grouptoogleOther.ButtonToggles) {
-		ButtonTogglesDifferent = true
-	} else {
-		for i := range grouptoogle.ButtonToggles {
-			if (grouptoogle.ButtonToggles[i] == nil) != (grouptoogleOther.ButtonToggles[i] == nil) {
-				ButtonTogglesDifferent = true
-				break
-			} else if grouptoogle.ButtonToggles[i] != nil && grouptoogleOther.ButtonToggles[i] != nil {
-				// this is a pointer comparaison
-				if grouptoogle.ButtonToggles[i] != grouptoogleOther.ButtonToggles[i] {
-					ButtonTogglesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ButtonTogglesDifferent {
-		ops := stage.Diff(
-			grouptoogle,
-			"ButtonToggles",
-			len(grouptoogleOther.ButtonToggles),
-			len(grouptoogle.ButtonToggles),
-			func(i, j int) bool {
-				return grouptoogleOther.ButtonToggles[i] == grouptoogle.ButtonToggles[j]
-			},
-			func(j int) string {
-				return grouptoogle.ButtonToggles[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, grouptoogle, "ButtonToggles", grouptoogleOther.ButtonToggles, grouptoogle.ButtonToggles); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if grouptoogle.IsSingleSelector != grouptoogleOther.IsSingleSelector {
@@ -714,68 +528,10 @@ func (layout *Layout) GongDiff(stage *Stage, layoutOther *Layout) (diffs []strin
 	if layout.Name != layoutOther.Name {
 		diffs = append(diffs, layout.GongMarshallField(stage, "Name"))
 	}
-	GroupsDifferent := false
-	if len(layout.Groups) != len(layoutOther.Groups) {
-		GroupsDifferent = true
-	} else {
-		for i := range layout.Groups {
-			if (layout.Groups[i] == nil) != (layoutOther.Groups[i] == nil) {
-				GroupsDifferent = true
-				break
-			} else if layout.Groups[i] != nil && layoutOther.Groups[i] != nil {
-				// this is a pointer comparaison
-				if layout.Groups[i] != layoutOther.Groups[i] {
-					GroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GroupsDifferent {
-		ops := stage.Diff(
-			layout,
-			"Groups",
-			len(layoutOther.Groups),
-			len(layout.Groups),
-			func(i, j int) bool {
-				return layoutOther.Groups[i] == layout.Groups[j]
-			},
-			func(j int) string {
-				return layout.Groups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, layout, "Groups", layoutOther.Groups, layout.Groups); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	GroupTooglesDifferent := false
-	if len(layout.GroupToogles) != len(layoutOther.GroupToogles) {
-		GroupTooglesDifferent = true
-	} else {
-		for i := range layout.GroupToogles {
-			if (layout.GroupToogles[i] == nil) != (layoutOther.GroupToogles[i] == nil) {
-				GroupTooglesDifferent = true
-				break
-			} else if layout.GroupToogles[i] != nil && layoutOther.GroupToogles[i] != nil {
-				// this is a pointer comparaison
-				if layout.GroupToogles[i] != layoutOther.GroupToogles[i] {
-					GroupTooglesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GroupTooglesDifferent {
-		ops := stage.Diff(
-			layout,
-			"GroupToogles",
-			len(layoutOther.GroupToogles),
-			len(layout.GroupToogles),
-			func(i, j int) bool {
-				return layoutOther.GroupToogles[i] == layout.GroupToogles[j]
-			},
-			func(j int) string {
-				return layout.GroupToogles[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, layout, "GroupToogles", layoutOther.GroupToogles, layout.GroupToogles); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -858,4 +614,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

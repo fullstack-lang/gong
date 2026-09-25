@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterMusicAbstractCreateCallback GongOnAfterCreateInterface[MusicAbstract]
 	OnAfterMusicAbstractUpdateCallback GongOnAfterUpdateInterface[MusicAbstract]
 	OnAfterMusicAbstractDeleteCallback GongOnAfterDeleteInterface[MusicAbstract]
-	OnAfterMusicAbstractReadCallback   GongOnAfterReadInterface[MusicAbstract]
 
 	BackRepo GongBackRepoInterface
 
@@ -367,9 +366,7 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.MusicAbstracts_reference = make(map[*MusicAbstract]*MusicAbstract)
-	stage.MusicAbstracts_instance = make(map[*MusicAbstract]*MusicAbstract)
-	stage.MusicAbstracts_referenceOrder = make(map[*MusicAbstract]uint)
+	__gong__clearReferences(&stage.MusicAbstracts_reference, &stage.MusicAbstracts_instance, &stage.MusicAbstracts_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -398,19 +395,7 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxMusicAbstractOrder uint
-	var foundMusicAbstract bool
-	for _, order := range stage.MusicAbstract_stagedOrder {
-		if !foundMusicAbstract || order > maxMusicAbstractOrder {
-			maxMusicAbstractOrder = order
-			foundMusicAbstract = true
-		}
-	}
-	if foundMusicAbstract {
-		stage.MusicAbstractOrder = maxMusicAbstractOrder + 1
-	} else {
-		stage.MusicAbstractOrder = 0
-	}
+	stage.MusicAbstractOrder = __gong__recomputeOrder(stage.MusicAbstract_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -442,19 +427,7 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *MusicAbstract:
-		tmp := __gong__getStructInstancesByOrder(stage.MusicAbstracts, stage.MusicAbstract_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *MusicAbstract implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MusicAbstracts, stage.MusicAbstract_stagedOrder))
 
 	}
 	return
@@ -481,6 +454,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
 }
@@ -504,14 +573,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -534,9 +595,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitMusicAbstract(musicabstract *MusicAbstract)
-	CheckoutMusicAbstract(musicabstract *MusicAbstract)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -698,14 +756,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts musicabstract to the model stage
 func (musicabstract *MusicAbstract) Stage(stage *Stage) *MusicAbstract {
-	if _, ok := stage.MusicAbstracts[musicabstract]; !ok {
-		stage.MusicAbstracts[musicabstract] = struct{}{}
-		stage.MusicAbstract_stagedOrder[musicabstract] = stage.MusicAbstractOrder
-		stage.MusicAbstract_orderStaged[stage.MusicAbstractOrder] = musicabstract
-		stage.MusicAbstractOrder++
-	}
-	stage.MusicAbstracts_mapString[musicabstract.Name] = musicabstract
-
+	__gong__stage(stage.MusicAbstracts, stage.MusicAbstract_stagedOrder, stage.MusicAbstract_orderStaged, &stage.MusicAbstractOrder, stage.MusicAbstracts_mapString, musicabstract, musicabstract.Name)
 	return musicabstract
 }
 
@@ -715,59 +766,22 @@ func (musicabstract *MusicAbstract) Stage(stage *Stage) *MusicAbstract {
 // - force the order if the order is equal or greater than the stage.MusicAbstractOrder
 // - update stage.MusicAbstractOrder accordingly
 func (musicabstract *MusicAbstract) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.MusicAbstracts[musicabstract]; !ok {
-		stage.MusicAbstracts[musicabstract] = struct{}{}
-
-		if order > stage.MusicAbstractOrder {
-			stage.MusicAbstractOrder = order
-		}
-		stage.MusicAbstract_stagedOrder[musicabstract] = order
-		stage.MusicAbstract_orderStaged[order] = musicabstract
-		stage.MusicAbstractOrder++
-	}
-	stage.MusicAbstracts_mapString[musicabstract.Name] = musicabstract
+	__gong__stagePreserveOrder(stage.MusicAbstracts, stage.MusicAbstract_stagedOrder, stage.MusicAbstract_orderStaged, &stage.MusicAbstractOrder, stage.MusicAbstracts_mapString, musicabstract, order, musicabstract.Name)
 }
 
 // Unstage removes musicabstract off the model stage
 func (musicabstract *MusicAbstract) Unstage(stage *Stage) *MusicAbstract {
-	delete(stage.MusicAbstracts, musicabstract)
-	// issue1150
-	// delete(stage.MusicAbstract_stagedOrder, musicabstract)
-	delete(stage.MusicAbstracts_mapString, musicabstract.Name)
-
+	__gong__unstage(stage.MusicAbstracts, stage.MusicAbstracts_mapString, musicabstract, musicabstract.Name)
 	return musicabstract
 }
 
 // UnstageVoid removes musicabstract off the model stage
 func (musicabstract *MusicAbstract) UnstageVoid(stage *Stage) {
-	delete(stage.MusicAbstracts, musicabstract)
-	// issue1150
-	// delete(stage.MusicAbstract_stagedOrder, musicabstract)
-	delete(stage.MusicAbstracts_mapString, musicabstract.Name)
-}
-
-// commit musicabstract to the back repo (if it is already staged)
-func (musicabstract *MusicAbstract) Commit(stage *Stage) *MusicAbstract {
-	if _, ok := stage.MusicAbstracts[musicabstract]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitMusicAbstract(musicabstract)
-		}
-	}
-	return musicabstract
+	musicabstract.Unstage(stage)
 }
 
 func (musicabstract *MusicAbstract) StageVoid(stage *Stage) {
 	musicabstract.Stage(stage)
-}
-
-// Checkout musicabstract to the back repo (if it is already staged)
-func (musicabstract *MusicAbstract) Checkout(stage *Stage) *MusicAbstract {
-	if _, ok := stage.MusicAbstracts[musicabstract]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutMusicAbstract(musicabstract)
-		}
-	}
-	return musicabstract
 }
 
 // for satisfaction of GongStruct interface
@@ -781,10 +795,7 @@ func (musicabstract *MusicAbstract) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.MusicAbstracts = make(map[*MusicAbstract]struct{})
-	stage.MusicAbstracts_mapString = make(map[string]*MusicAbstract)
-	stage.MusicAbstract_stagedOrder = make(map[*MusicAbstract]uint)
-	stage.MusicAbstractOrder = 0
+	__gong__resetStageType(&stage.MusicAbstracts, &stage.MusicAbstracts_mapString, &stage.MusicAbstract_stagedOrder, &stage.MusicAbstractOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -823,7 +834,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -1322,10 +1332,7 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.MusicAbstracts_mapString = make(map[string]*MusicAbstract)
-	for musicabstract := range stage.MusicAbstracts {
-		stage.MusicAbstracts_mapString[musicabstract.Name] = musicabstract
-	}
+	__gong__rebuildMapString(stage.MusicAbstracts, &stage.MusicAbstracts_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

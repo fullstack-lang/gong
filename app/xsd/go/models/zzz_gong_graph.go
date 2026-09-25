@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,316 +15,134 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (all *All) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Alls[all]
-
-	return
+func (all *All) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Alls[all]
+	return ok
 }
 
-func (stage *Stage) IsStagedAll(all *All) (ok bool) {
-
-	return all.GongIsStaged(stage)
+func (annotation *Annotation) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Annotations[annotation]
+	return ok
 }
 
-func (annotation *Annotation) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Annotations[annotation]
-
-	return
+func (attribute *Attribute) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Attributes[attribute]
+	return ok
 }
 
-func (stage *Stage) IsStagedAnnotation(annotation *Annotation) (ok bool) {
-
-	return annotation.GongIsStaged(stage)
+func (attributegroup *AttributeGroup) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.AttributeGroups[attributegroup]
+	return ok
 }
 
-func (attribute *Attribute) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Attributes[attribute]
-
-	return
+func (choice *Choice) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Choices[choice]
+	return ok
 }
 
-func (stage *Stage) IsStagedAttribute(attribute *Attribute) (ok bool) {
-
-	return attribute.GongIsStaged(stage)
+func (complexcontent *ComplexContent) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ComplexContents[complexcontent]
+	return ok
 }
 
-func (attributegroup *AttributeGroup) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.AttributeGroups[attributegroup]
-
-	return
+func (complextype *ComplexType) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ComplexTypes[complextype]
+	return ok
 }
 
-func (stage *Stage) IsStagedAttributeGroup(attributegroup *AttributeGroup) (ok bool) {
-
-	return attributegroup.GongIsStaged(stage)
+func (documentation *Documentation) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Documentations[documentation]
+	return ok
 }
 
-func (choice *Choice) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Choices[choice]
-
-	return
+func (element *Element) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Elements[element]
+	return ok
 }
 
-func (stage *Stage) IsStagedChoice(choice *Choice) (ok bool) {
-
-	return choice.GongIsStaged(stage)
+func (enumeration *Enumeration) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Enumerations[enumeration]
+	return ok
 }
 
-func (complexcontent *ComplexContent) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ComplexContents[complexcontent]
-
-	return
+func (extension *Extension) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Extensions[extension]
+	return ok
 }
 
-func (stage *Stage) IsStagedComplexContent(complexcontent *ComplexContent) (ok bool) {
-
-	return complexcontent.GongIsStaged(stage)
+func (group *Group) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Groups[group]
+	return ok
 }
 
-func (complextype *ComplexType) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ComplexTypes[complextype]
-
-	return
+func (length *Length) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Lengths[length]
+	return ok
 }
 
-func (stage *Stage) IsStagedComplexType(complextype *ComplexType) (ok bool) {
-
-	return complextype.GongIsStaged(stage)
+func (maxinclusive *MaxInclusive) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.MaxInclusives[maxinclusive]
+	return ok
 }
 
-func (documentation *Documentation) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Documentations[documentation]
-
-	return
+func (maxlength *MaxLength) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.MaxLengths[maxlength]
+	return ok
 }
 
-func (stage *Stage) IsStagedDocumentation(documentation *Documentation) (ok bool) {
-
-	return documentation.GongIsStaged(stage)
+func (mininclusive *MinInclusive) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.MinInclusives[mininclusive]
+	return ok
 }
 
-func (element *Element) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Elements[element]
-
-	return
+func (minlength *MinLength) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.MinLengths[minlength]
+	return ok
 }
 
-func (stage *Stage) IsStagedElement(element *Element) (ok bool) {
-
-	return element.GongIsStaged(stage)
+func (pattern *Pattern) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Patterns[pattern]
+	return ok
 }
 
-func (enumeration *Enumeration) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Enumerations[enumeration]
-
-	return
+func (restriction *Restriction) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Restrictions[restriction]
+	return ok
 }
 
-func (stage *Stage) IsStagedEnumeration(enumeration *Enumeration) (ok bool) {
-
-	return enumeration.GongIsStaged(stage)
+func (schema *Schema) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Schemas[schema]
+	return ok
 }
 
-func (extension *Extension) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Extensions[extension]
-
-	return
+func (sequence *Sequence) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Sequences[sequence]
+	return ok
 }
 
-func (stage *Stage) IsStagedExtension(extension *Extension) (ok bool) {
-
-	return extension.GongIsStaged(stage)
+func (simplecontent *SimpleContent) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SimpleContents[simplecontent]
+	return ok
 }
 
-func (group *Group) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Groups[group]
-
-	return
+func (simpletype *SimpleType) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SimpleTypes[simpletype]
+	return ok
 }
 
-func (stage *Stage) IsStagedGroup(group *Group) (ok bool) {
-
-	return group.GongIsStaged(stage)
+func (totaldigit *TotalDigit) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.TotalDigits[totaldigit]
+	return ok
 }
 
-func (length *Length) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Lengths[length]
-
-	return
+func (union *Union) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Unions[union]
+	return ok
 }
 
-func (stage *Stage) IsStagedLength(length *Length) (ok bool) {
-
-	return length.GongIsStaged(stage)
-}
-
-func (maxinclusive *MaxInclusive) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.MaxInclusives[maxinclusive]
-
-	return
-}
-
-func (stage *Stage) IsStagedMaxInclusive(maxinclusive *MaxInclusive) (ok bool) {
-
-	return maxinclusive.GongIsStaged(stage)
-}
-
-func (maxlength *MaxLength) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.MaxLengths[maxlength]
-
-	return
-}
-
-func (stage *Stage) IsStagedMaxLength(maxlength *MaxLength) (ok bool) {
-
-	return maxlength.GongIsStaged(stage)
-}
-
-func (mininclusive *MinInclusive) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.MinInclusives[mininclusive]
-
-	return
-}
-
-func (stage *Stage) IsStagedMinInclusive(mininclusive *MinInclusive) (ok bool) {
-
-	return mininclusive.GongIsStaged(stage)
-}
-
-func (minlength *MinLength) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.MinLengths[minlength]
-
-	return
-}
-
-func (stage *Stage) IsStagedMinLength(minlength *MinLength) (ok bool) {
-
-	return minlength.GongIsStaged(stage)
-}
-
-func (pattern *Pattern) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Patterns[pattern]
-
-	return
-}
-
-func (stage *Stage) IsStagedPattern(pattern *Pattern) (ok bool) {
-
-	return pattern.GongIsStaged(stage)
-}
-
-func (restriction *Restriction) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Restrictions[restriction]
-
-	return
-}
-
-func (stage *Stage) IsStagedRestriction(restriction *Restriction) (ok bool) {
-
-	return restriction.GongIsStaged(stage)
-}
-
-func (schema *Schema) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Schemas[schema]
-
-	return
-}
-
-func (stage *Stage) IsStagedSchema(schema *Schema) (ok bool) {
-
-	return schema.GongIsStaged(stage)
-}
-
-func (sequence *Sequence) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Sequences[sequence]
-
-	return
-}
-
-func (stage *Stage) IsStagedSequence(sequence *Sequence) (ok bool) {
-
-	return sequence.GongIsStaged(stage)
-}
-
-func (simplecontent *SimpleContent) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SimpleContents[simplecontent]
-
-	return
-}
-
-func (stage *Stage) IsStagedSimpleContent(simplecontent *SimpleContent) (ok bool) {
-
-	return simplecontent.GongIsStaged(stage)
-}
-
-func (simpletype *SimpleType) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SimpleTypes[simpletype]
-
-	return
-}
-
-func (stage *Stage) IsStagedSimpleType(simpletype *SimpleType) (ok bool) {
-
-	return simpletype.GongIsStaged(stage)
-}
-
-func (totaldigit *TotalDigit) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.TotalDigits[totaldigit]
-
-	return
-}
-
-func (stage *Stage) IsStagedTotalDigit(totaldigit *TotalDigit) (ok bool) {
-
-	return totaldigit.GongIsStaged(stage)
-}
-
-func (union *Union) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Unions[union]
-
-	return
-}
-
-func (stage *Stage) IsStagedUnion(union *Union) (ok bool) {
-
-	return union.GongIsStaged(stage)
-}
-
-func (whitespace *WhiteSpace) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.WhiteSpaces[whitespace]
-
-	return
-}
-
-func (stage *Stage) IsStagedWhiteSpace(whitespace *WhiteSpace) (ok bool) {
-
-	return whitespace.GongIsStaged(stage)
+func (whitespace *WhiteSpace) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.WhiteSpaces[whitespace]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -333,10 +154,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (all *All) GongStageBranch(stage *Stage) {
-	stage.StageBranchAll(all)
-}
-
-func (stage *Stage) StageBranchAll(all *All) {
 
 	// check if instance is already staged
 	if stage.IsStaged(all) {
@@ -370,10 +187,6 @@ func (stage *Stage) StageBranchAll(all *All) {
 }
 
 func (annotation *Annotation) GongStageBranch(stage *Stage) {
-	stage.StageBranchAnnotation(annotation)
-}
-
-func (stage *Stage) StageBranchAnnotation(annotation *Annotation) {
 
 	// check if instance is already staged
 	if stage.IsStaged(annotation) {
@@ -392,10 +205,6 @@ func (stage *Stage) StageBranchAnnotation(annotation *Annotation) {
 }
 
 func (attribute *Attribute) GongStageBranch(stage *Stage) {
-	stage.StageBranchAttribute(attribute)
-}
-
-func (stage *Stage) StageBranchAttribute(attribute *Attribute) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute) {
@@ -414,10 +223,6 @@ func (stage *Stage) StageBranchAttribute(attribute *Attribute) {
 }
 
 func (attributegroup *AttributeGroup) GongStageBranch(stage *Stage) {
-	stage.StageBranchAttributeGroup(attributegroup)
-}
-
-func (stage *Stage) StageBranchAttributeGroup(attributegroup *AttributeGroup) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attributegroup) {
@@ -442,10 +247,6 @@ func (stage *Stage) StageBranchAttributeGroup(attributegroup *AttributeGroup) {
 }
 
 func (choice *Choice) GongStageBranch(stage *Stage) {
-	stage.StageBranchChoice(choice)
-}
-
-func (stage *Stage) StageBranchChoice(choice *Choice) {
 
 	// check if instance is already staged
 	if stage.IsStaged(choice) {
@@ -479,10 +280,6 @@ func (stage *Stage) StageBranchChoice(choice *Choice) {
 }
 
 func (complexcontent *ComplexContent) GongStageBranch(stage *Stage) {
-	stage.StageBranchComplexContent(complexcontent)
-}
-
-func (stage *Stage) StageBranchComplexContent(complexcontent *ComplexContent) {
 
 	// check if instance is already staged
 	if stage.IsStaged(complexcontent) {
@@ -498,10 +295,6 @@ func (stage *Stage) StageBranchComplexContent(complexcontent *ComplexContent) {
 }
 
 func (complextype *ComplexType) GongStageBranch(stage *Stage) {
-	stage.StageBranchComplexType(complextype)
-}
-
-func (stage *Stage) StageBranchComplexType(complextype *ComplexType) {
 
 	// check if instance is already staged
 	if stage.IsStaged(complextype) {
@@ -553,10 +346,6 @@ func (stage *Stage) StageBranchComplexType(complextype *ComplexType) {
 }
 
 func (documentation *Documentation) GongStageBranch(stage *Stage) {
-	stage.StageBranchDocumentation(documentation)
-}
-
-func (stage *Stage) StageBranchDocumentation(documentation *Documentation) {
 
 	// check if instance is already staged
 	if stage.IsStaged(documentation) {
@@ -572,10 +361,6 @@ func (stage *Stage) StageBranchDocumentation(documentation *Documentation) {
 }
 
 func (element *Element) GongStageBranch(stage *Stage) {
-	stage.StageBranchElement(element)
-}
-
-func (stage *Stage) StageBranchElement(element *Element) {
 
 	// check if instance is already staged
 	if stage.IsStaged(element) {
@@ -603,10 +388,6 @@ func (stage *Stage) StageBranchElement(element *Element) {
 }
 
 func (enumeration *Enumeration) GongStageBranch(stage *Stage) {
-	stage.StageBranchEnumeration(enumeration)
-}
-
-func (stage *Stage) StageBranchEnumeration(enumeration *Enumeration) {
 
 	// check if instance is already staged
 	if stage.IsStaged(enumeration) {
@@ -625,10 +406,6 @@ func (stage *Stage) StageBranchEnumeration(enumeration *Enumeration) {
 }
 
 func (extension *Extension) GongStageBranch(stage *Stage) {
-	stage.StageBranchExtension(extension)
-}
-
-func (stage *Stage) StageBranchExtension(extension *Extension) {
 
 	// check if instance is already staged
 	if stage.IsStaged(extension) {
@@ -665,10 +442,6 @@ func (stage *Stage) StageBranchExtension(extension *Extension) {
 }
 
 func (group *Group) GongStageBranch(stage *Stage) {
-	stage.StageBranchGroup(group)
-}
-
-func (stage *Stage) StageBranchGroup(group *Group) {
 
 	// check if instance is already staged
 	if stage.IsStaged(group) {
@@ -705,10 +478,6 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 }
 
 func (length *Length) GongStageBranch(stage *Stage) {
-	stage.StageBranchLength(length)
-}
-
-func (stage *Stage) StageBranchLength(length *Length) {
 
 	// check if instance is already staged
 	if stage.IsStaged(length) {
@@ -727,10 +496,6 @@ func (stage *Stage) StageBranchLength(length *Length) {
 }
 
 func (maxinclusive *MaxInclusive) GongStageBranch(stage *Stage) {
-	stage.StageBranchMaxInclusive(maxinclusive)
-}
-
-func (stage *Stage) StageBranchMaxInclusive(maxinclusive *MaxInclusive) {
 
 	// check if instance is already staged
 	if stage.IsStaged(maxinclusive) {
@@ -749,10 +514,6 @@ func (stage *Stage) StageBranchMaxInclusive(maxinclusive *MaxInclusive) {
 }
 
 func (maxlength *MaxLength) GongStageBranch(stage *Stage) {
-	stage.StageBranchMaxLength(maxlength)
-}
-
-func (stage *Stage) StageBranchMaxLength(maxlength *MaxLength) {
 
 	// check if instance is already staged
 	if stage.IsStaged(maxlength) {
@@ -771,10 +532,6 @@ func (stage *Stage) StageBranchMaxLength(maxlength *MaxLength) {
 }
 
 func (mininclusive *MinInclusive) GongStageBranch(stage *Stage) {
-	stage.StageBranchMinInclusive(mininclusive)
-}
-
-func (stage *Stage) StageBranchMinInclusive(mininclusive *MinInclusive) {
 
 	// check if instance is already staged
 	if stage.IsStaged(mininclusive) {
@@ -793,10 +550,6 @@ func (stage *Stage) StageBranchMinInclusive(mininclusive *MinInclusive) {
 }
 
 func (minlength *MinLength) GongStageBranch(stage *Stage) {
-	stage.StageBranchMinLength(minlength)
-}
-
-func (stage *Stage) StageBranchMinLength(minlength *MinLength) {
 
 	// check if instance is already staged
 	if stage.IsStaged(minlength) {
@@ -815,10 +568,6 @@ func (stage *Stage) StageBranchMinLength(minlength *MinLength) {
 }
 
 func (pattern *Pattern) GongStageBranch(stage *Stage) {
-	stage.StageBranchPattern(pattern)
-}
-
-func (stage *Stage) StageBranchPattern(pattern *Pattern) {
 
 	// check if instance is already staged
 	if stage.IsStaged(pattern) {
@@ -837,10 +586,6 @@ func (stage *Stage) StageBranchPattern(pattern *Pattern) {
 }
 
 func (restriction *Restriction) GongStageBranch(stage *Stage) {
-	stage.StageBranchRestriction(restriction)
-}
-
-func (stage *Stage) StageBranchRestriction(restriction *Restriction) {
 
 	// check if instance is already staged
 	if stage.IsStaged(restriction) {
@@ -886,10 +631,6 @@ func (stage *Stage) StageBranchRestriction(restriction *Restriction) {
 }
 
 func (schema *Schema) GongStageBranch(stage *Stage) {
-	stage.StageBranchSchema(schema)
-}
-
-func (stage *Stage) StageBranchSchema(schema *Schema) {
 
 	// check if instance is already staged
 	if stage.IsStaged(schema) {
@@ -923,10 +664,6 @@ func (stage *Stage) StageBranchSchema(schema *Schema) {
 }
 
 func (sequence *Sequence) GongStageBranch(stage *Stage) {
-	stage.StageBranchSequence(sequence)
-}
-
-func (stage *Stage) StageBranchSequence(sequence *Sequence) {
 
 	// check if instance is already staged
 	if stage.IsStaged(sequence) {
@@ -960,10 +697,6 @@ func (stage *Stage) StageBranchSequence(sequence *Sequence) {
 }
 
 func (simplecontent *SimpleContent) GongStageBranch(stage *Stage) {
-	stage.StageBranchSimpleContent(simplecontent)
-}
-
-func (stage *Stage) StageBranchSimpleContent(simplecontent *SimpleContent) {
 
 	// check if instance is already staged
 	if stage.IsStaged(simplecontent) {
@@ -985,10 +718,6 @@ func (stage *Stage) StageBranchSimpleContent(simplecontent *SimpleContent) {
 }
 
 func (simpletype *SimpleType) GongStageBranch(stage *Stage) {
-	stage.StageBranchSimpleType(simpletype)
-}
-
-func (stage *Stage) StageBranchSimpleType(simpletype *SimpleType) {
 
 	// check if instance is already staged
 	if stage.IsStaged(simpletype) {
@@ -1013,10 +742,6 @@ func (stage *Stage) StageBranchSimpleType(simpletype *SimpleType) {
 }
 
 func (totaldigit *TotalDigit) GongStageBranch(stage *Stage) {
-	stage.StageBranchTotalDigit(totaldigit)
-}
-
-func (stage *Stage) StageBranchTotalDigit(totaldigit *TotalDigit) {
 
 	// check if instance is already staged
 	if stage.IsStaged(totaldigit) {
@@ -1035,10 +760,6 @@ func (stage *Stage) StageBranchTotalDigit(totaldigit *TotalDigit) {
 }
 
 func (union *Union) GongStageBranch(stage *Stage) {
-	stage.StageBranchUnion(union)
-}
-
-func (stage *Stage) StageBranchUnion(union *Union) {
 
 	// check if instance is already staged
 	if stage.IsStaged(union) {
@@ -1057,10 +778,6 @@ func (stage *Stage) StageBranchUnion(union *Union) {
 }
 
 func (whitespace *WhiteSpace) GongStageBranch(stage *Stage) {
-	stage.StageBranchWhiteSpace(whitespace)
-}
-
-func (stage *Stage) StageBranchWhiteSpace(whitespace *WhiteSpace) {
 
 	// check if instance is already staged
 	if stage.IsStaged(whitespace) {
@@ -1201,15 +918,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchAll(mapOrigCopy map[any]any, allFrom *All) (allTo *All) {
-
-	// allFrom has already been copied
-	if _allTo, ok := mapOrigCopy[allFrom]; ok {
-		allTo = _allTo.(*All)
+	var alreadyCopied bool
+	allTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, allFrom)
+	if alreadyCopied {
 		return
 	}
-
-	allTo = new(All)
-	mapOrigCopy[allFrom] = allTo
 	allFrom.GongCopyBasicFields(allTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1238,15 +951,11 @@ func GongCopyBranchAll(mapOrigCopy map[any]any, allFrom *All) (allTo *All) {
 }
 
 func GongCopyBranchAnnotation(mapOrigCopy map[any]any, annotationFrom *Annotation) (annotationTo *Annotation) {
-
-	// annotationFrom has already been copied
-	if _annotationTo, ok := mapOrigCopy[annotationFrom]; ok {
-		annotationTo = _annotationTo.(*Annotation)
+	var alreadyCopied bool
+	annotationTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, annotationFrom)
+	if alreadyCopied {
 		return
 	}
-
-	annotationTo = new(Annotation)
-	mapOrigCopy[annotationFrom] = annotationTo
 	annotationFrom.GongCopyBasicFields(annotationTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1260,15 +969,11 @@ func GongCopyBranchAnnotation(mapOrigCopy map[any]any, annotationFrom *Annotatio
 }
 
 func GongCopyBranchAttribute(mapOrigCopy map[any]any, attributeFrom *Attribute) (attributeTo *Attribute) {
-
-	// attributeFrom has already been copied
-	if _attributeTo, ok := mapOrigCopy[attributeFrom]; ok {
-		attributeTo = _attributeTo.(*Attribute)
+	var alreadyCopied bool
+	attributeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attributeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attributeTo = new(Attribute)
-	mapOrigCopy[attributeFrom] = attributeTo
 	attributeFrom.GongCopyBasicFields(attributeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1282,15 +987,11 @@ func GongCopyBranchAttribute(mapOrigCopy map[any]any, attributeFrom *Attribute) 
 }
 
 func GongCopyBranchAttributeGroup(mapOrigCopy map[any]any, attributegroupFrom *AttributeGroup) (attributegroupTo *AttributeGroup) {
-
-	// attributegroupFrom has already been copied
-	if _attributegroupTo, ok := mapOrigCopy[attributegroupFrom]; ok {
-		attributegroupTo = _attributegroupTo.(*AttributeGroup)
+	var alreadyCopied bool
+	attributegroupTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attributegroupFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attributegroupTo = new(AttributeGroup)
-	mapOrigCopy[attributegroupFrom] = attributegroupTo
 	attributegroupFrom.GongCopyBasicFields(attributegroupTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1310,15 +1011,11 @@ func GongCopyBranchAttributeGroup(mapOrigCopy map[any]any, attributegroupFrom *A
 }
 
 func GongCopyBranchChoice(mapOrigCopy map[any]any, choiceFrom *Choice) (choiceTo *Choice) {
-
-	// choiceFrom has already been copied
-	if _choiceTo, ok := mapOrigCopy[choiceFrom]; ok {
-		choiceTo = _choiceTo.(*Choice)
+	var alreadyCopied bool
+	choiceTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, choiceFrom)
+	if alreadyCopied {
 		return
 	}
-
-	choiceTo = new(Choice)
-	mapOrigCopy[choiceFrom] = choiceTo
 	choiceFrom.GongCopyBasicFields(choiceTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1347,15 +1044,11 @@ func GongCopyBranchChoice(mapOrigCopy map[any]any, choiceFrom *Choice) (choiceTo
 }
 
 func GongCopyBranchComplexContent(mapOrigCopy map[any]any, complexcontentFrom *ComplexContent) (complexcontentTo *ComplexContent) {
-
-	// complexcontentFrom has already been copied
-	if _complexcontentTo, ok := mapOrigCopy[complexcontentFrom]; ok {
-		complexcontentTo = _complexcontentTo.(*ComplexContent)
+	var alreadyCopied bool
+	complexcontentTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, complexcontentFrom)
+	if alreadyCopied {
 		return
 	}
-
-	complexcontentTo = new(ComplexContent)
-	mapOrigCopy[complexcontentFrom] = complexcontentTo
 	complexcontentFrom.GongCopyBasicFields(complexcontentTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1366,15 +1059,11 @@ func GongCopyBranchComplexContent(mapOrigCopy map[any]any, complexcontentFrom *C
 }
 
 func GongCopyBranchComplexType(mapOrigCopy map[any]any, complextypeFrom *ComplexType) (complextypeTo *ComplexType) {
-
-	// complextypeFrom has already been copied
-	if _complextypeTo, ok := mapOrigCopy[complextypeFrom]; ok {
-		complextypeTo = _complextypeTo.(*ComplexType)
+	var alreadyCopied bool
+	complextypeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, complextypeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	complextypeTo = new(ComplexType)
-	mapOrigCopy[complextypeFrom] = complextypeTo
 	complextypeFrom.GongCopyBasicFields(complextypeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1421,15 +1110,11 @@ func GongCopyBranchComplexType(mapOrigCopy map[any]any, complextypeFrom *Complex
 }
 
 func GongCopyBranchDocumentation(mapOrigCopy map[any]any, documentationFrom *Documentation) (documentationTo *Documentation) {
-
-	// documentationFrom has already been copied
-	if _documentationTo, ok := mapOrigCopy[documentationFrom]; ok {
-		documentationTo = _documentationTo.(*Documentation)
+	var alreadyCopied bool
+	documentationTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, documentationFrom)
+	if alreadyCopied {
 		return
 	}
-
-	documentationTo = new(Documentation)
-	mapOrigCopy[documentationFrom] = documentationTo
 	documentationFrom.GongCopyBasicFields(documentationTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1440,15 +1125,11 @@ func GongCopyBranchDocumentation(mapOrigCopy map[any]any, documentationFrom *Doc
 }
 
 func GongCopyBranchElement(mapOrigCopy map[any]any, elementFrom *Element) (elementTo *Element) {
-
-	// elementFrom has already been copied
-	if _elementTo, ok := mapOrigCopy[elementFrom]; ok {
-		elementTo = _elementTo.(*Element)
+	var alreadyCopied bool
+	elementTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, elementFrom)
+	if alreadyCopied {
 		return
 	}
-
-	elementTo = new(Element)
-	mapOrigCopy[elementFrom] = elementTo
 	elementFrom.GongCopyBasicFields(elementTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1471,15 +1152,11 @@ func GongCopyBranchElement(mapOrigCopy map[any]any, elementFrom *Element) (eleme
 }
 
 func GongCopyBranchEnumeration(mapOrigCopy map[any]any, enumerationFrom *Enumeration) (enumerationTo *Enumeration) {
-
-	// enumerationFrom has already been copied
-	if _enumerationTo, ok := mapOrigCopy[enumerationFrom]; ok {
-		enumerationTo = _enumerationTo.(*Enumeration)
+	var alreadyCopied bool
+	enumerationTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, enumerationFrom)
+	if alreadyCopied {
 		return
 	}
-
-	enumerationTo = new(Enumeration)
-	mapOrigCopy[enumerationFrom] = enumerationTo
 	enumerationFrom.GongCopyBasicFields(enumerationTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1493,15 +1170,11 @@ func GongCopyBranchEnumeration(mapOrigCopy map[any]any, enumerationFrom *Enumera
 }
 
 func GongCopyBranchExtension(mapOrigCopy map[any]any, extensionFrom *Extension) (extensionTo *Extension) {
-
-	// extensionFrom has already been copied
-	if _extensionTo, ok := mapOrigCopy[extensionFrom]; ok {
-		extensionTo = _extensionTo.(*Extension)
+	var alreadyCopied bool
+	extensionTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, extensionFrom)
+	if alreadyCopied {
 		return
 	}
-
-	extensionTo = new(Extension)
-	mapOrigCopy[extensionFrom] = extensionTo
 	extensionFrom.GongCopyBasicFields(extensionTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1533,15 +1206,11 @@ func GongCopyBranchExtension(mapOrigCopy map[any]any, extensionFrom *Extension) 
 }
 
 func GongCopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group) {
-
-	// groupFrom has already been copied
-	if _groupTo, ok := mapOrigCopy[groupFrom]; ok {
-		groupTo = _groupTo.(*Group)
+	var alreadyCopied bool
+	groupTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, groupFrom)
+	if alreadyCopied {
 		return
 	}
-
-	groupTo = new(Group)
-	mapOrigCopy[groupFrom] = groupTo
 	groupFrom.GongCopyBasicFields(groupTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1573,15 +1242,11 @@ func GongCopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Gr
 }
 
 func GongCopyBranchLength(mapOrigCopy map[any]any, lengthFrom *Length) (lengthTo *Length) {
-
-	// lengthFrom has already been copied
-	if _lengthTo, ok := mapOrigCopy[lengthFrom]; ok {
-		lengthTo = _lengthTo.(*Length)
+	var alreadyCopied bool
+	lengthTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, lengthFrom)
+	if alreadyCopied {
 		return
 	}
-
-	lengthTo = new(Length)
-	mapOrigCopy[lengthFrom] = lengthTo
 	lengthFrom.GongCopyBasicFields(lengthTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1595,15 +1260,11 @@ func GongCopyBranchLength(mapOrigCopy map[any]any, lengthFrom *Length) (lengthTo
 }
 
 func GongCopyBranchMaxInclusive(mapOrigCopy map[any]any, maxinclusiveFrom *MaxInclusive) (maxinclusiveTo *MaxInclusive) {
-
-	// maxinclusiveFrom has already been copied
-	if _maxinclusiveTo, ok := mapOrigCopy[maxinclusiveFrom]; ok {
-		maxinclusiveTo = _maxinclusiveTo.(*MaxInclusive)
+	var alreadyCopied bool
+	maxinclusiveTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, maxinclusiveFrom)
+	if alreadyCopied {
 		return
 	}
-
-	maxinclusiveTo = new(MaxInclusive)
-	mapOrigCopy[maxinclusiveFrom] = maxinclusiveTo
 	maxinclusiveFrom.GongCopyBasicFields(maxinclusiveTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1617,15 +1278,11 @@ func GongCopyBranchMaxInclusive(mapOrigCopy map[any]any, maxinclusiveFrom *MaxIn
 }
 
 func GongCopyBranchMaxLength(mapOrigCopy map[any]any, maxlengthFrom *MaxLength) (maxlengthTo *MaxLength) {
-
-	// maxlengthFrom has already been copied
-	if _maxlengthTo, ok := mapOrigCopy[maxlengthFrom]; ok {
-		maxlengthTo = _maxlengthTo.(*MaxLength)
+	var alreadyCopied bool
+	maxlengthTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, maxlengthFrom)
+	if alreadyCopied {
 		return
 	}
-
-	maxlengthTo = new(MaxLength)
-	mapOrigCopy[maxlengthFrom] = maxlengthTo
 	maxlengthFrom.GongCopyBasicFields(maxlengthTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1639,15 +1296,11 @@ func GongCopyBranchMaxLength(mapOrigCopy map[any]any, maxlengthFrom *MaxLength) 
 }
 
 func GongCopyBranchMinInclusive(mapOrigCopy map[any]any, mininclusiveFrom *MinInclusive) (mininclusiveTo *MinInclusive) {
-
-	// mininclusiveFrom has already been copied
-	if _mininclusiveTo, ok := mapOrigCopy[mininclusiveFrom]; ok {
-		mininclusiveTo = _mininclusiveTo.(*MinInclusive)
+	var alreadyCopied bool
+	mininclusiveTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, mininclusiveFrom)
+	if alreadyCopied {
 		return
 	}
-
-	mininclusiveTo = new(MinInclusive)
-	mapOrigCopy[mininclusiveFrom] = mininclusiveTo
 	mininclusiveFrom.GongCopyBasicFields(mininclusiveTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1661,15 +1314,11 @@ func GongCopyBranchMinInclusive(mapOrigCopy map[any]any, mininclusiveFrom *MinIn
 }
 
 func GongCopyBranchMinLength(mapOrigCopy map[any]any, minlengthFrom *MinLength) (minlengthTo *MinLength) {
-
-	// minlengthFrom has already been copied
-	if _minlengthTo, ok := mapOrigCopy[minlengthFrom]; ok {
-		minlengthTo = _minlengthTo.(*MinLength)
+	var alreadyCopied bool
+	minlengthTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, minlengthFrom)
+	if alreadyCopied {
 		return
 	}
-
-	minlengthTo = new(MinLength)
-	mapOrigCopy[minlengthFrom] = minlengthTo
 	minlengthFrom.GongCopyBasicFields(minlengthTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1683,15 +1332,11 @@ func GongCopyBranchMinLength(mapOrigCopy map[any]any, minlengthFrom *MinLength) 
 }
 
 func GongCopyBranchPattern(mapOrigCopy map[any]any, patternFrom *Pattern) (patternTo *Pattern) {
-
-	// patternFrom has already been copied
-	if _patternTo, ok := mapOrigCopy[patternFrom]; ok {
-		patternTo = _patternTo.(*Pattern)
+	var alreadyCopied bool
+	patternTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, patternFrom)
+	if alreadyCopied {
 		return
 	}
-
-	patternTo = new(Pattern)
-	mapOrigCopy[patternFrom] = patternTo
 	patternFrom.GongCopyBasicFields(patternTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1705,15 +1350,11 @@ func GongCopyBranchPattern(mapOrigCopy map[any]any, patternFrom *Pattern) (patte
 }
 
 func GongCopyBranchRestriction(mapOrigCopy map[any]any, restrictionFrom *Restriction) (restrictionTo *Restriction) {
-
-	// restrictionFrom has already been copied
-	if _restrictionTo, ok := mapOrigCopy[restrictionFrom]; ok {
-		restrictionTo = _restrictionTo.(*Restriction)
+	var alreadyCopied bool
+	restrictionTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, restrictionFrom)
+	if alreadyCopied {
 		return
 	}
-
-	restrictionTo = new(Restriction)
-	mapOrigCopy[restrictionFrom] = restrictionTo
 	restrictionFrom.GongCopyBasicFields(restrictionTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1754,15 +1395,11 @@ func GongCopyBranchRestriction(mapOrigCopy map[any]any, restrictionFrom *Restric
 }
 
 func GongCopyBranchSchema(mapOrigCopy map[any]any, schemaFrom *Schema) (schemaTo *Schema) {
-
-	// schemaFrom has already been copied
-	if _schemaTo, ok := mapOrigCopy[schemaFrom]; ok {
-		schemaTo = _schemaTo.(*Schema)
+	var alreadyCopied bool
+	schemaTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, schemaFrom)
+	if alreadyCopied {
 		return
 	}
-
-	schemaTo = new(Schema)
-	mapOrigCopy[schemaFrom] = schemaTo
 	schemaFrom.GongCopyBasicFields(schemaTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1791,15 +1428,11 @@ func GongCopyBranchSchema(mapOrigCopy map[any]any, schemaFrom *Schema) (schemaTo
 }
 
 func GongCopyBranchSequence(mapOrigCopy map[any]any, sequenceFrom *Sequence) (sequenceTo *Sequence) {
-
-	// sequenceFrom has already been copied
-	if _sequenceTo, ok := mapOrigCopy[sequenceFrom]; ok {
-		sequenceTo = _sequenceTo.(*Sequence)
+	var alreadyCopied bool
+	sequenceTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, sequenceFrom)
+	if alreadyCopied {
 		return
 	}
-
-	sequenceTo = new(Sequence)
-	mapOrigCopy[sequenceFrom] = sequenceTo
 	sequenceFrom.GongCopyBasicFields(sequenceTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1828,15 +1461,11 @@ func GongCopyBranchSequence(mapOrigCopy map[any]any, sequenceFrom *Sequence) (se
 }
 
 func GongCopyBranchSimpleContent(mapOrigCopy map[any]any, simplecontentFrom *SimpleContent) (simplecontentTo *SimpleContent) {
-
-	// simplecontentFrom has already been copied
-	if _simplecontentTo, ok := mapOrigCopy[simplecontentFrom]; ok {
-		simplecontentTo = _simplecontentTo.(*SimpleContent)
+	var alreadyCopied bool
+	simplecontentTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, simplecontentFrom)
+	if alreadyCopied {
 		return
 	}
-
-	simplecontentTo = new(SimpleContent)
-	mapOrigCopy[simplecontentFrom] = simplecontentTo
 	simplecontentFrom.GongCopyBasicFields(simplecontentTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1853,15 +1482,11 @@ func GongCopyBranchSimpleContent(mapOrigCopy map[any]any, simplecontentFrom *Sim
 }
 
 func GongCopyBranchSimpleType(mapOrigCopy map[any]any, simpletypeFrom *SimpleType) (simpletypeTo *SimpleType) {
-
-	// simpletypeFrom has already been copied
-	if _simpletypeTo, ok := mapOrigCopy[simpletypeFrom]; ok {
-		simpletypeTo = _simpletypeTo.(*SimpleType)
+	var alreadyCopied bool
+	simpletypeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, simpletypeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	simpletypeTo = new(SimpleType)
-	mapOrigCopy[simpletypeFrom] = simpletypeTo
 	simpletypeFrom.GongCopyBasicFields(simpletypeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1881,15 +1506,11 @@ func GongCopyBranchSimpleType(mapOrigCopy map[any]any, simpletypeFrom *SimpleTyp
 }
 
 func GongCopyBranchTotalDigit(mapOrigCopy map[any]any, totaldigitFrom *TotalDigit) (totaldigitTo *TotalDigit) {
-
-	// totaldigitFrom has already been copied
-	if _totaldigitTo, ok := mapOrigCopy[totaldigitFrom]; ok {
-		totaldigitTo = _totaldigitTo.(*TotalDigit)
+	var alreadyCopied bool
+	totaldigitTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, totaldigitFrom)
+	if alreadyCopied {
 		return
 	}
-
-	totaldigitTo = new(TotalDigit)
-	mapOrigCopy[totaldigitFrom] = totaldigitTo
 	totaldigitFrom.GongCopyBasicFields(totaldigitTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1903,15 +1524,11 @@ func GongCopyBranchTotalDigit(mapOrigCopy map[any]any, totaldigitFrom *TotalDigi
 }
 
 func GongCopyBranchUnion(mapOrigCopy map[any]any, unionFrom *Union) (unionTo *Union) {
-
-	// unionFrom has already been copied
-	if _unionTo, ok := mapOrigCopy[unionFrom]; ok {
-		unionTo = _unionTo.(*Union)
+	var alreadyCopied bool
+	unionTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, unionFrom)
+	if alreadyCopied {
 		return
 	}
-
-	unionTo = new(Union)
-	mapOrigCopy[unionFrom] = unionTo
 	unionFrom.GongCopyBasicFields(unionTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1925,15 +1542,11 @@ func GongCopyBranchUnion(mapOrigCopy map[any]any, unionFrom *Union) (unionTo *Un
 }
 
 func GongCopyBranchWhiteSpace(mapOrigCopy map[any]any, whitespaceFrom *WhiteSpace) (whitespaceTo *WhiteSpace) {
-
-	// whitespaceFrom has already been copied
-	if _whitespaceTo, ok := mapOrigCopy[whitespaceFrom]; ok {
-		whitespaceTo = _whitespaceTo.(*WhiteSpace)
+	var alreadyCopied bool
+	whitespaceTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, whitespaceFrom)
+	if alreadyCopied {
 		return
 	}
-
-	whitespaceTo = new(WhiteSpace)
-	mapOrigCopy[whitespaceFrom] = whitespaceTo
 	whitespaceFrom.GongCopyBasicFields(whitespaceTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1959,10 +1572,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (all *All) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchAll(all)
-}
-
-func (stage *Stage) UnstageBranchAll(all *All) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(all) {
@@ -1996,10 +1605,6 @@ func (stage *Stage) UnstageBranchAll(all *All) {
 }
 
 func (annotation *Annotation) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchAnnotation(annotation)
-}
-
-func (stage *Stage) UnstageBranchAnnotation(annotation *Annotation) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(annotation) {
@@ -2018,10 +1623,6 @@ func (stage *Stage) UnstageBranchAnnotation(annotation *Annotation) {
 }
 
 func (attribute *Attribute) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchAttribute(attribute)
-}
-
-func (stage *Stage) UnstageBranchAttribute(attribute *Attribute) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute) {
@@ -2040,10 +1641,6 @@ func (stage *Stage) UnstageBranchAttribute(attribute *Attribute) {
 }
 
 func (attributegroup *AttributeGroup) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchAttributeGroup(attributegroup)
-}
-
-func (stage *Stage) UnstageBranchAttributeGroup(attributegroup *AttributeGroup) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attributegroup) {
@@ -2068,10 +1665,6 @@ func (stage *Stage) UnstageBranchAttributeGroup(attributegroup *AttributeGroup) 
 }
 
 func (choice *Choice) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchChoice(choice)
-}
-
-func (stage *Stage) UnstageBranchChoice(choice *Choice) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(choice) {
@@ -2105,10 +1698,6 @@ func (stage *Stage) UnstageBranchChoice(choice *Choice) {
 }
 
 func (complexcontent *ComplexContent) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchComplexContent(complexcontent)
-}
-
-func (stage *Stage) UnstageBranchComplexContent(complexcontent *ComplexContent) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(complexcontent) {
@@ -2124,10 +1713,6 @@ func (stage *Stage) UnstageBranchComplexContent(complexcontent *ComplexContent) 
 }
 
 func (complextype *ComplexType) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchComplexType(complextype)
-}
-
-func (stage *Stage) UnstageBranchComplexType(complextype *ComplexType) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(complextype) {
@@ -2179,10 +1764,6 @@ func (stage *Stage) UnstageBranchComplexType(complextype *ComplexType) {
 }
 
 func (documentation *Documentation) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDocumentation(documentation)
-}
-
-func (stage *Stage) UnstageBranchDocumentation(documentation *Documentation) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(documentation) {
@@ -2198,10 +1779,6 @@ func (stage *Stage) UnstageBranchDocumentation(documentation *Documentation) {
 }
 
 func (element *Element) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchElement(element)
-}
-
-func (stage *Stage) UnstageBranchElement(element *Element) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(element) {
@@ -2229,10 +1806,6 @@ func (stage *Stage) UnstageBranchElement(element *Element) {
 }
 
 func (enumeration *Enumeration) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchEnumeration(enumeration)
-}
-
-func (stage *Stage) UnstageBranchEnumeration(enumeration *Enumeration) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(enumeration) {
@@ -2251,10 +1824,6 @@ func (stage *Stage) UnstageBranchEnumeration(enumeration *Enumeration) {
 }
 
 func (extension *Extension) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchExtension(extension)
-}
-
-func (stage *Stage) UnstageBranchExtension(extension *Extension) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(extension) {
@@ -2291,10 +1860,6 @@ func (stage *Stage) UnstageBranchExtension(extension *Extension) {
 }
 
 func (group *Group) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchGroup(group)
-}
-
-func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(group) {
@@ -2331,10 +1896,6 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 }
 
 func (length *Length) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLength(length)
-}
-
-func (stage *Stage) UnstageBranchLength(length *Length) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(length) {
@@ -2353,10 +1914,6 @@ func (stage *Stage) UnstageBranchLength(length *Length) {
 }
 
 func (maxinclusive *MaxInclusive) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchMaxInclusive(maxinclusive)
-}
-
-func (stage *Stage) UnstageBranchMaxInclusive(maxinclusive *MaxInclusive) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(maxinclusive) {
@@ -2375,10 +1932,6 @@ func (stage *Stage) UnstageBranchMaxInclusive(maxinclusive *MaxInclusive) {
 }
 
 func (maxlength *MaxLength) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchMaxLength(maxlength)
-}
-
-func (stage *Stage) UnstageBranchMaxLength(maxlength *MaxLength) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(maxlength) {
@@ -2397,10 +1950,6 @@ func (stage *Stage) UnstageBranchMaxLength(maxlength *MaxLength) {
 }
 
 func (mininclusive *MinInclusive) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchMinInclusive(mininclusive)
-}
-
-func (stage *Stage) UnstageBranchMinInclusive(mininclusive *MinInclusive) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(mininclusive) {
@@ -2419,10 +1968,6 @@ func (stage *Stage) UnstageBranchMinInclusive(mininclusive *MinInclusive) {
 }
 
 func (minlength *MinLength) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchMinLength(minlength)
-}
-
-func (stage *Stage) UnstageBranchMinLength(minlength *MinLength) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(minlength) {
@@ -2441,10 +1986,6 @@ func (stage *Stage) UnstageBranchMinLength(minlength *MinLength) {
 }
 
 func (pattern *Pattern) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchPattern(pattern)
-}
-
-func (stage *Stage) UnstageBranchPattern(pattern *Pattern) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(pattern) {
@@ -2463,10 +2004,6 @@ func (stage *Stage) UnstageBranchPattern(pattern *Pattern) {
 }
 
 func (restriction *Restriction) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchRestriction(restriction)
-}
-
-func (stage *Stage) UnstageBranchRestriction(restriction *Restriction) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(restriction) {
@@ -2512,10 +2049,6 @@ func (stage *Stage) UnstageBranchRestriction(restriction *Restriction) {
 }
 
 func (schema *Schema) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSchema(schema)
-}
-
-func (stage *Stage) UnstageBranchSchema(schema *Schema) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(schema) {
@@ -2549,10 +2082,6 @@ func (stage *Stage) UnstageBranchSchema(schema *Schema) {
 }
 
 func (sequence *Sequence) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSequence(sequence)
-}
-
-func (stage *Stage) UnstageBranchSequence(sequence *Sequence) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(sequence) {
@@ -2586,10 +2115,6 @@ func (stage *Stage) UnstageBranchSequence(sequence *Sequence) {
 }
 
 func (simplecontent *SimpleContent) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSimpleContent(simplecontent)
-}
-
-func (stage *Stage) UnstageBranchSimpleContent(simplecontent *SimpleContent) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(simplecontent) {
@@ -2611,10 +2136,6 @@ func (stage *Stage) UnstageBranchSimpleContent(simplecontent *SimpleContent) {
 }
 
 func (simpletype *SimpleType) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSimpleType(simpletype)
-}
-
-func (stage *Stage) UnstageBranchSimpleType(simpletype *SimpleType) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(simpletype) {
@@ -2639,10 +2160,6 @@ func (stage *Stage) UnstageBranchSimpleType(simpletype *SimpleType) {
 }
 
 func (totaldigit *TotalDigit) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchTotalDigit(totaldigit)
-}
-
-func (stage *Stage) UnstageBranchTotalDigit(totaldigit *TotalDigit) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(totaldigit) {
@@ -2661,10 +2178,6 @@ func (stage *Stage) UnstageBranchTotalDigit(totaldigit *TotalDigit) {
 }
 
 func (union *Union) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchUnion(union)
-}
-
-func (stage *Stage) UnstageBranchUnion(union *Union) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(union) {
@@ -2683,10 +2196,6 @@ func (stage *Stage) UnstageBranchUnion(union *Union) {
 }
 
 func (whitespace *WhiteSpace) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchWhiteSpace(whitespace)
-}
-
-func (stage *Stage) UnstageBranchWhiteSpace(whitespace *WhiteSpace) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(whitespace) {
@@ -2707,91 +2216,44 @@ func (stage *Stage) UnstageBranchWhiteSpace(whitespace *WhiteSpace) {
 // insertion point for pointer reconstruction from references
 func (reference *All) GongReconstructPointersFromReferences(stage *Stage, instance *All) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
-	reference.Sequences = reference.Sequences[:0]
-	for _, _b := range instance.Sequences {
-		reference.Sequences = append(reference.Sequences, stage.Sequences_reference[_b])
-	}
-	reference.Alls = reference.Alls[:0]
-	for _, _b := range instance.Alls {
-		reference.Alls = append(reference.Alls, stage.Alls_reference[_b])
-	}
-	reference.Choices = reference.Choices[:0]
-	for _, _b := range instance.Choices {
-		reference.Choices = append(reference.Choices, stage.Choices_reference[_b])
-	}
-	reference.Groups = reference.Groups[:0]
-	for _, _b := range instance.Groups {
-		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
-	}
-	reference.Elements = reference.Elements[:0]
-	for _, _b := range instance.Elements {
-		reference.Elements = append(reference.Elements, stage.Elements_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Sequences, stage.Sequences_reference, instance.Sequences)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Alls, stage.Alls_reference, instance.Alls)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Choices, stage.Choices_reference, instance.Choices)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Groups, stage.Groups_reference, instance.Groups)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Elements, stage.Elements_reference, instance.Elements)
 }
 
 func (reference *Annotation) GongReconstructPointersFromReferences(stage *Stage, instance *Annotation) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Documentations = reference.Documentations[:0]
-	for _, _b := range instance.Documentations {
-		reference.Documentations = append(reference.Documentations, stage.Documentations_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Documentations, stage.Documentations_reference, instance.Documentations)
 }
 
 func (reference *Attribute) GongReconstructPointersFromReferences(stage *Stage, instance *Attribute) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
 }
 
 func (reference *AttributeGroup) GongReconstructPointersFromReferences(stage *Stage, instance *AttributeGroup) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
-	reference.AttributeGroups = reference.AttributeGroups[:0]
-	for _, _b := range instance.AttributeGroups {
-		reference.AttributeGroups = append(reference.AttributeGroups, stage.AttributeGroups_reference[_b])
-	}
-	reference.Attributes = reference.Attributes[:0]
-	for _, _b := range instance.Attributes {
-		reference.Attributes = append(reference.Attributes, stage.Attributes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.AttributeGroups, stage.AttributeGroups_reference, instance.AttributeGroups)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Attributes, stage.Attributes_reference, instance.Attributes)
 }
 
 func (reference *Choice) GongReconstructPointersFromReferences(stage *Stage, instance *Choice) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
-	reference.Sequences = reference.Sequences[:0]
-	for _, _b := range instance.Sequences {
-		reference.Sequences = append(reference.Sequences, stage.Sequences_reference[_b])
-	}
-	reference.Alls = reference.Alls[:0]
-	for _, _b := range instance.Alls {
-		reference.Alls = append(reference.Alls, stage.Alls_reference[_b])
-	}
-	reference.Choices = reference.Choices[:0]
-	for _, _b := range instance.Choices {
-		reference.Choices = append(reference.Choices, stage.Choices_reference[_b])
-	}
-	reference.Groups = reference.Groups[:0]
-	for _, _b := range instance.Groups {
-		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
-	}
-	reference.Elements = reference.Elements[:0]
-	for _, _b := range instance.Elements {
-		reference.Elements = append(reference.Elements, stage.Elements_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Sequences, stage.Sequences_reference, instance.Sequences)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Alls, stage.Alls_reference, instance.Alls)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Choices, stage.Choices_reference, instance.Choices)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Groups, stage.Groups_reference, instance.Groups)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Elements, stage.Elements_reference, instance.Elements)
 }
 
 func (reference *ComplexContent) GongReconstructPointersFromReferences(stage *Stage, instance *ComplexContent) {
@@ -2801,50 +2263,19 @@ func (reference *ComplexContent) GongReconstructPointersFromReferences(stage *St
 
 func (reference *ComplexType) GongReconstructPointersFromReferences(stage *Stage, instance *ComplexType) {
 	// insertion point for pointers field
-	if instance.OuterElement != nil {
-		reference.OuterElement = stage.Elements_reference[instance.OuterElement]
-	}
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
-	if instance.Extension != nil {
-		reference.Extension = stage.Extensions_reference[instance.Extension]
-	}
-	if instance.SimpleContent != nil {
-		reference.SimpleContent = stage.SimpleContents_reference[instance.SimpleContent]
-	}
-	if instance.ComplexContent != nil {
-		reference.ComplexContent = stage.ComplexContents_reference[instance.ComplexContent]
-	}
+	__gong__reconstructPointer(&reference.OuterElement, stage.Elements_reference, instance.OuterElement)
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	__gong__reconstructPointer(&reference.Extension, stage.Extensions_reference, instance.Extension)
+	__gong__reconstructPointer(&reference.SimpleContent, stage.SimpleContents_reference, instance.SimpleContent)
+	__gong__reconstructPointer(&reference.ComplexContent, stage.ComplexContents_reference, instance.ComplexContent)
 	// insertion point for slice of pointers field
-	reference.Sequences = reference.Sequences[:0]
-	for _, _b := range instance.Sequences {
-		reference.Sequences = append(reference.Sequences, stage.Sequences_reference[_b])
-	}
-	reference.Alls = reference.Alls[:0]
-	for _, _b := range instance.Alls {
-		reference.Alls = append(reference.Alls, stage.Alls_reference[_b])
-	}
-	reference.Choices = reference.Choices[:0]
-	for _, _b := range instance.Choices {
-		reference.Choices = append(reference.Choices, stage.Choices_reference[_b])
-	}
-	reference.Groups = reference.Groups[:0]
-	for _, _b := range instance.Groups {
-		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
-	}
-	reference.Elements = reference.Elements[:0]
-	for _, _b := range instance.Elements {
-		reference.Elements = append(reference.Elements, stage.Elements_reference[_b])
-	}
-	reference.Attributes = reference.Attributes[:0]
-	for _, _b := range instance.Attributes {
-		reference.Attributes = append(reference.Attributes, stage.Attributes_reference[_b])
-	}
-	reference.AttributeGroups = reference.AttributeGroups[:0]
-	for _, _b := range instance.AttributeGroups {
-		reference.AttributeGroups = append(reference.AttributeGroups, stage.AttributeGroups_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Sequences, stage.Sequences_reference, instance.Sequences)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Alls, stage.Alls_reference, instance.Alls)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Choices, stage.Choices_reference, instance.Choices)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Groups, stage.Groups_reference, instance.Groups)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Elements, stage.Elements_reference, instance.Elements)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Attributes, stage.Attributes_reference, instance.Attributes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.AttributeGroups, stage.AttributeGroups_reference, instance.AttributeGroups)
 }
 
 func (reference *Documentation) GongReconstructPointersFromReferences(stage *Stage, instance *Documentation) {
@@ -2854,422 +2285,190 @@ func (reference *Documentation) GongReconstructPointersFromReferences(stage *Sta
 
 func (reference *Element) GongReconstructPointersFromReferences(stage *Stage, instance *Element) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
-	if instance.SimpleType != nil {
-		reference.SimpleType = stage.SimpleTypes_reference[instance.SimpleType]
-	}
-	if instance.ComplexType != nil {
-		reference.ComplexType = stage.ComplexTypes_reference[instance.ComplexType]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	__gong__reconstructPointer(&reference.SimpleType, stage.SimpleTypes_reference, instance.SimpleType)
+	__gong__reconstructPointer(&reference.ComplexType, stage.ComplexTypes_reference, instance.ComplexType)
 	// insertion point for slice of pointers field
-	reference.Groups = reference.Groups[:0]
-	for _, _b := range instance.Groups {
-		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Groups, stage.Groups_reference, instance.Groups)
 }
 
 func (reference *Enumeration) GongReconstructPointersFromReferences(stage *Stage, instance *Enumeration) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Extension) GongReconstructPointersFromReferences(stage *Stage, instance *Extension) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Sequences = reference.Sequences[:0]
-	for _, _b := range instance.Sequences {
-		reference.Sequences = append(reference.Sequences, stage.Sequences_reference[_b])
-	}
-	reference.Alls = reference.Alls[:0]
-	for _, _b := range instance.Alls {
-		reference.Alls = append(reference.Alls, stage.Alls_reference[_b])
-	}
-	reference.Choices = reference.Choices[:0]
-	for _, _b := range instance.Choices {
-		reference.Choices = append(reference.Choices, stage.Choices_reference[_b])
-	}
-	reference.Groups = reference.Groups[:0]
-	for _, _b := range instance.Groups {
-		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
-	}
-	reference.Elements = reference.Elements[:0]
-	for _, _b := range instance.Elements {
-		reference.Elements = append(reference.Elements, stage.Elements_reference[_b])
-	}
-	reference.Attributes = reference.Attributes[:0]
-	for _, _b := range instance.Attributes {
-		reference.Attributes = append(reference.Attributes, stage.Attributes_reference[_b])
-	}
-	reference.AttributeGroups = reference.AttributeGroups[:0]
-	for _, _b := range instance.AttributeGroups {
-		reference.AttributeGroups = append(reference.AttributeGroups, stage.AttributeGroups_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Sequences, stage.Sequences_reference, instance.Sequences)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Alls, stage.Alls_reference, instance.Alls)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Choices, stage.Choices_reference, instance.Choices)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Groups, stage.Groups_reference, instance.Groups)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Elements, stage.Elements_reference, instance.Elements)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Attributes, stage.Attributes_reference, instance.Attributes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.AttributeGroups, stage.AttributeGroups_reference, instance.AttributeGroups)
 }
 
 func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
-	if instance.OuterElement != nil {
-		reference.OuterElement = stage.Elements_reference[instance.OuterElement]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	__gong__reconstructPointer(&reference.OuterElement, stage.Elements_reference, instance.OuterElement)
 	// insertion point for slice of pointers field
-	reference.Sequences = reference.Sequences[:0]
-	for _, _b := range instance.Sequences {
-		reference.Sequences = append(reference.Sequences, stage.Sequences_reference[_b])
-	}
-	reference.Alls = reference.Alls[:0]
-	for _, _b := range instance.Alls {
-		reference.Alls = append(reference.Alls, stage.Alls_reference[_b])
-	}
-	reference.Choices = reference.Choices[:0]
-	for _, _b := range instance.Choices {
-		reference.Choices = append(reference.Choices, stage.Choices_reference[_b])
-	}
-	reference.Groups = reference.Groups[:0]
-	for _, _b := range instance.Groups {
-		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
-	}
-	reference.Elements = reference.Elements[:0]
-	for _, _b := range instance.Elements {
-		reference.Elements = append(reference.Elements, stage.Elements_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Sequences, stage.Sequences_reference, instance.Sequences)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Alls, stage.Alls_reference, instance.Alls)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Choices, stage.Choices_reference, instance.Choices)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Groups, stage.Groups_reference, instance.Groups)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Elements, stage.Elements_reference, instance.Elements)
 }
 
 func (reference *Length) GongReconstructPointersFromReferences(stage *Stage, instance *Length) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
 }
 
 func (reference *MaxInclusive) GongReconstructPointersFromReferences(stage *Stage, instance *MaxInclusive) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
 }
 
 func (reference *MaxLength) GongReconstructPointersFromReferences(stage *Stage, instance *MaxLength) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
 }
 
 func (reference *MinInclusive) GongReconstructPointersFromReferences(stage *Stage, instance *MinInclusive) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
 }
 
 func (reference *MinLength) GongReconstructPointersFromReferences(stage *Stage, instance *MinLength) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Pattern) GongReconstructPointersFromReferences(stage *Stage, instance *Pattern) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Restriction) GongReconstructPointersFromReferences(stage *Stage, instance *Restriction) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
-	if instance.MinInclusive != nil {
-		reference.MinInclusive = stage.MinInclusives_reference[instance.MinInclusive]
-	}
-	if instance.MaxInclusive != nil {
-		reference.MaxInclusive = stage.MaxInclusives_reference[instance.MaxInclusive]
-	}
-	if instance.Pattern != nil {
-		reference.Pattern = stage.Patterns_reference[instance.Pattern]
-	}
-	if instance.WhiteSpace != nil {
-		reference.WhiteSpace = stage.WhiteSpaces_reference[instance.WhiteSpace]
-	}
-	if instance.MinLength != nil {
-		reference.MinLength = stage.MinLengths_reference[instance.MinLength]
-	}
-	if instance.MaxLength != nil {
-		reference.MaxLength = stage.MaxLengths_reference[instance.MaxLength]
-	}
-	if instance.Length != nil {
-		reference.Length = stage.Lengths_reference[instance.Length]
-	}
-	if instance.TotalDigit != nil {
-		reference.TotalDigit = stage.TotalDigits_reference[instance.TotalDigit]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	__gong__reconstructPointer(&reference.MinInclusive, stage.MinInclusives_reference, instance.MinInclusive)
+	__gong__reconstructPointer(&reference.MaxInclusive, stage.MaxInclusives_reference, instance.MaxInclusive)
+	__gong__reconstructPointer(&reference.Pattern, stage.Patterns_reference, instance.Pattern)
+	__gong__reconstructPointer(&reference.WhiteSpace, stage.WhiteSpaces_reference, instance.WhiteSpace)
+	__gong__reconstructPointer(&reference.MinLength, stage.MinLengths_reference, instance.MinLength)
+	__gong__reconstructPointer(&reference.MaxLength, stage.MaxLengths_reference, instance.MaxLength)
+	__gong__reconstructPointer(&reference.Length, stage.Lengths_reference, instance.Length)
+	__gong__reconstructPointer(&reference.TotalDigit, stage.TotalDigits_reference, instance.TotalDigit)
 	// insertion point for slice of pointers field
-	reference.Enumerations = reference.Enumerations[:0]
-	for _, _b := range instance.Enumerations {
-		reference.Enumerations = append(reference.Enumerations, stage.Enumerations_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Enumerations, stage.Enumerations_reference, instance.Enumerations)
 }
 
 func (reference *Schema) GongReconstructPointersFromReferences(stage *Stage, instance *Schema) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
-	reference.Elements = reference.Elements[:0]
-	for _, _b := range instance.Elements {
-		reference.Elements = append(reference.Elements, stage.Elements_reference[_b])
-	}
-	reference.SimpleTypes = reference.SimpleTypes[:0]
-	for _, _b := range instance.SimpleTypes {
-		reference.SimpleTypes = append(reference.SimpleTypes, stage.SimpleTypes_reference[_b])
-	}
-	reference.ComplexTypes = reference.ComplexTypes[:0]
-	for _, _b := range instance.ComplexTypes {
-		reference.ComplexTypes = append(reference.ComplexTypes, stage.ComplexTypes_reference[_b])
-	}
-	reference.AttributeGroups = reference.AttributeGroups[:0]
-	for _, _b := range instance.AttributeGroups {
-		reference.AttributeGroups = append(reference.AttributeGroups, stage.AttributeGroups_reference[_b])
-	}
-	reference.Groups = reference.Groups[:0]
-	for _, _b := range instance.Groups {
-		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Elements, stage.Elements_reference, instance.Elements)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SimpleTypes, stage.SimpleTypes_reference, instance.SimpleTypes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ComplexTypes, stage.ComplexTypes_reference, instance.ComplexTypes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.AttributeGroups, stage.AttributeGroups_reference, instance.AttributeGroups)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Groups, stage.Groups_reference, instance.Groups)
 }
 
 func (reference *Sequence) GongReconstructPointersFromReferences(stage *Stage, instance *Sequence) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
-	reference.Sequences = reference.Sequences[:0]
-	for _, _b := range instance.Sequences {
-		reference.Sequences = append(reference.Sequences, stage.Sequences_reference[_b])
-	}
-	reference.Alls = reference.Alls[:0]
-	for _, _b := range instance.Alls {
-		reference.Alls = append(reference.Alls, stage.Alls_reference[_b])
-	}
-	reference.Choices = reference.Choices[:0]
-	for _, _b := range instance.Choices {
-		reference.Choices = append(reference.Choices, stage.Choices_reference[_b])
-	}
-	reference.Groups = reference.Groups[:0]
-	for _, _b := range instance.Groups {
-		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
-	}
-	reference.Elements = reference.Elements[:0]
-	for _, _b := range instance.Elements {
-		reference.Elements = append(reference.Elements, stage.Elements_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Sequences, stage.Sequences_reference, instance.Sequences)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Alls, stage.Alls_reference, instance.Alls)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Choices, stage.Choices_reference, instance.Choices)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Groups, stage.Groups_reference, instance.Groups)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Elements, stage.Elements_reference, instance.Elements)
 }
 
 func (reference *SimpleContent) GongReconstructPointersFromReferences(stage *Stage, instance *SimpleContent) {
 	// insertion point for pointers field
-	if instance.Extension != nil {
-		reference.Extension = stage.Extensions_reference[instance.Extension]
-	}
-	if instance.Restriction != nil {
-		reference.Restriction = stage.Restrictions_reference[instance.Restriction]
-	}
+	__gong__reconstructPointer(&reference.Extension, stage.Extensions_reference, instance.Extension)
+	__gong__reconstructPointer(&reference.Restriction, stage.Restrictions_reference, instance.Restriction)
 	// insertion point for slice of pointers field
 }
 
 func (reference *SimpleType) GongReconstructPointersFromReferences(stage *Stage, instance *SimpleType) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
-	if instance.Restriction != nil {
-		reference.Restriction = stage.Restrictions_reference[instance.Restriction]
-	}
-	if instance.Union != nil {
-		reference.Union = stage.Unions_reference[instance.Union]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	__gong__reconstructPointer(&reference.Restriction, stage.Restrictions_reference, instance.Restriction)
+	__gong__reconstructPointer(&reference.Union, stage.Unions_reference, instance.Union)
 	// insertion point for slice of pointers field
 }
 
 func (reference *TotalDigit) GongReconstructPointersFromReferences(stage *Stage, instance *TotalDigit) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Union) GongReconstructPointersFromReferences(stage *Stage, instance *Union) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
 }
 
 func (reference *WhiteSpace) GongReconstructPointersFromReferences(stage *Stage, instance *WhiteSpace) {
 	// insertion point for pointers field
-	if instance.Annotation != nil {
-		reference.Annotation = stage.Annotations_reference[instance.Annotation]
-	}
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
 }
 
 // insertion point for pointer reconstruction from instances
 func (reference *All) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
-	var _Sequences []*Sequence
-	for _, _reference := range reference.Sequences {
-		if _instance, ok := stage.Sequences_instance[_reference]; ok {
-			_Sequences = append(_Sequences, _instance)
-		}
-	}
-	reference.Sequences = _Sequences
-	var _Alls []*All
-	for _, _reference := range reference.Alls {
-		if _instance, ok := stage.Alls_instance[_reference]; ok {
-			_Alls = append(_Alls, _instance)
-		}
-	}
-	reference.Alls = _Alls
-	var _Choices []*Choice
-	for _, _reference := range reference.Choices {
-		if _instance, ok := stage.Choices_instance[_reference]; ok {
-			_Choices = append(_Choices, _instance)
-		}
-	}
-	reference.Choices = _Choices
-	var _Groups []*Group
-	for _, _reference := range reference.Groups {
-		if _instance, ok := stage.Groups_instance[_reference]; ok {
-			_Groups = append(_Groups, _instance)
-		}
-	}
-	reference.Groups = _Groups
-	var _Elements []*Element
-	for _, _reference := range reference.Elements {
-		if _instance, ok := stage.Elements_instance[_reference]; ok {
-			_Elements = append(_Elements, _instance)
-		}
-	}
-	reference.Elements = _Elements
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Sequences, stage.Sequences_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Alls, stage.Alls_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Choices, stage.Choices_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Groups, stage.Groups_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Elements, stage.Elements_instance)
 }
 
 func (reference *Annotation) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Documentations []*Documentation
-	for _, _reference := range reference.Documentations {
-		if _instance, ok := stage.Documentations_instance[_reference]; ok {
-			_Documentations = append(_Documentations, _instance)
-		}
-	}
-	reference.Documentations = _Documentations
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Documentations, stage.Documentations_instance)
 }
 
 func (reference *Attribute) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *AttributeGroup) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
-	var _AttributeGroups []*AttributeGroup
-	for _, _reference := range reference.AttributeGroups {
-		if _instance, ok := stage.AttributeGroups_instance[_reference]; ok {
-			_AttributeGroups = append(_AttributeGroups, _instance)
-		}
-	}
-	reference.AttributeGroups = _AttributeGroups
-	var _Attributes []*Attribute
-	for _, _reference := range reference.Attributes {
-		if _instance, ok := stage.Attributes_instance[_reference]; ok {
-			_Attributes = append(_Attributes, _instance)
-		}
-	}
-	reference.Attributes = _Attributes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.AttributeGroups, stage.AttributeGroups_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Attributes, stage.Attributes_instance)
 }
 
 func (reference *Choice) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
-	var _Sequences []*Sequence
-	for _, _reference := range reference.Sequences {
-		if _instance, ok := stage.Sequences_instance[_reference]; ok {
-			_Sequences = append(_Sequences, _instance)
-		}
-	}
-	reference.Sequences = _Sequences
-	var _Alls []*All
-	for _, _reference := range reference.Alls {
-		if _instance, ok := stage.Alls_instance[_reference]; ok {
-			_Alls = append(_Alls, _instance)
-		}
-	}
-	reference.Alls = _Alls
-	var _Choices []*Choice
-	for _, _reference := range reference.Choices {
-		if _instance, ok := stage.Choices_instance[_reference]; ok {
-			_Choices = append(_Choices, _instance)
-		}
-	}
-	reference.Choices = _Choices
-	var _Groups []*Group
-	for _, _reference := range reference.Groups {
-		if _instance, ok := stage.Groups_instance[_reference]; ok {
-			_Groups = append(_Groups, _instance)
-		}
-	}
-	reference.Groups = _Groups
-	var _Elements []*Element
-	for _, _reference := range reference.Elements {
-		if _instance, ok := stage.Elements_instance[_reference]; ok {
-			_Elements = append(_Elements, _instance)
-		}
-	}
-	reference.Elements = _Elements
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Sequences, stage.Sequences_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Alls, stage.Alls_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Choices, stage.Choices_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Groups, stage.Groups_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Elements, stage.Elements_instance)
 }
 
 func (reference *ComplexContent) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3279,86 +2478,19 @@ func (reference *ComplexContent) GongReconstructPointersFromInstances(stage *Sta
 
 func (reference *ComplexType) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.OuterElement; _reference != nil {
-		reference.OuterElement = nil
-		if _instance, ok := stage.Elements_instance[_reference]; ok {
-			reference.OuterElement = _instance
-		}
-	}
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
-	if _reference := reference.Extension; _reference != nil {
-		reference.Extension = nil
-		if _instance, ok := stage.Extensions_instance[_reference]; ok {
-			reference.Extension = _instance
-		}
-	}
-	if _reference := reference.SimpleContent; _reference != nil {
-		reference.SimpleContent = nil
-		if _instance, ok := stage.SimpleContents_instance[_reference]; ok {
-			reference.SimpleContent = _instance
-		}
-	}
-	if _reference := reference.ComplexContent; _reference != nil {
-		reference.ComplexContent = nil
-		if _instance, ok := stage.ComplexContents_instance[_reference]; ok {
-			reference.ComplexContent = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.OuterElement, stage.Elements_instance)
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	__gong__reconstructPointerFromInstance(&reference.Extension, stage.Extensions_instance)
+	__gong__reconstructPointerFromInstance(&reference.SimpleContent, stage.SimpleContents_instance)
+	__gong__reconstructPointerFromInstance(&reference.ComplexContent, stage.ComplexContents_instance)
 	// insertion point for slice of pointers fields
-	var _Sequences []*Sequence
-	for _, _reference := range reference.Sequences {
-		if _instance, ok := stage.Sequences_instance[_reference]; ok {
-			_Sequences = append(_Sequences, _instance)
-		}
-	}
-	reference.Sequences = _Sequences
-	var _Alls []*All
-	for _, _reference := range reference.Alls {
-		if _instance, ok := stage.Alls_instance[_reference]; ok {
-			_Alls = append(_Alls, _instance)
-		}
-	}
-	reference.Alls = _Alls
-	var _Choices []*Choice
-	for _, _reference := range reference.Choices {
-		if _instance, ok := stage.Choices_instance[_reference]; ok {
-			_Choices = append(_Choices, _instance)
-		}
-	}
-	reference.Choices = _Choices
-	var _Groups []*Group
-	for _, _reference := range reference.Groups {
-		if _instance, ok := stage.Groups_instance[_reference]; ok {
-			_Groups = append(_Groups, _instance)
-		}
-	}
-	reference.Groups = _Groups
-	var _Elements []*Element
-	for _, _reference := range reference.Elements {
-		if _instance, ok := stage.Elements_instance[_reference]; ok {
-			_Elements = append(_Elements, _instance)
-		}
-	}
-	reference.Elements = _Elements
-	var _Attributes []*Attribute
-	for _, _reference := range reference.Attributes {
-		if _instance, ok := stage.Attributes_instance[_reference]; ok {
-			_Attributes = append(_Attributes, _instance)
-		}
-	}
-	reference.Attributes = _Attributes
-	var _AttributeGroups []*AttributeGroup
-	for _, _reference := range reference.AttributeGroups {
-		if _instance, ok := stage.AttributeGroups_instance[_reference]; ok {
-			_AttributeGroups = append(_AttributeGroups, _instance)
-		}
-	}
-	reference.AttributeGroups = _AttributeGroups
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Sequences, stage.Sequences_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Alls, stage.Alls_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Choices, stage.Choices_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Groups, stage.Groups_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Elements, stage.Elements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Attributes, stage.Attributes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.AttributeGroups, stage.AttributeGroups_instance)
 }
 
 func (reference *Documentation) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3368,445 +2500,146 @@ func (reference *Documentation) GongReconstructPointersFromInstances(stage *Stag
 
 func (reference *Element) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
-	if _reference := reference.SimpleType; _reference != nil {
-		reference.SimpleType = nil
-		if _instance, ok := stage.SimpleTypes_instance[_reference]; ok {
-			reference.SimpleType = _instance
-		}
-	}
-	if _reference := reference.ComplexType; _reference != nil {
-		reference.ComplexType = nil
-		if _instance, ok := stage.ComplexTypes_instance[_reference]; ok {
-			reference.ComplexType = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	__gong__reconstructPointerFromInstance(&reference.SimpleType, stage.SimpleTypes_instance)
+	__gong__reconstructPointerFromInstance(&reference.ComplexType, stage.ComplexTypes_instance)
 	// insertion point for slice of pointers fields
-	var _Groups []*Group
-	for _, _reference := range reference.Groups {
-		if _instance, ok := stage.Groups_instance[_reference]; ok {
-			_Groups = append(_Groups, _instance)
-		}
-	}
-	reference.Groups = _Groups
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Groups, stage.Groups_instance)
 }
 
 func (reference *Enumeration) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Extension) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Sequences []*Sequence
-	for _, _reference := range reference.Sequences {
-		if _instance, ok := stage.Sequences_instance[_reference]; ok {
-			_Sequences = append(_Sequences, _instance)
-		}
-	}
-	reference.Sequences = _Sequences
-	var _Alls []*All
-	for _, _reference := range reference.Alls {
-		if _instance, ok := stage.Alls_instance[_reference]; ok {
-			_Alls = append(_Alls, _instance)
-		}
-	}
-	reference.Alls = _Alls
-	var _Choices []*Choice
-	for _, _reference := range reference.Choices {
-		if _instance, ok := stage.Choices_instance[_reference]; ok {
-			_Choices = append(_Choices, _instance)
-		}
-	}
-	reference.Choices = _Choices
-	var _Groups []*Group
-	for _, _reference := range reference.Groups {
-		if _instance, ok := stage.Groups_instance[_reference]; ok {
-			_Groups = append(_Groups, _instance)
-		}
-	}
-	reference.Groups = _Groups
-	var _Elements []*Element
-	for _, _reference := range reference.Elements {
-		if _instance, ok := stage.Elements_instance[_reference]; ok {
-			_Elements = append(_Elements, _instance)
-		}
-	}
-	reference.Elements = _Elements
-	var _Attributes []*Attribute
-	for _, _reference := range reference.Attributes {
-		if _instance, ok := stage.Attributes_instance[_reference]; ok {
-			_Attributes = append(_Attributes, _instance)
-		}
-	}
-	reference.Attributes = _Attributes
-	var _AttributeGroups []*AttributeGroup
-	for _, _reference := range reference.AttributeGroups {
-		if _instance, ok := stage.AttributeGroups_instance[_reference]; ok {
-			_AttributeGroups = append(_AttributeGroups, _instance)
-		}
-	}
-	reference.AttributeGroups = _AttributeGroups
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Sequences, stage.Sequences_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Alls, stage.Alls_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Choices, stage.Choices_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Groups, stage.Groups_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Elements, stage.Elements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Attributes, stage.Attributes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.AttributeGroups, stage.AttributeGroups_instance)
 }
 
 func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
-	if _reference := reference.OuterElement; _reference != nil {
-		reference.OuterElement = nil
-		if _instance, ok := stage.Elements_instance[_reference]; ok {
-			reference.OuterElement = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	__gong__reconstructPointerFromInstance(&reference.OuterElement, stage.Elements_instance)
 	// insertion point for slice of pointers fields
-	var _Sequences []*Sequence
-	for _, _reference := range reference.Sequences {
-		if _instance, ok := stage.Sequences_instance[_reference]; ok {
-			_Sequences = append(_Sequences, _instance)
-		}
-	}
-	reference.Sequences = _Sequences
-	var _Alls []*All
-	for _, _reference := range reference.Alls {
-		if _instance, ok := stage.Alls_instance[_reference]; ok {
-			_Alls = append(_Alls, _instance)
-		}
-	}
-	reference.Alls = _Alls
-	var _Choices []*Choice
-	for _, _reference := range reference.Choices {
-		if _instance, ok := stage.Choices_instance[_reference]; ok {
-			_Choices = append(_Choices, _instance)
-		}
-	}
-	reference.Choices = _Choices
-	var _Groups []*Group
-	for _, _reference := range reference.Groups {
-		if _instance, ok := stage.Groups_instance[_reference]; ok {
-			_Groups = append(_Groups, _instance)
-		}
-	}
-	reference.Groups = _Groups
-	var _Elements []*Element
-	for _, _reference := range reference.Elements {
-		if _instance, ok := stage.Elements_instance[_reference]; ok {
-			_Elements = append(_Elements, _instance)
-		}
-	}
-	reference.Elements = _Elements
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Sequences, stage.Sequences_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Alls, stage.Alls_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Choices, stage.Choices_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Groups, stage.Groups_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Elements, stage.Elements_instance)
 }
 
 func (reference *Length) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *MaxInclusive) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *MaxLength) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *MinInclusive) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *MinLength) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Pattern) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Restriction) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
-	if _reference := reference.MinInclusive; _reference != nil {
-		reference.MinInclusive = nil
-		if _instance, ok := stage.MinInclusives_instance[_reference]; ok {
-			reference.MinInclusive = _instance
-		}
-	}
-	if _reference := reference.MaxInclusive; _reference != nil {
-		reference.MaxInclusive = nil
-		if _instance, ok := stage.MaxInclusives_instance[_reference]; ok {
-			reference.MaxInclusive = _instance
-		}
-	}
-	if _reference := reference.Pattern; _reference != nil {
-		reference.Pattern = nil
-		if _instance, ok := stage.Patterns_instance[_reference]; ok {
-			reference.Pattern = _instance
-		}
-	}
-	if _reference := reference.WhiteSpace; _reference != nil {
-		reference.WhiteSpace = nil
-		if _instance, ok := stage.WhiteSpaces_instance[_reference]; ok {
-			reference.WhiteSpace = _instance
-		}
-	}
-	if _reference := reference.MinLength; _reference != nil {
-		reference.MinLength = nil
-		if _instance, ok := stage.MinLengths_instance[_reference]; ok {
-			reference.MinLength = _instance
-		}
-	}
-	if _reference := reference.MaxLength; _reference != nil {
-		reference.MaxLength = nil
-		if _instance, ok := stage.MaxLengths_instance[_reference]; ok {
-			reference.MaxLength = _instance
-		}
-	}
-	if _reference := reference.Length; _reference != nil {
-		reference.Length = nil
-		if _instance, ok := stage.Lengths_instance[_reference]; ok {
-			reference.Length = _instance
-		}
-	}
-	if _reference := reference.TotalDigit; _reference != nil {
-		reference.TotalDigit = nil
-		if _instance, ok := stage.TotalDigits_instance[_reference]; ok {
-			reference.TotalDigit = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	__gong__reconstructPointerFromInstance(&reference.MinInclusive, stage.MinInclusives_instance)
+	__gong__reconstructPointerFromInstance(&reference.MaxInclusive, stage.MaxInclusives_instance)
+	__gong__reconstructPointerFromInstance(&reference.Pattern, stage.Patterns_instance)
+	__gong__reconstructPointerFromInstance(&reference.WhiteSpace, stage.WhiteSpaces_instance)
+	__gong__reconstructPointerFromInstance(&reference.MinLength, stage.MinLengths_instance)
+	__gong__reconstructPointerFromInstance(&reference.MaxLength, stage.MaxLengths_instance)
+	__gong__reconstructPointerFromInstance(&reference.Length, stage.Lengths_instance)
+	__gong__reconstructPointerFromInstance(&reference.TotalDigit, stage.TotalDigits_instance)
 	// insertion point for slice of pointers fields
-	var _Enumerations []*Enumeration
-	for _, _reference := range reference.Enumerations {
-		if _instance, ok := stage.Enumerations_instance[_reference]; ok {
-			_Enumerations = append(_Enumerations, _instance)
-		}
-	}
-	reference.Enumerations = _Enumerations
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Enumerations, stage.Enumerations_instance)
 }
 
 func (reference *Schema) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
-	var _Elements []*Element
-	for _, _reference := range reference.Elements {
-		if _instance, ok := stage.Elements_instance[_reference]; ok {
-			_Elements = append(_Elements, _instance)
-		}
-	}
-	reference.Elements = _Elements
-	var _SimpleTypes []*SimpleType
-	for _, _reference := range reference.SimpleTypes {
-		if _instance, ok := stage.SimpleTypes_instance[_reference]; ok {
-			_SimpleTypes = append(_SimpleTypes, _instance)
-		}
-	}
-	reference.SimpleTypes = _SimpleTypes
-	var _ComplexTypes []*ComplexType
-	for _, _reference := range reference.ComplexTypes {
-		if _instance, ok := stage.ComplexTypes_instance[_reference]; ok {
-			_ComplexTypes = append(_ComplexTypes, _instance)
-		}
-	}
-	reference.ComplexTypes = _ComplexTypes
-	var _AttributeGroups []*AttributeGroup
-	for _, _reference := range reference.AttributeGroups {
-		if _instance, ok := stage.AttributeGroups_instance[_reference]; ok {
-			_AttributeGroups = append(_AttributeGroups, _instance)
-		}
-	}
-	reference.AttributeGroups = _AttributeGroups
-	var _Groups []*Group
-	for _, _reference := range reference.Groups {
-		if _instance, ok := stage.Groups_instance[_reference]; ok {
-			_Groups = append(_Groups, _instance)
-		}
-	}
-	reference.Groups = _Groups
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Elements, stage.Elements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SimpleTypes, stage.SimpleTypes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ComplexTypes, stage.ComplexTypes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.AttributeGroups, stage.AttributeGroups_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Groups, stage.Groups_instance)
 }
 
 func (reference *Sequence) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
-	var _Sequences []*Sequence
-	for _, _reference := range reference.Sequences {
-		if _instance, ok := stage.Sequences_instance[_reference]; ok {
-			_Sequences = append(_Sequences, _instance)
-		}
-	}
-	reference.Sequences = _Sequences
-	var _Alls []*All
-	for _, _reference := range reference.Alls {
-		if _instance, ok := stage.Alls_instance[_reference]; ok {
-			_Alls = append(_Alls, _instance)
-		}
-	}
-	reference.Alls = _Alls
-	var _Choices []*Choice
-	for _, _reference := range reference.Choices {
-		if _instance, ok := stage.Choices_instance[_reference]; ok {
-			_Choices = append(_Choices, _instance)
-		}
-	}
-	reference.Choices = _Choices
-	var _Groups []*Group
-	for _, _reference := range reference.Groups {
-		if _instance, ok := stage.Groups_instance[_reference]; ok {
-			_Groups = append(_Groups, _instance)
-		}
-	}
-	reference.Groups = _Groups
-	var _Elements []*Element
-	for _, _reference := range reference.Elements {
-		if _instance, ok := stage.Elements_instance[_reference]; ok {
-			_Elements = append(_Elements, _instance)
-		}
-	}
-	reference.Elements = _Elements
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Sequences, stage.Sequences_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Alls, stage.Alls_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Choices, stage.Choices_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Groups, stage.Groups_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Elements, stage.Elements_instance)
 }
 
 func (reference *SimpleContent) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Extension; _reference != nil {
-		reference.Extension = nil
-		if _instance, ok := stage.Extensions_instance[_reference]; ok {
-			reference.Extension = _instance
-		}
-	}
-	if _reference := reference.Restriction; _reference != nil {
-		reference.Restriction = nil
-		if _instance, ok := stage.Restrictions_instance[_reference]; ok {
-			reference.Restriction = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Extension, stage.Extensions_instance)
+	__gong__reconstructPointerFromInstance(&reference.Restriction, stage.Restrictions_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *SimpleType) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
-	if _reference := reference.Restriction; _reference != nil {
-		reference.Restriction = nil
-		if _instance, ok := stage.Restrictions_instance[_reference]; ok {
-			reference.Restriction = _instance
-		}
-	}
-	if _reference := reference.Union; _reference != nil {
-		reference.Union = nil
-		if _instance, ok := stage.Unions_instance[_reference]; ok {
-			reference.Union = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	__gong__reconstructPointerFromInstance(&reference.Restriction, stage.Restrictions_instance)
+	__gong__reconstructPointerFromInstance(&reference.Union, stage.Unions_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *TotalDigit) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Union) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *WhiteSpace) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Annotation; _reference != nil {
-		reference.Annotation = nil
-		if _instance, ok := stage.Annotations_instance[_reference]; ok {
-			reference.Annotation = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -3818,174 +2651,25 @@ func (all *All) GongDiff(stage *Stage, allOther *All) (diffs []string) {
 	if all.Name != allOther.Name {
 		diffs = append(diffs, all.GongMarshallField(stage, "Name"))
 	}
-	if (all.Annotation == nil) != (allOther.Annotation == nil) {
+	if all.Annotation != allOther.Annotation {
 		diffs = append(diffs, all.GongMarshallField(stage, "Annotation"))
-	} else if all.Annotation != nil && allOther.Annotation != nil {
-		if all.Annotation != allOther.Annotation {
-			diffs = append(diffs, all.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if all.OuterElementName != allOther.OuterElementName {
 		diffs = append(diffs, all.GongMarshallField(stage, "OuterElementName"))
 	}
-	SequencesDifferent := false
-	if len(all.Sequences) != len(allOther.Sequences) {
-		SequencesDifferent = true
-	} else {
-		for i := range all.Sequences {
-			if (all.Sequences[i] == nil) != (allOther.Sequences[i] == nil) {
-				SequencesDifferent = true
-				break
-			} else if all.Sequences[i] != nil && allOther.Sequences[i] != nil {
-				// this is a pointer comparaison
-				if all.Sequences[i] != allOther.Sequences[i] {
-					SequencesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SequencesDifferent {
-		ops := stage.Diff(
-			all,
-			"Sequences",
-			len(allOther.Sequences),
-			len(all.Sequences),
-			func(i, j int) bool {
-				return allOther.Sequences[i] == all.Sequences[j]
-			},
-			func(j int) string {
-				return all.Sequences[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, all, "Sequences", allOther.Sequences, all.Sequences); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AllsDifferent := false
-	if len(all.Alls) != len(allOther.Alls) {
-		AllsDifferent = true
-	} else {
-		for i := range all.Alls {
-			if (all.Alls[i] == nil) != (allOther.Alls[i] == nil) {
-				AllsDifferent = true
-				break
-			} else if all.Alls[i] != nil && allOther.Alls[i] != nil {
-				// this is a pointer comparaison
-				if all.Alls[i] != allOther.Alls[i] {
-					AllsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AllsDifferent {
-		ops := stage.Diff(
-			all,
-			"Alls",
-			len(allOther.Alls),
-			len(all.Alls),
-			func(i, j int) bool {
-				return allOther.Alls[i] == all.Alls[j]
-			},
-			func(j int) string {
-				return all.Alls[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, all, "Alls", allOther.Alls, all.Alls); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ChoicesDifferent := false
-	if len(all.Choices) != len(allOther.Choices) {
-		ChoicesDifferent = true
-	} else {
-		for i := range all.Choices {
-			if (all.Choices[i] == nil) != (allOther.Choices[i] == nil) {
-				ChoicesDifferent = true
-				break
-			} else if all.Choices[i] != nil && allOther.Choices[i] != nil {
-				// this is a pointer comparaison
-				if all.Choices[i] != allOther.Choices[i] {
-					ChoicesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ChoicesDifferent {
-		ops := stage.Diff(
-			all,
-			"Choices",
-			len(allOther.Choices),
-			len(all.Choices),
-			func(i, j int) bool {
-				return allOther.Choices[i] == all.Choices[j]
-			},
-			func(j int) string {
-				return all.Choices[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, all, "Choices", allOther.Choices, all.Choices); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	GroupsDifferent := false
-	if len(all.Groups) != len(allOther.Groups) {
-		GroupsDifferent = true
-	} else {
-		for i := range all.Groups {
-			if (all.Groups[i] == nil) != (allOther.Groups[i] == nil) {
-				GroupsDifferent = true
-				break
-			} else if all.Groups[i] != nil && allOther.Groups[i] != nil {
-				// this is a pointer comparaison
-				if all.Groups[i] != allOther.Groups[i] {
-					GroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GroupsDifferent {
-		ops := stage.Diff(
-			all,
-			"Groups",
-			len(allOther.Groups),
-			len(all.Groups),
-			func(i, j int) bool {
-				return allOther.Groups[i] == all.Groups[j]
-			},
-			func(j int) string {
-				return all.Groups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, all, "Groups", allOther.Groups, all.Groups); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ElementsDifferent := false
-	if len(all.Elements) != len(allOther.Elements) {
-		ElementsDifferent = true
-	} else {
-		for i := range all.Elements {
-			if (all.Elements[i] == nil) != (allOther.Elements[i] == nil) {
-				ElementsDifferent = true
-				break
-			} else if all.Elements[i] != nil && allOther.Elements[i] != nil {
-				// this is a pointer comparaison
-				if all.Elements[i] != allOther.Elements[i] {
-					ElementsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ElementsDifferent {
-		ops := stage.Diff(
-			all,
-			"Elements",
-			len(allOther.Elements),
-			len(all.Elements),
-			func(i, j int) bool {
-				return allOther.Elements[i] == all.Elements[j]
-			},
-			func(j int) string {
-				return all.Elements[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, all, "Elements", allOther.Elements, all.Elements); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if all.Order != allOther.Order {
@@ -4011,36 +2695,7 @@ func (annotation *Annotation) GongDiff(stage *Stage, annotationOther *Annotation
 	if annotation.Name != annotationOther.Name {
 		diffs = append(diffs, annotation.GongMarshallField(stage, "Name"))
 	}
-	DocumentationsDifferent := false
-	if len(annotation.Documentations) != len(annotationOther.Documentations) {
-		DocumentationsDifferent = true
-	} else {
-		for i := range annotation.Documentations {
-			if (annotation.Documentations[i] == nil) != (annotationOther.Documentations[i] == nil) {
-				DocumentationsDifferent = true
-				break
-			} else if annotation.Documentations[i] != nil && annotationOther.Documentations[i] != nil {
-				// this is a pointer comparaison
-				if annotation.Documentations[i] != annotationOther.Documentations[i] {
-					DocumentationsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DocumentationsDifferent {
-		ops := stage.Diff(
-			annotation,
-			"Documentations",
-			len(annotationOther.Documentations),
-			len(annotation.Documentations),
-			func(i, j int) bool {
-				return annotationOther.Documentations[i] == annotation.Documentations[j]
-			},
-			func(j int) string {
-				return annotation.Documentations[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, annotation, "Documentations", annotationOther.Documentations, annotation.Documentations); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4060,12 +2715,8 @@ func (attribute *Attribute) GongDiff(stage *Stage, attributeOther *Attribute) (d
 	if attribute.Type != attributeOther.Type {
 		diffs = append(diffs, attribute.GongMarshallField(stage, "Type"))
 	}
-	if (attribute.Annotation == nil) != (attributeOther.Annotation == nil) {
+	if attribute.Annotation != attributeOther.Annotation {
 		diffs = append(diffs, attribute.GongMarshallField(stage, "Annotation"))
-	} else if attribute.Annotation != nil && attributeOther.Annotation != nil {
-		if attribute.Annotation != attributeOther.Annotation {
-			diffs = append(diffs, attribute.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if attribute.HasNameConflict != attributeOther.HasNameConflict {
 		diffs = append(diffs, attribute.GongMarshallField(stage, "HasNameConflict"))
@@ -4111,12 +2762,8 @@ func (attributegroup *AttributeGroup) GongDiff(stage *Stage, attributegroupOther
 	if attributegroup.NameXSD != attributegroupOther.NameXSD {
 		diffs = append(diffs, attributegroup.GongMarshallField(stage, "NameXSD"))
 	}
-	if (attributegroup.Annotation == nil) != (attributegroupOther.Annotation == nil) {
+	if attributegroup.Annotation != attributegroupOther.Annotation {
 		diffs = append(diffs, attributegroup.GongMarshallField(stage, "Annotation"))
-	} else if attributegroup.Annotation != nil && attributegroupOther.Annotation != nil {
-		if attributegroup.Annotation != attributegroupOther.Annotation {
-			diffs = append(diffs, attributegroup.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if attributegroup.HasNameConflict != attributegroupOther.HasNameConflict {
 		diffs = append(diffs, attributegroup.GongMarshallField(stage, "HasNameConflict"))
@@ -4124,71 +2771,13 @@ func (attributegroup *AttributeGroup) GongDiff(stage *Stage, attributegroupOther
 	if attributegroup.GoIdentifier != attributegroupOther.GoIdentifier {
 		diffs = append(diffs, attributegroup.GongMarshallField(stage, "GoIdentifier"))
 	}
-	AttributeGroupsDifferent := false
-	if len(attributegroup.AttributeGroups) != len(attributegroupOther.AttributeGroups) {
-		AttributeGroupsDifferent = true
-	} else {
-		for i := range attributegroup.AttributeGroups {
-			if (attributegroup.AttributeGroups[i] == nil) != (attributegroupOther.AttributeGroups[i] == nil) {
-				AttributeGroupsDifferent = true
-				break
-			} else if attributegroup.AttributeGroups[i] != nil && attributegroupOther.AttributeGroups[i] != nil {
-				// this is a pointer comparaison
-				if attributegroup.AttributeGroups[i] != attributegroupOther.AttributeGroups[i] {
-					AttributeGroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AttributeGroupsDifferent {
-		ops := stage.Diff(
-			attributegroup,
-			"AttributeGroups",
-			len(attributegroupOther.AttributeGroups),
-			len(attributegroup.AttributeGroups),
-			func(i, j int) bool {
-				return attributegroupOther.AttributeGroups[i] == attributegroup.AttributeGroups[j]
-			},
-			func(j int) string {
-				return attributegroup.AttributeGroups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, attributegroup, "AttributeGroups", attributegroupOther.AttributeGroups, attributegroup.AttributeGroups); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if attributegroup.Ref != attributegroupOther.Ref {
 		diffs = append(diffs, attributegroup.GongMarshallField(stage, "Ref"))
 	}
-	AttributesDifferent := false
-	if len(attributegroup.Attributes) != len(attributegroupOther.Attributes) {
-		AttributesDifferent = true
-	} else {
-		for i := range attributegroup.Attributes {
-			if (attributegroup.Attributes[i] == nil) != (attributegroupOther.Attributes[i] == nil) {
-				AttributesDifferent = true
-				break
-			} else if attributegroup.Attributes[i] != nil && attributegroupOther.Attributes[i] != nil {
-				// this is a pointer comparaison
-				if attributegroup.Attributes[i] != attributegroupOther.Attributes[i] {
-					AttributesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AttributesDifferent {
-		ops := stage.Diff(
-			attributegroup,
-			"Attributes",
-			len(attributegroupOther.Attributes),
-			len(attributegroup.Attributes),
-			func(i, j int) bool {
-				return attributegroupOther.Attributes[i] == attributegroup.Attributes[j]
-			},
-			func(j int) string {
-				return attributegroup.Attributes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, attributegroup, "Attributes", attributegroupOther.Attributes, attributegroup.Attributes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if attributegroup.Order != attributegroupOther.Order {
@@ -4208,174 +2797,25 @@ func (choice *Choice) GongDiff(stage *Stage, choiceOther *Choice) (diffs []strin
 	if choice.Name != choiceOther.Name {
 		diffs = append(diffs, choice.GongMarshallField(stage, "Name"))
 	}
-	if (choice.Annotation == nil) != (choiceOther.Annotation == nil) {
+	if choice.Annotation != choiceOther.Annotation {
 		diffs = append(diffs, choice.GongMarshallField(stage, "Annotation"))
-	} else if choice.Annotation != nil && choiceOther.Annotation != nil {
-		if choice.Annotation != choiceOther.Annotation {
-			diffs = append(diffs, choice.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if choice.OuterElementName != choiceOther.OuterElementName {
 		diffs = append(diffs, choice.GongMarshallField(stage, "OuterElementName"))
 	}
-	SequencesDifferent := false
-	if len(choice.Sequences) != len(choiceOther.Sequences) {
-		SequencesDifferent = true
-	} else {
-		for i := range choice.Sequences {
-			if (choice.Sequences[i] == nil) != (choiceOther.Sequences[i] == nil) {
-				SequencesDifferent = true
-				break
-			} else if choice.Sequences[i] != nil && choiceOther.Sequences[i] != nil {
-				// this is a pointer comparaison
-				if choice.Sequences[i] != choiceOther.Sequences[i] {
-					SequencesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SequencesDifferent {
-		ops := stage.Diff(
-			choice,
-			"Sequences",
-			len(choiceOther.Sequences),
-			len(choice.Sequences),
-			func(i, j int) bool {
-				return choiceOther.Sequences[i] == choice.Sequences[j]
-			},
-			func(j int) string {
-				return choice.Sequences[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, choice, "Sequences", choiceOther.Sequences, choice.Sequences); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AllsDifferent := false
-	if len(choice.Alls) != len(choiceOther.Alls) {
-		AllsDifferent = true
-	} else {
-		for i := range choice.Alls {
-			if (choice.Alls[i] == nil) != (choiceOther.Alls[i] == nil) {
-				AllsDifferent = true
-				break
-			} else if choice.Alls[i] != nil && choiceOther.Alls[i] != nil {
-				// this is a pointer comparaison
-				if choice.Alls[i] != choiceOther.Alls[i] {
-					AllsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AllsDifferent {
-		ops := stage.Diff(
-			choice,
-			"Alls",
-			len(choiceOther.Alls),
-			len(choice.Alls),
-			func(i, j int) bool {
-				return choiceOther.Alls[i] == choice.Alls[j]
-			},
-			func(j int) string {
-				return choice.Alls[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, choice, "Alls", choiceOther.Alls, choice.Alls); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ChoicesDifferent := false
-	if len(choice.Choices) != len(choiceOther.Choices) {
-		ChoicesDifferent = true
-	} else {
-		for i := range choice.Choices {
-			if (choice.Choices[i] == nil) != (choiceOther.Choices[i] == nil) {
-				ChoicesDifferent = true
-				break
-			} else if choice.Choices[i] != nil && choiceOther.Choices[i] != nil {
-				// this is a pointer comparaison
-				if choice.Choices[i] != choiceOther.Choices[i] {
-					ChoicesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ChoicesDifferent {
-		ops := stage.Diff(
-			choice,
-			"Choices",
-			len(choiceOther.Choices),
-			len(choice.Choices),
-			func(i, j int) bool {
-				return choiceOther.Choices[i] == choice.Choices[j]
-			},
-			func(j int) string {
-				return choice.Choices[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, choice, "Choices", choiceOther.Choices, choice.Choices); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	GroupsDifferent := false
-	if len(choice.Groups) != len(choiceOther.Groups) {
-		GroupsDifferent = true
-	} else {
-		for i := range choice.Groups {
-			if (choice.Groups[i] == nil) != (choiceOther.Groups[i] == nil) {
-				GroupsDifferent = true
-				break
-			} else if choice.Groups[i] != nil && choiceOther.Groups[i] != nil {
-				// this is a pointer comparaison
-				if choice.Groups[i] != choiceOther.Groups[i] {
-					GroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GroupsDifferent {
-		ops := stage.Diff(
-			choice,
-			"Groups",
-			len(choiceOther.Groups),
-			len(choice.Groups),
-			func(i, j int) bool {
-				return choiceOther.Groups[i] == choice.Groups[j]
-			},
-			func(j int) string {
-				return choice.Groups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, choice, "Groups", choiceOther.Groups, choice.Groups); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ElementsDifferent := false
-	if len(choice.Elements) != len(choiceOther.Elements) {
-		ElementsDifferent = true
-	} else {
-		for i := range choice.Elements {
-			if (choice.Elements[i] == nil) != (choiceOther.Elements[i] == nil) {
-				ElementsDifferent = true
-				break
-			} else if choice.Elements[i] != nil && choiceOther.Elements[i] != nil {
-				// this is a pointer comparaison
-				if choice.Elements[i] != choiceOther.Elements[i] {
-					ElementsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ElementsDifferent {
-		ops := stage.Diff(
-			choice,
-			"Elements",
-			len(choiceOther.Elements),
-			len(choice.Elements),
-			func(i, j int) bool {
-				return choiceOther.Elements[i] == choice.Elements[j]
-			},
-			func(j int) string {
-				return choice.Elements[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, choice, "Elements", choiceOther.Elements, choice.Elements); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if choice.Order != choiceOther.Order {
@@ -4424,19 +2864,11 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 	if complextype.IsAnonymous != complextypeOther.IsAnonymous {
 		diffs = append(diffs, complextype.GongMarshallField(stage, "IsAnonymous"))
 	}
-	if (complextype.OuterElement == nil) != (complextypeOther.OuterElement == nil) {
+	if complextype.OuterElement != complextypeOther.OuterElement {
 		diffs = append(diffs, complextype.GongMarshallField(stage, "OuterElement"))
-	} else if complextype.OuterElement != nil && complextypeOther.OuterElement != nil {
-		if complextype.OuterElement != complextypeOther.OuterElement {
-			diffs = append(diffs, complextype.GongMarshallField(stage, "OuterElement"))
-		}
 	}
-	if (complextype.Annotation == nil) != (complextypeOther.Annotation == nil) {
+	if complextype.Annotation != complextypeOther.Annotation {
 		diffs = append(diffs, complextype.GongMarshallField(stage, "Annotation"))
-	} else if complextype.Annotation != nil && complextypeOther.Annotation != nil {
-		if complextype.Annotation != complextypeOther.Annotation {
-			diffs = append(diffs, complextype.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if complextype.NameXSD != complextypeOther.NameXSD {
 		diffs = append(diffs, complextype.GongMarshallField(stage, "NameXSD"))
@@ -4444,164 +2876,19 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 	if complextype.OuterElementName != complextypeOther.OuterElementName {
 		diffs = append(diffs, complextype.GongMarshallField(stage, "OuterElementName"))
 	}
-	SequencesDifferent := false
-	if len(complextype.Sequences) != len(complextypeOther.Sequences) {
-		SequencesDifferent = true
-	} else {
-		for i := range complextype.Sequences {
-			if (complextype.Sequences[i] == nil) != (complextypeOther.Sequences[i] == nil) {
-				SequencesDifferent = true
-				break
-			} else if complextype.Sequences[i] != nil && complextypeOther.Sequences[i] != nil {
-				// this is a pointer comparaison
-				if complextype.Sequences[i] != complextypeOther.Sequences[i] {
-					SequencesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SequencesDifferent {
-		ops := stage.Diff(
-			complextype,
-			"Sequences",
-			len(complextypeOther.Sequences),
-			len(complextype.Sequences),
-			func(i, j int) bool {
-				return complextypeOther.Sequences[i] == complextype.Sequences[j]
-			},
-			func(j int) string {
-				return complextype.Sequences[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, complextype, "Sequences", complextypeOther.Sequences, complextype.Sequences); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AllsDifferent := false
-	if len(complextype.Alls) != len(complextypeOther.Alls) {
-		AllsDifferent = true
-	} else {
-		for i := range complextype.Alls {
-			if (complextype.Alls[i] == nil) != (complextypeOther.Alls[i] == nil) {
-				AllsDifferent = true
-				break
-			} else if complextype.Alls[i] != nil && complextypeOther.Alls[i] != nil {
-				// this is a pointer comparaison
-				if complextype.Alls[i] != complextypeOther.Alls[i] {
-					AllsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AllsDifferent {
-		ops := stage.Diff(
-			complextype,
-			"Alls",
-			len(complextypeOther.Alls),
-			len(complextype.Alls),
-			func(i, j int) bool {
-				return complextypeOther.Alls[i] == complextype.Alls[j]
-			},
-			func(j int) string {
-				return complextype.Alls[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, complextype, "Alls", complextypeOther.Alls, complextype.Alls); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ChoicesDifferent := false
-	if len(complextype.Choices) != len(complextypeOther.Choices) {
-		ChoicesDifferent = true
-	} else {
-		for i := range complextype.Choices {
-			if (complextype.Choices[i] == nil) != (complextypeOther.Choices[i] == nil) {
-				ChoicesDifferent = true
-				break
-			} else if complextype.Choices[i] != nil && complextypeOther.Choices[i] != nil {
-				// this is a pointer comparaison
-				if complextype.Choices[i] != complextypeOther.Choices[i] {
-					ChoicesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ChoicesDifferent {
-		ops := stage.Diff(
-			complextype,
-			"Choices",
-			len(complextypeOther.Choices),
-			len(complextype.Choices),
-			func(i, j int) bool {
-				return complextypeOther.Choices[i] == complextype.Choices[j]
-			},
-			func(j int) string {
-				return complextype.Choices[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, complextype, "Choices", complextypeOther.Choices, complextype.Choices); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	GroupsDifferent := false
-	if len(complextype.Groups) != len(complextypeOther.Groups) {
-		GroupsDifferent = true
-	} else {
-		for i := range complextype.Groups {
-			if (complextype.Groups[i] == nil) != (complextypeOther.Groups[i] == nil) {
-				GroupsDifferent = true
-				break
-			} else if complextype.Groups[i] != nil && complextypeOther.Groups[i] != nil {
-				// this is a pointer comparaison
-				if complextype.Groups[i] != complextypeOther.Groups[i] {
-					GroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GroupsDifferent {
-		ops := stage.Diff(
-			complextype,
-			"Groups",
-			len(complextypeOther.Groups),
-			len(complextype.Groups),
-			func(i, j int) bool {
-				return complextypeOther.Groups[i] == complextype.Groups[j]
-			},
-			func(j int) string {
-				return complextype.Groups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, complextype, "Groups", complextypeOther.Groups, complextype.Groups); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ElementsDifferent := false
-	if len(complextype.Elements) != len(complextypeOther.Elements) {
-		ElementsDifferent = true
-	} else {
-		for i := range complextype.Elements {
-			if (complextype.Elements[i] == nil) != (complextypeOther.Elements[i] == nil) {
-				ElementsDifferent = true
-				break
-			} else if complextype.Elements[i] != nil && complextypeOther.Elements[i] != nil {
-				// this is a pointer comparaison
-				if complextype.Elements[i] != complextypeOther.Elements[i] {
-					ElementsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ElementsDifferent {
-		ops := stage.Diff(
-			complextype,
-			"Elements",
-			len(complextypeOther.Elements),
-			len(complextype.Elements),
-			func(i, j int) bool {
-				return complextypeOther.Elements[i] == complextype.Elements[j]
-			},
-			func(j int) string {
-				return complextype.Elements[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, complextype, "Elements", complextypeOther.Elements, complextype.Elements); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if complextype.Order != complextypeOther.Order {
@@ -4616,89 +2903,19 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 	if complextype.MaxOccurs != complextypeOther.MaxOccurs {
 		diffs = append(diffs, complextype.GongMarshallField(stage, "MaxOccurs"))
 	}
-	if (complextype.Extension == nil) != (complextypeOther.Extension == nil) {
+	if complextype.Extension != complextypeOther.Extension {
 		diffs = append(diffs, complextype.GongMarshallField(stage, "Extension"))
-	} else if complextype.Extension != nil && complextypeOther.Extension != nil {
-		if complextype.Extension != complextypeOther.Extension {
-			diffs = append(diffs, complextype.GongMarshallField(stage, "Extension"))
-		}
 	}
-	if (complextype.SimpleContent == nil) != (complextypeOther.SimpleContent == nil) {
+	if complextype.SimpleContent != complextypeOther.SimpleContent {
 		diffs = append(diffs, complextype.GongMarshallField(stage, "SimpleContent"))
-	} else if complextype.SimpleContent != nil && complextypeOther.SimpleContent != nil {
-		if complextype.SimpleContent != complextypeOther.SimpleContent {
-			diffs = append(diffs, complextype.GongMarshallField(stage, "SimpleContent"))
-		}
 	}
-	if (complextype.ComplexContent == nil) != (complextypeOther.ComplexContent == nil) {
+	if complextype.ComplexContent != complextypeOther.ComplexContent {
 		diffs = append(diffs, complextype.GongMarshallField(stage, "ComplexContent"))
-	} else if complextype.ComplexContent != nil && complextypeOther.ComplexContent != nil {
-		if complextype.ComplexContent != complextypeOther.ComplexContent {
-			diffs = append(diffs, complextype.GongMarshallField(stage, "ComplexContent"))
-		}
 	}
-	AttributesDifferent := false
-	if len(complextype.Attributes) != len(complextypeOther.Attributes) {
-		AttributesDifferent = true
-	} else {
-		for i := range complextype.Attributes {
-			if (complextype.Attributes[i] == nil) != (complextypeOther.Attributes[i] == nil) {
-				AttributesDifferent = true
-				break
-			} else if complextype.Attributes[i] != nil && complextypeOther.Attributes[i] != nil {
-				// this is a pointer comparaison
-				if complextype.Attributes[i] != complextypeOther.Attributes[i] {
-					AttributesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AttributesDifferent {
-		ops := stage.Diff(
-			complextype,
-			"Attributes",
-			len(complextypeOther.Attributes),
-			len(complextype.Attributes),
-			func(i, j int) bool {
-				return complextypeOther.Attributes[i] == complextype.Attributes[j]
-			},
-			func(j int) string {
-				return complextype.Attributes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, complextype, "Attributes", complextypeOther.Attributes, complextype.Attributes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AttributeGroupsDifferent := false
-	if len(complextype.AttributeGroups) != len(complextypeOther.AttributeGroups) {
-		AttributeGroupsDifferent = true
-	} else {
-		for i := range complextype.AttributeGroups {
-			if (complextype.AttributeGroups[i] == nil) != (complextypeOther.AttributeGroups[i] == nil) {
-				AttributeGroupsDifferent = true
-				break
-			} else if complextype.AttributeGroups[i] != nil && complextypeOther.AttributeGroups[i] != nil {
-				// this is a pointer comparaison
-				if complextype.AttributeGroups[i] != complextypeOther.AttributeGroups[i] {
-					AttributeGroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AttributeGroupsDifferent {
-		ops := stage.Diff(
-			complextype,
-			"AttributeGroups",
-			len(complextypeOther.AttributeGroups),
-			len(complextype.AttributeGroups),
-			func(i, j int) bool {
-				return complextypeOther.AttributeGroups[i] == complextype.AttributeGroups[j]
-			},
-			func(j int) string {
-				return complextype.AttributeGroups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, complextype, "AttributeGroups", complextypeOther.AttributeGroups, complextype.AttributeGroups); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if complextype.IsDuplicatedInXSD != complextypeOther.IsDuplicatedInXSD {
@@ -4747,12 +2964,8 @@ func (element *Element) GongDiff(stage *Stage, elementOther *Element) (diffs []s
 	if element.GoIdentifier != elementOther.GoIdentifier {
 		diffs = append(diffs, element.GongMarshallField(stage, "GoIdentifier"))
 	}
-	if (element.Annotation == nil) != (elementOther.Annotation == nil) {
+	if element.Annotation != elementOther.Annotation {
 		diffs = append(diffs, element.GongMarshallField(stage, "Annotation"))
-	} else if element.Annotation != nil && elementOther.Annotation != nil {
-		if element.Annotation != elementOther.Annotation {
-			diffs = append(diffs, element.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if element.NameXSD != elementOther.NameXSD {
 		diffs = append(diffs, element.GongMarshallField(stage, "NameXSD"))
@@ -4790,50 +3003,13 @@ func (element *Element) GongDiff(stage *Stage, elementOther *Element) (diffs []s
 	if element.Final != elementOther.Final {
 		diffs = append(diffs, element.GongMarshallField(stage, "Final"))
 	}
-	if (element.SimpleType == nil) != (elementOther.SimpleType == nil) {
+	if element.SimpleType != elementOther.SimpleType {
 		diffs = append(diffs, element.GongMarshallField(stage, "SimpleType"))
-	} else if element.SimpleType != nil && elementOther.SimpleType != nil {
-		if element.SimpleType != elementOther.SimpleType {
-			diffs = append(diffs, element.GongMarshallField(stage, "SimpleType"))
-		}
 	}
-	if (element.ComplexType == nil) != (elementOther.ComplexType == nil) {
+	if element.ComplexType != elementOther.ComplexType {
 		diffs = append(diffs, element.GongMarshallField(stage, "ComplexType"))
-	} else if element.ComplexType != nil && elementOther.ComplexType != nil {
-		if element.ComplexType != elementOther.ComplexType {
-			diffs = append(diffs, element.GongMarshallField(stage, "ComplexType"))
-		}
 	}
-	GroupsDifferent := false
-	if len(element.Groups) != len(elementOther.Groups) {
-		GroupsDifferent = true
-	} else {
-		for i := range element.Groups {
-			if (element.Groups[i] == nil) != (elementOther.Groups[i] == nil) {
-				GroupsDifferent = true
-				break
-			} else if element.Groups[i] != nil && elementOther.Groups[i] != nil {
-				// this is a pointer comparaison
-				if element.Groups[i] != elementOther.Groups[i] {
-					GroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GroupsDifferent {
-		ops := stage.Diff(
-			element,
-			"Groups",
-			len(elementOther.Groups),
-			len(element.Groups),
-			func(i, j int) bool {
-				return elementOther.Groups[i] == element.Groups[j]
-			},
-			func(j int) string {
-				return element.Groups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, element, "Groups", elementOther.Groups, element.Groups); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if element.IsDuplicatedInXSD != elementOther.IsDuplicatedInXSD {
@@ -4850,12 +3026,8 @@ func (enumeration *Enumeration) GongDiff(stage *Stage, enumerationOther *Enumera
 	if enumeration.Name != enumerationOther.Name {
 		diffs = append(diffs, enumeration.GongMarshallField(stage, "Name"))
 	}
-	if (enumeration.Annotation == nil) != (enumerationOther.Annotation == nil) {
+	if enumeration.Annotation != enumerationOther.Annotation {
 		diffs = append(diffs, enumeration.GongMarshallField(stage, "Annotation"))
-	} else if enumeration.Annotation != nil && enumerationOther.Annotation != nil {
-		if enumeration.Annotation != enumerationOther.Annotation {
-			diffs = append(diffs, enumeration.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if enumeration.Value != enumerationOther.Value {
 		diffs = append(diffs, enumeration.GongMarshallField(stage, "Value"))
@@ -4874,164 +3046,19 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 	if extension.OuterElementName != extensionOther.OuterElementName {
 		diffs = append(diffs, extension.GongMarshallField(stage, "OuterElementName"))
 	}
-	SequencesDifferent := false
-	if len(extension.Sequences) != len(extensionOther.Sequences) {
-		SequencesDifferent = true
-	} else {
-		for i := range extension.Sequences {
-			if (extension.Sequences[i] == nil) != (extensionOther.Sequences[i] == nil) {
-				SequencesDifferent = true
-				break
-			} else if extension.Sequences[i] != nil && extensionOther.Sequences[i] != nil {
-				// this is a pointer comparaison
-				if extension.Sequences[i] != extensionOther.Sequences[i] {
-					SequencesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SequencesDifferent {
-		ops := stage.Diff(
-			extension,
-			"Sequences",
-			len(extensionOther.Sequences),
-			len(extension.Sequences),
-			func(i, j int) bool {
-				return extensionOther.Sequences[i] == extension.Sequences[j]
-			},
-			func(j int) string {
-				return extension.Sequences[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, extension, "Sequences", extensionOther.Sequences, extension.Sequences); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AllsDifferent := false
-	if len(extension.Alls) != len(extensionOther.Alls) {
-		AllsDifferent = true
-	} else {
-		for i := range extension.Alls {
-			if (extension.Alls[i] == nil) != (extensionOther.Alls[i] == nil) {
-				AllsDifferent = true
-				break
-			} else if extension.Alls[i] != nil && extensionOther.Alls[i] != nil {
-				// this is a pointer comparaison
-				if extension.Alls[i] != extensionOther.Alls[i] {
-					AllsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AllsDifferent {
-		ops := stage.Diff(
-			extension,
-			"Alls",
-			len(extensionOther.Alls),
-			len(extension.Alls),
-			func(i, j int) bool {
-				return extensionOther.Alls[i] == extension.Alls[j]
-			},
-			func(j int) string {
-				return extension.Alls[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, extension, "Alls", extensionOther.Alls, extension.Alls); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ChoicesDifferent := false
-	if len(extension.Choices) != len(extensionOther.Choices) {
-		ChoicesDifferent = true
-	} else {
-		for i := range extension.Choices {
-			if (extension.Choices[i] == nil) != (extensionOther.Choices[i] == nil) {
-				ChoicesDifferent = true
-				break
-			} else if extension.Choices[i] != nil && extensionOther.Choices[i] != nil {
-				// this is a pointer comparaison
-				if extension.Choices[i] != extensionOther.Choices[i] {
-					ChoicesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ChoicesDifferent {
-		ops := stage.Diff(
-			extension,
-			"Choices",
-			len(extensionOther.Choices),
-			len(extension.Choices),
-			func(i, j int) bool {
-				return extensionOther.Choices[i] == extension.Choices[j]
-			},
-			func(j int) string {
-				return extension.Choices[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, extension, "Choices", extensionOther.Choices, extension.Choices); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	GroupsDifferent := false
-	if len(extension.Groups) != len(extensionOther.Groups) {
-		GroupsDifferent = true
-	} else {
-		for i := range extension.Groups {
-			if (extension.Groups[i] == nil) != (extensionOther.Groups[i] == nil) {
-				GroupsDifferent = true
-				break
-			} else if extension.Groups[i] != nil && extensionOther.Groups[i] != nil {
-				// this is a pointer comparaison
-				if extension.Groups[i] != extensionOther.Groups[i] {
-					GroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GroupsDifferent {
-		ops := stage.Diff(
-			extension,
-			"Groups",
-			len(extensionOther.Groups),
-			len(extension.Groups),
-			func(i, j int) bool {
-				return extensionOther.Groups[i] == extension.Groups[j]
-			},
-			func(j int) string {
-				return extension.Groups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, extension, "Groups", extensionOther.Groups, extension.Groups); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ElementsDifferent := false
-	if len(extension.Elements) != len(extensionOther.Elements) {
-		ElementsDifferent = true
-	} else {
-		for i := range extension.Elements {
-			if (extension.Elements[i] == nil) != (extensionOther.Elements[i] == nil) {
-				ElementsDifferent = true
-				break
-			} else if extension.Elements[i] != nil && extensionOther.Elements[i] != nil {
-				// this is a pointer comparaison
-				if extension.Elements[i] != extensionOther.Elements[i] {
-					ElementsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ElementsDifferent {
-		ops := stage.Diff(
-			extension,
-			"Elements",
-			len(extensionOther.Elements),
-			len(extension.Elements),
-			func(i, j int) bool {
-				return extensionOther.Elements[i] == extension.Elements[j]
-			},
-			func(j int) string {
-				return extension.Elements[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, extension, "Elements", extensionOther.Elements, extension.Elements); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if extension.Order != extensionOther.Order {
@@ -5052,68 +3079,10 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 	if extension.Ref != extensionOther.Ref {
 		diffs = append(diffs, extension.GongMarshallField(stage, "Ref"))
 	}
-	AttributesDifferent := false
-	if len(extension.Attributes) != len(extensionOther.Attributes) {
-		AttributesDifferent = true
-	} else {
-		for i := range extension.Attributes {
-			if (extension.Attributes[i] == nil) != (extensionOther.Attributes[i] == nil) {
-				AttributesDifferent = true
-				break
-			} else if extension.Attributes[i] != nil && extensionOther.Attributes[i] != nil {
-				// this is a pointer comparaison
-				if extension.Attributes[i] != extensionOther.Attributes[i] {
-					AttributesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AttributesDifferent {
-		ops := stage.Diff(
-			extension,
-			"Attributes",
-			len(extensionOther.Attributes),
-			len(extension.Attributes),
-			func(i, j int) bool {
-				return extensionOther.Attributes[i] == extension.Attributes[j]
-			},
-			func(j int) string {
-				return extension.Attributes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, extension, "Attributes", extensionOther.Attributes, extension.Attributes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AttributeGroupsDifferent := false
-	if len(extension.AttributeGroups) != len(extensionOther.AttributeGroups) {
-		AttributeGroupsDifferent = true
-	} else {
-		for i := range extension.AttributeGroups {
-			if (extension.AttributeGroups[i] == nil) != (extensionOther.AttributeGroups[i] == nil) {
-				AttributeGroupsDifferent = true
-				break
-			} else if extension.AttributeGroups[i] != nil && extensionOther.AttributeGroups[i] != nil {
-				// this is a pointer comparaison
-				if extension.AttributeGroups[i] != extensionOther.AttributeGroups[i] {
-					AttributeGroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AttributeGroupsDifferent {
-		ops := stage.Diff(
-			extension,
-			"AttributeGroups",
-			len(extensionOther.AttributeGroups),
-			len(extension.AttributeGroups),
-			func(i, j int) bool {
-				return extensionOther.AttributeGroups[i] == extension.AttributeGroups[j]
-			},
-			func(j int) string {
-				return extension.AttributeGroups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, extension, "AttributeGroups", extensionOther.AttributeGroups, extension.AttributeGroups); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -5127,12 +3096,8 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 	if group.Name != groupOther.Name {
 		diffs = append(diffs, group.GongMarshallField(stage, "Name"))
 	}
-	if (group.Annotation == nil) != (groupOther.Annotation == nil) {
+	if group.Annotation != groupOther.Annotation {
 		diffs = append(diffs, group.GongMarshallField(stage, "Annotation"))
-	} else if group.Annotation != nil && groupOther.Annotation != nil {
-		if group.Annotation != groupOther.Annotation {
-			diffs = append(diffs, group.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if group.NameXSD != groupOther.NameXSD {
 		diffs = append(diffs, group.GongMarshallField(stage, "NameXSD"))
@@ -5143,12 +3108,8 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 	if group.IsAnonymous != groupOther.IsAnonymous {
 		diffs = append(diffs, group.GongMarshallField(stage, "IsAnonymous"))
 	}
-	if (group.OuterElement == nil) != (groupOther.OuterElement == nil) {
+	if group.OuterElement != groupOther.OuterElement {
 		diffs = append(diffs, group.GongMarshallField(stage, "OuterElement"))
-	} else if group.OuterElement != nil && groupOther.OuterElement != nil {
-		if group.OuterElement != groupOther.OuterElement {
-			diffs = append(diffs, group.GongMarshallField(stage, "OuterElement"))
-		}
 	}
 	if group.HasNameConflict != groupOther.HasNameConflict {
 		diffs = append(diffs, group.GongMarshallField(stage, "HasNameConflict"))
@@ -5159,164 +3120,19 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 	if group.OuterElementName != groupOther.OuterElementName {
 		diffs = append(diffs, group.GongMarshallField(stage, "OuterElementName"))
 	}
-	SequencesDifferent := false
-	if len(group.Sequences) != len(groupOther.Sequences) {
-		SequencesDifferent = true
-	} else {
-		for i := range group.Sequences {
-			if (group.Sequences[i] == nil) != (groupOther.Sequences[i] == nil) {
-				SequencesDifferent = true
-				break
-			} else if group.Sequences[i] != nil && groupOther.Sequences[i] != nil {
-				// this is a pointer comparaison
-				if group.Sequences[i] != groupOther.Sequences[i] {
-					SequencesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SequencesDifferent {
-		ops := stage.Diff(
-			group,
-			"Sequences",
-			len(groupOther.Sequences),
-			len(group.Sequences),
-			func(i, j int) bool {
-				return groupOther.Sequences[i] == group.Sequences[j]
-			},
-			func(j int) string {
-				return group.Sequences[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, group, "Sequences", groupOther.Sequences, group.Sequences); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AllsDifferent := false
-	if len(group.Alls) != len(groupOther.Alls) {
-		AllsDifferent = true
-	} else {
-		for i := range group.Alls {
-			if (group.Alls[i] == nil) != (groupOther.Alls[i] == nil) {
-				AllsDifferent = true
-				break
-			} else if group.Alls[i] != nil && groupOther.Alls[i] != nil {
-				// this is a pointer comparaison
-				if group.Alls[i] != groupOther.Alls[i] {
-					AllsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AllsDifferent {
-		ops := stage.Diff(
-			group,
-			"Alls",
-			len(groupOther.Alls),
-			len(group.Alls),
-			func(i, j int) bool {
-				return groupOther.Alls[i] == group.Alls[j]
-			},
-			func(j int) string {
-				return group.Alls[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, group, "Alls", groupOther.Alls, group.Alls); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ChoicesDifferent := false
-	if len(group.Choices) != len(groupOther.Choices) {
-		ChoicesDifferent = true
-	} else {
-		for i := range group.Choices {
-			if (group.Choices[i] == nil) != (groupOther.Choices[i] == nil) {
-				ChoicesDifferent = true
-				break
-			} else if group.Choices[i] != nil && groupOther.Choices[i] != nil {
-				// this is a pointer comparaison
-				if group.Choices[i] != groupOther.Choices[i] {
-					ChoicesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ChoicesDifferent {
-		ops := stage.Diff(
-			group,
-			"Choices",
-			len(groupOther.Choices),
-			len(group.Choices),
-			func(i, j int) bool {
-				return groupOther.Choices[i] == group.Choices[j]
-			},
-			func(j int) string {
-				return group.Choices[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, group, "Choices", groupOther.Choices, group.Choices); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	GroupsDifferent := false
-	if len(group.Groups) != len(groupOther.Groups) {
-		GroupsDifferent = true
-	} else {
-		for i := range group.Groups {
-			if (group.Groups[i] == nil) != (groupOther.Groups[i] == nil) {
-				GroupsDifferent = true
-				break
-			} else if group.Groups[i] != nil && groupOther.Groups[i] != nil {
-				// this is a pointer comparaison
-				if group.Groups[i] != groupOther.Groups[i] {
-					GroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GroupsDifferent {
-		ops := stage.Diff(
-			group,
-			"Groups",
-			len(groupOther.Groups),
-			len(group.Groups),
-			func(i, j int) bool {
-				return groupOther.Groups[i] == group.Groups[j]
-			},
-			func(j int) string {
-				return group.Groups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, group, "Groups", groupOther.Groups, group.Groups); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ElementsDifferent := false
-	if len(group.Elements) != len(groupOther.Elements) {
-		ElementsDifferent = true
-	} else {
-		for i := range group.Elements {
-			if (group.Elements[i] == nil) != (groupOther.Elements[i] == nil) {
-				ElementsDifferent = true
-				break
-			} else if group.Elements[i] != nil && groupOther.Elements[i] != nil {
-				// this is a pointer comparaison
-				if group.Elements[i] != groupOther.Elements[i] {
-					ElementsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ElementsDifferent {
-		ops := stage.Diff(
-			group,
-			"Elements",
-			len(groupOther.Elements),
-			len(group.Elements),
-			func(i, j int) bool {
-				return groupOther.Elements[i] == group.Elements[j]
-			},
-			func(j int) string {
-				return group.Elements[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, group, "Elements", groupOther.Elements, group.Elements); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if group.Order != groupOther.Order {
@@ -5342,12 +3158,8 @@ func (length *Length) GongDiff(stage *Stage, lengthOther *Length) (diffs []strin
 	if length.Name != lengthOther.Name {
 		diffs = append(diffs, length.GongMarshallField(stage, "Name"))
 	}
-	if (length.Annotation == nil) != (lengthOther.Annotation == nil) {
+	if length.Annotation != lengthOther.Annotation {
 		diffs = append(diffs, length.GongMarshallField(stage, "Annotation"))
-	} else if length.Annotation != nil && lengthOther.Annotation != nil {
-		if length.Annotation != lengthOther.Annotation {
-			diffs = append(diffs, length.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if length.Value != lengthOther.Value {
 		diffs = append(diffs, length.GongMarshallField(stage, "Value"))
@@ -5363,12 +3175,8 @@ func (maxinclusive *MaxInclusive) GongDiff(stage *Stage, maxinclusiveOther *MaxI
 	if maxinclusive.Name != maxinclusiveOther.Name {
 		diffs = append(diffs, maxinclusive.GongMarshallField(stage, "Name"))
 	}
-	if (maxinclusive.Annotation == nil) != (maxinclusiveOther.Annotation == nil) {
+	if maxinclusive.Annotation != maxinclusiveOther.Annotation {
 		diffs = append(diffs, maxinclusive.GongMarshallField(stage, "Annotation"))
-	} else if maxinclusive.Annotation != nil && maxinclusiveOther.Annotation != nil {
-		if maxinclusive.Annotation != maxinclusiveOther.Annotation {
-			diffs = append(diffs, maxinclusive.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if maxinclusive.Value != maxinclusiveOther.Value {
 		diffs = append(diffs, maxinclusive.GongMarshallField(stage, "Value"))
@@ -5384,12 +3192,8 @@ func (maxlength *MaxLength) GongDiff(stage *Stage, maxlengthOther *MaxLength) (d
 	if maxlength.Name != maxlengthOther.Name {
 		diffs = append(diffs, maxlength.GongMarshallField(stage, "Name"))
 	}
-	if (maxlength.Annotation == nil) != (maxlengthOther.Annotation == nil) {
+	if maxlength.Annotation != maxlengthOther.Annotation {
 		diffs = append(diffs, maxlength.GongMarshallField(stage, "Annotation"))
-	} else if maxlength.Annotation != nil && maxlengthOther.Annotation != nil {
-		if maxlength.Annotation != maxlengthOther.Annotation {
-			diffs = append(diffs, maxlength.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if maxlength.Value != maxlengthOther.Value {
 		diffs = append(diffs, maxlength.GongMarshallField(stage, "Value"))
@@ -5405,12 +3209,8 @@ func (mininclusive *MinInclusive) GongDiff(stage *Stage, mininclusiveOther *MinI
 	if mininclusive.Name != mininclusiveOther.Name {
 		diffs = append(diffs, mininclusive.GongMarshallField(stage, "Name"))
 	}
-	if (mininclusive.Annotation == nil) != (mininclusiveOther.Annotation == nil) {
+	if mininclusive.Annotation != mininclusiveOther.Annotation {
 		diffs = append(diffs, mininclusive.GongMarshallField(stage, "Annotation"))
-	} else if mininclusive.Annotation != nil && mininclusiveOther.Annotation != nil {
-		if mininclusive.Annotation != mininclusiveOther.Annotation {
-			diffs = append(diffs, mininclusive.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if mininclusive.Value != mininclusiveOther.Value {
 		diffs = append(diffs, mininclusive.GongMarshallField(stage, "Value"))
@@ -5426,12 +3226,8 @@ func (minlength *MinLength) GongDiff(stage *Stage, minlengthOther *MinLength) (d
 	if minlength.Name != minlengthOther.Name {
 		diffs = append(diffs, minlength.GongMarshallField(stage, "Name"))
 	}
-	if (minlength.Annotation == nil) != (minlengthOther.Annotation == nil) {
+	if minlength.Annotation != minlengthOther.Annotation {
 		diffs = append(diffs, minlength.GongMarshallField(stage, "Annotation"))
-	} else if minlength.Annotation != nil && minlengthOther.Annotation != nil {
-		if minlength.Annotation != minlengthOther.Annotation {
-			diffs = append(diffs, minlength.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if minlength.Value != minlengthOther.Value {
 		diffs = append(diffs, minlength.GongMarshallField(stage, "Value"))
@@ -5447,12 +3243,8 @@ func (pattern *Pattern) GongDiff(stage *Stage, patternOther *Pattern) (diffs []s
 	if pattern.Name != patternOther.Name {
 		diffs = append(diffs, pattern.GongMarshallField(stage, "Name"))
 	}
-	if (pattern.Annotation == nil) != (patternOther.Annotation == nil) {
+	if pattern.Annotation != patternOther.Annotation {
 		diffs = append(diffs, pattern.GongMarshallField(stage, "Annotation"))
-	} else if pattern.Annotation != nil && patternOther.Annotation != nil {
-		if pattern.Annotation != patternOther.Annotation {
-			diffs = append(diffs, pattern.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if pattern.Value != patternOther.Value {
 		diffs = append(diffs, pattern.GongMarshallField(stage, "Value"))
@@ -5468,103 +3260,38 @@ func (restriction *Restriction) GongDiff(stage *Stage, restrictionOther *Restric
 	if restriction.Name != restrictionOther.Name {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "Name"))
 	}
-	if (restriction.Annotation == nil) != (restrictionOther.Annotation == nil) {
+	if restriction.Annotation != restrictionOther.Annotation {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "Annotation"))
-	} else if restriction.Annotation != nil && restrictionOther.Annotation != nil {
-		if restriction.Annotation != restrictionOther.Annotation {
-			diffs = append(diffs, restriction.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if restriction.Base != restrictionOther.Base {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "Base"))
 	}
-	EnumerationsDifferent := false
-	if len(restriction.Enumerations) != len(restrictionOther.Enumerations) {
-		EnumerationsDifferent = true
-	} else {
-		for i := range restriction.Enumerations {
-			if (restriction.Enumerations[i] == nil) != (restrictionOther.Enumerations[i] == nil) {
-				EnumerationsDifferent = true
-				break
-			} else if restriction.Enumerations[i] != nil && restrictionOther.Enumerations[i] != nil {
-				// this is a pointer comparaison
-				if restriction.Enumerations[i] != restrictionOther.Enumerations[i] {
-					EnumerationsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if EnumerationsDifferent {
-		ops := stage.Diff(
-			restriction,
-			"Enumerations",
-			len(restrictionOther.Enumerations),
-			len(restriction.Enumerations),
-			func(i, j int) bool {
-				return restrictionOther.Enumerations[i] == restriction.Enumerations[j]
-			},
-			func(j int) string {
-				return restriction.Enumerations[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, restriction, "Enumerations", restrictionOther.Enumerations, restriction.Enumerations); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if (restriction.MinInclusive == nil) != (restrictionOther.MinInclusive == nil) {
+	if restriction.MinInclusive != restrictionOther.MinInclusive {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "MinInclusive"))
-	} else if restriction.MinInclusive != nil && restrictionOther.MinInclusive != nil {
-		if restriction.MinInclusive != restrictionOther.MinInclusive {
-			diffs = append(diffs, restriction.GongMarshallField(stage, "MinInclusive"))
-		}
 	}
-	if (restriction.MaxInclusive == nil) != (restrictionOther.MaxInclusive == nil) {
+	if restriction.MaxInclusive != restrictionOther.MaxInclusive {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "MaxInclusive"))
-	} else if restriction.MaxInclusive != nil && restrictionOther.MaxInclusive != nil {
-		if restriction.MaxInclusive != restrictionOther.MaxInclusive {
-			diffs = append(diffs, restriction.GongMarshallField(stage, "MaxInclusive"))
-		}
 	}
-	if (restriction.Pattern == nil) != (restrictionOther.Pattern == nil) {
+	if restriction.Pattern != restrictionOther.Pattern {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "Pattern"))
-	} else if restriction.Pattern != nil && restrictionOther.Pattern != nil {
-		if restriction.Pattern != restrictionOther.Pattern {
-			diffs = append(diffs, restriction.GongMarshallField(stage, "Pattern"))
-		}
 	}
-	if (restriction.WhiteSpace == nil) != (restrictionOther.WhiteSpace == nil) {
+	if restriction.WhiteSpace != restrictionOther.WhiteSpace {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "WhiteSpace"))
-	} else if restriction.WhiteSpace != nil && restrictionOther.WhiteSpace != nil {
-		if restriction.WhiteSpace != restrictionOther.WhiteSpace {
-			diffs = append(diffs, restriction.GongMarshallField(stage, "WhiteSpace"))
-		}
 	}
-	if (restriction.MinLength == nil) != (restrictionOther.MinLength == nil) {
+	if restriction.MinLength != restrictionOther.MinLength {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "MinLength"))
-	} else if restriction.MinLength != nil && restrictionOther.MinLength != nil {
-		if restriction.MinLength != restrictionOther.MinLength {
-			diffs = append(diffs, restriction.GongMarshallField(stage, "MinLength"))
-		}
 	}
-	if (restriction.MaxLength == nil) != (restrictionOther.MaxLength == nil) {
+	if restriction.MaxLength != restrictionOther.MaxLength {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "MaxLength"))
-	} else if restriction.MaxLength != nil && restrictionOther.MaxLength != nil {
-		if restriction.MaxLength != restrictionOther.MaxLength {
-			diffs = append(diffs, restriction.GongMarshallField(stage, "MaxLength"))
-		}
 	}
-	if (restriction.Length == nil) != (restrictionOther.Length == nil) {
+	if restriction.Length != restrictionOther.Length {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "Length"))
-	} else if restriction.Length != nil && restrictionOther.Length != nil {
-		if restriction.Length != restrictionOther.Length {
-			diffs = append(diffs, restriction.GongMarshallField(stage, "Length"))
-		}
 	}
-	if (restriction.TotalDigit == nil) != (restrictionOther.TotalDigit == nil) {
+	if restriction.TotalDigit != restrictionOther.TotalDigit {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "TotalDigit"))
-	} else if restriction.TotalDigit != nil && restrictionOther.TotalDigit != nil {
-		if restriction.TotalDigit != restrictionOther.TotalDigit {
-			diffs = append(diffs, restriction.GongMarshallField(stage, "TotalDigit"))
-		}
 	}
 
 	return
@@ -5580,171 +3307,22 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 	if schema.Xs != schemaOther.Xs {
 		diffs = append(diffs, schema.GongMarshallField(stage, "Xs"))
 	}
-	if (schema.Annotation == nil) != (schemaOther.Annotation == nil) {
+	if schema.Annotation != schemaOther.Annotation {
 		diffs = append(diffs, schema.GongMarshallField(stage, "Annotation"))
-	} else if schema.Annotation != nil && schemaOther.Annotation != nil {
-		if schema.Annotation != schemaOther.Annotation {
-			diffs = append(diffs, schema.GongMarshallField(stage, "Annotation"))
-		}
 	}
-	ElementsDifferent := false
-	if len(schema.Elements) != len(schemaOther.Elements) {
-		ElementsDifferent = true
-	} else {
-		for i := range schema.Elements {
-			if (schema.Elements[i] == nil) != (schemaOther.Elements[i] == nil) {
-				ElementsDifferent = true
-				break
-			} else if schema.Elements[i] != nil && schemaOther.Elements[i] != nil {
-				// this is a pointer comparaison
-				if schema.Elements[i] != schemaOther.Elements[i] {
-					ElementsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ElementsDifferent {
-		ops := stage.Diff(
-			schema,
-			"Elements",
-			len(schemaOther.Elements),
-			len(schema.Elements),
-			func(i, j int) bool {
-				return schemaOther.Elements[i] == schema.Elements[j]
-			},
-			func(j int) string {
-				return schema.Elements[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, schema, "Elements", schemaOther.Elements, schema.Elements); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	SimpleTypesDifferent := false
-	if len(schema.SimpleTypes) != len(schemaOther.SimpleTypes) {
-		SimpleTypesDifferent = true
-	} else {
-		for i := range schema.SimpleTypes {
-			if (schema.SimpleTypes[i] == nil) != (schemaOther.SimpleTypes[i] == nil) {
-				SimpleTypesDifferent = true
-				break
-			} else if schema.SimpleTypes[i] != nil && schemaOther.SimpleTypes[i] != nil {
-				// this is a pointer comparaison
-				if schema.SimpleTypes[i] != schemaOther.SimpleTypes[i] {
-					SimpleTypesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SimpleTypesDifferent {
-		ops := stage.Diff(
-			schema,
-			"SimpleTypes",
-			len(schemaOther.SimpleTypes),
-			len(schema.SimpleTypes),
-			func(i, j int) bool {
-				return schemaOther.SimpleTypes[i] == schema.SimpleTypes[j]
-			},
-			func(j int) string {
-				return schema.SimpleTypes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, schema, "SimpleTypes", schemaOther.SimpleTypes, schema.SimpleTypes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ComplexTypesDifferent := false
-	if len(schema.ComplexTypes) != len(schemaOther.ComplexTypes) {
-		ComplexTypesDifferent = true
-	} else {
-		for i := range schema.ComplexTypes {
-			if (schema.ComplexTypes[i] == nil) != (schemaOther.ComplexTypes[i] == nil) {
-				ComplexTypesDifferent = true
-				break
-			} else if schema.ComplexTypes[i] != nil && schemaOther.ComplexTypes[i] != nil {
-				// this is a pointer comparaison
-				if schema.ComplexTypes[i] != schemaOther.ComplexTypes[i] {
-					ComplexTypesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ComplexTypesDifferent {
-		ops := stage.Diff(
-			schema,
-			"ComplexTypes",
-			len(schemaOther.ComplexTypes),
-			len(schema.ComplexTypes),
-			func(i, j int) bool {
-				return schemaOther.ComplexTypes[i] == schema.ComplexTypes[j]
-			},
-			func(j int) string {
-				return schema.ComplexTypes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, schema, "ComplexTypes", schemaOther.ComplexTypes, schema.ComplexTypes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AttributeGroupsDifferent := false
-	if len(schema.AttributeGroups) != len(schemaOther.AttributeGroups) {
-		AttributeGroupsDifferent = true
-	} else {
-		for i := range schema.AttributeGroups {
-			if (schema.AttributeGroups[i] == nil) != (schemaOther.AttributeGroups[i] == nil) {
-				AttributeGroupsDifferent = true
-				break
-			} else if schema.AttributeGroups[i] != nil && schemaOther.AttributeGroups[i] != nil {
-				// this is a pointer comparaison
-				if schema.AttributeGroups[i] != schemaOther.AttributeGroups[i] {
-					AttributeGroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AttributeGroupsDifferent {
-		ops := stage.Diff(
-			schema,
-			"AttributeGroups",
-			len(schemaOther.AttributeGroups),
-			len(schema.AttributeGroups),
-			func(i, j int) bool {
-				return schemaOther.AttributeGroups[i] == schema.AttributeGroups[j]
-			},
-			func(j int) string {
-				return schema.AttributeGroups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, schema, "AttributeGroups", schemaOther.AttributeGroups, schema.AttributeGroups); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	GroupsDifferent := false
-	if len(schema.Groups) != len(schemaOther.Groups) {
-		GroupsDifferent = true
-	} else {
-		for i := range schema.Groups {
-			if (schema.Groups[i] == nil) != (schemaOther.Groups[i] == nil) {
-				GroupsDifferent = true
-				break
-			} else if schema.Groups[i] != nil && schemaOther.Groups[i] != nil {
-				// this is a pointer comparaison
-				if schema.Groups[i] != schemaOther.Groups[i] {
-					GroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GroupsDifferent {
-		ops := stage.Diff(
-			schema,
-			"Groups",
-			len(schemaOther.Groups),
-			len(schema.Groups),
-			func(i, j int) bool {
-				return schemaOther.Groups[i] == schema.Groups[j]
-			},
-			func(j int) string {
-				return schema.Groups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, schema, "Groups", schemaOther.Groups, schema.Groups); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if schema.Order != schemaOther.Order {
@@ -5764,174 +3342,25 @@ func (sequence *Sequence) GongDiff(stage *Stage, sequenceOther *Sequence) (diffs
 	if sequence.Name != sequenceOther.Name {
 		diffs = append(diffs, sequence.GongMarshallField(stage, "Name"))
 	}
-	if (sequence.Annotation == nil) != (sequenceOther.Annotation == nil) {
+	if sequence.Annotation != sequenceOther.Annotation {
 		diffs = append(diffs, sequence.GongMarshallField(stage, "Annotation"))
-	} else if sequence.Annotation != nil && sequenceOther.Annotation != nil {
-		if sequence.Annotation != sequenceOther.Annotation {
-			diffs = append(diffs, sequence.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if sequence.OuterElementName != sequenceOther.OuterElementName {
 		diffs = append(diffs, sequence.GongMarshallField(stage, "OuterElementName"))
 	}
-	SequencesDifferent := false
-	if len(sequence.Sequences) != len(sequenceOther.Sequences) {
-		SequencesDifferent = true
-	} else {
-		for i := range sequence.Sequences {
-			if (sequence.Sequences[i] == nil) != (sequenceOther.Sequences[i] == nil) {
-				SequencesDifferent = true
-				break
-			} else if sequence.Sequences[i] != nil && sequenceOther.Sequences[i] != nil {
-				// this is a pointer comparaison
-				if sequence.Sequences[i] != sequenceOther.Sequences[i] {
-					SequencesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SequencesDifferent {
-		ops := stage.Diff(
-			sequence,
-			"Sequences",
-			len(sequenceOther.Sequences),
-			len(sequence.Sequences),
-			func(i, j int) bool {
-				return sequenceOther.Sequences[i] == sequence.Sequences[j]
-			},
-			func(j int) string {
-				return sequence.Sequences[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, sequence, "Sequences", sequenceOther.Sequences, sequence.Sequences); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AllsDifferent := false
-	if len(sequence.Alls) != len(sequenceOther.Alls) {
-		AllsDifferent = true
-	} else {
-		for i := range sequence.Alls {
-			if (sequence.Alls[i] == nil) != (sequenceOther.Alls[i] == nil) {
-				AllsDifferent = true
-				break
-			} else if sequence.Alls[i] != nil && sequenceOther.Alls[i] != nil {
-				// this is a pointer comparaison
-				if sequence.Alls[i] != sequenceOther.Alls[i] {
-					AllsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AllsDifferent {
-		ops := stage.Diff(
-			sequence,
-			"Alls",
-			len(sequenceOther.Alls),
-			len(sequence.Alls),
-			func(i, j int) bool {
-				return sequenceOther.Alls[i] == sequence.Alls[j]
-			},
-			func(j int) string {
-				return sequence.Alls[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, sequence, "Alls", sequenceOther.Alls, sequence.Alls); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ChoicesDifferent := false
-	if len(sequence.Choices) != len(sequenceOther.Choices) {
-		ChoicesDifferent = true
-	} else {
-		for i := range sequence.Choices {
-			if (sequence.Choices[i] == nil) != (sequenceOther.Choices[i] == nil) {
-				ChoicesDifferent = true
-				break
-			} else if sequence.Choices[i] != nil && sequenceOther.Choices[i] != nil {
-				// this is a pointer comparaison
-				if sequence.Choices[i] != sequenceOther.Choices[i] {
-					ChoicesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ChoicesDifferent {
-		ops := stage.Diff(
-			sequence,
-			"Choices",
-			len(sequenceOther.Choices),
-			len(sequence.Choices),
-			func(i, j int) bool {
-				return sequenceOther.Choices[i] == sequence.Choices[j]
-			},
-			func(j int) string {
-				return sequence.Choices[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, sequence, "Choices", sequenceOther.Choices, sequence.Choices); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	GroupsDifferent := false
-	if len(sequence.Groups) != len(sequenceOther.Groups) {
-		GroupsDifferent = true
-	} else {
-		for i := range sequence.Groups {
-			if (sequence.Groups[i] == nil) != (sequenceOther.Groups[i] == nil) {
-				GroupsDifferent = true
-				break
-			} else if sequence.Groups[i] != nil && sequenceOther.Groups[i] != nil {
-				// this is a pointer comparaison
-				if sequence.Groups[i] != sequenceOther.Groups[i] {
-					GroupsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if GroupsDifferent {
-		ops := stage.Diff(
-			sequence,
-			"Groups",
-			len(sequenceOther.Groups),
-			len(sequence.Groups),
-			func(i, j int) bool {
-				return sequenceOther.Groups[i] == sequence.Groups[j]
-			},
-			func(j int) string {
-				return sequence.Groups[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, sequence, "Groups", sequenceOther.Groups, sequence.Groups); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ElementsDifferent := false
-	if len(sequence.Elements) != len(sequenceOther.Elements) {
-		ElementsDifferent = true
-	} else {
-		for i := range sequence.Elements {
-			if (sequence.Elements[i] == nil) != (sequenceOther.Elements[i] == nil) {
-				ElementsDifferent = true
-				break
-			} else if sequence.Elements[i] != nil && sequenceOther.Elements[i] != nil {
-				// this is a pointer comparaison
-				if sequence.Elements[i] != sequenceOther.Elements[i] {
-					ElementsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ElementsDifferent {
-		ops := stage.Diff(
-			sequence,
-			"Elements",
-			len(sequenceOther.Elements),
-			len(sequence.Elements),
-			func(i, j int) bool {
-				return sequenceOther.Elements[i] == sequence.Elements[j]
-			},
-			func(j int) string {
-				return sequence.Elements[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, sequence, "Elements", sequenceOther.Elements, sequence.Elements); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if sequence.Order != sequenceOther.Order {
@@ -5957,19 +3386,11 @@ func (simplecontent *SimpleContent) GongDiff(stage *Stage, simplecontentOther *S
 	if simplecontent.Name != simplecontentOther.Name {
 		diffs = append(diffs, simplecontent.GongMarshallField(stage, "Name"))
 	}
-	if (simplecontent.Extension == nil) != (simplecontentOther.Extension == nil) {
+	if simplecontent.Extension != simplecontentOther.Extension {
 		diffs = append(diffs, simplecontent.GongMarshallField(stage, "Extension"))
-	} else if simplecontent.Extension != nil && simplecontentOther.Extension != nil {
-		if simplecontent.Extension != simplecontentOther.Extension {
-			diffs = append(diffs, simplecontent.GongMarshallField(stage, "Extension"))
-		}
 	}
-	if (simplecontent.Restriction == nil) != (simplecontentOther.Restriction == nil) {
+	if simplecontent.Restriction != simplecontentOther.Restriction {
 		diffs = append(diffs, simplecontent.GongMarshallField(stage, "Restriction"))
-	} else if simplecontent.Restriction != nil && simplecontentOther.Restriction != nil {
-		if simplecontent.Restriction != simplecontentOther.Restriction {
-			diffs = append(diffs, simplecontent.GongMarshallField(stage, "Restriction"))
-		}
 	}
 
 	return
@@ -5982,29 +3403,17 @@ func (simpletype *SimpleType) GongDiff(stage *Stage, simpletypeOther *SimpleType
 	if simpletype.Name != simpletypeOther.Name {
 		diffs = append(diffs, simpletype.GongMarshallField(stage, "Name"))
 	}
-	if (simpletype.Annotation == nil) != (simpletypeOther.Annotation == nil) {
+	if simpletype.Annotation != simpletypeOther.Annotation {
 		diffs = append(diffs, simpletype.GongMarshallField(stage, "Annotation"))
-	} else if simpletype.Annotation != nil && simpletypeOther.Annotation != nil {
-		if simpletype.Annotation != simpletypeOther.Annotation {
-			diffs = append(diffs, simpletype.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if simpletype.NameXSD != simpletypeOther.NameXSD {
 		diffs = append(diffs, simpletype.GongMarshallField(stage, "NameXSD"))
 	}
-	if (simpletype.Restriction == nil) != (simpletypeOther.Restriction == nil) {
+	if simpletype.Restriction != simpletypeOther.Restriction {
 		diffs = append(diffs, simpletype.GongMarshallField(stage, "Restriction"))
-	} else if simpletype.Restriction != nil && simpletypeOther.Restriction != nil {
-		if simpletype.Restriction != simpletypeOther.Restriction {
-			diffs = append(diffs, simpletype.GongMarshallField(stage, "Restriction"))
-		}
 	}
-	if (simpletype.Union == nil) != (simpletypeOther.Union == nil) {
+	if simpletype.Union != simpletypeOther.Union {
 		diffs = append(diffs, simpletype.GongMarshallField(stage, "Union"))
-	} else if simpletype.Union != nil && simpletypeOther.Union != nil {
-		if simpletype.Union != simpletypeOther.Union {
-			diffs = append(diffs, simpletype.GongMarshallField(stage, "Union"))
-		}
 	}
 	if simpletype.Order != simpletypeOther.Order {
 		diffs = append(diffs, simpletype.GongMarshallField(stage, "Order"))
@@ -6023,12 +3432,8 @@ func (totaldigit *TotalDigit) GongDiff(stage *Stage, totaldigitOther *TotalDigit
 	if totaldigit.Name != totaldigitOther.Name {
 		diffs = append(diffs, totaldigit.GongMarshallField(stage, "Name"))
 	}
-	if (totaldigit.Annotation == nil) != (totaldigitOther.Annotation == nil) {
+	if totaldigit.Annotation != totaldigitOther.Annotation {
 		diffs = append(diffs, totaldigit.GongMarshallField(stage, "Annotation"))
-	} else if totaldigit.Annotation != nil && totaldigitOther.Annotation != nil {
-		if totaldigit.Annotation != totaldigitOther.Annotation {
-			diffs = append(diffs, totaldigit.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if totaldigit.Value != totaldigitOther.Value {
 		diffs = append(diffs, totaldigit.GongMarshallField(stage, "Value"))
@@ -6044,12 +3449,8 @@ func (union *Union) GongDiff(stage *Stage, unionOther *Union) (diffs []string) {
 	if union.Name != unionOther.Name {
 		diffs = append(diffs, union.GongMarshallField(stage, "Name"))
 	}
-	if (union.Annotation == nil) != (unionOther.Annotation == nil) {
+	if union.Annotation != unionOther.Annotation {
 		diffs = append(diffs, union.GongMarshallField(stage, "Annotation"))
-	} else if union.Annotation != nil && unionOther.Annotation != nil {
-		if union.Annotation != unionOther.Annotation {
-			diffs = append(diffs, union.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if union.MemberTypes != unionOther.MemberTypes {
 		diffs = append(diffs, union.GongMarshallField(stage, "MemberTypes"))
@@ -6065,12 +3466,8 @@ func (whitespace *WhiteSpace) GongDiff(stage *Stage, whitespaceOther *WhiteSpace
 	if whitespace.Name != whitespaceOther.Name {
 		diffs = append(diffs, whitespace.GongMarshallField(stage, "Name"))
 	}
-	if (whitespace.Annotation == nil) != (whitespaceOther.Annotation == nil) {
+	if whitespace.Annotation != whitespaceOther.Annotation {
 		diffs = append(diffs, whitespace.GongMarshallField(stage, "Annotation"))
-	} else if whitespace.Annotation != nil && whitespaceOther.Annotation != nil {
-		if whitespace.Annotation != whitespaceOther.Annotation {
-			diffs = append(diffs, whitespace.GongMarshallField(stage, "Annotation"))
-		}
 	}
 	if whitespace.Value != whitespaceOther.Value {
 		diffs = append(diffs, whitespace.GongMarshallField(stage, "Value"))
@@ -6155,4 +3552,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

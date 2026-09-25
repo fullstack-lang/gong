@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterXCreateCallback GongOnAfterCreateInterface[X]
 	OnAfterXUpdateCallback GongOnAfterUpdateInterface[X]
 	OnAfterXDeleteCallback GongOnAfterDeleteInterface[X]
-	OnAfterXReadCallback   GongOnAfterReadInterface[X]
 
 	BackRepo GongBackRepoInterface
 
@@ -367,9 +366,7 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.Xs_reference = make(map[*X]*X)
-	stage.Xs_instance = make(map[*X]*X)
-	stage.Xs_referenceOrder = make(map[*X]uint)
+	__gong__clearReferences(&stage.Xs_reference, &stage.Xs_instance, &stage.Xs_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -398,19 +395,7 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxXOrder uint
-	var foundX bool
-	for _, order := range stage.X_stagedOrder {
-		if !foundX || order > maxXOrder {
-			maxXOrder = order
-			foundX = true
-		}
-	}
-	if foundX {
-		stage.XOrder = maxXOrder + 1
-	} else {
-		stage.XOrder = 0
-	}
+	stage.XOrder = __gong__recomputeOrder(stage.X_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -442,19 +427,7 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *X:
-		tmp := __gong__getStructInstancesByOrder(stage.Xs, stage.X_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *X implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Xs, stage.X_stagedOrder))
 
 	}
 	return
@@ -481,6 +454,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/test/test2/go/models/x"
 }
@@ -504,14 +573,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -534,9 +595,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitX(x *X)
-	CheckoutX(x *X)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -698,14 +756,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts x to the model stage
 func (x *X) Stage(stage *Stage) *X {
-	if _, ok := stage.Xs[x]; !ok {
-		stage.Xs[x] = struct{}{}
-		stage.X_stagedOrder[x] = stage.XOrder
-		stage.X_orderStaged[stage.XOrder] = x
-		stage.XOrder++
-	}
-	stage.Xs_mapString[x.Name] = x
-
+	__gong__stage(stage.Xs, stage.X_stagedOrder, stage.X_orderStaged, &stage.XOrder, stage.Xs_mapString, x, x.Name)
 	return x
 }
 
@@ -715,59 +766,22 @@ func (x *X) Stage(stage *Stage) *X {
 // - force the order if the order is equal or greater than the stage.XOrder
 // - update stage.XOrder accordingly
 func (x *X) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Xs[x]; !ok {
-		stage.Xs[x] = struct{}{}
-
-		if order > stage.XOrder {
-			stage.XOrder = order
-		}
-		stage.X_stagedOrder[x] = order
-		stage.X_orderStaged[order] = x
-		stage.XOrder++
-	}
-	stage.Xs_mapString[x.Name] = x
+	__gong__stagePreserveOrder(stage.Xs, stage.X_stagedOrder, stage.X_orderStaged, &stage.XOrder, stage.Xs_mapString, x, order, x.Name)
 }
 
 // Unstage removes x off the model stage
 func (x *X) Unstage(stage *Stage) *X {
-	delete(stage.Xs, x)
-	// issue1150
-	// delete(stage.X_stagedOrder, x)
-	delete(stage.Xs_mapString, x.Name)
-
+	__gong__unstage(stage.Xs, stage.Xs_mapString, x, x.Name)
 	return x
 }
 
 // UnstageVoid removes x off the model stage
 func (x *X) UnstageVoid(stage *Stage) {
-	delete(stage.Xs, x)
-	// issue1150
-	// delete(stage.X_stagedOrder, x)
-	delete(stage.Xs_mapString, x.Name)
-}
-
-// commit x to the back repo (if it is already staged)
-func (x *X) Commit(stage *Stage) *X {
-	if _, ok := stage.Xs[x]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitX(x)
-		}
-	}
-	return x
+	x.Unstage(stage)
 }
 
 func (x *X) StageVoid(stage *Stage) {
 	x.Stage(stage)
-}
-
-// Checkout x to the back repo (if it is already staged)
-func (x *X) Checkout(stage *Stage) *X {
-	if _, ok := stage.Xs[x]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutX(x)
-		}
-	}
-	return x
 }
 
 // for satisfaction of GongStruct interface
@@ -781,10 +795,7 @@ func (x *X) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Xs = make(map[*X]struct{})
-	stage.Xs_mapString = make(map[string]*X)
-	stage.X_stagedOrder = make(map[*X]uint)
-	stage.XOrder = 0
+	__gong__resetStageType(&stage.Xs, &stage.Xs_mapString, &stage.X_stagedOrder, &stage.XOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -823,7 +834,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -1114,10 +1124,7 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.Xs_mapString = make(map[string]*X)
-	for x := range stage.Xs {
-		stage.Xs_mapString[x.Name] = x
-	}
+	__gong__rebuildMapString(stage.Xs, &stage.Xs_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

@@ -54,12 +54,6 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct DownloadableFile
-	// insertion point per field
-
-	// Compute reverse map for named struct JpgImage
-	// insertion point per field
-
 	// Compute reverse map for named struct Page
 	// insertion point per field
 	stage.Page_Sections_reverseMap = make(map[*Section]*Page)
@@ -70,51 +64,26 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct PngImage
-	// insertion point per field
-
-	// Compute reverse map for named struct Section
-	// insertion point per field
-
-	// Compute reverse map for named struct SvgImage
-	// insertion point per field
-
 	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.Chapters {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Chapters)
 
-	for instance := range stage.Contents {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Contents)
 
-	for instance := range stage.DownloadableFiles {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.DownloadableFiles)
 
-	for instance := range stage.JpgImages {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.JpgImages)
 
-	for instance := range stage.Pages {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Pages)
 
-	for instance := range stage.PngImages {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.PngImages)
 
-	for instance := range stage.Sections {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Sections)
 
-	for instance := range stage.SvgImages {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.SvgImages)
 
 	return
 }
@@ -169,84 +138,36 @@ func (svgimage *SvgImage) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
-func (chapter *Chapter) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(chapter).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(chapter), uint64(stage.GetOrder(chapter)))
-	return
+func (chapter *Chapter) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, chapter)
 }
 
-func (content *Content) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(content).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(content), uint64(stage.GetOrder(content)))
-	return
+func (content *Content) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, content)
 }
 
-func (downloadablefile *DownloadableFile) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(downloadablefile).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(downloadablefile), uint64(stage.GetOrder(downloadablefile)))
-	return
+func (downloadablefile *DownloadableFile) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, downloadablefile)
 }
 
-func (jpgimage *JpgImage) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(jpgimage).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(jpgimage), uint64(stage.GetOrder(jpgimage)))
-	return
+func (jpgimage *JpgImage) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, jpgimage)
 }
 
-func (page *Page) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(page).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(page), uint64(stage.GetOrder(page)))
-	return
+func (page *Page) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, page)
 }
 
-func (pngimage *PngImage) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(pngimage).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(pngimage), uint64(stage.GetOrder(pngimage)))
-	return
+func (pngimage *PngImage) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, pngimage)
 }
 
-func (section *Section) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(section).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(section), uint64(stage.GetOrder(section)))
-	return
+func (section *Section) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, section)
 }
 
-func (svgimage *SvgImage) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(svgimage).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(svgimage), uint64(stage.GetOrder(svgimage)))
-	return
+func (svgimage *SvgImage) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, svgimage)
 }
 
 
@@ -520,126 +441,38 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.Chapters_reference = make(map[*Chapter]*Chapter)
-	stage.Chapters_referenceOrder = make(map[*Chapter]uint) // diff Unstage needs the reference order
-	stage.Chapters_instance = make(map[*Chapter]*Chapter)
-	for instance := range stage.Chapters {
-		_copy := instance.GongCopy().(*Chapter)
-		stage.Chapters_reference[instance] = _copy
-		stage.Chapters_instance[_copy] = instance
-		stage.Chapters_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Chapters, &stage.Chapters_reference, &stage.Chapters_referenceOrder, &stage.Chapters_instance)
 
-	stage.Contents_reference = make(map[*Content]*Content)
-	stage.Contents_referenceOrder = make(map[*Content]uint) // diff Unstage needs the reference order
-	stage.Contents_instance = make(map[*Content]*Content)
-	for instance := range stage.Contents {
-		_copy := instance.GongCopy().(*Content)
-		stage.Contents_reference[instance] = _copy
-		stage.Contents_instance[_copy] = instance
-		stage.Contents_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Contents, &stage.Contents_reference, &stage.Contents_referenceOrder, &stage.Contents_instance)
 
-	stage.DownloadableFiles_reference = make(map[*DownloadableFile]*DownloadableFile)
-	stage.DownloadableFiles_referenceOrder = make(map[*DownloadableFile]uint) // diff Unstage needs the reference order
-	stage.DownloadableFiles_instance = make(map[*DownloadableFile]*DownloadableFile)
-	for instance := range stage.DownloadableFiles {
-		_copy := instance.GongCopy().(*DownloadableFile)
-		stage.DownloadableFiles_reference[instance] = _copy
-		stage.DownloadableFiles_instance[_copy] = instance
-		stage.DownloadableFiles_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.DownloadableFiles, &stage.DownloadableFiles_reference, &stage.DownloadableFiles_referenceOrder, &stage.DownloadableFiles_instance)
 
-	stage.JpgImages_reference = make(map[*JpgImage]*JpgImage)
-	stage.JpgImages_referenceOrder = make(map[*JpgImage]uint) // diff Unstage needs the reference order
-	stage.JpgImages_instance = make(map[*JpgImage]*JpgImage)
-	for instance := range stage.JpgImages {
-		_copy := instance.GongCopy().(*JpgImage)
-		stage.JpgImages_reference[instance] = _copy
-		stage.JpgImages_instance[_copy] = instance
-		stage.JpgImages_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.JpgImages, &stage.JpgImages_reference, &stage.JpgImages_referenceOrder, &stage.JpgImages_instance)
 
-	stage.Pages_reference = make(map[*Page]*Page)
-	stage.Pages_referenceOrder = make(map[*Page]uint) // diff Unstage needs the reference order
-	stage.Pages_instance = make(map[*Page]*Page)
-	for instance := range stage.Pages {
-		_copy := instance.GongCopy().(*Page)
-		stage.Pages_reference[instance] = _copy
-		stage.Pages_instance[_copy] = instance
-		stage.Pages_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Pages, &stage.Pages_reference, &stage.Pages_referenceOrder, &stage.Pages_instance)
 
-	stage.PngImages_reference = make(map[*PngImage]*PngImage)
-	stage.PngImages_referenceOrder = make(map[*PngImage]uint) // diff Unstage needs the reference order
-	stage.PngImages_instance = make(map[*PngImage]*PngImage)
-	for instance := range stage.PngImages {
-		_copy := instance.GongCopy().(*PngImage)
-		stage.PngImages_reference[instance] = _copy
-		stage.PngImages_instance[_copy] = instance
-		stage.PngImages_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.PngImages, &stage.PngImages_reference, &stage.PngImages_referenceOrder, &stage.PngImages_instance)
 
-	stage.Sections_reference = make(map[*Section]*Section)
-	stage.Sections_referenceOrder = make(map[*Section]uint) // diff Unstage needs the reference order
-	stage.Sections_instance = make(map[*Section]*Section)
-	for instance := range stage.Sections {
-		_copy := instance.GongCopy().(*Section)
-		stage.Sections_reference[instance] = _copy
-		stage.Sections_instance[_copy] = instance
-		stage.Sections_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Sections, &stage.Sections_reference, &stage.Sections_referenceOrder, &stage.Sections_instance)
 
-	stage.SvgImages_reference = make(map[*SvgImage]*SvgImage)
-	stage.SvgImages_referenceOrder = make(map[*SvgImage]uint) // diff Unstage needs the reference order
-	stage.SvgImages_instance = make(map[*SvgImage]*SvgImage)
-	for instance := range stage.SvgImages {
-		_copy := instance.GongCopy().(*SvgImage)
-		stage.SvgImages_reference[instance] = _copy
-		stage.SvgImages_instance[_copy] = instance
-		stage.SvgImages_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.SvgImages, &stage.SvgImages_reference, &stage.SvgImages_referenceOrder, &stage.SvgImages_instance)
 
 	// insertion point per named struct
-	for instance := range stage.Chapters {
-		reference := stage.Chapters_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Chapters, stage.Chapters_reference, stage)
 
-	for instance := range stage.Contents {
-		reference := stage.Contents_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Contents, stage.Contents_reference, stage)
 
-	for instance := range stage.DownloadableFiles {
-		reference := stage.DownloadableFiles_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.DownloadableFiles, stage.DownloadableFiles_reference, stage)
 
-	for instance := range stage.JpgImages {
-		reference := stage.JpgImages_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.JpgImages, stage.JpgImages_reference, stage)
 
-	for instance := range stage.Pages {
-		reference := stage.Pages_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Pages, stage.Pages_reference, stage)
 
-	for instance := range stage.PngImages {
-		reference := stage.PngImages_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.PngImages, stage.PngImages_reference, stage)
 
-	for instance := range stage.Sections {
-		reference := stage.Sections_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Sections, stage.Sections_reference, stage)
 
-	for instance := range stage.SvgImages {
-		reference := stage.SvgImages_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.SvgImages, stage.SvgImages_reference, stage)
 
 	stage.recomputeOrders()
 }
@@ -652,99 +485,35 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (chapter *Chapter) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Chapter_stagedOrder[chapter]; ok {
-		return order
-	}
-	if order, ok := stage.Chapters_referenceOrder[chapter]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Chapter was not staged and does not have a reference order", chapter)
-		return 0
-	}
+	return __gong__getOrder(stage.Chapter_stagedOrder, stage.Chapters_referenceOrder, chapter, "Chapter")
 }
 
 func (content *Content) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Content_stagedOrder[content]; ok {
-		return order
-	}
-	if order, ok := stage.Contents_referenceOrder[content]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Content was not staged and does not have a reference order", content)
-		return 0
-	}
+	return __gong__getOrder(stage.Content_stagedOrder, stage.Contents_referenceOrder, content, "Content")
 }
 
 func (downloadablefile *DownloadableFile) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.DownloadableFile_stagedOrder[downloadablefile]; ok {
-		return order
-	}
-	if order, ok := stage.DownloadableFiles_referenceOrder[downloadablefile]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type DownloadableFile was not staged and does not have a reference order", downloadablefile)
-		return 0
-	}
+	return __gong__getOrder(stage.DownloadableFile_stagedOrder, stage.DownloadableFiles_referenceOrder, downloadablefile, "DownloadableFile")
 }
 
 func (jpgimage *JpgImage) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.JpgImage_stagedOrder[jpgimage]; ok {
-		return order
-	}
-	if order, ok := stage.JpgImages_referenceOrder[jpgimage]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type JpgImage was not staged and does not have a reference order", jpgimage)
-		return 0
-	}
+	return __gong__getOrder(stage.JpgImage_stagedOrder, stage.JpgImages_referenceOrder, jpgimage, "JpgImage")
 }
 
 func (page *Page) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Page_stagedOrder[page]; ok {
-		return order
-	}
-	if order, ok := stage.Pages_referenceOrder[page]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Page was not staged and does not have a reference order", page)
-		return 0
-	}
+	return __gong__getOrder(stage.Page_stagedOrder, stage.Pages_referenceOrder, page, "Page")
 }
 
 func (pngimage *PngImage) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.PngImage_stagedOrder[pngimage]; ok {
-		return order
-	}
-	if order, ok := stage.PngImages_referenceOrder[pngimage]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type PngImage was not staged and does not have a reference order", pngimage)
-		return 0
-	}
+	return __gong__getOrder(stage.PngImage_stagedOrder, stage.PngImages_referenceOrder, pngimage, "PngImage")
 }
 
 func (section *Section) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Section_stagedOrder[section]; ok {
-		return order
-	}
-	if order, ok := stage.Sections_referenceOrder[section]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Section was not staged and does not have a reference order", section)
-		return 0
-	}
+	return __gong__getOrder(stage.Section_stagedOrder, stage.Sections_referenceOrder, section, "Section")
 }
 
 func (svgimage *SvgImage) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.SvgImage_stagedOrder[svgimage]; ok {
-		return order
-	}
-	if order, ok := stage.SvgImages_referenceOrder[svgimage]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type SvgImage was not staged and does not have a reference order", svgimage)
-		return 0
-	}
+	return __gong__getOrder(stage.SvgImage_stagedOrder, stage.SvgImages_referenceOrder, svgimage, "SvgImage")
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -753,191 +522,143 @@ func (svgimage *SvgImage) GongGetOrder(stage *Stage) uint {
 // It is used to identify instances across sessions
 // insertion point per named struct
 func (chapter *Chapter) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", chapter.GongGetGongstructName(), chapter.GongGetOrder(stage))
+	return __gong__formatIdentifier(chapter, chapter.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (chapter *Chapter) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", chapter.GongGetGongstructName(), chapter.GongGetOrder(stage))
+	return chapter.GongGetIdentifier(stage)
 }
 
 func (content *Content) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", content.GongGetGongstructName(), content.GongGetOrder(stage))
+	return __gong__formatIdentifier(content, content.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (content *Content) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", content.GongGetGongstructName(), content.GongGetOrder(stage))
+	return content.GongGetIdentifier(stage)
 }
 
 func (downloadablefile *DownloadableFile) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", downloadablefile.GongGetGongstructName(), downloadablefile.GongGetOrder(stage))
+	return __gong__formatIdentifier(downloadablefile, downloadablefile.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (downloadablefile *DownloadableFile) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", downloadablefile.GongGetGongstructName(), downloadablefile.GongGetOrder(stage))
+	return downloadablefile.GongGetIdentifier(stage)
 }
 
 func (jpgimage *JpgImage) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", jpgimage.GongGetGongstructName(), jpgimage.GongGetOrder(stage))
+	return __gong__formatIdentifier(jpgimage, jpgimage.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (jpgimage *JpgImage) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", jpgimage.GongGetGongstructName(), jpgimage.GongGetOrder(stage))
+	return jpgimage.GongGetIdentifier(stage)
 }
 
 func (page *Page) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", page.GongGetGongstructName(), page.GongGetOrder(stage))
+	return __gong__formatIdentifier(page, page.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (page *Page) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", page.GongGetGongstructName(), page.GongGetOrder(stage))
+	return page.GongGetIdentifier(stage)
 }
 
 func (pngimage *PngImage) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", pngimage.GongGetGongstructName(), pngimage.GongGetOrder(stage))
+	return __gong__formatIdentifier(pngimage, pngimage.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (pngimage *PngImage) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", pngimage.GongGetGongstructName(), pngimage.GongGetOrder(stage))
+	return pngimage.GongGetIdentifier(stage)
 }
 
 func (section *Section) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", section.GongGetGongstructName(), section.GongGetOrder(stage))
+	return __gong__formatIdentifier(section, section.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (section *Section) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", section.GongGetGongstructName(), section.GongGetOrder(stage))
+	return section.GongGetIdentifier(stage)
 }
 
 func (svgimage *SvgImage) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", svgimage.GongGetGongstructName(), svgimage.GongGetOrder(stage))
+	return __gong__formatIdentifier(svgimage, svgimage.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (svgimage *SvgImage) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", svgimage.GongGetGongstructName(), svgimage.GongGetOrder(stage))
+	return svgimage.GongGetIdentifier(stage)
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (chapter *Chapter) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", chapter.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Chapter")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(chapter.Name))
-	return
+func (chapter *Chapter) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(chapter.GongGetIdentifier(stage), "Chapter", chapter.Name)
 }
 
-func (content *Content) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Content")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.Name))
-	return
+func (content *Content) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(content.GongGetIdentifier(stage), "Content", content.Name)
 }
 
-func (downloadablefile *DownloadableFile) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", downloadablefile.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DownloadableFile")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(downloadablefile.Name))
-	return
+func (downloadablefile *DownloadableFile) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(downloadablefile.GongGetIdentifier(stage), "DownloadableFile", downloadablefile.Name)
 }
 
-func (jpgimage *JpgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "JpgImage")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(jpgimage.Name))
-	return
+func (jpgimage *JpgImage) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(jpgimage.GongGetIdentifier(stage), "JpgImage", jpgimage.Name)
 }
 
-func (page *Page) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", page.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Page")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page.Name))
-	return
+func (page *Page) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(page.GongGetIdentifier(stage), "Page", page.Name)
 }
 
-func (pngimage *PngImage) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PngImage")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pngimage.Name))
-	return
+func (pngimage *PngImage) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(pngimage.GongGetIdentifier(stage), "PngImage", pngimage.Name)
 }
 
-func (section *Section) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", section.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Section")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(section.Name))
-	return
+func (section *Section) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(section.GongGetIdentifier(stage), "Section", section.Name)
 }
 
-func (svgimage *SvgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SvgImage")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svgimage.Name))
-	return
+func (svgimage *SvgImage) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(svgimage.GongGetIdentifier(stage), "SvgImage", svgimage.Name)
 }
 
 // insertion point for unstaging
-func (chapter *Chapter) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", chapter.GongGetReferenceIdentifier(stage))
-	return
+func (chapter *Chapter) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(chapter.GongGetReferenceIdentifier(stage))
 }
 
-func (content *Content) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetReferenceIdentifier(stage))
-	return
+func (content *Content) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(content.GongGetReferenceIdentifier(stage))
 }
 
-func (downloadablefile *DownloadableFile) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", downloadablefile.GongGetReferenceIdentifier(stage))
-	return
+func (downloadablefile *DownloadableFile) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(downloadablefile.GongGetReferenceIdentifier(stage))
 }
 
-func (jpgimage *JpgImage) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", jpgimage.GongGetReferenceIdentifier(stage))
-	return
+func (jpgimage *JpgImage) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(jpgimage.GongGetReferenceIdentifier(stage))
 }
 
-func (page *Page) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", page.GongGetReferenceIdentifier(stage))
-	return
+func (page *Page) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(page.GongGetReferenceIdentifier(stage))
 }
 
-func (pngimage *PngImage) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", pngimage.GongGetReferenceIdentifier(stage))
-	return
+func (pngimage *PngImage) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(pngimage.GongGetReferenceIdentifier(stage))
 }
 
-func (section *Section) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", section.GongGetReferenceIdentifier(stage))
-	return
+func (section *Section) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(section.GongGetReferenceIdentifier(stage))
 }
 
-func (svgimage *SvgImage) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgimage.GongGetReferenceIdentifier(stage))
-	return
+func (svgimage *SvgImage) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(svgimage.GongGetReferenceIdentifier(stage))
 }
 
 func GongIntToLetters(number int32) (letters string) {
@@ -981,6 +702,79 @@ func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 5. Format and return the byte array as a standard UUID string
 	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
 		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
+}
+
+func __gong__appendInstances[T interface {
+	comparable
+	GongstructIF
+}](res []GongstructIF, m map[T]struct{}) []GongstructIF {
+	for instance := range m {
+		res = append(res, instance)
+	}
+	return res
+}
+
+func __gong__getUUID(stage *Stage, instance GongstructIF) string {
+	if __gong__, ok := any(instance).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+	return GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(instance), uint64(stage.GetOrder(instance)))
+}
+
+func __gong__computeReferencePass1[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	staged map[T]struct{},
+	ref *map[T]T,
+	refOrder *map[T]uint,
+	inst *map[T]T,
+) {
+	*ref = make(map[T]T, len(staged))
+	*refOrder = make(map[T]uint, len(staged))
+	*inst = make(map[T]T, len(staged))
+	for instance := range staged {
+		_copy := instance.GongCopy().(T)
+		(*ref)[instance] = _copy
+		(*inst)[_copy] = instance
+		(*refOrder)[_copy] = instance.GongGetOrder(stage)
+	}
+}
+
+func __gong__computeReferencePass2[T interface {
+	comparable
+	GongstructIF
+	GongReconstructPointersFromReferences(*Stage, T)
+}](staged map[T]struct{}, reference map[T]T, stage *Stage) {
+	for instance := range staged {
+		reference[instance].GongReconstructPointersFromReferences(stage, instance)
+	}
+}
+
+func __gong__getOrder[T comparable](stagedOrder, refOrder map[T]uint, instance T, typeName string) uint {
+	if order, ok := stagedOrder[instance]; ok {
+		return order
+	}
+	if order, ok := refOrder[instance]; ok {
+		return order
+	}
+	log.Printf("instance %p of type %s was not staged and does not have a reference order", any(instance), typeName)
+	return 0
+}
+
+func __gong__formatIdentifier(s GongstructIF, order uint) string {
+	return fmt.Sprintf("__%s__%08d_", s.GongGetGongstructName(), order)
+}
+
+func __gong__marshallIdentifier(identifier, structName, name string) string {
+	decl := strings.ReplaceAll(GongIdentifiersDecls, "{{Identifier}}", identifier)
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", structName)
+	return strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(name))
+}
+
+func __gong__marshallUnstaging(identifier string) string {
+	return strings.ReplaceAll(GongUnstageStmt, "{{Identifier}}", identifier)
 }
 
 // end of template

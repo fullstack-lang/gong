@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterCheckboxCreateCallback GongOnAfterCreateInterface[Checkbox]
 	OnAfterCheckboxUpdateCallback GongOnAfterUpdateInterface[Checkbox]
 	OnAfterCheckboxDeleteCallback GongOnAfterDeleteInterface[Checkbox]
-	OnAfterCheckboxReadCallback   GongOnAfterReadInterface[Checkbox]
 
 	Groups                map[*Group]struct{}
 	Groups_instance       map[*Group]*Group
@@ -151,7 +150,6 @@ type Stage struct {
 	OnAfterGroupCreateCallback GongOnAfterCreateInterface[Group]
 	OnAfterGroupUpdateCallback GongOnAfterUpdateInterface[Group]
 	OnAfterGroupDeleteCallback GongOnAfterDeleteInterface[Group]
-	OnAfterGroupReadCallback   GongOnAfterReadInterface[Group]
 
 	Layouts                map[*Layout]struct{}
 	Layouts_instance       map[*Layout]*Layout
@@ -168,7 +166,6 @@ type Stage struct {
 	OnAfterLayoutCreateCallback GongOnAfterCreateInterface[Layout]
 	OnAfterLayoutUpdateCallback GongOnAfterUpdateInterface[Layout]
 	OnAfterLayoutDeleteCallback GongOnAfterDeleteInterface[Layout]
-	OnAfterLayoutReadCallback   GongOnAfterReadInterface[Layout]
 
 	Sliders                map[*Slider]struct{}
 	Sliders_instance       map[*Slider]*Slider
@@ -183,7 +180,6 @@ type Stage struct {
 	OnAfterSliderCreateCallback GongOnAfterCreateInterface[Slider]
 	OnAfterSliderUpdateCallback GongOnAfterUpdateInterface[Slider]
 	OnAfterSliderDeleteCallback GongOnAfterDeleteInterface[Slider]
-	OnAfterSliderReadCallback   GongOnAfterReadInterface[Slider]
 
 	BackRepo GongBackRepoInterface
 
@@ -418,21 +414,13 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.Checkboxs_reference = make(map[*Checkbox]*Checkbox)
-	stage.Checkboxs_instance = make(map[*Checkbox]*Checkbox)
-	stage.Checkboxs_referenceOrder = make(map[*Checkbox]uint)
+	__gong__clearReferences(&stage.Checkboxs_reference, &stage.Checkboxs_instance, &stage.Checkboxs_referenceOrder)
 
-	stage.Groups_reference = make(map[*Group]*Group)
-	stage.Groups_instance = make(map[*Group]*Group)
-	stage.Groups_referenceOrder = make(map[*Group]uint)
+	__gong__clearReferences(&stage.Groups_reference, &stage.Groups_instance, &stage.Groups_referenceOrder)
 
-	stage.Layouts_reference = make(map[*Layout]*Layout)
-	stage.Layouts_instance = make(map[*Layout]*Layout)
-	stage.Layouts_referenceOrder = make(map[*Layout]uint)
+	__gong__clearReferences(&stage.Layouts_reference, &stage.Layouts_instance, &stage.Layouts_referenceOrder)
 
-	stage.Sliders_reference = make(map[*Slider]*Slider)
-	stage.Sliders_instance = make(map[*Slider]*Slider)
-	stage.Sliders_referenceOrder = make(map[*Slider]uint)
+	__gong__clearReferences(&stage.Sliders_reference, &stage.Sliders_instance, &stage.Sliders_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -461,61 +449,13 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxCheckboxOrder uint
-	var foundCheckbox bool
-	for _, order := range stage.Checkbox_stagedOrder {
-		if !foundCheckbox || order > maxCheckboxOrder {
-			maxCheckboxOrder = order
-			foundCheckbox = true
-		}
-	}
-	if foundCheckbox {
-		stage.CheckboxOrder = maxCheckboxOrder + 1
-	} else {
-		stage.CheckboxOrder = 0
-	}
+	stage.CheckboxOrder = __gong__recomputeOrder(stage.Checkbox_stagedOrder)
 
-	var maxGroupOrder uint
-	var foundGroup bool
-	for _, order := range stage.Group_stagedOrder {
-		if !foundGroup || order > maxGroupOrder {
-			maxGroupOrder = order
-			foundGroup = true
-		}
-	}
-	if foundGroup {
-		stage.GroupOrder = maxGroupOrder + 1
-	} else {
-		stage.GroupOrder = 0
-	}
+	stage.GroupOrder = __gong__recomputeOrder(stage.Group_stagedOrder)
 
-	var maxLayoutOrder uint
-	var foundLayout bool
-	for _, order := range stage.Layout_stagedOrder {
-		if !foundLayout || order > maxLayoutOrder {
-			maxLayoutOrder = order
-			foundLayout = true
-		}
-	}
-	if foundLayout {
-		stage.LayoutOrder = maxLayoutOrder + 1
-	} else {
-		stage.LayoutOrder = 0
-	}
+	stage.LayoutOrder = __gong__recomputeOrder(stage.Layout_stagedOrder)
 
-	var maxSliderOrder uint
-	var foundSlider bool
-	for _, order := range stage.Slider_stagedOrder {
-		if !foundSlider || order > maxSliderOrder {
-			maxSliderOrder = order
-			foundSlider = true
-		}
-	}
-	if foundSlider {
-		stage.SliderOrder = maxSliderOrder + 1
-	} else {
-		stage.SliderOrder = 0
-	}
+	stage.SliderOrder = __gong__recomputeOrder(stage.Slider_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -547,61 +487,13 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *Checkbox:
-		tmp := __gong__getStructInstancesByOrder(stage.Checkboxs, stage.Checkbox_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Checkbox implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Checkboxs, stage.Checkbox_stagedOrder))
 	case *Group:
-		tmp := __gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Group implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder))
 	case *Layout:
-		tmp := __gong__getStructInstancesByOrder(stage.Layouts, stage.Layout_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Layout implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Layouts, stage.Layout_stagedOrder))
 	case *Slider:
-		tmp := __gong__getStructInstancesByOrder(stage.Sliders, stage.Slider_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Slider implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Sliders, stage.Slider_stagedOrder))
 
 	}
 	return
@@ -628,6 +520,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/slider/go/models"
 }
@@ -651,14 +639,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -681,15 +661,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitCheckbox(checkbox *Checkbox)
-	CheckoutCheckbox(checkbox *Checkbox)
-	CommitGroup(group *Group)
-	CheckoutGroup(group *Group)
-	CommitLayout(layout *Layout)
-	CheckoutLayout(layout *Layout)
-	CommitSlider(slider *Slider)
-	CheckoutSlider(slider *Slider)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -887,14 +858,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts checkbox to the model stage
 func (checkbox *Checkbox) Stage(stage *Stage) *Checkbox {
-	if _, ok := stage.Checkboxs[checkbox]; !ok {
-		stage.Checkboxs[checkbox] = struct{}{}
-		stage.Checkbox_stagedOrder[checkbox] = stage.CheckboxOrder
-		stage.Checkbox_orderStaged[stage.CheckboxOrder] = checkbox
-		stage.CheckboxOrder++
-	}
-	stage.Checkboxs_mapString[checkbox.Name] = checkbox
-
+	__gong__stage(stage.Checkboxs, stage.Checkbox_stagedOrder, stage.Checkbox_orderStaged, &stage.CheckboxOrder, stage.Checkboxs_mapString, checkbox, checkbox.Name)
 	return checkbox
 }
 
@@ -904,59 +868,22 @@ func (checkbox *Checkbox) Stage(stage *Stage) *Checkbox {
 // - force the order if the order is equal or greater than the stage.CheckboxOrder
 // - update stage.CheckboxOrder accordingly
 func (checkbox *Checkbox) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Checkboxs[checkbox]; !ok {
-		stage.Checkboxs[checkbox] = struct{}{}
-
-		if order > stage.CheckboxOrder {
-			stage.CheckboxOrder = order
-		}
-		stage.Checkbox_stagedOrder[checkbox] = order
-		stage.Checkbox_orderStaged[order] = checkbox
-		stage.CheckboxOrder++
-	}
-	stage.Checkboxs_mapString[checkbox.Name] = checkbox
+	__gong__stagePreserveOrder(stage.Checkboxs, stage.Checkbox_stagedOrder, stage.Checkbox_orderStaged, &stage.CheckboxOrder, stage.Checkboxs_mapString, checkbox, order, checkbox.Name)
 }
 
 // Unstage removes checkbox off the model stage
 func (checkbox *Checkbox) Unstage(stage *Stage) *Checkbox {
-	delete(stage.Checkboxs, checkbox)
-	// issue1150
-	// delete(stage.Checkbox_stagedOrder, checkbox)
-	delete(stage.Checkboxs_mapString, checkbox.Name)
-
+	__gong__unstage(stage.Checkboxs, stage.Checkboxs_mapString, checkbox, checkbox.Name)
 	return checkbox
 }
 
 // UnstageVoid removes checkbox off the model stage
 func (checkbox *Checkbox) UnstageVoid(stage *Stage) {
-	delete(stage.Checkboxs, checkbox)
-	// issue1150
-	// delete(stage.Checkbox_stagedOrder, checkbox)
-	delete(stage.Checkboxs_mapString, checkbox.Name)
-}
-
-// commit checkbox to the back repo (if it is already staged)
-func (checkbox *Checkbox) Commit(stage *Stage) *Checkbox {
-	if _, ok := stage.Checkboxs[checkbox]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCheckbox(checkbox)
-		}
-	}
-	return checkbox
+	checkbox.Unstage(stage)
 }
 
 func (checkbox *Checkbox) StageVoid(stage *Stage) {
 	checkbox.Stage(stage)
-}
-
-// Checkout checkbox to the back repo (if it is already staged)
-func (checkbox *Checkbox) Checkout(stage *Stage) *Checkbox {
-	if _, ok := stage.Checkboxs[checkbox]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCheckbox(checkbox)
-		}
-	}
-	return checkbox
 }
 
 // for satisfaction of GongStruct interface
@@ -971,14 +898,7 @@ func (checkbox *Checkbox) SetName(name string) {
 
 // Stage puts group to the model stage
 func (group *Group) Stage(stage *Stage) *Group {
-	if _, ok := stage.Groups[group]; !ok {
-		stage.Groups[group] = struct{}{}
-		stage.Group_stagedOrder[group] = stage.GroupOrder
-		stage.Group_orderStaged[stage.GroupOrder] = group
-		stage.GroupOrder++
-	}
-	stage.Groups_mapString[group.Name] = group
-
+	__gong__stage(stage.Groups, stage.Group_stagedOrder, stage.Group_orderStaged, &stage.GroupOrder, stage.Groups_mapString, group, group.Name)
 	return group
 }
 
@@ -988,59 +908,22 @@ func (group *Group) Stage(stage *Stage) *Group {
 // - force the order if the order is equal or greater than the stage.GroupOrder
 // - update stage.GroupOrder accordingly
 func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Groups[group]; !ok {
-		stage.Groups[group] = struct{}{}
-
-		if order > stage.GroupOrder {
-			stage.GroupOrder = order
-		}
-		stage.Group_stagedOrder[group] = order
-		stage.Group_orderStaged[order] = group
-		stage.GroupOrder++
-	}
-	stage.Groups_mapString[group.Name] = group
+	__gong__stagePreserveOrder(stage.Groups, stage.Group_stagedOrder, stage.Group_orderStaged, &stage.GroupOrder, stage.Groups_mapString, group, order, group.Name)
 }
 
 // Unstage removes group off the model stage
 func (group *Group) Unstage(stage *Stage) *Group {
-	delete(stage.Groups, group)
-	// issue1150
-	// delete(stage.Group_stagedOrder, group)
-	delete(stage.Groups_mapString, group.Name)
-
+	__gong__unstage(stage.Groups, stage.Groups_mapString, group, group.Name)
 	return group
 }
 
 // UnstageVoid removes group off the model stage
 func (group *Group) UnstageVoid(stage *Stage) {
-	delete(stage.Groups, group)
-	// issue1150
-	// delete(stage.Group_stagedOrder, group)
-	delete(stage.Groups_mapString, group.Name)
-}
-
-// commit group to the back repo (if it is already staged)
-func (group *Group) Commit(stage *Stage) *Group {
-	if _, ok := stage.Groups[group]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGroup(group)
-		}
-	}
-	return group
+	group.Unstage(stage)
 }
 
 func (group *Group) StageVoid(stage *Stage) {
 	group.Stage(stage)
-}
-
-// Checkout group to the back repo (if it is already staged)
-func (group *Group) Checkout(stage *Stage) *Group {
-	if _, ok := stage.Groups[group]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGroup(group)
-		}
-	}
-	return group
 }
 
 // for satisfaction of GongStruct interface
@@ -1055,14 +938,7 @@ func (group *Group) SetName(name string) {
 
 // Stage puts layout to the model stage
 func (layout *Layout) Stage(stage *Stage) *Layout {
-	if _, ok := stage.Layouts[layout]; !ok {
-		stage.Layouts[layout] = struct{}{}
-		stage.Layout_stagedOrder[layout] = stage.LayoutOrder
-		stage.Layout_orderStaged[stage.LayoutOrder] = layout
-		stage.LayoutOrder++
-	}
-	stage.Layouts_mapString[layout.Name] = layout
-
+	__gong__stage(stage.Layouts, stage.Layout_stagedOrder, stage.Layout_orderStaged, &stage.LayoutOrder, stage.Layouts_mapString, layout, layout.Name)
 	return layout
 }
 
@@ -1072,59 +948,22 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 // - force the order if the order is equal or greater than the stage.LayoutOrder
 // - update stage.LayoutOrder accordingly
 func (layout *Layout) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Layouts[layout]; !ok {
-		stage.Layouts[layout] = struct{}{}
-
-		if order > stage.LayoutOrder {
-			stage.LayoutOrder = order
-		}
-		stage.Layout_stagedOrder[layout] = order
-		stage.Layout_orderStaged[order] = layout
-		stage.LayoutOrder++
-	}
-	stage.Layouts_mapString[layout.Name] = layout
+	__gong__stagePreserveOrder(stage.Layouts, stage.Layout_stagedOrder, stage.Layout_orderStaged, &stage.LayoutOrder, stage.Layouts_mapString, layout, order, layout.Name)
 }
 
 // Unstage removes layout off the model stage
 func (layout *Layout) Unstage(stage *Stage) *Layout {
-	delete(stage.Layouts, layout)
-	// issue1150
-	// delete(stage.Layout_stagedOrder, layout)
-	delete(stage.Layouts_mapString, layout.Name)
-
+	__gong__unstage(stage.Layouts, stage.Layouts_mapString, layout, layout.Name)
 	return layout
 }
 
 // UnstageVoid removes layout off the model stage
 func (layout *Layout) UnstageVoid(stage *Stage) {
-	delete(stage.Layouts, layout)
-	// issue1150
-	// delete(stage.Layout_stagedOrder, layout)
-	delete(stage.Layouts_mapString, layout.Name)
-}
-
-// commit layout to the back repo (if it is already staged)
-func (layout *Layout) Commit(stage *Stage) *Layout {
-	if _, ok := stage.Layouts[layout]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitLayout(layout)
-		}
-	}
-	return layout
+	layout.Unstage(stage)
 }
 
 func (layout *Layout) StageVoid(stage *Stage) {
 	layout.Stage(stage)
-}
-
-// Checkout layout to the back repo (if it is already staged)
-func (layout *Layout) Checkout(stage *Stage) *Layout {
-	if _, ok := stage.Layouts[layout]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutLayout(layout)
-		}
-	}
-	return layout
 }
 
 // for satisfaction of GongStruct interface
@@ -1139,14 +978,7 @@ func (layout *Layout) SetName(name string) {
 
 // Stage puts slider to the model stage
 func (slider *Slider) Stage(stage *Stage) *Slider {
-	if _, ok := stage.Sliders[slider]; !ok {
-		stage.Sliders[slider] = struct{}{}
-		stage.Slider_stagedOrder[slider] = stage.SliderOrder
-		stage.Slider_orderStaged[stage.SliderOrder] = slider
-		stage.SliderOrder++
-	}
-	stage.Sliders_mapString[slider.Name] = slider
-
+	__gong__stage(stage.Sliders, stage.Slider_stagedOrder, stage.Slider_orderStaged, &stage.SliderOrder, stage.Sliders_mapString, slider, slider.Name)
 	return slider
 }
 
@@ -1156,59 +988,22 @@ func (slider *Slider) Stage(stage *Stage) *Slider {
 // - force the order if the order is equal or greater than the stage.SliderOrder
 // - update stage.SliderOrder accordingly
 func (slider *Slider) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Sliders[slider]; !ok {
-		stage.Sliders[slider] = struct{}{}
-
-		if order > stage.SliderOrder {
-			stage.SliderOrder = order
-		}
-		stage.Slider_stagedOrder[slider] = order
-		stage.Slider_orderStaged[order] = slider
-		stage.SliderOrder++
-	}
-	stage.Sliders_mapString[slider.Name] = slider
+	__gong__stagePreserveOrder(stage.Sliders, stage.Slider_stagedOrder, stage.Slider_orderStaged, &stage.SliderOrder, stage.Sliders_mapString, slider, order, slider.Name)
 }
 
 // Unstage removes slider off the model stage
 func (slider *Slider) Unstage(stage *Stage) *Slider {
-	delete(stage.Sliders, slider)
-	// issue1150
-	// delete(stage.Slider_stagedOrder, slider)
-	delete(stage.Sliders_mapString, slider.Name)
-
+	__gong__unstage(stage.Sliders, stage.Sliders_mapString, slider, slider.Name)
 	return slider
 }
 
 // UnstageVoid removes slider off the model stage
 func (slider *Slider) UnstageVoid(stage *Stage) {
-	delete(stage.Sliders, slider)
-	// issue1150
-	// delete(stage.Slider_stagedOrder, slider)
-	delete(stage.Sliders_mapString, slider.Name)
-}
-
-// commit slider to the back repo (if it is already staged)
-func (slider *Slider) Commit(stage *Stage) *Slider {
-	if _, ok := stage.Sliders[slider]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitSlider(slider)
-		}
-	}
-	return slider
+	slider.Unstage(stage)
 }
 
 func (slider *Slider) StageVoid(stage *Stage) {
 	slider.Stage(stage)
-}
-
-// Checkout slider to the back repo (if it is already staged)
-func (slider *Slider) Checkout(stage *Stage) *Slider {
-	if _, ok := stage.Sliders[slider]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutSlider(slider)
-		}
-	}
-	return slider
 }
 
 // for satisfaction of GongStruct interface
@@ -1222,25 +1017,13 @@ func (slider *Slider) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Checkboxs = make(map[*Checkbox]struct{})
-	stage.Checkboxs_mapString = make(map[string]*Checkbox)
-	stage.Checkbox_stagedOrder = make(map[*Checkbox]uint)
-	stage.CheckboxOrder = 0
+	__gong__resetStageType(&stage.Checkboxs, &stage.Checkboxs_mapString, &stage.Checkbox_stagedOrder, &stage.CheckboxOrder)
 
-	stage.Groups = make(map[*Group]struct{})
-	stage.Groups_mapString = make(map[string]*Group)
-	stage.Group_stagedOrder = make(map[*Group]uint)
-	stage.GroupOrder = 0
+	__gong__resetStageType(&stage.Groups, &stage.Groups_mapString, &stage.Group_stagedOrder, &stage.GroupOrder)
 
-	stage.Layouts = make(map[*Layout]struct{})
-	stage.Layouts_mapString = make(map[string]*Layout)
-	stage.Layout_stagedOrder = make(map[*Layout]uint)
-	stage.LayoutOrder = 0
+	__gong__resetStageType(&stage.Layouts, &stage.Layouts_mapString, &stage.Layout_stagedOrder, &stage.LayoutOrder)
 
-	stage.Sliders = make(map[*Slider]struct{})
-	stage.Sliders_mapString = make(map[string]*Slider)
-	stage.Slider_stagedOrder = make(map[*Slider]uint)
-	stage.SliderOrder = 0
+	__gong__resetStageType(&stage.Sliders, &stage.Sliders_mapString, &stage.Slider_stagedOrder, &stage.SliderOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -1279,7 +1062,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -1924,25 +1706,13 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.Checkboxs_mapString = make(map[string]*Checkbox)
-	for checkbox := range stage.Checkboxs {
-		stage.Checkboxs_mapString[checkbox.Name] = checkbox
-	}
+	__gong__rebuildMapString(stage.Checkboxs, &stage.Checkboxs_mapString)
 
-	stage.Groups_mapString = make(map[string]*Group)
-	for group := range stage.Groups {
-		stage.Groups_mapString[group.Name] = group
-	}
+	__gong__rebuildMapString(stage.Groups, &stage.Groups_mapString)
 
-	stage.Layouts_mapString = make(map[string]*Layout)
-	for layout := range stage.Layouts {
-		stage.Layouts_mapString[layout.Name] = layout
-	}
+	__gong__rebuildMapString(stage.Layouts, &stage.Layouts_mapString)
 
-	stage.Sliders_mapString = make(map[string]*Slider)
-	for slider := range stage.Sliders {
-		stage.Sliders_mapString[slider.Name] = slider
-	}
+	__gong__rebuildMapString(stage.Sliders, &stage.Sliders_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

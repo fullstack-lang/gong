@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,64 +15,29 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (button *Button) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Buttons[button]
-
-	return
+func (button *Button) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Buttons[button]
+	return ok
 }
 
-func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
-
-	return button.GongIsStaged(stage)
+func (menu *Menu) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Menus[menu]
+	return ok
 }
 
-func (menu *Menu) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Menus[menu]
-
-	return
+func (node *Node) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Nodes[node]
+	return ok
 }
 
-func (stage *Stage) IsStagedMenu(menu *Menu) (ok bool) {
-
-	return menu.GongIsStaged(stage)
+func (svgicon *SVGIcon) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SVGIcons[svgicon]
+	return ok
 }
 
-func (node *Node) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Nodes[node]
-
-	return
-}
-
-func (stage *Stage) IsStagedNode(node *Node) (ok bool) {
-
-	return node.GongIsStaged(stage)
-}
-
-func (svgicon *SVGIcon) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SVGIcons[svgicon]
-
-	return
-}
-
-func (stage *Stage) IsStagedSVGIcon(svgicon *SVGIcon) (ok bool) {
-
-	return svgicon.GongIsStaged(stage)
-}
-
-func (tree *Tree) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Trees[tree]
-
-	return
-}
-
-func (stage *Stage) IsStagedTree(tree *Tree) (ok bool) {
-
-	return tree.GongIsStaged(stage)
+func (tree *Tree) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Trees[tree]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -81,10 +49,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (button *Button) GongStageBranch(stage *Stage) {
-	stage.StageBranchButton(button)
-}
-
-func (stage *Stage) StageBranchButton(button *Button) {
 
 	// check if instance is already staged
 	if stage.IsStaged(button) {
@@ -103,10 +67,6 @@ func (stage *Stage) StageBranchButton(button *Button) {
 }
 
 func (menu *Menu) GongStageBranch(stage *Stage) {
-	stage.StageBranchMenu(menu)
-}
-
-func (stage *Stage) StageBranchMenu(menu *Menu) {
 
 	// check if instance is already staged
 	if stage.IsStaged(menu) {
@@ -125,10 +85,6 @@ func (stage *Stage) StageBranchMenu(menu *Menu) {
 }
 
 func (node *Node) GongStageBranch(stage *Stage) {
-	stage.StageBranchNode(node)
-}
-
-func (stage *Stage) StageBranchNode(node *Node) {
 
 	// check if instance is already staged
 	if stage.IsStaged(node) {
@@ -156,10 +112,6 @@ func (stage *Stage) StageBranchNode(node *Node) {
 }
 
 func (svgicon *SVGIcon) GongStageBranch(stage *Stage) {
-	stage.StageBranchSVGIcon(svgicon)
-}
-
-func (stage *Stage) StageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
 	if stage.IsStaged(svgicon) {
@@ -175,10 +127,6 @@ func (stage *Stage) StageBranchSVGIcon(svgicon *SVGIcon) {
 }
 
 func (tree *Tree) GongStageBranch(stage *Stage) {
-	stage.StageBranchTree(tree)
-}
-
-func (stage *Stage) StageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
 	if stage.IsStaged(tree) {
@@ -235,15 +183,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
-
-	// buttonFrom has already been copied
-	if _buttonTo, ok := mapOrigCopy[buttonFrom]; ok {
-		buttonTo = _buttonTo.(*Button)
+	var alreadyCopied bool
+	buttonTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, buttonFrom)
+	if alreadyCopied {
 		return
 	}
-
-	buttonTo = new(Button)
-	mapOrigCopy[buttonFrom] = buttonTo
 	buttonFrom.GongCopyBasicFields(buttonTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -257,15 +201,11 @@ func GongCopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo
 }
 
 func GongCopyBranchMenu(mapOrigCopy map[any]any, menuFrom *Menu) (menuTo *Menu) {
-
-	// menuFrom has already been copied
-	if _menuTo, ok := mapOrigCopy[menuFrom]; ok {
-		menuTo = _menuTo.(*Menu)
+	var alreadyCopied bool
+	menuTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, menuFrom)
+	if alreadyCopied {
 		return
 	}
-
-	menuTo = new(Menu)
-	mapOrigCopy[menuFrom] = menuTo
 	menuFrom.GongCopyBasicFields(menuTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -279,15 +219,11 @@ func GongCopyBranchMenu(mapOrigCopy map[any]any, menuFrom *Menu) (menuTo *Menu) 
 }
 
 func GongCopyBranchNode(mapOrigCopy map[any]any, nodeFrom *Node) (nodeTo *Node) {
-
-	// nodeFrom has already been copied
-	if _nodeTo, ok := mapOrigCopy[nodeFrom]; ok {
-		nodeTo = _nodeTo.(*Node)
+	var alreadyCopied bool
+	nodeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, nodeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	nodeTo = new(Node)
-	mapOrigCopy[nodeFrom] = nodeTo
 	nodeFrom.GongCopyBasicFields(nodeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -310,15 +246,11 @@ func GongCopyBranchNode(mapOrigCopy map[any]any, nodeFrom *Node) (nodeTo *Node) 
 }
 
 func GongCopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo *SVGIcon) {
-
-	// svgiconFrom has already been copied
-	if _svgiconTo, ok := mapOrigCopy[svgiconFrom]; ok {
-		svgiconTo = _svgiconTo.(*SVGIcon)
+	var alreadyCopied bool
+	svgiconTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, svgiconFrom)
+	if alreadyCopied {
 		return
 	}
-
-	svgiconTo = new(SVGIcon)
-	mapOrigCopy[svgiconFrom] = svgiconTo
 	svgiconFrom.GongCopyBasicFields(svgiconTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -329,15 +261,11 @@ func GongCopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgic
 }
 
 func GongCopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) {
-
-	// treeFrom has already been copied
-	if _treeTo, ok := mapOrigCopy[treeFrom]; ok {
-		treeTo = _treeTo.(*Tree)
+	var alreadyCopied bool
+	treeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, treeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	treeTo = new(Tree)
-	mapOrigCopy[treeFrom] = treeTo
 	treeFrom.GongCopyBasicFields(treeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -363,10 +291,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (button *Button) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchButton(button)
-}
-
-func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(button) {
@@ -385,10 +309,6 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 }
 
 func (menu *Menu) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchMenu(menu)
-}
-
-func (stage *Stage) UnstageBranchMenu(menu *Menu) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(menu) {
@@ -407,10 +327,6 @@ func (stage *Stage) UnstageBranchMenu(menu *Menu) {
 }
 
 func (node *Node) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchNode(node)
-}
-
-func (stage *Stage) UnstageBranchNode(node *Node) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(node) {
@@ -438,10 +354,6 @@ func (stage *Stage) UnstageBranchNode(node *Node) {
 }
 
 func (svgicon *SVGIcon) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSVGIcon(svgicon)
-}
-
-func (stage *Stage) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(svgicon) {
@@ -457,10 +369,6 @@ func (stage *Stage) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 }
 
 func (tree *Tree) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchTree(tree)
-}
-
-func (stage *Stage) UnstageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(tree) {
@@ -481,38 +389,23 @@ func (stage *Stage) UnstageBranchTree(tree *Tree) {
 // insertion point for pointer reconstruction from references
 func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, instance *Button) {
 	// insertion point for pointers field
-	if instance.SVGIcon != nil {
-		reference.SVGIcon = stage.SVGIcons_reference[instance.SVGIcon]
-	}
+	__gong__reconstructPointer(&reference.SVGIcon, stage.SVGIcons_reference, instance.SVGIcon)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Menu) GongReconstructPointersFromReferences(stage *Stage, instance *Menu) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Buttons = reference.Buttons[:0]
-	for _, _b := range instance.Buttons {
-		reference.Buttons = append(reference.Buttons, stage.Buttons_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Buttons, stage.Buttons_reference, instance.Buttons)
 }
 
 func (reference *Node) GongReconstructPointersFromReferences(stage *Stage, instance *Node) {
 	// insertion point for pointers field
-	if instance.PreceedingSVGIcon != nil {
-		reference.PreceedingSVGIcon = stage.SVGIcons_reference[instance.PreceedingSVGIcon]
-	}
-	if instance.Menu != nil {
-		reference.Menu = stage.Menus_reference[instance.Menu]
-	}
+	__gong__reconstructPointer(&reference.PreceedingSVGIcon, stage.SVGIcons_reference, instance.PreceedingSVGIcon)
+	__gong__reconstructPointer(&reference.Menu, stage.Menus_reference, instance.Menu)
 	// insertion point for slice of pointers field
-	reference.Children = reference.Children[:0]
-	for _, _b := range instance.Children {
-		reference.Children = append(reference.Children, stage.Nodes_reference[_b])
-	}
-	reference.Buttons = reference.Buttons[:0]
-	for _, _b := range instance.Buttons {
-		reference.Buttons = append(reference.Buttons, stage.Buttons_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Children, stage.Nodes_reference, instance.Children)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Buttons, stage.Buttons_reference, instance.Buttons)
 }
 
 func (reference *SVGIcon) GongReconstructPointersFromReferences(stage *Stage, instance *SVGIcon) {
@@ -523,65 +416,29 @@ func (reference *SVGIcon) GongReconstructPointersFromReferences(stage *Stage, in
 func (reference *Tree) GongReconstructPointersFromReferences(stage *Stage, instance *Tree) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.RootNodes = reference.RootNodes[:0]
-	for _, _b := range instance.RootNodes {
-		reference.RootNodes = append(reference.RootNodes, stage.Nodes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RootNodes, stage.Nodes_reference, instance.RootNodes)
 }
 
 // insertion point for pointer reconstruction from instances
 func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.SVGIcon; _reference != nil {
-		reference.SVGIcon = nil
-		if _instance, ok := stage.SVGIcons_instance[_reference]; ok {
-			reference.SVGIcon = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.SVGIcon, stage.SVGIcons_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Menu) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Buttons []*Button
-	for _, _reference := range reference.Buttons {
-		if _instance, ok := stage.Buttons_instance[_reference]; ok {
-			_Buttons = append(_Buttons, _instance)
-		}
-	}
-	reference.Buttons = _Buttons
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Buttons, stage.Buttons_instance)
 }
 
 func (reference *Node) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.PreceedingSVGIcon; _reference != nil {
-		reference.PreceedingSVGIcon = nil
-		if _instance, ok := stage.SVGIcons_instance[_reference]; ok {
-			reference.PreceedingSVGIcon = _instance
-		}
-	}
-	if _reference := reference.Menu; _reference != nil {
-		reference.Menu = nil
-		if _instance, ok := stage.Menus_instance[_reference]; ok {
-			reference.Menu = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.PreceedingSVGIcon, stage.SVGIcons_instance)
+	__gong__reconstructPointerFromInstance(&reference.Menu, stage.Menus_instance)
 	// insertion point for slice of pointers fields
-	var _Children []*Node
-	for _, _reference := range reference.Children {
-		if _instance, ok := stage.Nodes_instance[_reference]; ok {
-			_Children = append(_Children, _instance)
-		}
-	}
-	reference.Children = _Children
-	var _Buttons []*Button
-	for _, _reference := range reference.Buttons {
-		if _instance, ok := stage.Buttons_instance[_reference]; ok {
-			_Buttons = append(_Buttons, _instance)
-		}
-	}
-	reference.Buttons = _Buttons
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Children, stage.Nodes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Buttons, stage.Buttons_instance)
 }
 
 func (reference *SVGIcon) GongReconstructPointersFromInstances(stage *Stage) {
@@ -592,13 +449,7 @@ func (reference *SVGIcon) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Tree) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _RootNodes []*Node
-	for _, _reference := range reference.RootNodes {
-		if _instance, ok := stage.Nodes_instance[_reference]; ok {
-			_RootNodes = append(_RootNodes, _instance)
-		}
-	}
-	reference.RootNodes = _RootNodes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RootNodes, stage.Nodes_instance)
 }
 
 // insertion point for diff per struct
@@ -612,12 +463,8 @@ func (button *Button) GongDiff(stage *Stage, buttonOther *Button) (diffs []strin
 	if button.Icon != buttonOther.Icon {
 		diffs = append(diffs, button.GongMarshallField(stage, "Icon"))
 	}
-	if (button.SVGIcon == nil) != (buttonOther.SVGIcon == nil) {
+	if button.SVGIcon != buttonOther.SVGIcon {
 		diffs = append(diffs, button.GongMarshallField(stage, "SVGIcon"))
-	} else if button.SVGIcon != nil && buttonOther.SVGIcon != nil {
-		if button.SVGIcon != buttonOther.SVGIcon {
-			diffs = append(diffs, button.GongMarshallField(stage, "SVGIcon"))
-		}
 	}
 	if button.IsDisabled != buttonOther.IsDisabled {
 		diffs = append(diffs, button.GongMarshallField(stage, "IsDisabled"))
@@ -648,36 +495,7 @@ func (menu *Menu) GongDiff(stage *Stage, menuOther *Menu) (diffs []string) {
 	if menu.Name != menuOther.Name {
 		diffs = append(diffs, menu.GongMarshallField(stage, "Name"))
 	}
-	ButtonsDifferent := false
-	if len(menu.Buttons) != len(menuOther.Buttons) {
-		ButtonsDifferent = true
-	} else {
-		for i := range menu.Buttons {
-			if (menu.Buttons[i] == nil) != (menuOther.Buttons[i] == nil) {
-				ButtonsDifferent = true
-				break
-			} else if menu.Buttons[i] != nil && menuOther.Buttons[i] != nil {
-				// this is a pointer comparaison
-				if menu.Buttons[i] != menuOther.Buttons[i] {
-					ButtonsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ButtonsDifferent {
-		ops := stage.Diff(
-			menu,
-			"Buttons",
-			len(menuOther.Buttons),
-			len(menu.Buttons),
-			func(i, j int) bool {
-				return menuOther.Buttons[i] == menu.Buttons[j]
-			},
-			func(j int) string {
-				return menu.Buttons[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, menu, "Buttons", menuOther.Buttons, menu.Buttons); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -769,83 +587,17 @@ func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 	if node.PreceedingIcon != nodeOther.PreceedingIcon {
 		diffs = append(diffs, node.GongMarshallField(stage, "PreceedingIcon"))
 	}
-	if (node.PreceedingSVGIcon == nil) != (nodeOther.PreceedingSVGIcon == nil) {
+	if node.PreceedingSVGIcon != nodeOther.PreceedingSVGIcon {
 		diffs = append(diffs, node.GongMarshallField(stage, "PreceedingSVGIcon"))
-	} else if node.PreceedingSVGIcon != nil && nodeOther.PreceedingSVGIcon != nil {
-		if node.PreceedingSVGIcon != nodeOther.PreceedingSVGIcon {
-			diffs = append(diffs, node.GongMarshallField(stage, "PreceedingSVGIcon"))
-		}
 	}
-	ChildrenDifferent := false
-	if len(node.Children) != len(nodeOther.Children) {
-		ChildrenDifferent = true
-	} else {
-		for i := range node.Children {
-			if (node.Children[i] == nil) != (nodeOther.Children[i] == nil) {
-				ChildrenDifferent = true
-				break
-			} else if node.Children[i] != nil && nodeOther.Children[i] != nil {
-				// this is a pointer comparaison
-				if node.Children[i] != nodeOther.Children[i] {
-					ChildrenDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ChildrenDifferent {
-		ops := stage.Diff(
-			node,
-			"Children",
-			len(nodeOther.Children),
-			len(node.Children),
-			func(i, j int) bool {
-				return nodeOther.Children[i] == node.Children[j]
-			},
-			func(j int) string {
-				return node.Children[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, node, "Children", nodeOther.Children, node.Children); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ButtonsDifferent := false
-	if len(node.Buttons) != len(nodeOther.Buttons) {
-		ButtonsDifferent = true
-	} else {
-		for i := range node.Buttons {
-			if (node.Buttons[i] == nil) != (nodeOther.Buttons[i] == nil) {
-				ButtonsDifferent = true
-				break
-			} else if node.Buttons[i] != nil && nodeOther.Buttons[i] != nil {
-				// this is a pointer comparaison
-				if node.Buttons[i] != nodeOther.Buttons[i] {
-					ButtonsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ButtonsDifferent {
-		ops := stage.Diff(
-			node,
-			"Buttons",
-			len(nodeOther.Buttons),
-			len(node.Buttons),
-			func(i, j int) bool {
-				return nodeOther.Buttons[i] == node.Buttons[j]
-			},
-			func(j int) string {
-				return node.Buttons[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, node, "Buttons", nodeOther.Buttons, node.Buttons); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if (node.Menu == nil) != (nodeOther.Menu == nil) {
+	if node.Menu != nodeOther.Menu {
 		diffs = append(diffs, node.GongMarshallField(stage, "Menu"))
-	} else if node.Menu != nil && nodeOther.Menu != nil {
-		if node.Menu != nodeOther.Menu {
-			diffs = append(diffs, node.GongMarshallField(stage, "Menu"))
-		}
 	}
 
 	return
@@ -872,36 +624,7 @@ func (tree *Tree) GongDiff(stage *Stage, treeOther *Tree) (diffs []string) {
 	if tree.Name != treeOther.Name {
 		diffs = append(diffs, tree.GongMarshallField(stage, "Name"))
 	}
-	RootNodesDifferent := false
-	if len(tree.RootNodes) != len(treeOther.RootNodes) {
-		RootNodesDifferent = true
-	} else {
-		for i := range tree.RootNodes {
-			if (tree.RootNodes[i] == nil) != (treeOther.RootNodes[i] == nil) {
-				RootNodesDifferent = true
-				break
-			} else if tree.RootNodes[i] != nil && treeOther.RootNodes[i] != nil {
-				// this is a pointer comparaison
-				if tree.RootNodes[i] != treeOther.RootNodes[i] {
-					RootNodesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RootNodesDifferent {
-		ops := stage.Diff(
-			tree,
-			"RootNodes",
-			len(treeOther.RootNodes),
-			len(tree.RootNodes),
-			func(i, j int) bool {
-				return treeOther.RootNodes[i] == tree.RootNodes[j]
-			},
-			func(j int) string {
-				return tree.RootNodes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, tree, "RootNodes", treeOther.RootNodes, tree.RootNodes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if tree.HaveSearch != treeOther.HaveSearch {
@@ -987,4 +710,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

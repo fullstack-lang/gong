@@ -16,19 +16,3 @@ func (inst *Message) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Go
 	res = ""
 	return
 }
-
-// insertion point
-func (inst *FileToDownload) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-	res = nil
-	return res
-}
-
-func (inst *FileToUpload) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-	res = nil
-	return res
-}
-
-func (inst *Message) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-	res = nil
-	return res
-}

@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,40 +15,19 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (filetodownload *FileToDownload) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.FileToDownloads[filetodownload]
-
-	return
+func (filetodownload *FileToDownload) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.FileToDownloads[filetodownload]
+	return ok
 }
 
-func (stage *Stage) IsStagedFileToDownload(filetodownload *FileToDownload) (ok bool) {
-
-	return filetodownload.GongIsStaged(stage)
+func (filetoupload *FileToUpload) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.FileToUploads[filetoupload]
+	return ok
 }
 
-func (filetoupload *FileToUpload) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.FileToUploads[filetoupload]
-
-	return
-}
-
-func (stage *Stage) IsStagedFileToUpload(filetoupload *FileToUpload) (ok bool) {
-
-	return filetoupload.GongIsStaged(stage)
-}
-
-func (message *Message) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Messages[message]
-
-	return
-}
-
-func (stage *Stage) IsStagedMessage(message *Message) (ok bool) {
-
-	return message.GongIsStaged(stage)
+func (message *Message) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Messages[message]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -57,10 +39,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (filetodownload *FileToDownload) GongStageBranch(stage *Stage) {
-	stage.StageBranchFileToDownload(filetodownload)
-}
-
-func (stage *Stage) StageBranchFileToDownload(filetodownload *FileToDownload) {
 
 	// check if instance is already staged
 	if stage.IsStaged(filetodownload) {
@@ -76,10 +54,6 @@ func (stage *Stage) StageBranchFileToDownload(filetodownload *FileToDownload) {
 }
 
 func (filetoupload *FileToUpload) GongStageBranch(stage *Stage) {
-	stage.StageBranchFileToUpload(filetoupload)
-}
-
-func (stage *Stage) StageBranchFileToUpload(filetoupload *FileToUpload) {
 
 	// check if instance is already staged
 	if stage.IsStaged(filetoupload) {
@@ -95,10 +69,6 @@ func (stage *Stage) StageBranchFileToUpload(filetoupload *FileToUpload) {
 }
 
 func (message *Message) GongStageBranch(stage *Stage) {
-	stage.StageBranchMessage(message)
-}
-
-func (stage *Stage) StageBranchMessage(message *Message) {
 
 	// check if instance is already staged
 	if stage.IsStaged(message) {
@@ -144,15 +114,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchFileToDownload(mapOrigCopy map[any]any, filetodownloadFrom *FileToDownload) (filetodownloadTo *FileToDownload) {
-
-	// filetodownloadFrom has already been copied
-	if _filetodownloadTo, ok := mapOrigCopy[filetodownloadFrom]; ok {
-		filetodownloadTo = _filetodownloadTo.(*FileToDownload)
+	var alreadyCopied bool
+	filetodownloadTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, filetodownloadFrom)
+	if alreadyCopied {
 		return
 	}
-
-	filetodownloadTo = new(FileToDownload)
-	mapOrigCopy[filetodownloadFrom] = filetodownloadTo
 	filetodownloadFrom.GongCopyBasicFields(filetodownloadTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -163,15 +129,11 @@ func GongCopyBranchFileToDownload(mapOrigCopy map[any]any, filetodownloadFrom *F
 }
 
 func GongCopyBranchFileToUpload(mapOrigCopy map[any]any, filetouploadFrom *FileToUpload) (filetouploadTo *FileToUpload) {
-
-	// filetouploadFrom has already been copied
-	if _filetouploadTo, ok := mapOrigCopy[filetouploadFrom]; ok {
-		filetouploadTo = _filetouploadTo.(*FileToUpload)
+	var alreadyCopied bool
+	filetouploadTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, filetouploadFrom)
+	if alreadyCopied {
 		return
 	}
-
-	filetouploadTo = new(FileToUpload)
-	mapOrigCopy[filetouploadFrom] = filetouploadTo
 	filetouploadFrom.GongCopyBasicFields(filetouploadTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -182,15 +144,11 @@ func GongCopyBranchFileToUpload(mapOrigCopy map[any]any, filetouploadFrom *FileT
 }
 
 func GongCopyBranchMessage(mapOrigCopy map[any]any, messageFrom *Message) (messageTo *Message) {
-
-	// messageFrom has already been copied
-	if _messageTo, ok := mapOrigCopy[messageFrom]; ok {
-		messageTo = _messageTo.(*Message)
+	var alreadyCopied bool
+	messageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, messageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	messageTo = new(Message)
-	mapOrigCopy[messageFrom] = messageTo
 	messageFrom.GongCopyBasicFields(messageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -213,10 +171,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (filetodownload *FileToDownload) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchFileToDownload(filetodownload)
-}
-
-func (stage *Stage) UnstageBranchFileToDownload(filetodownload *FileToDownload) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(filetodownload) {
@@ -232,10 +186,6 @@ func (stage *Stage) UnstageBranchFileToDownload(filetodownload *FileToDownload) 
 }
 
 func (filetoupload *FileToUpload) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchFileToUpload(filetoupload)
-}
-
-func (stage *Stage) UnstageBranchFileToUpload(filetoupload *FileToUpload) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(filetoupload) {
@@ -251,10 +201,6 @@ func (stage *Stage) UnstageBranchFileToUpload(filetoupload *FileToUpload) {
 }
 
 func (message *Message) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchMessage(message)
-}
-
-func (stage *Stage) UnstageBranchMessage(message *Message) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(message) {
@@ -417,4 +363,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

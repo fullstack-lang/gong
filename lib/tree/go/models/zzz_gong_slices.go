@@ -20,9 +20,6 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct Button
-	// insertion point per field
-
 	// Compute reverse map for named struct Menu
 	// insertion point per field
 	stage.Menu_Buttons_reverseMap = make(map[*Button]*Menu)
@@ -50,9 +47,6 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct SVGIcon
-	// insertion point per field
-
 	// Compute reverse map for named struct Tree
 	// insertion point per field
 	stage.Tree_RootNodes_reverseMap = make(map[*Node]*Tree)
@@ -68,25 +62,15 @@ func (stage *Stage) ComputeReverseMaps() {
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.Buttons {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Buttons)
 
-	for instance := range stage.Menus {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Menus)
 
-	for instance := range stage.Nodes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Nodes)
 
-	for instance := range stage.SVGIcons {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.SVGIcons)
 
-	for instance := range stage.Trees {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Trees)
 
 	return
 }
@@ -123,54 +107,24 @@ func (tree *Tree) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
-func (button *Button) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(button).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(button), uint64(stage.GetOrder(button)))
-	return
+func (button *Button) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, button)
 }
 
-func (menu *Menu) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(menu).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(menu), uint64(stage.GetOrder(menu)))
-	return
+func (menu *Menu) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, menu)
 }
 
-func (node *Node) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(node).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(node), uint64(stage.GetOrder(node)))
-	return
+func (node *Node) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, node)
 }
 
-func (svgicon *SVGIcon) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(svgicon).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(svgicon), uint64(stage.GetOrder(svgicon)))
-	return
+func (svgicon *SVGIcon) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, svgicon)
 }
 
-func (tree *Tree) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(tree).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(tree), uint64(stage.GetOrder(tree)))
-	return
+func (tree *Tree) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, tree)
 }
 
 
@@ -393,81 +347,26 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.Buttons_reference = make(map[*Button]*Button)
-	stage.Buttons_referenceOrder = make(map[*Button]uint) // diff Unstage needs the reference order
-	stage.Buttons_instance = make(map[*Button]*Button)
-	for instance := range stage.Buttons {
-		_copy := instance.GongCopy().(*Button)
-		stage.Buttons_reference[instance] = _copy
-		stage.Buttons_instance[_copy] = instance
-		stage.Buttons_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Buttons, &stage.Buttons_reference, &stage.Buttons_referenceOrder, &stage.Buttons_instance)
 
-	stage.Menus_reference = make(map[*Menu]*Menu)
-	stage.Menus_referenceOrder = make(map[*Menu]uint) // diff Unstage needs the reference order
-	stage.Menus_instance = make(map[*Menu]*Menu)
-	for instance := range stage.Menus {
-		_copy := instance.GongCopy().(*Menu)
-		stage.Menus_reference[instance] = _copy
-		stage.Menus_instance[_copy] = instance
-		stage.Menus_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Menus, &stage.Menus_reference, &stage.Menus_referenceOrder, &stage.Menus_instance)
 
-	stage.Nodes_reference = make(map[*Node]*Node)
-	stage.Nodes_referenceOrder = make(map[*Node]uint) // diff Unstage needs the reference order
-	stage.Nodes_instance = make(map[*Node]*Node)
-	for instance := range stage.Nodes {
-		_copy := instance.GongCopy().(*Node)
-		stage.Nodes_reference[instance] = _copy
-		stage.Nodes_instance[_copy] = instance
-		stage.Nodes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Nodes, &stage.Nodes_reference, &stage.Nodes_referenceOrder, &stage.Nodes_instance)
 
-	stage.SVGIcons_reference = make(map[*SVGIcon]*SVGIcon)
-	stage.SVGIcons_referenceOrder = make(map[*SVGIcon]uint) // diff Unstage needs the reference order
-	stage.SVGIcons_instance = make(map[*SVGIcon]*SVGIcon)
-	for instance := range stage.SVGIcons {
-		_copy := instance.GongCopy().(*SVGIcon)
-		stage.SVGIcons_reference[instance] = _copy
-		stage.SVGIcons_instance[_copy] = instance
-		stage.SVGIcons_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.SVGIcons, &stage.SVGIcons_reference, &stage.SVGIcons_referenceOrder, &stage.SVGIcons_instance)
 
-	stage.Trees_reference = make(map[*Tree]*Tree)
-	stage.Trees_referenceOrder = make(map[*Tree]uint) // diff Unstage needs the reference order
-	stage.Trees_instance = make(map[*Tree]*Tree)
-	for instance := range stage.Trees {
-		_copy := instance.GongCopy().(*Tree)
-		stage.Trees_reference[instance] = _copy
-		stage.Trees_instance[_copy] = instance
-		stage.Trees_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Trees, &stage.Trees_reference, &stage.Trees_referenceOrder, &stage.Trees_instance)
 
 	// insertion point per named struct
-	for instance := range stage.Buttons {
-		reference := stage.Buttons_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Buttons, stage.Buttons_reference, stage)
 
-	for instance := range stage.Menus {
-		reference := stage.Menus_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Menus, stage.Menus_reference, stage)
 
-	for instance := range stage.Nodes {
-		reference := stage.Nodes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Nodes, stage.Nodes_reference, stage)
 
-	for instance := range stage.SVGIcons {
-		reference := stage.SVGIcons_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.SVGIcons, stage.SVGIcons_reference, stage)
 
-	for instance := range stage.Trees {
-		reference := stage.Trees_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Trees, stage.Trees_reference, stage)
 
 	stage.recomputeOrders()
 }
@@ -480,63 +379,23 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (button *Button) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Button_stagedOrder[button]; ok {
-		return order
-	}
-	if order, ok := stage.Buttons_referenceOrder[button]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Button was not staged and does not have a reference order", button)
-		return 0
-	}
+	return __gong__getOrder(stage.Button_stagedOrder, stage.Buttons_referenceOrder, button, "Button")
 }
 
 func (menu *Menu) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Menu_stagedOrder[menu]; ok {
-		return order
-	}
-	if order, ok := stage.Menus_referenceOrder[menu]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Menu was not staged and does not have a reference order", menu)
-		return 0
-	}
+	return __gong__getOrder(stage.Menu_stagedOrder, stage.Menus_referenceOrder, menu, "Menu")
 }
 
 func (node *Node) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Node_stagedOrder[node]; ok {
-		return order
-	}
-	if order, ok := stage.Nodes_referenceOrder[node]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Node was not staged and does not have a reference order", node)
-		return 0
-	}
+	return __gong__getOrder(stage.Node_stagedOrder, stage.Nodes_referenceOrder, node, "Node")
 }
 
 func (svgicon *SVGIcon) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.SVGIcon_stagedOrder[svgicon]; ok {
-		return order
-	}
-	if order, ok := stage.SVGIcons_referenceOrder[svgicon]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type SVGIcon was not staged and does not have a reference order", svgicon)
-		return 0
-	}
+	return __gong__getOrder(stage.SVGIcon_stagedOrder, stage.SVGIcons_referenceOrder, svgicon, "SVGIcon")
 }
 
 func (tree *Tree) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Tree_stagedOrder[tree]; ok {
-		return order
-	}
-	if order, ok := stage.Trees_referenceOrder[tree]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Tree was not staged and does not have a reference order", tree)
-		return 0
-	}
+	return __gong__getOrder(stage.Tree_stagedOrder, stage.Trees_referenceOrder, tree, "Tree")
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -545,122 +404,92 @@ func (tree *Tree) GongGetOrder(stage *Stage) uint {
 // It is used to identify instances across sessions
 // insertion point per named struct
 func (button *Button) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", button.GongGetGongstructName(), button.GongGetOrder(stage))
+	return __gong__formatIdentifier(button, button.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (button *Button) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", button.GongGetGongstructName(), button.GongGetOrder(stage))
+	return button.GongGetIdentifier(stage)
 }
 
 func (menu *Menu) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", menu.GongGetGongstructName(), menu.GongGetOrder(stage))
+	return __gong__formatIdentifier(menu, menu.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (menu *Menu) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", menu.GongGetGongstructName(), menu.GongGetOrder(stage))
+	return menu.GongGetIdentifier(stage)
 }
 
 func (node *Node) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", node.GongGetGongstructName(), node.GongGetOrder(stage))
+	return __gong__formatIdentifier(node, node.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (node *Node) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", node.GongGetGongstructName(), node.GongGetOrder(stage))
+	return node.GongGetIdentifier(stage)
 }
 
 func (svgicon *SVGIcon) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", svgicon.GongGetGongstructName(), svgicon.GongGetOrder(stage))
+	return __gong__formatIdentifier(svgicon, svgicon.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (svgicon *SVGIcon) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", svgicon.GongGetGongstructName(), svgicon.GongGetOrder(stage))
+	return svgicon.GongGetIdentifier(stage)
 }
 
 func (tree *Tree) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", tree.GongGetGongstructName(), tree.GongGetOrder(stage))
+	return __gong__formatIdentifier(tree, tree.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (tree *Tree) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", tree.GongGetGongstructName(), tree.GongGetOrder(stage))
+	return tree.GongGetIdentifier(stage)
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (button *Button) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Button")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(button.Name))
-	return
+func (button *Button) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(button.GongGetIdentifier(stage), "Button", button.Name)
 }
 
-func (menu *Menu) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", menu.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Menu")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(menu.Name))
-	return
+func (menu *Menu) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(menu.GongGetIdentifier(stage), "Menu", menu.Name)
 }
 
-func (node *Node) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", node.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Node")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(node.Name))
-	return
+func (node *Node) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(node.GongGetIdentifier(stage), "Node", node.Name)
 }
 
-func (svgicon *SVGIcon) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SVGIcon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svgicon.Name))
-	return
+func (svgicon *SVGIcon) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(svgicon.GongGetIdentifier(stage), "SVGIcon", svgicon.Name)
 }
 
-func (tree *Tree) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", tree.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Tree")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tree.Name))
-	return
+func (tree *Tree) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(tree.GongGetIdentifier(stage), "Tree", tree.Name)
 }
 
 // insertion point for unstaging
-func (button *Button) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetReferenceIdentifier(stage))
-	return
+func (button *Button) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(button.GongGetReferenceIdentifier(stage))
 }
 
-func (menu *Menu) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", menu.GongGetReferenceIdentifier(stage))
-	return
+func (menu *Menu) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(menu.GongGetReferenceIdentifier(stage))
 }
 
-func (node *Node) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", node.GongGetReferenceIdentifier(stage))
-	return
+func (node *Node) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(node.GongGetReferenceIdentifier(stage))
 }
 
-func (svgicon *SVGIcon) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgicon.GongGetReferenceIdentifier(stage))
-	return
+func (svgicon *SVGIcon) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(svgicon.GongGetReferenceIdentifier(stage))
 }
 
-func (tree *Tree) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", tree.GongGetReferenceIdentifier(stage))
-	return
+func (tree *Tree) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(tree.GongGetReferenceIdentifier(stage))
 }
 
 func GongIntToLetters(number int32) (letters string) {
@@ -704,6 +533,79 @@ func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 5. Format and return the byte array as a standard UUID string
 	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
 		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
+}
+
+func __gong__appendInstances[T interface {
+	comparable
+	GongstructIF
+}](res []GongstructIF, m map[T]struct{}) []GongstructIF {
+	for instance := range m {
+		res = append(res, instance)
+	}
+	return res
+}
+
+func __gong__getUUID(stage *Stage, instance GongstructIF) string {
+	if __gong__, ok := any(instance).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+	return GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(instance), uint64(stage.GetOrder(instance)))
+}
+
+func __gong__computeReferencePass1[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	staged map[T]struct{},
+	ref *map[T]T,
+	refOrder *map[T]uint,
+	inst *map[T]T,
+) {
+	*ref = make(map[T]T, len(staged))
+	*refOrder = make(map[T]uint, len(staged))
+	*inst = make(map[T]T, len(staged))
+	for instance := range staged {
+		_copy := instance.GongCopy().(T)
+		(*ref)[instance] = _copy
+		(*inst)[_copy] = instance
+		(*refOrder)[_copy] = instance.GongGetOrder(stage)
+	}
+}
+
+func __gong__computeReferencePass2[T interface {
+	comparable
+	GongstructIF
+	GongReconstructPointersFromReferences(*Stage, T)
+}](staged map[T]struct{}, reference map[T]T, stage *Stage) {
+	for instance := range staged {
+		reference[instance].GongReconstructPointersFromReferences(stage, instance)
+	}
+}
+
+func __gong__getOrder[T comparable](stagedOrder, refOrder map[T]uint, instance T, typeName string) uint {
+	if order, ok := stagedOrder[instance]; ok {
+		return order
+	}
+	if order, ok := refOrder[instance]; ok {
+		return order
+	}
+	log.Printf("instance %p of type %s was not staged and does not have a reference order", any(instance), typeName)
+	return 0
+}
+
+func __gong__formatIdentifier(s GongstructIF, order uint) string {
+	return fmt.Sprintf("__%s__%08d_", s.GongGetGongstructName(), order)
+}
+
+func __gong__marshallIdentifier(identifier, structName, name string) string {
+	decl := strings.ReplaceAll(GongIdentifiersDecls, "{{Identifier}}", identifier)
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", structName)
+	return strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(name))
+}
+
+func __gong__marshallUnstaging(identifier string) string {
+	return strings.ReplaceAll(GongUnstageStmt, "{{Identifier}}", identifier)
 }
 
 // end of template

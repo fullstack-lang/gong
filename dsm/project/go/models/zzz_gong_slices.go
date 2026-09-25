@@ -267,18 +267,6 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct NoteProductShape
-	// insertion point per field
-
-	// Compute reverse map for named struct NoteResourceShape
-	// insertion point per field
-
-	// Compute reverse map for named struct NoteShape
-	// insertion point per field
-
-	// Compute reverse map for named struct NoteTaskShape
-	// insertion point per field
-
 	// Compute reverse map for named struct Product
 	// insertion point per field
 	stage.Product_SubProducts_reverseMap = make(map[*Product]*Product)
@@ -288,15 +276,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Product_SubProducts_reverseMap[_product] = product
 		}
 	}
-
-	// Compute reverse map for named struct ProductCompositionShape
-	// insertion point per field
-
-	// Compute reverse map for named struct ProductReferenceShape
-	// insertion point per field
-
-	// Compute reverse map for named struct ProductShape
-	// insertion point per field
 
 	// Compute reverse map for named struct Resource
 	// insertion point per field
@@ -314,15 +293,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Resource_SubResources_reverseMap[_resource] = resource
 		}
 	}
-
-	// Compute reverse map for named struct ResourceCompositionShape
-	// insertion point per field
-
-	// Compute reverse map for named struct ResourceShape
-	// insertion point per field
-
-	// Compute reverse map for named struct ResourceTaskShape
-	// insertion point per field
 
 	// Compute reverse map for named struct Task
 	// insertion point per field
@@ -362,9 +332,6 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct TaskCompositionShape
-	// insertion point per field
-
 	// Compute reverse map for named struct TaskGroup
 	// insertion point per field
 	stage.TaskGroup_Tasks_reverseMap = make(map[*Task]*TaskGroup)
@@ -375,117 +342,56 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct TaskGroupShape
-	// insertion point per field
-
-	// Compute reverse map for named struct TaskInputShape
-	// insertion point per field
-
-	// Compute reverse map for named struct TaskOutputShape
-	// insertion point per field
-
-	// Compute reverse map for named struct TaskPredecessorShape
-	// insertion point per field
-
-	// Compute reverse map for named struct TaskShape
-	// insertion point per field
-
 	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.Diagrams {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Diagrams)
 
-	for instance := range stage.Librarys {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Librarys)
 
-	for instance := range stage.Notes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Notes)
 
-	for instance := range stage.NoteProductShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.NoteProductShapes)
 
-	for instance := range stage.NoteResourceShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.NoteResourceShapes)
 
-	for instance := range stage.NoteShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.NoteShapes)
 
-	for instance := range stage.NoteTaskShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.NoteTaskShapes)
 
-	for instance := range stage.Products {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Products)
 
-	for instance := range stage.ProductCompositionShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.ProductCompositionShapes)
 
-	for instance := range stage.ProductReferenceShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.ProductReferenceShapes)
 
-	for instance := range stage.ProductShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.ProductShapes)
 
-	for instance := range stage.Resources {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Resources)
 
-	for instance := range stage.ResourceCompositionShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.ResourceCompositionShapes)
 
-	for instance := range stage.ResourceShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.ResourceShapes)
 
-	for instance := range stage.ResourceTaskShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.ResourceTaskShapes)
 
-	for instance := range stage.Tasks {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Tasks)
 
-	for instance := range stage.TaskCompositionShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.TaskCompositionShapes)
 
-	for instance := range stage.TaskGroups {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.TaskGroups)
 
-	for instance := range stage.TaskGroupShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.TaskGroupShapes)
 
-	for instance := range stage.TaskInputShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.TaskInputShapes)
 
-	for instance := range stage.TaskOutputShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.TaskOutputShapes)
 
-	for instance := range stage.TaskPredecessorShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.TaskPredecessorShapes)
 
-	for instance := range stage.TaskShapes {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.TaskShapes)
 
 	return
 }
@@ -630,234 +536,96 @@ func (taskshape *TaskShape) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
-func (diagram *Diagram) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(diagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(diagram), uint64(stage.GetOrder(diagram)))
-	return
+func (diagram *Diagram) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, diagram)
 }
 
-func (library *Library) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(library).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(library), uint64(stage.GetOrder(library)))
-	return
+func (library *Library) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, library)
 }
 
-func (note *Note) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(note).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(note), uint64(stage.GetOrder(note)))
-	return
+func (note *Note) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, note)
 }
 
-func (noteproductshape *NoteProductShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(noteproductshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(noteproductshape), uint64(stage.GetOrder(noteproductshape)))
-	return
+func (noteproductshape *NoteProductShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, noteproductshape)
 }
 
-func (noteresourceshape *NoteResourceShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(noteresourceshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(noteresourceshape), uint64(stage.GetOrder(noteresourceshape)))
-	return
+func (noteresourceshape *NoteResourceShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, noteresourceshape)
 }
 
-func (noteshape *NoteShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(noteshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(noteshape), uint64(stage.GetOrder(noteshape)))
-	return
+func (noteshape *NoteShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, noteshape)
 }
 
-func (notetaskshape *NoteTaskShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(notetaskshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(notetaskshape), uint64(stage.GetOrder(notetaskshape)))
-	return
+func (notetaskshape *NoteTaskShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, notetaskshape)
 }
 
-func (product *Product) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(product).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(product), uint64(stage.GetOrder(product)))
-	return
+func (product *Product) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, product)
 }
 
-func (productcompositionshape *ProductCompositionShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(productcompositionshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(productcompositionshape), uint64(stage.GetOrder(productcompositionshape)))
-	return
+func (productcompositionshape *ProductCompositionShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, productcompositionshape)
 }
 
-func (productreferenceshape *ProductReferenceShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(productreferenceshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(productreferenceshape), uint64(stage.GetOrder(productreferenceshape)))
-	return
+func (productreferenceshape *ProductReferenceShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, productreferenceshape)
 }
 
-func (productshape *ProductShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(productshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(productshape), uint64(stage.GetOrder(productshape)))
-	return
+func (productshape *ProductShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, productshape)
 }
 
-func (resource *Resource) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(resource).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(resource), uint64(stage.GetOrder(resource)))
-	return
+func (resource *Resource) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, resource)
 }
 
-func (resourcecompositionshape *ResourceCompositionShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(resourcecompositionshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(resourcecompositionshape), uint64(stage.GetOrder(resourcecompositionshape)))
-	return
+func (resourcecompositionshape *ResourceCompositionShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, resourcecompositionshape)
 }
 
-func (resourceshape *ResourceShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(resourceshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(resourceshape), uint64(stage.GetOrder(resourceshape)))
-	return
+func (resourceshape *ResourceShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, resourceshape)
 }
 
-func (resourcetaskshape *ResourceTaskShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(resourcetaskshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(resourcetaskshape), uint64(stage.GetOrder(resourcetaskshape)))
-	return
+func (resourcetaskshape *ResourceTaskShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, resourcetaskshape)
 }
 
-func (task *Task) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(task).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(task), uint64(stage.GetOrder(task)))
-	return
+func (task *Task) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, task)
 }
 
-func (taskcompositionshape *TaskCompositionShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(taskcompositionshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(taskcompositionshape), uint64(stage.GetOrder(taskcompositionshape)))
-	return
+func (taskcompositionshape *TaskCompositionShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, taskcompositionshape)
 }
 
-func (taskgroup *TaskGroup) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(taskgroup).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(taskgroup), uint64(stage.GetOrder(taskgroup)))
-	return
+func (taskgroup *TaskGroup) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, taskgroup)
 }
 
-func (taskgroupshape *TaskGroupShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(taskgroupshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(taskgroupshape), uint64(stage.GetOrder(taskgroupshape)))
-	return
+func (taskgroupshape *TaskGroupShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, taskgroupshape)
 }
 
-func (taskinputshape *TaskInputShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(taskinputshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(taskinputshape), uint64(stage.GetOrder(taskinputshape)))
-	return
+func (taskinputshape *TaskInputShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, taskinputshape)
 }
 
-func (taskoutputshape *TaskOutputShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(taskoutputshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(taskoutputshape), uint64(stage.GetOrder(taskoutputshape)))
-	return
+func (taskoutputshape *TaskOutputShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, taskoutputshape)
 }
 
-func (taskpredecessorshape *TaskPredecessorShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(taskpredecessorshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(taskpredecessorshape), uint64(stage.GetOrder(taskpredecessorshape)))
-	return
+func (taskpredecessorshape *TaskPredecessorShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, taskpredecessorshape)
 }
 
-func (taskshape *TaskShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(taskshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(taskshape), uint64(stage.GetOrder(taskshape)))
-	return
+func (taskshape *TaskShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, taskshape)
 }
 
 
@@ -1386,351 +1154,98 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
-	stage.Diagrams_referenceOrder = make(map[*Diagram]uint) // diff Unstage needs the reference order
-	stage.Diagrams_instance = make(map[*Diagram]*Diagram)
-	for instance := range stage.Diagrams {
-		_copy := instance.GongCopy().(*Diagram)
-		stage.Diagrams_reference[instance] = _copy
-		stage.Diagrams_instance[_copy] = instance
-		stage.Diagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Diagrams, &stage.Diagrams_reference, &stage.Diagrams_referenceOrder, &stage.Diagrams_instance)
 
-	stage.Librarys_reference = make(map[*Library]*Library)
-	stage.Librarys_referenceOrder = make(map[*Library]uint) // diff Unstage needs the reference order
-	stage.Librarys_instance = make(map[*Library]*Library)
-	for instance := range stage.Librarys {
-		_copy := instance.GongCopy().(*Library)
-		stage.Librarys_reference[instance] = _copy
-		stage.Librarys_instance[_copy] = instance
-		stage.Librarys_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Librarys, &stage.Librarys_reference, &stage.Librarys_referenceOrder, &stage.Librarys_instance)
 
-	stage.Notes_reference = make(map[*Note]*Note)
-	stage.Notes_referenceOrder = make(map[*Note]uint) // diff Unstage needs the reference order
-	stage.Notes_instance = make(map[*Note]*Note)
-	for instance := range stage.Notes {
-		_copy := instance.GongCopy().(*Note)
-		stage.Notes_reference[instance] = _copy
-		stage.Notes_instance[_copy] = instance
-		stage.Notes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Notes, &stage.Notes_reference, &stage.Notes_referenceOrder, &stage.Notes_instance)
 
-	stage.NoteProductShapes_reference = make(map[*NoteProductShape]*NoteProductShape)
-	stage.NoteProductShapes_referenceOrder = make(map[*NoteProductShape]uint) // diff Unstage needs the reference order
-	stage.NoteProductShapes_instance = make(map[*NoteProductShape]*NoteProductShape)
-	for instance := range stage.NoteProductShapes {
-		_copy := instance.GongCopy().(*NoteProductShape)
-		stage.NoteProductShapes_reference[instance] = _copy
-		stage.NoteProductShapes_instance[_copy] = instance
-		stage.NoteProductShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.NoteProductShapes, &stage.NoteProductShapes_reference, &stage.NoteProductShapes_referenceOrder, &stage.NoteProductShapes_instance)
 
-	stage.NoteResourceShapes_reference = make(map[*NoteResourceShape]*NoteResourceShape)
-	stage.NoteResourceShapes_referenceOrder = make(map[*NoteResourceShape]uint) // diff Unstage needs the reference order
-	stage.NoteResourceShapes_instance = make(map[*NoteResourceShape]*NoteResourceShape)
-	for instance := range stage.NoteResourceShapes {
-		_copy := instance.GongCopy().(*NoteResourceShape)
-		stage.NoteResourceShapes_reference[instance] = _copy
-		stage.NoteResourceShapes_instance[_copy] = instance
-		stage.NoteResourceShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.NoteResourceShapes, &stage.NoteResourceShapes_reference, &stage.NoteResourceShapes_referenceOrder, &stage.NoteResourceShapes_instance)
 
-	stage.NoteShapes_reference = make(map[*NoteShape]*NoteShape)
-	stage.NoteShapes_referenceOrder = make(map[*NoteShape]uint) // diff Unstage needs the reference order
-	stage.NoteShapes_instance = make(map[*NoteShape]*NoteShape)
-	for instance := range stage.NoteShapes {
-		_copy := instance.GongCopy().(*NoteShape)
-		stage.NoteShapes_reference[instance] = _copy
-		stage.NoteShapes_instance[_copy] = instance
-		stage.NoteShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.NoteShapes, &stage.NoteShapes_reference, &stage.NoteShapes_referenceOrder, &stage.NoteShapes_instance)
 
-	stage.NoteTaskShapes_reference = make(map[*NoteTaskShape]*NoteTaskShape)
-	stage.NoteTaskShapes_referenceOrder = make(map[*NoteTaskShape]uint) // diff Unstage needs the reference order
-	stage.NoteTaskShapes_instance = make(map[*NoteTaskShape]*NoteTaskShape)
-	for instance := range stage.NoteTaskShapes {
-		_copy := instance.GongCopy().(*NoteTaskShape)
-		stage.NoteTaskShapes_reference[instance] = _copy
-		stage.NoteTaskShapes_instance[_copy] = instance
-		stage.NoteTaskShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.NoteTaskShapes, &stage.NoteTaskShapes_reference, &stage.NoteTaskShapes_referenceOrder, &stage.NoteTaskShapes_instance)
 
-	stage.Products_reference = make(map[*Product]*Product)
-	stage.Products_referenceOrder = make(map[*Product]uint) // diff Unstage needs the reference order
-	stage.Products_instance = make(map[*Product]*Product)
-	for instance := range stage.Products {
-		_copy := instance.GongCopy().(*Product)
-		stage.Products_reference[instance] = _copy
-		stage.Products_instance[_copy] = instance
-		stage.Products_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Products, &stage.Products_reference, &stage.Products_referenceOrder, &stage.Products_instance)
 
-	stage.ProductCompositionShapes_reference = make(map[*ProductCompositionShape]*ProductCompositionShape)
-	stage.ProductCompositionShapes_referenceOrder = make(map[*ProductCompositionShape]uint) // diff Unstage needs the reference order
-	stage.ProductCompositionShapes_instance = make(map[*ProductCompositionShape]*ProductCompositionShape)
-	for instance := range stage.ProductCompositionShapes {
-		_copy := instance.GongCopy().(*ProductCompositionShape)
-		stage.ProductCompositionShapes_reference[instance] = _copy
-		stage.ProductCompositionShapes_instance[_copy] = instance
-		stage.ProductCompositionShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.ProductCompositionShapes, &stage.ProductCompositionShapes_reference, &stage.ProductCompositionShapes_referenceOrder, &stage.ProductCompositionShapes_instance)
 
-	stage.ProductReferenceShapes_reference = make(map[*ProductReferenceShape]*ProductReferenceShape)
-	stage.ProductReferenceShapes_referenceOrder = make(map[*ProductReferenceShape]uint) // diff Unstage needs the reference order
-	stage.ProductReferenceShapes_instance = make(map[*ProductReferenceShape]*ProductReferenceShape)
-	for instance := range stage.ProductReferenceShapes {
-		_copy := instance.GongCopy().(*ProductReferenceShape)
-		stage.ProductReferenceShapes_reference[instance] = _copy
-		stage.ProductReferenceShapes_instance[_copy] = instance
-		stage.ProductReferenceShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.ProductReferenceShapes, &stage.ProductReferenceShapes_reference, &stage.ProductReferenceShapes_referenceOrder, &stage.ProductReferenceShapes_instance)
 
-	stage.ProductShapes_reference = make(map[*ProductShape]*ProductShape)
-	stage.ProductShapes_referenceOrder = make(map[*ProductShape]uint) // diff Unstage needs the reference order
-	stage.ProductShapes_instance = make(map[*ProductShape]*ProductShape)
-	for instance := range stage.ProductShapes {
-		_copy := instance.GongCopy().(*ProductShape)
-		stage.ProductShapes_reference[instance] = _copy
-		stage.ProductShapes_instance[_copy] = instance
-		stage.ProductShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.ProductShapes, &stage.ProductShapes_reference, &stage.ProductShapes_referenceOrder, &stage.ProductShapes_instance)
 
-	stage.Resources_reference = make(map[*Resource]*Resource)
-	stage.Resources_referenceOrder = make(map[*Resource]uint) // diff Unstage needs the reference order
-	stage.Resources_instance = make(map[*Resource]*Resource)
-	for instance := range stage.Resources {
-		_copy := instance.GongCopy().(*Resource)
-		stage.Resources_reference[instance] = _copy
-		stage.Resources_instance[_copy] = instance
-		stage.Resources_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Resources, &stage.Resources_reference, &stage.Resources_referenceOrder, &stage.Resources_instance)
 
-	stage.ResourceCompositionShapes_reference = make(map[*ResourceCompositionShape]*ResourceCompositionShape)
-	stage.ResourceCompositionShapes_referenceOrder = make(map[*ResourceCompositionShape]uint) // diff Unstage needs the reference order
-	stage.ResourceCompositionShapes_instance = make(map[*ResourceCompositionShape]*ResourceCompositionShape)
-	for instance := range stage.ResourceCompositionShapes {
-		_copy := instance.GongCopy().(*ResourceCompositionShape)
-		stage.ResourceCompositionShapes_reference[instance] = _copy
-		stage.ResourceCompositionShapes_instance[_copy] = instance
-		stage.ResourceCompositionShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.ResourceCompositionShapes, &stage.ResourceCompositionShapes_reference, &stage.ResourceCompositionShapes_referenceOrder, &stage.ResourceCompositionShapes_instance)
 
-	stage.ResourceShapes_reference = make(map[*ResourceShape]*ResourceShape)
-	stage.ResourceShapes_referenceOrder = make(map[*ResourceShape]uint) // diff Unstage needs the reference order
-	stage.ResourceShapes_instance = make(map[*ResourceShape]*ResourceShape)
-	for instance := range stage.ResourceShapes {
-		_copy := instance.GongCopy().(*ResourceShape)
-		stage.ResourceShapes_reference[instance] = _copy
-		stage.ResourceShapes_instance[_copy] = instance
-		stage.ResourceShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.ResourceShapes, &stage.ResourceShapes_reference, &stage.ResourceShapes_referenceOrder, &stage.ResourceShapes_instance)
 
-	stage.ResourceTaskShapes_reference = make(map[*ResourceTaskShape]*ResourceTaskShape)
-	stage.ResourceTaskShapes_referenceOrder = make(map[*ResourceTaskShape]uint) // diff Unstage needs the reference order
-	stage.ResourceTaskShapes_instance = make(map[*ResourceTaskShape]*ResourceTaskShape)
-	for instance := range stage.ResourceTaskShapes {
-		_copy := instance.GongCopy().(*ResourceTaskShape)
-		stage.ResourceTaskShapes_reference[instance] = _copy
-		stage.ResourceTaskShapes_instance[_copy] = instance
-		stage.ResourceTaskShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.ResourceTaskShapes, &stage.ResourceTaskShapes_reference, &stage.ResourceTaskShapes_referenceOrder, &stage.ResourceTaskShapes_instance)
 
-	stage.Tasks_reference = make(map[*Task]*Task)
-	stage.Tasks_referenceOrder = make(map[*Task]uint) // diff Unstage needs the reference order
-	stage.Tasks_instance = make(map[*Task]*Task)
-	for instance := range stage.Tasks {
-		_copy := instance.GongCopy().(*Task)
-		stage.Tasks_reference[instance] = _copy
-		stage.Tasks_instance[_copy] = instance
-		stage.Tasks_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Tasks, &stage.Tasks_reference, &stage.Tasks_referenceOrder, &stage.Tasks_instance)
 
-	stage.TaskCompositionShapes_reference = make(map[*TaskCompositionShape]*TaskCompositionShape)
-	stage.TaskCompositionShapes_referenceOrder = make(map[*TaskCompositionShape]uint) // diff Unstage needs the reference order
-	stage.TaskCompositionShapes_instance = make(map[*TaskCompositionShape]*TaskCompositionShape)
-	for instance := range stage.TaskCompositionShapes {
-		_copy := instance.GongCopy().(*TaskCompositionShape)
-		stage.TaskCompositionShapes_reference[instance] = _copy
-		stage.TaskCompositionShapes_instance[_copy] = instance
-		stage.TaskCompositionShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.TaskCompositionShapes, &stage.TaskCompositionShapes_reference, &stage.TaskCompositionShapes_referenceOrder, &stage.TaskCompositionShapes_instance)
 
-	stage.TaskGroups_reference = make(map[*TaskGroup]*TaskGroup)
-	stage.TaskGroups_referenceOrder = make(map[*TaskGroup]uint) // diff Unstage needs the reference order
-	stage.TaskGroups_instance = make(map[*TaskGroup]*TaskGroup)
-	for instance := range stage.TaskGroups {
-		_copy := instance.GongCopy().(*TaskGroup)
-		stage.TaskGroups_reference[instance] = _copy
-		stage.TaskGroups_instance[_copy] = instance
-		stage.TaskGroups_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.TaskGroups, &stage.TaskGroups_reference, &stage.TaskGroups_referenceOrder, &stage.TaskGroups_instance)
 
-	stage.TaskGroupShapes_reference = make(map[*TaskGroupShape]*TaskGroupShape)
-	stage.TaskGroupShapes_referenceOrder = make(map[*TaskGroupShape]uint) // diff Unstage needs the reference order
-	stage.TaskGroupShapes_instance = make(map[*TaskGroupShape]*TaskGroupShape)
-	for instance := range stage.TaskGroupShapes {
-		_copy := instance.GongCopy().(*TaskGroupShape)
-		stage.TaskGroupShapes_reference[instance] = _copy
-		stage.TaskGroupShapes_instance[_copy] = instance
-		stage.TaskGroupShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.TaskGroupShapes, &stage.TaskGroupShapes_reference, &stage.TaskGroupShapes_referenceOrder, &stage.TaskGroupShapes_instance)
 
-	stage.TaskInputShapes_reference = make(map[*TaskInputShape]*TaskInputShape)
-	stage.TaskInputShapes_referenceOrder = make(map[*TaskInputShape]uint) // diff Unstage needs the reference order
-	stage.TaskInputShapes_instance = make(map[*TaskInputShape]*TaskInputShape)
-	for instance := range stage.TaskInputShapes {
-		_copy := instance.GongCopy().(*TaskInputShape)
-		stage.TaskInputShapes_reference[instance] = _copy
-		stage.TaskInputShapes_instance[_copy] = instance
-		stage.TaskInputShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.TaskInputShapes, &stage.TaskInputShapes_reference, &stage.TaskInputShapes_referenceOrder, &stage.TaskInputShapes_instance)
 
-	stage.TaskOutputShapes_reference = make(map[*TaskOutputShape]*TaskOutputShape)
-	stage.TaskOutputShapes_referenceOrder = make(map[*TaskOutputShape]uint) // diff Unstage needs the reference order
-	stage.TaskOutputShapes_instance = make(map[*TaskOutputShape]*TaskOutputShape)
-	for instance := range stage.TaskOutputShapes {
-		_copy := instance.GongCopy().(*TaskOutputShape)
-		stage.TaskOutputShapes_reference[instance] = _copy
-		stage.TaskOutputShapes_instance[_copy] = instance
-		stage.TaskOutputShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.TaskOutputShapes, &stage.TaskOutputShapes_reference, &stage.TaskOutputShapes_referenceOrder, &stage.TaskOutputShapes_instance)
 
-	stage.TaskPredecessorShapes_reference = make(map[*TaskPredecessorShape]*TaskPredecessorShape)
-	stage.TaskPredecessorShapes_referenceOrder = make(map[*TaskPredecessorShape]uint) // diff Unstage needs the reference order
-	stage.TaskPredecessorShapes_instance = make(map[*TaskPredecessorShape]*TaskPredecessorShape)
-	for instance := range stage.TaskPredecessorShapes {
-		_copy := instance.GongCopy().(*TaskPredecessorShape)
-		stage.TaskPredecessorShapes_reference[instance] = _copy
-		stage.TaskPredecessorShapes_instance[_copy] = instance
-		stage.TaskPredecessorShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.TaskPredecessorShapes, &stage.TaskPredecessorShapes_reference, &stage.TaskPredecessorShapes_referenceOrder, &stage.TaskPredecessorShapes_instance)
 
-	stage.TaskShapes_reference = make(map[*TaskShape]*TaskShape)
-	stage.TaskShapes_referenceOrder = make(map[*TaskShape]uint) // diff Unstage needs the reference order
-	stage.TaskShapes_instance = make(map[*TaskShape]*TaskShape)
-	for instance := range stage.TaskShapes {
-		_copy := instance.GongCopy().(*TaskShape)
-		stage.TaskShapes_reference[instance] = _copy
-		stage.TaskShapes_instance[_copy] = instance
-		stage.TaskShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.TaskShapes, &stage.TaskShapes_reference, &stage.TaskShapes_referenceOrder, &stage.TaskShapes_instance)
 
 	// insertion point per named struct
-	for instance := range stage.Diagrams {
-		reference := stage.Diagrams_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Diagrams, stage.Diagrams_reference, stage)
 
-	for instance := range stage.Librarys {
-		reference := stage.Librarys_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Librarys, stage.Librarys_reference, stage)
 
-	for instance := range stage.Notes {
-		reference := stage.Notes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Notes, stage.Notes_reference, stage)
 
-	for instance := range stage.NoteProductShapes {
-		reference := stage.NoteProductShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.NoteProductShapes, stage.NoteProductShapes_reference, stage)
 
-	for instance := range stage.NoteResourceShapes {
-		reference := stage.NoteResourceShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.NoteResourceShapes, stage.NoteResourceShapes_reference, stage)
 
-	for instance := range stage.NoteShapes {
-		reference := stage.NoteShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.NoteShapes, stage.NoteShapes_reference, stage)
 
-	for instance := range stage.NoteTaskShapes {
-		reference := stage.NoteTaskShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.NoteTaskShapes, stage.NoteTaskShapes_reference, stage)
 
-	for instance := range stage.Products {
-		reference := stage.Products_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Products, stage.Products_reference, stage)
 
-	for instance := range stage.ProductCompositionShapes {
-		reference := stage.ProductCompositionShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.ProductCompositionShapes, stage.ProductCompositionShapes_reference, stage)
 
-	for instance := range stage.ProductReferenceShapes {
-		reference := stage.ProductReferenceShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.ProductReferenceShapes, stage.ProductReferenceShapes_reference, stage)
 
-	for instance := range stage.ProductShapes {
-		reference := stage.ProductShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.ProductShapes, stage.ProductShapes_reference, stage)
 
-	for instance := range stage.Resources {
-		reference := stage.Resources_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Resources, stage.Resources_reference, stage)
 
-	for instance := range stage.ResourceCompositionShapes {
-		reference := stage.ResourceCompositionShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.ResourceCompositionShapes, stage.ResourceCompositionShapes_reference, stage)
 
-	for instance := range stage.ResourceShapes {
-		reference := stage.ResourceShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.ResourceShapes, stage.ResourceShapes_reference, stage)
 
-	for instance := range stage.ResourceTaskShapes {
-		reference := stage.ResourceTaskShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.ResourceTaskShapes, stage.ResourceTaskShapes_reference, stage)
 
-	for instance := range stage.Tasks {
-		reference := stage.Tasks_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Tasks, stage.Tasks_reference, stage)
 
-	for instance := range stage.TaskCompositionShapes {
-		reference := stage.TaskCompositionShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.TaskCompositionShapes, stage.TaskCompositionShapes_reference, stage)
 
-	for instance := range stage.TaskGroups {
-		reference := stage.TaskGroups_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.TaskGroups, stage.TaskGroups_reference, stage)
 
-	for instance := range stage.TaskGroupShapes {
-		reference := stage.TaskGroupShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.TaskGroupShapes, stage.TaskGroupShapes_reference, stage)
 
-	for instance := range stage.TaskInputShapes {
-		reference := stage.TaskInputShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.TaskInputShapes, stage.TaskInputShapes_reference, stage)
 
-	for instance := range stage.TaskOutputShapes {
-		reference := stage.TaskOutputShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.TaskOutputShapes, stage.TaskOutputShapes_reference, stage)
 
-	for instance := range stage.TaskPredecessorShapes {
-		reference := stage.TaskPredecessorShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.TaskPredecessorShapes, stage.TaskPredecessorShapes_reference, stage)
 
-	for instance := range stage.TaskShapes {
-		reference := stage.TaskShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.TaskShapes, stage.TaskShapes_reference, stage)
 
 	stage.recomputeOrders()
 }
@@ -1743,279 +1258,95 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Diagram_stagedOrder[diagram]; ok {
-		return order
-	}
-	if order, ok := stage.Diagrams_referenceOrder[diagram]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Diagram was not staged and does not have a reference order", diagram)
-		return 0
-	}
+	return __gong__getOrder(stage.Diagram_stagedOrder, stage.Diagrams_referenceOrder, diagram, "Diagram")
 }
 
 func (library *Library) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Library_stagedOrder[library]; ok {
-		return order
-	}
-	if order, ok := stage.Librarys_referenceOrder[library]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Library was not staged and does not have a reference order", library)
-		return 0
-	}
+	return __gong__getOrder(stage.Library_stagedOrder, stage.Librarys_referenceOrder, library, "Library")
 }
 
 func (note *Note) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Note_stagedOrder[note]; ok {
-		return order
-	}
-	if order, ok := stage.Notes_referenceOrder[note]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Note was not staged and does not have a reference order", note)
-		return 0
-	}
+	return __gong__getOrder(stage.Note_stagedOrder, stage.Notes_referenceOrder, note, "Note")
 }
 
 func (noteproductshape *NoteProductShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.NoteProductShape_stagedOrder[noteproductshape]; ok {
-		return order
-	}
-	if order, ok := stage.NoteProductShapes_referenceOrder[noteproductshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type NoteProductShape was not staged and does not have a reference order", noteproductshape)
-		return 0
-	}
+	return __gong__getOrder(stage.NoteProductShape_stagedOrder, stage.NoteProductShapes_referenceOrder, noteproductshape, "NoteProductShape")
 }
 
 func (noteresourceshape *NoteResourceShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.NoteResourceShape_stagedOrder[noteresourceshape]; ok {
-		return order
-	}
-	if order, ok := stage.NoteResourceShapes_referenceOrder[noteresourceshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type NoteResourceShape was not staged and does not have a reference order", noteresourceshape)
-		return 0
-	}
+	return __gong__getOrder(stage.NoteResourceShape_stagedOrder, stage.NoteResourceShapes_referenceOrder, noteresourceshape, "NoteResourceShape")
 }
 
 func (noteshape *NoteShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.NoteShape_stagedOrder[noteshape]; ok {
-		return order
-	}
-	if order, ok := stage.NoteShapes_referenceOrder[noteshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type NoteShape was not staged and does not have a reference order", noteshape)
-		return 0
-	}
+	return __gong__getOrder(stage.NoteShape_stagedOrder, stage.NoteShapes_referenceOrder, noteshape, "NoteShape")
 }
 
 func (notetaskshape *NoteTaskShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.NoteTaskShape_stagedOrder[notetaskshape]; ok {
-		return order
-	}
-	if order, ok := stage.NoteTaskShapes_referenceOrder[notetaskshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type NoteTaskShape was not staged and does not have a reference order", notetaskshape)
-		return 0
-	}
+	return __gong__getOrder(stage.NoteTaskShape_stagedOrder, stage.NoteTaskShapes_referenceOrder, notetaskshape, "NoteTaskShape")
 }
 
 func (product *Product) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Product_stagedOrder[product]; ok {
-		return order
-	}
-	if order, ok := stage.Products_referenceOrder[product]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Product was not staged and does not have a reference order", product)
-		return 0
-	}
+	return __gong__getOrder(stage.Product_stagedOrder, stage.Products_referenceOrder, product, "Product")
 }
 
 func (productcompositionshape *ProductCompositionShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ProductCompositionShape_stagedOrder[productcompositionshape]; ok {
-		return order
-	}
-	if order, ok := stage.ProductCompositionShapes_referenceOrder[productcompositionshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type ProductCompositionShape was not staged and does not have a reference order", productcompositionshape)
-		return 0
-	}
+	return __gong__getOrder(stage.ProductCompositionShape_stagedOrder, stage.ProductCompositionShapes_referenceOrder, productcompositionshape, "ProductCompositionShape")
 }
 
 func (productreferenceshape *ProductReferenceShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ProductReferenceShape_stagedOrder[productreferenceshape]; ok {
-		return order
-	}
-	if order, ok := stage.ProductReferenceShapes_referenceOrder[productreferenceshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type ProductReferenceShape was not staged and does not have a reference order", productreferenceshape)
-		return 0
-	}
+	return __gong__getOrder(stage.ProductReferenceShape_stagedOrder, stage.ProductReferenceShapes_referenceOrder, productreferenceshape, "ProductReferenceShape")
 }
 
 func (productshape *ProductShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ProductShape_stagedOrder[productshape]; ok {
-		return order
-	}
-	if order, ok := stage.ProductShapes_referenceOrder[productshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type ProductShape was not staged and does not have a reference order", productshape)
-		return 0
-	}
+	return __gong__getOrder(stage.ProductShape_stagedOrder, stage.ProductShapes_referenceOrder, productshape, "ProductShape")
 }
 
 func (resource *Resource) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Resource_stagedOrder[resource]; ok {
-		return order
-	}
-	if order, ok := stage.Resources_referenceOrder[resource]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Resource was not staged and does not have a reference order", resource)
-		return 0
-	}
+	return __gong__getOrder(stage.Resource_stagedOrder, stage.Resources_referenceOrder, resource, "Resource")
 }
 
 func (resourcecompositionshape *ResourceCompositionShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ResourceCompositionShape_stagedOrder[resourcecompositionshape]; ok {
-		return order
-	}
-	if order, ok := stage.ResourceCompositionShapes_referenceOrder[resourcecompositionshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type ResourceCompositionShape was not staged and does not have a reference order", resourcecompositionshape)
-		return 0
-	}
+	return __gong__getOrder(stage.ResourceCompositionShape_stagedOrder, stage.ResourceCompositionShapes_referenceOrder, resourcecompositionshape, "ResourceCompositionShape")
 }
 
 func (resourceshape *ResourceShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ResourceShape_stagedOrder[resourceshape]; ok {
-		return order
-	}
-	if order, ok := stage.ResourceShapes_referenceOrder[resourceshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type ResourceShape was not staged and does not have a reference order", resourceshape)
-		return 0
-	}
+	return __gong__getOrder(stage.ResourceShape_stagedOrder, stage.ResourceShapes_referenceOrder, resourceshape, "ResourceShape")
 }
 
 func (resourcetaskshape *ResourceTaskShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ResourceTaskShape_stagedOrder[resourcetaskshape]; ok {
-		return order
-	}
-	if order, ok := stage.ResourceTaskShapes_referenceOrder[resourcetaskshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type ResourceTaskShape was not staged and does not have a reference order", resourcetaskshape)
-		return 0
-	}
+	return __gong__getOrder(stage.ResourceTaskShape_stagedOrder, stage.ResourceTaskShapes_referenceOrder, resourcetaskshape, "ResourceTaskShape")
 }
 
 func (task *Task) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Task_stagedOrder[task]; ok {
-		return order
-	}
-	if order, ok := stage.Tasks_referenceOrder[task]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Task was not staged and does not have a reference order", task)
-		return 0
-	}
+	return __gong__getOrder(stage.Task_stagedOrder, stage.Tasks_referenceOrder, task, "Task")
 }
 
 func (taskcompositionshape *TaskCompositionShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.TaskCompositionShape_stagedOrder[taskcompositionshape]; ok {
-		return order
-	}
-	if order, ok := stage.TaskCompositionShapes_referenceOrder[taskcompositionshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type TaskCompositionShape was not staged and does not have a reference order", taskcompositionshape)
-		return 0
-	}
+	return __gong__getOrder(stage.TaskCompositionShape_stagedOrder, stage.TaskCompositionShapes_referenceOrder, taskcompositionshape, "TaskCompositionShape")
 }
 
 func (taskgroup *TaskGroup) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.TaskGroup_stagedOrder[taskgroup]; ok {
-		return order
-	}
-	if order, ok := stage.TaskGroups_referenceOrder[taskgroup]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type TaskGroup was not staged and does not have a reference order", taskgroup)
-		return 0
-	}
+	return __gong__getOrder(stage.TaskGroup_stagedOrder, stage.TaskGroups_referenceOrder, taskgroup, "TaskGroup")
 }
 
 func (taskgroupshape *TaskGroupShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.TaskGroupShape_stagedOrder[taskgroupshape]; ok {
-		return order
-	}
-	if order, ok := stage.TaskGroupShapes_referenceOrder[taskgroupshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type TaskGroupShape was not staged and does not have a reference order", taskgroupshape)
-		return 0
-	}
+	return __gong__getOrder(stage.TaskGroupShape_stagedOrder, stage.TaskGroupShapes_referenceOrder, taskgroupshape, "TaskGroupShape")
 }
 
 func (taskinputshape *TaskInputShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.TaskInputShape_stagedOrder[taskinputshape]; ok {
-		return order
-	}
-	if order, ok := stage.TaskInputShapes_referenceOrder[taskinputshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type TaskInputShape was not staged and does not have a reference order", taskinputshape)
-		return 0
-	}
+	return __gong__getOrder(stage.TaskInputShape_stagedOrder, stage.TaskInputShapes_referenceOrder, taskinputshape, "TaskInputShape")
 }
 
 func (taskoutputshape *TaskOutputShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.TaskOutputShape_stagedOrder[taskoutputshape]; ok {
-		return order
-	}
-	if order, ok := stage.TaskOutputShapes_referenceOrder[taskoutputshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type TaskOutputShape was not staged and does not have a reference order", taskoutputshape)
-		return 0
-	}
+	return __gong__getOrder(stage.TaskOutputShape_stagedOrder, stage.TaskOutputShapes_referenceOrder, taskoutputshape, "TaskOutputShape")
 }
 
 func (taskpredecessorshape *TaskPredecessorShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.TaskPredecessorShape_stagedOrder[taskpredecessorshape]; ok {
-		return order
-	}
-	if order, ok := stage.TaskPredecessorShapes_referenceOrder[taskpredecessorshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type TaskPredecessorShape was not staged and does not have a reference order", taskpredecessorshape)
-		return 0
-	}
+	return __gong__getOrder(stage.TaskPredecessorShape_stagedOrder, stage.TaskPredecessorShapes_referenceOrder, taskpredecessorshape, "TaskPredecessorShape")
 }
 
 func (taskshape *TaskShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.TaskShape_stagedOrder[taskshape]; ok {
-		return order
-	}
-	if order, ok := stage.TaskShapes_referenceOrder[taskshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type TaskShape was not staged and does not have a reference order", taskshape)
-		return 0
-	}
+	return __gong__getOrder(stage.TaskShape_stagedOrder, stage.TaskShapes_referenceOrder, taskshape, "TaskShape")
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -2024,536 +1355,398 @@ func (taskshape *TaskShape) GongGetOrder(stage *Stage) uint {
 // It is used to identify instances across sessions
 // insertion point per named struct
 func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
+	return __gong__formatIdentifier(diagram, diagram.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (diagram *Diagram) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
+	return diagram.GongGetIdentifier(stage)
 }
 
 func (library *Library) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
+	return __gong__formatIdentifier(library, library.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (library *Library) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
+	return library.GongGetIdentifier(stage)
 }
 
 func (note *Note) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetOrder(stage))
+	return __gong__formatIdentifier(note, note.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (note *Note) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetOrder(stage))
+	return note.GongGetIdentifier(stage)
 }
 
 func (noteproductshape *NoteProductShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", noteproductshape.GongGetGongstructName(), noteproductshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(noteproductshape, noteproductshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (noteproductshape *NoteProductShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", noteproductshape.GongGetGongstructName(), noteproductshape.GongGetOrder(stage))
+	return noteproductshape.GongGetIdentifier(stage)
 }
 
 func (noteresourceshape *NoteResourceShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", noteresourceshape.GongGetGongstructName(), noteresourceshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(noteresourceshape, noteresourceshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (noteresourceshape *NoteResourceShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", noteresourceshape.GongGetGongstructName(), noteresourceshape.GongGetOrder(stage))
+	return noteresourceshape.GongGetIdentifier(stage)
 }
 
 func (noteshape *NoteShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", noteshape.GongGetGongstructName(), noteshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(noteshape, noteshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (noteshape *NoteShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", noteshape.GongGetGongstructName(), noteshape.GongGetOrder(stage))
+	return noteshape.GongGetIdentifier(stage)
 }
 
 func (notetaskshape *NoteTaskShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", notetaskshape.GongGetGongstructName(), notetaskshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(notetaskshape, notetaskshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (notetaskshape *NoteTaskShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", notetaskshape.GongGetGongstructName(), notetaskshape.GongGetOrder(stage))
+	return notetaskshape.GongGetIdentifier(stage)
 }
 
 func (product *Product) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", product.GongGetGongstructName(), product.GongGetOrder(stage))
+	return __gong__formatIdentifier(product, product.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (product *Product) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", product.GongGetGongstructName(), product.GongGetOrder(stage))
+	return product.GongGetIdentifier(stage)
 }
 
 func (productcompositionshape *ProductCompositionShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", productcompositionshape.GongGetGongstructName(), productcompositionshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(productcompositionshape, productcompositionshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (productcompositionshape *ProductCompositionShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", productcompositionshape.GongGetGongstructName(), productcompositionshape.GongGetOrder(stage))
+	return productcompositionshape.GongGetIdentifier(stage)
 }
 
 func (productreferenceshape *ProductReferenceShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", productreferenceshape.GongGetGongstructName(), productreferenceshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(productreferenceshape, productreferenceshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (productreferenceshape *ProductReferenceShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", productreferenceshape.GongGetGongstructName(), productreferenceshape.GongGetOrder(stage))
+	return productreferenceshape.GongGetIdentifier(stage)
 }
 
 func (productshape *ProductShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", productshape.GongGetGongstructName(), productshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(productshape, productshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (productshape *ProductShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", productshape.GongGetGongstructName(), productshape.GongGetOrder(stage))
+	return productshape.GongGetIdentifier(stage)
 }
 
 func (resource *Resource) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", resource.GongGetGongstructName(), resource.GongGetOrder(stage))
+	return __gong__formatIdentifier(resource, resource.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (resource *Resource) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", resource.GongGetGongstructName(), resource.GongGetOrder(stage))
+	return resource.GongGetIdentifier(stage)
 }
 
 func (resourcecompositionshape *ResourceCompositionShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", resourcecompositionshape.GongGetGongstructName(), resourcecompositionshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(resourcecompositionshape, resourcecompositionshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (resourcecompositionshape *ResourceCompositionShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", resourcecompositionshape.GongGetGongstructName(), resourcecompositionshape.GongGetOrder(stage))
+	return resourcecompositionshape.GongGetIdentifier(stage)
 }
 
 func (resourceshape *ResourceShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", resourceshape.GongGetGongstructName(), resourceshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(resourceshape, resourceshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (resourceshape *ResourceShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", resourceshape.GongGetGongstructName(), resourceshape.GongGetOrder(stage))
+	return resourceshape.GongGetIdentifier(stage)
 }
 
 func (resourcetaskshape *ResourceTaskShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", resourcetaskshape.GongGetGongstructName(), resourcetaskshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(resourcetaskshape, resourcetaskshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (resourcetaskshape *ResourceTaskShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", resourcetaskshape.GongGetGongstructName(), resourcetaskshape.GongGetOrder(stage))
+	return resourcetaskshape.GongGetIdentifier(stage)
 }
 
 func (task *Task) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", task.GongGetGongstructName(), task.GongGetOrder(stage))
+	return __gong__formatIdentifier(task, task.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (task *Task) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", task.GongGetGongstructName(), task.GongGetOrder(stage))
+	return task.GongGetIdentifier(stage)
 }
 
 func (taskcompositionshape *TaskCompositionShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskcompositionshape.GongGetGongstructName(), taskcompositionshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(taskcompositionshape, taskcompositionshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (taskcompositionshape *TaskCompositionShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskcompositionshape.GongGetGongstructName(), taskcompositionshape.GongGetOrder(stage))
+	return taskcompositionshape.GongGetIdentifier(stage)
 }
 
 func (taskgroup *TaskGroup) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskgroup.GongGetGongstructName(), taskgroup.GongGetOrder(stage))
+	return __gong__formatIdentifier(taskgroup, taskgroup.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (taskgroup *TaskGroup) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskgroup.GongGetGongstructName(), taskgroup.GongGetOrder(stage))
+	return taskgroup.GongGetIdentifier(stage)
 }
 
 func (taskgroupshape *TaskGroupShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskgroupshape.GongGetGongstructName(), taskgroupshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(taskgroupshape, taskgroupshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (taskgroupshape *TaskGroupShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskgroupshape.GongGetGongstructName(), taskgroupshape.GongGetOrder(stage))
+	return taskgroupshape.GongGetIdentifier(stage)
 }
 
 func (taskinputshape *TaskInputShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskinputshape.GongGetGongstructName(), taskinputshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(taskinputshape, taskinputshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (taskinputshape *TaskInputShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskinputshape.GongGetGongstructName(), taskinputshape.GongGetOrder(stage))
+	return taskinputshape.GongGetIdentifier(stage)
 }
 
 func (taskoutputshape *TaskOutputShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskoutputshape.GongGetGongstructName(), taskoutputshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(taskoutputshape, taskoutputshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (taskoutputshape *TaskOutputShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskoutputshape.GongGetGongstructName(), taskoutputshape.GongGetOrder(stage))
+	return taskoutputshape.GongGetIdentifier(stage)
 }
 
 func (taskpredecessorshape *TaskPredecessorShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskpredecessorshape.GongGetGongstructName(), taskpredecessorshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(taskpredecessorshape, taskpredecessorshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (taskpredecessorshape *TaskPredecessorShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskpredecessorshape.GongGetGongstructName(), taskpredecessorshape.GongGetOrder(stage))
+	return taskpredecessorshape.GongGetIdentifier(stage)
 }
 
 func (taskshape *TaskShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskshape.GongGetGongstructName(), taskshape.GongGetOrder(stage))
+	return __gong__formatIdentifier(taskshape, taskshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (taskshape *TaskShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskshape.GongGetGongstructName(), taskshape.GongGetOrder(stage))
+	return taskshape.GongGetIdentifier(stage)
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Diagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(diagram.Name))
-	return
+func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(diagram.GongGetIdentifier(stage), "Diagram", diagram.Name)
 }
 
-func (library *Library) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Library")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(library.Name))
-	return
+func (library *Library) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(library.GongGetIdentifier(stage), "Library", library.Name)
 }
 
-func (note *Note) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Note")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Name))
-	return
+func (note *Note) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(note.GongGetIdentifier(stage), "Note", note.Name)
 }
 
-func (noteproductshape *NoteProductShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteProductShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(noteproductshape.Name))
-	return
+func (noteproductshape *NoteProductShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(noteproductshape.GongGetIdentifier(stage), "NoteProductShape", noteproductshape.Name)
 }
 
-func (noteresourceshape *NoteResourceShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteResourceShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(noteresourceshape.Name))
-	return
+func (noteresourceshape *NoteResourceShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(noteresourceshape.GongGetIdentifier(stage), "NoteResourceShape", noteresourceshape.Name)
 }
 
-func (noteshape *NoteShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(noteshape.Name))
-	return
+func (noteshape *NoteShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(noteshape.GongGetIdentifier(stage), "NoteShape", noteshape.Name)
 }
 
-func (notetaskshape *NoteTaskShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteTaskShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notetaskshape.Name))
-	return
+func (notetaskshape *NoteTaskShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(notetaskshape.GongGetIdentifier(stage), "NoteTaskShape", notetaskshape.Name)
 }
 
-func (product *Product) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", product.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Product")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(product.Name))
-	return
+func (product *Product) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(product.GongGetIdentifier(stage), "Product", product.Name)
 }
 
-func (productcompositionshape *ProductCompositionShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ProductCompositionShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(productcompositionshape.Name))
-	return
+func (productcompositionshape *ProductCompositionShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(productcompositionshape.GongGetIdentifier(stage), "ProductCompositionShape", productcompositionshape.Name)
 }
 
-func (productreferenceshape *ProductReferenceShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ProductReferenceShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(productreferenceshape.Name))
-	return
+func (productreferenceshape *ProductReferenceShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(productreferenceshape.GongGetIdentifier(stage), "ProductReferenceShape", productreferenceshape.Name)
 }
 
-func (productshape *ProductShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ProductShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(productshape.Name))
-	return
+func (productshape *ProductShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(productshape.GongGetIdentifier(stage), "ProductShape", productshape.Name)
 }
 
-func (resource *Resource) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", resource.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Resource")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(resource.Name))
-	return
+func (resource *Resource) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(resource.GongGetIdentifier(stage), "Resource", resource.Name)
 }
 
-func (resourcecompositionshape *ResourceCompositionShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ResourceCompositionShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(resourcecompositionshape.Name))
-	return
+func (resourcecompositionshape *ResourceCompositionShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(resourcecompositionshape.GongGetIdentifier(stage), "ResourceCompositionShape", resourcecompositionshape.Name)
 }
 
-func (resourceshape *ResourceShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ResourceShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(resourceshape.Name))
-	return
+func (resourceshape *ResourceShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(resourceshape.GongGetIdentifier(stage), "ResourceShape", resourceshape.Name)
 }
 
-func (resourcetaskshape *ResourceTaskShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ResourceTaskShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(resourcetaskshape.Name))
-	return
+func (resourcetaskshape *ResourceTaskShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(resourcetaskshape.GongGetIdentifier(stage), "ResourceTaskShape", resourcetaskshape.Name)
 }
 
-func (task *Task) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", task.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Task")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(task.Name))
-	return
+func (task *Task) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(task.GongGetIdentifier(stage), "Task", task.Name)
 }
 
-func (taskcompositionshape *TaskCompositionShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskCompositionShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskcompositionshape.Name))
-	return
+func (taskcompositionshape *TaskCompositionShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(taskcompositionshape.GongGetIdentifier(stage), "TaskCompositionShape", taskcompositionshape.Name)
 }
 
-func (taskgroup *TaskGroup) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskgroup.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskGroup")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskgroup.Name))
-	return
+func (taskgroup *TaskGroup) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(taskgroup.GongGetIdentifier(stage), "TaskGroup", taskgroup.Name)
 }
 
-func (taskgroupshape *TaskGroupShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskgroupshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskGroupShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskgroupshape.Name))
-	return
+func (taskgroupshape *TaskGroupShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(taskgroupshape.GongGetIdentifier(stage), "TaskGroupShape", taskgroupshape.Name)
 }
 
-func (taskinputshape *TaskInputShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskInputShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskinputshape.Name))
-	return
+func (taskinputshape *TaskInputShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(taskinputshape.GongGetIdentifier(stage), "TaskInputShape", taskinputshape.Name)
 }
 
-func (taskoutputshape *TaskOutputShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskOutputShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskoutputshape.Name))
-	return
+func (taskoutputshape *TaskOutputShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(taskoutputshape.GongGetIdentifier(stage), "TaskOutputShape", taskoutputshape.Name)
 }
 
-func (taskpredecessorshape *TaskPredecessorShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskPredecessorShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskpredecessorshape.Name))
-	return
+func (taskpredecessorshape *TaskPredecessorShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(taskpredecessorshape.GongGetIdentifier(stage), "TaskPredecessorShape", taskpredecessorshape.Name)
 }
 
-func (taskshape *TaskShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskshape.Name))
-	return
+func (taskshape *TaskShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(taskshape.GongGetIdentifier(stage), "TaskShape", taskshape.Name)
 }
 
 // insertion point for unstaging
-func (diagram *Diagram) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetReferenceIdentifier(stage))
-	return
+func (diagram *Diagram) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(diagram.GongGetReferenceIdentifier(stage))
 }
 
-func (library *Library) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetReferenceIdentifier(stage))
-	return
+func (library *Library) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(library.GongGetReferenceIdentifier(stage))
 }
 
-func (note *Note) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetReferenceIdentifier(stage))
-	return
+func (note *Note) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(note.GongGetReferenceIdentifier(stage))
 }
 
-func (noteproductshape *NoteProductShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteproductshape.GongGetReferenceIdentifier(stage))
-	return
+func (noteproductshape *NoteProductShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(noteproductshape.GongGetReferenceIdentifier(stage))
 }
 
-func (noteresourceshape *NoteResourceShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteresourceshape.GongGetReferenceIdentifier(stage))
-	return
+func (noteresourceshape *NoteResourceShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(noteresourceshape.GongGetReferenceIdentifier(stage))
 }
 
-func (noteshape *NoteShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteshape.GongGetReferenceIdentifier(stage))
-	return
+func (noteshape *NoteShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(noteshape.GongGetReferenceIdentifier(stage))
 }
 
-func (notetaskshape *NoteTaskShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", notetaskshape.GongGetReferenceIdentifier(stage))
-	return
+func (notetaskshape *NoteTaskShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(notetaskshape.GongGetReferenceIdentifier(stage))
 }
 
-func (product *Product) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", product.GongGetReferenceIdentifier(stage))
-	return
+func (product *Product) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(product.GongGetReferenceIdentifier(stage))
 }
 
-func (productcompositionshape *ProductCompositionShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", productcompositionshape.GongGetReferenceIdentifier(stage))
-	return
+func (productcompositionshape *ProductCompositionShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(productcompositionshape.GongGetReferenceIdentifier(stage))
 }
 
-func (productreferenceshape *ProductReferenceShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", productreferenceshape.GongGetReferenceIdentifier(stage))
-	return
+func (productreferenceshape *ProductReferenceShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(productreferenceshape.GongGetReferenceIdentifier(stage))
 }
 
-func (productshape *ProductShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", productshape.GongGetReferenceIdentifier(stage))
-	return
+func (productshape *ProductShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(productshape.GongGetReferenceIdentifier(stage))
 }
 
-func (resource *Resource) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", resource.GongGetReferenceIdentifier(stage))
-	return
+func (resource *Resource) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(resource.GongGetReferenceIdentifier(stage))
 }
 
-func (resourcecompositionshape *ResourceCompositionShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourcecompositionshape.GongGetReferenceIdentifier(stage))
-	return
+func (resourcecompositionshape *ResourceCompositionShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(resourcecompositionshape.GongGetReferenceIdentifier(stage))
 }
 
-func (resourceshape *ResourceShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourceshape.GongGetReferenceIdentifier(stage))
-	return
+func (resourceshape *ResourceShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(resourceshape.GongGetReferenceIdentifier(stage))
 }
 
-func (resourcetaskshape *ResourceTaskShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourcetaskshape.GongGetReferenceIdentifier(stage))
-	return
+func (resourcetaskshape *ResourceTaskShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(resourcetaskshape.GongGetReferenceIdentifier(stage))
 }
 
-func (task *Task) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", task.GongGetReferenceIdentifier(stage))
-	return
+func (task *Task) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(task.GongGetReferenceIdentifier(stage))
 }
 
-func (taskcompositionshape *TaskCompositionShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskcompositionshape.GongGetReferenceIdentifier(stage))
-	return
+func (taskcompositionshape *TaskCompositionShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(taskcompositionshape.GongGetReferenceIdentifier(stage))
 }
 
-func (taskgroup *TaskGroup) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskgroup.GongGetReferenceIdentifier(stage))
-	return
+func (taskgroup *TaskGroup) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(taskgroup.GongGetReferenceIdentifier(stage))
 }
 
-func (taskgroupshape *TaskGroupShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskgroupshape.GongGetReferenceIdentifier(stage))
-	return
+func (taskgroupshape *TaskGroupShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(taskgroupshape.GongGetReferenceIdentifier(stage))
 }
 
-func (taskinputshape *TaskInputShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskinputshape.GongGetReferenceIdentifier(stage))
-	return
+func (taskinputshape *TaskInputShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(taskinputshape.GongGetReferenceIdentifier(stage))
 }
 
-func (taskoutputshape *TaskOutputShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskoutputshape.GongGetReferenceIdentifier(stage))
-	return
+func (taskoutputshape *TaskOutputShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(taskoutputshape.GongGetReferenceIdentifier(stage))
 }
 
-func (taskpredecessorshape *TaskPredecessorShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskpredecessorshape.GongGetReferenceIdentifier(stage))
-	return
+func (taskpredecessorshape *TaskPredecessorShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(taskpredecessorshape.GongGetReferenceIdentifier(stage))
 }
 
-func (taskshape *TaskShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskshape.GongGetReferenceIdentifier(stage))
-	return
+func (taskshape *TaskShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(taskshape.GongGetReferenceIdentifier(stage))
 }
 
 func GongIntToLetters(number int32) (letters string) {
@@ -2597,6 +1790,79 @@ func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 5. Format and return the byte array as a standard UUID string
 	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
 		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
+}
+
+func __gong__appendInstances[T interface {
+	comparable
+	GongstructIF
+}](res []GongstructIF, m map[T]struct{}) []GongstructIF {
+	for instance := range m {
+		res = append(res, instance)
+	}
+	return res
+}
+
+func __gong__getUUID(stage *Stage, instance GongstructIF) string {
+	if __gong__, ok := any(instance).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+	return GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(instance), uint64(stage.GetOrder(instance)))
+}
+
+func __gong__computeReferencePass1[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	staged map[T]struct{},
+	ref *map[T]T,
+	refOrder *map[T]uint,
+	inst *map[T]T,
+) {
+	*ref = make(map[T]T, len(staged))
+	*refOrder = make(map[T]uint, len(staged))
+	*inst = make(map[T]T, len(staged))
+	for instance := range staged {
+		_copy := instance.GongCopy().(T)
+		(*ref)[instance] = _copy
+		(*inst)[_copy] = instance
+		(*refOrder)[_copy] = instance.GongGetOrder(stage)
+	}
+}
+
+func __gong__computeReferencePass2[T interface {
+	comparable
+	GongstructIF
+	GongReconstructPointersFromReferences(*Stage, T)
+}](staged map[T]struct{}, reference map[T]T, stage *Stage) {
+	for instance := range staged {
+		reference[instance].GongReconstructPointersFromReferences(stage, instance)
+	}
+}
+
+func __gong__getOrder[T comparable](stagedOrder, refOrder map[T]uint, instance T, typeName string) uint {
+	if order, ok := stagedOrder[instance]; ok {
+		return order
+	}
+	if order, ok := refOrder[instance]; ok {
+		return order
+	}
+	log.Printf("instance %p of type %s was not staged and does not have a reference order", any(instance), typeName)
+	return 0
+}
+
+func __gong__formatIdentifier(s GongstructIF, order uint) string {
+	return fmt.Sprintf("__%s__%08d_", s.GongGetGongstructName(), order)
+}
+
+func __gong__marshallIdentifier(identifier, structName, name string) string {
+	decl := strings.ReplaceAll(GongIdentifiersDecls, "{{Identifier}}", identifier)
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", structName)
+	return strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(name))
+}
+
+func __gong__marshallUnstaging(identifier string) string {
+	return strings.ReplaceAll(GongUnstageStmt, "{{Identifier}}", identifier)
 }
 
 // end of template

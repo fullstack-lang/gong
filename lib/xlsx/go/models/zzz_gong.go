@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterDisplaySelectionCreateCallback GongOnAfterCreateInterface[DisplaySelection]
 	OnAfterDisplaySelectionUpdateCallback GongOnAfterUpdateInterface[DisplaySelection]
 	OnAfterDisplaySelectionDeleteCallback GongOnAfterDeleteInterface[DisplaySelection]
-	OnAfterDisplaySelectionReadCallback   GongOnAfterReadInterface[DisplaySelection]
 
 	XLCells                map[*XLCell]struct{}
 	XLCells_instance       map[*XLCell]*XLCell
@@ -147,7 +146,6 @@ type Stage struct {
 	OnAfterXLCellCreateCallback GongOnAfterCreateInterface[XLCell]
 	OnAfterXLCellUpdateCallback GongOnAfterUpdateInterface[XLCell]
 	OnAfterXLCellDeleteCallback GongOnAfterDeleteInterface[XLCell]
-	OnAfterXLCellReadCallback   GongOnAfterReadInterface[XLCell]
 
 	XLFiles                map[*XLFile]struct{}
 	XLFiles_instance       map[*XLFile]*XLFile
@@ -164,7 +162,6 @@ type Stage struct {
 	OnAfterXLFileCreateCallback GongOnAfterCreateInterface[XLFile]
 	OnAfterXLFileUpdateCallback GongOnAfterUpdateInterface[XLFile]
 	OnAfterXLFileDeleteCallback GongOnAfterDeleteInterface[XLFile]
-	OnAfterXLFileReadCallback   GongOnAfterReadInterface[XLFile]
 
 	XLRows                map[*XLRow]struct{}
 	XLRows_instance       map[*XLRow]*XLRow
@@ -181,7 +178,6 @@ type Stage struct {
 	OnAfterXLRowCreateCallback GongOnAfterCreateInterface[XLRow]
 	OnAfterXLRowUpdateCallback GongOnAfterUpdateInterface[XLRow]
 	OnAfterXLRowDeleteCallback GongOnAfterDeleteInterface[XLRow]
-	OnAfterXLRowReadCallback   GongOnAfterReadInterface[XLRow]
 
 	XLSheets                map[*XLSheet]struct{}
 	XLSheets_instance       map[*XLSheet]*XLSheet
@@ -200,7 +196,6 @@ type Stage struct {
 	OnAfterXLSheetCreateCallback GongOnAfterCreateInterface[XLSheet]
 	OnAfterXLSheetUpdateCallback GongOnAfterUpdateInterface[XLSheet]
 	OnAfterXLSheetDeleteCallback GongOnAfterDeleteInterface[XLSheet]
-	OnAfterXLSheetReadCallback   GongOnAfterReadInterface[XLSheet]
 
 	BackRepo GongBackRepoInterface
 
@@ -435,25 +430,15 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.DisplaySelections_reference = make(map[*DisplaySelection]*DisplaySelection)
-	stage.DisplaySelections_instance = make(map[*DisplaySelection]*DisplaySelection)
-	stage.DisplaySelections_referenceOrder = make(map[*DisplaySelection]uint)
+	__gong__clearReferences(&stage.DisplaySelections_reference, &stage.DisplaySelections_instance, &stage.DisplaySelections_referenceOrder)
 
-	stage.XLCells_reference = make(map[*XLCell]*XLCell)
-	stage.XLCells_instance = make(map[*XLCell]*XLCell)
-	stage.XLCells_referenceOrder = make(map[*XLCell]uint)
+	__gong__clearReferences(&stage.XLCells_reference, &stage.XLCells_instance, &stage.XLCells_referenceOrder)
 
-	stage.XLFiles_reference = make(map[*XLFile]*XLFile)
-	stage.XLFiles_instance = make(map[*XLFile]*XLFile)
-	stage.XLFiles_referenceOrder = make(map[*XLFile]uint)
+	__gong__clearReferences(&stage.XLFiles_reference, &stage.XLFiles_instance, &stage.XLFiles_referenceOrder)
 
-	stage.XLRows_reference = make(map[*XLRow]*XLRow)
-	stage.XLRows_instance = make(map[*XLRow]*XLRow)
-	stage.XLRows_referenceOrder = make(map[*XLRow]uint)
+	__gong__clearReferences(&stage.XLRows_reference, &stage.XLRows_instance, &stage.XLRows_referenceOrder)
 
-	stage.XLSheets_reference = make(map[*XLSheet]*XLSheet)
-	stage.XLSheets_instance = make(map[*XLSheet]*XLSheet)
-	stage.XLSheets_referenceOrder = make(map[*XLSheet]uint)
+	__gong__clearReferences(&stage.XLSheets_reference, &stage.XLSheets_instance, &stage.XLSheets_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -482,75 +467,15 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxDisplaySelectionOrder uint
-	var foundDisplaySelection bool
-	for _, order := range stage.DisplaySelection_stagedOrder {
-		if !foundDisplaySelection || order > maxDisplaySelectionOrder {
-			maxDisplaySelectionOrder = order
-			foundDisplaySelection = true
-		}
-	}
-	if foundDisplaySelection {
-		stage.DisplaySelectionOrder = maxDisplaySelectionOrder + 1
-	} else {
-		stage.DisplaySelectionOrder = 0
-	}
+	stage.DisplaySelectionOrder = __gong__recomputeOrder(stage.DisplaySelection_stagedOrder)
 
-	var maxXLCellOrder uint
-	var foundXLCell bool
-	for _, order := range stage.XLCell_stagedOrder {
-		if !foundXLCell || order > maxXLCellOrder {
-			maxXLCellOrder = order
-			foundXLCell = true
-		}
-	}
-	if foundXLCell {
-		stage.XLCellOrder = maxXLCellOrder + 1
-	} else {
-		stage.XLCellOrder = 0
-	}
+	stage.XLCellOrder = __gong__recomputeOrder(stage.XLCell_stagedOrder)
 
-	var maxXLFileOrder uint
-	var foundXLFile bool
-	for _, order := range stage.XLFile_stagedOrder {
-		if !foundXLFile || order > maxXLFileOrder {
-			maxXLFileOrder = order
-			foundXLFile = true
-		}
-	}
-	if foundXLFile {
-		stage.XLFileOrder = maxXLFileOrder + 1
-	} else {
-		stage.XLFileOrder = 0
-	}
+	stage.XLFileOrder = __gong__recomputeOrder(stage.XLFile_stagedOrder)
 
-	var maxXLRowOrder uint
-	var foundXLRow bool
-	for _, order := range stage.XLRow_stagedOrder {
-		if !foundXLRow || order > maxXLRowOrder {
-			maxXLRowOrder = order
-			foundXLRow = true
-		}
-	}
-	if foundXLRow {
-		stage.XLRowOrder = maxXLRowOrder + 1
-	} else {
-		stage.XLRowOrder = 0
-	}
+	stage.XLRowOrder = __gong__recomputeOrder(stage.XLRow_stagedOrder)
 
-	var maxXLSheetOrder uint
-	var foundXLSheet bool
-	for _, order := range stage.XLSheet_stagedOrder {
-		if !foundXLSheet || order > maxXLSheetOrder {
-			maxXLSheetOrder = order
-			foundXLSheet = true
-		}
-	}
-	if foundXLSheet {
-		stage.XLSheetOrder = maxXLSheetOrder + 1
-	} else {
-		stage.XLSheetOrder = 0
-	}
+	stage.XLSheetOrder = __gong__recomputeOrder(stage.XLSheet_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -582,75 +507,15 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *DisplaySelection:
-		tmp := __gong__getStructInstancesByOrder(stage.DisplaySelections, stage.DisplaySelection_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *DisplaySelection implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DisplaySelections, stage.DisplaySelection_stagedOrder))
 	case *XLCell:
-		tmp := __gong__getStructInstancesByOrder(stage.XLCells, stage.XLCell_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *XLCell implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.XLCells, stage.XLCell_stagedOrder))
 	case *XLFile:
-		tmp := __gong__getStructInstancesByOrder(stage.XLFiles, stage.XLFile_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *XLFile implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.XLFiles, stage.XLFile_stagedOrder))
 	case *XLRow:
-		tmp := __gong__getStructInstancesByOrder(stage.XLRows, stage.XLRow_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *XLRow implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.XLRows, stage.XLRow_stagedOrder))
 	case *XLSheet:
-		tmp := __gong__getStructInstancesByOrder(stage.XLSheets, stage.XLSheet_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *XLSheet implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.XLSheets, stage.XLSheet_stagedOrder))
 
 	}
 	return
@@ -677,6 +542,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/xlsx/go/models"
 }
@@ -700,14 +661,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -730,17 +683,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitDisplaySelection(displayselection *DisplaySelection)
-	CheckoutDisplaySelection(displayselection *DisplaySelection)
-	CommitXLCell(xlcell *XLCell)
-	CheckoutXLCell(xlcell *XLCell)
-	CommitXLFile(xlfile *XLFile)
-	CheckoutXLFile(xlfile *XLFile)
-	CommitXLRow(xlrow *XLRow)
-	CheckoutXLRow(xlrow *XLRow)
-	CommitXLSheet(xlsheet *XLSheet)
-	CheckoutXLSheet(xlsheet *XLSheet)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -950,14 +892,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts displayselection to the model stage
 func (displayselection *DisplaySelection) Stage(stage *Stage) *DisplaySelection {
-	if _, ok := stage.DisplaySelections[displayselection]; !ok {
-		stage.DisplaySelections[displayselection] = struct{}{}
-		stage.DisplaySelection_stagedOrder[displayselection] = stage.DisplaySelectionOrder
-		stage.DisplaySelection_orderStaged[stage.DisplaySelectionOrder] = displayselection
-		stage.DisplaySelectionOrder++
-	}
-	stage.DisplaySelections_mapString[displayselection.Name] = displayselection
-
+	__gong__stage(stage.DisplaySelections, stage.DisplaySelection_stagedOrder, stage.DisplaySelection_orderStaged, &stage.DisplaySelectionOrder, stage.DisplaySelections_mapString, displayselection, displayselection.Name)
 	return displayselection
 }
 
@@ -967,59 +902,22 @@ func (displayselection *DisplaySelection) Stage(stage *Stage) *DisplaySelection 
 // - force the order if the order is equal or greater than the stage.DisplaySelectionOrder
 // - update stage.DisplaySelectionOrder accordingly
 func (displayselection *DisplaySelection) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.DisplaySelections[displayselection]; !ok {
-		stage.DisplaySelections[displayselection] = struct{}{}
-
-		if order > stage.DisplaySelectionOrder {
-			stage.DisplaySelectionOrder = order
-		}
-		stage.DisplaySelection_stagedOrder[displayselection] = order
-		stage.DisplaySelection_orderStaged[order] = displayselection
-		stage.DisplaySelectionOrder++
-	}
-	stage.DisplaySelections_mapString[displayselection.Name] = displayselection
+	__gong__stagePreserveOrder(stage.DisplaySelections, stage.DisplaySelection_stagedOrder, stage.DisplaySelection_orderStaged, &stage.DisplaySelectionOrder, stage.DisplaySelections_mapString, displayselection, order, displayselection.Name)
 }
 
 // Unstage removes displayselection off the model stage
 func (displayselection *DisplaySelection) Unstage(stage *Stage) *DisplaySelection {
-	delete(stage.DisplaySelections, displayselection)
-	// issue1150
-	// delete(stage.DisplaySelection_stagedOrder, displayselection)
-	delete(stage.DisplaySelections_mapString, displayselection.Name)
-
+	__gong__unstage(stage.DisplaySelections, stage.DisplaySelections_mapString, displayselection, displayselection.Name)
 	return displayselection
 }
 
 // UnstageVoid removes displayselection off the model stage
 func (displayselection *DisplaySelection) UnstageVoid(stage *Stage) {
-	delete(stage.DisplaySelections, displayselection)
-	// issue1150
-	// delete(stage.DisplaySelection_stagedOrder, displayselection)
-	delete(stage.DisplaySelections_mapString, displayselection.Name)
-}
-
-// commit displayselection to the back repo (if it is already staged)
-func (displayselection *DisplaySelection) Commit(stage *Stage) *DisplaySelection {
-	if _, ok := stage.DisplaySelections[displayselection]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitDisplaySelection(displayselection)
-		}
-	}
-	return displayselection
+	displayselection.Unstage(stage)
 }
 
 func (displayselection *DisplaySelection) StageVoid(stage *Stage) {
 	displayselection.Stage(stage)
-}
-
-// Checkout displayselection to the back repo (if it is already staged)
-func (displayselection *DisplaySelection) Checkout(stage *Stage) *DisplaySelection {
-	if _, ok := stage.DisplaySelections[displayselection]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutDisplaySelection(displayselection)
-		}
-	}
-	return displayselection
 }
 
 // for satisfaction of GongStruct interface
@@ -1034,14 +932,7 @@ func (displayselection *DisplaySelection) SetName(name string) {
 
 // Stage puts xlcell to the model stage
 func (xlcell *XLCell) Stage(stage *Stage) *XLCell {
-	if _, ok := stage.XLCells[xlcell]; !ok {
-		stage.XLCells[xlcell] = struct{}{}
-		stage.XLCell_stagedOrder[xlcell] = stage.XLCellOrder
-		stage.XLCell_orderStaged[stage.XLCellOrder] = xlcell
-		stage.XLCellOrder++
-	}
-	stage.XLCells_mapString[xlcell.Name] = xlcell
-
+	__gong__stage(stage.XLCells, stage.XLCell_stagedOrder, stage.XLCell_orderStaged, &stage.XLCellOrder, stage.XLCells_mapString, xlcell, xlcell.Name)
 	return xlcell
 }
 
@@ -1051,59 +942,22 @@ func (xlcell *XLCell) Stage(stage *Stage) *XLCell {
 // - force the order if the order is equal or greater than the stage.XLCellOrder
 // - update stage.XLCellOrder accordingly
 func (xlcell *XLCell) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.XLCells[xlcell]; !ok {
-		stage.XLCells[xlcell] = struct{}{}
-
-		if order > stage.XLCellOrder {
-			stage.XLCellOrder = order
-		}
-		stage.XLCell_stagedOrder[xlcell] = order
-		stage.XLCell_orderStaged[order] = xlcell
-		stage.XLCellOrder++
-	}
-	stage.XLCells_mapString[xlcell.Name] = xlcell
+	__gong__stagePreserveOrder(stage.XLCells, stage.XLCell_stagedOrder, stage.XLCell_orderStaged, &stage.XLCellOrder, stage.XLCells_mapString, xlcell, order, xlcell.Name)
 }
 
 // Unstage removes xlcell off the model stage
 func (xlcell *XLCell) Unstage(stage *Stage) *XLCell {
-	delete(stage.XLCells, xlcell)
-	// issue1150
-	// delete(stage.XLCell_stagedOrder, xlcell)
-	delete(stage.XLCells_mapString, xlcell.Name)
-
+	__gong__unstage(stage.XLCells, stage.XLCells_mapString, xlcell, xlcell.Name)
 	return xlcell
 }
 
 // UnstageVoid removes xlcell off the model stage
 func (xlcell *XLCell) UnstageVoid(stage *Stage) {
-	delete(stage.XLCells, xlcell)
-	// issue1150
-	// delete(stage.XLCell_stagedOrder, xlcell)
-	delete(stage.XLCells_mapString, xlcell.Name)
-}
-
-// commit xlcell to the back repo (if it is already staged)
-func (xlcell *XLCell) Commit(stage *Stage) *XLCell {
-	if _, ok := stage.XLCells[xlcell]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitXLCell(xlcell)
-		}
-	}
-	return xlcell
+	xlcell.Unstage(stage)
 }
 
 func (xlcell *XLCell) StageVoid(stage *Stage) {
 	xlcell.Stage(stage)
-}
-
-// Checkout xlcell to the back repo (if it is already staged)
-func (xlcell *XLCell) Checkout(stage *Stage) *XLCell {
-	if _, ok := stage.XLCells[xlcell]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutXLCell(xlcell)
-		}
-	}
-	return xlcell
 }
 
 // for satisfaction of GongStruct interface
@@ -1118,14 +972,7 @@ func (xlcell *XLCell) SetName(name string) {
 
 // Stage puts xlfile to the model stage
 func (xlfile *XLFile) Stage(stage *Stage) *XLFile {
-	if _, ok := stage.XLFiles[xlfile]; !ok {
-		stage.XLFiles[xlfile] = struct{}{}
-		stage.XLFile_stagedOrder[xlfile] = stage.XLFileOrder
-		stage.XLFile_orderStaged[stage.XLFileOrder] = xlfile
-		stage.XLFileOrder++
-	}
-	stage.XLFiles_mapString[xlfile.Name] = xlfile
-
+	__gong__stage(stage.XLFiles, stage.XLFile_stagedOrder, stage.XLFile_orderStaged, &stage.XLFileOrder, stage.XLFiles_mapString, xlfile, xlfile.Name)
 	return xlfile
 }
 
@@ -1135,59 +982,22 @@ func (xlfile *XLFile) Stage(stage *Stage) *XLFile {
 // - force the order if the order is equal or greater than the stage.XLFileOrder
 // - update stage.XLFileOrder accordingly
 func (xlfile *XLFile) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.XLFiles[xlfile]; !ok {
-		stage.XLFiles[xlfile] = struct{}{}
-
-		if order > stage.XLFileOrder {
-			stage.XLFileOrder = order
-		}
-		stage.XLFile_stagedOrder[xlfile] = order
-		stage.XLFile_orderStaged[order] = xlfile
-		stage.XLFileOrder++
-	}
-	stage.XLFiles_mapString[xlfile.Name] = xlfile
+	__gong__stagePreserveOrder(stage.XLFiles, stage.XLFile_stagedOrder, stage.XLFile_orderStaged, &stage.XLFileOrder, stage.XLFiles_mapString, xlfile, order, xlfile.Name)
 }
 
 // Unstage removes xlfile off the model stage
 func (xlfile *XLFile) Unstage(stage *Stage) *XLFile {
-	delete(stage.XLFiles, xlfile)
-	// issue1150
-	// delete(stage.XLFile_stagedOrder, xlfile)
-	delete(stage.XLFiles_mapString, xlfile.Name)
-
+	__gong__unstage(stage.XLFiles, stage.XLFiles_mapString, xlfile, xlfile.Name)
 	return xlfile
 }
 
 // UnstageVoid removes xlfile off the model stage
 func (xlfile *XLFile) UnstageVoid(stage *Stage) {
-	delete(stage.XLFiles, xlfile)
-	// issue1150
-	// delete(stage.XLFile_stagedOrder, xlfile)
-	delete(stage.XLFiles_mapString, xlfile.Name)
-}
-
-// commit xlfile to the back repo (if it is already staged)
-func (xlfile *XLFile) Commit(stage *Stage) *XLFile {
-	if _, ok := stage.XLFiles[xlfile]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitXLFile(xlfile)
-		}
-	}
-	return xlfile
+	xlfile.Unstage(stage)
 }
 
 func (xlfile *XLFile) StageVoid(stage *Stage) {
 	xlfile.Stage(stage)
-}
-
-// Checkout xlfile to the back repo (if it is already staged)
-func (xlfile *XLFile) Checkout(stage *Stage) *XLFile {
-	if _, ok := stage.XLFiles[xlfile]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutXLFile(xlfile)
-		}
-	}
-	return xlfile
 }
 
 // for satisfaction of GongStruct interface
@@ -1202,14 +1012,7 @@ func (xlfile *XLFile) SetName(name string) {
 
 // Stage puts xlrow to the model stage
 func (xlrow *XLRow) Stage(stage *Stage) *XLRow {
-	if _, ok := stage.XLRows[xlrow]; !ok {
-		stage.XLRows[xlrow] = struct{}{}
-		stage.XLRow_stagedOrder[xlrow] = stage.XLRowOrder
-		stage.XLRow_orderStaged[stage.XLRowOrder] = xlrow
-		stage.XLRowOrder++
-	}
-	stage.XLRows_mapString[xlrow.Name] = xlrow
-
+	__gong__stage(stage.XLRows, stage.XLRow_stagedOrder, stage.XLRow_orderStaged, &stage.XLRowOrder, stage.XLRows_mapString, xlrow, xlrow.Name)
 	return xlrow
 }
 
@@ -1219,59 +1022,22 @@ func (xlrow *XLRow) Stage(stage *Stage) *XLRow {
 // - force the order if the order is equal or greater than the stage.XLRowOrder
 // - update stage.XLRowOrder accordingly
 func (xlrow *XLRow) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.XLRows[xlrow]; !ok {
-		stage.XLRows[xlrow] = struct{}{}
-
-		if order > stage.XLRowOrder {
-			stage.XLRowOrder = order
-		}
-		stage.XLRow_stagedOrder[xlrow] = order
-		stage.XLRow_orderStaged[order] = xlrow
-		stage.XLRowOrder++
-	}
-	stage.XLRows_mapString[xlrow.Name] = xlrow
+	__gong__stagePreserveOrder(stage.XLRows, stage.XLRow_stagedOrder, stage.XLRow_orderStaged, &stage.XLRowOrder, stage.XLRows_mapString, xlrow, order, xlrow.Name)
 }
 
 // Unstage removes xlrow off the model stage
 func (xlrow *XLRow) Unstage(stage *Stage) *XLRow {
-	delete(stage.XLRows, xlrow)
-	// issue1150
-	// delete(stage.XLRow_stagedOrder, xlrow)
-	delete(stage.XLRows_mapString, xlrow.Name)
-
+	__gong__unstage(stage.XLRows, stage.XLRows_mapString, xlrow, xlrow.Name)
 	return xlrow
 }
 
 // UnstageVoid removes xlrow off the model stage
 func (xlrow *XLRow) UnstageVoid(stage *Stage) {
-	delete(stage.XLRows, xlrow)
-	// issue1150
-	// delete(stage.XLRow_stagedOrder, xlrow)
-	delete(stage.XLRows_mapString, xlrow.Name)
-}
-
-// commit xlrow to the back repo (if it is already staged)
-func (xlrow *XLRow) Commit(stage *Stage) *XLRow {
-	if _, ok := stage.XLRows[xlrow]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitXLRow(xlrow)
-		}
-	}
-	return xlrow
+	xlrow.Unstage(stage)
 }
 
 func (xlrow *XLRow) StageVoid(stage *Stage) {
 	xlrow.Stage(stage)
-}
-
-// Checkout xlrow to the back repo (if it is already staged)
-func (xlrow *XLRow) Checkout(stage *Stage) *XLRow {
-	if _, ok := stage.XLRows[xlrow]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutXLRow(xlrow)
-		}
-	}
-	return xlrow
 }
 
 // for satisfaction of GongStruct interface
@@ -1286,14 +1052,7 @@ func (xlrow *XLRow) SetName(name string) {
 
 // Stage puts xlsheet to the model stage
 func (xlsheet *XLSheet) Stage(stage *Stage) *XLSheet {
-	if _, ok := stage.XLSheets[xlsheet]; !ok {
-		stage.XLSheets[xlsheet] = struct{}{}
-		stage.XLSheet_stagedOrder[xlsheet] = stage.XLSheetOrder
-		stage.XLSheet_orderStaged[stage.XLSheetOrder] = xlsheet
-		stage.XLSheetOrder++
-	}
-	stage.XLSheets_mapString[xlsheet.Name] = xlsheet
-
+	__gong__stage(stage.XLSheets, stage.XLSheet_stagedOrder, stage.XLSheet_orderStaged, &stage.XLSheetOrder, stage.XLSheets_mapString, xlsheet, xlsheet.Name)
 	return xlsheet
 }
 
@@ -1303,59 +1062,22 @@ func (xlsheet *XLSheet) Stage(stage *Stage) *XLSheet {
 // - force the order if the order is equal or greater than the stage.XLSheetOrder
 // - update stage.XLSheetOrder accordingly
 func (xlsheet *XLSheet) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.XLSheets[xlsheet]; !ok {
-		stage.XLSheets[xlsheet] = struct{}{}
-
-		if order > stage.XLSheetOrder {
-			stage.XLSheetOrder = order
-		}
-		stage.XLSheet_stagedOrder[xlsheet] = order
-		stage.XLSheet_orderStaged[order] = xlsheet
-		stage.XLSheetOrder++
-	}
-	stage.XLSheets_mapString[xlsheet.Name] = xlsheet
+	__gong__stagePreserveOrder(stage.XLSheets, stage.XLSheet_stagedOrder, stage.XLSheet_orderStaged, &stage.XLSheetOrder, stage.XLSheets_mapString, xlsheet, order, xlsheet.Name)
 }
 
 // Unstage removes xlsheet off the model stage
 func (xlsheet *XLSheet) Unstage(stage *Stage) *XLSheet {
-	delete(stage.XLSheets, xlsheet)
-	// issue1150
-	// delete(stage.XLSheet_stagedOrder, xlsheet)
-	delete(stage.XLSheets_mapString, xlsheet.Name)
-
+	__gong__unstage(stage.XLSheets, stage.XLSheets_mapString, xlsheet, xlsheet.Name)
 	return xlsheet
 }
 
 // UnstageVoid removes xlsheet off the model stage
 func (xlsheet *XLSheet) UnstageVoid(stage *Stage) {
-	delete(stage.XLSheets, xlsheet)
-	// issue1150
-	// delete(stage.XLSheet_stagedOrder, xlsheet)
-	delete(stage.XLSheets_mapString, xlsheet.Name)
-}
-
-// commit xlsheet to the back repo (if it is already staged)
-func (xlsheet *XLSheet) Commit(stage *Stage) *XLSheet {
-	if _, ok := stage.XLSheets[xlsheet]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitXLSheet(xlsheet)
-		}
-	}
-	return xlsheet
+	xlsheet.Unstage(stage)
 }
 
 func (xlsheet *XLSheet) StageVoid(stage *Stage) {
 	xlsheet.Stage(stage)
-}
-
-// Checkout xlsheet to the back repo (if it is already staged)
-func (xlsheet *XLSheet) Checkout(stage *Stage) *XLSheet {
-	if _, ok := stage.XLSheets[xlsheet]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutXLSheet(xlsheet)
-		}
-	}
-	return xlsheet
 }
 
 // for satisfaction of GongStruct interface
@@ -1369,30 +1091,15 @@ func (xlsheet *XLSheet) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.DisplaySelections = make(map[*DisplaySelection]struct{})
-	stage.DisplaySelections_mapString = make(map[string]*DisplaySelection)
-	stage.DisplaySelection_stagedOrder = make(map[*DisplaySelection]uint)
-	stage.DisplaySelectionOrder = 0
+	__gong__resetStageType(&stage.DisplaySelections, &stage.DisplaySelections_mapString, &stage.DisplaySelection_stagedOrder, &stage.DisplaySelectionOrder)
 
-	stage.XLCells = make(map[*XLCell]struct{})
-	stage.XLCells_mapString = make(map[string]*XLCell)
-	stage.XLCell_stagedOrder = make(map[*XLCell]uint)
-	stage.XLCellOrder = 0
+	__gong__resetStageType(&stage.XLCells, &stage.XLCells_mapString, &stage.XLCell_stagedOrder, &stage.XLCellOrder)
 
-	stage.XLFiles = make(map[*XLFile]struct{})
-	stage.XLFiles_mapString = make(map[string]*XLFile)
-	stage.XLFile_stagedOrder = make(map[*XLFile]uint)
-	stage.XLFileOrder = 0
+	__gong__resetStageType(&stage.XLFiles, &stage.XLFiles_mapString, &stage.XLFile_stagedOrder, &stage.XLFileOrder)
 
-	stage.XLRows = make(map[*XLRow]struct{})
-	stage.XLRows_mapString = make(map[string]*XLRow)
-	stage.XLRow_stagedOrder = make(map[*XLRow]uint)
-	stage.XLRowOrder = 0
+	__gong__resetStageType(&stage.XLRows, &stage.XLRows_mapString, &stage.XLRow_stagedOrder, &stage.XLRowOrder)
 
-	stage.XLSheets = make(map[*XLSheet]struct{})
-	stage.XLSheets_mapString = make(map[string]*XLSheet)
-	stage.XLSheet_stagedOrder = make(map[*XLSheet]uint)
-	stage.XLSheetOrder = 0
+	__gong__resetStageType(&stage.XLSheets, &stage.XLSheets_mapString, &stage.XLSheet_stagedOrder, &stage.XLSheetOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -1431,7 +1138,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -2136,30 +1842,15 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.DisplaySelections_mapString = make(map[string]*DisplaySelection)
-	for displayselection := range stage.DisplaySelections {
-		stage.DisplaySelections_mapString[displayselection.Name] = displayselection
-	}
+	__gong__rebuildMapString(stage.DisplaySelections, &stage.DisplaySelections_mapString)
 
-	stage.XLCells_mapString = make(map[string]*XLCell)
-	for xlcell := range stage.XLCells {
-		stage.XLCells_mapString[xlcell.Name] = xlcell
-	}
+	__gong__rebuildMapString(stage.XLCells, &stage.XLCells_mapString)
 
-	stage.XLFiles_mapString = make(map[string]*XLFile)
-	for xlfile := range stage.XLFiles {
-		stage.XLFiles_mapString[xlfile.Name] = xlfile
-	}
+	__gong__rebuildMapString(stage.XLFiles, &stage.XLFiles_mapString)
 
-	stage.XLRows_mapString = make(map[string]*XLRow)
-	for xlrow := range stage.XLRows {
-		stage.XLRows_mapString[xlrow.Name] = xlrow
-	}
+	__gong__rebuildMapString(stage.XLRows, &stage.XLRows_mapString)
 
-	stage.XLSheets_mapString = make(map[string]*XLSheet)
-	for xlsheet := range stage.XLSheets {
-		stage.XLSheets_mapString[xlsheet.Name] = xlsheet
-	}
+	__gong__rebuildMapString(stage.XLSheets, &stage.XLSheets_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

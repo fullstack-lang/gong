@@ -136,7 +136,6 @@ type Stage struct {
 	OnAfterCompareAnalysisCreateCallback GongOnAfterCreateInterface[CompareAnalysis]
 	OnAfterCompareAnalysisUpdateCallback GongOnAfterUpdateInterface[CompareAnalysis]
 	OnAfterCompareAnalysisDeleteCallback GongOnAfterDeleteInterface[CompareAnalysis]
-	OnAfterCompareAnalysisReadCallback   GongOnAfterReadInterface[CompareAnalysis]
 
 	Complexitys                map[*Complexity]struct{}
 	Complexitys_instance       map[*Complexity]*Complexity
@@ -151,7 +150,6 @@ type Stage struct {
 	OnAfterComplexityCreateCallback GongOnAfterCreateInterface[Complexity]
 	OnAfterComplexityUpdateCallback GongOnAfterUpdateInterface[Complexity]
 	OnAfterComplexityDeleteCallback GongOnAfterDeleteInterface[Complexity]
-	OnAfterComplexityReadCallback   GongOnAfterReadInterface[Complexity]
 
 	DiagramFlossEquations                map[*DiagramFlossEquation]struct{}
 	DiagramFlossEquations_instance       map[*DiagramFlossEquation]*DiagramFlossEquation
@@ -182,7 +180,6 @@ type Stage struct {
 	OnAfterDiagramFlossEquationCreateCallback GongOnAfterCreateInterface[DiagramFlossEquation]
 	OnAfterDiagramFlossEquationUpdateCallback GongOnAfterUpdateInterface[DiagramFlossEquation]
 	OnAfterDiagramFlossEquationDeleteCallback GongOnAfterDeleteInterface[DiagramFlossEquation]
-	OnAfterDiagramFlossEquationReadCallback   GongOnAfterReadInterface[DiagramFlossEquation]
 
 	Efforts                map[*Effort]struct{}
 	Efforts_instance       map[*Effort]*Effort
@@ -197,7 +194,6 @@ type Stage struct {
 	OnAfterEffortCreateCallback GongOnAfterCreateInterface[Effort]
 	OnAfterEffortUpdateCallback GongOnAfterUpdateInterface[Effort]
 	OnAfterEffortDeleteCallback GongOnAfterDeleteInterface[Effort]
-	OnAfterEffortReadCallback   GongOnAfterReadInterface[Effort]
 
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
@@ -240,7 +236,6 @@ type Stage struct {
 	OnAfterLibraryCreateCallback GongOnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback GongOnAfterUpdateInterface[Library]
 	OnAfterLibraryDeleteCallback GongOnAfterDeleteInterface[Library]
-	OnAfterLibraryReadCallback   GongOnAfterReadInterface[Library]
 
 	Notes                map[*Note]struct{}
 	Notes_instance       map[*Note]*Note
@@ -261,7 +256,6 @@ type Stage struct {
 	OnAfterNoteCreateCallback GongOnAfterCreateInterface[Note]
 	OnAfterNoteUpdateCallback GongOnAfterUpdateInterface[Note]
 	OnAfterNoteDeleteCallback GongOnAfterDeleteInterface[Note]
-	OnAfterNoteReadCallback   GongOnAfterReadInterface[Note]
 
 	NoteComplexityShapes                map[*NoteComplexityShape]struct{}
 	NoteComplexityShapes_instance       map[*NoteComplexityShape]*NoteComplexityShape
@@ -276,7 +270,6 @@ type Stage struct {
 	OnAfterNoteComplexityShapeCreateCallback GongOnAfterCreateInterface[NoteComplexityShape]
 	OnAfterNoteComplexityShapeUpdateCallback GongOnAfterUpdateInterface[NoteComplexityShape]
 	OnAfterNoteComplexityShapeDeleteCallback GongOnAfterDeleteInterface[NoteComplexityShape]
-	OnAfterNoteComplexityShapeReadCallback   GongOnAfterReadInterface[NoteComplexityShape]
 
 	NoteEffortShapes                map[*NoteEffortShape]struct{}
 	NoteEffortShapes_instance       map[*NoteEffortShape]*NoteEffortShape
@@ -291,7 +284,6 @@ type Stage struct {
 	OnAfterNoteEffortShapeCreateCallback GongOnAfterCreateInterface[NoteEffortShape]
 	OnAfterNoteEffortShapeUpdateCallback GongOnAfterUpdateInterface[NoteEffortShape]
 	OnAfterNoteEffortShapeDeleteCallback GongOnAfterDeleteInterface[NoteEffortShape]
-	OnAfterNoteEffortShapeReadCallback   GongOnAfterReadInterface[NoteEffortShape]
 
 	NotePerformanceShapes                map[*NotePerformanceShape]struct{}
 	NotePerformanceShapes_instance       map[*NotePerformanceShape]*NotePerformanceShape
@@ -306,7 +298,6 @@ type Stage struct {
 	OnAfterNotePerformanceShapeCreateCallback GongOnAfterCreateInterface[NotePerformanceShape]
 	OnAfterNotePerformanceShapeUpdateCallback GongOnAfterUpdateInterface[NotePerformanceShape]
 	OnAfterNotePerformanceShapeDeleteCallback GongOnAfterDeleteInterface[NotePerformanceShape]
-	OnAfterNotePerformanceShapeReadCallback   GongOnAfterReadInterface[NotePerformanceShape]
 
 	NoteShapes                map[*NoteShape]struct{}
 	NoteShapes_instance       map[*NoteShape]*NoteShape
@@ -321,7 +312,6 @@ type Stage struct {
 	OnAfterNoteShapeCreateCallback GongOnAfterCreateInterface[NoteShape]
 	OnAfterNoteShapeUpdateCallback GongOnAfterUpdateInterface[NoteShape]
 	OnAfterNoteShapeDeleteCallback GongOnAfterDeleteInterface[NoteShape]
-	OnAfterNoteShapeReadCallback   GongOnAfterReadInterface[NoteShape]
 
 	Performances                map[*Performance]struct{}
 	Performances_instance       map[*Performance]*Performance
@@ -336,7 +326,6 @@ type Stage struct {
 	OnAfterPerformanceCreateCallback GongOnAfterCreateInterface[Performance]
 	OnAfterPerformanceUpdateCallback GongOnAfterUpdateInterface[Performance]
 	OnAfterPerformanceDeleteCallback GongOnAfterDeleteInterface[Performance]
-	OnAfterPerformanceReadCallback   GongOnAfterReadInterface[Performance]
 
 	Systems                map[*System]struct{}
 	Systems_instance       map[*System]*System
@@ -369,7 +358,6 @@ type Stage struct {
 	OnAfterSystemCreateCallback GongOnAfterCreateInterface[System]
 	OnAfterSystemUpdateCallback GongOnAfterUpdateInterface[System]
 	OnAfterSystemDeleteCallback GongOnAfterDeleteInterface[System]
-	OnAfterSystemReadCallback   GongOnAfterReadInterface[System]
 
 	BackRepo GongBackRepoInterface
 
@@ -604,53 +592,29 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.CompareAnalysiss_reference = make(map[*CompareAnalysis]*CompareAnalysis)
-	stage.CompareAnalysiss_instance = make(map[*CompareAnalysis]*CompareAnalysis)
-	stage.CompareAnalysiss_referenceOrder = make(map[*CompareAnalysis]uint)
+	__gong__clearReferences(&stage.CompareAnalysiss_reference, &stage.CompareAnalysiss_instance, &stage.CompareAnalysiss_referenceOrder)
 
-	stage.Complexitys_reference = make(map[*Complexity]*Complexity)
-	stage.Complexitys_instance = make(map[*Complexity]*Complexity)
-	stage.Complexitys_referenceOrder = make(map[*Complexity]uint)
+	__gong__clearReferences(&stage.Complexitys_reference, &stage.Complexitys_instance, &stage.Complexitys_referenceOrder)
 
-	stage.DiagramFlossEquations_reference = make(map[*DiagramFlossEquation]*DiagramFlossEquation)
-	stage.DiagramFlossEquations_instance = make(map[*DiagramFlossEquation]*DiagramFlossEquation)
-	stage.DiagramFlossEquations_referenceOrder = make(map[*DiagramFlossEquation]uint)
+	__gong__clearReferences(&stage.DiagramFlossEquations_reference, &stage.DiagramFlossEquations_instance, &stage.DiagramFlossEquations_referenceOrder)
 
-	stage.Efforts_reference = make(map[*Effort]*Effort)
-	stage.Efforts_instance = make(map[*Effort]*Effort)
-	stage.Efforts_referenceOrder = make(map[*Effort]uint)
+	__gong__clearReferences(&stage.Efforts_reference, &stage.Efforts_instance, &stage.Efforts_referenceOrder)
 
-	stage.Librarys_reference = make(map[*Library]*Library)
-	stage.Librarys_instance = make(map[*Library]*Library)
-	stage.Librarys_referenceOrder = make(map[*Library]uint)
+	__gong__clearReferences(&stage.Librarys_reference, &stage.Librarys_instance, &stage.Librarys_referenceOrder)
 
-	stage.Notes_reference = make(map[*Note]*Note)
-	stage.Notes_instance = make(map[*Note]*Note)
-	stage.Notes_referenceOrder = make(map[*Note]uint)
+	__gong__clearReferences(&stage.Notes_reference, &stage.Notes_instance, &stage.Notes_referenceOrder)
 
-	stage.NoteComplexityShapes_reference = make(map[*NoteComplexityShape]*NoteComplexityShape)
-	stage.NoteComplexityShapes_instance = make(map[*NoteComplexityShape]*NoteComplexityShape)
-	stage.NoteComplexityShapes_referenceOrder = make(map[*NoteComplexityShape]uint)
+	__gong__clearReferences(&stage.NoteComplexityShapes_reference, &stage.NoteComplexityShapes_instance, &stage.NoteComplexityShapes_referenceOrder)
 
-	stage.NoteEffortShapes_reference = make(map[*NoteEffortShape]*NoteEffortShape)
-	stage.NoteEffortShapes_instance = make(map[*NoteEffortShape]*NoteEffortShape)
-	stage.NoteEffortShapes_referenceOrder = make(map[*NoteEffortShape]uint)
+	__gong__clearReferences(&stage.NoteEffortShapes_reference, &stage.NoteEffortShapes_instance, &stage.NoteEffortShapes_referenceOrder)
 
-	stage.NotePerformanceShapes_reference = make(map[*NotePerformanceShape]*NotePerformanceShape)
-	stage.NotePerformanceShapes_instance = make(map[*NotePerformanceShape]*NotePerformanceShape)
-	stage.NotePerformanceShapes_referenceOrder = make(map[*NotePerformanceShape]uint)
+	__gong__clearReferences(&stage.NotePerformanceShapes_reference, &stage.NotePerformanceShapes_instance, &stage.NotePerformanceShapes_referenceOrder)
 
-	stage.NoteShapes_reference = make(map[*NoteShape]*NoteShape)
-	stage.NoteShapes_instance = make(map[*NoteShape]*NoteShape)
-	stage.NoteShapes_referenceOrder = make(map[*NoteShape]uint)
+	__gong__clearReferences(&stage.NoteShapes_reference, &stage.NoteShapes_instance, &stage.NoteShapes_referenceOrder)
 
-	stage.Performances_reference = make(map[*Performance]*Performance)
-	stage.Performances_instance = make(map[*Performance]*Performance)
-	stage.Performances_referenceOrder = make(map[*Performance]uint)
+	__gong__clearReferences(&stage.Performances_reference, &stage.Performances_instance, &stage.Performances_referenceOrder)
 
-	stage.Systems_reference = make(map[*System]*System)
-	stage.Systems_instance = make(map[*System]*System)
-	stage.Systems_referenceOrder = make(map[*System]uint)
+	__gong__clearReferences(&stage.Systems_reference, &stage.Systems_instance, &stage.Systems_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -679,173 +643,29 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxCompareAnalysisOrder uint
-	var foundCompareAnalysis bool
-	for _, order := range stage.CompareAnalysis_stagedOrder {
-		if !foundCompareAnalysis || order > maxCompareAnalysisOrder {
-			maxCompareAnalysisOrder = order
-			foundCompareAnalysis = true
-		}
-	}
-	if foundCompareAnalysis {
-		stage.CompareAnalysisOrder = maxCompareAnalysisOrder + 1
-	} else {
-		stage.CompareAnalysisOrder = 0
-	}
+	stage.CompareAnalysisOrder = __gong__recomputeOrder(stage.CompareAnalysis_stagedOrder)
 
-	var maxComplexityOrder uint
-	var foundComplexity bool
-	for _, order := range stage.Complexity_stagedOrder {
-		if !foundComplexity || order > maxComplexityOrder {
-			maxComplexityOrder = order
-			foundComplexity = true
-		}
-	}
-	if foundComplexity {
-		stage.ComplexityOrder = maxComplexityOrder + 1
-	} else {
-		stage.ComplexityOrder = 0
-	}
+	stage.ComplexityOrder = __gong__recomputeOrder(stage.Complexity_stagedOrder)
 
-	var maxDiagramFlossEquationOrder uint
-	var foundDiagramFlossEquation bool
-	for _, order := range stage.DiagramFlossEquation_stagedOrder {
-		if !foundDiagramFlossEquation || order > maxDiagramFlossEquationOrder {
-			maxDiagramFlossEquationOrder = order
-			foundDiagramFlossEquation = true
-		}
-	}
-	if foundDiagramFlossEquation {
-		stage.DiagramFlossEquationOrder = maxDiagramFlossEquationOrder + 1
-	} else {
-		stage.DiagramFlossEquationOrder = 0
-	}
+	stage.DiagramFlossEquationOrder = __gong__recomputeOrder(stage.DiagramFlossEquation_stagedOrder)
 
-	var maxEffortOrder uint
-	var foundEffort bool
-	for _, order := range stage.Effort_stagedOrder {
-		if !foundEffort || order > maxEffortOrder {
-			maxEffortOrder = order
-			foundEffort = true
-		}
-	}
-	if foundEffort {
-		stage.EffortOrder = maxEffortOrder + 1
-	} else {
-		stage.EffortOrder = 0
-	}
+	stage.EffortOrder = __gong__recomputeOrder(stage.Effort_stagedOrder)
 
-	var maxLibraryOrder uint
-	var foundLibrary bool
-	for _, order := range stage.Library_stagedOrder {
-		if !foundLibrary || order > maxLibraryOrder {
-			maxLibraryOrder = order
-			foundLibrary = true
-		}
-	}
-	if foundLibrary {
-		stage.LibraryOrder = maxLibraryOrder + 1
-	} else {
-		stage.LibraryOrder = 0
-	}
+	stage.LibraryOrder = __gong__recomputeOrder(stage.Library_stagedOrder)
 
-	var maxNoteOrder uint
-	var foundNote bool
-	for _, order := range stage.Note_stagedOrder {
-		if !foundNote || order > maxNoteOrder {
-			maxNoteOrder = order
-			foundNote = true
-		}
-	}
-	if foundNote {
-		stage.NoteOrder = maxNoteOrder + 1
-	} else {
-		stage.NoteOrder = 0
-	}
+	stage.NoteOrder = __gong__recomputeOrder(stage.Note_stagedOrder)
 
-	var maxNoteComplexityShapeOrder uint
-	var foundNoteComplexityShape bool
-	for _, order := range stage.NoteComplexityShape_stagedOrder {
-		if !foundNoteComplexityShape || order > maxNoteComplexityShapeOrder {
-			maxNoteComplexityShapeOrder = order
-			foundNoteComplexityShape = true
-		}
-	}
-	if foundNoteComplexityShape {
-		stage.NoteComplexityShapeOrder = maxNoteComplexityShapeOrder + 1
-	} else {
-		stage.NoteComplexityShapeOrder = 0
-	}
+	stage.NoteComplexityShapeOrder = __gong__recomputeOrder(stage.NoteComplexityShape_stagedOrder)
 
-	var maxNoteEffortShapeOrder uint
-	var foundNoteEffortShape bool
-	for _, order := range stage.NoteEffortShape_stagedOrder {
-		if !foundNoteEffortShape || order > maxNoteEffortShapeOrder {
-			maxNoteEffortShapeOrder = order
-			foundNoteEffortShape = true
-		}
-	}
-	if foundNoteEffortShape {
-		stage.NoteEffortShapeOrder = maxNoteEffortShapeOrder + 1
-	} else {
-		stage.NoteEffortShapeOrder = 0
-	}
+	stage.NoteEffortShapeOrder = __gong__recomputeOrder(stage.NoteEffortShape_stagedOrder)
 
-	var maxNotePerformanceShapeOrder uint
-	var foundNotePerformanceShape bool
-	for _, order := range stage.NotePerformanceShape_stagedOrder {
-		if !foundNotePerformanceShape || order > maxNotePerformanceShapeOrder {
-			maxNotePerformanceShapeOrder = order
-			foundNotePerformanceShape = true
-		}
-	}
-	if foundNotePerformanceShape {
-		stage.NotePerformanceShapeOrder = maxNotePerformanceShapeOrder + 1
-	} else {
-		stage.NotePerformanceShapeOrder = 0
-	}
+	stage.NotePerformanceShapeOrder = __gong__recomputeOrder(stage.NotePerformanceShape_stagedOrder)
 
-	var maxNoteShapeOrder uint
-	var foundNoteShape bool
-	for _, order := range stage.NoteShape_stagedOrder {
-		if !foundNoteShape || order > maxNoteShapeOrder {
-			maxNoteShapeOrder = order
-			foundNoteShape = true
-		}
-	}
-	if foundNoteShape {
-		stage.NoteShapeOrder = maxNoteShapeOrder + 1
-	} else {
-		stage.NoteShapeOrder = 0
-	}
+	stage.NoteShapeOrder = __gong__recomputeOrder(stage.NoteShape_stagedOrder)
 
-	var maxPerformanceOrder uint
-	var foundPerformance bool
-	for _, order := range stage.Performance_stagedOrder {
-		if !foundPerformance || order > maxPerformanceOrder {
-			maxPerformanceOrder = order
-			foundPerformance = true
-		}
-	}
-	if foundPerformance {
-		stage.PerformanceOrder = maxPerformanceOrder + 1
-	} else {
-		stage.PerformanceOrder = 0
-	}
+	stage.PerformanceOrder = __gong__recomputeOrder(stage.Performance_stagedOrder)
 
-	var maxSystemOrder uint
-	var foundSystem bool
-	for _, order := range stage.System_stagedOrder {
-		if !foundSystem || order > maxSystemOrder {
-			maxSystemOrder = order
-			foundSystem = true
-		}
-	}
-	if foundSystem {
-		stage.SystemOrder = maxSystemOrder + 1
-	} else {
-		stage.SystemOrder = 0
-	}
+	stage.SystemOrder = __gong__recomputeOrder(stage.System_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -877,173 +697,29 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *CompareAnalysis:
-		tmp := __gong__getStructInstancesByOrder(stage.CompareAnalysiss, stage.CompareAnalysis_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *CompareAnalysis implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CompareAnalysiss, stage.CompareAnalysis_stagedOrder))
 	case *Complexity:
-		tmp := __gong__getStructInstancesByOrder(stage.Complexitys, stage.Complexity_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Complexity implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Complexitys, stage.Complexity_stagedOrder))
 	case *DiagramFlossEquation:
-		tmp := __gong__getStructInstancesByOrder(stage.DiagramFlossEquations, stage.DiagramFlossEquation_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *DiagramFlossEquation implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DiagramFlossEquations, stage.DiagramFlossEquation_stagedOrder))
 	case *Effort:
-		tmp := __gong__getStructInstancesByOrder(stage.Efforts, stage.Effort_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Effort implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Efforts, stage.Effort_stagedOrder))
 	case *Library:
-		tmp := __gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Library implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder))
 	case *Note:
-		tmp := __gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Note implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder))
 	case *NoteComplexityShape:
-		tmp := __gong__getStructInstancesByOrder(stage.NoteComplexityShapes, stage.NoteComplexityShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *NoteComplexityShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteComplexityShapes, stage.NoteComplexityShape_stagedOrder))
 	case *NoteEffortShape:
-		tmp := __gong__getStructInstancesByOrder(stage.NoteEffortShapes, stage.NoteEffortShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *NoteEffortShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteEffortShapes, stage.NoteEffortShape_stagedOrder))
 	case *NotePerformanceShape:
-		tmp := __gong__getStructInstancesByOrder(stage.NotePerformanceShapes, stage.NotePerformanceShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *NotePerformanceShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NotePerformanceShapes, stage.NotePerformanceShape_stagedOrder))
 	case *NoteShape:
-		tmp := __gong__getStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *NoteShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder))
 	case *Performance:
-		tmp := __gong__getStructInstancesByOrder(stage.Performances, stage.Performance_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Performance implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Performances, stage.Performance_stagedOrder))
 	case *System:
-		tmp := __gong__getStructInstancesByOrder(stage.Systems, stage.System_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *System implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Systems, stage.System_stagedOrder))
 
 	}
 	return
@@ -1070,6 +746,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/dsm/floss/go/models"
 }
@@ -1093,14 +865,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -1123,31 +887,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitCompareAnalysis(compareanalysis *CompareAnalysis)
-	CheckoutCompareAnalysis(compareanalysis *CompareAnalysis)
-	CommitComplexity(complexity *Complexity)
-	CheckoutComplexity(complexity *Complexity)
-	CommitDiagramFlossEquation(diagramflossequation *DiagramFlossEquation)
-	CheckoutDiagramFlossEquation(diagramflossequation *DiagramFlossEquation)
-	CommitEffort(effort *Effort)
-	CheckoutEffort(effort *Effort)
-	CommitLibrary(library *Library)
-	CheckoutLibrary(library *Library)
-	CommitNote(note *Note)
-	CheckoutNote(note *Note)
-	CommitNoteComplexityShape(notecomplexityshape *NoteComplexityShape)
-	CheckoutNoteComplexityShape(notecomplexityshape *NoteComplexityShape)
-	CommitNoteEffortShape(noteeffortshape *NoteEffortShape)
-	CheckoutNoteEffortShape(noteeffortshape *NoteEffortShape)
-	CommitNotePerformanceShape(noteperformanceshape *NotePerformanceShape)
-	CheckoutNotePerformanceShape(noteperformanceshape *NotePerformanceShape)
-	CommitNoteShape(noteshape *NoteShape)
-	CheckoutNoteShape(noteshape *NoteShape)
-	CommitPerformance(performance *Performance)
-	CheckoutPerformance(performance *Performance)
-	CommitSystem(system *System)
-	CheckoutSystem(system *System)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -1441,14 +1180,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts compareanalysis to the model stage
 func (compareanalysis *CompareAnalysis) Stage(stage *Stage) *CompareAnalysis {
-	if _, ok := stage.CompareAnalysiss[compareanalysis]; !ok {
-		stage.CompareAnalysiss[compareanalysis] = struct{}{}
-		stage.CompareAnalysis_stagedOrder[compareanalysis] = stage.CompareAnalysisOrder
-		stage.CompareAnalysis_orderStaged[stage.CompareAnalysisOrder] = compareanalysis
-		stage.CompareAnalysisOrder++
-	}
-	stage.CompareAnalysiss_mapString[compareanalysis.Name] = compareanalysis
-
+	__gong__stage(stage.CompareAnalysiss, stage.CompareAnalysis_stagedOrder, stage.CompareAnalysis_orderStaged, &stage.CompareAnalysisOrder, stage.CompareAnalysiss_mapString, compareanalysis, compareanalysis.Name)
 	return compareanalysis
 }
 
@@ -1458,59 +1190,22 @@ func (compareanalysis *CompareAnalysis) Stage(stage *Stage) *CompareAnalysis {
 // - force the order if the order is equal or greater than the stage.CompareAnalysisOrder
 // - update stage.CompareAnalysisOrder accordingly
 func (compareanalysis *CompareAnalysis) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.CompareAnalysiss[compareanalysis]; !ok {
-		stage.CompareAnalysiss[compareanalysis] = struct{}{}
-
-		if order > stage.CompareAnalysisOrder {
-			stage.CompareAnalysisOrder = order
-		}
-		stage.CompareAnalysis_stagedOrder[compareanalysis] = order
-		stage.CompareAnalysis_orderStaged[order] = compareanalysis
-		stage.CompareAnalysisOrder++
-	}
-	stage.CompareAnalysiss_mapString[compareanalysis.Name] = compareanalysis
+	__gong__stagePreserveOrder(stage.CompareAnalysiss, stage.CompareAnalysis_stagedOrder, stage.CompareAnalysis_orderStaged, &stage.CompareAnalysisOrder, stage.CompareAnalysiss_mapString, compareanalysis, order, compareanalysis.Name)
 }
 
 // Unstage removes compareanalysis off the model stage
 func (compareanalysis *CompareAnalysis) Unstage(stage *Stage) *CompareAnalysis {
-	delete(stage.CompareAnalysiss, compareanalysis)
-	// issue1150
-	// delete(stage.CompareAnalysis_stagedOrder, compareanalysis)
-	delete(stage.CompareAnalysiss_mapString, compareanalysis.Name)
-
+	__gong__unstage(stage.CompareAnalysiss, stage.CompareAnalysiss_mapString, compareanalysis, compareanalysis.Name)
 	return compareanalysis
 }
 
 // UnstageVoid removes compareanalysis off the model stage
 func (compareanalysis *CompareAnalysis) UnstageVoid(stage *Stage) {
-	delete(stage.CompareAnalysiss, compareanalysis)
-	// issue1150
-	// delete(stage.CompareAnalysis_stagedOrder, compareanalysis)
-	delete(stage.CompareAnalysiss_mapString, compareanalysis.Name)
-}
-
-// commit compareanalysis to the back repo (if it is already staged)
-func (compareanalysis *CompareAnalysis) Commit(stage *Stage) *CompareAnalysis {
-	if _, ok := stage.CompareAnalysiss[compareanalysis]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCompareAnalysis(compareanalysis)
-		}
-	}
-	return compareanalysis
+	compareanalysis.Unstage(stage)
 }
 
 func (compareanalysis *CompareAnalysis) StageVoid(stage *Stage) {
 	compareanalysis.Stage(stage)
-}
-
-// Checkout compareanalysis to the back repo (if it is already staged)
-func (compareanalysis *CompareAnalysis) Checkout(stage *Stage) *CompareAnalysis {
-	if _, ok := stage.CompareAnalysiss[compareanalysis]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCompareAnalysis(compareanalysis)
-		}
-	}
-	return compareanalysis
 }
 
 // for satisfaction of GongStruct interface
@@ -1525,14 +1220,7 @@ func (compareanalysis *CompareAnalysis) SetName(name string) {
 
 // Stage puts complexity to the model stage
 func (complexity *Complexity) Stage(stage *Stage) *Complexity {
-	if _, ok := stage.Complexitys[complexity]; !ok {
-		stage.Complexitys[complexity] = struct{}{}
-		stage.Complexity_stagedOrder[complexity] = stage.ComplexityOrder
-		stage.Complexity_orderStaged[stage.ComplexityOrder] = complexity
-		stage.ComplexityOrder++
-	}
-	stage.Complexitys_mapString[complexity.Name] = complexity
-
+	__gong__stage(stage.Complexitys, stage.Complexity_stagedOrder, stage.Complexity_orderStaged, &stage.ComplexityOrder, stage.Complexitys_mapString, complexity, complexity.Name)
 	return complexity
 }
 
@@ -1542,59 +1230,22 @@ func (complexity *Complexity) Stage(stage *Stage) *Complexity {
 // - force the order if the order is equal or greater than the stage.ComplexityOrder
 // - update stage.ComplexityOrder accordingly
 func (complexity *Complexity) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Complexitys[complexity]; !ok {
-		stage.Complexitys[complexity] = struct{}{}
-
-		if order > stage.ComplexityOrder {
-			stage.ComplexityOrder = order
-		}
-		stage.Complexity_stagedOrder[complexity] = order
-		stage.Complexity_orderStaged[order] = complexity
-		stage.ComplexityOrder++
-	}
-	stage.Complexitys_mapString[complexity.Name] = complexity
+	__gong__stagePreserveOrder(stage.Complexitys, stage.Complexity_stagedOrder, stage.Complexity_orderStaged, &stage.ComplexityOrder, stage.Complexitys_mapString, complexity, order, complexity.Name)
 }
 
 // Unstage removes complexity off the model stage
 func (complexity *Complexity) Unstage(stage *Stage) *Complexity {
-	delete(stage.Complexitys, complexity)
-	// issue1150
-	// delete(stage.Complexity_stagedOrder, complexity)
-	delete(stage.Complexitys_mapString, complexity.Name)
-
+	__gong__unstage(stage.Complexitys, stage.Complexitys_mapString, complexity, complexity.Name)
 	return complexity
 }
 
 // UnstageVoid removes complexity off the model stage
 func (complexity *Complexity) UnstageVoid(stage *Stage) {
-	delete(stage.Complexitys, complexity)
-	// issue1150
-	// delete(stage.Complexity_stagedOrder, complexity)
-	delete(stage.Complexitys_mapString, complexity.Name)
-}
-
-// commit complexity to the back repo (if it is already staged)
-func (complexity *Complexity) Commit(stage *Stage) *Complexity {
-	if _, ok := stage.Complexitys[complexity]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitComplexity(complexity)
-		}
-	}
-	return complexity
+	complexity.Unstage(stage)
 }
 
 func (complexity *Complexity) StageVoid(stage *Stage) {
 	complexity.Stage(stage)
-}
-
-// Checkout complexity to the back repo (if it is already staged)
-func (complexity *Complexity) Checkout(stage *Stage) *Complexity {
-	if _, ok := stage.Complexitys[complexity]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutComplexity(complexity)
-		}
-	}
-	return complexity
 }
 
 // for satisfaction of GongStruct interface
@@ -1609,14 +1260,7 @@ func (complexity *Complexity) SetName(name string) {
 
 // Stage puts diagramflossequation to the model stage
 func (diagramflossequation *DiagramFlossEquation) Stage(stage *Stage) *DiagramFlossEquation {
-	if _, ok := stage.DiagramFlossEquations[diagramflossequation]; !ok {
-		stage.DiagramFlossEquations[diagramflossequation] = struct{}{}
-		stage.DiagramFlossEquation_stagedOrder[diagramflossequation] = stage.DiagramFlossEquationOrder
-		stage.DiagramFlossEquation_orderStaged[stage.DiagramFlossEquationOrder] = diagramflossequation
-		stage.DiagramFlossEquationOrder++
-	}
-	stage.DiagramFlossEquations_mapString[diagramflossequation.Name] = diagramflossequation
-
+	__gong__stage(stage.DiagramFlossEquations, stage.DiagramFlossEquation_stagedOrder, stage.DiagramFlossEquation_orderStaged, &stage.DiagramFlossEquationOrder, stage.DiagramFlossEquations_mapString, diagramflossequation, diagramflossequation.Name)
 	return diagramflossequation
 }
 
@@ -1626,59 +1270,22 @@ func (diagramflossequation *DiagramFlossEquation) Stage(stage *Stage) *DiagramFl
 // - force the order if the order is equal or greater than the stage.DiagramFlossEquationOrder
 // - update stage.DiagramFlossEquationOrder accordingly
 func (diagramflossequation *DiagramFlossEquation) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.DiagramFlossEquations[diagramflossequation]; !ok {
-		stage.DiagramFlossEquations[diagramflossequation] = struct{}{}
-
-		if order > stage.DiagramFlossEquationOrder {
-			stage.DiagramFlossEquationOrder = order
-		}
-		stage.DiagramFlossEquation_stagedOrder[diagramflossequation] = order
-		stage.DiagramFlossEquation_orderStaged[order] = diagramflossequation
-		stage.DiagramFlossEquationOrder++
-	}
-	stage.DiagramFlossEquations_mapString[diagramflossequation.Name] = diagramflossequation
+	__gong__stagePreserveOrder(stage.DiagramFlossEquations, stage.DiagramFlossEquation_stagedOrder, stage.DiagramFlossEquation_orderStaged, &stage.DiagramFlossEquationOrder, stage.DiagramFlossEquations_mapString, diagramflossequation, order, diagramflossequation.Name)
 }
 
 // Unstage removes diagramflossequation off the model stage
 func (diagramflossequation *DiagramFlossEquation) Unstage(stage *Stage) *DiagramFlossEquation {
-	delete(stage.DiagramFlossEquations, diagramflossequation)
-	// issue1150
-	// delete(stage.DiagramFlossEquation_stagedOrder, diagramflossequation)
-	delete(stage.DiagramFlossEquations_mapString, diagramflossequation.Name)
-
+	__gong__unstage(stage.DiagramFlossEquations, stage.DiagramFlossEquations_mapString, diagramflossequation, diagramflossequation.Name)
 	return diagramflossequation
 }
 
 // UnstageVoid removes diagramflossequation off the model stage
 func (diagramflossequation *DiagramFlossEquation) UnstageVoid(stage *Stage) {
-	delete(stage.DiagramFlossEquations, diagramflossequation)
-	// issue1150
-	// delete(stage.DiagramFlossEquation_stagedOrder, diagramflossequation)
-	delete(stage.DiagramFlossEquations_mapString, diagramflossequation.Name)
-}
-
-// commit diagramflossequation to the back repo (if it is already staged)
-func (diagramflossequation *DiagramFlossEquation) Commit(stage *Stage) *DiagramFlossEquation {
-	if _, ok := stage.DiagramFlossEquations[diagramflossequation]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitDiagramFlossEquation(diagramflossequation)
-		}
-	}
-	return diagramflossequation
+	diagramflossequation.Unstage(stage)
 }
 
 func (diagramflossequation *DiagramFlossEquation) StageVoid(stage *Stage) {
 	diagramflossequation.Stage(stage)
-}
-
-// Checkout diagramflossequation to the back repo (if it is already staged)
-func (diagramflossequation *DiagramFlossEquation) Checkout(stage *Stage) *DiagramFlossEquation {
-	if _, ok := stage.DiagramFlossEquations[diagramflossequation]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutDiagramFlossEquation(diagramflossequation)
-		}
-	}
-	return diagramflossequation
 }
 
 // for satisfaction of GongStruct interface
@@ -1693,14 +1300,7 @@ func (diagramflossequation *DiagramFlossEquation) SetName(name string) {
 
 // Stage puts effort to the model stage
 func (effort *Effort) Stage(stage *Stage) *Effort {
-	if _, ok := stage.Efforts[effort]; !ok {
-		stage.Efforts[effort] = struct{}{}
-		stage.Effort_stagedOrder[effort] = stage.EffortOrder
-		stage.Effort_orderStaged[stage.EffortOrder] = effort
-		stage.EffortOrder++
-	}
-	stage.Efforts_mapString[effort.Name] = effort
-
+	__gong__stage(stage.Efforts, stage.Effort_stagedOrder, stage.Effort_orderStaged, &stage.EffortOrder, stage.Efforts_mapString, effort, effort.Name)
 	return effort
 }
 
@@ -1710,59 +1310,22 @@ func (effort *Effort) Stage(stage *Stage) *Effort {
 // - force the order if the order is equal or greater than the stage.EffortOrder
 // - update stage.EffortOrder accordingly
 func (effort *Effort) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Efforts[effort]; !ok {
-		stage.Efforts[effort] = struct{}{}
-
-		if order > stage.EffortOrder {
-			stage.EffortOrder = order
-		}
-		stage.Effort_stagedOrder[effort] = order
-		stage.Effort_orderStaged[order] = effort
-		stage.EffortOrder++
-	}
-	stage.Efforts_mapString[effort.Name] = effort
+	__gong__stagePreserveOrder(stage.Efforts, stage.Effort_stagedOrder, stage.Effort_orderStaged, &stage.EffortOrder, stage.Efforts_mapString, effort, order, effort.Name)
 }
 
 // Unstage removes effort off the model stage
 func (effort *Effort) Unstage(stage *Stage) *Effort {
-	delete(stage.Efforts, effort)
-	// issue1150
-	// delete(stage.Effort_stagedOrder, effort)
-	delete(stage.Efforts_mapString, effort.Name)
-
+	__gong__unstage(stage.Efforts, stage.Efforts_mapString, effort, effort.Name)
 	return effort
 }
 
 // UnstageVoid removes effort off the model stage
 func (effort *Effort) UnstageVoid(stage *Stage) {
-	delete(stage.Efforts, effort)
-	// issue1150
-	// delete(stage.Effort_stagedOrder, effort)
-	delete(stage.Efforts_mapString, effort.Name)
-}
-
-// commit effort to the back repo (if it is already staged)
-func (effort *Effort) Commit(stage *Stage) *Effort {
-	if _, ok := stage.Efforts[effort]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitEffort(effort)
-		}
-	}
-	return effort
+	effort.Unstage(stage)
 }
 
 func (effort *Effort) StageVoid(stage *Stage) {
 	effort.Stage(stage)
-}
-
-// Checkout effort to the back repo (if it is already staged)
-func (effort *Effort) Checkout(stage *Stage) *Effort {
-	if _, ok := stage.Efforts[effort]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutEffort(effort)
-		}
-	}
-	return effort
 }
 
 // for satisfaction of GongStruct interface
@@ -1777,14 +1340,7 @@ func (effort *Effort) SetName(name string) {
 
 // Stage puts library to the model stage
 func (library *Library) Stage(stage *Stage) *Library {
-	if _, ok := stage.Librarys[library]; !ok {
-		stage.Librarys[library] = struct{}{}
-		stage.Library_stagedOrder[library] = stage.LibraryOrder
-		stage.Library_orderStaged[stage.LibraryOrder] = library
-		stage.LibraryOrder++
-	}
-	stage.Librarys_mapString[library.Name] = library
-
+	__gong__stage(stage.Librarys, stage.Library_stagedOrder, stage.Library_orderStaged, &stage.LibraryOrder, stage.Librarys_mapString, library, library.Name)
 	return library
 }
 
@@ -1794,59 +1350,22 @@ func (library *Library) Stage(stage *Stage) *Library {
 // - force the order if the order is equal or greater than the stage.LibraryOrder
 // - update stage.LibraryOrder accordingly
 func (library *Library) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Librarys[library]; !ok {
-		stage.Librarys[library] = struct{}{}
-
-		if order > stage.LibraryOrder {
-			stage.LibraryOrder = order
-		}
-		stage.Library_stagedOrder[library] = order
-		stage.Library_orderStaged[order] = library
-		stage.LibraryOrder++
-	}
-	stage.Librarys_mapString[library.Name] = library
+	__gong__stagePreserveOrder(stage.Librarys, stage.Library_stagedOrder, stage.Library_orderStaged, &stage.LibraryOrder, stage.Librarys_mapString, library, order, library.Name)
 }
 
 // Unstage removes library off the model stage
 func (library *Library) Unstage(stage *Stage) *Library {
-	delete(stage.Librarys, library)
-	// issue1150
-	// delete(stage.Library_stagedOrder, library)
-	delete(stage.Librarys_mapString, library.Name)
-
+	__gong__unstage(stage.Librarys, stage.Librarys_mapString, library, library.Name)
 	return library
 }
 
 // UnstageVoid removes library off the model stage
 func (library *Library) UnstageVoid(stage *Stage) {
-	delete(stage.Librarys, library)
-	// issue1150
-	// delete(stage.Library_stagedOrder, library)
-	delete(stage.Librarys_mapString, library.Name)
-}
-
-// commit library to the back repo (if it is already staged)
-func (library *Library) Commit(stage *Stage) *Library {
-	if _, ok := stage.Librarys[library]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitLibrary(library)
-		}
-	}
-	return library
+	library.Unstage(stage)
 }
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
-}
-
-// Checkout library to the back repo (if it is already staged)
-func (library *Library) Checkout(stage *Stage) *Library {
-	if _, ok := stage.Librarys[library]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutLibrary(library)
-		}
-	}
-	return library
 }
 
 // for satisfaction of GongStruct interface
@@ -1861,14 +1380,7 @@ func (library *Library) SetName(name string) {
 
 // Stage puts note to the model stage
 func (note *Note) Stage(stage *Stage) *Note {
-	if _, ok := stage.Notes[note]; !ok {
-		stage.Notes[note] = struct{}{}
-		stage.Note_stagedOrder[note] = stage.NoteOrder
-		stage.Note_orderStaged[stage.NoteOrder] = note
-		stage.NoteOrder++
-	}
-	stage.Notes_mapString[note.Name] = note
-
+	__gong__stage(stage.Notes, stage.Note_stagedOrder, stage.Note_orderStaged, &stage.NoteOrder, stage.Notes_mapString, note, note.Name)
 	return note
 }
 
@@ -1878,59 +1390,22 @@ func (note *Note) Stage(stage *Stage) *Note {
 // - force the order if the order is equal or greater than the stage.NoteOrder
 // - update stage.NoteOrder accordingly
 func (note *Note) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Notes[note]; !ok {
-		stage.Notes[note] = struct{}{}
-
-		if order > stage.NoteOrder {
-			stage.NoteOrder = order
-		}
-		stage.Note_stagedOrder[note] = order
-		stage.Note_orderStaged[order] = note
-		stage.NoteOrder++
-	}
-	stage.Notes_mapString[note.Name] = note
+	__gong__stagePreserveOrder(stage.Notes, stage.Note_stagedOrder, stage.Note_orderStaged, &stage.NoteOrder, stage.Notes_mapString, note, order, note.Name)
 }
 
 // Unstage removes note off the model stage
 func (note *Note) Unstage(stage *Stage) *Note {
-	delete(stage.Notes, note)
-	// issue1150
-	// delete(stage.Note_stagedOrder, note)
-	delete(stage.Notes_mapString, note.Name)
-
+	__gong__unstage(stage.Notes, stage.Notes_mapString, note, note.Name)
 	return note
 }
 
 // UnstageVoid removes note off the model stage
 func (note *Note) UnstageVoid(stage *Stage) {
-	delete(stage.Notes, note)
-	// issue1150
-	// delete(stage.Note_stagedOrder, note)
-	delete(stage.Notes_mapString, note.Name)
-}
-
-// commit note to the back repo (if it is already staged)
-func (note *Note) Commit(stage *Stage) *Note {
-	if _, ok := stage.Notes[note]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitNote(note)
-		}
-	}
-	return note
+	note.Unstage(stage)
 }
 
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
-}
-
-// Checkout note to the back repo (if it is already staged)
-func (note *Note) Checkout(stage *Stage) *Note {
-	if _, ok := stage.Notes[note]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutNote(note)
-		}
-	}
-	return note
 }
 
 // for satisfaction of GongStruct interface
@@ -1945,14 +1420,7 @@ func (note *Note) SetName(name string) {
 
 // Stage puts notecomplexityshape to the model stage
 func (notecomplexityshape *NoteComplexityShape) Stage(stage *Stage) *NoteComplexityShape {
-	if _, ok := stage.NoteComplexityShapes[notecomplexityshape]; !ok {
-		stage.NoteComplexityShapes[notecomplexityshape] = struct{}{}
-		stage.NoteComplexityShape_stagedOrder[notecomplexityshape] = stage.NoteComplexityShapeOrder
-		stage.NoteComplexityShape_orderStaged[stage.NoteComplexityShapeOrder] = notecomplexityshape
-		stage.NoteComplexityShapeOrder++
-	}
-	stage.NoteComplexityShapes_mapString[notecomplexityshape.Name] = notecomplexityshape
-
+	__gong__stage(stage.NoteComplexityShapes, stage.NoteComplexityShape_stagedOrder, stage.NoteComplexityShape_orderStaged, &stage.NoteComplexityShapeOrder, stage.NoteComplexityShapes_mapString, notecomplexityshape, notecomplexityshape.Name)
 	return notecomplexityshape
 }
 
@@ -1962,59 +1430,22 @@ func (notecomplexityshape *NoteComplexityShape) Stage(stage *Stage) *NoteComplex
 // - force the order if the order is equal or greater than the stage.NoteComplexityShapeOrder
 // - update stage.NoteComplexityShapeOrder accordingly
 func (notecomplexityshape *NoteComplexityShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.NoteComplexityShapes[notecomplexityshape]; !ok {
-		stage.NoteComplexityShapes[notecomplexityshape] = struct{}{}
-
-		if order > stage.NoteComplexityShapeOrder {
-			stage.NoteComplexityShapeOrder = order
-		}
-		stage.NoteComplexityShape_stagedOrder[notecomplexityshape] = order
-		stage.NoteComplexityShape_orderStaged[order] = notecomplexityshape
-		stage.NoteComplexityShapeOrder++
-	}
-	stage.NoteComplexityShapes_mapString[notecomplexityshape.Name] = notecomplexityshape
+	__gong__stagePreserveOrder(stage.NoteComplexityShapes, stage.NoteComplexityShape_stagedOrder, stage.NoteComplexityShape_orderStaged, &stage.NoteComplexityShapeOrder, stage.NoteComplexityShapes_mapString, notecomplexityshape, order, notecomplexityshape.Name)
 }
 
 // Unstage removes notecomplexityshape off the model stage
 func (notecomplexityshape *NoteComplexityShape) Unstage(stage *Stage) *NoteComplexityShape {
-	delete(stage.NoteComplexityShapes, notecomplexityshape)
-	// issue1150
-	// delete(stage.NoteComplexityShape_stagedOrder, notecomplexityshape)
-	delete(stage.NoteComplexityShapes_mapString, notecomplexityshape.Name)
-
+	__gong__unstage(stage.NoteComplexityShapes, stage.NoteComplexityShapes_mapString, notecomplexityshape, notecomplexityshape.Name)
 	return notecomplexityshape
 }
 
 // UnstageVoid removes notecomplexityshape off the model stage
 func (notecomplexityshape *NoteComplexityShape) UnstageVoid(stage *Stage) {
-	delete(stage.NoteComplexityShapes, notecomplexityshape)
-	// issue1150
-	// delete(stage.NoteComplexityShape_stagedOrder, notecomplexityshape)
-	delete(stage.NoteComplexityShapes_mapString, notecomplexityshape.Name)
-}
-
-// commit notecomplexityshape to the back repo (if it is already staged)
-func (notecomplexityshape *NoteComplexityShape) Commit(stage *Stage) *NoteComplexityShape {
-	if _, ok := stage.NoteComplexityShapes[notecomplexityshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitNoteComplexityShape(notecomplexityshape)
-		}
-	}
-	return notecomplexityshape
+	notecomplexityshape.Unstage(stage)
 }
 
 func (notecomplexityshape *NoteComplexityShape) StageVoid(stage *Stage) {
 	notecomplexityshape.Stage(stage)
-}
-
-// Checkout notecomplexityshape to the back repo (if it is already staged)
-func (notecomplexityshape *NoteComplexityShape) Checkout(stage *Stage) *NoteComplexityShape {
-	if _, ok := stage.NoteComplexityShapes[notecomplexityshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutNoteComplexityShape(notecomplexityshape)
-		}
-	}
-	return notecomplexityshape
 }
 
 // for satisfaction of GongStruct interface
@@ -2029,14 +1460,7 @@ func (notecomplexityshape *NoteComplexityShape) SetName(name string) {
 
 // Stage puts noteeffortshape to the model stage
 func (noteeffortshape *NoteEffortShape) Stage(stage *Stage) *NoteEffortShape {
-	if _, ok := stage.NoteEffortShapes[noteeffortshape]; !ok {
-		stage.NoteEffortShapes[noteeffortshape] = struct{}{}
-		stage.NoteEffortShape_stagedOrder[noteeffortshape] = stage.NoteEffortShapeOrder
-		stage.NoteEffortShape_orderStaged[stage.NoteEffortShapeOrder] = noteeffortshape
-		stage.NoteEffortShapeOrder++
-	}
-	stage.NoteEffortShapes_mapString[noteeffortshape.Name] = noteeffortshape
-
+	__gong__stage(stage.NoteEffortShapes, stage.NoteEffortShape_stagedOrder, stage.NoteEffortShape_orderStaged, &stage.NoteEffortShapeOrder, stage.NoteEffortShapes_mapString, noteeffortshape, noteeffortshape.Name)
 	return noteeffortshape
 }
 
@@ -2046,59 +1470,22 @@ func (noteeffortshape *NoteEffortShape) Stage(stage *Stage) *NoteEffortShape {
 // - force the order if the order is equal or greater than the stage.NoteEffortShapeOrder
 // - update stage.NoteEffortShapeOrder accordingly
 func (noteeffortshape *NoteEffortShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.NoteEffortShapes[noteeffortshape]; !ok {
-		stage.NoteEffortShapes[noteeffortshape] = struct{}{}
-
-		if order > stage.NoteEffortShapeOrder {
-			stage.NoteEffortShapeOrder = order
-		}
-		stage.NoteEffortShape_stagedOrder[noteeffortshape] = order
-		stage.NoteEffortShape_orderStaged[order] = noteeffortshape
-		stage.NoteEffortShapeOrder++
-	}
-	stage.NoteEffortShapes_mapString[noteeffortshape.Name] = noteeffortshape
+	__gong__stagePreserveOrder(stage.NoteEffortShapes, stage.NoteEffortShape_stagedOrder, stage.NoteEffortShape_orderStaged, &stage.NoteEffortShapeOrder, stage.NoteEffortShapes_mapString, noteeffortshape, order, noteeffortshape.Name)
 }
 
 // Unstage removes noteeffortshape off the model stage
 func (noteeffortshape *NoteEffortShape) Unstage(stage *Stage) *NoteEffortShape {
-	delete(stage.NoteEffortShapes, noteeffortshape)
-	// issue1150
-	// delete(stage.NoteEffortShape_stagedOrder, noteeffortshape)
-	delete(stage.NoteEffortShapes_mapString, noteeffortshape.Name)
-
+	__gong__unstage(stage.NoteEffortShapes, stage.NoteEffortShapes_mapString, noteeffortshape, noteeffortshape.Name)
 	return noteeffortshape
 }
 
 // UnstageVoid removes noteeffortshape off the model stage
 func (noteeffortshape *NoteEffortShape) UnstageVoid(stage *Stage) {
-	delete(stage.NoteEffortShapes, noteeffortshape)
-	// issue1150
-	// delete(stage.NoteEffortShape_stagedOrder, noteeffortshape)
-	delete(stage.NoteEffortShapes_mapString, noteeffortshape.Name)
-}
-
-// commit noteeffortshape to the back repo (if it is already staged)
-func (noteeffortshape *NoteEffortShape) Commit(stage *Stage) *NoteEffortShape {
-	if _, ok := stage.NoteEffortShapes[noteeffortshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitNoteEffortShape(noteeffortshape)
-		}
-	}
-	return noteeffortshape
+	noteeffortshape.Unstage(stage)
 }
 
 func (noteeffortshape *NoteEffortShape) StageVoid(stage *Stage) {
 	noteeffortshape.Stage(stage)
-}
-
-// Checkout noteeffortshape to the back repo (if it is already staged)
-func (noteeffortshape *NoteEffortShape) Checkout(stage *Stage) *NoteEffortShape {
-	if _, ok := stage.NoteEffortShapes[noteeffortshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutNoteEffortShape(noteeffortshape)
-		}
-	}
-	return noteeffortshape
 }
 
 // for satisfaction of GongStruct interface
@@ -2113,14 +1500,7 @@ func (noteeffortshape *NoteEffortShape) SetName(name string) {
 
 // Stage puts noteperformanceshape to the model stage
 func (noteperformanceshape *NotePerformanceShape) Stage(stage *Stage) *NotePerformanceShape {
-	if _, ok := stage.NotePerformanceShapes[noteperformanceshape]; !ok {
-		stage.NotePerformanceShapes[noteperformanceshape] = struct{}{}
-		stage.NotePerformanceShape_stagedOrder[noteperformanceshape] = stage.NotePerformanceShapeOrder
-		stage.NotePerformanceShape_orderStaged[stage.NotePerformanceShapeOrder] = noteperformanceshape
-		stage.NotePerformanceShapeOrder++
-	}
-	stage.NotePerformanceShapes_mapString[noteperformanceshape.Name] = noteperformanceshape
-
+	__gong__stage(stage.NotePerformanceShapes, stage.NotePerformanceShape_stagedOrder, stage.NotePerformanceShape_orderStaged, &stage.NotePerformanceShapeOrder, stage.NotePerformanceShapes_mapString, noteperformanceshape, noteperformanceshape.Name)
 	return noteperformanceshape
 }
 
@@ -2130,59 +1510,22 @@ func (noteperformanceshape *NotePerformanceShape) Stage(stage *Stage) *NotePerfo
 // - force the order if the order is equal or greater than the stage.NotePerformanceShapeOrder
 // - update stage.NotePerformanceShapeOrder accordingly
 func (noteperformanceshape *NotePerformanceShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.NotePerformanceShapes[noteperformanceshape]; !ok {
-		stage.NotePerformanceShapes[noteperformanceshape] = struct{}{}
-
-		if order > stage.NotePerformanceShapeOrder {
-			stage.NotePerformanceShapeOrder = order
-		}
-		stage.NotePerformanceShape_stagedOrder[noteperformanceshape] = order
-		stage.NotePerformanceShape_orderStaged[order] = noteperformanceshape
-		stage.NotePerformanceShapeOrder++
-	}
-	stage.NotePerformanceShapes_mapString[noteperformanceshape.Name] = noteperformanceshape
+	__gong__stagePreserveOrder(stage.NotePerformanceShapes, stage.NotePerformanceShape_stagedOrder, stage.NotePerformanceShape_orderStaged, &stage.NotePerformanceShapeOrder, stage.NotePerformanceShapes_mapString, noteperformanceshape, order, noteperformanceshape.Name)
 }
 
 // Unstage removes noteperformanceshape off the model stage
 func (noteperformanceshape *NotePerformanceShape) Unstage(stage *Stage) *NotePerformanceShape {
-	delete(stage.NotePerformanceShapes, noteperformanceshape)
-	// issue1150
-	// delete(stage.NotePerformanceShape_stagedOrder, noteperformanceshape)
-	delete(stage.NotePerformanceShapes_mapString, noteperformanceshape.Name)
-
+	__gong__unstage(stage.NotePerformanceShapes, stage.NotePerformanceShapes_mapString, noteperformanceshape, noteperformanceshape.Name)
 	return noteperformanceshape
 }
 
 // UnstageVoid removes noteperformanceshape off the model stage
 func (noteperformanceshape *NotePerformanceShape) UnstageVoid(stage *Stage) {
-	delete(stage.NotePerformanceShapes, noteperformanceshape)
-	// issue1150
-	// delete(stage.NotePerformanceShape_stagedOrder, noteperformanceshape)
-	delete(stage.NotePerformanceShapes_mapString, noteperformanceshape.Name)
-}
-
-// commit noteperformanceshape to the back repo (if it is already staged)
-func (noteperformanceshape *NotePerformanceShape) Commit(stage *Stage) *NotePerformanceShape {
-	if _, ok := stage.NotePerformanceShapes[noteperformanceshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitNotePerformanceShape(noteperformanceshape)
-		}
-	}
-	return noteperformanceshape
+	noteperformanceshape.Unstage(stage)
 }
 
 func (noteperformanceshape *NotePerformanceShape) StageVoid(stage *Stage) {
 	noteperformanceshape.Stage(stage)
-}
-
-// Checkout noteperformanceshape to the back repo (if it is already staged)
-func (noteperformanceshape *NotePerformanceShape) Checkout(stage *Stage) *NotePerformanceShape {
-	if _, ok := stage.NotePerformanceShapes[noteperformanceshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutNotePerformanceShape(noteperformanceshape)
-		}
-	}
-	return noteperformanceshape
 }
 
 // for satisfaction of GongStruct interface
@@ -2197,14 +1540,7 @@ func (noteperformanceshape *NotePerformanceShape) SetName(name string) {
 
 // Stage puts noteshape to the model stage
 func (noteshape *NoteShape) Stage(stage *Stage) *NoteShape {
-	if _, ok := stage.NoteShapes[noteshape]; !ok {
-		stage.NoteShapes[noteshape] = struct{}{}
-		stage.NoteShape_stagedOrder[noteshape] = stage.NoteShapeOrder
-		stage.NoteShape_orderStaged[stage.NoteShapeOrder] = noteshape
-		stage.NoteShapeOrder++
-	}
-	stage.NoteShapes_mapString[noteshape.Name] = noteshape
-
+	__gong__stage(stage.NoteShapes, stage.NoteShape_stagedOrder, stage.NoteShape_orderStaged, &stage.NoteShapeOrder, stage.NoteShapes_mapString, noteshape, noteshape.Name)
 	return noteshape
 }
 
@@ -2214,59 +1550,22 @@ func (noteshape *NoteShape) Stage(stage *Stage) *NoteShape {
 // - force the order if the order is equal or greater than the stage.NoteShapeOrder
 // - update stage.NoteShapeOrder accordingly
 func (noteshape *NoteShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.NoteShapes[noteshape]; !ok {
-		stage.NoteShapes[noteshape] = struct{}{}
-
-		if order > stage.NoteShapeOrder {
-			stage.NoteShapeOrder = order
-		}
-		stage.NoteShape_stagedOrder[noteshape] = order
-		stage.NoteShape_orderStaged[order] = noteshape
-		stage.NoteShapeOrder++
-	}
-	stage.NoteShapes_mapString[noteshape.Name] = noteshape
+	__gong__stagePreserveOrder(stage.NoteShapes, stage.NoteShape_stagedOrder, stage.NoteShape_orderStaged, &stage.NoteShapeOrder, stage.NoteShapes_mapString, noteshape, order, noteshape.Name)
 }
 
 // Unstage removes noteshape off the model stage
 func (noteshape *NoteShape) Unstage(stage *Stage) *NoteShape {
-	delete(stage.NoteShapes, noteshape)
-	// issue1150
-	// delete(stage.NoteShape_stagedOrder, noteshape)
-	delete(stage.NoteShapes_mapString, noteshape.Name)
-
+	__gong__unstage(stage.NoteShapes, stage.NoteShapes_mapString, noteshape, noteshape.Name)
 	return noteshape
 }
 
 // UnstageVoid removes noteshape off the model stage
 func (noteshape *NoteShape) UnstageVoid(stage *Stage) {
-	delete(stage.NoteShapes, noteshape)
-	// issue1150
-	// delete(stage.NoteShape_stagedOrder, noteshape)
-	delete(stage.NoteShapes_mapString, noteshape.Name)
-}
-
-// commit noteshape to the back repo (if it is already staged)
-func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
-	if _, ok := stage.NoteShapes[noteshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitNoteShape(noteshape)
-		}
-	}
-	return noteshape
+	noteshape.Unstage(stage)
 }
 
 func (noteshape *NoteShape) StageVoid(stage *Stage) {
 	noteshape.Stage(stage)
-}
-
-// Checkout noteshape to the back repo (if it is already staged)
-func (noteshape *NoteShape) Checkout(stage *Stage) *NoteShape {
-	if _, ok := stage.NoteShapes[noteshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutNoteShape(noteshape)
-		}
-	}
-	return noteshape
 }
 
 // for satisfaction of GongStruct interface
@@ -2281,14 +1580,7 @@ func (noteshape *NoteShape) SetName(name string) {
 
 // Stage puts performance to the model stage
 func (performance *Performance) Stage(stage *Stage) *Performance {
-	if _, ok := stage.Performances[performance]; !ok {
-		stage.Performances[performance] = struct{}{}
-		stage.Performance_stagedOrder[performance] = stage.PerformanceOrder
-		stage.Performance_orderStaged[stage.PerformanceOrder] = performance
-		stage.PerformanceOrder++
-	}
-	stage.Performances_mapString[performance.Name] = performance
-
+	__gong__stage(stage.Performances, stage.Performance_stagedOrder, stage.Performance_orderStaged, &stage.PerformanceOrder, stage.Performances_mapString, performance, performance.Name)
 	return performance
 }
 
@@ -2298,59 +1590,22 @@ func (performance *Performance) Stage(stage *Stage) *Performance {
 // - force the order if the order is equal or greater than the stage.PerformanceOrder
 // - update stage.PerformanceOrder accordingly
 func (performance *Performance) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Performances[performance]; !ok {
-		stage.Performances[performance] = struct{}{}
-
-		if order > stage.PerformanceOrder {
-			stage.PerformanceOrder = order
-		}
-		stage.Performance_stagedOrder[performance] = order
-		stage.Performance_orderStaged[order] = performance
-		stage.PerformanceOrder++
-	}
-	stage.Performances_mapString[performance.Name] = performance
+	__gong__stagePreserveOrder(stage.Performances, stage.Performance_stagedOrder, stage.Performance_orderStaged, &stage.PerformanceOrder, stage.Performances_mapString, performance, order, performance.Name)
 }
 
 // Unstage removes performance off the model stage
 func (performance *Performance) Unstage(stage *Stage) *Performance {
-	delete(stage.Performances, performance)
-	// issue1150
-	// delete(stage.Performance_stagedOrder, performance)
-	delete(stage.Performances_mapString, performance.Name)
-
+	__gong__unstage(stage.Performances, stage.Performances_mapString, performance, performance.Name)
 	return performance
 }
 
 // UnstageVoid removes performance off the model stage
 func (performance *Performance) UnstageVoid(stage *Stage) {
-	delete(stage.Performances, performance)
-	// issue1150
-	// delete(stage.Performance_stagedOrder, performance)
-	delete(stage.Performances_mapString, performance.Name)
-}
-
-// commit performance to the back repo (if it is already staged)
-func (performance *Performance) Commit(stage *Stage) *Performance {
-	if _, ok := stage.Performances[performance]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitPerformance(performance)
-		}
-	}
-	return performance
+	performance.Unstage(stage)
 }
 
 func (performance *Performance) StageVoid(stage *Stage) {
 	performance.Stage(stage)
-}
-
-// Checkout performance to the back repo (if it is already staged)
-func (performance *Performance) Checkout(stage *Stage) *Performance {
-	if _, ok := stage.Performances[performance]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutPerformance(performance)
-		}
-	}
-	return performance
 }
 
 // for satisfaction of GongStruct interface
@@ -2365,14 +1620,7 @@ func (performance *Performance) SetName(name string) {
 
 // Stage puts system to the model stage
 func (system *System) Stage(stage *Stage) *System {
-	if _, ok := stage.Systems[system]; !ok {
-		stage.Systems[system] = struct{}{}
-		stage.System_stagedOrder[system] = stage.SystemOrder
-		stage.System_orderStaged[stage.SystemOrder] = system
-		stage.SystemOrder++
-	}
-	stage.Systems_mapString[system.Name] = system
-
+	__gong__stage(stage.Systems, stage.System_stagedOrder, stage.System_orderStaged, &stage.SystemOrder, stage.Systems_mapString, system, system.Name)
 	return system
 }
 
@@ -2382,59 +1630,22 @@ func (system *System) Stage(stage *Stage) *System {
 // - force the order if the order is equal or greater than the stage.SystemOrder
 // - update stage.SystemOrder accordingly
 func (system *System) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Systems[system]; !ok {
-		stage.Systems[system] = struct{}{}
-
-		if order > stage.SystemOrder {
-			stage.SystemOrder = order
-		}
-		stage.System_stagedOrder[system] = order
-		stage.System_orderStaged[order] = system
-		stage.SystemOrder++
-	}
-	stage.Systems_mapString[system.Name] = system
+	__gong__stagePreserveOrder(stage.Systems, stage.System_stagedOrder, stage.System_orderStaged, &stage.SystemOrder, stage.Systems_mapString, system, order, system.Name)
 }
 
 // Unstage removes system off the model stage
 func (system *System) Unstage(stage *Stage) *System {
-	delete(stage.Systems, system)
-	// issue1150
-	// delete(stage.System_stagedOrder, system)
-	delete(stage.Systems_mapString, system.Name)
-
+	__gong__unstage(stage.Systems, stage.Systems_mapString, system, system.Name)
 	return system
 }
 
 // UnstageVoid removes system off the model stage
 func (system *System) UnstageVoid(stage *Stage) {
-	delete(stage.Systems, system)
-	// issue1150
-	// delete(stage.System_stagedOrder, system)
-	delete(stage.Systems_mapString, system.Name)
-}
-
-// commit system to the back repo (if it is already staged)
-func (system *System) Commit(stage *Stage) *System {
-	if _, ok := stage.Systems[system]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitSystem(system)
-		}
-	}
-	return system
+	system.Unstage(stage)
 }
 
 func (system *System) StageVoid(stage *Stage) {
 	system.Stage(stage)
-}
-
-// Checkout system to the back repo (if it is already staged)
-func (system *System) Checkout(stage *Stage) *System {
-	if _, ok := stage.Systems[system]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutSystem(system)
-		}
-	}
-	return system
 }
 
 // for satisfaction of GongStruct interface
@@ -2448,65 +1659,29 @@ func (system *System) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.CompareAnalysiss = make(map[*CompareAnalysis]struct{})
-	stage.CompareAnalysiss_mapString = make(map[string]*CompareAnalysis)
-	stage.CompareAnalysis_stagedOrder = make(map[*CompareAnalysis]uint)
-	stage.CompareAnalysisOrder = 0
+	__gong__resetStageType(&stage.CompareAnalysiss, &stage.CompareAnalysiss_mapString, &stage.CompareAnalysis_stagedOrder, &stage.CompareAnalysisOrder)
 
-	stage.Complexitys = make(map[*Complexity]struct{})
-	stage.Complexitys_mapString = make(map[string]*Complexity)
-	stage.Complexity_stagedOrder = make(map[*Complexity]uint)
-	stage.ComplexityOrder = 0
+	__gong__resetStageType(&stage.Complexitys, &stage.Complexitys_mapString, &stage.Complexity_stagedOrder, &stage.ComplexityOrder)
 
-	stage.DiagramFlossEquations = make(map[*DiagramFlossEquation]struct{})
-	stage.DiagramFlossEquations_mapString = make(map[string]*DiagramFlossEquation)
-	stage.DiagramFlossEquation_stagedOrder = make(map[*DiagramFlossEquation]uint)
-	stage.DiagramFlossEquationOrder = 0
+	__gong__resetStageType(&stage.DiagramFlossEquations, &stage.DiagramFlossEquations_mapString, &stage.DiagramFlossEquation_stagedOrder, &stage.DiagramFlossEquationOrder)
 
-	stage.Efforts = make(map[*Effort]struct{})
-	stage.Efforts_mapString = make(map[string]*Effort)
-	stage.Effort_stagedOrder = make(map[*Effort]uint)
-	stage.EffortOrder = 0
+	__gong__resetStageType(&stage.Efforts, &stage.Efforts_mapString, &stage.Effort_stagedOrder, &stage.EffortOrder)
 
-	stage.Librarys = make(map[*Library]struct{})
-	stage.Librarys_mapString = make(map[string]*Library)
-	stage.Library_stagedOrder = make(map[*Library]uint)
-	stage.LibraryOrder = 0
+	__gong__resetStageType(&stage.Librarys, &stage.Librarys_mapString, &stage.Library_stagedOrder, &stage.LibraryOrder)
 
-	stage.Notes = make(map[*Note]struct{})
-	stage.Notes_mapString = make(map[string]*Note)
-	stage.Note_stagedOrder = make(map[*Note]uint)
-	stage.NoteOrder = 0
+	__gong__resetStageType(&stage.Notes, &stage.Notes_mapString, &stage.Note_stagedOrder, &stage.NoteOrder)
 
-	stage.NoteComplexityShapes = make(map[*NoteComplexityShape]struct{})
-	stage.NoteComplexityShapes_mapString = make(map[string]*NoteComplexityShape)
-	stage.NoteComplexityShape_stagedOrder = make(map[*NoteComplexityShape]uint)
-	stage.NoteComplexityShapeOrder = 0
+	__gong__resetStageType(&stage.NoteComplexityShapes, &stage.NoteComplexityShapes_mapString, &stage.NoteComplexityShape_stagedOrder, &stage.NoteComplexityShapeOrder)
 
-	stage.NoteEffortShapes = make(map[*NoteEffortShape]struct{})
-	stage.NoteEffortShapes_mapString = make(map[string]*NoteEffortShape)
-	stage.NoteEffortShape_stagedOrder = make(map[*NoteEffortShape]uint)
-	stage.NoteEffortShapeOrder = 0
+	__gong__resetStageType(&stage.NoteEffortShapes, &stage.NoteEffortShapes_mapString, &stage.NoteEffortShape_stagedOrder, &stage.NoteEffortShapeOrder)
 
-	stage.NotePerformanceShapes = make(map[*NotePerformanceShape]struct{})
-	stage.NotePerformanceShapes_mapString = make(map[string]*NotePerformanceShape)
-	stage.NotePerformanceShape_stagedOrder = make(map[*NotePerformanceShape]uint)
-	stage.NotePerformanceShapeOrder = 0
+	__gong__resetStageType(&stage.NotePerformanceShapes, &stage.NotePerformanceShapes_mapString, &stage.NotePerformanceShape_stagedOrder, &stage.NotePerformanceShapeOrder)
 
-	stage.NoteShapes = make(map[*NoteShape]struct{})
-	stage.NoteShapes_mapString = make(map[string]*NoteShape)
-	stage.NoteShape_stagedOrder = make(map[*NoteShape]uint)
-	stage.NoteShapeOrder = 0
+	__gong__resetStageType(&stage.NoteShapes, &stage.NoteShapes_mapString, &stage.NoteShape_stagedOrder, &stage.NoteShapeOrder)
 
-	stage.Performances = make(map[*Performance]struct{})
-	stage.Performances_mapString = make(map[string]*Performance)
-	stage.Performance_stagedOrder = make(map[*Performance]uint)
-	stage.PerformanceOrder = 0
+	__gong__resetStageType(&stage.Performances, &stage.Performances_mapString, &stage.Performance_stagedOrder, &stage.PerformanceOrder)
 
-	stage.Systems = make(map[*System]struct{})
-	stage.Systems_mapString = make(map[string]*System)
-	stage.System_stagedOrder = make(map[*System]uint)
-	stage.SystemOrder = 0
+	__gong__resetStageType(&stage.Systems, &stage.Systems_mapString, &stage.System_stagedOrder, &stage.SystemOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -2545,7 +1720,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -5277,65 +4451,29 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.CompareAnalysiss_mapString = make(map[string]*CompareAnalysis)
-	for compareanalysis := range stage.CompareAnalysiss {
-		stage.CompareAnalysiss_mapString[compareanalysis.Name] = compareanalysis
-	}
+	__gong__rebuildMapString(stage.CompareAnalysiss, &stage.CompareAnalysiss_mapString)
 
-	stage.Complexitys_mapString = make(map[string]*Complexity)
-	for complexity := range stage.Complexitys {
-		stage.Complexitys_mapString[complexity.Name] = complexity
-	}
+	__gong__rebuildMapString(stage.Complexitys, &stage.Complexitys_mapString)
 
-	stage.DiagramFlossEquations_mapString = make(map[string]*DiagramFlossEquation)
-	for diagramflossequation := range stage.DiagramFlossEquations {
-		stage.DiagramFlossEquations_mapString[diagramflossequation.Name] = diagramflossequation
-	}
+	__gong__rebuildMapString(stage.DiagramFlossEquations, &stage.DiagramFlossEquations_mapString)
 
-	stage.Efforts_mapString = make(map[string]*Effort)
-	for effort := range stage.Efforts {
-		stage.Efforts_mapString[effort.Name] = effort
-	}
+	__gong__rebuildMapString(stage.Efforts, &stage.Efforts_mapString)
 
-	stage.Librarys_mapString = make(map[string]*Library)
-	for library := range stage.Librarys {
-		stage.Librarys_mapString[library.Name] = library
-	}
+	__gong__rebuildMapString(stage.Librarys, &stage.Librarys_mapString)
 
-	stage.Notes_mapString = make(map[string]*Note)
-	for note := range stage.Notes {
-		stage.Notes_mapString[note.Name] = note
-	}
+	__gong__rebuildMapString(stage.Notes, &stage.Notes_mapString)
 
-	stage.NoteComplexityShapes_mapString = make(map[string]*NoteComplexityShape)
-	for notecomplexityshape := range stage.NoteComplexityShapes {
-		stage.NoteComplexityShapes_mapString[notecomplexityshape.Name] = notecomplexityshape
-	}
+	__gong__rebuildMapString(stage.NoteComplexityShapes, &stage.NoteComplexityShapes_mapString)
 
-	stage.NoteEffortShapes_mapString = make(map[string]*NoteEffortShape)
-	for noteeffortshape := range stage.NoteEffortShapes {
-		stage.NoteEffortShapes_mapString[noteeffortshape.Name] = noteeffortshape
-	}
+	__gong__rebuildMapString(stage.NoteEffortShapes, &stage.NoteEffortShapes_mapString)
 
-	stage.NotePerformanceShapes_mapString = make(map[string]*NotePerformanceShape)
-	for noteperformanceshape := range stage.NotePerformanceShapes {
-		stage.NotePerformanceShapes_mapString[noteperformanceshape.Name] = noteperformanceshape
-	}
+	__gong__rebuildMapString(stage.NotePerformanceShapes, &stage.NotePerformanceShapes_mapString)
 
-	stage.NoteShapes_mapString = make(map[string]*NoteShape)
-	for noteshape := range stage.NoteShapes {
-		stage.NoteShapes_mapString[noteshape.Name] = noteshape
-	}
+	__gong__rebuildMapString(stage.NoteShapes, &stage.NoteShapes_mapString)
 
-	stage.Performances_mapString = make(map[string]*Performance)
-	for performance := range stage.Performances {
-		stage.Performances_mapString[performance.Name] = performance
-	}
+	__gong__rebuildMapString(stage.Performances, &stage.Performances_mapString)
 
-	stage.Systems_mapString = make(map[string]*System)
-	for system := range stage.Systems {
-		stage.Systems_mapString[system.Name] = system
-	}
+	__gong__rebuildMapString(stage.Systems, &stage.Systems_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

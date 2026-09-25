@@ -134,7 +134,6 @@ type Stage struct {
 	OnAfterBookTypeCreateCallback GongOnAfterCreateInterface[BookType]
 	OnAfterBookTypeUpdateCallback GongOnAfterUpdateInterface[BookType]
 	OnAfterBookTypeDeleteCallback GongOnAfterDeleteInterface[BookType]
-	OnAfterBookTypeReadCallback   GongOnAfterReadInterface[BookType]
 
 	Bookss                map[*Books]struct{}
 	Bookss_instance       map[*Books]*Books
@@ -151,7 +150,6 @@ type Stage struct {
 	OnAfterBooksCreateCallback GongOnAfterCreateInterface[Books]
 	OnAfterBooksUpdateCallback GongOnAfterUpdateInterface[Books]
 	OnAfterBooksDeleteCallback GongOnAfterDeleteInterface[Books]
-	OnAfterBooksReadCallback   GongOnAfterReadInterface[Books]
 
 	Credits                map[*Credit]struct{}
 	Credits_instance       map[*Credit]*Credit
@@ -168,7 +166,6 @@ type Stage struct {
 	OnAfterCreditCreateCallback GongOnAfterCreateInterface[Credit]
 	OnAfterCreditUpdateCallback GongOnAfterUpdateInterface[Credit]
 	OnAfterCreditDeleteCallback GongOnAfterDeleteInterface[Credit]
-	OnAfterCreditReadCallback   GongOnAfterReadInterface[Credit]
 
 	Links                map[*Link]struct{}
 	Links_instance       map[*Link]*Link
@@ -183,7 +180,6 @@ type Stage struct {
 	OnAfterLinkCreateCallback GongOnAfterCreateInterface[Link]
 	OnAfterLinkUpdateCallback GongOnAfterUpdateInterface[Link]
 	OnAfterLinkDeleteCallback GongOnAfterDeleteInterface[Link]
-	OnAfterLinkReadCallback   GongOnAfterReadInterface[Link]
 
 	BackRepo GongBackRepoInterface
 
@@ -418,21 +414,13 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.BookTypes_reference = make(map[*BookType]*BookType)
-	stage.BookTypes_instance = make(map[*BookType]*BookType)
-	stage.BookTypes_referenceOrder = make(map[*BookType]uint)
+	__gong__clearReferences(&stage.BookTypes_reference, &stage.BookTypes_instance, &stage.BookTypes_referenceOrder)
 
-	stage.Bookss_reference = make(map[*Books]*Books)
-	stage.Bookss_instance = make(map[*Books]*Books)
-	stage.Bookss_referenceOrder = make(map[*Books]uint)
+	__gong__clearReferences(&stage.Bookss_reference, &stage.Bookss_instance, &stage.Bookss_referenceOrder)
 
-	stage.Credits_reference = make(map[*Credit]*Credit)
-	stage.Credits_instance = make(map[*Credit]*Credit)
-	stage.Credits_referenceOrder = make(map[*Credit]uint)
+	__gong__clearReferences(&stage.Credits_reference, &stage.Credits_instance, &stage.Credits_referenceOrder)
 
-	stage.Links_reference = make(map[*Link]*Link)
-	stage.Links_instance = make(map[*Link]*Link)
-	stage.Links_referenceOrder = make(map[*Link]uint)
+	__gong__clearReferences(&stage.Links_reference, &stage.Links_instance, &stage.Links_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -461,61 +449,13 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxBookTypeOrder uint
-	var foundBookType bool
-	for _, order := range stage.BookType_stagedOrder {
-		if !foundBookType || order > maxBookTypeOrder {
-			maxBookTypeOrder = order
-			foundBookType = true
-		}
-	}
-	if foundBookType {
-		stage.BookTypeOrder = maxBookTypeOrder + 1
-	} else {
-		stage.BookTypeOrder = 0
-	}
+	stage.BookTypeOrder = __gong__recomputeOrder(stage.BookType_stagedOrder)
 
-	var maxBooksOrder uint
-	var foundBooks bool
-	for _, order := range stage.Books_stagedOrder {
-		if !foundBooks || order > maxBooksOrder {
-			maxBooksOrder = order
-			foundBooks = true
-		}
-	}
-	if foundBooks {
-		stage.BooksOrder = maxBooksOrder + 1
-	} else {
-		stage.BooksOrder = 0
-	}
+	stage.BooksOrder = __gong__recomputeOrder(stage.Books_stagedOrder)
 
-	var maxCreditOrder uint
-	var foundCredit bool
-	for _, order := range stage.Credit_stagedOrder {
-		if !foundCredit || order > maxCreditOrder {
-			maxCreditOrder = order
-			foundCredit = true
-		}
-	}
-	if foundCredit {
-		stage.CreditOrder = maxCreditOrder + 1
-	} else {
-		stage.CreditOrder = 0
-	}
+	stage.CreditOrder = __gong__recomputeOrder(stage.Credit_stagedOrder)
 
-	var maxLinkOrder uint
-	var foundLink bool
-	for _, order := range stage.Link_stagedOrder {
-		if !foundLink || order > maxLinkOrder {
-			maxLinkOrder = order
-			foundLink = true
-		}
-	}
-	if foundLink {
-		stage.LinkOrder = maxLinkOrder + 1
-	} else {
-		stage.LinkOrder = 0
-	}
+	stage.LinkOrder = __gong__recomputeOrder(stage.Link_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -547,61 +487,13 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *BookType:
-		tmp := __gong__getStructInstancesByOrder(stage.BookTypes, stage.BookType_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *BookType implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.BookTypes, stage.BookType_stagedOrder))
 	case *Books:
-		tmp := __gong__getStructInstancesByOrder(stage.Bookss, stage.Books_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Books implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Bookss, stage.Books_stagedOrder))
 	case *Credit:
-		tmp := __gong__getStructInstancesByOrder(stage.Credits, stage.Credit_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Credit implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Credits, stage.Credit_stagedOrder))
 	case *Link:
-		tmp := __gong__getStructInstancesByOrder(stage.Links, stage.Link_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Link implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Links, stage.Link_stagedOrder))
 
 	}
 	return
@@ -628,6 +520,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/app/xsd/tests/books/go/models"
 }
@@ -651,14 +639,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -681,15 +661,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitBookType(booktype *BookType)
-	CheckoutBookType(booktype *BookType)
-	CommitBooks(books *Books)
-	CheckoutBooks(books *Books)
-	CommitCredit(credit *Credit)
-	CheckoutCredit(credit *Credit)
-	CommitLink(link *Link)
-	CheckoutLink(link *Link)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -887,14 +858,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts booktype to the model stage
 func (booktype *BookType) Stage(stage *Stage) *BookType {
-	if _, ok := stage.BookTypes[booktype]; !ok {
-		stage.BookTypes[booktype] = struct{}{}
-		stage.BookType_stagedOrder[booktype] = stage.BookTypeOrder
-		stage.BookType_orderStaged[stage.BookTypeOrder] = booktype
-		stage.BookTypeOrder++
-	}
-	stage.BookTypes_mapString[booktype.Name] = booktype
-
+	__gong__stage(stage.BookTypes, stage.BookType_stagedOrder, stage.BookType_orderStaged, &stage.BookTypeOrder, stage.BookTypes_mapString, booktype, booktype.Name)
 	return booktype
 }
 
@@ -904,59 +868,22 @@ func (booktype *BookType) Stage(stage *Stage) *BookType {
 // - force the order if the order is equal or greater than the stage.BookTypeOrder
 // - update stage.BookTypeOrder accordingly
 func (booktype *BookType) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.BookTypes[booktype]; !ok {
-		stage.BookTypes[booktype] = struct{}{}
-
-		if order > stage.BookTypeOrder {
-			stage.BookTypeOrder = order
-		}
-		stage.BookType_stagedOrder[booktype] = order
-		stage.BookType_orderStaged[order] = booktype
-		stage.BookTypeOrder++
-	}
-	stage.BookTypes_mapString[booktype.Name] = booktype
+	__gong__stagePreserveOrder(stage.BookTypes, stage.BookType_stagedOrder, stage.BookType_orderStaged, &stage.BookTypeOrder, stage.BookTypes_mapString, booktype, order, booktype.Name)
 }
 
 // Unstage removes booktype off the model stage
 func (booktype *BookType) Unstage(stage *Stage) *BookType {
-	delete(stage.BookTypes, booktype)
-	// issue1150
-	// delete(stage.BookType_stagedOrder, booktype)
-	delete(stage.BookTypes_mapString, booktype.Name)
-
+	__gong__unstage(stage.BookTypes, stage.BookTypes_mapString, booktype, booktype.Name)
 	return booktype
 }
 
 // UnstageVoid removes booktype off the model stage
 func (booktype *BookType) UnstageVoid(stage *Stage) {
-	delete(stage.BookTypes, booktype)
-	// issue1150
-	// delete(stage.BookType_stagedOrder, booktype)
-	delete(stage.BookTypes_mapString, booktype.Name)
-}
-
-// commit booktype to the back repo (if it is already staged)
-func (booktype *BookType) Commit(stage *Stage) *BookType {
-	if _, ok := stage.BookTypes[booktype]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitBookType(booktype)
-		}
-	}
-	return booktype
+	booktype.Unstage(stage)
 }
 
 func (booktype *BookType) StageVoid(stage *Stage) {
 	booktype.Stage(stage)
-}
-
-// Checkout booktype to the back repo (if it is already staged)
-func (booktype *BookType) Checkout(stage *Stage) *BookType {
-	if _, ok := stage.BookTypes[booktype]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutBookType(booktype)
-		}
-	}
-	return booktype
 }
 
 // for satisfaction of GongStruct interface
@@ -971,14 +898,7 @@ func (booktype *BookType) SetName(name string) {
 
 // Stage puts books to the model stage
 func (books *Books) Stage(stage *Stage) *Books {
-	if _, ok := stage.Bookss[books]; !ok {
-		stage.Bookss[books] = struct{}{}
-		stage.Books_stagedOrder[books] = stage.BooksOrder
-		stage.Books_orderStaged[stage.BooksOrder] = books
-		stage.BooksOrder++
-	}
-	stage.Bookss_mapString[books.Name] = books
-
+	__gong__stage(stage.Bookss, stage.Books_stagedOrder, stage.Books_orderStaged, &stage.BooksOrder, stage.Bookss_mapString, books, books.Name)
 	return books
 }
 
@@ -988,59 +908,22 @@ func (books *Books) Stage(stage *Stage) *Books {
 // - force the order if the order is equal or greater than the stage.BooksOrder
 // - update stage.BooksOrder accordingly
 func (books *Books) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Bookss[books]; !ok {
-		stage.Bookss[books] = struct{}{}
-
-		if order > stage.BooksOrder {
-			stage.BooksOrder = order
-		}
-		stage.Books_stagedOrder[books] = order
-		stage.Books_orderStaged[order] = books
-		stage.BooksOrder++
-	}
-	stage.Bookss_mapString[books.Name] = books
+	__gong__stagePreserveOrder(stage.Bookss, stage.Books_stagedOrder, stage.Books_orderStaged, &stage.BooksOrder, stage.Bookss_mapString, books, order, books.Name)
 }
 
 // Unstage removes books off the model stage
 func (books *Books) Unstage(stage *Stage) *Books {
-	delete(stage.Bookss, books)
-	// issue1150
-	// delete(stage.Books_stagedOrder, books)
-	delete(stage.Bookss_mapString, books.Name)
-
+	__gong__unstage(stage.Bookss, stage.Bookss_mapString, books, books.Name)
 	return books
 }
 
 // UnstageVoid removes books off the model stage
 func (books *Books) UnstageVoid(stage *Stage) {
-	delete(stage.Bookss, books)
-	// issue1150
-	// delete(stage.Books_stagedOrder, books)
-	delete(stage.Bookss_mapString, books.Name)
-}
-
-// commit books to the back repo (if it is already staged)
-func (books *Books) Commit(stage *Stage) *Books {
-	if _, ok := stage.Bookss[books]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitBooks(books)
-		}
-	}
-	return books
+	books.Unstage(stage)
 }
 
 func (books *Books) StageVoid(stage *Stage) {
 	books.Stage(stage)
-}
-
-// Checkout books to the back repo (if it is already staged)
-func (books *Books) Checkout(stage *Stage) *Books {
-	if _, ok := stage.Bookss[books]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutBooks(books)
-		}
-	}
-	return books
 }
 
 // for satisfaction of GongStruct interface
@@ -1055,14 +938,7 @@ func (books *Books) SetName(name string) {
 
 // Stage puts credit to the model stage
 func (credit *Credit) Stage(stage *Stage) *Credit {
-	if _, ok := stage.Credits[credit]; !ok {
-		stage.Credits[credit] = struct{}{}
-		stage.Credit_stagedOrder[credit] = stage.CreditOrder
-		stage.Credit_orderStaged[stage.CreditOrder] = credit
-		stage.CreditOrder++
-	}
-	stage.Credits_mapString[credit.Name] = credit
-
+	__gong__stage(stage.Credits, stage.Credit_stagedOrder, stage.Credit_orderStaged, &stage.CreditOrder, stage.Credits_mapString, credit, credit.Name)
 	return credit
 }
 
@@ -1072,59 +948,22 @@ func (credit *Credit) Stage(stage *Stage) *Credit {
 // - force the order if the order is equal or greater than the stage.CreditOrder
 // - update stage.CreditOrder accordingly
 func (credit *Credit) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Credits[credit]; !ok {
-		stage.Credits[credit] = struct{}{}
-
-		if order > stage.CreditOrder {
-			stage.CreditOrder = order
-		}
-		stage.Credit_stagedOrder[credit] = order
-		stage.Credit_orderStaged[order] = credit
-		stage.CreditOrder++
-	}
-	stage.Credits_mapString[credit.Name] = credit
+	__gong__stagePreserveOrder(stage.Credits, stage.Credit_stagedOrder, stage.Credit_orderStaged, &stage.CreditOrder, stage.Credits_mapString, credit, order, credit.Name)
 }
 
 // Unstage removes credit off the model stage
 func (credit *Credit) Unstage(stage *Stage) *Credit {
-	delete(stage.Credits, credit)
-	// issue1150
-	// delete(stage.Credit_stagedOrder, credit)
-	delete(stage.Credits_mapString, credit.Name)
-
+	__gong__unstage(stage.Credits, stage.Credits_mapString, credit, credit.Name)
 	return credit
 }
 
 // UnstageVoid removes credit off the model stage
 func (credit *Credit) UnstageVoid(stage *Stage) {
-	delete(stage.Credits, credit)
-	// issue1150
-	// delete(stage.Credit_stagedOrder, credit)
-	delete(stage.Credits_mapString, credit.Name)
-}
-
-// commit credit to the back repo (if it is already staged)
-func (credit *Credit) Commit(stage *Stage) *Credit {
-	if _, ok := stage.Credits[credit]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCredit(credit)
-		}
-	}
-	return credit
+	credit.Unstage(stage)
 }
 
 func (credit *Credit) StageVoid(stage *Stage) {
 	credit.Stage(stage)
-}
-
-// Checkout credit to the back repo (if it is already staged)
-func (credit *Credit) Checkout(stage *Stage) *Credit {
-	if _, ok := stage.Credits[credit]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCredit(credit)
-		}
-	}
-	return credit
 }
 
 // for satisfaction of GongStruct interface
@@ -1139,14 +978,7 @@ func (credit *Credit) SetName(name string) {
 
 // Stage puts link to the model stage
 func (link *Link) Stage(stage *Stage) *Link {
-	if _, ok := stage.Links[link]; !ok {
-		stage.Links[link] = struct{}{}
-		stage.Link_stagedOrder[link] = stage.LinkOrder
-		stage.Link_orderStaged[stage.LinkOrder] = link
-		stage.LinkOrder++
-	}
-	stage.Links_mapString[link.Name] = link
-
+	__gong__stage(stage.Links, stage.Link_stagedOrder, stage.Link_orderStaged, &stage.LinkOrder, stage.Links_mapString, link, link.Name)
 	return link
 }
 
@@ -1156,59 +988,22 @@ func (link *Link) Stage(stage *Stage) *Link {
 // - force the order if the order is equal or greater than the stage.LinkOrder
 // - update stage.LinkOrder accordingly
 func (link *Link) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Links[link]; !ok {
-		stage.Links[link] = struct{}{}
-
-		if order > stage.LinkOrder {
-			stage.LinkOrder = order
-		}
-		stage.Link_stagedOrder[link] = order
-		stage.Link_orderStaged[order] = link
-		stage.LinkOrder++
-	}
-	stage.Links_mapString[link.Name] = link
+	__gong__stagePreserveOrder(stage.Links, stage.Link_stagedOrder, stage.Link_orderStaged, &stage.LinkOrder, stage.Links_mapString, link, order, link.Name)
 }
 
 // Unstage removes link off the model stage
 func (link *Link) Unstage(stage *Stage) *Link {
-	delete(stage.Links, link)
-	// issue1150
-	// delete(stage.Link_stagedOrder, link)
-	delete(stage.Links_mapString, link.Name)
-
+	__gong__unstage(stage.Links, stage.Links_mapString, link, link.Name)
 	return link
 }
 
 // UnstageVoid removes link off the model stage
 func (link *Link) UnstageVoid(stage *Stage) {
-	delete(stage.Links, link)
-	// issue1150
-	// delete(stage.Link_stagedOrder, link)
-	delete(stage.Links_mapString, link.Name)
-}
-
-// commit link to the back repo (if it is already staged)
-func (link *Link) Commit(stage *Stage) *Link {
-	if _, ok := stage.Links[link]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitLink(link)
-		}
-	}
-	return link
+	link.Unstage(stage)
 }
 
 func (link *Link) StageVoid(stage *Stage) {
 	link.Stage(stage)
-}
-
-// Checkout link to the back repo (if it is already staged)
-func (link *Link) Checkout(stage *Stage) *Link {
-	if _, ok := stage.Links[link]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutLink(link)
-		}
-	}
-	return link
 }
 
 // for satisfaction of GongStruct interface
@@ -1222,25 +1017,13 @@ func (link *Link) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.BookTypes = make(map[*BookType]struct{})
-	stage.BookTypes_mapString = make(map[string]*BookType)
-	stage.BookType_stagedOrder = make(map[*BookType]uint)
-	stage.BookTypeOrder = 0
+	__gong__resetStageType(&stage.BookTypes, &stage.BookTypes_mapString, &stage.BookType_stagedOrder, &stage.BookTypeOrder)
 
-	stage.Bookss = make(map[*Books]struct{})
-	stage.Bookss_mapString = make(map[string]*Books)
-	stage.Books_stagedOrder = make(map[*Books]uint)
-	stage.BooksOrder = 0
+	__gong__resetStageType(&stage.Bookss, &stage.Bookss_mapString, &stage.Books_stagedOrder, &stage.BooksOrder)
 
-	stage.Credits = make(map[*Credit]struct{})
-	stage.Credits_mapString = make(map[string]*Credit)
-	stage.Credit_stagedOrder = make(map[*Credit]uint)
-	stage.CreditOrder = 0
+	__gong__resetStageType(&stage.Credits, &stage.Credits_mapString, &stage.Credit_stagedOrder, &stage.CreditOrder)
 
-	stage.Links = make(map[*Link]struct{})
-	stage.Links_mapString = make(map[string]*Link)
-	stage.Link_stagedOrder = make(map[*Link]uint)
-	stage.LinkOrder = 0
+	__gong__resetStageType(&stage.Links, &stage.Links_mapString, &stage.Link_stagedOrder, &stage.LinkOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -1279,7 +1062,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -1879,25 +1661,13 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.BookTypes_mapString = make(map[string]*BookType)
-	for booktype := range stage.BookTypes {
-		stage.BookTypes_mapString[booktype.Name] = booktype
-	}
+	__gong__rebuildMapString(stage.BookTypes, &stage.BookTypes_mapString)
 
-	stage.Bookss_mapString = make(map[string]*Books)
-	for books := range stage.Bookss {
-		stage.Bookss_mapString[books.Name] = books
-	}
+	__gong__rebuildMapString(stage.Bookss, &stage.Bookss_mapString)
 
-	stage.Credits_mapString = make(map[string]*Credit)
-	for credit := range stage.Credits {
-		stage.Credits_mapString[credit.Name] = credit
-	}
+	__gong__rebuildMapString(stage.Credits, &stage.Credits_mapString)
 
-	stage.Links_mapString = make(map[string]*Link)
-	for link := range stage.Links {
-		stage.Links_mapString[link.Name] = link
-	}
+	__gong__rebuildMapString(stage.Links, &stage.Links_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

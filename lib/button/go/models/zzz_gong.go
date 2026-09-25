@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterButtonCreateCallback GongOnAfterCreateInterface[Button]
 	OnAfterButtonUpdateCallback GongOnAfterUpdateInterface[Button]
 	OnAfterButtonDeleteCallback GongOnAfterDeleteInterface[Button]
-	OnAfterButtonReadCallback   GongOnAfterReadInterface[Button]
 
 	ButtonToggles                map[*ButtonToggle]struct{}
 	ButtonToggles_instance       map[*ButtonToggle]*ButtonToggle
@@ -147,7 +146,6 @@ type Stage struct {
 	OnAfterButtonToggleCreateCallback GongOnAfterCreateInterface[ButtonToggle]
 	OnAfterButtonToggleUpdateCallback GongOnAfterUpdateInterface[ButtonToggle]
 	OnAfterButtonToggleDeleteCallback GongOnAfterDeleteInterface[ButtonToggle]
-	OnAfterButtonToggleReadCallback   GongOnAfterReadInterface[ButtonToggle]
 
 	Groups                map[*Group]struct{}
 	Groups_instance       map[*Group]*Group
@@ -164,7 +162,6 @@ type Stage struct {
 	OnAfterGroupCreateCallback GongOnAfterCreateInterface[Group]
 	OnAfterGroupUpdateCallback GongOnAfterUpdateInterface[Group]
 	OnAfterGroupDeleteCallback GongOnAfterDeleteInterface[Group]
-	OnAfterGroupReadCallback   GongOnAfterReadInterface[Group]
 
 	GroupToogles                map[*GroupToogle]struct{}
 	GroupToogles_instance       map[*GroupToogle]*GroupToogle
@@ -181,7 +178,6 @@ type Stage struct {
 	OnAfterGroupToogleCreateCallback GongOnAfterCreateInterface[GroupToogle]
 	OnAfterGroupToogleUpdateCallback GongOnAfterUpdateInterface[GroupToogle]
 	OnAfterGroupToogleDeleteCallback GongOnAfterDeleteInterface[GroupToogle]
-	OnAfterGroupToogleReadCallback   GongOnAfterReadInterface[GroupToogle]
 
 	Layouts                map[*Layout]struct{}
 	Layouts_instance       map[*Layout]*Layout
@@ -200,7 +196,6 @@ type Stage struct {
 	OnAfterLayoutCreateCallback GongOnAfterCreateInterface[Layout]
 	OnAfterLayoutUpdateCallback GongOnAfterUpdateInterface[Layout]
 	OnAfterLayoutDeleteCallback GongOnAfterDeleteInterface[Layout]
-	OnAfterLayoutReadCallback   GongOnAfterReadInterface[Layout]
 
 	BackRepo GongBackRepoInterface
 
@@ -435,25 +430,15 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.Buttons_reference = make(map[*Button]*Button)
-	stage.Buttons_instance = make(map[*Button]*Button)
-	stage.Buttons_referenceOrder = make(map[*Button]uint)
+	__gong__clearReferences(&stage.Buttons_reference, &stage.Buttons_instance, &stage.Buttons_referenceOrder)
 
-	stage.ButtonToggles_reference = make(map[*ButtonToggle]*ButtonToggle)
-	stage.ButtonToggles_instance = make(map[*ButtonToggle]*ButtonToggle)
-	stage.ButtonToggles_referenceOrder = make(map[*ButtonToggle]uint)
+	__gong__clearReferences(&stage.ButtonToggles_reference, &stage.ButtonToggles_instance, &stage.ButtonToggles_referenceOrder)
 
-	stage.Groups_reference = make(map[*Group]*Group)
-	stage.Groups_instance = make(map[*Group]*Group)
-	stage.Groups_referenceOrder = make(map[*Group]uint)
+	__gong__clearReferences(&stage.Groups_reference, &stage.Groups_instance, &stage.Groups_referenceOrder)
 
-	stage.GroupToogles_reference = make(map[*GroupToogle]*GroupToogle)
-	stage.GroupToogles_instance = make(map[*GroupToogle]*GroupToogle)
-	stage.GroupToogles_referenceOrder = make(map[*GroupToogle]uint)
+	__gong__clearReferences(&stage.GroupToogles_reference, &stage.GroupToogles_instance, &stage.GroupToogles_referenceOrder)
 
-	stage.Layouts_reference = make(map[*Layout]*Layout)
-	stage.Layouts_instance = make(map[*Layout]*Layout)
-	stage.Layouts_referenceOrder = make(map[*Layout]uint)
+	__gong__clearReferences(&stage.Layouts_reference, &stage.Layouts_instance, &stage.Layouts_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -482,75 +467,15 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxButtonOrder uint
-	var foundButton bool
-	for _, order := range stage.Button_stagedOrder {
-		if !foundButton || order > maxButtonOrder {
-			maxButtonOrder = order
-			foundButton = true
-		}
-	}
-	if foundButton {
-		stage.ButtonOrder = maxButtonOrder + 1
-	} else {
-		stage.ButtonOrder = 0
-	}
+	stage.ButtonOrder = __gong__recomputeOrder(stage.Button_stagedOrder)
 
-	var maxButtonToggleOrder uint
-	var foundButtonToggle bool
-	for _, order := range stage.ButtonToggle_stagedOrder {
-		if !foundButtonToggle || order > maxButtonToggleOrder {
-			maxButtonToggleOrder = order
-			foundButtonToggle = true
-		}
-	}
-	if foundButtonToggle {
-		stage.ButtonToggleOrder = maxButtonToggleOrder + 1
-	} else {
-		stage.ButtonToggleOrder = 0
-	}
+	stage.ButtonToggleOrder = __gong__recomputeOrder(stage.ButtonToggle_stagedOrder)
 
-	var maxGroupOrder uint
-	var foundGroup bool
-	for _, order := range stage.Group_stagedOrder {
-		if !foundGroup || order > maxGroupOrder {
-			maxGroupOrder = order
-			foundGroup = true
-		}
-	}
-	if foundGroup {
-		stage.GroupOrder = maxGroupOrder + 1
-	} else {
-		stage.GroupOrder = 0
-	}
+	stage.GroupOrder = __gong__recomputeOrder(stage.Group_stagedOrder)
 
-	var maxGroupToogleOrder uint
-	var foundGroupToogle bool
-	for _, order := range stage.GroupToogle_stagedOrder {
-		if !foundGroupToogle || order > maxGroupToogleOrder {
-			maxGroupToogleOrder = order
-			foundGroupToogle = true
-		}
-	}
-	if foundGroupToogle {
-		stage.GroupToogleOrder = maxGroupToogleOrder + 1
-	} else {
-		stage.GroupToogleOrder = 0
-	}
+	stage.GroupToogleOrder = __gong__recomputeOrder(stage.GroupToogle_stagedOrder)
 
-	var maxLayoutOrder uint
-	var foundLayout bool
-	for _, order := range stage.Layout_stagedOrder {
-		if !foundLayout || order > maxLayoutOrder {
-			maxLayoutOrder = order
-			foundLayout = true
-		}
-	}
-	if foundLayout {
-		stage.LayoutOrder = maxLayoutOrder + 1
-	} else {
-		stage.LayoutOrder = 0
-	}
+	stage.LayoutOrder = __gong__recomputeOrder(stage.Layout_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -582,75 +507,15 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *Button:
-		tmp := __gong__getStructInstancesByOrder(stage.Buttons, stage.Button_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Button implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Buttons, stage.Button_stagedOrder))
 	case *ButtonToggle:
-		tmp := __gong__getStructInstancesByOrder(stage.ButtonToggles, stage.ButtonToggle_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *ButtonToggle implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ButtonToggles, stage.ButtonToggle_stagedOrder))
 	case *Group:
-		tmp := __gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Group implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder))
 	case *GroupToogle:
-		tmp := __gong__getStructInstancesByOrder(stage.GroupToogles, stage.GroupToogle_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GroupToogle implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GroupToogles, stage.GroupToogle_stagedOrder))
 	case *Layout:
-		tmp := __gong__getStructInstancesByOrder(stage.Layouts, stage.Layout_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Layout implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Layouts, stage.Layout_stagedOrder))
 
 	}
 	return
@@ -677,6 +542,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/button/go/models"
 }
@@ -700,14 +661,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -730,17 +683,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitButton(button *Button)
-	CheckoutButton(button *Button)
-	CommitButtonToggle(buttontoggle *ButtonToggle)
-	CheckoutButtonToggle(buttontoggle *ButtonToggle)
-	CommitGroup(group *Group)
-	CheckoutGroup(group *Group)
-	CommitGroupToogle(grouptoogle *GroupToogle)
-	CheckoutGroupToogle(grouptoogle *GroupToogle)
-	CommitLayout(layout *Layout)
-	CheckoutLayout(layout *Layout)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -950,14 +892,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts button to the model stage
 func (button *Button) Stage(stage *Stage) *Button {
-	if _, ok := stage.Buttons[button]; !ok {
-		stage.Buttons[button] = struct{}{}
-		stage.Button_stagedOrder[button] = stage.ButtonOrder
-		stage.Button_orderStaged[stage.ButtonOrder] = button
-		stage.ButtonOrder++
-	}
-	stage.Buttons_mapString[button.Name] = button
-
+	__gong__stage(stage.Buttons, stage.Button_stagedOrder, stage.Button_orderStaged, &stage.ButtonOrder, stage.Buttons_mapString, button, button.Name)
 	return button
 }
 
@@ -967,59 +902,22 @@ func (button *Button) Stage(stage *Stage) *Button {
 // - force the order if the order is equal or greater than the stage.ButtonOrder
 // - update stage.ButtonOrder accordingly
 func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Buttons[button]; !ok {
-		stage.Buttons[button] = struct{}{}
-
-		if order > stage.ButtonOrder {
-			stage.ButtonOrder = order
-		}
-		stage.Button_stagedOrder[button] = order
-		stage.Button_orderStaged[order] = button
-		stage.ButtonOrder++
-	}
-	stage.Buttons_mapString[button.Name] = button
+	__gong__stagePreserveOrder(stage.Buttons, stage.Button_stagedOrder, stage.Button_orderStaged, &stage.ButtonOrder, stage.Buttons_mapString, button, order, button.Name)
 }
 
 // Unstage removes button off the model stage
 func (button *Button) Unstage(stage *Stage) *Button {
-	delete(stage.Buttons, button)
-	// issue1150
-	// delete(stage.Button_stagedOrder, button)
-	delete(stage.Buttons_mapString, button.Name)
-
+	__gong__unstage(stage.Buttons, stage.Buttons_mapString, button, button.Name)
 	return button
 }
 
 // UnstageVoid removes button off the model stage
 func (button *Button) UnstageVoid(stage *Stage) {
-	delete(stage.Buttons, button)
-	// issue1150
-	// delete(stage.Button_stagedOrder, button)
-	delete(stage.Buttons_mapString, button.Name)
-}
-
-// commit button to the back repo (if it is already staged)
-func (button *Button) Commit(stage *Stage) *Button {
-	if _, ok := stage.Buttons[button]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitButton(button)
-		}
-	}
-	return button
+	button.Unstage(stage)
 }
 
 func (button *Button) StageVoid(stage *Stage) {
 	button.Stage(stage)
-}
-
-// Checkout button to the back repo (if it is already staged)
-func (button *Button) Checkout(stage *Stage) *Button {
-	if _, ok := stage.Buttons[button]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutButton(button)
-		}
-	}
-	return button
 }
 
 // for satisfaction of GongStruct interface
@@ -1034,14 +932,7 @@ func (button *Button) SetName(name string) {
 
 // Stage puts buttontoggle to the model stage
 func (buttontoggle *ButtonToggle) Stage(stage *Stage) *ButtonToggle {
-	if _, ok := stage.ButtonToggles[buttontoggle]; !ok {
-		stage.ButtonToggles[buttontoggle] = struct{}{}
-		stage.ButtonToggle_stagedOrder[buttontoggle] = stage.ButtonToggleOrder
-		stage.ButtonToggle_orderStaged[stage.ButtonToggleOrder] = buttontoggle
-		stage.ButtonToggleOrder++
-	}
-	stage.ButtonToggles_mapString[buttontoggle.Name] = buttontoggle
-
+	__gong__stage(stage.ButtonToggles, stage.ButtonToggle_stagedOrder, stage.ButtonToggle_orderStaged, &stage.ButtonToggleOrder, stage.ButtonToggles_mapString, buttontoggle, buttontoggle.Name)
 	return buttontoggle
 }
 
@@ -1051,59 +942,22 @@ func (buttontoggle *ButtonToggle) Stage(stage *Stage) *ButtonToggle {
 // - force the order if the order is equal or greater than the stage.ButtonToggleOrder
 // - update stage.ButtonToggleOrder accordingly
 func (buttontoggle *ButtonToggle) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.ButtonToggles[buttontoggle]; !ok {
-		stage.ButtonToggles[buttontoggle] = struct{}{}
-
-		if order > stage.ButtonToggleOrder {
-			stage.ButtonToggleOrder = order
-		}
-		stage.ButtonToggle_stagedOrder[buttontoggle] = order
-		stage.ButtonToggle_orderStaged[order] = buttontoggle
-		stage.ButtonToggleOrder++
-	}
-	stage.ButtonToggles_mapString[buttontoggle.Name] = buttontoggle
+	__gong__stagePreserveOrder(stage.ButtonToggles, stage.ButtonToggle_stagedOrder, stage.ButtonToggle_orderStaged, &stage.ButtonToggleOrder, stage.ButtonToggles_mapString, buttontoggle, order, buttontoggle.Name)
 }
 
 // Unstage removes buttontoggle off the model stage
 func (buttontoggle *ButtonToggle) Unstage(stage *Stage) *ButtonToggle {
-	delete(stage.ButtonToggles, buttontoggle)
-	// issue1150
-	// delete(stage.ButtonToggle_stagedOrder, buttontoggle)
-	delete(stage.ButtonToggles_mapString, buttontoggle.Name)
-
+	__gong__unstage(stage.ButtonToggles, stage.ButtonToggles_mapString, buttontoggle, buttontoggle.Name)
 	return buttontoggle
 }
 
 // UnstageVoid removes buttontoggle off the model stage
 func (buttontoggle *ButtonToggle) UnstageVoid(stage *Stage) {
-	delete(stage.ButtonToggles, buttontoggle)
-	// issue1150
-	// delete(stage.ButtonToggle_stagedOrder, buttontoggle)
-	delete(stage.ButtonToggles_mapString, buttontoggle.Name)
-}
-
-// commit buttontoggle to the back repo (if it is already staged)
-func (buttontoggle *ButtonToggle) Commit(stage *Stage) *ButtonToggle {
-	if _, ok := stage.ButtonToggles[buttontoggle]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitButtonToggle(buttontoggle)
-		}
-	}
-	return buttontoggle
+	buttontoggle.Unstage(stage)
 }
 
 func (buttontoggle *ButtonToggle) StageVoid(stage *Stage) {
 	buttontoggle.Stage(stage)
-}
-
-// Checkout buttontoggle to the back repo (if it is already staged)
-func (buttontoggle *ButtonToggle) Checkout(stage *Stage) *ButtonToggle {
-	if _, ok := stage.ButtonToggles[buttontoggle]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutButtonToggle(buttontoggle)
-		}
-	}
-	return buttontoggle
 }
 
 // for satisfaction of GongStruct interface
@@ -1118,14 +972,7 @@ func (buttontoggle *ButtonToggle) SetName(name string) {
 
 // Stage puts group to the model stage
 func (group *Group) Stage(stage *Stage) *Group {
-	if _, ok := stage.Groups[group]; !ok {
-		stage.Groups[group] = struct{}{}
-		stage.Group_stagedOrder[group] = stage.GroupOrder
-		stage.Group_orderStaged[stage.GroupOrder] = group
-		stage.GroupOrder++
-	}
-	stage.Groups_mapString[group.Name] = group
-
+	__gong__stage(stage.Groups, stage.Group_stagedOrder, stage.Group_orderStaged, &stage.GroupOrder, stage.Groups_mapString, group, group.Name)
 	return group
 }
 
@@ -1135,59 +982,22 @@ func (group *Group) Stage(stage *Stage) *Group {
 // - force the order if the order is equal or greater than the stage.GroupOrder
 // - update stage.GroupOrder accordingly
 func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Groups[group]; !ok {
-		stage.Groups[group] = struct{}{}
-
-		if order > stage.GroupOrder {
-			stage.GroupOrder = order
-		}
-		stage.Group_stagedOrder[group] = order
-		stage.Group_orderStaged[order] = group
-		stage.GroupOrder++
-	}
-	stage.Groups_mapString[group.Name] = group
+	__gong__stagePreserveOrder(stage.Groups, stage.Group_stagedOrder, stage.Group_orderStaged, &stage.GroupOrder, stage.Groups_mapString, group, order, group.Name)
 }
 
 // Unstage removes group off the model stage
 func (group *Group) Unstage(stage *Stage) *Group {
-	delete(stage.Groups, group)
-	// issue1150
-	// delete(stage.Group_stagedOrder, group)
-	delete(stage.Groups_mapString, group.Name)
-
+	__gong__unstage(stage.Groups, stage.Groups_mapString, group, group.Name)
 	return group
 }
 
 // UnstageVoid removes group off the model stage
 func (group *Group) UnstageVoid(stage *Stage) {
-	delete(stage.Groups, group)
-	// issue1150
-	// delete(stage.Group_stagedOrder, group)
-	delete(stage.Groups_mapString, group.Name)
-}
-
-// commit group to the back repo (if it is already staged)
-func (group *Group) Commit(stage *Stage) *Group {
-	if _, ok := stage.Groups[group]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGroup(group)
-		}
-	}
-	return group
+	group.Unstage(stage)
 }
 
 func (group *Group) StageVoid(stage *Stage) {
 	group.Stage(stage)
-}
-
-// Checkout group to the back repo (if it is already staged)
-func (group *Group) Checkout(stage *Stage) *Group {
-	if _, ok := stage.Groups[group]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGroup(group)
-		}
-	}
-	return group
 }
 
 // for satisfaction of GongStruct interface
@@ -1202,14 +1012,7 @@ func (group *Group) SetName(name string) {
 
 // Stage puts grouptoogle to the model stage
 func (grouptoogle *GroupToogle) Stage(stage *Stage) *GroupToogle {
-	if _, ok := stage.GroupToogles[grouptoogle]; !ok {
-		stage.GroupToogles[grouptoogle] = struct{}{}
-		stage.GroupToogle_stagedOrder[grouptoogle] = stage.GroupToogleOrder
-		stage.GroupToogle_orderStaged[stage.GroupToogleOrder] = grouptoogle
-		stage.GroupToogleOrder++
-	}
-	stage.GroupToogles_mapString[grouptoogle.Name] = grouptoogle
-
+	__gong__stage(stage.GroupToogles, stage.GroupToogle_stagedOrder, stage.GroupToogle_orderStaged, &stage.GroupToogleOrder, stage.GroupToogles_mapString, grouptoogle, grouptoogle.Name)
 	return grouptoogle
 }
 
@@ -1219,59 +1022,22 @@ func (grouptoogle *GroupToogle) Stage(stage *Stage) *GroupToogle {
 // - force the order if the order is equal or greater than the stage.GroupToogleOrder
 // - update stage.GroupToogleOrder accordingly
 func (grouptoogle *GroupToogle) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GroupToogles[grouptoogle]; !ok {
-		stage.GroupToogles[grouptoogle] = struct{}{}
-
-		if order > stage.GroupToogleOrder {
-			stage.GroupToogleOrder = order
-		}
-		stage.GroupToogle_stagedOrder[grouptoogle] = order
-		stage.GroupToogle_orderStaged[order] = grouptoogle
-		stage.GroupToogleOrder++
-	}
-	stage.GroupToogles_mapString[grouptoogle.Name] = grouptoogle
+	__gong__stagePreserveOrder(stage.GroupToogles, stage.GroupToogle_stagedOrder, stage.GroupToogle_orderStaged, &stage.GroupToogleOrder, stage.GroupToogles_mapString, grouptoogle, order, grouptoogle.Name)
 }
 
 // Unstage removes grouptoogle off the model stage
 func (grouptoogle *GroupToogle) Unstage(stage *Stage) *GroupToogle {
-	delete(stage.GroupToogles, grouptoogle)
-	// issue1150
-	// delete(stage.GroupToogle_stagedOrder, grouptoogle)
-	delete(stage.GroupToogles_mapString, grouptoogle.Name)
-
+	__gong__unstage(stage.GroupToogles, stage.GroupToogles_mapString, grouptoogle, grouptoogle.Name)
 	return grouptoogle
 }
 
 // UnstageVoid removes grouptoogle off the model stage
 func (grouptoogle *GroupToogle) UnstageVoid(stage *Stage) {
-	delete(stage.GroupToogles, grouptoogle)
-	// issue1150
-	// delete(stage.GroupToogle_stagedOrder, grouptoogle)
-	delete(stage.GroupToogles_mapString, grouptoogle.Name)
-}
-
-// commit grouptoogle to the back repo (if it is already staged)
-func (grouptoogle *GroupToogle) Commit(stage *Stage) *GroupToogle {
-	if _, ok := stage.GroupToogles[grouptoogle]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGroupToogle(grouptoogle)
-		}
-	}
-	return grouptoogle
+	grouptoogle.Unstage(stage)
 }
 
 func (grouptoogle *GroupToogle) StageVoid(stage *Stage) {
 	grouptoogle.Stage(stage)
-}
-
-// Checkout grouptoogle to the back repo (if it is already staged)
-func (grouptoogle *GroupToogle) Checkout(stage *Stage) *GroupToogle {
-	if _, ok := stage.GroupToogles[grouptoogle]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGroupToogle(grouptoogle)
-		}
-	}
-	return grouptoogle
 }
 
 // for satisfaction of GongStruct interface
@@ -1286,14 +1052,7 @@ func (grouptoogle *GroupToogle) SetName(name string) {
 
 // Stage puts layout to the model stage
 func (layout *Layout) Stage(stage *Stage) *Layout {
-	if _, ok := stage.Layouts[layout]; !ok {
-		stage.Layouts[layout] = struct{}{}
-		stage.Layout_stagedOrder[layout] = stage.LayoutOrder
-		stage.Layout_orderStaged[stage.LayoutOrder] = layout
-		stage.LayoutOrder++
-	}
-	stage.Layouts_mapString[layout.Name] = layout
-
+	__gong__stage(stage.Layouts, stage.Layout_stagedOrder, stage.Layout_orderStaged, &stage.LayoutOrder, stage.Layouts_mapString, layout, layout.Name)
 	return layout
 }
 
@@ -1303,59 +1062,22 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 // - force the order if the order is equal or greater than the stage.LayoutOrder
 // - update stage.LayoutOrder accordingly
 func (layout *Layout) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Layouts[layout]; !ok {
-		stage.Layouts[layout] = struct{}{}
-
-		if order > stage.LayoutOrder {
-			stage.LayoutOrder = order
-		}
-		stage.Layout_stagedOrder[layout] = order
-		stage.Layout_orderStaged[order] = layout
-		stage.LayoutOrder++
-	}
-	stage.Layouts_mapString[layout.Name] = layout
+	__gong__stagePreserveOrder(stage.Layouts, stage.Layout_stagedOrder, stage.Layout_orderStaged, &stage.LayoutOrder, stage.Layouts_mapString, layout, order, layout.Name)
 }
 
 // Unstage removes layout off the model stage
 func (layout *Layout) Unstage(stage *Stage) *Layout {
-	delete(stage.Layouts, layout)
-	// issue1150
-	// delete(stage.Layout_stagedOrder, layout)
-	delete(stage.Layouts_mapString, layout.Name)
-
+	__gong__unstage(stage.Layouts, stage.Layouts_mapString, layout, layout.Name)
 	return layout
 }
 
 // UnstageVoid removes layout off the model stage
 func (layout *Layout) UnstageVoid(stage *Stage) {
-	delete(stage.Layouts, layout)
-	// issue1150
-	// delete(stage.Layout_stagedOrder, layout)
-	delete(stage.Layouts_mapString, layout.Name)
-}
-
-// commit layout to the back repo (if it is already staged)
-func (layout *Layout) Commit(stage *Stage) *Layout {
-	if _, ok := stage.Layouts[layout]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitLayout(layout)
-		}
-	}
-	return layout
+	layout.Unstage(stage)
 }
 
 func (layout *Layout) StageVoid(stage *Stage) {
 	layout.Stage(stage)
-}
-
-// Checkout layout to the back repo (if it is already staged)
-func (layout *Layout) Checkout(stage *Stage) *Layout {
-	if _, ok := stage.Layouts[layout]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutLayout(layout)
-		}
-	}
-	return layout
 }
 
 // for satisfaction of GongStruct interface
@@ -1369,30 +1091,15 @@ func (layout *Layout) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Buttons = make(map[*Button]struct{})
-	stage.Buttons_mapString = make(map[string]*Button)
-	stage.Button_stagedOrder = make(map[*Button]uint)
-	stage.ButtonOrder = 0
+	__gong__resetStageType(&stage.Buttons, &stage.Buttons_mapString, &stage.Button_stagedOrder, &stage.ButtonOrder)
 
-	stage.ButtonToggles = make(map[*ButtonToggle]struct{})
-	stage.ButtonToggles_mapString = make(map[string]*ButtonToggle)
-	stage.ButtonToggle_stagedOrder = make(map[*ButtonToggle]uint)
-	stage.ButtonToggleOrder = 0
+	__gong__resetStageType(&stage.ButtonToggles, &stage.ButtonToggles_mapString, &stage.ButtonToggle_stagedOrder, &stage.ButtonToggleOrder)
 
-	stage.Groups = make(map[*Group]struct{})
-	stage.Groups_mapString = make(map[string]*Group)
-	stage.Group_stagedOrder = make(map[*Group]uint)
-	stage.GroupOrder = 0
+	__gong__resetStageType(&stage.Groups, &stage.Groups_mapString, &stage.Group_stagedOrder, &stage.GroupOrder)
 
-	stage.GroupToogles = make(map[*GroupToogle]struct{})
-	stage.GroupToogles_mapString = make(map[string]*GroupToogle)
-	stage.GroupToogle_stagedOrder = make(map[*GroupToogle]uint)
-	stage.GroupToogleOrder = 0
+	__gong__resetStageType(&stage.GroupToogles, &stage.GroupToogles_mapString, &stage.GroupToogle_stagedOrder, &stage.GroupToogleOrder)
 
-	stage.Layouts = make(map[*Layout]struct{})
-	stage.Layouts_mapString = make(map[string]*Layout)
-	stage.Layout_stagedOrder = make(map[*Layout]uint)
-	stage.LayoutOrder = 0
+	__gong__resetStageType(&stage.Layouts, &stage.Layouts_mapString, &stage.Layout_stagedOrder, &stage.LayoutOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -1431,7 +1138,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -2145,30 +1851,15 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.Buttons_mapString = make(map[string]*Button)
-	for button := range stage.Buttons {
-		stage.Buttons_mapString[button.Name] = button
-	}
+	__gong__rebuildMapString(stage.Buttons, &stage.Buttons_mapString)
 
-	stage.ButtonToggles_mapString = make(map[string]*ButtonToggle)
-	for buttontoggle := range stage.ButtonToggles {
-		stage.ButtonToggles_mapString[buttontoggle.Name] = buttontoggle
-	}
+	__gong__rebuildMapString(stage.ButtonToggles, &stage.ButtonToggles_mapString)
 
-	stage.Groups_mapString = make(map[string]*Group)
-	for group := range stage.Groups {
-		stage.Groups_mapString[group.Name] = group
-	}
+	__gong__rebuildMapString(stage.Groups, &stage.Groups_mapString)
 
-	stage.GroupToogles_mapString = make(map[string]*GroupToogle)
-	for grouptoogle := range stage.GroupToogles {
-		stage.GroupToogles_mapString[grouptoogle.Name] = grouptoogle
-	}
+	__gong__rebuildMapString(stage.GroupToogles, &stage.GroupToogles_mapString)
 
-	stage.Layouts_mapString = make(map[string]*Layout)
-	for layout := range stage.Layouts {
-		stage.Layouts_mapString[layout.Name] = layout
-	}
+	__gong__rebuildMapString(stage.Layouts, &stage.Layouts_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

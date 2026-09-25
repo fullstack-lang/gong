@@ -22,23 +22,3 @@ func (inst *B) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReve
 	}
 	return
 }
-
-// insertion point
-func (inst *A) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-	res = nil
-	return res
-}
-
-func (inst *B) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	case "A":
-		switch reverseField.Fieldname {
-		case "Bs":
-			res = stage.A_Bs_reverseMap[inst]
-		}
-	}
-	return res
-}

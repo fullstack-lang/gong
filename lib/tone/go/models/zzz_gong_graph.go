@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,40 +15,19 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (freqency *Freqency) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Freqencys[freqency]
-
-	return
+func (freqency *Freqency) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Freqencys[freqency]
+	return ok
 }
 
-func (stage *Stage) IsStagedFreqency(freqency *Freqency) (ok bool) {
-
-	return freqency.GongIsStaged(stage)
+func (note *Note) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Notes[note]
+	return ok
 }
 
-func (note *Note) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Notes[note]
-
-	return
-}
-
-func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
-
-	return note.GongIsStaged(stage)
-}
-
-func (player *Player) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Players[player]
-
-	return
-}
-
-func (stage *Stage) IsStagedPlayer(player *Player) (ok bool) {
-
-	return player.GongIsStaged(stage)
+func (player *Player) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Players[player]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -57,10 +39,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (freqency *Freqency) GongStageBranch(stage *Stage) {
-	stage.StageBranchFreqency(freqency)
-}
-
-func (stage *Stage) StageBranchFreqency(freqency *Freqency) {
 
 	// check if instance is already staged
 	if stage.IsStaged(freqency) {
@@ -76,10 +54,6 @@ func (stage *Stage) StageBranchFreqency(freqency *Freqency) {
 }
 
 func (note *Note) GongStageBranch(stage *Stage) {
-	stage.StageBranchNote(note)
-}
-
-func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
 	if stage.IsStaged(note) {
@@ -98,10 +72,6 @@ func (stage *Stage) StageBranchNote(note *Note) {
 }
 
 func (player *Player) GongStageBranch(stage *Stage) {
-	stage.StageBranchPlayer(player)
-}
-
-func (stage *Stage) StageBranchPlayer(player *Player) {
 
 	// check if instance is already staged
 	if stage.IsStaged(player) {
@@ -147,15 +117,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchFreqency(mapOrigCopy map[any]any, freqencyFrom *Freqency) (freqencyTo *Freqency) {
-
-	// freqencyFrom has already been copied
-	if _freqencyTo, ok := mapOrigCopy[freqencyFrom]; ok {
-		freqencyTo = _freqencyTo.(*Freqency)
+	var alreadyCopied bool
+	freqencyTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, freqencyFrom)
+	if alreadyCopied {
 		return
 	}
-
-	freqencyTo = new(Freqency)
-	mapOrigCopy[freqencyFrom] = freqencyTo
 	freqencyFrom.GongCopyBasicFields(freqencyTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -166,15 +132,11 @@ func GongCopyBranchFreqency(mapOrigCopy map[any]any, freqencyFrom *Freqency) (fr
 }
 
 func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
-
-	// noteFrom has already been copied
-	if _noteTo, ok := mapOrigCopy[noteFrom]; ok {
-		noteTo = _noteTo.(*Note)
+	var alreadyCopied bool
+	noteTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, noteFrom)
+	if alreadyCopied {
 		return
 	}
-
-	noteTo = new(Note)
-	mapOrigCopy[noteFrom] = noteTo
 	noteFrom.GongCopyBasicFields(noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -188,15 +150,11 @@ func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) 
 }
 
 func GongCopyBranchPlayer(mapOrigCopy map[any]any, playerFrom *Player) (playerTo *Player) {
-
-	// playerFrom has already been copied
-	if _playerTo, ok := mapOrigCopy[playerFrom]; ok {
-		playerTo = _playerTo.(*Player)
+	var alreadyCopied bool
+	playerTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, playerFrom)
+	if alreadyCopied {
 		return
 	}
-
-	playerTo = new(Player)
-	mapOrigCopy[playerFrom] = playerTo
 	playerFrom.GongCopyBasicFields(playerTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -219,10 +177,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (freqency *Freqency) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchFreqency(freqency)
-}
-
-func (stage *Stage) UnstageBranchFreqency(freqency *Freqency) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(freqency) {
@@ -238,10 +192,6 @@ func (stage *Stage) UnstageBranchFreqency(freqency *Freqency) {
 }
 
 func (note *Note) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchNote(note)
-}
-
-func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(note) {
@@ -260,10 +210,6 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 }
 
 func (player *Player) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchPlayer(player)
-}
-
-func (stage *Stage) UnstageBranchPlayer(player *Player) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(player) {
@@ -287,10 +233,7 @@ func (reference *Freqency) GongReconstructPointersFromReferences(stage *Stage, i
 func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Frequencies = reference.Frequencies[:0]
-	for _, _b := range instance.Frequencies {
-		reference.Frequencies = append(reference.Frequencies, stage.Freqencys_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Frequencies, stage.Freqencys_reference, instance.Frequencies)
 }
 
 func (reference *Player) GongReconstructPointersFromReferences(stage *Stage, instance *Player) {
@@ -307,13 +250,7 @@ func (reference *Freqency) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Frequencies []*Freqency
-	for _, _reference := range reference.Frequencies {
-		if _instance, ok := stage.Freqencys_instance[_reference]; ok {
-			_Frequencies = append(_Frequencies, _instance)
-		}
-	}
-	reference.Frequencies = _Frequencies
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Frequencies, stage.Freqencys_instance)
 }
 
 func (reference *Player) GongReconstructPointersFromInstances(stage *Stage) {
@@ -340,36 +277,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if note.Name != noteOther.Name {
 		diffs = append(diffs, note.GongMarshallField(stage, "Name"))
 	}
-	FrequenciesDifferent := false
-	if len(note.Frequencies) != len(noteOther.Frequencies) {
-		FrequenciesDifferent = true
-	} else {
-		for i := range note.Frequencies {
-			if (note.Frequencies[i] == nil) != (noteOther.Frequencies[i] == nil) {
-				FrequenciesDifferent = true
-				break
-			} else if note.Frequencies[i] != nil && noteOther.Frequencies[i] != nil {
-				// this is a pointer comparaison
-				if note.Frequencies[i] != noteOther.Frequencies[i] {
-					FrequenciesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if FrequenciesDifferent {
-		ops := stage.Diff(
-			note,
-			"Frequencies",
-			len(noteOther.Frequencies),
-			len(note.Frequencies),
-			func(i, j int) bool {
-				return noteOther.Frequencies[i] == note.Frequencies[j]
-			},
-			func(j int) string {
-				return note.Frequencies[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, note, "Frequencies", noteOther.Frequencies, note.Frequencies); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if note.Start != noteOther.Start {
@@ -478,4 +386,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

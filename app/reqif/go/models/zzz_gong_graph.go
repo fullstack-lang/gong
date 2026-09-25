@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,1252 +15,524 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (alternative_id *ALTERNATIVE_ID) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ALTERNATIVE_IDs[alternative_id]
-
-	return
-}
-
-func (stage *Stage) IsStagedALTERNATIVE_ID(alternative_id *ALTERNATIVE_ID) (ok bool) {
-
-	return alternative_id.GongIsStaged(stage)
-}
-
-func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_BOOLEANs[attribute_definition_boolean]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) (ok bool) {
-
-	return attribute_definition_boolean.GongIsStaged(stage)
-}
-
-func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings[attribute_definition_boolean_rendering]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) (ok bool) {
-
-	return attribute_definition_boolean_rendering.GongIsStaged(stage)
-}
-
-func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_DATEs[attribute_definition_date]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_DATE(attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) (ok bool) {
-
-	return attribute_definition_date.GongIsStaged(stage)
-}
-
-func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_DATE_Renderings[attribute_definition_date_rendering]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_DATE_Rendering(attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) (ok bool) {
-
-	return attribute_definition_date_rendering.GongIsStaged(stage)
-}
-
-func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_ENUMERATIONs[attribute_definition_enumeration]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_ENUMERATION(attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) (ok bool) {
-
-	return attribute_definition_enumeration.GongIsStaged(stage)
-}
-
-func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings[attribute_definition_enumeration_rendering]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) (ok bool) {
-
-	return attribute_definition_enumeration_rendering.GongIsStaged(stage)
-}
-
-func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_INTEGERs[attribute_definition_integer]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_INTEGER(attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) (ok bool) {
-
-	return attribute_definition_integer.GongIsStaged(stage)
-}
-
-func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings[attribute_definition_integer_rendering]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) (ok bool) {
-
-	return attribute_definition_integer_rendering.GongIsStaged(stage)
-}
-
-func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_REALs[attribute_definition_real]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_REAL(attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) (ok bool) {
-
-	return attribute_definition_real.GongIsStaged(stage)
-}
-
-func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_REAL_Renderings[attribute_definition_real_rendering]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_REAL_Rendering(attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) (ok bool) {
-
-	return attribute_definition_real_rendering.GongIsStaged(stage)
-}
-
-func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_Renderings[attribute_definition_rendering]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_Rendering(attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) (ok bool) {
-
-	return attribute_definition_rendering.GongIsStaged(stage)
-}
-
-func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_STRINGs[attribute_definition_string]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_STRING(attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) (ok bool) {
-
-	return attribute_definition_string.GongIsStaged(stage)
-}
-
-func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_STRING_Renderings[attribute_definition_string_rendering]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_STRING_Rendering(attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) (ok bool) {
-
-	return attribute_definition_string_rendering.GongIsStaged(stage)
-}
-
-func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_XHTMLs[attribute_definition_xhtml]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_XHTML(attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) (ok bool) {
-
-	return attribute_definition_xhtml.GongIsStaged(stage)
-}
-
-func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_DEFINITION_XHTML_Renderings[attribute_definition_xhtml_rendering]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) (ok bool) {
-
-	return attribute_definition_xhtml_rendering.GongIsStaged(stage)
-}
-
-func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_VALUE_BOOLEANs[attribute_value_boolean]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) (ok bool) {
-
-	return attribute_value_boolean.GongIsStaged(stage)
-}
-
-func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_VALUE_DATEs[attribute_value_date]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_DATE(attribute_value_date *ATTRIBUTE_VALUE_DATE) (ok bool) {
-
-	return attribute_value_date.GongIsStaged(stage)
-}
-
-func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_VALUE_ENUMERATIONs[attribute_value_enumeration]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_ENUMERATION(attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) (ok bool) {
-
-	return attribute_value_enumeration.GongIsStaged(stage)
-}
-
-func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_VALUE_INTEGERs[attribute_value_integer]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_INTEGER(attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) (ok bool) {
-
-	return attribute_value_integer.GongIsStaged(stage)
-}
-
-func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_VALUE_REALs[attribute_value_real]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_REAL(attribute_value_real *ATTRIBUTE_VALUE_REAL) (ok bool) {
-
-	return attribute_value_real.GongIsStaged(stage)
-}
-
-func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_VALUE_STRINGs[attribute_value_string]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_STRING(attribute_value_string *ATTRIBUTE_VALUE_STRING) (ok bool) {
-
-	return attribute_value_string.GongIsStaged(stage)
-}
-
-func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ATTRIBUTE_VALUE_XHTMLs[attribute_value_xhtml]
-
-	return
-}
-
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_XHTML(attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) (ok bool) {
-
-	return attribute_value_xhtml.GongIsStaged(stage)
-}
-
-func (a_alternative_id *A_ALTERNATIVE_ID) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ALTERNATIVE_IDs[a_alternative_id]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ALTERNATIVE_ID(a_alternative_id *A_ALTERNATIVE_ID) (ok bool) {
-
-	return a_alternative_id.GongIsStaged(stage)
-}
-
-func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs[a_attribute_definition_boolean_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) (ok bool) {
-
-	return a_attribute_definition_boolean_ref.GongIsStaged(stage)
-}
-
-func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_DEFINITION_DATE_REFs[a_attribute_definition_date_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) (ok bool) {
-
-	return a_attribute_definition_date_ref.GongIsStaged(stage)
-}
-
-func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs[a_attribute_definition_enumeration_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) (ok bool) {
-
-	return a_attribute_definition_enumeration_ref.GongIsStaged(stage)
-}
-
-func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs[a_attribute_definition_integer_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) (ok bool) {
-
-	return a_attribute_definition_integer_ref.GongIsStaged(stage)
-}
-
-func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_DEFINITION_REAL_REFs[a_attribute_definition_real_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) (ok bool) {
-
-	return a_attribute_definition_real_ref.GongIsStaged(stage)
-}
-
-func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_DEFINITION_STRING_REFs[a_attribute_definition_string_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) (ok bool) {
-
-	return a_attribute_definition_string_ref.GongIsStaged(stage)
-}
-
-func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs[a_attribute_definition_xhtml_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) (ok bool) {
-
-	return a_attribute_definition_xhtml_ref.GongIsStaged(stage)
-}
-
-func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_VALUE_BOOLEANs[a_attribute_value_boolean]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) (ok bool) {
-
-	return a_attribute_value_boolean.GongIsStaged(stage)
-}
-
-func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_VALUE_DATEs[a_attribute_value_date]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) (ok bool) {
-
-	return a_attribute_value_date.GongIsStaged(stage)
-}
-
-func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_VALUE_ENUMERATIONs[a_attribute_value_enumeration]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) (ok bool) {
-
-	return a_attribute_value_enumeration.GongIsStaged(stage)
-}
-
-func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_VALUE_INTEGERs[a_attribute_value_integer]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) (ok bool) {
-
-	return a_attribute_value_integer.GongIsStaged(stage)
-}
-
-func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_VALUE_REALs[a_attribute_value_real]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) (ok bool) {
-
-	return a_attribute_value_real.GongIsStaged(stage)
-}
-
-func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_VALUE_STRINGs[a_attribute_value_string]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) (ok bool) {
-
-	return a_attribute_value_string.GongIsStaged(stage)
-}
-
-func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_VALUE_XHTMLs[a_attribute_value_xhtml]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) (ok bool) {
-
-	return a_attribute_value_xhtml.GongIsStaged(stage)
-}
-
-func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ATTRIBUTE_VALUE_XHTML_1s[a_attribute_value_xhtml_1]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) (ok bool) {
-
-	return a_attribute_value_xhtml_1.GongIsStaged(stage)
-}
-
-func (a_children *A_CHILDREN) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_CHILDRENs[a_children]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_CHILDREN(a_children *A_CHILDREN) (ok bool) {
-
-	return a_children.GongIsStaged(stage)
-}
-
-func (a_core_content *A_CORE_CONTENT) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_CORE_CONTENTs[a_core_content]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_CORE_CONTENT(a_core_content *A_CORE_CONTENT) (ok bool) {
-
-	return a_core_content.GongIsStaged(stage)
-}
-
-func (a_datatypes *A_DATATYPES) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_DATATYPESs[a_datatypes]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_DATATYPES(a_datatypes *A_DATATYPES) (ok bool) {
-
-	return a_datatypes.GongIsStaged(stage)
-}
-
-func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs[a_datatype_definition_boolean_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) (ok bool) {
-
-	return a_datatype_definition_boolean_ref.GongIsStaged(stage)
-}
-
-func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_DATATYPE_DEFINITION_DATE_REFs[a_datatype_definition_date_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) (ok bool) {
-
-	return a_datatype_definition_date_ref.GongIsStaged(stage)
-}
-
-func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs[a_datatype_definition_enumeration_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) (ok bool) {
-
-	return a_datatype_definition_enumeration_ref.GongIsStaged(stage)
-}
-
-func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_DATATYPE_DEFINITION_INTEGER_REFs[a_datatype_definition_integer_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) (ok bool) {
-
-	return a_datatype_definition_integer_ref.GongIsStaged(stage)
-}
-
-func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_DATATYPE_DEFINITION_REAL_REFs[a_datatype_definition_real_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) (ok bool) {
-
-	return a_datatype_definition_real_ref.GongIsStaged(stage)
+func (alternative_id *ALTERNATIVE_ID) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ALTERNATIVE_IDs[alternative_id]
+	return ok
 }
 
-func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_DATATYPE_DEFINITION_STRING_REFs[a_datatype_definition_string_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_STRING_REF(a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) (ok bool) {
-
-	return a_datatype_definition_string_ref.GongIsStaged(stage)
-}
-
-func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_DATATYPE_DEFINITION_XHTML_REFs[a_datatype_definition_xhtml_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) (ok bool) {
-
-	return a_datatype_definition_xhtml_ref.GongIsStaged(stage)
-}
-
-func (a_editable_atts *A_EDITABLE_ATTS) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_EDITABLE_ATTSs[a_editable_atts]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_EDITABLE_ATTS(a_editable_atts *A_EDITABLE_ATTS) (ok bool) {
-
-	return a_editable_atts.GongIsStaged(stage)
-}
-
-func (a_enum_value_ref *A_ENUM_VALUE_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_ENUM_VALUE_REFs[a_enum_value_ref]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_ENUM_VALUE_REF(a_enum_value_ref *A_ENUM_VALUE_REF) (ok bool) {
-
-	return a_enum_value_ref.GongIsStaged(stage)
-}
-
-func (a_object *A_OBJECT) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_OBJECTs[a_object]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_OBJECT(a_object *A_OBJECT) (ok bool) {
-
-	return a_object.GongIsStaged(stage)
-}
-
-func (a_properties *A_PROPERTIES) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_PROPERTIESs[a_properties]
-
-	return
-}
-
-func (stage *Stage) IsStagedA_PROPERTIES(a_properties *A_PROPERTIES) (ok bool) {
-
-	return a_properties.GongIsStaged(stage)
+func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_BOOLEANs[attribute_definition_boolean]
+	return ok
 }
 
-func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_RELATION_GROUP_TYPE_REFs[a_relation_group_type_ref]
-
-	return
+func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings[attribute_definition_boolean_rendering]
+	return ok
 }
 
-func (stage *Stage) IsStagedA_RELATION_GROUP_TYPE_REF(a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) (ok bool) {
-
-	return a_relation_group_type_ref.GongIsStaged(stage)
+func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_DATEs[attribute_definition_date]
+	return ok
 }
-
-func (a_source_1 *A_SOURCE_1) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.A_SOURCE_1s[a_source_1]
-
-	return
+func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_DATE_Renderings[attribute_definition_date_rendering]
+	return ok
 }
-
-func (stage *Stage) IsStagedA_SOURCE_1(a_source_1 *A_SOURCE_1) (ok bool) {
 
-	return a_source_1.GongIsStaged(stage)
+func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_ENUMERATIONs[attribute_definition_enumeration]
+	return ok
 }
-
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_SOURCE_SPECIFICATION_1s[a_source_specification_1]
 
-	return
+func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings[attribute_definition_enumeration_rendering]
+	return ok
 }
 
-func (stage *Stage) IsStagedA_SOURCE_SPECIFICATION_1(a_source_specification_1 *A_SOURCE_SPECIFICATION_1) (ok bool) {
-
-	return a_source_specification_1.GongIsStaged(stage)
+func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_INTEGERs[attribute_definition_integer]
+	return ok
 }
-
-func (a_specifications *A_SPECIFICATIONS) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.A_SPECIFICATIONSs[a_specifications]
-
-	return
+func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings[attribute_definition_integer_rendering]
+	return ok
 }
-
-func (stage *Stage) IsStagedA_SPECIFICATIONS(a_specifications *A_SPECIFICATIONS) (ok bool) {
 
-	return a_specifications.GongIsStaged(stage)
+func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_REALs[attribute_definition_real]
+	return ok
 }
 
-func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_SPECIFICATION_TYPE_REFs[a_specification_type_ref]
-
-	return
+func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_REAL_Renderings[attribute_definition_real_rendering]
+	return ok
 }
 
-func (stage *Stage) IsStagedA_SPECIFICATION_TYPE_REF(a_specification_type_ref *A_SPECIFICATION_TYPE_REF) (ok bool) {
-
-	return a_specification_type_ref.GongIsStaged(stage)
+func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_Renderings[attribute_definition_rendering]
+	return ok
 }
-
-func (a_specified_values *A_SPECIFIED_VALUES) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.A_SPECIFIED_VALUESs[a_specified_values]
-
-	return
+func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_STRINGs[attribute_definition_string]
+	return ok
 }
-
-func (stage *Stage) IsStagedA_SPECIFIED_VALUES(a_specified_values *A_SPECIFIED_VALUES) (ok bool) {
 
-	return a_specified_values.GongIsStaged(stage)
+func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_STRING_Renderings[attribute_definition_string_rendering]
+	return ok
 }
-
-func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_SPEC_ATTRIBUTESs[a_spec_attributes]
 
-	return
+func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_XHTMLs[attribute_definition_xhtml]
+	return ok
 }
 
-func (stage *Stage) IsStagedA_SPEC_ATTRIBUTES(a_spec_attributes *A_SPEC_ATTRIBUTES) (ok bool) {
-
-	return a_spec_attributes.GongIsStaged(stage)
+func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_DEFINITION_XHTML_Renderings[attribute_definition_xhtml_rendering]
+	return ok
 }
-
-func (a_spec_objects *A_SPEC_OBJECTS) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.A_SPEC_OBJECTSs[a_spec_objects]
-
-	return
+func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_VALUE_BOOLEANs[attribute_value_boolean]
+	return ok
 }
-
-func (stage *Stage) IsStagedA_SPEC_OBJECTS(a_spec_objects *A_SPEC_OBJECTS) (ok bool) {
 
-	return a_spec_objects.GongIsStaged(stage)
+func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_VALUE_DATEs[attribute_value_date]
+	return ok
 }
 
-func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_SPEC_OBJECT_TYPE_REFs[a_spec_object_type_ref]
-
-	return
+func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_VALUE_ENUMERATIONs[attribute_value_enumeration]
+	return ok
 }
 
-func (stage *Stage) IsStagedA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) (ok bool) {
-
-	return a_spec_object_type_ref.GongIsStaged(stage)
+func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_VALUE_INTEGERs[attribute_value_integer]
+	return ok
 }
-
-func (a_spec_relations *A_SPEC_RELATIONS) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.A_SPEC_RELATIONSs[a_spec_relations]
-
-	return
+func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_VALUE_REALs[attribute_value_real]
+	return ok
 }
-
-func (stage *Stage) IsStagedA_SPEC_RELATIONS(a_spec_relations *A_SPEC_RELATIONS) (ok bool) {
 
-	return a_spec_relations.GongIsStaged(stage)
+func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_VALUE_STRINGs[attribute_value_string]
+	return ok
 }
-
-func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_SPEC_RELATION_GROUPSs[a_spec_relation_groups]
 
-	return
+func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ATTRIBUTE_VALUE_XHTMLs[attribute_value_xhtml]
+	return ok
 }
 
-func (stage *Stage) IsStagedA_SPEC_RELATION_GROUPS(a_spec_relation_groups *A_SPEC_RELATION_GROUPS) (ok bool) {
-
-	return a_spec_relation_groups.GongIsStaged(stage)
+func (a_alternative_id *A_ALTERNATIVE_ID) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ALTERNATIVE_IDs[a_alternative_id]
+	return ok
 }
-
-func (a_spec_relation_ref *A_SPEC_RELATION_REF) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.A_SPEC_RELATION_REFs[a_spec_relation_ref]
-
-	return
+func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs[a_attribute_definition_boolean_ref]
+	return ok
 }
-
-func (stage *Stage) IsStagedA_SPEC_RELATION_REF(a_spec_relation_ref *A_SPEC_RELATION_REF) (ok bool) {
 
-	return a_spec_relation_ref.GongIsStaged(stage)
+func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_DEFINITION_DATE_REFs[a_attribute_definition_date_ref]
+	return ok
 }
 
-func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_SPEC_RELATION_TYPE_REFs[a_spec_relation_type_ref]
-
-	return
+func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs[a_attribute_definition_enumeration_ref]
+	return ok
 }
 
-func (stage *Stage) IsStagedA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) (ok bool) {
-
-	return a_spec_relation_type_ref.GongIsStaged(stage)
+func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs[a_attribute_definition_integer_ref]
+	return ok
 }
-
-func (a_spec_types *A_SPEC_TYPES) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.A_SPEC_TYPESs[a_spec_types]
-
-	return
+func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_DEFINITION_REAL_REFs[a_attribute_definition_real_ref]
+	return ok
 }
-
-func (stage *Stage) IsStagedA_SPEC_TYPES(a_spec_types *A_SPEC_TYPES) (ok bool) {
 
-	return a_spec_types.GongIsStaged(stage)
+func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_DEFINITION_STRING_REFs[a_attribute_definition_string_ref]
+	return ok
 }
-
-func (a_the_header *A_THE_HEADER) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.A_THE_HEADERs[a_the_header]
 
-	return
+func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs[a_attribute_definition_xhtml_ref]
+	return ok
 }
 
-func (stage *Stage) IsStagedA_THE_HEADER(a_the_header *A_THE_HEADER) (ok bool) {
-
-	return a_the_header.GongIsStaged(stage)
+func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_VALUE_BOOLEANs[a_attribute_value_boolean]
+	return ok
 }
-
-func (a_tool_extensions *A_TOOL_EXTENSIONS) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.A_TOOL_EXTENSIONSs[a_tool_extensions]
-
-	return
+func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_VALUE_DATEs[a_attribute_value_date]
+	return ok
 }
-
-func (stage *Stage) IsStagedA_TOOL_EXTENSIONS(a_tool_extensions *A_TOOL_EXTENSIONS) (ok bool) {
 
-	return a_tool_extensions.GongIsStaged(stage)
+func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_VALUE_ENUMERATIONs[a_attribute_value_enumeration]
+	return ok
 }
 
-func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DATATYPE_DEFINITION_BOOLEANs[datatype_definition_boolean]
-
-	return
+func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_VALUE_INTEGERs[a_attribute_value_integer]
+	return ok
 }
 
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_BOOLEAN(datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) (ok bool) {
-
-	return datatype_definition_boolean.GongIsStaged(stage)
+func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_VALUE_REALs[a_attribute_value_real]
+	return ok
 }
-
-func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.DATATYPE_DEFINITION_DATEs[datatype_definition_date]
-
-	return
+func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_VALUE_STRINGs[a_attribute_value_string]
+	return ok
 }
-
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_DATE(datatype_definition_date *DATATYPE_DEFINITION_DATE) (ok bool) {
 
-	return datatype_definition_date.GongIsStaged(stage)
+func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_VALUE_XHTMLs[a_attribute_value_xhtml]
+	return ok
 }
-
-func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DATATYPE_DEFINITION_ENUMERATIONs[datatype_definition_enumeration]
 
-	return
+func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ATTRIBUTE_VALUE_XHTML_1s[a_attribute_value_xhtml_1]
+	return ok
 }
 
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_ENUMERATION(datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) (ok bool) {
-
-	return datatype_definition_enumeration.GongIsStaged(stage)
+func (a_children *A_CHILDREN) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_CHILDRENs[a_children]
+	return ok
 }
-
-func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.DATATYPE_DEFINITION_INTEGERs[datatype_definition_integer]
-
-	return
+func (a_core_content *A_CORE_CONTENT) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_CORE_CONTENTs[a_core_content]
+	return ok
 }
-
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_INTEGER(datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) (ok bool) {
 
-	return datatype_definition_integer.GongIsStaged(stage)
+func (a_datatypes *A_DATATYPES) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_DATATYPESs[a_datatypes]
+	return ok
 }
 
-func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DATATYPE_DEFINITION_REALs[datatype_definition_real]
-
-	return
+func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs[a_datatype_definition_boolean_ref]
+	return ok
 }
 
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_REAL(datatype_definition_real *DATATYPE_DEFINITION_REAL) (ok bool) {
-
-	return datatype_definition_real.GongIsStaged(stage)
+func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_DATATYPE_DEFINITION_DATE_REFs[a_datatype_definition_date_ref]
+	return ok
 }
-
-func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.DATATYPE_DEFINITION_STRINGs[datatype_definition_string]
-
-	return
+func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs[a_datatype_definition_enumeration_ref]
+	return ok
 }
-
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_STRING(datatype_definition_string *DATATYPE_DEFINITION_STRING) (ok bool) {
 
-	return datatype_definition_string.GongIsStaged(stage)
+func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_DATATYPE_DEFINITION_INTEGER_REFs[a_datatype_definition_integer_ref]
+	return ok
 }
-
-func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DATATYPE_DEFINITION_XHTMLs[datatype_definition_xhtml]
 
-	return
+func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_DATATYPE_DEFINITION_REAL_REFs[a_datatype_definition_real_ref]
+	return ok
 }
 
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_XHTML(datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) (ok bool) {
-
-	return datatype_definition_xhtml.GongIsStaged(stage)
+func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_DATATYPE_DEFINITION_STRING_REFs[a_datatype_definition_string_ref]
+	return ok
 }
-
-func (embedded_value *EMBEDDED_VALUE) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.EMBEDDED_VALUEs[embedded_value]
-
-	return
+func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_DATATYPE_DEFINITION_XHTML_REFs[a_datatype_definition_xhtml_ref]
+	return ok
 }
-
-func (stage *Stage) IsStagedEMBEDDED_VALUE(embedded_value *EMBEDDED_VALUE) (ok bool) {
 
-	return embedded_value.GongIsStaged(stage)
+func (a_editable_atts *A_EDITABLE_ATTS) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_EDITABLE_ATTSs[a_editable_atts]
+	return ok
 }
 
-func (enum_value *ENUM_VALUE) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ENUM_VALUEs[enum_value]
-
-	return
+func (a_enum_value_ref *A_ENUM_VALUE_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_ENUM_VALUE_REFs[a_enum_value_ref]
+	return ok
 }
 
-func (stage *Stage) IsStagedENUM_VALUE(enum_value *ENUM_VALUE) (ok bool) {
-
-	return enum_value.GongIsStaged(stage)
+func (a_object *A_OBJECT) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_OBJECTs[a_object]
+	return ok
 }
-
-func (embeddedjpgimage *EmbeddedJpgImage) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.EmbeddedJpgImages[embeddedjpgimage]
-
-	return
+func (a_properties *A_PROPERTIES) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_PROPERTIESs[a_properties]
+	return ok
 }
-
-func (stage *Stage) IsStagedEmbeddedJpgImage(embeddedjpgimage *EmbeddedJpgImage) (ok bool) {
 
-	return embeddedjpgimage.GongIsStaged(stage)
+func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_RELATION_GROUP_TYPE_REFs[a_relation_group_type_ref]
+	return ok
 }
-
-func (embeddedpngimage *EmbeddedPngImage) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.EmbeddedPngImages[embeddedpngimage]
 
-	return
+func (a_source_1 *A_SOURCE_1) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SOURCE_1s[a_source_1]
+	return ok
 }
 
-func (stage *Stage) IsStagedEmbeddedPngImage(embeddedpngimage *EmbeddedPngImage) (ok bool) {
-
-	return embeddedpngimage.GongIsStaged(stage)
+func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SOURCE_SPECIFICATION_1s[a_source_specification_1]
+	return ok
 }
-
-func (embeddedsvgimage *EmbeddedSvgImage) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.EmbeddedSvgImages[embeddedsvgimage]
-
-	return
+func (a_specifications *A_SPECIFICATIONS) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SPECIFICATIONSs[a_specifications]
+	return ok
 }
-
-func (stage *Stage) IsStagedEmbeddedSvgImage(embeddedsvgimage *EmbeddedSvgImage) (ok bool) {
 
-	return embeddedsvgimage.GongIsStaged(stage)
+func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SPECIFICATION_TYPE_REFs[a_specification_type_ref]
+	return ok
 }
 
-func (kill *Kill) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Kills[kill]
-
-	return
+func (a_specified_values *A_SPECIFIED_VALUES) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SPECIFIED_VALUESs[a_specified_values]
+	return ok
 }
 
-func (stage *Stage) IsStagedKill(kill *Kill) (ok bool) {
-
-	return kill.GongIsStaged(stage)
+func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SPEC_ATTRIBUTESs[a_spec_attributes]
+	return ok
 }
-
-func (map_identifier_bool *Map_identifier_bool) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.Map_identifier_bools[map_identifier_bool]
-
-	return
+func (a_spec_objects *A_SPEC_OBJECTS) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SPEC_OBJECTSs[a_spec_objects]
+	return ok
 }
-
-func (stage *Stage) IsStagedMap_identifier_bool(map_identifier_bool *Map_identifier_bool) (ok bool) {
 
-	return map_identifier_bool.GongIsStaged(stage)
+func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SPEC_OBJECT_TYPE_REFs[a_spec_object_type_ref]
+	return ok
 }
-
-func (relation_group *RELATION_GROUP) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.RELATION_GROUPs[relation_group]
 
-	return
+func (a_spec_relations *A_SPEC_RELATIONS) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SPEC_RELATIONSs[a_spec_relations]
+	return ok
 }
 
-func (stage *Stage) IsStagedRELATION_GROUP(relation_group *RELATION_GROUP) (ok bool) {
-
-	return relation_group.GongIsStaged(stage)
+func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SPEC_RELATION_GROUPSs[a_spec_relation_groups]
+	return ok
 }
-
-func (relation_group_type *RELATION_GROUP_TYPE) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.RELATION_GROUP_TYPEs[relation_group_type]
-
-	return
+func (a_spec_relation_ref *A_SPEC_RELATION_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SPEC_RELATION_REFs[a_spec_relation_ref]
+	return ok
 }
-
-func (stage *Stage) IsStagedRELATION_GROUP_TYPE(relation_group_type *RELATION_GROUP_TYPE) (ok bool) {
 
-	return relation_group_type.GongIsStaged(stage)
+func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SPEC_RELATION_TYPE_REFs[a_spec_relation_type_ref]
+	return ok
 }
 
-func (req_if *REQ_IF) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.REQ_IFs[req_if]
-
-	return
+func (a_spec_types *A_SPEC_TYPES) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SPEC_TYPESs[a_spec_types]
+	return ok
 }
 
-func (stage *Stage) IsStagedREQ_IF(req_if *REQ_IF) (ok bool) {
-
-	return req_if.GongIsStaged(stage)
+func (a_the_header *A_THE_HEADER) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_THE_HEADERs[a_the_header]
+	return ok
 }
-
-func (req_if_content *REQ_IF_CONTENT) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.REQ_IF_CONTENTs[req_if_content]
-
-	return
+func (a_tool_extensions *A_TOOL_EXTENSIONS) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_TOOL_EXTENSIONSs[a_tool_extensions]
+	return ok
 }
-
-func (stage *Stage) IsStagedREQ_IF_CONTENT(req_if_content *REQ_IF_CONTENT) (ok bool) {
 
-	return req_if_content.GongIsStaged(stage)
+func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DATATYPE_DEFINITION_BOOLEANs[datatype_definition_boolean]
+	return ok
 }
-
-func (req_if_header *REQ_IF_HEADER) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.REQ_IF_HEADERs[req_if_header]
 
-	return
+func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DATATYPE_DEFINITION_DATEs[datatype_definition_date]
+	return ok
 }
 
-func (stage *Stage) IsStagedREQ_IF_HEADER(req_if_header *REQ_IF_HEADER) (ok bool) {
-
-	return req_if_header.GongIsStaged(stage)
+func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DATATYPE_DEFINITION_ENUMERATIONs[datatype_definition_enumeration]
+	return ok
 }
-
-func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.REQ_IF_TOOL_EXTENSIONs[req_if_tool_extension]
-
-	return
+func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DATATYPE_DEFINITION_INTEGERs[datatype_definition_integer]
+	return ok
 }
-
-func (stage *Stage) IsStagedREQ_IF_TOOL_EXTENSION(req_if_tool_extension *REQ_IF_TOOL_EXTENSION) (ok bool) {
 
-	return req_if_tool_extension.GongIsStaged(stage)
+func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DATATYPE_DEFINITION_REALs[datatype_definition_real]
+	return ok
 }
 
-func (specification *SPECIFICATION) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SPECIFICATIONs[specification]
-
-	return
+func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DATATYPE_DEFINITION_STRINGs[datatype_definition_string]
+	return ok
 }
 
-func (stage *Stage) IsStagedSPECIFICATION(specification *SPECIFICATION) (ok bool) {
-
-	return specification.GongIsStaged(stage)
+func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DATATYPE_DEFINITION_XHTMLs[datatype_definition_xhtml]
+	return ok
 }
-
-func (specification_rendering *SPECIFICATION_Rendering) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.SPECIFICATION_Renderings[specification_rendering]
-
-	return
+func (embedded_value *EMBEDDED_VALUE) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.EMBEDDED_VALUEs[embedded_value]
+	return ok
 }
-
-func (stage *Stage) IsStagedSPECIFICATION_Rendering(specification_rendering *SPECIFICATION_Rendering) (ok bool) {
 
-	return specification_rendering.GongIsStaged(stage)
+func (enum_value *ENUM_VALUE) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ENUM_VALUEs[enum_value]
+	return ok
 }
-
-func (specification_type *SPECIFICATION_TYPE) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SPECIFICATION_TYPEs[specification_type]
 
-	return
+func (embeddedjpgimage *EmbeddedJpgImage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.EmbeddedJpgImages[embeddedjpgimage]
+	return ok
 }
 
-func (stage *Stage) IsStagedSPECIFICATION_TYPE(specification_type *SPECIFICATION_TYPE) (ok bool) {
-
-	return specification_type.GongIsStaged(stage)
+func (embeddedpngimage *EmbeddedPngImage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.EmbeddedPngImages[embeddedpngimage]
+	return ok
 }
-
-func (spec_hierarchy *SPEC_HIERARCHY) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.SPEC_HIERARCHYs[spec_hierarchy]
-
-	return
+func (embeddedsvgimage *EmbeddedSvgImage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.EmbeddedSvgImages[embeddedsvgimage]
+	return ok
 }
-
-func (stage *Stage) IsStagedSPEC_HIERARCHY(spec_hierarchy *SPEC_HIERARCHY) (ok bool) {
 
-	return spec_hierarchy.GongIsStaged(stage)
+func (kill *Kill) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Kills[kill]
+	return ok
 }
 
-func (spec_object *SPEC_OBJECT) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SPEC_OBJECTs[spec_object]
-
-	return
+func (map_identifier_bool *Map_identifier_bool) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Map_identifier_bools[map_identifier_bool]
+	return ok
 }
 
-func (stage *Stage) IsStagedSPEC_OBJECT(spec_object *SPEC_OBJECT) (ok bool) {
-
-	return spec_object.GongIsStaged(stage)
+func (relation_group *RELATION_GROUP) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.RELATION_GROUPs[relation_group]
+	return ok
 }
-
-func (spec_object_type *SPEC_OBJECT_TYPE) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.SPEC_OBJECT_TYPEs[spec_object_type]
-
-	return
+func (relation_group_type *RELATION_GROUP_TYPE) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.RELATION_GROUP_TYPEs[relation_group_type]
+	return ok
 }
-
-func (stage *Stage) IsStagedSPEC_OBJECT_TYPE(spec_object_type *SPEC_OBJECT_TYPE) (ok bool) {
 
-	return spec_object_type.GongIsStaged(stage)
+func (req_if *REQ_IF) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.REQ_IFs[req_if]
+	return ok
 }
-
-func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SPEC_OBJECT_TYPE_Renderings[spec_object_type_rendering]
 
-	return
+func (req_if_content *REQ_IF_CONTENT) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.REQ_IF_CONTENTs[req_if_content]
+	return ok
 }
 
-func (stage *Stage) IsStagedSPEC_OBJECT_TYPE_Rendering(spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) (ok bool) {
-
-	return spec_object_type_rendering.GongIsStaged(stage)
+func (req_if_header *REQ_IF_HEADER) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.REQ_IF_HEADERs[req_if_header]
+	return ok
 }
-
-func (spec_relation *SPEC_RELATION) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.SPEC_RELATIONs[spec_relation]
-
-	return
+func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.REQ_IF_TOOL_EXTENSIONs[req_if_tool_extension]
+	return ok
 }
-
-func (stage *Stage) IsStagedSPEC_RELATION(spec_relation *SPEC_RELATION) (ok bool) {
 
-	return spec_relation.GongIsStaged(stage)
+func (specification *SPECIFICATION) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SPECIFICATIONs[specification]
+	return ok
 }
 
-func (spec_relation_type *SPEC_RELATION_TYPE) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SPEC_RELATION_TYPEs[spec_relation_type]
-
-	return
+func (specification_rendering *SPECIFICATION_Rendering) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SPECIFICATION_Renderings[specification_rendering]
+	return ok
 }
 
-func (stage *Stage) IsStagedSPEC_RELATION_TYPE(spec_relation_type *SPEC_RELATION_TYPE) (ok bool) {
-
-	return spec_relation_type.GongIsStaged(stage)
+func (specification_type *SPECIFICATION_TYPE) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SPECIFICATION_TYPEs[specification_type]
+	return ok
 }
-
-func (staticwebsite *StaticWebSite) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.StaticWebSites[staticwebsite]
-
-	return
+func (spec_hierarchy *SPEC_HIERARCHY) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SPEC_HIERARCHYs[spec_hierarchy]
+	return ok
 }
-
-func (stage *Stage) IsStagedStaticWebSite(staticwebsite *StaticWebSite) (ok bool) {
 
-	return staticwebsite.GongIsStaged(stage)
+func (spec_object *SPEC_OBJECT) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SPEC_OBJECTs[spec_object]
+	return ok
 }
-
-func (staticwebsitechapter *StaticWebSiteChapter) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.StaticWebSiteChapters[staticwebsitechapter]
 
-	return
+func (spec_object_type *SPEC_OBJECT_TYPE) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SPEC_OBJECT_TYPEs[spec_object_type]
+	return ok
 }
 
-func (stage *Stage) IsStagedStaticWebSiteChapter(staticwebsitechapter *StaticWebSiteChapter) (ok bool) {
-
-	return staticwebsitechapter.GongIsStaged(stage)
+func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SPEC_OBJECT_TYPE_Renderings[spec_object_type_rendering]
+	return ok
 }
-
-func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.StaticWebSiteGeneratedImages[staticwebsitegeneratedimage]
-
-	return
+func (spec_relation *SPEC_RELATION) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SPEC_RELATIONs[spec_relation]
+	return ok
 }
-
-func (stage *Stage) IsStagedStaticWebSiteGeneratedImage(staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) (ok bool) {
 
-	return staticwebsitegeneratedimage.GongIsStaged(stage)
+func (spec_relation_type *SPEC_RELATION_TYPE) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SPEC_RELATION_TYPEs[spec_relation_type]
+	return ok
 }
 
-func (staticwebsiteimage *StaticWebSiteImage) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.StaticWebSiteImages[staticwebsiteimage]
-
-	return
+func (staticwebsite *StaticWebSite) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.StaticWebSites[staticwebsite]
+	return ok
 }
 
-func (stage *Stage) IsStagedStaticWebSiteImage(staticwebsiteimage *StaticWebSiteImage) (ok bool) {
-
-	return staticwebsiteimage.GongIsStaged(stage)
+func (staticwebsitechapter *StaticWebSiteChapter) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.StaticWebSiteChapters[staticwebsitechapter]
+	return ok
 }
-
-func (staticwebsiteparagraph *StaticWebSiteParagraph) GongIsStaged(stage *Stage) (ok bool) {
 
-	_, ok = stage.StaticWebSiteParagraphs[staticwebsiteparagraph]
-
-	return
+func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.StaticWebSiteGeneratedImages[staticwebsitegeneratedimage]
+	return ok
 }
-
-func (stage *Stage) IsStagedStaticWebSiteParagraph(staticwebsiteparagraph *StaticWebSiteParagraph) (ok bool) {
 
-	return staticwebsiteparagraph.GongIsStaged(stage)
+func (staticwebsiteimage *StaticWebSiteImage) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.StaticWebSiteImages[staticwebsiteimage]
+	return ok
 }
 
-func (xhtml_content *XHTML_CONTENT) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.XHTML_CONTENTs[xhtml_content]
-
-	return
+func (staticwebsiteparagraph *StaticWebSiteParagraph) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.StaticWebSiteParagraphs[staticwebsiteparagraph]
+	return ok
 }
-
-func (stage *Stage) IsStagedXHTML_CONTENT(xhtml_content *XHTML_CONTENT) (ok bool) {
 
-	return xhtml_content.GongIsStaged(stage)
+func (xhtml_content *XHTML_CONTENT) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.XHTML_CONTENTs[xhtml_content]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -1269,10 +544,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (alternative_id *ALTERNATIVE_ID) GongStageBranch(stage *Stage) {
-	stage.StageBranchALTERNATIVE_ID(alternative_id)
-}
-
-func (stage *Stage) StageBranchALTERNATIVE_ID(alternative_id *ALTERNATIVE_ID) {
 
 	// check if instance is already staged
 	if stage.IsStaged(alternative_id) {
@@ -1288,10 +559,6 @@ func (stage *Stage) StageBranchALTERNATIVE_ID(alternative_id *ALTERNATIVE_ID) {
 }
 
 func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition_boolean)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_boolean) {
@@ -1316,10 +583,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition
 }
 
 func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_definition_boolean_rendering)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_boolean_rendering) {
@@ -1335,10 +598,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_
 }
 
 func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_DATE(attribute_definition_date)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_DATE(attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_date) {
@@ -1363,10 +622,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_DATE(attribute_definition_da
 }
 
 func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_DATE_Rendering(attribute_definition_date_rendering)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_DATE_Rendering(attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_date_rendering) {
@@ -1382,10 +637,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_DATE_Rendering(attribute_def
 }
 
 func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_ENUMERATION(attribute_definition_enumeration)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_ENUMERATION(attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_enumeration) {
@@ -1410,10 +661,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_ENUMERATION(attribute_defini
 }
 
 func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attribute_definition_enumeration_rendering)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_enumeration_rendering) {
@@ -1429,10 +676,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attrib
 }
 
 func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_INTEGER(attribute_definition_integer)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_INTEGER(attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_integer) {
@@ -1457,10 +700,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_INTEGER(attribute_definition
 }
 
 func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_definition_integer_rendering)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_integer_rendering) {
@@ -1476,10 +715,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_
 }
 
 func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_REAL(attribute_definition_real)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_REAL(attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_real) {
@@ -1504,10 +739,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_REAL(attribute_definition_re
 }
 
 func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_REAL_Rendering(attribute_definition_real_rendering)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_REAL_Rendering(attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_real_rendering) {
@@ -1523,10 +754,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_REAL_Rendering(attribute_def
 }
 
 func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_Rendering(attribute_definition_rendering)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_Rendering(attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_rendering) {
@@ -1542,10 +769,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_Rendering(attribute_definiti
 }
 
 func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_STRING(attribute_definition_string)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_STRING(attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_string) {
@@ -1570,10 +793,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_STRING(attribute_definition_
 }
 
 func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_STRING_Rendering(attribute_definition_string_rendering)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_STRING_Rendering(attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_string_rendering) {
@@ -1589,10 +808,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_STRING_Rendering(attribute_d
 }
 
 func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_XHTML(attribute_definition_xhtml)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_XHTML(attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_xhtml) {
@@ -1617,10 +832,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_XHTML(attribute_definition_x
 }
 
 func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_definition_xhtml_rendering)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_definition_xhtml_rendering) {
@@ -1636,10 +847,6 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_de
 }
 
 func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_value_boolean) {
@@ -1658,10 +865,6 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean *
 }
 
 func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_VALUE_DATE(attribute_value_date)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_VALUE_DATE(attribute_value_date *ATTRIBUTE_VALUE_DATE) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_value_date) {
@@ -1680,10 +883,6 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_DATE(attribute_value_date *ATTRIB
 }
 
 func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_VALUE_ENUMERATION(attribute_value_enumeration)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_VALUE_ENUMERATION(attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_value_enumeration) {
@@ -1705,10 +904,6 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_ENUMERATION(attribute_value_enume
 }
 
 func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_VALUE_INTEGER(attribute_value_integer)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_VALUE_INTEGER(attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_value_integer) {
@@ -1727,10 +922,6 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_INTEGER(attribute_value_integer *
 }
 
 func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_VALUE_REAL(attribute_value_real)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_VALUE_REAL(attribute_value_real *ATTRIBUTE_VALUE_REAL) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_value_real) {
@@ -1749,10 +940,6 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_REAL(attribute_value_real *ATTRIB
 }
 
 func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_VALUE_STRING(attribute_value_string)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_VALUE_STRING(attribute_value_string *ATTRIBUTE_VALUE_STRING) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_value_string) {
@@ -1771,10 +958,6 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_STRING(attribute_value_string *AT
 }
 
 func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongStageBranch(stage *Stage) {
-	stage.StageBranchATTRIBUTE_VALUE_XHTML(attribute_value_xhtml)
-}
-
-func (stage *Stage) StageBranchATTRIBUTE_VALUE_XHTML(attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) {
 
 	// check if instance is already staged
 	if stage.IsStaged(attribute_value_xhtml) {
@@ -1799,10 +982,6 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_XHTML(attribute_value_xhtml *ATTR
 }
 
 func (a_alternative_id *A_ALTERNATIVE_ID) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ALTERNATIVE_ID(a_alternative_id)
-}
-
-func (stage *Stage) StageBranchA_ALTERNATIVE_ID(a_alternative_id *A_ALTERNATIVE_ID) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_alternative_id) {
@@ -1821,10 +1000,6 @@ func (stage *Stage) StageBranchA_ALTERNATIVE_ID(a_alternative_id *A_ALTERNATIVE_
 }
 
 func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_definition_boolean_ref)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_definition_boolean_ref) {
@@ -1840,10 +1015,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_de
 }
 
 func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_definition_date_ref)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_definition_date_ref) {
@@ -1859,10 +1030,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_defin
 }
 
 func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribute_definition_enumeration_ref)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_definition_enumeration_ref) {
@@ -1878,10 +1045,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribut
 }
 
 func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_definition_integer_ref)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_definition_integer_ref) {
@@ -1897,10 +1060,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_de
 }
 
 func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_definition_real_ref)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_definition_real_ref) {
@@ -1916,10 +1075,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_defin
 }
 
 func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_definition_string_ref)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_definition_string_ref) {
@@ -1935,10 +1090,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_def
 }
 
 func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_definition_xhtml_ref)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_definition_xhtml_ref) {
@@ -1954,10 +1105,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_defi
 }
 
 func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boolean)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_value_boolean) {
@@ -1976,10 +1123,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boole
 }
 
 func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_value_date) {
@@ -1998,10 +1141,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date *A_
 }
 
 func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_enumeration)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_value_enumeration) {
@@ -2020,10 +1159,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_e
 }
 
 func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integer)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_value_integer) {
@@ -2042,10 +1177,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integ
 }
 
 func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_value_real) {
@@ -2064,10 +1195,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real *A_
 }
 
 func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_value_string) {
@@ -2086,10 +1213,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string
 }
 
 func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_value_xhtml) {
@@ -2108,10 +1231,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml *
 }
 
 func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml_1)
-}
-
-func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_attribute_value_xhtml_1) {
@@ -2148,10 +1267,6 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml
 }
 
 func (a_children *A_CHILDREN) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_CHILDREN(a_children)
-}
-
-func (stage *Stage) StageBranchA_CHILDREN(a_children *A_CHILDREN) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_children) {
@@ -2170,10 +1285,6 @@ func (stage *Stage) StageBranchA_CHILDREN(a_children *A_CHILDREN) {
 }
 
 func (a_core_content *A_CORE_CONTENT) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_CORE_CONTENT(a_core_content)
-}
-
-func (stage *Stage) StageBranchA_CORE_CONTENT(a_core_content *A_CORE_CONTENT) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_core_content) {
@@ -2192,10 +1303,6 @@ func (stage *Stage) StageBranchA_CORE_CONTENT(a_core_content *A_CORE_CONTENT) {
 }
 
 func (a_datatypes *A_DATATYPES) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_DATATYPES(a_datatypes)
-}
-
-func (stage *Stage) StageBranchA_DATATYPES(a_datatypes *A_DATATYPES) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_datatypes) {
@@ -2232,10 +1339,6 @@ func (stage *Stage) StageBranchA_DATATYPES(a_datatypes *A_DATATYPES) {
 }
 
 func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_definition_boolean_ref)
-}
-
-func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_datatype_definition_boolean_ref) {
@@ -2251,10 +1354,6 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_defi
 }
 
 func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definition_date_ref)
-}
-
-func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_datatype_definition_date_ref) {
@@ -2270,10 +1369,6 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definit
 }
 
 func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_definition_enumeration_ref)
-}
-
-func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_datatype_definition_enumeration_ref) {
@@ -2289,10 +1384,6 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_
 }
 
 func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_definition_integer_ref)
-}
-
-func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_datatype_definition_integer_ref) {
@@ -2308,10 +1399,6 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_defi
 }
 
 func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definition_real_ref)
-}
-
-func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_datatype_definition_real_ref) {
@@ -2327,10 +1414,6 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definit
 }
 
 func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_DATATYPE_DEFINITION_STRING_REF(a_datatype_definition_string_ref)
-}
-
-func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_STRING_REF(a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_datatype_definition_string_ref) {
@@ -2346,10 +1429,6 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_STRING_REF(a_datatype_defin
 }
 
 func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_definition_xhtml_ref)
-}
-
-func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_datatype_definition_xhtml_ref) {
@@ -2365,10 +1444,6 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_defini
 }
 
 func (a_editable_atts *A_EDITABLE_ATTS) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_EDITABLE_ATTS(a_editable_atts)
-}
-
-func (stage *Stage) StageBranchA_EDITABLE_ATTS(a_editable_atts *A_EDITABLE_ATTS) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_editable_atts) {
@@ -2384,10 +1459,6 @@ func (stage *Stage) StageBranchA_EDITABLE_ATTS(a_editable_atts *A_EDITABLE_ATTS)
 }
 
 func (a_enum_value_ref *A_ENUM_VALUE_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_ENUM_VALUE_REF(a_enum_value_ref)
-}
-
-func (stage *Stage) StageBranchA_ENUM_VALUE_REF(a_enum_value_ref *A_ENUM_VALUE_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_enum_value_ref) {
@@ -2403,10 +1474,6 @@ func (stage *Stage) StageBranchA_ENUM_VALUE_REF(a_enum_value_ref *A_ENUM_VALUE_R
 }
 
 func (a_object *A_OBJECT) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_OBJECT(a_object)
-}
-
-func (stage *Stage) StageBranchA_OBJECT(a_object *A_OBJECT) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_object) {
@@ -2422,10 +1489,6 @@ func (stage *Stage) StageBranchA_OBJECT(a_object *A_OBJECT) {
 }
 
 func (a_properties *A_PROPERTIES) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_PROPERTIES(a_properties)
-}
-
-func (stage *Stage) StageBranchA_PROPERTIES(a_properties *A_PROPERTIES) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_properties) {
@@ -2444,10 +1507,6 @@ func (stage *Stage) StageBranchA_PROPERTIES(a_properties *A_PROPERTIES) {
 }
 
 func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_RELATION_GROUP_TYPE_REF(a_relation_group_type_ref)
-}
-
-func (stage *Stage) StageBranchA_RELATION_GROUP_TYPE_REF(a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_relation_group_type_ref) {
@@ -2463,10 +1522,6 @@ func (stage *Stage) StageBranchA_RELATION_GROUP_TYPE_REF(a_relation_group_type_r
 }
 
 func (a_source_1 *A_SOURCE_1) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SOURCE_1(a_source_1)
-}
-
-func (stage *Stage) StageBranchA_SOURCE_1(a_source_1 *A_SOURCE_1) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_source_1) {
@@ -2482,10 +1537,6 @@ func (stage *Stage) StageBranchA_SOURCE_1(a_source_1 *A_SOURCE_1) {
 }
 
 func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SOURCE_SPECIFICATION_1(a_source_specification_1)
-}
-
-func (stage *Stage) StageBranchA_SOURCE_SPECIFICATION_1(a_source_specification_1 *A_SOURCE_SPECIFICATION_1) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_source_specification_1) {
@@ -2501,10 +1552,6 @@ func (stage *Stage) StageBranchA_SOURCE_SPECIFICATION_1(a_source_specification_1
 }
 
 func (a_specifications *A_SPECIFICATIONS) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SPECIFICATIONS(a_specifications)
-}
-
-func (stage *Stage) StageBranchA_SPECIFICATIONS(a_specifications *A_SPECIFICATIONS) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_specifications) {
@@ -2523,10 +1570,6 @@ func (stage *Stage) StageBranchA_SPECIFICATIONS(a_specifications *A_SPECIFICATIO
 }
 
 func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SPECIFICATION_TYPE_REF(a_specification_type_ref)
-}
-
-func (stage *Stage) StageBranchA_SPECIFICATION_TYPE_REF(a_specification_type_ref *A_SPECIFICATION_TYPE_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_specification_type_ref) {
@@ -2542,10 +1585,6 @@ func (stage *Stage) StageBranchA_SPECIFICATION_TYPE_REF(a_specification_type_ref
 }
 
 func (a_specified_values *A_SPECIFIED_VALUES) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SPECIFIED_VALUES(a_specified_values)
-}
-
-func (stage *Stage) StageBranchA_SPECIFIED_VALUES(a_specified_values *A_SPECIFIED_VALUES) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_specified_values) {
@@ -2564,10 +1603,6 @@ func (stage *Stage) StageBranchA_SPECIFIED_VALUES(a_specified_values *A_SPECIFIE
 }
 
 func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SPEC_ATTRIBUTES(a_spec_attributes)
-}
-
-func (stage *Stage) StageBranchA_SPEC_ATTRIBUTES(a_spec_attributes *A_SPEC_ATTRIBUTES) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_spec_attributes) {
@@ -2604,10 +1639,6 @@ func (stage *Stage) StageBranchA_SPEC_ATTRIBUTES(a_spec_attributes *A_SPEC_ATTRI
 }
 
 func (a_spec_objects *A_SPEC_OBJECTS) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SPEC_OBJECTS(a_spec_objects)
-}
-
-func (stage *Stage) StageBranchA_SPEC_OBJECTS(a_spec_objects *A_SPEC_OBJECTS) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_spec_objects) {
@@ -2626,10 +1657,6 @@ func (stage *Stage) StageBranchA_SPEC_OBJECTS(a_spec_objects *A_SPEC_OBJECTS) {
 }
 
 func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref)
-}
-
-func (stage *Stage) StageBranchA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_spec_object_type_ref) {
@@ -2645,10 +1672,6 @@ func (stage *Stage) StageBranchA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref *A_
 }
 
 func (a_spec_relations *A_SPEC_RELATIONS) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SPEC_RELATIONS(a_spec_relations)
-}
-
-func (stage *Stage) StageBranchA_SPEC_RELATIONS(a_spec_relations *A_SPEC_RELATIONS) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_spec_relations) {
@@ -2667,10 +1690,6 @@ func (stage *Stage) StageBranchA_SPEC_RELATIONS(a_spec_relations *A_SPEC_RELATIO
 }
 
 func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SPEC_RELATION_GROUPS(a_spec_relation_groups)
-}
-
-func (stage *Stage) StageBranchA_SPEC_RELATION_GROUPS(a_spec_relation_groups *A_SPEC_RELATION_GROUPS) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_spec_relation_groups) {
@@ -2689,10 +1708,6 @@ func (stage *Stage) StageBranchA_SPEC_RELATION_GROUPS(a_spec_relation_groups *A_
 }
 
 func (a_spec_relation_ref *A_SPEC_RELATION_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SPEC_RELATION_REF(a_spec_relation_ref)
-}
-
-func (stage *Stage) StageBranchA_SPEC_RELATION_REF(a_spec_relation_ref *A_SPEC_RELATION_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_spec_relation_ref) {
@@ -2708,10 +1723,6 @@ func (stage *Stage) StageBranchA_SPEC_RELATION_REF(a_spec_relation_ref *A_SPEC_R
 }
 
 func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref)
-}
-
-func (stage *Stage) StageBranchA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_spec_relation_type_ref) {
@@ -2727,10 +1738,6 @@ func (stage *Stage) StageBranchA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref
 }
 
 func (a_spec_types *A_SPEC_TYPES) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_SPEC_TYPES(a_spec_types)
-}
-
-func (stage *Stage) StageBranchA_SPEC_TYPES(a_spec_types *A_SPEC_TYPES) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_spec_types) {
@@ -2758,10 +1765,6 @@ func (stage *Stage) StageBranchA_SPEC_TYPES(a_spec_types *A_SPEC_TYPES) {
 }
 
 func (a_the_header *A_THE_HEADER) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_THE_HEADER(a_the_header)
-}
-
-func (stage *Stage) StageBranchA_THE_HEADER(a_the_header *A_THE_HEADER) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_the_header) {
@@ -2780,10 +1783,6 @@ func (stage *Stage) StageBranchA_THE_HEADER(a_the_header *A_THE_HEADER) {
 }
 
 func (a_tool_extensions *A_TOOL_EXTENSIONS) GongStageBranch(stage *Stage) {
-	stage.StageBranchA_TOOL_EXTENSIONS(a_tool_extensions)
-}
-
-func (stage *Stage) StageBranchA_TOOL_EXTENSIONS(a_tool_extensions *A_TOOL_EXTENSIONS) {
 
 	// check if instance is already staged
 	if stage.IsStaged(a_tool_extensions) {
@@ -2802,10 +1801,6 @@ func (stage *Stage) StageBranchA_TOOL_EXTENSIONS(a_tool_extensions *A_TOOL_EXTEN
 }
 
 func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongStageBranch(stage *Stage) {
-	stage.StageBranchDATATYPE_DEFINITION_BOOLEAN(datatype_definition_boolean)
-}
-
-func (stage *Stage) StageBranchDATATYPE_DEFINITION_BOOLEAN(datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) {
 
 	// check if instance is already staged
 	if stage.IsStaged(datatype_definition_boolean) {
@@ -2824,10 +1819,6 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_BOOLEAN(datatype_definition_b
 }
 
 func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongStageBranch(stage *Stage) {
-	stage.StageBranchDATATYPE_DEFINITION_DATE(datatype_definition_date)
-}
-
-func (stage *Stage) StageBranchDATATYPE_DEFINITION_DATE(datatype_definition_date *DATATYPE_DEFINITION_DATE) {
 
 	// check if instance is already staged
 	if stage.IsStaged(datatype_definition_date) {
@@ -2846,10 +1837,6 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_DATE(datatype_definition_date
 }
 
 func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongStageBranch(stage *Stage) {
-	stage.StageBranchDATATYPE_DEFINITION_ENUMERATION(datatype_definition_enumeration)
-}
-
-func (stage *Stage) StageBranchDATATYPE_DEFINITION_ENUMERATION(datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) {
 
 	// check if instance is already staged
 	if stage.IsStaged(datatype_definition_enumeration) {
@@ -2871,10 +1858,6 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_ENUMERATION(datatype_definiti
 }
 
 func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongStageBranch(stage *Stage) {
-	stage.StageBranchDATATYPE_DEFINITION_INTEGER(datatype_definition_integer)
-}
-
-func (stage *Stage) StageBranchDATATYPE_DEFINITION_INTEGER(datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) {
 
 	// check if instance is already staged
 	if stage.IsStaged(datatype_definition_integer) {
@@ -2893,10 +1876,6 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_INTEGER(datatype_definition_i
 }
 
 func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongStageBranch(stage *Stage) {
-	stage.StageBranchDATATYPE_DEFINITION_REAL(datatype_definition_real)
-}
-
-func (stage *Stage) StageBranchDATATYPE_DEFINITION_REAL(datatype_definition_real *DATATYPE_DEFINITION_REAL) {
 
 	// check if instance is already staged
 	if stage.IsStaged(datatype_definition_real) {
@@ -2915,10 +1894,6 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_REAL(datatype_definition_real
 }
 
 func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongStageBranch(stage *Stage) {
-	stage.StageBranchDATATYPE_DEFINITION_STRING(datatype_definition_string)
-}
-
-func (stage *Stage) StageBranchDATATYPE_DEFINITION_STRING(datatype_definition_string *DATATYPE_DEFINITION_STRING) {
 
 	// check if instance is already staged
 	if stage.IsStaged(datatype_definition_string) {
@@ -2937,10 +1912,6 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_STRING(datatype_definition_st
 }
 
 func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongStageBranch(stage *Stage) {
-	stage.StageBranchDATATYPE_DEFINITION_XHTML(datatype_definition_xhtml)
-}
-
-func (stage *Stage) StageBranchDATATYPE_DEFINITION_XHTML(datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) {
 
 	// check if instance is already staged
 	if stage.IsStaged(datatype_definition_xhtml) {
@@ -2959,10 +1930,6 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_XHTML(datatype_definition_xht
 }
 
 func (embedded_value *EMBEDDED_VALUE) GongStageBranch(stage *Stage) {
-	stage.StageBranchEMBEDDED_VALUE(embedded_value)
-}
-
-func (stage *Stage) StageBranchEMBEDDED_VALUE(embedded_value *EMBEDDED_VALUE) {
 
 	// check if instance is already staged
 	if stage.IsStaged(embedded_value) {
@@ -2978,10 +1945,6 @@ func (stage *Stage) StageBranchEMBEDDED_VALUE(embedded_value *EMBEDDED_VALUE) {
 }
 
 func (enum_value *ENUM_VALUE) GongStageBranch(stage *Stage) {
-	stage.StageBranchENUM_VALUE(enum_value)
-}
-
-func (stage *Stage) StageBranchENUM_VALUE(enum_value *ENUM_VALUE) {
 
 	// check if instance is already staged
 	if stage.IsStaged(enum_value) {
@@ -3003,10 +1966,6 @@ func (stage *Stage) StageBranchENUM_VALUE(enum_value *ENUM_VALUE) {
 }
 
 func (embeddedjpgimage *EmbeddedJpgImage) GongStageBranch(stage *Stage) {
-	stage.StageBranchEmbeddedJpgImage(embeddedjpgimage)
-}
-
-func (stage *Stage) StageBranchEmbeddedJpgImage(embeddedjpgimage *EmbeddedJpgImage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(embeddedjpgimage) {
@@ -3022,10 +1981,6 @@ func (stage *Stage) StageBranchEmbeddedJpgImage(embeddedjpgimage *EmbeddedJpgIma
 }
 
 func (embeddedpngimage *EmbeddedPngImage) GongStageBranch(stage *Stage) {
-	stage.StageBranchEmbeddedPngImage(embeddedpngimage)
-}
-
-func (stage *Stage) StageBranchEmbeddedPngImage(embeddedpngimage *EmbeddedPngImage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(embeddedpngimage) {
@@ -3041,10 +1996,6 @@ func (stage *Stage) StageBranchEmbeddedPngImage(embeddedpngimage *EmbeddedPngIma
 }
 
 func (embeddedsvgimage *EmbeddedSvgImage) GongStageBranch(stage *Stage) {
-	stage.StageBranchEmbeddedSvgImage(embeddedsvgimage)
-}
-
-func (stage *Stage) StageBranchEmbeddedSvgImage(embeddedsvgimage *EmbeddedSvgImage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(embeddedsvgimage) {
@@ -3060,10 +2011,6 @@ func (stage *Stage) StageBranchEmbeddedSvgImage(embeddedsvgimage *EmbeddedSvgIma
 }
 
 func (kill *Kill) GongStageBranch(stage *Stage) {
-	stage.StageBranchKill(kill)
-}
-
-func (stage *Stage) StageBranchKill(kill *Kill) {
 
 	// check if instance is already staged
 	if stage.IsStaged(kill) {
@@ -3079,10 +2026,6 @@ func (stage *Stage) StageBranchKill(kill *Kill) {
 }
 
 func (map_identifier_bool *Map_identifier_bool) GongStageBranch(stage *Stage) {
-	stage.StageBranchMap_identifier_bool(map_identifier_bool)
-}
-
-func (stage *Stage) StageBranchMap_identifier_bool(map_identifier_bool *Map_identifier_bool) {
 
 	// check if instance is already staged
 	if stage.IsStaged(map_identifier_bool) {
@@ -3098,10 +2041,6 @@ func (stage *Stage) StageBranchMap_identifier_bool(map_identifier_bool *Map_iden
 }
 
 func (relation_group *RELATION_GROUP) GongStageBranch(stage *Stage) {
-	stage.StageBranchRELATION_GROUP(relation_group)
-}
-
-func (stage *Stage) StageBranchRELATION_GROUP(relation_group *RELATION_GROUP) {
 
 	// check if instance is already staged
 	if stage.IsStaged(relation_group) {
@@ -3132,10 +2071,6 @@ func (stage *Stage) StageBranchRELATION_GROUP(relation_group *RELATION_GROUP) {
 }
 
 func (relation_group_type *RELATION_GROUP_TYPE) GongStageBranch(stage *Stage) {
-	stage.StageBranchRELATION_GROUP_TYPE(relation_group_type)
-}
-
-func (stage *Stage) StageBranchRELATION_GROUP_TYPE(relation_group_type *RELATION_GROUP_TYPE) {
 
 	// check if instance is already staged
 	if stage.IsStaged(relation_group_type) {
@@ -3157,10 +2092,6 @@ func (stage *Stage) StageBranchRELATION_GROUP_TYPE(relation_group_type *RELATION
 }
 
 func (req_if *REQ_IF) GongStageBranch(stage *Stage) {
-	stage.StageBranchREQ_IF(req_if)
-}
-
-func (stage *Stage) StageBranchREQ_IF(req_if *REQ_IF) {
 
 	// check if instance is already staged
 	if stage.IsStaged(req_if) {
@@ -3185,10 +2116,6 @@ func (stage *Stage) StageBranchREQ_IF(req_if *REQ_IF) {
 }
 
 func (req_if_content *REQ_IF_CONTENT) GongStageBranch(stage *Stage) {
-	stage.StageBranchREQ_IF_CONTENT(req_if_content)
-}
-
-func (stage *Stage) StageBranchREQ_IF_CONTENT(req_if_content *REQ_IF_CONTENT) {
 
 	// check if instance is already staged
 	if stage.IsStaged(req_if_content) {
@@ -3222,10 +2149,6 @@ func (stage *Stage) StageBranchREQ_IF_CONTENT(req_if_content *REQ_IF_CONTENT) {
 }
 
 func (req_if_header *REQ_IF_HEADER) GongStageBranch(stage *Stage) {
-	stage.StageBranchREQ_IF_HEADER(req_if_header)
-}
-
-func (stage *Stage) StageBranchREQ_IF_HEADER(req_if_header *REQ_IF_HEADER) {
 
 	// check if instance is already staged
 	if stage.IsStaged(req_if_header) {
@@ -3241,10 +2164,6 @@ func (stage *Stage) StageBranchREQ_IF_HEADER(req_if_header *REQ_IF_HEADER) {
 }
 
 func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) GongStageBranch(stage *Stage) {
-	stage.StageBranchREQ_IF_TOOL_EXTENSION(req_if_tool_extension)
-}
-
-func (stage *Stage) StageBranchREQ_IF_TOOL_EXTENSION(req_if_tool_extension *REQ_IF_TOOL_EXTENSION) {
 
 	// check if instance is already staged
 	if stage.IsStaged(req_if_tool_extension) {
@@ -3260,10 +2179,6 @@ func (stage *Stage) StageBranchREQ_IF_TOOL_EXTENSION(req_if_tool_extension *REQ_
 }
 
 func (specification *SPECIFICATION) GongStageBranch(stage *Stage) {
-	stage.StageBranchSPECIFICATION(specification)
-}
-
-func (stage *Stage) StageBranchSPECIFICATION(specification *SPECIFICATION) {
 
 	// check if instance is already staged
 	if stage.IsStaged(specification) {
@@ -3291,10 +2206,6 @@ func (stage *Stage) StageBranchSPECIFICATION(specification *SPECIFICATION) {
 }
 
 func (specification_rendering *SPECIFICATION_Rendering) GongStageBranch(stage *Stage) {
-	stage.StageBranchSPECIFICATION_Rendering(specification_rendering)
-}
-
-func (stage *Stage) StageBranchSPECIFICATION_Rendering(specification_rendering *SPECIFICATION_Rendering) {
 
 	// check if instance is already staged
 	if stage.IsStaged(specification_rendering) {
@@ -3310,10 +2221,6 @@ func (stage *Stage) StageBranchSPECIFICATION_Rendering(specification_rendering *
 }
 
 func (specification_type *SPECIFICATION_TYPE) GongStageBranch(stage *Stage) {
-	stage.StageBranchSPECIFICATION_TYPE(specification_type)
-}
-
-func (stage *Stage) StageBranchSPECIFICATION_TYPE(specification_type *SPECIFICATION_TYPE) {
 
 	// check if instance is already staged
 	if stage.IsStaged(specification_type) {
@@ -3335,10 +2242,6 @@ func (stage *Stage) StageBranchSPECIFICATION_TYPE(specification_type *SPECIFICAT
 }
 
 func (spec_hierarchy *SPEC_HIERARCHY) GongStageBranch(stage *Stage) {
-	stage.StageBranchSPEC_HIERARCHY(spec_hierarchy)
-}
-
-func (stage *Stage) StageBranchSPEC_HIERARCHY(spec_hierarchy *SPEC_HIERARCHY) {
 
 	// check if instance is already staged
 	if stage.IsStaged(spec_hierarchy) {
@@ -3366,10 +2269,6 @@ func (stage *Stage) StageBranchSPEC_HIERARCHY(spec_hierarchy *SPEC_HIERARCHY) {
 }
 
 func (spec_object *SPEC_OBJECT) GongStageBranch(stage *Stage) {
-	stage.StageBranchSPEC_OBJECT(spec_object)
-}
-
-func (stage *Stage) StageBranchSPEC_OBJECT(spec_object *SPEC_OBJECT) {
 
 	// check if instance is already staged
 	if stage.IsStaged(spec_object) {
@@ -3394,10 +2293,6 @@ func (stage *Stage) StageBranchSPEC_OBJECT(spec_object *SPEC_OBJECT) {
 }
 
 func (spec_object_type *SPEC_OBJECT_TYPE) GongStageBranch(stage *Stage) {
-	stage.StageBranchSPEC_OBJECT_TYPE(spec_object_type)
-}
-
-func (stage *Stage) StageBranchSPEC_OBJECT_TYPE(spec_object_type *SPEC_OBJECT_TYPE) {
 
 	// check if instance is already staged
 	if stage.IsStaged(spec_object_type) {
@@ -3419,10 +2314,6 @@ func (stage *Stage) StageBranchSPEC_OBJECT_TYPE(spec_object_type *SPEC_OBJECT_TY
 }
 
 func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) GongStageBranch(stage *Stage) {
-	stage.StageBranchSPEC_OBJECT_TYPE_Rendering(spec_object_type_rendering)
-}
-
-func (stage *Stage) StageBranchSPEC_OBJECT_TYPE_Rendering(spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) {
 
 	// check if instance is already staged
 	if stage.IsStaged(spec_object_type_rendering) {
@@ -3438,10 +2329,6 @@ func (stage *Stage) StageBranchSPEC_OBJECT_TYPE_Rendering(spec_object_type_rende
 }
 
 func (spec_relation *SPEC_RELATION) GongStageBranch(stage *Stage) {
-	stage.StageBranchSPEC_RELATION(spec_relation)
-}
-
-func (stage *Stage) StageBranchSPEC_RELATION(spec_relation *SPEC_RELATION) {
 
 	// check if instance is already staged
 	if stage.IsStaged(spec_relation) {
@@ -3472,10 +2359,6 @@ func (stage *Stage) StageBranchSPEC_RELATION(spec_relation *SPEC_RELATION) {
 }
 
 func (spec_relation_type *SPEC_RELATION_TYPE) GongStageBranch(stage *Stage) {
-	stage.StageBranchSPEC_RELATION_TYPE(spec_relation_type)
-}
-
-func (stage *Stage) StageBranchSPEC_RELATION_TYPE(spec_relation_type *SPEC_RELATION_TYPE) {
 
 	// check if instance is already staged
 	if stage.IsStaged(spec_relation_type) {
@@ -3497,10 +2380,6 @@ func (stage *Stage) StageBranchSPEC_RELATION_TYPE(spec_relation_type *SPEC_RELAT
 }
 
 func (staticwebsite *StaticWebSite) GongStageBranch(stage *Stage) {
-	stage.StageBranchStaticWebSite(staticwebsite)
-}
-
-func (stage *Stage) StageBranchStaticWebSite(staticwebsite *StaticWebSite) {
 
 	// check if instance is already staged
 	if stage.IsStaged(staticwebsite) {
@@ -3519,10 +2398,6 @@ func (stage *Stage) StageBranchStaticWebSite(staticwebsite *StaticWebSite) {
 }
 
 func (staticwebsitechapter *StaticWebSiteChapter) GongStageBranch(stage *Stage) {
-	stage.StageBranchStaticWebSiteChapter(staticwebsitechapter)
-}
-
-func (stage *Stage) StageBranchStaticWebSiteChapter(staticwebsitechapter *StaticWebSiteChapter) {
 
 	// check if instance is already staged
 	if stage.IsStaged(staticwebsitechapter) {
@@ -3541,10 +2416,6 @@ func (stage *Stage) StageBranchStaticWebSiteChapter(staticwebsitechapter *Static
 }
 
 func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) GongStageBranch(stage *Stage) {
-	stage.StageBranchStaticWebSiteGeneratedImage(staticwebsitegeneratedimage)
-}
-
-func (stage *Stage) StageBranchStaticWebSiteGeneratedImage(staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(staticwebsitegeneratedimage) {
@@ -3560,10 +2431,6 @@ func (stage *Stage) StageBranchStaticWebSiteGeneratedImage(staticwebsitegenerate
 }
 
 func (staticwebsiteimage *StaticWebSiteImage) GongStageBranch(stage *Stage) {
-	stage.StageBranchStaticWebSiteImage(staticwebsiteimage)
-}
-
-func (stage *Stage) StageBranchStaticWebSiteImage(staticwebsiteimage *StaticWebSiteImage) {
 
 	// check if instance is already staged
 	if stage.IsStaged(staticwebsiteimage) {
@@ -3579,10 +2446,6 @@ func (stage *Stage) StageBranchStaticWebSiteImage(staticwebsiteimage *StaticWebS
 }
 
 func (staticwebsiteparagraph *StaticWebSiteParagraph) GongStageBranch(stage *Stage) {
-	stage.StageBranchStaticWebSiteParagraph(staticwebsiteparagraph)
-}
-
-func (stage *Stage) StageBranchStaticWebSiteParagraph(staticwebsiteparagraph *StaticWebSiteParagraph) {
 
 	// check if instance is already staged
 	if stage.IsStaged(staticwebsiteparagraph) {
@@ -3601,10 +2464,6 @@ func (stage *Stage) StageBranchStaticWebSiteParagraph(staticwebsiteparagraph *St
 }
 
 func (xhtml_content *XHTML_CONTENT) GongStageBranch(stage *Stage) {
-	stage.StageBranchXHTML_CONTENT(xhtml_content)
-}
-
-func (stage *Stage) StageBranchXHTML_CONTENT(xhtml_content *XHTML_CONTENT) {
 
 	// check if instance is already staged
 	if stage.IsStaged(xhtml_content) {
@@ -4054,15 +2913,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchALTERNATIVE_ID(mapOrigCopy map[any]any, alternative_idFrom *ALTERNATIVE_ID) (alternative_idTo *ALTERNATIVE_ID) {
-
-	// alternative_idFrom has already been copied
-	if _alternative_idTo, ok := mapOrigCopy[alternative_idFrom]; ok {
-		alternative_idTo = _alternative_idTo.(*ALTERNATIVE_ID)
+	var alreadyCopied bool
+	alternative_idTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, alternative_idFrom)
+	if alreadyCopied {
 		return
 	}
-
-	alternative_idTo = new(ALTERNATIVE_ID)
-	mapOrigCopy[alternative_idFrom] = alternative_idTo
 	alternative_idFrom.GongCopyBasicFields(alternative_idTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4073,15 +2928,11 @@ func GongCopyBranchALTERNATIVE_ID(mapOrigCopy map[any]any, alternative_idFrom *A
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_BOOLEAN(mapOrigCopy map[any]any, attribute_definition_booleanFrom *ATTRIBUTE_DEFINITION_BOOLEAN) (attribute_definition_booleanTo *ATTRIBUTE_DEFINITION_BOOLEAN) {
-
-	// attribute_definition_booleanFrom has already been copied
-	if _attribute_definition_booleanTo, ok := mapOrigCopy[attribute_definition_booleanFrom]; ok {
-		attribute_definition_booleanTo = _attribute_definition_booleanTo.(*ATTRIBUTE_DEFINITION_BOOLEAN)
+	var alreadyCopied bool
+	attribute_definition_booleanTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_booleanFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_booleanTo = new(ATTRIBUTE_DEFINITION_BOOLEAN)
-	mapOrigCopy[attribute_definition_booleanFrom] = attribute_definition_booleanTo
 	attribute_definition_booleanFrom.GongCopyBasicFields(attribute_definition_booleanTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4101,15 +2952,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_BOOLEAN(mapOrigCopy map[any]any, attribu
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(mapOrigCopy map[any]any, attribute_definition_boolean_renderingFrom *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) (attribute_definition_boolean_renderingTo *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) {
-
-	// attribute_definition_boolean_renderingFrom has already been copied
-	if _attribute_definition_boolean_renderingTo, ok := mapOrigCopy[attribute_definition_boolean_renderingFrom]; ok {
-		attribute_definition_boolean_renderingTo = _attribute_definition_boolean_renderingTo.(*ATTRIBUTE_DEFINITION_BOOLEAN_Rendering)
+	var alreadyCopied bool
+	attribute_definition_boolean_renderingTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_boolean_renderingFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_boolean_renderingTo = new(ATTRIBUTE_DEFINITION_BOOLEAN_Rendering)
-	mapOrigCopy[attribute_definition_boolean_renderingFrom] = attribute_definition_boolean_renderingTo
 	attribute_definition_boolean_renderingFrom.GongCopyBasicFields(attribute_definition_boolean_renderingTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4120,15 +2967,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(mapOrigCopy map[any]an
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_DATE(mapOrigCopy map[any]any, attribute_definition_dateFrom *ATTRIBUTE_DEFINITION_DATE) (attribute_definition_dateTo *ATTRIBUTE_DEFINITION_DATE) {
-
-	// attribute_definition_dateFrom has already been copied
-	if _attribute_definition_dateTo, ok := mapOrigCopy[attribute_definition_dateFrom]; ok {
-		attribute_definition_dateTo = _attribute_definition_dateTo.(*ATTRIBUTE_DEFINITION_DATE)
+	var alreadyCopied bool
+	attribute_definition_dateTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_dateFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_dateTo = new(ATTRIBUTE_DEFINITION_DATE)
-	mapOrigCopy[attribute_definition_dateFrom] = attribute_definition_dateTo
 	attribute_definition_dateFrom.GongCopyBasicFields(attribute_definition_dateTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4148,15 +2991,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_DATE(mapOrigCopy map[any]any, attribute_
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_DATE_Rendering(mapOrigCopy map[any]any, attribute_definition_date_renderingFrom *ATTRIBUTE_DEFINITION_DATE_Rendering) (attribute_definition_date_renderingTo *ATTRIBUTE_DEFINITION_DATE_Rendering) {
-
-	// attribute_definition_date_renderingFrom has already been copied
-	if _attribute_definition_date_renderingTo, ok := mapOrigCopy[attribute_definition_date_renderingFrom]; ok {
-		attribute_definition_date_renderingTo = _attribute_definition_date_renderingTo.(*ATTRIBUTE_DEFINITION_DATE_Rendering)
+	var alreadyCopied bool
+	attribute_definition_date_renderingTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_date_renderingFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_date_renderingTo = new(ATTRIBUTE_DEFINITION_DATE_Rendering)
-	mapOrigCopy[attribute_definition_date_renderingFrom] = attribute_definition_date_renderingTo
 	attribute_definition_date_renderingFrom.GongCopyBasicFields(attribute_definition_date_renderingTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4167,15 +3006,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_DATE_Rendering(mapOrigCopy map[any]any, 
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_ENUMERATION(mapOrigCopy map[any]any, attribute_definition_enumerationFrom *ATTRIBUTE_DEFINITION_ENUMERATION) (attribute_definition_enumerationTo *ATTRIBUTE_DEFINITION_ENUMERATION) {
-
-	// attribute_definition_enumerationFrom has already been copied
-	if _attribute_definition_enumerationTo, ok := mapOrigCopy[attribute_definition_enumerationFrom]; ok {
-		attribute_definition_enumerationTo = _attribute_definition_enumerationTo.(*ATTRIBUTE_DEFINITION_ENUMERATION)
+	var alreadyCopied bool
+	attribute_definition_enumerationTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_enumerationFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_enumerationTo = new(ATTRIBUTE_DEFINITION_ENUMERATION)
-	mapOrigCopy[attribute_definition_enumerationFrom] = attribute_definition_enumerationTo
 	attribute_definition_enumerationFrom.GongCopyBasicFields(attribute_definition_enumerationTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4195,15 +3030,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_ENUMERATION(mapOrigCopy map[any]any, att
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(mapOrigCopy map[any]any, attribute_definition_enumeration_renderingFrom *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) (attribute_definition_enumeration_renderingTo *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) {
-
-	// attribute_definition_enumeration_renderingFrom has already been copied
-	if _attribute_definition_enumeration_renderingTo, ok := mapOrigCopy[attribute_definition_enumeration_renderingFrom]; ok {
-		attribute_definition_enumeration_renderingTo = _attribute_definition_enumeration_renderingTo.(*ATTRIBUTE_DEFINITION_ENUMERATION_Rendering)
+	var alreadyCopied bool
+	attribute_definition_enumeration_renderingTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_enumeration_renderingFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_enumeration_renderingTo = new(ATTRIBUTE_DEFINITION_ENUMERATION_Rendering)
-	mapOrigCopy[attribute_definition_enumeration_renderingFrom] = attribute_definition_enumeration_renderingTo
 	attribute_definition_enumeration_renderingFrom.GongCopyBasicFields(attribute_definition_enumeration_renderingTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4214,15 +3045,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(mapOrigCopy map[an
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_INTEGER(mapOrigCopy map[any]any, attribute_definition_integerFrom *ATTRIBUTE_DEFINITION_INTEGER) (attribute_definition_integerTo *ATTRIBUTE_DEFINITION_INTEGER) {
-
-	// attribute_definition_integerFrom has already been copied
-	if _attribute_definition_integerTo, ok := mapOrigCopy[attribute_definition_integerFrom]; ok {
-		attribute_definition_integerTo = _attribute_definition_integerTo.(*ATTRIBUTE_DEFINITION_INTEGER)
+	var alreadyCopied bool
+	attribute_definition_integerTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_integerFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_integerTo = new(ATTRIBUTE_DEFINITION_INTEGER)
-	mapOrigCopy[attribute_definition_integerFrom] = attribute_definition_integerTo
 	attribute_definition_integerFrom.GongCopyBasicFields(attribute_definition_integerTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4242,15 +3069,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_INTEGER(mapOrigCopy map[any]any, attribu
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(mapOrigCopy map[any]any, attribute_definition_integer_renderingFrom *ATTRIBUTE_DEFINITION_INTEGER_Rendering) (attribute_definition_integer_renderingTo *ATTRIBUTE_DEFINITION_INTEGER_Rendering) {
-
-	// attribute_definition_integer_renderingFrom has already been copied
-	if _attribute_definition_integer_renderingTo, ok := mapOrigCopy[attribute_definition_integer_renderingFrom]; ok {
-		attribute_definition_integer_renderingTo = _attribute_definition_integer_renderingTo.(*ATTRIBUTE_DEFINITION_INTEGER_Rendering)
+	var alreadyCopied bool
+	attribute_definition_integer_renderingTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_integer_renderingFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_integer_renderingTo = new(ATTRIBUTE_DEFINITION_INTEGER_Rendering)
-	mapOrigCopy[attribute_definition_integer_renderingFrom] = attribute_definition_integer_renderingTo
 	attribute_definition_integer_renderingFrom.GongCopyBasicFields(attribute_definition_integer_renderingTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4261,15 +3084,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(mapOrigCopy map[any]an
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_REAL(mapOrigCopy map[any]any, attribute_definition_realFrom *ATTRIBUTE_DEFINITION_REAL) (attribute_definition_realTo *ATTRIBUTE_DEFINITION_REAL) {
-
-	// attribute_definition_realFrom has already been copied
-	if _attribute_definition_realTo, ok := mapOrigCopy[attribute_definition_realFrom]; ok {
-		attribute_definition_realTo = _attribute_definition_realTo.(*ATTRIBUTE_DEFINITION_REAL)
+	var alreadyCopied bool
+	attribute_definition_realTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_realFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_realTo = new(ATTRIBUTE_DEFINITION_REAL)
-	mapOrigCopy[attribute_definition_realFrom] = attribute_definition_realTo
 	attribute_definition_realFrom.GongCopyBasicFields(attribute_definition_realTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4289,15 +3108,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_REAL(mapOrigCopy map[any]any, attribute_
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_REAL_Rendering(mapOrigCopy map[any]any, attribute_definition_real_renderingFrom *ATTRIBUTE_DEFINITION_REAL_Rendering) (attribute_definition_real_renderingTo *ATTRIBUTE_DEFINITION_REAL_Rendering) {
-
-	// attribute_definition_real_renderingFrom has already been copied
-	if _attribute_definition_real_renderingTo, ok := mapOrigCopy[attribute_definition_real_renderingFrom]; ok {
-		attribute_definition_real_renderingTo = _attribute_definition_real_renderingTo.(*ATTRIBUTE_DEFINITION_REAL_Rendering)
+	var alreadyCopied bool
+	attribute_definition_real_renderingTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_real_renderingFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_real_renderingTo = new(ATTRIBUTE_DEFINITION_REAL_Rendering)
-	mapOrigCopy[attribute_definition_real_renderingFrom] = attribute_definition_real_renderingTo
 	attribute_definition_real_renderingFrom.GongCopyBasicFields(attribute_definition_real_renderingTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4308,15 +3123,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_REAL_Rendering(mapOrigCopy map[any]any, 
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_Rendering(mapOrigCopy map[any]any, attribute_definition_renderingFrom *ATTRIBUTE_DEFINITION_Rendering) (attribute_definition_renderingTo *ATTRIBUTE_DEFINITION_Rendering) {
-
-	// attribute_definition_renderingFrom has already been copied
-	if _attribute_definition_renderingTo, ok := mapOrigCopy[attribute_definition_renderingFrom]; ok {
-		attribute_definition_renderingTo = _attribute_definition_renderingTo.(*ATTRIBUTE_DEFINITION_Rendering)
+	var alreadyCopied bool
+	attribute_definition_renderingTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_renderingFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_renderingTo = new(ATTRIBUTE_DEFINITION_Rendering)
-	mapOrigCopy[attribute_definition_renderingFrom] = attribute_definition_renderingTo
 	attribute_definition_renderingFrom.GongCopyBasicFields(attribute_definition_renderingTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4327,15 +3138,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_Rendering(mapOrigCopy map[any]any, attri
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_STRING(mapOrigCopy map[any]any, attribute_definition_stringFrom *ATTRIBUTE_DEFINITION_STRING) (attribute_definition_stringTo *ATTRIBUTE_DEFINITION_STRING) {
-
-	// attribute_definition_stringFrom has already been copied
-	if _attribute_definition_stringTo, ok := mapOrigCopy[attribute_definition_stringFrom]; ok {
-		attribute_definition_stringTo = _attribute_definition_stringTo.(*ATTRIBUTE_DEFINITION_STRING)
+	var alreadyCopied bool
+	attribute_definition_stringTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_stringFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_stringTo = new(ATTRIBUTE_DEFINITION_STRING)
-	mapOrigCopy[attribute_definition_stringFrom] = attribute_definition_stringTo
 	attribute_definition_stringFrom.GongCopyBasicFields(attribute_definition_stringTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4355,15 +3162,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_STRING(mapOrigCopy map[any]any, attribut
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_STRING_Rendering(mapOrigCopy map[any]any, attribute_definition_string_renderingFrom *ATTRIBUTE_DEFINITION_STRING_Rendering) (attribute_definition_string_renderingTo *ATTRIBUTE_DEFINITION_STRING_Rendering) {
-
-	// attribute_definition_string_renderingFrom has already been copied
-	if _attribute_definition_string_renderingTo, ok := mapOrigCopy[attribute_definition_string_renderingFrom]; ok {
-		attribute_definition_string_renderingTo = _attribute_definition_string_renderingTo.(*ATTRIBUTE_DEFINITION_STRING_Rendering)
+	var alreadyCopied bool
+	attribute_definition_string_renderingTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_string_renderingFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_string_renderingTo = new(ATTRIBUTE_DEFINITION_STRING_Rendering)
-	mapOrigCopy[attribute_definition_string_renderingFrom] = attribute_definition_string_renderingTo
 	attribute_definition_string_renderingFrom.GongCopyBasicFields(attribute_definition_string_renderingTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4374,15 +3177,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_STRING_Rendering(mapOrigCopy map[any]any
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_XHTML(mapOrigCopy map[any]any, attribute_definition_xhtmlFrom *ATTRIBUTE_DEFINITION_XHTML) (attribute_definition_xhtmlTo *ATTRIBUTE_DEFINITION_XHTML) {
-
-	// attribute_definition_xhtmlFrom has already been copied
-	if _attribute_definition_xhtmlTo, ok := mapOrigCopy[attribute_definition_xhtmlFrom]; ok {
-		attribute_definition_xhtmlTo = _attribute_definition_xhtmlTo.(*ATTRIBUTE_DEFINITION_XHTML)
+	var alreadyCopied bool
+	attribute_definition_xhtmlTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_xhtmlFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_xhtmlTo = new(ATTRIBUTE_DEFINITION_XHTML)
-	mapOrigCopy[attribute_definition_xhtmlFrom] = attribute_definition_xhtmlTo
 	attribute_definition_xhtmlFrom.GongCopyBasicFields(attribute_definition_xhtmlTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4402,15 +3201,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_XHTML(mapOrigCopy map[any]any, attribute
 }
 
 func GongCopyBranchATTRIBUTE_DEFINITION_XHTML_Rendering(mapOrigCopy map[any]any, attribute_definition_xhtml_renderingFrom *ATTRIBUTE_DEFINITION_XHTML_Rendering) (attribute_definition_xhtml_renderingTo *ATTRIBUTE_DEFINITION_XHTML_Rendering) {
-
-	// attribute_definition_xhtml_renderingFrom has already been copied
-	if _attribute_definition_xhtml_renderingTo, ok := mapOrigCopy[attribute_definition_xhtml_renderingFrom]; ok {
-		attribute_definition_xhtml_renderingTo = _attribute_definition_xhtml_renderingTo.(*ATTRIBUTE_DEFINITION_XHTML_Rendering)
+	var alreadyCopied bool
+	attribute_definition_xhtml_renderingTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_definition_xhtml_renderingFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_definition_xhtml_renderingTo = new(ATTRIBUTE_DEFINITION_XHTML_Rendering)
-	mapOrigCopy[attribute_definition_xhtml_renderingFrom] = attribute_definition_xhtml_renderingTo
 	attribute_definition_xhtml_renderingFrom.GongCopyBasicFields(attribute_definition_xhtml_renderingTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4421,15 +3216,11 @@ func GongCopyBranchATTRIBUTE_DEFINITION_XHTML_Rendering(mapOrigCopy map[any]any,
 }
 
 func GongCopyBranchATTRIBUTE_VALUE_BOOLEAN(mapOrigCopy map[any]any, attribute_value_booleanFrom *ATTRIBUTE_VALUE_BOOLEAN) (attribute_value_booleanTo *ATTRIBUTE_VALUE_BOOLEAN) {
-
-	// attribute_value_booleanFrom has already been copied
-	if _attribute_value_booleanTo, ok := mapOrigCopy[attribute_value_booleanFrom]; ok {
-		attribute_value_booleanTo = _attribute_value_booleanTo.(*ATTRIBUTE_VALUE_BOOLEAN)
+	var alreadyCopied bool
+	attribute_value_booleanTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_value_booleanFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_value_booleanTo = new(ATTRIBUTE_VALUE_BOOLEAN)
-	mapOrigCopy[attribute_value_booleanFrom] = attribute_value_booleanTo
 	attribute_value_booleanFrom.GongCopyBasicFields(attribute_value_booleanTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4443,15 +3234,11 @@ func GongCopyBranchATTRIBUTE_VALUE_BOOLEAN(mapOrigCopy map[any]any, attribute_va
 }
 
 func GongCopyBranchATTRIBUTE_VALUE_DATE(mapOrigCopy map[any]any, attribute_value_dateFrom *ATTRIBUTE_VALUE_DATE) (attribute_value_dateTo *ATTRIBUTE_VALUE_DATE) {
-
-	// attribute_value_dateFrom has already been copied
-	if _attribute_value_dateTo, ok := mapOrigCopy[attribute_value_dateFrom]; ok {
-		attribute_value_dateTo = _attribute_value_dateTo.(*ATTRIBUTE_VALUE_DATE)
+	var alreadyCopied bool
+	attribute_value_dateTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_value_dateFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_value_dateTo = new(ATTRIBUTE_VALUE_DATE)
-	mapOrigCopy[attribute_value_dateFrom] = attribute_value_dateTo
 	attribute_value_dateFrom.GongCopyBasicFields(attribute_value_dateTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4465,15 +3252,11 @@ func GongCopyBranchATTRIBUTE_VALUE_DATE(mapOrigCopy map[any]any, attribute_value
 }
 
 func GongCopyBranchATTRIBUTE_VALUE_ENUMERATION(mapOrigCopy map[any]any, attribute_value_enumerationFrom *ATTRIBUTE_VALUE_ENUMERATION) (attribute_value_enumerationTo *ATTRIBUTE_VALUE_ENUMERATION) {
-
-	// attribute_value_enumerationFrom has already been copied
-	if _attribute_value_enumerationTo, ok := mapOrigCopy[attribute_value_enumerationFrom]; ok {
-		attribute_value_enumerationTo = _attribute_value_enumerationTo.(*ATTRIBUTE_VALUE_ENUMERATION)
+	var alreadyCopied bool
+	attribute_value_enumerationTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_value_enumerationFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_value_enumerationTo = new(ATTRIBUTE_VALUE_ENUMERATION)
-	mapOrigCopy[attribute_value_enumerationFrom] = attribute_value_enumerationTo
 	attribute_value_enumerationFrom.GongCopyBasicFields(attribute_value_enumerationTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4490,15 +3273,11 @@ func GongCopyBranchATTRIBUTE_VALUE_ENUMERATION(mapOrigCopy map[any]any, attribut
 }
 
 func GongCopyBranchATTRIBUTE_VALUE_INTEGER(mapOrigCopy map[any]any, attribute_value_integerFrom *ATTRIBUTE_VALUE_INTEGER) (attribute_value_integerTo *ATTRIBUTE_VALUE_INTEGER) {
-
-	// attribute_value_integerFrom has already been copied
-	if _attribute_value_integerTo, ok := mapOrigCopy[attribute_value_integerFrom]; ok {
-		attribute_value_integerTo = _attribute_value_integerTo.(*ATTRIBUTE_VALUE_INTEGER)
+	var alreadyCopied bool
+	attribute_value_integerTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_value_integerFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_value_integerTo = new(ATTRIBUTE_VALUE_INTEGER)
-	mapOrigCopy[attribute_value_integerFrom] = attribute_value_integerTo
 	attribute_value_integerFrom.GongCopyBasicFields(attribute_value_integerTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4512,15 +3291,11 @@ func GongCopyBranchATTRIBUTE_VALUE_INTEGER(mapOrigCopy map[any]any, attribute_va
 }
 
 func GongCopyBranchATTRIBUTE_VALUE_REAL(mapOrigCopy map[any]any, attribute_value_realFrom *ATTRIBUTE_VALUE_REAL) (attribute_value_realTo *ATTRIBUTE_VALUE_REAL) {
-
-	// attribute_value_realFrom has already been copied
-	if _attribute_value_realTo, ok := mapOrigCopy[attribute_value_realFrom]; ok {
-		attribute_value_realTo = _attribute_value_realTo.(*ATTRIBUTE_VALUE_REAL)
+	var alreadyCopied bool
+	attribute_value_realTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_value_realFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_value_realTo = new(ATTRIBUTE_VALUE_REAL)
-	mapOrigCopy[attribute_value_realFrom] = attribute_value_realTo
 	attribute_value_realFrom.GongCopyBasicFields(attribute_value_realTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4534,15 +3309,11 @@ func GongCopyBranchATTRIBUTE_VALUE_REAL(mapOrigCopy map[any]any, attribute_value
 }
 
 func GongCopyBranchATTRIBUTE_VALUE_STRING(mapOrigCopy map[any]any, attribute_value_stringFrom *ATTRIBUTE_VALUE_STRING) (attribute_value_stringTo *ATTRIBUTE_VALUE_STRING) {
-
-	// attribute_value_stringFrom has already been copied
-	if _attribute_value_stringTo, ok := mapOrigCopy[attribute_value_stringFrom]; ok {
-		attribute_value_stringTo = _attribute_value_stringTo.(*ATTRIBUTE_VALUE_STRING)
+	var alreadyCopied bool
+	attribute_value_stringTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_value_stringFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_value_stringTo = new(ATTRIBUTE_VALUE_STRING)
-	mapOrigCopy[attribute_value_stringFrom] = attribute_value_stringTo
 	attribute_value_stringFrom.GongCopyBasicFields(attribute_value_stringTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4556,15 +3327,11 @@ func GongCopyBranchATTRIBUTE_VALUE_STRING(mapOrigCopy map[any]any, attribute_val
 }
 
 func GongCopyBranchATTRIBUTE_VALUE_XHTML(mapOrigCopy map[any]any, attribute_value_xhtmlFrom *ATTRIBUTE_VALUE_XHTML) (attribute_value_xhtmlTo *ATTRIBUTE_VALUE_XHTML) {
-
-	// attribute_value_xhtmlFrom has already been copied
-	if _attribute_value_xhtmlTo, ok := mapOrigCopy[attribute_value_xhtmlFrom]; ok {
-		attribute_value_xhtmlTo = _attribute_value_xhtmlTo.(*ATTRIBUTE_VALUE_XHTML)
+	var alreadyCopied bool
+	attribute_value_xhtmlTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, attribute_value_xhtmlFrom)
+	if alreadyCopied {
 		return
 	}
-
-	attribute_value_xhtmlTo = new(ATTRIBUTE_VALUE_XHTML)
-	mapOrigCopy[attribute_value_xhtmlFrom] = attribute_value_xhtmlTo
 	attribute_value_xhtmlFrom.GongCopyBasicFields(attribute_value_xhtmlTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4584,15 +3351,11 @@ func GongCopyBranchATTRIBUTE_VALUE_XHTML(mapOrigCopy map[any]any, attribute_valu
 }
 
 func GongCopyBranchA_ALTERNATIVE_ID(mapOrigCopy map[any]any, a_alternative_idFrom *A_ALTERNATIVE_ID) (a_alternative_idTo *A_ALTERNATIVE_ID) {
-
-	// a_alternative_idFrom has already been copied
-	if _a_alternative_idTo, ok := mapOrigCopy[a_alternative_idFrom]; ok {
-		a_alternative_idTo = _a_alternative_idTo.(*A_ALTERNATIVE_ID)
+	var alreadyCopied bool
+	a_alternative_idTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_alternative_idFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_alternative_idTo = new(A_ALTERNATIVE_ID)
-	mapOrigCopy[a_alternative_idFrom] = a_alternative_idTo
 	a_alternative_idFrom.GongCopyBasicFields(a_alternative_idTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4606,15 +3369,11 @@ func GongCopyBranchA_ALTERNATIVE_ID(mapOrigCopy map[any]any, a_alternative_idFro
 }
 
 func GongCopyBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(mapOrigCopy map[any]any, a_attribute_definition_boolean_refFrom *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) (a_attribute_definition_boolean_refTo *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) {
-
-	// a_attribute_definition_boolean_refFrom has already been copied
-	if _a_attribute_definition_boolean_refTo, ok := mapOrigCopy[a_attribute_definition_boolean_refFrom]; ok {
-		a_attribute_definition_boolean_refTo = _a_attribute_definition_boolean_refTo.(*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF)
+	var alreadyCopied bool
+	a_attribute_definition_boolean_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_definition_boolean_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_definition_boolean_refTo = new(A_ATTRIBUTE_DEFINITION_BOOLEAN_REF)
-	mapOrigCopy[a_attribute_definition_boolean_refFrom] = a_attribute_definition_boolean_refTo
 	a_attribute_definition_boolean_refFrom.GongCopyBasicFields(a_attribute_definition_boolean_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4625,15 +3384,11 @@ func GongCopyBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(mapOrigCopy map[any]any, a
 }
 
 func GongCopyBranchA_ATTRIBUTE_DEFINITION_DATE_REF(mapOrigCopy map[any]any, a_attribute_definition_date_refFrom *A_ATTRIBUTE_DEFINITION_DATE_REF) (a_attribute_definition_date_refTo *A_ATTRIBUTE_DEFINITION_DATE_REF) {
-
-	// a_attribute_definition_date_refFrom has already been copied
-	if _a_attribute_definition_date_refTo, ok := mapOrigCopy[a_attribute_definition_date_refFrom]; ok {
-		a_attribute_definition_date_refTo = _a_attribute_definition_date_refTo.(*A_ATTRIBUTE_DEFINITION_DATE_REF)
+	var alreadyCopied bool
+	a_attribute_definition_date_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_definition_date_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_definition_date_refTo = new(A_ATTRIBUTE_DEFINITION_DATE_REF)
-	mapOrigCopy[a_attribute_definition_date_refFrom] = a_attribute_definition_date_refTo
 	a_attribute_definition_date_refFrom.GongCopyBasicFields(a_attribute_definition_date_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4644,15 +3399,11 @@ func GongCopyBranchA_ATTRIBUTE_DEFINITION_DATE_REF(mapOrigCopy map[any]any, a_at
 }
 
 func GongCopyBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(mapOrigCopy map[any]any, a_attribute_definition_enumeration_refFrom *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) (a_attribute_definition_enumeration_refTo *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) {
-
-	// a_attribute_definition_enumeration_refFrom has already been copied
-	if _a_attribute_definition_enumeration_refTo, ok := mapOrigCopy[a_attribute_definition_enumeration_refFrom]; ok {
-		a_attribute_definition_enumeration_refTo = _a_attribute_definition_enumeration_refTo.(*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF)
+	var alreadyCopied bool
+	a_attribute_definition_enumeration_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_definition_enumeration_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_definition_enumeration_refTo = new(A_ATTRIBUTE_DEFINITION_ENUMERATION_REF)
-	mapOrigCopy[a_attribute_definition_enumeration_refFrom] = a_attribute_definition_enumeration_refTo
 	a_attribute_definition_enumeration_refFrom.GongCopyBasicFields(a_attribute_definition_enumeration_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4663,15 +3414,11 @@ func GongCopyBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(mapOrigCopy map[any]an
 }
 
 func GongCopyBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(mapOrigCopy map[any]any, a_attribute_definition_integer_refFrom *A_ATTRIBUTE_DEFINITION_INTEGER_REF) (a_attribute_definition_integer_refTo *A_ATTRIBUTE_DEFINITION_INTEGER_REF) {
-
-	// a_attribute_definition_integer_refFrom has already been copied
-	if _a_attribute_definition_integer_refTo, ok := mapOrigCopy[a_attribute_definition_integer_refFrom]; ok {
-		a_attribute_definition_integer_refTo = _a_attribute_definition_integer_refTo.(*A_ATTRIBUTE_DEFINITION_INTEGER_REF)
+	var alreadyCopied bool
+	a_attribute_definition_integer_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_definition_integer_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_definition_integer_refTo = new(A_ATTRIBUTE_DEFINITION_INTEGER_REF)
-	mapOrigCopy[a_attribute_definition_integer_refFrom] = a_attribute_definition_integer_refTo
 	a_attribute_definition_integer_refFrom.GongCopyBasicFields(a_attribute_definition_integer_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4682,15 +3429,11 @@ func GongCopyBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(mapOrigCopy map[any]any, a
 }
 
 func GongCopyBranchA_ATTRIBUTE_DEFINITION_REAL_REF(mapOrigCopy map[any]any, a_attribute_definition_real_refFrom *A_ATTRIBUTE_DEFINITION_REAL_REF) (a_attribute_definition_real_refTo *A_ATTRIBUTE_DEFINITION_REAL_REF) {
-
-	// a_attribute_definition_real_refFrom has already been copied
-	if _a_attribute_definition_real_refTo, ok := mapOrigCopy[a_attribute_definition_real_refFrom]; ok {
-		a_attribute_definition_real_refTo = _a_attribute_definition_real_refTo.(*A_ATTRIBUTE_DEFINITION_REAL_REF)
+	var alreadyCopied bool
+	a_attribute_definition_real_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_definition_real_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_definition_real_refTo = new(A_ATTRIBUTE_DEFINITION_REAL_REF)
-	mapOrigCopy[a_attribute_definition_real_refFrom] = a_attribute_definition_real_refTo
 	a_attribute_definition_real_refFrom.GongCopyBasicFields(a_attribute_definition_real_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4701,15 +3444,11 @@ func GongCopyBranchA_ATTRIBUTE_DEFINITION_REAL_REF(mapOrigCopy map[any]any, a_at
 }
 
 func GongCopyBranchA_ATTRIBUTE_DEFINITION_STRING_REF(mapOrigCopy map[any]any, a_attribute_definition_string_refFrom *A_ATTRIBUTE_DEFINITION_STRING_REF) (a_attribute_definition_string_refTo *A_ATTRIBUTE_DEFINITION_STRING_REF) {
-
-	// a_attribute_definition_string_refFrom has already been copied
-	if _a_attribute_definition_string_refTo, ok := mapOrigCopy[a_attribute_definition_string_refFrom]; ok {
-		a_attribute_definition_string_refTo = _a_attribute_definition_string_refTo.(*A_ATTRIBUTE_DEFINITION_STRING_REF)
+	var alreadyCopied bool
+	a_attribute_definition_string_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_definition_string_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_definition_string_refTo = new(A_ATTRIBUTE_DEFINITION_STRING_REF)
-	mapOrigCopy[a_attribute_definition_string_refFrom] = a_attribute_definition_string_refTo
 	a_attribute_definition_string_refFrom.GongCopyBasicFields(a_attribute_definition_string_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4720,15 +3459,11 @@ func GongCopyBranchA_ATTRIBUTE_DEFINITION_STRING_REF(mapOrigCopy map[any]any, a_
 }
 
 func GongCopyBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(mapOrigCopy map[any]any, a_attribute_definition_xhtml_refFrom *A_ATTRIBUTE_DEFINITION_XHTML_REF) (a_attribute_definition_xhtml_refTo *A_ATTRIBUTE_DEFINITION_XHTML_REF) {
-
-	// a_attribute_definition_xhtml_refFrom has already been copied
-	if _a_attribute_definition_xhtml_refTo, ok := mapOrigCopy[a_attribute_definition_xhtml_refFrom]; ok {
-		a_attribute_definition_xhtml_refTo = _a_attribute_definition_xhtml_refTo.(*A_ATTRIBUTE_DEFINITION_XHTML_REF)
+	var alreadyCopied bool
+	a_attribute_definition_xhtml_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_definition_xhtml_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_definition_xhtml_refTo = new(A_ATTRIBUTE_DEFINITION_XHTML_REF)
-	mapOrigCopy[a_attribute_definition_xhtml_refFrom] = a_attribute_definition_xhtml_refTo
 	a_attribute_definition_xhtml_refFrom.GongCopyBasicFields(a_attribute_definition_xhtml_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4739,15 +3474,11 @@ func GongCopyBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(mapOrigCopy map[any]any, a_a
 }
 
 func GongCopyBranchA_ATTRIBUTE_VALUE_BOOLEAN(mapOrigCopy map[any]any, a_attribute_value_booleanFrom *A_ATTRIBUTE_VALUE_BOOLEAN) (a_attribute_value_booleanTo *A_ATTRIBUTE_VALUE_BOOLEAN) {
-
-	// a_attribute_value_booleanFrom has already been copied
-	if _a_attribute_value_booleanTo, ok := mapOrigCopy[a_attribute_value_booleanFrom]; ok {
-		a_attribute_value_booleanTo = _a_attribute_value_booleanTo.(*A_ATTRIBUTE_VALUE_BOOLEAN)
+	var alreadyCopied bool
+	a_attribute_value_booleanTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_value_booleanFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_value_booleanTo = new(A_ATTRIBUTE_VALUE_BOOLEAN)
-	mapOrigCopy[a_attribute_value_booleanFrom] = a_attribute_value_booleanTo
 	a_attribute_value_booleanFrom.GongCopyBasicFields(a_attribute_value_booleanTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4761,15 +3492,11 @@ func GongCopyBranchA_ATTRIBUTE_VALUE_BOOLEAN(mapOrigCopy map[any]any, a_attribut
 }
 
 func GongCopyBranchA_ATTRIBUTE_VALUE_DATE(mapOrigCopy map[any]any, a_attribute_value_dateFrom *A_ATTRIBUTE_VALUE_DATE) (a_attribute_value_dateTo *A_ATTRIBUTE_VALUE_DATE) {
-
-	// a_attribute_value_dateFrom has already been copied
-	if _a_attribute_value_dateTo, ok := mapOrigCopy[a_attribute_value_dateFrom]; ok {
-		a_attribute_value_dateTo = _a_attribute_value_dateTo.(*A_ATTRIBUTE_VALUE_DATE)
+	var alreadyCopied bool
+	a_attribute_value_dateTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_value_dateFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_value_dateTo = new(A_ATTRIBUTE_VALUE_DATE)
-	mapOrigCopy[a_attribute_value_dateFrom] = a_attribute_value_dateTo
 	a_attribute_value_dateFrom.GongCopyBasicFields(a_attribute_value_dateTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4783,15 +3510,11 @@ func GongCopyBranchA_ATTRIBUTE_VALUE_DATE(mapOrigCopy map[any]any, a_attribute_v
 }
 
 func GongCopyBranchA_ATTRIBUTE_VALUE_ENUMERATION(mapOrigCopy map[any]any, a_attribute_value_enumerationFrom *A_ATTRIBUTE_VALUE_ENUMERATION) (a_attribute_value_enumerationTo *A_ATTRIBUTE_VALUE_ENUMERATION) {
-
-	// a_attribute_value_enumerationFrom has already been copied
-	if _a_attribute_value_enumerationTo, ok := mapOrigCopy[a_attribute_value_enumerationFrom]; ok {
-		a_attribute_value_enumerationTo = _a_attribute_value_enumerationTo.(*A_ATTRIBUTE_VALUE_ENUMERATION)
+	var alreadyCopied bool
+	a_attribute_value_enumerationTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_value_enumerationFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_value_enumerationTo = new(A_ATTRIBUTE_VALUE_ENUMERATION)
-	mapOrigCopy[a_attribute_value_enumerationFrom] = a_attribute_value_enumerationTo
 	a_attribute_value_enumerationFrom.GongCopyBasicFields(a_attribute_value_enumerationTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4805,15 +3528,11 @@ func GongCopyBranchA_ATTRIBUTE_VALUE_ENUMERATION(mapOrigCopy map[any]any, a_attr
 }
 
 func GongCopyBranchA_ATTRIBUTE_VALUE_INTEGER(mapOrigCopy map[any]any, a_attribute_value_integerFrom *A_ATTRIBUTE_VALUE_INTEGER) (a_attribute_value_integerTo *A_ATTRIBUTE_VALUE_INTEGER) {
-
-	// a_attribute_value_integerFrom has already been copied
-	if _a_attribute_value_integerTo, ok := mapOrigCopy[a_attribute_value_integerFrom]; ok {
-		a_attribute_value_integerTo = _a_attribute_value_integerTo.(*A_ATTRIBUTE_VALUE_INTEGER)
+	var alreadyCopied bool
+	a_attribute_value_integerTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_value_integerFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_value_integerTo = new(A_ATTRIBUTE_VALUE_INTEGER)
-	mapOrigCopy[a_attribute_value_integerFrom] = a_attribute_value_integerTo
 	a_attribute_value_integerFrom.GongCopyBasicFields(a_attribute_value_integerTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4827,15 +3546,11 @@ func GongCopyBranchA_ATTRIBUTE_VALUE_INTEGER(mapOrigCopy map[any]any, a_attribut
 }
 
 func GongCopyBranchA_ATTRIBUTE_VALUE_REAL(mapOrigCopy map[any]any, a_attribute_value_realFrom *A_ATTRIBUTE_VALUE_REAL) (a_attribute_value_realTo *A_ATTRIBUTE_VALUE_REAL) {
-
-	// a_attribute_value_realFrom has already been copied
-	if _a_attribute_value_realTo, ok := mapOrigCopy[a_attribute_value_realFrom]; ok {
-		a_attribute_value_realTo = _a_attribute_value_realTo.(*A_ATTRIBUTE_VALUE_REAL)
+	var alreadyCopied bool
+	a_attribute_value_realTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_value_realFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_value_realTo = new(A_ATTRIBUTE_VALUE_REAL)
-	mapOrigCopy[a_attribute_value_realFrom] = a_attribute_value_realTo
 	a_attribute_value_realFrom.GongCopyBasicFields(a_attribute_value_realTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4849,15 +3564,11 @@ func GongCopyBranchA_ATTRIBUTE_VALUE_REAL(mapOrigCopy map[any]any, a_attribute_v
 }
 
 func GongCopyBranchA_ATTRIBUTE_VALUE_STRING(mapOrigCopy map[any]any, a_attribute_value_stringFrom *A_ATTRIBUTE_VALUE_STRING) (a_attribute_value_stringTo *A_ATTRIBUTE_VALUE_STRING) {
-
-	// a_attribute_value_stringFrom has already been copied
-	if _a_attribute_value_stringTo, ok := mapOrigCopy[a_attribute_value_stringFrom]; ok {
-		a_attribute_value_stringTo = _a_attribute_value_stringTo.(*A_ATTRIBUTE_VALUE_STRING)
+	var alreadyCopied bool
+	a_attribute_value_stringTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_value_stringFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_value_stringTo = new(A_ATTRIBUTE_VALUE_STRING)
-	mapOrigCopy[a_attribute_value_stringFrom] = a_attribute_value_stringTo
 	a_attribute_value_stringFrom.GongCopyBasicFields(a_attribute_value_stringTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4871,15 +3582,11 @@ func GongCopyBranchA_ATTRIBUTE_VALUE_STRING(mapOrigCopy map[any]any, a_attribute
 }
 
 func GongCopyBranchA_ATTRIBUTE_VALUE_XHTML(mapOrigCopy map[any]any, a_attribute_value_xhtmlFrom *A_ATTRIBUTE_VALUE_XHTML) (a_attribute_value_xhtmlTo *A_ATTRIBUTE_VALUE_XHTML) {
-
-	// a_attribute_value_xhtmlFrom has already been copied
-	if _a_attribute_value_xhtmlTo, ok := mapOrigCopy[a_attribute_value_xhtmlFrom]; ok {
-		a_attribute_value_xhtmlTo = _a_attribute_value_xhtmlTo.(*A_ATTRIBUTE_VALUE_XHTML)
+	var alreadyCopied bool
+	a_attribute_value_xhtmlTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_value_xhtmlFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_value_xhtmlTo = new(A_ATTRIBUTE_VALUE_XHTML)
-	mapOrigCopy[a_attribute_value_xhtmlFrom] = a_attribute_value_xhtmlTo
 	a_attribute_value_xhtmlFrom.GongCopyBasicFields(a_attribute_value_xhtmlTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4893,15 +3600,11 @@ func GongCopyBranchA_ATTRIBUTE_VALUE_XHTML(mapOrigCopy map[any]any, a_attribute_
 }
 
 func GongCopyBranchA_ATTRIBUTE_VALUE_XHTML_1(mapOrigCopy map[any]any, a_attribute_value_xhtml_1From *A_ATTRIBUTE_VALUE_XHTML_1) (a_attribute_value_xhtml_1To *A_ATTRIBUTE_VALUE_XHTML_1) {
-
-	// a_attribute_value_xhtml_1From has already been copied
-	if _a_attribute_value_xhtml_1To, ok := mapOrigCopy[a_attribute_value_xhtml_1From]; ok {
-		a_attribute_value_xhtml_1To = _a_attribute_value_xhtml_1To.(*A_ATTRIBUTE_VALUE_XHTML_1)
+	var alreadyCopied bool
+	a_attribute_value_xhtml_1To, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_attribute_value_xhtml_1From)
+	if alreadyCopied {
 		return
 	}
-
-	a_attribute_value_xhtml_1To = new(A_ATTRIBUTE_VALUE_XHTML_1)
-	mapOrigCopy[a_attribute_value_xhtml_1From] = a_attribute_value_xhtml_1To
 	a_attribute_value_xhtml_1From.GongCopyBasicFields(a_attribute_value_xhtml_1To)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4933,15 +3636,11 @@ func GongCopyBranchA_ATTRIBUTE_VALUE_XHTML_1(mapOrigCopy map[any]any, a_attribut
 }
 
 func GongCopyBranchA_CHILDREN(mapOrigCopy map[any]any, a_childrenFrom *A_CHILDREN) (a_childrenTo *A_CHILDREN) {
-
-	// a_childrenFrom has already been copied
-	if _a_childrenTo, ok := mapOrigCopy[a_childrenFrom]; ok {
-		a_childrenTo = _a_childrenTo.(*A_CHILDREN)
+	var alreadyCopied bool
+	a_childrenTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_childrenFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_childrenTo = new(A_CHILDREN)
-	mapOrigCopy[a_childrenFrom] = a_childrenTo
 	a_childrenFrom.GongCopyBasicFields(a_childrenTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4955,15 +3654,11 @@ func GongCopyBranchA_CHILDREN(mapOrigCopy map[any]any, a_childrenFrom *A_CHILDRE
 }
 
 func GongCopyBranchA_CORE_CONTENT(mapOrigCopy map[any]any, a_core_contentFrom *A_CORE_CONTENT) (a_core_contentTo *A_CORE_CONTENT) {
-
-	// a_core_contentFrom has already been copied
-	if _a_core_contentTo, ok := mapOrigCopy[a_core_contentFrom]; ok {
-		a_core_contentTo = _a_core_contentTo.(*A_CORE_CONTENT)
+	var alreadyCopied bool
+	a_core_contentTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_core_contentFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_core_contentTo = new(A_CORE_CONTENT)
-	mapOrigCopy[a_core_contentFrom] = a_core_contentTo
 	a_core_contentFrom.GongCopyBasicFields(a_core_contentTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -4977,15 +3672,11 @@ func GongCopyBranchA_CORE_CONTENT(mapOrigCopy map[any]any, a_core_contentFrom *A
 }
 
 func GongCopyBranchA_DATATYPES(mapOrigCopy map[any]any, a_datatypesFrom *A_DATATYPES) (a_datatypesTo *A_DATATYPES) {
-
-	// a_datatypesFrom has already been copied
-	if _a_datatypesTo, ok := mapOrigCopy[a_datatypesFrom]; ok {
-		a_datatypesTo = _a_datatypesTo.(*A_DATATYPES)
+	var alreadyCopied bool
+	a_datatypesTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_datatypesFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_datatypesTo = new(A_DATATYPES)
-	mapOrigCopy[a_datatypesFrom] = a_datatypesTo
 	a_datatypesFrom.GongCopyBasicFields(a_datatypesTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5017,15 +3708,11 @@ func GongCopyBranchA_DATATYPES(mapOrigCopy map[any]any, a_datatypesFrom *A_DATAT
 }
 
 func GongCopyBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(mapOrigCopy map[any]any, a_datatype_definition_boolean_refFrom *A_DATATYPE_DEFINITION_BOOLEAN_REF) (a_datatype_definition_boolean_refTo *A_DATATYPE_DEFINITION_BOOLEAN_REF) {
-
-	// a_datatype_definition_boolean_refFrom has already been copied
-	if _a_datatype_definition_boolean_refTo, ok := mapOrigCopy[a_datatype_definition_boolean_refFrom]; ok {
-		a_datatype_definition_boolean_refTo = _a_datatype_definition_boolean_refTo.(*A_DATATYPE_DEFINITION_BOOLEAN_REF)
+	var alreadyCopied bool
+	a_datatype_definition_boolean_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_datatype_definition_boolean_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_datatype_definition_boolean_refTo = new(A_DATATYPE_DEFINITION_BOOLEAN_REF)
-	mapOrigCopy[a_datatype_definition_boolean_refFrom] = a_datatype_definition_boolean_refTo
 	a_datatype_definition_boolean_refFrom.GongCopyBasicFields(a_datatype_definition_boolean_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5036,15 +3723,11 @@ func GongCopyBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(mapOrigCopy map[any]any, a_
 }
 
 func GongCopyBranchA_DATATYPE_DEFINITION_DATE_REF(mapOrigCopy map[any]any, a_datatype_definition_date_refFrom *A_DATATYPE_DEFINITION_DATE_REF) (a_datatype_definition_date_refTo *A_DATATYPE_DEFINITION_DATE_REF) {
-
-	// a_datatype_definition_date_refFrom has already been copied
-	if _a_datatype_definition_date_refTo, ok := mapOrigCopy[a_datatype_definition_date_refFrom]; ok {
-		a_datatype_definition_date_refTo = _a_datatype_definition_date_refTo.(*A_DATATYPE_DEFINITION_DATE_REF)
+	var alreadyCopied bool
+	a_datatype_definition_date_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_datatype_definition_date_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_datatype_definition_date_refTo = new(A_DATATYPE_DEFINITION_DATE_REF)
-	mapOrigCopy[a_datatype_definition_date_refFrom] = a_datatype_definition_date_refTo
 	a_datatype_definition_date_refFrom.GongCopyBasicFields(a_datatype_definition_date_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5055,15 +3738,11 @@ func GongCopyBranchA_DATATYPE_DEFINITION_DATE_REF(mapOrigCopy map[any]any, a_dat
 }
 
 func GongCopyBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(mapOrigCopy map[any]any, a_datatype_definition_enumeration_refFrom *A_DATATYPE_DEFINITION_ENUMERATION_REF) (a_datatype_definition_enumeration_refTo *A_DATATYPE_DEFINITION_ENUMERATION_REF) {
-
-	// a_datatype_definition_enumeration_refFrom has already been copied
-	if _a_datatype_definition_enumeration_refTo, ok := mapOrigCopy[a_datatype_definition_enumeration_refFrom]; ok {
-		a_datatype_definition_enumeration_refTo = _a_datatype_definition_enumeration_refTo.(*A_DATATYPE_DEFINITION_ENUMERATION_REF)
+	var alreadyCopied bool
+	a_datatype_definition_enumeration_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_datatype_definition_enumeration_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_datatype_definition_enumeration_refTo = new(A_DATATYPE_DEFINITION_ENUMERATION_REF)
-	mapOrigCopy[a_datatype_definition_enumeration_refFrom] = a_datatype_definition_enumeration_refTo
 	a_datatype_definition_enumeration_refFrom.GongCopyBasicFields(a_datatype_definition_enumeration_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5074,15 +3753,11 @@ func GongCopyBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(mapOrigCopy map[any]any
 }
 
 func GongCopyBranchA_DATATYPE_DEFINITION_INTEGER_REF(mapOrigCopy map[any]any, a_datatype_definition_integer_refFrom *A_DATATYPE_DEFINITION_INTEGER_REF) (a_datatype_definition_integer_refTo *A_DATATYPE_DEFINITION_INTEGER_REF) {
-
-	// a_datatype_definition_integer_refFrom has already been copied
-	if _a_datatype_definition_integer_refTo, ok := mapOrigCopy[a_datatype_definition_integer_refFrom]; ok {
-		a_datatype_definition_integer_refTo = _a_datatype_definition_integer_refTo.(*A_DATATYPE_DEFINITION_INTEGER_REF)
+	var alreadyCopied bool
+	a_datatype_definition_integer_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_datatype_definition_integer_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_datatype_definition_integer_refTo = new(A_DATATYPE_DEFINITION_INTEGER_REF)
-	mapOrigCopy[a_datatype_definition_integer_refFrom] = a_datatype_definition_integer_refTo
 	a_datatype_definition_integer_refFrom.GongCopyBasicFields(a_datatype_definition_integer_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5093,15 +3768,11 @@ func GongCopyBranchA_DATATYPE_DEFINITION_INTEGER_REF(mapOrigCopy map[any]any, a_
 }
 
 func GongCopyBranchA_DATATYPE_DEFINITION_REAL_REF(mapOrigCopy map[any]any, a_datatype_definition_real_refFrom *A_DATATYPE_DEFINITION_REAL_REF) (a_datatype_definition_real_refTo *A_DATATYPE_DEFINITION_REAL_REF) {
-
-	// a_datatype_definition_real_refFrom has already been copied
-	if _a_datatype_definition_real_refTo, ok := mapOrigCopy[a_datatype_definition_real_refFrom]; ok {
-		a_datatype_definition_real_refTo = _a_datatype_definition_real_refTo.(*A_DATATYPE_DEFINITION_REAL_REF)
+	var alreadyCopied bool
+	a_datatype_definition_real_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_datatype_definition_real_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_datatype_definition_real_refTo = new(A_DATATYPE_DEFINITION_REAL_REF)
-	mapOrigCopy[a_datatype_definition_real_refFrom] = a_datatype_definition_real_refTo
 	a_datatype_definition_real_refFrom.GongCopyBasicFields(a_datatype_definition_real_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5112,15 +3783,11 @@ func GongCopyBranchA_DATATYPE_DEFINITION_REAL_REF(mapOrigCopy map[any]any, a_dat
 }
 
 func GongCopyBranchA_DATATYPE_DEFINITION_STRING_REF(mapOrigCopy map[any]any, a_datatype_definition_string_refFrom *A_DATATYPE_DEFINITION_STRING_REF) (a_datatype_definition_string_refTo *A_DATATYPE_DEFINITION_STRING_REF) {
-
-	// a_datatype_definition_string_refFrom has already been copied
-	if _a_datatype_definition_string_refTo, ok := mapOrigCopy[a_datatype_definition_string_refFrom]; ok {
-		a_datatype_definition_string_refTo = _a_datatype_definition_string_refTo.(*A_DATATYPE_DEFINITION_STRING_REF)
+	var alreadyCopied bool
+	a_datatype_definition_string_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_datatype_definition_string_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_datatype_definition_string_refTo = new(A_DATATYPE_DEFINITION_STRING_REF)
-	mapOrigCopy[a_datatype_definition_string_refFrom] = a_datatype_definition_string_refTo
 	a_datatype_definition_string_refFrom.GongCopyBasicFields(a_datatype_definition_string_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5131,15 +3798,11 @@ func GongCopyBranchA_DATATYPE_DEFINITION_STRING_REF(mapOrigCopy map[any]any, a_d
 }
 
 func GongCopyBranchA_DATATYPE_DEFINITION_XHTML_REF(mapOrigCopy map[any]any, a_datatype_definition_xhtml_refFrom *A_DATATYPE_DEFINITION_XHTML_REF) (a_datatype_definition_xhtml_refTo *A_DATATYPE_DEFINITION_XHTML_REF) {
-
-	// a_datatype_definition_xhtml_refFrom has already been copied
-	if _a_datatype_definition_xhtml_refTo, ok := mapOrigCopy[a_datatype_definition_xhtml_refFrom]; ok {
-		a_datatype_definition_xhtml_refTo = _a_datatype_definition_xhtml_refTo.(*A_DATATYPE_DEFINITION_XHTML_REF)
+	var alreadyCopied bool
+	a_datatype_definition_xhtml_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_datatype_definition_xhtml_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_datatype_definition_xhtml_refTo = new(A_DATATYPE_DEFINITION_XHTML_REF)
-	mapOrigCopy[a_datatype_definition_xhtml_refFrom] = a_datatype_definition_xhtml_refTo
 	a_datatype_definition_xhtml_refFrom.GongCopyBasicFields(a_datatype_definition_xhtml_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5150,15 +3813,11 @@ func GongCopyBranchA_DATATYPE_DEFINITION_XHTML_REF(mapOrigCopy map[any]any, a_da
 }
 
 func GongCopyBranchA_EDITABLE_ATTS(mapOrigCopy map[any]any, a_editable_attsFrom *A_EDITABLE_ATTS) (a_editable_attsTo *A_EDITABLE_ATTS) {
-
-	// a_editable_attsFrom has already been copied
-	if _a_editable_attsTo, ok := mapOrigCopy[a_editable_attsFrom]; ok {
-		a_editable_attsTo = _a_editable_attsTo.(*A_EDITABLE_ATTS)
+	var alreadyCopied bool
+	a_editable_attsTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_editable_attsFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_editable_attsTo = new(A_EDITABLE_ATTS)
-	mapOrigCopy[a_editable_attsFrom] = a_editable_attsTo
 	a_editable_attsFrom.GongCopyBasicFields(a_editable_attsTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5169,15 +3828,11 @@ func GongCopyBranchA_EDITABLE_ATTS(mapOrigCopy map[any]any, a_editable_attsFrom 
 }
 
 func GongCopyBranchA_ENUM_VALUE_REF(mapOrigCopy map[any]any, a_enum_value_refFrom *A_ENUM_VALUE_REF) (a_enum_value_refTo *A_ENUM_VALUE_REF) {
-
-	// a_enum_value_refFrom has already been copied
-	if _a_enum_value_refTo, ok := mapOrigCopy[a_enum_value_refFrom]; ok {
-		a_enum_value_refTo = _a_enum_value_refTo.(*A_ENUM_VALUE_REF)
+	var alreadyCopied bool
+	a_enum_value_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_enum_value_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_enum_value_refTo = new(A_ENUM_VALUE_REF)
-	mapOrigCopy[a_enum_value_refFrom] = a_enum_value_refTo
 	a_enum_value_refFrom.GongCopyBasicFields(a_enum_value_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5188,15 +3843,11 @@ func GongCopyBranchA_ENUM_VALUE_REF(mapOrigCopy map[any]any, a_enum_value_refFro
 }
 
 func GongCopyBranchA_OBJECT(mapOrigCopy map[any]any, a_objectFrom *A_OBJECT) (a_objectTo *A_OBJECT) {
-
-	// a_objectFrom has already been copied
-	if _a_objectTo, ok := mapOrigCopy[a_objectFrom]; ok {
-		a_objectTo = _a_objectTo.(*A_OBJECT)
+	var alreadyCopied bool
+	a_objectTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_objectFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_objectTo = new(A_OBJECT)
-	mapOrigCopy[a_objectFrom] = a_objectTo
 	a_objectFrom.GongCopyBasicFields(a_objectTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5207,15 +3858,11 @@ func GongCopyBranchA_OBJECT(mapOrigCopy map[any]any, a_objectFrom *A_OBJECT) (a_
 }
 
 func GongCopyBranchA_PROPERTIES(mapOrigCopy map[any]any, a_propertiesFrom *A_PROPERTIES) (a_propertiesTo *A_PROPERTIES) {
-
-	// a_propertiesFrom has already been copied
-	if _a_propertiesTo, ok := mapOrigCopy[a_propertiesFrom]; ok {
-		a_propertiesTo = _a_propertiesTo.(*A_PROPERTIES)
+	var alreadyCopied bool
+	a_propertiesTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_propertiesFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_propertiesTo = new(A_PROPERTIES)
-	mapOrigCopy[a_propertiesFrom] = a_propertiesTo
 	a_propertiesFrom.GongCopyBasicFields(a_propertiesTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5229,15 +3876,11 @@ func GongCopyBranchA_PROPERTIES(mapOrigCopy map[any]any, a_propertiesFrom *A_PRO
 }
 
 func GongCopyBranchA_RELATION_GROUP_TYPE_REF(mapOrigCopy map[any]any, a_relation_group_type_refFrom *A_RELATION_GROUP_TYPE_REF) (a_relation_group_type_refTo *A_RELATION_GROUP_TYPE_REF) {
-
-	// a_relation_group_type_refFrom has already been copied
-	if _a_relation_group_type_refTo, ok := mapOrigCopy[a_relation_group_type_refFrom]; ok {
-		a_relation_group_type_refTo = _a_relation_group_type_refTo.(*A_RELATION_GROUP_TYPE_REF)
+	var alreadyCopied bool
+	a_relation_group_type_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_relation_group_type_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_relation_group_type_refTo = new(A_RELATION_GROUP_TYPE_REF)
-	mapOrigCopy[a_relation_group_type_refFrom] = a_relation_group_type_refTo
 	a_relation_group_type_refFrom.GongCopyBasicFields(a_relation_group_type_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5248,15 +3891,11 @@ func GongCopyBranchA_RELATION_GROUP_TYPE_REF(mapOrigCopy map[any]any, a_relation
 }
 
 func GongCopyBranchA_SOURCE_1(mapOrigCopy map[any]any, a_source_1From *A_SOURCE_1) (a_source_1To *A_SOURCE_1) {
-
-	// a_source_1From has already been copied
-	if _a_source_1To, ok := mapOrigCopy[a_source_1From]; ok {
-		a_source_1To = _a_source_1To.(*A_SOURCE_1)
+	var alreadyCopied bool
+	a_source_1To, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_source_1From)
+	if alreadyCopied {
 		return
 	}
-
-	a_source_1To = new(A_SOURCE_1)
-	mapOrigCopy[a_source_1From] = a_source_1To
 	a_source_1From.GongCopyBasicFields(a_source_1To)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5267,15 +3906,11 @@ func GongCopyBranchA_SOURCE_1(mapOrigCopy map[any]any, a_source_1From *A_SOURCE_
 }
 
 func GongCopyBranchA_SOURCE_SPECIFICATION_1(mapOrigCopy map[any]any, a_source_specification_1From *A_SOURCE_SPECIFICATION_1) (a_source_specification_1To *A_SOURCE_SPECIFICATION_1) {
-
-	// a_source_specification_1From has already been copied
-	if _a_source_specification_1To, ok := mapOrigCopy[a_source_specification_1From]; ok {
-		a_source_specification_1To = _a_source_specification_1To.(*A_SOURCE_SPECIFICATION_1)
+	var alreadyCopied bool
+	a_source_specification_1To, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_source_specification_1From)
+	if alreadyCopied {
 		return
 	}
-
-	a_source_specification_1To = new(A_SOURCE_SPECIFICATION_1)
-	mapOrigCopy[a_source_specification_1From] = a_source_specification_1To
 	a_source_specification_1From.GongCopyBasicFields(a_source_specification_1To)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5286,15 +3921,11 @@ func GongCopyBranchA_SOURCE_SPECIFICATION_1(mapOrigCopy map[any]any, a_source_sp
 }
 
 func GongCopyBranchA_SPECIFICATIONS(mapOrigCopy map[any]any, a_specificationsFrom *A_SPECIFICATIONS) (a_specificationsTo *A_SPECIFICATIONS) {
-
-	// a_specificationsFrom has already been copied
-	if _a_specificationsTo, ok := mapOrigCopy[a_specificationsFrom]; ok {
-		a_specificationsTo = _a_specificationsTo.(*A_SPECIFICATIONS)
+	var alreadyCopied bool
+	a_specificationsTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_specificationsFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_specificationsTo = new(A_SPECIFICATIONS)
-	mapOrigCopy[a_specificationsFrom] = a_specificationsTo
 	a_specificationsFrom.GongCopyBasicFields(a_specificationsTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5308,15 +3939,11 @@ func GongCopyBranchA_SPECIFICATIONS(mapOrigCopy map[any]any, a_specificationsFro
 }
 
 func GongCopyBranchA_SPECIFICATION_TYPE_REF(mapOrigCopy map[any]any, a_specification_type_refFrom *A_SPECIFICATION_TYPE_REF) (a_specification_type_refTo *A_SPECIFICATION_TYPE_REF) {
-
-	// a_specification_type_refFrom has already been copied
-	if _a_specification_type_refTo, ok := mapOrigCopy[a_specification_type_refFrom]; ok {
-		a_specification_type_refTo = _a_specification_type_refTo.(*A_SPECIFICATION_TYPE_REF)
+	var alreadyCopied bool
+	a_specification_type_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_specification_type_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_specification_type_refTo = new(A_SPECIFICATION_TYPE_REF)
-	mapOrigCopy[a_specification_type_refFrom] = a_specification_type_refTo
 	a_specification_type_refFrom.GongCopyBasicFields(a_specification_type_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5327,15 +3954,11 @@ func GongCopyBranchA_SPECIFICATION_TYPE_REF(mapOrigCopy map[any]any, a_specifica
 }
 
 func GongCopyBranchA_SPECIFIED_VALUES(mapOrigCopy map[any]any, a_specified_valuesFrom *A_SPECIFIED_VALUES) (a_specified_valuesTo *A_SPECIFIED_VALUES) {
-
-	// a_specified_valuesFrom has already been copied
-	if _a_specified_valuesTo, ok := mapOrigCopy[a_specified_valuesFrom]; ok {
-		a_specified_valuesTo = _a_specified_valuesTo.(*A_SPECIFIED_VALUES)
+	var alreadyCopied bool
+	a_specified_valuesTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_specified_valuesFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_specified_valuesTo = new(A_SPECIFIED_VALUES)
-	mapOrigCopy[a_specified_valuesFrom] = a_specified_valuesTo
 	a_specified_valuesFrom.GongCopyBasicFields(a_specified_valuesTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5349,15 +3972,11 @@ func GongCopyBranchA_SPECIFIED_VALUES(mapOrigCopy map[any]any, a_specified_value
 }
 
 func GongCopyBranchA_SPEC_ATTRIBUTES(mapOrigCopy map[any]any, a_spec_attributesFrom *A_SPEC_ATTRIBUTES) (a_spec_attributesTo *A_SPEC_ATTRIBUTES) {
-
-	// a_spec_attributesFrom has already been copied
-	if _a_spec_attributesTo, ok := mapOrigCopy[a_spec_attributesFrom]; ok {
-		a_spec_attributesTo = _a_spec_attributesTo.(*A_SPEC_ATTRIBUTES)
+	var alreadyCopied bool
+	a_spec_attributesTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_spec_attributesFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_spec_attributesTo = new(A_SPEC_ATTRIBUTES)
-	mapOrigCopy[a_spec_attributesFrom] = a_spec_attributesTo
 	a_spec_attributesFrom.GongCopyBasicFields(a_spec_attributesTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5389,15 +4008,11 @@ func GongCopyBranchA_SPEC_ATTRIBUTES(mapOrigCopy map[any]any, a_spec_attributesF
 }
 
 func GongCopyBranchA_SPEC_OBJECTS(mapOrigCopy map[any]any, a_spec_objectsFrom *A_SPEC_OBJECTS) (a_spec_objectsTo *A_SPEC_OBJECTS) {
-
-	// a_spec_objectsFrom has already been copied
-	if _a_spec_objectsTo, ok := mapOrigCopy[a_spec_objectsFrom]; ok {
-		a_spec_objectsTo = _a_spec_objectsTo.(*A_SPEC_OBJECTS)
+	var alreadyCopied bool
+	a_spec_objectsTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_spec_objectsFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_spec_objectsTo = new(A_SPEC_OBJECTS)
-	mapOrigCopy[a_spec_objectsFrom] = a_spec_objectsTo
 	a_spec_objectsFrom.GongCopyBasicFields(a_spec_objectsTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5411,15 +4026,11 @@ func GongCopyBranchA_SPEC_OBJECTS(mapOrigCopy map[any]any, a_spec_objectsFrom *A
 }
 
 func GongCopyBranchA_SPEC_OBJECT_TYPE_REF(mapOrigCopy map[any]any, a_spec_object_type_refFrom *A_SPEC_OBJECT_TYPE_REF) (a_spec_object_type_refTo *A_SPEC_OBJECT_TYPE_REF) {
-
-	// a_spec_object_type_refFrom has already been copied
-	if _a_spec_object_type_refTo, ok := mapOrigCopy[a_spec_object_type_refFrom]; ok {
-		a_spec_object_type_refTo = _a_spec_object_type_refTo.(*A_SPEC_OBJECT_TYPE_REF)
+	var alreadyCopied bool
+	a_spec_object_type_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_spec_object_type_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_spec_object_type_refTo = new(A_SPEC_OBJECT_TYPE_REF)
-	mapOrigCopy[a_spec_object_type_refFrom] = a_spec_object_type_refTo
 	a_spec_object_type_refFrom.GongCopyBasicFields(a_spec_object_type_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5430,15 +4041,11 @@ func GongCopyBranchA_SPEC_OBJECT_TYPE_REF(mapOrigCopy map[any]any, a_spec_object
 }
 
 func GongCopyBranchA_SPEC_RELATIONS(mapOrigCopy map[any]any, a_spec_relationsFrom *A_SPEC_RELATIONS) (a_spec_relationsTo *A_SPEC_RELATIONS) {
-
-	// a_spec_relationsFrom has already been copied
-	if _a_spec_relationsTo, ok := mapOrigCopy[a_spec_relationsFrom]; ok {
-		a_spec_relationsTo = _a_spec_relationsTo.(*A_SPEC_RELATIONS)
+	var alreadyCopied bool
+	a_spec_relationsTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_spec_relationsFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_spec_relationsTo = new(A_SPEC_RELATIONS)
-	mapOrigCopy[a_spec_relationsFrom] = a_spec_relationsTo
 	a_spec_relationsFrom.GongCopyBasicFields(a_spec_relationsTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5452,15 +4059,11 @@ func GongCopyBranchA_SPEC_RELATIONS(mapOrigCopy map[any]any, a_spec_relationsFro
 }
 
 func GongCopyBranchA_SPEC_RELATION_GROUPS(mapOrigCopy map[any]any, a_spec_relation_groupsFrom *A_SPEC_RELATION_GROUPS) (a_spec_relation_groupsTo *A_SPEC_RELATION_GROUPS) {
-
-	// a_spec_relation_groupsFrom has already been copied
-	if _a_spec_relation_groupsTo, ok := mapOrigCopy[a_spec_relation_groupsFrom]; ok {
-		a_spec_relation_groupsTo = _a_spec_relation_groupsTo.(*A_SPEC_RELATION_GROUPS)
+	var alreadyCopied bool
+	a_spec_relation_groupsTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_spec_relation_groupsFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_spec_relation_groupsTo = new(A_SPEC_RELATION_GROUPS)
-	mapOrigCopy[a_spec_relation_groupsFrom] = a_spec_relation_groupsTo
 	a_spec_relation_groupsFrom.GongCopyBasicFields(a_spec_relation_groupsTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5474,15 +4077,11 @@ func GongCopyBranchA_SPEC_RELATION_GROUPS(mapOrigCopy map[any]any, a_spec_relati
 }
 
 func GongCopyBranchA_SPEC_RELATION_REF(mapOrigCopy map[any]any, a_spec_relation_refFrom *A_SPEC_RELATION_REF) (a_spec_relation_refTo *A_SPEC_RELATION_REF) {
-
-	// a_spec_relation_refFrom has already been copied
-	if _a_spec_relation_refTo, ok := mapOrigCopy[a_spec_relation_refFrom]; ok {
-		a_spec_relation_refTo = _a_spec_relation_refTo.(*A_SPEC_RELATION_REF)
+	var alreadyCopied bool
+	a_spec_relation_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_spec_relation_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_spec_relation_refTo = new(A_SPEC_RELATION_REF)
-	mapOrigCopy[a_spec_relation_refFrom] = a_spec_relation_refTo
 	a_spec_relation_refFrom.GongCopyBasicFields(a_spec_relation_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5493,15 +4092,11 @@ func GongCopyBranchA_SPEC_RELATION_REF(mapOrigCopy map[any]any, a_spec_relation_
 }
 
 func GongCopyBranchA_SPEC_RELATION_TYPE_REF(mapOrigCopy map[any]any, a_spec_relation_type_refFrom *A_SPEC_RELATION_TYPE_REF) (a_spec_relation_type_refTo *A_SPEC_RELATION_TYPE_REF) {
-
-	// a_spec_relation_type_refFrom has already been copied
-	if _a_spec_relation_type_refTo, ok := mapOrigCopy[a_spec_relation_type_refFrom]; ok {
-		a_spec_relation_type_refTo = _a_spec_relation_type_refTo.(*A_SPEC_RELATION_TYPE_REF)
+	var alreadyCopied bool
+	a_spec_relation_type_refTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_spec_relation_type_refFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_spec_relation_type_refTo = new(A_SPEC_RELATION_TYPE_REF)
-	mapOrigCopy[a_spec_relation_type_refFrom] = a_spec_relation_type_refTo
 	a_spec_relation_type_refFrom.GongCopyBasicFields(a_spec_relation_type_refTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5512,15 +4107,11 @@ func GongCopyBranchA_SPEC_RELATION_TYPE_REF(mapOrigCopy map[any]any, a_spec_rela
 }
 
 func GongCopyBranchA_SPEC_TYPES(mapOrigCopy map[any]any, a_spec_typesFrom *A_SPEC_TYPES) (a_spec_typesTo *A_SPEC_TYPES) {
-
-	// a_spec_typesFrom has already been copied
-	if _a_spec_typesTo, ok := mapOrigCopy[a_spec_typesFrom]; ok {
-		a_spec_typesTo = _a_spec_typesTo.(*A_SPEC_TYPES)
+	var alreadyCopied bool
+	a_spec_typesTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_spec_typesFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_spec_typesTo = new(A_SPEC_TYPES)
-	mapOrigCopy[a_spec_typesFrom] = a_spec_typesTo
 	a_spec_typesFrom.GongCopyBasicFields(a_spec_typesTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5543,15 +4134,11 @@ func GongCopyBranchA_SPEC_TYPES(mapOrigCopy map[any]any, a_spec_typesFrom *A_SPE
 }
 
 func GongCopyBranchA_THE_HEADER(mapOrigCopy map[any]any, a_the_headerFrom *A_THE_HEADER) (a_the_headerTo *A_THE_HEADER) {
-
-	// a_the_headerFrom has already been copied
-	if _a_the_headerTo, ok := mapOrigCopy[a_the_headerFrom]; ok {
-		a_the_headerTo = _a_the_headerTo.(*A_THE_HEADER)
+	var alreadyCopied bool
+	a_the_headerTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_the_headerFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_the_headerTo = new(A_THE_HEADER)
-	mapOrigCopy[a_the_headerFrom] = a_the_headerTo
 	a_the_headerFrom.GongCopyBasicFields(a_the_headerTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5565,15 +4152,11 @@ func GongCopyBranchA_THE_HEADER(mapOrigCopy map[any]any, a_the_headerFrom *A_THE
 }
 
 func GongCopyBranchA_TOOL_EXTENSIONS(mapOrigCopy map[any]any, a_tool_extensionsFrom *A_TOOL_EXTENSIONS) (a_tool_extensionsTo *A_TOOL_EXTENSIONS) {
-
-	// a_tool_extensionsFrom has already been copied
-	if _a_tool_extensionsTo, ok := mapOrigCopy[a_tool_extensionsFrom]; ok {
-		a_tool_extensionsTo = _a_tool_extensionsTo.(*A_TOOL_EXTENSIONS)
+	var alreadyCopied bool
+	a_tool_extensionsTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_tool_extensionsFrom)
+	if alreadyCopied {
 		return
 	}
-
-	a_tool_extensionsTo = new(A_TOOL_EXTENSIONS)
-	mapOrigCopy[a_tool_extensionsFrom] = a_tool_extensionsTo
 	a_tool_extensionsFrom.GongCopyBasicFields(a_tool_extensionsTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5587,15 +4170,11 @@ func GongCopyBranchA_TOOL_EXTENSIONS(mapOrigCopy map[any]any, a_tool_extensionsF
 }
 
 func GongCopyBranchDATATYPE_DEFINITION_BOOLEAN(mapOrigCopy map[any]any, datatype_definition_booleanFrom *DATATYPE_DEFINITION_BOOLEAN) (datatype_definition_booleanTo *DATATYPE_DEFINITION_BOOLEAN) {
-
-	// datatype_definition_booleanFrom has already been copied
-	if _datatype_definition_booleanTo, ok := mapOrigCopy[datatype_definition_booleanFrom]; ok {
-		datatype_definition_booleanTo = _datatype_definition_booleanTo.(*DATATYPE_DEFINITION_BOOLEAN)
+	var alreadyCopied bool
+	datatype_definition_booleanTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, datatype_definition_booleanFrom)
+	if alreadyCopied {
 		return
 	}
-
-	datatype_definition_booleanTo = new(DATATYPE_DEFINITION_BOOLEAN)
-	mapOrigCopy[datatype_definition_booleanFrom] = datatype_definition_booleanTo
 	datatype_definition_booleanFrom.GongCopyBasicFields(datatype_definition_booleanTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5609,15 +4188,11 @@ func GongCopyBranchDATATYPE_DEFINITION_BOOLEAN(mapOrigCopy map[any]any, datatype
 }
 
 func GongCopyBranchDATATYPE_DEFINITION_DATE(mapOrigCopy map[any]any, datatype_definition_dateFrom *DATATYPE_DEFINITION_DATE) (datatype_definition_dateTo *DATATYPE_DEFINITION_DATE) {
-
-	// datatype_definition_dateFrom has already been copied
-	if _datatype_definition_dateTo, ok := mapOrigCopy[datatype_definition_dateFrom]; ok {
-		datatype_definition_dateTo = _datatype_definition_dateTo.(*DATATYPE_DEFINITION_DATE)
+	var alreadyCopied bool
+	datatype_definition_dateTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, datatype_definition_dateFrom)
+	if alreadyCopied {
 		return
 	}
-
-	datatype_definition_dateTo = new(DATATYPE_DEFINITION_DATE)
-	mapOrigCopy[datatype_definition_dateFrom] = datatype_definition_dateTo
 	datatype_definition_dateFrom.GongCopyBasicFields(datatype_definition_dateTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5631,15 +4206,11 @@ func GongCopyBranchDATATYPE_DEFINITION_DATE(mapOrigCopy map[any]any, datatype_de
 }
 
 func GongCopyBranchDATATYPE_DEFINITION_ENUMERATION(mapOrigCopy map[any]any, datatype_definition_enumerationFrom *DATATYPE_DEFINITION_ENUMERATION) (datatype_definition_enumerationTo *DATATYPE_DEFINITION_ENUMERATION) {
-
-	// datatype_definition_enumerationFrom has already been copied
-	if _datatype_definition_enumerationTo, ok := mapOrigCopy[datatype_definition_enumerationFrom]; ok {
-		datatype_definition_enumerationTo = _datatype_definition_enumerationTo.(*DATATYPE_DEFINITION_ENUMERATION)
+	var alreadyCopied bool
+	datatype_definition_enumerationTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, datatype_definition_enumerationFrom)
+	if alreadyCopied {
 		return
 	}
-
-	datatype_definition_enumerationTo = new(DATATYPE_DEFINITION_ENUMERATION)
-	mapOrigCopy[datatype_definition_enumerationFrom] = datatype_definition_enumerationTo
 	datatype_definition_enumerationFrom.GongCopyBasicFields(datatype_definition_enumerationTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5656,15 +4227,11 @@ func GongCopyBranchDATATYPE_DEFINITION_ENUMERATION(mapOrigCopy map[any]any, data
 }
 
 func GongCopyBranchDATATYPE_DEFINITION_INTEGER(mapOrigCopy map[any]any, datatype_definition_integerFrom *DATATYPE_DEFINITION_INTEGER) (datatype_definition_integerTo *DATATYPE_DEFINITION_INTEGER) {
-
-	// datatype_definition_integerFrom has already been copied
-	if _datatype_definition_integerTo, ok := mapOrigCopy[datatype_definition_integerFrom]; ok {
-		datatype_definition_integerTo = _datatype_definition_integerTo.(*DATATYPE_DEFINITION_INTEGER)
+	var alreadyCopied bool
+	datatype_definition_integerTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, datatype_definition_integerFrom)
+	if alreadyCopied {
 		return
 	}
-
-	datatype_definition_integerTo = new(DATATYPE_DEFINITION_INTEGER)
-	mapOrigCopy[datatype_definition_integerFrom] = datatype_definition_integerTo
 	datatype_definition_integerFrom.GongCopyBasicFields(datatype_definition_integerTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5678,15 +4245,11 @@ func GongCopyBranchDATATYPE_DEFINITION_INTEGER(mapOrigCopy map[any]any, datatype
 }
 
 func GongCopyBranchDATATYPE_DEFINITION_REAL(mapOrigCopy map[any]any, datatype_definition_realFrom *DATATYPE_DEFINITION_REAL) (datatype_definition_realTo *DATATYPE_DEFINITION_REAL) {
-
-	// datatype_definition_realFrom has already been copied
-	if _datatype_definition_realTo, ok := mapOrigCopy[datatype_definition_realFrom]; ok {
-		datatype_definition_realTo = _datatype_definition_realTo.(*DATATYPE_DEFINITION_REAL)
+	var alreadyCopied bool
+	datatype_definition_realTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, datatype_definition_realFrom)
+	if alreadyCopied {
 		return
 	}
-
-	datatype_definition_realTo = new(DATATYPE_DEFINITION_REAL)
-	mapOrigCopy[datatype_definition_realFrom] = datatype_definition_realTo
 	datatype_definition_realFrom.GongCopyBasicFields(datatype_definition_realTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5700,15 +4263,11 @@ func GongCopyBranchDATATYPE_DEFINITION_REAL(mapOrigCopy map[any]any, datatype_de
 }
 
 func GongCopyBranchDATATYPE_DEFINITION_STRING(mapOrigCopy map[any]any, datatype_definition_stringFrom *DATATYPE_DEFINITION_STRING) (datatype_definition_stringTo *DATATYPE_DEFINITION_STRING) {
-
-	// datatype_definition_stringFrom has already been copied
-	if _datatype_definition_stringTo, ok := mapOrigCopy[datatype_definition_stringFrom]; ok {
-		datatype_definition_stringTo = _datatype_definition_stringTo.(*DATATYPE_DEFINITION_STRING)
+	var alreadyCopied bool
+	datatype_definition_stringTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, datatype_definition_stringFrom)
+	if alreadyCopied {
 		return
 	}
-
-	datatype_definition_stringTo = new(DATATYPE_DEFINITION_STRING)
-	mapOrigCopy[datatype_definition_stringFrom] = datatype_definition_stringTo
 	datatype_definition_stringFrom.GongCopyBasicFields(datatype_definition_stringTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5722,15 +4281,11 @@ func GongCopyBranchDATATYPE_DEFINITION_STRING(mapOrigCopy map[any]any, datatype_
 }
 
 func GongCopyBranchDATATYPE_DEFINITION_XHTML(mapOrigCopy map[any]any, datatype_definition_xhtmlFrom *DATATYPE_DEFINITION_XHTML) (datatype_definition_xhtmlTo *DATATYPE_DEFINITION_XHTML) {
-
-	// datatype_definition_xhtmlFrom has already been copied
-	if _datatype_definition_xhtmlTo, ok := mapOrigCopy[datatype_definition_xhtmlFrom]; ok {
-		datatype_definition_xhtmlTo = _datatype_definition_xhtmlTo.(*DATATYPE_DEFINITION_XHTML)
+	var alreadyCopied bool
+	datatype_definition_xhtmlTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, datatype_definition_xhtmlFrom)
+	if alreadyCopied {
 		return
 	}
-
-	datatype_definition_xhtmlTo = new(DATATYPE_DEFINITION_XHTML)
-	mapOrigCopy[datatype_definition_xhtmlFrom] = datatype_definition_xhtmlTo
 	datatype_definition_xhtmlFrom.GongCopyBasicFields(datatype_definition_xhtmlTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5744,15 +4299,11 @@ func GongCopyBranchDATATYPE_DEFINITION_XHTML(mapOrigCopy map[any]any, datatype_d
 }
 
 func GongCopyBranchEMBEDDED_VALUE(mapOrigCopy map[any]any, embedded_valueFrom *EMBEDDED_VALUE) (embedded_valueTo *EMBEDDED_VALUE) {
-
-	// embedded_valueFrom has already been copied
-	if _embedded_valueTo, ok := mapOrigCopy[embedded_valueFrom]; ok {
-		embedded_valueTo = _embedded_valueTo.(*EMBEDDED_VALUE)
+	var alreadyCopied bool
+	embedded_valueTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, embedded_valueFrom)
+	if alreadyCopied {
 		return
 	}
-
-	embedded_valueTo = new(EMBEDDED_VALUE)
-	mapOrigCopy[embedded_valueFrom] = embedded_valueTo
 	embedded_valueFrom.GongCopyBasicFields(embedded_valueTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5763,15 +4314,11 @@ func GongCopyBranchEMBEDDED_VALUE(mapOrigCopy map[any]any, embedded_valueFrom *E
 }
 
 func GongCopyBranchENUM_VALUE(mapOrigCopy map[any]any, enum_valueFrom *ENUM_VALUE) (enum_valueTo *ENUM_VALUE) {
-
-	// enum_valueFrom has already been copied
-	if _enum_valueTo, ok := mapOrigCopy[enum_valueFrom]; ok {
-		enum_valueTo = _enum_valueTo.(*ENUM_VALUE)
+	var alreadyCopied bool
+	enum_valueTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, enum_valueFrom)
+	if alreadyCopied {
 		return
 	}
-
-	enum_valueTo = new(ENUM_VALUE)
-	mapOrigCopy[enum_valueFrom] = enum_valueTo
 	enum_valueFrom.GongCopyBasicFields(enum_valueTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5788,15 +4335,11 @@ func GongCopyBranchENUM_VALUE(mapOrigCopy map[any]any, enum_valueFrom *ENUM_VALU
 }
 
 func GongCopyBranchEmbeddedJpgImage(mapOrigCopy map[any]any, embeddedjpgimageFrom *EmbeddedJpgImage) (embeddedjpgimageTo *EmbeddedJpgImage) {
-
-	// embeddedjpgimageFrom has already been copied
-	if _embeddedjpgimageTo, ok := mapOrigCopy[embeddedjpgimageFrom]; ok {
-		embeddedjpgimageTo = _embeddedjpgimageTo.(*EmbeddedJpgImage)
+	var alreadyCopied bool
+	embeddedjpgimageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, embeddedjpgimageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	embeddedjpgimageTo = new(EmbeddedJpgImage)
-	mapOrigCopy[embeddedjpgimageFrom] = embeddedjpgimageTo
 	embeddedjpgimageFrom.GongCopyBasicFields(embeddedjpgimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5807,15 +4350,11 @@ func GongCopyBranchEmbeddedJpgImage(mapOrigCopy map[any]any, embeddedjpgimageFro
 }
 
 func GongCopyBranchEmbeddedPngImage(mapOrigCopy map[any]any, embeddedpngimageFrom *EmbeddedPngImage) (embeddedpngimageTo *EmbeddedPngImage) {
-
-	// embeddedpngimageFrom has already been copied
-	if _embeddedpngimageTo, ok := mapOrigCopy[embeddedpngimageFrom]; ok {
-		embeddedpngimageTo = _embeddedpngimageTo.(*EmbeddedPngImage)
+	var alreadyCopied bool
+	embeddedpngimageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, embeddedpngimageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	embeddedpngimageTo = new(EmbeddedPngImage)
-	mapOrigCopy[embeddedpngimageFrom] = embeddedpngimageTo
 	embeddedpngimageFrom.GongCopyBasicFields(embeddedpngimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5826,15 +4365,11 @@ func GongCopyBranchEmbeddedPngImage(mapOrigCopy map[any]any, embeddedpngimageFro
 }
 
 func GongCopyBranchEmbeddedSvgImage(mapOrigCopy map[any]any, embeddedsvgimageFrom *EmbeddedSvgImage) (embeddedsvgimageTo *EmbeddedSvgImage) {
-
-	// embeddedsvgimageFrom has already been copied
-	if _embeddedsvgimageTo, ok := mapOrigCopy[embeddedsvgimageFrom]; ok {
-		embeddedsvgimageTo = _embeddedsvgimageTo.(*EmbeddedSvgImage)
+	var alreadyCopied bool
+	embeddedsvgimageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, embeddedsvgimageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	embeddedsvgimageTo = new(EmbeddedSvgImage)
-	mapOrigCopy[embeddedsvgimageFrom] = embeddedsvgimageTo
 	embeddedsvgimageFrom.GongCopyBasicFields(embeddedsvgimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5845,15 +4380,11 @@ func GongCopyBranchEmbeddedSvgImage(mapOrigCopy map[any]any, embeddedsvgimageFro
 }
 
 func GongCopyBranchKill(mapOrigCopy map[any]any, killFrom *Kill) (killTo *Kill) {
-
-	// killFrom has already been copied
-	if _killTo, ok := mapOrigCopy[killFrom]; ok {
-		killTo = _killTo.(*Kill)
+	var alreadyCopied bool
+	killTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, killFrom)
+	if alreadyCopied {
 		return
 	}
-
-	killTo = new(Kill)
-	mapOrigCopy[killFrom] = killTo
 	killFrom.GongCopyBasicFields(killTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5864,15 +4395,11 @@ func GongCopyBranchKill(mapOrigCopy map[any]any, killFrom *Kill) (killTo *Kill) 
 }
 
 func GongCopyBranchMap_identifier_bool(mapOrigCopy map[any]any, map_identifier_boolFrom *Map_identifier_bool) (map_identifier_boolTo *Map_identifier_bool) {
-
-	// map_identifier_boolFrom has already been copied
-	if _map_identifier_boolTo, ok := mapOrigCopy[map_identifier_boolFrom]; ok {
-		map_identifier_boolTo = _map_identifier_boolTo.(*Map_identifier_bool)
+	var alreadyCopied bool
+	map_identifier_boolTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, map_identifier_boolFrom)
+	if alreadyCopied {
 		return
 	}
-
-	map_identifier_boolTo = new(Map_identifier_bool)
-	mapOrigCopy[map_identifier_boolFrom] = map_identifier_boolTo
 	map_identifier_boolFrom.GongCopyBasicFields(map_identifier_boolTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5883,15 +4410,11 @@ func GongCopyBranchMap_identifier_bool(mapOrigCopy map[any]any, map_identifier_b
 }
 
 func GongCopyBranchRELATION_GROUP(mapOrigCopy map[any]any, relation_groupFrom *RELATION_GROUP) (relation_groupTo *RELATION_GROUP) {
-
-	// relation_groupFrom has already been copied
-	if _relation_groupTo, ok := mapOrigCopy[relation_groupFrom]; ok {
-		relation_groupTo = _relation_groupTo.(*RELATION_GROUP)
+	var alreadyCopied bool
+	relation_groupTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, relation_groupFrom)
+	if alreadyCopied {
 		return
 	}
-
-	relation_groupTo = new(RELATION_GROUP)
-	mapOrigCopy[relation_groupFrom] = relation_groupTo
 	relation_groupFrom.GongCopyBasicFields(relation_groupTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5917,15 +4440,11 @@ func GongCopyBranchRELATION_GROUP(mapOrigCopy map[any]any, relation_groupFrom *R
 }
 
 func GongCopyBranchRELATION_GROUP_TYPE(mapOrigCopy map[any]any, relation_group_typeFrom *RELATION_GROUP_TYPE) (relation_group_typeTo *RELATION_GROUP_TYPE) {
-
-	// relation_group_typeFrom has already been copied
-	if _relation_group_typeTo, ok := mapOrigCopy[relation_group_typeFrom]; ok {
-		relation_group_typeTo = _relation_group_typeTo.(*RELATION_GROUP_TYPE)
+	var alreadyCopied bool
+	relation_group_typeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, relation_group_typeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	relation_group_typeTo = new(RELATION_GROUP_TYPE)
-	mapOrigCopy[relation_group_typeFrom] = relation_group_typeTo
 	relation_group_typeFrom.GongCopyBasicFields(relation_group_typeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5942,15 +4461,11 @@ func GongCopyBranchRELATION_GROUP_TYPE(mapOrigCopy map[any]any, relation_group_t
 }
 
 func GongCopyBranchREQ_IF(mapOrigCopy map[any]any, req_ifFrom *REQ_IF) (req_ifTo *REQ_IF) {
-
-	// req_ifFrom has already been copied
-	if _req_ifTo, ok := mapOrigCopy[req_ifFrom]; ok {
-		req_ifTo = _req_ifTo.(*REQ_IF)
+	var alreadyCopied bool
+	req_ifTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, req_ifFrom)
+	if alreadyCopied {
 		return
 	}
-
-	req_ifTo = new(REQ_IF)
-	mapOrigCopy[req_ifFrom] = req_ifTo
 	req_ifFrom.GongCopyBasicFields(req_ifTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -5970,15 +4485,11 @@ func GongCopyBranchREQ_IF(mapOrigCopy map[any]any, req_ifFrom *REQ_IF) (req_ifTo
 }
 
 func GongCopyBranchREQ_IF_CONTENT(mapOrigCopy map[any]any, req_if_contentFrom *REQ_IF_CONTENT) (req_if_contentTo *REQ_IF_CONTENT) {
-
-	// req_if_contentFrom has already been copied
-	if _req_if_contentTo, ok := mapOrigCopy[req_if_contentFrom]; ok {
-		req_if_contentTo = _req_if_contentTo.(*REQ_IF_CONTENT)
+	var alreadyCopied bool
+	req_if_contentTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, req_if_contentFrom)
+	if alreadyCopied {
 		return
 	}
-
-	req_if_contentTo = new(REQ_IF_CONTENT)
-	mapOrigCopy[req_if_contentFrom] = req_if_contentTo
 	req_if_contentFrom.GongCopyBasicFields(req_if_contentTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6007,15 +4518,11 @@ func GongCopyBranchREQ_IF_CONTENT(mapOrigCopy map[any]any, req_if_contentFrom *R
 }
 
 func GongCopyBranchREQ_IF_HEADER(mapOrigCopy map[any]any, req_if_headerFrom *REQ_IF_HEADER) (req_if_headerTo *REQ_IF_HEADER) {
-
-	// req_if_headerFrom has already been copied
-	if _req_if_headerTo, ok := mapOrigCopy[req_if_headerFrom]; ok {
-		req_if_headerTo = _req_if_headerTo.(*REQ_IF_HEADER)
+	var alreadyCopied bool
+	req_if_headerTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, req_if_headerFrom)
+	if alreadyCopied {
 		return
 	}
-
-	req_if_headerTo = new(REQ_IF_HEADER)
-	mapOrigCopy[req_if_headerFrom] = req_if_headerTo
 	req_if_headerFrom.GongCopyBasicFields(req_if_headerTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6026,15 +4533,11 @@ func GongCopyBranchREQ_IF_HEADER(mapOrigCopy map[any]any, req_if_headerFrom *REQ
 }
 
 func GongCopyBranchREQ_IF_TOOL_EXTENSION(mapOrigCopy map[any]any, req_if_tool_extensionFrom *REQ_IF_TOOL_EXTENSION) (req_if_tool_extensionTo *REQ_IF_TOOL_EXTENSION) {
-
-	// req_if_tool_extensionFrom has already been copied
-	if _req_if_tool_extensionTo, ok := mapOrigCopy[req_if_tool_extensionFrom]; ok {
-		req_if_tool_extensionTo = _req_if_tool_extensionTo.(*REQ_IF_TOOL_EXTENSION)
+	var alreadyCopied bool
+	req_if_tool_extensionTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, req_if_tool_extensionFrom)
+	if alreadyCopied {
 		return
 	}
-
-	req_if_tool_extensionTo = new(REQ_IF_TOOL_EXTENSION)
-	mapOrigCopy[req_if_tool_extensionFrom] = req_if_tool_extensionTo
 	req_if_tool_extensionFrom.GongCopyBasicFields(req_if_tool_extensionTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6045,15 +4548,11 @@ func GongCopyBranchREQ_IF_TOOL_EXTENSION(mapOrigCopy map[any]any, req_if_tool_ex
 }
 
 func GongCopyBranchSPECIFICATION(mapOrigCopy map[any]any, specificationFrom *SPECIFICATION) (specificationTo *SPECIFICATION) {
-
-	// specificationFrom has already been copied
-	if _specificationTo, ok := mapOrigCopy[specificationFrom]; ok {
-		specificationTo = _specificationTo.(*SPECIFICATION)
+	var alreadyCopied bool
+	specificationTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, specificationFrom)
+	if alreadyCopied {
 		return
 	}
-
-	specificationTo = new(SPECIFICATION)
-	mapOrigCopy[specificationFrom] = specificationTo
 	specificationFrom.GongCopyBasicFields(specificationTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6076,15 +4575,11 @@ func GongCopyBranchSPECIFICATION(mapOrigCopy map[any]any, specificationFrom *SPE
 }
 
 func GongCopyBranchSPECIFICATION_Rendering(mapOrigCopy map[any]any, specification_renderingFrom *SPECIFICATION_Rendering) (specification_renderingTo *SPECIFICATION_Rendering) {
-
-	// specification_renderingFrom has already been copied
-	if _specification_renderingTo, ok := mapOrigCopy[specification_renderingFrom]; ok {
-		specification_renderingTo = _specification_renderingTo.(*SPECIFICATION_Rendering)
+	var alreadyCopied bool
+	specification_renderingTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, specification_renderingFrom)
+	if alreadyCopied {
 		return
 	}
-
-	specification_renderingTo = new(SPECIFICATION_Rendering)
-	mapOrigCopy[specification_renderingFrom] = specification_renderingTo
 	specification_renderingFrom.GongCopyBasicFields(specification_renderingTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6095,15 +4590,11 @@ func GongCopyBranchSPECIFICATION_Rendering(mapOrigCopy map[any]any, specificatio
 }
 
 func GongCopyBranchSPECIFICATION_TYPE(mapOrigCopy map[any]any, specification_typeFrom *SPECIFICATION_TYPE) (specification_typeTo *SPECIFICATION_TYPE) {
-
-	// specification_typeFrom has already been copied
-	if _specification_typeTo, ok := mapOrigCopy[specification_typeFrom]; ok {
-		specification_typeTo = _specification_typeTo.(*SPECIFICATION_TYPE)
+	var alreadyCopied bool
+	specification_typeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, specification_typeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	specification_typeTo = new(SPECIFICATION_TYPE)
-	mapOrigCopy[specification_typeFrom] = specification_typeTo
 	specification_typeFrom.GongCopyBasicFields(specification_typeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6120,15 +4611,11 @@ func GongCopyBranchSPECIFICATION_TYPE(mapOrigCopy map[any]any, specification_typ
 }
 
 func GongCopyBranchSPEC_HIERARCHY(mapOrigCopy map[any]any, spec_hierarchyFrom *SPEC_HIERARCHY) (spec_hierarchyTo *SPEC_HIERARCHY) {
-
-	// spec_hierarchyFrom has already been copied
-	if _spec_hierarchyTo, ok := mapOrigCopy[spec_hierarchyFrom]; ok {
-		spec_hierarchyTo = _spec_hierarchyTo.(*SPEC_HIERARCHY)
+	var alreadyCopied bool
+	spec_hierarchyTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, spec_hierarchyFrom)
+	if alreadyCopied {
 		return
 	}
-
-	spec_hierarchyTo = new(SPEC_HIERARCHY)
-	mapOrigCopy[spec_hierarchyFrom] = spec_hierarchyTo
 	spec_hierarchyFrom.GongCopyBasicFields(spec_hierarchyTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6151,15 +4638,11 @@ func GongCopyBranchSPEC_HIERARCHY(mapOrigCopy map[any]any, spec_hierarchyFrom *S
 }
 
 func GongCopyBranchSPEC_OBJECT(mapOrigCopy map[any]any, spec_objectFrom *SPEC_OBJECT) (spec_objectTo *SPEC_OBJECT) {
-
-	// spec_objectFrom has already been copied
-	if _spec_objectTo, ok := mapOrigCopy[spec_objectFrom]; ok {
-		spec_objectTo = _spec_objectTo.(*SPEC_OBJECT)
+	var alreadyCopied bool
+	spec_objectTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, spec_objectFrom)
+	if alreadyCopied {
 		return
 	}
-
-	spec_objectTo = new(SPEC_OBJECT)
-	mapOrigCopy[spec_objectFrom] = spec_objectTo
 	spec_objectFrom.GongCopyBasicFields(spec_objectTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6179,15 +4662,11 @@ func GongCopyBranchSPEC_OBJECT(mapOrigCopy map[any]any, spec_objectFrom *SPEC_OB
 }
 
 func GongCopyBranchSPEC_OBJECT_TYPE(mapOrigCopy map[any]any, spec_object_typeFrom *SPEC_OBJECT_TYPE) (spec_object_typeTo *SPEC_OBJECT_TYPE) {
-
-	// spec_object_typeFrom has already been copied
-	if _spec_object_typeTo, ok := mapOrigCopy[spec_object_typeFrom]; ok {
-		spec_object_typeTo = _spec_object_typeTo.(*SPEC_OBJECT_TYPE)
+	var alreadyCopied bool
+	spec_object_typeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, spec_object_typeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	spec_object_typeTo = new(SPEC_OBJECT_TYPE)
-	mapOrigCopy[spec_object_typeFrom] = spec_object_typeTo
 	spec_object_typeFrom.GongCopyBasicFields(spec_object_typeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6204,15 +4683,11 @@ func GongCopyBranchSPEC_OBJECT_TYPE(mapOrigCopy map[any]any, spec_object_typeFro
 }
 
 func GongCopyBranchSPEC_OBJECT_TYPE_Rendering(mapOrigCopy map[any]any, spec_object_type_renderingFrom *SPEC_OBJECT_TYPE_Rendering) (spec_object_type_renderingTo *SPEC_OBJECT_TYPE_Rendering) {
-
-	// spec_object_type_renderingFrom has already been copied
-	if _spec_object_type_renderingTo, ok := mapOrigCopy[spec_object_type_renderingFrom]; ok {
-		spec_object_type_renderingTo = _spec_object_type_renderingTo.(*SPEC_OBJECT_TYPE_Rendering)
+	var alreadyCopied bool
+	spec_object_type_renderingTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, spec_object_type_renderingFrom)
+	if alreadyCopied {
 		return
 	}
-
-	spec_object_type_renderingTo = new(SPEC_OBJECT_TYPE_Rendering)
-	mapOrigCopy[spec_object_type_renderingFrom] = spec_object_type_renderingTo
 	spec_object_type_renderingFrom.GongCopyBasicFields(spec_object_type_renderingTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6223,15 +4698,11 @@ func GongCopyBranchSPEC_OBJECT_TYPE_Rendering(mapOrigCopy map[any]any, spec_obje
 }
 
 func GongCopyBranchSPEC_RELATION(mapOrigCopy map[any]any, spec_relationFrom *SPEC_RELATION) (spec_relationTo *SPEC_RELATION) {
-
-	// spec_relationFrom has already been copied
-	if _spec_relationTo, ok := mapOrigCopy[spec_relationFrom]; ok {
-		spec_relationTo = _spec_relationTo.(*SPEC_RELATION)
+	var alreadyCopied bool
+	spec_relationTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, spec_relationFrom)
+	if alreadyCopied {
 		return
 	}
-
-	spec_relationTo = new(SPEC_RELATION)
-	mapOrigCopy[spec_relationFrom] = spec_relationTo
 	spec_relationFrom.GongCopyBasicFields(spec_relationTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6257,15 +4728,11 @@ func GongCopyBranchSPEC_RELATION(mapOrigCopy map[any]any, spec_relationFrom *SPE
 }
 
 func GongCopyBranchSPEC_RELATION_TYPE(mapOrigCopy map[any]any, spec_relation_typeFrom *SPEC_RELATION_TYPE) (spec_relation_typeTo *SPEC_RELATION_TYPE) {
-
-	// spec_relation_typeFrom has already been copied
-	if _spec_relation_typeTo, ok := mapOrigCopy[spec_relation_typeFrom]; ok {
-		spec_relation_typeTo = _spec_relation_typeTo.(*SPEC_RELATION_TYPE)
+	var alreadyCopied bool
+	spec_relation_typeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, spec_relation_typeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	spec_relation_typeTo = new(SPEC_RELATION_TYPE)
-	mapOrigCopy[spec_relation_typeFrom] = spec_relation_typeTo
 	spec_relation_typeFrom.GongCopyBasicFields(spec_relation_typeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6282,15 +4749,11 @@ func GongCopyBranchSPEC_RELATION_TYPE(mapOrigCopy map[any]any, spec_relation_typ
 }
 
 func GongCopyBranchStaticWebSite(mapOrigCopy map[any]any, staticwebsiteFrom *StaticWebSite) (staticwebsiteTo *StaticWebSite) {
-
-	// staticwebsiteFrom has already been copied
-	if _staticwebsiteTo, ok := mapOrigCopy[staticwebsiteFrom]; ok {
-		staticwebsiteTo = _staticwebsiteTo.(*StaticWebSite)
+	var alreadyCopied bool
+	staticwebsiteTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, staticwebsiteFrom)
+	if alreadyCopied {
 		return
 	}
-
-	staticwebsiteTo = new(StaticWebSite)
-	mapOrigCopy[staticwebsiteFrom] = staticwebsiteTo
 	staticwebsiteFrom.GongCopyBasicFields(staticwebsiteTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6304,15 +4767,11 @@ func GongCopyBranchStaticWebSite(mapOrigCopy map[any]any, staticwebsiteFrom *Sta
 }
 
 func GongCopyBranchStaticWebSiteChapter(mapOrigCopy map[any]any, staticwebsitechapterFrom *StaticWebSiteChapter) (staticwebsitechapterTo *StaticWebSiteChapter) {
-
-	// staticwebsitechapterFrom has already been copied
-	if _staticwebsitechapterTo, ok := mapOrigCopy[staticwebsitechapterFrom]; ok {
-		staticwebsitechapterTo = _staticwebsitechapterTo.(*StaticWebSiteChapter)
+	var alreadyCopied bool
+	staticwebsitechapterTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, staticwebsitechapterFrom)
+	if alreadyCopied {
 		return
 	}
-
-	staticwebsitechapterTo = new(StaticWebSiteChapter)
-	mapOrigCopy[staticwebsitechapterFrom] = staticwebsitechapterTo
 	staticwebsitechapterFrom.GongCopyBasicFields(staticwebsitechapterTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6326,15 +4785,11 @@ func GongCopyBranchStaticWebSiteChapter(mapOrigCopy map[any]any, staticwebsitech
 }
 
 func GongCopyBranchStaticWebSiteGeneratedImage(mapOrigCopy map[any]any, staticwebsitegeneratedimageFrom *StaticWebSiteGeneratedImage) (staticwebsitegeneratedimageTo *StaticWebSiteGeneratedImage) {
-
-	// staticwebsitegeneratedimageFrom has already been copied
-	if _staticwebsitegeneratedimageTo, ok := mapOrigCopy[staticwebsitegeneratedimageFrom]; ok {
-		staticwebsitegeneratedimageTo = _staticwebsitegeneratedimageTo.(*StaticWebSiteGeneratedImage)
+	var alreadyCopied bool
+	staticwebsitegeneratedimageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, staticwebsitegeneratedimageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	staticwebsitegeneratedimageTo = new(StaticWebSiteGeneratedImage)
-	mapOrigCopy[staticwebsitegeneratedimageFrom] = staticwebsitegeneratedimageTo
 	staticwebsitegeneratedimageFrom.GongCopyBasicFields(staticwebsitegeneratedimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6345,15 +4800,11 @@ func GongCopyBranchStaticWebSiteGeneratedImage(mapOrigCopy map[any]any, staticwe
 }
 
 func GongCopyBranchStaticWebSiteImage(mapOrigCopy map[any]any, staticwebsiteimageFrom *StaticWebSiteImage) (staticwebsiteimageTo *StaticWebSiteImage) {
-
-	// staticwebsiteimageFrom has already been copied
-	if _staticwebsiteimageTo, ok := mapOrigCopy[staticwebsiteimageFrom]; ok {
-		staticwebsiteimageTo = _staticwebsiteimageTo.(*StaticWebSiteImage)
+	var alreadyCopied bool
+	staticwebsiteimageTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, staticwebsiteimageFrom)
+	if alreadyCopied {
 		return
 	}
-
-	staticwebsiteimageTo = new(StaticWebSiteImage)
-	mapOrigCopy[staticwebsiteimageFrom] = staticwebsiteimageTo
 	staticwebsiteimageFrom.GongCopyBasicFields(staticwebsiteimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6364,15 +4815,11 @@ func GongCopyBranchStaticWebSiteImage(mapOrigCopy map[any]any, staticwebsiteimag
 }
 
 func GongCopyBranchStaticWebSiteParagraph(mapOrigCopy map[any]any, staticwebsiteparagraphFrom *StaticWebSiteParagraph) (staticwebsiteparagraphTo *StaticWebSiteParagraph) {
-
-	// staticwebsiteparagraphFrom has already been copied
-	if _staticwebsiteparagraphTo, ok := mapOrigCopy[staticwebsiteparagraphFrom]; ok {
-		staticwebsiteparagraphTo = _staticwebsiteparagraphTo.(*StaticWebSiteParagraph)
+	var alreadyCopied bool
+	staticwebsiteparagraphTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, staticwebsiteparagraphFrom)
+	if alreadyCopied {
 		return
 	}
-
-	staticwebsiteparagraphTo = new(StaticWebSiteParagraph)
-	mapOrigCopy[staticwebsiteparagraphFrom] = staticwebsiteparagraphTo
 	staticwebsiteparagraphFrom.GongCopyBasicFields(staticwebsiteparagraphTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6386,15 +4833,11 @@ func GongCopyBranchStaticWebSiteParagraph(mapOrigCopy map[any]any, staticwebsite
 }
 
 func GongCopyBranchXHTML_CONTENT(mapOrigCopy map[any]any, xhtml_contentFrom *XHTML_CONTENT) (xhtml_contentTo *XHTML_CONTENT) {
-
-	// xhtml_contentFrom has already been copied
-	if _xhtml_contentTo, ok := mapOrigCopy[xhtml_contentFrom]; ok {
-		xhtml_contentTo = _xhtml_contentTo.(*XHTML_CONTENT)
+	var alreadyCopied bool
+	xhtml_contentTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, xhtml_contentFrom)
+	if alreadyCopied {
 		return
 	}
-
-	xhtml_contentTo = new(XHTML_CONTENT)
-	mapOrigCopy[xhtml_contentFrom] = xhtml_contentTo
 	xhtml_contentFrom.GongCopyBasicFields(xhtml_contentTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -6417,10 +4860,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (alternative_id *ALTERNATIVE_ID) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchALTERNATIVE_ID(alternative_id)
-}
-
-func (stage *Stage) UnstageBranchALTERNATIVE_ID(alternative_id *ALTERNATIVE_ID) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(alternative_id) {
@@ -6436,10 +4875,6 @@ func (stage *Stage) UnstageBranchALTERNATIVE_ID(alternative_id *ALTERNATIVE_ID) 
 }
 
 func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition_boolean)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_boolean) {
@@ -6464,10 +4899,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN(attribute_definiti
 }
 
 func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_definition_boolean_rendering)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_boolean_rendering) {
@@ -6483,10 +4914,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribut
 }
 
 func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_DATE(attribute_definition_date)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_DATE(attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_date) {
@@ -6511,10 +4938,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_DATE(attribute_definition_
 }
 
 func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_DATE_Rendering(attribute_definition_date_rendering)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_DATE_Rendering(attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_date_rendering) {
@@ -6530,10 +4953,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_DATE_Rendering(attribute_d
 }
 
 func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION(attribute_definition_enumeration)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION(attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_enumeration) {
@@ -6558,10 +4977,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION(attribute_defi
 }
 
 func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attribute_definition_enumeration_rendering)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_enumeration_rendering) {
@@ -6577,10 +4992,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attr
 }
 
 func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_INTEGER(attribute_definition_integer)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_INTEGER(attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_integer) {
@@ -6605,10 +5016,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_INTEGER(attribute_definiti
 }
 
 func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_definition_integer_rendering)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_integer_rendering) {
@@ -6624,10 +5031,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(attribut
 }
 
 func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_REAL(attribute_definition_real)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_REAL(attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_real) {
@@ -6652,10 +5055,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_REAL(attribute_definition_
 }
 
 func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_REAL_Rendering(attribute_definition_real_rendering)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_REAL_Rendering(attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_real_rendering) {
@@ -6671,10 +5070,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_REAL_Rendering(attribute_d
 }
 
 func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_Rendering(attribute_definition_rendering)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_Rendering(attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_rendering) {
@@ -6690,10 +5085,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_Rendering(attribute_defini
 }
 
 func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_STRING(attribute_definition_string)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_STRING(attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_string) {
@@ -6718,10 +5109,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_STRING(attribute_definitio
 }
 
 func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_STRING_Rendering(attribute_definition_string_rendering)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_STRING_Rendering(attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_string_rendering) {
@@ -6737,10 +5124,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_STRING_Rendering(attribute
 }
 
 func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_XHTML(attribute_definition_xhtml)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_XHTML(attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_xhtml) {
@@ -6765,10 +5148,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_XHTML(attribute_definition
 }
 
 func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_definition_xhtml_rendering)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_definition_xhtml_rendering) {
@@ -6784,10 +5163,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_
 }
 
 func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_value_boolean) {
@@ -6806,10 +5181,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean
 }
 
 func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_VALUE_DATE(attribute_value_date)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_DATE(attribute_value_date *ATTRIBUTE_VALUE_DATE) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_value_date) {
@@ -6828,10 +5199,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_DATE(attribute_value_date *ATTR
 }
 
 func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_VALUE_ENUMERATION(attribute_value_enumeration)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_ENUMERATION(attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_value_enumeration) {
@@ -6853,10 +5220,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_ENUMERATION(attribute_value_enu
 }
 
 func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_VALUE_INTEGER(attribute_value_integer)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_INTEGER(attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_value_integer) {
@@ -6875,10 +5238,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_INTEGER(attribute_value_integer
 }
 
 func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_VALUE_REAL(attribute_value_real)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_REAL(attribute_value_real *ATTRIBUTE_VALUE_REAL) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_value_real) {
@@ -6897,10 +5256,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_REAL(attribute_value_real *ATTR
 }
 
 func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_VALUE_STRING(attribute_value_string)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_STRING(attribute_value_string *ATTRIBUTE_VALUE_STRING) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_value_string) {
@@ -6919,10 +5274,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_STRING(attribute_value_string *
 }
 
 func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchATTRIBUTE_VALUE_XHTML(attribute_value_xhtml)
-}
-
-func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_XHTML(attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(attribute_value_xhtml) {
@@ -6947,10 +5298,6 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_XHTML(attribute_value_xhtml *AT
 }
 
 func (a_alternative_id *A_ALTERNATIVE_ID) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ALTERNATIVE_ID(a_alternative_id)
-}
-
-func (stage *Stage) UnstageBranchA_ALTERNATIVE_ID(a_alternative_id *A_ALTERNATIVE_ID) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_alternative_id) {
@@ -6969,10 +5316,6 @@ func (stage *Stage) UnstageBranchA_ALTERNATIVE_ID(a_alternative_id *A_ALTERNATIV
 }
 
 func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_definition_boolean_ref)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_definition_boolean_ref) {
@@ -6988,10 +5331,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_
 }
 
 func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_definition_date_ref)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_definition_date_ref) {
@@ -7007,10 +5346,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_def
 }
 
 func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribute_definition_enumeration_ref)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_definition_enumeration_ref) {
@@ -7026,10 +5361,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attrib
 }
 
 func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_definition_integer_ref)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_definition_integer_ref) {
@@ -7045,10 +5376,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_
 }
 
 func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_definition_real_ref)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_definition_real_ref) {
@@ -7064,10 +5391,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_def
 }
 
 func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_definition_string_ref)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_definition_string_ref) {
@@ -7083,10 +5406,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_d
 }
 
 func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_definition_xhtml_ref)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_definition_xhtml_ref) {
@@ -7102,10 +5421,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_de
 }
 
 func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boolean)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_value_boolean) {
@@ -7124,10 +5439,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boo
 }
 
 func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_value_date) {
@@ -7146,10 +5457,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date *
 }
 
 func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_enumeration)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_value_enumeration) {
@@ -7168,10 +5475,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value
 }
 
 func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integer)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_value_integer) {
@@ -7190,10 +5493,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_int
 }
 
 func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_value_real) {
@@ -7212,10 +5511,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real *
 }
 
 func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_value_string) {
@@ -7234,10 +5529,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_STRING(a_attribute_value_stri
 }
 
 func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_value_xhtml) {
@@ -7256,10 +5547,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml
 }
 
 func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml_1)
-}
-
-func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_attribute_value_xhtml_1) {
@@ -7296,10 +5583,6 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xht
 }
 
 func (a_children *A_CHILDREN) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_CHILDREN(a_children)
-}
-
-func (stage *Stage) UnstageBranchA_CHILDREN(a_children *A_CHILDREN) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_children) {
@@ -7318,10 +5601,6 @@ func (stage *Stage) UnstageBranchA_CHILDREN(a_children *A_CHILDREN) {
 }
 
 func (a_core_content *A_CORE_CONTENT) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_CORE_CONTENT(a_core_content)
-}
-
-func (stage *Stage) UnstageBranchA_CORE_CONTENT(a_core_content *A_CORE_CONTENT) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_core_content) {
@@ -7340,10 +5619,6 @@ func (stage *Stage) UnstageBranchA_CORE_CONTENT(a_core_content *A_CORE_CONTENT) 
 }
 
 func (a_datatypes *A_DATATYPES) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_DATATYPES(a_datatypes)
-}
-
-func (stage *Stage) UnstageBranchA_DATATYPES(a_datatypes *A_DATATYPES) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_datatypes) {
@@ -7380,10 +5655,6 @@ func (stage *Stage) UnstageBranchA_DATATYPES(a_datatypes *A_DATATYPES) {
 }
 
 func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_definition_boolean_ref)
-}
-
-func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_datatype_definition_boolean_ref) {
@@ -7399,10 +5670,6 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_de
 }
 
 func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definition_date_ref)
-}
-
-func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_datatype_definition_date_ref) {
@@ -7418,10 +5685,6 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_DATE_REF(a_datatype_defin
 }
 
 func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_definition_enumeration_ref)
-}
-
-func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_datatype_definition_enumeration_ref) {
@@ -7437,10 +5700,6 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatyp
 }
 
 func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_definition_integer_ref)
-}
-
-func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_datatype_definition_integer_ref) {
@@ -7456,10 +5715,6 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_de
 }
 
 func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definition_real_ref)
-}
-
-func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_datatype_definition_real_ref) {
@@ -7475,10 +5730,6 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_REAL_REF(a_datatype_defin
 }
 
 func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_DATATYPE_DEFINITION_STRING_REF(a_datatype_definition_string_ref)
-}
-
-func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_STRING_REF(a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_datatype_definition_string_ref) {
@@ -7494,10 +5745,6 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_STRING_REF(a_datatype_def
 }
 
 func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_definition_xhtml_ref)
-}
-
-func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_datatype_definition_xhtml_ref) {
@@ -7513,10 +5760,6 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_defi
 }
 
 func (a_editable_atts *A_EDITABLE_ATTS) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_EDITABLE_ATTS(a_editable_atts)
-}
-
-func (stage *Stage) UnstageBranchA_EDITABLE_ATTS(a_editable_atts *A_EDITABLE_ATTS) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_editable_atts) {
@@ -7532,10 +5775,6 @@ func (stage *Stage) UnstageBranchA_EDITABLE_ATTS(a_editable_atts *A_EDITABLE_ATT
 }
 
 func (a_enum_value_ref *A_ENUM_VALUE_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_ENUM_VALUE_REF(a_enum_value_ref)
-}
-
-func (stage *Stage) UnstageBranchA_ENUM_VALUE_REF(a_enum_value_ref *A_ENUM_VALUE_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_enum_value_ref) {
@@ -7551,10 +5790,6 @@ func (stage *Stage) UnstageBranchA_ENUM_VALUE_REF(a_enum_value_ref *A_ENUM_VALUE
 }
 
 func (a_object *A_OBJECT) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_OBJECT(a_object)
-}
-
-func (stage *Stage) UnstageBranchA_OBJECT(a_object *A_OBJECT) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_object) {
@@ -7570,10 +5805,6 @@ func (stage *Stage) UnstageBranchA_OBJECT(a_object *A_OBJECT) {
 }
 
 func (a_properties *A_PROPERTIES) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_PROPERTIES(a_properties)
-}
-
-func (stage *Stage) UnstageBranchA_PROPERTIES(a_properties *A_PROPERTIES) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_properties) {
@@ -7592,10 +5823,6 @@ func (stage *Stage) UnstageBranchA_PROPERTIES(a_properties *A_PROPERTIES) {
 }
 
 func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_RELATION_GROUP_TYPE_REF(a_relation_group_type_ref)
-}
-
-func (stage *Stage) UnstageBranchA_RELATION_GROUP_TYPE_REF(a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_relation_group_type_ref) {
@@ -7611,10 +5838,6 @@ func (stage *Stage) UnstageBranchA_RELATION_GROUP_TYPE_REF(a_relation_group_type
 }
 
 func (a_source_1 *A_SOURCE_1) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SOURCE_1(a_source_1)
-}
-
-func (stage *Stage) UnstageBranchA_SOURCE_1(a_source_1 *A_SOURCE_1) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_source_1) {
@@ -7630,10 +5853,6 @@ func (stage *Stage) UnstageBranchA_SOURCE_1(a_source_1 *A_SOURCE_1) {
 }
 
 func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SOURCE_SPECIFICATION_1(a_source_specification_1)
-}
-
-func (stage *Stage) UnstageBranchA_SOURCE_SPECIFICATION_1(a_source_specification_1 *A_SOURCE_SPECIFICATION_1) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_source_specification_1) {
@@ -7649,10 +5868,6 @@ func (stage *Stage) UnstageBranchA_SOURCE_SPECIFICATION_1(a_source_specification
 }
 
 func (a_specifications *A_SPECIFICATIONS) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SPECIFICATIONS(a_specifications)
-}
-
-func (stage *Stage) UnstageBranchA_SPECIFICATIONS(a_specifications *A_SPECIFICATIONS) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_specifications) {
@@ -7671,10 +5886,6 @@ func (stage *Stage) UnstageBranchA_SPECIFICATIONS(a_specifications *A_SPECIFICAT
 }
 
 func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SPECIFICATION_TYPE_REF(a_specification_type_ref)
-}
-
-func (stage *Stage) UnstageBranchA_SPECIFICATION_TYPE_REF(a_specification_type_ref *A_SPECIFICATION_TYPE_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_specification_type_ref) {
@@ -7690,10 +5901,6 @@ func (stage *Stage) UnstageBranchA_SPECIFICATION_TYPE_REF(a_specification_type_r
 }
 
 func (a_specified_values *A_SPECIFIED_VALUES) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SPECIFIED_VALUES(a_specified_values)
-}
-
-func (stage *Stage) UnstageBranchA_SPECIFIED_VALUES(a_specified_values *A_SPECIFIED_VALUES) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_specified_values) {
@@ -7712,10 +5919,6 @@ func (stage *Stage) UnstageBranchA_SPECIFIED_VALUES(a_specified_values *A_SPECIF
 }
 
 func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SPEC_ATTRIBUTES(a_spec_attributes)
-}
-
-func (stage *Stage) UnstageBranchA_SPEC_ATTRIBUTES(a_spec_attributes *A_SPEC_ATTRIBUTES) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_spec_attributes) {
@@ -7752,10 +5955,6 @@ func (stage *Stage) UnstageBranchA_SPEC_ATTRIBUTES(a_spec_attributes *A_SPEC_ATT
 }
 
 func (a_spec_objects *A_SPEC_OBJECTS) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SPEC_OBJECTS(a_spec_objects)
-}
-
-func (stage *Stage) UnstageBranchA_SPEC_OBJECTS(a_spec_objects *A_SPEC_OBJECTS) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_spec_objects) {
@@ -7774,10 +5973,6 @@ func (stage *Stage) UnstageBranchA_SPEC_OBJECTS(a_spec_objects *A_SPEC_OBJECTS) 
 }
 
 func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref)
-}
-
-func (stage *Stage) UnstageBranchA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_spec_object_type_ref) {
@@ -7793,10 +5988,6 @@ func (stage *Stage) UnstageBranchA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref *
 }
 
 func (a_spec_relations *A_SPEC_RELATIONS) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SPEC_RELATIONS(a_spec_relations)
-}
-
-func (stage *Stage) UnstageBranchA_SPEC_RELATIONS(a_spec_relations *A_SPEC_RELATIONS) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_spec_relations) {
@@ -7815,10 +6006,6 @@ func (stage *Stage) UnstageBranchA_SPEC_RELATIONS(a_spec_relations *A_SPEC_RELAT
 }
 
 func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SPEC_RELATION_GROUPS(a_spec_relation_groups)
-}
-
-func (stage *Stage) UnstageBranchA_SPEC_RELATION_GROUPS(a_spec_relation_groups *A_SPEC_RELATION_GROUPS) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_spec_relation_groups) {
@@ -7837,10 +6024,6 @@ func (stage *Stage) UnstageBranchA_SPEC_RELATION_GROUPS(a_spec_relation_groups *
 }
 
 func (a_spec_relation_ref *A_SPEC_RELATION_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SPEC_RELATION_REF(a_spec_relation_ref)
-}
-
-func (stage *Stage) UnstageBranchA_SPEC_RELATION_REF(a_spec_relation_ref *A_SPEC_RELATION_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_spec_relation_ref) {
@@ -7856,10 +6039,6 @@ func (stage *Stage) UnstageBranchA_SPEC_RELATION_REF(a_spec_relation_ref *A_SPEC
 }
 
 func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref)
-}
-
-func (stage *Stage) UnstageBranchA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_spec_relation_type_ref) {
@@ -7875,10 +6054,6 @@ func (stage *Stage) UnstageBranchA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_r
 }
 
 func (a_spec_types *A_SPEC_TYPES) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_SPEC_TYPES(a_spec_types)
-}
-
-func (stage *Stage) UnstageBranchA_SPEC_TYPES(a_spec_types *A_SPEC_TYPES) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_spec_types) {
@@ -7906,10 +6081,6 @@ func (stage *Stage) UnstageBranchA_SPEC_TYPES(a_spec_types *A_SPEC_TYPES) {
 }
 
 func (a_the_header *A_THE_HEADER) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_THE_HEADER(a_the_header)
-}
-
-func (stage *Stage) UnstageBranchA_THE_HEADER(a_the_header *A_THE_HEADER) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_the_header) {
@@ -7928,10 +6099,6 @@ func (stage *Stage) UnstageBranchA_THE_HEADER(a_the_header *A_THE_HEADER) {
 }
 
 func (a_tool_extensions *A_TOOL_EXTENSIONS) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchA_TOOL_EXTENSIONS(a_tool_extensions)
-}
-
-func (stage *Stage) UnstageBranchA_TOOL_EXTENSIONS(a_tool_extensions *A_TOOL_EXTENSIONS) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(a_tool_extensions) {
@@ -7950,10 +6117,6 @@ func (stage *Stage) UnstageBranchA_TOOL_EXTENSIONS(a_tool_extensions *A_TOOL_EXT
 }
 
 func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDATATYPE_DEFINITION_BOOLEAN(datatype_definition_boolean)
-}
-
-func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_BOOLEAN(datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(datatype_definition_boolean) {
@@ -7972,10 +6135,6 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_BOOLEAN(datatype_definition
 }
 
 func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDATATYPE_DEFINITION_DATE(datatype_definition_date)
-}
-
-func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_DATE(datatype_definition_date *DATATYPE_DEFINITION_DATE) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(datatype_definition_date) {
@@ -7994,10 +6153,6 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_DATE(datatype_definition_da
 }
 
 func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDATATYPE_DEFINITION_ENUMERATION(datatype_definition_enumeration)
-}
-
-func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_ENUMERATION(datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(datatype_definition_enumeration) {
@@ -8019,10 +6174,6 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_ENUMERATION(datatype_defini
 }
 
 func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDATATYPE_DEFINITION_INTEGER(datatype_definition_integer)
-}
-
-func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_INTEGER(datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(datatype_definition_integer) {
@@ -8041,10 +6192,6 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_INTEGER(datatype_definition
 }
 
 func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDATATYPE_DEFINITION_REAL(datatype_definition_real)
-}
-
-func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_REAL(datatype_definition_real *DATATYPE_DEFINITION_REAL) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(datatype_definition_real) {
@@ -8063,10 +6210,6 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_REAL(datatype_definition_re
 }
 
 func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDATATYPE_DEFINITION_STRING(datatype_definition_string)
-}
-
-func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_STRING(datatype_definition_string *DATATYPE_DEFINITION_STRING) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(datatype_definition_string) {
@@ -8085,10 +6228,6 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_STRING(datatype_definition_
 }
 
 func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDATATYPE_DEFINITION_XHTML(datatype_definition_xhtml)
-}
-
-func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_XHTML(datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(datatype_definition_xhtml) {
@@ -8107,10 +6246,6 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_XHTML(datatype_definition_x
 }
 
 func (embedded_value *EMBEDDED_VALUE) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchEMBEDDED_VALUE(embedded_value)
-}
-
-func (stage *Stage) UnstageBranchEMBEDDED_VALUE(embedded_value *EMBEDDED_VALUE) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(embedded_value) {
@@ -8126,10 +6261,6 @@ func (stage *Stage) UnstageBranchEMBEDDED_VALUE(embedded_value *EMBEDDED_VALUE) 
 }
 
 func (enum_value *ENUM_VALUE) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchENUM_VALUE(enum_value)
-}
-
-func (stage *Stage) UnstageBranchENUM_VALUE(enum_value *ENUM_VALUE) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(enum_value) {
@@ -8151,10 +6282,6 @@ func (stage *Stage) UnstageBranchENUM_VALUE(enum_value *ENUM_VALUE) {
 }
 
 func (embeddedjpgimage *EmbeddedJpgImage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchEmbeddedJpgImage(embeddedjpgimage)
-}
-
-func (stage *Stage) UnstageBranchEmbeddedJpgImage(embeddedjpgimage *EmbeddedJpgImage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(embeddedjpgimage) {
@@ -8170,10 +6297,6 @@ func (stage *Stage) UnstageBranchEmbeddedJpgImage(embeddedjpgimage *EmbeddedJpgI
 }
 
 func (embeddedpngimage *EmbeddedPngImage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchEmbeddedPngImage(embeddedpngimage)
-}
-
-func (stage *Stage) UnstageBranchEmbeddedPngImage(embeddedpngimage *EmbeddedPngImage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(embeddedpngimage) {
@@ -8189,10 +6312,6 @@ func (stage *Stage) UnstageBranchEmbeddedPngImage(embeddedpngimage *EmbeddedPngI
 }
 
 func (embeddedsvgimage *EmbeddedSvgImage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchEmbeddedSvgImage(embeddedsvgimage)
-}
-
-func (stage *Stage) UnstageBranchEmbeddedSvgImage(embeddedsvgimage *EmbeddedSvgImage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(embeddedsvgimage) {
@@ -8208,10 +6327,6 @@ func (stage *Stage) UnstageBranchEmbeddedSvgImage(embeddedsvgimage *EmbeddedSvgI
 }
 
 func (kill *Kill) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchKill(kill)
-}
-
-func (stage *Stage) UnstageBranchKill(kill *Kill) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(kill) {
@@ -8227,10 +6342,6 @@ func (stage *Stage) UnstageBranchKill(kill *Kill) {
 }
 
 func (map_identifier_bool *Map_identifier_bool) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchMap_identifier_bool(map_identifier_bool)
-}
-
-func (stage *Stage) UnstageBranchMap_identifier_bool(map_identifier_bool *Map_identifier_bool) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(map_identifier_bool) {
@@ -8246,10 +6357,6 @@ func (stage *Stage) UnstageBranchMap_identifier_bool(map_identifier_bool *Map_id
 }
 
 func (relation_group *RELATION_GROUP) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchRELATION_GROUP(relation_group)
-}
-
-func (stage *Stage) UnstageBranchRELATION_GROUP(relation_group *RELATION_GROUP) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(relation_group) {
@@ -8280,10 +6387,6 @@ func (stage *Stage) UnstageBranchRELATION_GROUP(relation_group *RELATION_GROUP) 
 }
 
 func (relation_group_type *RELATION_GROUP_TYPE) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchRELATION_GROUP_TYPE(relation_group_type)
-}
-
-func (stage *Stage) UnstageBranchRELATION_GROUP_TYPE(relation_group_type *RELATION_GROUP_TYPE) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(relation_group_type) {
@@ -8305,10 +6408,6 @@ func (stage *Stage) UnstageBranchRELATION_GROUP_TYPE(relation_group_type *RELATI
 }
 
 func (req_if *REQ_IF) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchREQ_IF(req_if)
-}
-
-func (stage *Stage) UnstageBranchREQ_IF(req_if *REQ_IF) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(req_if) {
@@ -8333,10 +6432,6 @@ func (stage *Stage) UnstageBranchREQ_IF(req_if *REQ_IF) {
 }
 
 func (req_if_content *REQ_IF_CONTENT) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchREQ_IF_CONTENT(req_if_content)
-}
-
-func (stage *Stage) UnstageBranchREQ_IF_CONTENT(req_if_content *REQ_IF_CONTENT) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(req_if_content) {
@@ -8370,10 +6465,6 @@ func (stage *Stage) UnstageBranchREQ_IF_CONTENT(req_if_content *REQ_IF_CONTENT) 
 }
 
 func (req_if_header *REQ_IF_HEADER) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchREQ_IF_HEADER(req_if_header)
-}
-
-func (stage *Stage) UnstageBranchREQ_IF_HEADER(req_if_header *REQ_IF_HEADER) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(req_if_header) {
@@ -8389,10 +6480,6 @@ func (stage *Stage) UnstageBranchREQ_IF_HEADER(req_if_header *REQ_IF_HEADER) {
 }
 
 func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchREQ_IF_TOOL_EXTENSION(req_if_tool_extension)
-}
-
-func (stage *Stage) UnstageBranchREQ_IF_TOOL_EXTENSION(req_if_tool_extension *REQ_IF_TOOL_EXTENSION) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(req_if_tool_extension) {
@@ -8408,10 +6495,6 @@ func (stage *Stage) UnstageBranchREQ_IF_TOOL_EXTENSION(req_if_tool_extension *RE
 }
 
 func (specification *SPECIFICATION) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSPECIFICATION(specification)
-}
-
-func (stage *Stage) UnstageBranchSPECIFICATION(specification *SPECIFICATION) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(specification) {
@@ -8439,10 +6522,6 @@ func (stage *Stage) UnstageBranchSPECIFICATION(specification *SPECIFICATION) {
 }
 
 func (specification_rendering *SPECIFICATION_Rendering) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSPECIFICATION_Rendering(specification_rendering)
-}
-
-func (stage *Stage) UnstageBranchSPECIFICATION_Rendering(specification_rendering *SPECIFICATION_Rendering) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(specification_rendering) {
@@ -8458,10 +6537,6 @@ func (stage *Stage) UnstageBranchSPECIFICATION_Rendering(specification_rendering
 }
 
 func (specification_type *SPECIFICATION_TYPE) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSPECIFICATION_TYPE(specification_type)
-}
-
-func (stage *Stage) UnstageBranchSPECIFICATION_TYPE(specification_type *SPECIFICATION_TYPE) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(specification_type) {
@@ -8483,10 +6558,6 @@ func (stage *Stage) UnstageBranchSPECIFICATION_TYPE(specification_type *SPECIFIC
 }
 
 func (spec_hierarchy *SPEC_HIERARCHY) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSPEC_HIERARCHY(spec_hierarchy)
-}
-
-func (stage *Stage) UnstageBranchSPEC_HIERARCHY(spec_hierarchy *SPEC_HIERARCHY) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(spec_hierarchy) {
@@ -8514,10 +6585,6 @@ func (stage *Stage) UnstageBranchSPEC_HIERARCHY(spec_hierarchy *SPEC_HIERARCHY) 
 }
 
 func (spec_object *SPEC_OBJECT) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSPEC_OBJECT(spec_object)
-}
-
-func (stage *Stage) UnstageBranchSPEC_OBJECT(spec_object *SPEC_OBJECT) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(spec_object) {
@@ -8542,10 +6609,6 @@ func (stage *Stage) UnstageBranchSPEC_OBJECT(spec_object *SPEC_OBJECT) {
 }
 
 func (spec_object_type *SPEC_OBJECT_TYPE) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSPEC_OBJECT_TYPE(spec_object_type)
-}
-
-func (stage *Stage) UnstageBranchSPEC_OBJECT_TYPE(spec_object_type *SPEC_OBJECT_TYPE) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(spec_object_type) {
@@ -8567,10 +6630,6 @@ func (stage *Stage) UnstageBranchSPEC_OBJECT_TYPE(spec_object_type *SPEC_OBJECT_
 }
 
 func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSPEC_OBJECT_TYPE_Rendering(spec_object_type_rendering)
-}
-
-func (stage *Stage) UnstageBranchSPEC_OBJECT_TYPE_Rendering(spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(spec_object_type_rendering) {
@@ -8586,10 +6645,6 @@ func (stage *Stage) UnstageBranchSPEC_OBJECT_TYPE_Rendering(spec_object_type_ren
 }
 
 func (spec_relation *SPEC_RELATION) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSPEC_RELATION(spec_relation)
-}
-
-func (stage *Stage) UnstageBranchSPEC_RELATION(spec_relation *SPEC_RELATION) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(spec_relation) {
@@ -8620,10 +6675,6 @@ func (stage *Stage) UnstageBranchSPEC_RELATION(spec_relation *SPEC_RELATION) {
 }
 
 func (spec_relation_type *SPEC_RELATION_TYPE) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSPEC_RELATION_TYPE(spec_relation_type)
-}
-
-func (stage *Stage) UnstageBranchSPEC_RELATION_TYPE(spec_relation_type *SPEC_RELATION_TYPE) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(spec_relation_type) {
@@ -8645,10 +6696,6 @@ func (stage *Stage) UnstageBranchSPEC_RELATION_TYPE(spec_relation_type *SPEC_REL
 }
 
 func (staticwebsite *StaticWebSite) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchStaticWebSite(staticwebsite)
-}
-
-func (stage *Stage) UnstageBranchStaticWebSite(staticwebsite *StaticWebSite) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(staticwebsite) {
@@ -8667,10 +6714,6 @@ func (stage *Stage) UnstageBranchStaticWebSite(staticwebsite *StaticWebSite) {
 }
 
 func (staticwebsitechapter *StaticWebSiteChapter) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchStaticWebSiteChapter(staticwebsitechapter)
-}
-
-func (stage *Stage) UnstageBranchStaticWebSiteChapter(staticwebsitechapter *StaticWebSiteChapter) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(staticwebsitechapter) {
@@ -8689,10 +6732,6 @@ func (stage *Stage) UnstageBranchStaticWebSiteChapter(staticwebsitechapter *Stat
 }
 
 func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchStaticWebSiteGeneratedImage(staticwebsitegeneratedimage)
-}
-
-func (stage *Stage) UnstageBranchStaticWebSiteGeneratedImage(staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(staticwebsitegeneratedimage) {
@@ -8708,10 +6747,6 @@ func (stage *Stage) UnstageBranchStaticWebSiteGeneratedImage(staticwebsitegenera
 }
 
 func (staticwebsiteimage *StaticWebSiteImage) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchStaticWebSiteImage(staticwebsiteimage)
-}
-
-func (stage *Stage) UnstageBranchStaticWebSiteImage(staticwebsiteimage *StaticWebSiteImage) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(staticwebsiteimage) {
@@ -8727,10 +6762,6 @@ func (stage *Stage) UnstageBranchStaticWebSiteImage(staticwebsiteimage *StaticWe
 }
 
 func (staticwebsiteparagraph *StaticWebSiteParagraph) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchStaticWebSiteParagraph(staticwebsiteparagraph)
-}
-
-func (stage *Stage) UnstageBranchStaticWebSiteParagraph(staticwebsiteparagraph *StaticWebSiteParagraph) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(staticwebsiteparagraph) {
@@ -8749,10 +6780,6 @@ func (stage *Stage) UnstageBranchStaticWebSiteParagraph(staticwebsiteparagraph *
 }
 
 func (xhtml_content *XHTML_CONTENT) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchXHTML_CONTENT(xhtml_content)
-}
-
-func (stage *Stage) UnstageBranchXHTML_CONTENT(xhtml_content *XHTML_CONTENT) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(xhtml_content) {
@@ -8775,15 +6802,9 @@ func (reference *ALTERNATIVE_ID) GongReconstructPointersFromReferences(stage *St
 
 func (reference *ATTRIBUTE_DEFINITION_BOOLEAN) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_BOOLEAN) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.DEFAULT_VALUE != nil {
-		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_BOOLEANs_reference[instance.DEFAULT_VALUE]
-	}
-	if instance.TYPE != nil {
-		reference.TYPE = stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_reference[instance.TYPE]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_BOOLEANs_reference, instance.DEFAULT_VALUE)
+	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_reference, instance.TYPE)
 	// insertion point for slice of pointers field
 }
 
@@ -8794,15 +6815,9 @@ func (reference *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongReconstructPointers
 
 func (reference *ATTRIBUTE_DEFINITION_DATE) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_DATE) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.DEFAULT_VALUE != nil {
-		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_DATEs_reference[instance.DEFAULT_VALUE]
-	}
-	if instance.TYPE != nil {
-		reference.TYPE = stage.A_DATATYPE_DEFINITION_DATE_REFs_reference[instance.TYPE]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_DATEs_reference, instance.DEFAULT_VALUE)
+	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_DATE_REFs_reference, instance.TYPE)
 	// insertion point for slice of pointers field
 }
 
@@ -8813,15 +6828,9 @@ func (reference *ATTRIBUTE_DEFINITION_DATE_Rendering) GongReconstructPointersFro
 
 func (reference *ATTRIBUTE_DEFINITION_ENUMERATION) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_ENUMERATION) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.DEFAULT_VALUE != nil {
-		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_reference[instance.DEFAULT_VALUE]
-	}
-	if instance.TYPE != nil {
-		reference.TYPE = stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_reference[instance.TYPE]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_reference, instance.DEFAULT_VALUE)
+	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_reference, instance.TYPE)
 	// insertion point for slice of pointers field
 }
 
@@ -8832,15 +6841,9 @@ func (reference *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongReconstructPoin
 
 func (reference *ATTRIBUTE_DEFINITION_INTEGER) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_INTEGER) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.DEFAULT_VALUE != nil {
-		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_INTEGERs_reference[instance.DEFAULT_VALUE]
-	}
-	if instance.TYPE != nil {
-		reference.TYPE = stage.A_DATATYPE_DEFINITION_INTEGER_REFs_reference[instance.TYPE]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_INTEGERs_reference, instance.DEFAULT_VALUE)
+	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_INTEGER_REFs_reference, instance.TYPE)
 	// insertion point for slice of pointers field
 }
 
@@ -8851,15 +6854,9 @@ func (reference *ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongReconstructPointers
 
 func (reference *ATTRIBUTE_DEFINITION_REAL) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_REAL) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.DEFAULT_VALUE != nil {
-		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_REALs_reference[instance.DEFAULT_VALUE]
-	}
-	if instance.TYPE != nil {
-		reference.TYPE = stage.A_DATATYPE_DEFINITION_REAL_REFs_reference[instance.TYPE]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_REALs_reference, instance.DEFAULT_VALUE)
+	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_REAL_REFs_reference, instance.TYPE)
 	// insertion point for slice of pointers field
 }
 
@@ -8875,15 +6872,9 @@ func (reference *ATTRIBUTE_DEFINITION_Rendering) GongReconstructPointersFromRefe
 
 func (reference *ATTRIBUTE_DEFINITION_STRING) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_STRING) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.DEFAULT_VALUE != nil {
-		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_STRINGs_reference[instance.DEFAULT_VALUE]
-	}
-	if instance.TYPE != nil {
-		reference.TYPE = stage.A_DATATYPE_DEFINITION_STRING_REFs_reference[instance.TYPE]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_STRINGs_reference, instance.DEFAULT_VALUE)
+	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_STRING_REFs_reference, instance.TYPE)
 	// insertion point for slice of pointers field
 }
 
@@ -8894,15 +6885,9 @@ func (reference *ATTRIBUTE_DEFINITION_STRING_Rendering) GongReconstructPointersF
 
 func (reference *ATTRIBUTE_DEFINITION_XHTML) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_XHTML) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.DEFAULT_VALUE != nil {
-		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_XHTMLs_reference[instance.DEFAULT_VALUE]
-	}
-	if instance.TYPE != nil {
-		reference.TYPE = stage.A_DATATYPE_DEFINITION_XHTML_REFs_reference[instance.TYPE]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_XHTMLs_reference, instance.DEFAULT_VALUE)
+	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_XHTML_REFs_reference, instance.TYPE)
 	// insertion point for slice of pointers field
 }
 
@@ -8913,74 +6898,52 @@ func (reference *ATTRIBUTE_DEFINITION_XHTML_Rendering) GongReconstructPointersFr
 
 func (reference *ATTRIBUTE_VALUE_BOOLEAN) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_BOOLEAN) {
 	// insertion point for pointers field
-	if instance.DEFINITION != nil {
-		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_reference[instance.DEFINITION]
-	}
+	__gong__reconstructPointer(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_reference, instance.DEFINITION)
 	// insertion point for slice of pointers field
 }
 
 func (reference *ATTRIBUTE_VALUE_DATE) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_DATE) {
 	// insertion point for pointers field
-	if instance.DEFINITION != nil {
-		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_reference[instance.DEFINITION]
-	}
+	__gong__reconstructPointer(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_reference, instance.DEFINITION)
 	// insertion point for slice of pointers field
 }
 
 func (reference *ATTRIBUTE_VALUE_ENUMERATION) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_ENUMERATION) {
 	// insertion point for pointers field
-	if instance.DEFINITION != nil {
-		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_reference[instance.DEFINITION]
-	}
-	if instance.VALUES != nil {
-		reference.VALUES = stage.A_ENUM_VALUE_REFs_reference[instance.VALUES]
-	}
+	__gong__reconstructPointer(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_reference, instance.DEFINITION)
+	__gong__reconstructPointer(&reference.VALUES, stage.A_ENUM_VALUE_REFs_reference, instance.VALUES)
 	// insertion point for slice of pointers field
 }
 
 func (reference *ATTRIBUTE_VALUE_INTEGER) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_INTEGER) {
 	// insertion point for pointers field
-	if instance.DEFINITION != nil {
-		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_reference[instance.DEFINITION]
-	}
+	__gong__reconstructPointer(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_reference, instance.DEFINITION)
 	// insertion point for slice of pointers field
 }
 
 func (reference *ATTRIBUTE_VALUE_REAL) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_REAL) {
 	// insertion point for pointers field
-	if instance.DEFINITION != nil {
-		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_reference[instance.DEFINITION]
-	}
+	__gong__reconstructPointer(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_reference, instance.DEFINITION)
 	// insertion point for slice of pointers field
 }
 
 func (reference *ATTRIBUTE_VALUE_STRING) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_STRING) {
 	// insertion point for pointers field
-	if instance.DEFINITION != nil {
-		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_reference[instance.DEFINITION]
-	}
+	__gong__reconstructPointer(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_reference, instance.DEFINITION)
 	// insertion point for slice of pointers field
 }
 
 func (reference *ATTRIBUTE_VALUE_XHTML) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_XHTML) {
 	// insertion point for pointers field
-	if instance.DEFINITION != nil {
-		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_reference[instance.DEFINITION]
-	}
-	if instance.THE_VALUE != nil {
-		reference.THE_VALUE = stage.XHTML_CONTENTs_reference[instance.THE_VALUE]
-	}
-	if instance.THE_ORIGINAL_VALUE != nil {
-		reference.THE_ORIGINAL_VALUE = stage.XHTML_CONTENTs_reference[instance.THE_ORIGINAL_VALUE]
-	}
+	__gong__reconstructPointer(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_reference, instance.DEFINITION)
+	__gong__reconstructPointer(&reference.THE_VALUE, stage.XHTML_CONTENTs_reference, instance.THE_VALUE)
+	__gong__reconstructPointer(&reference.THE_ORIGINAL_VALUE, stage.XHTML_CONTENTs_reference, instance.THE_ORIGINAL_VALUE)
 	// insertion point for slice of pointers field
 }
 
 func (reference *A_ALTERNATIVE_ID) GongReconstructPointersFromReferences(stage *Stage, instance *A_ALTERNATIVE_ID) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	// insertion point for slice of pointers field
 }
 
@@ -9022,147 +6985,79 @@ func (reference *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongReconstructPointersFromRe
 func (reference *A_ATTRIBUTE_VALUE_BOOLEAN) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_BOOLEAN) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.ATTRIBUTE_VALUE_BOOLEAN = reference.ATTRIBUTE_VALUE_BOOLEAN[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_BOOLEAN {
-		reference.ATTRIBUTE_VALUE_BOOLEAN = append(reference.ATTRIBUTE_VALUE_BOOLEAN, stage.ATTRIBUTE_VALUE_BOOLEANs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_BOOLEAN, stage.ATTRIBUTE_VALUE_BOOLEANs_reference, instance.ATTRIBUTE_VALUE_BOOLEAN)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_DATE) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_DATE) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.ATTRIBUTE_VALUE_DATE = reference.ATTRIBUTE_VALUE_DATE[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_DATE {
-		reference.ATTRIBUTE_VALUE_DATE = append(reference.ATTRIBUTE_VALUE_DATE, stage.ATTRIBUTE_VALUE_DATEs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_DATE, stage.ATTRIBUTE_VALUE_DATEs_reference, instance.ATTRIBUTE_VALUE_DATE)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_ENUMERATION) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_ENUMERATION) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.ATTRIBUTE_VALUE_ENUMERATION = reference.ATTRIBUTE_VALUE_ENUMERATION[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_ENUMERATION {
-		reference.ATTRIBUTE_VALUE_ENUMERATION = append(reference.ATTRIBUTE_VALUE_ENUMERATION, stage.ATTRIBUTE_VALUE_ENUMERATIONs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_ENUMERATION, stage.ATTRIBUTE_VALUE_ENUMERATIONs_reference, instance.ATTRIBUTE_VALUE_ENUMERATION)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_INTEGER) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_INTEGER) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.ATTRIBUTE_VALUE_INTEGER = reference.ATTRIBUTE_VALUE_INTEGER[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_INTEGER {
-		reference.ATTRIBUTE_VALUE_INTEGER = append(reference.ATTRIBUTE_VALUE_INTEGER, stage.ATTRIBUTE_VALUE_INTEGERs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_INTEGER, stage.ATTRIBUTE_VALUE_INTEGERs_reference, instance.ATTRIBUTE_VALUE_INTEGER)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_REAL) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_REAL) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.ATTRIBUTE_VALUE_REAL = reference.ATTRIBUTE_VALUE_REAL[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_REAL {
-		reference.ATTRIBUTE_VALUE_REAL = append(reference.ATTRIBUTE_VALUE_REAL, stage.ATTRIBUTE_VALUE_REALs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_REAL, stage.ATTRIBUTE_VALUE_REALs_reference, instance.ATTRIBUTE_VALUE_REAL)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_STRING) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_STRING) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.ATTRIBUTE_VALUE_STRING = reference.ATTRIBUTE_VALUE_STRING[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_STRING {
-		reference.ATTRIBUTE_VALUE_STRING = append(reference.ATTRIBUTE_VALUE_STRING, stage.ATTRIBUTE_VALUE_STRINGs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_STRING, stage.ATTRIBUTE_VALUE_STRINGs_reference, instance.ATTRIBUTE_VALUE_STRING)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_XHTML) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_XHTML) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.ATTRIBUTE_VALUE_XHTML = reference.ATTRIBUTE_VALUE_XHTML[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_XHTML {
-		reference.ATTRIBUTE_VALUE_XHTML = append(reference.ATTRIBUTE_VALUE_XHTML, stage.ATTRIBUTE_VALUE_XHTMLs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_XHTML, stage.ATTRIBUTE_VALUE_XHTMLs_reference, instance.ATTRIBUTE_VALUE_XHTML)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_XHTML_1) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_XHTML_1) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.ATTRIBUTE_VALUE_BOOLEAN = reference.ATTRIBUTE_VALUE_BOOLEAN[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_BOOLEAN {
-		reference.ATTRIBUTE_VALUE_BOOLEAN = append(reference.ATTRIBUTE_VALUE_BOOLEAN, stage.ATTRIBUTE_VALUE_BOOLEANs_reference[_b])
-	}
-	reference.ATTRIBUTE_VALUE_DATE = reference.ATTRIBUTE_VALUE_DATE[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_DATE {
-		reference.ATTRIBUTE_VALUE_DATE = append(reference.ATTRIBUTE_VALUE_DATE, stage.ATTRIBUTE_VALUE_DATEs_reference[_b])
-	}
-	reference.ATTRIBUTE_VALUE_ENUMERATION = reference.ATTRIBUTE_VALUE_ENUMERATION[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_ENUMERATION {
-		reference.ATTRIBUTE_VALUE_ENUMERATION = append(reference.ATTRIBUTE_VALUE_ENUMERATION, stage.ATTRIBUTE_VALUE_ENUMERATIONs_reference[_b])
-	}
-	reference.ATTRIBUTE_VALUE_INTEGER = reference.ATTRIBUTE_VALUE_INTEGER[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_INTEGER {
-		reference.ATTRIBUTE_VALUE_INTEGER = append(reference.ATTRIBUTE_VALUE_INTEGER, stage.ATTRIBUTE_VALUE_INTEGERs_reference[_b])
-	}
-	reference.ATTRIBUTE_VALUE_REAL = reference.ATTRIBUTE_VALUE_REAL[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_REAL {
-		reference.ATTRIBUTE_VALUE_REAL = append(reference.ATTRIBUTE_VALUE_REAL, stage.ATTRIBUTE_VALUE_REALs_reference[_b])
-	}
-	reference.ATTRIBUTE_VALUE_STRING = reference.ATTRIBUTE_VALUE_STRING[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_STRING {
-		reference.ATTRIBUTE_VALUE_STRING = append(reference.ATTRIBUTE_VALUE_STRING, stage.ATTRIBUTE_VALUE_STRINGs_reference[_b])
-	}
-	reference.ATTRIBUTE_VALUE_XHTML = reference.ATTRIBUTE_VALUE_XHTML[:0]
-	for _, _b := range instance.ATTRIBUTE_VALUE_XHTML {
-		reference.ATTRIBUTE_VALUE_XHTML = append(reference.ATTRIBUTE_VALUE_XHTML, stage.ATTRIBUTE_VALUE_XHTMLs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_BOOLEAN, stage.ATTRIBUTE_VALUE_BOOLEANs_reference, instance.ATTRIBUTE_VALUE_BOOLEAN)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_DATE, stage.ATTRIBUTE_VALUE_DATEs_reference, instance.ATTRIBUTE_VALUE_DATE)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_ENUMERATION, stage.ATTRIBUTE_VALUE_ENUMERATIONs_reference, instance.ATTRIBUTE_VALUE_ENUMERATION)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_INTEGER, stage.ATTRIBUTE_VALUE_INTEGERs_reference, instance.ATTRIBUTE_VALUE_INTEGER)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_REAL, stage.ATTRIBUTE_VALUE_REALs_reference, instance.ATTRIBUTE_VALUE_REAL)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_STRING, stage.ATTRIBUTE_VALUE_STRINGs_reference, instance.ATTRIBUTE_VALUE_STRING)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_VALUE_XHTML, stage.ATTRIBUTE_VALUE_XHTMLs_reference, instance.ATTRIBUTE_VALUE_XHTML)
 }
 
 func (reference *A_CHILDREN) GongReconstructPointersFromReferences(stage *Stage, instance *A_CHILDREN) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.SPEC_HIERARCHY = reference.SPEC_HIERARCHY[:0]
-	for _, _b := range instance.SPEC_HIERARCHY {
-		reference.SPEC_HIERARCHY = append(reference.SPEC_HIERARCHY, stage.SPEC_HIERARCHYs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SPEC_HIERARCHY, stage.SPEC_HIERARCHYs_reference, instance.SPEC_HIERARCHY)
 }
 
 func (reference *A_CORE_CONTENT) GongReconstructPointersFromReferences(stage *Stage, instance *A_CORE_CONTENT) {
 	// insertion point for pointers field
-	if instance.REQ_IF_CONTENT != nil {
-		reference.REQ_IF_CONTENT = stage.REQ_IF_CONTENTs_reference[instance.REQ_IF_CONTENT]
-	}
+	__gong__reconstructPointer(&reference.REQ_IF_CONTENT, stage.REQ_IF_CONTENTs_reference, instance.REQ_IF_CONTENT)
 	// insertion point for slice of pointers field
 }
 
 func (reference *A_DATATYPES) GongReconstructPointersFromReferences(stage *Stage, instance *A_DATATYPES) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.DATATYPE_DEFINITION_BOOLEAN = reference.DATATYPE_DEFINITION_BOOLEAN[:0]
-	for _, _b := range instance.DATATYPE_DEFINITION_BOOLEAN {
-		reference.DATATYPE_DEFINITION_BOOLEAN = append(reference.DATATYPE_DEFINITION_BOOLEAN, stage.DATATYPE_DEFINITION_BOOLEANs_reference[_b])
-	}
-	reference.DATATYPE_DEFINITION_DATE = reference.DATATYPE_DEFINITION_DATE[:0]
-	for _, _b := range instance.DATATYPE_DEFINITION_DATE {
-		reference.DATATYPE_DEFINITION_DATE = append(reference.DATATYPE_DEFINITION_DATE, stage.DATATYPE_DEFINITION_DATEs_reference[_b])
-	}
-	reference.DATATYPE_DEFINITION_ENUMERATION = reference.DATATYPE_DEFINITION_ENUMERATION[:0]
-	for _, _b := range instance.DATATYPE_DEFINITION_ENUMERATION {
-		reference.DATATYPE_DEFINITION_ENUMERATION = append(reference.DATATYPE_DEFINITION_ENUMERATION, stage.DATATYPE_DEFINITION_ENUMERATIONs_reference[_b])
-	}
-	reference.DATATYPE_DEFINITION_INTEGER = reference.DATATYPE_DEFINITION_INTEGER[:0]
-	for _, _b := range instance.DATATYPE_DEFINITION_INTEGER {
-		reference.DATATYPE_DEFINITION_INTEGER = append(reference.DATATYPE_DEFINITION_INTEGER, stage.DATATYPE_DEFINITION_INTEGERs_reference[_b])
-	}
-	reference.DATATYPE_DEFINITION_REAL = reference.DATATYPE_DEFINITION_REAL[:0]
-	for _, _b := range instance.DATATYPE_DEFINITION_REAL {
-		reference.DATATYPE_DEFINITION_REAL = append(reference.DATATYPE_DEFINITION_REAL, stage.DATATYPE_DEFINITION_REALs_reference[_b])
-	}
-	reference.DATATYPE_DEFINITION_STRING = reference.DATATYPE_DEFINITION_STRING[:0]
-	for _, _b := range instance.DATATYPE_DEFINITION_STRING {
-		reference.DATATYPE_DEFINITION_STRING = append(reference.DATATYPE_DEFINITION_STRING, stage.DATATYPE_DEFINITION_STRINGs_reference[_b])
-	}
-	reference.DATATYPE_DEFINITION_XHTML = reference.DATATYPE_DEFINITION_XHTML[:0]
-	for _, _b := range instance.DATATYPE_DEFINITION_XHTML {
-		reference.DATATYPE_DEFINITION_XHTML = append(reference.DATATYPE_DEFINITION_XHTML, stage.DATATYPE_DEFINITION_XHTMLs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DATATYPE_DEFINITION_BOOLEAN, stage.DATATYPE_DEFINITION_BOOLEANs_reference, instance.DATATYPE_DEFINITION_BOOLEAN)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DATATYPE_DEFINITION_DATE, stage.DATATYPE_DEFINITION_DATEs_reference, instance.DATATYPE_DEFINITION_DATE)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DATATYPE_DEFINITION_ENUMERATION, stage.DATATYPE_DEFINITION_ENUMERATIONs_reference, instance.DATATYPE_DEFINITION_ENUMERATION)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DATATYPE_DEFINITION_INTEGER, stage.DATATYPE_DEFINITION_INTEGERs_reference, instance.DATATYPE_DEFINITION_INTEGER)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DATATYPE_DEFINITION_REAL, stage.DATATYPE_DEFINITION_REALs_reference, instance.DATATYPE_DEFINITION_REAL)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DATATYPE_DEFINITION_STRING, stage.DATATYPE_DEFINITION_STRINGs_reference, instance.DATATYPE_DEFINITION_STRING)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DATATYPE_DEFINITION_XHTML, stage.DATATYPE_DEFINITION_XHTMLs_reference, instance.DATATYPE_DEFINITION_XHTML)
 }
 
 func (reference *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_DATATYPE_DEFINITION_BOOLEAN_REF) {
@@ -9217,9 +7112,7 @@ func (reference *A_OBJECT) GongReconstructPointersFromReferences(stage *Stage, i
 
 func (reference *A_PROPERTIES) GongReconstructPointersFromReferences(stage *Stage, instance *A_PROPERTIES) {
 	// insertion point for pointers field
-	if instance.EMBEDDED_VALUE != nil {
-		reference.EMBEDDED_VALUE = stage.EMBEDDED_VALUEs_reference[instance.EMBEDDED_VALUE]
-	}
+	__gong__reconstructPointer(&reference.EMBEDDED_VALUE, stage.EMBEDDED_VALUEs_reference, instance.EMBEDDED_VALUE)
 	// insertion point for slice of pointers field
 }
 
@@ -9241,10 +7134,7 @@ func (reference *A_SOURCE_SPECIFICATION_1) GongReconstructPointersFromReferences
 func (reference *A_SPECIFICATIONS) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPECIFICATIONS) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.SPECIFICATION = reference.SPECIFICATION[:0]
-	for _, _b := range instance.SPECIFICATION {
-		reference.SPECIFICATION = append(reference.SPECIFICATION, stage.SPECIFICATIONs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SPECIFICATION, stage.SPECIFICATIONs_reference, instance.SPECIFICATION)
 }
 
 func (reference *A_SPECIFICATION_TYPE_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPECIFICATION_TYPE_REF) {
@@ -9255,52 +7145,25 @@ func (reference *A_SPECIFICATION_TYPE_REF) GongReconstructPointersFromReferences
 func (reference *A_SPECIFIED_VALUES) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPECIFIED_VALUES) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.ENUM_VALUE = reference.ENUM_VALUE[:0]
-	for _, _b := range instance.ENUM_VALUE {
-		reference.ENUM_VALUE = append(reference.ENUM_VALUE, stage.ENUM_VALUEs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ENUM_VALUE, stage.ENUM_VALUEs_reference, instance.ENUM_VALUE)
 }
 
 func (reference *A_SPEC_ATTRIBUTES) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_ATTRIBUTES) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.ATTRIBUTE_DEFINITION_BOOLEAN = reference.ATTRIBUTE_DEFINITION_BOOLEAN[:0]
-	for _, _b := range instance.ATTRIBUTE_DEFINITION_BOOLEAN {
-		reference.ATTRIBUTE_DEFINITION_BOOLEAN = append(reference.ATTRIBUTE_DEFINITION_BOOLEAN, stage.ATTRIBUTE_DEFINITION_BOOLEANs_reference[_b])
-	}
-	reference.ATTRIBUTE_DEFINITION_DATE = reference.ATTRIBUTE_DEFINITION_DATE[:0]
-	for _, _b := range instance.ATTRIBUTE_DEFINITION_DATE {
-		reference.ATTRIBUTE_DEFINITION_DATE = append(reference.ATTRIBUTE_DEFINITION_DATE, stage.ATTRIBUTE_DEFINITION_DATEs_reference[_b])
-	}
-	reference.ATTRIBUTE_DEFINITION_ENUMERATION = reference.ATTRIBUTE_DEFINITION_ENUMERATION[:0]
-	for _, _b := range instance.ATTRIBUTE_DEFINITION_ENUMERATION {
-		reference.ATTRIBUTE_DEFINITION_ENUMERATION = append(reference.ATTRIBUTE_DEFINITION_ENUMERATION, stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_reference[_b])
-	}
-	reference.ATTRIBUTE_DEFINITION_INTEGER = reference.ATTRIBUTE_DEFINITION_INTEGER[:0]
-	for _, _b := range instance.ATTRIBUTE_DEFINITION_INTEGER {
-		reference.ATTRIBUTE_DEFINITION_INTEGER = append(reference.ATTRIBUTE_DEFINITION_INTEGER, stage.ATTRIBUTE_DEFINITION_INTEGERs_reference[_b])
-	}
-	reference.ATTRIBUTE_DEFINITION_REAL = reference.ATTRIBUTE_DEFINITION_REAL[:0]
-	for _, _b := range instance.ATTRIBUTE_DEFINITION_REAL {
-		reference.ATTRIBUTE_DEFINITION_REAL = append(reference.ATTRIBUTE_DEFINITION_REAL, stage.ATTRIBUTE_DEFINITION_REALs_reference[_b])
-	}
-	reference.ATTRIBUTE_DEFINITION_STRING = reference.ATTRIBUTE_DEFINITION_STRING[:0]
-	for _, _b := range instance.ATTRIBUTE_DEFINITION_STRING {
-		reference.ATTRIBUTE_DEFINITION_STRING = append(reference.ATTRIBUTE_DEFINITION_STRING, stage.ATTRIBUTE_DEFINITION_STRINGs_reference[_b])
-	}
-	reference.ATTRIBUTE_DEFINITION_XHTML = reference.ATTRIBUTE_DEFINITION_XHTML[:0]
-	for _, _b := range instance.ATTRIBUTE_DEFINITION_XHTML {
-		reference.ATTRIBUTE_DEFINITION_XHTML = append(reference.ATTRIBUTE_DEFINITION_XHTML, stage.ATTRIBUTE_DEFINITION_XHTMLs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_DEFINITION_BOOLEAN, stage.ATTRIBUTE_DEFINITION_BOOLEANs_reference, instance.ATTRIBUTE_DEFINITION_BOOLEAN)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_DEFINITION_DATE, stage.ATTRIBUTE_DEFINITION_DATEs_reference, instance.ATTRIBUTE_DEFINITION_DATE)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_DEFINITION_ENUMERATION, stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_reference, instance.ATTRIBUTE_DEFINITION_ENUMERATION)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_DEFINITION_INTEGER, stage.ATTRIBUTE_DEFINITION_INTEGERs_reference, instance.ATTRIBUTE_DEFINITION_INTEGER)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_DEFINITION_REAL, stage.ATTRIBUTE_DEFINITION_REALs_reference, instance.ATTRIBUTE_DEFINITION_REAL)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_DEFINITION_STRING, stage.ATTRIBUTE_DEFINITION_STRINGs_reference, instance.ATTRIBUTE_DEFINITION_STRING)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ATTRIBUTE_DEFINITION_XHTML, stage.ATTRIBUTE_DEFINITION_XHTMLs_reference, instance.ATTRIBUTE_DEFINITION_XHTML)
 }
 
 func (reference *A_SPEC_OBJECTS) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_OBJECTS) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.SPEC_OBJECT = reference.SPEC_OBJECT[:0]
-	for _, _b := range instance.SPEC_OBJECT {
-		reference.SPEC_OBJECT = append(reference.SPEC_OBJECT, stage.SPEC_OBJECTs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SPEC_OBJECT, stage.SPEC_OBJECTs_reference, instance.SPEC_OBJECT)
 }
 
 func (reference *A_SPEC_OBJECT_TYPE_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_OBJECT_TYPE_REF) {
@@ -9311,19 +7174,13 @@ func (reference *A_SPEC_OBJECT_TYPE_REF) GongReconstructPointersFromReferences(s
 func (reference *A_SPEC_RELATIONS) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_RELATIONS) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.SPEC_RELATION = reference.SPEC_RELATION[:0]
-	for _, _b := range instance.SPEC_RELATION {
-		reference.SPEC_RELATION = append(reference.SPEC_RELATION, stage.SPEC_RELATIONs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SPEC_RELATION, stage.SPEC_RELATIONs_reference, instance.SPEC_RELATION)
 }
 
 func (reference *A_SPEC_RELATION_GROUPS) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_RELATION_GROUPS) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.RELATION_GROUP = reference.RELATION_GROUP[:0]
-	for _, _b := range instance.RELATION_GROUP {
-		reference.RELATION_GROUP = append(reference.RELATION_GROUP, stage.RELATION_GROUPs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RELATION_GROUP, stage.RELATION_GROUPs_reference, instance.RELATION_GROUP)
 }
 
 func (reference *A_SPEC_RELATION_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_RELATION_REF) {
@@ -9339,97 +7196,64 @@ func (reference *A_SPEC_RELATION_TYPE_REF) GongReconstructPointersFromReferences
 func (reference *A_SPEC_TYPES) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_TYPES) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.RELATION_GROUP_TYPE = reference.RELATION_GROUP_TYPE[:0]
-	for _, _b := range instance.RELATION_GROUP_TYPE {
-		reference.RELATION_GROUP_TYPE = append(reference.RELATION_GROUP_TYPE, stage.RELATION_GROUP_TYPEs_reference[_b])
-	}
-	reference.SPEC_OBJECT_TYPE = reference.SPEC_OBJECT_TYPE[:0]
-	for _, _b := range instance.SPEC_OBJECT_TYPE {
-		reference.SPEC_OBJECT_TYPE = append(reference.SPEC_OBJECT_TYPE, stage.SPEC_OBJECT_TYPEs_reference[_b])
-	}
-	reference.SPEC_RELATION_TYPE = reference.SPEC_RELATION_TYPE[:0]
-	for _, _b := range instance.SPEC_RELATION_TYPE {
-		reference.SPEC_RELATION_TYPE = append(reference.SPEC_RELATION_TYPE, stage.SPEC_RELATION_TYPEs_reference[_b])
-	}
-	reference.SPECIFICATION_TYPE = reference.SPECIFICATION_TYPE[:0]
-	for _, _b := range instance.SPECIFICATION_TYPE {
-		reference.SPECIFICATION_TYPE = append(reference.SPECIFICATION_TYPE, stage.SPECIFICATION_TYPEs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RELATION_GROUP_TYPE, stage.RELATION_GROUP_TYPEs_reference, instance.RELATION_GROUP_TYPE)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SPEC_OBJECT_TYPE, stage.SPEC_OBJECT_TYPEs_reference, instance.SPEC_OBJECT_TYPE)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SPEC_RELATION_TYPE, stage.SPEC_RELATION_TYPEs_reference, instance.SPEC_RELATION_TYPE)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SPECIFICATION_TYPE, stage.SPECIFICATION_TYPEs_reference, instance.SPECIFICATION_TYPE)
 }
 
 func (reference *A_THE_HEADER) GongReconstructPointersFromReferences(stage *Stage, instance *A_THE_HEADER) {
 	// insertion point for pointers field
-	if instance.REQ_IF_HEADER != nil {
-		reference.REQ_IF_HEADER = stage.REQ_IF_HEADERs_reference[instance.REQ_IF_HEADER]
-	}
+	__gong__reconstructPointer(&reference.REQ_IF_HEADER, stage.REQ_IF_HEADERs_reference, instance.REQ_IF_HEADER)
 	// insertion point for slice of pointers field
 }
 
 func (reference *A_TOOL_EXTENSIONS) GongReconstructPointersFromReferences(stage *Stage, instance *A_TOOL_EXTENSIONS) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.REQ_IF_TOOL_EXTENSION = reference.REQ_IF_TOOL_EXTENSION[:0]
-	for _, _b := range instance.REQ_IF_TOOL_EXTENSION {
-		reference.REQ_IF_TOOL_EXTENSION = append(reference.REQ_IF_TOOL_EXTENSION, stage.REQ_IF_TOOL_EXTENSIONs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.REQ_IF_TOOL_EXTENSION, stage.REQ_IF_TOOL_EXTENSIONs_reference, instance.REQ_IF_TOOL_EXTENSION)
 }
 
 func (reference *DATATYPE_DEFINITION_BOOLEAN) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_BOOLEAN) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	// insertion point for slice of pointers field
 }
 
 func (reference *DATATYPE_DEFINITION_DATE) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_DATE) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	// insertion point for slice of pointers field
 }
 
 func (reference *DATATYPE_DEFINITION_ENUMERATION) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_ENUMERATION) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.SPECIFIED_VALUES != nil {
-		reference.SPECIFIED_VALUES = stage.A_SPECIFIED_VALUESs_reference[instance.SPECIFIED_VALUES]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.SPECIFIED_VALUES, stage.A_SPECIFIED_VALUESs_reference, instance.SPECIFIED_VALUES)
 	// insertion point for slice of pointers field
 }
 
 func (reference *DATATYPE_DEFINITION_INTEGER) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_INTEGER) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	// insertion point for slice of pointers field
 }
 
 func (reference *DATATYPE_DEFINITION_REAL) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_REAL) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	// insertion point for slice of pointers field
 }
 
 func (reference *DATATYPE_DEFINITION_STRING) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_STRING) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	// insertion point for slice of pointers field
 }
 
 func (reference *DATATYPE_DEFINITION_XHTML) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_XHTML) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	// insertion point for slice of pointers field
 }
 
@@ -9440,12 +7264,8 @@ func (reference *EMBEDDED_VALUE) GongReconstructPointersFromReferences(stage *St
 
 func (reference *ENUM_VALUE) GongReconstructPointersFromReferences(stage *Stage, instance *ENUM_VALUE) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.PROPERTIES != nil {
-		reference.PROPERTIES = stage.A_PROPERTIESs_reference[instance.PROPERTIES]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.PROPERTIES, stage.A_PROPERTIESs_reference, instance.PROPERTIES)
 	// insertion point for slice of pointers field
 }
 
@@ -9476,69 +7296,37 @@ func (reference *Map_identifier_bool) GongReconstructPointersFromReferences(stag
 
 func (reference *RELATION_GROUP) GongReconstructPointersFromReferences(stage *Stage, instance *RELATION_GROUP) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.SOURCE_SPECIFICATION != nil {
-		reference.SOURCE_SPECIFICATION = stage.A_SOURCE_SPECIFICATION_1s_reference[instance.SOURCE_SPECIFICATION]
-	}
-	if instance.SPEC_RELATIONS != nil {
-		reference.SPEC_RELATIONS = stage.A_SPEC_RELATION_REFs_reference[instance.SPEC_RELATIONS]
-	}
-	if instance.TARGET_SPECIFICATION != nil {
-		reference.TARGET_SPECIFICATION = stage.A_SOURCE_SPECIFICATION_1s_reference[instance.TARGET_SPECIFICATION]
-	}
-	if instance.TYPE != nil {
-		reference.TYPE = stage.A_RELATION_GROUP_TYPE_REFs_reference[instance.TYPE]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.SOURCE_SPECIFICATION, stage.A_SOURCE_SPECIFICATION_1s_reference, instance.SOURCE_SPECIFICATION)
+	__gong__reconstructPointer(&reference.SPEC_RELATIONS, stage.A_SPEC_RELATION_REFs_reference, instance.SPEC_RELATIONS)
+	__gong__reconstructPointer(&reference.TARGET_SPECIFICATION, stage.A_SOURCE_SPECIFICATION_1s_reference, instance.TARGET_SPECIFICATION)
+	__gong__reconstructPointer(&reference.TYPE, stage.A_RELATION_GROUP_TYPE_REFs_reference, instance.TYPE)
 	// insertion point for slice of pointers field
 }
 
 func (reference *RELATION_GROUP_TYPE) GongReconstructPointersFromReferences(stage *Stage, instance *RELATION_GROUP_TYPE) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.SPEC_ATTRIBUTES != nil {
-		reference.SPEC_ATTRIBUTES = stage.A_SPEC_ATTRIBUTESs_reference[instance.SPEC_ATTRIBUTES]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.SPEC_ATTRIBUTES, stage.A_SPEC_ATTRIBUTESs_reference, instance.SPEC_ATTRIBUTES)
 	// insertion point for slice of pointers field
 }
 
 func (reference *REQ_IF) GongReconstructPointersFromReferences(stage *Stage, instance *REQ_IF) {
 	// insertion point for pointers field
-	if instance.THE_HEADER != nil {
-		reference.THE_HEADER = stage.A_THE_HEADERs_reference[instance.THE_HEADER]
-	}
-	if instance.CORE_CONTENT != nil {
-		reference.CORE_CONTENT = stage.A_CORE_CONTENTs_reference[instance.CORE_CONTENT]
-	}
-	if instance.TOOL_EXTENSIONS != nil {
-		reference.TOOL_EXTENSIONS = stage.A_TOOL_EXTENSIONSs_reference[instance.TOOL_EXTENSIONS]
-	}
+	__gong__reconstructPointer(&reference.THE_HEADER, stage.A_THE_HEADERs_reference, instance.THE_HEADER)
+	__gong__reconstructPointer(&reference.CORE_CONTENT, stage.A_CORE_CONTENTs_reference, instance.CORE_CONTENT)
+	__gong__reconstructPointer(&reference.TOOL_EXTENSIONS, stage.A_TOOL_EXTENSIONSs_reference, instance.TOOL_EXTENSIONS)
 	// insertion point for slice of pointers field
 }
 
 func (reference *REQ_IF_CONTENT) GongReconstructPointersFromReferences(stage *Stage, instance *REQ_IF_CONTENT) {
 	// insertion point for pointers field
-	if instance.DATATYPES != nil {
-		reference.DATATYPES = stage.A_DATATYPESs_reference[instance.DATATYPES]
-	}
-	if instance.SPEC_TYPES != nil {
-		reference.SPEC_TYPES = stage.A_SPEC_TYPESs_reference[instance.SPEC_TYPES]
-	}
-	if instance.SPEC_OBJECTS != nil {
-		reference.SPEC_OBJECTS = stage.A_SPEC_OBJECTSs_reference[instance.SPEC_OBJECTS]
-	}
-	if instance.SPEC_RELATIONS != nil {
-		reference.SPEC_RELATIONS = stage.A_SPEC_RELATIONSs_reference[instance.SPEC_RELATIONS]
-	}
-	if instance.SPECIFICATIONS != nil {
-		reference.SPECIFICATIONS = stage.A_SPECIFICATIONSs_reference[instance.SPECIFICATIONS]
-	}
-	if instance.SPEC_RELATION_GROUPS != nil {
-		reference.SPEC_RELATION_GROUPS = stage.A_SPEC_RELATION_GROUPSs_reference[instance.SPEC_RELATION_GROUPS]
-	}
+	__gong__reconstructPointer(&reference.DATATYPES, stage.A_DATATYPESs_reference, instance.DATATYPES)
+	__gong__reconstructPointer(&reference.SPEC_TYPES, stage.A_SPEC_TYPESs_reference, instance.SPEC_TYPES)
+	__gong__reconstructPointer(&reference.SPEC_OBJECTS, stage.A_SPEC_OBJECTSs_reference, instance.SPEC_OBJECTS)
+	__gong__reconstructPointer(&reference.SPEC_RELATIONS, stage.A_SPEC_RELATIONSs_reference, instance.SPEC_RELATIONS)
+	__gong__reconstructPointer(&reference.SPECIFICATIONS, stage.A_SPECIFICATIONSs_reference, instance.SPECIFICATIONS)
+	__gong__reconstructPointer(&reference.SPEC_RELATION_GROUPS, stage.A_SPEC_RELATION_GROUPSs_reference, instance.SPEC_RELATION_GROUPS)
 	// insertion point for slice of pointers field
 }
 
@@ -9554,18 +7342,10 @@ func (reference *REQ_IF_TOOL_EXTENSION) GongReconstructPointersFromReferences(st
 
 func (reference *SPECIFICATION) GongReconstructPointersFromReferences(stage *Stage, instance *SPECIFICATION) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.TYPE != nil {
-		reference.TYPE = stage.A_SPECIFICATION_TYPE_REFs_reference[instance.TYPE]
-	}
-	if instance.CHILDREN != nil {
-		reference.CHILDREN = stage.A_CHILDRENs_reference[instance.CHILDREN]
-	}
-	if instance.VALUES != nil {
-		reference.VALUES = stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference[instance.VALUES]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.TYPE, stage.A_SPECIFICATION_TYPE_REFs_reference, instance.TYPE)
+	__gong__reconstructPointer(&reference.CHILDREN, stage.A_CHILDRENs_reference, instance.CHILDREN)
+	__gong__reconstructPointer(&reference.VALUES, stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference, instance.VALUES)
 	// insertion point for slice of pointers field
 }
 
@@ -9576,54 +7356,32 @@ func (reference *SPECIFICATION_Rendering) GongReconstructPointersFromReferences(
 
 func (reference *SPECIFICATION_TYPE) GongReconstructPointersFromReferences(stage *Stage, instance *SPECIFICATION_TYPE) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.SPEC_ATTRIBUTES != nil {
-		reference.SPEC_ATTRIBUTES = stage.A_SPEC_ATTRIBUTESs_reference[instance.SPEC_ATTRIBUTES]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.SPEC_ATTRIBUTES, stage.A_SPEC_ATTRIBUTESs_reference, instance.SPEC_ATTRIBUTES)
 	// insertion point for slice of pointers field
 }
 
 func (reference *SPEC_HIERARCHY) GongReconstructPointersFromReferences(stage *Stage, instance *SPEC_HIERARCHY) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.OBJECT != nil {
-		reference.OBJECT = stage.A_OBJECTs_reference[instance.OBJECT]
-	}
-	if instance.CHILDREN != nil {
-		reference.CHILDREN = stage.A_CHILDRENs_reference[instance.CHILDREN]
-	}
-	if instance.EDITABLE_ATTS != nil {
-		reference.EDITABLE_ATTS = stage.A_EDITABLE_ATTSs_reference[instance.EDITABLE_ATTS]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.OBJECT, stage.A_OBJECTs_reference, instance.OBJECT)
+	__gong__reconstructPointer(&reference.CHILDREN, stage.A_CHILDRENs_reference, instance.CHILDREN)
+	__gong__reconstructPointer(&reference.EDITABLE_ATTS, stage.A_EDITABLE_ATTSs_reference, instance.EDITABLE_ATTS)
 	// insertion point for slice of pointers field
 }
 
 func (reference *SPEC_OBJECT) GongReconstructPointersFromReferences(stage *Stage, instance *SPEC_OBJECT) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.VALUES != nil {
-		reference.VALUES = stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference[instance.VALUES]
-	}
-	if instance.TYPE != nil {
-		reference.TYPE = stage.A_SPEC_OBJECT_TYPE_REFs_reference[instance.TYPE]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.VALUES, stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference, instance.VALUES)
+	__gong__reconstructPointer(&reference.TYPE, stage.A_SPEC_OBJECT_TYPE_REFs_reference, instance.TYPE)
 	// insertion point for slice of pointers field
 }
 
 func (reference *SPEC_OBJECT_TYPE) GongReconstructPointersFromReferences(stage *Stage, instance *SPEC_OBJECT_TYPE) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.SPEC_ATTRIBUTES != nil {
-		reference.SPEC_ATTRIBUTES = stage.A_SPEC_ATTRIBUTESs_reference[instance.SPEC_ATTRIBUTES]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.SPEC_ATTRIBUTES, stage.A_SPEC_ATTRIBUTESs_reference, instance.SPEC_ATTRIBUTES)
 	// insertion point for slice of pointers field
 }
 
@@ -9634,51 +7392,31 @@ func (reference *SPEC_OBJECT_TYPE_Rendering) GongReconstructPointersFromReferenc
 
 func (reference *SPEC_RELATION) GongReconstructPointersFromReferences(stage *Stage, instance *SPEC_RELATION) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.VALUES != nil {
-		reference.VALUES = stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference[instance.VALUES]
-	}
-	if instance.SOURCE != nil {
-		reference.SOURCE = stage.A_SOURCE_1s_reference[instance.SOURCE]
-	}
-	if instance.TARGET != nil {
-		reference.TARGET = stage.A_SOURCE_1s_reference[instance.TARGET]
-	}
-	if instance.TYPE != nil {
-		reference.TYPE = stage.A_SPEC_RELATION_TYPE_REFs_reference[instance.TYPE]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.VALUES, stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference, instance.VALUES)
+	__gong__reconstructPointer(&reference.SOURCE, stage.A_SOURCE_1s_reference, instance.SOURCE)
+	__gong__reconstructPointer(&reference.TARGET, stage.A_SOURCE_1s_reference, instance.TARGET)
+	__gong__reconstructPointer(&reference.TYPE, stage.A_SPEC_RELATION_TYPE_REFs_reference, instance.TYPE)
 	// insertion point for slice of pointers field
 }
 
 func (reference *SPEC_RELATION_TYPE) GongReconstructPointersFromReferences(stage *Stage, instance *SPEC_RELATION_TYPE) {
 	// insertion point for pointers field
-	if instance.ALTERNATIVE_ID != nil {
-		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
-	}
-	if instance.SPEC_ATTRIBUTES != nil {
-		reference.SPEC_ATTRIBUTES = stage.A_SPEC_ATTRIBUTESs_reference[instance.SPEC_ATTRIBUTES]
-	}
+	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
+	__gong__reconstructPointer(&reference.SPEC_ATTRIBUTES, stage.A_SPEC_ATTRIBUTESs_reference, instance.SPEC_ATTRIBUTES)
 	// insertion point for slice of pointers field
 }
 
 func (reference *StaticWebSite) GongReconstructPointersFromReferences(stage *Stage, instance *StaticWebSite) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Chapters = reference.Chapters[:0]
-	for _, _b := range instance.Chapters {
-		reference.Chapters = append(reference.Chapters, stage.StaticWebSiteChapters_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Chapters, stage.StaticWebSiteChapters_reference, instance.Chapters)
 }
 
 func (reference *StaticWebSiteChapter) GongReconstructPointersFromReferences(stage *Stage, instance *StaticWebSiteChapter) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Paragraphs = reference.Paragraphs[:0]
-	for _, _b := range instance.Paragraphs {
-		reference.Paragraphs = append(reference.Paragraphs, stage.StaticWebSiteParagraphs_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Paragraphs, stage.StaticWebSiteParagraphs_reference, instance.Paragraphs)
 }
 
 func (reference *StaticWebSiteGeneratedImage) GongReconstructPointersFromReferences(stage *Stage, instance *StaticWebSiteGeneratedImage) {
@@ -9693,9 +7431,7 @@ func (reference *StaticWebSiteImage) GongReconstructPointersFromReferences(stage
 
 func (reference *StaticWebSiteParagraph) GongReconstructPointersFromReferences(stage *Stage, instance *StaticWebSiteParagraph) {
 	// insertion point for pointers field
-	if instance.Image != nil {
-		reference.Image = stage.StaticWebSiteImages_reference[instance.Image]
-	}
+	__gong__reconstructPointer(&reference.Image, stage.StaticWebSiteImages_reference, instance.Image)
 	// insertion point for slice of pointers field
 }
 
@@ -9712,24 +7448,9 @@ func (reference *ALTERNATIVE_ID) GongReconstructPointersFromInstances(stage *Sta
 
 func (reference *ATTRIBUTE_DEFINITION_BOOLEAN) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.DEFAULT_VALUE; _reference != nil {
-		reference.DEFAULT_VALUE = nil
-		if _instance, ok := stage.A_ATTRIBUTE_VALUE_BOOLEANs_instance[_reference]; ok {
-			reference.DEFAULT_VALUE = _instance
-		}
-	}
-	if _reference := reference.TYPE; _reference != nil {
-		reference.TYPE = nil
-		if _instance, ok := stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_instance[_reference]; ok {
-			reference.TYPE = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_BOOLEANs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -9740,24 +7461,9 @@ func (reference *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongReconstructPointers
 
 func (reference *ATTRIBUTE_DEFINITION_DATE) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.DEFAULT_VALUE; _reference != nil {
-		reference.DEFAULT_VALUE = nil
-		if _instance, ok := stage.A_ATTRIBUTE_VALUE_DATEs_instance[_reference]; ok {
-			reference.DEFAULT_VALUE = _instance
-		}
-	}
-	if _reference := reference.TYPE; _reference != nil {
-		reference.TYPE = nil
-		if _instance, ok := stage.A_DATATYPE_DEFINITION_DATE_REFs_instance[_reference]; ok {
-			reference.TYPE = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_DATEs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_DATE_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -9768,24 +7474,9 @@ func (reference *ATTRIBUTE_DEFINITION_DATE_Rendering) GongReconstructPointersFro
 
 func (reference *ATTRIBUTE_DEFINITION_ENUMERATION) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.DEFAULT_VALUE; _reference != nil {
-		reference.DEFAULT_VALUE = nil
-		if _instance, ok := stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_instance[_reference]; ok {
-			reference.DEFAULT_VALUE = _instance
-		}
-	}
-	if _reference := reference.TYPE; _reference != nil {
-		reference.TYPE = nil
-		if _instance, ok := stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_instance[_reference]; ok {
-			reference.TYPE = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -9796,24 +7487,9 @@ func (reference *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongReconstructPoin
 
 func (reference *ATTRIBUTE_DEFINITION_INTEGER) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.DEFAULT_VALUE; _reference != nil {
-		reference.DEFAULT_VALUE = nil
-		if _instance, ok := stage.A_ATTRIBUTE_VALUE_INTEGERs_instance[_reference]; ok {
-			reference.DEFAULT_VALUE = _instance
-		}
-	}
-	if _reference := reference.TYPE; _reference != nil {
-		reference.TYPE = nil
-		if _instance, ok := stage.A_DATATYPE_DEFINITION_INTEGER_REFs_instance[_reference]; ok {
-			reference.TYPE = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_INTEGERs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_INTEGER_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -9824,24 +7500,9 @@ func (reference *ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongReconstructPointers
 
 func (reference *ATTRIBUTE_DEFINITION_REAL) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.DEFAULT_VALUE; _reference != nil {
-		reference.DEFAULT_VALUE = nil
-		if _instance, ok := stage.A_ATTRIBUTE_VALUE_REALs_instance[_reference]; ok {
-			reference.DEFAULT_VALUE = _instance
-		}
-	}
-	if _reference := reference.TYPE; _reference != nil {
-		reference.TYPE = nil
-		if _instance, ok := stage.A_DATATYPE_DEFINITION_REAL_REFs_instance[_reference]; ok {
-			reference.TYPE = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_REALs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_REAL_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -9857,24 +7518,9 @@ func (reference *ATTRIBUTE_DEFINITION_Rendering) GongReconstructPointersFromInst
 
 func (reference *ATTRIBUTE_DEFINITION_STRING) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.DEFAULT_VALUE; _reference != nil {
-		reference.DEFAULT_VALUE = nil
-		if _instance, ok := stage.A_ATTRIBUTE_VALUE_STRINGs_instance[_reference]; ok {
-			reference.DEFAULT_VALUE = _instance
-		}
-	}
-	if _reference := reference.TYPE; _reference != nil {
-		reference.TYPE = nil
-		if _instance, ok := stage.A_DATATYPE_DEFINITION_STRING_REFs_instance[_reference]; ok {
-			reference.TYPE = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_STRINGs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_STRING_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -9885,24 +7531,9 @@ func (reference *ATTRIBUTE_DEFINITION_STRING_Rendering) GongReconstructPointersF
 
 func (reference *ATTRIBUTE_DEFINITION_XHTML) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.DEFAULT_VALUE; _reference != nil {
-		reference.DEFAULT_VALUE = nil
-		if _instance, ok := stage.A_ATTRIBUTE_VALUE_XHTMLs_instance[_reference]; ok {
-			reference.DEFAULT_VALUE = _instance
-		}
-	}
-	if _reference := reference.TYPE; _reference != nil {
-		reference.TYPE = nil
-		if _instance, ok := stage.A_DATATYPE_DEFINITION_XHTML_REFs_instance[_reference]; ok {
-			reference.TYPE = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_XHTMLs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_XHTML_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -9913,107 +7544,52 @@ func (reference *ATTRIBUTE_DEFINITION_XHTML_Rendering) GongReconstructPointersFr
 
 func (reference *ATTRIBUTE_VALUE_BOOLEAN) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.DEFINITION; _reference != nil {
-		reference.DEFINITION = nil
-		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_instance[_reference]; ok {
-			reference.DEFINITION = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *ATTRIBUTE_VALUE_DATE) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.DEFINITION; _reference != nil {
-		reference.DEFINITION = nil
-		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_instance[_reference]; ok {
-			reference.DEFINITION = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *ATTRIBUTE_VALUE_ENUMERATION) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.DEFINITION; _reference != nil {
-		reference.DEFINITION = nil
-		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_instance[_reference]; ok {
-			reference.DEFINITION = _instance
-		}
-	}
-	if _reference := reference.VALUES; _reference != nil {
-		reference.VALUES = nil
-		if _instance, ok := stage.A_ENUM_VALUE_REFs_instance[_reference]; ok {
-			reference.VALUES = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.VALUES, stage.A_ENUM_VALUE_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *ATTRIBUTE_VALUE_INTEGER) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.DEFINITION; _reference != nil {
-		reference.DEFINITION = nil
-		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_instance[_reference]; ok {
-			reference.DEFINITION = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *ATTRIBUTE_VALUE_REAL) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.DEFINITION; _reference != nil {
-		reference.DEFINITION = nil
-		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_instance[_reference]; ok {
-			reference.DEFINITION = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *ATTRIBUTE_VALUE_STRING) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.DEFINITION; _reference != nil {
-		reference.DEFINITION = nil
-		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_instance[_reference]; ok {
-			reference.DEFINITION = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *ATTRIBUTE_VALUE_XHTML) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.DEFINITION; _reference != nil {
-		reference.DEFINITION = nil
-		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_instance[_reference]; ok {
-			reference.DEFINITION = _instance
-		}
-	}
-	if _reference := reference.THE_VALUE; _reference != nil {
-		reference.THE_VALUE = nil
-		if _instance, ok := stage.XHTML_CONTENTs_instance[_reference]; ok {
-			reference.THE_VALUE = _instance
-		}
-	}
-	if _reference := reference.THE_ORIGINAL_VALUE; _reference != nil {
-		reference.THE_ORIGINAL_VALUE = nil
-		if _instance, ok := stage.XHTML_CONTENTs_instance[_reference]; ok {
-			reference.THE_ORIGINAL_VALUE = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.DEFINITION, stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.THE_VALUE, stage.XHTML_CONTENTs_instance)
+	__gong__reconstructPointerFromInstance(&reference.THE_ORIGINAL_VALUE, stage.XHTML_CONTENTs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *A_ALTERNATIVE_ID) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.ALTERNATIVE_IDs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -10055,216 +7631,79 @@ func (reference *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongReconstructPointersFromIn
 func (reference *A_ATTRIBUTE_VALUE_BOOLEAN) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _ATTRIBUTE_VALUE_BOOLEAN []*ATTRIBUTE_VALUE_BOOLEAN
-	for _, _reference := range reference.ATTRIBUTE_VALUE_BOOLEAN {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_BOOLEANs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_BOOLEAN = append(_ATTRIBUTE_VALUE_BOOLEAN, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_BOOLEAN = _ATTRIBUTE_VALUE_BOOLEAN
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_BOOLEAN, stage.ATTRIBUTE_VALUE_BOOLEANs_instance)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_DATE) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _ATTRIBUTE_VALUE_DATE []*ATTRIBUTE_VALUE_DATE
-	for _, _reference := range reference.ATTRIBUTE_VALUE_DATE {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_DATEs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_DATE = append(_ATTRIBUTE_VALUE_DATE, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_DATE = _ATTRIBUTE_VALUE_DATE
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_DATE, stage.ATTRIBUTE_VALUE_DATEs_instance)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_ENUMERATION) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _ATTRIBUTE_VALUE_ENUMERATION []*ATTRIBUTE_VALUE_ENUMERATION
-	for _, _reference := range reference.ATTRIBUTE_VALUE_ENUMERATION {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_ENUMERATIONs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_ENUMERATION = append(_ATTRIBUTE_VALUE_ENUMERATION, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_ENUMERATION = _ATTRIBUTE_VALUE_ENUMERATION
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_ENUMERATION, stage.ATTRIBUTE_VALUE_ENUMERATIONs_instance)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_INTEGER) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _ATTRIBUTE_VALUE_INTEGER []*ATTRIBUTE_VALUE_INTEGER
-	for _, _reference := range reference.ATTRIBUTE_VALUE_INTEGER {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_INTEGERs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_INTEGER = append(_ATTRIBUTE_VALUE_INTEGER, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_INTEGER = _ATTRIBUTE_VALUE_INTEGER
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_INTEGER, stage.ATTRIBUTE_VALUE_INTEGERs_instance)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_REAL) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _ATTRIBUTE_VALUE_REAL []*ATTRIBUTE_VALUE_REAL
-	for _, _reference := range reference.ATTRIBUTE_VALUE_REAL {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_REALs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_REAL = append(_ATTRIBUTE_VALUE_REAL, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_REAL = _ATTRIBUTE_VALUE_REAL
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_REAL, stage.ATTRIBUTE_VALUE_REALs_instance)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_STRING) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _ATTRIBUTE_VALUE_STRING []*ATTRIBUTE_VALUE_STRING
-	for _, _reference := range reference.ATTRIBUTE_VALUE_STRING {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_STRINGs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_STRING = append(_ATTRIBUTE_VALUE_STRING, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_STRING = _ATTRIBUTE_VALUE_STRING
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_STRING, stage.ATTRIBUTE_VALUE_STRINGs_instance)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_XHTML) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _ATTRIBUTE_VALUE_XHTML []*ATTRIBUTE_VALUE_XHTML
-	for _, _reference := range reference.ATTRIBUTE_VALUE_XHTML {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_XHTMLs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_XHTML = append(_ATTRIBUTE_VALUE_XHTML, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_XHTML = _ATTRIBUTE_VALUE_XHTML
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_XHTML, stage.ATTRIBUTE_VALUE_XHTMLs_instance)
 }
 
 func (reference *A_ATTRIBUTE_VALUE_XHTML_1) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _ATTRIBUTE_VALUE_BOOLEAN []*ATTRIBUTE_VALUE_BOOLEAN
-	for _, _reference := range reference.ATTRIBUTE_VALUE_BOOLEAN {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_BOOLEANs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_BOOLEAN = append(_ATTRIBUTE_VALUE_BOOLEAN, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_BOOLEAN = _ATTRIBUTE_VALUE_BOOLEAN
-	var _ATTRIBUTE_VALUE_DATE []*ATTRIBUTE_VALUE_DATE
-	for _, _reference := range reference.ATTRIBUTE_VALUE_DATE {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_DATEs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_DATE = append(_ATTRIBUTE_VALUE_DATE, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_DATE = _ATTRIBUTE_VALUE_DATE
-	var _ATTRIBUTE_VALUE_ENUMERATION []*ATTRIBUTE_VALUE_ENUMERATION
-	for _, _reference := range reference.ATTRIBUTE_VALUE_ENUMERATION {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_ENUMERATIONs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_ENUMERATION = append(_ATTRIBUTE_VALUE_ENUMERATION, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_ENUMERATION = _ATTRIBUTE_VALUE_ENUMERATION
-	var _ATTRIBUTE_VALUE_INTEGER []*ATTRIBUTE_VALUE_INTEGER
-	for _, _reference := range reference.ATTRIBUTE_VALUE_INTEGER {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_INTEGERs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_INTEGER = append(_ATTRIBUTE_VALUE_INTEGER, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_INTEGER = _ATTRIBUTE_VALUE_INTEGER
-	var _ATTRIBUTE_VALUE_REAL []*ATTRIBUTE_VALUE_REAL
-	for _, _reference := range reference.ATTRIBUTE_VALUE_REAL {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_REALs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_REAL = append(_ATTRIBUTE_VALUE_REAL, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_REAL = _ATTRIBUTE_VALUE_REAL
-	var _ATTRIBUTE_VALUE_STRING []*ATTRIBUTE_VALUE_STRING
-	for _, _reference := range reference.ATTRIBUTE_VALUE_STRING {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_STRINGs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_STRING = append(_ATTRIBUTE_VALUE_STRING, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_STRING = _ATTRIBUTE_VALUE_STRING
-	var _ATTRIBUTE_VALUE_XHTML []*ATTRIBUTE_VALUE_XHTML
-	for _, _reference := range reference.ATTRIBUTE_VALUE_XHTML {
-		if _instance, ok := stage.ATTRIBUTE_VALUE_XHTMLs_instance[_reference]; ok {
-			_ATTRIBUTE_VALUE_XHTML = append(_ATTRIBUTE_VALUE_XHTML, _instance)
-		}
-	}
-	reference.ATTRIBUTE_VALUE_XHTML = _ATTRIBUTE_VALUE_XHTML
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_BOOLEAN, stage.ATTRIBUTE_VALUE_BOOLEANs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_DATE, stage.ATTRIBUTE_VALUE_DATEs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_ENUMERATION, stage.ATTRIBUTE_VALUE_ENUMERATIONs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_INTEGER, stage.ATTRIBUTE_VALUE_INTEGERs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_REAL, stage.ATTRIBUTE_VALUE_REALs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_STRING, stage.ATTRIBUTE_VALUE_STRINGs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_VALUE_XHTML, stage.ATTRIBUTE_VALUE_XHTMLs_instance)
 }
 
 func (reference *A_CHILDREN) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _SPEC_HIERARCHY []*SPEC_HIERARCHY
-	for _, _reference := range reference.SPEC_HIERARCHY {
-		if _instance, ok := stage.SPEC_HIERARCHYs_instance[_reference]; ok {
-			_SPEC_HIERARCHY = append(_SPEC_HIERARCHY, _instance)
-		}
-	}
-	reference.SPEC_HIERARCHY = _SPEC_HIERARCHY
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SPEC_HIERARCHY, stage.SPEC_HIERARCHYs_instance)
 }
 
 func (reference *A_CORE_CONTENT) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.REQ_IF_CONTENT; _reference != nil {
-		reference.REQ_IF_CONTENT = nil
-		if _instance, ok := stage.REQ_IF_CONTENTs_instance[_reference]; ok {
-			reference.REQ_IF_CONTENT = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.REQ_IF_CONTENT, stage.REQ_IF_CONTENTs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *A_DATATYPES) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _DATATYPE_DEFINITION_BOOLEAN []*DATATYPE_DEFINITION_BOOLEAN
-	for _, _reference := range reference.DATATYPE_DEFINITION_BOOLEAN {
-		if _instance, ok := stage.DATATYPE_DEFINITION_BOOLEANs_instance[_reference]; ok {
-			_DATATYPE_DEFINITION_BOOLEAN = append(_DATATYPE_DEFINITION_BOOLEAN, _instance)
-		}
-	}
-	reference.DATATYPE_DEFINITION_BOOLEAN = _DATATYPE_DEFINITION_BOOLEAN
-	var _DATATYPE_DEFINITION_DATE []*DATATYPE_DEFINITION_DATE
-	for _, _reference := range reference.DATATYPE_DEFINITION_DATE {
-		if _instance, ok := stage.DATATYPE_DEFINITION_DATEs_instance[_reference]; ok {
-			_DATATYPE_DEFINITION_DATE = append(_DATATYPE_DEFINITION_DATE, _instance)
-		}
-	}
-	reference.DATATYPE_DEFINITION_DATE = _DATATYPE_DEFINITION_DATE
-	var _DATATYPE_DEFINITION_ENUMERATION []*DATATYPE_DEFINITION_ENUMERATION
-	for _, _reference := range reference.DATATYPE_DEFINITION_ENUMERATION {
-		if _instance, ok := stage.DATATYPE_DEFINITION_ENUMERATIONs_instance[_reference]; ok {
-			_DATATYPE_DEFINITION_ENUMERATION = append(_DATATYPE_DEFINITION_ENUMERATION, _instance)
-		}
-	}
-	reference.DATATYPE_DEFINITION_ENUMERATION = _DATATYPE_DEFINITION_ENUMERATION
-	var _DATATYPE_DEFINITION_INTEGER []*DATATYPE_DEFINITION_INTEGER
-	for _, _reference := range reference.DATATYPE_DEFINITION_INTEGER {
-		if _instance, ok := stage.DATATYPE_DEFINITION_INTEGERs_instance[_reference]; ok {
-			_DATATYPE_DEFINITION_INTEGER = append(_DATATYPE_DEFINITION_INTEGER, _instance)
-		}
-	}
-	reference.DATATYPE_DEFINITION_INTEGER = _DATATYPE_DEFINITION_INTEGER
-	var _DATATYPE_DEFINITION_REAL []*DATATYPE_DEFINITION_REAL
-	for _, _reference := range reference.DATATYPE_DEFINITION_REAL {
-		if _instance, ok := stage.DATATYPE_DEFINITION_REALs_instance[_reference]; ok {
-			_DATATYPE_DEFINITION_REAL = append(_DATATYPE_DEFINITION_REAL, _instance)
-		}
-	}
-	reference.DATATYPE_DEFINITION_REAL = _DATATYPE_DEFINITION_REAL
-	var _DATATYPE_DEFINITION_STRING []*DATATYPE_DEFINITION_STRING
-	for _, _reference := range reference.DATATYPE_DEFINITION_STRING {
-		if _instance, ok := stage.DATATYPE_DEFINITION_STRINGs_instance[_reference]; ok {
-			_DATATYPE_DEFINITION_STRING = append(_DATATYPE_DEFINITION_STRING, _instance)
-		}
-	}
-	reference.DATATYPE_DEFINITION_STRING = _DATATYPE_DEFINITION_STRING
-	var _DATATYPE_DEFINITION_XHTML []*DATATYPE_DEFINITION_XHTML
-	for _, _reference := range reference.DATATYPE_DEFINITION_XHTML {
-		if _instance, ok := stage.DATATYPE_DEFINITION_XHTMLs_instance[_reference]; ok {
-			_DATATYPE_DEFINITION_XHTML = append(_DATATYPE_DEFINITION_XHTML, _instance)
-		}
-	}
-	reference.DATATYPE_DEFINITION_XHTML = _DATATYPE_DEFINITION_XHTML
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DATATYPE_DEFINITION_BOOLEAN, stage.DATATYPE_DEFINITION_BOOLEANs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DATATYPE_DEFINITION_DATE, stage.DATATYPE_DEFINITION_DATEs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DATATYPE_DEFINITION_ENUMERATION, stage.DATATYPE_DEFINITION_ENUMERATIONs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DATATYPE_DEFINITION_INTEGER, stage.DATATYPE_DEFINITION_INTEGERs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DATATYPE_DEFINITION_REAL, stage.DATATYPE_DEFINITION_REALs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DATATYPE_DEFINITION_STRING, stage.DATATYPE_DEFINITION_STRINGs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DATATYPE_DEFINITION_XHTML, stage.DATATYPE_DEFINITION_XHTMLs_instance)
 }
 
 func (reference *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongReconstructPointersFromInstances(stage *Stage) {
@@ -10319,12 +7758,7 @@ func (reference *A_OBJECT) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *A_PROPERTIES) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.EMBEDDED_VALUE; _reference != nil {
-		reference.EMBEDDED_VALUE = nil
-		if _instance, ok := stage.EMBEDDED_VALUEs_instance[_reference]; ok {
-			reference.EMBEDDED_VALUE = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.EMBEDDED_VALUE, stage.EMBEDDED_VALUEs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -10346,13 +7780,7 @@ func (reference *A_SOURCE_SPECIFICATION_1) GongReconstructPointersFromInstances(
 func (reference *A_SPECIFICATIONS) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _SPECIFICATION []*SPECIFICATION
-	for _, _reference := range reference.SPECIFICATION {
-		if _instance, ok := stage.SPECIFICATIONs_instance[_reference]; ok {
-			_SPECIFICATION = append(_SPECIFICATION, _instance)
-		}
-	}
-	reference.SPECIFICATION = _SPECIFICATION
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SPECIFICATION, stage.SPECIFICATIONs_instance)
 }
 
 func (reference *A_SPECIFICATION_TYPE_REF) GongReconstructPointersFromInstances(stage *Stage) {
@@ -10363,79 +7791,25 @@ func (reference *A_SPECIFICATION_TYPE_REF) GongReconstructPointersFromInstances(
 func (reference *A_SPECIFIED_VALUES) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _ENUM_VALUE []*ENUM_VALUE
-	for _, _reference := range reference.ENUM_VALUE {
-		if _instance, ok := stage.ENUM_VALUEs_instance[_reference]; ok {
-			_ENUM_VALUE = append(_ENUM_VALUE, _instance)
-		}
-	}
-	reference.ENUM_VALUE = _ENUM_VALUE
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ENUM_VALUE, stage.ENUM_VALUEs_instance)
 }
 
 func (reference *A_SPEC_ATTRIBUTES) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _ATTRIBUTE_DEFINITION_BOOLEAN []*ATTRIBUTE_DEFINITION_BOOLEAN
-	for _, _reference := range reference.ATTRIBUTE_DEFINITION_BOOLEAN {
-		if _instance, ok := stage.ATTRIBUTE_DEFINITION_BOOLEANs_instance[_reference]; ok {
-			_ATTRIBUTE_DEFINITION_BOOLEAN = append(_ATTRIBUTE_DEFINITION_BOOLEAN, _instance)
-		}
-	}
-	reference.ATTRIBUTE_DEFINITION_BOOLEAN = _ATTRIBUTE_DEFINITION_BOOLEAN
-	var _ATTRIBUTE_DEFINITION_DATE []*ATTRIBUTE_DEFINITION_DATE
-	for _, _reference := range reference.ATTRIBUTE_DEFINITION_DATE {
-		if _instance, ok := stage.ATTRIBUTE_DEFINITION_DATEs_instance[_reference]; ok {
-			_ATTRIBUTE_DEFINITION_DATE = append(_ATTRIBUTE_DEFINITION_DATE, _instance)
-		}
-	}
-	reference.ATTRIBUTE_DEFINITION_DATE = _ATTRIBUTE_DEFINITION_DATE
-	var _ATTRIBUTE_DEFINITION_ENUMERATION []*ATTRIBUTE_DEFINITION_ENUMERATION
-	for _, _reference := range reference.ATTRIBUTE_DEFINITION_ENUMERATION {
-		if _instance, ok := stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_instance[_reference]; ok {
-			_ATTRIBUTE_DEFINITION_ENUMERATION = append(_ATTRIBUTE_DEFINITION_ENUMERATION, _instance)
-		}
-	}
-	reference.ATTRIBUTE_DEFINITION_ENUMERATION = _ATTRIBUTE_DEFINITION_ENUMERATION
-	var _ATTRIBUTE_DEFINITION_INTEGER []*ATTRIBUTE_DEFINITION_INTEGER
-	for _, _reference := range reference.ATTRIBUTE_DEFINITION_INTEGER {
-		if _instance, ok := stage.ATTRIBUTE_DEFINITION_INTEGERs_instance[_reference]; ok {
-			_ATTRIBUTE_DEFINITION_INTEGER = append(_ATTRIBUTE_DEFINITION_INTEGER, _instance)
-		}
-	}
-	reference.ATTRIBUTE_DEFINITION_INTEGER = _ATTRIBUTE_DEFINITION_INTEGER
-	var _ATTRIBUTE_DEFINITION_REAL []*ATTRIBUTE_DEFINITION_REAL
-	for _, _reference := range reference.ATTRIBUTE_DEFINITION_REAL {
-		if _instance, ok := stage.ATTRIBUTE_DEFINITION_REALs_instance[_reference]; ok {
-			_ATTRIBUTE_DEFINITION_REAL = append(_ATTRIBUTE_DEFINITION_REAL, _instance)
-		}
-	}
-	reference.ATTRIBUTE_DEFINITION_REAL = _ATTRIBUTE_DEFINITION_REAL
-	var _ATTRIBUTE_DEFINITION_STRING []*ATTRIBUTE_DEFINITION_STRING
-	for _, _reference := range reference.ATTRIBUTE_DEFINITION_STRING {
-		if _instance, ok := stage.ATTRIBUTE_DEFINITION_STRINGs_instance[_reference]; ok {
-			_ATTRIBUTE_DEFINITION_STRING = append(_ATTRIBUTE_DEFINITION_STRING, _instance)
-		}
-	}
-	reference.ATTRIBUTE_DEFINITION_STRING = _ATTRIBUTE_DEFINITION_STRING
-	var _ATTRIBUTE_DEFINITION_XHTML []*ATTRIBUTE_DEFINITION_XHTML
-	for _, _reference := range reference.ATTRIBUTE_DEFINITION_XHTML {
-		if _instance, ok := stage.ATTRIBUTE_DEFINITION_XHTMLs_instance[_reference]; ok {
-			_ATTRIBUTE_DEFINITION_XHTML = append(_ATTRIBUTE_DEFINITION_XHTML, _instance)
-		}
-	}
-	reference.ATTRIBUTE_DEFINITION_XHTML = _ATTRIBUTE_DEFINITION_XHTML
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_DEFINITION_BOOLEAN, stage.ATTRIBUTE_DEFINITION_BOOLEANs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_DEFINITION_DATE, stage.ATTRIBUTE_DEFINITION_DATEs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_DEFINITION_ENUMERATION, stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_DEFINITION_INTEGER, stage.ATTRIBUTE_DEFINITION_INTEGERs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_DEFINITION_REAL, stage.ATTRIBUTE_DEFINITION_REALs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_DEFINITION_STRING, stage.ATTRIBUTE_DEFINITION_STRINGs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ATTRIBUTE_DEFINITION_XHTML, stage.ATTRIBUTE_DEFINITION_XHTMLs_instance)
 }
 
 func (reference *A_SPEC_OBJECTS) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _SPEC_OBJECT []*SPEC_OBJECT
-	for _, _reference := range reference.SPEC_OBJECT {
-		if _instance, ok := stage.SPEC_OBJECTs_instance[_reference]; ok {
-			_SPEC_OBJECT = append(_SPEC_OBJECT, _instance)
-		}
-	}
-	reference.SPEC_OBJECT = _SPEC_OBJECT
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SPEC_OBJECT, stage.SPEC_OBJECTs_instance)
 }
 
 func (reference *A_SPEC_OBJECT_TYPE_REF) GongReconstructPointersFromInstances(stage *Stage) {
@@ -10446,25 +7820,13 @@ func (reference *A_SPEC_OBJECT_TYPE_REF) GongReconstructPointersFromInstances(st
 func (reference *A_SPEC_RELATIONS) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _SPEC_RELATION []*SPEC_RELATION
-	for _, _reference := range reference.SPEC_RELATION {
-		if _instance, ok := stage.SPEC_RELATIONs_instance[_reference]; ok {
-			_SPEC_RELATION = append(_SPEC_RELATION, _instance)
-		}
-	}
-	reference.SPEC_RELATION = _SPEC_RELATION
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SPEC_RELATION, stage.SPEC_RELATIONs_instance)
 }
 
 func (reference *A_SPEC_RELATION_GROUPS) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _RELATION_GROUP []*RELATION_GROUP
-	for _, _reference := range reference.RELATION_GROUP {
-		if _instance, ok := stage.RELATION_GROUPs_instance[_reference]; ok {
-			_RELATION_GROUP = append(_RELATION_GROUP, _instance)
-		}
-	}
-	reference.RELATION_GROUP = _RELATION_GROUP
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RELATION_GROUP, stage.RELATION_GROUPs_instance)
 }
 
 func (reference *A_SPEC_RELATION_REF) GongReconstructPointersFromInstances(stage *Stage) {
@@ -10480,139 +7842,64 @@ func (reference *A_SPEC_RELATION_TYPE_REF) GongReconstructPointersFromInstances(
 func (reference *A_SPEC_TYPES) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _RELATION_GROUP_TYPE []*RELATION_GROUP_TYPE
-	for _, _reference := range reference.RELATION_GROUP_TYPE {
-		if _instance, ok := stage.RELATION_GROUP_TYPEs_instance[_reference]; ok {
-			_RELATION_GROUP_TYPE = append(_RELATION_GROUP_TYPE, _instance)
-		}
-	}
-	reference.RELATION_GROUP_TYPE = _RELATION_GROUP_TYPE
-	var _SPEC_OBJECT_TYPE []*SPEC_OBJECT_TYPE
-	for _, _reference := range reference.SPEC_OBJECT_TYPE {
-		if _instance, ok := stage.SPEC_OBJECT_TYPEs_instance[_reference]; ok {
-			_SPEC_OBJECT_TYPE = append(_SPEC_OBJECT_TYPE, _instance)
-		}
-	}
-	reference.SPEC_OBJECT_TYPE = _SPEC_OBJECT_TYPE
-	var _SPEC_RELATION_TYPE []*SPEC_RELATION_TYPE
-	for _, _reference := range reference.SPEC_RELATION_TYPE {
-		if _instance, ok := stage.SPEC_RELATION_TYPEs_instance[_reference]; ok {
-			_SPEC_RELATION_TYPE = append(_SPEC_RELATION_TYPE, _instance)
-		}
-	}
-	reference.SPEC_RELATION_TYPE = _SPEC_RELATION_TYPE
-	var _SPECIFICATION_TYPE []*SPECIFICATION_TYPE
-	for _, _reference := range reference.SPECIFICATION_TYPE {
-		if _instance, ok := stage.SPECIFICATION_TYPEs_instance[_reference]; ok {
-			_SPECIFICATION_TYPE = append(_SPECIFICATION_TYPE, _instance)
-		}
-	}
-	reference.SPECIFICATION_TYPE = _SPECIFICATION_TYPE
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RELATION_GROUP_TYPE, stage.RELATION_GROUP_TYPEs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SPEC_OBJECT_TYPE, stage.SPEC_OBJECT_TYPEs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SPEC_RELATION_TYPE, stage.SPEC_RELATION_TYPEs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SPECIFICATION_TYPE, stage.SPECIFICATION_TYPEs_instance)
 }
 
 func (reference *A_THE_HEADER) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.REQ_IF_HEADER; _reference != nil {
-		reference.REQ_IF_HEADER = nil
-		if _instance, ok := stage.REQ_IF_HEADERs_instance[_reference]; ok {
-			reference.REQ_IF_HEADER = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.REQ_IF_HEADER, stage.REQ_IF_HEADERs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *A_TOOL_EXTENSIONS) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _REQ_IF_TOOL_EXTENSION []*REQ_IF_TOOL_EXTENSION
-	for _, _reference := range reference.REQ_IF_TOOL_EXTENSION {
-		if _instance, ok := stage.REQ_IF_TOOL_EXTENSIONs_instance[_reference]; ok {
-			_REQ_IF_TOOL_EXTENSION = append(_REQ_IF_TOOL_EXTENSION, _instance)
-		}
-	}
-	reference.REQ_IF_TOOL_EXTENSION = _REQ_IF_TOOL_EXTENSION
+	__gong__reconstructSliceOfPointersFromInstances(&reference.REQ_IF_TOOL_EXTENSION, stage.REQ_IF_TOOL_EXTENSIONs_instance)
 }
 
 func (reference *DATATYPE_DEFINITION_BOOLEAN) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *DATATYPE_DEFINITION_DATE) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *DATATYPE_DEFINITION_ENUMERATION) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.SPECIFIED_VALUES; _reference != nil {
-		reference.SPECIFIED_VALUES = nil
-		if _instance, ok := stage.A_SPECIFIED_VALUESs_instance[_reference]; ok {
-			reference.SPECIFIED_VALUES = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.SPECIFIED_VALUES, stage.A_SPECIFIED_VALUESs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *DATATYPE_DEFINITION_INTEGER) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *DATATYPE_DEFINITION_REAL) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *DATATYPE_DEFINITION_STRING) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *DATATYPE_DEFINITION_XHTML) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -10623,18 +7910,8 @@ func (reference *EMBEDDED_VALUE) GongReconstructPointersFromInstances(stage *Sta
 
 func (reference *ENUM_VALUE) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.PROPERTIES; _reference != nil {
-		reference.PROPERTIES = nil
-		if _instance, ok := stage.A_PROPERTIESs_instance[_reference]; ok {
-			reference.PROPERTIES = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.PROPERTIES, stage.A_PROPERTIESs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -10665,117 +7942,37 @@ func (reference *Map_identifier_bool) GongReconstructPointersFromInstances(stage
 
 func (reference *RELATION_GROUP) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.SOURCE_SPECIFICATION; _reference != nil {
-		reference.SOURCE_SPECIFICATION = nil
-		if _instance, ok := stage.A_SOURCE_SPECIFICATION_1s_instance[_reference]; ok {
-			reference.SOURCE_SPECIFICATION = _instance
-		}
-	}
-	if _reference := reference.SPEC_RELATIONS; _reference != nil {
-		reference.SPEC_RELATIONS = nil
-		if _instance, ok := stage.A_SPEC_RELATION_REFs_instance[_reference]; ok {
-			reference.SPEC_RELATIONS = _instance
-		}
-	}
-	if _reference := reference.TARGET_SPECIFICATION; _reference != nil {
-		reference.TARGET_SPECIFICATION = nil
-		if _instance, ok := stage.A_SOURCE_SPECIFICATION_1s_instance[_reference]; ok {
-			reference.TARGET_SPECIFICATION = _instance
-		}
-	}
-	if _reference := reference.TYPE; _reference != nil {
-		reference.TYPE = nil
-		if _instance, ok := stage.A_RELATION_GROUP_TYPE_REFs_instance[_reference]; ok {
-			reference.TYPE = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.SOURCE_SPECIFICATION, stage.A_SOURCE_SPECIFICATION_1s_instance)
+	__gong__reconstructPointerFromInstance(&reference.SPEC_RELATIONS, stage.A_SPEC_RELATION_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TARGET_SPECIFICATION, stage.A_SOURCE_SPECIFICATION_1s_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_RELATION_GROUP_TYPE_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *RELATION_GROUP_TYPE) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.SPEC_ATTRIBUTES; _reference != nil {
-		reference.SPEC_ATTRIBUTES = nil
-		if _instance, ok := stage.A_SPEC_ATTRIBUTESs_instance[_reference]; ok {
-			reference.SPEC_ATTRIBUTES = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.SPEC_ATTRIBUTES, stage.A_SPEC_ATTRIBUTESs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *REQ_IF) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.THE_HEADER; _reference != nil {
-		reference.THE_HEADER = nil
-		if _instance, ok := stage.A_THE_HEADERs_instance[_reference]; ok {
-			reference.THE_HEADER = _instance
-		}
-	}
-	if _reference := reference.CORE_CONTENT; _reference != nil {
-		reference.CORE_CONTENT = nil
-		if _instance, ok := stage.A_CORE_CONTENTs_instance[_reference]; ok {
-			reference.CORE_CONTENT = _instance
-		}
-	}
-	if _reference := reference.TOOL_EXTENSIONS; _reference != nil {
-		reference.TOOL_EXTENSIONS = nil
-		if _instance, ok := stage.A_TOOL_EXTENSIONSs_instance[_reference]; ok {
-			reference.TOOL_EXTENSIONS = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.THE_HEADER, stage.A_THE_HEADERs_instance)
+	__gong__reconstructPointerFromInstance(&reference.CORE_CONTENT, stage.A_CORE_CONTENTs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TOOL_EXTENSIONS, stage.A_TOOL_EXTENSIONSs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *REQ_IF_CONTENT) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.DATATYPES; _reference != nil {
-		reference.DATATYPES = nil
-		if _instance, ok := stage.A_DATATYPESs_instance[_reference]; ok {
-			reference.DATATYPES = _instance
-		}
-	}
-	if _reference := reference.SPEC_TYPES; _reference != nil {
-		reference.SPEC_TYPES = nil
-		if _instance, ok := stage.A_SPEC_TYPESs_instance[_reference]; ok {
-			reference.SPEC_TYPES = _instance
-		}
-	}
-	if _reference := reference.SPEC_OBJECTS; _reference != nil {
-		reference.SPEC_OBJECTS = nil
-		if _instance, ok := stage.A_SPEC_OBJECTSs_instance[_reference]; ok {
-			reference.SPEC_OBJECTS = _instance
-		}
-	}
-	if _reference := reference.SPEC_RELATIONS; _reference != nil {
-		reference.SPEC_RELATIONS = nil
-		if _instance, ok := stage.A_SPEC_RELATIONSs_instance[_reference]; ok {
-			reference.SPEC_RELATIONS = _instance
-		}
-	}
-	if _reference := reference.SPECIFICATIONS; _reference != nil {
-		reference.SPECIFICATIONS = nil
-		if _instance, ok := stage.A_SPECIFICATIONSs_instance[_reference]; ok {
-			reference.SPECIFICATIONS = _instance
-		}
-	}
-	if _reference := reference.SPEC_RELATION_GROUPS; _reference != nil {
-		reference.SPEC_RELATION_GROUPS = nil
-		if _instance, ok := stage.A_SPEC_RELATION_GROUPSs_instance[_reference]; ok {
-			reference.SPEC_RELATION_GROUPS = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.DATATYPES, stage.A_DATATYPESs_instance)
+	__gong__reconstructPointerFromInstance(&reference.SPEC_TYPES, stage.A_SPEC_TYPESs_instance)
+	__gong__reconstructPointerFromInstance(&reference.SPEC_OBJECTS, stage.A_SPEC_OBJECTSs_instance)
+	__gong__reconstructPointerFromInstance(&reference.SPEC_RELATIONS, stage.A_SPEC_RELATIONSs_instance)
+	__gong__reconstructPointerFromInstance(&reference.SPECIFICATIONS, stage.A_SPECIFICATIONSs_instance)
+	__gong__reconstructPointerFromInstance(&reference.SPEC_RELATION_GROUPS, stage.A_SPEC_RELATION_GROUPSs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -10791,30 +7988,10 @@ func (reference *REQ_IF_TOOL_EXTENSION) GongReconstructPointersFromInstances(sta
 
 func (reference *SPECIFICATION) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.TYPE; _reference != nil {
-		reference.TYPE = nil
-		if _instance, ok := stage.A_SPECIFICATION_TYPE_REFs_instance[_reference]; ok {
-			reference.TYPE = _instance
-		}
-	}
-	if _reference := reference.CHILDREN; _reference != nil {
-		reference.CHILDREN = nil
-		if _instance, ok := stage.A_CHILDRENs_instance[_reference]; ok {
-			reference.CHILDREN = _instance
-		}
-	}
-	if _reference := reference.VALUES; _reference != nil {
-		reference.VALUES = nil
-		if _instance, ok := stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance[_reference]; ok {
-			reference.VALUES = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_SPECIFICATION_TYPE_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.CHILDREN, stage.A_CHILDRENs_instance)
+	__gong__reconstructPointerFromInstance(&reference.VALUES, stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -10825,87 +8002,32 @@ func (reference *SPECIFICATION_Rendering) GongReconstructPointersFromInstances(s
 
 func (reference *SPECIFICATION_TYPE) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.SPEC_ATTRIBUTES; _reference != nil {
-		reference.SPEC_ATTRIBUTES = nil
-		if _instance, ok := stage.A_SPEC_ATTRIBUTESs_instance[_reference]; ok {
-			reference.SPEC_ATTRIBUTES = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.SPEC_ATTRIBUTES, stage.A_SPEC_ATTRIBUTESs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *SPEC_HIERARCHY) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.OBJECT; _reference != nil {
-		reference.OBJECT = nil
-		if _instance, ok := stage.A_OBJECTs_instance[_reference]; ok {
-			reference.OBJECT = _instance
-		}
-	}
-	if _reference := reference.CHILDREN; _reference != nil {
-		reference.CHILDREN = nil
-		if _instance, ok := stage.A_CHILDRENs_instance[_reference]; ok {
-			reference.CHILDREN = _instance
-		}
-	}
-	if _reference := reference.EDITABLE_ATTS; _reference != nil {
-		reference.EDITABLE_ATTS = nil
-		if _instance, ok := stage.A_EDITABLE_ATTSs_instance[_reference]; ok {
-			reference.EDITABLE_ATTS = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.OBJECT, stage.A_OBJECTs_instance)
+	__gong__reconstructPointerFromInstance(&reference.CHILDREN, stage.A_CHILDRENs_instance)
+	__gong__reconstructPointerFromInstance(&reference.EDITABLE_ATTS, stage.A_EDITABLE_ATTSs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *SPEC_OBJECT) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.VALUES; _reference != nil {
-		reference.VALUES = nil
-		if _instance, ok := stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance[_reference]; ok {
-			reference.VALUES = _instance
-		}
-	}
-	if _reference := reference.TYPE; _reference != nil {
-		reference.TYPE = nil
-		if _instance, ok := stage.A_SPEC_OBJECT_TYPE_REFs_instance[_reference]; ok {
-			reference.TYPE = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.VALUES, stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_SPEC_OBJECT_TYPE_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *SPEC_OBJECT_TYPE) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.SPEC_ATTRIBUTES; _reference != nil {
-		reference.SPEC_ATTRIBUTES = nil
-		if _instance, ok := stage.A_SPEC_ATTRIBUTESs_instance[_reference]; ok {
-			reference.SPEC_ATTRIBUTES = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.SPEC_ATTRIBUTES, stage.A_SPEC_ATTRIBUTESs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -10916,78 +8038,31 @@ func (reference *SPEC_OBJECT_TYPE_Rendering) GongReconstructPointersFromInstance
 
 func (reference *SPEC_RELATION) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.VALUES; _reference != nil {
-		reference.VALUES = nil
-		if _instance, ok := stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance[_reference]; ok {
-			reference.VALUES = _instance
-		}
-	}
-	if _reference := reference.SOURCE; _reference != nil {
-		reference.SOURCE = nil
-		if _instance, ok := stage.A_SOURCE_1s_instance[_reference]; ok {
-			reference.SOURCE = _instance
-		}
-	}
-	if _reference := reference.TARGET; _reference != nil {
-		reference.TARGET = nil
-		if _instance, ok := stage.A_SOURCE_1s_instance[_reference]; ok {
-			reference.TARGET = _instance
-		}
-	}
-	if _reference := reference.TYPE; _reference != nil {
-		reference.TYPE = nil
-		if _instance, ok := stage.A_SPEC_RELATION_TYPE_REFs_instance[_reference]; ok {
-			reference.TYPE = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.VALUES, stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance)
+	__gong__reconstructPointerFromInstance(&reference.SOURCE, stage.A_SOURCE_1s_instance)
+	__gong__reconstructPointerFromInstance(&reference.TARGET, stage.A_SOURCE_1s_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_SPEC_RELATION_TYPE_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *SPEC_RELATION_TYPE) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
-		reference.ALTERNATIVE_ID = nil
-		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
-			reference.ALTERNATIVE_ID = _instance
-		}
-	}
-	if _reference := reference.SPEC_ATTRIBUTES; _reference != nil {
-		reference.SPEC_ATTRIBUTES = nil
-		if _instance, ok := stage.A_SPEC_ATTRIBUTESs_instance[_reference]; ok {
-			reference.SPEC_ATTRIBUTES = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
+	__gong__reconstructPointerFromInstance(&reference.SPEC_ATTRIBUTES, stage.A_SPEC_ATTRIBUTESs_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *StaticWebSite) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Chapters []*StaticWebSiteChapter
-	for _, _reference := range reference.Chapters {
-		if _instance, ok := stage.StaticWebSiteChapters_instance[_reference]; ok {
-			_Chapters = append(_Chapters, _instance)
-		}
-	}
-	reference.Chapters = _Chapters
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Chapters, stage.StaticWebSiteChapters_instance)
 }
 
 func (reference *StaticWebSiteChapter) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Paragraphs []*StaticWebSiteParagraph
-	for _, _reference := range reference.Paragraphs {
-		if _instance, ok := stage.StaticWebSiteParagraphs_instance[_reference]; ok {
-			_Paragraphs = append(_Paragraphs, _instance)
-		}
-	}
-	reference.Paragraphs = _Paragraphs
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Paragraphs, stage.StaticWebSiteParagraphs_instance)
 }
 
 func (reference *StaticWebSiteGeneratedImage) GongReconstructPointersFromInstances(stage *Stage) {
@@ -11002,12 +8077,7 @@ func (reference *StaticWebSiteImage) GongReconstructPointersFromInstances(stage 
 
 func (reference *StaticWebSiteParagraph) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Image; _reference != nil {
-		reference.Image = nil
-		if _instance, ok := stage.StaticWebSiteImages_instance[_reference]; ok {
-			reference.Image = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Image, stage.StaticWebSiteImages_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -11053,26 +8123,14 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongDiff(stage
 	if attribute_definition_boolean.LONG_NAME != attribute_definition_booleanOther.LONG_NAME {
 		diffs = append(diffs, attribute_definition_boolean.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (attribute_definition_boolean.ALTERNATIVE_ID == nil) != (attribute_definition_booleanOther.ALTERNATIVE_ID == nil) {
+	if attribute_definition_boolean.ALTERNATIVE_ID != attribute_definition_booleanOther.ALTERNATIVE_ID {
 		diffs = append(diffs, attribute_definition_boolean.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if attribute_definition_boolean.ALTERNATIVE_ID != nil && attribute_definition_booleanOther.ALTERNATIVE_ID != nil {
-		if attribute_definition_boolean.ALTERNATIVE_ID != attribute_definition_booleanOther.ALTERNATIVE_ID {
-			diffs = append(diffs, attribute_definition_boolean.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (attribute_definition_boolean.DEFAULT_VALUE == nil) != (attribute_definition_booleanOther.DEFAULT_VALUE == nil) {
+	if attribute_definition_boolean.DEFAULT_VALUE != attribute_definition_booleanOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_boolean.GongMarshallField(stage, "DEFAULT_VALUE"))
-	} else if attribute_definition_boolean.DEFAULT_VALUE != nil && attribute_definition_booleanOther.DEFAULT_VALUE != nil {
-		if attribute_definition_boolean.DEFAULT_VALUE != attribute_definition_booleanOther.DEFAULT_VALUE {
-			diffs = append(diffs, attribute_definition_boolean.GongMarshallField(stage, "DEFAULT_VALUE"))
-		}
 	}
-	if (attribute_definition_boolean.TYPE == nil) != (attribute_definition_booleanOther.TYPE == nil) {
+	if attribute_definition_boolean.TYPE != attribute_definition_booleanOther.TYPE {
 		diffs = append(diffs, attribute_definition_boolean.GongMarshallField(stage, "TYPE"))
-	} else if attribute_definition_boolean.TYPE != nil && attribute_definition_booleanOther.TYPE != nil {
-		if attribute_definition_boolean.TYPE != attribute_definition_booleanOther.TYPE {
-			diffs = append(diffs, attribute_definition_boolean.GongMarshallField(stage, "TYPE"))
-		}
 	}
 
 	return
@@ -11123,26 +8181,14 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongDiff(stage *Stag
 	if attribute_definition_date.LONG_NAME != attribute_definition_dateOther.LONG_NAME {
 		diffs = append(diffs, attribute_definition_date.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (attribute_definition_date.ALTERNATIVE_ID == nil) != (attribute_definition_dateOther.ALTERNATIVE_ID == nil) {
+	if attribute_definition_date.ALTERNATIVE_ID != attribute_definition_dateOther.ALTERNATIVE_ID {
 		diffs = append(diffs, attribute_definition_date.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if attribute_definition_date.ALTERNATIVE_ID != nil && attribute_definition_dateOther.ALTERNATIVE_ID != nil {
-		if attribute_definition_date.ALTERNATIVE_ID != attribute_definition_dateOther.ALTERNATIVE_ID {
-			diffs = append(diffs, attribute_definition_date.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (attribute_definition_date.DEFAULT_VALUE == nil) != (attribute_definition_dateOther.DEFAULT_VALUE == nil) {
+	if attribute_definition_date.DEFAULT_VALUE != attribute_definition_dateOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_date.GongMarshallField(stage, "DEFAULT_VALUE"))
-	} else if attribute_definition_date.DEFAULT_VALUE != nil && attribute_definition_dateOther.DEFAULT_VALUE != nil {
-		if attribute_definition_date.DEFAULT_VALUE != attribute_definition_dateOther.DEFAULT_VALUE {
-			diffs = append(diffs, attribute_definition_date.GongMarshallField(stage, "DEFAULT_VALUE"))
-		}
 	}
-	if (attribute_definition_date.TYPE == nil) != (attribute_definition_dateOther.TYPE == nil) {
+	if attribute_definition_date.TYPE != attribute_definition_dateOther.TYPE {
 		diffs = append(diffs, attribute_definition_date.GongMarshallField(stage, "TYPE"))
-	} else if attribute_definition_date.TYPE != nil && attribute_definition_dateOther.TYPE != nil {
-		if attribute_definition_date.TYPE != attribute_definition_dateOther.TYPE {
-			diffs = append(diffs, attribute_definition_date.GongMarshallField(stage, "TYPE"))
-		}
 	}
 
 	return
@@ -11196,26 +8242,14 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongDi
 	if attribute_definition_enumeration.MULTI_VALUED != attribute_definition_enumerationOther.MULTI_VALUED {
 		diffs = append(diffs, attribute_definition_enumeration.GongMarshallField(stage, "MULTI_VALUED"))
 	}
-	if (attribute_definition_enumeration.ALTERNATIVE_ID == nil) != (attribute_definition_enumerationOther.ALTERNATIVE_ID == nil) {
+	if attribute_definition_enumeration.ALTERNATIVE_ID != attribute_definition_enumerationOther.ALTERNATIVE_ID {
 		diffs = append(diffs, attribute_definition_enumeration.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if attribute_definition_enumeration.ALTERNATIVE_ID != nil && attribute_definition_enumerationOther.ALTERNATIVE_ID != nil {
-		if attribute_definition_enumeration.ALTERNATIVE_ID != attribute_definition_enumerationOther.ALTERNATIVE_ID {
-			diffs = append(diffs, attribute_definition_enumeration.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (attribute_definition_enumeration.DEFAULT_VALUE == nil) != (attribute_definition_enumerationOther.DEFAULT_VALUE == nil) {
+	if attribute_definition_enumeration.DEFAULT_VALUE != attribute_definition_enumerationOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_enumeration.GongMarshallField(stage, "DEFAULT_VALUE"))
-	} else if attribute_definition_enumeration.DEFAULT_VALUE != nil && attribute_definition_enumerationOther.DEFAULT_VALUE != nil {
-		if attribute_definition_enumeration.DEFAULT_VALUE != attribute_definition_enumerationOther.DEFAULT_VALUE {
-			diffs = append(diffs, attribute_definition_enumeration.GongMarshallField(stage, "DEFAULT_VALUE"))
-		}
 	}
-	if (attribute_definition_enumeration.TYPE == nil) != (attribute_definition_enumerationOther.TYPE == nil) {
+	if attribute_definition_enumeration.TYPE != attribute_definition_enumerationOther.TYPE {
 		diffs = append(diffs, attribute_definition_enumeration.GongMarshallField(stage, "TYPE"))
-	} else if attribute_definition_enumeration.TYPE != nil && attribute_definition_enumerationOther.TYPE != nil {
-		if attribute_definition_enumeration.TYPE != attribute_definition_enumerationOther.TYPE {
-			diffs = append(diffs, attribute_definition_enumeration.GongMarshallField(stage, "TYPE"))
-		}
 	}
 
 	return
@@ -11266,26 +8300,14 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongDiff(stage
 	if attribute_definition_integer.LONG_NAME != attribute_definition_integerOther.LONG_NAME {
 		diffs = append(diffs, attribute_definition_integer.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (attribute_definition_integer.ALTERNATIVE_ID == nil) != (attribute_definition_integerOther.ALTERNATIVE_ID == nil) {
+	if attribute_definition_integer.ALTERNATIVE_ID != attribute_definition_integerOther.ALTERNATIVE_ID {
 		diffs = append(diffs, attribute_definition_integer.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if attribute_definition_integer.ALTERNATIVE_ID != nil && attribute_definition_integerOther.ALTERNATIVE_ID != nil {
-		if attribute_definition_integer.ALTERNATIVE_ID != attribute_definition_integerOther.ALTERNATIVE_ID {
-			diffs = append(diffs, attribute_definition_integer.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (attribute_definition_integer.DEFAULT_VALUE == nil) != (attribute_definition_integerOther.DEFAULT_VALUE == nil) {
+	if attribute_definition_integer.DEFAULT_VALUE != attribute_definition_integerOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_integer.GongMarshallField(stage, "DEFAULT_VALUE"))
-	} else if attribute_definition_integer.DEFAULT_VALUE != nil && attribute_definition_integerOther.DEFAULT_VALUE != nil {
-		if attribute_definition_integer.DEFAULT_VALUE != attribute_definition_integerOther.DEFAULT_VALUE {
-			diffs = append(diffs, attribute_definition_integer.GongMarshallField(stage, "DEFAULT_VALUE"))
-		}
 	}
-	if (attribute_definition_integer.TYPE == nil) != (attribute_definition_integerOther.TYPE == nil) {
+	if attribute_definition_integer.TYPE != attribute_definition_integerOther.TYPE {
 		diffs = append(diffs, attribute_definition_integer.GongMarshallField(stage, "TYPE"))
-	} else if attribute_definition_integer.TYPE != nil && attribute_definition_integerOther.TYPE != nil {
-		if attribute_definition_integer.TYPE != attribute_definition_integerOther.TYPE {
-			diffs = append(diffs, attribute_definition_integer.GongMarshallField(stage, "TYPE"))
-		}
 	}
 
 	return
@@ -11336,26 +8358,14 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongDiff(stage *Stag
 	if attribute_definition_real.LONG_NAME != attribute_definition_realOther.LONG_NAME {
 		diffs = append(diffs, attribute_definition_real.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (attribute_definition_real.ALTERNATIVE_ID == nil) != (attribute_definition_realOther.ALTERNATIVE_ID == nil) {
+	if attribute_definition_real.ALTERNATIVE_ID != attribute_definition_realOther.ALTERNATIVE_ID {
 		diffs = append(diffs, attribute_definition_real.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if attribute_definition_real.ALTERNATIVE_ID != nil && attribute_definition_realOther.ALTERNATIVE_ID != nil {
-		if attribute_definition_real.ALTERNATIVE_ID != attribute_definition_realOther.ALTERNATIVE_ID {
-			diffs = append(diffs, attribute_definition_real.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (attribute_definition_real.DEFAULT_VALUE == nil) != (attribute_definition_realOther.DEFAULT_VALUE == nil) {
+	if attribute_definition_real.DEFAULT_VALUE != attribute_definition_realOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_real.GongMarshallField(stage, "DEFAULT_VALUE"))
-	} else if attribute_definition_real.DEFAULT_VALUE != nil && attribute_definition_realOther.DEFAULT_VALUE != nil {
-		if attribute_definition_real.DEFAULT_VALUE != attribute_definition_realOther.DEFAULT_VALUE {
-			diffs = append(diffs, attribute_definition_real.GongMarshallField(stage, "DEFAULT_VALUE"))
-		}
 	}
-	if (attribute_definition_real.TYPE == nil) != (attribute_definition_realOther.TYPE == nil) {
+	if attribute_definition_real.TYPE != attribute_definition_realOther.TYPE {
 		diffs = append(diffs, attribute_definition_real.GongMarshallField(stage, "TYPE"))
-	} else if attribute_definition_real.TYPE != nil && attribute_definition_realOther.TYPE != nil {
-		if attribute_definition_real.TYPE != attribute_definition_realOther.TYPE {
-			diffs = append(diffs, attribute_definition_real.GongMarshallField(stage, "TYPE"))
-		}
 	}
 
 	return
@@ -11429,26 +8439,14 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongDiff(stage *
 	if attribute_definition_string.LONG_NAME != attribute_definition_stringOther.LONG_NAME {
 		diffs = append(diffs, attribute_definition_string.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (attribute_definition_string.ALTERNATIVE_ID == nil) != (attribute_definition_stringOther.ALTERNATIVE_ID == nil) {
+	if attribute_definition_string.ALTERNATIVE_ID != attribute_definition_stringOther.ALTERNATIVE_ID {
 		diffs = append(diffs, attribute_definition_string.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if attribute_definition_string.ALTERNATIVE_ID != nil && attribute_definition_stringOther.ALTERNATIVE_ID != nil {
-		if attribute_definition_string.ALTERNATIVE_ID != attribute_definition_stringOther.ALTERNATIVE_ID {
-			diffs = append(diffs, attribute_definition_string.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (attribute_definition_string.DEFAULT_VALUE == nil) != (attribute_definition_stringOther.DEFAULT_VALUE == nil) {
+	if attribute_definition_string.DEFAULT_VALUE != attribute_definition_stringOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_string.GongMarshallField(stage, "DEFAULT_VALUE"))
-	} else if attribute_definition_string.DEFAULT_VALUE != nil && attribute_definition_stringOther.DEFAULT_VALUE != nil {
-		if attribute_definition_string.DEFAULT_VALUE != attribute_definition_stringOther.DEFAULT_VALUE {
-			diffs = append(diffs, attribute_definition_string.GongMarshallField(stage, "DEFAULT_VALUE"))
-		}
 	}
-	if (attribute_definition_string.TYPE == nil) != (attribute_definition_stringOther.TYPE == nil) {
+	if attribute_definition_string.TYPE != attribute_definition_stringOther.TYPE {
 		diffs = append(diffs, attribute_definition_string.GongMarshallField(stage, "TYPE"))
-	} else if attribute_definition_string.TYPE != nil && attribute_definition_stringOther.TYPE != nil {
-		if attribute_definition_string.TYPE != attribute_definition_stringOther.TYPE {
-			diffs = append(diffs, attribute_definition_string.GongMarshallField(stage, "TYPE"))
-		}
 	}
 
 	return
@@ -11499,26 +8497,14 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongDiff(stage *St
 	if attribute_definition_xhtml.LONG_NAME != attribute_definition_xhtmlOther.LONG_NAME {
 		diffs = append(diffs, attribute_definition_xhtml.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (attribute_definition_xhtml.ALTERNATIVE_ID == nil) != (attribute_definition_xhtmlOther.ALTERNATIVE_ID == nil) {
+	if attribute_definition_xhtml.ALTERNATIVE_ID != attribute_definition_xhtmlOther.ALTERNATIVE_ID {
 		diffs = append(diffs, attribute_definition_xhtml.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if attribute_definition_xhtml.ALTERNATIVE_ID != nil && attribute_definition_xhtmlOther.ALTERNATIVE_ID != nil {
-		if attribute_definition_xhtml.ALTERNATIVE_ID != attribute_definition_xhtmlOther.ALTERNATIVE_ID {
-			diffs = append(diffs, attribute_definition_xhtml.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (attribute_definition_xhtml.DEFAULT_VALUE == nil) != (attribute_definition_xhtmlOther.DEFAULT_VALUE == nil) {
+	if attribute_definition_xhtml.DEFAULT_VALUE != attribute_definition_xhtmlOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_xhtml.GongMarshallField(stage, "DEFAULT_VALUE"))
-	} else if attribute_definition_xhtml.DEFAULT_VALUE != nil && attribute_definition_xhtmlOther.DEFAULT_VALUE != nil {
-		if attribute_definition_xhtml.DEFAULT_VALUE != attribute_definition_xhtmlOther.DEFAULT_VALUE {
-			diffs = append(diffs, attribute_definition_xhtml.GongMarshallField(stage, "DEFAULT_VALUE"))
-		}
 	}
-	if (attribute_definition_xhtml.TYPE == nil) != (attribute_definition_xhtmlOther.TYPE == nil) {
+	if attribute_definition_xhtml.TYPE != attribute_definition_xhtmlOther.TYPE {
 		diffs = append(diffs, attribute_definition_xhtml.GongMarshallField(stage, "TYPE"))
-	} else if attribute_definition_xhtml.TYPE != nil && attribute_definition_xhtmlOther.TYPE != nil {
-		if attribute_definition_xhtml.TYPE != attribute_definition_xhtmlOther.TYPE {
-			diffs = append(diffs, attribute_definition_xhtml.GongMarshallField(stage, "TYPE"))
-		}
 	}
 
 	return
@@ -11554,12 +8540,8 @@ func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongDiff(stage *Stage, a
 	if attribute_value_boolean.Name != attribute_value_booleanOther.Name {
 		diffs = append(diffs, attribute_value_boolean.GongMarshallField(stage, "Name"))
 	}
-	if (attribute_value_boolean.DEFINITION == nil) != (attribute_value_booleanOther.DEFINITION == nil) {
+	if attribute_value_boolean.DEFINITION != attribute_value_booleanOther.DEFINITION {
 		diffs = append(diffs, attribute_value_boolean.GongMarshallField(stage, "DEFINITION"))
-	} else if attribute_value_boolean.DEFINITION != nil && attribute_value_booleanOther.DEFINITION != nil {
-		if attribute_value_boolean.DEFINITION != attribute_value_booleanOther.DEFINITION {
-			diffs = append(diffs, attribute_value_boolean.GongMarshallField(stage, "DEFINITION"))
-		}
 	}
 	if attribute_value_boolean.THE_VALUE != attribute_value_booleanOther.THE_VALUE {
 		diffs = append(diffs, attribute_value_boolean.GongMarshallField(stage, "THE_VALUE"))
@@ -11575,12 +8557,8 @@ func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongDiff(stage *Stage, attribu
 	if attribute_value_date.Name != attribute_value_dateOther.Name {
 		diffs = append(diffs, attribute_value_date.GongMarshallField(stage, "Name"))
 	}
-	if (attribute_value_date.DEFINITION == nil) != (attribute_value_dateOther.DEFINITION == nil) {
+	if attribute_value_date.DEFINITION != attribute_value_dateOther.DEFINITION {
 		diffs = append(diffs, attribute_value_date.GongMarshallField(stage, "DEFINITION"))
-	} else if attribute_value_date.DEFINITION != nil && attribute_value_dateOther.DEFINITION != nil {
-		if attribute_value_date.DEFINITION != attribute_value_dateOther.DEFINITION {
-			diffs = append(diffs, attribute_value_date.GongMarshallField(stage, "DEFINITION"))
-		}
 	}
 	if attribute_value_date.THE_VALUE != attribute_value_dateOther.THE_VALUE {
 		diffs = append(diffs, attribute_value_date.GongMarshallField(stage, "THE_VALUE"))
@@ -11596,19 +8574,11 @@ func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongDiff(stage *
 	if attribute_value_enumeration.Name != attribute_value_enumerationOther.Name {
 		diffs = append(diffs, attribute_value_enumeration.GongMarshallField(stage, "Name"))
 	}
-	if (attribute_value_enumeration.DEFINITION == nil) != (attribute_value_enumerationOther.DEFINITION == nil) {
+	if attribute_value_enumeration.DEFINITION != attribute_value_enumerationOther.DEFINITION {
 		diffs = append(diffs, attribute_value_enumeration.GongMarshallField(stage, "DEFINITION"))
-	} else if attribute_value_enumeration.DEFINITION != nil && attribute_value_enumerationOther.DEFINITION != nil {
-		if attribute_value_enumeration.DEFINITION != attribute_value_enumerationOther.DEFINITION {
-			diffs = append(diffs, attribute_value_enumeration.GongMarshallField(stage, "DEFINITION"))
-		}
 	}
-	if (attribute_value_enumeration.VALUES == nil) != (attribute_value_enumerationOther.VALUES == nil) {
+	if attribute_value_enumeration.VALUES != attribute_value_enumerationOther.VALUES {
 		diffs = append(diffs, attribute_value_enumeration.GongMarshallField(stage, "VALUES"))
-	} else if attribute_value_enumeration.VALUES != nil && attribute_value_enumerationOther.VALUES != nil {
-		if attribute_value_enumeration.VALUES != attribute_value_enumerationOther.VALUES {
-			diffs = append(diffs, attribute_value_enumeration.GongMarshallField(stage, "VALUES"))
-		}
 	}
 
 	return
@@ -11621,12 +8591,8 @@ func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongDiff(stage *Stage, a
 	if attribute_value_integer.Name != attribute_value_integerOther.Name {
 		diffs = append(diffs, attribute_value_integer.GongMarshallField(stage, "Name"))
 	}
-	if (attribute_value_integer.DEFINITION == nil) != (attribute_value_integerOther.DEFINITION == nil) {
+	if attribute_value_integer.DEFINITION != attribute_value_integerOther.DEFINITION {
 		diffs = append(diffs, attribute_value_integer.GongMarshallField(stage, "DEFINITION"))
-	} else if attribute_value_integer.DEFINITION != nil && attribute_value_integerOther.DEFINITION != nil {
-		if attribute_value_integer.DEFINITION != attribute_value_integerOther.DEFINITION {
-			diffs = append(diffs, attribute_value_integer.GongMarshallField(stage, "DEFINITION"))
-		}
 	}
 	if attribute_value_integer.THE_VALUE != attribute_value_integerOther.THE_VALUE {
 		diffs = append(diffs, attribute_value_integer.GongMarshallField(stage, "THE_VALUE"))
@@ -11642,12 +8608,8 @@ func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongDiff(stage *Stage, attribu
 	if attribute_value_real.Name != attribute_value_realOther.Name {
 		diffs = append(diffs, attribute_value_real.GongMarshallField(stage, "Name"))
 	}
-	if (attribute_value_real.DEFINITION == nil) != (attribute_value_realOther.DEFINITION == nil) {
+	if attribute_value_real.DEFINITION != attribute_value_realOther.DEFINITION {
 		diffs = append(diffs, attribute_value_real.GongMarshallField(stage, "DEFINITION"))
-	} else if attribute_value_real.DEFINITION != nil && attribute_value_realOther.DEFINITION != nil {
-		if attribute_value_real.DEFINITION != attribute_value_realOther.DEFINITION {
-			diffs = append(diffs, attribute_value_real.GongMarshallField(stage, "DEFINITION"))
-		}
 	}
 	if attribute_value_real.THE_VALUE != attribute_value_realOther.THE_VALUE {
 		diffs = append(diffs, attribute_value_real.GongMarshallField(stage, "THE_VALUE"))
@@ -11663,12 +8625,8 @@ func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongDiff(stage *Stage, att
 	if attribute_value_string.Name != attribute_value_stringOther.Name {
 		diffs = append(diffs, attribute_value_string.GongMarshallField(stage, "Name"))
 	}
-	if (attribute_value_string.DEFINITION == nil) != (attribute_value_stringOther.DEFINITION == nil) {
+	if attribute_value_string.DEFINITION != attribute_value_stringOther.DEFINITION {
 		diffs = append(diffs, attribute_value_string.GongMarshallField(stage, "DEFINITION"))
-	} else if attribute_value_string.DEFINITION != nil && attribute_value_stringOther.DEFINITION != nil {
-		if attribute_value_string.DEFINITION != attribute_value_stringOther.DEFINITION {
-			diffs = append(diffs, attribute_value_string.GongMarshallField(stage, "DEFINITION"))
-		}
 	}
 	if attribute_value_string.THE_VALUE != attribute_value_stringOther.THE_VALUE {
 		diffs = append(diffs, attribute_value_string.GongMarshallField(stage, "THE_VALUE"))
@@ -11684,29 +8642,17 @@ func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongDiff(stage *Stage, attri
 	if attribute_value_xhtml.Name != attribute_value_xhtmlOther.Name {
 		diffs = append(diffs, attribute_value_xhtml.GongMarshallField(stage, "Name"))
 	}
-	if (attribute_value_xhtml.DEFINITION == nil) != (attribute_value_xhtmlOther.DEFINITION == nil) {
+	if attribute_value_xhtml.DEFINITION != attribute_value_xhtmlOther.DEFINITION {
 		diffs = append(diffs, attribute_value_xhtml.GongMarshallField(stage, "DEFINITION"))
-	} else if attribute_value_xhtml.DEFINITION != nil && attribute_value_xhtmlOther.DEFINITION != nil {
-		if attribute_value_xhtml.DEFINITION != attribute_value_xhtmlOther.DEFINITION {
-			diffs = append(diffs, attribute_value_xhtml.GongMarshallField(stage, "DEFINITION"))
-		}
 	}
 	if attribute_value_xhtml.IS_SIMPLIFIED != attribute_value_xhtmlOther.IS_SIMPLIFIED {
 		diffs = append(diffs, attribute_value_xhtml.GongMarshallField(stage, "IS_SIMPLIFIED"))
 	}
-	if (attribute_value_xhtml.THE_VALUE == nil) != (attribute_value_xhtmlOther.THE_VALUE == nil) {
+	if attribute_value_xhtml.THE_VALUE != attribute_value_xhtmlOther.THE_VALUE {
 		diffs = append(diffs, attribute_value_xhtml.GongMarshallField(stage, "THE_VALUE"))
-	} else if attribute_value_xhtml.THE_VALUE != nil && attribute_value_xhtmlOther.THE_VALUE != nil {
-		if attribute_value_xhtml.THE_VALUE != attribute_value_xhtmlOther.THE_VALUE {
-			diffs = append(diffs, attribute_value_xhtml.GongMarshallField(stage, "THE_VALUE"))
-		}
 	}
-	if (attribute_value_xhtml.THE_ORIGINAL_VALUE == nil) != (attribute_value_xhtmlOther.THE_ORIGINAL_VALUE == nil) {
+	if attribute_value_xhtml.THE_ORIGINAL_VALUE != attribute_value_xhtmlOther.THE_ORIGINAL_VALUE {
 		diffs = append(diffs, attribute_value_xhtml.GongMarshallField(stage, "THE_ORIGINAL_VALUE"))
-	} else if attribute_value_xhtml.THE_ORIGINAL_VALUE != nil && attribute_value_xhtmlOther.THE_ORIGINAL_VALUE != nil {
-		if attribute_value_xhtml.THE_ORIGINAL_VALUE != attribute_value_xhtmlOther.THE_ORIGINAL_VALUE {
-			diffs = append(diffs, attribute_value_xhtml.GongMarshallField(stage, "THE_ORIGINAL_VALUE"))
-		}
 	}
 
 	return
@@ -11719,12 +8665,8 @@ func (a_alternative_id *A_ALTERNATIVE_ID) GongDiff(stage *Stage, a_alternative_i
 	if a_alternative_id.Name != a_alternative_idOther.Name {
 		diffs = append(diffs, a_alternative_id.GongMarshallField(stage, "Name"))
 	}
-	if (a_alternative_id.ALTERNATIVE_ID == nil) != (a_alternative_idOther.ALTERNATIVE_ID == nil) {
+	if a_alternative_id.ALTERNATIVE_ID != a_alternative_idOther.ALTERNATIVE_ID {
 		diffs = append(diffs, a_alternative_id.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if a_alternative_id.ALTERNATIVE_ID != nil && a_alternative_idOther.ALTERNATIVE_ID != nil {
-		if a_alternative_id.ALTERNATIVE_ID != a_alternative_idOther.ALTERNATIVE_ID {
-			diffs = append(diffs, a_alternative_id.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
 
 	return
@@ -11835,36 +8777,7 @@ func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongDiff(stage *Stag
 	if a_attribute_value_boolean.Name != a_attribute_value_booleanOther.Name {
 		diffs = append(diffs, a_attribute_value_boolean.GongMarshallField(stage, "Name"))
 	}
-	ATTRIBUTE_VALUE_BOOLEANDifferent := false
-	if len(a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN) != len(a_attribute_value_booleanOther.ATTRIBUTE_VALUE_BOOLEAN) {
-		ATTRIBUTE_VALUE_BOOLEANDifferent = true
-	} else {
-		for i := range a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN {
-			if (a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN[i] == nil) != (a_attribute_value_booleanOther.ATTRIBUTE_VALUE_BOOLEAN[i] == nil) {
-				ATTRIBUTE_VALUE_BOOLEANDifferent = true
-				break
-			} else if a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN[i] != nil && a_attribute_value_booleanOther.ATTRIBUTE_VALUE_BOOLEAN[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN[i] != a_attribute_value_booleanOther.ATTRIBUTE_VALUE_BOOLEAN[i] {
-					ATTRIBUTE_VALUE_BOOLEANDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_BOOLEANDifferent {
-		ops := stage.Diff(
-			a_attribute_value_boolean,
-			"ATTRIBUTE_VALUE_BOOLEAN",
-			len(a_attribute_value_booleanOther.ATTRIBUTE_VALUE_BOOLEAN),
-			len(a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN),
-			func(i, j int) bool {
-				return a_attribute_value_booleanOther.ATTRIBUTE_VALUE_BOOLEAN[i] == a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN[j]
-			},
-			func(j int) string {
-				return a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_boolean, "ATTRIBUTE_VALUE_BOOLEAN", a_attribute_value_booleanOther.ATTRIBUTE_VALUE_BOOLEAN, a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -11878,36 +8791,7 @@ func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongDiff(stage *Stage, a_a
 	if a_attribute_value_date.Name != a_attribute_value_dateOther.Name {
 		diffs = append(diffs, a_attribute_value_date.GongMarshallField(stage, "Name"))
 	}
-	ATTRIBUTE_VALUE_DATEDifferent := false
-	if len(a_attribute_value_date.ATTRIBUTE_VALUE_DATE) != len(a_attribute_value_dateOther.ATTRIBUTE_VALUE_DATE) {
-		ATTRIBUTE_VALUE_DATEDifferent = true
-	} else {
-		for i := range a_attribute_value_date.ATTRIBUTE_VALUE_DATE {
-			if (a_attribute_value_date.ATTRIBUTE_VALUE_DATE[i] == nil) != (a_attribute_value_dateOther.ATTRIBUTE_VALUE_DATE[i] == nil) {
-				ATTRIBUTE_VALUE_DATEDifferent = true
-				break
-			} else if a_attribute_value_date.ATTRIBUTE_VALUE_DATE[i] != nil && a_attribute_value_dateOther.ATTRIBUTE_VALUE_DATE[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_date.ATTRIBUTE_VALUE_DATE[i] != a_attribute_value_dateOther.ATTRIBUTE_VALUE_DATE[i] {
-					ATTRIBUTE_VALUE_DATEDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_DATEDifferent {
-		ops := stage.Diff(
-			a_attribute_value_date,
-			"ATTRIBUTE_VALUE_DATE",
-			len(a_attribute_value_dateOther.ATTRIBUTE_VALUE_DATE),
-			len(a_attribute_value_date.ATTRIBUTE_VALUE_DATE),
-			func(i, j int) bool {
-				return a_attribute_value_dateOther.ATTRIBUTE_VALUE_DATE[i] == a_attribute_value_date.ATTRIBUTE_VALUE_DATE[j]
-			},
-			func(j int) string {
-				return a_attribute_value_date.ATTRIBUTE_VALUE_DATE[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_date, "ATTRIBUTE_VALUE_DATE", a_attribute_value_dateOther.ATTRIBUTE_VALUE_DATE, a_attribute_value_date.ATTRIBUTE_VALUE_DATE); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -11921,36 +8805,7 @@ func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongDiff(sta
 	if a_attribute_value_enumeration.Name != a_attribute_value_enumerationOther.Name {
 		diffs = append(diffs, a_attribute_value_enumeration.GongMarshallField(stage, "Name"))
 	}
-	ATTRIBUTE_VALUE_ENUMERATIONDifferent := false
-	if len(a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION) != len(a_attribute_value_enumerationOther.ATTRIBUTE_VALUE_ENUMERATION) {
-		ATTRIBUTE_VALUE_ENUMERATIONDifferent = true
-	} else {
-		for i := range a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION {
-			if (a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION[i] == nil) != (a_attribute_value_enumerationOther.ATTRIBUTE_VALUE_ENUMERATION[i] == nil) {
-				ATTRIBUTE_VALUE_ENUMERATIONDifferent = true
-				break
-			} else if a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION[i] != nil && a_attribute_value_enumerationOther.ATTRIBUTE_VALUE_ENUMERATION[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION[i] != a_attribute_value_enumerationOther.ATTRIBUTE_VALUE_ENUMERATION[i] {
-					ATTRIBUTE_VALUE_ENUMERATIONDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_ENUMERATIONDifferent {
-		ops := stage.Diff(
-			a_attribute_value_enumeration,
-			"ATTRIBUTE_VALUE_ENUMERATION",
-			len(a_attribute_value_enumerationOther.ATTRIBUTE_VALUE_ENUMERATION),
-			len(a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION),
-			func(i, j int) bool {
-				return a_attribute_value_enumerationOther.ATTRIBUTE_VALUE_ENUMERATION[i] == a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION[j]
-			},
-			func(j int) string {
-				return a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_enumeration, "ATTRIBUTE_VALUE_ENUMERATION", a_attribute_value_enumerationOther.ATTRIBUTE_VALUE_ENUMERATION, a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -11964,36 +8819,7 @@ func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongDiff(stage *Stag
 	if a_attribute_value_integer.Name != a_attribute_value_integerOther.Name {
 		diffs = append(diffs, a_attribute_value_integer.GongMarshallField(stage, "Name"))
 	}
-	ATTRIBUTE_VALUE_INTEGERDifferent := false
-	if len(a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER) != len(a_attribute_value_integerOther.ATTRIBUTE_VALUE_INTEGER) {
-		ATTRIBUTE_VALUE_INTEGERDifferent = true
-	} else {
-		for i := range a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER {
-			if (a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER[i] == nil) != (a_attribute_value_integerOther.ATTRIBUTE_VALUE_INTEGER[i] == nil) {
-				ATTRIBUTE_VALUE_INTEGERDifferent = true
-				break
-			} else if a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER[i] != nil && a_attribute_value_integerOther.ATTRIBUTE_VALUE_INTEGER[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER[i] != a_attribute_value_integerOther.ATTRIBUTE_VALUE_INTEGER[i] {
-					ATTRIBUTE_VALUE_INTEGERDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_INTEGERDifferent {
-		ops := stage.Diff(
-			a_attribute_value_integer,
-			"ATTRIBUTE_VALUE_INTEGER",
-			len(a_attribute_value_integerOther.ATTRIBUTE_VALUE_INTEGER),
-			len(a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER),
-			func(i, j int) bool {
-				return a_attribute_value_integerOther.ATTRIBUTE_VALUE_INTEGER[i] == a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER[j]
-			},
-			func(j int) string {
-				return a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_integer, "ATTRIBUTE_VALUE_INTEGER", a_attribute_value_integerOther.ATTRIBUTE_VALUE_INTEGER, a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -12007,36 +8833,7 @@ func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongDiff(stage *Stage, a_a
 	if a_attribute_value_real.Name != a_attribute_value_realOther.Name {
 		diffs = append(diffs, a_attribute_value_real.GongMarshallField(stage, "Name"))
 	}
-	ATTRIBUTE_VALUE_REALDifferent := false
-	if len(a_attribute_value_real.ATTRIBUTE_VALUE_REAL) != len(a_attribute_value_realOther.ATTRIBUTE_VALUE_REAL) {
-		ATTRIBUTE_VALUE_REALDifferent = true
-	} else {
-		for i := range a_attribute_value_real.ATTRIBUTE_VALUE_REAL {
-			if (a_attribute_value_real.ATTRIBUTE_VALUE_REAL[i] == nil) != (a_attribute_value_realOther.ATTRIBUTE_VALUE_REAL[i] == nil) {
-				ATTRIBUTE_VALUE_REALDifferent = true
-				break
-			} else if a_attribute_value_real.ATTRIBUTE_VALUE_REAL[i] != nil && a_attribute_value_realOther.ATTRIBUTE_VALUE_REAL[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_real.ATTRIBUTE_VALUE_REAL[i] != a_attribute_value_realOther.ATTRIBUTE_VALUE_REAL[i] {
-					ATTRIBUTE_VALUE_REALDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_REALDifferent {
-		ops := stage.Diff(
-			a_attribute_value_real,
-			"ATTRIBUTE_VALUE_REAL",
-			len(a_attribute_value_realOther.ATTRIBUTE_VALUE_REAL),
-			len(a_attribute_value_real.ATTRIBUTE_VALUE_REAL),
-			func(i, j int) bool {
-				return a_attribute_value_realOther.ATTRIBUTE_VALUE_REAL[i] == a_attribute_value_real.ATTRIBUTE_VALUE_REAL[j]
-			},
-			func(j int) string {
-				return a_attribute_value_real.ATTRIBUTE_VALUE_REAL[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_real, "ATTRIBUTE_VALUE_REAL", a_attribute_value_realOther.ATTRIBUTE_VALUE_REAL, a_attribute_value_real.ATTRIBUTE_VALUE_REAL); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -12050,36 +8847,7 @@ func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongDiff(stage *Stage,
 	if a_attribute_value_string.Name != a_attribute_value_stringOther.Name {
 		diffs = append(diffs, a_attribute_value_string.GongMarshallField(stage, "Name"))
 	}
-	ATTRIBUTE_VALUE_STRINGDifferent := false
-	if len(a_attribute_value_string.ATTRIBUTE_VALUE_STRING) != len(a_attribute_value_stringOther.ATTRIBUTE_VALUE_STRING) {
-		ATTRIBUTE_VALUE_STRINGDifferent = true
-	} else {
-		for i := range a_attribute_value_string.ATTRIBUTE_VALUE_STRING {
-			if (a_attribute_value_string.ATTRIBUTE_VALUE_STRING[i] == nil) != (a_attribute_value_stringOther.ATTRIBUTE_VALUE_STRING[i] == nil) {
-				ATTRIBUTE_VALUE_STRINGDifferent = true
-				break
-			} else if a_attribute_value_string.ATTRIBUTE_VALUE_STRING[i] != nil && a_attribute_value_stringOther.ATTRIBUTE_VALUE_STRING[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_string.ATTRIBUTE_VALUE_STRING[i] != a_attribute_value_stringOther.ATTRIBUTE_VALUE_STRING[i] {
-					ATTRIBUTE_VALUE_STRINGDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_STRINGDifferent {
-		ops := stage.Diff(
-			a_attribute_value_string,
-			"ATTRIBUTE_VALUE_STRING",
-			len(a_attribute_value_stringOther.ATTRIBUTE_VALUE_STRING),
-			len(a_attribute_value_string.ATTRIBUTE_VALUE_STRING),
-			func(i, j int) bool {
-				return a_attribute_value_stringOther.ATTRIBUTE_VALUE_STRING[i] == a_attribute_value_string.ATTRIBUTE_VALUE_STRING[j]
-			},
-			func(j int) string {
-				return a_attribute_value_string.ATTRIBUTE_VALUE_STRING[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_string, "ATTRIBUTE_VALUE_STRING", a_attribute_value_stringOther.ATTRIBUTE_VALUE_STRING, a_attribute_value_string.ATTRIBUTE_VALUE_STRING); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -12093,36 +8861,7 @@ func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongDiff(stage *Stage, a
 	if a_attribute_value_xhtml.Name != a_attribute_value_xhtmlOther.Name {
 		diffs = append(diffs, a_attribute_value_xhtml.GongMarshallField(stage, "Name"))
 	}
-	ATTRIBUTE_VALUE_XHTMLDifferent := false
-	if len(a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML) != len(a_attribute_value_xhtmlOther.ATTRIBUTE_VALUE_XHTML) {
-		ATTRIBUTE_VALUE_XHTMLDifferent = true
-	} else {
-		for i := range a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML {
-			if (a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML[i] == nil) != (a_attribute_value_xhtmlOther.ATTRIBUTE_VALUE_XHTML[i] == nil) {
-				ATTRIBUTE_VALUE_XHTMLDifferent = true
-				break
-			} else if a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML[i] != nil && a_attribute_value_xhtmlOther.ATTRIBUTE_VALUE_XHTML[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML[i] != a_attribute_value_xhtmlOther.ATTRIBUTE_VALUE_XHTML[i] {
-					ATTRIBUTE_VALUE_XHTMLDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_XHTMLDifferent {
-		ops := stage.Diff(
-			a_attribute_value_xhtml,
-			"ATTRIBUTE_VALUE_XHTML",
-			len(a_attribute_value_xhtmlOther.ATTRIBUTE_VALUE_XHTML),
-			len(a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML),
-			func(i, j int) bool {
-				return a_attribute_value_xhtmlOther.ATTRIBUTE_VALUE_XHTML[i] == a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML[j]
-			},
-			func(j int) string {
-				return a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_xhtml, "ATTRIBUTE_VALUE_XHTML", a_attribute_value_xhtmlOther.ATTRIBUTE_VALUE_XHTML, a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -12136,228 +8875,25 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongDiff(stage *Stag
 	if a_attribute_value_xhtml_1.Name != a_attribute_value_xhtml_1Other.Name {
 		diffs = append(diffs, a_attribute_value_xhtml_1.GongMarshallField(stage, "Name"))
 	}
-	ATTRIBUTE_VALUE_BOOLEANDifferent := false
-	if len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN) != len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_BOOLEAN) {
-		ATTRIBUTE_VALUE_BOOLEANDifferent = true
-	} else {
-		for i := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN {
-			if (a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN[i] == nil) != (a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_BOOLEAN[i] == nil) {
-				ATTRIBUTE_VALUE_BOOLEANDifferent = true
-				break
-			} else if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN[i] != nil && a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_BOOLEAN[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN[i] != a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_BOOLEAN[i] {
-					ATTRIBUTE_VALUE_BOOLEANDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_BOOLEANDifferent {
-		ops := stage.Diff(
-			a_attribute_value_xhtml_1,
-			"ATTRIBUTE_VALUE_BOOLEAN",
-			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_BOOLEAN),
-			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN),
-			func(i, j int) bool {
-				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_BOOLEAN[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN[j]
-			},
-			func(j int) string {
-				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_xhtml_1, "ATTRIBUTE_VALUE_BOOLEAN", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_BOOLEAN, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ATTRIBUTE_VALUE_DATEDifferent := false
-	if len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE) != len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_DATE) {
-		ATTRIBUTE_VALUE_DATEDifferent = true
-	} else {
-		for i := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE {
-			if (a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE[i] == nil) != (a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_DATE[i] == nil) {
-				ATTRIBUTE_VALUE_DATEDifferent = true
-				break
-			} else if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE[i] != nil && a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_DATE[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE[i] != a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_DATE[i] {
-					ATTRIBUTE_VALUE_DATEDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_DATEDifferent {
-		ops := stage.Diff(
-			a_attribute_value_xhtml_1,
-			"ATTRIBUTE_VALUE_DATE",
-			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_DATE),
-			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE),
-			func(i, j int) bool {
-				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_DATE[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE[j]
-			},
-			func(j int) string {
-				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_xhtml_1, "ATTRIBUTE_VALUE_DATE", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_DATE, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ATTRIBUTE_VALUE_ENUMERATIONDifferent := false
-	if len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION) != len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_ENUMERATION) {
-		ATTRIBUTE_VALUE_ENUMERATIONDifferent = true
-	} else {
-		for i := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION {
-			if (a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION[i] == nil) != (a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_ENUMERATION[i] == nil) {
-				ATTRIBUTE_VALUE_ENUMERATIONDifferent = true
-				break
-			} else if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION[i] != nil && a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_ENUMERATION[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION[i] != a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_ENUMERATION[i] {
-					ATTRIBUTE_VALUE_ENUMERATIONDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_ENUMERATIONDifferent {
-		ops := stage.Diff(
-			a_attribute_value_xhtml_1,
-			"ATTRIBUTE_VALUE_ENUMERATION",
-			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_ENUMERATION),
-			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION),
-			func(i, j int) bool {
-				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_ENUMERATION[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION[j]
-			},
-			func(j int) string {
-				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_xhtml_1, "ATTRIBUTE_VALUE_ENUMERATION", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_ENUMERATION, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ATTRIBUTE_VALUE_INTEGERDifferent := false
-	if len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER) != len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_INTEGER) {
-		ATTRIBUTE_VALUE_INTEGERDifferent = true
-	} else {
-		for i := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER {
-			if (a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER[i] == nil) != (a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_INTEGER[i] == nil) {
-				ATTRIBUTE_VALUE_INTEGERDifferent = true
-				break
-			} else if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER[i] != nil && a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_INTEGER[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER[i] != a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_INTEGER[i] {
-					ATTRIBUTE_VALUE_INTEGERDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_INTEGERDifferent {
-		ops := stage.Diff(
-			a_attribute_value_xhtml_1,
-			"ATTRIBUTE_VALUE_INTEGER",
-			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_INTEGER),
-			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER),
-			func(i, j int) bool {
-				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_INTEGER[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER[j]
-			},
-			func(j int) string {
-				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_xhtml_1, "ATTRIBUTE_VALUE_INTEGER", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_INTEGER, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ATTRIBUTE_VALUE_REALDifferent := false
-	if len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL) != len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_REAL) {
-		ATTRIBUTE_VALUE_REALDifferent = true
-	} else {
-		for i := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL {
-			if (a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL[i] == nil) != (a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_REAL[i] == nil) {
-				ATTRIBUTE_VALUE_REALDifferent = true
-				break
-			} else if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL[i] != nil && a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_REAL[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL[i] != a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_REAL[i] {
-					ATTRIBUTE_VALUE_REALDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_REALDifferent {
-		ops := stage.Diff(
-			a_attribute_value_xhtml_1,
-			"ATTRIBUTE_VALUE_REAL",
-			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_REAL),
-			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL),
-			func(i, j int) bool {
-				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_REAL[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL[j]
-			},
-			func(j int) string {
-				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_xhtml_1, "ATTRIBUTE_VALUE_REAL", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_REAL, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ATTRIBUTE_VALUE_STRINGDifferent := false
-	if len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING) != len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_STRING) {
-		ATTRIBUTE_VALUE_STRINGDifferent = true
-	} else {
-		for i := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING {
-			if (a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING[i] == nil) != (a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_STRING[i] == nil) {
-				ATTRIBUTE_VALUE_STRINGDifferent = true
-				break
-			} else if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING[i] != nil && a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_STRING[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING[i] != a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_STRING[i] {
-					ATTRIBUTE_VALUE_STRINGDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_STRINGDifferent {
-		ops := stage.Diff(
-			a_attribute_value_xhtml_1,
-			"ATTRIBUTE_VALUE_STRING",
-			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_STRING),
-			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING),
-			func(i, j int) bool {
-				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_STRING[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING[j]
-			},
-			func(j int) string {
-				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_xhtml_1, "ATTRIBUTE_VALUE_STRING", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_STRING, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ATTRIBUTE_VALUE_XHTMLDifferent := false
-	if len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML) != len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_XHTML) {
-		ATTRIBUTE_VALUE_XHTMLDifferent = true
-	} else {
-		for i := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML {
-			if (a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML[i] == nil) != (a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_XHTML[i] == nil) {
-				ATTRIBUTE_VALUE_XHTMLDifferent = true
-				break
-			} else if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML[i] != nil && a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_XHTML[i] != nil {
-				// this is a pointer comparaison
-				if a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML[i] != a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_XHTML[i] {
-					ATTRIBUTE_VALUE_XHTMLDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_VALUE_XHTMLDifferent {
-		ops := stage.Diff(
-			a_attribute_value_xhtml_1,
-			"ATTRIBUTE_VALUE_XHTML",
-			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_XHTML),
-			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML),
-			func(i, j int) bool {
-				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_XHTML[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML[j]
-			},
-			func(j int) string {
-				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_attribute_value_xhtml_1, "ATTRIBUTE_VALUE_XHTML", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_XHTML, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -12371,36 +8907,7 @@ func (a_children *A_CHILDREN) GongDiff(stage *Stage, a_childrenOther *A_CHILDREN
 	if a_children.Name != a_childrenOther.Name {
 		diffs = append(diffs, a_children.GongMarshallField(stage, "Name"))
 	}
-	SPEC_HIERARCHYDifferent := false
-	if len(a_children.SPEC_HIERARCHY) != len(a_childrenOther.SPEC_HIERARCHY) {
-		SPEC_HIERARCHYDifferent = true
-	} else {
-		for i := range a_children.SPEC_HIERARCHY {
-			if (a_children.SPEC_HIERARCHY[i] == nil) != (a_childrenOther.SPEC_HIERARCHY[i] == nil) {
-				SPEC_HIERARCHYDifferent = true
-				break
-			} else if a_children.SPEC_HIERARCHY[i] != nil && a_childrenOther.SPEC_HIERARCHY[i] != nil {
-				// this is a pointer comparaison
-				if a_children.SPEC_HIERARCHY[i] != a_childrenOther.SPEC_HIERARCHY[i] {
-					SPEC_HIERARCHYDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SPEC_HIERARCHYDifferent {
-		ops := stage.Diff(
-			a_children,
-			"SPEC_HIERARCHY",
-			len(a_childrenOther.SPEC_HIERARCHY),
-			len(a_children.SPEC_HIERARCHY),
-			func(i, j int) bool {
-				return a_childrenOther.SPEC_HIERARCHY[i] == a_children.SPEC_HIERARCHY[j]
-			},
-			func(j int) string {
-				return a_children.SPEC_HIERARCHY[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_children, "SPEC_HIERARCHY", a_childrenOther.SPEC_HIERARCHY, a_children.SPEC_HIERARCHY); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -12414,12 +8921,8 @@ func (a_core_content *A_CORE_CONTENT) GongDiff(stage *Stage, a_core_contentOther
 	if a_core_content.Name != a_core_contentOther.Name {
 		diffs = append(diffs, a_core_content.GongMarshallField(stage, "Name"))
 	}
-	if (a_core_content.REQ_IF_CONTENT == nil) != (a_core_contentOther.REQ_IF_CONTENT == nil) {
+	if a_core_content.REQ_IF_CONTENT != a_core_contentOther.REQ_IF_CONTENT {
 		diffs = append(diffs, a_core_content.GongMarshallField(stage, "REQ_IF_CONTENT"))
-	} else if a_core_content.REQ_IF_CONTENT != nil && a_core_contentOther.REQ_IF_CONTENT != nil {
-		if a_core_content.REQ_IF_CONTENT != a_core_contentOther.REQ_IF_CONTENT {
-			diffs = append(diffs, a_core_content.GongMarshallField(stage, "REQ_IF_CONTENT"))
-		}
 	}
 
 	return
@@ -12432,228 +8935,25 @@ func (a_datatypes *A_DATATYPES) GongDiff(stage *Stage, a_datatypesOther *A_DATAT
 	if a_datatypes.Name != a_datatypesOther.Name {
 		diffs = append(diffs, a_datatypes.GongMarshallField(stage, "Name"))
 	}
-	DATATYPE_DEFINITION_BOOLEANDifferent := false
-	if len(a_datatypes.DATATYPE_DEFINITION_BOOLEAN) != len(a_datatypesOther.DATATYPE_DEFINITION_BOOLEAN) {
-		DATATYPE_DEFINITION_BOOLEANDifferent = true
-	} else {
-		for i := range a_datatypes.DATATYPE_DEFINITION_BOOLEAN {
-			if (a_datatypes.DATATYPE_DEFINITION_BOOLEAN[i] == nil) != (a_datatypesOther.DATATYPE_DEFINITION_BOOLEAN[i] == nil) {
-				DATATYPE_DEFINITION_BOOLEANDifferent = true
-				break
-			} else if a_datatypes.DATATYPE_DEFINITION_BOOLEAN[i] != nil && a_datatypesOther.DATATYPE_DEFINITION_BOOLEAN[i] != nil {
-				// this is a pointer comparaison
-				if a_datatypes.DATATYPE_DEFINITION_BOOLEAN[i] != a_datatypesOther.DATATYPE_DEFINITION_BOOLEAN[i] {
-					DATATYPE_DEFINITION_BOOLEANDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DATATYPE_DEFINITION_BOOLEANDifferent {
-		ops := stage.Diff(
-			a_datatypes,
-			"DATATYPE_DEFINITION_BOOLEAN",
-			len(a_datatypesOther.DATATYPE_DEFINITION_BOOLEAN),
-			len(a_datatypes.DATATYPE_DEFINITION_BOOLEAN),
-			func(i, j int) bool {
-				return a_datatypesOther.DATATYPE_DEFINITION_BOOLEAN[i] == a_datatypes.DATATYPE_DEFINITION_BOOLEAN[j]
-			},
-			func(j int) string {
-				return a_datatypes.DATATYPE_DEFINITION_BOOLEAN[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_datatypes, "DATATYPE_DEFINITION_BOOLEAN", a_datatypesOther.DATATYPE_DEFINITION_BOOLEAN, a_datatypes.DATATYPE_DEFINITION_BOOLEAN); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	DATATYPE_DEFINITION_DATEDifferent := false
-	if len(a_datatypes.DATATYPE_DEFINITION_DATE) != len(a_datatypesOther.DATATYPE_DEFINITION_DATE) {
-		DATATYPE_DEFINITION_DATEDifferent = true
-	} else {
-		for i := range a_datatypes.DATATYPE_DEFINITION_DATE {
-			if (a_datatypes.DATATYPE_DEFINITION_DATE[i] == nil) != (a_datatypesOther.DATATYPE_DEFINITION_DATE[i] == nil) {
-				DATATYPE_DEFINITION_DATEDifferent = true
-				break
-			} else if a_datatypes.DATATYPE_DEFINITION_DATE[i] != nil && a_datatypesOther.DATATYPE_DEFINITION_DATE[i] != nil {
-				// this is a pointer comparaison
-				if a_datatypes.DATATYPE_DEFINITION_DATE[i] != a_datatypesOther.DATATYPE_DEFINITION_DATE[i] {
-					DATATYPE_DEFINITION_DATEDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DATATYPE_DEFINITION_DATEDifferent {
-		ops := stage.Diff(
-			a_datatypes,
-			"DATATYPE_DEFINITION_DATE",
-			len(a_datatypesOther.DATATYPE_DEFINITION_DATE),
-			len(a_datatypes.DATATYPE_DEFINITION_DATE),
-			func(i, j int) bool {
-				return a_datatypesOther.DATATYPE_DEFINITION_DATE[i] == a_datatypes.DATATYPE_DEFINITION_DATE[j]
-			},
-			func(j int) string {
-				return a_datatypes.DATATYPE_DEFINITION_DATE[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_datatypes, "DATATYPE_DEFINITION_DATE", a_datatypesOther.DATATYPE_DEFINITION_DATE, a_datatypes.DATATYPE_DEFINITION_DATE); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	DATATYPE_DEFINITION_ENUMERATIONDifferent := false
-	if len(a_datatypes.DATATYPE_DEFINITION_ENUMERATION) != len(a_datatypesOther.DATATYPE_DEFINITION_ENUMERATION) {
-		DATATYPE_DEFINITION_ENUMERATIONDifferent = true
-	} else {
-		for i := range a_datatypes.DATATYPE_DEFINITION_ENUMERATION {
-			if (a_datatypes.DATATYPE_DEFINITION_ENUMERATION[i] == nil) != (a_datatypesOther.DATATYPE_DEFINITION_ENUMERATION[i] == nil) {
-				DATATYPE_DEFINITION_ENUMERATIONDifferent = true
-				break
-			} else if a_datatypes.DATATYPE_DEFINITION_ENUMERATION[i] != nil && a_datatypesOther.DATATYPE_DEFINITION_ENUMERATION[i] != nil {
-				// this is a pointer comparaison
-				if a_datatypes.DATATYPE_DEFINITION_ENUMERATION[i] != a_datatypesOther.DATATYPE_DEFINITION_ENUMERATION[i] {
-					DATATYPE_DEFINITION_ENUMERATIONDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DATATYPE_DEFINITION_ENUMERATIONDifferent {
-		ops := stage.Diff(
-			a_datatypes,
-			"DATATYPE_DEFINITION_ENUMERATION",
-			len(a_datatypesOther.DATATYPE_DEFINITION_ENUMERATION),
-			len(a_datatypes.DATATYPE_DEFINITION_ENUMERATION),
-			func(i, j int) bool {
-				return a_datatypesOther.DATATYPE_DEFINITION_ENUMERATION[i] == a_datatypes.DATATYPE_DEFINITION_ENUMERATION[j]
-			},
-			func(j int) string {
-				return a_datatypes.DATATYPE_DEFINITION_ENUMERATION[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_datatypes, "DATATYPE_DEFINITION_ENUMERATION", a_datatypesOther.DATATYPE_DEFINITION_ENUMERATION, a_datatypes.DATATYPE_DEFINITION_ENUMERATION); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	DATATYPE_DEFINITION_INTEGERDifferent := false
-	if len(a_datatypes.DATATYPE_DEFINITION_INTEGER) != len(a_datatypesOther.DATATYPE_DEFINITION_INTEGER) {
-		DATATYPE_DEFINITION_INTEGERDifferent = true
-	} else {
-		for i := range a_datatypes.DATATYPE_DEFINITION_INTEGER {
-			if (a_datatypes.DATATYPE_DEFINITION_INTEGER[i] == nil) != (a_datatypesOther.DATATYPE_DEFINITION_INTEGER[i] == nil) {
-				DATATYPE_DEFINITION_INTEGERDifferent = true
-				break
-			} else if a_datatypes.DATATYPE_DEFINITION_INTEGER[i] != nil && a_datatypesOther.DATATYPE_DEFINITION_INTEGER[i] != nil {
-				// this is a pointer comparaison
-				if a_datatypes.DATATYPE_DEFINITION_INTEGER[i] != a_datatypesOther.DATATYPE_DEFINITION_INTEGER[i] {
-					DATATYPE_DEFINITION_INTEGERDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DATATYPE_DEFINITION_INTEGERDifferent {
-		ops := stage.Diff(
-			a_datatypes,
-			"DATATYPE_DEFINITION_INTEGER",
-			len(a_datatypesOther.DATATYPE_DEFINITION_INTEGER),
-			len(a_datatypes.DATATYPE_DEFINITION_INTEGER),
-			func(i, j int) bool {
-				return a_datatypesOther.DATATYPE_DEFINITION_INTEGER[i] == a_datatypes.DATATYPE_DEFINITION_INTEGER[j]
-			},
-			func(j int) string {
-				return a_datatypes.DATATYPE_DEFINITION_INTEGER[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_datatypes, "DATATYPE_DEFINITION_INTEGER", a_datatypesOther.DATATYPE_DEFINITION_INTEGER, a_datatypes.DATATYPE_DEFINITION_INTEGER); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	DATATYPE_DEFINITION_REALDifferent := false
-	if len(a_datatypes.DATATYPE_DEFINITION_REAL) != len(a_datatypesOther.DATATYPE_DEFINITION_REAL) {
-		DATATYPE_DEFINITION_REALDifferent = true
-	} else {
-		for i := range a_datatypes.DATATYPE_DEFINITION_REAL {
-			if (a_datatypes.DATATYPE_DEFINITION_REAL[i] == nil) != (a_datatypesOther.DATATYPE_DEFINITION_REAL[i] == nil) {
-				DATATYPE_DEFINITION_REALDifferent = true
-				break
-			} else if a_datatypes.DATATYPE_DEFINITION_REAL[i] != nil && a_datatypesOther.DATATYPE_DEFINITION_REAL[i] != nil {
-				// this is a pointer comparaison
-				if a_datatypes.DATATYPE_DEFINITION_REAL[i] != a_datatypesOther.DATATYPE_DEFINITION_REAL[i] {
-					DATATYPE_DEFINITION_REALDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DATATYPE_DEFINITION_REALDifferent {
-		ops := stage.Diff(
-			a_datatypes,
-			"DATATYPE_DEFINITION_REAL",
-			len(a_datatypesOther.DATATYPE_DEFINITION_REAL),
-			len(a_datatypes.DATATYPE_DEFINITION_REAL),
-			func(i, j int) bool {
-				return a_datatypesOther.DATATYPE_DEFINITION_REAL[i] == a_datatypes.DATATYPE_DEFINITION_REAL[j]
-			},
-			func(j int) string {
-				return a_datatypes.DATATYPE_DEFINITION_REAL[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_datatypes, "DATATYPE_DEFINITION_REAL", a_datatypesOther.DATATYPE_DEFINITION_REAL, a_datatypes.DATATYPE_DEFINITION_REAL); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	DATATYPE_DEFINITION_STRINGDifferent := false
-	if len(a_datatypes.DATATYPE_DEFINITION_STRING) != len(a_datatypesOther.DATATYPE_DEFINITION_STRING) {
-		DATATYPE_DEFINITION_STRINGDifferent = true
-	} else {
-		for i := range a_datatypes.DATATYPE_DEFINITION_STRING {
-			if (a_datatypes.DATATYPE_DEFINITION_STRING[i] == nil) != (a_datatypesOther.DATATYPE_DEFINITION_STRING[i] == nil) {
-				DATATYPE_DEFINITION_STRINGDifferent = true
-				break
-			} else if a_datatypes.DATATYPE_DEFINITION_STRING[i] != nil && a_datatypesOther.DATATYPE_DEFINITION_STRING[i] != nil {
-				// this is a pointer comparaison
-				if a_datatypes.DATATYPE_DEFINITION_STRING[i] != a_datatypesOther.DATATYPE_DEFINITION_STRING[i] {
-					DATATYPE_DEFINITION_STRINGDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DATATYPE_DEFINITION_STRINGDifferent {
-		ops := stage.Diff(
-			a_datatypes,
-			"DATATYPE_DEFINITION_STRING",
-			len(a_datatypesOther.DATATYPE_DEFINITION_STRING),
-			len(a_datatypes.DATATYPE_DEFINITION_STRING),
-			func(i, j int) bool {
-				return a_datatypesOther.DATATYPE_DEFINITION_STRING[i] == a_datatypes.DATATYPE_DEFINITION_STRING[j]
-			},
-			func(j int) string {
-				return a_datatypes.DATATYPE_DEFINITION_STRING[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_datatypes, "DATATYPE_DEFINITION_STRING", a_datatypesOther.DATATYPE_DEFINITION_STRING, a_datatypes.DATATYPE_DEFINITION_STRING); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	DATATYPE_DEFINITION_XHTMLDifferent := false
-	if len(a_datatypes.DATATYPE_DEFINITION_XHTML) != len(a_datatypesOther.DATATYPE_DEFINITION_XHTML) {
-		DATATYPE_DEFINITION_XHTMLDifferent = true
-	} else {
-		for i := range a_datatypes.DATATYPE_DEFINITION_XHTML {
-			if (a_datatypes.DATATYPE_DEFINITION_XHTML[i] == nil) != (a_datatypesOther.DATATYPE_DEFINITION_XHTML[i] == nil) {
-				DATATYPE_DEFINITION_XHTMLDifferent = true
-				break
-			} else if a_datatypes.DATATYPE_DEFINITION_XHTML[i] != nil && a_datatypesOther.DATATYPE_DEFINITION_XHTML[i] != nil {
-				// this is a pointer comparaison
-				if a_datatypes.DATATYPE_DEFINITION_XHTML[i] != a_datatypesOther.DATATYPE_DEFINITION_XHTML[i] {
-					DATATYPE_DEFINITION_XHTMLDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DATATYPE_DEFINITION_XHTMLDifferent {
-		ops := stage.Diff(
-			a_datatypes,
-			"DATATYPE_DEFINITION_XHTML",
-			len(a_datatypesOther.DATATYPE_DEFINITION_XHTML),
-			len(a_datatypes.DATATYPE_DEFINITION_XHTML),
-			func(i, j int) bool {
-				return a_datatypesOther.DATATYPE_DEFINITION_XHTML[i] == a_datatypes.DATATYPE_DEFINITION_XHTML[j]
-			},
-			func(j int) string {
-				return a_datatypes.DATATYPE_DEFINITION_XHTML[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_datatypes, "DATATYPE_DEFINITION_XHTML", a_datatypesOther.DATATYPE_DEFINITION_XHTML, a_datatypes.DATATYPE_DEFINITION_XHTML); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -12825,12 +9125,8 @@ func (a_properties *A_PROPERTIES) GongDiff(stage *Stage, a_propertiesOther *A_PR
 	if a_properties.Name != a_propertiesOther.Name {
 		diffs = append(diffs, a_properties.GongMarshallField(stage, "Name"))
 	}
-	if (a_properties.EMBEDDED_VALUE == nil) != (a_propertiesOther.EMBEDDED_VALUE == nil) {
+	if a_properties.EMBEDDED_VALUE != a_propertiesOther.EMBEDDED_VALUE {
 		diffs = append(diffs, a_properties.GongMarshallField(stage, "EMBEDDED_VALUE"))
-	} else if a_properties.EMBEDDED_VALUE != nil && a_propertiesOther.EMBEDDED_VALUE != nil {
-		if a_properties.EMBEDDED_VALUE != a_propertiesOther.EMBEDDED_VALUE {
-			diffs = append(diffs, a_properties.GongMarshallField(stage, "EMBEDDED_VALUE"))
-		}
 	}
 
 	return
@@ -12885,36 +9181,7 @@ func (a_specifications *A_SPECIFICATIONS) GongDiff(stage *Stage, a_specification
 	if a_specifications.Name != a_specificationsOther.Name {
 		diffs = append(diffs, a_specifications.GongMarshallField(stage, "Name"))
 	}
-	SPECIFICATIONDifferent := false
-	if len(a_specifications.SPECIFICATION) != len(a_specificationsOther.SPECIFICATION) {
-		SPECIFICATIONDifferent = true
-	} else {
-		for i := range a_specifications.SPECIFICATION {
-			if (a_specifications.SPECIFICATION[i] == nil) != (a_specificationsOther.SPECIFICATION[i] == nil) {
-				SPECIFICATIONDifferent = true
-				break
-			} else if a_specifications.SPECIFICATION[i] != nil && a_specificationsOther.SPECIFICATION[i] != nil {
-				// this is a pointer comparaison
-				if a_specifications.SPECIFICATION[i] != a_specificationsOther.SPECIFICATION[i] {
-					SPECIFICATIONDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SPECIFICATIONDifferent {
-		ops := stage.Diff(
-			a_specifications,
-			"SPECIFICATION",
-			len(a_specificationsOther.SPECIFICATION),
-			len(a_specifications.SPECIFICATION),
-			func(i, j int) bool {
-				return a_specificationsOther.SPECIFICATION[i] == a_specifications.SPECIFICATION[j]
-			},
-			func(j int) string {
-				return a_specifications.SPECIFICATION[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_specifications, "SPECIFICATION", a_specificationsOther.SPECIFICATION, a_specifications.SPECIFICATION); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -12942,36 +9209,7 @@ func (a_specified_values *A_SPECIFIED_VALUES) GongDiff(stage *Stage, a_specified
 	if a_specified_values.Name != a_specified_valuesOther.Name {
 		diffs = append(diffs, a_specified_values.GongMarshallField(stage, "Name"))
 	}
-	ENUM_VALUEDifferent := false
-	if len(a_specified_values.ENUM_VALUE) != len(a_specified_valuesOther.ENUM_VALUE) {
-		ENUM_VALUEDifferent = true
-	} else {
-		for i := range a_specified_values.ENUM_VALUE {
-			if (a_specified_values.ENUM_VALUE[i] == nil) != (a_specified_valuesOther.ENUM_VALUE[i] == nil) {
-				ENUM_VALUEDifferent = true
-				break
-			} else if a_specified_values.ENUM_VALUE[i] != nil && a_specified_valuesOther.ENUM_VALUE[i] != nil {
-				// this is a pointer comparaison
-				if a_specified_values.ENUM_VALUE[i] != a_specified_valuesOther.ENUM_VALUE[i] {
-					ENUM_VALUEDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ENUM_VALUEDifferent {
-		ops := stage.Diff(
-			a_specified_values,
-			"ENUM_VALUE",
-			len(a_specified_valuesOther.ENUM_VALUE),
-			len(a_specified_values.ENUM_VALUE),
-			func(i, j int) bool {
-				return a_specified_valuesOther.ENUM_VALUE[i] == a_specified_values.ENUM_VALUE[j]
-			},
-			func(j int) string {
-				return a_specified_values.ENUM_VALUE[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_specified_values, "ENUM_VALUE", a_specified_valuesOther.ENUM_VALUE, a_specified_values.ENUM_VALUE); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -12985,228 +9223,25 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongDiff(stage *Stage, a_spec_attrib
 	if a_spec_attributes.Name != a_spec_attributesOther.Name {
 		diffs = append(diffs, a_spec_attributes.GongMarshallField(stage, "Name"))
 	}
-	ATTRIBUTE_DEFINITION_BOOLEANDifferent := false
-	if len(a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN) != len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_BOOLEAN) {
-		ATTRIBUTE_DEFINITION_BOOLEANDifferent = true
-	} else {
-		for i := range a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN {
-			if (a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN[i] == nil) != (a_spec_attributesOther.ATTRIBUTE_DEFINITION_BOOLEAN[i] == nil) {
-				ATTRIBUTE_DEFINITION_BOOLEANDifferent = true
-				break
-			} else if a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN[i] != nil && a_spec_attributesOther.ATTRIBUTE_DEFINITION_BOOLEAN[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN[i] != a_spec_attributesOther.ATTRIBUTE_DEFINITION_BOOLEAN[i] {
-					ATTRIBUTE_DEFINITION_BOOLEANDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_DEFINITION_BOOLEANDifferent {
-		ops := stage.Diff(
-			a_spec_attributes,
-			"ATTRIBUTE_DEFINITION_BOOLEAN",
-			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_BOOLEAN),
-			len(a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN),
-			func(i, j int) bool {
-				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_BOOLEAN[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN[j]
-			},
-			func(j int) string {
-				return a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_attributes, "ATTRIBUTE_DEFINITION_BOOLEAN", a_spec_attributesOther.ATTRIBUTE_DEFINITION_BOOLEAN, a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ATTRIBUTE_DEFINITION_DATEDifferent := false
-	if len(a_spec_attributes.ATTRIBUTE_DEFINITION_DATE) != len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_DATE) {
-		ATTRIBUTE_DEFINITION_DATEDifferent = true
-	} else {
-		for i := range a_spec_attributes.ATTRIBUTE_DEFINITION_DATE {
-			if (a_spec_attributes.ATTRIBUTE_DEFINITION_DATE[i] == nil) != (a_spec_attributesOther.ATTRIBUTE_DEFINITION_DATE[i] == nil) {
-				ATTRIBUTE_DEFINITION_DATEDifferent = true
-				break
-			} else if a_spec_attributes.ATTRIBUTE_DEFINITION_DATE[i] != nil && a_spec_attributesOther.ATTRIBUTE_DEFINITION_DATE[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_attributes.ATTRIBUTE_DEFINITION_DATE[i] != a_spec_attributesOther.ATTRIBUTE_DEFINITION_DATE[i] {
-					ATTRIBUTE_DEFINITION_DATEDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_DEFINITION_DATEDifferent {
-		ops := stage.Diff(
-			a_spec_attributes,
-			"ATTRIBUTE_DEFINITION_DATE",
-			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_DATE),
-			len(a_spec_attributes.ATTRIBUTE_DEFINITION_DATE),
-			func(i, j int) bool {
-				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_DATE[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_DATE[j]
-			},
-			func(j int) string {
-				return a_spec_attributes.ATTRIBUTE_DEFINITION_DATE[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_attributes, "ATTRIBUTE_DEFINITION_DATE", a_spec_attributesOther.ATTRIBUTE_DEFINITION_DATE, a_spec_attributes.ATTRIBUTE_DEFINITION_DATE); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ATTRIBUTE_DEFINITION_ENUMERATIONDifferent := false
-	if len(a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION) != len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_ENUMERATION) {
-		ATTRIBUTE_DEFINITION_ENUMERATIONDifferent = true
-	} else {
-		for i := range a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION {
-			if (a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION[i] == nil) != (a_spec_attributesOther.ATTRIBUTE_DEFINITION_ENUMERATION[i] == nil) {
-				ATTRIBUTE_DEFINITION_ENUMERATIONDifferent = true
-				break
-			} else if a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION[i] != nil && a_spec_attributesOther.ATTRIBUTE_DEFINITION_ENUMERATION[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION[i] != a_spec_attributesOther.ATTRIBUTE_DEFINITION_ENUMERATION[i] {
-					ATTRIBUTE_DEFINITION_ENUMERATIONDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_DEFINITION_ENUMERATIONDifferent {
-		ops := stage.Diff(
-			a_spec_attributes,
-			"ATTRIBUTE_DEFINITION_ENUMERATION",
-			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_ENUMERATION),
-			len(a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION),
-			func(i, j int) bool {
-				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_ENUMERATION[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION[j]
-			},
-			func(j int) string {
-				return a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_attributes, "ATTRIBUTE_DEFINITION_ENUMERATION", a_spec_attributesOther.ATTRIBUTE_DEFINITION_ENUMERATION, a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ATTRIBUTE_DEFINITION_INTEGERDifferent := false
-	if len(a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER) != len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_INTEGER) {
-		ATTRIBUTE_DEFINITION_INTEGERDifferent = true
-	} else {
-		for i := range a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER {
-			if (a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER[i] == nil) != (a_spec_attributesOther.ATTRIBUTE_DEFINITION_INTEGER[i] == nil) {
-				ATTRIBUTE_DEFINITION_INTEGERDifferent = true
-				break
-			} else if a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER[i] != nil && a_spec_attributesOther.ATTRIBUTE_DEFINITION_INTEGER[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER[i] != a_spec_attributesOther.ATTRIBUTE_DEFINITION_INTEGER[i] {
-					ATTRIBUTE_DEFINITION_INTEGERDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_DEFINITION_INTEGERDifferent {
-		ops := stage.Diff(
-			a_spec_attributes,
-			"ATTRIBUTE_DEFINITION_INTEGER",
-			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_INTEGER),
-			len(a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER),
-			func(i, j int) bool {
-				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_INTEGER[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER[j]
-			},
-			func(j int) string {
-				return a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_attributes, "ATTRIBUTE_DEFINITION_INTEGER", a_spec_attributesOther.ATTRIBUTE_DEFINITION_INTEGER, a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ATTRIBUTE_DEFINITION_REALDifferent := false
-	if len(a_spec_attributes.ATTRIBUTE_DEFINITION_REAL) != len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_REAL) {
-		ATTRIBUTE_DEFINITION_REALDifferent = true
-	} else {
-		for i := range a_spec_attributes.ATTRIBUTE_DEFINITION_REAL {
-			if (a_spec_attributes.ATTRIBUTE_DEFINITION_REAL[i] == nil) != (a_spec_attributesOther.ATTRIBUTE_DEFINITION_REAL[i] == nil) {
-				ATTRIBUTE_DEFINITION_REALDifferent = true
-				break
-			} else if a_spec_attributes.ATTRIBUTE_DEFINITION_REAL[i] != nil && a_spec_attributesOther.ATTRIBUTE_DEFINITION_REAL[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_attributes.ATTRIBUTE_DEFINITION_REAL[i] != a_spec_attributesOther.ATTRIBUTE_DEFINITION_REAL[i] {
-					ATTRIBUTE_DEFINITION_REALDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_DEFINITION_REALDifferent {
-		ops := stage.Diff(
-			a_spec_attributes,
-			"ATTRIBUTE_DEFINITION_REAL",
-			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_REAL),
-			len(a_spec_attributes.ATTRIBUTE_DEFINITION_REAL),
-			func(i, j int) bool {
-				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_REAL[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_REAL[j]
-			},
-			func(j int) string {
-				return a_spec_attributes.ATTRIBUTE_DEFINITION_REAL[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_attributes, "ATTRIBUTE_DEFINITION_REAL", a_spec_attributesOther.ATTRIBUTE_DEFINITION_REAL, a_spec_attributes.ATTRIBUTE_DEFINITION_REAL); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ATTRIBUTE_DEFINITION_STRINGDifferent := false
-	if len(a_spec_attributes.ATTRIBUTE_DEFINITION_STRING) != len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_STRING) {
-		ATTRIBUTE_DEFINITION_STRINGDifferent = true
-	} else {
-		for i := range a_spec_attributes.ATTRIBUTE_DEFINITION_STRING {
-			if (a_spec_attributes.ATTRIBUTE_DEFINITION_STRING[i] == nil) != (a_spec_attributesOther.ATTRIBUTE_DEFINITION_STRING[i] == nil) {
-				ATTRIBUTE_DEFINITION_STRINGDifferent = true
-				break
-			} else if a_spec_attributes.ATTRIBUTE_DEFINITION_STRING[i] != nil && a_spec_attributesOther.ATTRIBUTE_DEFINITION_STRING[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_attributes.ATTRIBUTE_DEFINITION_STRING[i] != a_spec_attributesOther.ATTRIBUTE_DEFINITION_STRING[i] {
-					ATTRIBUTE_DEFINITION_STRINGDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_DEFINITION_STRINGDifferent {
-		ops := stage.Diff(
-			a_spec_attributes,
-			"ATTRIBUTE_DEFINITION_STRING",
-			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_STRING),
-			len(a_spec_attributes.ATTRIBUTE_DEFINITION_STRING),
-			func(i, j int) bool {
-				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_STRING[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_STRING[j]
-			},
-			func(j int) string {
-				return a_spec_attributes.ATTRIBUTE_DEFINITION_STRING[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_attributes, "ATTRIBUTE_DEFINITION_STRING", a_spec_attributesOther.ATTRIBUTE_DEFINITION_STRING, a_spec_attributes.ATTRIBUTE_DEFINITION_STRING); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ATTRIBUTE_DEFINITION_XHTMLDifferent := false
-	if len(a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML) != len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_XHTML) {
-		ATTRIBUTE_DEFINITION_XHTMLDifferent = true
-	} else {
-		for i := range a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML {
-			if (a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML[i] == nil) != (a_spec_attributesOther.ATTRIBUTE_DEFINITION_XHTML[i] == nil) {
-				ATTRIBUTE_DEFINITION_XHTMLDifferent = true
-				break
-			} else if a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML[i] != nil && a_spec_attributesOther.ATTRIBUTE_DEFINITION_XHTML[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML[i] != a_spec_attributesOther.ATTRIBUTE_DEFINITION_XHTML[i] {
-					ATTRIBUTE_DEFINITION_XHTMLDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ATTRIBUTE_DEFINITION_XHTMLDifferent {
-		ops := stage.Diff(
-			a_spec_attributes,
-			"ATTRIBUTE_DEFINITION_XHTML",
-			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_XHTML),
-			len(a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML),
-			func(i, j int) bool {
-				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_XHTML[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML[j]
-			},
-			func(j int) string {
-				return a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_attributes, "ATTRIBUTE_DEFINITION_XHTML", a_spec_attributesOther.ATTRIBUTE_DEFINITION_XHTML, a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -13220,36 +9255,7 @@ func (a_spec_objects *A_SPEC_OBJECTS) GongDiff(stage *Stage, a_spec_objectsOther
 	if a_spec_objects.Name != a_spec_objectsOther.Name {
 		diffs = append(diffs, a_spec_objects.GongMarshallField(stage, "Name"))
 	}
-	SPEC_OBJECTDifferent := false
-	if len(a_spec_objects.SPEC_OBJECT) != len(a_spec_objectsOther.SPEC_OBJECT) {
-		SPEC_OBJECTDifferent = true
-	} else {
-		for i := range a_spec_objects.SPEC_OBJECT {
-			if (a_spec_objects.SPEC_OBJECT[i] == nil) != (a_spec_objectsOther.SPEC_OBJECT[i] == nil) {
-				SPEC_OBJECTDifferent = true
-				break
-			} else if a_spec_objects.SPEC_OBJECT[i] != nil && a_spec_objectsOther.SPEC_OBJECT[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_objects.SPEC_OBJECT[i] != a_spec_objectsOther.SPEC_OBJECT[i] {
-					SPEC_OBJECTDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SPEC_OBJECTDifferent {
-		ops := stage.Diff(
-			a_spec_objects,
-			"SPEC_OBJECT",
-			len(a_spec_objectsOther.SPEC_OBJECT),
-			len(a_spec_objects.SPEC_OBJECT),
-			func(i, j int) bool {
-				return a_spec_objectsOther.SPEC_OBJECT[i] == a_spec_objects.SPEC_OBJECT[j]
-			},
-			func(j int) string {
-				return a_spec_objects.SPEC_OBJECT[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_objects, "SPEC_OBJECT", a_spec_objectsOther.SPEC_OBJECT, a_spec_objects.SPEC_OBJECT); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -13277,36 +9283,7 @@ func (a_spec_relations *A_SPEC_RELATIONS) GongDiff(stage *Stage, a_spec_relation
 	if a_spec_relations.Name != a_spec_relationsOther.Name {
 		diffs = append(diffs, a_spec_relations.GongMarshallField(stage, "Name"))
 	}
-	SPEC_RELATIONDifferent := false
-	if len(a_spec_relations.SPEC_RELATION) != len(a_spec_relationsOther.SPEC_RELATION) {
-		SPEC_RELATIONDifferent = true
-	} else {
-		for i := range a_spec_relations.SPEC_RELATION {
-			if (a_spec_relations.SPEC_RELATION[i] == nil) != (a_spec_relationsOther.SPEC_RELATION[i] == nil) {
-				SPEC_RELATIONDifferent = true
-				break
-			} else if a_spec_relations.SPEC_RELATION[i] != nil && a_spec_relationsOther.SPEC_RELATION[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_relations.SPEC_RELATION[i] != a_spec_relationsOther.SPEC_RELATION[i] {
-					SPEC_RELATIONDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SPEC_RELATIONDifferent {
-		ops := stage.Diff(
-			a_spec_relations,
-			"SPEC_RELATION",
-			len(a_spec_relationsOther.SPEC_RELATION),
-			len(a_spec_relations.SPEC_RELATION),
-			func(i, j int) bool {
-				return a_spec_relationsOther.SPEC_RELATION[i] == a_spec_relations.SPEC_RELATION[j]
-			},
-			func(j int) string {
-				return a_spec_relations.SPEC_RELATION[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_relations, "SPEC_RELATION", a_spec_relationsOther.SPEC_RELATION, a_spec_relations.SPEC_RELATION); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -13320,36 +9297,7 @@ func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongDiff(stage *Stage, a_s
 	if a_spec_relation_groups.Name != a_spec_relation_groupsOther.Name {
 		diffs = append(diffs, a_spec_relation_groups.GongMarshallField(stage, "Name"))
 	}
-	RELATION_GROUPDifferent := false
-	if len(a_spec_relation_groups.RELATION_GROUP) != len(a_spec_relation_groupsOther.RELATION_GROUP) {
-		RELATION_GROUPDifferent = true
-	} else {
-		for i := range a_spec_relation_groups.RELATION_GROUP {
-			if (a_spec_relation_groups.RELATION_GROUP[i] == nil) != (a_spec_relation_groupsOther.RELATION_GROUP[i] == nil) {
-				RELATION_GROUPDifferent = true
-				break
-			} else if a_spec_relation_groups.RELATION_GROUP[i] != nil && a_spec_relation_groupsOther.RELATION_GROUP[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_relation_groups.RELATION_GROUP[i] != a_spec_relation_groupsOther.RELATION_GROUP[i] {
-					RELATION_GROUPDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RELATION_GROUPDifferent {
-		ops := stage.Diff(
-			a_spec_relation_groups,
-			"RELATION_GROUP",
-			len(a_spec_relation_groupsOther.RELATION_GROUP),
-			len(a_spec_relation_groups.RELATION_GROUP),
-			func(i, j int) bool {
-				return a_spec_relation_groupsOther.RELATION_GROUP[i] == a_spec_relation_groups.RELATION_GROUP[j]
-			},
-			func(j int) string {
-				return a_spec_relation_groups.RELATION_GROUP[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_relation_groups, "RELATION_GROUP", a_spec_relation_groupsOther.RELATION_GROUP, a_spec_relation_groups.RELATION_GROUP); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -13391,132 +9339,16 @@ func (a_spec_types *A_SPEC_TYPES) GongDiff(stage *Stage, a_spec_typesOther *A_SP
 	if a_spec_types.Name != a_spec_typesOther.Name {
 		diffs = append(diffs, a_spec_types.GongMarshallField(stage, "Name"))
 	}
-	RELATION_GROUP_TYPEDifferent := false
-	if len(a_spec_types.RELATION_GROUP_TYPE) != len(a_spec_typesOther.RELATION_GROUP_TYPE) {
-		RELATION_GROUP_TYPEDifferent = true
-	} else {
-		for i := range a_spec_types.RELATION_GROUP_TYPE {
-			if (a_spec_types.RELATION_GROUP_TYPE[i] == nil) != (a_spec_typesOther.RELATION_GROUP_TYPE[i] == nil) {
-				RELATION_GROUP_TYPEDifferent = true
-				break
-			} else if a_spec_types.RELATION_GROUP_TYPE[i] != nil && a_spec_typesOther.RELATION_GROUP_TYPE[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_types.RELATION_GROUP_TYPE[i] != a_spec_typesOther.RELATION_GROUP_TYPE[i] {
-					RELATION_GROUP_TYPEDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RELATION_GROUP_TYPEDifferent {
-		ops := stage.Diff(
-			a_spec_types,
-			"RELATION_GROUP_TYPE",
-			len(a_spec_typesOther.RELATION_GROUP_TYPE),
-			len(a_spec_types.RELATION_GROUP_TYPE),
-			func(i, j int) bool {
-				return a_spec_typesOther.RELATION_GROUP_TYPE[i] == a_spec_types.RELATION_GROUP_TYPE[j]
-			},
-			func(j int) string {
-				return a_spec_types.RELATION_GROUP_TYPE[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_types, "RELATION_GROUP_TYPE", a_spec_typesOther.RELATION_GROUP_TYPE, a_spec_types.RELATION_GROUP_TYPE); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	SPEC_OBJECT_TYPEDifferent := false
-	if len(a_spec_types.SPEC_OBJECT_TYPE) != len(a_spec_typesOther.SPEC_OBJECT_TYPE) {
-		SPEC_OBJECT_TYPEDifferent = true
-	} else {
-		for i := range a_spec_types.SPEC_OBJECT_TYPE {
-			if (a_spec_types.SPEC_OBJECT_TYPE[i] == nil) != (a_spec_typesOther.SPEC_OBJECT_TYPE[i] == nil) {
-				SPEC_OBJECT_TYPEDifferent = true
-				break
-			} else if a_spec_types.SPEC_OBJECT_TYPE[i] != nil && a_spec_typesOther.SPEC_OBJECT_TYPE[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_types.SPEC_OBJECT_TYPE[i] != a_spec_typesOther.SPEC_OBJECT_TYPE[i] {
-					SPEC_OBJECT_TYPEDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SPEC_OBJECT_TYPEDifferent {
-		ops := stage.Diff(
-			a_spec_types,
-			"SPEC_OBJECT_TYPE",
-			len(a_spec_typesOther.SPEC_OBJECT_TYPE),
-			len(a_spec_types.SPEC_OBJECT_TYPE),
-			func(i, j int) bool {
-				return a_spec_typesOther.SPEC_OBJECT_TYPE[i] == a_spec_types.SPEC_OBJECT_TYPE[j]
-			},
-			func(j int) string {
-				return a_spec_types.SPEC_OBJECT_TYPE[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_types, "SPEC_OBJECT_TYPE", a_spec_typesOther.SPEC_OBJECT_TYPE, a_spec_types.SPEC_OBJECT_TYPE); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	SPEC_RELATION_TYPEDifferent := false
-	if len(a_spec_types.SPEC_RELATION_TYPE) != len(a_spec_typesOther.SPEC_RELATION_TYPE) {
-		SPEC_RELATION_TYPEDifferent = true
-	} else {
-		for i := range a_spec_types.SPEC_RELATION_TYPE {
-			if (a_spec_types.SPEC_RELATION_TYPE[i] == nil) != (a_spec_typesOther.SPEC_RELATION_TYPE[i] == nil) {
-				SPEC_RELATION_TYPEDifferent = true
-				break
-			} else if a_spec_types.SPEC_RELATION_TYPE[i] != nil && a_spec_typesOther.SPEC_RELATION_TYPE[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_types.SPEC_RELATION_TYPE[i] != a_spec_typesOther.SPEC_RELATION_TYPE[i] {
-					SPEC_RELATION_TYPEDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SPEC_RELATION_TYPEDifferent {
-		ops := stage.Diff(
-			a_spec_types,
-			"SPEC_RELATION_TYPE",
-			len(a_spec_typesOther.SPEC_RELATION_TYPE),
-			len(a_spec_types.SPEC_RELATION_TYPE),
-			func(i, j int) bool {
-				return a_spec_typesOther.SPEC_RELATION_TYPE[i] == a_spec_types.SPEC_RELATION_TYPE[j]
-			},
-			func(j int) string {
-				return a_spec_types.SPEC_RELATION_TYPE[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_types, "SPEC_RELATION_TYPE", a_spec_typesOther.SPEC_RELATION_TYPE, a_spec_types.SPEC_RELATION_TYPE); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	SPECIFICATION_TYPEDifferent := false
-	if len(a_spec_types.SPECIFICATION_TYPE) != len(a_spec_typesOther.SPECIFICATION_TYPE) {
-		SPECIFICATION_TYPEDifferent = true
-	} else {
-		for i := range a_spec_types.SPECIFICATION_TYPE {
-			if (a_spec_types.SPECIFICATION_TYPE[i] == nil) != (a_spec_typesOther.SPECIFICATION_TYPE[i] == nil) {
-				SPECIFICATION_TYPEDifferent = true
-				break
-			} else if a_spec_types.SPECIFICATION_TYPE[i] != nil && a_spec_typesOther.SPECIFICATION_TYPE[i] != nil {
-				// this is a pointer comparaison
-				if a_spec_types.SPECIFICATION_TYPE[i] != a_spec_typesOther.SPECIFICATION_TYPE[i] {
-					SPECIFICATION_TYPEDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SPECIFICATION_TYPEDifferent {
-		ops := stage.Diff(
-			a_spec_types,
-			"SPECIFICATION_TYPE",
-			len(a_spec_typesOther.SPECIFICATION_TYPE),
-			len(a_spec_types.SPECIFICATION_TYPE),
-			func(i, j int) bool {
-				return a_spec_typesOther.SPECIFICATION_TYPE[i] == a_spec_types.SPECIFICATION_TYPE[j]
-			},
-			func(j int) string {
-				return a_spec_types.SPECIFICATION_TYPE[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_spec_types, "SPECIFICATION_TYPE", a_spec_typesOther.SPECIFICATION_TYPE, a_spec_types.SPECIFICATION_TYPE); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -13530,12 +9362,8 @@ func (a_the_header *A_THE_HEADER) GongDiff(stage *Stage, a_the_headerOther *A_TH
 	if a_the_header.Name != a_the_headerOther.Name {
 		diffs = append(diffs, a_the_header.GongMarshallField(stage, "Name"))
 	}
-	if (a_the_header.REQ_IF_HEADER == nil) != (a_the_headerOther.REQ_IF_HEADER == nil) {
+	if a_the_header.REQ_IF_HEADER != a_the_headerOther.REQ_IF_HEADER {
 		diffs = append(diffs, a_the_header.GongMarshallField(stage, "REQ_IF_HEADER"))
-	} else if a_the_header.REQ_IF_HEADER != nil && a_the_headerOther.REQ_IF_HEADER != nil {
-		if a_the_header.REQ_IF_HEADER != a_the_headerOther.REQ_IF_HEADER {
-			diffs = append(diffs, a_the_header.GongMarshallField(stage, "REQ_IF_HEADER"))
-		}
 	}
 
 	return
@@ -13548,36 +9376,7 @@ func (a_tool_extensions *A_TOOL_EXTENSIONS) GongDiff(stage *Stage, a_tool_extens
 	if a_tool_extensions.Name != a_tool_extensionsOther.Name {
 		diffs = append(diffs, a_tool_extensions.GongMarshallField(stage, "Name"))
 	}
-	REQ_IF_TOOL_EXTENSIONDifferent := false
-	if len(a_tool_extensions.REQ_IF_TOOL_EXTENSION) != len(a_tool_extensionsOther.REQ_IF_TOOL_EXTENSION) {
-		REQ_IF_TOOL_EXTENSIONDifferent = true
-	} else {
-		for i := range a_tool_extensions.REQ_IF_TOOL_EXTENSION {
-			if (a_tool_extensions.REQ_IF_TOOL_EXTENSION[i] == nil) != (a_tool_extensionsOther.REQ_IF_TOOL_EXTENSION[i] == nil) {
-				REQ_IF_TOOL_EXTENSIONDifferent = true
-				break
-			} else if a_tool_extensions.REQ_IF_TOOL_EXTENSION[i] != nil && a_tool_extensionsOther.REQ_IF_TOOL_EXTENSION[i] != nil {
-				// this is a pointer comparaison
-				if a_tool_extensions.REQ_IF_TOOL_EXTENSION[i] != a_tool_extensionsOther.REQ_IF_TOOL_EXTENSION[i] {
-					REQ_IF_TOOL_EXTENSIONDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if REQ_IF_TOOL_EXTENSIONDifferent {
-		ops := stage.Diff(
-			a_tool_extensions,
-			"REQ_IF_TOOL_EXTENSION",
-			len(a_tool_extensionsOther.REQ_IF_TOOL_EXTENSION),
-			len(a_tool_extensions.REQ_IF_TOOL_EXTENSION),
-			func(i, j int) bool {
-				return a_tool_extensionsOther.REQ_IF_TOOL_EXTENSION[i] == a_tool_extensions.REQ_IF_TOOL_EXTENSION[j]
-			},
-			func(j int) string {
-				return a_tool_extensions.REQ_IF_TOOL_EXTENSION[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, a_tool_extensions, "REQ_IF_TOOL_EXTENSION", a_tool_extensionsOther.REQ_IF_TOOL_EXTENSION, a_tool_extensions.REQ_IF_TOOL_EXTENSION); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -13603,12 +9402,8 @@ func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongDiff(stage *
 	if datatype_definition_boolean.LONG_NAME != datatype_definition_booleanOther.LONG_NAME {
 		diffs = append(diffs, datatype_definition_boolean.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (datatype_definition_boolean.ALTERNATIVE_ID == nil) != (datatype_definition_booleanOther.ALTERNATIVE_ID == nil) {
+	if datatype_definition_boolean.ALTERNATIVE_ID != datatype_definition_booleanOther.ALTERNATIVE_ID {
 		diffs = append(diffs, datatype_definition_boolean.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if datatype_definition_boolean.ALTERNATIVE_ID != nil && datatype_definition_booleanOther.ALTERNATIVE_ID != nil {
-		if datatype_definition_boolean.ALTERNATIVE_ID != datatype_definition_booleanOther.ALTERNATIVE_ID {
-			diffs = append(diffs, datatype_definition_boolean.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
 
 	return
@@ -13633,12 +9428,8 @@ func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongDiff(stage *Stage,
 	if datatype_definition_date.LONG_NAME != datatype_definition_dateOther.LONG_NAME {
 		diffs = append(diffs, datatype_definition_date.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (datatype_definition_date.ALTERNATIVE_ID == nil) != (datatype_definition_dateOther.ALTERNATIVE_ID == nil) {
+	if datatype_definition_date.ALTERNATIVE_ID != datatype_definition_dateOther.ALTERNATIVE_ID {
 		diffs = append(diffs, datatype_definition_date.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if datatype_definition_date.ALTERNATIVE_ID != nil && datatype_definition_dateOther.ALTERNATIVE_ID != nil {
-		if datatype_definition_date.ALTERNATIVE_ID != datatype_definition_dateOther.ALTERNATIVE_ID {
-			diffs = append(diffs, datatype_definition_date.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
 
 	return
@@ -13663,19 +9454,11 @@ func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongDiff
 	if datatype_definition_enumeration.LONG_NAME != datatype_definition_enumerationOther.LONG_NAME {
 		diffs = append(diffs, datatype_definition_enumeration.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (datatype_definition_enumeration.ALTERNATIVE_ID == nil) != (datatype_definition_enumerationOther.ALTERNATIVE_ID == nil) {
+	if datatype_definition_enumeration.ALTERNATIVE_ID != datatype_definition_enumerationOther.ALTERNATIVE_ID {
 		diffs = append(diffs, datatype_definition_enumeration.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if datatype_definition_enumeration.ALTERNATIVE_ID != nil && datatype_definition_enumerationOther.ALTERNATIVE_ID != nil {
-		if datatype_definition_enumeration.ALTERNATIVE_ID != datatype_definition_enumerationOther.ALTERNATIVE_ID {
-			diffs = append(diffs, datatype_definition_enumeration.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (datatype_definition_enumeration.SPECIFIED_VALUES == nil) != (datatype_definition_enumerationOther.SPECIFIED_VALUES == nil) {
+	if datatype_definition_enumeration.SPECIFIED_VALUES != datatype_definition_enumerationOther.SPECIFIED_VALUES {
 		diffs = append(diffs, datatype_definition_enumeration.GongMarshallField(stage, "SPECIFIED_VALUES"))
-	} else if datatype_definition_enumeration.SPECIFIED_VALUES != nil && datatype_definition_enumerationOther.SPECIFIED_VALUES != nil {
-		if datatype_definition_enumeration.SPECIFIED_VALUES != datatype_definition_enumerationOther.SPECIFIED_VALUES {
-			diffs = append(diffs, datatype_definition_enumeration.GongMarshallField(stage, "SPECIFIED_VALUES"))
-		}
 	}
 
 	return
@@ -13706,12 +9489,8 @@ func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongDiff(stage *
 	if datatype_definition_integer.MIN != datatype_definition_integerOther.MIN {
 		diffs = append(diffs, datatype_definition_integer.GongMarshallField(stage, "MIN"))
 	}
-	if (datatype_definition_integer.ALTERNATIVE_ID == nil) != (datatype_definition_integerOther.ALTERNATIVE_ID == nil) {
+	if datatype_definition_integer.ALTERNATIVE_ID != datatype_definition_integerOther.ALTERNATIVE_ID {
 		diffs = append(diffs, datatype_definition_integer.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if datatype_definition_integer.ALTERNATIVE_ID != nil && datatype_definition_integerOther.ALTERNATIVE_ID != nil {
-		if datatype_definition_integer.ALTERNATIVE_ID != datatype_definition_integerOther.ALTERNATIVE_ID {
-			diffs = append(diffs, datatype_definition_integer.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
 
 	return
@@ -13745,12 +9524,8 @@ func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongDiff(stage *Stage,
 	if datatype_definition_real.MIN != datatype_definition_realOther.MIN {
 		diffs = append(diffs, datatype_definition_real.GongMarshallField(stage, "MIN"))
 	}
-	if (datatype_definition_real.ALTERNATIVE_ID == nil) != (datatype_definition_realOther.ALTERNATIVE_ID == nil) {
+	if datatype_definition_real.ALTERNATIVE_ID != datatype_definition_realOther.ALTERNATIVE_ID {
 		diffs = append(diffs, datatype_definition_real.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if datatype_definition_real.ALTERNATIVE_ID != nil && datatype_definition_realOther.ALTERNATIVE_ID != nil {
-		if datatype_definition_real.ALTERNATIVE_ID != datatype_definition_realOther.ALTERNATIVE_ID {
-			diffs = append(diffs, datatype_definition_real.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
 
 	return
@@ -13778,12 +9553,8 @@ func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongDiff(stage *St
 	if datatype_definition_string.MAX_LENGTH != datatype_definition_stringOther.MAX_LENGTH {
 		diffs = append(diffs, datatype_definition_string.GongMarshallField(stage, "MAX_LENGTH"))
 	}
-	if (datatype_definition_string.ALTERNATIVE_ID == nil) != (datatype_definition_stringOther.ALTERNATIVE_ID == nil) {
+	if datatype_definition_string.ALTERNATIVE_ID != datatype_definition_stringOther.ALTERNATIVE_ID {
 		diffs = append(diffs, datatype_definition_string.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if datatype_definition_string.ALTERNATIVE_ID != nil && datatype_definition_stringOther.ALTERNATIVE_ID != nil {
-		if datatype_definition_string.ALTERNATIVE_ID != datatype_definition_stringOther.ALTERNATIVE_ID {
-			diffs = append(diffs, datatype_definition_string.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
 
 	return
@@ -13808,12 +9579,8 @@ func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongDiff(stage *Stag
 	if datatype_definition_xhtml.LONG_NAME != datatype_definition_xhtmlOther.LONG_NAME {
 		diffs = append(diffs, datatype_definition_xhtml.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (datatype_definition_xhtml.ALTERNATIVE_ID == nil) != (datatype_definition_xhtmlOther.ALTERNATIVE_ID == nil) {
+	if datatype_definition_xhtml.ALTERNATIVE_ID != datatype_definition_xhtmlOther.ALTERNATIVE_ID {
 		diffs = append(diffs, datatype_definition_xhtml.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if datatype_definition_xhtml.ALTERNATIVE_ID != nil && datatype_definition_xhtmlOther.ALTERNATIVE_ID != nil {
-		if datatype_definition_xhtml.ALTERNATIVE_ID != datatype_definition_xhtmlOther.ALTERNATIVE_ID {
-			diffs = append(diffs, datatype_definition_xhtml.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
 
 	return
@@ -13855,19 +9622,11 @@ func (enum_value *ENUM_VALUE) GongDiff(stage *Stage, enum_valueOther *ENUM_VALUE
 	if enum_value.LONG_NAME != enum_valueOther.LONG_NAME {
 		diffs = append(diffs, enum_value.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (enum_value.ALTERNATIVE_ID == nil) != (enum_valueOther.ALTERNATIVE_ID == nil) {
+	if enum_value.ALTERNATIVE_ID != enum_valueOther.ALTERNATIVE_ID {
 		diffs = append(diffs, enum_value.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if enum_value.ALTERNATIVE_ID != nil && enum_valueOther.ALTERNATIVE_ID != nil {
-		if enum_value.ALTERNATIVE_ID != enum_valueOther.ALTERNATIVE_ID {
-			diffs = append(diffs, enum_value.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (enum_value.PROPERTIES == nil) != (enum_valueOther.PROPERTIES == nil) {
+	if enum_value.PROPERTIES != enum_valueOther.PROPERTIES {
 		diffs = append(diffs, enum_value.GongMarshallField(stage, "PROPERTIES"))
-	} else if enum_value.PROPERTIES != nil && enum_valueOther.PROPERTIES != nil {
-		if enum_value.PROPERTIES != enum_valueOther.PROPERTIES {
-			diffs = append(diffs, enum_value.GongMarshallField(stage, "PROPERTIES"))
-		}
 	}
 
 	return
@@ -13959,40 +9718,20 @@ func (relation_group *RELATION_GROUP) GongDiff(stage *Stage, relation_groupOther
 	if relation_group.LONG_NAME != relation_groupOther.LONG_NAME {
 		diffs = append(diffs, relation_group.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (relation_group.ALTERNATIVE_ID == nil) != (relation_groupOther.ALTERNATIVE_ID == nil) {
+	if relation_group.ALTERNATIVE_ID != relation_groupOther.ALTERNATIVE_ID {
 		diffs = append(diffs, relation_group.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if relation_group.ALTERNATIVE_ID != nil && relation_groupOther.ALTERNATIVE_ID != nil {
-		if relation_group.ALTERNATIVE_ID != relation_groupOther.ALTERNATIVE_ID {
-			diffs = append(diffs, relation_group.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (relation_group.SOURCE_SPECIFICATION == nil) != (relation_groupOther.SOURCE_SPECIFICATION == nil) {
+	if relation_group.SOURCE_SPECIFICATION != relation_groupOther.SOURCE_SPECIFICATION {
 		diffs = append(diffs, relation_group.GongMarshallField(stage, "SOURCE_SPECIFICATION"))
-	} else if relation_group.SOURCE_SPECIFICATION != nil && relation_groupOther.SOURCE_SPECIFICATION != nil {
-		if relation_group.SOURCE_SPECIFICATION != relation_groupOther.SOURCE_SPECIFICATION {
-			diffs = append(diffs, relation_group.GongMarshallField(stage, "SOURCE_SPECIFICATION"))
-		}
 	}
-	if (relation_group.SPEC_RELATIONS == nil) != (relation_groupOther.SPEC_RELATIONS == nil) {
+	if relation_group.SPEC_RELATIONS != relation_groupOther.SPEC_RELATIONS {
 		diffs = append(diffs, relation_group.GongMarshallField(stage, "SPEC_RELATIONS"))
-	} else if relation_group.SPEC_RELATIONS != nil && relation_groupOther.SPEC_RELATIONS != nil {
-		if relation_group.SPEC_RELATIONS != relation_groupOther.SPEC_RELATIONS {
-			diffs = append(diffs, relation_group.GongMarshallField(stage, "SPEC_RELATIONS"))
-		}
 	}
-	if (relation_group.TARGET_SPECIFICATION == nil) != (relation_groupOther.TARGET_SPECIFICATION == nil) {
+	if relation_group.TARGET_SPECIFICATION != relation_groupOther.TARGET_SPECIFICATION {
 		diffs = append(diffs, relation_group.GongMarshallField(stage, "TARGET_SPECIFICATION"))
-	} else if relation_group.TARGET_SPECIFICATION != nil && relation_groupOther.TARGET_SPECIFICATION != nil {
-		if relation_group.TARGET_SPECIFICATION != relation_groupOther.TARGET_SPECIFICATION {
-			diffs = append(diffs, relation_group.GongMarshallField(stage, "TARGET_SPECIFICATION"))
-		}
 	}
-	if (relation_group.TYPE == nil) != (relation_groupOther.TYPE == nil) {
+	if relation_group.TYPE != relation_groupOther.TYPE {
 		diffs = append(diffs, relation_group.GongMarshallField(stage, "TYPE"))
-	} else if relation_group.TYPE != nil && relation_groupOther.TYPE != nil {
-		if relation_group.TYPE != relation_groupOther.TYPE {
-			diffs = append(diffs, relation_group.GongMarshallField(stage, "TYPE"))
-		}
 	}
 
 	return
@@ -14017,19 +9756,11 @@ func (relation_group_type *RELATION_GROUP_TYPE) GongDiff(stage *Stage, relation_
 	if relation_group_type.LONG_NAME != relation_group_typeOther.LONG_NAME {
 		diffs = append(diffs, relation_group_type.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (relation_group_type.ALTERNATIVE_ID == nil) != (relation_group_typeOther.ALTERNATIVE_ID == nil) {
+	if relation_group_type.ALTERNATIVE_ID != relation_group_typeOther.ALTERNATIVE_ID {
 		diffs = append(diffs, relation_group_type.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if relation_group_type.ALTERNATIVE_ID != nil && relation_group_typeOther.ALTERNATIVE_ID != nil {
-		if relation_group_type.ALTERNATIVE_ID != relation_group_typeOther.ALTERNATIVE_ID {
-			diffs = append(diffs, relation_group_type.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (relation_group_type.SPEC_ATTRIBUTES == nil) != (relation_group_typeOther.SPEC_ATTRIBUTES == nil) {
+	if relation_group_type.SPEC_ATTRIBUTES != relation_group_typeOther.SPEC_ATTRIBUTES {
 		diffs = append(diffs, relation_group_type.GongMarshallField(stage, "SPEC_ATTRIBUTES"))
-	} else if relation_group_type.SPEC_ATTRIBUTES != nil && relation_group_typeOther.SPEC_ATTRIBUTES != nil {
-		if relation_group_type.SPEC_ATTRIBUTES != relation_group_typeOther.SPEC_ATTRIBUTES {
-			diffs = append(diffs, relation_group_type.GongMarshallField(stage, "SPEC_ATTRIBUTES"))
-		}
 	}
 
 	return
@@ -14045,26 +9776,14 @@ func (req_if *REQ_IF) GongDiff(stage *Stage, req_ifOther *REQ_IF) (diffs []strin
 	if req_if.Lang != req_ifOther.Lang {
 		diffs = append(diffs, req_if.GongMarshallField(stage, "Lang"))
 	}
-	if (req_if.THE_HEADER == nil) != (req_ifOther.THE_HEADER == nil) {
+	if req_if.THE_HEADER != req_ifOther.THE_HEADER {
 		diffs = append(diffs, req_if.GongMarshallField(stage, "THE_HEADER"))
-	} else if req_if.THE_HEADER != nil && req_ifOther.THE_HEADER != nil {
-		if req_if.THE_HEADER != req_ifOther.THE_HEADER {
-			diffs = append(diffs, req_if.GongMarshallField(stage, "THE_HEADER"))
-		}
 	}
-	if (req_if.CORE_CONTENT == nil) != (req_ifOther.CORE_CONTENT == nil) {
+	if req_if.CORE_CONTENT != req_ifOther.CORE_CONTENT {
 		diffs = append(diffs, req_if.GongMarshallField(stage, "CORE_CONTENT"))
-	} else if req_if.CORE_CONTENT != nil && req_ifOther.CORE_CONTENT != nil {
-		if req_if.CORE_CONTENT != req_ifOther.CORE_CONTENT {
-			diffs = append(diffs, req_if.GongMarshallField(stage, "CORE_CONTENT"))
-		}
 	}
-	if (req_if.TOOL_EXTENSIONS == nil) != (req_ifOther.TOOL_EXTENSIONS == nil) {
+	if req_if.TOOL_EXTENSIONS != req_ifOther.TOOL_EXTENSIONS {
 		diffs = append(diffs, req_if.GongMarshallField(stage, "TOOL_EXTENSIONS"))
-	} else if req_if.TOOL_EXTENSIONS != nil && req_ifOther.TOOL_EXTENSIONS != nil {
-		if req_if.TOOL_EXTENSIONS != req_ifOther.TOOL_EXTENSIONS {
-			diffs = append(diffs, req_if.GongMarshallField(stage, "TOOL_EXTENSIONS"))
-		}
 	}
 
 	return
@@ -14077,47 +9796,23 @@ func (req_if_content *REQ_IF_CONTENT) GongDiff(stage *Stage, req_if_contentOther
 	if req_if_content.Name != req_if_contentOther.Name {
 		diffs = append(diffs, req_if_content.GongMarshallField(stage, "Name"))
 	}
-	if (req_if_content.DATATYPES == nil) != (req_if_contentOther.DATATYPES == nil) {
+	if req_if_content.DATATYPES != req_if_contentOther.DATATYPES {
 		diffs = append(diffs, req_if_content.GongMarshallField(stage, "DATATYPES"))
-	} else if req_if_content.DATATYPES != nil && req_if_contentOther.DATATYPES != nil {
-		if req_if_content.DATATYPES != req_if_contentOther.DATATYPES {
-			diffs = append(diffs, req_if_content.GongMarshallField(stage, "DATATYPES"))
-		}
 	}
-	if (req_if_content.SPEC_TYPES == nil) != (req_if_contentOther.SPEC_TYPES == nil) {
+	if req_if_content.SPEC_TYPES != req_if_contentOther.SPEC_TYPES {
 		diffs = append(diffs, req_if_content.GongMarshallField(stage, "SPEC_TYPES"))
-	} else if req_if_content.SPEC_TYPES != nil && req_if_contentOther.SPEC_TYPES != nil {
-		if req_if_content.SPEC_TYPES != req_if_contentOther.SPEC_TYPES {
-			diffs = append(diffs, req_if_content.GongMarshallField(stage, "SPEC_TYPES"))
-		}
 	}
-	if (req_if_content.SPEC_OBJECTS == nil) != (req_if_contentOther.SPEC_OBJECTS == nil) {
+	if req_if_content.SPEC_OBJECTS != req_if_contentOther.SPEC_OBJECTS {
 		diffs = append(diffs, req_if_content.GongMarshallField(stage, "SPEC_OBJECTS"))
-	} else if req_if_content.SPEC_OBJECTS != nil && req_if_contentOther.SPEC_OBJECTS != nil {
-		if req_if_content.SPEC_OBJECTS != req_if_contentOther.SPEC_OBJECTS {
-			diffs = append(diffs, req_if_content.GongMarshallField(stage, "SPEC_OBJECTS"))
-		}
 	}
-	if (req_if_content.SPEC_RELATIONS == nil) != (req_if_contentOther.SPEC_RELATIONS == nil) {
+	if req_if_content.SPEC_RELATIONS != req_if_contentOther.SPEC_RELATIONS {
 		diffs = append(diffs, req_if_content.GongMarshallField(stage, "SPEC_RELATIONS"))
-	} else if req_if_content.SPEC_RELATIONS != nil && req_if_contentOther.SPEC_RELATIONS != nil {
-		if req_if_content.SPEC_RELATIONS != req_if_contentOther.SPEC_RELATIONS {
-			diffs = append(diffs, req_if_content.GongMarshallField(stage, "SPEC_RELATIONS"))
-		}
 	}
-	if (req_if_content.SPECIFICATIONS == nil) != (req_if_contentOther.SPECIFICATIONS == nil) {
+	if req_if_content.SPECIFICATIONS != req_if_contentOther.SPECIFICATIONS {
 		diffs = append(diffs, req_if_content.GongMarshallField(stage, "SPECIFICATIONS"))
-	} else if req_if_content.SPECIFICATIONS != nil && req_if_contentOther.SPECIFICATIONS != nil {
-		if req_if_content.SPECIFICATIONS != req_if_contentOther.SPECIFICATIONS {
-			diffs = append(diffs, req_if_content.GongMarshallField(stage, "SPECIFICATIONS"))
-		}
 	}
-	if (req_if_content.SPEC_RELATION_GROUPS == nil) != (req_if_contentOther.SPEC_RELATION_GROUPS == nil) {
+	if req_if_content.SPEC_RELATION_GROUPS != req_if_contentOther.SPEC_RELATION_GROUPS {
 		diffs = append(diffs, req_if_content.GongMarshallField(stage, "SPEC_RELATION_GROUPS"))
-	} else if req_if_content.SPEC_RELATION_GROUPS != nil && req_if_contentOther.SPEC_RELATION_GROUPS != nil {
-		if req_if_content.SPEC_RELATION_GROUPS != req_if_contentOther.SPEC_RELATION_GROUPS {
-			diffs = append(diffs, req_if_content.GongMarshallField(stage, "SPEC_RELATION_GROUPS"))
-		}
 	}
 
 	return
@@ -14188,33 +9883,17 @@ func (specification *SPECIFICATION) GongDiff(stage *Stage, specificationOther *S
 	if specification.LONG_NAME != specificationOther.LONG_NAME {
 		diffs = append(diffs, specification.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (specification.ALTERNATIVE_ID == nil) != (specificationOther.ALTERNATIVE_ID == nil) {
+	if specification.ALTERNATIVE_ID != specificationOther.ALTERNATIVE_ID {
 		diffs = append(diffs, specification.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if specification.ALTERNATIVE_ID != nil && specificationOther.ALTERNATIVE_ID != nil {
-		if specification.ALTERNATIVE_ID != specificationOther.ALTERNATIVE_ID {
-			diffs = append(diffs, specification.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (specification.TYPE == nil) != (specificationOther.TYPE == nil) {
+	if specification.TYPE != specificationOther.TYPE {
 		diffs = append(diffs, specification.GongMarshallField(stage, "TYPE"))
-	} else if specification.TYPE != nil && specificationOther.TYPE != nil {
-		if specification.TYPE != specificationOther.TYPE {
-			diffs = append(diffs, specification.GongMarshallField(stage, "TYPE"))
-		}
 	}
-	if (specification.CHILDREN == nil) != (specificationOther.CHILDREN == nil) {
+	if specification.CHILDREN != specificationOther.CHILDREN {
 		diffs = append(diffs, specification.GongMarshallField(stage, "CHILDREN"))
-	} else if specification.CHILDREN != nil && specificationOther.CHILDREN != nil {
-		if specification.CHILDREN != specificationOther.CHILDREN {
-			diffs = append(diffs, specification.GongMarshallField(stage, "CHILDREN"))
-		}
 	}
-	if (specification.VALUES == nil) != (specificationOther.VALUES == nil) {
+	if specification.VALUES != specificationOther.VALUES {
 		diffs = append(diffs, specification.GongMarshallField(stage, "VALUES"))
-	} else if specification.VALUES != nil && specificationOther.VALUES != nil {
-		if specification.VALUES != specificationOther.VALUES {
-			diffs = append(diffs, specification.GongMarshallField(stage, "VALUES"))
-		}
 	}
 
 	return
@@ -14259,19 +9938,11 @@ func (specification_type *SPECIFICATION_TYPE) GongDiff(stage *Stage, specificati
 	if specification_type.LONG_NAME != specification_typeOther.LONG_NAME {
 		diffs = append(diffs, specification_type.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (specification_type.ALTERNATIVE_ID == nil) != (specification_typeOther.ALTERNATIVE_ID == nil) {
+	if specification_type.ALTERNATIVE_ID != specification_typeOther.ALTERNATIVE_ID {
 		diffs = append(diffs, specification_type.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if specification_type.ALTERNATIVE_ID != nil && specification_typeOther.ALTERNATIVE_ID != nil {
-		if specification_type.ALTERNATIVE_ID != specification_typeOther.ALTERNATIVE_ID {
-			diffs = append(diffs, specification_type.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (specification_type.SPEC_ATTRIBUTES == nil) != (specification_typeOther.SPEC_ATTRIBUTES == nil) {
+	if specification_type.SPEC_ATTRIBUTES != specification_typeOther.SPEC_ATTRIBUTES {
 		diffs = append(diffs, specification_type.GongMarshallField(stage, "SPEC_ATTRIBUTES"))
-	} else if specification_type.SPEC_ATTRIBUTES != nil && specification_typeOther.SPEC_ATTRIBUTES != nil {
-		if specification_type.SPEC_ATTRIBUTES != specification_typeOther.SPEC_ATTRIBUTES {
-			diffs = append(diffs, specification_type.GongMarshallField(stage, "SPEC_ATTRIBUTES"))
-		}
 	}
 
 	return
@@ -14302,33 +9973,17 @@ func (spec_hierarchy *SPEC_HIERARCHY) GongDiff(stage *Stage, spec_hierarchyOther
 	if spec_hierarchy.LONG_NAME != spec_hierarchyOther.LONG_NAME {
 		diffs = append(diffs, spec_hierarchy.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (spec_hierarchy.ALTERNATIVE_ID == nil) != (spec_hierarchyOther.ALTERNATIVE_ID == nil) {
+	if spec_hierarchy.ALTERNATIVE_ID != spec_hierarchyOther.ALTERNATIVE_ID {
 		diffs = append(diffs, spec_hierarchy.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if spec_hierarchy.ALTERNATIVE_ID != nil && spec_hierarchyOther.ALTERNATIVE_ID != nil {
-		if spec_hierarchy.ALTERNATIVE_ID != spec_hierarchyOther.ALTERNATIVE_ID {
-			diffs = append(diffs, spec_hierarchy.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (spec_hierarchy.OBJECT == nil) != (spec_hierarchyOther.OBJECT == nil) {
+	if spec_hierarchy.OBJECT != spec_hierarchyOther.OBJECT {
 		diffs = append(diffs, spec_hierarchy.GongMarshallField(stage, "OBJECT"))
-	} else if spec_hierarchy.OBJECT != nil && spec_hierarchyOther.OBJECT != nil {
-		if spec_hierarchy.OBJECT != spec_hierarchyOther.OBJECT {
-			diffs = append(diffs, spec_hierarchy.GongMarshallField(stage, "OBJECT"))
-		}
 	}
-	if (spec_hierarchy.CHILDREN == nil) != (spec_hierarchyOther.CHILDREN == nil) {
+	if spec_hierarchy.CHILDREN != spec_hierarchyOther.CHILDREN {
 		diffs = append(diffs, spec_hierarchy.GongMarshallField(stage, "CHILDREN"))
-	} else if spec_hierarchy.CHILDREN != nil && spec_hierarchyOther.CHILDREN != nil {
-		if spec_hierarchy.CHILDREN != spec_hierarchyOther.CHILDREN {
-			diffs = append(diffs, spec_hierarchy.GongMarshallField(stage, "CHILDREN"))
-		}
 	}
-	if (spec_hierarchy.EDITABLE_ATTS == nil) != (spec_hierarchyOther.EDITABLE_ATTS == nil) {
+	if spec_hierarchy.EDITABLE_ATTS != spec_hierarchyOther.EDITABLE_ATTS {
 		diffs = append(diffs, spec_hierarchy.GongMarshallField(stage, "EDITABLE_ATTS"))
-	} else if spec_hierarchy.EDITABLE_ATTS != nil && spec_hierarchyOther.EDITABLE_ATTS != nil {
-		if spec_hierarchy.EDITABLE_ATTS != spec_hierarchyOther.EDITABLE_ATTS {
-			diffs = append(diffs, spec_hierarchy.GongMarshallField(stage, "EDITABLE_ATTS"))
-		}
 	}
 
 	return
@@ -14353,26 +10008,14 @@ func (spec_object *SPEC_OBJECT) GongDiff(stage *Stage, spec_objectOther *SPEC_OB
 	if spec_object.LONG_NAME != spec_objectOther.LONG_NAME {
 		diffs = append(diffs, spec_object.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (spec_object.ALTERNATIVE_ID == nil) != (spec_objectOther.ALTERNATIVE_ID == nil) {
+	if spec_object.ALTERNATIVE_ID != spec_objectOther.ALTERNATIVE_ID {
 		diffs = append(diffs, spec_object.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if spec_object.ALTERNATIVE_ID != nil && spec_objectOther.ALTERNATIVE_ID != nil {
-		if spec_object.ALTERNATIVE_ID != spec_objectOther.ALTERNATIVE_ID {
-			diffs = append(diffs, spec_object.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (spec_object.VALUES == nil) != (spec_objectOther.VALUES == nil) {
+	if spec_object.VALUES != spec_objectOther.VALUES {
 		diffs = append(diffs, spec_object.GongMarshallField(stage, "VALUES"))
-	} else if spec_object.VALUES != nil && spec_objectOther.VALUES != nil {
-		if spec_object.VALUES != spec_objectOther.VALUES {
-			diffs = append(diffs, spec_object.GongMarshallField(stage, "VALUES"))
-		}
 	}
-	if (spec_object.TYPE == nil) != (spec_objectOther.TYPE == nil) {
+	if spec_object.TYPE != spec_objectOther.TYPE {
 		diffs = append(diffs, spec_object.GongMarshallField(stage, "TYPE"))
-	} else if spec_object.TYPE != nil && spec_objectOther.TYPE != nil {
-		if spec_object.TYPE != spec_objectOther.TYPE {
-			diffs = append(diffs, spec_object.GongMarshallField(stage, "TYPE"))
-		}
 	}
 
 	return
@@ -14397,19 +10040,11 @@ func (spec_object_type *SPEC_OBJECT_TYPE) GongDiff(stage *Stage, spec_object_typ
 	if spec_object_type.LONG_NAME != spec_object_typeOther.LONG_NAME {
 		diffs = append(diffs, spec_object_type.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (spec_object_type.ALTERNATIVE_ID == nil) != (spec_object_typeOther.ALTERNATIVE_ID == nil) {
+	if spec_object_type.ALTERNATIVE_ID != spec_object_typeOther.ALTERNATIVE_ID {
 		diffs = append(diffs, spec_object_type.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if spec_object_type.ALTERNATIVE_ID != nil && spec_object_typeOther.ALTERNATIVE_ID != nil {
-		if spec_object_type.ALTERNATIVE_ID != spec_object_typeOther.ALTERNATIVE_ID {
-			diffs = append(diffs, spec_object_type.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (spec_object_type.SPEC_ATTRIBUTES == nil) != (spec_object_typeOther.SPEC_ATTRIBUTES == nil) {
+	if spec_object_type.SPEC_ATTRIBUTES != spec_object_typeOther.SPEC_ATTRIBUTES {
 		diffs = append(diffs, spec_object_type.GongMarshallField(stage, "SPEC_ATTRIBUTES"))
-	} else if spec_object_type.SPEC_ATTRIBUTES != nil && spec_object_typeOther.SPEC_ATTRIBUTES != nil {
-		if spec_object_type.SPEC_ATTRIBUTES != spec_object_typeOther.SPEC_ATTRIBUTES {
-			diffs = append(diffs, spec_object_type.GongMarshallField(stage, "SPEC_ATTRIBUTES"))
-		}
 	}
 
 	return
@@ -14460,40 +10095,20 @@ func (spec_relation *SPEC_RELATION) GongDiff(stage *Stage, spec_relationOther *S
 	if spec_relation.LONG_NAME != spec_relationOther.LONG_NAME {
 		diffs = append(diffs, spec_relation.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (spec_relation.ALTERNATIVE_ID == nil) != (spec_relationOther.ALTERNATIVE_ID == nil) {
+	if spec_relation.ALTERNATIVE_ID != spec_relationOther.ALTERNATIVE_ID {
 		diffs = append(diffs, spec_relation.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if spec_relation.ALTERNATIVE_ID != nil && spec_relationOther.ALTERNATIVE_ID != nil {
-		if spec_relation.ALTERNATIVE_ID != spec_relationOther.ALTERNATIVE_ID {
-			diffs = append(diffs, spec_relation.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (spec_relation.VALUES == nil) != (spec_relationOther.VALUES == nil) {
+	if spec_relation.VALUES != spec_relationOther.VALUES {
 		diffs = append(diffs, spec_relation.GongMarshallField(stage, "VALUES"))
-	} else if spec_relation.VALUES != nil && spec_relationOther.VALUES != nil {
-		if spec_relation.VALUES != spec_relationOther.VALUES {
-			diffs = append(diffs, spec_relation.GongMarshallField(stage, "VALUES"))
-		}
 	}
-	if (spec_relation.SOURCE == nil) != (spec_relationOther.SOURCE == nil) {
+	if spec_relation.SOURCE != spec_relationOther.SOURCE {
 		diffs = append(diffs, spec_relation.GongMarshallField(stage, "SOURCE"))
-	} else if spec_relation.SOURCE != nil && spec_relationOther.SOURCE != nil {
-		if spec_relation.SOURCE != spec_relationOther.SOURCE {
-			diffs = append(diffs, spec_relation.GongMarshallField(stage, "SOURCE"))
-		}
 	}
-	if (spec_relation.TARGET == nil) != (spec_relationOther.TARGET == nil) {
+	if spec_relation.TARGET != spec_relationOther.TARGET {
 		diffs = append(diffs, spec_relation.GongMarshallField(stage, "TARGET"))
-	} else if spec_relation.TARGET != nil && spec_relationOther.TARGET != nil {
-		if spec_relation.TARGET != spec_relationOther.TARGET {
-			diffs = append(diffs, spec_relation.GongMarshallField(stage, "TARGET"))
-		}
 	}
-	if (spec_relation.TYPE == nil) != (spec_relationOther.TYPE == nil) {
+	if spec_relation.TYPE != spec_relationOther.TYPE {
 		diffs = append(diffs, spec_relation.GongMarshallField(stage, "TYPE"))
-	} else if spec_relation.TYPE != nil && spec_relationOther.TYPE != nil {
-		if spec_relation.TYPE != spec_relationOther.TYPE {
-			diffs = append(diffs, spec_relation.GongMarshallField(stage, "TYPE"))
-		}
 	}
 
 	return
@@ -14518,19 +10133,11 @@ func (spec_relation_type *SPEC_RELATION_TYPE) GongDiff(stage *Stage, spec_relati
 	if spec_relation_type.LONG_NAME != spec_relation_typeOther.LONG_NAME {
 		diffs = append(diffs, spec_relation_type.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if (spec_relation_type.ALTERNATIVE_ID == nil) != (spec_relation_typeOther.ALTERNATIVE_ID == nil) {
+	if spec_relation_type.ALTERNATIVE_ID != spec_relation_typeOther.ALTERNATIVE_ID {
 		diffs = append(diffs, spec_relation_type.GongMarshallField(stage, "ALTERNATIVE_ID"))
-	} else if spec_relation_type.ALTERNATIVE_ID != nil && spec_relation_typeOther.ALTERNATIVE_ID != nil {
-		if spec_relation_type.ALTERNATIVE_ID != spec_relation_typeOther.ALTERNATIVE_ID {
-			diffs = append(diffs, spec_relation_type.GongMarshallField(stage, "ALTERNATIVE_ID"))
-		}
 	}
-	if (spec_relation_type.SPEC_ATTRIBUTES == nil) != (spec_relation_typeOther.SPEC_ATTRIBUTES == nil) {
+	if spec_relation_type.SPEC_ATTRIBUTES != spec_relation_typeOther.SPEC_ATTRIBUTES {
 		diffs = append(diffs, spec_relation_type.GongMarshallField(stage, "SPEC_ATTRIBUTES"))
-	} else if spec_relation_type.SPEC_ATTRIBUTES != nil && spec_relation_typeOther.SPEC_ATTRIBUTES != nil {
-		if spec_relation_type.SPEC_ATTRIBUTES != spec_relation_typeOther.SPEC_ATTRIBUTES {
-			diffs = append(diffs, spec_relation_type.GongMarshallField(stage, "SPEC_ATTRIBUTES"))
-		}
 	}
 
 	return
@@ -14546,36 +10153,7 @@ func (staticwebsite *StaticWebSite) GongDiff(stage *Stage, staticwebsiteOther *S
 	if staticwebsite.MarkdownContent != staticwebsiteOther.MarkdownContent {
 		diffs = append(diffs, staticwebsite.GongMarshallField(stage, "MarkdownContent"))
 	}
-	ChaptersDifferent := false
-	if len(staticwebsite.Chapters) != len(staticwebsiteOther.Chapters) {
-		ChaptersDifferent = true
-	} else {
-		for i := range staticwebsite.Chapters {
-			if (staticwebsite.Chapters[i] == nil) != (staticwebsiteOther.Chapters[i] == nil) {
-				ChaptersDifferent = true
-				break
-			} else if staticwebsite.Chapters[i] != nil && staticwebsiteOther.Chapters[i] != nil {
-				// this is a pointer comparaison
-				if staticwebsite.Chapters[i] != staticwebsiteOther.Chapters[i] {
-					ChaptersDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ChaptersDifferent {
-		ops := stage.Diff(
-			staticwebsite,
-			"Chapters",
-			len(staticwebsiteOther.Chapters),
-			len(staticwebsite.Chapters),
-			func(i, j int) bool {
-				return staticwebsiteOther.Chapters[i] == staticwebsite.Chapters[j]
-			},
-			func(j int) string {
-				return staticwebsite.Chapters[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, staticwebsite, "Chapters", staticwebsiteOther.Chapters, staticwebsite.Chapters); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if staticwebsite.InputImagesDir != staticwebsiteOther.InputImagesDir {
@@ -14601,36 +10179,7 @@ func (staticwebsitechapter *StaticWebSiteChapter) GongDiff(stage *Stage, staticw
 	if staticwebsitechapter.MarkdownContent != staticwebsitechapterOther.MarkdownContent {
 		diffs = append(diffs, staticwebsitechapter.GongMarshallField(stage, "MarkdownContent"))
 	}
-	ParagraphsDifferent := false
-	if len(staticwebsitechapter.Paragraphs) != len(staticwebsitechapterOther.Paragraphs) {
-		ParagraphsDifferent = true
-	} else {
-		for i := range staticwebsitechapter.Paragraphs {
-			if (staticwebsitechapter.Paragraphs[i] == nil) != (staticwebsitechapterOther.Paragraphs[i] == nil) {
-				ParagraphsDifferent = true
-				break
-			} else if staticwebsitechapter.Paragraphs[i] != nil && staticwebsitechapterOther.Paragraphs[i] != nil {
-				// this is a pointer comparaison
-				if staticwebsitechapter.Paragraphs[i] != staticwebsitechapterOther.Paragraphs[i] {
-					ParagraphsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ParagraphsDifferent {
-		ops := stage.Diff(
-			staticwebsitechapter,
-			"Paragraphs",
-			len(staticwebsitechapterOther.Paragraphs),
-			len(staticwebsitechapter.Paragraphs),
-			func(i, j int) bool {
-				return staticwebsitechapterOther.Paragraphs[i] == staticwebsitechapter.Paragraphs[j]
-			},
-			func(j int) string {
-				return staticwebsitechapter.Paragraphs[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, staticwebsitechapter, "Paragraphs", staticwebsitechapterOther.Paragraphs, staticwebsitechapter.Paragraphs); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -14687,12 +10236,8 @@ func (staticwebsiteparagraph *StaticWebSiteParagraph) GongDiff(stage *Stage, sta
 	if staticwebsiteparagraph.LegendMarkdownContent != staticwebsiteparagraphOther.LegendMarkdownContent {
 		diffs = append(diffs, staticwebsiteparagraph.GongMarshallField(stage, "LegendMarkdownContent"))
 	}
-	if (staticwebsiteparagraph.Image == nil) != (staticwebsiteparagraphOther.Image == nil) {
+	if staticwebsiteparagraph.Image != staticwebsiteparagraphOther.Image {
 		diffs = append(diffs, staticwebsiteparagraph.GongMarshallField(stage, "Image"))
-	} else if staticwebsiteparagraph.Image != nil && staticwebsiteparagraphOther.Image != nil {
-		if staticwebsiteparagraph.Image != staticwebsiteparagraphOther.Image {
-			diffs = append(diffs, staticwebsiteparagraph.GongMarshallField(stage, "Image"))
-		}
 	}
 
 	return
@@ -14791,4 +10336,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

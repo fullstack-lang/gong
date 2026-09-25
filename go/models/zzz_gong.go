@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterGongBasicFieldCreateCallback GongOnAfterCreateInterface[GongBasicField]
 	OnAfterGongBasicFieldUpdateCallback GongOnAfterUpdateInterface[GongBasicField]
 	OnAfterGongBasicFieldDeleteCallback GongOnAfterDeleteInterface[GongBasicField]
-	OnAfterGongBasicFieldReadCallback   GongOnAfterReadInterface[GongBasicField]
 
 	GongEnums                map[*GongEnum]struct{}
 	GongEnums_instance       map[*GongEnum]*GongEnum
@@ -149,7 +148,6 @@ type Stage struct {
 	OnAfterGongEnumCreateCallback GongOnAfterCreateInterface[GongEnum]
 	OnAfterGongEnumUpdateCallback GongOnAfterUpdateInterface[GongEnum]
 	OnAfterGongEnumDeleteCallback GongOnAfterDeleteInterface[GongEnum]
-	OnAfterGongEnumReadCallback   GongOnAfterReadInterface[GongEnum]
 
 	GongEnumValues                map[*GongEnumValue]struct{}
 	GongEnumValues_instance       map[*GongEnumValue]*GongEnumValue
@@ -164,7 +162,6 @@ type Stage struct {
 	OnAfterGongEnumValueCreateCallback GongOnAfterCreateInterface[GongEnumValue]
 	OnAfterGongEnumValueUpdateCallback GongOnAfterUpdateInterface[GongEnumValue]
 	OnAfterGongEnumValueDeleteCallback GongOnAfterDeleteInterface[GongEnumValue]
-	OnAfterGongEnumValueReadCallback   GongOnAfterReadInterface[GongEnumValue]
 
 	GongLinks                map[*GongLink]struct{}
 	GongLinks_instance       map[*GongLink]*GongLink
@@ -179,7 +176,6 @@ type Stage struct {
 	OnAfterGongLinkCreateCallback GongOnAfterCreateInterface[GongLink]
 	OnAfterGongLinkUpdateCallback GongOnAfterUpdateInterface[GongLink]
 	OnAfterGongLinkDeleteCallback GongOnAfterDeleteInterface[GongLink]
-	OnAfterGongLinkReadCallback   GongOnAfterReadInterface[GongLink]
 
 	GongNotes                map[*GongNote]struct{}
 	GongNotes_instance       map[*GongNote]*GongNote
@@ -196,7 +192,6 @@ type Stage struct {
 	OnAfterGongNoteCreateCallback GongOnAfterCreateInterface[GongNote]
 	OnAfterGongNoteUpdateCallback GongOnAfterUpdateInterface[GongNote]
 	OnAfterGongNoteDeleteCallback GongOnAfterDeleteInterface[GongNote]
-	OnAfterGongNoteReadCallback   GongOnAfterReadInterface[GongNote]
 
 	GongStructs                map[*GongStruct]struct{}
 	GongStructs_instance       map[*GongStruct]*GongStruct
@@ -219,7 +214,6 @@ type Stage struct {
 	OnAfterGongStructCreateCallback GongOnAfterCreateInterface[GongStruct]
 	OnAfterGongStructUpdateCallback GongOnAfterUpdateInterface[GongStruct]
 	OnAfterGongStructDeleteCallback GongOnAfterDeleteInterface[GongStruct]
-	OnAfterGongStructReadCallback   GongOnAfterReadInterface[GongStruct]
 
 	GongTimeFields                map[*GongTimeField]struct{}
 	GongTimeFields_instance       map[*GongTimeField]*GongTimeField
@@ -234,7 +228,6 @@ type Stage struct {
 	OnAfterGongTimeFieldCreateCallback GongOnAfterCreateInterface[GongTimeField]
 	OnAfterGongTimeFieldUpdateCallback GongOnAfterUpdateInterface[GongTimeField]
 	OnAfterGongTimeFieldDeleteCallback GongOnAfterDeleteInterface[GongTimeField]
-	OnAfterGongTimeFieldReadCallback   GongOnAfterReadInterface[GongTimeField]
 
 	MetaReferences                map[*MetaReference]struct{}
 	MetaReferences_instance       map[*MetaReference]*MetaReference
@@ -249,7 +242,6 @@ type Stage struct {
 	OnAfterMetaReferenceCreateCallback GongOnAfterCreateInterface[MetaReference]
 	OnAfterMetaReferenceUpdateCallback GongOnAfterUpdateInterface[MetaReference]
 	OnAfterMetaReferenceDeleteCallback GongOnAfterDeleteInterface[MetaReference]
-	OnAfterMetaReferenceReadCallback   GongOnAfterReadInterface[MetaReference]
 
 	ModelPkgs                map[*ModelPkg]struct{}
 	ModelPkgs_instance       map[*ModelPkg]*ModelPkg
@@ -264,7 +256,6 @@ type Stage struct {
 	OnAfterModelPkgCreateCallback GongOnAfterCreateInterface[ModelPkg]
 	OnAfterModelPkgUpdateCallback GongOnAfterUpdateInterface[ModelPkg]
 	OnAfterModelPkgDeleteCallback GongOnAfterDeleteInterface[ModelPkg]
-	OnAfterModelPkgReadCallback   GongOnAfterReadInterface[ModelPkg]
 
 	PointerToGongStructFields                map[*PointerToGongStructField]struct{}
 	PointerToGongStructFields_instance       map[*PointerToGongStructField]*PointerToGongStructField
@@ -279,7 +270,6 @@ type Stage struct {
 	OnAfterPointerToGongStructFieldCreateCallback GongOnAfterCreateInterface[PointerToGongStructField]
 	OnAfterPointerToGongStructFieldUpdateCallback GongOnAfterUpdateInterface[PointerToGongStructField]
 	OnAfterPointerToGongStructFieldDeleteCallback GongOnAfterDeleteInterface[PointerToGongStructField]
-	OnAfterPointerToGongStructFieldReadCallback   GongOnAfterReadInterface[PointerToGongStructField]
 
 	SliceOfPointerToGongStructFields                map[*SliceOfPointerToGongStructField]struct{}
 	SliceOfPointerToGongStructFields_instance       map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField
@@ -294,7 +284,6 @@ type Stage struct {
 	OnAfterSliceOfPointerToGongStructFieldCreateCallback GongOnAfterCreateInterface[SliceOfPointerToGongStructField]
 	OnAfterSliceOfPointerToGongStructFieldUpdateCallback GongOnAfterUpdateInterface[SliceOfPointerToGongStructField]
 	OnAfterSliceOfPointerToGongStructFieldDeleteCallback GongOnAfterDeleteInterface[SliceOfPointerToGongStructField]
-	OnAfterSliceOfPointerToGongStructFieldReadCallback   GongOnAfterReadInterface[SliceOfPointerToGongStructField]
 
 	StageSetFields                map[*StageSetField]struct{}
 	StageSetFields_instance       map[*StageSetField]*StageSetField
@@ -309,7 +298,6 @@ type Stage struct {
 	OnAfterStageSetFieldCreateCallback GongOnAfterCreateInterface[StageSetField]
 	OnAfterStageSetFieldUpdateCallback GongOnAfterUpdateInterface[StageSetField]
 	OnAfterStageSetFieldDeleteCallback GongOnAfterDeleteInterface[StageSetField]
-	OnAfterStageSetFieldReadCallback   GongOnAfterReadInterface[StageSetField]
 
 	StageSetModels                map[*StageSetModel]struct{}
 	StageSetModels_instance       map[*StageSetModel]*StageSetModel
@@ -326,7 +314,6 @@ type Stage struct {
 	OnAfterStageSetModelCreateCallback GongOnAfterCreateInterface[StageSetModel]
 	OnAfterStageSetModelUpdateCallback GongOnAfterUpdateInterface[StageSetModel]
 	OnAfterStageSetModelDeleteCallback GongOnAfterDeleteInterface[StageSetModel]
-	OnAfterStageSetModelReadCallback   GongOnAfterReadInterface[StageSetModel]
 
 	BackRepo GongBackRepoInterface
 
@@ -561,57 +548,31 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.GongBasicFields_reference = make(map[*GongBasicField]*GongBasicField)
-	stage.GongBasicFields_instance = make(map[*GongBasicField]*GongBasicField)
-	stage.GongBasicFields_referenceOrder = make(map[*GongBasicField]uint)
+	__gong__clearReferences(&stage.GongBasicFields_reference, &stage.GongBasicFields_instance, &stage.GongBasicFields_referenceOrder)
 
-	stage.GongEnums_reference = make(map[*GongEnum]*GongEnum)
-	stage.GongEnums_instance = make(map[*GongEnum]*GongEnum)
-	stage.GongEnums_referenceOrder = make(map[*GongEnum]uint)
+	__gong__clearReferences(&stage.GongEnums_reference, &stage.GongEnums_instance, &stage.GongEnums_referenceOrder)
 
-	stage.GongEnumValues_reference = make(map[*GongEnumValue]*GongEnumValue)
-	stage.GongEnumValues_instance = make(map[*GongEnumValue]*GongEnumValue)
-	stage.GongEnumValues_referenceOrder = make(map[*GongEnumValue]uint)
+	__gong__clearReferences(&stage.GongEnumValues_reference, &stage.GongEnumValues_instance, &stage.GongEnumValues_referenceOrder)
 
-	stage.GongLinks_reference = make(map[*GongLink]*GongLink)
-	stage.GongLinks_instance = make(map[*GongLink]*GongLink)
-	stage.GongLinks_referenceOrder = make(map[*GongLink]uint)
+	__gong__clearReferences(&stage.GongLinks_reference, &stage.GongLinks_instance, &stage.GongLinks_referenceOrder)
 
-	stage.GongNotes_reference = make(map[*GongNote]*GongNote)
-	stage.GongNotes_instance = make(map[*GongNote]*GongNote)
-	stage.GongNotes_referenceOrder = make(map[*GongNote]uint)
+	__gong__clearReferences(&stage.GongNotes_reference, &stage.GongNotes_instance, &stage.GongNotes_referenceOrder)
 
-	stage.GongStructs_reference = make(map[*GongStruct]*GongStruct)
-	stage.GongStructs_instance = make(map[*GongStruct]*GongStruct)
-	stage.GongStructs_referenceOrder = make(map[*GongStruct]uint)
+	__gong__clearReferences(&stage.GongStructs_reference, &stage.GongStructs_instance, &stage.GongStructs_referenceOrder)
 
-	stage.GongTimeFields_reference = make(map[*GongTimeField]*GongTimeField)
-	stage.GongTimeFields_instance = make(map[*GongTimeField]*GongTimeField)
-	stage.GongTimeFields_referenceOrder = make(map[*GongTimeField]uint)
+	__gong__clearReferences(&stage.GongTimeFields_reference, &stage.GongTimeFields_instance, &stage.GongTimeFields_referenceOrder)
 
-	stage.MetaReferences_reference = make(map[*MetaReference]*MetaReference)
-	stage.MetaReferences_instance = make(map[*MetaReference]*MetaReference)
-	stage.MetaReferences_referenceOrder = make(map[*MetaReference]uint)
+	__gong__clearReferences(&stage.MetaReferences_reference, &stage.MetaReferences_instance, &stage.MetaReferences_referenceOrder)
 
-	stage.ModelPkgs_reference = make(map[*ModelPkg]*ModelPkg)
-	stage.ModelPkgs_instance = make(map[*ModelPkg]*ModelPkg)
-	stage.ModelPkgs_referenceOrder = make(map[*ModelPkg]uint)
+	__gong__clearReferences(&stage.ModelPkgs_reference, &stage.ModelPkgs_instance, &stage.ModelPkgs_referenceOrder)
 
-	stage.PointerToGongStructFields_reference = make(map[*PointerToGongStructField]*PointerToGongStructField)
-	stage.PointerToGongStructFields_instance = make(map[*PointerToGongStructField]*PointerToGongStructField)
-	stage.PointerToGongStructFields_referenceOrder = make(map[*PointerToGongStructField]uint)
+	__gong__clearReferences(&stage.PointerToGongStructFields_reference, &stage.PointerToGongStructFields_instance, &stage.PointerToGongStructFields_referenceOrder)
 
-	stage.SliceOfPointerToGongStructFields_reference = make(map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField)
-	stage.SliceOfPointerToGongStructFields_instance = make(map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField)
-	stage.SliceOfPointerToGongStructFields_referenceOrder = make(map[*SliceOfPointerToGongStructField]uint)
+	__gong__clearReferences(&stage.SliceOfPointerToGongStructFields_reference, &stage.SliceOfPointerToGongStructFields_instance, &stage.SliceOfPointerToGongStructFields_referenceOrder)
 
-	stage.StageSetFields_reference = make(map[*StageSetField]*StageSetField)
-	stage.StageSetFields_instance = make(map[*StageSetField]*StageSetField)
-	stage.StageSetFields_referenceOrder = make(map[*StageSetField]uint)
+	__gong__clearReferences(&stage.StageSetFields_reference, &stage.StageSetFields_instance, &stage.StageSetFields_referenceOrder)
 
-	stage.StageSetModels_reference = make(map[*StageSetModel]*StageSetModel)
-	stage.StageSetModels_instance = make(map[*StageSetModel]*StageSetModel)
-	stage.StageSetModels_referenceOrder = make(map[*StageSetModel]uint)
+	__gong__clearReferences(&stage.StageSetModels_reference, &stage.StageSetModels_instance, &stage.StageSetModels_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -640,187 +601,31 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxGongBasicFieldOrder uint
-	var foundGongBasicField bool
-	for _, order := range stage.GongBasicField_stagedOrder {
-		if !foundGongBasicField || order > maxGongBasicFieldOrder {
-			maxGongBasicFieldOrder = order
-			foundGongBasicField = true
-		}
-	}
-	if foundGongBasicField {
-		stage.GongBasicFieldOrder = maxGongBasicFieldOrder + 1
-	} else {
-		stage.GongBasicFieldOrder = 0
-	}
+	stage.GongBasicFieldOrder = __gong__recomputeOrder(stage.GongBasicField_stagedOrder)
 
-	var maxGongEnumOrder uint
-	var foundGongEnum bool
-	for _, order := range stage.GongEnum_stagedOrder {
-		if !foundGongEnum || order > maxGongEnumOrder {
-			maxGongEnumOrder = order
-			foundGongEnum = true
-		}
-	}
-	if foundGongEnum {
-		stage.GongEnumOrder = maxGongEnumOrder + 1
-	} else {
-		stage.GongEnumOrder = 0
-	}
+	stage.GongEnumOrder = __gong__recomputeOrder(stage.GongEnum_stagedOrder)
 
-	var maxGongEnumValueOrder uint
-	var foundGongEnumValue bool
-	for _, order := range stage.GongEnumValue_stagedOrder {
-		if !foundGongEnumValue || order > maxGongEnumValueOrder {
-			maxGongEnumValueOrder = order
-			foundGongEnumValue = true
-		}
-	}
-	if foundGongEnumValue {
-		stage.GongEnumValueOrder = maxGongEnumValueOrder + 1
-	} else {
-		stage.GongEnumValueOrder = 0
-	}
+	stage.GongEnumValueOrder = __gong__recomputeOrder(stage.GongEnumValue_stagedOrder)
 
-	var maxGongLinkOrder uint
-	var foundGongLink bool
-	for _, order := range stage.GongLink_stagedOrder {
-		if !foundGongLink || order > maxGongLinkOrder {
-			maxGongLinkOrder = order
-			foundGongLink = true
-		}
-	}
-	if foundGongLink {
-		stage.GongLinkOrder = maxGongLinkOrder + 1
-	} else {
-		stage.GongLinkOrder = 0
-	}
+	stage.GongLinkOrder = __gong__recomputeOrder(stage.GongLink_stagedOrder)
 
-	var maxGongNoteOrder uint
-	var foundGongNote bool
-	for _, order := range stage.GongNote_stagedOrder {
-		if !foundGongNote || order > maxGongNoteOrder {
-			maxGongNoteOrder = order
-			foundGongNote = true
-		}
-	}
-	if foundGongNote {
-		stage.GongNoteOrder = maxGongNoteOrder + 1
-	} else {
-		stage.GongNoteOrder = 0
-	}
+	stage.GongNoteOrder = __gong__recomputeOrder(stage.GongNote_stagedOrder)
 
-	var maxGongStructOrder uint
-	var foundGongStruct bool
-	for _, order := range stage.GongStruct_stagedOrder {
-		if !foundGongStruct || order > maxGongStructOrder {
-			maxGongStructOrder = order
-			foundGongStruct = true
-		}
-	}
-	if foundGongStruct {
-		stage.GongStructOrder = maxGongStructOrder + 1
-	} else {
-		stage.GongStructOrder = 0
-	}
+	stage.GongStructOrder = __gong__recomputeOrder(stage.GongStruct_stagedOrder)
 
-	var maxGongTimeFieldOrder uint
-	var foundGongTimeField bool
-	for _, order := range stage.GongTimeField_stagedOrder {
-		if !foundGongTimeField || order > maxGongTimeFieldOrder {
-			maxGongTimeFieldOrder = order
-			foundGongTimeField = true
-		}
-	}
-	if foundGongTimeField {
-		stage.GongTimeFieldOrder = maxGongTimeFieldOrder + 1
-	} else {
-		stage.GongTimeFieldOrder = 0
-	}
+	stage.GongTimeFieldOrder = __gong__recomputeOrder(stage.GongTimeField_stagedOrder)
 
-	var maxMetaReferenceOrder uint
-	var foundMetaReference bool
-	for _, order := range stage.MetaReference_stagedOrder {
-		if !foundMetaReference || order > maxMetaReferenceOrder {
-			maxMetaReferenceOrder = order
-			foundMetaReference = true
-		}
-	}
-	if foundMetaReference {
-		stage.MetaReferenceOrder = maxMetaReferenceOrder + 1
-	} else {
-		stage.MetaReferenceOrder = 0
-	}
+	stage.MetaReferenceOrder = __gong__recomputeOrder(stage.MetaReference_stagedOrder)
 
-	var maxModelPkgOrder uint
-	var foundModelPkg bool
-	for _, order := range stage.ModelPkg_stagedOrder {
-		if !foundModelPkg || order > maxModelPkgOrder {
-			maxModelPkgOrder = order
-			foundModelPkg = true
-		}
-	}
-	if foundModelPkg {
-		stage.ModelPkgOrder = maxModelPkgOrder + 1
-	} else {
-		stage.ModelPkgOrder = 0
-	}
+	stage.ModelPkgOrder = __gong__recomputeOrder(stage.ModelPkg_stagedOrder)
 
-	var maxPointerToGongStructFieldOrder uint
-	var foundPointerToGongStructField bool
-	for _, order := range stage.PointerToGongStructField_stagedOrder {
-		if !foundPointerToGongStructField || order > maxPointerToGongStructFieldOrder {
-			maxPointerToGongStructFieldOrder = order
-			foundPointerToGongStructField = true
-		}
-	}
-	if foundPointerToGongStructField {
-		stage.PointerToGongStructFieldOrder = maxPointerToGongStructFieldOrder + 1
-	} else {
-		stage.PointerToGongStructFieldOrder = 0
-	}
+	stage.PointerToGongStructFieldOrder = __gong__recomputeOrder(stage.PointerToGongStructField_stagedOrder)
 
-	var maxSliceOfPointerToGongStructFieldOrder uint
-	var foundSliceOfPointerToGongStructField bool
-	for _, order := range stage.SliceOfPointerToGongStructField_stagedOrder {
-		if !foundSliceOfPointerToGongStructField || order > maxSliceOfPointerToGongStructFieldOrder {
-			maxSliceOfPointerToGongStructFieldOrder = order
-			foundSliceOfPointerToGongStructField = true
-		}
-	}
-	if foundSliceOfPointerToGongStructField {
-		stage.SliceOfPointerToGongStructFieldOrder = maxSliceOfPointerToGongStructFieldOrder + 1
-	} else {
-		stage.SliceOfPointerToGongStructFieldOrder = 0
-	}
+	stage.SliceOfPointerToGongStructFieldOrder = __gong__recomputeOrder(stage.SliceOfPointerToGongStructField_stagedOrder)
 
-	var maxStageSetFieldOrder uint
-	var foundStageSetField bool
-	for _, order := range stage.StageSetField_stagedOrder {
-		if !foundStageSetField || order > maxStageSetFieldOrder {
-			maxStageSetFieldOrder = order
-			foundStageSetField = true
-		}
-	}
-	if foundStageSetField {
-		stage.StageSetFieldOrder = maxStageSetFieldOrder + 1
-	} else {
-		stage.StageSetFieldOrder = 0
-	}
+	stage.StageSetFieldOrder = __gong__recomputeOrder(stage.StageSetField_stagedOrder)
 
-	var maxStageSetModelOrder uint
-	var foundStageSetModel bool
-	for _, order := range stage.StageSetModel_stagedOrder {
-		if !foundStageSetModel || order > maxStageSetModelOrder {
-			maxStageSetModelOrder = order
-			foundStageSetModel = true
-		}
-	}
-	if foundStageSetModel {
-		stage.StageSetModelOrder = maxStageSetModelOrder + 1
-	} else {
-		stage.StageSetModelOrder = 0
-	}
+	stage.StageSetModelOrder = __gong__recomputeOrder(stage.StageSetModel_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -852,187 +657,31 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *GongBasicField:
-		tmp := __gong__getStructInstancesByOrder(stage.GongBasicFields, stage.GongBasicField_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GongBasicField implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongBasicFields, stage.GongBasicField_stagedOrder))
 	case *GongEnum:
-		tmp := __gong__getStructInstancesByOrder(stage.GongEnums, stage.GongEnum_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GongEnum implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongEnums, stage.GongEnum_stagedOrder))
 	case *GongEnumValue:
-		tmp := __gong__getStructInstancesByOrder(stage.GongEnumValues, stage.GongEnumValue_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GongEnumValue implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongEnumValues, stage.GongEnumValue_stagedOrder))
 	case *GongLink:
-		tmp := __gong__getStructInstancesByOrder(stage.GongLinks, stage.GongLink_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GongLink implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongLinks, stage.GongLink_stagedOrder))
 	case *GongNote:
-		tmp := __gong__getStructInstancesByOrder(stage.GongNotes, stage.GongNote_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GongNote implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongNotes, stage.GongNote_stagedOrder))
 	case *GongStruct:
-		tmp := __gong__getStructInstancesByOrder(stage.GongStructs, stage.GongStruct_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GongStruct implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongStructs, stage.GongStruct_stagedOrder))
 	case *GongTimeField:
-		tmp := __gong__getStructInstancesByOrder(stage.GongTimeFields, stage.GongTimeField_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GongTimeField implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongTimeFields, stage.GongTimeField_stagedOrder))
 	case *MetaReference:
-		tmp := __gong__getStructInstancesByOrder(stage.MetaReferences, stage.MetaReference_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *MetaReference implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MetaReferences, stage.MetaReference_stagedOrder))
 	case *ModelPkg:
-		tmp := __gong__getStructInstancesByOrder(stage.ModelPkgs, stage.ModelPkg_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *ModelPkg implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ModelPkgs, stage.ModelPkg_stagedOrder))
 	case *PointerToGongStructField:
-		tmp := __gong__getStructInstancesByOrder(stage.PointerToGongStructFields, stage.PointerToGongStructField_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *PointerToGongStructField implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PointerToGongStructFields, stage.PointerToGongStructField_stagedOrder))
 	case *SliceOfPointerToGongStructField:
-		tmp := __gong__getStructInstancesByOrder(stage.SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructField_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *SliceOfPointerToGongStructField implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructField_stagedOrder))
 	case *StageSetField:
-		tmp := __gong__getStructInstancesByOrder(stage.StageSetFields, stage.StageSetField_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *StageSetField implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StageSetFields, stage.StageSetField_stagedOrder))
 	case *StageSetModel:
-		tmp := __gong__getStructInstancesByOrder(stage.StageSetModels, stage.StageSetModel_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *StageSetModel implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StageSetModels, stage.StageSetModel_stagedOrder))
 
 	}
 	return
@@ -1059,6 +708,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/go/models"
 }
@@ -1082,14 +827,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -1112,33 +849,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitGongBasicField(gongbasicfield *GongBasicField)
-	CheckoutGongBasicField(gongbasicfield *GongBasicField)
-	CommitGongEnum(gongenum *GongEnum)
-	CheckoutGongEnum(gongenum *GongEnum)
-	CommitGongEnumValue(gongenumvalue *GongEnumValue)
-	CheckoutGongEnumValue(gongenumvalue *GongEnumValue)
-	CommitGongLink(gonglink *GongLink)
-	CheckoutGongLink(gonglink *GongLink)
-	CommitGongNote(gongnote *GongNote)
-	CheckoutGongNote(gongnote *GongNote)
-	CommitGongStruct(gongstruct *GongStruct)
-	CheckoutGongStruct(gongstruct *GongStruct)
-	CommitGongTimeField(gongtimefield *GongTimeField)
-	CheckoutGongTimeField(gongtimefield *GongTimeField)
-	CommitMetaReference(metareference *MetaReference)
-	CheckoutMetaReference(metareference *MetaReference)
-	CommitModelPkg(modelpkg *ModelPkg)
-	CheckoutModelPkg(modelpkg *ModelPkg)
-	CommitPointerToGongStructField(pointertogongstructfield *PointerToGongStructField)
-	CheckoutPointerToGongStructField(pointertogongstructfield *PointerToGongStructField)
-	CommitSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField)
-	CheckoutSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField)
-	CommitStageSetField(stagesetfield *StageSetField)
-	CheckoutStageSetField(stagesetfield *StageSetField)
-	CommitStageSetModel(stagesetmodel *StageSetModel)
-	CheckoutStageSetModel(stagesetmodel *StageSetModel)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -1444,14 +1154,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts gongbasicfield to the model stage
 func (gongbasicfield *GongBasicField) Stage(stage *Stage) *GongBasicField {
-	if _, ok := stage.GongBasicFields[gongbasicfield]; !ok {
-		stage.GongBasicFields[gongbasicfield] = struct{}{}
-		stage.GongBasicField_stagedOrder[gongbasicfield] = stage.GongBasicFieldOrder
-		stage.GongBasicField_orderStaged[stage.GongBasicFieldOrder] = gongbasicfield
-		stage.GongBasicFieldOrder++
-	}
-	stage.GongBasicFields_mapString[gongbasicfield.Name] = gongbasicfield
-
+	__gong__stage(stage.GongBasicFields, stage.GongBasicField_stagedOrder, stage.GongBasicField_orderStaged, &stage.GongBasicFieldOrder, stage.GongBasicFields_mapString, gongbasicfield, gongbasicfield.Name)
 	return gongbasicfield
 }
 
@@ -1461,59 +1164,22 @@ func (gongbasicfield *GongBasicField) Stage(stage *Stage) *GongBasicField {
 // - force the order if the order is equal or greater than the stage.GongBasicFieldOrder
 // - update stage.GongBasicFieldOrder accordingly
 func (gongbasicfield *GongBasicField) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GongBasicFields[gongbasicfield]; !ok {
-		stage.GongBasicFields[gongbasicfield] = struct{}{}
-
-		if order > stage.GongBasicFieldOrder {
-			stage.GongBasicFieldOrder = order
-		}
-		stage.GongBasicField_stagedOrder[gongbasicfield] = order
-		stage.GongBasicField_orderStaged[order] = gongbasicfield
-		stage.GongBasicFieldOrder++
-	}
-	stage.GongBasicFields_mapString[gongbasicfield.Name] = gongbasicfield
+	__gong__stagePreserveOrder(stage.GongBasicFields, stage.GongBasicField_stagedOrder, stage.GongBasicField_orderStaged, &stage.GongBasicFieldOrder, stage.GongBasicFields_mapString, gongbasicfield, order, gongbasicfield.Name)
 }
 
 // Unstage removes gongbasicfield off the model stage
 func (gongbasicfield *GongBasicField) Unstage(stage *Stage) *GongBasicField {
-	delete(stage.GongBasicFields, gongbasicfield)
-	// issue1150
-	// delete(stage.GongBasicField_stagedOrder, gongbasicfield)
-	delete(stage.GongBasicFields_mapString, gongbasicfield.Name)
-
+	__gong__unstage(stage.GongBasicFields, stage.GongBasicFields_mapString, gongbasicfield, gongbasicfield.Name)
 	return gongbasicfield
 }
 
 // UnstageVoid removes gongbasicfield off the model stage
 func (gongbasicfield *GongBasicField) UnstageVoid(stage *Stage) {
-	delete(stage.GongBasicFields, gongbasicfield)
-	// issue1150
-	// delete(stage.GongBasicField_stagedOrder, gongbasicfield)
-	delete(stage.GongBasicFields_mapString, gongbasicfield.Name)
-}
-
-// commit gongbasicfield to the back repo (if it is already staged)
-func (gongbasicfield *GongBasicField) Commit(stage *Stage) *GongBasicField {
-	if _, ok := stage.GongBasicFields[gongbasicfield]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongBasicField(gongbasicfield)
-		}
-	}
-	return gongbasicfield
+	gongbasicfield.Unstage(stage)
 }
 
 func (gongbasicfield *GongBasicField) StageVoid(stage *Stage) {
 	gongbasicfield.Stage(stage)
-}
-
-// Checkout gongbasicfield to the back repo (if it is already staged)
-func (gongbasicfield *GongBasicField) Checkout(stage *Stage) *GongBasicField {
-	if _, ok := stage.GongBasicFields[gongbasicfield]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongBasicField(gongbasicfield)
-		}
-	}
-	return gongbasicfield
 }
 
 // for satisfaction of GongStruct interface
@@ -1528,14 +1194,7 @@ func (gongbasicfield *GongBasicField) SetName(name string) {
 
 // Stage puts gongenum to the model stage
 func (gongenum *GongEnum) Stage(stage *Stage) *GongEnum {
-	if _, ok := stage.GongEnums[gongenum]; !ok {
-		stage.GongEnums[gongenum] = struct{}{}
-		stage.GongEnum_stagedOrder[gongenum] = stage.GongEnumOrder
-		stage.GongEnum_orderStaged[stage.GongEnumOrder] = gongenum
-		stage.GongEnumOrder++
-	}
-	stage.GongEnums_mapString[gongenum.Name] = gongenum
-
+	__gong__stage(stage.GongEnums, stage.GongEnum_stagedOrder, stage.GongEnum_orderStaged, &stage.GongEnumOrder, stage.GongEnums_mapString, gongenum, gongenum.Name)
 	return gongenum
 }
 
@@ -1545,59 +1204,22 @@ func (gongenum *GongEnum) Stage(stage *Stage) *GongEnum {
 // - force the order if the order is equal or greater than the stage.GongEnumOrder
 // - update stage.GongEnumOrder accordingly
 func (gongenum *GongEnum) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GongEnums[gongenum]; !ok {
-		stage.GongEnums[gongenum] = struct{}{}
-
-		if order > stage.GongEnumOrder {
-			stage.GongEnumOrder = order
-		}
-		stage.GongEnum_stagedOrder[gongenum] = order
-		stage.GongEnum_orderStaged[order] = gongenum
-		stage.GongEnumOrder++
-	}
-	stage.GongEnums_mapString[gongenum.Name] = gongenum
+	__gong__stagePreserveOrder(stage.GongEnums, stage.GongEnum_stagedOrder, stage.GongEnum_orderStaged, &stage.GongEnumOrder, stage.GongEnums_mapString, gongenum, order, gongenum.Name)
 }
 
 // Unstage removes gongenum off the model stage
 func (gongenum *GongEnum) Unstage(stage *Stage) *GongEnum {
-	delete(stage.GongEnums, gongenum)
-	// issue1150
-	// delete(stage.GongEnum_stagedOrder, gongenum)
-	delete(stage.GongEnums_mapString, gongenum.Name)
-
+	__gong__unstage(stage.GongEnums, stage.GongEnums_mapString, gongenum, gongenum.Name)
 	return gongenum
 }
 
 // UnstageVoid removes gongenum off the model stage
 func (gongenum *GongEnum) UnstageVoid(stage *Stage) {
-	delete(stage.GongEnums, gongenum)
-	// issue1150
-	// delete(stage.GongEnum_stagedOrder, gongenum)
-	delete(stage.GongEnums_mapString, gongenum.Name)
-}
-
-// commit gongenum to the back repo (if it is already staged)
-func (gongenum *GongEnum) Commit(stage *Stage) *GongEnum {
-	if _, ok := stage.GongEnums[gongenum]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongEnum(gongenum)
-		}
-	}
-	return gongenum
+	gongenum.Unstage(stage)
 }
 
 func (gongenum *GongEnum) StageVoid(stage *Stage) {
 	gongenum.Stage(stage)
-}
-
-// Checkout gongenum to the back repo (if it is already staged)
-func (gongenum *GongEnum) Checkout(stage *Stage) *GongEnum {
-	if _, ok := stage.GongEnums[gongenum]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongEnum(gongenum)
-		}
-	}
-	return gongenum
 }
 
 // for satisfaction of GongStruct interface
@@ -1612,14 +1234,7 @@ func (gongenum *GongEnum) SetName(name string) {
 
 // Stage puts gongenumvalue to the model stage
 func (gongenumvalue *GongEnumValue) Stage(stage *Stage) *GongEnumValue {
-	if _, ok := stage.GongEnumValues[gongenumvalue]; !ok {
-		stage.GongEnumValues[gongenumvalue] = struct{}{}
-		stage.GongEnumValue_stagedOrder[gongenumvalue] = stage.GongEnumValueOrder
-		stage.GongEnumValue_orderStaged[stage.GongEnumValueOrder] = gongenumvalue
-		stage.GongEnumValueOrder++
-	}
-	stage.GongEnumValues_mapString[gongenumvalue.Name] = gongenumvalue
-
+	__gong__stage(stage.GongEnumValues, stage.GongEnumValue_stagedOrder, stage.GongEnumValue_orderStaged, &stage.GongEnumValueOrder, stage.GongEnumValues_mapString, gongenumvalue, gongenumvalue.Name)
 	return gongenumvalue
 }
 
@@ -1629,59 +1244,22 @@ func (gongenumvalue *GongEnumValue) Stage(stage *Stage) *GongEnumValue {
 // - force the order if the order is equal or greater than the stage.GongEnumValueOrder
 // - update stage.GongEnumValueOrder accordingly
 func (gongenumvalue *GongEnumValue) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GongEnumValues[gongenumvalue]; !ok {
-		stage.GongEnumValues[gongenumvalue] = struct{}{}
-
-		if order > stage.GongEnumValueOrder {
-			stage.GongEnumValueOrder = order
-		}
-		stage.GongEnumValue_stagedOrder[gongenumvalue] = order
-		stage.GongEnumValue_orderStaged[order] = gongenumvalue
-		stage.GongEnumValueOrder++
-	}
-	stage.GongEnumValues_mapString[gongenumvalue.Name] = gongenumvalue
+	__gong__stagePreserveOrder(stage.GongEnumValues, stage.GongEnumValue_stagedOrder, stage.GongEnumValue_orderStaged, &stage.GongEnumValueOrder, stage.GongEnumValues_mapString, gongenumvalue, order, gongenumvalue.Name)
 }
 
 // Unstage removes gongenumvalue off the model stage
 func (gongenumvalue *GongEnumValue) Unstage(stage *Stage) *GongEnumValue {
-	delete(stage.GongEnumValues, gongenumvalue)
-	// issue1150
-	// delete(stage.GongEnumValue_stagedOrder, gongenumvalue)
-	delete(stage.GongEnumValues_mapString, gongenumvalue.Name)
-
+	__gong__unstage(stage.GongEnumValues, stage.GongEnumValues_mapString, gongenumvalue, gongenumvalue.Name)
 	return gongenumvalue
 }
 
 // UnstageVoid removes gongenumvalue off the model stage
 func (gongenumvalue *GongEnumValue) UnstageVoid(stage *Stage) {
-	delete(stage.GongEnumValues, gongenumvalue)
-	// issue1150
-	// delete(stage.GongEnumValue_stagedOrder, gongenumvalue)
-	delete(stage.GongEnumValues_mapString, gongenumvalue.Name)
-}
-
-// commit gongenumvalue to the back repo (if it is already staged)
-func (gongenumvalue *GongEnumValue) Commit(stage *Stage) *GongEnumValue {
-	if _, ok := stage.GongEnumValues[gongenumvalue]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongEnumValue(gongenumvalue)
-		}
-	}
-	return gongenumvalue
+	gongenumvalue.Unstage(stage)
 }
 
 func (gongenumvalue *GongEnumValue) StageVoid(stage *Stage) {
 	gongenumvalue.Stage(stage)
-}
-
-// Checkout gongenumvalue to the back repo (if it is already staged)
-func (gongenumvalue *GongEnumValue) Checkout(stage *Stage) *GongEnumValue {
-	if _, ok := stage.GongEnumValues[gongenumvalue]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongEnumValue(gongenumvalue)
-		}
-	}
-	return gongenumvalue
 }
 
 // for satisfaction of GongStruct interface
@@ -1696,14 +1274,7 @@ func (gongenumvalue *GongEnumValue) SetName(name string) {
 
 // Stage puts gonglink to the model stage
 func (gonglink *GongLink) Stage(stage *Stage) *GongLink {
-	if _, ok := stage.GongLinks[gonglink]; !ok {
-		stage.GongLinks[gonglink] = struct{}{}
-		stage.GongLink_stagedOrder[gonglink] = stage.GongLinkOrder
-		stage.GongLink_orderStaged[stage.GongLinkOrder] = gonglink
-		stage.GongLinkOrder++
-	}
-	stage.GongLinks_mapString[gonglink.Name] = gonglink
-
+	__gong__stage(stage.GongLinks, stage.GongLink_stagedOrder, stage.GongLink_orderStaged, &stage.GongLinkOrder, stage.GongLinks_mapString, gonglink, gonglink.Name)
 	return gonglink
 }
 
@@ -1713,59 +1284,22 @@ func (gonglink *GongLink) Stage(stage *Stage) *GongLink {
 // - force the order if the order is equal or greater than the stage.GongLinkOrder
 // - update stage.GongLinkOrder accordingly
 func (gonglink *GongLink) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GongLinks[gonglink]; !ok {
-		stage.GongLinks[gonglink] = struct{}{}
-
-		if order > stage.GongLinkOrder {
-			stage.GongLinkOrder = order
-		}
-		stage.GongLink_stagedOrder[gonglink] = order
-		stage.GongLink_orderStaged[order] = gonglink
-		stage.GongLinkOrder++
-	}
-	stage.GongLinks_mapString[gonglink.Name] = gonglink
+	__gong__stagePreserveOrder(stage.GongLinks, stage.GongLink_stagedOrder, stage.GongLink_orderStaged, &stage.GongLinkOrder, stage.GongLinks_mapString, gonglink, order, gonglink.Name)
 }
 
 // Unstage removes gonglink off the model stage
 func (gonglink *GongLink) Unstage(stage *Stage) *GongLink {
-	delete(stage.GongLinks, gonglink)
-	// issue1150
-	// delete(stage.GongLink_stagedOrder, gonglink)
-	delete(stage.GongLinks_mapString, gonglink.Name)
-
+	__gong__unstage(stage.GongLinks, stage.GongLinks_mapString, gonglink, gonglink.Name)
 	return gonglink
 }
 
 // UnstageVoid removes gonglink off the model stage
 func (gonglink *GongLink) UnstageVoid(stage *Stage) {
-	delete(stage.GongLinks, gonglink)
-	// issue1150
-	// delete(stage.GongLink_stagedOrder, gonglink)
-	delete(stage.GongLinks_mapString, gonglink.Name)
-}
-
-// commit gonglink to the back repo (if it is already staged)
-func (gonglink *GongLink) Commit(stage *Stage) *GongLink {
-	if _, ok := stage.GongLinks[gonglink]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongLink(gonglink)
-		}
-	}
-	return gonglink
+	gonglink.Unstage(stage)
 }
 
 func (gonglink *GongLink) StageVoid(stage *Stage) {
 	gonglink.Stage(stage)
-}
-
-// Checkout gonglink to the back repo (if it is already staged)
-func (gonglink *GongLink) Checkout(stage *Stage) *GongLink {
-	if _, ok := stage.GongLinks[gonglink]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongLink(gonglink)
-		}
-	}
-	return gonglink
 }
 
 // for satisfaction of GongStruct interface
@@ -1780,14 +1314,7 @@ func (gonglink *GongLink) SetName(name string) {
 
 // Stage puts gongnote to the model stage
 func (gongnote *GongNote) Stage(stage *Stage) *GongNote {
-	if _, ok := stage.GongNotes[gongnote]; !ok {
-		stage.GongNotes[gongnote] = struct{}{}
-		stage.GongNote_stagedOrder[gongnote] = stage.GongNoteOrder
-		stage.GongNote_orderStaged[stage.GongNoteOrder] = gongnote
-		stage.GongNoteOrder++
-	}
-	stage.GongNotes_mapString[gongnote.Name] = gongnote
-
+	__gong__stage(stage.GongNotes, stage.GongNote_stagedOrder, stage.GongNote_orderStaged, &stage.GongNoteOrder, stage.GongNotes_mapString, gongnote, gongnote.Name)
 	return gongnote
 }
 
@@ -1797,59 +1324,22 @@ func (gongnote *GongNote) Stage(stage *Stage) *GongNote {
 // - force the order if the order is equal or greater than the stage.GongNoteOrder
 // - update stage.GongNoteOrder accordingly
 func (gongnote *GongNote) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GongNotes[gongnote]; !ok {
-		stage.GongNotes[gongnote] = struct{}{}
-
-		if order > stage.GongNoteOrder {
-			stage.GongNoteOrder = order
-		}
-		stage.GongNote_stagedOrder[gongnote] = order
-		stage.GongNote_orderStaged[order] = gongnote
-		stage.GongNoteOrder++
-	}
-	stage.GongNotes_mapString[gongnote.Name] = gongnote
+	__gong__stagePreserveOrder(stage.GongNotes, stage.GongNote_stagedOrder, stage.GongNote_orderStaged, &stage.GongNoteOrder, stage.GongNotes_mapString, gongnote, order, gongnote.Name)
 }
 
 // Unstage removes gongnote off the model stage
 func (gongnote *GongNote) Unstage(stage *Stage) *GongNote {
-	delete(stage.GongNotes, gongnote)
-	// issue1150
-	// delete(stage.GongNote_stagedOrder, gongnote)
-	delete(stage.GongNotes_mapString, gongnote.Name)
-
+	__gong__unstage(stage.GongNotes, stage.GongNotes_mapString, gongnote, gongnote.Name)
 	return gongnote
 }
 
 // UnstageVoid removes gongnote off the model stage
 func (gongnote *GongNote) UnstageVoid(stage *Stage) {
-	delete(stage.GongNotes, gongnote)
-	// issue1150
-	// delete(stage.GongNote_stagedOrder, gongnote)
-	delete(stage.GongNotes_mapString, gongnote.Name)
-}
-
-// commit gongnote to the back repo (if it is already staged)
-func (gongnote *GongNote) Commit(stage *Stage) *GongNote {
-	if _, ok := stage.GongNotes[gongnote]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongNote(gongnote)
-		}
-	}
-	return gongnote
+	gongnote.Unstage(stage)
 }
 
 func (gongnote *GongNote) StageVoid(stage *Stage) {
 	gongnote.Stage(stage)
-}
-
-// Checkout gongnote to the back repo (if it is already staged)
-func (gongnote *GongNote) Checkout(stage *Stage) *GongNote {
-	if _, ok := stage.GongNotes[gongnote]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongNote(gongnote)
-		}
-	}
-	return gongnote
 }
 
 // for satisfaction of GongStruct interface
@@ -1864,14 +1354,7 @@ func (gongnote *GongNote) SetName(name string) {
 
 // Stage puts gongstruct to the model stage
 func (gongstruct *GongStruct) Stage(stage *Stage) *GongStruct {
-	if _, ok := stage.GongStructs[gongstruct]; !ok {
-		stage.GongStructs[gongstruct] = struct{}{}
-		stage.GongStruct_stagedOrder[gongstruct] = stage.GongStructOrder
-		stage.GongStruct_orderStaged[stage.GongStructOrder] = gongstruct
-		stage.GongStructOrder++
-	}
-	stage.GongStructs_mapString[gongstruct.Name] = gongstruct
-
+	__gong__stage(stage.GongStructs, stage.GongStruct_stagedOrder, stage.GongStruct_orderStaged, &stage.GongStructOrder, stage.GongStructs_mapString, gongstruct, gongstruct.Name)
 	return gongstruct
 }
 
@@ -1881,59 +1364,22 @@ func (gongstruct *GongStruct) Stage(stage *Stage) *GongStruct {
 // - force the order if the order is equal or greater than the stage.GongStructOrder
 // - update stage.GongStructOrder accordingly
 func (gongstruct *GongStruct) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GongStructs[gongstruct]; !ok {
-		stage.GongStructs[gongstruct] = struct{}{}
-
-		if order > stage.GongStructOrder {
-			stage.GongStructOrder = order
-		}
-		stage.GongStruct_stagedOrder[gongstruct] = order
-		stage.GongStruct_orderStaged[order] = gongstruct
-		stage.GongStructOrder++
-	}
-	stage.GongStructs_mapString[gongstruct.Name] = gongstruct
+	__gong__stagePreserveOrder(stage.GongStructs, stage.GongStruct_stagedOrder, stage.GongStruct_orderStaged, &stage.GongStructOrder, stage.GongStructs_mapString, gongstruct, order, gongstruct.Name)
 }
 
 // Unstage removes gongstruct off the model stage
 func (gongstruct *GongStruct) Unstage(stage *Stage) *GongStruct {
-	delete(stage.GongStructs, gongstruct)
-	// issue1150
-	// delete(stage.GongStruct_stagedOrder, gongstruct)
-	delete(stage.GongStructs_mapString, gongstruct.Name)
-
+	__gong__unstage(stage.GongStructs, stage.GongStructs_mapString, gongstruct, gongstruct.Name)
 	return gongstruct
 }
 
 // UnstageVoid removes gongstruct off the model stage
 func (gongstruct *GongStruct) UnstageVoid(stage *Stage) {
-	delete(stage.GongStructs, gongstruct)
-	// issue1150
-	// delete(stage.GongStruct_stagedOrder, gongstruct)
-	delete(stage.GongStructs_mapString, gongstruct.Name)
-}
-
-// commit gongstruct to the back repo (if it is already staged)
-func (gongstruct *GongStruct) Commit(stage *Stage) *GongStruct {
-	if _, ok := stage.GongStructs[gongstruct]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongStruct(gongstruct)
-		}
-	}
-	return gongstruct
+	gongstruct.Unstage(stage)
 }
 
 func (gongstruct *GongStruct) StageVoid(stage *Stage) {
 	gongstruct.Stage(stage)
-}
-
-// Checkout gongstruct to the back repo (if it is already staged)
-func (gongstruct *GongStruct) Checkout(stage *Stage) *GongStruct {
-	if _, ok := stage.GongStructs[gongstruct]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongStruct(gongstruct)
-		}
-	}
-	return gongstruct
 }
 
 // for satisfaction of GongStruct interface
@@ -1948,14 +1394,7 @@ func (gongstruct *GongStruct) SetName(name string) {
 
 // Stage puts gongtimefield to the model stage
 func (gongtimefield *GongTimeField) Stage(stage *Stage) *GongTimeField {
-	if _, ok := stage.GongTimeFields[gongtimefield]; !ok {
-		stage.GongTimeFields[gongtimefield] = struct{}{}
-		stage.GongTimeField_stagedOrder[gongtimefield] = stage.GongTimeFieldOrder
-		stage.GongTimeField_orderStaged[stage.GongTimeFieldOrder] = gongtimefield
-		stage.GongTimeFieldOrder++
-	}
-	stage.GongTimeFields_mapString[gongtimefield.Name] = gongtimefield
-
+	__gong__stage(stage.GongTimeFields, stage.GongTimeField_stagedOrder, stage.GongTimeField_orderStaged, &stage.GongTimeFieldOrder, stage.GongTimeFields_mapString, gongtimefield, gongtimefield.Name)
 	return gongtimefield
 }
 
@@ -1965,59 +1404,22 @@ func (gongtimefield *GongTimeField) Stage(stage *Stage) *GongTimeField {
 // - force the order if the order is equal or greater than the stage.GongTimeFieldOrder
 // - update stage.GongTimeFieldOrder accordingly
 func (gongtimefield *GongTimeField) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GongTimeFields[gongtimefield]; !ok {
-		stage.GongTimeFields[gongtimefield] = struct{}{}
-
-		if order > stage.GongTimeFieldOrder {
-			stage.GongTimeFieldOrder = order
-		}
-		stage.GongTimeField_stagedOrder[gongtimefield] = order
-		stage.GongTimeField_orderStaged[order] = gongtimefield
-		stage.GongTimeFieldOrder++
-	}
-	stage.GongTimeFields_mapString[gongtimefield.Name] = gongtimefield
+	__gong__stagePreserveOrder(stage.GongTimeFields, stage.GongTimeField_stagedOrder, stage.GongTimeField_orderStaged, &stage.GongTimeFieldOrder, stage.GongTimeFields_mapString, gongtimefield, order, gongtimefield.Name)
 }
 
 // Unstage removes gongtimefield off the model stage
 func (gongtimefield *GongTimeField) Unstage(stage *Stage) *GongTimeField {
-	delete(stage.GongTimeFields, gongtimefield)
-	// issue1150
-	// delete(stage.GongTimeField_stagedOrder, gongtimefield)
-	delete(stage.GongTimeFields_mapString, gongtimefield.Name)
-
+	__gong__unstage(stage.GongTimeFields, stage.GongTimeFields_mapString, gongtimefield, gongtimefield.Name)
 	return gongtimefield
 }
 
 // UnstageVoid removes gongtimefield off the model stage
 func (gongtimefield *GongTimeField) UnstageVoid(stage *Stage) {
-	delete(stage.GongTimeFields, gongtimefield)
-	// issue1150
-	// delete(stage.GongTimeField_stagedOrder, gongtimefield)
-	delete(stage.GongTimeFields_mapString, gongtimefield.Name)
-}
-
-// commit gongtimefield to the back repo (if it is already staged)
-func (gongtimefield *GongTimeField) Commit(stage *Stage) *GongTimeField {
-	if _, ok := stage.GongTimeFields[gongtimefield]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongTimeField(gongtimefield)
-		}
-	}
-	return gongtimefield
+	gongtimefield.Unstage(stage)
 }
 
 func (gongtimefield *GongTimeField) StageVoid(stage *Stage) {
 	gongtimefield.Stage(stage)
-}
-
-// Checkout gongtimefield to the back repo (if it is already staged)
-func (gongtimefield *GongTimeField) Checkout(stage *Stage) *GongTimeField {
-	if _, ok := stage.GongTimeFields[gongtimefield]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongTimeField(gongtimefield)
-		}
-	}
-	return gongtimefield
 }
 
 // for satisfaction of GongStruct interface
@@ -2032,14 +1434,7 @@ func (gongtimefield *GongTimeField) SetName(name string) {
 
 // Stage puts metareference to the model stage
 func (metareference *MetaReference) Stage(stage *Stage) *MetaReference {
-	if _, ok := stage.MetaReferences[metareference]; !ok {
-		stage.MetaReferences[metareference] = struct{}{}
-		stage.MetaReference_stagedOrder[metareference] = stage.MetaReferenceOrder
-		stage.MetaReference_orderStaged[stage.MetaReferenceOrder] = metareference
-		stage.MetaReferenceOrder++
-	}
-	stage.MetaReferences_mapString[metareference.Name] = metareference
-
+	__gong__stage(stage.MetaReferences, stage.MetaReference_stagedOrder, stage.MetaReference_orderStaged, &stage.MetaReferenceOrder, stage.MetaReferences_mapString, metareference, metareference.Name)
 	return metareference
 }
 
@@ -2049,59 +1444,22 @@ func (metareference *MetaReference) Stage(stage *Stage) *MetaReference {
 // - force the order if the order is equal or greater than the stage.MetaReferenceOrder
 // - update stage.MetaReferenceOrder accordingly
 func (metareference *MetaReference) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.MetaReferences[metareference]; !ok {
-		stage.MetaReferences[metareference] = struct{}{}
-
-		if order > stage.MetaReferenceOrder {
-			stage.MetaReferenceOrder = order
-		}
-		stage.MetaReference_stagedOrder[metareference] = order
-		stage.MetaReference_orderStaged[order] = metareference
-		stage.MetaReferenceOrder++
-	}
-	stage.MetaReferences_mapString[metareference.Name] = metareference
+	__gong__stagePreserveOrder(stage.MetaReferences, stage.MetaReference_stagedOrder, stage.MetaReference_orderStaged, &stage.MetaReferenceOrder, stage.MetaReferences_mapString, metareference, order, metareference.Name)
 }
 
 // Unstage removes metareference off the model stage
 func (metareference *MetaReference) Unstage(stage *Stage) *MetaReference {
-	delete(stage.MetaReferences, metareference)
-	// issue1150
-	// delete(stage.MetaReference_stagedOrder, metareference)
-	delete(stage.MetaReferences_mapString, metareference.Name)
-
+	__gong__unstage(stage.MetaReferences, stage.MetaReferences_mapString, metareference, metareference.Name)
 	return metareference
 }
 
 // UnstageVoid removes metareference off the model stage
 func (metareference *MetaReference) UnstageVoid(stage *Stage) {
-	delete(stage.MetaReferences, metareference)
-	// issue1150
-	// delete(stage.MetaReference_stagedOrder, metareference)
-	delete(stage.MetaReferences_mapString, metareference.Name)
-}
-
-// commit metareference to the back repo (if it is already staged)
-func (metareference *MetaReference) Commit(stage *Stage) *MetaReference {
-	if _, ok := stage.MetaReferences[metareference]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitMetaReference(metareference)
-		}
-	}
-	return metareference
+	metareference.Unstage(stage)
 }
 
 func (metareference *MetaReference) StageVoid(stage *Stage) {
 	metareference.Stage(stage)
-}
-
-// Checkout metareference to the back repo (if it is already staged)
-func (metareference *MetaReference) Checkout(stage *Stage) *MetaReference {
-	if _, ok := stage.MetaReferences[metareference]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutMetaReference(metareference)
-		}
-	}
-	return metareference
 }
 
 // for satisfaction of GongStruct interface
@@ -2116,14 +1474,7 @@ func (metareference *MetaReference) SetName(name string) {
 
 // Stage puts modelpkg to the model stage
 func (modelpkg *ModelPkg) Stage(stage *Stage) *ModelPkg {
-	if _, ok := stage.ModelPkgs[modelpkg]; !ok {
-		stage.ModelPkgs[modelpkg] = struct{}{}
-		stage.ModelPkg_stagedOrder[modelpkg] = stage.ModelPkgOrder
-		stage.ModelPkg_orderStaged[stage.ModelPkgOrder] = modelpkg
-		stage.ModelPkgOrder++
-	}
-	stage.ModelPkgs_mapString[modelpkg.Name] = modelpkg
-
+	__gong__stage(stage.ModelPkgs, stage.ModelPkg_stagedOrder, stage.ModelPkg_orderStaged, &stage.ModelPkgOrder, stage.ModelPkgs_mapString, modelpkg, modelpkg.Name)
 	return modelpkg
 }
 
@@ -2133,59 +1484,22 @@ func (modelpkg *ModelPkg) Stage(stage *Stage) *ModelPkg {
 // - force the order if the order is equal or greater than the stage.ModelPkgOrder
 // - update stage.ModelPkgOrder accordingly
 func (modelpkg *ModelPkg) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.ModelPkgs[modelpkg]; !ok {
-		stage.ModelPkgs[modelpkg] = struct{}{}
-
-		if order > stage.ModelPkgOrder {
-			stage.ModelPkgOrder = order
-		}
-		stage.ModelPkg_stagedOrder[modelpkg] = order
-		stage.ModelPkg_orderStaged[order] = modelpkg
-		stage.ModelPkgOrder++
-	}
-	stage.ModelPkgs_mapString[modelpkg.Name] = modelpkg
+	__gong__stagePreserveOrder(stage.ModelPkgs, stage.ModelPkg_stagedOrder, stage.ModelPkg_orderStaged, &stage.ModelPkgOrder, stage.ModelPkgs_mapString, modelpkg, order, modelpkg.Name)
 }
 
 // Unstage removes modelpkg off the model stage
 func (modelpkg *ModelPkg) Unstage(stage *Stage) *ModelPkg {
-	delete(stage.ModelPkgs, modelpkg)
-	// issue1150
-	// delete(stage.ModelPkg_stagedOrder, modelpkg)
-	delete(stage.ModelPkgs_mapString, modelpkg.Name)
-
+	__gong__unstage(stage.ModelPkgs, stage.ModelPkgs_mapString, modelpkg, modelpkg.Name)
 	return modelpkg
 }
 
 // UnstageVoid removes modelpkg off the model stage
 func (modelpkg *ModelPkg) UnstageVoid(stage *Stage) {
-	delete(stage.ModelPkgs, modelpkg)
-	// issue1150
-	// delete(stage.ModelPkg_stagedOrder, modelpkg)
-	delete(stage.ModelPkgs_mapString, modelpkg.Name)
-}
-
-// commit modelpkg to the back repo (if it is already staged)
-func (modelpkg *ModelPkg) Commit(stage *Stage) *ModelPkg {
-	if _, ok := stage.ModelPkgs[modelpkg]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitModelPkg(modelpkg)
-		}
-	}
-	return modelpkg
+	modelpkg.Unstage(stage)
 }
 
 func (modelpkg *ModelPkg) StageVoid(stage *Stage) {
 	modelpkg.Stage(stage)
-}
-
-// Checkout modelpkg to the back repo (if it is already staged)
-func (modelpkg *ModelPkg) Checkout(stage *Stage) *ModelPkg {
-	if _, ok := stage.ModelPkgs[modelpkg]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutModelPkg(modelpkg)
-		}
-	}
-	return modelpkg
 }
 
 // for satisfaction of GongStruct interface
@@ -2200,14 +1514,7 @@ func (modelpkg *ModelPkg) SetName(name string) {
 
 // Stage puts pointertogongstructfield to the model stage
 func (pointertogongstructfield *PointerToGongStructField) Stage(stage *Stage) *PointerToGongStructField {
-	if _, ok := stage.PointerToGongStructFields[pointertogongstructfield]; !ok {
-		stage.PointerToGongStructFields[pointertogongstructfield] = struct{}{}
-		stage.PointerToGongStructField_stagedOrder[pointertogongstructfield] = stage.PointerToGongStructFieldOrder
-		stage.PointerToGongStructField_orderStaged[stage.PointerToGongStructFieldOrder] = pointertogongstructfield
-		stage.PointerToGongStructFieldOrder++
-	}
-	stage.PointerToGongStructFields_mapString[pointertogongstructfield.Name] = pointertogongstructfield
-
+	__gong__stage(stage.PointerToGongStructFields, stage.PointerToGongStructField_stagedOrder, stage.PointerToGongStructField_orderStaged, &stage.PointerToGongStructFieldOrder, stage.PointerToGongStructFields_mapString, pointertogongstructfield, pointertogongstructfield.Name)
 	return pointertogongstructfield
 }
 
@@ -2217,59 +1524,22 @@ func (pointertogongstructfield *PointerToGongStructField) Stage(stage *Stage) *P
 // - force the order if the order is equal or greater than the stage.PointerToGongStructFieldOrder
 // - update stage.PointerToGongStructFieldOrder accordingly
 func (pointertogongstructfield *PointerToGongStructField) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.PointerToGongStructFields[pointertogongstructfield]; !ok {
-		stage.PointerToGongStructFields[pointertogongstructfield] = struct{}{}
-
-		if order > stage.PointerToGongStructFieldOrder {
-			stage.PointerToGongStructFieldOrder = order
-		}
-		stage.PointerToGongStructField_stagedOrder[pointertogongstructfield] = order
-		stage.PointerToGongStructField_orderStaged[order] = pointertogongstructfield
-		stage.PointerToGongStructFieldOrder++
-	}
-	stage.PointerToGongStructFields_mapString[pointertogongstructfield.Name] = pointertogongstructfield
+	__gong__stagePreserveOrder(stage.PointerToGongStructFields, stage.PointerToGongStructField_stagedOrder, stage.PointerToGongStructField_orderStaged, &stage.PointerToGongStructFieldOrder, stage.PointerToGongStructFields_mapString, pointertogongstructfield, order, pointertogongstructfield.Name)
 }
 
 // Unstage removes pointertogongstructfield off the model stage
 func (pointertogongstructfield *PointerToGongStructField) Unstage(stage *Stage) *PointerToGongStructField {
-	delete(stage.PointerToGongStructFields, pointertogongstructfield)
-	// issue1150
-	// delete(stage.PointerToGongStructField_stagedOrder, pointertogongstructfield)
-	delete(stage.PointerToGongStructFields_mapString, pointertogongstructfield.Name)
-
+	__gong__unstage(stage.PointerToGongStructFields, stage.PointerToGongStructFields_mapString, pointertogongstructfield, pointertogongstructfield.Name)
 	return pointertogongstructfield
 }
 
 // UnstageVoid removes pointertogongstructfield off the model stage
 func (pointertogongstructfield *PointerToGongStructField) UnstageVoid(stage *Stage) {
-	delete(stage.PointerToGongStructFields, pointertogongstructfield)
-	// issue1150
-	// delete(stage.PointerToGongStructField_stagedOrder, pointertogongstructfield)
-	delete(stage.PointerToGongStructFields_mapString, pointertogongstructfield.Name)
-}
-
-// commit pointertogongstructfield to the back repo (if it is already staged)
-func (pointertogongstructfield *PointerToGongStructField) Commit(stage *Stage) *PointerToGongStructField {
-	if _, ok := stage.PointerToGongStructFields[pointertogongstructfield]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitPointerToGongStructField(pointertogongstructfield)
-		}
-	}
-	return pointertogongstructfield
+	pointertogongstructfield.Unstage(stage)
 }
 
 func (pointertogongstructfield *PointerToGongStructField) StageVoid(stage *Stage) {
 	pointertogongstructfield.Stage(stage)
-}
-
-// Checkout pointertogongstructfield to the back repo (if it is already staged)
-func (pointertogongstructfield *PointerToGongStructField) Checkout(stage *Stage) *PointerToGongStructField {
-	if _, ok := stage.PointerToGongStructFields[pointertogongstructfield]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutPointerToGongStructField(pointertogongstructfield)
-		}
-	}
-	return pointertogongstructfield
 }
 
 // for satisfaction of GongStruct interface
@@ -2284,14 +1554,7 @@ func (pointertogongstructfield *PointerToGongStructField) SetName(name string) {
 
 // Stage puts sliceofpointertogongstructfield to the model stage
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Stage(stage *Stage) *SliceOfPointerToGongStructField {
-	if _, ok := stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]; !ok {
-		stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield] = struct{}{}
-		stage.SliceOfPointerToGongStructField_stagedOrder[sliceofpointertogongstructfield] = stage.SliceOfPointerToGongStructFieldOrder
-		stage.SliceOfPointerToGongStructField_orderStaged[stage.SliceOfPointerToGongStructFieldOrder] = sliceofpointertogongstructfield
-		stage.SliceOfPointerToGongStructFieldOrder++
-	}
-	stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield
-
+	__gong__stage(stage.SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructField_stagedOrder, stage.SliceOfPointerToGongStructField_orderStaged, &stage.SliceOfPointerToGongStructFieldOrder, stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield, sliceofpointertogongstructfield.Name)
 	return sliceofpointertogongstructfield
 }
 
@@ -2301,59 +1564,22 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Stage(st
 // - force the order if the order is equal or greater than the stage.SliceOfPointerToGongStructFieldOrder
 // - update stage.SliceOfPointerToGongStructFieldOrder accordingly
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]; !ok {
-		stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield] = struct{}{}
-
-		if order > stage.SliceOfPointerToGongStructFieldOrder {
-			stage.SliceOfPointerToGongStructFieldOrder = order
-		}
-		stage.SliceOfPointerToGongStructField_stagedOrder[sliceofpointertogongstructfield] = order
-		stage.SliceOfPointerToGongStructField_orderStaged[order] = sliceofpointertogongstructfield
-		stage.SliceOfPointerToGongStructFieldOrder++
-	}
-	stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield
+	__gong__stagePreserveOrder(stage.SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructField_stagedOrder, stage.SliceOfPointerToGongStructField_orderStaged, &stage.SliceOfPointerToGongStructFieldOrder, stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield, order, sliceofpointertogongstructfield.Name)
 }
 
 // Unstage removes sliceofpointertogongstructfield off the model stage
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Unstage(stage *Stage) *SliceOfPointerToGongStructField {
-	delete(stage.SliceOfPointerToGongStructFields, sliceofpointertogongstructfield)
-	// issue1150
-	// delete(stage.SliceOfPointerToGongStructField_stagedOrder, sliceofpointertogongstructfield)
-	delete(stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield.Name)
-
+	__gong__unstage(stage.SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield, sliceofpointertogongstructfield.Name)
 	return sliceofpointertogongstructfield
 }
 
 // UnstageVoid removes sliceofpointertogongstructfield off the model stage
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) UnstageVoid(stage *Stage) {
-	delete(stage.SliceOfPointerToGongStructFields, sliceofpointertogongstructfield)
-	// issue1150
-	// delete(stage.SliceOfPointerToGongStructField_stagedOrder, sliceofpointertogongstructfield)
-	delete(stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield.Name)
-}
-
-// commit sliceofpointertogongstructfield to the back repo (if it is already staged)
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Commit(stage *Stage) *SliceOfPointerToGongStructField {
-	if _, ok := stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
-		}
-	}
-	return sliceofpointertogongstructfield
+	sliceofpointertogongstructfield.Unstage(stage)
 }
 
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) StageVoid(stage *Stage) {
 	sliceofpointertogongstructfield.Stage(stage)
-}
-
-// Checkout sliceofpointertogongstructfield to the back repo (if it is already staged)
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Checkout(stage *Stage) *SliceOfPointerToGongStructField {
-	if _, ok := stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
-		}
-	}
-	return sliceofpointertogongstructfield
 }
 
 // for satisfaction of GongStruct interface
@@ -2368,14 +1594,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) SetName(
 
 // Stage puts stagesetfield to the model stage
 func (stagesetfield *StageSetField) Stage(stage *Stage) *StageSetField {
-	if _, ok := stage.StageSetFields[stagesetfield]; !ok {
-		stage.StageSetFields[stagesetfield] = struct{}{}
-		stage.StageSetField_stagedOrder[stagesetfield] = stage.StageSetFieldOrder
-		stage.StageSetField_orderStaged[stage.StageSetFieldOrder] = stagesetfield
-		stage.StageSetFieldOrder++
-	}
-	stage.StageSetFields_mapString[stagesetfield.Name] = stagesetfield
-
+	__gong__stage(stage.StageSetFields, stage.StageSetField_stagedOrder, stage.StageSetField_orderStaged, &stage.StageSetFieldOrder, stage.StageSetFields_mapString, stagesetfield, stagesetfield.Name)
 	return stagesetfield
 }
 
@@ -2385,59 +1604,22 @@ func (stagesetfield *StageSetField) Stage(stage *Stage) *StageSetField {
 // - force the order if the order is equal or greater than the stage.StageSetFieldOrder
 // - update stage.StageSetFieldOrder accordingly
 func (stagesetfield *StageSetField) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.StageSetFields[stagesetfield]; !ok {
-		stage.StageSetFields[stagesetfield] = struct{}{}
-
-		if order > stage.StageSetFieldOrder {
-			stage.StageSetFieldOrder = order
-		}
-		stage.StageSetField_stagedOrder[stagesetfield] = order
-		stage.StageSetField_orderStaged[order] = stagesetfield
-		stage.StageSetFieldOrder++
-	}
-	stage.StageSetFields_mapString[stagesetfield.Name] = stagesetfield
+	__gong__stagePreserveOrder(stage.StageSetFields, stage.StageSetField_stagedOrder, stage.StageSetField_orderStaged, &stage.StageSetFieldOrder, stage.StageSetFields_mapString, stagesetfield, order, stagesetfield.Name)
 }
 
 // Unstage removes stagesetfield off the model stage
 func (stagesetfield *StageSetField) Unstage(stage *Stage) *StageSetField {
-	delete(stage.StageSetFields, stagesetfield)
-	// issue1150
-	// delete(stage.StageSetField_stagedOrder, stagesetfield)
-	delete(stage.StageSetFields_mapString, stagesetfield.Name)
-
+	__gong__unstage(stage.StageSetFields, stage.StageSetFields_mapString, stagesetfield, stagesetfield.Name)
 	return stagesetfield
 }
 
 // UnstageVoid removes stagesetfield off the model stage
 func (stagesetfield *StageSetField) UnstageVoid(stage *Stage) {
-	delete(stage.StageSetFields, stagesetfield)
-	// issue1150
-	// delete(stage.StageSetField_stagedOrder, stagesetfield)
-	delete(stage.StageSetFields_mapString, stagesetfield.Name)
-}
-
-// commit stagesetfield to the back repo (if it is already staged)
-func (stagesetfield *StageSetField) Commit(stage *Stage) *StageSetField {
-	if _, ok := stage.StageSetFields[stagesetfield]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitStageSetField(stagesetfield)
-		}
-	}
-	return stagesetfield
+	stagesetfield.Unstage(stage)
 }
 
 func (stagesetfield *StageSetField) StageVoid(stage *Stage) {
 	stagesetfield.Stage(stage)
-}
-
-// Checkout stagesetfield to the back repo (if it is already staged)
-func (stagesetfield *StageSetField) Checkout(stage *Stage) *StageSetField {
-	if _, ok := stage.StageSetFields[stagesetfield]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutStageSetField(stagesetfield)
-		}
-	}
-	return stagesetfield
 }
 
 // for satisfaction of GongStruct interface
@@ -2452,14 +1634,7 @@ func (stagesetfield *StageSetField) SetName(name string) {
 
 // Stage puts stagesetmodel to the model stage
 func (stagesetmodel *StageSetModel) Stage(stage *Stage) *StageSetModel {
-	if _, ok := stage.StageSetModels[stagesetmodel]; !ok {
-		stage.StageSetModels[stagesetmodel] = struct{}{}
-		stage.StageSetModel_stagedOrder[stagesetmodel] = stage.StageSetModelOrder
-		stage.StageSetModel_orderStaged[stage.StageSetModelOrder] = stagesetmodel
-		stage.StageSetModelOrder++
-	}
-	stage.StageSetModels_mapString[stagesetmodel.Name] = stagesetmodel
-
+	__gong__stage(stage.StageSetModels, stage.StageSetModel_stagedOrder, stage.StageSetModel_orderStaged, &stage.StageSetModelOrder, stage.StageSetModels_mapString, stagesetmodel, stagesetmodel.Name)
 	return stagesetmodel
 }
 
@@ -2469,59 +1644,22 @@ func (stagesetmodel *StageSetModel) Stage(stage *Stage) *StageSetModel {
 // - force the order if the order is equal or greater than the stage.StageSetModelOrder
 // - update stage.StageSetModelOrder accordingly
 func (stagesetmodel *StageSetModel) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.StageSetModels[stagesetmodel]; !ok {
-		stage.StageSetModels[stagesetmodel] = struct{}{}
-
-		if order > stage.StageSetModelOrder {
-			stage.StageSetModelOrder = order
-		}
-		stage.StageSetModel_stagedOrder[stagesetmodel] = order
-		stage.StageSetModel_orderStaged[order] = stagesetmodel
-		stage.StageSetModelOrder++
-	}
-	stage.StageSetModels_mapString[stagesetmodel.Name] = stagesetmodel
+	__gong__stagePreserveOrder(stage.StageSetModels, stage.StageSetModel_stagedOrder, stage.StageSetModel_orderStaged, &stage.StageSetModelOrder, stage.StageSetModels_mapString, stagesetmodel, order, stagesetmodel.Name)
 }
 
 // Unstage removes stagesetmodel off the model stage
 func (stagesetmodel *StageSetModel) Unstage(stage *Stage) *StageSetModel {
-	delete(stage.StageSetModels, stagesetmodel)
-	// issue1150
-	// delete(stage.StageSetModel_stagedOrder, stagesetmodel)
-	delete(stage.StageSetModels_mapString, stagesetmodel.Name)
-
+	__gong__unstage(stage.StageSetModels, stage.StageSetModels_mapString, stagesetmodel, stagesetmodel.Name)
 	return stagesetmodel
 }
 
 // UnstageVoid removes stagesetmodel off the model stage
 func (stagesetmodel *StageSetModel) UnstageVoid(stage *Stage) {
-	delete(stage.StageSetModels, stagesetmodel)
-	// issue1150
-	// delete(stage.StageSetModel_stagedOrder, stagesetmodel)
-	delete(stage.StageSetModels_mapString, stagesetmodel.Name)
-}
-
-// commit stagesetmodel to the back repo (if it is already staged)
-func (stagesetmodel *StageSetModel) Commit(stage *Stage) *StageSetModel {
-	if _, ok := stage.StageSetModels[stagesetmodel]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitStageSetModel(stagesetmodel)
-		}
-	}
-	return stagesetmodel
+	stagesetmodel.Unstage(stage)
 }
 
 func (stagesetmodel *StageSetModel) StageVoid(stage *Stage) {
 	stagesetmodel.Stage(stage)
-}
-
-// Checkout stagesetmodel to the back repo (if it is already staged)
-func (stagesetmodel *StageSetModel) Checkout(stage *Stage) *StageSetModel {
-	if _, ok := stage.StageSetModels[stagesetmodel]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutStageSetModel(stagesetmodel)
-		}
-	}
-	return stagesetmodel
 }
 
 // for satisfaction of GongStruct interface
@@ -2535,70 +1673,31 @@ func (stagesetmodel *StageSetModel) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.GongBasicFields = make(map[*GongBasicField]struct{})
-	stage.GongBasicFields_mapString = make(map[string]*GongBasicField)
-	stage.GongBasicField_stagedOrder = make(map[*GongBasicField]uint)
-	stage.GongBasicFieldOrder = 0
+	__gong__resetStageType(&stage.GongBasicFields, &stage.GongBasicFields_mapString, &stage.GongBasicField_stagedOrder, &stage.GongBasicFieldOrder)
 
-	stage.GongEnums = make(map[*GongEnum]struct{})
-	stage.GongEnums_mapString = make(map[string]*GongEnum)
-	stage.GongEnum_stagedOrder = make(map[*GongEnum]uint)
-	stage.GongEnumOrder = 0
+	__gong__resetStageType(&stage.GongEnums, &stage.GongEnums_mapString, &stage.GongEnum_stagedOrder, &stage.GongEnumOrder)
 
-	stage.GongEnumValues = make(map[*GongEnumValue]struct{})
-	stage.GongEnumValues_mapString = make(map[string]*GongEnumValue)
-	stage.GongEnumValue_stagedOrder = make(map[*GongEnumValue]uint)
-	stage.GongEnumValueOrder = 0
+	__gong__resetStageType(&stage.GongEnumValues, &stage.GongEnumValues_mapString, &stage.GongEnumValue_stagedOrder, &stage.GongEnumValueOrder)
 
-	stage.GongLinks = make(map[*GongLink]struct{})
-	stage.GongLinks_mapString = make(map[string]*GongLink)
-	stage.GongLink_stagedOrder = make(map[*GongLink]uint)
-	stage.GongLinkOrder = 0
+	__gong__resetStageType(&stage.GongLinks, &stage.GongLinks_mapString, &stage.GongLink_stagedOrder, &stage.GongLinkOrder)
 
-	stage.GongNotes = make(map[*GongNote]struct{})
-	stage.GongNotes_mapString = make(map[string]*GongNote)
-	stage.GongNote_stagedOrder = make(map[*GongNote]uint)
-	stage.GongNoteOrder = 0
+	__gong__resetStageType(&stage.GongNotes, &stage.GongNotes_mapString, &stage.GongNote_stagedOrder, &stage.GongNoteOrder)
 
-	stage.GongStructs = make(map[*GongStruct]struct{})
-	stage.GongStructs_mapString = make(map[string]*GongStruct)
-	stage.GongStruct_stagedOrder = make(map[*GongStruct]uint)
-	stage.GongStructOrder = 0
+	__gong__resetStageType(&stage.GongStructs, &stage.GongStructs_mapString, &stage.GongStruct_stagedOrder, &stage.GongStructOrder)
 
-	stage.GongTimeFields = make(map[*GongTimeField]struct{})
-	stage.GongTimeFields_mapString = make(map[string]*GongTimeField)
-	stage.GongTimeField_stagedOrder = make(map[*GongTimeField]uint)
-	stage.GongTimeFieldOrder = 0
+	__gong__resetStageType(&stage.GongTimeFields, &stage.GongTimeFields_mapString, &stage.GongTimeField_stagedOrder, &stage.GongTimeFieldOrder)
 
-	stage.MetaReferences = make(map[*MetaReference]struct{})
-	stage.MetaReferences_mapString = make(map[string]*MetaReference)
-	stage.MetaReference_stagedOrder = make(map[*MetaReference]uint)
-	stage.MetaReferenceOrder = 0
+	__gong__resetStageType(&stage.MetaReferences, &stage.MetaReferences_mapString, &stage.MetaReference_stagedOrder, &stage.MetaReferenceOrder)
 
-	stage.ModelPkgs = make(map[*ModelPkg]struct{})
-	stage.ModelPkgs_mapString = make(map[string]*ModelPkg)
-	stage.ModelPkg_stagedOrder = make(map[*ModelPkg]uint)
-	stage.ModelPkgOrder = 0
+	__gong__resetStageType(&stage.ModelPkgs, &stage.ModelPkgs_mapString, &stage.ModelPkg_stagedOrder, &stage.ModelPkgOrder)
 
-	stage.PointerToGongStructFields = make(map[*PointerToGongStructField]struct{})
-	stage.PointerToGongStructFields_mapString = make(map[string]*PointerToGongStructField)
-	stage.PointerToGongStructField_stagedOrder = make(map[*PointerToGongStructField]uint)
-	stage.PointerToGongStructFieldOrder = 0
+	__gong__resetStageType(&stage.PointerToGongStructFields, &stage.PointerToGongStructFields_mapString, &stage.PointerToGongStructField_stagedOrder, &stage.PointerToGongStructFieldOrder)
 
-	stage.SliceOfPointerToGongStructFields = make(map[*SliceOfPointerToGongStructField]struct{})
-	stage.SliceOfPointerToGongStructFields_mapString = make(map[string]*SliceOfPointerToGongStructField)
-	stage.SliceOfPointerToGongStructField_stagedOrder = make(map[*SliceOfPointerToGongStructField]uint)
-	stage.SliceOfPointerToGongStructFieldOrder = 0
+	__gong__resetStageType(&stage.SliceOfPointerToGongStructFields, &stage.SliceOfPointerToGongStructFields_mapString, &stage.SliceOfPointerToGongStructField_stagedOrder, &stage.SliceOfPointerToGongStructFieldOrder)
 
-	stage.StageSetFields = make(map[*StageSetField]struct{})
-	stage.StageSetFields_mapString = make(map[string]*StageSetField)
-	stage.StageSetField_stagedOrder = make(map[*StageSetField]uint)
-	stage.StageSetFieldOrder = 0
+	__gong__resetStageType(&stage.StageSetFields, &stage.StageSetFields_mapString, &stage.StageSetField_stagedOrder, &stage.StageSetFieldOrder)
 
-	stage.StageSetModels = make(map[*StageSetModel]struct{})
-	stage.StageSetModels_mapString = make(map[string]*StageSetModel)
-	stage.StageSetModel_stagedOrder = make(map[*StageSetModel]uint)
-	stage.StageSetModelOrder = 0
+	__gong__resetStageType(&stage.StageSetModels, &stage.StageSetModels_mapString, &stage.StageSetModel_stagedOrder, &stage.StageSetModelOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -2637,7 +1736,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -4187,70 +3285,31 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.GongBasicFields_mapString = make(map[string]*GongBasicField)
-	for gongbasicfield := range stage.GongBasicFields {
-		stage.GongBasicFields_mapString[gongbasicfield.Name] = gongbasicfield
-	}
+	__gong__rebuildMapString(stage.GongBasicFields, &stage.GongBasicFields_mapString)
 
-	stage.GongEnums_mapString = make(map[string]*GongEnum)
-	for gongenum := range stage.GongEnums {
-		stage.GongEnums_mapString[gongenum.Name] = gongenum
-	}
+	__gong__rebuildMapString(stage.GongEnums, &stage.GongEnums_mapString)
 
-	stage.GongEnumValues_mapString = make(map[string]*GongEnumValue)
-	for gongenumvalue := range stage.GongEnumValues {
-		stage.GongEnumValues_mapString[gongenumvalue.Name] = gongenumvalue
-	}
+	__gong__rebuildMapString(stage.GongEnumValues, &stage.GongEnumValues_mapString)
 
-	stage.GongLinks_mapString = make(map[string]*GongLink)
-	for gonglink := range stage.GongLinks {
-		stage.GongLinks_mapString[gonglink.Name] = gonglink
-	}
+	__gong__rebuildMapString(stage.GongLinks, &stage.GongLinks_mapString)
 
-	stage.GongNotes_mapString = make(map[string]*GongNote)
-	for gongnote := range stage.GongNotes {
-		stage.GongNotes_mapString[gongnote.Name] = gongnote
-	}
+	__gong__rebuildMapString(stage.GongNotes, &stage.GongNotes_mapString)
 
-	stage.GongStructs_mapString = make(map[string]*GongStruct)
-	for gongstruct := range stage.GongStructs {
-		stage.GongStructs_mapString[gongstruct.Name] = gongstruct
-	}
+	__gong__rebuildMapString(stage.GongStructs, &stage.GongStructs_mapString)
 
-	stage.GongTimeFields_mapString = make(map[string]*GongTimeField)
-	for gongtimefield := range stage.GongTimeFields {
-		stage.GongTimeFields_mapString[gongtimefield.Name] = gongtimefield
-	}
+	__gong__rebuildMapString(stage.GongTimeFields, &stage.GongTimeFields_mapString)
 
-	stage.MetaReferences_mapString = make(map[string]*MetaReference)
-	for metareference := range stage.MetaReferences {
-		stage.MetaReferences_mapString[metareference.Name] = metareference
-	}
+	__gong__rebuildMapString(stage.MetaReferences, &stage.MetaReferences_mapString)
 
-	stage.ModelPkgs_mapString = make(map[string]*ModelPkg)
-	for modelpkg := range stage.ModelPkgs {
-		stage.ModelPkgs_mapString[modelpkg.Name] = modelpkg
-	}
+	__gong__rebuildMapString(stage.ModelPkgs, &stage.ModelPkgs_mapString)
 
-	stage.PointerToGongStructFields_mapString = make(map[string]*PointerToGongStructField)
-	for pointertogongstructfield := range stage.PointerToGongStructFields {
-		stage.PointerToGongStructFields_mapString[pointertogongstructfield.Name] = pointertogongstructfield
-	}
+	__gong__rebuildMapString(stage.PointerToGongStructFields, &stage.PointerToGongStructFields_mapString)
 
-	stage.SliceOfPointerToGongStructFields_mapString = make(map[string]*SliceOfPointerToGongStructField)
-	for sliceofpointertogongstructfield := range stage.SliceOfPointerToGongStructFields {
-		stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield
-	}
+	__gong__rebuildMapString(stage.SliceOfPointerToGongStructFields, &stage.SliceOfPointerToGongStructFields_mapString)
 
-	stage.StageSetFields_mapString = make(map[string]*StageSetField)
-	for stagesetfield := range stage.StageSetFields {
-		stage.StageSetFields_mapString[stagesetfield.Name] = stagesetfield
-	}
+	__gong__rebuildMapString(stage.StageSetFields, &stage.StageSetFields_mapString)
 
-	stage.StageSetModels_mapString = make(map[string]*StageSetModel)
-	for stagesetmodel := range stage.StageSetModels {
-		stage.StageSetModels_mapString[stagesetmodel.Name] = stagesetmodel
-	}
+	__gong__rebuildMapString(stage.StageSetModels, &stage.StageSetModels_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

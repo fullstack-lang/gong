@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
 func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
@@ -12,352 +15,149 @@ func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (analysisneed *AnalysisNeed) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.AnalysisNeeds[analysisneed]
-
-	return
+func (analysisneed *AnalysisNeed) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.AnalysisNeeds[analysisneed]
+	return ok
 }
 
-func (stage *Stage) IsStagedAnalysisNeed(analysisneed *AnalysisNeed) (ok bool) {
-
-	return analysisneed.GongIsStaged(stage)
+func (concept *Concept) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Concepts[concept]
+	return ok
 }
 
-func (concept *Concept) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Concepts[concept]
-
-	return
+func (conceptshape *ConceptShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ConceptShapes[conceptshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedConcept(concept *Concept) (ok bool) {
-
-	return concept.GongIsStaged(stage)
+func (concern *Concern) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Concerns[concern]
+	return ok
 }
 
-func (conceptshape *ConceptShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ConceptShapes[conceptshape]
-
-	return
+func (concerncompositionshape *ConcernCompositionShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ConcernCompositionShapes[concerncompositionshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedConceptShape(conceptshape *ConceptShape) (ok bool) {
-
-	return conceptshape.GongIsStaged(stage)
+func (concerninputshape *ConcernInputShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ConcernInputShapes[concerninputshape]
+	return ok
 }
 
-func (concern *Concern) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Concerns[concern]
-
-	return
+func (concernoutputshape *ConcernOutputShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ConcernOutputShapes[concernoutputshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedConcern(concern *Concern) (ok bool) {
-
-	return concern.GongIsStaged(stage)
+func (concernshape *ConcernShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ConcernShapes[concernshape]
+	return ok
 }
 
-func (concerncompositionshape *ConcernCompositionShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ConcernCompositionShapes[concerncompositionshape]
-
-	return
+func (controlpointshape *ControlPointShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ControlPointShapes[controlpointshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedConcernCompositionShape(concerncompositionshape *ConcernCompositionShape) (ok bool) {
-
-	return concerncompositionshape.GongIsStaged(stage)
+func (deliverable *Deliverable) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Deliverables[deliverable]
+	return ok
 }
 
-func (concerninputshape *ConcernInputShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ConcernInputShapes[concerninputshape]
-
-	return
+func (deliverablecompositionshape *DeliverableCompositionShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DeliverableCompositionShapes[deliverablecompositionshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedConcernInputShape(concerninputshape *ConcernInputShape) (ok bool) {
-
-	return concerninputshape.GongIsStaged(stage)
+func (deliverableconceptshape *DeliverableConceptShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DeliverableConceptShapes[deliverableconceptshape]
+	return ok
 }
 
-func (concernoutputshape *ConcernOutputShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ConcernOutputShapes[concernoutputshape]
-
-	return
+func (deliverableshape *DeliverableShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DeliverableShapes[deliverableshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedConcernOutputShape(concernoutputshape *ConcernOutputShape) (ok bool) {
-
-	return concernoutputshape.GongIsStaged(stage)
+func (diagram *Diagram) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Diagrams[diagram]
+	return ok
 }
 
-func (concernshape *ConcernShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ConcernShapes[concernshape]
-
-	return
+func (diagramshape *DiagramShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DiagramShapes[diagramshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedConcernShape(concernshape *ConcernShape) (ok bool) {
-
-	return concernshape.GongIsStaged(stage)
+func (library *Library) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Librarys[library]
+	return ok
 }
 
-func (controlpointshape *ControlPointShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ControlPointShapes[controlpointshape]
-
-	return
+func (note *Note) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Notes[note]
+	return ok
 }
 
-func (stage *Stage) IsStagedControlPointShape(controlpointshape *ControlPointShape) (ok bool) {
-
-	return controlpointshape.GongIsStaged(stage)
+func (notedeliverableshape *NoteDeliverableShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.NoteDeliverableShapes[notedeliverableshape]
+	return ok
 }
 
-func (deliverable *Deliverable) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Deliverables[deliverable]
-
-	return
+func (noteshape *NoteShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.NoteShapes[noteshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedDeliverable(deliverable *Deliverable) (ok bool) {
-
-	return deliverable.GongIsStaged(stage)
+func (notestakeholdershape *NoteStakeholderShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.NoteStakeholderShapes[notestakeholdershape]
+	return ok
 }
 
-func (deliverablecompositionshape *DeliverableCompositionShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DeliverableCompositionShapes[deliverablecompositionshape]
-
-	return
+func (notetaskshape *NoteTaskShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.NoteTaskShapes[notetaskshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedDeliverableCompositionShape(deliverablecompositionshape *DeliverableCompositionShape) (ok bool) {
-
-	return deliverablecompositionshape.GongIsStaged(stage)
+func (requirement *Requirement) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Requirements[requirement]
+	return ok
 }
 
-func (deliverableconceptshape *DeliverableConceptShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DeliverableConceptShapes[deliverableconceptshape]
-
-	return
+func (requirementshape *RequirementShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.RequirementShapes[requirementshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedDeliverableConceptShape(deliverableconceptshape *DeliverableConceptShape) (ok bool) {
-
-	return deliverableconceptshape.GongIsStaged(stage)
+func (stakeholder *Stakeholder) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Stakeholders[stakeholder]
+	return ok
 }
 
-func (deliverableshape *DeliverableShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DeliverableShapes[deliverableshape]
-
-	return
+func (stakeholdercompositionshape *StakeholderCompositionShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.StakeholderCompositionShapes[stakeholdercompositionshape]
+	return ok
 }
 
-func (stage *Stage) IsStagedDeliverableShape(deliverableshape *DeliverableShape) (ok bool) {
-
-	return deliverableshape.GongIsStaged(stage)
+func (stakeholderconcernshape *StakeholderConcernShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.StakeholderConcernShapes[stakeholderconcernshape]
+	return ok
 }
 
-func (diagram *Diagram) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Diagrams[diagram]
-
-	return
+func (stakeholdershape *StakeholderShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.StakeholderShapes[stakeholdershape]
+	return ok
 }
 
-func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
-
-	return diagram.GongIsStaged(stage)
+func (supportlevel *SupportLevel) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.SupportLevels[supportlevel]
+	return ok
 }
 
-func (diagramshape *DiagramShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.DiagramShapes[diagramshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedDiagramShape(diagramshape *DiagramShape) (ok bool) {
-
-	return diagramshape.GongIsStaged(stage)
-}
-
-func (library *Library) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Librarys[library]
-
-	return
-}
-
-func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
-
-	return library.GongIsStaged(stage)
-}
-
-func (note *Note) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Notes[note]
-
-	return
-}
-
-func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
-
-	return note.GongIsStaged(stage)
-}
-
-func (notedeliverableshape *NoteDeliverableShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.NoteDeliverableShapes[notedeliverableshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedNoteDeliverableShape(notedeliverableshape *NoteDeliverableShape) (ok bool) {
-
-	return notedeliverableshape.GongIsStaged(stage)
-}
-
-func (noteshape *NoteShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.NoteShapes[noteshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
-
-	return noteshape.GongIsStaged(stage)
-}
-
-func (notestakeholdershape *NoteStakeholderShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.NoteStakeholderShapes[notestakeholdershape]
-
-	return
-}
-
-func (stage *Stage) IsStagedNoteStakeholderShape(notestakeholdershape *NoteStakeholderShape) (ok bool) {
-
-	return notestakeholdershape.GongIsStaged(stage)
-}
-
-func (notetaskshape *NoteTaskShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.NoteTaskShapes[notetaskshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedNoteTaskShape(notetaskshape *NoteTaskShape) (ok bool) {
-
-	return notetaskshape.GongIsStaged(stage)
-}
-
-func (requirement *Requirement) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Requirements[requirement]
-
-	return
-}
-
-func (stage *Stage) IsStagedRequirement(requirement *Requirement) (ok bool) {
-
-	return requirement.GongIsStaged(stage)
-}
-
-func (requirementshape *RequirementShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.RequirementShapes[requirementshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedRequirementShape(requirementshape *RequirementShape) (ok bool) {
-
-	return requirementshape.GongIsStaged(stage)
-}
-
-func (stakeholder *Stakeholder) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Stakeholders[stakeholder]
-
-	return
-}
-
-func (stage *Stage) IsStagedStakeholder(stakeholder *Stakeholder) (ok bool) {
-
-	return stakeholder.GongIsStaged(stage)
-}
-
-func (stakeholdercompositionshape *StakeholderCompositionShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.StakeholderCompositionShapes[stakeholdercompositionshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedStakeholderCompositionShape(stakeholdercompositionshape *StakeholderCompositionShape) (ok bool) {
-
-	return stakeholdercompositionshape.GongIsStaged(stage)
-}
-
-func (stakeholderconcernshape *StakeholderConcernShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.StakeholderConcernShapes[stakeholderconcernshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedStakeholderConcernShape(stakeholderconcernshape *StakeholderConcernShape) (ok bool) {
-
-	return stakeholderconcernshape.GongIsStaged(stage)
-}
-
-func (stakeholdershape *StakeholderShape) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.StakeholderShapes[stakeholdershape]
-
-	return
-}
-
-func (stage *Stage) IsStagedStakeholderShape(stakeholdershape *StakeholderShape) (ok bool) {
-
-	return stakeholdershape.GongIsStaged(stage)
-}
-
-func (supportlevel *SupportLevel) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.SupportLevels[supportlevel]
-
-	return
-}
-
-func (stage *Stage) IsStagedSupportLevel(supportlevel *SupportLevel) (ok bool) {
-
-	return supportlevel.GongIsStaged(stage)
-}
-
-func (tool *Tool) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.Tools[tool]
-
-	return
-}
-
-func (stage *Stage) IsStagedTool(tool *Tool) (ok bool) {
-
-	return tool.GongIsStaged(stage)
+func (tool *Tool) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Tools[tool]
+	return ok
 }
 
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
@@ -369,10 +169,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 
 // insertion point for stage branch per struct
 func (analysisneed *AnalysisNeed) GongStageBranch(stage *Stage) {
-	stage.StageBranchAnalysisNeed(analysisneed)
-}
-
-func (stage *Stage) StageBranchAnalysisNeed(analysisneed *AnalysisNeed) {
 
 	// check if instance is already staged
 	if stage.IsStaged(analysisneed) {
@@ -388,10 +184,6 @@ func (stage *Stage) StageBranchAnalysisNeed(analysisneed *AnalysisNeed) {
 }
 
 func (concept *Concept) GongStageBranch(stage *Stage) {
-	stage.StageBranchConcept(concept)
-}
-
-func (stage *Stage) StageBranchConcept(concept *Concept) {
 
 	// check if instance is already staged
 	if stage.IsStaged(concept) {
@@ -410,10 +202,6 @@ func (stage *Stage) StageBranchConcept(concept *Concept) {
 }
 
 func (conceptshape *ConceptShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchConceptShape(conceptshape)
-}
-
-func (stage *Stage) StageBranchConceptShape(conceptshape *ConceptShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(conceptshape) {
@@ -432,10 +220,6 @@ func (stage *Stage) StageBranchConceptShape(conceptshape *ConceptShape) {
 }
 
 func (concern *Concern) GongStageBranch(stage *Stage) {
-	stage.StageBranchConcern(concern)
-}
-
-func (stage *Stage) StageBranchConcern(concern *Concern) {
 
 	// check if instance is already staged
 	if stage.IsStaged(concern) {
@@ -463,10 +247,6 @@ func (stage *Stage) StageBranchConcern(concern *Concern) {
 }
 
 func (concerncompositionshape *ConcernCompositionShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchConcernCompositionShape(concerncompositionshape)
-}
-
-func (stage *Stage) StageBranchConcernCompositionShape(concerncompositionshape *ConcernCompositionShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(concerncompositionshape) {
@@ -488,10 +268,6 @@ func (stage *Stage) StageBranchConcernCompositionShape(concerncompositionshape *
 }
 
 func (concerninputshape *ConcernInputShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchConcernInputShape(concerninputshape)
-}
-
-func (stage *Stage) StageBranchConcernInputShape(concerninputshape *ConcernInputShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(concerninputshape) {
@@ -516,10 +292,6 @@ func (stage *Stage) StageBranchConcernInputShape(concerninputshape *ConcernInput
 }
 
 func (concernoutputshape *ConcernOutputShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchConcernOutputShape(concernoutputshape)
-}
-
-func (stage *Stage) StageBranchConcernOutputShape(concernoutputshape *ConcernOutputShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(concernoutputshape) {
@@ -544,10 +316,6 @@ func (stage *Stage) StageBranchConcernOutputShape(concernoutputshape *ConcernOut
 }
 
 func (concernshape *ConcernShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchConcernShape(concernshape)
-}
-
-func (stage *Stage) StageBranchConcernShape(concernshape *ConcernShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(concernshape) {
@@ -566,10 +334,6 @@ func (stage *Stage) StageBranchConcernShape(concernshape *ConcernShape) {
 }
 
 func (controlpointshape *ControlPointShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchControlPointShape(controlpointshape)
-}
-
-func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPointShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(controlpointshape) {
@@ -585,10 +349,6 @@ func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPoint
 }
 
 func (deliverable *Deliverable) GongStageBranch(stage *Stage) {
-	stage.StageBranchDeliverable(deliverable)
-}
-
-func (stage *Stage) StageBranchDeliverable(deliverable *Deliverable) {
 
 	// check if instance is already staged
 	if stage.IsStaged(deliverable) {
@@ -610,10 +370,6 @@ func (stage *Stage) StageBranchDeliverable(deliverable *Deliverable) {
 }
 
 func (deliverablecompositionshape *DeliverableCompositionShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchDeliverableCompositionShape(deliverablecompositionshape)
-}
-
-func (stage *Stage) StageBranchDeliverableCompositionShape(deliverablecompositionshape *DeliverableCompositionShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(deliverablecompositionshape) {
@@ -635,10 +391,6 @@ func (stage *Stage) StageBranchDeliverableCompositionShape(deliverablecompositio
 }
 
 func (deliverableconceptshape *DeliverableConceptShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchDeliverableConceptShape(deliverableconceptshape)
-}
-
-func (stage *Stage) StageBranchDeliverableConceptShape(deliverableconceptshape *DeliverableConceptShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(deliverableconceptshape) {
@@ -663,10 +415,6 @@ func (stage *Stage) StageBranchDeliverableConceptShape(deliverableconceptshape *
 }
 
 func (deliverableshape *DeliverableShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchDeliverableShape(deliverableshape)
-}
-
-func (stage *Stage) StageBranchDeliverableShape(deliverableshape *DeliverableShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(deliverableshape) {
@@ -685,10 +433,6 @@ func (stage *Stage) StageBranchDeliverableShape(deliverableshape *DeliverableSha
 }
 
 func (diagram *Diagram) GongStageBranch(stage *Stage) {
-	stage.StageBranchDiagram(diagram)
-}
-
-func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
 	if stage.IsStaged(diagram) {
@@ -794,10 +538,6 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 }
 
 func (diagramshape *DiagramShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchDiagramShape(diagramshape)
-}
-
-func (stage *Stage) StageBranchDiagramShape(diagramshape *DiagramShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(diagramshape) {
@@ -816,10 +556,6 @@ func (stage *Stage) StageBranchDiagramShape(diagramshape *DiagramShape) {
 }
 
 func (library *Library) GongStageBranch(stage *Stage) {
-	stage.StageBranchLibrary(library)
-}
-
-func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
 	if stage.IsStaged(library) {
@@ -862,10 +598,6 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 }
 
 func (note *Note) GongStageBranch(stage *Stage) {
-	stage.StageBranchNote(note)
-}
-
-func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
 	if stage.IsStaged(note) {
@@ -890,10 +622,6 @@ func (stage *Stage) StageBranchNote(note *Note) {
 }
 
 func (notedeliverableshape *NoteDeliverableShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchNoteDeliverableShape(notedeliverableshape)
-}
-
-func (stage *Stage) StageBranchNoteDeliverableShape(notedeliverableshape *NoteDeliverableShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(notedeliverableshape) {
@@ -918,10 +646,6 @@ func (stage *Stage) StageBranchNoteDeliverableShape(notedeliverableshape *NoteDe
 }
 
 func (noteshape *NoteShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchNoteShape(noteshape)
-}
-
-func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(noteshape) {
@@ -940,10 +664,6 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 }
 
 func (notestakeholdershape *NoteStakeholderShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchNoteStakeholderShape(notestakeholdershape)
-}
-
-func (stage *Stage) StageBranchNoteStakeholderShape(notestakeholdershape *NoteStakeholderShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(notestakeholdershape) {
@@ -968,10 +688,6 @@ func (stage *Stage) StageBranchNoteStakeholderShape(notestakeholdershape *NoteSt
 }
 
 func (notetaskshape *NoteTaskShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchNoteTaskShape(notetaskshape)
-}
-
-func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(notetaskshape) {
@@ -996,10 +712,6 @@ func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 }
 
 func (requirement *Requirement) GongStageBranch(stage *Stage) {
-	stage.StageBranchRequirement(requirement)
-}
-
-func (stage *Stage) StageBranchRequirement(requirement *Requirement) {
 
 	// check if instance is already staged
 	if stage.IsStaged(requirement) {
@@ -1021,10 +733,6 @@ func (stage *Stage) StageBranchRequirement(requirement *Requirement) {
 }
 
 func (requirementshape *RequirementShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchRequirementShape(requirementshape)
-}
-
-func (stage *Stage) StageBranchRequirementShape(requirementshape *RequirementShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(requirementshape) {
@@ -1043,10 +751,6 @@ func (stage *Stage) StageBranchRequirementShape(requirementshape *RequirementSha
 }
 
 func (stakeholder *Stakeholder) GongStageBranch(stage *Stage) {
-	stage.StageBranchStakeholder(stakeholder)
-}
-
-func (stage *Stage) StageBranchStakeholder(stakeholder *Stakeholder) {
 
 	// check if instance is already staged
 	if stage.IsStaged(stakeholder) {
@@ -1068,10 +772,6 @@ func (stage *Stage) StageBranchStakeholder(stakeholder *Stakeholder) {
 }
 
 func (stakeholdercompositionshape *StakeholderCompositionShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchStakeholderCompositionShape(stakeholdercompositionshape)
-}
-
-func (stage *Stage) StageBranchStakeholderCompositionShape(stakeholdercompositionshape *StakeholderCompositionShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(stakeholdercompositionshape) {
@@ -1093,10 +793,6 @@ func (stage *Stage) StageBranchStakeholderCompositionShape(stakeholdercompositio
 }
 
 func (stakeholderconcernshape *StakeholderConcernShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchStakeholderConcernShape(stakeholderconcernshape)
-}
-
-func (stage *Stage) StageBranchStakeholderConcernShape(stakeholderconcernshape *StakeholderConcernShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(stakeholderconcernshape) {
@@ -1121,10 +817,6 @@ func (stage *Stage) StageBranchStakeholderConcernShape(stakeholderconcernshape *
 }
 
 func (stakeholdershape *StakeholderShape) GongStageBranch(stage *Stage) {
-	stage.StageBranchStakeholderShape(stakeholdershape)
-}
-
-func (stage *Stage) StageBranchStakeholderShape(stakeholdershape *StakeholderShape) {
 
 	// check if instance is already staged
 	if stage.IsStaged(stakeholdershape) {
@@ -1143,10 +835,6 @@ func (stage *Stage) StageBranchStakeholderShape(stakeholdershape *StakeholderSha
 }
 
 func (supportlevel *SupportLevel) GongStageBranch(stage *Stage) {
-	stage.StageBranchSupportLevel(supportlevel)
-}
-
-func (stage *Stage) StageBranchSupportLevel(supportlevel *SupportLevel) {
 
 	// check if instance is already staged
 	if stage.IsStaged(supportlevel) {
@@ -1165,10 +853,6 @@ func (stage *Stage) StageBranchSupportLevel(supportlevel *SupportLevel) {
 }
 
 func (tool *Tool) GongStageBranch(stage *Stage) {
-	stage.StageBranchTool(tool)
-}
-
-func (stage *Stage) StageBranchTool(tool *Tool) {
 
 	// check if instance is already staged
 	if stage.IsStaged(tool) {
@@ -1318,15 +1002,11 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func GongCopyBranchAnalysisNeed(mapOrigCopy map[any]any, analysisneedFrom *AnalysisNeed) (analysisneedTo *AnalysisNeed) {
-
-	// analysisneedFrom has already been copied
-	if _analysisneedTo, ok := mapOrigCopy[analysisneedFrom]; ok {
-		analysisneedTo = _analysisneedTo.(*AnalysisNeed)
+	var alreadyCopied bool
+	analysisneedTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, analysisneedFrom)
+	if alreadyCopied {
 		return
 	}
-
-	analysisneedTo = new(AnalysisNeed)
-	mapOrigCopy[analysisneedFrom] = analysisneedTo
 	analysisneedFrom.GongCopyBasicFields(analysisneedTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1337,15 +1017,11 @@ func GongCopyBranchAnalysisNeed(mapOrigCopy map[any]any, analysisneedFrom *Analy
 }
 
 func GongCopyBranchConcept(mapOrigCopy map[any]any, conceptFrom *Concept) (conceptTo *Concept) {
-
-	// conceptFrom has already been copied
-	if _conceptTo, ok := mapOrigCopy[conceptFrom]; ok {
-		conceptTo = _conceptTo.(*Concept)
+	var alreadyCopied bool
+	conceptTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, conceptFrom)
+	if alreadyCopied {
 		return
 	}
-
-	conceptTo = new(Concept)
-	mapOrigCopy[conceptFrom] = conceptTo
 	conceptFrom.GongCopyBasicFields(conceptTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1359,15 +1035,11 @@ func GongCopyBranchConcept(mapOrigCopy map[any]any, conceptFrom *Concept) (conce
 }
 
 func GongCopyBranchConceptShape(mapOrigCopy map[any]any, conceptshapeFrom *ConceptShape) (conceptshapeTo *ConceptShape) {
-
-	// conceptshapeFrom has already been copied
-	if _conceptshapeTo, ok := mapOrigCopy[conceptshapeFrom]; ok {
-		conceptshapeTo = _conceptshapeTo.(*ConceptShape)
+	var alreadyCopied bool
+	conceptshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, conceptshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	conceptshapeTo = new(ConceptShape)
-	mapOrigCopy[conceptshapeFrom] = conceptshapeTo
 	conceptshapeFrom.GongCopyBasicFields(conceptshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1381,15 +1053,11 @@ func GongCopyBranchConceptShape(mapOrigCopy map[any]any, conceptshapeFrom *Conce
 }
 
 func GongCopyBranchConcern(mapOrigCopy map[any]any, concernFrom *Concern) (concernTo *Concern) {
-
-	// concernFrom has already been copied
-	if _concernTo, ok := mapOrigCopy[concernFrom]; ok {
-		concernTo = _concernTo.(*Concern)
+	var alreadyCopied bool
+	concernTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, concernFrom)
+	if alreadyCopied {
 		return
 	}
-
-	concernTo = new(Concern)
-	mapOrigCopy[concernFrom] = concernTo
 	concernFrom.GongCopyBasicFields(concernTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1412,15 +1080,11 @@ func GongCopyBranchConcern(mapOrigCopy map[any]any, concernFrom *Concern) (conce
 }
 
 func GongCopyBranchConcernCompositionShape(mapOrigCopy map[any]any, concerncompositionshapeFrom *ConcernCompositionShape) (concerncompositionshapeTo *ConcernCompositionShape) {
-
-	// concerncompositionshapeFrom has already been copied
-	if _concerncompositionshapeTo, ok := mapOrigCopy[concerncompositionshapeFrom]; ok {
-		concerncompositionshapeTo = _concerncompositionshapeTo.(*ConcernCompositionShape)
+	var alreadyCopied bool
+	concerncompositionshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, concerncompositionshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	concerncompositionshapeTo = new(ConcernCompositionShape)
-	mapOrigCopy[concerncompositionshapeFrom] = concerncompositionshapeTo
 	concerncompositionshapeFrom.GongCopyBasicFields(concerncompositionshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1437,15 +1101,11 @@ func GongCopyBranchConcernCompositionShape(mapOrigCopy map[any]any, concerncompo
 }
 
 func GongCopyBranchConcernInputShape(mapOrigCopy map[any]any, concerninputshapeFrom *ConcernInputShape) (concerninputshapeTo *ConcernInputShape) {
-
-	// concerninputshapeFrom has already been copied
-	if _concerninputshapeTo, ok := mapOrigCopy[concerninputshapeFrom]; ok {
-		concerninputshapeTo = _concerninputshapeTo.(*ConcernInputShape)
+	var alreadyCopied bool
+	concerninputshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, concerninputshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	concerninputshapeTo = new(ConcernInputShape)
-	mapOrigCopy[concerninputshapeFrom] = concerninputshapeTo
 	concerninputshapeFrom.GongCopyBasicFields(concerninputshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1465,15 +1125,11 @@ func GongCopyBranchConcernInputShape(mapOrigCopy map[any]any, concerninputshapeF
 }
 
 func GongCopyBranchConcernOutputShape(mapOrigCopy map[any]any, concernoutputshapeFrom *ConcernOutputShape) (concernoutputshapeTo *ConcernOutputShape) {
-
-	// concernoutputshapeFrom has already been copied
-	if _concernoutputshapeTo, ok := mapOrigCopy[concernoutputshapeFrom]; ok {
-		concernoutputshapeTo = _concernoutputshapeTo.(*ConcernOutputShape)
+	var alreadyCopied bool
+	concernoutputshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, concernoutputshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	concernoutputshapeTo = new(ConcernOutputShape)
-	mapOrigCopy[concernoutputshapeFrom] = concernoutputshapeTo
 	concernoutputshapeFrom.GongCopyBasicFields(concernoutputshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1493,15 +1149,11 @@ func GongCopyBranchConcernOutputShape(mapOrigCopy map[any]any, concernoutputshap
 }
 
 func GongCopyBranchConcernShape(mapOrigCopy map[any]any, concernshapeFrom *ConcernShape) (concernshapeTo *ConcernShape) {
-
-	// concernshapeFrom has already been copied
-	if _concernshapeTo, ok := mapOrigCopy[concernshapeFrom]; ok {
-		concernshapeTo = _concernshapeTo.(*ConcernShape)
+	var alreadyCopied bool
+	concernshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, concernshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	concernshapeTo = new(ConcernShape)
-	mapOrigCopy[concernshapeFrom] = concernshapeTo
 	concernshapeFrom.GongCopyBasicFields(concernshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1515,15 +1167,11 @@ func GongCopyBranchConcernShape(mapOrigCopy map[any]any, concernshapeFrom *Conce
 }
 
 func GongCopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom *ControlPointShape) (controlpointshapeTo *ControlPointShape) {
-
-	// controlpointshapeFrom has already been copied
-	if _controlpointshapeTo, ok := mapOrigCopy[controlpointshapeFrom]; ok {
-		controlpointshapeTo = _controlpointshapeTo.(*ControlPointShape)
+	var alreadyCopied bool
+	controlpointshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, controlpointshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	controlpointshapeTo = new(ControlPointShape)
-	mapOrigCopy[controlpointshapeFrom] = controlpointshapeTo
 	controlpointshapeFrom.GongCopyBasicFields(controlpointshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1534,15 +1182,11 @@ func GongCopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeF
 }
 
 func GongCopyBranchDeliverable(mapOrigCopy map[any]any, deliverableFrom *Deliverable) (deliverableTo *Deliverable) {
-
-	// deliverableFrom has already been copied
-	if _deliverableTo, ok := mapOrigCopy[deliverableFrom]; ok {
-		deliverableTo = _deliverableTo.(*Deliverable)
+	var alreadyCopied bool
+	deliverableTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, deliverableFrom)
+	if alreadyCopied {
 		return
 	}
-
-	deliverableTo = new(Deliverable)
-	mapOrigCopy[deliverableFrom] = deliverableTo
 	deliverableFrom.GongCopyBasicFields(deliverableTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1559,15 +1203,11 @@ func GongCopyBranchDeliverable(mapOrigCopy map[any]any, deliverableFrom *Deliver
 }
 
 func GongCopyBranchDeliverableCompositionShape(mapOrigCopy map[any]any, deliverablecompositionshapeFrom *DeliverableCompositionShape) (deliverablecompositionshapeTo *DeliverableCompositionShape) {
-
-	// deliverablecompositionshapeFrom has already been copied
-	if _deliverablecompositionshapeTo, ok := mapOrigCopy[deliverablecompositionshapeFrom]; ok {
-		deliverablecompositionshapeTo = _deliverablecompositionshapeTo.(*DeliverableCompositionShape)
+	var alreadyCopied bool
+	deliverablecompositionshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, deliverablecompositionshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	deliverablecompositionshapeTo = new(DeliverableCompositionShape)
-	mapOrigCopy[deliverablecompositionshapeFrom] = deliverablecompositionshapeTo
 	deliverablecompositionshapeFrom.GongCopyBasicFields(deliverablecompositionshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1584,15 +1224,11 @@ func GongCopyBranchDeliverableCompositionShape(mapOrigCopy map[any]any, delivera
 }
 
 func GongCopyBranchDeliverableConceptShape(mapOrigCopy map[any]any, deliverableconceptshapeFrom *DeliverableConceptShape) (deliverableconceptshapeTo *DeliverableConceptShape) {
-
-	// deliverableconceptshapeFrom has already been copied
-	if _deliverableconceptshapeTo, ok := mapOrigCopy[deliverableconceptshapeFrom]; ok {
-		deliverableconceptshapeTo = _deliverableconceptshapeTo.(*DeliverableConceptShape)
+	var alreadyCopied bool
+	deliverableconceptshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, deliverableconceptshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	deliverableconceptshapeTo = new(DeliverableConceptShape)
-	mapOrigCopy[deliverableconceptshapeFrom] = deliverableconceptshapeTo
 	deliverableconceptshapeFrom.GongCopyBasicFields(deliverableconceptshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1612,15 +1248,11 @@ func GongCopyBranchDeliverableConceptShape(mapOrigCopy map[any]any, deliverablec
 }
 
 func GongCopyBranchDeliverableShape(mapOrigCopy map[any]any, deliverableshapeFrom *DeliverableShape) (deliverableshapeTo *DeliverableShape) {
-
-	// deliverableshapeFrom has already been copied
-	if _deliverableshapeTo, ok := mapOrigCopy[deliverableshapeFrom]; ok {
-		deliverableshapeTo = _deliverableshapeTo.(*DeliverableShape)
+	var alreadyCopied bool
+	deliverableshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, deliverableshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	deliverableshapeTo = new(DeliverableShape)
-	mapOrigCopy[deliverableshapeFrom] = deliverableshapeTo
 	deliverableshapeFrom.GongCopyBasicFields(deliverableshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1634,15 +1266,11 @@ func GongCopyBranchDeliverableShape(mapOrigCopy map[any]any, deliverableshapeFro
 }
 
 func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
-
-	// diagramFrom has already been copied
-	if _diagramTo, ok := mapOrigCopy[diagramFrom]; ok {
-		diagramTo = _diagramTo.(*Diagram)
+	var alreadyCopied bool
+	diagramTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, diagramFrom)
+	if alreadyCopied {
 		return
 	}
-
-	diagramTo = new(Diagram)
-	mapOrigCopy[diagramFrom] = diagramTo
 	diagramFrom.GongCopyBasicFields(diagramTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1743,15 +1371,11 @@ func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagr
 }
 
 func GongCopyBranchDiagramShape(mapOrigCopy map[any]any, diagramshapeFrom *DiagramShape) (diagramshapeTo *DiagramShape) {
-
-	// diagramshapeFrom has already been copied
-	if _diagramshapeTo, ok := mapOrigCopy[diagramshapeFrom]; ok {
-		diagramshapeTo = _diagramshapeTo.(*DiagramShape)
+	var alreadyCopied bool
+	diagramshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, diagramshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	diagramshapeTo = new(DiagramShape)
-	mapOrigCopy[diagramshapeFrom] = diagramshapeTo
 	diagramshapeFrom.GongCopyBasicFields(diagramshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1765,15 +1389,11 @@ func GongCopyBranchDiagramShape(mapOrigCopy map[any]any, diagramshapeFrom *Diagr
 }
 
 func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
-
-	// libraryFrom has already been copied
-	if _libraryTo, ok := mapOrigCopy[libraryFrom]; ok {
-		libraryTo = _libraryTo.(*Library)
+	var alreadyCopied bool
+	libraryTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, libraryFrom)
+	if alreadyCopied {
 		return
 	}
-
-	libraryTo = new(Library)
-	mapOrigCopy[libraryFrom] = libraryTo
 	libraryFrom.GongCopyBasicFields(libraryTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1811,15 +1431,11 @@ func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libra
 }
 
 func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
-
-	// noteFrom has already been copied
-	if _noteTo, ok := mapOrigCopy[noteFrom]; ok {
-		noteTo = _noteTo.(*Note)
+	var alreadyCopied bool
+	noteTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, noteFrom)
+	if alreadyCopied {
 		return
 	}
-
-	noteTo = new(Note)
-	mapOrigCopy[noteFrom] = noteTo
 	noteFrom.GongCopyBasicFields(noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1839,15 +1455,11 @@ func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) 
 }
 
 func GongCopyBranchNoteDeliverableShape(mapOrigCopy map[any]any, notedeliverableshapeFrom *NoteDeliverableShape) (notedeliverableshapeTo *NoteDeliverableShape) {
-
-	// notedeliverableshapeFrom has already been copied
-	if _notedeliverableshapeTo, ok := mapOrigCopy[notedeliverableshapeFrom]; ok {
-		notedeliverableshapeTo = _notedeliverableshapeTo.(*NoteDeliverableShape)
+	var alreadyCopied bool
+	notedeliverableshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, notedeliverableshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	notedeliverableshapeTo = new(NoteDeliverableShape)
-	mapOrigCopy[notedeliverableshapeFrom] = notedeliverableshapeTo
 	notedeliverableshapeFrom.GongCopyBasicFields(notedeliverableshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1867,15 +1479,11 @@ func GongCopyBranchNoteDeliverableShape(mapOrigCopy map[any]any, notedeliverable
 }
 
 func GongCopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
-
-	// noteshapeFrom has already been copied
-	if _noteshapeTo, ok := mapOrigCopy[noteshapeFrom]; ok {
-		noteshapeTo = _noteshapeTo.(*NoteShape)
+	var alreadyCopied bool
+	noteshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, noteshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	noteshapeTo = new(NoteShape)
-	mapOrigCopy[noteshapeFrom] = noteshapeTo
 	noteshapeFrom.GongCopyBasicFields(noteshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1889,15 +1497,11 @@ func GongCopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) 
 }
 
 func GongCopyBranchNoteStakeholderShape(mapOrigCopy map[any]any, notestakeholdershapeFrom *NoteStakeholderShape) (notestakeholdershapeTo *NoteStakeholderShape) {
-
-	// notestakeholdershapeFrom has already been copied
-	if _notestakeholdershapeTo, ok := mapOrigCopy[notestakeholdershapeFrom]; ok {
-		notestakeholdershapeTo = _notestakeholdershapeTo.(*NoteStakeholderShape)
+	var alreadyCopied bool
+	notestakeholdershapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, notestakeholdershapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	notestakeholdershapeTo = new(NoteStakeholderShape)
-	mapOrigCopy[notestakeholdershapeFrom] = notestakeholdershapeTo
 	notestakeholdershapeFrom.GongCopyBasicFields(notestakeholdershapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1917,15 +1521,11 @@ func GongCopyBranchNoteStakeholderShape(mapOrigCopy map[any]any, notestakeholder
 }
 
 func GongCopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTaskShape) (notetaskshapeTo *NoteTaskShape) {
-
-	// notetaskshapeFrom has already been copied
-	if _notetaskshapeTo, ok := mapOrigCopy[notetaskshapeFrom]; ok {
-		notetaskshapeTo = _notetaskshapeTo.(*NoteTaskShape)
+	var alreadyCopied bool
+	notetaskshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, notetaskshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	notetaskshapeTo = new(NoteTaskShape)
-	mapOrigCopy[notetaskshapeFrom] = notetaskshapeTo
 	notetaskshapeFrom.GongCopyBasicFields(notetaskshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1945,15 +1545,11 @@ func GongCopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *Not
 }
 
 func GongCopyBranchRequirement(mapOrigCopy map[any]any, requirementFrom *Requirement) (requirementTo *Requirement) {
-
-	// requirementFrom has already been copied
-	if _requirementTo, ok := mapOrigCopy[requirementFrom]; ok {
-		requirementTo = _requirementTo.(*Requirement)
+	var alreadyCopied bool
+	requirementTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, requirementFrom)
+	if alreadyCopied {
 		return
 	}
-
-	requirementTo = new(Requirement)
-	mapOrigCopy[requirementFrom] = requirementTo
 	requirementFrom.GongCopyBasicFields(requirementTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1970,15 +1566,11 @@ func GongCopyBranchRequirement(mapOrigCopy map[any]any, requirementFrom *Require
 }
 
 func GongCopyBranchRequirementShape(mapOrigCopy map[any]any, requirementshapeFrom *RequirementShape) (requirementshapeTo *RequirementShape) {
-
-	// requirementshapeFrom has already been copied
-	if _requirementshapeTo, ok := mapOrigCopy[requirementshapeFrom]; ok {
-		requirementshapeTo = _requirementshapeTo.(*RequirementShape)
+	var alreadyCopied bool
+	requirementshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, requirementshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	requirementshapeTo = new(RequirementShape)
-	mapOrigCopy[requirementshapeFrom] = requirementshapeTo
 	requirementshapeFrom.GongCopyBasicFields(requirementshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -1992,15 +1584,11 @@ func GongCopyBranchRequirementShape(mapOrigCopy map[any]any, requirementshapeFro
 }
 
 func GongCopyBranchStakeholder(mapOrigCopy map[any]any, stakeholderFrom *Stakeholder) (stakeholderTo *Stakeholder) {
-
-	// stakeholderFrom has already been copied
-	if _stakeholderTo, ok := mapOrigCopy[stakeholderFrom]; ok {
-		stakeholderTo = _stakeholderTo.(*Stakeholder)
+	var alreadyCopied bool
+	stakeholderTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, stakeholderFrom)
+	if alreadyCopied {
 		return
 	}
-
-	stakeholderTo = new(Stakeholder)
-	mapOrigCopy[stakeholderFrom] = stakeholderTo
 	stakeholderFrom.GongCopyBasicFields(stakeholderTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -2017,15 +1605,11 @@ func GongCopyBranchStakeholder(mapOrigCopy map[any]any, stakeholderFrom *Stakeho
 }
 
 func GongCopyBranchStakeholderCompositionShape(mapOrigCopy map[any]any, stakeholdercompositionshapeFrom *StakeholderCompositionShape) (stakeholdercompositionshapeTo *StakeholderCompositionShape) {
-
-	// stakeholdercompositionshapeFrom has already been copied
-	if _stakeholdercompositionshapeTo, ok := mapOrigCopy[stakeholdercompositionshapeFrom]; ok {
-		stakeholdercompositionshapeTo = _stakeholdercompositionshapeTo.(*StakeholderCompositionShape)
+	var alreadyCopied bool
+	stakeholdercompositionshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, stakeholdercompositionshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	stakeholdercompositionshapeTo = new(StakeholderCompositionShape)
-	mapOrigCopy[stakeholdercompositionshapeFrom] = stakeholdercompositionshapeTo
 	stakeholdercompositionshapeFrom.GongCopyBasicFields(stakeholdercompositionshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -2042,15 +1626,11 @@ func GongCopyBranchStakeholderCompositionShape(mapOrigCopy map[any]any, stakehol
 }
 
 func GongCopyBranchStakeholderConcernShape(mapOrigCopy map[any]any, stakeholderconcernshapeFrom *StakeholderConcernShape) (stakeholderconcernshapeTo *StakeholderConcernShape) {
-
-	// stakeholderconcernshapeFrom has already been copied
-	if _stakeholderconcernshapeTo, ok := mapOrigCopy[stakeholderconcernshapeFrom]; ok {
-		stakeholderconcernshapeTo = _stakeholderconcernshapeTo.(*StakeholderConcernShape)
+	var alreadyCopied bool
+	stakeholderconcernshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, stakeholderconcernshapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	stakeholderconcernshapeTo = new(StakeholderConcernShape)
-	mapOrigCopy[stakeholderconcernshapeFrom] = stakeholderconcernshapeTo
 	stakeholderconcernshapeFrom.GongCopyBasicFields(stakeholderconcernshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -2070,15 +1650,11 @@ func GongCopyBranchStakeholderConcernShape(mapOrigCopy map[any]any, stakeholderc
 }
 
 func GongCopyBranchStakeholderShape(mapOrigCopy map[any]any, stakeholdershapeFrom *StakeholderShape) (stakeholdershapeTo *StakeholderShape) {
-
-	// stakeholdershapeFrom has already been copied
-	if _stakeholdershapeTo, ok := mapOrigCopy[stakeholdershapeFrom]; ok {
-		stakeholdershapeTo = _stakeholdershapeTo.(*StakeholderShape)
+	var alreadyCopied bool
+	stakeholdershapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, stakeholdershapeFrom)
+	if alreadyCopied {
 		return
 	}
-
-	stakeholdershapeTo = new(StakeholderShape)
-	mapOrigCopy[stakeholdershapeFrom] = stakeholdershapeTo
 	stakeholdershapeFrom.GongCopyBasicFields(stakeholdershapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -2092,15 +1668,11 @@ func GongCopyBranchStakeholderShape(mapOrigCopy map[any]any, stakeholdershapeFro
 }
 
 func GongCopyBranchSupportLevel(mapOrigCopy map[any]any, supportlevelFrom *SupportLevel) (supportlevelTo *SupportLevel) {
-
-	// supportlevelFrom has already been copied
-	if _supportlevelTo, ok := mapOrigCopy[supportlevelFrom]; ok {
-		supportlevelTo = _supportlevelTo.(*SupportLevel)
+	var alreadyCopied bool
+	supportlevelTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, supportlevelFrom)
+	if alreadyCopied {
 		return
 	}
-
-	supportlevelTo = new(SupportLevel)
-	mapOrigCopy[supportlevelFrom] = supportlevelTo
 	supportlevelFrom.GongCopyBasicFields(supportlevelTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -2114,15 +1686,11 @@ func GongCopyBranchSupportLevel(mapOrigCopy map[any]any, supportlevelFrom *Suppo
 }
 
 func GongCopyBranchTool(mapOrigCopy map[any]any, toolFrom *Tool) (toolTo *Tool) {
-
-	// toolFrom has already been copied
-	if _toolTo, ok := mapOrigCopy[toolFrom]; ok {
-		toolTo = _toolTo.(*Tool)
+	var alreadyCopied bool
+	toolTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, toolFrom)
+	if alreadyCopied {
 		return
 	}
-
-	toolTo = new(Tool)
-	mapOrigCopy[toolFrom] = toolTo
 	toolFrom.GongCopyBasicFields(toolTo)
 
 	//insertion point for the staging of instances referenced by pointers
@@ -2145,10 +1713,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 
 // insertion point for unstage branch per struct
 func (analysisneed *AnalysisNeed) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchAnalysisNeed(analysisneed)
-}
-
-func (stage *Stage) UnstageBranchAnalysisNeed(analysisneed *AnalysisNeed) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(analysisneed) {
@@ -2164,10 +1728,6 @@ func (stage *Stage) UnstageBranchAnalysisNeed(analysisneed *AnalysisNeed) {
 }
 
 func (concept *Concept) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchConcept(concept)
-}
-
-func (stage *Stage) UnstageBranchConcept(concept *Concept) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(concept) {
@@ -2186,10 +1746,6 @@ func (stage *Stage) UnstageBranchConcept(concept *Concept) {
 }
 
 func (conceptshape *ConceptShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchConceptShape(conceptshape)
-}
-
-func (stage *Stage) UnstageBranchConceptShape(conceptshape *ConceptShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(conceptshape) {
@@ -2208,10 +1764,6 @@ func (stage *Stage) UnstageBranchConceptShape(conceptshape *ConceptShape) {
 }
 
 func (concern *Concern) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchConcern(concern)
-}
-
-func (stage *Stage) UnstageBranchConcern(concern *Concern) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(concern) {
@@ -2239,10 +1791,6 @@ func (stage *Stage) UnstageBranchConcern(concern *Concern) {
 }
 
 func (concerncompositionshape *ConcernCompositionShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchConcernCompositionShape(concerncompositionshape)
-}
-
-func (stage *Stage) UnstageBranchConcernCompositionShape(concerncompositionshape *ConcernCompositionShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(concerncompositionshape) {
@@ -2264,10 +1812,6 @@ func (stage *Stage) UnstageBranchConcernCompositionShape(concerncompositionshape
 }
 
 func (concerninputshape *ConcernInputShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchConcernInputShape(concerninputshape)
-}
-
-func (stage *Stage) UnstageBranchConcernInputShape(concerninputshape *ConcernInputShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(concerninputshape) {
@@ -2292,10 +1836,6 @@ func (stage *Stage) UnstageBranchConcernInputShape(concerninputshape *ConcernInp
 }
 
 func (concernoutputshape *ConcernOutputShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchConcernOutputShape(concernoutputshape)
-}
-
-func (stage *Stage) UnstageBranchConcernOutputShape(concernoutputshape *ConcernOutputShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(concernoutputshape) {
@@ -2320,10 +1860,6 @@ func (stage *Stage) UnstageBranchConcernOutputShape(concernoutputshape *ConcernO
 }
 
 func (concernshape *ConcernShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchConcernShape(concernshape)
-}
-
-func (stage *Stage) UnstageBranchConcernShape(concernshape *ConcernShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(concernshape) {
@@ -2342,10 +1878,6 @@ func (stage *Stage) UnstageBranchConcernShape(concernshape *ConcernShape) {
 }
 
 func (controlpointshape *ControlPointShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchControlPointShape(controlpointshape)
-}
-
-func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPointShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(controlpointshape) {
@@ -2361,10 +1893,6 @@ func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPoi
 }
 
 func (deliverable *Deliverable) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDeliverable(deliverable)
-}
-
-func (stage *Stage) UnstageBranchDeliverable(deliverable *Deliverable) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(deliverable) {
@@ -2386,10 +1914,6 @@ func (stage *Stage) UnstageBranchDeliverable(deliverable *Deliverable) {
 }
 
 func (deliverablecompositionshape *DeliverableCompositionShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDeliverableCompositionShape(deliverablecompositionshape)
-}
-
-func (stage *Stage) UnstageBranchDeliverableCompositionShape(deliverablecompositionshape *DeliverableCompositionShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(deliverablecompositionshape) {
@@ -2411,10 +1935,6 @@ func (stage *Stage) UnstageBranchDeliverableCompositionShape(deliverablecomposit
 }
 
 func (deliverableconceptshape *DeliverableConceptShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDeliverableConceptShape(deliverableconceptshape)
-}
-
-func (stage *Stage) UnstageBranchDeliverableConceptShape(deliverableconceptshape *DeliverableConceptShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(deliverableconceptshape) {
@@ -2439,10 +1959,6 @@ func (stage *Stage) UnstageBranchDeliverableConceptShape(deliverableconceptshape
 }
 
 func (deliverableshape *DeliverableShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDeliverableShape(deliverableshape)
-}
-
-func (stage *Stage) UnstageBranchDeliverableShape(deliverableshape *DeliverableShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(deliverableshape) {
@@ -2461,10 +1977,6 @@ func (stage *Stage) UnstageBranchDeliverableShape(deliverableshape *DeliverableS
 }
 
 func (diagram *Diagram) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDiagram(diagram)
-}
-
-func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(diagram) {
@@ -2570,10 +2082,6 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 }
 
 func (diagramshape *DiagramShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchDiagramShape(diagramshape)
-}
-
-func (stage *Stage) UnstageBranchDiagramShape(diagramshape *DiagramShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(diagramshape) {
@@ -2592,10 +2100,6 @@ func (stage *Stage) UnstageBranchDiagramShape(diagramshape *DiagramShape) {
 }
 
 func (library *Library) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchLibrary(library)
-}
-
-func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(library) {
@@ -2638,10 +2142,6 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 }
 
 func (note *Note) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchNote(note)
-}
-
-func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(note) {
@@ -2666,10 +2166,6 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 }
 
 func (notedeliverableshape *NoteDeliverableShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchNoteDeliverableShape(notedeliverableshape)
-}
-
-func (stage *Stage) UnstageBranchNoteDeliverableShape(notedeliverableshape *NoteDeliverableShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(notedeliverableshape) {
@@ -2694,10 +2190,6 @@ func (stage *Stage) UnstageBranchNoteDeliverableShape(notedeliverableshape *Note
 }
 
 func (noteshape *NoteShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchNoteShape(noteshape)
-}
-
-func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(noteshape) {
@@ -2716,10 +2208,6 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 }
 
 func (notestakeholdershape *NoteStakeholderShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchNoteStakeholderShape(notestakeholdershape)
-}
-
-func (stage *Stage) UnstageBranchNoteStakeholderShape(notestakeholdershape *NoteStakeholderShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(notestakeholdershape) {
@@ -2744,10 +2232,6 @@ func (stage *Stage) UnstageBranchNoteStakeholderShape(notestakeholdershape *Note
 }
 
 func (notetaskshape *NoteTaskShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchNoteTaskShape(notetaskshape)
-}
-
-func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(notetaskshape) {
@@ -2772,10 +2256,6 @@ func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 }
 
 func (requirement *Requirement) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchRequirement(requirement)
-}
-
-func (stage *Stage) UnstageBranchRequirement(requirement *Requirement) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(requirement) {
@@ -2797,10 +2277,6 @@ func (stage *Stage) UnstageBranchRequirement(requirement *Requirement) {
 }
 
 func (requirementshape *RequirementShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchRequirementShape(requirementshape)
-}
-
-func (stage *Stage) UnstageBranchRequirementShape(requirementshape *RequirementShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(requirementshape) {
@@ -2819,10 +2295,6 @@ func (stage *Stage) UnstageBranchRequirementShape(requirementshape *RequirementS
 }
 
 func (stakeholder *Stakeholder) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchStakeholder(stakeholder)
-}
-
-func (stage *Stage) UnstageBranchStakeholder(stakeholder *Stakeholder) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(stakeholder) {
@@ -2844,10 +2316,6 @@ func (stage *Stage) UnstageBranchStakeholder(stakeholder *Stakeholder) {
 }
 
 func (stakeholdercompositionshape *StakeholderCompositionShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchStakeholderCompositionShape(stakeholdercompositionshape)
-}
-
-func (stage *Stage) UnstageBranchStakeholderCompositionShape(stakeholdercompositionshape *StakeholderCompositionShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(stakeholdercompositionshape) {
@@ -2869,10 +2337,6 @@ func (stage *Stage) UnstageBranchStakeholderCompositionShape(stakeholdercomposit
 }
 
 func (stakeholderconcernshape *StakeholderConcernShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchStakeholderConcernShape(stakeholderconcernshape)
-}
-
-func (stage *Stage) UnstageBranchStakeholderConcernShape(stakeholderconcernshape *StakeholderConcernShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(stakeholderconcernshape) {
@@ -2897,10 +2361,6 @@ func (stage *Stage) UnstageBranchStakeholderConcernShape(stakeholderconcernshape
 }
 
 func (stakeholdershape *StakeholderShape) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchStakeholderShape(stakeholdershape)
-}
-
-func (stage *Stage) UnstageBranchStakeholderShape(stakeholdershape *StakeholderShape) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(stakeholdershape) {
@@ -2919,10 +2379,6 @@ func (stage *Stage) UnstageBranchStakeholderShape(stakeholdershape *StakeholderS
 }
 
 func (supportlevel *SupportLevel) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchSupportLevel(supportlevel)
-}
-
-func (stage *Stage) UnstageBranchSupportLevel(supportlevel *SupportLevel) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(supportlevel) {
@@ -2941,10 +2397,6 @@ func (stage *Stage) UnstageBranchSupportLevel(supportlevel *SupportLevel) {
 }
 
 func (tool *Tool) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchTool(tool)
-}
-
-func (stage *Stage) UnstageBranchTool(tool *Tool) {
 
 	// check if instance is already staged
 	if !stage.IsStaged(tool) {
@@ -2968,88 +2420,50 @@ func (reference *AnalysisNeed) GongReconstructPointersFromReferences(stage *Stag
 func (reference *Concept) GongReconstructPointersFromReferences(stage *Stage, instance *Concept) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Tools = reference.Tools[:0]
-	for _, _b := range instance.Tools {
-		reference.Tools = append(reference.Tools, stage.Tools_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Tools, stage.Tools_reference, instance.Tools)
 }
 
 func (reference *ConceptShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConceptShape) {
 	// insertion point for pointers field
-	if instance.Concept != nil {
-		reference.Concept = stage.Concepts_reference[instance.Concept]
-	}
+	__gong__reconstructPointer(&reference.Concept, stage.Concepts_reference, instance.Concept)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Concern) GongReconstructPointersFromReferences(stage *Stage, instance *Concern) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.SubConcerns = reference.SubConcerns[:0]
-	for _, _b := range instance.SubConcerns {
-		reference.SubConcerns = append(reference.SubConcerns, stage.Concerns_reference[_b])
-	}
-	reference.Inputs = reference.Inputs[:0]
-	for _, _b := range instance.Inputs {
-		reference.Inputs = append(reference.Inputs, stage.Deliverables_reference[_b])
-	}
-	reference.Outputs = reference.Outputs[:0]
-	for _, _b := range instance.Outputs {
-		reference.Outputs = append(reference.Outputs, stage.Deliverables_reference[_b])
-	}
-	reference.Requirements = reference.Requirements[:0]
-	for _, _b := range instance.Requirements {
-		reference.Requirements = append(reference.Requirements, stage.Requirements_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SubConcerns, stage.Concerns_reference, instance.SubConcerns)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Inputs, stage.Deliverables_reference, instance.Inputs)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Outputs, stage.Deliverables_reference, instance.Outputs)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Requirements, stage.Requirements_reference, instance.Requirements)
 }
 
 func (reference *ConcernCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernCompositionShape) {
 	// insertion point for pointers field
-	if instance.Concern != nil {
-		reference.Concern = stage.Concerns_reference[instance.Concern]
-	}
+	__gong__reconstructPointer(&reference.Concern, stage.Concerns_reference, instance.Concern)
 	// insertion point for slice of pointers field
-	reference.ControlPointShapes = reference.ControlPointShapes[:0]
-	for _, _b := range instance.ControlPointShapes {
-		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *ConcernInputShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernInputShape) {
 	// insertion point for pointers field
-	if instance.Deliverable != nil {
-		reference.Deliverable = stage.Deliverables_reference[instance.Deliverable]
-	}
-	if instance.Concern != nil {
-		reference.Concern = stage.Concerns_reference[instance.Concern]
-	}
+	__gong__reconstructPointer(&reference.Deliverable, stage.Deliverables_reference, instance.Deliverable)
+	__gong__reconstructPointer(&reference.Concern, stage.Concerns_reference, instance.Concern)
 	// insertion point for slice of pointers field
-	reference.ControlPointShapes = reference.ControlPointShapes[:0]
-	for _, _b := range instance.ControlPointShapes {
-		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *ConcernOutputShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernOutputShape) {
 	// insertion point for pointers field
-	if instance.Concern != nil {
-		reference.Concern = stage.Concerns_reference[instance.Concern]
-	}
-	if instance.Deliverable != nil {
-		reference.Deliverable = stage.Deliverables_reference[instance.Deliverable]
-	}
+	__gong__reconstructPointer(&reference.Concern, stage.Concerns_reference, instance.Concern)
+	__gong__reconstructPointer(&reference.Deliverable, stage.Deliverables_reference, instance.Deliverable)
 	// insertion point for slice of pointers field
-	reference.ControlPointShapes = reference.ControlPointShapes[:0]
-	for _, _b := range instance.ControlPointShapes {
-		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *ConcernShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernShape) {
 	// insertion point for pointers field
-	if instance.Concern != nil {
-		reference.Concern = stage.Concerns_reference[instance.Concern]
-	}
+	__gong__reconstructPointer(&reference.Concern, stage.Concerns_reference, instance.Concern)
 	// insertion point for slice of pointers field
 }
 
@@ -3061,369 +2475,168 @@ func (reference *ControlPointShape) GongReconstructPointersFromReferences(stage 
 func (reference *Deliverable) GongReconstructPointersFromReferences(stage *Stage, instance *Deliverable) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.SubDeliverables = reference.SubDeliverables[:0]
-	for _, _b := range instance.SubDeliverables {
-		reference.SubDeliverables = append(reference.SubDeliverables, stage.Deliverables_reference[_b])
-	}
-	reference.Concepts = reference.Concepts[:0]
-	for _, _b := range instance.Concepts {
-		reference.Concepts = append(reference.Concepts, stage.Concepts_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SubDeliverables, stage.Deliverables_reference, instance.SubDeliverables)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Concepts, stage.Concepts_reference, instance.Concepts)
 }
 
 func (reference *DeliverableCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *DeliverableCompositionShape) {
 	// insertion point for pointers field
-	if instance.Deliverable != nil {
-		reference.Deliverable = stage.Deliverables_reference[instance.Deliverable]
-	}
+	__gong__reconstructPointer(&reference.Deliverable, stage.Deliverables_reference, instance.Deliverable)
 	// insertion point for slice of pointers field
-	reference.ControlPointShapes = reference.ControlPointShapes[:0]
-	for _, _b := range instance.ControlPointShapes {
-		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *DeliverableConceptShape) GongReconstructPointersFromReferences(stage *Stage, instance *DeliverableConceptShape) {
 	// insertion point for pointers field
-	if instance.Deliverable != nil {
-		reference.Deliverable = stage.Deliverables_reference[instance.Deliverable]
-	}
-	if instance.Concept != nil {
-		reference.Concept = stage.Concepts_reference[instance.Concept]
-	}
+	__gong__reconstructPointer(&reference.Deliverable, stage.Deliverables_reference, instance.Deliverable)
+	__gong__reconstructPointer(&reference.Concept, stage.Concepts_reference, instance.Concept)
 	// insertion point for slice of pointers field
-	reference.ControlPointShapes = reference.ControlPointShapes[:0]
-	for _, _b := range instance.ControlPointShapes {
-		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *DeliverableShape) GongReconstructPointersFromReferences(stage *Stage, instance *DeliverableShape) {
 	// insertion point for pointers field
-	if instance.Deliverable != nil {
-		reference.Deliverable = stage.Deliverables_reference[instance.Deliverable]
-	}
+	__gong__reconstructPointer(&reference.Deliverable, stage.Deliverables_reference, instance.Deliverable)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.ConcernsWhoseRequirementsNodeIsExpanded = reference.ConcernsWhoseRequirementsNodeIsExpanded[:0]
-	for _, _b := range instance.ConcernsWhoseRequirementsNodeIsExpanded {
-		reference.ConcernsWhoseRequirementsNodeIsExpanded = append(reference.ConcernsWhoseRequirementsNodeIsExpanded, stage.Concerns_reference[_b])
-	}
-	reference.Deliverable_Shapes = reference.Deliverable_Shapes[:0]
-	for _, _b := range instance.Deliverable_Shapes {
-		reference.Deliverable_Shapes = append(reference.Deliverable_Shapes, stage.DeliverableShapes_reference[_b])
-	}
-	reference.DeliverablesWhoseNodeIsExpanded = reference.DeliverablesWhoseNodeIsExpanded[:0]
-	for _, _b := range instance.DeliverablesWhoseNodeIsExpanded {
-		reference.DeliverablesWhoseNodeIsExpanded = append(reference.DeliverablesWhoseNodeIsExpanded, stage.Deliverables_reference[_b])
-	}
-	reference.DeliverablesWhoseConceptsNodeIsExpanded = reference.DeliverablesWhoseConceptsNodeIsExpanded[:0]
-	for _, _b := range instance.DeliverablesWhoseConceptsNodeIsExpanded {
-		reference.DeliverablesWhoseConceptsNodeIsExpanded = append(reference.DeliverablesWhoseConceptsNodeIsExpanded, stage.Deliverables_reference[_b])
-	}
-	reference.DeliverableComposition_Shapes = reference.DeliverableComposition_Shapes[:0]
-	for _, _b := range instance.DeliverableComposition_Shapes {
-		reference.DeliverableComposition_Shapes = append(reference.DeliverableComposition_Shapes, stage.DeliverableCompositionShapes_reference[_b])
-	}
-	reference.Concern_Shapes = reference.Concern_Shapes[:0]
-	for _, _b := range instance.Concern_Shapes {
-		reference.Concern_Shapes = append(reference.Concern_Shapes, stage.ConcernShapes_reference[_b])
-	}
-	reference.ConcernsWhoseNodeIsExpanded = reference.ConcernsWhoseNodeIsExpanded[:0]
-	for _, _b := range instance.ConcernsWhoseNodeIsExpanded {
-		reference.ConcernsWhoseNodeIsExpanded = append(reference.ConcernsWhoseNodeIsExpanded, stage.Concerns_reference[_b])
-	}
-	reference.ConcernsWhoseInputNodeIsExpanded = reference.ConcernsWhoseInputNodeIsExpanded[:0]
-	for _, _b := range instance.ConcernsWhoseInputNodeIsExpanded {
-		reference.ConcernsWhoseInputNodeIsExpanded = append(reference.ConcernsWhoseInputNodeIsExpanded, stage.Concerns_reference[_b])
-	}
-	reference.ConcernsWhoseStakeholderNodeIsExpanded = reference.ConcernsWhoseStakeholderNodeIsExpanded[:0]
-	for _, _b := range instance.ConcernsWhoseStakeholderNodeIsExpanded {
-		reference.ConcernsWhoseStakeholderNodeIsExpanded = append(reference.ConcernsWhoseStakeholderNodeIsExpanded, stage.Concerns_reference[_b])
-	}
-	reference.ConcernssWhoseOutputNodeIsExpanded = reference.ConcernssWhoseOutputNodeIsExpanded[:0]
-	for _, _b := range instance.ConcernssWhoseOutputNodeIsExpanded {
-		reference.ConcernssWhoseOutputNodeIsExpanded = append(reference.ConcernssWhoseOutputNodeIsExpanded, stage.Concerns_reference[_b])
-	}
-	reference.ConcernComposition_Shapes = reference.ConcernComposition_Shapes[:0]
-	for _, _b := range instance.ConcernComposition_Shapes {
-		reference.ConcernComposition_Shapes = append(reference.ConcernComposition_Shapes, stage.ConcernCompositionShapes_reference[_b])
-	}
-	reference.ConcernInputShapes = reference.ConcernInputShapes[:0]
-	for _, _b := range instance.ConcernInputShapes {
-		reference.ConcernInputShapes = append(reference.ConcernInputShapes, stage.ConcernInputShapes_reference[_b])
-	}
-	reference.ConcernOutputShapes = reference.ConcernOutputShapes[:0]
-	for _, _b := range instance.ConcernOutputShapes {
-		reference.ConcernOutputShapes = append(reference.ConcernOutputShapes, stage.ConcernOutputShapes_reference[_b])
-	}
-	reference.Note_Shapes = reference.Note_Shapes[:0]
-	for _, _b := range instance.Note_Shapes {
-		reference.Note_Shapes = append(reference.Note_Shapes, stage.NoteShapes_reference[_b])
-	}
-	reference.NotesWhoseNodeIsExpanded = reference.NotesWhoseNodeIsExpanded[:0]
-	for _, _b := range instance.NotesWhoseNodeIsExpanded {
-		reference.NotesWhoseNodeIsExpanded = append(reference.NotesWhoseNodeIsExpanded, stage.Notes_reference[_b])
-	}
-	reference.NoteDeliverableShapes = reference.NoteDeliverableShapes[:0]
-	for _, _b := range instance.NoteDeliverableShapes {
-		reference.NoteDeliverableShapes = append(reference.NoteDeliverableShapes, stage.NoteDeliverableShapes_reference[_b])
-	}
-	reference.NoteTaskShapes = reference.NoteTaskShapes[:0]
-	for _, _b := range instance.NoteTaskShapes {
-		reference.NoteTaskShapes = append(reference.NoteTaskShapes, stage.NoteTaskShapes_reference[_b])
-	}
-	reference.NoteResourceShapes = reference.NoteResourceShapes[:0]
-	for _, _b := range instance.NoteResourceShapes {
-		reference.NoteResourceShapes = append(reference.NoteResourceShapes, stage.NoteStakeholderShapes_reference[_b])
-	}
-	reference.Stakeholder_Shapes = reference.Stakeholder_Shapes[:0]
-	for _, _b := range instance.Stakeholder_Shapes {
-		reference.Stakeholder_Shapes = append(reference.Stakeholder_Shapes, stage.StakeholderShapes_reference[_b])
-	}
-	reference.ResourcesWhoseNodeIsExpanded = reference.ResourcesWhoseNodeIsExpanded[:0]
-	for _, _b := range instance.ResourcesWhoseNodeIsExpanded {
-		reference.ResourcesWhoseNodeIsExpanded = append(reference.ResourcesWhoseNodeIsExpanded, stage.Stakeholders_reference[_b])
-	}
-	reference.ResourceComposition_Shapes = reference.ResourceComposition_Shapes[:0]
-	for _, _b := range instance.ResourceComposition_Shapes {
-		reference.ResourceComposition_Shapes = append(reference.ResourceComposition_Shapes, stage.StakeholderCompositionShapes_reference[_b])
-	}
-	reference.StakeholderConcernShapes = reference.StakeholderConcernShapes[:0]
-	for _, _b := range instance.StakeholderConcernShapes {
-		reference.StakeholderConcernShapes = append(reference.StakeholderConcernShapes, stage.StakeholderConcernShapes_reference[_b])
-	}
-	reference.Requirement_Shapes = reference.Requirement_Shapes[:0]
-	for _, _b := range instance.Requirement_Shapes {
-		reference.Requirement_Shapes = append(reference.Requirement_Shapes, stage.RequirementShapes_reference[_b])
-	}
-	reference.RequirementsWhoseNodeIsExpanded = reference.RequirementsWhoseNodeIsExpanded[:0]
-	for _, _b := range instance.RequirementsWhoseNodeIsExpanded {
-		reference.RequirementsWhoseNodeIsExpanded = append(reference.RequirementsWhoseNodeIsExpanded, stage.Requirements_reference[_b])
-	}
-	reference.Concept_Shapes = reference.Concept_Shapes[:0]
-	for _, _b := range instance.Concept_Shapes {
-		reference.Concept_Shapes = append(reference.Concept_Shapes, stage.ConceptShapes_reference[_b])
-	}
-	reference.ConceptsWhoseNodeIsExpanded = reference.ConceptsWhoseNodeIsExpanded[:0]
-	for _, _b := range instance.ConceptsWhoseNodeIsExpanded {
-		reference.ConceptsWhoseNodeIsExpanded = append(reference.ConceptsWhoseNodeIsExpanded, stage.Concepts_reference[_b])
-	}
-	reference.ConceptsWhoseDeliverablesNodeIsExpanded = reference.ConceptsWhoseDeliverablesNodeIsExpanded[:0]
-	for _, _b := range instance.ConceptsWhoseDeliverablesNodeIsExpanded {
-		reference.ConceptsWhoseDeliverablesNodeIsExpanded = append(reference.ConceptsWhoseDeliverablesNodeIsExpanded, stage.Concepts_reference[_b])
-	}
-	reference.DeliverableConceptShapes = reference.DeliverableConceptShapes[:0]
-	for _, _b := range instance.DeliverableConceptShapes {
-		reference.DeliverableConceptShapes = append(reference.DeliverableConceptShapes, stage.DeliverableConceptShapes_reference[_b])
-	}
-	reference.Diagram_Shapes = reference.Diagram_Shapes[:0]
-	for _, _b := range instance.Diagram_Shapes {
-		reference.Diagram_Shapes = append(reference.Diagram_Shapes, stage.DiagramShapes_reference[_b])
-	}
-	reference.DiagramsWhoseNodeIsExpanded = reference.DiagramsWhoseNodeIsExpanded[:0]
-	for _, _b := range instance.DiagramsWhoseNodeIsExpanded {
-		reference.DiagramsWhoseNodeIsExpanded = append(reference.DiagramsWhoseNodeIsExpanded, stage.Diagrams_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ConcernsWhoseRequirementsNodeIsExpanded, stage.Concerns_reference, instance.ConcernsWhoseRequirementsNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Deliverable_Shapes, stage.DeliverableShapes_reference, instance.Deliverable_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverablesWhoseNodeIsExpanded, stage.Deliverables_reference, instance.DeliverablesWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverablesWhoseConceptsNodeIsExpanded, stage.Deliverables_reference, instance.DeliverablesWhoseConceptsNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverableComposition_Shapes, stage.DeliverableCompositionShapes_reference, instance.DeliverableComposition_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Concern_Shapes, stage.ConcernShapes_reference, instance.Concern_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ConcernsWhoseNodeIsExpanded, stage.Concerns_reference, instance.ConcernsWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ConcernsWhoseInputNodeIsExpanded, stage.Concerns_reference, instance.ConcernsWhoseInputNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ConcernsWhoseStakeholderNodeIsExpanded, stage.Concerns_reference, instance.ConcernsWhoseStakeholderNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ConcernssWhoseOutputNodeIsExpanded, stage.Concerns_reference, instance.ConcernssWhoseOutputNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ConcernComposition_Shapes, stage.ConcernCompositionShapes_reference, instance.ConcernComposition_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ConcernInputShapes, stage.ConcernInputShapes_reference, instance.ConcernInputShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ConcernOutputShapes, stage.ConcernOutputShapes_reference, instance.ConcernOutputShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Note_Shapes, stage.NoteShapes_reference, instance.Note_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.NotesWhoseNodeIsExpanded, stage.Notes_reference, instance.NotesWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.NoteDeliverableShapes, stage.NoteDeliverableShapes_reference, instance.NoteDeliverableShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.NoteTaskShapes, stage.NoteTaskShapes_reference, instance.NoteTaskShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.NoteResourceShapes, stage.NoteStakeholderShapes_reference, instance.NoteResourceShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Stakeholder_Shapes, stage.StakeholderShapes_reference, instance.Stakeholder_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ResourcesWhoseNodeIsExpanded, stage.Stakeholders_reference, instance.ResourcesWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ResourceComposition_Shapes, stage.StakeholderCompositionShapes_reference, instance.ResourceComposition_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.StakeholderConcernShapes, stage.StakeholderConcernShapes_reference, instance.StakeholderConcernShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Requirement_Shapes, stage.RequirementShapes_reference, instance.Requirement_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RequirementsWhoseNodeIsExpanded, stage.Requirements_reference, instance.RequirementsWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Concept_Shapes, stage.ConceptShapes_reference, instance.Concept_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ConceptsWhoseNodeIsExpanded, stage.Concepts_reference, instance.ConceptsWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ConceptsWhoseDeliverablesNodeIsExpanded, stage.Concepts_reference, instance.ConceptsWhoseDeliverablesNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverableConceptShapes, stage.DeliverableConceptShapes_reference, instance.DeliverableConceptShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Diagram_Shapes, stage.DiagramShapes_reference, instance.Diagram_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DiagramsWhoseNodeIsExpanded, stage.Diagrams_reference, instance.DiagramsWhoseNodeIsExpanded)
 }
 
 func (reference *DiagramShape) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramShape) {
 	// insertion point for pointers field
-	if instance.Diagram != nil {
-		reference.Diagram = stage.Diagrams_reference[instance.Diagram]
-	}
+	__gong__reconstructPointer(&reference.Diagram, stage.Diagrams_reference, instance.Diagram)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.RootDeliverables = reference.RootDeliverables[:0]
-	for _, _b := range instance.RootDeliverables {
-		reference.RootDeliverables = append(reference.RootDeliverables, stage.Deliverables_reference[_b])
-	}
-	reference.RootConcerns = reference.RootConcerns[:0]
-	for _, _b := range instance.RootConcerns {
-		reference.RootConcerns = append(reference.RootConcerns, stage.Concerns_reference[_b])
-	}
-	reference.RootStakeholders = reference.RootStakeholders[:0]
-	for _, _b := range instance.RootStakeholders {
-		reference.RootStakeholders = append(reference.RootStakeholders, stage.Stakeholders_reference[_b])
-	}
-	reference.RootRequirements = reference.RootRequirements[:0]
-	for _, _b := range instance.RootRequirements {
-		reference.RootRequirements = append(reference.RootRequirements, stage.Requirements_reference[_b])
-	}
-	reference.RootConcepts = reference.RootConcepts[:0]
-	for _, _b := range instance.RootConcepts {
-		reference.RootConcepts = append(reference.RootConcepts, stage.Concepts_reference[_b])
-	}
-	reference.AnalysisNeeds = reference.AnalysisNeeds[:0]
-	for _, _b := range instance.AnalysisNeeds {
-		reference.AnalysisNeeds = append(reference.AnalysisNeeds, stage.AnalysisNeeds_reference[_b])
-	}
-	reference.Notes = reference.Notes[:0]
-	for _, _b := range instance.Notes {
-		reference.Notes = append(reference.Notes, stage.Notes_reference[_b])
-	}
-	reference.Diagrams = reference.Diagrams[:0]
-	for _, _b := range instance.Diagrams {
-		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
-	}
-	reference.SubLibraries = reference.SubLibraries[:0]
-	for _, _b := range instance.SubLibraries {
-		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RootDeliverables, stage.Deliverables_reference, instance.RootDeliverables)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RootConcerns, stage.Concerns_reference, instance.RootConcerns)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RootStakeholders, stage.Stakeholders_reference, instance.RootStakeholders)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RootRequirements, stage.Requirements_reference, instance.RootRequirements)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RootConcepts, stage.Concepts_reference, instance.RootConcepts)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.AnalysisNeeds, stage.AnalysisNeeds_reference, instance.AnalysisNeeds)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Notes, stage.Notes_reference, instance.Notes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Diagrams, stage.Diagrams_reference, instance.Diagrams)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SubLibraries, stage.Librarys_reference, instance.SubLibraries)
 }
 
 func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Deliverables = reference.Deliverables[:0]
-	for _, _b := range instance.Deliverables {
-		reference.Deliverables = append(reference.Deliverables, stage.Deliverables_reference[_b])
-	}
-	reference.Tasks = reference.Tasks[:0]
-	for _, _b := range instance.Tasks {
-		reference.Tasks = append(reference.Tasks, stage.Concerns_reference[_b])
-	}
-	reference.Resources = reference.Resources[:0]
-	for _, _b := range instance.Resources {
-		reference.Resources = append(reference.Resources, stage.Stakeholders_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Deliverables, stage.Deliverables_reference, instance.Deliverables)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Tasks, stage.Concerns_reference, instance.Tasks)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Resources, stage.Stakeholders_reference, instance.Resources)
 }
 
 func (reference *NoteDeliverableShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteDeliverableShape) {
 	// insertion point for pointers field
-	if instance.Note != nil {
-		reference.Note = stage.Notes_reference[instance.Note]
-	}
-	if instance.Deliverable != nil {
-		reference.Deliverable = stage.Deliverables_reference[instance.Deliverable]
-	}
+	__gong__reconstructPointer(&reference.Note, stage.Notes_reference, instance.Note)
+	__gong__reconstructPointer(&reference.Deliverable, stage.Deliverables_reference, instance.Deliverable)
 	// insertion point for slice of pointers field
-	reference.ControlPointShapes = reference.ControlPointShapes[:0]
-	for _, _b := range instance.ControlPointShapes {
-		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteShape) {
 	// insertion point for pointers field
-	if instance.Note != nil {
-		reference.Note = stage.Notes_reference[instance.Note]
-	}
+	__gong__reconstructPointer(&reference.Note, stage.Notes_reference, instance.Note)
 	// insertion point for slice of pointers field
 }
 
 func (reference *NoteStakeholderShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteStakeholderShape) {
 	// insertion point for pointers field
-	if instance.Note != nil {
-		reference.Note = stage.Notes_reference[instance.Note]
-	}
-	if instance.Stakeholder != nil {
-		reference.Stakeholder = stage.Stakeholders_reference[instance.Stakeholder]
-	}
+	__gong__reconstructPointer(&reference.Note, stage.Notes_reference, instance.Note)
+	__gong__reconstructPointer(&reference.Stakeholder, stage.Stakeholders_reference, instance.Stakeholder)
 	// insertion point for slice of pointers field
-	reference.ControlPointShapes = reference.ControlPointShapes[:0]
-	for _, _b := range instance.ControlPointShapes {
-		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteTaskShape) {
 	// insertion point for pointers field
-	if instance.Note != nil {
-		reference.Note = stage.Notes_reference[instance.Note]
-	}
-	if instance.Task != nil {
-		reference.Task = stage.Concerns_reference[instance.Task]
-	}
+	__gong__reconstructPointer(&reference.Note, stage.Notes_reference, instance.Note)
+	__gong__reconstructPointer(&reference.Task, stage.Concerns_reference, instance.Task)
 	// insertion point for slice of pointers field
-	reference.ControlPointShapes = reference.ControlPointShapes[:0]
-	for _, _b := range instance.ControlPointShapes {
-		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *Requirement) GongReconstructPointersFromReferences(stage *Stage, instance *Requirement) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.SupportLevels = reference.SupportLevels[:0]
-	for _, _b := range instance.SupportLevels {
-		reference.SupportLevels = append(reference.SupportLevels, stage.SupportLevels_reference[_b])
-	}
-	reference.Concepts = reference.Concepts[:0]
-	for _, _b := range instance.Concepts {
-		reference.Concepts = append(reference.Concepts, stage.Concepts_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SupportLevels, stage.SupportLevels_reference, instance.SupportLevels)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Concepts, stage.Concepts_reference, instance.Concepts)
 }
 
 func (reference *RequirementShape) GongReconstructPointersFromReferences(stage *Stage, instance *RequirementShape) {
 	// insertion point for pointers field
-	if instance.Requirement != nil {
-		reference.Requirement = stage.Requirements_reference[instance.Requirement]
-	}
+	__gong__reconstructPointer(&reference.Requirement, stage.Requirements_reference, instance.Requirement)
 	// insertion point for slice of pointers field
 }
 
 func (reference *Stakeholder) GongReconstructPointersFromReferences(stage *Stage, instance *Stakeholder) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Concerns = reference.Concerns[:0]
-	for _, _b := range instance.Concerns {
-		reference.Concerns = append(reference.Concerns, stage.Concerns_reference[_b])
-	}
-	reference.SubStakeholders = reference.SubStakeholders[:0]
-	for _, _b := range instance.SubStakeholders {
-		reference.SubStakeholders = append(reference.SubStakeholders, stage.Stakeholders_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Concerns, stage.Concerns_reference, instance.Concerns)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SubStakeholders, stage.Stakeholders_reference, instance.SubStakeholders)
 }
 
 func (reference *StakeholderCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *StakeholderCompositionShape) {
 	// insertion point for pointers field
-	if instance.Stakeholder != nil {
-		reference.Stakeholder = stage.Stakeholders_reference[instance.Stakeholder]
-	}
+	__gong__reconstructPointer(&reference.Stakeholder, stage.Stakeholders_reference, instance.Stakeholder)
 	// insertion point for slice of pointers field
-	reference.ControlPointShapes = reference.ControlPointShapes[:0]
-	for _, _b := range instance.ControlPointShapes {
-		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *StakeholderConcernShape) GongReconstructPointersFromReferences(stage *Stage, instance *StakeholderConcernShape) {
 	// insertion point for pointers field
-	if instance.Stakeholder != nil {
-		reference.Stakeholder = stage.Stakeholders_reference[instance.Stakeholder]
-	}
-	if instance.Concern != nil {
-		reference.Concern = stage.Concerns_reference[instance.Concern]
-	}
+	__gong__reconstructPointer(&reference.Stakeholder, stage.Stakeholders_reference, instance.Stakeholder)
+	__gong__reconstructPointer(&reference.Concern, stage.Concerns_reference, instance.Concern)
 	// insertion point for slice of pointers field
-	reference.ControlPointShapes = reference.ControlPointShapes[:0]
-	for _, _b := range instance.ControlPointShapes {
-		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
-	}
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *StakeholderShape) GongReconstructPointersFromReferences(stage *Stage, instance *StakeholderShape) {
 	// insertion point for pointers field
-	if instance.Stakeholder != nil {
-		reference.Stakeholder = stage.Stakeholders_reference[instance.Stakeholder]
-	}
+	__gong__reconstructPointer(&reference.Stakeholder, stage.Stakeholders_reference, instance.Stakeholder)
 	// insertion point for slice of pointers field
 }
 
 func (reference *SupportLevel) GongReconstructPointersFromReferences(stage *Stage, instance *SupportLevel) {
 	// insertion point for pointers field
-	if instance.Tool != nil {
-		reference.Tool = stage.Tools_reference[instance.Tool]
-	}
+	__gong__reconstructPointer(&reference.Tool, stage.Tools_reference, instance.Tool)
 	// insertion point for slice of pointers field
 }
 
@@ -3441,133 +2654,50 @@ func (reference *AnalysisNeed) GongReconstructPointersFromInstances(stage *Stage
 func (reference *Concept) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Tools []*Tool
-	for _, _reference := range reference.Tools {
-		if _instance, ok := stage.Tools_instance[_reference]; ok {
-			_Tools = append(_Tools, _instance)
-		}
-	}
-	reference.Tools = _Tools
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Tools, stage.Tools_instance)
 }
 
 func (reference *ConceptShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Concept; _reference != nil {
-		reference.Concept = nil
-		if _instance, ok := stage.Concepts_instance[_reference]; ok {
-			reference.Concept = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Concept, stage.Concepts_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Concern) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _SubConcerns []*Concern
-	for _, _reference := range reference.SubConcerns {
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			_SubConcerns = append(_SubConcerns, _instance)
-		}
-	}
-	reference.SubConcerns = _SubConcerns
-	var _Inputs []*Deliverable
-	for _, _reference := range reference.Inputs {
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			_Inputs = append(_Inputs, _instance)
-		}
-	}
-	reference.Inputs = _Inputs
-	var _Outputs []*Deliverable
-	for _, _reference := range reference.Outputs {
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			_Outputs = append(_Outputs, _instance)
-		}
-	}
-	reference.Outputs = _Outputs
-	var _Requirements []*Requirement
-	for _, _reference := range reference.Requirements {
-		if _instance, ok := stage.Requirements_instance[_reference]; ok {
-			_Requirements = append(_Requirements, _instance)
-		}
-	}
-	reference.Requirements = _Requirements
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SubConcerns, stage.Concerns_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Inputs, stage.Deliverables_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Outputs, stage.Deliverables_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Requirements, stage.Requirements_instance)
 }
 
 func (reference *ConcernCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Concern; _reference != nil {
-		reference.Concern = nil
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			reference.Concern = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Concern, stage.Concerns_instance)
 	// insertion point for slice of pointers fields
-	var _ControlPointShapes []*ControlPointShape
-	for _, _reference := range reference.ControlPointShapes {
-		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
-			_ControlPointShapes = append(_ControlPointShapes, _instance)
-		}
-	}
-	reference.ControlPointShapes = _ControlPointShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *ConcernInputShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Deliverable; _reference != nil {
-		reference.Deliverable = nil
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			reference.Deliverable = _instance
-		}
-	}
-	if _reference := reference.Concern; _reference != nil {
-		reference.Concern = nil
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			reference.Concern = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Deliverable, stage.Deliverables_instance)
+	__gong__reconstructPointerFromInstance(&reference.Concern, stage.Concerns_instance)
 	// insertion point for slice of pointers fields
-	var _ControlPointShapes []*ControlPointShape
-	for _, _reference := range reference.ControlPointShapes {
-		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
-			_ControlPointShapes = append(_ControlPointShapes, _instance)
-		}
-	}
-	reference.ControlPointShapes = _ControlPointShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *ConcernOutputShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Concern; _reference != nil {
-		reference.Concern = nil
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			reference.Concern = _instance
-		}
-	}
-	if _reference := reference.Deliverable; _reference != nil {
-		reference.Deliverable = nil
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			reference.Deliverable = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Concern, stage.Concerns_instance)
+	__gong__reconstructPointerFromInstance(&reference.Deliverable, stage.Deliverables_instance)
 	// insertion point for slice of pointers fields
-	var _ControlPointShapes []*ControlPointShape
-	for _, _reference := range reference.ControlPointShapes {
-		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
-			_ControlPointShapes = append(_ControlPointShapes, _instance)
-		}
-	}
-	reference.ControlPointShapes = _ControlPointShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *ConcernShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Concern; _reference != nil {
-		reference.Concern = nil
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			reference.Concern = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Concern, stage.Concerns_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -3579,588 +2709,168 @@ func (reference *ControlPointShape) GongReconstructPointersFromInstances(stage *
 func (reference *Deliverable) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _SubDeliverables []*Deliverable
-	for _, _reference := range reference.SubDeliverables {
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			_SubDeliverables = append(_SubDeliverables, _instance)
-		}
-	}
-	reference.SubDeliverables = _SubDeliverables
-	var _Concepts []*Concept
-	for _, _reference := range reference.Concepts {
-		if _instance, ok := stage.Concepts_instance[_reference]; ok {
-			_Concepts = append(_Concepts, _instance)
-		}
-	}
-	reference.Concepts = _Concepts
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SubDeliverables, stage.Deliverables_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Concepts, stage.Concepts_instance)
 }
 
 func (reference *DeliverableCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Deliverable; _reference != nil {
-		reference.Deliverable = nil
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			reference.Deliverable = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Deliverable, stage.Deliverables_instance)
 	// insertion point for slice of pointers fields
-	var _ControlPointShapes []*ControlPointShape
-	for _, _reference := range reference.ControlPointShapes {
-		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
-			_ControlPointShapes = append(_ControlPointShapes, _instance)
-		}
-	}
-	reference.ControlPointShapes = _ControlPointShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *DeliverableConceptShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Deliverable; _reference != nil {
-		reference.Deliverable = nil
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			reference.Deliverable = _instance
-		}
-	}
-	if _reference := reference.Concept; _reference != nil {
-		reference.Concept = nil
-		if _instance, ok := stage.Concepts_instance[_reference]; ok {
-			reference.Concept = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Deliverable, stage.Deliverables_instance)
+	__gong__reconstructPointerFromInstance(&reference.Concept, stage.Concepts_instance)
 	// insertion point for slice of pointers fields
-	var _ControlPointShapes []*ControlPointShape
-	for _, _reference := range reference.ControlPointShapes {
-		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
-			_ControlPointShapes = append(_ControlPointShapes, _instance)
-		}
-	}
-	reference.ControlPointShapes = _ControlPointShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *DeliverableShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Deliverable; _reference != nil {
-		reference.Deliverable = nil
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			reference.Deliverable = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Deliverable, stage.Deliverables_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _ConcernsWhoseRequirementsNodeIsExpanded []*Concern
-	for _, _reference := range reference.ConcernsWhoseRequirementsNodeIsExpanded {
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			_ConcernsWhoseRequirementsNodeIsExpanded = append(_ConcernsWhoseRequirementsNodeIsExpanded, _instance)
-		}
-	}
-	reference.ConcernsWhoseRequirementsNodeIsExpanded = _ConcernsWhoseRequirementsNodeIsExpanded
-	var _Deliverable_Shapes []*DeliverableShape
-	for _, _reference := range reference.Deliverable_Shapes {
-		if _instance, ok := stage.DeliverableShapes_instance[_reference]; ok {
-			_Deliverable_Shapes = append(_Deliverable_Shapes, _instance)
-		}
-	}
-	reference.Deliverable_Shapes = _Deliverable_Shapes
-	var _DeliverablesWhoseNodeIsExpanded []*Deliverable
-	for _, _reference := range reference.DeliverablesWhoseNodeIsExpanded {
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			_DeliverablesWhoseNodeIsExpanded = append(_DeliverablesWhoseNodeIsExpanded, _instance)
-		}
-	}
-	reference.DeliverablesWhoseNodeIsExpanded = _DeliverablesWhoseNodeIsExpanded
-	var _DeliverablesWhoseConceptsNodeIsExpanded []*Deliverable
-	for _, _reference := range reference.DeliverablesWhoseConceptsNodeIsExpanded {
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			_DeliverablesWhoseConceptsNodeIsExpanded = append(_DeliverablesWhoseConceptsNodeIsExpanded, _instance)
-		}
-	}
-	reference.DeliverablesWhoseConceptsNodeIsExpanded = _DeliverablesWhoseConceptsNodeIsExpanded
-	var _DeliverableComposition_Shapes []*DeliverableCompositionShape
-	for _, _reference := range reference.DeliverableComposition_Shapes {
-		if _instance, ok := stage.DeliverableCompositionShapes_instance[_reference]; ok {
-			_DeliverableComposition_Shapes = append(_DeliverableComposition_Shapes, _instance)
-		}
-	}
-	reference.DeliverableComposition_Shapes = _DeliverableComposition_Shapes
-	var _Concern_Shapes []*ConcernShape
-	for _, _reference := range reference.Concern_Shapes {
-		if _instance, ok := stage.ConcernShapes_instance[_reference]; ok {
-			_Concern_Shapes = append(_Concern_Shapes, _instance)
-		}
-	}
-	reference.Concern_Shapes = _Concern_Shapes
-	var _ConcernsWhoseNodeIsExpanded []*Concern
-	for _, _reference := range reference.ConcernsWhoseNodeIsExpanded {
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			_ConcernsWhoseNodeIsExpanded = append(_ConcernsWhoseNodeIsExpanded, _instance)
-		}
-	}
-	reference.ConcernsWhoseNodeIsExpanded = _ConcernsWhoseNodeIsExpanded
-	var _ConcernsWhoseInputNodeIsExpanded []*Concern
-	for _, _reference := range reference.ConcernsWhoseInputNodeIsExpanded {
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			_ConcernsWhoseInputNodeIsExpanded = append(_ConcernsWhoseInputNodeIsExpanded, _instance)
-		}
-	}
-	reference.ConcernsWhoseInputNodeIsExpanded = _ConcernsWhoseInputNodeIsExpanded
-	var _ConcernsWhoseStakeholderNodeIsExpanded []*Concern
-	for _, _reference := range reference.ConcernsWhoseStakeholderNodeIsExpanded {
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			_ConcernsWhoseStakeholderNodeIsExpanded = append(_ConcernsWhoseStakeholderNodeIsExpanded, _instance)
-		}
-	}
-	reference.ConcernsWhoseStakeholderNodeIsExpanded = _ConcernsWhoseStakeholderNodeIsExpanded
-	var _ConcernssWhoseOutputNodeIsExpanded []*Concern
-	for _, _reference := range reference.ConcernssWhoseOutputNodeIsExpanded {
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			_ConcernssWhoseOutputNodeIsExpanded = append(_ConcernssWhoseOutputNodeIsExpanded, _instance)
-		}
-	}
-	reference.ConcernssWhoseOutputNodeIsExpanded = _ConcernssWhoseOutputNodeIsExpanded
-	var _ConcernComposition_Shapes []*ConcernCompositionShape
-	for _, _reference := range reference.ConcernComposition_Shapes {
-		if _instance, ok := stage.ConcernCompositionShapes_instance[_reference]; ok {
-			_ConcernComposition_Shapes = append(_ConcernComposition_Shapes, _instance)
-		}
-	}
-	reference.ConcernComposition_Shapes = _ConcernComposition_Shapes
-	var _ConcernInputShapes []*ConcernInputShape
-	for _, _reference := range reference.ConcernInputShapes {
-		if _instance, ok := stage.ConcernInputShapes_instance[_reference]; ok {
-			_ConcernInputShapes = append(_ConcernInputShapes, _instance)
-		}
-	}
-	reference.ConcernInputShapes = _ConcernInputShapes
-	var _ConcernOutputShapes []*ConcernOutputShape
-	for _, _reference := range reference.ConcernOutputShapes {
-		if _instance, ok := stage.ConcernOutputShapes_instance[_reference]; ok {
-			_ConcernOutputShapes = append(_ConcernOutputShapes, _instance)
-		}
-	}
-	reference.ConcernOutputShapes = _ConcernOutputShapes
-	var _Note_Shapes []*NoteShape
-	for _, _reference := range reference.Note_Shapes {
-		if _instance, ok := stage.NoteShapes_instance[_reference]; ok {
-			_Note_Shapes = append(_Note_Shapes, _instance)
-		}
-	}
-	reference.Note_Shapes = _Note_Shapes
-	var _NotesWhoseNodeIsExpanded []*Note
-	for _, _reference := range reference.NotesWhoseNodeIsExpanded {
-		if _instance, ok := stage.Notes_instance[_reference]; ok {
-			_NotesWhoseNodeIsExpanded = append(_NotesWhoseNodeIsExpanded, _instance)
-		}
-	}
-	reference.NotesWhoseNodeIsExpanded = _NotesWhoseNodeIsExpanded
-	var _NoteDeliverableShapes []*NoteDeliverableShape
-	for _, _reference := range reference.NoteDeliverableShapes {
-		if _instance, ok := stage.NoteDeliverableShapes_instance[_reference]; ok {
-			_NoteDeliverableShapes = append(_NoteDeliverableShapes, _instance)
-		}
-	}
-	reference.NoteDeliverableShapes = _NoteDeliverableShapes
-	var _NoteTaskShapes []*NoteTaskShape
-	for _, _reference := range reference.NoteTaskShapes {
-		if _instance, ok := stage.NoteTaskShapes_instance[_reference]; ok {
-			_NoteTaskShapes = append(_NoteTaskShapes, _instance)
-		}
-	}
-	reference.NoteTaskShapes = _NoteTaskShapes
-	var _NoteResourceShapes []*NoteStakeholderShape
-	for _, _reference := range reference.NoteResourceShapes {
-		if _instance, ok := stage.NoteStakeholderShapes_instance[_reference]; ok {
-			_NoteResourceShapes = append(_NoteResourceShapes, _instance)
-		}
-	}
-	reference.NoteResourceShapes = _NoteResourceShapes
-	var _Stakeholder_Shapes []*StakeholderShape
-	for _, _reference := range reference.Stakeholder_Shapes {
-		if _instance, ok := stage.StakeholderShapes_instance[_reference]; ok {
-			_Stakeholder_Shapes = append(_Stakeholder_Shapes, _instance)
-		}
-	}
-	reference.Stakeholder_Shapes = _Stakeholder_Shapes
-	var _ResourcesWhoseNodeIsExpanded []*Stakeholder
-	for _, _reference := range reference.ResourcesWhoseNodeIsExpanded {
-		if _instance, ok := stage.Stakeholders_instance[_reference]; ok {
-			_ResourcesWhoseNodeIsExpanded = append(_ResourcesWhoseNodeIsExpanded, _instance)
-		}
-	}
-	reference.ResourcesWhoseNodeIsExpanded = _ResourcesWhoseNodeIsExpanded
-	var _ResourceComposition_Shapes []*StakeholderCompositionShape
-	for _, _reference := range reference.ResourceComposition_Shapes {
-		if _instance, ok := stage.StakeholderCompositionShapes_instance[_reference]; ok {
-			_ResourceComposition_Shapes = append(_ResourceComposition_Shapes, _instance)
-		}
-	}
-	reference.ResourceComposition_Shapes = _ResourceComposition_Shapes
-	var _StakeholderConcernShapes []*StakeholderConcernShape
-	for _, _reference := range reference.StakeholderConcernShapes {
-		if _instance, ok := stage.StakeholderConcernShapes_instance[_reference]; ok {
-			_StakeholderConcernShapes = append(_StakeholderConcernShapes, _instance)
-		}
-	}
-	reference.StakeholderConcernShapes = _StakeholderConcernShapes
-	var _Requirement_Shapes []*RequirementShape
-	for _, _reference := range reference.Requirement_Shapes {
-		if _instance, ok := stage.RequirementShapes_instance[_reference]; ok {
-			_Requirement_Shapes = append(_Requirement_Shapes, _instance)
-		}
-	}
-	reference.Requirement_Shapes = _Requirement_Shapes
-	var _RequirementsWhoseNodeIsExpanded []*Requirement
-	for _, _reference := range reference.RequirementsWhoseNodeIsExpanded {
-		if _instance, ok := stage.Requirements_instance[_reference]; ok {
-			_RequirementsWhoseNodeIsExpanded = append(_RequirementsWhoseNodeIsExpanded, _instance)
-		}
-	}
-	reference.RequirementsWhoseNodeIsExpanded = _RequirementsWhoseNodeIsExpanded
-	var _Concept_Shapes []*ConceptShape
-	for _, _reference := range reference.Concept_Shapes {
-		if _instance, ok := stage.ConceptShapes_instance[_reference]; ok {
-			_Concept_Shapes = append(_Concept_Shapes, _instance)
-		}
-	}
-	reference.Concept_Shapes = _Concept_Shapes
-	var _ConceptsWhoseNodeIsExpanded []*Concept
-	for _, _reference := range reference.ConceptsWhoseNodeIsExpanded {
-		if _instance, ok := stage.Concepts_instance[_reference]; ok {
-			_ConceptsWhoseNodeIsExpanded = append(_ConceptsWhoseNodeIsExpanded, _instance)
-		}
-	}
-	reference.ConceptsWhoseNodeIsExpanded = _ConceptsWhoseNodeIsExpanded
-	var _ConceptsWhoseDeliverablesNodeIsExpanded []*Concept
-	for _, _reference := range reference.ConceptsWhoseDeliverablesNodeIsExpanded {
-		if _instance, ok := stage.Concepts_instance[_reference]; ok {
-			_ConceptsWhoseDeliverablesNodeIsExpanded = append(_ConceptsWhoseDeliverablesNodeIsExpanded, _instance)
-		}
-	}
-	reference.ConceptsWhoseDeliverablesNodeIsExpanded = _ConceptsWhoseDeliverablesNodeIsExpanded
-	var _DeliverableConceptShapes []*DeliverableConceptShape
-	for _, _reference := range reference.DeliverableConceptShapes {
-		if _instance, ok := stage.DeliverableConceptShapes_instance[_reference]; ok {
-			_DeliverableConceptShapes = append(_DeliverableConceptShapes, _instance)
-		}
-	}
-	reference.DeliverableConceptShapes = _DeliverableConceptShapes
-	var _Diagram_Shapes []*DiagramShape
-	for _, _reference := range reference.Diagram_Shapes {
-		if _instance, ok := stage.DiagramShapes_instance[_reference]; ok {
-			_Diagram_Shapes = append(_Diagram_Shapes, _instance)
-		}
-	}
-	reference.Diagram_Shapes = _Diagram_Shapes
-	var _DiagramsWhoseNodeIsExpanded []*Diagram
-	for _, _reference := range reference.DiagramsWhoseNodeIsExpanded {
-		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
-			_DiagramsWhoseNodeIsExpanded = append(_DiagramsWhoseNodeIsExpanded, _instance)
-		}
-	}
-	reference.DiagramsWhoseNodeIsExpanded = _DiagramsWhoseNodeIsExpanded
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ConcernsWhoseRequirementsNodeIsExpanded, stage.Concerns_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Deliverable_Shapes, stage.DeliverableShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverablesWhoseNodeIsExpanded, stage.Deliverables_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverablesWhoseConceptsNodeIsExpanded, stage.Deliverables_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverableComposition_Shapes, stage.DeliverableCompositionShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Concern_Shapes, stage.ConcernShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ConcernsWhoseNodeIsExpanded, stage.Concerns_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ConcernsWhoseInputNodeIsExpanded, stage.Concerns_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ConcernsWhoseStakeholderNodeIsExpanded, stage.Concerns_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ConcernssWhoseOutputNodeIsExpanded, stage.Concerns_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ConcernComposition_Shapes, stage.ConcernCompositionShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ConcernInputShapes, stage.ConcernInputShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ConcernOutputShapes, stage.ConcernOutputShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Note_Shapes, stage.NoteShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.NotesWhoseNodeIsExpanded, stage.Notes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.NoteDeliverableShapes, stage.NoteDeliverableShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.NoteTaskShapes, stage.NoteTaskShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.NoteResourceShapes, stage.NoteStakeholderShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Stakeholder_Shapes, stage.StakeholderShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ResourcesWhoseNodeIsExpanded, stage.Stakeholders_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ResourceComposition_Shapes, stage.StakeholderCompositionShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.StakeholderConcernShapes, stage.StakeholderConcernShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Requirement_Shapes, stage.RequirementShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RequirementsWhoseNodeIsExpanded, stage.Requirements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Concept_Shapes, stage.ConceptShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ConceptsWhoseNodeIsExpanded, stage.Concepts_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ConceptsWhoseDeliverablesNodeIsExpanded, stage.Concepts_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverableConceptShapes, stage.DeliverableConceptShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Diagram_Shapes, stage.DiagramShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DiagramsWhoseNodeIsExpanded, stage.Diagrams_instance)
 }
 
 func (reference *DiagramShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Diagram; _reference != nil {
-		reference.Diagram = nil
-		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
-			reference.Diagram = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Diagram, stage.Diagrams_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _RootDeliverables []*Deliverable
-	for _, _reference := range reference.RootDeliverables {
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			_RootDeliverables = append(_RootDeliverables, _instance)
-		}
-	}
-	reference.RootDeliverables = _RootDeliverables
-	var _RootConcerns []*Concern
-	for _, _reference := range reference.RootConcerns {
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			_RootConcerns = append(_RootConcerns, _instance)
-		}
-	}
-	reference.RootConcerns = _RootConcerns
-	var _RootStakeholders []*Stakeholder
-	for _, _reference := range reference.RootStakeholders {
-		if _instance, ok := stage.Stakeholders_instance[_reference]; ok {
-			_RootStakeholders = append(_RootStakeholders, _instance)
-		}
-	}
-	reference.RootStakeholders = _RootStakeholders
-	var _RootRequirements []*Requirement
-	for _, _reference := range reference.RootRequirements {
-		if _instance, ok := stage.Requirements_instance[_reference]; ok {
-			_RootRequirements = append(_RootRequirements, _instance)
-		}
-	}
-	reference.RootRequirements = _RootRequirements
-	var _RootConcepts []*Concept
-	for _, _reference := range reference.RootConcepts {
-		if _instance, ok := stage.Concepts_instance[_reference]; ok {
-			_RootConcepts = append(_RootConcepts, _instance)
-		}
-	}
-	reference.RootConcepts = _RootConcepts
-	var _AnalysisNeeds []*AnalysisNeed
-	for _, _reference := range reference.AnalysisNeeds {
-		if _instance, ok := stage.AnalysisNeeds_instance[_reference]; ok {
-			_AnalysisNeeds = append(_AnalysisNeeds, _instance)
-		}
-	}
-	reference.AnalysisNeeds = _AnalysisNeeds
-	var _Notes []*Note
-	for _, _reference := range reference.Notes {
-		if _instance, ok := stage.Notes_instance[_reference]; ok {
-			_Notes = append(_Notes, _instance)
-		}
-	}
-	reference.Notes = _Notes
-	var _Diagrams []*Diagram
-	for _, _reference := range reference.Diagrams {
-		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
-			_Diagrams = append(_Diagrams, _instance)
-		}
-	}
-	reference.Diagrams = _Diagrams
-	var _SubLibraries []*Library
-	for _, _reference := range reference.SubLibraries {
-		if _instance, ok := stage.Librarys_instance[_reference]; ok {
-			_SubLibraries = append(_SubLibraries, _instance)
-		}
-	}
-	reference.SubLibraries = _SubLibraries
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RootDeliverables, stage.Deliverables_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RootConcerns, stage.Concerns_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RootStakeholders, stage.Stakeholders_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RootRequirements, stage.Requirements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RootConcepts, stage.Concepts_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.AnalysisNeeds, stage.AnalysisNeeds_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Notes, stage.Notes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Diagrams, stage.Diagrams_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SubLibraries, stage.Librarys_instance)
 }
 
 func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Deliverables []*Deliverable
-	for _, _reference := range reference.Deliverables {
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			_Deliverables = append(_Deliverables, _instance)
-		}
-	}
-	reference.Deliverables = _Deliverables
-	var _Tasks []*Concern
-	for _, _reference := range reference.Tasks {
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			_Tasks = append(_Tasks, _instance)
-		}
-	}
-	reference.Tasks = _Tasks
-	var _Resources []*Stakeholder
-	for _, _reference := range reference.Resources {
-		if _instance, ok := stage.Stakeholders_instance[_reference]; ok {
-			_Resources = append(_Resources, _instance)
-		}
-	}
-	reference.Resources = _Resources
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Deliverables, stage.Deliverables_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Tasks, stage.Concerns_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Resources, stage.Stakeholders_instance)
 }
 
 func (reference *NoteDeliverableShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Note; _reference != nil {
-		reference.Note = nil
-		if _instance, ok := stage.Notes_instance[_reference]; ok {
-			reference.Note = _instance
-		}
-	}
-	if _reference := reference.Deliverable; _reference != nil {
-		reference.Deliverable = nil
-		if _instance, ok := stage.Deliverables_instance[_reference]; ok {
-			reference.Deliverable = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Note, stage.Notes_instance)
+	__gong__reconstructPointerFromInstance(&reference.Deliverable, stage.Deliverables_instance)
 	// insertion point for slice of pointers fields
-	var _ControlPointShapes []*ControlPointShape
-	for _, _reference := range reference.ControlPointShapes {
-		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
-			_ControlPointShapes = append(_ControlPointShapes, _instance)
-		}
-	}
-	reference.ControlPointShapes = _ControlPointShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Note; _reference != nil {
-		reference.Note = nil
-		if _instance, ok := stage.Notes_instance[_reference]; ok {
-			reference.Note = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Note, stage.Notes_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *NoteStakeholderShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Note; _reference != nil {
-		reference.Note = nil
-		if _instance, ok := stage.Notes_instance[_reference]; ok {
-			reference.Note = _instance
-		}
-	}
-	if _reference := reference.Stakeholder; _reference != nil {
-		reference.Stakeholder = nil
-		if _instance, ok := stage.Stakeholders_instance[_reference]; ok {
-			reference.Stakeholder = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Note, stage.Notes_instance)
+	__gong__reconstructPointerFromInstance(&reference.Stakeholder, stage.Stakeholders_instance)
 	// insertion point for slice of pointers fields
-	var _ControlPointShapes []*ControlPointShape
-	for _, _reference := range reference.ControlPointShapes {
-		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
-			_ControlPointShapes = append(_ControlPointShapes, _instance)
-		}
-	}
-	reference.ControlPointShapes = _ControlPointShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Note; _reference != nil {
-		reference.Note = nil
-		if _instance, ok := stage.Notes_instance[_reference]; ok {
-			reference.Note = _instance
-		}
-	}
-	if _reference := reference.Task; _reference != nil {
-		reference.Task = nil
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			reference.Task = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Note, stage.Notes_instance)
+	__gong__reconstructPointerFromInstance(&reference.Task, stage.Concerns_instance)
 	// insertion point for slice of pointers fields
-	var _ControlPointShapes []*ControlPointShape
-	for _, _reference := range reference.ControlPointShapes {
-		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
-			_ControlPointShapes = append(_ControlPointShapes, _instance)
-		}
-	}
-	reference.ControlPointShapes = _ControlPointShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *Requirement) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _SupportLevels []*SupportLevel
-	for _, _reference := range reference.SupportLevels {
-		if _instance, ok := stage.SupportLevels_instance[_reference]; ok {
-			_SupportLevels = append(_SupportLevels, _instance)
-		}
-	}
-	reference.SupportLevels = _SupportLevels
-	var _Concepts []*Concept
-	for _, _reference := range reference.Concepts {
-		if _instance, ok := stage.Concepts_instance[_reference]; ok {
-			_Concepts = append(_Concepts, _instance)
-		}
-	}
-	reference.Concepts = _Concepts
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SupportLevels, stage.SupportLevels_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Concepts, stage.Concepts_instance)
 }
 
 func (reference *RequirementShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Requirement; _reference != nil {
-		reference.Requirement = nil
-		if _instance, ok := stage.Requirements_instance[_reference]; ok {
-			reference.Requirement = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Requirement, stage.Requirements_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Stakeholder) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Concerns []*Concern
-	for _, _reference := range reference.Concerns {
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			_Concerns = append(_Concerns, _instance)
-		}
-	}
-	reference.Concerns = _Concerns
-	var _SubStakeholders []*Stakeholder
-	for _, _reference := range reference.SubStakeholders {
-		if _instance, ok := stage.Stakeholders_instance[_reference]; ok {
-			_SubStakeholders = append(_SubStakeholders, _instance)
-		}
-	}
-	reference.SubStakeholders = _SubStakeholders
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Concerns, stage.Concerns_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SubStakeholders, stage.Stakeholders_instance)
 }
 
 func (reference *StakeholderCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Stakeholder; _reference != nil {
-		reference.Stakeholder = nil
-		if _instance, ok := stage.Stakeholders_instance[_reference]; ok {
-			reference.Stakeholder = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Stakeholder, stage.Stakeholders_instance)
 	// insertion point for slice of pointers fields
-	var _ControlPointShapes []*ControlPointShape
-	for _, _reference := range reference.ControlPointShapes {
-		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
-			_ControlPointShapes = append(_ControlPointShapes, _instance)
-		}
-	}
-	reference.ControlPointShapes = _ControlPointShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *StakeholderConcernShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Stakeholder; _reference != nil {
-		reference.Stakeholder = nil
-		if _instance, ok := stage.Stakeholders_instance[_reference]; ok {
-			reference.Stakeholder = _instance
-		}
-	}
-	if _reference := reference.Concern; _reference != nil {
-		reference.Concern = nil
-		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			reference.Concern = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Stakeholder, stage.Stakeholders_instance)
+	__gong__reconstructPointerFromInstance(&reference.Concern, stage.Concerns_instance)
 	// insertion point for slice of pointers fields
-	var _ControlPointShapes []*ControlPointShape
-	for _, _reference := range reference.ControlPointShapes {
-		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
-			_ControlPointShapes = append(_ControlPointShapes, _instance)
-		}
-	}
-	reference.ControlPointShapes = _ControlPointShapes
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *StakeholderShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Stakeholder; _reference != nil {
-		reference.Stakeholder = nil
-		if _instance, ok := stage.Stakeholders_instance[_reference]; ok {
-			reference.Stakeholder = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Stakeholder, stage.Stakeholders_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *SupportLevel) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Tool; _reference != nil {
-		reference.Tool = nil
-		if _instance, ok := stage.Tools_instance[_reference]; ok {
-			reference.Tool = _instance
-		}
-	}
+	__gong__reconstructPointerFromInstance(&reference.Tool, stage.Tools_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -4200,36 +2910,7 @@ func (concept *Concept) GongDiff(stage *Stage, conceptOther *Concept) (diffs []s
 	if concept.IsExpanded != conceptOther.IsExpanded {
 		diffs = append(diffs, concept.GongMarshallField(stage, "IsExpanded"))
 	}
-	ToolsDifferent := false
-	if len(concept.Tools) != len(conceptOther.Tools) {
-		ToolsDifferent = true
-	} else {
-		for i := range concept.Tools {
-			if (concept.Tools[i] == nil) != (conceptOther.Tools[i] == nil) {
-				ToolsDifferent = true
-				break
-			} else if concept.Tools[i] != nil && conceptOther.Tools[i] != nil {
-				// this is a pointer comparaison
-				if concept.Tools[i] != conceptOther.Tools[i] {
-					ToolsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ToolsDifferent {
-		ops := stage.Diff(
-			concept,
-			"Tools",
-			len(conceptOther.Tools),
-			len(concept.Tools),
-			func(i, j int) bool {
-				return conceptOther.Tools[i] == concept.Tools[j]
-			},
-			func(j int) string {
-				return concept.Tools[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, concept, "Tools", conceptOther.Tools, concept.Tools); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4243,12 +2924,8 @@ func (conceptshape *ConceptShape) GongDiff(stage *Stage, conceptshapeOther *Conc
 	if conceptshape.Name != conceptshapeOther.Name {
 		diffs = append(diffs, conceptshape.GongMarshallField(stage, "Name"))
 	}
-	if (conceptshape.Concept == nil) != (conceptshapeOther.Concept == nil) {
+	if conceptshape.Concept != conceptshapeOther.Concept {
 		diffs = append(diffs, conceptshape.GongMarshallField(stage, "Concept"))
-	} else if conceptshape.Concept != nil && conceptshapeOther.Concept != nil {
-		if conceptshape.Concept != conceptshapeOther.Concept {
-			diffs = append(diffs, conceptshape.GongMarshallField(stage, "Concept"))
-		}
 	}
 	if conceptshape.IsExpanded != conceptshapeOther.IsExpanded {
 		diffs = append(diffs, conceptshape.GongMarshallField(stage, "IsExpanded"))
@@ -4294,103 +2971,16 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 	if concern.Description != concernOther.Description {
 		diffs = append(diffs, concern.GongMarshallField(stage, "Description"))
 	}
-	SubConcernsDifferent := false
-	if len(concern.SubConcerns) != len(concernOther.SubConcerns) {
-		SubConcernsDifferent = true
-	} else {
-		for i := range concern.SubConcerns {
-			if (concern.SubConcerns[i] == nil) != (concernOther.SubConcerns[i] == nil) {
-				SubConcernsDifferent = true
-				break
-			} else if concern.SubConcerns[i] != nil && concernOther.SubConcerns[i] != nil {
-				// this is a pointer comparaison
-				if concern.SubConcerns[i] != concernOther.SubConcerns[i] {
-					SubConcernsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SubConcernsDifferent {
-		ops := stage.Diff(
-			concern,
-			"SubConcerns",
-			len(concernOther.SubConcerns),
-			len(concern.SubConcerns),
-			func(i, j int) bool {
-				return concernOther.SubConcerns[i] == concern.SubConcerns[j]
-			},
-			func(j int) string {
-				return concern.SubConcerns[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, concern, "SubConcerns", concernOther.SubConcerns, concern.SubConcerns); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	InputsDifferent := false
-	if len(concern.Inputs) != len(concernOther.Inputs) {
-		InputsDifferent = true
-	} else {
-		for i := range concern.Inputs {
-			if (concern.Inputs[i] == nil) != (concernOther.Inputs[i] == nil) {
-				InputsDifferent = true
-				break
-			} else if concern.Inputs[i] != nil && concernOther.Inputs[i] != nil {
-				// this is a pointer comparaison
-				if concern.Inputs[i] != concernOther.Inputs[i] {
-					InputsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if InputsDifferent {
-		ops := stage.Diff(
-			concern,
-			"Inputs",
-			len(concernOther.Inputs),
-			len(concern.Inputs),
-			func(i, j int) bool {
-				return concernOther.Inputs[i] == concern.Inputs[j]
-			},
-			func(j int) string {
-				return concern.Inputs[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, concern, "Inputs", concernOther.Inputs, concern.Inputs); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if concern.IsInputsNodeExpanded != concernOther.IsInputsNodeExpanded {
 		diffs = append(diffs, concern.GongMarshallField(stage, "IsInputsNodeExpanded"))
 	}
-	OutputsDifferent := false
-	if len(concern.Outputs) != len(concernOther.Outputs) {
-		OutputsDifferent = true
-	} else {
-		for i := range concern.Outputs {
-			if (concern.Outputs[i] == nil) != (concernOther.Outputs[i] == nil) {
-				OutputsDifferent = true
-				break
-			} else if concern.Outputs[i] != nil && concernOther.Outputs[i] != nil {
-				// this is a pointer comparaison
-				if concern.Outputs[i] != concernOther.Outputs[i] {
-					OutputsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if OutputsDifferent {
-		ops := stage.Diff(
-			concern,
-			"Outputs",
-			len(concernOther.Outputs),
-			len(concern.Outputs),
-			func(i, j int) bool {
-				return concernOther.Outputs[i] == concern.Outputs[j]
-			},
-			func(j int) string {
-				return concern.Outputs[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, concern, "Outputs", concernOther.Outputs, concern.Outputs); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if concern.IsOutputsNodeExpanded != concernOther.IsOutputsNodeExpanded {
@@ -4402,36 +2992,7 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 	if concern.Completion != concernOther.Completion {
 		diffs = append(diffs, concern.GongMarshallField(stage, "Completion"))
 	}
-	RequirementsDifferent := false
-	if len(concern.Requirements) != len(concernOther.Requirements) {
-		RequirementsDifferent = true
-	} else {
-		for i := range concern.Requirements {
-			if (concern.Requirements[i] == nil) != (concernOther.Requirements[i] == nil) {
-				RequirementsDifferent = true
-				break
-			} else if concern.Requirements[i] != nil && concernOther.Requirements[i] != nil {
-				// this is a pointer comparaison
-				if concern.Requirements[i] != concernOther.Requirements[i] {
-					RequirementsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RequirementsDifferent {
-		ops := stage.Diff(
-			concern,
-			"Requirements",
-			len(concernOther.Requirements),
-			len(concern.Requirements),
-			func(i, j int) bool {
-				return concernOther.Requirements[i] == concern.Requirements[j]
-			},
-			func(j int) string {
-				return concern.Requirements[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, concern, "Requirements", concernOther.Requirements, concern.Requirements); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4445,12 +3006,8 @@ func (concerncompositionshape *ConcernCompositionShape) GongDiff(stage *Stage, c
 	if concerncompositionshape.Name != concerncompositionshapeOther.Name {
 		diffs = append(diffs, concerncompositionshape.GongMarshallField(stage, "Name"))
 	}
-	if (concerncompositionshape.Concern == nil) != (concerncompositionshapeOther.Concern == nil) {
+	if concerncompositionshape.Concern != concerncompositionshapeOther.Concern {
 		diffs = append(diffs, concerncompositionshape.GongMarshallField(stage, "Concern"))
-	} else if concerncompositionshape.Concern != nil && concerncompositionshapeOther.Concern != nil {
-		if concerncompositionshape.Concern != concerncompositionshapeOther.Concern {
-			diffs = append(diffs, concerncompositionshape.GongMarshallField(stage, "Concern"))
-		}
 	}
 	if concerncompositionshape.StartRatio != concerncompositionshapeOther.StartRatio {
 		diffs = append(diffs, concerncompositionshape.GongMarshallField(stage, "StartRatio"))
@@ -4470,36 +3027,7 @@ func (concerncompositionshape *ConcernCompositionShape) GongDiff(stage *Stage, c
 	if concerncompositionshape.IsHidden != concerncompositionshapeOther.IsHidden {
 		diffs = append(diffs, concerncompositionshape.GongMarshallField(stage, "IsHidden"))
 	}
-	ControlPointShapesDifferent := false
-	if len(concerncompositionshape.ControlPointShapes) != len(concerncompositionshapeOther.ControlPointShapes) {
-		ControlPointShapesDifferent = true
-	} else {
-		for i := range concerncompositionshape.ControlPointShapes {
-			if (concerncompositionshape.ControlPointShapes[i] == nil) != (concerncompositionshapeOther.ControlPointShapes[i] == nil) {
-				ControlPointShapesDifferent = true
-				break
-			} else if concerncompositionshape.ControlPointShapes[i] != nil && concerncompositionshapeOther.ControlPointShapes[i] != nil {
-				// this is a pointer comparaison
-				if concerncompositionshape.ControlPointShapes[i] != concerncompositionshapeOther.ControlPointShapes[i] {
-					ControlPointShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ControlPointShapesDifferent {
-		ops := stage.Diff(
-			concerncompositionshape,
-			"ControlPointShapes",
-			len(concerncompositionshapeOther.ControlPointShapes),
-			len(concerncompositionshape.ControlPointShapes),
-			func(i, j int) bool {
-				return concerncompositionshapeOther.ControlPointShapes[i] == concerncompositionshape.ControlPointShapes[j]
-			},
-			func(j int) string {
-				return concerncompositionshape.ControlPointShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, concerncompositionshape, "ControlPointShapes", concerncompositionshapeOther.ControlPointShapes, concerncompositionshape.ControlPointShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4513,19 +3041,11 @@ func (concerninputshape *ConcernInputShape) GongDiff(stage *Stage, concerninputs
 	if concerninputshape.Name != concerninputshapeOther.Name {
 		diffs = append(diffs, concerninputshape.GongMarshallField(stage, "Name"))
 	}
-	if (concerninputshape.Deliverable == nil) != (concerninputshapeOther.Deliverable == nil) {
+	if concerninputshape.Deliverable != concerninputshapeOther.Deliverable {
 		diffs = append(diffs, concerninputshape.GongMarshallField(stage, "Deliverable"))
-	} else if concerninputshape.Deliverable != nil && concerninputshapeOther.Deliverable != nil {
-		if concerninputshape.Deliverable != concerninputshapeOther.Deliverable {
-			diffs = append(diffs, concerninputshape.GongMarshallField(stage, "Deliverable"))
-		}
 	}
-	if (concerninputshape.Concern == nil) != (concerninputshapeOther.Concern == nil) {
+	if concerninputshape.Concern != concerninputshapeOther.Concern {
 		diffs = append(diffs, concerninputshape.GongMarshallField(stage, "Concern"))
-	} else if concerninputshape.Concern != nil && concerninputshapeOther.Concern != nil {
-		if concerninputshape.Concern != concerninputshapeOther.Concern {
-			diffs = append(diffs, concerninputshape.GongMarshallField(stage, "Concern"))
-		}
 	}
 	if concerninputshape.StartRatio != concerninputshapeOther.StartRatio {
 		diffs = append(diffs, concerninputshape.GongMarshallField(stage, "StartRatio"))
@@ -4545,36 +3065,7 @@ func (concerninputshape *ConcernInputShape) GongDiff(stage *Stage, concerninputs
 	if concerninputshape.IsHidden != concerninputshapeOther.IsHidden {
 		diffs = append(diffs, concerninputshape.GongMarshallField(stage, "IsHidden"))
 	}
-	ControlPointShapesDifferent := false
-	if len(concerninputshape.ControlPointShapes) != len(concerninputshapeOther.ControlPointShapes) {
-		ControlPointShapesDifferent = true
-	} else {
-		for i := range concerninputshape.ControlPointShapes {
-			if (concerninputshape.ControlPointShapes[i] == nil) != (concerninputshapeOther.ControlPointShapes[i] == nil) {
-				ControlPointShapesDifferent = true
-				break
-			} else if concerninputshape.ControlPointShapes[i] != nil && concerninputshapeOther.ControlPointShapes[i] != nil {
-				// this is a pointer comparaison
-				if concerninputshape.ControlPointShapes[i] != concerninputshapeOther.ControlPointShapes[i] {
-					ControlPointShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ControlPointShapesDifferent {
-		ops := stage.Diff(
-			concerninputshape,
-			"ControlPointShapes",
-			len(concerninputshapeOther.ControlPointShapes),
-			len(concerninputshape.ControlPointShapes),
-			func(i, j int) bool {
-				return concerninputshapeOther.ControlPointShapes[i] == concerninputshape.ControlPointShapes[j]
-			},
-			func(j int) string {
-				return concerninputshape.ControlPointShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, concerninputshape, "ControlPointShapes", concerninputshapeOther.ControlPointShapes, concerninputshape.ControlPointShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4588,19 +3079,11 @@ func (concernoutputshape *ConcernOutputShape) GongDiff(stage *Stage, concernoutp
 	if concernoutputshape.Name != concernoutputshapeOther.Name {
 		diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "Name"))
 	}
-	if (concernoutputshape.Concern == nil) != (concernoutputshapeOther.Concern == nil) {
+	if concernoutputshape.Concern != concernoutputshapeOther.Concern {
 		diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "Concern"))
-	} else if concernoutputshape.Concern != nil && concernoutputshapeOther.Concern != nil {
-		if concernoutputshape.Concern != concernoutputshapeOther.Concern {
-			diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "Concern"))
-		}
 	}
-	if (concernoutputshape.Deliverable == nil) != (concernoutputshapeOther.Deliverable == nil) {
+	if concernoutputshape.Deliverable != concernoutputshapeOther.Deliverable {
 		diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "Deliverable"))
-	} else if concernoutputshape.Deliverable != nil && concernoutputshapeOther.Deliverable != nil {
-		if concernoutputshape.Deliverable != concernoutputshapeOther.Deliverable {
-			diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "Deliverable"))
-		}
 	}
 	if concernoutputshape.StartRatio != concernoutputshapeOther.StartRatio {
 		diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "StartRatio"))
@@ -4620,36 +3103,7 @@ func (concernoutputshape *ConcernOutputShape) GongDiff(stage *Stage, concernoutp
 	if concernoutputshape.IsHidden != concernoutputshapeOther.IsHidden {
 		diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "IsHidden"))
 	}
-	ControlPointShapesDifferent := false
-	if len(concernoutputshape.ControlPointShapes) != len(concernoutputshapeOther.ControlPointShapes) {
-		ControlPointShapesDifferent = true
-	} else {
-		for i := range concernoutputshape.ControlPointShapes {
-			if (concernoutputshape.ControlPointShapes[i] == nil) != (concernoutputshapeOther.ControlPointShapes[i] == nil) {
-				ControlPointShapesDifferent = true
-				break
-			} else if concernoutputshape.ControlPointShapes[i] != nil && concernoutputshapeOther.ControlPointShapes[i] != nil {
-				// this is a pointer comparaison
-				if concernoutputshape.ControlPointShapes[i] != concernoutputshapeOther.ControlPointShapes[i] {
-					ControlPointShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ControlPointShapesDifferent {
-		ops := stage.Diff(
-			concernoutputshape,
-			"ControlPointShapes",
-			len(concernoutputshapeOther.ControlPointShapes),
-			len(concernoutputshape.ControlPointShapes),
-			func(i, j int) bool {
-				return concernoutputshapeOther.ControlPointShapes[i] == concernoutputshape.ControlPointShapes[j]
-			},
-			func(j int) string {
-				return concernoutputshape.ControlPointShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, concernoutputshape, "ControlPointShapes", concernoutputshapeOther.ControlPointShapes, concernoutputshape.ControlPointShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4663,12 +3117,8 @@ func (concernshape *ConcernShape) GongDiff(stage *Stage, concernshapeOther *Conc
 	if concernshape.Name != concernshapeOther.Name {
 		diffs = append(diffs, concernshape.GongMarshallField(stage, "Name"))
 	}
-	if (concernshape.Concern == nil) != (concernshapeOther.Concern == nil) {
+	if concernshape.Concern != concernshapeOther.Concern {
 		diffs = append(diffs, concernshape.GongMarshallField(stage, "Concern"))
-	} else if concernshape.Concern != nil && concernshapeOther.Concern != nil {
-		if concernshape.Concern != concernshapeOther.Concern {
-			diffs = append(diffs, concernshape.GongMarshallField(stage, "Concern"))
-		}
 	}
 	if concernshape.IsExpanded != concernshapeOther.IsExpanded {
 		diffs = append(diffs, concernshape.GongMarshallField(stage, "IsExpanded"))
@@ -4728,36 +3178,7 @@ func (deliverable *Deliverable) GongDiff(stage *Stage, deliverableOther *Deliver
 	if deliverable.Description != deliverableOther.Description {
 		diffs = append(diffs, deliverable.GongMarshallField(stage, "Description"))
 	}
-	SubDeliverablesDifferent := false
-	if len(deliverable.SubDeliverables) != len(deliverableOther.SubDeliverables) {
-		SubDeliverablesDifferent = true
-	} else {
-		for i := range deliverable.SubDeliverables {
-			if (deliverable.SubDeliverables[i] == nil) != (deliverableOther.SubDeliverables[i] == nil) {
-				SubDeliverablesDifferent = true
-				break
-			} else if deliverable.SubDeliverables[i] != nil && deliverableOther.SubDeliverables[i] != nil {
-				// this is a pointer comparaison
-				if deliverable.SubDeliverables[i] != deliverableOther.SubDeliverables[i] {
-					SubDeliverablesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SubDeliverablesDifferent {
-		ops := stage.Diff(
-			deliverable,
-			"SubDeliverables",
-			len(deliverableOther.SubDeliverables),
-			len(deliverable.SubDeliverables),
-			func(i, j int) bool {
-				return deliverableOther.SubDeliverables[i] == deliverable.SubDeliverables[j]
-			},
-			func(j int) string {
-				return deliverable.SubDeliverables[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, deliverable, "SubDeliverables", deliverableOther.SubDeliverables, deliverable.SubDeliverables); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if deliverable.IsProducersNodeExpanded != deliverableOther.IsProducersNodeExpanded {
@@ -4766,36 +3187,7 @@ func (deliverable *Deliverable) GongDiff(stage *Stage, deliverableOther *Deliver
 	if deliverable.IsConsumersNodeExpanded != deliverableOther.IsConsumersNodeExpanded {
 		diffs = append(diffs, deliverable.GongMarshallField(stage, "IsConsumersNodeExpanded"))
 	}
-	ConceptsDifferent := false
-	if len(deliverable.Concepts) != len(deliverableOther.Concepts) {
-		ConceptsDifferent = true
-	} else {
-		for i := range deliverable.Concepts {
-			if (deliverable.Concepts[i] == nil) != (deliverableOther.Concepts[i] == nil) {
-				ConceptsDifferent = true
-				break
-			} else if deliverable.Concepts[i] != nil && deliverableOther.Concepts[i] != nil {
-				// this is a pointer comparaison
-				if deliverable.Concepts[i] != deliverableOther.Concepts[i] {
-					ConceptsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConceptsDifferent {
-		ops := stage.Diff(
-			deliverable,
-			"Concepts",
-			len(deliverableOther.Concepts),
-			len(deliverable.Concepts),
-			func(i, j int) bool {
-				return deliverableOther.Concepts[i] == deliverable.Concepts[j]
-			},
-			func(j int) string {
-				return deliverable.Concepts[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, deliverable, "Concepts", deliverableOther.Concepts, deliverable.Concepts); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4809,12 +3201,8 @@ func (deliverablecompositionshape *DeliverableCompositionShape) GongDiff(stage *
 	if deliverablecompositionshape.Name != deliverablecompositionshapeOther.Name {
 		diffs = append(diffs, deliverablecompositionshape.GongMarshallField(stage, "Name"))
 	}
-	if (deliverablecompositionshape.Deliverable == nil) != (deliverablecompositionshapeOther.Deliverable == nil) {
+	if deliverablecompositionshape.Deliverable != deliverablecompositionshapeOther.Deliverable {
 		diffs = append(diffs, deliverablecompositionshape.GongMarshallField(stage, "Deliverable"))
-	} else if deliverablecompositionshape.Deliverable != nil && deliverablecompositionshapeOther.Deliverable != nil {
-		if deliverablecompositionshape.Deliverable != deliverablecompositionshapeOther.Deliverable {
-			diffs = append(diffs, deliverablecompositionshape.GongMarshallField(stage, "Deliverable"))
-		}
 	}
 	if deliverablecompositionshape.StartRatio != deliverablecompositionshapeOther.StartRatio {
 		diffs = append(diffs, deliverablecompositionshape.GongMarshallField(stage, "StartRatio"))
@@ -4834,36 +3222,7 @@ func (deliverablecompositionshape *DeliverableCompositionShape) GongDiff(stage *
 	if deliverablecompositionshape.IsHidden != deliverablecompositionshapeOther.IsHidden {
 		diffs = append(diffs, deliverablecompositionshape.GongMarshallField(stage, "IsHidden"))
 	}
-	ControlPointShapesDifferent := false
-	if len(deliverablecompositionshape.ControlPointShapes) != len(deliverablecompositionshapeOther.ControlPointShapes) {
-		ControlPointShapesDifferent = true
-	} else {
-		for i := range deliverablecompositionshape.ControlPointShapes {
-			if (deliverablecompositionshape.ControlPointShapes[i] == nil) != (deliverablecompositionshapeOther.ControlPointShapes[i] == nil) {
-				ControlPointShapesDifferent = true
-				break
-			} else if deliverablecompositionshape.ControlPointShapes[i] != nil && deliverablecompositionshapeOther.ControlPointShapes[i] != nil {
-				// this is a pointer comparaison
-				if deliverablecompositionshape.ControlPointShapes[i] != deliverablecompositionshapeOther.ControlPointShapes[i] {
-					ControlPointShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ControlPointShapesDifferent {
-		ops := stage.Diff(
-			deliverablecompositionshape,
-			"ControlPointShapes",
-			len(deliverablecompositionshapeOther.ControlPointShapes),
-			len(deliverablecompositionshape.ControlPointShapes),
-			func(i, j int) bool {
-				return deliverablecompositionshapeOther.ControlPointShapes[i] == deliverablecompositionshape.ControlPointShapes[j]
-			},
-			func(j int) string {
-				return deliverablecompositionshape.ControlPointShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, deliverablecompositionshape, "ControlPointShapes", deliverablecompositionshapeOther.ControlPointShapes, deliverablecompositionshape.ControlPointShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4877,19 +3236,11 @@ func (deliverableconceptshape *DeliverableConceptShape) GongDiff(stage *Stage, d
 	if deliverableconceptshape.Name != deliverableconceptshapeOther.Name {
 		diffs = append(diffs, deliverableconceptshape.GongMarshallField(stage, "Name"))
 	}
-	if (deliverableconceptshape.Deliverable == nil) != (deliverableconceptshapeOther.Deliverable == nil) {
+	if deliverableconceptshape.Deliverable != deliverableconceptshapeOther.Deliverable {
 		diffs = append(diffs, deliverableconceptshape.GongMarshallField(stage, "Deliverable"))
-	} else if deliverableconceptshape.Deliverable != nil && deliverableconceptshapeOther.Deliverable != nil {
-		if deliverableconceptshape.Deliverable != deliverableconceptshapeOther.Deliverable {
-			diffs = append(diffs, deliverableconceptshape.GongMarshallField(stage, "Deliverable"))
-		}
 	}
-	if (deliverableconceptshape.Concept == nil) != (deliverableconceptshapeOther.Concept == nil) {
+	if deliverableconceptshape.Concept != deliverableconceptshapeOther.Concept {
 		diffs = append(diffs, deliverableconceptshape.GongMarshallField(stage, "Concept"))
-	} else if deliverableconceptshape.Concept != nil && deliverableconceptshapeOther.Concept != nil {
-		if deliverableconceptshape.Concept != deliverableconceptshapeOther.Concept {
-			diffs = append(diffs, deliverableconceptshape.GongMarshallField(stage, "Concept"))
-		}
 	}
 	if deliverableconceptshape.StartRatio != deliverableconceptshapeOther.StartRatio {
 		diffs = append(diffs, deliverableconceptshape.GongMarshallField(stage, "StartRatio"))
@@ -4909,36 +3260,7 @@ func (deliverableconceptshape *DeliverableConceptShape) GongDiff(stage *Stage, d
 	if deliverableconceptshape.IsHidden != deliverableconceptshapeOther.IsHidden {
 		diffs = append(diffs, deliverableconceptshape.GongMarshallField(stage, "IsHidden"))
 	}
-	ControlPointShapesDifferent := false
-	if len(deliverableconceptshape.ControlPointShapes) != len(deliverableconceptshapeOther.ControlPointShapes) {
-		ControlPointShapesDifferent = true
-	} else {
-		for i := range deliverableconceptshape.ControlPointShapes {
-			if (deliverableconceptshape.ControlPointShapes[i] == nil) != (deliverableconceptshapeOther.ControlPointShapes[i] == nil) {
-				ControlPointShapesDifferent = true
-				break
-			} else if deliverableconceptshape.ControlPointShapes[i] != nil && deliverableconceptshapeOther.ControlPointShapes[i] != nil {
-				// this is a pointer comparaison
-				if deliverableconceptshape.ControlPointShapes[i] != deliverableconceptshapeOther.ControlPointShapes[i] {
-					ControlPointShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ControlPointShapesDifferent {
-		ops := stage.Diff(
-			deliverableconceptshape,
-			"ControlPointShapes",
-			len(deliverableconceptshapeOther.ControlPointShapes),
-			len(deliverableconceptshape.ControlPointShapes),
-			func(i, j int) bool {
-				return deliverableconceptshapeOther.ControlPointShapes[i] == deliverableconceptshape.ControlPointShapes[j]
-			},
-			func(j int) string {
-				return deliverableconceptshape.ControlPointShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, deliverableconceptshape, "ControlPointShapes", deliverableconceptshapeOther.ControlPointShapes, deliverableconceptshape.ControlPointShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4952,12 +3274,8 @@ func (deliverableshape *DeliverableShape) GongDiff(stage *Stage, deliverableshap
 	if deliverableshape.Name != deliverableshapeOther.Name {
 		diffs = append(diffs, deliverableshape.GongMarshallField(stage, "Name"))
 	}
-	if (deliverableshape.Deliverable == nil) != (deliverableshapeOther.Deliverable == nil) {
+	if deliverableshape.Deliverable != deliverableshapeOther.Deliverable {
 		diffs = append(diffs, deliverableshape.GongMarshallField(stage, "Deliverable"))
-	} else if deliverableshape.Deliverable != nil && deliverableshapeOther.Deliverable != nil {
-		if deliverableshape.Deliverable != deliverableshapeOther.Deliverable {
-			diffs = append(diffs, deliverableshape.GongMarshallField(stage, "Deliverable"))
-		}
 	}
 	if deliverableshape.IsExpanded != deliverableshapeOther.IsExpanded {
 		diffs = append(diffs, deliverableshape.GongMarshallField(stage, "IsExpanded"))
@@ -5015,36 +3333,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.Height != diagramOther.Height {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "Height"))
 	}
-	ConcernsWhoseRequirementsNodeIsExpandedDifferent := false
-	if len(diagram.ConcernsWhoseRequirementsNodeIsExpanded) != len(diagramOther.ConcernsWhoseRequirementsNodeIsExpanded) {
-		ConcernsWhoseRequirementsNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.ConcernsWhoseRequirementsNodeIsExpanded {
-			if (diagram.ConcernsWhoseRequirementsNodeIsExpanded[i] == nil) != (diagramOther.ConcernsWhoseRequirementsNodeIsExpanded[i] == nil) {
-				ConcernsWhoseRequirementsNodeIsExpandedDifferent = true
-				break
-			} else if diagram.ConcernsWhoseRequirementsNodeIsExpanded[i] != nil && diagramOther.ConcernsWhoseRequirementsNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ConcernsWhoseRequirementsNodeIsExpanded[i] != diagramOther.ConcernsWhoseRequirementsNodeIsExpanded[i] {
-					ConcernsWhoseRequirementsNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConcernsWhoseRequirementsNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ConcernsWhoseRequirementsNodeIsExpanded",
-			len(diagramOther.ConcernsWhoseRequirementsNodeIsExpanded),
-			len(diagram.ConcernsWhoseRequirementsNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.ConcernsWhoseRequirementsNodeIsExpanded[i] == diagram.ConcernsWhoseRequirementsNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.ConcernsWhoseRequirementsNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConcernsWhoseRequirementsNodeIsExpanded", diagramOther.ConcernsWhoseRequirementsNodeIsExpanded, diagram.ConcernsWhoseRequirementsNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsRequirementsNodeExpanded != diagramOther.IsRequirementsNodeExpanded {
@@ -5053,947 +3342,106 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.IsConceptsNodeExpanded != diagramOther.IsConceptsNodeExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsConceptsNodeExpanded"))
 	}
-	Deliverable_ShapesDifferent := false
-	if len(diagram.Deliverable_Shapes) != len(diagramOther.Deliverable_Shapes) {
-		Deliverable_ShapesDifferent = true
-	} else {
-		for i := range diagram.Deliverable_Shapes {
-			if (diagram.Deliverable_Shapes[i] == nil) != (diagramOther.Deliverable_Shapes[i] == nil) {
-				Deliverable_ShapesDifferent = true
-				break
-			} else if diagram.Deliverable_Shapes[i] != nil && diagramOther.Deliverable_Shapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.Deliverable_Shapes[i] != diagramOther.Deliverable_Shapes[i] {
-					Deliverable_ShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if Deliverable_ShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"Deliverable_Shapes",
-			len(diagramOther.Deliverable_Shapes),
-			len(diagram.Deliverable_Shapes),
-			func(i, j int) bool {
-				return diagramOther.Deliverable_Shapes[i] == diagram.Deliverable_Shapes[j]
-			},
-			func(j int) string {
-				return diagram.Deliverable_Shapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "Deliverable_Shapes", diagramOther.Deliverable_Shapes, diagram.Deliverable_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	DeliverablesWhoseNodeIsExpandedDifferent := false
-	if len(diagram.DeliverablesWhoseNodeIsExpanded) != len(diagramOther.DeliverablesWhoseNodeIsExpanded) {
-		DeliverablesWhoseNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.DeliverablesWhoseNodeIsExpanded {
-			if (diagram.DeliverablesWhoseNodeIsExpanded[i] == nil) != (diagramOther.DeliverablesWhoseNodeIsExpanded[i] == nil) {
-				DeliverablesWhoseNodeIsExpandedDifferent = true
-				break
-			} else if diagram.DeliverablesWhoseNodeIsExpanded[i] != nil && diagramOther.DeliverablesWhoseNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.DeliverablesWhoseNodeIsExpanded[i] != diagramOther.DeliverablesWhoseNodeIsExpanded[i] {
-					DeliverablesWhoseNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DeliverablesWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"DeliverablesWhoseNodeIsExpanded",
-			len(diagramOther.DeliverablesWhoseNodeIsExpanded),
-			len(diagram.DeliverablesWhoseNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.DeliverablesWhoseNodeIsExpanded[i] == diagram.DeliverablesWhoseNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.DeliverablesWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "DeliverablesWhoseNodeIsExpanded", diagramOther.DeliverablesWhoseNodeIsExpanded, diagram.DeliverablesWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	DeliverablesWhoseConceptsNodeIsExpandedDifferent := false
-	if len(diagram.DeliverablesWhoseConceptsNodeIsExpanded) != len(diagramOther.DeliverablesWhoseConceptsNodeIsExpanded) {
-		DeliverablesWhoseConceptsNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.DeliverablesWhoseConceptsNodeIsExpanded {
-			if (diagram.DeliverablesWhoseConceptsNodeIsExpanded[i] == nil) != (diagramOther.DeliverablesWhoseConceptsNodeIsExpanded[i] == nil) {
-				DeliverablesWhoseConceptsNodeIsExpandedDifferent = true
-				break
-			} else if diagram.DeliverablesWhoseConceptsNodeIsExpanded[i] != nil && diagramOther.DeliverablesWhoseConceptsNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.DeliverablesWhoseConceptsNodeIsExpanded[i] != diagramOther.DeliverablesWhoseConceptsNodeIsExpanded[i] {
-					DeliverablesWhoseConceptsNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DeliverablesWhoseConceptsNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"DeliverablesWhoseConceptsNodeIsExpanded",
-			len(diagramOther.DeliverablesWhoseConceptsNodeIsExpanded),
-			len(diagram.DeliverablesWhoseConceptsNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.DeliverablesWhoseConceptsNodeIsExpanded[i] == diagram.DeliverablesWhoseConceptsNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.DeliverablesWhoseConceptsNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "DeliverablesWhoseConceptsNodeIsExpanded", diagramOther.DeliverablesWhoseConceptsNodeIsExpanded, diagram.DeliverablesWhoseConceptsNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsPBSNodeExpanded != diagramOther.IsPBSNodeExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsPBSNodeExpanded"))
 	}
-	DeliverableComposition_ShapesDifferent := false
-	if len(diagram.DeliverableComposition_Shapes) != len(diagramOther.DeliverableComposition_Shapes) {
-		DeliverableComposition_ShapesDifferent = true
-	} else {
-		for i := range diagram.DeliverableComposition_Shapes {
-			if (diagram.DeliverableComposition_Shapes[i] == nil) != (diagramOther.DeliverableComposition_Shapes[i] == nil) {
-				DeliverableComposition_ShapesDifferent = true
-				break
-			} else if diagram.DeliverableComposition_Shapes[i] != nil && diagramOther.DeliverableComposition_Shapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.DeliverableComposition_Shapes[i] != diagramOther.DeliverableComposition_Shapes[i] {
-					DeliverableComposition_ShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DeliverableComposition_ShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"DeliverableComposition_Shapes",
-			len(diagramOther.DeliverableComposition_Shapes),
-			len(diagram.DeliverableComposition_Shapes),
-			func(i, j int) bool {
-				return diagramOther.DeliverableComposition_Shapes[i] == diagram.DeliverableComposition_Shapes[j]
-			},
-			func(j int) string {
-				return diagram.DeliverableComposition_Shapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "DeliverableComposition_Shapes", diagramOther.DeliverableComposition_Shapes, diagram.DeliverableComposition_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsConcernsNodeExpanded != diagramOther.IsConcernsNodeExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsConcernsNodeExpanded"))
 	}
-	Concern_ShapesDifferent := false
-	if len(diagram.Concern_Shapes) != len(diagramOther.Concern_Shapes) {
-		Concern_ShapesDifferent = true
-	} else {
-		for i := range diagram.Concern_Shapes {
-			if (diagram.Concern_Shapes[i] == nil) != (diagramOther.Concern_Shapes[i] == nil) {
-				Concern_ShapesDifferent = true
-				break
-			} else if diagram.Concern_Shapes[i] != nil && diagramOther.Concern_Shapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.Concern_Shapes[i] != diagramOther.Concern_Shapes[i] {
-					Concern_ShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if Concern_ShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"Concern_Shapes",
-			len(diagramOther.Concern_Shapes),
-			len(diagram.Concern_Shapes),
-			func(i, j int) bool {
-				return diagramOther.Concern_Shapes[i] == diagram.Concern_Shapes[j]
-			},
-			func(j int) string {
-				return diagram.Concern_Shapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "Concern_Shapes", diagramOther.Concern_Shapes, diagram.Concern_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ConcernsWhoseNodeIsExpandedDifferent := false
-	if len(diagram.ConcernsWhoseNodeIsExpanded) != len(diagramOther.ConcernsWhoseNodeIsExpanded) {
-		ConcernsWhoseNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.ConcernsWhoseNodeIsExpanded {
-			if (diagram.ConcernsWhoseNodeIsExpanded[i] == nil) != (diagramOther.ConcernsWhoseNodeIsExpanded[i] == nil) {
-				ConcernsWhoseNodeIsExpandedDifferent = true
-				break
-			} else if diagram.ConcernsWhoseNodeIsExpanded[i] != nil && diagramOther.ConcernsWhoseNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ConcernsWhoseNodeIsExpanded[i] != diagramOther.ConcernsWhoseNodeIsExpanded[i] {
-					ConcernsWhoseNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConcernsWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ConcernsWhoseNodeIsExpanded",
-			len(diagramOther.ConcernsWhoseNodeIsExpanded),
-			len(diagram.ConcernsWhoseNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.ConcernsWhoseNodeIsExpanded[i] == diagram.ConcernsWhoseNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.ConcernsWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConcernsWhoseNodeIsExpanded", diagramOther.ConcernsWhoseNodeIsExpanded, diagram.ConcernsWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ConcernsWhoseInputNodeIsExpandedDifferent := false
-	if len(diagram.ConcernsWhoseInputNodeIsExpanded) != len(diagramOther.ConcernsWhoseInputNodeIsExpanded) {
-		ConcernsWhoseInputNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.ConcernsWhoseInputNodeIsExpanded {
-			if (diagram.ConcernsWhoseInputNodeIsExpanded[i] == nil) != (diagramOther.ConcernsWhoseInputNodeIsExpanded[i] == nil) {
-				ConcernsWhoseInputNodeIsExpandedDifferent = true
-				break
-			} else if diagram.ConcernsWhoseInputNodeIsExpanded[i] != nil && diagramOther.ConcernsWhoseInputNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ConcernsWhoseInputNodeIsExpanded[i] != diagramOther.ConcernsWhoseInputNodeIsExpanded[i] {
-					ConcernsWhoseInputNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConcernsWhoseInputNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ConcernsWhoseInputNodeIsExpanded",
-			len(diagramOther.ConcernsWhoseInputNodeIsExpanded),
-			len(diagram.ConcernsWhoseInputNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.ConcernsWhoseInputNodeIsExpanded[i] == diagram.ConcernsWhoseInputNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.ConcernsWhoseInputNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConcernsWhoseInputNodeIsExpanded", diagramOther.ConcernsWhoseInputNodeIsExpanded, diagram.ConcernsWhoseInputNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ConcernsWhoseStakeholderNodeIsExpandedDifferent := false
-	if len(diagram.ConcernsWhoseStakeholderNodeIsExpanded) != len(diagramOther.ConcernsWhoseStakeholderNodeIsExpanded) {
-		ConcernsWhoseStakeholderNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.ConcernsWhoseStakeholderNodeIsExpanded {
-			if (diagram.ConcernsWhoseStakeholderNodeIsExpanded[i] == nil) != (diagramOther.ConcernsWhoseStakeholderNodeIsExpanded[i] == nil) {
-				ConcernsWhoseStakeholderNodeIsExpandedDifferent = true
-				break
-			} else if diagram.ConcernsWhoseStakeholderNodeIsExpanded[i] != nil && diagramOther.ConcernsWhoseStakeholderNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ConcernsWhoseStakeholderNodeIsExpanded[i] != diagramOther.ConcernsWhoseStakeholderNodeIsExpanded[i] {
-					ConcernsWhoseStakeholderNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConcernsWhoseStakeholderNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ConcernsWhoseStakeholderNodeIsExpanded",
-			len(diagramOther.ConcernsWhoseStakeholderNodeIsExpanded),
-			len(diagram.ConcernsWhoseStakeholderNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.ConcernsWhoseStakeholderNodeIsExpanded[i] == diagram.ConcernsWhoseStakeholderNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.ConcernsWhoseStakeholderNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConcernsWhoseStakeholderNodeIsExpanded", diagramOther.ConcernsWhoseStakeholderNodeIsExpanded, diagram.ConcernsWhoseStakeholderNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ConcernssWhoseOutputNodeIsExpandedDifferent := false
-	if len(diagram.ConcernssWhoseOutputNodeIsExpanded) != len(diagramOther.ConcernssWhoseOutputNodeIsExpanded) {
-		ConcernssWhoseOutputNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.ConcernssWhoseOutputNodeIsExpanded {
-			if (diagram.ConcernssWhoseOutputNodeIsExpanded[i] == nil) != (diagramOther.ConcernssWhoseOutputNodeIsExpanded[i] == nil) {
-				ConcernssWhoseOutputNodeIsExpandedDifferent = true
-				break
-			} else if diagram.ConcernssWhoseOutputNodeIsExpanded[i] != nil && diagramOther.ConcernssWhoseOutputNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ConcernssWhoseOutputNodeIsExpanded[i] != diagramOther.ConcernssWhoseOutputNodeIsExpanded[i] {
-					ConcernssWhoseOutputNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConcernssWhoseOutputNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ConcernssWhoseOutputNodeIsExpanded",
-			len(diagramOther.ConcernssWhoseOutputNodeIsExpanded),
-			len(diagram.ConcernssWhoseOutputNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.ConcernssWhoseOutputNodeIsExpanded[i] == diagram.ConcernssWhoseOutputNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.ConcernssWhoseOutputNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConcernssWhoseOutputNodeIsExpanded", diagramOther.ConcernssWhoseOutputNodeIsExpanded, diagram.ConcernssWhoseOutputNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ConcernComposition_ShapesDifferent := false
-	if len(diagram.ConcernComposition_Shapes) != len(diagramOther.ConcernComposition_Shapes) {
-		ConcernComposition_ShapesDifferent = true
-	} else {
-		for i := range diagram.ConcernComposition_Shapes {
-			if (diagram.ConcernComposition_Shapes[i] == nil) != (diagramOther.ConcernComposition_Shapes[i] == nil) {
-				ConcernComposition_ShapesDifferent = true
-				break
-			} else if diagram.ConcernComposition_Shapes[i] != nil && diagramOther.ConcernComposition_Shapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ConcernComposition_Shapes[i] != diagramOther.ConcernComposition_Shapes[i] {
-					ConcernComposition_ShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConcernComposition_ShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ConcernComposition_Shapes",
-			len(diagramOther.ConcernComposition_Shapes),
-			len(diagram.ConcernComposition_Shapes),
-			func(i, j int) bool {
-				return diagramOther.ConcernComposition_Shapes[i] == diagram.ConcernComposition_Shapes[j]
-			},
-			func(j int) string {
-				return diagram.ConcernComposition_Shapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConcernComposition_Shapes", diagramOther.ConcernComposition_Shapes, diagram.ConcernComposition_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ConcernInputShapesDifferent := false
-	if len(diagram.ConcernInputShapes) != len(diagramOther.ConcernInputShapes) {
-		ConcernInputShapesDifferent = true
-	} else {
-		for i := range diagram.ConcernInputShapes {
-			if (diagram.ConcernInputShapes[i] == nil) != (diagramOther.ConcernInputShapes[i] == nil) {
-				ConcernInputShapesDifferent = true
-				break
-			} else if diagram.ConcernInputShapes[i] != nil && diagramOther.ConcernInputShapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ConcernInputShapes[i] != diagramOther.ConcernInputShapes[i] {
-					ConcernInputShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConcernInputShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ConcernInputShapes",
-			len(diagramOther.ConcernInputShapes),
-			len(diagram.ConcernInputShapes),
-			func(i, j int) bool {
-				return diagramOther.ConcernInputShapes[i] == diagram.ConcernInputShapes[j]
-			},
-			func(j int) string {
-				return diagram.ConcernInputShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConcernInputShapes", diagramOther.ConcernInputShapes, diagram.ConcernInputShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ConcernOutputShapesDifferent := false
-	if len(diagram.ConcernOutputShapes) != len(diagramOther.ConcernOutputShapes) {
-		ConcernOutputShapesDifferent = true
-	} else {
-		for i := range diagram.ConcernOutputShapes {
-			if (diagram.ConcernOutputShapes[i] == nil) != (diagramOther.ConcernOutputShapes[i] == nil) {
-				ConcernOutputShapesDifferent = true
-				break
-			} else if diagram.ConcernOutputShapes[i] != nil && diagramOther.ConcernOutputShapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ConcernOutputShapes[i] != diagramOther.ConcernOutputShapes[i] {
-					ConcernOutputShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConcernOutputShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ConcernOutputShapes",
-			len(diagramOther.ConcernOutputShapes),
-			len(diagram.ConcernOutputShapes),
-			func(i, j int) bool {
-				return diagramOther.ConcernOutputShapes[i] == diagram.ConcernOutputShapes[j]
-			},
-			func(j int) string {
-				return diagram.ConcernOutputShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConcernOutputShapes", diagramOther.ConcernOutputShapes, diagram.ConcernOutputShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	Note_ShapesDifferent := false
-	if len(diagram.Note_Shapes) != len(diagramOther.Note_Shapes) {
-		Note_ShapesDifferent = true
-	} else {
-		for i := range diagram.Note_Shapes {
-			if (diagram.Note_Shapes[i] == nil) != (diagramOther.Note_Shapes[i] == nil) {
-				Note_ShapesDifferent = true
-				break
-			} else if diagram.Note_Shapes[i] != nil && diagramOther.Note_Shapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.Note_Shapes[i] != diagramOther.Note_Shapes[i] {
-					Note_ShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if Note_ShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"Note_Shapes",
-			len(diagramOther.Note_Shapes),
-			len(diagram.Note_Shapes),
-			func(i, j int) bool {
-				return diagramOther.Note_Shapes[i] == diagram.Note_Shapes[j]
-			},
-			func(j int) string {
-				return diagram.Note_Shapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "Note_Shapes", diagramOther.Note_Shapes, diagram.Note_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	NotesWhoseNodeIsExpandedDifferent := false
-	if len(diagram.NotesWhoseNodeIsExpanded) != len(diagramOther.NotesWhoseNodeIsExpanded) {
-		NotesWhoseNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.NotesWhoseNodeIsExpanded {
-			if (diagram.NotesWhoseNodeIsExpanded[i] == nil) != (diagramOther.NotesWhoseNodeIsExpanded[i] == nil) {
-				NotesWhoseNodeIsExpandedDifferent = true
-				break
-			} else if diagram.NotesWhoseNodeIsExpanded[i] != nil && diagramOther.NotesWhoseNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.NotesWhoseNodeIsExpanded[i] != diagramOther.NotesWhoseNodeIsExpanded[i] {
-					NotesWhoseNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if NotesWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"NotesWhoseNodeIsExpanded",
-			len(diagramOther.NotesWhoseNodeIsExpanded),
-			len(diagram.NotesWhoseNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.NotesWhoseNodeIsExpanded[i] == diagram.NotesWhoseNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.NotesWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "NotesWhoseNodeIsExpanded", diagramOther.NotesWhoseNodeIsExpanded, diagram.NotesWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsNotesNodeExpanded != diagramOther.IsNotesNodeExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsNotesNodeExpanded"))
 	}
-	NoteDeliverableShapesDifferent := false
-	if len(diagram.NoteDeliverableShapes) != len(diagramOther.NoteDeliverableShapes) {
-		NoteDeliverableShapesDifferent = true
-	} else {
-		for i := range diagram.NoteDeliverableShapes {
-			if (diagram.NoteDeliverableShapes[i] == nil) != (diagramOther.NoteDeliverableShapes[i] == nil) {
-				NoteDeliverableShapesDifferent = true
-				break
-			} else if diagram.NoteDeliverableShapes[i] != nil && diagramOther.NoteDeliverableShapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.NoteDeliverableShapes[i] != diagramOther.NoteDeliverableShapes[i] {
-					NoteDeliverableShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if NoteDeliverableShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"NoteDeliverableShapes",
-			len(diagramOther.NoteDeliverableShapes),
-			len(diagram.NoteDeliverableShapes),
-			func(i, j int) bool {
-				return diagramOther.NoteDeliverableShapes[i] == diagram.NoteDeliverableShapes[j]
-			},
-			func(j int) string {
-				return diagram.NoteDeliverableShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "NoteDeliverableShapes", diagramOther.NoteDeliverableShapes, diagram.NoteDeliverableShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	NoteTaskShapesDifferent := false
-	if len(diagram.NoteTaskShapes) != len(diagramOther.NoteTaskShapes) {
-		NoteTaskShapesDifferent = true
-	} else {
-		for i := range diagram.NoteTaskShapes {
-			if (diagram.NoteTaskShapes[i] == nil) != (diagramOther.NoteTaskShapes[i] == nil) {
-				NoteTaskShapesDifferent = true
-				break
-			} else if diagram.NoteTaskShapes[i] != nil && diagramOther.NoteTaskShapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.NoteTaskShapes[i] != diagramOther.NoteTaskShapes[i] {
-					NoteTaskShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if NoteTaskShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"NoteTaskShapes",
-			len(diagramOther.NoteTaskShapes),
-			len(diagram.NoteTaskShapes),
-			func(i, j int) bool {
-				return diagramOther.NoteTaskShapes[i] == diagram.NoteTaskShapes[j]
-			},
-			func(j int) string {
-				return diagram.NoteTaskShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "NoteTaskShapes", diagramOther.NoteTaskShapes, diagram.NoteTaskShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	NoteResourceShapesDifferent := false
-	if len(diagram.NoteResourceShapes) != len(diagramOther.NoteResourceShapes) {
-		NoteResourceShapesDifferent = true
-	} else {
-		for i := range diagram.NoteResourceShapes {
-			if (diagram.NoteResourceShapes[i] == nil) != (diagramOther.NoteResourceShapes[i] == nil) {
-				NoteResourceShapesDifferent = true
-				break
-			} else if diagram.NoteResourceShapes[i] != nil && diagramOther.NoteResourceShapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.NoteResourceShapes[i] != diagramOther.NoteResourceShapes[i] {
-					NoteResourceShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if NoteResourceShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"NoteResourceShapes",
-			len(diagramOther.NoteResourceShapes),
-			len(diagram.NoteResourceShapes),
-			func(i, j int) bool {
-				return diagramOther.NoteResourceShapes[i] == diagram.NoteResourceShapes[j]
-			},
-			func(j int) string {
-				return diagram.NoteResourceShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "NoteResourceShapes", diagramOther.NoteResourceShapes, diagram.NoteResourceShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	Stakeholder_ShapesDifferent := false
-	if len(diagram.Stakeholder_Shapes) != len(diagramOther.Stakeholder_Shapes) {
-		Stakeholder_ShapesDifferent = true
-	} else {
-		for i := range diagram.Stakeholder_Shapes {
-			if (diagram.Stakeholder_Shapes[i] == nil) != (diagramOther.Stakeholder_Shapes[i] == nil) {
-				Stakeholder_ShapesDifferent = true
-				break
-			} else if diagram.Stakeholder_Shapes[i] != nil && diagramOther.Stakeholder_Shapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.Stakeholder_Shapes[i] != diagramOther.Stakeholder_Shapes[i] {
-					Stakeholder_ShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if Stakeholder_ShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"Stakeholder_Shapes",
-			len(diagramOther.Stakeholder_Shapes),
-			len(diagram.Stakeholder_Shapes),
-			func(i, j int) bool {
-				return diagramOther.Stakeholder_Shapes[i] == diagram.Stakeholder_Shapes[j]
-			},
-			func(j int) string {
-				return diagram.Stakeholder_Shapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "Stakeholder_Shapes", diagramOther.Stakeholder_Shapes, diagram.Stakeholder_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ResourcesWhoseNodeIsExpandedDifferent := false
-	if len(diagram.ResourcesWhoseNodeIsExpanded) != len(diagramOther.ResourcesWhoseNodeIsExpanded) {
-		ResourcesWhoseNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.ResourcesWhoseNodeIsExpanded {
-			if (diagram.ResourcesWhoseNodeIsExpanded[i] == nil) != (diagramOther.ResourcesWhoseNodeIsExpanded[i] == nil) {
-				ResourcesWhoseNodeIsExpandedDifferent = true
-				break
-			} else if diagram.ResourcesWhoseNodeIsExpanded[i] != nil && diagramOther.ResourcesWhoseNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ResourcesWhoseNodeIsExpanded[i] != diagramOther.ResourcesWhoseNodeIsExpanded[i] {
-					ResourcesWhoseNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ResourcesWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ResourcesWhoseNodeIsExpanded",
-			len(diagramOther.ResourcesWhoseNodeIsExpanded),
-			len(diagram.ResourcesWhoseNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.ResourcesWhoseNodeIsExpanded[i] == diagram.ResourcesWhoseNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.ResourcesWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ResourcesWhoseNodeIsExpanded", diagramOther.ResourcesWhoseNodeIsExpanded, diagram.ResourcesWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsStakeholdersNodeExpanded != diagramOther.IsStakeholdersNodeExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsStakeholdersNodeExpanded"))
 	}
-	ResourceComposition_ShapesDifferent := false
-	if len(diagram.ResourceComposition_Shapes) != len(diagramOther.ResourceComposition_Shapes) {
-		ResourceComposition_ShapesDifferent = true
-	} else {
-		for i := range diagram.ResourceComposition_Shapes {
-			if (diagram.ResourceComposition_Shapes[i] == nil) != (diagramOther.ResourceComposition_Shapes[i] == nil) {
-				ResourceComposition_ShapesDifferent = true
-				break
-			} else if diagram.ResourceComposition_Shapes[i] != nil && diagramOther.ResourceComposition_Shapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ResourceComposition_Shapes[i] != diagramOther.ResourceComposition_Shapes[i] {
-					ResourceComposition_ShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ResourceComposition_ShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ResourceComposition_Shapes",
-			len(diagramOther.ResourceComposition_Shapes),
-			len(diagram.ResourceComposition_Shapes),
-			func(i, j int) bool {
-				return diagramOther.ResourceComposition_Shapes[i] == diagram.ResourceComposition_Shapes[j]
-			},
-			func(j int) string {
-				return diagram.ResourceComposition_Shapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ResourceComposition_Shapes", diagramOther.ResourceComposition_Shapes, diagram.ResourceComposition_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	StakeholderConcernShapesDifferent := false
-	if len(diagram.StakeholderConcernShapes) != len(diagramOther.StakeholderConcernShapes) {
-		StakeholderConcernShapesDifferent = true
-	} else {
-		for i := range diagram.StakeholderConcernShapes {
-			if (diagram.StakeholderConcernShapes[i] == nil) != (diagramOther.StakeholderConcernShapes[i] == nil) {
-				StakeholderConcernShapesDifferent = true
-				break
-			} else if diagram.StakeholderConcernShapes[i] != nil && diagramOther.StakeholderConcernShapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.StakeholderConcernShapes[i] != diagramOther.StakeholderConcernShapes[i] {
-					StakeholderConcernShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if StakeholderConcernShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"StakeholderConcernShapes",
-			len(diagramOther.StakeholderConcernShapes),
-			len(diagram.StakeholderConcernShapes),
-			func(i, j int) bool {
-				return diagramOther.StakeholderConcernShapes[i] == diagram.StakeholderConcernShapes[j]
-			},
-			func(j int) string {
-				return diagram.StakeholderConcernShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "StakeholderConcernShapes", diagramOther.StakeholderConcernShapes, diagram.StakeholderConcernShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	Requirement_ShapesDifferent := false
-	if len(diagram.Requirement_Shapes) != len(diagramOther.Requirement_Shapes) {
-		Requirement_ShapesDifferent = true
-	} else {
-		for i := range diagram.Requirement_Shapes {
-			if (diagram.Requirement_Shapes[i] == nil) != (diagramOther.Requirement_Shapes[i] == nil) {
-				Requirement_ShapesDifferent = true
-				break
-			} else if diagram.Requirement_Shapes[i] != nil && diagramOther.Requirement_Shapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.Requirement_Shapes[i] != diagramOther.Requirement_Shapes[i] {
-					Requirement_ShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if Requirement_ShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"Requirement_Shapes",
-			len(diagramOther.Requirement_Shapes),
-			len(diagram.Requirement_Shapes),
-			func(i, j int) bool {
-				return diagramOther.Requirement_Shapes[i] == diagram.Requirement_Shapes[j]
-			},
-			func(j int) string {
-				return diagram.Requirement_Shapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "Requirement_Shapes", diagramOther.Requirement_Shapes, diagram.Requirement_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	RequirementsWhoseNodeIsExpandedDifferent := false
-	if len(diagram.RequirementsWhoseNodeIsExpanded) != len(diagramOther.RequirementsWhoseNodeIsExpanded) {
-		RequirementsWhoseNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.RequirementsWhoseNodeIsExpanded {
-			if (diagram.RequirementsWhoseNodeIsExpanded[i] == nil) != (diagramOther.RequirementsWhoseNodeIsExpanded[i] == nil) {
-				RequirementsWhoseNodeIsExpandedDifferent = true
-				break
-			} else if diagram.RequirementsWhoseNodeIsExpanded[i] != nil && diagramOther.RequirementsWhoseNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.RequirementsWhoseNodeIsExpanded[i] != diagramOther.RequirementsWhoseNodeIsExpanded[i] {
-					RequirementsWhoseNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RequirementsWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"RequirementsWhoseNodeIsExpanded",
-			len(diagramOther.RequirementsWhoseNodeIsExpanded),
-			len(diagram.RequirementsWhoseNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.RequirementsWhoseNodeIsExpanded[i] == diagram.RequirementsWhoseNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.RequirementsWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "RequirementsWhoseNodeIsExpanded", diagramOther.RequirementsWhoseNodeIsExpanded, diagram.RequirementsWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	Concept_ShapesDifferent := false
-	if len(diagram.Concept_Shapes) != len(diagramOther.Concept_Shapes) {
-		Concept_ShapesDifferent = true
-	} else {
-		for i := range diagram.Concept_Shapes {
-			if (diagram.Concept_Shapes[i] == nil) != (diagramOther.Concept_Shapes[i] == nil) {
-				Concept_ShapesDifferent = true
-				break
-			} else if diagram.Concept_Shapes[i] != nil && diagramOther.Concept_Shapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.Concept_Shapes[i] != diagramOther.Concept_Shapes[i] {
-					Concept_ShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if Concept_ShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"Concept_Shapes",
-			len(diagramOther.Concept_Shapes),
-			len(diagram.Concept_Shapes),
-			func(i, j int) bool {
-				return diagramOther.Concept_Shapes[i] == diagram.Concept_Shapes[j]
-			},
-			func(j int) string {
-				return diagram.Concept_Shapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "Concept_Shapes", diagramOther.Concept_Shapes, diagram.Concept_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ConceptsWhoseNodeIsExpandedDifferent := false
-	if len(diagram.ConceptsWhoseNodeIsExpanded) != len(diagramOther.ConceptsWhoseNodeIsExpanded) {
-		ConceptsWhoseNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.ConceptsWhoseNodeIsExpanded {
-			if (diagram.ConceptsWhoseNodeIsExpanded[i] == nil) != (diagramOther.ConceptsWhoseNodeIsExpanded[i] == nil) {
-				ConceptsWhoseNodeIsExpandedDifferent = true
-				break
-			} else if diagram.ConceptsWhoseNodeIsExpanded[i] != nil && diagramOther.ConceptsWhoseNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ConceptsWhoseNodeIsExpanded[i] != diagramOther.ConceptsWhoseNodeIsExpanded[i] {
-					ConceptsWhoseNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConceptsWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ConceptsWhoseNodeIsExpanded",
-			len(diagramOther.ConceptsWhoseNodeIsExpanded),
-			len(diagram.ConceptsWhoseNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.ConceptsWhoseNodeIsExpanded[i] == diagram.ConceptsWhoseNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.ConceptsWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConceptsWhoseNodeIsExpanded", diagramOther.ConceptsWhoseNodeIsExpanded, diagram.ConceptsWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ConceptsWhoseDeliverablesNodeIsExpandedDifferent := false
-	if len(diagram.ConceptsWhoseDeliverablesNodeIsExpanded) != len(diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded) {
-		ConceptsWhoseDeliverablesNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
-			if (diagram.ConceptsWhoseDeliverablesNodeIsExpanded[i] == nil) != (diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded[i] == nil) {
-				ConceptsWhoseDeliverablesNodeIsExpandedDifferent = true
-				break
-			} else if diagram.ConceptsWhoseDeliverablesNodeIsExpanded[i] != nil && diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.ConceptsWhoseDeliverablesNodeIsExpanded[i] != diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded[i] {
-					ConceptsWhoseDeliverablesNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConceptsWhoseDeliverablesNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"ConceptsWhoseDeliverablesNodeIsExpanded",
-			len(diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded),
-			len(diagram.ConceptsWhoseDeliverablesNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded[i] == diagram.ConceptsWhoseDeliverablesNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.ConceptsWhoseDeliverablesNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConceptsWhoseDeliverablesNodeIsExpanded", diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded, diagram.ConceptsWhoseDeliverablesNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	DeliverableConceptShapesDifferent := false
-	if len(diagram.DeliverableConceptShapes) != len(diagramOther.DeliverableConceptShapes) {
-		DeliverableConceptShapesDifferent = true
-	} else {
-		for i := range diagram.DeliverableConceptShapes {
-			if (diagram.DeliverableConceptShapes[i] == nil) != (diagramOther.DeliverableConceptShapes[i] == nil) {
-				DeliverableConceptShapesDifferent = true
-				break
-			} else if diagram.DeliverableConceptShapes[i] != nil && diagramOther.DeliverableConceptShapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.DeliverableConceptShapes[i] != diagramOther.DeliverableConceptShapes[i] {
-					DeliverableConceptShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DeliverableConceptShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"DeliverableConceptShapes",
-			len(diagramOther.DeliverableConceptShapes),
-			len(diagram.DeliverableConceptShapes),
-			func(i, j int) bool {
-				return diagramOther.DeliverableConceptShapes[i] == diagram.DeliverableConceptShapes[j]
-			},
-			func(j int) string {
-				return diagram.DeliverableConceptShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "DeliverableConceptShapes", diagramOther.DeliverableConceptShapes, diagram.DeliverableConceptShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	Diagram_ShapesDifferent := false
-	if len(diagram.Diagram_Shapes) != len(diagramOther.Diagram_Shapes) {
-		Diagram_ShapesDifferent = true
-	} else {
-		for i := range diagram.Diagram_Shapes {
-			if (diagram.Diagram_Shapes[i] == nil) != (diagramOther.Diagram_Shapes[i] == nil) {
-				Diagram_ShapesDifferent = true
-				break
-			} else if diagram.Diagram_Shapes[i] != nil && diagramOther.Diagram_Shapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.Diagram_Shapes[i] != diagramOther.Diagram_Shapes[i] {
-					Diagram_ShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if Diagram_ShapesDifferent {
-		ops := stage.Diff(
-			diagram,
-			"Diagram_Shapes",
-			len(diagramOther.Diagram_Shapes),
-			len(diagram.Diagram_Shapes),
-			func(i, j int) bool {
-				return diagramOther.Diagram_Shapes[i] == diagram.Diagram_Shapes[j]
-			},
-			func(j int) string {
-				return diagram.Diagram_Shapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "Diagram_Shapes", diagramOther.Diagram_Shapes, diagram.Diagram_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsDiagramsNodeExpanded != diagramOther.IsDiagramsNodeExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsDiagramsNodeExpanded"))
 	}
-	DiagramsWhoseNodeIsExpandedDifferent := false
-	if len(diagram.DiagramsWhoseNodeIsExpanded) != len(diagramOther.DiagramsWhoseNodeIsExpanded) {
-		DiagramsWhoseNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.DiagramsWhoseNodeIsExpanded {
-			if (diagram.DiagramsWhoseNodeIsExpanded[i] == nil) != (diagramOther.DiagramsWhoseNodeIsExpanded[i] == nil) {
-				DiagramsWhoseNodeIsExpandedDifferent = true
-				break
-			} else if diagram.DiagramsWhoseNodeIsExpanded[i] != nil && diagramOther.DiagramsWhoseNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.DiagramsWhoseNodeIsExpanded[i] != diagramOther.DiagramsWhoseNodeIsExpanded[i] {
-					DiagramsWhoseNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DiagramsWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(
-			diagram,
-			"DiagramsWhoseNodeIsExpanded",
-			len(diagramOther.DiagramsWhoseNodeIsExpanded),
-			len(diagram.DiagramsWhoseNodeIsExpanded),
-			func(i, j int) bool {
-				return diagramOther.DiagramsWhoseNodeIsExpanded[i] == diagram.DiagramsWhoseNodeIsExpanded[j]
-			},
-			func(j int) string {
-				return diagram.DiagramsWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "DiagramsWhoseNodeIsExpanded", diagramOther.DiagramsWhoseNodeIsExpanded, diagram.DiagramsWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -6007,12 +3455,8 @@ func (diagramshape *DiagramShape) GongDiff(stage *Stage, diagramshapeOther *Diag
 	if diagramshape.Name != diagramshapeOther.Name {
 		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Name"))
 	}
-	if (diagramshape.Diagram == nil) != (diagramshapeOther.Diagram == nil) {
+	if diagramshape.Diagram != diagramshapeOther.Diagram {
 		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Diagram"))
-	} else if diagramshape.Diagram != nil && diagramshapeOther.Diagram != nil {
-		if diagramshape.Diagram != diagramshapeOther.Diagram {
-			diffs = append(diffs, diagramshape.GongMarshallField(stage, "Diagram"))
-		}
 	}
 	if diagramshape.IsExpanded != diagramshapeOther.IsExpanded {
 		diffs = append(diffs, diagramshape.GongMarshallField(stage, "IsExpanded"))
@@ -6052,292 +3496,31 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.IsExpanded != libraryOther.IsExpanded {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
 	}
-	RootDeliverablesDifferent := false
-	if len(library.RootDeliverables) != len(libraryOther.RootDeliverables) {
-		RootDeliverablesDifferent = true
-	} else {
-		for i := range library.RootDeliverables {
-			if (library.RootDeliverables[i] == nil) != (libraryOther.RootDeliverables[i] == nil) {
-				RootDeliverablesDifferent = true
-				break
-			} else if library.RootDeliverables[i] != nil && libraryOther.RootDeliverables[i] != nil {
-				// this is a pointer comparaison
-				if library.RootDeliverables[i] != libraryOther.RootDeliverables[i] {
-					RootDeliverablesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RootDeliverablesDifferent {
-		ops := stage.Diff(
-			library,
-			"RootDeliverables",
-			len(libraryOther.RootDeliverables),
-			len(library.RootDeliverables),
-			func(i, j int) bool {
-				return libraryOther.RootDeliverables[i] == library.RootDeliverables[j]
-			},
-			func(j int) string {
-				return library.RootDeliverables[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, library, "RootDeliverables", libraryOther.RootDeliverables, library.RootDeliverables); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	RootConcernsDifferent := false
-	if len(library.RootConcerns) != len(libraryOther.RootConcerns) {
-		RootConcernsDifferent = true
-	} else {
-		for i := range library.RootConcerns {
-			if (library.RootConcerns[i] == nil) != (libraryOther.RootConcerns[i] == nil) {
-				RootConcernsDifferent = true
-				break
-			} else if library.RootConcerns[i] != nil && libraryOther.RootConcerns[i] != nil {
-				// this is a pointer comparaison
-				if library.RootConcerns[i] != libraryOther.RootConcerns[i] {
-					RootConcernsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RootConcernsDifferent {
-		ops := stage.Diff(
-			library,
-			"RootConcerns",
-			len(libraryOther.RootConcerns),
-			len(library.RootConcerns),
-			func(i, j int) bool {
-				return libraryOther.RootConcerns[i] == library.RootConcerns[j]
-			},
-			func(j int) string {
-				return library.RootConcerns[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, library, "RootConcerns", libraryOther.RootConcerns, library.RootConcerns); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	RootStakeholdersDifferent := false
-	if len(library.RootStakeholders) != len(libraryOther.RootStakeholders) {
-		RootStakeholdersDifferent = true
-	} else {
-		for i := range library.RootStakeholders {
-			if (library.RootStakeholders[i] == nil) != (libraryOther.RootStakeholders[i] == nil) {
-				RootStakeholdersDifferent = true
-				break
-			} else if library.RootStakeholders[i] != nil && libraryOther.RootStakeholders[i] != nil {
-				// this is a pointer comparaison
-				if library.RootStakeholders[i] != libraryOther.RootStakeholders[i] {
-					RootStakeholdersDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RootStakeholdersDifferent {
-		ops := stage.Diff(
-			library,
-			"RootStakeholders",
-			len(libraryOther.RootStakeholders),
-			len(library.RootStakeholders),
-			func(i, j int) bool {
-				return libraryOther.RootStakeholders[i] == library.RootStakeholders[j]
-			},
-			func(j int) string {
-				return library.RootStakeholders[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, library, "RootStakeholders", libraryOther.RootStakeholders, library.RootStakeholders); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	RootRequirementsDifferent := false
-	if len(library.RootRequirements) != len(libraryOther.RootRequirements) {
-		RootRequirementsDifferent = true
-	} else {
-		for i := range library.RootRequirements {
-			if (library.RootRequirements[i] == nil) != (libraryOther.RootRequirements[i] == nil) {
-				RootRequirementsDifferent = true
-				break
-			} else if library.RootRequirements[i] != nil && libraryOther.RootRequirements[i] != nil {
-				// this is a pointer comparaison
-				if library.RootRequirements[i] != libraryOther.RootRequirements[i] {
-					RootRequirementsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RootRequirementsDifferent {
-		ops := stage.Diff(
-			library,
-			"RootRequirements",
-			len(libraryOther.RootRequirements),
-			len(library.RootRequirements),
-			func(i, j int) bool {
-				return libraryOther.RootRequirements[i] == library.RootRequirements[j]
-			},
-			func(j int) string {
-				return library.RootRequirements[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, library, "RootRequirements", libraryOther.RootRequirements, library.RootRequirements); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	RootConceptsDifferent := false
-	if len(library.RootConcepts) != len(libraryOther.RootConcepts) {
-		RootConceptsDifferent = true
-	} else {
-		for i := range library.RootConcepts {
-			if (library.RootConcepts[i] == nil) != (libraryOther.RootConcepts[i] == nil) {
-				RootConceptsDifferent = true
-				break
-			} else if library.RootConcepts[i] != nil && libraryOther.RootConcepts[i] != nil {
-				// this is a pointer comparaison
-				if library.RootConcepts[i] != libraryOther.RootConcepts[i] {
-					RootConceptsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RootConceptsDifferent {
-		ops := stage.Diff(
-			library,
-			"RootConcepts",
-			len(libraryOther.RootConcepts),
-			len(library.RootConcepts),
-			func(i, j int) bool {
-				return libraryOther.RootConcepts[i] == library.RootConcepts[j]
-			},
-			func(j int) string {
-				return library.RootConcepts[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, library, "RootConcepts", libraryOther.RootConcepts, library.RootConcepts); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	AnalysisNeedsDifferent := false
-	if len(library.AnalysisNeeds) != len(libraryOther.AnalysisNeeds) {
-		AnalysisNeedsDifferent = true
-	} else {
-		for i := range library.AnalysisNeeds {
-			if (library.AnalysisNeeds[i] == nil) != (libraryOther.AnalysisNeeds[i] == nil) {
-				AnalysisNeedsDifferent = true
-				break
-			} else if library.AnalysisNeeds[i] != nil && libraryOther.AnalysisNeeds[i] != nil {
-				// this is a pointer comparaison
-				if library.AnalysisNeeds[i] != libraryOther.AnalysisNeeds[i] {
-					AnalysisNeedsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if AnalysisNeedsDifferent {
-		ops := stage.Diff(
-			library,
-			"AnalysisNeeds",
-			len(libraryOther.AnalysisNeeds),
-			len(library.AnalysisNeeds),
-			func(i, j int) bool {
-				return libraryOther.AnalysisNeeds[i] == library.AnalysisNeeds[j]
-			},
-			func(j int) string {
-				return library.AnalysisNeeds[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, library, "AnalysisNeeds", libraryOther.AnalysisNeeds, library.AnalysisNeeds); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	NotesDifferent := false
-	if len(library.Notes) != len(libraryOther.Notes) {
-		NotesDifferent = true
-	} else {
-		for i := range library.Notes {
-			if (library.Notes[i] == nil) != (libraryOther.Notes[i] == nil) {
-				NotesDifferent = true
-				break
-			} else if library.Notes[i] != nil && libraryOther.Notes[i] != nil {
-				// this is a pointer comparaison
-				if library.Notes[i] != libraryOther.Notes[i] {
-					NotesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if NotesDifferent {
-		ops := stage.Diff(
-			library,
-			"Notes",
-			len(libraryOther.Notes),
-			len(library.Notes),
-			func(i, j int) bool {
-				return libraryOther.Notes[i] == library.Notes[j]
-			},
-			func(j int) string {
-				return library.Notes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, library, "Notes", libraryOther.Notes, library.Notes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	DiagramsDifferent := false
-	if len(library.Diagrams) != len(libraryOther.Diagrams) {
-		DiagramsDifferent = true
-	} else {
-		for i := range library.Diagrams {
-			if (library.Diagrams[i] == nil) != (libraryOther.Diagrams[i] == nil) {
-				DiagramsDifferent = true
-				break
-			} else if library.Diagrams[i] != nil && libraryOther.Diagrams[i] != nil {
-				// this is a pointer comparaison
-				if library.Diagrams[i] != libraryOther.Diagrams[i] {
-					DiagramsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DiagramsDifferent {
-		ops := stage.Diff(
-			library,
-			"Diagrams",
-			len(libraryOther.Diagrams),
-			len(library.Diagrams),
-			func(i, j int) bool {
-				return libraryOther.Diagrams[i] == library.Diagrams[j]
-			},
-			func(j int) string {
-				return library.Diagrams[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, library, "Diagrams", libraryOther.Diagrams, library.Diagrams); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	SubLibrariesDifferent := false
-	if len(library.SubLibraries) != len(libraryOther.SubLibraries) {
-		SubLibrariesDifferent = true
-	} else {
-		for i := range library.SubLibraries {
-			if (library.SubLibraries[i] == nil) != (libraryOther.SubLibraries[i] == nil) {
-				SubLibrariesDifferent = true
-				break
-			} else if library.SubLibraries[i] != nil && libraryOther.SubLibraries[i] != nil {
-				// this is a pointer comparaison
-				if library.SubLibraries[i] != libraryOther.SubLibraries[i] {
-					SubLibrariesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SubLibrariesDifferent {
-		ops := stage.Diff(
-			library,
-			"SubLibraries",
-			len(libraryOther.SubLibraries),
-			len(library.SubLibraries),
-			func(i, j int) bool {
-				return libraryOther.SubLibraries[i] == library.SubLibraries[j]
-			},
-			func(j int) string {
-				return library.SubLibraries[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, library, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
@@ -6360,100 +3543,13 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if note.IsExpanded != noteOther.IsExpanded {
 		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
 	}
-	DeliverablesDifferent := false
-	if len(note.Deliverables) != len(noteOther.Deliverables) {
-		DeliverablesDifferent = true
-	} else {
-		for i := range note.Deliverables {
-			if (note.Deliverables[i] == nil) != (noteOther.Deliverables[i] == nil) {
-				DeliverablesDifferent = true
-				break
-			} else if note.Deliverables[i] != nil && noteOther.Deliverables[i] != nil {
-				// this is a pointer comparaison
-				if note.Deliverables[i] != noteOther.Deliverables[i] {
-					DeliverablesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DeliverablesDifferent {
-		ops := stage.Diff(
-			note,
-			"Deliverables",
-			len(noteOther.Deliverables),
-			len(note.Deliverables),
-			func(i, j int) bool {
-				return noteOther.Deliverables[i] == note.Deliverables[j]
-			},
-			func(j int) string {
-				return note.Deliverables[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, note, "Deliverables", noteOther.Deliverables, note.Deliverables); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	TasksDifferent := false
-	if len(note.Tasks) != len(noteOther.Tasks) {
-		TasksDifferent = true
-	} else {
-		for i := range note.Tasks {
-			if (note.Tasks[i] == nil) != (noteOther.Tasks[i] == nil) {
-				TasksDifferent = true
-				break
-			} else if note.Tasks[i] != nil && noteOther.Tasks[i] != nil {
-				// this is a pointer comparaison
-				if note.Tasks[i] != noteOther.Tasks[i] {
-					TasksDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if TasksDifferent {
-		ops := stage.Diff(
-			note,
-			"Tasks",
-			len(noteOther.Tasks),
-			len(note.Tasks),
-			func(i, j int) bool {
-				return noteOther.Tasks[i] == note.Tasks[j]
-			},
-			func(j int) string {
-				return note.Tasks[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, note, "Tasks", noteOther.Tasks, note.Tasks); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ResourcesDifferent := false
-	if len(note.Resources) != len(noteOther.Resources) {
-		ResourcesDifferent = true
-	} else {
-		for i := range note.Resources {
-			if (note.Resources[i] == nil) != (noteOther.Resources[i] == nil) {
-				ResourcesDifferent = true
-				break
-			} else if note.Resources[i] != nil && noteOther.Resources[i] != nil {
-				// this is a pointer comparaison
-				if note.Resources[i] != noteOther.Resources[i] {
-					ResourcesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ResourcesDifferent {
-		ops := stage.Diff(
-			note,
-			"Resources",
-			len(noteOther.Resources),
-			len(note.Resources),
-			func(i, j int) bool {
-				return noteOther.Resources[i] == note.Resources[j]
-			},
-			func(j int) string {
-				return note.Resources[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, note, "Resources", noteOther.Resources, note.Resources); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -6467,19 +3563,11 @@ func (notedeliverableshape *NoteDeliverableShape) GongDiff(stage *Stage, notedel
 	if notedeliverableshape.Name != notedeliverableshapeOther.Name {
 		diffs = append(diffs, notedeliverableshape.GongMarshallField(stage, "Name"))
 	}
-	if (notedeliverableshape.Note == nil) != (notedeliverableshapeOther.Note == nil) {
+	if notedeliverableshape.Note != notedeliverableshapeOther.Note {
 		diffs = append(diffs, notedeliverableshape.GongMarshallField(stage, "Note"))
-	} else if notedeliverableshape.Note != nil && notedeliverableshapeOther.Note != nil {
-		if notedeliverableshape.Note != notedeliverableshapeOther.Note {
-			diffs = append(diffs, notedeliverableshape.GongMarshallField(stage, "Note"))
-		}
 	}
-	if (notedeliverableshape.Deliverable == nil) != (notedeliverableshapeOther.Deliverable == nil) {
+	if notedeliverableshape.Deliverable != notedeliverableshapeOther.Deliverable {
 		diffs = append(diffs, notedeliverableshape.GongMarshallField(stage, "Deliverable"))
-	} else if notedeliverableshape.Deliverable != nil && notedeliverableshapeOther.Deliverable != nil {
-		if notedeliverableshape.Deliverable != notedeliverableshapeOther.Deliverable {
-			diffs = append(diffs, notedeliverableshape.GongMarshallField(stage, "Deliverable"))
-		}
 	}
 	if notedeliverableshape.StartRatio != notedeliverableshapeOther.StartRatio {
 		diffs = append(diffs, notedeliverableshape.GongMarshallField(stage, "StartRatio"))
@@ -6499,36 +3587,7 @@ func (notedeliverableshape *NoteDeliverableShape) GongDiff(stage *Stage, notedel
 	if notedeliverableshape.IsHidden != notedeliverableshapeOther.IsHidden {
 		diffs = append(diffs, notedeliverableshape.GongMarshallField(stage, "IsHidden"))
 	}
-	ControlPointShapesDifferent := false
-	if len(notedeliverableshape.ControlPointShapes) != len(notedeliverableshapeOther.ControlPointShapes) {
-		ControlPointShapesDifferent = true
-	} else {
-		for i := range notedeliverableshape.ControlPointShapes {
-			if (notedeliverableshape.ControlPointShapes[i] == nil) != (notedeliverableshapeOther.ControlPointShapes[i] == nil) {
-				ControlPointShapesDifferent = true
-				break
-			} else if notedeliverableshape.ControlPointShapes[i] != nil && notedeliverableshapeOther.ControlPointShapes[i] != nil {
-				// this is a pointer comparaison
-				if notedeliverableshape.ControlPointShapes[i] != notedeliverableshapeOther.ControlPointShapes[i] {
-					ControlPointShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ControlPointShapesDifferent {
-		ops := stage.Diff(
-			notedeliverableshape,
-			"ControlPointShapes",
-			len(notedeliverableshapeOther.ControlPointShapes),
-			len(notedeliverableshape.ControlPointShapes),
-			func(i, j int) bool {
-				return notedeliverableshapeOther.ControlPointShapes[i] == notedeliverableshape.ControlPointShapes[j]
-			},
-			func(j int) string {
-				return notedeliverableshape.ControlPointShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, notedeliverableshape, "ControlPointShapes", notedeliverableshapeOther.ControlPointShapes, notedeliverableshape.ControlPointShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -6542,12 +3601,8 @@ func (noteshape *NoteShape) GongDiff(stage *Stage, noteshapeOther *NoteShape) (d
 	if noteshape.Name != noteshapeOther.Name {
 		diffs = append(diffs, noteshape.GongMarshallField(stage, "Name"))
 	}
-	if (noteshape.Note == nil) != (noteshapeOther.Note == nil) {
+	if noteshape.Note != noteshapeOther.Note {
 		diffs = append(diffs, noteshape.GongMarshallField(stage, "Note"))
-	} else if noteshape.Note != nil && noteshapeOther.Note != nil {
-		if noteshape.Note != noteshapeOther.Note {
-			diffs = append(diffs, noteshape.GongMarshallField(stage, "Note"))
-		}
 	}
 	if noteshape.IsExpanded != noteshapeOther.IsExpanded {
 		diffs = append(diffs, noteshape.GongMarshallField(stage, "IsExpanded"))
@@ -6578,19 +3633,11 @@ func (notestakeholdershape *NoteStakeholderShape) GongDiff(stage *Stage, notesta
 	if notestakeholdershape.Name != notestakeholdershapeOther.Name {
 		diffs = append(diffs, notestakeholdershape.GongMarshallField(stage, "Name"))
 	}
-	if (notestakeholdershape.Note == nil) != (notestakeholdershapeOther.Note == nil) {
+	if notestakeholdershape.Note != notestakeholdershapeOther.Note {
 		diffs = append(diffs, notestakeholdershape.GongMarshallField(stage, "Note"))
-	} else if notestakeholdershape.Note != nil && notestakeholdershapeOther.Note != nil {
-		if notestakeholdershape.Note != notestakeholdershapeOther.Note {
-			diffs = append(diffs, notestakeholdershape.GongMarshallField(stage, "Note"))
-		}
 	}
-	if (notestakeholdershape.Stakeholder == nil) != (notestakeholdershapeOther.Stakeholder == nil) {
+	if notestakeholdershape.Stakeholder != notestakeholdershapeOther.Stakeholder {
 		diffs = append(diffs, notestakeholdershape.GongMarshallField(stage, "Stakeholder"))
-	} else if notestakeholdershape.Stakeholder != nil && notestakeholdershapeOther.Stakeholder != nil {
-		if notestakeholdershape.Stakeholder != notestakeholdershapeOther.Stakeholder {
-			diffs = append(diffs, notestakeholdershape.GongMarshallField(stage, "Stakeholder"))
-		}
 	}
 	if notestakeholdershape.StartRatio != notestakeholdershapeOther.StartRatio {
 		diffs = append(diffs, notestakeholdershape.GongMarshallField(stage, "StartRatio"))
@@ -6610,36 +3657,7 @@ func (notestakeholdershape *NoteStakeholderShape) GongDiff(stage *Stage, notesta
 	if notestakeholdershape.IsHidden != notestakeholdershapeOther.IsHidden {
 		diffs = append(diffs, notestakeholdershape.GongMarshallField(stage, "IsHidden"))
 	}
-	ControlPointShapesDifferent := false
-	if len(notestakeholdershape.ControlPointShapes) != len(notestakeholdershapeOther.ControlPointShapes) {
-		ControlPointShapesDifferent = true
-	} else {
-		for i := range notestakeholdershape.ControlPointShapes {
-			if (notestakeholdershape.ControlPointShapes[i] == nil) != (notestakeholdershapeOther.ControlPointShapes[i] == nil) {
-				ControlPointShapesDifferent = true
-				break
-			} else if notestakeholdershape.ControlPointShapes[i] != nil && notestakeholdershapeOther.ControlPointShapes[i] != nil {
-				// this is a pointer comparaison
-				if notestakeholdershape.ControlPointShapes[i] != notestakeholdershapeOther.ControlPointShapes[i] {
-					ControlPointShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ControlPointShapesDifferent {
-		ops := stage.Diff(
-			notestakeholdershape,
-			"ControlPointShapes",
-			len(notestakeholdershapeOther.ControlPointShapes),
-			len(notestakeholdershape.ControlPointShapes),
-			func(i, j int) bool {
-				return notestakeholdershapeOther.ControlPointShapes[i] == notestakeholdershape.ControlPointShapes[j]
-			},
-			func(j int) string {
-				return notestakeholdershape.ControlPointShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, notestakeholdershape, "ControlPointShapes", notestakeholdershapeOther.ControlPointShapes, notestakeholdershape.ControlPointShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -6653,19 +3671,11 @@ func (notetaskshape *NoteTaskShape) GongDiff(stage *Stage, notetaskshapeOther *N
 	if notetaskshape.Name != notetaskshapeOther.Name {
 		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Name"))
 	}
-	if (notetaskshape.Note == nil) != (notetaskshapeOther.Note == nil) {
+	if notetaskshape.Note != notetaskshapeOther.Note {
 		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Note"))
-	} else if notetaskshape.Note != nil && notetaskshapeOther.Note != nil {
-		if notetaskshape.Note != notetaskshapeOther.Note {
-			diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Note"))
-		}
 	}
-	if (notetaskshape.Task == nil) != (notetaskshapeOther.Task == nil) {
+	if notetaskshape.Task != notetaskshapeOther.Task {
 		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Task"))
-	} else if notetaskshape.Task != nil && notetaskshapeOther.Task != nil {
-		if notetaskshape.Task != notetaskshapeOther.Task {
-			diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Task"))
-		}
 	}
 	if notetaskshape.StartRatio != notetaskshapeOther.StartRatio {
 		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "StartRatio"))
@@ -6685,36 +3695,7 @@ func (notetaskshape *NoteTaskShape) GongDiff(stage *Stage, notetaskshapeOther *N
 	if notetaskshape.IsHidden != notetaskshapeOther.IsHidden {
 		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "IsHidden"))
 	}
-	ControlPointShapesDifferent := false
-	if len(notetaskshape.ControlPointShapes) != len(notetaskshapeOther.ControlPointShapes) {
-		ControlPointShapesDifferent = true
-	} else {
-		for i := range notetaskshape.ControlPointShapes {
-			if (notetaskshape.ControlPointShapes[i] == nil) != (notetaskshapeOther.ControlPointShapes[i] == nil) {
-				ControlPointShapesDifferent = true
-				break
-			} else if notetaskshape.ControlPointShapes[i] != nil && notetaskshapeOther.ControlPointShapes[i] != nil {
-				// this is a pointer comparaison
-				if notetaskshape.ControlPointShapes[i] != notetaskshapeOther.ControlPointShapes[i] {
-					ControlPointShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ControlPointShapesDifferent {
-		ops := stage.Diff(
-			notetaskshape,
-			"ControlPointShapes",
-			len(notetaskshapeOther.ControlPointShapes),
-			len(notetaskshape.ControlPointShapes),
-			func(i, j int) bool {
-				return notetaskshapeOther.ControlPointShapes[i] == notetaskshape.ControlPointShapes[j]
-			},
-			func(j int) string {
-				return notetaskshape.ControlPointShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, notetaskshape, "ControlPointShapes", notetaskshapeOther.ControlPointShapes, notetaskshape.ControlPointShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -6734,68 +3715,10 @@ func (requirement *Requirement) GongDiff(stage *Stage, requirementOther *Require
 	if requirement.IsExpanded != requirementOther.IsExpanded {
 		diffs = append(diffs, requirement.GongMarshallField(stage, "IsExpanded"))
 	}
-	SupportLevelsDifferent := false
-	if len(requirement.SupportLevels) != len(requirementOther.SupportLevels) {
-		SupportLevelsDifferent = true
-	} else {
-		for i := range requirement.SupportLevels {
-			if (requirement.SupportLevels[i] == nil) != (requirementOther.SupportLevels[i] == nil) {
-				SupportLevelsDifferent = true
-				break
-			} else if requirement.SupportLevels[i] != nil && requirementOther.SupportLevels[i] != nil {
-				// this is a pointer comparaison
-				if requirement.SupportLevels[i] != requirementOther.SupportLevels[i] {
-					SupportLevelsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SupportLevelsDifferent {
-		ops := stage.Diff(
-			requirement,
-			"SupportLevels",
-			len(requirementOther.SupportLevels),
-			len(requirement.SupportLevels),
-			func(i, j int) bool {
-				return requirementOther.SupportLevels[i] == requirement.SupportLevels[j]
-			},
-			func(j int) string {
-				return requirement.SupportLevels[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, requirement, "SupportLevels", requirementOther.SupportLevels, requirement.SupportLevels); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	ConceptsDifferent := false
-	if len(requirement.Concepts) != len(requirementOther.Concepts) {
-		ConceptsDifferent = true
-	} else {
-		for i := range requirement.Concepts {
-			if (requirement.Concepts[i] == nil) != (requirementOther.Concepts[i] == nil) {
-				ConceptsDifferent = true
-				break
-			} else if requirement.Concepts[i] != nil && requirementOther.Concepts[i] != nil {
-				// this is a pointer comparaison
-				if requirement.Concepts[i] != requirementOther.Concepts[i] {
-					ConceptsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConceptsDifferent {
-		ops := stage.Diff(
-			requirement,
-			"Concepts",
-			len(requirementOther.Concepts),
-			len(requirement.Concepts),
-			func(i, j int) bool {
-				return requirementOther.Concepts[i] == requirement.Concepts[j]
-			},
-			func(j int) string {
-				return requirement.Concepts[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, requirement, "Concepts", requirementOther.Concepts, requirement.Concepts); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -6809,12 +3732,8 @@ func (requirementshape *RequirementShape) GongDiff(stage *Stage, requirementshap
 	if requirementshape.Name != requirementshapeOther.Name {
 		diffs = append(diffs, requirementshape.GongMarshallField(stage, "Name"))
 	}
-	if (requirementshape.Requirement == nil) != (requirementshapeOther.Requirement == nil) {
+	if requirementshape.Requirement != requirementshapeOther.Requirement {
 		diffs = append(diffs, requirementshape.GongMarshallField(stage, "Requirement"))
-	} else if requirementshape.Requirement != nil && requirementshapeOther.Requirement != nil {
-		if requirementshape.Requirement != requirementshapeOther.Requirement {
-			diffs = append(diffs, requirementshape.GongMarshallField(stage, "Requirement"))
-		}
 	}
 	if requirementshape.IsExpanded != requirementshapeOther.IsExpanded {
 		diffs = append(diffs, requirementshape.GongMarshallField(stage, "IsExpanded"))
@@ -6857,68 +3776,10 @@ func (stakeholder *Stakeholder) GongDiff(stage *Stage, stakeholderOther *Stakeho
 	if stakeholder.Description != stakeholderOther.Description {
 		diffs = append(diffs, stakeholder.GongMarshallField(stage, "Description"))
 	}
-	ConcernsDifferent := false
-	if len(stakeholder.Concerns) != len(stakeholderOther.Concerns) {
-		ConcernsDifferent = true
-	} else {
-		for i := range stakeholder.Concerns {
-			if (stakeholder.Concerns[i] == nil) != (stakeholderOther.Concerns[i] == nil) {
-				ConcernsDifferent = true
-				break
-			} else if stakeholder.Concerns[i] != nil && stakeholderOther.Concerns[i] != nil {
-				// this is a pointer comparaison
-				if stakeholder.Concerns[i] != stakeholderOther.Concerns[i] {
-					ConcernsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ConcernsDifferent {
-		ops := stage.Diff(
-			stakeholder,
-			"Concerns",
-			len(stakeholderOther.Concerns),
-			len(stakeholder.Concerns),
-			func(i, j int) bool {
-				return stakeholderOther.Concerns[i] == stakeholder.Concerns[j]
-			},
-			func(j int) string {
-				return stakeholder.Concerns[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, stakeholder, "Concerns", stakeholderOther.Concerns, stakeholder.Concerns); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	SubStakeholdersDifferent := false
-	if len(stakeholder.SubStakeholders) != len(stakeholderOther.SubStakeholders) {
-		SubStakeholdersDifferent = true
-	} else {
-		for i := range stakeholder.SubStakeholders {
-			if (stakeholder.SubStakeholders[i] == nil) != (stakeholderOther.SubStakeholders[i] == nil) {
-				SubStakeholdersDifferent = true
-				break
-			} else if stakeholder.SubStakeholders[i] != nil && stakeholderOther.SubStakeholders[i] != nil {
-				// this is a pointer comparaison
-				if stakeholder.SubStakeholders[i] != stakeholderOther.SubStakeholders[i] {
-					SubStakeholdersDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SubStakeholdersDifferent {
-		ops := stage.Diff(
-			stakeholder,
-			"SubStakeholders",
-			len(stakeholderOther.SubStakeholders),
-			len(stakeholder.SubStakeholders),
-			func(i, j int) bool {
-				return stakeholderOther.SubStakeholders[i] == stakeholder.SubStakeholders[j]
-			},
-			func(j int) string {
-				return stakeholder.SubStakeholders[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, stakeholder, "SubStakeholders", stakeholderOther.SubStakeholders, stakeholder.SubStakeholders); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -6932,12 +3793,8 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) GongDiff(stage *
 	if stakeholdercompositionshape.Name != stakeholdercompositionshapeOther.Name {
 		diffs = append(diffs, stakeholdercompositionshape.GongMarshallField(stage, "Name"))
 	}
-	if (stakeholdercompositionshape.Stakeholder == nil) != (stakeholdercompositionshapeOther.Stakeholder == nil) {
+	if stakeholdercompositionshape.Stakeholder != stakeholdercompositionshapeOther.Stakeholder {
 		diffs = append(diffs, stakeholdercompositionshape.GongMarshallField(stage, "Stakeholder"))
-	} else if stakeholdercompositionshape.Stakeholder != nil && stakeholdercompositionshapeOther.Stakeholder != nil {
-		if stakeholdercompositionshape.Stakeholder != stakeholdercompositionshapeOther.Stakeholder {
-			diffs = append(diffs, stakeholdercompositionshape.GongMarshallField(stage, "Stakeholder"))
-		}
 	}
 	if stakeholdercompositionshape.StartRatio != stakeholdercompositionshapeOther.StartRatio {
 		diffs = append(diffs, stakeholdercompositionshape.GongMarshallField(stage, "StartRatio"))
@@ -6957,36 +3814,7 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) GongDiff(stage *
 	if stakeholdercompositionshape.IsHidden != stakeholdercompositionshapeOther.IsHidden {
 		diffs = append(diffs, stakeholdercompositionshape.GongMarshallField(stage, "IsHidden"))
 	}
-	ControlPointShapesDifferent := false
-	if len(stakeholdercompositionshape.ControlPointShapes) != len(stakeholdercompositionshapeOther.ControlPointShapes) {
-		ControlPointShapesDifferent = true
-	} else {
-		for i := range stakeholdercompositionshape.ControlPointShapes {
-			if (stakeholdercompositionshape.ControlPointShapes[i] == nil) != (stakeholdercompositionshapeOther.ControlPointShapes[i] == nil) {
-				ControlPointShapesDifferent = true
-				break
-			} else if stakeholdercompositionshape.ControlPointShapes[i] != nil && stakeholdercompositionshapeOther.ControlPointShapes[i] != nil {
-				// this is a pointer comparaison
-				if stakeholdercompositionshape.ControlPointShapes[i] != stakeholdercompositionshapeOther.ControlPointShapes[i] {
-					ControlPointShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ControlPointShapesDifferent {
-		ops := stage.Diff(
-			stakeholdercompositionshape,
-			"ControlPointShapes",
-			len(stakeholdercompositionshapeOther.ControlPointShapes),
-			len(stakeholdercompositionshape.ControlPointShapes),
-			func(i, j int) bool {
-				return stakeholdercompositionshapeOther.ControlPointShapes[i] == stakeholdercompositionshape.ControlPointShapes[j]
-			},
-			func(j int) string {
-				return stakeholdercompositionshape.ControlPointShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, stakeholdercompositionshape, "ControlPointShapes", stakeholdercompositionshapeOther.ControlPointShapes, stakeholdercompositionshape.ControlPointShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -7000,19 +3828,11 @@ func (stakeholderconcernshape *StakeholderConcernShape) GongDiff(stage *Stage, s
 	if stakeholderconcernshape.Name != stakeholderconcernshapeOther.Name {
 		diffs = append(diffs, stakeholderconcernshape.GongMarshallField(stage, "Name"))
 	}
-	if (stakeholderconcernshape.Stakeholder == nil) != (stakeholderconcernshapeOther.Stakeholder == nil) {
+	if stakeholderconcernshape.Stakeholder != stakeholderconcernshapeOther.Stakeholder {
 		diffs = append(diffs, stakeholderconcernshape.GongMarshallField(stage, "Stakeholder"))
-	} else if stakeholderconcernshape.Stakeholder != nil && stakeholderconcernshapeOther.Stakeholder != nil {
-		if stakeholderconcernshape.Stakeholder != stakeholderconcernshapeOther.Stakeholder {
-			diffs = append(diffs, stakeholderconcernshape.GongMarshallField(stage, "Stakeholder"))
-		}
 	}
-	if (stakeholderconcernshape.Concern == nil) != (stakeholderconcernshapeOther.Concern == nil) {
+	if stakeholderconcernshape.Concern != stakeholderconcernshapeOther.Concern {
 		diffs = append(diffs, stakeholderconcernshape.GongMarshallField(stage, "Concern"))
-	} else if stakeholderconcernshape.Concern != nil && stakeholderconcernshapeOther.Concern != nil {
-		if stakeholderconcernshape.Concern != stakeholderconcernshapeOther.Concern {
-			diffs = append(diffs, stakeholderconcernshape.GongMarshallField(stage, "Concern"))
-		}
 	}
 	if stakeholderconcernshape.StartRatio != stakeholderconcernshapeOther.StartRatio {
 		diffs = append(diffs, stakeholderconcernshape.GongMarshallField(stage, "StartRatio"))
@@ -7032,36 +3852,7 @@ func (stakeholderconcernshape *StakeholderConcernShape) GongDiff(stage *Stage, s
 	if stakeholderconcernshape.IsHidden != stakeholderconcernshapeOther.IsHidden {
 		diffs = append(diffs, stakeholderconcernshape.GongMarshallField(stage, "IsHidden"))
 	}
-	ControlPointShapesDifferent := false
-	if len(stakeholderconcernshape.ControlPointShapes) != len(stakeholderconcernshapeOther.ControlPointShapes) {
-		ControlPointShapesDifferent = true
-	} else {
-		for i := range stakeholderconcernshape.ControlPointShapes {
-			if (stakeholderconcernshape.ControlPointShapes[i] == nil) != (stakeholderconcernshapeOther.ControlPointShapes[i] == nil) {
-				ControlPointShapesDifferent = true
-				break
-			} else if stakeholderconcernshape.ControlPointShapes[i] != nil && stakeholderconcernshapeOther.ControlPointShapes[i] != nil {
-				// this is a pointer comparaison
-				if stakeholderconcernshape.ControlPointShapes[i] != stakeholderconcernshapeOther.ControlPointShapes[i] {
-					ControlPointShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ControlPointShapesDifferent {
-		ops := stage.Diff(
-			stakeholderconcernshape,
-			"ControlPointShapes",
-			len(stakeholderconcernshapeOther.ControlPointShapes),
-			len(stakeholderconcernshape.ControlPointShapes),
-			func(i, j int) bool {
-				return stakeholderconcernshapeOther.ControlPointShapes[i] == stakeholderconcernshape.ControlPointShapes[j]
-			},
-			func(j int) string {
-				return stakeholderconcernshape.ControlPointShapes[j].GongGetIdentifier(stage)
-			},
-		)
+	if ops := __gong__diffSliceOfPointers(stage, stakeholderconcernshape, "ControlPointShapes", stakeholderconcernshapeOther.ControlPointShapes, stakeholderconcernshape.ControlPointShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -7075,12 +3866,8 @@ func (stakeholdershape *StakeholderShape) GongDiff(stage *Stage, stakeholdershap
 	if stakeholdershape.Name != stakeholdershapeOther.Name {
 		diffs = append(diffs, stakeholdershape.GongMarshallField(stage, "Name"))
 	}
-	if (stakeholdershape.Stakeholder == nil) != (stakeholdershapeOther.Stakeholder == nil) {
+	if stakeholdershape.Stakeholder != stakeholdershapeOther.Stakeholder {
 		diffs = append(diffs, stakeholdershape.GongMarshallField(stage, "Stakeholder"))
-	} else if stakeholdershape.Stakeholder != nil && stakeholdershapeOther.Stakeholder != nil {
-		if stakeholdershape.Stakeholder != stakeholdershapeOther.Stakeholder {
-			diffs = append(diffs, stakeholdershape.GongMarshallField(stage, "Stakeholder"))
-		}
 	}
 	if stakeholdershape.IsExpanded != stakeholdershapeOther.IsExpanded {
 		diffs = append(diffs, stakeholdershape.GongMarshallField(stage, "IsExpanded"))
@@ -7111,12 +3898,8 @@ func (supportlevel *SupportLevel) GongDiff(stage *Stage, supportlevelOther *Supp
 	if supportlevel.Name != supportlevelOther.Name {
 		diffs = append(diffs, supportlevel.GongMarshallField(stage, "Name"))
 	}
-	if (supportlevel.Tool == nil) != (supportlevelOther.Tool == nil) {
+	if supportlevel.Tool != supportlevelOther.Tool {
 		diffs = append(diffs, supportlevel.GongMarshallField(stage, "Tool"))
-	} else if supportlevel.Tool != nil && supportlevelOther.Tool != nil {
-		if supportlevel.Tool != supportlevelOther.Tool {
-			diffs = append(diffs, supportlevel.GongMarshallField(stage, "Tool"))
-		}
 	}
 
 	return
@@ -7209,4 +3992,74 @@ func (stage *Stage) Diff(
 	}
 
 	return ops
+}
+
+func __gong__copyBranchCheck[T any](mapOrigCopy map[any]any, from *T) (*T, bool) {
+	if to, ok := mapOrigCopy[from]; ok {
+		return to.(*T), true
+	}
+	to := new(T)
+	mapOrigCopy[from] = to
+	return to, false
+}
+
+func __gong__reconstructPointer[T comparable](field *T, refMap map[T]T, instanceField T) {
+	var zero T
+	if instanceField != zero {
+		*field = refMap[instanceField]
+	}
+}
+
+func __gong__reconstructPointerFromInstance[T comparable](field *T, instMap map[T]T) {
+	ref := *field
+	var zero T
+	if ref != zero {
+		*field = zero
+		if inst, ok := instMap[ref]; ok {
+			*field = inst
+		}
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromReferences[T comparable](field *[]T, refMap map[T]T, instanceSlice []T) {
+	*field = (*field)[:0]
+	for _, b := range instanceSlice {
+		*field = append(*field, refMap[b])
+	}
+}
+
+func __gong__reconstructSliceOfPointersFromInstances[T comparable](field *[]T, instMap map[T]T) {
+	var res []T
+	for _, ref := range *field {
+		if inst, ok := instMap[ref]; ok {
+			res = append(res, inst)
+		}
+	}
+	*field = res
+}
+
+func __gong__diffSliceOfPointers[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	instance GongstructIF,
+	fieldName string,
+	oldSlice, newSlice []T,
+) string {
+	if slices.Equal(oldSlice, newSlice) {
+		return ""
+	}
+	return stage.Diff(
+		instance,
+		fieldName,
+		len(oldSlice),
+		len(newSlice),
+		func(i, j int) bool {
+			return oldSlice[i] == newSlice[j]
+		},
+		func(j int) string {
+			return newSlice[j].GongGetIdentifier(stage)
+		},
+	)
 }

@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterArrowCreateCallback GongOnAfterCreateInterface[Arrow]
 	OnAfterArrowUpdateCallback GongOnAfterUpdateInterface[Arrow]
 	OnAfterArrowDeleteCallback GongOnAfterDeleteInterface[Arrow]
-	OnAfterArrowReadCallback   GongOnAfterReadInterface[Arrow]
 
 	Bars                map[*Bar]struct{}
 	Bars_instance       map[*Bar]*Bar
@@ -147,7 +146,6 @@ type Stage struct {
 	OnAfterBarCreateCallback GongOnAfterCreateInterface[Bar]
 	OnAfterBarUpdateCallback GongOnAfterUpdateInterface[Bar]
 	OnAfterBarDeleteCallback GongOnAfterDeleteInterface[Bar]
-	OnAfterBarReadCallback   GongOnAfterReadInterface[Bar]
 
 	Gantts                map[*Gantt]struct{}
 	Gantts_instance       map[*Gantt]*Gantt
@@ -170,7 +168,6 @@ type Stage struct {
 	OnAfterGanttCreateCallback GongOnAfterCreateInterface[Gantt]
 	OnAfterGanttUpdateCallback GongOnAfterUpdateInterface[Gantt]
 	OnAfterGanttDeleteCallback GongOnAfterDeleteInterface[Gantt]
-	OnAfterGanttReadCallback   GongOnAfterReadInterface[Gantt]
 
 	Groups                map[*Group]struct{}
 	Groups_instance       map[*Group]*Group
@@ -187,7 +184,6 @@ type Stage struct {
 	OnAfterGroupCreateCallback GongOnAfterCreateInterface[Group]
 	OnAfterGroupUpdateCallback GongOnAfterUpdateInterface[Group]
 	OnAfterGroupDeleteCallback GongOnAfterDeleteInterface[Group]
-	OnAfterGroupReadCallback   GongOnAfterReadInterface[Group]
 
 	Lanes                map[*Lane]struct{}
 	Lanes_instance       map[*Lane]*Lane
@@ -204,7 +200,6 @@ type Stage struct {
 	OnAfterLaneCreateCallback GongOnAfterCreateInterface[Lane]
 	OnAfterLaneUpdateCallback GongOnAfterUpdateInterface[Lane]
 	OnAfterLaneDeleteCallback GongOnAfterDeleteInterface[Lane]
-	OnAfterLaneReadCallback   GongOnAfterReadInterface[Lane]
 
 	LaneUses                map[*LaneUse]struct{}
 	LaneUses_instance       map[*LaneUse]*LaneUse
@@ -219,7 +214,6 @@ type Stage struct {
 	OnAfterLaneUseCreateCallback GongOnAfterCreateInterface[LaneUse]
 	OnAfterLaneUseUpdateCallback GongOnAfterUpdateInterface[LaneUse]
 	OnAfterLaneUseDeleteCallback GongOnAfterDeleteInterface[LaneUse]
-	OnAfterLaneUseReadCallback   GongOnAfterReadInterface[LaneUse]
 
 	Milestones                map[*Milestone]struct{}
 	Milestones_instance       map[*Milestone]*Milestone
@@ -236,7 +230,6 @@ type Stage struct {
 	OnAfterMilestoneCreateCallback GongOnAfterCreateInterface[Milestone]
 	OnAfterMilestoneUpdateCallback GongOnAfterUpdateInterface[Milestone]
 	OnAfterMilestoneDeleteCallback GongOnAfterDeleteInterface[Milestone]
-	OnAfterMilestoneReadCallback   GongOnAfterReadInterface[Milestone]
 
 	BackRepo GongBackRepoInterface
 
@@ -471,33 +464,19 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.Arrows_reference = make(map[*Arrow]*Arrow)
-	stage.Arrows_instance = make(map[*Arrow]*Arrow)
-	stage.Arrows_referenceOrder = make(map[*Arrow]uint)
+	__gong__clearReferences(&stage.Arrows_reference, &stage.Arrows_instance, &stage.Arrows_referenceOrder)
 
-	stage.Bars_reference = make(map[*Bar]*Bar)
-	stage.Bars_instance = make(map[*Bar]*Bar)
-	stage.Bars_referenceOrder = make(map[*Bar]uint)
+	__gong__clearReferences(&stage.Bars_reference, &stage.Bars_instance, &stage.Bars_referenceOrder)
 
-	stage.Gantts_reference = make(map[*Gantt]*Gantt)
-	stage.Gantts_instance = make(map[*Gantt]*Gantt)
-	stage.Gantts_referenceOrder = make(map[*Gantt]uint)
+	__gong__clearReferences(&stage.Gantts_reference, &stage.Gantts_instance, &stage.Gantts_referenceOrder)
 
-	stage.Groups_reference = make(map[*Group]*Group)
-	stage.Groups_instance = make(map[*Group]*Group)
-	stage.Groups_referenceOrder = make(map[*Group]uint)
+	__gong__clearReferences(&stage.Groups_reference, &stage.Groups_instance, &stage.Groups_referenceOrder)
 
-	stage.Lanes_reference = make(map[*Lane]*Lane)
-	stage.Lanes_instance = make(map[*Lane]*Lane)
-	stage.Lanes_referenceOrder = make(map[*Lane]uint)
+	__gong__clearReferences(&stage.Lanes_reference, &stage.Lanes_instance, &stage.Lanes_referenceOrder)
 
-	stage.LaneUses_reference = make(map[*LaneUse]*LaneUse)
-	stage.LaneUses_instance = make(map[*LaneUse]*LaneUse)
-	stage.LaneUses_referenceOrder = make(map[*LaneUse]uint)
+	__gong__clearReferences(&stage.LaneUses_reference, &stage.LaneUses_instance, &stage.LaneUses_referenceOrder)
 
-	stage.Milestones_reference = make(map[*Milestone]*Milestone)
-	stage.Milestones_instance = make(map[*Milestone]*Milestone)
-	stage.Milestones_referenceOrder = make(map[*Milestone]uint)
+	__gong__clearReferences(&stage.Milestones_reference, &stage.Milestones_instance, &stage.Milestones_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -526,103 +505,19 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxArrowOrder uint
-	var foundArrow bool
-	for _, order := range stage.Arrow_stagedOrder {
-		if !foundArrow || order > maxArrowOrder {
-			maxArrowOrder = order
-			foundArrow = true
-		}
-	}
-	if foundArrow {
-		stage.ArrowOrder = maxArrowOrder + 1
-	} else {
-		stage.ArrowOrder = 0
-	}
+	stage.ArrowOrder = __gong__recomputeOrder(stage.Arrow_stagedOrder)
 
-	var maxBarOrder uint
-	var foundBar bool
-	for _, order := range stage.Bar_stagedOrder {
-		if !foundBar || order > maxBarOrder {
-			maxBarOrder = order
-			foundBar = true
-		}
-	}
-	if foundBar {
-		stage.BarOrder = maxBarOrder + 1
-	} else {
-		stage.BarOrder = 0
-	}
+	stage.BarOrder = __gong__recomputeOrder(stage.Bar_stagedOrder)
 
-	var maxGanttOrder uint
-	var foundGantt bool
-	for _, order := range stage.Gantt_stagedOrder {
-		if !foundGantt || order > maxGanttOrder {
-			maxGanttOrder = order
-			foundGantt = true
-		}
-	}
-	if foundGantt {
-		stage.GanttOrder = maxGanttOrder + 1
-	} else {
-		stage.GanttOrder = 0
-	}
+	stage.GanttOrder = __gong__recomputeOrder(stage.Gantt_stagedOrder)
 
-	var maxGroupOrder uint
-	var foundGroup bool
-	for _, order := range stage.Group_stagedOrder {
-		if !foundGroup || order > maxGroupOrder {
-			maxGroupOrder = order
-			foundGroup = true
-		}
-	}
-	if foundGroup {
-		stage.GroupOrder = maxGroupOrder + 1
-	} else {
-		stage.GroupOrder = 0
-	}
+	stage.GroupOrder = __gong__recomputeOrder(stage.Group_stagedOrder)
 
-	var maxLaneOrder uint
-	var foundLane bool
-	for _, order := range stage.Lane_stagedOrder {
-		if !foundLane || order > maxLaneOrder {
-			maxLaneOrder = order
-			foundLane = true
-		}
-	}
-	if foundLane {
-		stage.LaneOrder = maxLaneOrder + 1
-	} else {
-		stage.LaneOrder = 0
-	}
+	stage.LaneOrder = __gong__recomputeOrder(stage.Lane_stagedOrder)
 
-	var maxLaneUseOrder uint
-	var foundLaneUse bool
-	for _, order := range stage.LaneUse_stagedOrder {
-		if !foundLaneUse || order > maxLaneUseOrder {
-			maxLaneUseOrder = order
-			foundLaneUse = true
-		}
-	}
-	if foundLaneUse {
-		stage.LaneUseOrder = maxLaneUseOrder + 1
-	} else {
-		stage.LaneUseOrder = 0
-	}
+	stage.LaneUseOrder = __gong__recomputeOrder(stage.LaneUse_stagedOrder)
 
-	var maxMilestoneOrder uint
-	var foundMilestone bool
-	for _, order := range stage.Milestone_stagedOrder {
-		if !foundMilestone || order > maxMilestoneOrder {
-			maxMilestoneOrder = order
-			foundMilestone = true
-		}
-	}
-	if foundMilestone {
-		stage.MilestoneOrder = maxMilestoneOrder + 1
-	} else {
-		stage.MilestoneOrder = 0
-	}
+	stage.MilestoneOrder = __gong__recomputeOrder(stage.Milestone_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -654,103 +549,19 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *Arrow:
-		tmp := __gong__getStructInstancesByOrder(stage.Arrows, stage.Arrow_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Arrow implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Arrows, stage.Arrow_stagedOrder))
 	case *Bar:
-		tmp := __gong__getStructInstancesByOrder(stage.Bars, stage.Bar_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Bar implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Bars, stage.Bar_stagedOrder))
 	case *Gantt:
-		tmp := __gong__getStructInstancesByOrder(stage.Gantts, stage.Gantt_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Gantt implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Gantts, stage.Gantt_stagedOrder))
 	case *Group:
-		tmp := __gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Group implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder))
 	case *Lane:
-		tmp := __gong__getStructInstancesByOrder(stage.Lanes, stage.Lane_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Lane implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Lanes, stage.Lane_stagedOrder))
 	case *LaneUse:
-		tmp := __gong__getStructInstancesByOrder(stage.LaneUses, stage.LaneUse_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *LaneUse implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.LaneUses, stage.LaneUse_stagedOrder))
 	case *Milestone:
-		tmp := __gong__getStructInstancesByOrder(stage.Milestones, stage.Milestone_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Milestone implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Milestones, stage.Milestone_stagedOrder))
 
 	}
 	return
@@ -777,6 +588,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/gantt/go/models"
 }
@@ -800,14 +707,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -830,21 +729,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitArrow(arrow *Arrow)
-	CheckoutArrow(arrow *Arrow)
-	CommitBar(bar *Bar)
-	CheckoutBar(bar *Bar)
-	CommitGantt(gantt *Gantt)
-	CheckoutGantt(gantt *Gantt)
-	CommitGroup(group *Group)
-	CheckoutGroup(group *Group)
-	CommitLane(lane *Lane)
-	CheckoutLane(lane *Lane)
-	CommitLaneUse(laneuse *LaneUse)
-	CheckoutLaneUse(laneuse *LaneUse)
-	CommitMilestone(milestone *Milestone)
-	CheckoutMilestone(milestone *Milestone)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -1078,14 +962,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts arrow to the model stage
 func (arrow *Arrow) Stage(stage *Stage) *Arrow {
-	if _, ok := stage.Arrows[arrow]; !ok {
-		stage.Arrows[arrow] = struct{}{}
-		stage.Arrow_stagedOrder[arrow] = stage.ArrowOrder
-		stage.Arrow_orderStaged[stage.ArrowOrder] = arrow
-		stage.ArrowOrder++
-	}
-	stage.Arrows_mapString[arrow.Name] = arrow
-
+	__gong__stage(stage.Arrows, stage.Arrow_stagedOrder, stage.Arrow_orderStaged, &stage.ArrowOrder, stage.Arrows_mapString, arrow, arrow.Name)
 	return arrow
 }
 
@@ -1095,59 +972,22 @@ func (arrow *Arrow) Stage(stage *Stage) *Arrow {
 // - force the order if the order is equal or greater than the stage.ArrowOrder
 // - update stage.ArrowOrder accordingly
 func (arrow *Arrow) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Arrows[arrow]; !ok {
-		stage.Arrows[arrow] = struct{}{}
-
-		if order > stage.ArrowOrder {
-			stage.ArrowOrder = order
-		}
-		stage.Arrow_stagedOrder[arrow] = order
-		stage.Arrow_orderStaged[order] = arrow
-		stage.ArrowOrder++
-	}
-	stage.Arrows_mapString[arrow.Name] = arrow
+	__gong__stagePreserveOrder(stage.Arrows, stage.Arrow_stagedOrder, stage.Arrow_orderStaged, &stage.ArrowOrder, stage.Arrows_mapString, arrow, order, arrow.Name)
 }
 
 // Unstage removes arrow off the model stage
 func (arrow *Arrow) Unstage(stage *Stage) *Arrow {
-	delete(stage.Arrows, arrow)
-	// issue1150
-	// delete(stage.Arrow_stagedOrder, arrow)
-	delete(stage.Arrows_mapString, arrow.Name)
-
+	__gong__unstage(stage.Arrows, stage.Arrows_mapString, arrow, arrow.Name)
 	return arrow
 }
 
 // UnstageVoid removes arrow off the model stage
 func (arrow *Arrow) UnstageVoid(stage *Stage) {
-	delete(stage.Arrows, arrow)
-	// issue1150
-	// delete(stage.Arrow_stagedOrder, arrow)
-	delete(stage.Arrows_mapString, arrow.Name)
-}
-
-// commit arrow to the back repo (if it is already staged)
-func (arrow *Arrow) Commit(stage *Stage) *Arrow {
-	if _, ok := stage.Arrows[arrow]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitArrow(arrow)
-		}
-	}
-	return arrow
+	arrow.Unstage(stage)
 }
 
 func (arrow *Arrow) StageVoid(stage *Stage) {
 	arrow.Stage(stage)
-}
-
-// Checkout arrow to the back repo (if it is already staged)
-func (arrow *Arrow) Checkout(stage *Stage) *Arrow {
-	if _, ok := stage.Arrows[arrow]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutArrow(arrow)
-		}
-	}
-	return arrow
 }
 
 // for satisfaction of GongStruct interface
@@ -1162,14 +1002,7 @@ func (arrow *Arrow) SetName(name string) {
 
 // Stage puts bar to the model stage
 func (bar *Bar) Stage(stage *Stage) *Bar {
-	if _, ok := stage.Bars[bar]; !ok {
-		stage.Bars[bar] = struct{}{}
-		stage.Bar_stagedOrder[bar] = stage.BarOrder
-		stage.Bar_orderStaged[stage.BarOrder] = bar
-		stage.BarOrder++
-	}
-	stage.Bars_mapString[bar.Name] = bar
-
+	__gong__stage(stage.Bars, stage.Bar_stagedOrder, stage.Bar_orderStaged, &stage.BarOrder, stage.Bars_mapString, bar, bar.Name)
 	return bar
 }
 
@@ -1179,59 +1012,22 @@ func (bar *Bar) Stage(stage *Stage) *Bar {
 // - force the order if the order is equal or greater than the stage.BarOrder
 // - update stage.BarOrder accordingly
 func (bar *Bar) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Bars[bar]; !ok {
-		stage.Bars[bar] = struct{}{}
-
-		if order > stage.BarOrder {
-			stage.BarOrder = order
-		}
-		stage.Bar_stagedOrder[bar] = order
-		stage.Bar_orderStaged[order] = bar
-		stage.BarOrder++
-	}
-	stage.Bars_mapString[bar.Name] = bar
+	__gong__stagePreserveOrder(stage.Bars, stage.Bar_stagedOrder, stage.Bar_orderStaged, &stage.BarOrder, stage.Bars_mapString, bar, order, bar.Name)
 }
 
 // Unstage removes bar off the model stage
 func (bar *Bar) Unstage(stage *Stage) *Bar {
-	delete(stage.Bars, bar)
-	// issue1150
-	// delete(stage.Bar_stagedOrder, bar)
-	delete(stage.Bars_mapString, bar.Name)
-
+	__gong__unstage(stage.Bars, stage.Bars_mapString, bar, bar.Name)
 	return bar
 }
 
 // UnstageVoid removes bar off the model stage
 func (bar *Bar) UnstageVoid(stage *Stage) {
-	delete(stage.Bars, bar)
-	// issue1150
-	// delete(stage.Bar_stagedOrder, bar)
-	delete(stage.Bars_mapString, bar.Name)
-}
-
-// commit bar to the back repo (if it is already staged)
-func (bar *Bar) Commit(stage *Stage) *Bar {
-	if _, ok := stage.Bars[bar]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitBar(bar)
-		}
-	}
-	return bar
+	bar.Unstage(stage)
 }
 
 func (bar *Bar) StageVoid(stage *Stage) {
 	bar.Stage(stage)
-}
-
-// Checkout bar to the back repo (if it is already staged)
-func (bar *Bar) Checkout(stage *Stage) *Bar {
-	if _, ok := stage.Bars[bar]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutBar(bar)
-		}
-	}
-	return bar
 }
 
 // for satisfaction of GongStruct interface
@@ -1246,14 +1042,7 @@ func (bar *Bar) SetName(name string) {
 
 // Stage puts gantt to the model stage
 func (gantt *Gantt) Stage(stage *Stage) *Gantt {
-	if _, ok := stage.Gantts[gantt]; !ok {
-		stage.Gantts[gantt] = struct{}{}
-		stage.Gantt_stagedOrder[gantt] = stage.GanttOrder
-		stage.Gantt_orderStaged[stage.GanttOrder] = gantt
-		stage.GanttOrder++
-	}
-	stage.Gantts_mapString[gantt.Name] = gantt
-
+	__gong__stage(stage.Gantts, stage.Gantt_stagedOrder, stage.Gantt_orderStaged, &stage.GanttOrder, stage.Gantts_mapString, gantt, gantt.Name)
 	return gantt
 }
 
@@ -1263,59 +1052,22 @@ func (gantt *Gantt) Stage(stage *Stage) *Gantt {
 // - force the order if the order is equal or greater than the stage.GanttOrder
 // - update stage.GanttOrder accordingly
 func (gantt *Gantt) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Gantts[gantt]; !ok {
-		stage.Gantts[gantt] = struct{}{}
-
-		if order > stage.GanttOrder {
-			stage.GanttOrder = order
-		}
-		stage.Gantt_stagedOrder[gantt] = order
-		stage.Gantt_orderStaged[order] = gantt
-		stage.GanttOrder++
-	}
-	stage.Gantts_mapString[gantt.Name] = gantt
+	__gong__stagePreserveOrder(stage.Gantts, stage.Gantt_stagedOrder, stage.Gantt_orderStaged, &stage.GanttOrder, stage.Gantts_mapString, gantt, order, gantt.Name)
 }
 
 // Unstage removes gantt off the model stage
 func (gantt *Gantt) Unstage(stage *Stage) *Gantt {
-	delete(stage.Gantts, gantt)
-	// issue1150
-	// delete(stage.Gantt_stagedOrder, gantt)
-	delete(stage.Gantts_mapString, gantt.Name)
-
+	__gong__unstage(stage.Gantts, stage.Gantts_mapString, gantt, gantt.Name)
 	return gantt
 }
 
 // UnstageVoid removes gantt off the model stage
 func (gantt *Gantt) UnstageVoid(stage *Stage) {
-	delete(stage.Gantts, gantt)
-	// issue1150
-	// delete(stage.Gantt_stagedOrder, gantt)
-	delete(stage.Gantts_mapString, gantt.Name)
-}
-
-// commit gantt to the back repo (if it is already staged)
-func (gantt *Gantt) Commit(stage *Stage) *Gantt {
-	if _, ok := stage.Gantts[gantt]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGantt(gantt)
-		}
-	}
-	return gantt
+	gantt.Unstage(stage)
 }
 
 func (gantt *Gantt) StageVoid(stage *Stage) {
 	gantt.Stage(stage)
-}
-
-// Checkout gantt to the back repo (if it is already staged)
-func (gantt *Gantt) Checkout(stage *Stage) *Gantt {
-	if _, ok := stage.Gantts[gantt]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGantt(gantt)
-		}
-	}
-	return gantt
 }
 
 // for satisfaction of GongStruct interface
@@ -1330,14 +1082,7 @@ func (gantt *Gantt) SetName(name string) {
 
 // Stage puts group to the model stage
 func (group *Group) Stage(stage *Stage) *Group {
-	if _, ok := stage.Groups[group]; !ok {
-		stage.Groups[group] = struct{}{}
-		stage.Group_stagedOrder[group] = stage.GroupOrder
-		stage.Group_orderStaged[stage.GroupOrder] = group
-		stage.GroupOrder++
-	}
-	stage.Groups_mapString[group.Name] = group
-
+	__gong__stage(stage.Groups, stage.Group_stagedOrder, stage.Group_orderStaged, &stage.GroupOrder, stage.Groups_mapString, group, group.Name)
 	return group
 }
 
@@ -1347,59 +1092,22 @@ func (group *Group) Stage(stage *Stage) *Group {
 // - force the order if the order is equal or greater than the stage.GroupOrder
 // - update stage.GroupOrder accordingly
 func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Groups[group]; !ok {
-		stage.Groups[group] = struct{}{}
-
-		if order > stage.GroupOrder {
-			stage.GroupOrder = order
-		}
-		stage.Group_stagedOrder[group] = order
-		stage.Group_orderStaged[order] = group
-		stage.GroupOrder++
-	}
-	stage.Groups_mapString[group.Name] = group
+	__gong__stagePreserveOrder(stage.Groups, stage.Group_stagedOrder, stage.Group_orderStaged, &stage.GroupOrder, stage.Groups_mapString, group, order, group.Name)
 }
 
 // Unstage removes group off the model stage
 func (group *Group) Unstage(stage *Stage) *Group {
-	delete(stage.Groups, group)
-	// issue1150
-	// delete(stage.Group_stagedOrder, group)
-	delete(stage.Groups_mapString, group.Name)
-
+	__gong__unstage(stage.Groups, stage.Groups_mapString, group, group.Name)
 	return group
 }
 
 // UnstageVoid removes group off the model stage
 func (group *Group) UnstageVoid(stage *Stage) {
-	delete(stage.Groups, group)
-	// issue1150
-	// delete(stage.Group_stagedOrder, group)
-	delete(stage.Groups_mapString, group.Name)
-}
-
-// commit group to the back repo (if it is already staged)
-func (group *Group) Commit(stage *Stage) *Group {
-	if _, ok := stage.Groups[group]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGroup(group)
-		}
-	}
-	return group
+	group.Unstage(stage)
 }
 
 func (group *Group) StageVoid(stage *Stage) {
 	group.Stage(stage)
-}
-
-// Checkout group to the back repo (if it is already staged)
-func (group *Group) Checkout(stage *Stage) *Group {
-	if _, ok := stage.Groups[group]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGroup(group)
-		}
-	}
-	return group
 }
 
 // for satisfaction of GongStruct interface
@@ -1414,14 +1122,7 @@ func (group *Group) SetName(name string) {
 
 // Stage puts lane to the model stage
 func (lane *Lane) Stage(stage *Stage) *Lane {
-	if _, ok := stage.Lanes[lane]; !ok {
-		stage.Lanes[lane] = struct{}{}
-		stage.Lane_stagedOrder[lane] = stage.LaneOrder
-		stage.Lane_orderStaged[stage.LaneOrder] = lane
-		stage.LaneOrder++
-	}
-	stage.Lanes_mapString[lane.Name] = lane
-
+	__gong__stage(stage.Lanes, stage.Lane_stagedOrder, stage.Lane_orderStaged, &stage.LaneOrder, stage.Lanes_mapString, lane, lane.Name)
 	return lane
 }
 
@@ -1431,59 +1132,22 @@ func (lane *Lane) Stage(stage *Stage) *Lane {
 // - force the order if the order is equal or greater than the stage.LaneOrder
 // - update stage.LaneOrder accordingly
 func (lane *Lane) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Lanes[lane]; !ok {
-		stage.Lanes[lane] = struct{}{}
-
-		if order > stage.LaneOrder {
-			stage.LaneOrder = order
-		}
-		stage.Lane_stagedOrder[lane] = order
-		stage.Lane_orderStaged[order] = lane
-		stage.LaneOrder++
-	}
-	stage.Lanes_mapString[lane.Name] = lane
+	__gong__stagePreserveOrder(stage.Lanes, stage.Lane_stagedOrder, stage.Lane_orderStaged, &stage.LaneOrder, stage.Lanes_mapString, lane, order, lane.Name)
 }
 
 // Unstage removes lane off the model stage
 func (lane *Lane) Unstage(stage *Stage) *Lane {
-	delete(stage.Lanes, lane)
-	// issue1150
-	// delete(stage.Lane_stagedOrder, lane)
-	delete(stage.Lanes_mapString, lane.Name)
-
+	__gong__unstage(stage.Lanes, stage.Lanes_mapString, lane, lane.Name)
 	return lane
 }
 
 // UnstageVoid removes lane off the model stage
 func (lane *Lane) UnstageVoid(stage *Stage) {
-	delete(stage.Lanes, lane)
-	// issue1150
-	// delete(stage.Lane_stagedOrder, lane)
-	delete(stage.Lanes_mapString, lane.Name)
-}
-
-// commit lane to the back repo (if it is already staged)
-func (lane *Lane) Commit(stage *Stage) *Lane {
-	if _, ok := stage.Lanes[lane]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitLane(lane)
-		}
-	}
-	return lane
+	lane.Unstage(stage)
 }
 
 func (lane *Lane) StageVoid(stage *Stage) {
 	lane.Stage(stage)
-}
-
-// Checkout lane to the back repo (if it is already staged)
-func (lane *Lane) Checkout(stage *Stage) *Lane {
-	if _, ok := stage.Lanes[lane]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutLane(lane)
-		}
-	}
-	return lane
 }
 
 // for satisfaction of GongStruct interface
@@ -1498,14 +1162,7 @@ func (lane *Lane) SetName(name string) {
 
 // Stage puts laneuse to the model stage
 func (laneuse *LaneUse) Stage(stage *Stage) *LaneUse {
-	if _, ok := stage.LaneUses[laneuse]; !ok {
-		stage.LaneUses[laneuse] = struct{}{}
-		stage.LaneUse_stagedOrder[laneuse] = stage.LaneUseOrder
-		stage.LaneUse_orderStaged[stage.LaneUseOrder] = laneuse
-		stage.LaneUseOrder++
-	}
-	stage.LaneUses_mapString[laneuse.Name] = laneuse
-
+	__gong__stage(stage.LaneUses, stage.LaneUse_stagedOrder, stage.LaneUse_orderStaged, &stage.LaneUseOrder, stage.LaneUses_mapString, laneuse, laneuse.Name)
 	return laneuse
 }
 
@@ -1515,59 +1172,22 @@ func (laneuse *LaneUse) Stage(stage *Stage) *LaneUse {
 // - force the order if the order is equal or greater than the stage.LaneUseOrder
 // - update stage.LaneUseOrder accordingly
 func (laneuse *LaneUse) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.LaneUses[laneuse]; !ok {
-		stage.LaneUses[laneuse] = struct{}{}
-
-		if order > stage.LaneUseOrder {
-			stage.LaneUseOrder = order
-		}
-		stage.LaneUse_stagedOrder[laneuse] = order
-		stage.LaneUse_orderStaged[order] = laneuse
-		stage.LaneUseOrder++
-	}
-	stage.LaneUses_mapString[laneuse.Name] = laneuse
+	__gong__stagePreserveOrder(stage.LaneUses, stage.LaneUse_stagedOrder, stage.LaneUse_orderStaged, &stage.LaneUseOrder, stage.LaneUses_mapString, laneuse, order, laneuse.Name)
 }
 
 // Unstage removes laneuse off the model stage
 func (laneuse *LaneUse) Unstage(stage *Stage) *LaneUse {
-	delete(stage.LaneUses, laneuse)
-	// issue1150
-	// delete(stage.LaneUse_stagedOrder, laneuse)
-	delete(stage.LaneUses_mapString, laneuse.Name)
-
+	__gong__unstage(stage.LaneUses, stage.LaneUses_mapString, laneuse, laneuse.Name)
 	return laneuse
 }
 
 // UnstageVoid removes laneuse off the model stage
 func (laneuse *LaneUse) UnstageVoid(stage *Stage) {
-	delete(stage.LaneUses, laneuse)
-	// issue1150
-	// delete(stage.LaneUse_stagedOrder, laneuse)
-	delete(stage.LaneUses_mapString, laneuse.Name)
-}
-
-// commit laneuse to the back repo (if it is already staged)
-func (laneuse *LaneUse) Commit(stage *Stage) *LaneUse {
-	if _, ok := stage.LaneUses[laneuse]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitLaneUse(laneuse)
-		}
-	}
-	return laneuse
+	laneuse.Unstage(stage)
 }
 
 func (laneuse *LaneUse) StageVoid(stage *Stage) {
 	laneuse.Stage(stage)
-}
-
-// Checkout laneuse to the back repo (if it is already staged)
-func (laneuse *LaneUse) Checkout(stage *Stage) *LaneUse {
-	if _, ok := stage.LaneUses[laneuse]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutLaneUse(laneuse)
-		}
-	}
-	return laneuse
 }
 
 // for satisfaction of GongStruct interface
@@ -1582,14 +1202,7 @@ func (laneuse *LaneUse) SetName(name string) {
 
 // Stage puts milestone to the model stage
 func (milestone *Milestone) Stage(stage *Stage) *Milestone {
-	if _, ok := stage.Milestones[milestone]; !ok {
-		stage.Milestones[milestone] = struct{}{}
-		stage.Milestone_stagedOrder[milestone] = stage.MilestoneOrder
-		stage.Milestone_orderStaged[stage.MilestoneOrder] = milestone
-		stage.MilestoneOrder++
-	}
-	stage.Milestones_mapString[milestone.Name] = milestone
-
+	__gong__stage(stage.Milestones, stage.Milestone_stagedOrder, stage.Milestone_orderStaged, &stage.MilestoneOrder, stage.Milestones_mapString, milestone, milestone.Name)
 	return milestone
 }
 
@@ -1599,59 +1212,22 @@ func (milestone *Milestone) Stage(stage *Stage) *Milestone {
 // - force the order if the order is equal or greater than the stage.MilestoneOrder
 // - update stage.MilestoneOrder accordingly
 func (milestone *Milestone) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Milestones[milestone]; !ok {
-		stage.Milestones[milestone] = struct{}{}
-
-		if order > stage.MilestoneOrder {
-			stage.MilestoneOrder = order
-		}
-		stage.Milestone_stagedOrder[milestone] = order
-		stage.Milestone_orderStaged[order] = milestone
-		stage.MilestoneOrder++
-	}
-	stage.Milestones_mapString[milestone.Name] = milestone
+	__gong__stagePreserveOrder(stage.Milestones, stage.Milestone_stagedOrder, stage.Milestone_orderStaged, &stage.MilestoneOrder, stage.Milestones_mapString, milestone, order, milestone.Name)
 }
 
 // Unstage removes milestone off the model stage
 func (milestone *Milestone) Unstage(stage *Stage) *Milestone {
-	delete(stage.Milestones, milestone)
-	// issue1150
-	// delete(stage.Milestone_stagedOrder, milestone)
-	delete(stage.Milestones_mapString, milestone.Name)
-
+	__gong__unstage(stage.Milestones, stage.Milestones_mapString, milestone, milestone.Name)
 	return milestone
 }
 
 // UnstageVoid removes milestone off the model stage
 func (milestone *Milestone) UnstageVoid(stage *Stage) {
-	delete(stage.Milestones, milestone)
-	// issue1150
-	// delete(stage.Milestone_stagedOrder, milestone)
-	delete(stage.Milestones_mapString, milestone.Name)
-}
-
-// commit milestone to the back repo (if it is already staged)
-func (milestone *Milestone) Commit(stage *Stage) *Milestone {
-	if _, ok := stage.Milestones[milestone]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitMilestone(milestone)
-		}
-	}
-	return milestone
+	milestone.Unstage(stage)
 }
 
 func (milestone *Milestone) StageVoid(stage *Stage) {
 	milestone.Stage(stage)
-}
-
-// Checkout milestone to the back repo (if it is already staged)
-func (milestone *Milestone) Checkout(stage *Stage) *Milestone {
-	if _, ok := stage.Milestones[milestone]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutMilestone(milestone)
-		}
-	}
-	return milestone
 }
 
 // for satisfaction of GongStruct interface
@@ -1665,40 +1241,19 @@ func (milestone *Milestone) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Arrows = make(map[*Arrow]struct{})
-	stage.Arrows_mapString = make(map[string]*Arrow)
-	stage.Arrow_stagedOrder = make(map[*Arrow]uint)
-	stage.ArrowOrder = 0
+	__gong__resetStageType(&stage.Arrows, &stage.Arrows_mapString, &stage.Arrow_stagedOrder, &stage.ArrowOrder)
 
-	stage.Bars = make(map[*Bar]struct{})
-	stage.Bars_mapString = make(map[string]*Bar)
-	stage.Bar_stagedOrder = make(map[*Bar]uint)
-	stage.BarOrder = 0
+	__gong__resetStageType(&stage.Bars, &stage.Bars_mapString, &stage.Bar_stagedOrder, &stage.BarOrder)
 
-	stage.Gantts = make(map[*Gantt]struct{})
-	stage.Gantts_mapString = make(map[string]*Gantt)
-	stage.Gantt_stagedOrder = make(map[*Gantt]uint)
-	stage.GanttOrder = 0
+	__gong__resetStageType(&stage.Gantts, &stage.Gantts_mapString, &stage.Gantt_stagedOrder, &stage.GanttOrder)
 
-	stage.Groups = make(map[*Group]struct{})
-	stage.Groups_mapString = make(map[string]*Group)
-	stage.Group_stagedOrder = make(map[*Group]uint)
-	stage.GroupOrder = 0
+	__gong__resetStageType(&stage.Groups, &stage.Groups_mapString, &stage.Group_stagedOrder, &stage.GroupOrder)
 
-	stage.Lanes = make(map[*Lane]struct{})
-	stage.Lanes_mapString = make(map[string]*Lane)
-	stage.Lane_stagedOrder = make(map[*Lane]uint)
-	stage.LaneOrder = 0
+	__gong__resetStageType(&stage.Lanes, &stage.Lanes_mapString, &stage.Lane_stagedOrder, &stage.LaneOrder)
 
-	stage.LaneUses = make(map[*LaneUse]struct{})
-	stage.LaneUses_mapString = make(map[string]*LaneUse)
-	stage.LaneUse_stagedOrder = make(map[*LaneUse]uint)
-	stage.LaneUseOrder = 0
+	__gong__resetStageType(&stage.LaneUses, &stage.LaneUses_mapString, &stage.LaneUse_stagedOrder, &stage.LaneUseOrder)
 
-	stage.Milestones = make(map[*Milestone]struct{})
-	stage.Milestones_mapString = make(map[string]*Milestone)
-	stage.Milestone_stagedOrder = make(map[*Milestone]uint)
-	stage.MilestoneOrder = 0
+	__gong__resetStageType(&stage.Milestones, &stage.Milestones_mapString, &stage.Milestone_stagedOrder, &stage.MilestoneOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -1737,7 +1292,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -2930,40 +2484,19 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.Arrows_mapString = make(map[string]*Arrow)
-	for arrow := range stage.Arrows {
-		stage.Arrows_mapString[arrow.Name] = arrow
-	}
+	__gong__rebuildMapString(stage.Arrows, &stage.Arrows_mapString)
 
-	stage.Bars_mapString = make(map[string]*Bar)
-	for bar := range stage.Bars {
-		stage.Bars_mapString[bar.Name] = bar
-	}
+	__gong__rebuildMapString(stage.Bars, &stage.Bars_mapString)
 
-	stage.Gantts_mapString = make(map[string]*Gantt)
-	for gantt := range stage.Gantts {
-		stage.Gantts_mapString[gantt.Name] = gantt
-	}
+	__gong__rebuildMapString(stage.Gantts, &stage.Gantts_mapString)
 
-	stage.Groups_mapString = make(map[string]*Group)
-	for group := range stage.Groups {
-		stage.Groups_mapString[group.Name] = group
-	}
+	__gong__rebuildMapString(stage.Groups, &stage.Groups_mapString)
 
-	stage.Lanes_mapString = make(map[string]*Lane)
-	for lane := range stage.Lanes {
-		stage.Lanes_mapString[lane.Name] = lane
-	}
+	__gong__rebuildMapString(stage.Lanes, &stage.Lanes_mapString)
 
-	stage.LaneUses_mapString = make(map[string]*LaneUse)
-	for laneuse := range stage.LaneUses {
-		stage.LaneUses_mapString[laneuse.Name] = laneuse
-	}
+	__gong__rebuildMapString(stage.LaneUses, &stage.LaneUses_mapString)
 
-	stage.Milestones_mapString = make(map[string]*Milestone)
-	for milestone := range stage.Milestones {
-		stage.Milestones_mapString[milestone.Name] = milestone
-	}
+	__gong__rebuildMapString(stage.Milestones, &stage.Milestones_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

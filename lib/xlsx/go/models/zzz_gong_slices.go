@@ -20,12 +20,6 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct DisplaySelection
-	// insertion point per field
-
-	// Compute reverse map for named struct XLCell
-	// insertion point per field
-
 	// Compute reverse map for named struct XLFile
 	// insertion point per field
 	stage.XLFile_Sheets_reverseMap = make(map[*XLSheet]*XLFile)
@@ -68,25 +62,15 @@ func (stage *Stage) ComputeReverseMaps() {
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.DisplaySelections {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.DisplaySelections)
 
-	for instance := range stage.XLCells {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.XLCells)
 
-	for instance := range stage.XLFiles {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.XLFiles)
 
-	for instance := range stage.XLRows {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.XLRows)
 
-	for instance := range stage.XLSheets {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.XLSheets)
 
 	return
 }
@@ -123,54 +107,24 @@ func (xlsheet *XLSheet) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
-func (displayselection *DisplaySelection) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(displayselection).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(displayselection), uint64(stage.GetOrder(displayselection)))
-	return
+func (displayselection *DisplaySelection) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, displayselection)
 }
 
-func (xlcell *XLCell) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(xlcell).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(xlcell), uint64(stage.GetOrder(xlcell)))
-	return
+func (xlcell *XLCell) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, xlcell)
 }
 
-func (xlfile *XLFile) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(xlfile).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(xlfile), uint64(stage.GetOrder(xlfile)))
-	return
+func (xlfile *XLFile) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, xlfile)
 }
 
-func (xlrow *XLRow) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(xlrow).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(xlrow), uint64(stage.GetOrder(xlrow)))
-	return
+func (xlrow *XLRow) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, xlrow)
 }
 
-func (xlsheet *XLSheet) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(xlsheet).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(xlsheet), uint64(stage.GetOrder(xlsheet)))
-	return
+func (xlsheet *XLSheet) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, xlsheet)
 }
 
 
@@ -393,81 +347,26 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.DisplaySelections_reference = make(map[*DisplaySelection]*DisplaySelection)
-	stage.DisplaySelections_referenceOrder = make(map[*DisplaySelection]uint) // diff Unstage needs the reference order
-	stage.DisplaySelections_instance = make(map[*DisplaySelection]*DisplaySelection)
-	for instance := range stage.DisplaySelections {
-		_copy := instance.GongCopy().(*DisplaySelection)
-		stage.DisplaySelections_reference[instance] = _copy
-		stage.DisplaySelections_instance[_copy] = instance
-		stage.DisplaySelections_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.DisplaySelections, &stage.DisplaySelections_reference, &stage.DisplaySelections_referenceOrder, &stage.DisplaySelections_instance)
 
-	stage.XLCells_reference = make(map[*XLCell]*XLCell)
-	stage.XLCells_referenceOrder = make(map[*XLCell]uint) // diff Unstage needs the reference order
-	stage.XLCells_instance = make(map[*XLCell]*XLCell)
-	for instance := range stage.XLCells {
-		_copy := instance.GongCopy().(*XLCell)
-		stage.XLCells_reference[instance] = _copy
-		stage.XLCells_instance[_copy] = instance
-		stage.XLCells_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.XLCells, &stage.XLCells_reference, &stage.XLCells_referenceOrder, &stage.XLCells_instance)
 
-	stage.XLFiles_reference = make(map[*XLFile]*XLFile)
-	stage.XLFiles_referenceOrder = make(map[*XLFile]uint) // diff Unstage needs the reference order
-	stage.XLFiles_instance = make(map[*XLFile]*XLFile)
-	for instance := range stage.XLFiles {
-		_copy := instance.GongCopy().(*XLFile)
-		stage.XLFiles_reference[instance] = _copy
-		stage.XLFiles_instance[_copy] = instance
-		stage.XLFiles_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.XLFiles, &stage.XLFiles_reference, &stage.XLFiles_referenceOrder, &stage.XLFiles_instance)
 
-	stage.XLRows_reference = make(map[*XLRow]*XLRow)
-	stage.XLRows_referenceOrder = make(map[*XLRow]uint) // diff Unstage needs the reference order
-	stage.XLRows_instance = make(map[*XLRow]*XLRow)
-	for instance := range stage.XLRows {
-		_copy := instance.GongCopy().(*XLRow)
-		stage.XLRows_reference[instance] = _copy
-		stage.XLRows_instance[_copy] = instance
-		stage.XLRows_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.XLRows, &stage.XLRows_reference, &stage.XLRows_referenceOrder, &stage.XLRows_instance)
 
-	stage.XLSheets_reference = make(map[*XLSheet]*XLSheet)
-	stage.XLSheets_referenceOrder = make(map[*XLSheet]uint) // diff Unstage needs the reference order
-	stage.XLSheets_instance = make(map[*XLSheet]*XLSheet)
-	for instance := range stage.XLSheets {
-		_copy := instance.GongCopy().(*XLSheet)
-		stage.XLSheets_reference[instance] = _copy
-		stage.XLSheets_instance[_copy] = instance
-		stage.XLSheets_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.XLSheets, &stage.XLSheets_reference, &stage.XLSheets_referenceOrder, &stage.XLSheets_instance)
 
 	// insertion point per named struct
-	for instance := range stage.DisplaySelections {
-		reference := stage.DisplaySelections_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.DisplaySelections, stage.DisplaySelections_reference, stage)
 
-	for instance := range stage.XLCells {
-		reference := stage.XLCells_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.XLCells, stage.XLCells_reference, stage)
 
-	for instance := range stage.XLFiles {
-		reference := stage.XLFiles_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.XLFiles, stage.XLFiles_reference, stage)
 
-	for instance := range stage.XLRows {
-		reference := stage.XLRows_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.XLRows, stage.XLRows_reference, stage)
 
-	for instance := range stage.XLSheets {
-		reference := stage.XLSheets_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.XLSheets, stage.XLSheets_reference, stage)
 
 	stage.recomputeOrders()
 }
@@ -480,63 +379,23 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (displayselection *DisplaySelection) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.DisplaySelection_stagedOrder[displayselection]; ok {
-		return order
-	}
-	if order, ok := stage.DisplaySelections_referenceOrder[displayselection]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type DisplaySelection was not staged and does not have a reference order", displayselection)
-		return 0
-	}
+	return __gong__getOrder(stage.DisplaySelection_stagedOrder, stage.DisplaySelections_referenceOrder, displayselection, "DisplaySelection")
 }
 
 func (xlcell *XLCell) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.XLCell_stagedOrder[xlcell]; ok {
-		return order
-	}
-	if order, ok := stage.XLCells_referenceOrder[xlcell]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type XLCell was not staged and does not have a reference order", xlcell)
-		return 0
-	}
+	return __gong__getOrder(stage.XLCell_stagedOrder, stage.XLCells_referenceOrder, xlcell, "XLCell")
 }
 
 func (xlfile *XLFile) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.XLFile_stagedOrder[xlfile]; ok {
-		return order
-	}
-	if order, ok := stage.XLFiles_referenceOrder[xlfile]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type XLFile was not staged and does not have a reference order", xlfile)
-		return 0
-	}
+	return __gong__getOrder(stage.XLFile_stagedOrder, stage.XLFiles_referenceOrder, xlfile, "XLFile")
 }
 
 func (xlrow *XLRow) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.XLRow_stagedOrder[xlrow]; ok {
-		return order
-	}
-	if order, ok := stage.XLRows_referenceOrder[xlrow]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type XLRow was not staged and does not have a reference order", xlrow)
-		return 0
-	}
+	return __gong__getOrder(stage.XLRow_stagedOrder, stage.XLRows_referenceOrder, xlrow, "XLRow")
 }
 
 func (xlsheet *XLSheet) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.XLSheet_stagedOrder[xlsheet]; ok {
-		return order
-	}
-	if order, ok := stage.XLSheets_referenceOrder[xlsheet]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type XLSheet was not staged and does not have a reference order", xlsheet)
-		return 0
-	}
+	return __gong__getOrder(stage.XLSheet_stagedOrder, stage.XLSheets_referenceOrder, xlsheet, "XLSheet")
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -545,122 +404,92 @@ func (xlsheet *XLSheet) GongGetOrder(stage *Stage) uint {
 // It is used to identify instances across sessions
 // insertion point per named struct
 func (displayselection *DisplaySelection) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", displayselection.GongGetGongstructName(), displayselection.GongGetOrder(stage))
+	return __gong__formatIdentifier(displayselection, displayselection.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (displayselection *DisplaySelection) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", displayselection.GongGetGongstructName(), displayselection.GongGetOrder(stage))
+	return displayselection.GongGetIdentifier(stage)
 }
 
 func (xlcell *XLCell) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", xlcell.GongGetGongstructName(), xlcell.GongGetOrder(stage))
+	return __gong__formatIdentifier(xlcell, xlcell.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (xlcell *XLCell) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", xlcell.GongGetGongstructName(), xlcell.GongGetOrder(stage))
+	return xlcell.GongGetIdentifier(stage)
 }
 
 func (xlfile *XLFile) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", xlfile.GongGetGongstructName(), xlfile.GongGetOrder(stage))
+	return __gong__formatIdentifier(xlfile, xlfile.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (xlfile *XLFile) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", xlfile.GongGetGongstructName(), xlfile.GongGetOrder(stage))
+	return xlfile.GongGetIdentifier(stage)
 }
 
 func (xlrow *XLRow) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", xlrow.GongGetGongstructName(), xlrow.GongGetOrder(stage))
+	return __gong__formatIdentifier(xlrow, xlrow.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (xlrow *XLRow) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", xlrow.GongGetGongstructName(), xlrow.GongGetOrder(stage))
+	return xlrow.GongGetIdentifier(stage)
 }
 
 func (xlsheet *XLSheet) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", xlsheet.GongGetGongstructName(), xlsheet.GongGetOrder(stage))
+	return __gong__formatIdentifier(xlsheet, xlsheet.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (xlsheet *XLSheet) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", xlsheet.GongGetGongstructName(), xlsheet.GongGetOrder(stage))
+	return xlsheet.GongGetIdentifier(stage)
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (displayselection *DisplaySelection) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DisplaySelection")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(displayselection.Name))
-	return
+func (displayselection *DisplaySelection) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(displayselection.GongGetIdentifier(stage), "DisplaySelection", displayselection.Name)
 }
 
-func (xlcell *XLCell) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlcell.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLCell")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xlcell.Name))
-	return
+func (xlcell *XLCell) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(xlcell.GongGetIdentifier(stage), "XLCell", xlcell.Name)
 }
 
-func (xlfile *XLFile) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlfile.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLFile")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xlfile.Name))
-	return
+func (xlfile *XLFile) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(xlfile.GongGetIdentifier(stage), "XLFile", xlfile.Name)
 }
 
-func (xlrow *XLRow) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlrow.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLRow")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xlrow.Name))
-	return
+func (xlrow *XLRow) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(xlrow.GongGetIdentifier(stage), "XLRow", xlrow.Name)
 }
 
-func (xlsheet *XLSheet) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLSheet")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xlsheet.Name))
-	return
+func (xlsheet *XLSheet) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(xlsheet.GongGetIdentifier(stage), "XLSheet", xlsheet.Name)
 }
 
 // insertion point for unstaging
-func (displayselection *DisplaySelection) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayselection.GongGetReferenceIdentifier(stage))
-	return
+func (displayselection *DisplaySelection) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(displayselection.GongGetReferenceIdentifier(stage))
 }
 
-func (xlcell *XLCell) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlcell.GongGetReferenceIdentifier(stage))
-	return
+func (xlcell *XLCell) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(xlcell.GongGetReferenceIdentifier(stage))
 }
 
-func (xlfile *XLFile) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlfile.GongGetReferenceIdentifier(stage))
-	return
+func (xlfile *XLFile) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(xlfile.GongGetReferenceIdentifier(stage))
 }
 
-func (xlrow *XLRow) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlrow.GongGetReferenceIdentifier(stage))
-	return
+func (xlrow *XLRow) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(xlrow.GongGetReferenceIdentifier(stage))
 }
 
-func (xlsheet *XLSheet) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlsheet.GongGetReferenceIdentifier(stage))
-	return
+func (xlsheet *XLSheet) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(xlsheet.GongGetReferenceIdentifier(stage))
 }
 
 func GongIntToLetters(number int32) (letters string) {
@@ -704,6 +533,79 @@ func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 5. Format and return the byte array as a standard UUID string
 	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
 		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
+}
+
+func __gong__appendInstances[T interface {
+	comparable
+	GongstructIF
+}](res []GongstructIF, m map[T]struct{}) []GongstructIF {
+	for instance := range m {
+		res = append(res, instance)
+	}
+	return res
+}
+
+func __gong__getUUID(stage *Stage, instance GongstructIF) string {
+	if __gong__, ok := any(instance).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+	return GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(instance), uint64(stage.GetOrder(instance)))
+}
+
+func __gong__computeReferencePass1[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	staged map[T]struct{},
+	ref *map[T]T,
+	refOrder *map[T]uint,
+	inst *map[T]T,
+) {
+	*ref = make(map[T]T, len(staged))
+	*refOrder = make(map[T]uint, len(staged))
+	*inst = make(map[T]T, len(staged))
+	for instance := range staged {
+		_copy := instance.GongCopy().(T)
+		(*ref)[instance] = _copy
+		(*inst)[_copy] = instance
+		(*refOrder)[_copy] = instance.GongGetOrder(stage)
+	}
+}
+
+func __gong__computeReferencePass2[T interface {
+	comparable
+	GongstructIF
+	GongReconstructPointersFromReferences(*Stage, T)
+}](staged map[T]struct{}, reference map[T]T, stage *Stage) {
+	for instance := range staged {
+		reference[instance].GongReconstructPointersFromReferences(stage, instance)
+	}
+}
+
+func __gong__getOrder[T comparable](stagedOrder, refOrder map[T]uint, instance T, typeName string) uint {
+	if order, ok := stagedOrder[instance]; ok {
+		return order
+	}
+	if order, ok := refOrder[instance]; ok {
+		return order
+	}
+	log.Printf("instance %p of type %s was not staged and does not have a reference order", any(instance), typeName)
+	return 0
+}
+
+func __gong__formatIdentifier(s GongstructIF, order uint) string {
+	return fmt.Sprintf("__%s__%08d_", s.GongGetGongstructName(), order)
+}
+
+func __gong__marshallIdentifier(identifier, structName, name string) string {
+	decl := strings.ReplaceAll(GongIdentifiersDecls, "{{Identifier}}", identifier)
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", structName)
+	return strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(name))
+}
+
+func __gong__marshallUnstaging(identifier string) string {
+	return strings.ReplaceAll(GongUnstageStmt, "{{Identifier}}", identifier)
 }
 
 // end of template

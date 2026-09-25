@@ -132,7 +132,6 @@ type Stage struct {
 	OnAfterAttributeShapeCreateCallback GongOnAfterCreateInterface[AttributeShape]
 	OnAfterAttributeShapeUpdateCallback GongOnAfterUpdateInterface[AttributeShape]
 	OnAfterAttributeShapeDeleteCallback GongOnAfterDeleteInterface[AttributeShape]
-	OnAfterAttributeShapeReadCallback   GongOnAfterReadInterface[AttributeShape]
 
 	Classdiagrams                map[*Classdiagram]struct{}
 	Classdiagrams_instance       map[*Classdiagram]*Classdiagram
@@ -153,7 +152,6 @@ type Stage struct {
 	OnAfterClassdiagramCreateCallback GongOnAfterCreateInterface[Classdiagram]
 	OnAfterClassdiagramUpdateCallback GongOnAfterUpdateInterface[Classdiagram]
 	OnAfterClassdiagramDeleteCallback GongOnAfterDeleteInterface[Classdiagram]
-	OnAfterClassdiagramReadCallback   GongOnAfterReadInterface[Classdiagram]
 
 	DiagramPackages                map[*DiagramPackage]struct{}
 	DiagramPackages_instance       map[*DiagramPackage]*DiagramPackage
@@ -170,7 +168,6 @@ type Stage struct {
 	OnAfterDiagramPackageCreateCallback GongOnAfterCreateInterface[DiagramPackage]
 	OnAfterDiagramPackageUpdateCallback GongOnAfterUpdateInterface[DiagramPackage]
 	OnAfterDiagramPackageDeleteCallback GongOnAfterDeleteInterface[DiagramPackage]
-	OnAfterDiagramPackageReadCallback   GongOnAfterReadInterface[DiagramPackage]
 
 	GongEnumShapes                map[*GongEnumShape]struct{}
 	GongEnumShapes_instance       map[*GongEnumShape]*GongEnumShape
@@ -187,7 +184,6 @@ type Stage struct {
 	OnAfterGongEnumShapeCreateCallback GongOnAfterCreateInterface[GongEnumShape]
 	OnAfterGongEnumShapeUpdateCallback GongOnAfterUpdateInterface[GongEnumShape]
 	OnAfterGongEnumShapeDeleteCallback GongOnAfterDeleteInterface[GongEnumShape]
-	OnAfterGongEnumShapeReadCallback   GongOnAfterReadInterface[GongEnumShape]
 
 	GongEnumValueShapes                map[*GongEnumValueShape]struct{}
 	GongEnumValueShapes_instance       map[*GongEnumValueShape]*GongEnumValueShape
@@ -202,7 +198,6 @@ type Stage struct {
 	OnAfterGongEnumValueShapeCreateCallback GongOnAfterCreateInterface[GongEnumValueShape]
 	OnAfterGongEnumValueShapeUpdateCallback GongOnAfterUpdateInterface[GongEnumValueShape]
 	OnAfterGongEnumValueShapeDeleteCallback GongOnAfterDeleteInterface[GongEnumValueShape]
-	OnAfterGongEnumValueShapeReadCallback   GongOnAfterReadInterface[GongEnumValueShape]
 
 	GongNoteLinkShapes                map[*GongNoteLinkShape]struct{}
 	GongNoteLinkShapes_instance       map[*GongNoteLinkShape]*GongNoteLinkShape
@@ -217,7 +212,6 @@ type Stage struct {
 	OnAfterGongNoteLinkShapeCreateCallback GongOnAfterCreateInterface[GongNoteLinkShape]
 	OnAfterGongNoteLinkShapeUpdateCallback GongOnAfterUpdateInterface[GongNoteLinkShape]
 	OnAfterGongNoteLinkShapeDeleteCallback GongOnAfterDeleteInterface[GongNoteLinkShape]
-	OnAfterGongNoteLinkShapeReadCallback   GongOnAfterReadInterface[GongNoteLinkShape]
 
 	GongNoteShapes                map[*GongNoteShape]struct{}
 	GongNoteShapes_instance       map[*GongNoteShape]*GongNoteShape
@@ -234,7 +228,6 @@ type Stage struct {
 	OnAfterGongNoteShapeCreateCallback GongOnAfterCreateInterface[GongNoteShape]
 	OnAfterGongNoteShapeUpdateCallback GongOnAfterUpdateInterface[GongNoteShape]
 	OnAfterGongNoteShapeDeleteCallback GongOnAfterDeleteInterface[GongNoteShape]
-	OnAfterGongNoteShapeReadCallback   GongOnAfterReadInterface[GongNoteShape]
 
 	GongStructShapes                map[*GongStructShape]struct{}
 	GongStructShapes_instance       map[*GongStructShape]*GongStructShape
@@ -253,7 +246,6 @@ type Stage struct {
 	OnAfterGongStructShapeCreateCallback GongOnAfterCreateInterface[GongStructShape]
 	OnAfterGongStructShapeUpdateCallback GongOnAfterUpdateInterface[GongStructShape]
 	OnAfterGongStructShapeDeleteCallback GongOnAfterDeleteInterface[GongStructShape]
-	OnAfterGongStructShapeReadCallback   GongOnAfterReadInterface[GongStructShape]
 
 	LinkShapes                map[*LinkShape]struct{}
 	LinkShapes_instance       map[*LinkShape]*LinkShape
@@ -268,7 +260,6 @@ type Stage struct {
 	OnAfterLinkShapeCreateCallback GongOnAfterCreateInterface[LinkShape]
 	OnAfterLinkShapeUpdateCallback GongOnAfterUpdateInterface[LinkShape]
 	OnAfterLinkShapeDeleteCallback GongOnAfterDeleteInterface[LinkShape]
-	OnAfterLinkShapeReadCallback   GongOnAfterReadInterface[LinkShape]
 
 	BackRepo GongBackRepoInterface
 
@@ -503,41 +494,23 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.AttributeShapes_reference = make(map[*AttributeShape]*AttributeShape)
-	stage.AttributeShapes_instance = make(map[*AttributeShape]*AttributeShape)
-	stage.AttributeShapes_referenceOrder = make(map[*AttributeShape]uint)
+	__gong__clearReferences(&stage.AttributeShapes_reference, &stage.AttributeShapes_instance, &stage.AttributeShapes_referenceOrder)
 
-	stage.Classdiagrams_reference = make(map[*Classdiagram]*Classdiagram)
-	stage.Classdiagrams_instance = make(map[*Classdiagram]*Classdiagram)
-	stage.Classdiagrams_referenceOrder = make(map[*Classdiagram]uint)
+	__gong__clearReferences(&stage.Classdiagrams_reference, &stage.Classdiagrams_instance, &stage.Classdiagrams_referenceOrder)
 
-	stage.DiagramPackages_reference = make(map[*DiagramPackage]*DiagramPackage)
-	stage.DiagramPackages_instance = make(map[*DiagramPackage]*DiagramPackage)
-	stage.DiagramPackages_referenceOrder = make(map[*DiagramPackage]uint)
+	__gong__clearReferences(&stage.DiagramPackages_reference, &stage.DiagramPackages_instance, &stage.DiagramPackages_referenceOrder)
 
-	stage.GongEnumShapes_reference = make(map[*GongEnumShape]*GongEnumShape)
-	stage.GongEnumShapes_instance = make(map[*GongEnumShape]*GongEnumShape)
-	stage.GongEnumShapes_referenceOrder = make(map[*GongEnumShape]uint)
+	__gong__clearReferences(&stage.GongEnumShapes_reference, &stage.GongEnumShapes_instance, &stage.GongEnumShapes_referenceOrder)
 
-	stage.GongEnumValueShapes_reference = make(map[*GongEnumValueShape]*GongEnumValueShape)
-	stage.GongEnumValueShapes_instance = make(map[*GongEnumValueShape]*GongEnumValueShape)
-	stage.GongEnumValueShapes_referenceOrder = make(map[*GongEnumValueShape]uint)
+	__gong__clearReferences(&stage.GongEnumValueShapes_reference, &stage.GongEnumValueShapes_instance, &stage.GongEnumValueShapes_referenceOrder)
 
-	stage.GongNoteLinkShapes_reference = make(map[*GongNoteLinkShape]*GongNoteLinkShape)
-	stage.GongNoteLinkShapes_instance = make(map[*GongNoteLinkShape]*GongNoteLinkShape)
-	stage.GongNoteLinkShapes_referenceOrder = make(map[*GongNoteLinkShape]uint)
+	__gong__clearReferences(&stage.GongNoteLinkShapes_reference, &stage.GongNoteLinkShapes_instance, &stage.GongNoteLinkShapes_referenceOrder)
 
-	stage.GongNoteShapes_reference = make(map[*GongNoteShape]*GongNoteShape)
-	stage.GongNoteShapes_instance = make(map[*GongNoteShape]*GongNoteShape)
-	stage.GongNoteShapes_referenceOrder = make(map[*GongNoteShape]uint)
+	__gong__clearReferences(&stage.GongNoteShapes_reference, &stage.GongNoteShapes_instance, &stage.GongNoteShapes_referenceOrder)
 
-	stage.GongStructShapes_reference = make(map[*GongStructShape]*GongStructShape)
-	stage.GongStructShapes_instance = make(map[*GongStructShape]*GongStructShape)
-	stage.GongStructShapes_referenceOrder = make(map[*GongStructShape]uint)
+	__gong__clearReferences(&stage.GongStructShapes_reference, &stage.GongStructShapes_instance, &stage.GongStructShapes_referenceOrder)
 
-	stage.LinkShapes_reference = make(map[*LinkShape]*LinkShape)
-	stage.LinkShapes_instance = make(map[*LinkShape]*LinkShape)
-	stage.LinkShapes_referenceOrder = make(map[*LinkShape]uint)
+	__gong__clearReferences(&stage.LinkShapes_reference, &stage.LinkShapes_instance, &stage.LinkShapes_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -566,131 +539,23 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxAttributeShapeOrder uint
-	var foundAttributeShape bool
-	for _, order := range stage.AttributeShape_stagedOrder {
-		if !foundAttributeShape || order > maxAttributeShapeOrder {
-			maxAttributeShapeOrder = order
-			foundAttributeShape = true
-		}
-	}
-	if foundAttributeShape {
-		stage.AttributeShapeOrder = maxAttributeShapeOrder + 1
-	} else {
-		stage.AttributeShapeOrder = 0
-	}
+	stage.AttributeShapeOrder = __gong__recomputeOrder(stage.AttributeShape_stagedOrder)
 
-	var maxClassdiagramOrder uint
-	var foundClassdiagram bool
-	for _, order := range stage.Classdiagram_stagedOrder {
-		if !foundClassdiagram || order > maxClassdiagramOrder {
-			maxClassdiagramOrder = order
-			foundClassdiagram = true
-		}
-	}
-	if foundClassdiagram {
-		stage.ClassdiagramOrder = maxClassdiagramOrder + 1
-	} else {
-		stage.ClassdiagramOrder = 0
-	}
+	stage.ClassdiagramOrder = __gong__recomputeOrder(stage.Classdiagram_stagedOrder)
 
-	var maxDiagramPackageOrder uint
-	var foundDiagramPackage bool
-	for _, order := range stage.DiagramPackage_stagedOrder {
-		if !foundDiagramPackage || order > maxDiagramPackageOrder {
-			maxDiagramPackageOrder = order
-			foundDiagramPackage = true
-		}
-	}
-	if foundDiagramPackage {
-		stage.DiagramPackageOrder = maxDiagramPackageOrder + 1
-	} else {
-		stage.DiagramPackageOrder = 0
-	}
+	stage.DiagramPackageOrder = __gong__recomputeOrder(stage.DiagramPackage_stagedOrder)
 
-	var maxGongEnumShapeOrder uint
-	var foundGongEnumShape bool
-	for _, order := range stage.GongEnumShape_stagedOrder {
-		if !foundGongEnumShape || order > maxGongEnumShapeOrder {
-			maxGongEnumShapeOrder = order
-			foundGongEnumShape = true
-		}
-	}
-	if foundGongEnumShape {
-		stage.GongEnumShapeOrder = maxGongEnumShapeOrder + 1
-	} else {
-		stage.GongEnumShapeOrder = 0
-	}
+	stage.GongEnumShapeOrder = __gong__recomputeOrder(stage.GongEnumShape_stagedOrder)
 
-	var maxGongEnumValueShapeOrder uint
-	var foundGongEnumValueShape bool
-	for _, order := range stage.GongEnumValueShape_stagedOrder {
-		if !foundGongEnumValueShape || order > maxGongEnumValueShapeOrder {
-			maxGongEnumValueShapeOrder = order
-			foundGongEnumValueShape = true
-		}
-	}
-	if foundGongEnumValueShape {
-		stage.GongEnumValueShapeOrder = maxGongEnumValueShapeOrder + 1
-	} else {
-		stage.GongEnumValueShapeOrder = 0
-	}
+	stage.GongEnumValueShapeOrder = __gong__recomputeOrder(stage.GongEnumValueShape_stagedOrder)
 
-	var maxGongNoteLinkShapeOrder uint
-	var foundGongNoteLinkShape bool
-	for _, order := range stage.GongNoteLinkShape_stagedOrder {
-		if !foundGongNoteLinkShape || order > maxGongNoteLinkShapeOrder {
-			maxGongNoteLinkShapeOrder = order
-			foundGongNoteLinkShape = true
-		}
-	}
-	if foundGongNoteLinkShape {
-		stage.GongNoteLinkShapeOrder = maxGongNoteLinkShapeOrder + 1
-	} else {
-		stage.GongNoteLinkShapeOrder = 0
-	}
+	stage.GongNoteLinkShapeOrder = __gong__recomputeOrder(stage.GongNoteLinkShape_stagedOrder)
 
-	var maxGongNoteShapeOrder uint
-	var foundGongNoteShape bool
-	for _, order := range stage.GongNoteShape_stagedOrder {
-		if !foundGongNoteShape || order > maxGongNoteShapeOrder {
-			maxGongNoteShapeOrder = order
-			foundGongNoteShape = true
-		}
-	}
-	if foundGongNoteShape {
-		stage.GongNoteShapeOrder = maxGongNoteShapeOrder + 1
-	} else {
-		stage.GongNoteShapeOrder = 0
-	}
+	stage.GongNoteShapeOrder = __gong__recomputeOrder(stage.GongNoteShape_stagedOrder)
 
-	var maxGongStructShapeOrder uint
-	var foundGongStructShape bool
-	for _, order := range stage.GongStructShape_stagedOrder {
-		if !foundGongStructShape || order > maxGongStructShapeOrder {
-			maxGongStructShapeOrder = order
-			foundGongStructShape = true
-		}
-	}
-	if foundGongStructShape {
-		stage.GongStructShapeOrder = maxGongStructShapeOrder + 1
-	} else {
-		stage.GongStructShapeOrder = 0
-	}
+	stage.GongStructShapeOrder = __gong__recomputeOrder(stage.GongStructShape_stagedOrder)
 
-	var maxLinkShapeOrder uint
-	var foundLinkShape bool
-	for _, order := range stage.LinkShape_stagedOrder {
-		if !foundLinkShape || order > maxLinkShapeOrder {
-			maxLinkShapeOrder = order
-			foundLinkShape = true
-		}
-	}
-	if foundLinkShape {
-		stage.LinkShapeOrder = maxLinkShapeOrder + 1
-	} else {
-		stage.LinkShapeOrder = 0
-	}
+	stage.LinkShapeOrder = __gong__recomputeOrder(stage.LinkShape_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -722,131 +587,23 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *AttributeShape:
-		tmp := __gong__getStructInstancesByOrder(stage.AttributeShapes, stage.AttributeShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *AttributeShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.AttributeShapes, stage.AttributeShape_stagedOrder))
 	case *Classdiagram:
-		tmp := __gong__getStructInstancesByOrder(stage.Classdiagrams, stage.Classdiagram_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Classdiagram implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Classdiagrams, stage.Classdiagram_stagedOrder))
 	case *DiagramPackage:
-		tmp := __gong__getStructInstancesByOrder(stage.DiagramPackages, stage.DiagramPackage_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *DiagramPackage implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DiagramPackages, stage.DiagramPackage_stagedOrder))
 	case *GongEnumShape:
-		tmp := __gong__getStructInstancesByOrder(stage.GongEnumShapes, stage.GongEnumShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GongEnumShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongEnumShapes, stage.GongEnumShape_stagedOrder))
 	case *GongEnumValueShape:
-		tmp := __gong__getStructInstancesByOrder(stage.GongEnumValueShapes, stage.GongEnumValueShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GongEnumValueShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongEnumValueShapes, stage.GongEnumValueShape_stagedOrder))
 	case *GongNoteLinkShape:
-		tmp := __gong__getStructInstancesByOrder(stage.GongNoteLinkShapes, stage.GongNoteLinkShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GongNoteLinkShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongNoteLinkShapes, stage.GongNoteLinkShape_stagedOrder))
 	case *GongNoteShape:
-		tmp := __gong__getStructInstancesByOrder(stage.GongNoteShapes, stage.GongNoteShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GongNoteShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongNoteShapes, stage.GongNoteShape_stagedOrder))
 	case *GongStructShape:
-		tmp := __gong__getStructInstancesByOrder(stage.GongStructShapes, stage.GongStructShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GongStructShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongStructShapes, stage.GongStructShape_stagedOrder))
 	case *LinkShape:
-		tmp := __gong__getStructInstancesByOrder(stage.LinkShapes, stage.LinkShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *LinkShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.LinkShapes, stage.LinkShape_stagedOrder))
 
 	}
 	return
@@ -873,6 +630,102 @@ func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, orde
 	return
 }
 
+func __gong__castSlice[T any, S any](s []S) []T {
+	res := make([]T, len(s))
+	for i, v := range s {
+		res[i] = any(v).(T)
+	}
+	return res
+}
+
+func __gong__stage[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	order *uint,
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		stagedOrder[instance] = *order
+		orderStaged[*order] = instance
+		*order++
+	}
+	mapString[name] = instance
+}
+
+func __gong__stagePreserveOrder[T comparable](
+	instances map[T]struct{},
+	stagedOrder map[T]uint,
+	orderStaged map[uint]T,
+	currentOrder *uint,
+	mapString map[string]T,
+	instance T,
+	order uint,
+	name string,
+) {
+	if _, ok := instances[instance]; !ok {
+		instances[instance] = struct{}{}
+		if order > *currentOrder {
+			*currentOrder = order
+		}
+		stagedOrder[instance] = order
+		orderStaged[order] = instance
+		*currentOrder++
+	}
+	mapString[name] = instance
+}
+
+func __gong__unstage[T comparable](
+	instances map[T]struct{},
+	mapString map[string]T,
+	instance T,
+	name string,
+) {
+	delete(instances, instance)
+	delete(mapString, name)
+}
+
+func __gong__recomputeOrder[T comparable](stagedOrder map[T]uint) uint {
+	var maxOrder uint
+	var found bool
+	for _, order := range stagedOrder {
+		if !found || order > maxOrder {
+			maxOrder = order
+			found = true
+		}
+	}
+	if found {
+		return maxOrder + 1
+	}
+	return 0
+}
+
+func __gong__rebuildMapString[T interface {
+	comparable
+	GetName() string
+}](staged map[T]struct{}, mapString *map[string]T) {
+	*mapString = make(map[string]T, len(staged))
+	for instance := range staged {
+		(*mapString)[instance.GetName()] = instance
+	}
+}
+
+func __gong__clearReferences[T comparable](ref *map[T]T, inst *map[T]T, refOrder *map[T]uint) {
+	*ref = make(map[T]T)
+	*inst = make(map[T]T)
+	*refOrder = make(map[T]uint)
+}
+
+func __gong__resetStageType[T comparable](staged *map[T]struct{}, mapString *map[string]T, stagedOrder *map[T]uint, order *uint) {
+	*staged = make(map[T]struct{})
+	*mapString = make(map[string]T)
+	*stagedOrder = make(map[T]uint)
+	*order = 0
+}
+
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/doc/go/models"
 }
@@ -896,14 +749,6 @@ type GongOnAfterCreateInterface[Type Gongstruct] interface {
 
 type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
 
-// GongOnAfterReadInterface callback when an instance is updated from the front
-type GongOnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *Stage,
-		instance *Type)
-}
-
-type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
-
 // GongOnAfterUpdateInterface callback when an instance is updated from the front
 type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
@@ -926,25 +771,6 @@ type GongBackRepoInterface interface {
 	Restore(stage *Stage, dirPath string)
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
-	// insertion point for Commit and Checkout signatures
-	CommitAttributeShape(attributeshape *AttributeShape)
-	CheckoutAttributeShape(attributeshape *AttributeShape)
-	CommitClassdiagram(classdiagram *Classdiagram)
-	CheckoutClassdiagram(classdiagram *Classdiagram)
-	CommitDiagramPackage(diagrampackage *DiagramPackage)
-	CheckoutDiagramPackage(diagrampackage *DiagramPackage)
-	CommitGongEnumShape(gongenumshape *GongEnumShape)
-	CheckoutGongEnumShape(gongenumshape *GongEnumShape)
-	CommitGongEnumValueShape(gongenumvalueshape *GongEnumValueShape)
-	CheckoutGongEnumValueShape(gongenumvalueshape *GongEnumValueShape)
-	CommitGongNoteLinkShape(gongnotelinkshape *GongNoteLinkShape)
-	CheckoutGongNoteLinkShape(gongnotelinkshape *GongNoteLinkShape)
-	CommitGongNoteShape(gongnoteshape *GongNoteShape)
-	CheckoutGongNoteShape(gongnoteshape *GongNoteShape)
-	CommitGongStructShape(gongstructshape *GongStructShape)
-	CheckoutGongStructShape(gongstructshape *GongStructShape)
-	CommitLinkShape(linkshape *LinkShape)
-	CheckoutLinkShape(linkshape *LinkShape)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -1202,14 +1028,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts attributeshape to the model stage
 func (attributeshape *AttributeShape) Stage(stage *Stage) *AttributeShape {
-	if _, ok := stage.AttributeShapes[attributeshape]; !ok {
-		stage.AttributeShapes[attributeshape] = struct{}{}
-		stage.AttributeShape_stagedOrder[attributeshape] = stage.AttributeShapeOrder
-		stage.AttributeShape_orderStaged[stage.AttributeShapeOrder] = attributeshape
-		stage.AttributeShapeOrder++
-	}
-	stage.AttributeShapes_mapString[attributeshape.Name] = attributeshape
-
+	__gong__stage(stage.AttributeShapes, stage.AttributeShape_stagedOrder, stage.AttributeShape_orderStaged, &stage.AttributeShapeOrder, stage.AttributeShapes_mapString, attributeshape, attributeshape.Name)
 	return attributeshape
 }
 
@@ -1219,59 +1038,22 @@ func (attributeshape *AttributeShape) Stage(stage *Stage) *AttributeShape {
 // - force the order if the order is equal or greater than the stage.AttributeShapeOrder
 // - update stage.AttributeShapeOrder accordingly
 func (attributeshape *AttributeShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.AttributeShapes[attributeshape]; !ok {
-		stage.AttributeShapes[attributeshape] = struct{}{}
-
-		if order > stage.AttributeShapeOrder {
-			stage.AttributeShapeOrder = order
-		}
-		stage.AttributeShape_stagedOrder[attributeshape] = order
-		stage.AttributeShape_orderStaged[order] = attributeshape
-		stage.AttributeShapeOrder++
-	}
-	stage.AttributeShapes_mapString[attributeshape.Name] = attributeshape
+	__gong__stagePreserveOrder(stage.AttributeShapes, stage.AttributeShape_stagedOrder, stage.AttributeShape_orderStaged, &stage.AttributeShapeOrder, stage.AttributeShapes_mapString, attributeshape, order, attributeshape.Name)
 }
 
 // Unstage removes attributeshape off the model stage
 func (attributeshape *AttributeShape) Unstage(stage *Stage) *AttributeShape {
-	delete(stage.AttributeShapes, attributeshape)
-	// issue1150
-	// delete(stage.AttributeShape_stagedOrder, attributeshape)
-	delete(stage.AttributeShapes_mapString, attributeshape.Name)
-
+	__gong__unstage(stage.AttributeShapes, stage.AttributeShapes_mapString, attributeshape, attributeshape.Name)
 	return attributeshape
 }
 
 // UnstageVoid removes attributeshape off the model stage
 func (attributeshape *AttributeShape) UnstageVoid(stage *Stage) {
-	delete(stage.AttributeShapes, attributeshape)
-	// issue1150
-	// delete(stage.AttributeShape_stagedOrder, attributeshape)
-	delete(stage.AttributeShapes_mapString, attributeshape.Name)
-}
-
-// commit attributeshape to the back repo (if it is already staged)
-func (attributeshape *AttributeShape) Commit(stage *Stage) *AttributeShape {
-	if _, ok := stage.AttributeShapes[attributeshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitAttributeShape(attributeshape)
-		}
-	}
-	return attributeshape
+	attributeshape.Unstage(stage)
 }
 
 func (attributeshape *AttributeShape) StageVoid(stage *Stage) {
 	attributeshape.Stage(stage)
-}
-
-// Checkout attributeshape to the back repo (if it is already staged)
-func (attributeshape *AttributeShape) Checkout(stage *Stage) *AttributeShape {
-	if _, ok := stage.AttributeShapes[attributeshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutAttributeShape(attributeshape)
-		}
-	}
-	return attributeshape
 }
 
 // for satisfaction of GongStruct interface
@@ -1286,14 +1068,7 @@ func (attributeshape *AttributeShape) SetName(name string) {
 
 // Stage puts classdiagram to the model stage
 func (classdiagram *Classdiagram) Stage(stage *Stage) *Classdiagram {
-	if _, ok := stage.Classdiagrams[classdiagram]; !ok {
-		stage.Classdiagrams[classdiagram] = struct{}{}
-		stage.Classdiagram_stagedOrder[classdiagram] = stage.ClassdiagramOrder
-		stage.Classdiagram_orderStaged[stage.ClassdiagramOrder] = classdiagram
-		stage.ClassdiagramOrder++
-	}
-	stage.Classdiagrams_mapString[classdiagram.Name] = classdiagram
-
+	__gong__stage(stage.Classdiagrams, stage.Classdiagram_stagedOrder, stage.Classdiagram_orderStaged, &stage.ClassdiagramOrder, stage.Classdiagrams_mapString, classdiagram, classdiagram.Name)
 	return classdiagram
 }
 
@@ -1303,59 +1078,22 @@ func (classdiagram *Classdiagram) Stage(stage *Stage) *Classdiagram {
 // - force the order if the order is equal or greater than the stage.ClassdiagramOrder
 // - update stage.ClassdiagramOrder accordingly
 func (classdiagram *Classdiagram) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Classdiagrams[classdiagram]; !ok {
-		stage.Classdiagrams[classdiagram] = struct{}{}
-
-		if order > stage.ClassdiagramOrder {
-			stage.ClassdiagramOrder = order
-		}
-		stage.Classdiagram_stagedOrder[classdiagram] = order
-		stage.Classdiagram_orderStaged[order] = classdiagram
-		stage.ClassdiagramOrder++
-	}
-	stage.Classdiagrams_mapString[classdiagram.Name] = classdiagram
+	__gong__stagePreserveOrder(stage.Classdiagrams, stage.Classdiagram_stagedOrder, stage.Classdiagram_orderStaged, &stage.ClassdiagramOrder, stage.Classdiagrams_mapString, classdiagram, order, classdiagram.Name)
 }
 
 // Unstage removes classdiagram off the model stage
 func (classdiagram *Classdiagram) Unstage(stage *Stage) *Classdiagram {
-	delete(stage.Classdiagrams, classdiagram)
-	// issue1150
-	// delete(stage.Classdiagram_stagedOrder, classdiagram)
-	delete(stage.Classdiagrams_mapString, classdiagram.Name)
-
+	__gong__unstage(stage.Classdiagrams, stage.Classdiagrams_mapString, classdiagram, classdiagram.Name)
 	return classdiagram
 }
 
 // UnstageVoid removes classdiagram off the model stage
 func (classdiagram *Classdiagram) UnstageVoid(stage *Stage) {
-	delete(stage.Classdiagrams, classdiagram)
-	// issue1150
-	// delete(stage.Classdiagram_stagedOrder, classdiagram)
-	delete(stage.Classdiagrams_mapString, classdiagram.Name)
-}
-
-// commit classdiagram to the back repo (if it is already staged)
-func (classdiagram *Classdiagram) Commit(stage *Stage) *Classdiagram {
-	if _, ok := stage.Classdiagrams[classdiagram]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitClassdiagram(classdiagram)
-		}
-	}
-	return classdiagram
+	classdiagram.Unstage(stage)
 }
 
 func (classdiagram *Classdiagram) StageVoid(stage *Stage) {
 	classdiagram.Stage(stage)
-}
-
-// Checkout classdiagram to the back repo (if it is already staged)
-func (classdiagram *Classdiagram) Checkout(stage *Stage) *Classdiagram {
-	if _, ok := stage.Classdiagrams[classdiagram]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutClassdiagram(classdiagram)
-		}
-	}
-	return classdiagram
 }
 
 // for satisfaction of GongStruct interface
@@ -1370,14 +1108,7 @@ func (classdiagram *Classdiagram) SetName(name string) {
 
 // Stage puts diagrampackage to the model stage
 func (diagrampackage *DiagramPackage) Stage(stage *Stage) *DiagramPackage {
-	if _, ok := stage.DiagramPackages[diagrampackage]; !ok {
-		stage.DiagramPackages[diagrampackage] = struct{}{}
-		stage.DiagramPackage_stagedOrder[diagrampackage] = stage.DiagramPackageOrder
-		stage.DiagramPackage_orderStaged[stage.DiagramPackageOrder] = diagrampackage
-		stage.DiagramPackageOrder++
-	}
-	stage.DiagramPackages_mapString[diagrampackage.Name] = diagrampackage
-
+	__gong__stage(stage.DiagramPackages, stage.DiagramPackage_stagedOrder, stage.DiagramPackage_orderStaged, &stage.DiagramPackageOrder, stage.DiagramPackages_mapString, diagrampackage, diagrampackage.Name)
 	return diagrampackage
 }
 
@@ -1387,59 +1118,22 @@ func (diagrampackage *DiagramPackage) Stage(stage *Stage) *DiagramPackage {
 // - force the order if the order is equal or greater than the stage.DiagramPackageOrder
 // - update stage.DiagramPackageOrder accordingly
 func (diagrampackage *DiagramPackage) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.DiagramPackages[diagrampackage]; !ok {
-		stage.DiagramPackages[diagrampackage] = struct{}{}
-
-		if order > stage.DiagramPackageOrder {
-			stage.DiagramPackageOrder = order
-		}
-		stage.DiagramPackage_stagedOrder[diagrampackage] = order
-		stage.DiagramPackage_orderStaged[order] = diagrampackage
-		stage.DiagramPackageOrder++
-	}
-	stage.DiagramPackages_mapString[diagrampackage.Name] = diagrampackage
+	__gong__stagePreserveOrder(stage.DiagramPackages, stage.DiagramPackage_stagedOrder, stage.DiagramPackage_orderStaged, &stage.DiagramPackageOrder, stage.DiagramPackages_mapString, diagrampackage, order, diagrampackage.Name)
 }
 
 // Unstage removes diagrampackage off the model stage
 func (diagrampackage *DiagramPackage) Unstage(stage *Stage) *DiagramPackage {
-	delete(stage.DiagramPackages, diagrampackage)
-	// issue1150
-	// delete(stage.DiagramPackage_stagedOrder, diagrampackage)
-	delete(stage.DiagramPackages_mapString, diagrampackage.Name)
-
+	__gong__unstage(stage.DiagramPackages, stage.DiagramPackages_mapString, diagrampackage, diagrampackage.Name)
 	return diagrampackage
 }
 
 // UnstageVoid removes diagrampackage off the model stage
 func (diagrampackage *DiagramPackage) UnstageVoid(stage *Stage) {
-	delete(stage.DiagramPackages, diagrampackage)
-	// issue1150
-	// delete(stage.DiagramPackage_stagedOrder, diagrampackage)
-	delete(stage.DiagramPackages_mapString, diagrampackage.Name)
-}
-
-// commit diagrampackage to the back repo (if it is already staged)
-func (diagrampackage *DiagramPackage) Commit(stage *Stage) *DiagramPackage {
-	if _, ok := stage.DiagramPackages[diagrampackage]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitDiagramPackage(diagrampackage)
-		}
-	}
-	return diagrampackage
+	diagrampackage.Unstage(stage)
 }
 
 func (diagrampackage *DiagramPackage) StageVoid(stage *Stage) {
 	diagrampackage.Stage(stage)
-}
-
-// Checkout diagrampackage to the back repo (if it is already staged)
-func (diagrampackage *DiagramPackage) Checkout(stage *Stage) *DiagramPackage {
-	if _, ok := stage.DiagramPackages[diagrampackage]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutDiagramPackage(diagrampackage)
-		}
-	}
-	return diagrampackage
 }
 
 // for satisfaction of GongStruct interface
@@ -1454,14 +1148,7 @@ func (diagrampackage *DiagramPackage) SetName(name string) {
 
 // Stage puts gongenumshape to the model stage
 func (gongenumshape *GongEnumShape) Stage(stage *Stage) *GongEnumShape {
-	if _, ok := stage.GongEnumShapes[gongenumshape]; !ok {
-		stage.GongEnumShapes[gongenumshape] = struct{}{}
-		stage.GongEnumShape_stagedOrder[gongenumshape] = stage.GongEnumShapeOrder
-		stage.GongEnumShape_orderStaged[stage.GongEnumShapeOrder] = gongenumshape
-		stage.GongEnumShapeOrder++
-	}
-	stage.GongEnumShapes_mapString[gongenumshape.Name] = gongenumshape
-
+	__gong__stage(stage.GongEnumShapes, stage.GongEnumShape_stagedOrder, stage.GongEnumShape_orderStaged, &stage.GongEnumShapeOrder, stage.GongEnumShapes_mapString, gongenumshape, gongenumshape.Name)
 	return gongenumshape
 }
 
@@ -1471,59 +1158,22 @@ func (gongenumshape *GongEnumShape) Stage(stage *Stage) *GongEnumShape {
 // - force the order if the order is equal or greater than the stage.GongEnumShapeOrder
 // - update stage.GongEnumShapeOrder accordingly
 func (gongenumshape *GongEnumShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GongEnumShapes[gongenumshape]; !ok {
-		stage.GongEnumShapes[gongenumshape] = struct{}{}
-
-		if order > stage.GongEnumShapeOrder {
-			stage.GongEnumShapeOrder = order
-		}
-		stage.GongEnumShape_stagedOrder[gongenumshape] = order
-		stage.GongEnumShape_orderStaged[order] = gongenumshape
-		stage.GongEnumShapeOrder++
-	}
-	stage.GongEnumShapes_mapString[gongenumshape.Name] = gongenumshape
+	__gong__stagePreserveOrder(stage.GongEnumShapes, stage.GongEnumShape_stagedOrder, stage.GongEnumShape_orderStaged, &stage.GongEnumShapeOrder, stage.GongEnumShapes_mapString, gongenumshape, order, gongenumshape.Name)
 }
 
 // Unstage removes gongenumshape off the model stage
 func (gongenumshape *GongEnumShape) Unstage(stage *Stage) *GongEnumShape {
-	delete(stage.GongEnumShapes, gongenumshape)
-	// issue1150
-	// delete(stage.GongEnumShape_stagedOrder, gongenumshape)
-	delete(stage.GongEnumShapes_mapString, gongenumshape.Name)
-
+	__gong__unstage(stage.GongEnumShapes, stage.GongEnumShapes_mapString, gongenumshape, gongenumshape.Name)
 	return gongenumshape
 }
 
 // UnstageVoid removes gongenumshape off the model stage
 func (gongenumshape *GongEnumShape) UnstageVoid(stage *Stage) {
-	delete(stage.GongEnumShapes, gongenumshape)
-	// issue1150
-	// delete(stage.GongEnumShape_stagedOrder, gongenumshape)
-	delete(stage.GongEnumShapes_mapString, gongenumshape.Name)
-}
-
-// commit gongenumshape to the back repo (if it is already staged)
-func (gongenumshape *GongEnumShape) Commit(stage *Stage) *GongEnumShape {
-	if _, ok := stage.GongEnumShapes[gongenumshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongEnumShape(gongenumshape)
-		}
-	}
-	return gongenumshape
+	gongenumshape.Unstage(stage)
 }
 
 func (gongenumshape *GongEnumShape) StageVoid(stage *Stage) {
 	gongenumshape.Stage(stage)
-}
-
-// Checkout gongenumshape to the back repo (if it is already staged)
-func (gongenumshape *GongEnumShape) Checkout(stage *Stage) *GongEnumShape {
-	if _, ok := stage.GongEnumShapes[gongenumshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongEnumShape(gongenumshape)
-		}
-	}
-	return gongenumshape
 }
 
 // for satisfaction of GongStruct interface
@@ -1538,14 +1188,7 @@ func (gongenumshape *GongEnumShape) SetName(name string) {
 
 // Stage puts gongenumvalueshape to the model stage
 func (gongenumvalueshape *GongEnumValueShape) Stage(stage *Stage) *GongEnumValueShape {
-	if _, ok := stage.GongEnumValueShapes[gongenumvalueshape]; !ok {
-		stage.GongEnumValueShapes[gongenumvalueshape] = struct{}{}
-		stage.GongEnumValueShape_stagedOrder[gongenumvalueshape] = stage.GongEnumValueShapeOrder
-		stage.GongEnumValueShape_orderStaged[stage.GongEnumValueShapeOrder] = gongenumvalueshape
-		stage.GongEnumValueShapeOrder++
-	}
-	stage.GongEnumValueShapes_mapString[gongenumvalueshape.Name] = gongenumvalueshape
-
+	__gong__stage(stage.GongEnumValueShapes, stage.GongEnumValueShape_stagedOrder, stage.GongEnumValueShape_orderStaged, &stage.GongEnumValueShapeOrder, stage.GongEnumValueShapes_mapString, gongenumvalueshape, gongenumvalueshape.Name)
 	return gongenumvalueshape
 }
 
@@ -1555,59 +1198,22 @@ func (gongenumvalueshape *GongEnumValueShape) Stage(stage *Stage) *GongEnumValue
 // - force the order if the order is equal or greater than the stage.GongEnumValueShapeOrder
 // - update stage.GongEnumValueShapeOrder accordingly
 func (gongenumvalueshape *GongEnumValueShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GongEnumValueShapes[gongenumvalueshape]; !ok {
-		stage.GongEnumValueShapes[gongenumvalueshape] = struct{}{}
-
-		if order > stage.GongEnumValueShapeOrder {
-			stage.GongEnumValueShapeOrder = order
-		}
-		stage.GongEnumValueShape_stagedOrder[gongenumvalueshape] = order
-		stage.GongEnumValueShape_orderStaged[order] = gongenumvalueshape
-		stage.GongEnumValueShapeOrder++
-	}
-	stage.GongEnumValueShapes_mapString[gongenumvalueshape.Name] = gongenumvalueshape
+	__gong__stagePreserveOrder(stage.GongEnumValueShapes, stage.GongEnumValueShape_stagedOrder, stage.GongEnumValueShape_orderStaged, &stage.GongEnumValueShapeOrder, stage.GongEnumValueShapes_mapString, gongenumvalueshape, order, gongenumvalueshape.Name)
 }
 
 // Unstage removes gongenumvalueshape off the model stage
 func (gongenumvalueshape *GongEnumValueShape) Unstage(stage *Stage) *GongEnumValueShape {
-	delete(stage.GongEnumValueShapes, gongenumvalueshape)
-	// issue1150
-	// delete(stage.GongEnumValueShape_stagedOrder, gongenumvalueshape)
-	delete(stage.GongEnumValueShapes_mapString, gongenumvalueshape.Name)
-
+	__gong__unstage(stage.GongEnumValueShapes, stage.GongEnumValueShapes_mapString, gongenumvalueshape, gongenumvalueshape.Name)
 	return gongenumvalueshape
 }
 
 // UnstageVoid removes gongenumvalueshape off the model stage
 func (gongenumvalueshape *GongEnumValueShape) UnstageVoid(stage *Stage) {
-	delete(stage.GongEnumValueShapes, gongenumvalueshape)
-	// issue1150
-	// delete(stage.GongEnumValueShape_stagedOrder, gongenumvalueshape)
-	delete(stage.GongEnumValueShapes_mapString, gongenumvalueshape.Name)
-}
-
-// commit gongenumvalueshape to the back repo (if it is already staged)
-func (gongenumvalueshape *GongEnumValueShape) Commit(stage *Stage) *GongEnumValueShape {
-	if _, ok := stage.GongEnumValueShapes[gongenumvalueshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongEnumValueShape(gongenumvalueshape)
-		}
-	}
-	return gongenumvalueshape
+	gongenumvalueshape.Unstage(stage)
 }
 
 func (gongenumvalueshape *GongEnumValueShape) StageVoid(stage *Stage) {
 	gongenumvalueshape.Stage(stage)
-}
-
-// Checkout gongenumvalueshape to the back repo (if it is already staged)
-func (gongenumvalueshape *GongEnumValueShape) Checkout(stage *Stage) *GongEnumValueShape {
-	if _, ok := stage.GongEnumValueShapes[gongenumvalueshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongEnumValueShape(gongenumvalueshape)
-		}
-	}
-	return gongenumvalueshape
 }
 
 // for satisfaction of GongStruct interface
@@ -1622,14 +1228,7 @@ func (gongenumvalueshape *GongEnumValueShape) SetName(name string) {
 
 // Stage puts gongnotelinkshape to the model stage
 func (gongnotelinkshape *GongNoteLinkShape) Stage(stage *Stage) *GongNoteLinkShape {
-	if _, ok := stage.GongNoteLinkShapes[gongnotelinkshape]; !ok {
-		stage.GongNoteLinkShapes[gongnotelinkshape] = struct{}{}
-		stage.GongNoteLinkShape_stagedOrder[gongnotelinkshape] = stage.GongNoteLinkShapeOrder
-		stage.GongNoteLinkShape_orderStaged[stage.GongNoteLinkShapeOrder] = gongnotelinkshape
-		stage.GongNoteLinkShapeOrder++
-	}
-	stage.GongNoteLinkShapes_mapString[gongnotelinkshape.Name] = gongnotelinkshape
-
+	__gong__stage(stage.GongNoteLinkShapes, stage.GongNoteLinkShape_stagedOrder, stage.GongNoteLinkShape_orderStaged, &stage.GongNoteLinkShapeOrder, stage.GongNoteLinkShapes_mapString, gongnotelinkshape, gongnotelinkshape.Name)
 	return gongnotelinkshape
 }
 
@@ -1639,59 +1238,22 @@ func (gongnotelinkshape *GongNoteLinkShape) Stage(stage *Stage) *GongNoteLinkSha
 // - force the order if the order is equal or greater than the stage.GongNoteLinkShapeOrder
 // - update stage.GongNoteLinkShapeOrder accordingly
 func (gongnotelinkshape *GongNoteLinkShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GongNoteLinkShapes[gongnotelinkshape]; !ok {
-		stage.GongNoteLinkShapes[gongnotelinkshape] = struct{}{}
-
-		if order > stage.GongNoteLinkShapeOrder {
-			stage.GongNoteLinkShapeOrder = order
-		}
-		stage.GongNoteLinkShape_stagedOrder[gongnotelinkshape] = order
-		stage.GongNoteLinkShape_orderStaged[order] = gongnotelinkshape
-		stage.GongNoteLinkShapeOrder++
-	}
-	stage.GongNoteLinkShapes_mapString[gongnotelinkshape.Name] = gongnotelinkshape
+	__gong__stagePreserveOrder(stage.GongNoteLinkShapes, stage.GongNoteLinkShape_stagedOrder, stage.GongNoteLinkShape_orderStaged, &stage.GongNoteLinkShapeOrder, stage.GongNoteLinkShapes_mapString, gongnotelinkshape, order, gongnotelinkshape.Name)
 }
 
 // Unstage removes gongnotelinkshape off the model stage
 func (gongnotelinkshape *GongNoteLinkShape) Unstage(stage *Stage) *GongNoteLinkShape {
-	delete(stage.GongNoteLinkShapes, gongnotelinkshape)
-	// issue1150
-	// delete(stage.GongNoteLinkShape_stagedOrder, gongnotelinkshape)
-	delete(stage.GongNoteLinkShapes_mapString, gongnotelinkshape.Name)
-
+	__gong__unstage(stage.GongNoteLinkShapes, stage.GongNoteLinkShapes_mapString, gongnotelinkshape, gongnotelinkshape.Name)
 	return gongnotelinkshape
 }
 
 // UnstageVoid removes gongnotelinkshape off the model stage
 func (gongnotelinkshape *GongNoteLinkShape) UnstageVoid(stage *Stage) {
-	delete(stage.GongNoteLinkShapes, gongnotelinkshape)
-	// issue1150
-	// delete(stage.GongNoteLinkShape_stagedOrder, gongnotelinkshape)
-	delete(stage.GongNoteLinkShapes_mapString, gongnotelinkshape.Name)
-}
-
-// commit gongnotelinkshape to the back repo (if it is already staged)
-func (gongnotelinkshape *GongNoteLinkShape) Commit(stage *Stage) *GongNoteLinkShape {
-	if _, ok := stage.GongNoteLinkShapes[gongnotelinkshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongNoteLinkShape(gongnotelinkshape)
-		}
-	}
-	return gongnotelinkshape
+	gongnotelinkshape.Unstage(stage)
 }
 
 func (gongnotelinkshape *GongNoteLinkShape) StageVoid(stage *Stage) {
 	gongnotelinkshape.Stage(stage)
-}
-
-// Checkout gongnotelinkshape to the back repo (if it is already staged)
-func (gongnotelinkshape *GongNoteLinkShape) Checkout(stage *Stage) *GongNoteLinkShape {
-	if _, ok := stage.GongNoteLinkShapes[gongnotelinkshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongNoteLinkShape(gongnotelinkshape)
-		}
-	}
-	return gongnotelinkshape
 }
 
 // for satisfaction of GongStruct interface
@@ -1706,14 +1268,7 @@ func (gongnotelinkshape *GongNoteLinkShape) SetName(name string) {
 
 // Stage puts gongnoteshape to the model stage
 func (gongnoteshape *GongNoteShape) Stage(stage *Stage) *GongNoteShape {
-	if _, ok := stage.GongNoteShapes[gongnoteshape]; !ok {
-		stage.GongNoteShapes[gongnoteshape] = struct{}{}
-		stage.GongNoteShape_stagedOrder[gongnoteshape] = stage.GongNoteShapeOrder
-		stage.GongNoteShape_orderStaged[stage.GongNoteShapeOrder] = gongnoteshape
-		stage.GongNoteShapeOrder++
-	}
-	stage.GongNoteShapes_mapString[gongnoteshape.Name] = gongnoteshape
-
+	__gong__stage(stage.GongNoteShapes, stage.GongNoteShape_stagedOrder, stage.GongNoteShape_orderStaged, &stage.GongNoteShapeOrder, stage.GongNoteShapes_mapString, gongnoteshape, gongnoteshape.Name)
 	return gongnoteshape
 }
 
@@ -1723,59 +1278,22 @@ func (gongnoteshape *GongNoteShape) Stage(stage *Stage) *GongNoteShape {
 // - force the order if the order is equal or greater than the stage.GongNoteShapeOrder
 // - update stage.GongNoteShapeOrder accordingly
 func (gongnoteshape *GongNoteShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GongNoteShapes[gongnoteshape]; !ok {
-		stage.GongNoteShapes[gongnoteshape] = struct{}{}
-
-		if order > stage.GongNoteShapeOrder {
-			stage.GongNoteShapeOrder = order
-		}
-		stage.GongNoteShape_stagedOrder[gongnoteshape] = order
-		stage.GongNoteShape_orderStaged[order] = gongnoteshape
-		stage.GongNoteShapeOrder++
-	}
-	stage.GongNoteShapes_mapString[gongnoteshape.Name] = gongnoteshape
+	__gong__stagePreserveOrder(stage.GongNoteShapes, stage.GongNoteShape_stagedOrder, stage.GongNoteShape_orderStaged, &stage.GongNoteShapeOrder, stage.GongNoteShapes_mapString, gongnoteshape, order, gongnoteshape.Name)
 }
 
 // Unstage removes gongnoteshape off the model stage
 func (gongnoteshape *GongNoteShape) Unstage(stage *Stage) *GongNoteShape {
-	delete(stage.GongNoteShapes, gongnoteshape)
-	// issue1150
-	// delete(stage.GongNoteShape_stagedOrder, gongnoteshape)
-	delete(stage.GongNoteShapes_mapString, gongnoteshape.Name)
-
+	__gong__unstage(stage.GongNoteShapes, stage.GongNoteShapes_mapString, gongnoteshape, gongnoteshape.Name)
 	return gongnoteshape
 }
 
 // UnstageVoid removes gongnoteshape off the model stage
 func (gongnoteshape *GongNoteShape) UnstageVoid(stage *Stage) {
-	delete(stage.GongNoteShapes, gongnoteshape)
-	// issue1150
-	// delete(stage.GongNoteShape_stagedOrder, gongnoteshape)
-	delete(stage.GongNoteShapes_mapString, gongnoteshape.Name)
-}
-
-// commit gongnoteshape to the back repo (if it is already staged)
-func (gongnoteshape *GongNoteShape) Commit(stage *Stage) *GongNoteShape {
-	if _, ok := stage.GongNoteShapes[gongnoteshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongNoteShape(gongnoteshape)
-		}
-	}
-	return gongnoteshape
+	gongnoteshape.Unstage(stage)
 }
 
 func (gongnoteshape *GongNoteShape) StageVoid(stage *Stage) {
 	gongnoteshape.Stage(stage)
-}
-
-// Checkout gongnoteshape to the back repo (if it is already staged)
-func (gongnoteshape *GongNoteShape) Checkout(stage *Stage) *GongNoteShape {
-	if _, ok := stage.GongNoteShapes[gongnoteshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongNoteShape(gongnoteshape)
-		}
-	}
-	return gongnoteshape
 }
 
 // for satisfaction of GongStruct interface
@@ -1790,14 +1308,7 @@ func (gongnoteshape *GongNoteShape) SetName(name string) {
 
 // Stage puts gongstructshape to the model stage
 func (gongstructshape *GongStructShape) Stage(stage *Stage) *GongStructShape {
-	if _, ok := stage.GongStructShapes[gongstructshape]; !ok {
-		stage.GongStructShapes[gongstructshape] = struct{}{}
-		stage.GongStructShape_stagedOrder[gongstructshape] = stage.GongStructShapeOrder
-		stage.GongStructShape_orderStaged[stage.GongStructShapeOrder] = gongstructshape
-		stage.GongStructShapeOrder++
-	}
-	stage.GongStructShapes_mapString[gongstructshape.Name] = gongstructshape
-
+	__gong__stage(stage.GongStructShapes, stage.GongStructShape_stagedOrder, stage.GongStructShape_orderStaged, &stage.GongStructShapeOrder, stage.GongStructShapes_mapString, gongstructshape, gongstructshape.Name)
 	return gongstructshape
 }
 
@@ -1807,59 +1318,22 @@ func (gongstructshape *GongStructShape) Stage(stage *Stage) *GongStructShape {
 // - force the order if the order is equal or greater than the stage.GongStructShapeOrder
 // - update stage.GongStructShapeOrder accordingly
 func (gongstructshape *GongStructShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GongStructShapes[gongstructshape]; !ok {
-		stage.GongStructShapes[gongstructshape] = struct{}{}
-
-		if order > stage.GongStructShapeOrder {
-			stage.GongStructShapeOrder = order
-		}
-		stage.GongStructShape_stagedOrder[gongstructshape] = order
-		stage.GongStructShape_orderStaged[order] = gongstructshape
-		stage.GongStructShapeOrder++
-	}
-	stage.GongStructShapes_mapString[gongstructshape.Name] = gongstructshape
+	__gong__stagePreserveOrder(stage.GongStructShapes, stage.GongStructShape_stagedOrder, stage.GongStructShape_orderStaged, &stage.GongStructShapeOrder, stage.GongStructShapes_mapString, gongstructshape, order, gongstructshape.Name)
 }
 
 // Unstage removes gongstructshape off the model stage
 func (gongstructshape *GongStructShape) Unstage(stage *Stage) *GongStructShape {
-	delete(stage.GongStructShapes, gongstructshape)
-	// issue1150
-	// delete(stage.GongStructShape_stagedOrder, gongstructshape)
-	delete(stage.GongStructShapes_mapString, gongstructshape.Name)
-
+	__gong__unstage(stage.GongStructShapes, stage.GongStructShapes_mapString, gongstructshape, gongstructshape.Name)
 	return gongstructshape
 }
 
 // UnstageVoid removes gongstructshape off the model stage
 func (gongstructshape *GongStructShape) UnstageVoid(stage *Stage) {
-	delete(stage.GongStructShapes, gongstructshape)
-	// issue1150
-	// delete(stage.GongStructShape_stagedOrder, gongstructshape)
-	delete(stage.GongStructShapes_mapString, gongstructshape.Name)
-}
-
-// commit gongstructshape to the back repo (if it is already staged)
-func (gongstructshape *GongStructShape) Commit(stage *Stage) *GongStructShape {
-	if _, ok := stage.GongStructShapes[gongstructshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongStructShape(gongstructshape)
-		}
-	}
-	return gongstructshape
+	gongstructshape.Unstage(stage)
 }
 
 func (gongstructshape *GongStructShape) StageVoid(stage *Stage) {
 	gongstructshape.Stage(stage)
-}
-
-// Checkout gongstructshape to the back repo (if it is already staged)
-func (gongstructshape *GongStructShape) Checkout(stage *Stage) *GongStructShape {
-	if _, ok := stage.GongStructShapes[gongstructshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongStructShape(gongstructshape)
-		}
-	}
-	return gongstructshape
 }
 
 // for satisfaction of GongStruct interface
@@ -1874,14 +1348,7 @@ func (gongstructshape *GongStructShape) SetName(name string) {
 
 // Stage puts linkshape to the model stage
 func (linkshape *LinkShape) Stage(stage *Stage) *LinkShape {
-	if _, ok := stage.LinkShapes[linkshape]; !ok {
-		stage.LinkShapes[linkshape] = struct{}{}
-		stage.LinkShape_stagedOrder[linkshape] = stage.LinkShapeOrder
-		stage.LinkShape_orderStaged[stage.LinkShapeOrder] = linkshape
-		stage.LinkShapeOrder++
-	}
-	stage.LinkShapes_mapString[linkshape.Name] = linkshape
-
+	__gong__stage(stage.LinkShapes, stage.LinkShape_stagedOrder, stage.LinkShape_orderStaged, &stage.LinkShapeOrder, stage.LinkShapes_mapString, linkshape, linkshape.Name)
 	return linkshape
 }
 
@@ -1891,59 +1358,22 @@ func (linkshape *LinkShape) Stage(stage *Stage) *LinkShape {
 // - force the order if the order is equal or greater than the stage.LinkShapeOrder
 // - update stage.LinkShapeOrder accordingly
 func (linkshape *LinkShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.LinkShapes[linkshape]; !ok {
-		stage.LinkShapes[linkshape] = struct{}{}
-
-		if order > stage.LinkShapeOrder {
-			stage.LinkShapeOrder = order
-		}
-		stage.LinkShape_stagedOrder[linkshape] = order
-		stage.LinkShape_orderStaged[order] = linkshape
-		stage.LinkShapeOrder++
-	}
-	stage.LinkShapes_mapString[linkshape.Name] = linkshape
+	__gong__stagePreserveOrder(stage.LinkShapes, stage.LinkShape_stagedOrder, stage.LinkShape_orderStaged, &stage.LinkShapeOrder, stage.LinkShapes_mapString, linkshape, order, linkshape.Name)
 }
 
 // Unstage removes linkshape off the model stage
 func (linkshape *LinkShape) Unstage(stage *Stage) *LinkShape {
-	delete(stage.LinkShapes, linkshape)
-	// issue1150
-	// delete(stage.LinkShape_stagedOrder, linkshape)
-	delete(stage.LinkShapes_mapString, linkshape.Name)
-
+	__gong__unstage(stage.LinkShapes, stage.LinkShapes_mapString, linkshape, linkshape.Name)
 	return linkshape
 }
 
 // UnstageVoid removes linkshape off the model stage
 func (linkshape *LinkShape) UnstageVoid(stage *Stage) {
-	delete(stage.LinkShapes, linkshape)
-	// issue1150
-	// delete(stage.LinkShape_stagedOrder, linkshape)
-	delete(stage.LinkShapes_mapString, linkshape.Name)
-}
-
-// commit linkshape to the back repo (if it is already staged)
-func (linkshape *LinkShape) Commit(stage *Stage) *LinkShape {
-	if _, ok := stage.LinkShapes[linkshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitLinkShape(linkshape)
-		}
-	}
-	return linkshape
+	linkshape.Unstage(stage)
 }
 
 func (linkshape *LinkShape) StageVoid(stage *Stage) {
 	linkshape.Stage(stage)
-}
-
-// Checkout linkshape to the back repo (if it is already staged)
-func (linkshape *LinkShape) Checkout(stage *Stage) *LinkShape {
-	if _, ok := stage.LinkShapes[linkshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutLinkShape(linkshape)
-		}
-	}
-	return linkshape
 }
 
 // for satisfaction of GongStruct interface
@@ -1957,50 +1387,23 @@ func (linkshape *LinkShape) SetName(name string) {
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.AttributeShapes = make(map[*AttributeShape]struct{})
-	stage.AttributeShapes_mapString = make(map[string]*AttributeShape)
-	stage.AttributeShape_stagedOrder = make(map[*AttributeShape]uint)
-	stage.AttributeShapeOrder = 0
+	__gong__resetStageType(&stage.AttributeShapes, &stage.AttributeShapes_mapString, &stage.AttributeShape_stagedOrder, &stage.AttributeShapeOrder)
 
-	stage.Classdiagrams = make(map[*Classdiagram]struct{})
-	stage.Classdiagrams_mapString = make(map[string]*Classdiagram)
-	stage.Classdiagram_stagedOrder = make(map[*Classdiagram]uint)
-	stage.ClassdiagramOrder = 0
+	__gong__resetStageType(&stage.Classdiagrams, &stage.Classdiagrams_mapString, &stage.Classdiagram_stagedOrder, &stage.ClassdiagramOrder)
 
-	stage.DiagramPackages = make(map[*DiagramPackage]struct{})
-	stage.DiagramPackages_mapString = make(map[string]*DiagramPackage)
-	stage.DiagramPackage_stagedOrder = make(map[*DiagramPackage]uint)
-	stage.DiagramPackageOrder = 0
+	__gong__resetStageType(&stage.DiagramPackages, &stage.DiagramPackages_mapString, &stage.DiagramPackage_stagedOrder, &stage.DiagramPackageOrder)
 
-	stage.GongEnumShapes = make(map[*GongEnumShape]struct{})
-	stage.GongEnumShapes_mapString = make(map[string]*GongEnumShape)
-	stage.GongEnumShape_stagedOrder = make(map[*GongEnumShape]uint)
-	stage.GongEnumShapeOrder = 0
+	__gong__resetStageType(&stage.GongEnumShapes, &stage.GongEnumShapes_mapString, &stage.GongEnumShape_stagedOrder, &stage.GongEnumShapeOrder)
 
-	stage.GongEnumValueShapes = make(map[*GongEnumValueShape]struct{})
-	stage.GongEnumValueShapes_mapString = make(map[string]*GongEnumValueShape)
-	stage.GongEnumValueShape_stagedOrder = make(map[*GongEnumValueShape]uint)
-	stage.GongEnumValueShapeOrder = 0
+	__gong__resetStageType(&stage.GongEnumValueShapes, &stage.GongEnumValueShapes_mapString, &stage.GongEnumValueShape_stagedOrder, &stage.GongEnumValueShapeOrder)
 
-	stage.GongNoteLinkShapes = make(map[*GongNoteLinkShape]struct{})
-	stage.GongNoteLinkShapes_mapString = make(map[string]*GongNoteLinkShape)
-	stage.GongNoteLinkShape_stagedOrder = make(map[*GongNoteLinkShape]uint)
-	stage.GongNoteLinkShapeOrder = 0
+	__gong__resetStageType(&stage.GongNoteLinkShapes, &stage.GongNoteLinkShapes_mapString, &stage.GongNoteLinkShape_stagedOrder, &stage.GongNoteLinkShapeOrder)
 
-	stage.GongNoteShapes = make(map[*GongNoteShape]struct{})
-	stage.GongNoteShapes_mapString = make(map[string]*GongNoteShape)
-	stage.GongNoteShape_stagedOrder = make(map[*GongNoteShape]uint)
-	stage.GongNoteShapeOrder = 0
+	__gong__resetStageType(&stage.GongNoteShapes, &stage.GongNoteShapes_mapString, &stage.GongNoteShape_stagedOrder, &stage.GongNoteShapeOrder)
 
-	stage.GongStructShapes = make(map[*GongStructShape]struct{})
-	stage.GongStructShapes_mapString = make(map[string]*GongStructShape)
-	stage.GongStructShape_stagedOrder = make(map[*GongStructShape]uint)
-	stage.GongStructShapeOrder = 0
+	__gong__resetStageType(&stage.GongStructShapes, &stage.GongStructShapes_mapString, &stage.GongStructShape_stagedOrder, &stage.GongStructShapeOrder)
 
-	stage.LinkShapes = make(map[*LinkShape]struct{})
-	stage.LinkShapes_mapString = make(map[string]*LinkShape)
-	stage.LinkShape_stagedOrder = make(map[*LinkShape]uint)
-	stage.LinkShapeOrder = 0
+	__gong__resetStageType(&stage.LinkShapes, &stage.LinkShapes_mapString, &stage.LinkShape_stagedOrder, &stage.LinkShapeOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -2039,7 +1442,6 @@ type GongstructIF interface {
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -3410,50 +2812,23 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.AttributeShapes_mapString = make(map[string]*AttributeShape)
-	for attributeshape := range stage.AttributeShapes {
-		stage.AttributeShapes_mapString[attributeshape.Name] = attributeshape
-	}
+	__gong__rebuildMapString(stage.AttributeShapes, &stage.AttributeShapes_mapString)
 
-	stage.Classdiagrams_mapString = make(map[string]*Classdiagram)
-	for classdiagram := range stage.Classdiagrams {
-		stage.Classdiagrams_mapString[classdiagram.Name] = classdiagram
-	}
+	__gong__rebuildMapString(stage.Classdiagrams, &stage.Classdiagrams_mapString)
 
-	stage.DiagramPackages_mapString = make(map[string]*DiagramPackage)
-	for diagrampackage := range stage.DiagramPackages {
-		stage.DiagramPackages_mapString[diagrampackage.Name] = diagrampackage
-	}
+	__gong__rebuildMapString(stage.DiagramPackages, &stage.DiagramPackages_mapString)
 
-	stage.GongEnumShapes_mapString = make(map[string]*GongEnumShape)
-	for gongenumshape := range stage.GongEnumShapes {
-		stage.GongEnumShapes_mapString[gongenumshape.Name] = gongenumshape
-	}
+	__gong__rebuildMapString(stage.GongEnumShapes, &stage.GongEnumShapes_mapString)
 
-	stage.GongEnumValueShapes_mapString = make(map[string]*GongEnumValueShape)
-	for gongenumvalueshape := range stage.GongEnumValueShapes {
-		stage.GongEnumValueShapes_mapString[gongenumvalueshape.Name] = gongenumvalueshape
-	}
+	__gong__rebuildMapString(stage.GongEnumValueShapes, &stage.GongEnumValueShapes_mapString)
 
-	stage.GongNoteLinkShapes_mapString = make(map[string]*GongNoteLinkShape)
-	for gongnotelinkshape := range stage.GongNoteLinkShapes {
-		stage.GongNoteLinkShapes_mapString[gongnotelinkshape.Name] = gongnotelinkshape
-	}
+	__gong__rebuildMapString(stage.GongNoteLinkShapes, &stage.GongNoteLinkShapes_mapString)
 
-	stage.GongNoteShapes_mapString = make(map[string]*GongNoteShape)
-	for gongnoteshape := range stage.GongNoteShapes {
-		stage.GongNoteShapes_mapString[gongnoteshape.Name] = gongnoteshape
-	}
+	__gong__rebuildMapString(stage.GongNoteShapes, &stage.GongNoteShapes_mapString)
 
-	stage.GongStructShapes_mapString = make(map[string]*GongStructShape)
-	for gongstructshape := range stage.GongStructShapes {
-		stage.GongStructShapes_mapString[gongstructshape.Name] = gongstructshape
-	}
+	__gong__rebuildMapString(stage.GongStructShapes, &stage.GongStructShapes_mapString)
 
-	stage.LinkShapes_mapString = make(map[string]*LinkShape)
-	for linkshape := range stage.LinkShapes {
-		stage.LinkShapes_mapString[linkshape.Name] = linkshape
-	}
+	__gong__rebuildMapString(stage.LinkShapes, &stage.LinkShapes_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

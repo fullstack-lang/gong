@@ -51,7 +51,7 @@ func process(args []string) (r *http.ServeMux, stack *xsd_level1stack.Level1Stac
 		xsd_models.SchemaSingloton.RenameTypeAnonymousComplexType()
 	}
 
-	stack.Stage.StageBranchSchema(&xsd_models.SchemaSingloton)
+	stack.Stage.StageBranch(&xsd_models.SchemaSingloton)
 
 	stack.Stage.ComputeReverseMaps()
 

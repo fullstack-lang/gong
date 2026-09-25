@@ -20,38 +20,18 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct Content
-	// insertion point per field
-
-	// Compute reverse map for named struct JpgImage
-	// insertion point per field
-
-	// Compute reverse map for named struct PngImage
-	// insertion point per field
-
-	// Compute reverse map for named struct SvgImage
-	// insertion point per field
-
 	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.Contents {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.Contents)
 
-	for instance := range stage.JpgImages {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.JpgImages)
 
-	for instance := range stage.PngImages {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.PngImages)
 
-	for instance := range stage.SvgImages {
-		res = append(res, instance)
-	}
+	res = __gong__appendInstances(res, stage.SvgImages)
 
 	return
 }
@@ -82,44 +62,20 @@ func (svgimage *SvgImage) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
-func (content *Content) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(content).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(content), uint64(stage.GetOrder(content)))
-	return
+func (content *Content) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, content)
 }
 
-func (jpgimage *JpgImage) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(jpgimage).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(jpgimage), uint64(stage.GetOrder(jpgimage)))
-	return
+func (jpgimage *JpgImage) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, jpgimage)
 }
 
-func (pngimage *PngImage) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(pngimage).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(pngimage), uint64(stage.GetOrder(pngimage)))
-	return
+func (pngimage *PngImage) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, pngimage)
 }
 
-func (svgimage *SvgImage) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(svgimage).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(svgimage), uint64(stage.GetOrder(svgimage)))
-	return
+func (svgimage *SvgImage) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, svgimage)
 }
 
 
@@ -325,66 +281,22 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.Contents_reference = make(map[*Content]*Content)
-	stage.Contents_referenceOrder = make(map[*Content]uint) // diff Unstage needs the reference order
-	stage.Contents_instance = make(map[*Content]*Content)
-	for instance := range stage.Contents {
-		_copy := instance.GongCopy().(*Content)
-		stage.Contents_reference[instance] = _copy
-		stage.Contents_instance[_copy] = instance
-		stage.Contents_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.Contents, &stage.Contents_reference, &stage.Contents_referenceOrder, &stage.Contents_instance)
 
-	stage.JpgImages_reference = make(map[*JpgImage]*JpgImage)
-	stage.JpgImages_referenceOrder = make(map[*JpgImage]uint) // diff Unstage needs the reference order
-	stage.JpgImages_instance = make(map[*JpgImage]*JpgImage)
-	for instance := range stage.JpgImages {
-		_copy := instance.GongCopy().(*JpgImage)
-		stage.JpgImages_reference[instance] = _copy
-		stage.JpgImages_instance[_copy] = instance
-		stage.JpgImages_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.JpgImages, &stage.JpgImages_reference, &stage.JpgImages_referenceOrder, &stage.JpgImages_instance)
 
-	stage.PngImages_reference = make(map[*PngImage]*PngImage)
-	stage.PngImages_referenceOrder = make(map[*PngImage]uint) // diff Unstage needs the reference order
-	stage.PngImages_instance = make(map[*PngImage]*PngImage)
-	for instance := range stage.PngImages {
-		_copy := instance.GongCopy().(*PngImage)
-		stage.PngImages_reference[instance] = _copy
-		stage.PngImages_instance[_copy] = instance
-		stage.PngImages_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.PngImages, &stage.PngImages_reference, &stage.PngImages_referenceOrder, &stage.PngImages_instance)
 
-	stage.SvgImages_reference = make(map[*SvgImage]*SvgImage)
-	stage.SvgImages_referenceOrder = make(map[*SvgImage]uint) // diff Unstage needs the reference order
-	stage.SvgImages_instance = make(map[*SvgImage]*SvgImage)
-	for instance := range stage.SvgImages {
-		_copy := instance.GongCopy().(*SvgImage)
-		stage.SvgImages_reference[instance] = _copy
-		stage.SvgImages_instance[_copy] = instance
-		stage.SvgImages_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
+	__gong__computeReferencePass1(stage, stage.SvgImages, &stage.SvgImages_reference, &stage.SvgImages_referenceOrder, &stage.SvgImages_instance)
 
 	// insertion point per named struct
-	for instance := range stage.Contents {
-		reference := stage.Contents_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.Contents, stage.Contents_reference, stage)
 
-	for instance := range stage.JpgImages {
-		reference := stage.JpgImages_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.JpgImages, stage.JpgImages_reference, stage)
 
-	for instance := range stage.PngImages {
-		reference := stage.PngImages_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.PngImages, stage.PngImages_reference, stage)
 
-	for instance := range stage.SvgImages {
-		reference := stage.SvgImages_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
+	__gong__computeReferencePass2(stage.SvgImages, stage.SvgImages_reference, stage)
 
 	stage.recomputeOrders()
 }
@@ -397,51 +309,19 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (content *Content) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Content_stagedOrder[content]; ok {
-		return order
-	}
-	if order, ok := stage.Contents_referenceOrder[content]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Content was not staged and does not have a reference order", content)
-		return 0
-	}
+	return __gong__getOrder(stage.Content_stagedOrder, stage.Contents_referenceOrder, content, "Content")
 }
 
 func (jpgimage *JpgImage) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.JpgImage_stagedOrder[jpgimage]; ok {
-		return order
-	}
-	if order, ok := stage.JpgImages_referenceOrder[jpgimage]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type JpgImage was not staged and does not have a reference order", jpgimage)
-		return 0
-	}
+	return __gong__getOrder(stage.JpgImage_stagedOrder, stage.JpgImages_referenceOrder, jpgimage, "JpgImage")
 }
 
 func (pngimage *PngImage) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.PngImage_stagedOrder[pngimage]; ok {
-		return order
-	}
-	if order, ok := stage.PngImages_referenceOrder[pngimage]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type PngImage was not staged and does not have a reference order", pngimage)
-		return 0
-	}
+	return __gong__getOrder(stage.PngImage_stagedOrder, stage.PngImages_referenceOrder, pngimage, "PngImage")
 }
 
 func (svgimage *SvgImage) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.SvgImage_stagedOrder[svgimage]; ok {
-		return order
-	}
-	if order, ok := stage.SvgImages_referenceOrder[svgimage]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type SvgImage was not staged and does not have a reference order", svgimage)
-		return 0
-	}
+	return __gong__getOrder(stage.SvgImage_stagedOrder, stage.SvgImages_referenceOrder, svgimage, "SvgImage")
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -450,99 +330,75 @@ func (svgimage *SvgImage) GongGetOrder(stage *Stage) uint {
 // It is used to identify instances across sessions
 // insertion point per named struct
 func (content *Content) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", content.GongGetGongstructName(), content.GongGetOrder(stage))
+	return __gong__formatIdentifier(content, content.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (content *Content) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", content.GongGetGongstructName(), content.GongGetOrder(stage))
+	return content.GongGetIdentifier(stage)
 }
 
 func (jpgimage *JpgImage) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", jpgimage.GongGetGongstructName(), jpgimage.GongGetOrder(stage))
+	return __gong__formatIdentifier(jpgimage, jpgimage.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (jpgimage *JpgImage) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", jpgimage.GongGetGongstructName(), jpgimage.GongGetOrder(stage))
+	return jpgimage.GongGetIdentifier(stage)
 }
 
 func (pngimage *PngImage) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", pngimage.GongGetGongstructName(), pngimage.GongGetOrder(stage))
+	return __gong__formatIdentifier(pngimage, pngimage.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (pngimage *PngImage) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", pngimage.GongGetGongstructName(), pngimage.GongGetOrder(stage))
+	return pngimage.GongGetIdentifier(stage)
 }
 
 func (svgimage *SvgImage) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", svgimage.GongGetGongstructName(), svgimage.GongGetOrder(stage))
+	return __gong__formatIdentifier(svgimage, svgimage.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (svgimage *SvgImage) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", svgimage.GongGetGongstructName(), svgimage.GongGetOrder(stage))
+	return svgimage.GongGetIdentifier(stage)
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (content *Content) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Content")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.Name))
-	return
+func (content *Content) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(content.GongGetIdentifier(stage), "Content", content.Name)
 }
 
-func (jpgimage *JpgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "JpgImage")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(jpgimage.Name))
-	return
+func (jpgimage *JpgImage) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(jpgimage.GongGetIdentifier(stage), "JpgImage", jpgimage.Name)
 }
 
-func (pngimage *PngImage) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PngImage")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pngimage.Name))
-	return
+func (pngimage *PngImage) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(pngimage.GongGetIdentifier(stage), "PngImage", pngimage.Name)
 }
 
-func (svgimage *SvgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SvgImage")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svgimage.Name))
-	return
+func (svgimage *SvgImage) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(svgimage.GongGetIdentifier(stage), "SvgImage", svgimage.Name)
 }
 
 // insertion point for unstaging
-func (content *Content) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetReferenceIdentifier(stage))
-	return
+func (content *Content) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(content.GongGetReferenceIdentifier(stage))
 }
 
-func (jpgimage *JpgImage) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", jpgimage.GongGetReferenceIdentifier(stage))
-	return
+func (jpgimage *JpgImage) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(jpgimage.GongGetReferenceIdentifier(stage))
 }
 
-func (pngimage *PngImage) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", pngimage.GongGetReferenceIdentifier(stage))
-	return
+func (pngimage *PngImage) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(pngimage.GongGetReferenceIdentifier(stage))
 }
 
-func (svgimage *SvgImage) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgimage.GongGetReferenceIdentifier(stage))
-	return
+func (svgimage *SvgImage) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(svgimage.GongGetReferenceIdentifier(stage))
 }
 
 func GongIntToLetters(number int32) (letters string) {
@@ -586,6 +442,79 @@ func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 5. Format and return the byte array as a standard UUID string
 	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
 		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
+}
+
+func __gong__appendInstances[T interface {
+	comparable
+	GongstructIF
+}](res []GongstructIF, m map[T]struct{}) []GongstructIF {
+	for instance := range m {
+		res = append(res, instance)
+	}
+	return res
+}
+
+func __gong__getUUID(stage *Stage, instance GongstructIF) string {
+	if __gong__, ok := any(instance).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+	return GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(instance), uint64(stage.GetOrder(instance)))
+}
+
+func __gong__computeReferencePass1[T interface {
+	comparable
+	GongstructIF
+}](
+	stage *Stage,
+	staged map[T]struct{},
+	ref *map[T]T,
+	refOrder *map[T]uint,
+	inst *map[T]T,
+) {
+	*ref = make(map[T]T, len(staged))
+	*refOrder = make(map[T]uint, len(staged))
+	*inst = make(map[T]T, len(staged))
+	for instance := range staged {
+		_copy := instance.GongCopy().(T)
+		(*ref)[instance] = _copy
+		(*inst)[_copy] = instance
+		(*refOrder)[_copy] = instance.GongGetOrder(stage)
+	}
+}
+
+func __gong__computeReferencePass2[T interface {
+	comparable
+	GongstructIF
+	GongReconstructPointersFromReferences(*Stage, T)
+}](staged map[T]struct{}, reference map[T]T, stage *Stage) {
+	for instance := range staged {
+		reference[instance].GongReconstructPointersFromReferences(stage, instance)
+	}
+}
+
+func __gong__getOrder[T comparable](stagedOrder, refOrder map[T]uint, instance T, typeName string) uint {
+	if order, ok := stagedOrder[instance]; ok {
+		return order
+	}
+	if order, ok := refOrder[instance]; ok {
+		return order
+	}
+	log.Printf("instance %p of type %s was not staged and does not have a reference order", any(instance), typeName)
+	return 0
+}
+
+func __gong__formatIdentifier(s GongstructIF, order uint) string {
+	return fmt.Sprintf("__%s__%08d_", s.GongGetGongstructName(), order)
+}
+
+func __gong__marshallIdentifier(identifier, structName, name string) string {
+	decl := strings.ReplaceAll(GongIdentifiersDecls, "{{Identifier}}", identifier)
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", structName)
+	return strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(name))
+}
+
+func __gong__marshallUnstaging(identifier string) string {
+	return strings.ReplaceAll(GongUnstageStmt, "{{Identifier}}", identifier)
 }
 
 // end of template
