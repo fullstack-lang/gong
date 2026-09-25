@@ -19,16 +19,21 @@ func (diagram *Diagram) computeStartAndEndDate() {
 				continue
 			}
 
+			taskEnd := task.End
+			if task.IsAllDay && !task.IsMilestone {
+				taskEnd = taskEnd.AddDate(0, 0, 1)
+			}
+
 			if firstTask {
 				diagram.ComputedStart = task.Start
-				diagram.ComputedEnd = task.End
+				diagram.ComputedEnd = taskEnd
 				firstTask = false
 			} else {
 				if diagram.ComputedStart.After(task.Start) {
 					diagram.ComputedStart = task.Start
 				}
-				if diagram.ComputedEnd.Before(task.End) {
-					diagram.ComputedEnd = task.End
+				if diagram.ComputedEnd.Before(taskEnd) {
+					diagram.ComputedEnd = taskEnd
 				}
 			}
 		}

@@ -1221,6 +1221,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", taskIdent, __gong__toRawStringLiteral(task.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Start, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", taskIdent, task.Start.String()))
 			values.WriteString(fmt.Sprintf("\n\t%s.End, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", taskIdent, task.End.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsAllDay = %t", taskIdent, task.IsAllDay))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsMilestone = %t", taskIdent, task.IsMilestone))
 			values.WriteString(fmt.Sprintf("\n\t%s.DependencyType = %s", taskIdent, __gong__toRawStringLiteral(string(task.DependencyType))))
 			values.WriteString(fmt.Sprintf("\n\t%s.DependencyDurationYears = %f", taskIdent, task.DependencyDurationYears))
@@ -2911,6 +2912,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								inst.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
 							}
 						}
+					case "IsAllDay":
+						inst.IsAllDay = GongExtractBool(rhs)
 					case "IsMilestone":
 						inst.IsMilestone = GongExtractBool(rhs)
 					case "Predecessors":

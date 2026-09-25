@@ -110,6 +110,9 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		for _, diagram := range library.Diagrams {
 			diagram.IsWBSNodeExpanded = true
 		}
+		if callbacksTasks.createdItem != nil {
+			callbacksTasks.createdItem.IsAllDay = true
+		}
 	}
 
 	confProducts := ItemButtonConfiguration[

@@ -1323,6 +1323,8 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 				}
 			}
 		}
+	case "IsAllDay":
+		instance.IsAllDay = GongExtractBool(valueExpr)
 	case "IsMilestone":
 		instance.IsMilestone = GongExtractBool(valueExpr)
 	case "Predecessors":

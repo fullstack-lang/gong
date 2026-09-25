@@ -249,6 +249,9 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 	callbacksWBS.OnBeforeCommit = func() {
 		diagram.IsWBSNodeExpanded = true
 		diagram.IsExpanded = true
+		if callbacksWBS.createdItem != nil {
+			callbacksWBS.createdItem.IsAllDay = true
+		}
 	}
 
 	confPBS := ItemShapeAndLinkButtonConfiguration[
@@ -352,6 +355,9 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		callbacksWBSNode.OnBeforeCommit = func() {
 			diagram.IsWBSNodeExpanded = true
 			diagram.IsExpanded = true
+			if callbacksWBSNode.createdItem != nil {
+				callbacksWBSNode.createdItem.IsAllDay = true
+			}
 		}
 
 		if len(library.RootTaskGroups) > 0 {

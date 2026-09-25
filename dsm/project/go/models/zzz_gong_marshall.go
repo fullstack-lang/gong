@@ -892,6 +892,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Start"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsAllDay"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsMilestone"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Predecessors"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyType"))
@@ -3062,6 +3063,11 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", task.End.String())
+	case "IsAllDay":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAllDay")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsAllDay))
 	case "IsMilestone":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -4146,6 +4152,7 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Start"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsAllDay"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsMilestone"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Predecessors"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyType"))

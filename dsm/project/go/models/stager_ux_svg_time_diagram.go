@@ -167,19 +167,24 @@ func (stager *Stager) displayTask(diagram *Diagram, task *Task, taskShape *TaskS
 
 	var taskToDisplay = *task
 
+	endToDisplay := taskToDisplay.End
+	if taskToDisplay.IsAllDay && !taskToDisplay.IsMilestone {
+		endToDisplay = endToDisplay.AddDate(0, 0, 1)
+	}
+
 	if diagram.UseManualStartAndEndDates {
 		if task.Start.Before(diagram.ManualStart) {
 			taskToDisplay.Start = diagram.ManualStart
 		}
-		if task.End.After(diagram.ManualEnd) {
-			taskToDisplay.End = diagram.ManualEnd
+		if endToDisplay.After(diagram.ManualEnd) {
+			endToDisplay = diagram.ManualEnd
 		}
 	}
 
 	rect4Bar.X = diagram.dateToX(taskToDisplay.Start)
 	rect4Bar.Y = currentY + (LaneHeight-barHeigth)/2.0
 	rect4Bar.Height = barHeigth
-	endX := diagram.dateToX(taskToDisplay.End)
+	endX := diagram.dateToX(endToDisplay)
 	rect4Bar.Width = endX - rect4Bar.X
 	if rect4Bar.Width < 0 {
 		rect4Bar.Width = 0

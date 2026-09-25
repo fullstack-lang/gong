@@ -96,7 +96,12 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 		},
 		sliceForNewCompositionShapes: &diagram.TaskComposition_Shapes,
 	}
-	addCreateItemShapeAndLinkButton(stager, conf)
+	callbacksSubTask := addCreateItemShapeAndLinkButton(stager, conf)
+	callbacksSubTask.OnBeforeCommit = func() {
+		if callbacksSubTask.createdItem != nil {
+			callbacksSubTask.createdItem.IsAllDay = true
+		}
+	}
 
 	if taskShape, ok := diagram.map_Task_TaskShape[task]; ok {
 		button := &tree.Button{

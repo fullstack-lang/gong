@@ -31,6 +31,8 @@ type Task struct {
 	//gong:time-form-only
 	End time.Time
 
+	IsAllDay bool
+
 	IsMilestone bool
 
 	//gong:accordion-start "Predecessors"

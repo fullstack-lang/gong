@@ -124,7 +124,12 @@ func (stager *Stager) enforceTaskDurationDates() (needCommit bool) {
 				fractionalDays := days - float64(int(days))
 				hours := task.DurationHours + fractionalDays*24
 
-				expectedStart := task.End.AddDate(
+				effectiveEnd := task.End
+				if task.IsAllDay && !task.IsMilestone {
+					effectiveEnd = effectiveEnd.AddDate(0, 0, 1)
+				}
+
+				expectedStart := effectiveEnd.AddDate(
 					-int(task.DurationYears),
 					-int(task.DurationMonths),
 					-int(days),
@@ -149,6 +154,11 @@ func (stager *Stager) enforceTaskDurationDates() (needCommit bool) {
 				int(task.DurationMonths),
 				int(days),
 			).Add(time.Duration(hours * float64(time.Hour)))
+
+			if task.IsAllDay && !task.IsMilestone && (task.DurationYears > 0 || task.DurationMonths > 0 || days > 0 || hours > 0) {
+				expectedEnd = expectedEnd.AddDate(0, 0, -1)
+			}
+
 			if !task.End.Equal(expectedEnd) {
 				task.End = expectedEnd
 				needCommit = true
@@ -177,6 +187,9 @@ func (stager *Stager) enforceTaskPredecessorDates() (needCommit bool) {
 			switch task.DependencyType {
 			case FINISH_TO_START, FINISH_TO_FINISH:
 				predDate = predecessor.End
+				if predecessor.IsAllDay && !predecessor.IsMilestone {
+					predDate = predDate.AddDate(0, 0, 1)
+				}
 			case START_TO_START, START_TO_FINISH:
 				predDate = predecessor.Start
 			}
@@ -231,31 +244,39 @@ func (stager *Stager) enforceTaskPredecessorDates() (needCommit bool) {
 				needCommit = true
 			}
 		case FINISH_TO_FINISH: // End from End (FF)
-			if !task.End.Equal(targetDate) {
-				task.End = targetDate
+			expectedEnd := targetDate
+			if task.IsAllDay && !task.IsMilestone {
+				expectedEnd = expectedEnd.AddDate(0, 0, -1)
+			}
+			if !task.End.Equal(expectedEnd) {
+				task.End = expectedEnd
 				if task.IsMilestone {
-					task.Start = targetDate
+					task.Start = expectedEnd
 				}
 				needCommit = true
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted end date from predecessor end date and dependency duration (FF)", task.Name))
 				}
-			} else if task.IsMilestone && !task.Start.Equal(targetDate) {
-				task.Start = targetDate
+			} else if task.IsMilestone && !task.Start.Equal(expectedEnd) {
+				task.Start = expectedEnd
 				needCommit = true
 			}
 		case START_TO_FINISH: // End from Start (SF)
-			if !task.End.Equal(targetDate) {
-				task.End = targetDate
+			expectedEnd := targetDate
+			if task.IsAllDay && !task.IsMilestone {
+				expectedEnd = expectedEnd.AddDate(0, 0, -1)
+			}
+			if !task.End.Equal(expectedEnd) {
+				task.End = expectedEnd
 				if task.IsMilestone {
-					task.Start = targetDate
+					task.Start = expectedEnd
 				}
 				needCommit = true
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted end date from predecessor start date and dependency duration (SF)", task.Name))
 				}
-			} else if task.IsMilestone && !task.Start.Equal(targetDate) {
-				task.Start = targetDate
+			} else if task.IsMilestone && !task.Start.Equal(expectedEnd) {
+				task.Start = expectedEnd
 				needCommit = true
 			}
 		}

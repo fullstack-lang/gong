@@ -5189,6 +5189,9 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if task.End != taskOther.End {
 		diffs = append(diffs, task.GongMarshallField(stage, "End"))
 	}
+	if task.IsAllDay != taskOther.IsAllDay {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsAllDay"))
+	}
 	if task.IsMilestone != taskOther.IsMilestone {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsMilestone"))
 	}

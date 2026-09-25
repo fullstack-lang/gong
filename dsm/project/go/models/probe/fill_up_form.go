@@ -693,6 +693,8 @@ func FillUpForm(
 			false, false, 0, false, 0, true)
 		BasicFieldtoForm("End", instanceWithInferedType.End, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, true)
+		BasicFieldtoForm("IsAllDay", instanceWithInferedType.IsAllDay, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsMilestone", instanceWithInferedType.IsMilestone, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{

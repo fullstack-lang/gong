@@ -7024,6 +7024,10 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
+			Name:               "IsAllDay",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsMilestone",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -8628,6 +8632,10 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = task.Start.String()
 	case "End":
 		res.valueString = task.End.String()
+	case "IsAllDay":
+		res.valueString = fmt.Sprintf("%t", task.IsAllDay)
+		res.valueBool = task.IsAllDay
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsMilestone":
 		res.valueString = fmt.Sprintf("%t", task.IsMilestone)
 		res.valueBool = task.IsMilestone

@@ -570,6 +570,8 @@ type Task_WOP struct {
 
 	End time.Time
 
+	IsAllDay bool
+
 	IsMilestone bool
 
 	DependencyType DependencyTypeEnum
@@ -627,6 +629,7 @@ func (from *Task) GongCopyBasicFields(to *Task) {
 	to.Description = from.Description
 	to.Start = from.Start
 	to.End = from.End
+	to.IsAllDay = from.IsAllDay
 	to.IsMilestone = from.IsMilestone
 	to.DependencyType = from.DependencyType
 	to.DependencyDurationYears = from.DependencyDurationYears

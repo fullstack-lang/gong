@@ -973,6 +973,8 @@ func saveTaskFields(
 			FormDivTimeFieldToField(&(_instance.Start), formDiv, true)
 		case "End":
 			FormDivTimeFieldToField(&(_instance.End), formDiv, true)
+		case "IsAllDay":
+			FormDivBasicFieldToField(&(_instance.IsAllDay), formDiv)
 		case "IsMilestone":
 			FormDivBasicFieldToField(&(_instance.IsMilestone), formDiv)
 		case "Predecessors":
