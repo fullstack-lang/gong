@@ -1077,6 +1077,8 @@ func FillUpForm(
 		AssociationFieldToForm("Task", instanceWithInferedType.Task, formGroup, probe)
 		BasicFieldtoForm("IsShowDate", instanceWithInferedType.IsShowDate, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("VerticalOffset", instanceWithInferedType.VerticalOffset, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("OverideLayoutDirection", instanceWithInferedType.OverideLayoutDirection, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)

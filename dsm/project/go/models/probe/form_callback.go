@@ -1360,6 +1360,8 @@ func saveTaskShapeFields(
 			FormDivSelectFieldToField(&(_instance.Task), probe.stageOfInterest, formDiv)
 		case "IsShowDate":
 			FormDivBasicFieldToField(&(_instance.IsShowDate), formDiv)
+		case "VerticalOffset":
+			FormDivBasicFieldToField(&(_instance.VerticalOffset), formDiv)
 		case "OverideLayoutDirection":
 			FormDivBasicFieldToField(&(_instance.OverideLayoutDirection), formDiv)
 		case "LayoutDirection":

@@ -413,6 +413,11 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 		taskGroupsToDisplay = append(taskGroupsToDisplay, taskGroup)
 	}
 
+	verticalOffset := 0.0
+	if taskShape != nil {
+		verticalOffset = taskShape.VerticalOffset
+	}
+
 	for _, taskGroupToDisplay := range taskGroupsToDisplay {
 		diamond := new(svg.Rect)
 		diagram.map_SvgRect_TaskShape[diamond] = taskShape
@@ -433,7 +438,7 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 		}
 
 		diamond.X = lineX - diamondWidth/2.0
-		diamond.Y = mapTaskGroup_TextY[taskGroupToDisplay] - diagram.TextHeight/2.0 - diamondWidth/2.0
+		diamond.Y = mapTaskGroup_TextY[taskGroupToDisplay] - diagram.TextHeight/2.0 - diamondWidth/2.0 + verticalOffset
 		diamond.Width = diamondWidth
 		diamond.Height = diamondWidth
 		diamond.Color = "crimson"

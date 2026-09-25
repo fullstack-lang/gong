@@ -5702,6 +5702,9 @@ func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (d
 	if taskshape.IsShowDate != taskshapeOther.IsShowDate {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "IsShowDate"))
 	}
+	if taskshape.VerticalOffset != taskshapeOther.VerticalOffset {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "VerticalOffset"))
+	}
 	if taskshape.OverideLayoutDirection != taskshapeOther.OverideLayoutDirection {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "OverideLayoutDirection"))
 	}

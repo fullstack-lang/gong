@@ -126,6 +126,50 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 		}
 		taskNode.Menu.Buttons = append(taskNode.Menu.Buttons, button)
 
+		if task.IsMilestone && diagram.IsTimeDiagram {
+			step := diagram.TextHeight
+			if step <= 0 {
+				step = 15.0
+			}
+			upButton := &tree.Button{
+				Name:            "Move milestone up",
+				Icon:            string(buttons.BUTTON_arrow_upward),
+				ToolTipText:     "Move milestone up",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					taskShape.VerticalOffset -= step
+					stage.Commit()
+				},
+			}
+			downButton := &tree.Button{
+				Name:            "Move milestone down",
+				Icon:            string(buttons.BUTTON_arrow_downward),
+				ToolTipText:     "Move milestone down",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					taskShape.VerticalOffset += step
+					stage.Commit()
+				},
+			}
+			taskNode.Buttons = append(taskNode.Buttons, upButton, downButton)
+
+			if taskShape.VerticalOffset != 0 {
+				resetOffsetButton := &tree.Button{
+					Name:            "Reset milestone vertical offset",
+					Icon:            string(buttons.BUTTON_restart_alt),
+					ToolTipText:     "Reset milestone vertical offset to 0",
+					HasToolTip:      true,
+					ToolTipPosition: tree.Right,
+					OnClick: func() {
+						taskShape.VerticalOffset = 0
+						stage.Commit()
+					},
+				}
+				taskNode.Menu.Buttons = append(taskNode.Menu.Buttons, resetOffsetButton)
+			}
+		}
 	}
 
 	for _, task := range task.SubTasks {

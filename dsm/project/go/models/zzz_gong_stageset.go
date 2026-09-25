@@ -1611,6 +1611,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", taskshapeIdent, __gong__toRawStringLiteral(taskshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsShowDate = %t", taskshapeIdent, taskshape.IsShowDate))
+			values.WriteString(fmt.Sprintf("\n\t%s.VerticalOffset = %f", taskshapeIdent, taskshape.VerticalOffset))
 			values.WriteString(fmt.Sprintf("\n\t%s.OverideLayoutDirection = %t", taskshapeIdent, taskshape.OverideLayoutDirection))
 			values.WriteString(fmt.Sprintf("\n\t%s.LayoutDirection = %d", taskshapeIdent, int(taskshape.LayoutDirection)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", taskshapeIdent, taskshape.X))
@@ -3203,6 +3204,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						}
 					case "IsShowDate":
 						inst.IsShowDate = GongExtractBool(rhs)
+					case "VerticalOffset":
+						inst.VerticalOffset = GongExtractFloat(rhs)
 					case "OverideLayoutDirection":
 						inst.OverideLayoutDirection = GongExtractBool(rhs)
 					case "LayoutDirection":

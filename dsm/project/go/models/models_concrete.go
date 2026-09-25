@@ -113,6 +113,8 @@ type TaskShape struct {
 
 	IsShowDate bool
 
+	VerticalOffset float64
+
 	ConcreteTypeFields
 
 	RectShape

@@ -7425,6 +7425,10 @@ func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "VerticalOffset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "OverideLayoutDirection",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -9031,6 +9035,10 @@ func (taskshape *TaskShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", taskshape.IsShowDate)
 		res.valueBool = taskshape.IsShowDate
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "VerticalOffset":
+		res.valueString = fmt.Sprintf("%f", taskshape.VerticalOffset)
+		res.valueFloat = taskshape.VerticalOffset
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "OverideLayoutDirection":
 		res.valueString = fmt.Sprintf("%t", taskshape.OverideLayoutDirection)
 		res.valueBool = taskshape.OverideLayoutDirection

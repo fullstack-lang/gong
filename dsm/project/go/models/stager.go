@@ -110,3 +110,11 @@ func NewStager(
 func (stager *Stager) GetSvgObject() *svg.SVG {
 	return stager.svgObject
 }
+
+func (stager *Stager) GetTreeStage() *tree.Stage {
+	return stager.treeStage
+}
+
+func (stager *Stager) GetSvgStage() *svg.Stage {
+	return stager.svgStage
+}

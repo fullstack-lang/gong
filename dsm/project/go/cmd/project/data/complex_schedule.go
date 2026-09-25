@@ -638,10 +638,10 @@ func _(stage *models.Stage) {
 
 	__Task__00000010_.Name = `Pre Alha`
 	__Task__00000010_.Description = ``
-	__Task__00000010_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Task__00000010_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000010_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-13 00:00:00 +0000 UTC")
+	__Task__00000010_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-13 00:00:00 +0000 UTC")
 	__Task__00000010_.IsAllDay = true
-	__Task__00000010_.IsMilestone = false
+	__Task__00000010_.IsMilestone = true
 	__Task__00000010_.DependencyType = models.FINISH_TO_START
 	__Task__00000010_.DependencyDurationYears = 0.000000
 	__Task__00000010_.DependencyDurationMonths = 0.000000
@@ -793,6 +793,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000000_.Name = `gantt-Architecture Blueprint`
 	__TaskShape__00000000_.IsShowDate = false
+	__TaskShape__00000000_.VerticalOffset = 0.000000
 	__TaskShape__00000000_.OverideLayoutDirection = false
 	__TaskShape__00000000_.LayoutDirection = models.Vertical
 	__TaskShape__00000000_.X = 250.000000
@@ -803,6 +804,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000001_.Name = `gantt-Security Review`
 	__TaskShape__00000001_.IsShowDate = false
+	__TaskShape__00000001_.VerticalOffset = 0.000000
 	__TaskShape__00000001_.OverideLayoutDirection = false
 	__TaskShape__00000001_.LayoutDirection = models.Vertical
 	__TaskShape__00000001_.X = 300.000000
@@ -813,6 +815,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000002_.Name = `gantt-Storage Engine Sprint`
 	__TaskShape__00000002_.IsShowDate = false
+	__TaskShape__00000002_.VerticalOffset = 0.000000
 	__TaskShape__00000002_.OverideLayoutDirection = false
 	__TaskShape__00000002_.LayoutDirection = models.Vertical
 	__TaskShape__00000002_.X = 350.000000
@@ -823,6 +826,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000003_.Name = `gantt-Alpha Release Milestone`
 	__TaskShape__00000003_.IsShowDate = false
+	__TaskShape__00000003_.VerticalOffset = 0.000000
 	__TaskShape__00000003_.OverideLayoutDirection = false
 	__TaskShape__00000003_.LayoutDirection = models.Vertical
 	__TaskShape__00000003_.X = 400.000000
@@ -833,6 +837,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000004_.Name = `gantt-Frontend Web UI Sprint`
 	__TaskShape__00000004_.IsShowDate = false
+	__TaskShape__00000004_.VerticalOffset = 0.000000
 	__TaskShape__00000004_.OverideLayoutDirection = false
 	__TaskShape__00000004_.LayoutDirection = models.Vertical
 	__TaskShape__00000004_.X = 450.000000
@@ -843,6 +848,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000005_.Name = `gantt-UI Polish & Theming`
 	__TaskShape__00000005_.IsShowDate = false
+	__TaskShape__00000005_.VerticalOffset = 0.000000
 	__TaskShape__00000005_.OverideLayoutDirection = false
 	__TaskShape__00000005_.LayoutDirection = models.Vertical
 	__TaskShape__00000005_.X = 500.000000
@@ -853,6 +859,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000006_.Name = `gantt-End-to-End Integration Testing`
 	__TaskShape__00000006_.IsShowDate = false
+	__TaskShape__00000006_.VerticalOffset = 0.000000
 	__TaskShape__00000006_.OverideLayoutDirection = false
 	__TaskShape__00000006_.LayoutDirection = models.Vertical
 	__TaskShape__00000006_.X = 550.000000
@@ -863,6 +870,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000007_.Name = `gantt-Production Deployment`
 	__TaskShape__00000007_.IsShowDate = false
+	__TaskShape__00000007_.VerticalOffset = 0.000000
 	__TaskShape__00000007_.OverideLayoutDirection = false
 	__TaskShape__00000007_.LayoutDirection = models.Vertical
 	__TaskShape__00000007_.X = 600.000000
@@ -873,6 +881,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000008_.Name = `gantt-General Availability Milestone`
 	__TaskShape__00000008_.IsShowDate = false
+	__TaskShape__00000008_.VerticalOffset = 0.000000
 	__TaskShape__00000008_.OverideLayoutDirection = false
 	__TaskShape__00000008_.LayoutDirection = models.Vertical
 	__TaskShape__00000008_.X = 650.000000
@@ -883,6 +892,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000009_.Name = `wbs-Architecture Blueprint`
 	__TaskShape__00000009_.IsShowDate = false
+	__TaskShape__00000009_.VerticalOffset = 0.000000
 	__TaskShape__00000009_.OverideLayoutDirection = false
 	__TaskShape__00000009_.LayoutDirection = models.Vertical
 	__TaskShape__00000009_.X = 300.000000
@@ -893,6 +903,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000010_.Name = `wbs-Security Review`
 	__TaskShape__00000010_.IsShowDate = false
+	__TaskShape__00000010_.VerticalOffset = 0.000000
 	__TaskShape__00000010_.OverideLayoutDirection = false
 	__TaskShape__00000010_.LayoutDirection = models.Vertical
 	__TaskShape__00000010_.X = 350.000000
@@ -903,6 +914,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000011_.Name = `wbs-Storage Engine Sprint`
 	__TaskShape__00000011_.IsShowDate = false
+	__TaskShape__00000011_.VerticalOffset = 0.000000
 	__TaskShape__00000011_.OverideLayoutDirection = false
 	__TaskShape__00000011_.LayoutDirection = models.Vertical
 	__TaskShape__00000011_.X = 400.000000
@@ -913,6 +925,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000012_.Name = `wbs-Alpha Release Milestone`
 	__TaskShape__00000012_.IsShowDate = false
+	__TaskShape__00000012_.VerticalOffset = 0.000000
 	__TaskShape__00000012_.OverideLayoutDirection = false
 	__TaskShape__00000012_.LayoutDirection = models.Vertical
 	__TaskShape__00000012_.X = 450.000000
@@ -923,6 +936,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000013_.Name = `wbs-Frontend Web UI Sprint`
 	__TaskShape__00000013_.IsShowDate = false
+	__TaskShape__00000013_.VerticalOffset = 0.000000
 	__TaskShape__00000013_.OverideLayoutDirection = false
 	__TaskShape__00000013_.LayoutDirection = models.Vertical
 	__TaskShape__00000013_.X = 500.000000
@@ -933,6 +947,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000014_.Name = `wbs-UI Polish & Theming`
 	__TaskShape__00000014_.IsShowDate = false
+	__TaskShape__00000014_.VerticalOffset = 0.000000
 	__TaskShape__00000014_.OverideLayoutDirection = false
 	__TaskShape__00000014_.LayoutDirection = models.Vertical
 	__TaskShape__00000014_.X = 550.000000
@@ -943,6 +958,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000015_.Name = `wbs-End-to-End Integration Testing`
 	__TaskShape__00000015_.IsShowDate = false
+	__TaskShape__00000015_.VerticalOffset = 0.000000
 	__TaskShape__00000015_.OverideLayoutDirection = false
 	__TaskShape__00000015_.LayoutDirection = models.Vertical
 	__TaskShape__00000015_.X = 600.000000
@@ -953,6 +969,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000016_.Name = `wbs-Production Deployment`
 	__TaskShape__00000016_.IsShowDate = false
+	__TaskShape__00000016_.VerticalOffset = 0.000000
 	__TaskShape__00000016_.OverideLayoutDirection = false
 	__TaskShape__00000016_.LayoutDirection = models.Vertical
 	__TaskShape__00000016_.X = 650.000000
@@ -963,6 +980,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000017_.Name = `wbs-General Availability Milestone`
 	__TaskShape__00000017_.IsShowDate = false
+	__TaskShape__00000017_.VerticalOffset = 0.000000
 	__TaskShape__00000017_.OverideLayoutDirection = false
 	__TaskShape__00000017_.LayoutDirection = models.Vertical
 	__TaskShape__00000017_.X = 700.000000
@@ -973,6 +991,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000019_.Name = `gantt-Pre Alha`
 	__TaskShape__00000019_.IsShowDate = false
+	__TaskShape__00000019_.VerticalOffset = 15.000000
 	__TaskShape__00000019_.OverideLayoutDirection = false
 	__TaskShape__00000019_.LayoutDirection = models.Vertical
 	__TaskShape__00000019_.X = 700.000000
@@ -996,6 +1015,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000007_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000008_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000019_)
+	__Diagram__00000000_.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseNodeIsExpanded, __Task__00000010_)
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000000_)
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000001_)
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000002_)
@@ -1082,11 +1102,13 @@ func _(stage *models.Stage) {
 	__Task__00000007_.Predecessors = append(__Task__00000007_.Predecessors, __Task__00000006_)
 	__Task__00000007_.ReferencedTask = nil
 	__Task__00000008_.ReferencedTask = nil
+	__Task__00000010_.Predecessors = append(__Task__00000010_.Predecessors, __Task__00000002_)
 	__Task__00000010_.ReferencedTask = nil
 	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000000_)
 	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000001_)
 	__TaskGroup__00000001_.Tasks = append(__TaskGroup__00000001_.Tasks, __Task__00000002_)
 	__TaskGroup__00000001_.Tasks = append(__TaskGroup__00000001_.Tasks, __Task__00000003_)
+	__TaskGroup__00000001_.Tasks = append(__TaskGroup__00000001_.Tasks, __Task__00000010_)
 	__TaskGroup__00000002_.Tasks = append(__TaskGroup__00000002_.Tasks, __Task__00000004_)
 	__TaskGroup__00000002_.Tasks = append(__TaskGroup__00000002_.Tasks, __Task__00000005_)
 	__TaskGroup__00000003_.Tasks = append(__TaskGroup__00000003_.Tasks, __Task__00000006_)

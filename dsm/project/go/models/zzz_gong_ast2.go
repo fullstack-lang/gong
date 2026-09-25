@@ -1674,6 +1674,8 @@ func (u *TaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		GongUnmarshallPointer(&instance.Task, valueExpr, identifierMap)
 	case "IsShowDate":
 		instance.IsShowDate = GongExtractBool(valueExpr)
+	case "VerticalOffset":
+		instance.VerticalOffset = GongExtractFloat(valueExpr)
 	case "OverideLayoutDirection":
 		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
 	case "LayoutDirection":

@@ -823,6 +823,8 @@ type TaskShape_WOP struct {
 
 	IsShowDate bool
 
+	VerticalOffset float64
+
 	OverideLayoutDirection bool
 
 	LayoutDirection LayoutDirection
@@ -842,6 +844,7 @@ func (from *TaskShape) GongCopyBasicFields(to *TaskShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsShowDate = from.IsShowDate
+	to.VerticalOffset = from.VerticalOffset
 	to.OverideLayoutDirection = from.OverideLayoutDirection
 	to.LayoutDirection = from.LayoutDirection
 	to.X = from.X
