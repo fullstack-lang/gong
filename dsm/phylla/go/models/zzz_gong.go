@@ -23960,936 +23960,301 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case Angle0Shape:
-		return any(&Angle0Shape{
-			// Initialisation of associations
-		}).(*Type)
-	case ArcNormalVectorShape:
-		return any(&ArcNormalVectorShape{
-			// Initialisation of associations
-		}).(*Type)
 	case ArcNormalVectorShapeGrid:
 		return any(&ArcNormalVectorShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of ArcNormalVectorShape with the name of the field
 			ArcNormalVectorShapes: []*ArcNormalVectorShape{{Name: "ArcNormalVectorShapes"}},
-		}).(*Type)
-	case AxesShape:
-		return any(&AxesShape{
-			// Initialisation of associations
-		}).(*Type)
-	case BaseVectorShape:
-		return any(&BaseVectorShape{
-			// Initialisation of associations
 		}).(*Type)
 	case BaseVectorShapeGrid:
 		return any(&BaseVectorShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of BaseVectorShape with the name of the field
 			BaseVectorShapes: []*BaseVectorShape{{Name: "BaseVectorShapes"}},
-		}).(*Type)
-	case BottomCurvePlane1Shape:
-		return any(&BottomCurvePlane1Shape{
-			// Initialisation of associations
-		}).(*Type)
-	case BottomCurvePlane2Shape:
-		return any(&BottomCurvePlane2Shape{
-			// Initialisation of associations
-		}).(*Type)
-	case ChosenP1P2PairShape:
-		return any(&ChosenP1P2PairShape{
-			// Initialisation of associations
-		}).(*Type)
-	case CircleGridShape:
-		return any(&CircleGridShape{
-			// Initialisation of associations
-		}).(*Type)
-	case Circumference3DShape:
-		return any(&Circumference3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case Clock2DDiagram:
-		return any(&Clock2DDiagram{
-			// Initialisation of associations
 		}).(*Type)
 	case Clock3DDiagram:
 		return any(&Clock3DDiagram{
-			// Initialisation of associations
-			// field is initialized with an instance of ClockTopCurveShape with the name of the field
 			ClockTopCurveShape: &ClockTopCurveShape{Name: "ClockTopCurveShape"},
-			// field is initialized with an instance of Torus3DShape with the name of the field
 			Torus3DShape: &Torus3DShape{Name: "Torus3DShape"},
-			// field is initialized with an instance of SampledPoints3DShape with the name of the field
 			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
-			// field is initialized with an instance of TiledFloor3DShape with the name of the field
 			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
-			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
-		}).(*Type)
-	case ClockTopCurveShape:
-		return any(&ClockTopCurveShape{
-			// Initialisation of associations
-		}).(*Type)
-	case CutLine3DShape:
-		return any(&CutLine3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case EndArcShape:
-		return any(&EndArcShape{
-			// Initialisation of associations
 		}).(*Type)
 	case EndArcShapeGrid:
 		return any(&EndArcShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of EndArcShape with the name of the field
 			EndArcShapes: []*EndArcShape{{Name: "EndArcShapes"}},
-		}).(*Type)
-	case EndHalfwayArcShape:
-		return any(&EndHalfwayArcShape{
-			// Initialisation of associations
 		}).(*Type)
 	case EndHalfwayArcShapeGrid:
 		return any(&EndHalfwayArcShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of EndHalfwayArcShape with the name of the field
 			EndHalfwayArcShapes: []*EndHalfwayArcShape{{Name: "EndHalfwayArcShapes"}},
-		}).(*Type)
-	case ExplanationTextShape:
-		return any(&ExplanationTextShape{
-			// Initialisation of associations
-		}).(*Type)
-	case Eye3DShape:
-		return any(&Eye3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case EyeCornersSampledPoints3DShape:
-		return any(&EyeCornersSampledPoints3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case EyeSampledPoints3DShape:
-		return any(&EyeSampledPoints3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case EyeSeatBottomCurveShape:
-		return any(&EyeSeatBottomCurveShape{
-			// Initialisation of associations
-		}).(*Type)
-	case EyeStoolBottomCurveShape:
-		return any(&EyeStoolBottomCurveShape{
-			// Initialisation of associations
-		}).(*Type)
-	case EyeVolume3DShape:
-		return any(&EyeVolume3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case GridPathShape:
-		return any(&GridPathShape{
-			// Initialisation of associations
 		}).(*Type)
 	case GrowthCurve2D:
 		return any(&GrowthCurve2D{
-			// Initialisation of associations
-			// field is initialized with an instance of StartHalfwayArcShapeGrid with the name of the field
 			StartHalfwayArcShapeGrid: &StartHalfwayArcShapeGrid{Name: "StartHalfwayArcShapeGrid"},
-			// field is initialized with an instance of EndHalfwayArcShapeGrid with the name of the field
 			EndHalfwayArcShapeGrid: &EndHalfwayArcShapeGrid{Name: "EndHalfwayArcShapeGrid"},
 		}).(*Type)
 	case GrowthCurve2DRibbon:
 		return any(&GrowthCurve2DRibbon{
-			// Initialisation of associations
-			// field is initialized with an instance of GrowthCurve2DRibbonStartShape with the name of the field
 			GrowthCurve2DRibbonStartShapes: []*GrowthCurve2DRibbonStartShape{{Name: "GrowthCurve2DRibbonStartShapes"}},
-			// field is initialized with an instance of GrowthCurve2DRibbonEndShape with the name of the field
 			GrowthCurve2DRibbonEndShapes: []*GrowthCurve2DRibbonEndShape{{Name: "GrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case GrowthCurve2DRibbonEndShape:
-		return any(&GrowthCurve2DRibbonEndShape{
-			// Initialisation of associations
-		}).(*Type)
-	case GrowthCurve2DRibbonStartShape:
-		return any(&GrowthCurve2DRibbonStartShape{
-			// Initialisation of associations
 		}).(*Type)
 	case GrowthCurveRhombusGridShape:
 		return any(&GrowthCurveRhombusGridShape{
-			// Initialisation of associations
-			// field is initialized with an instance of GrowthCurveRhombusShape with the name of the field
 			GrowthCurveRhombusShapes: []*GrowthCurveRhombusShape{{Name: "GrowthCurveRhombusShapes"}},
-		}).(*Type)
-	case GrowthCurveRhombusShape:
-		return any(&GrowthCurveRhombusShape{
-			// Initialisation of associations
-		}).(*Type)
-	case GrowthVectorShape:
-		return any(&GrowthVectorShape{
-			// Initialisation of associations
 		}).(*Type)
 	case InitialRhombusGridShape:
 		return any(&InitialRhombusGridShape{
-			// Initialisation of associations
-			// field is initialized with an instance of InitialRhombusShape with the name of the field
 			InitialRhombusShapes: []*InitialRhombusShape{{Name: "InitialRhombusShapes"}},
-		}).(*Type)
-	case InitialRhombusShape:
-		return any(&InitialRhombusShape{
-			// Initialisation of associations
-		}).(*Type)
-	case Key3DShape:
-		return any(&Key3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case KeyHole3DShape:
-		return any(&KeyHole3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case KeyHoleShape:
-		return any(&KeyHoleShape{
-			// Initialisation of associations
-		}).(*Type)
-	case Leaves3DShape:
-		return any(&Leaves3DShape{
-			// Initialisation of associations
 		}).(*Type)
 	case Library:
 		return any(&Library{
-			// Initialisation of associations
-			// field is initialized with an instance of PlantAbstract with the name of the field
 			Plants: []*PlantAbstract{{Name: "Plants"}},
-			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
-		}).(*Type)
-	case MidArcVectorShape:
-		return any(&MidArcVectorShape{
-			// Initialisation of associations
 		}).(*Type)
 	case MidArcVectorShapeGrid:
 		return any(&MidArcVectorShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of MidArcVectorShape with the name of the field
 			MidArcVectorShapes: []*MidArcVectorShape{{Name: "MidArcVectorShapes"}},
-		}).(*Type)
-	case OriginalPoints3DShape:
-		return any(&OriginalPoints3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case ParastichyMCurves3DShape:
-		return any(&ParastichyMCurves3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case ParastichyNCurves3DShape:
-		return any(&ParastichyNCurves3DShape{
-			// Initialisation of associations
 		}).(*Type)
 	case PartiallyGrowthCurve2DRibbon:
 		return any(&PartiallyGrowthCurve2DRibbon{
-			// Initialisation of associations
-			// field is initialized with an instance of PartiallyGrowthCurve2DRibbonStartShape with the name of the field
 			PartiallyGrowthCurve2DRibbonStartShapes: []*PartiallyGrowthCurve2DRibbonStartShape{{Name: "PartiallyGrowthCurve2DRibbonStartShapes"}},
-			// field is initialized with an instance of PartiallyGrowthCurve2DRibbonEndShape with the name of the field
 			PartiallyGrowthCurve2DRibbonEndShapes: []*PartiallyGrowthCurve2DRibbonEndShape{{Name: "PartiallyGrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case PartiallyGrowthCurve2DRibbonEndShape:
-		return any(&PartiallyGrowthCurve2DRibbonEndShape{
-			// Initialisation of associations
-		}).(*Type)
-	case PartiallyGrowthCurve2DRibbonStartShape:
-		return any(&PartiallyGrowthCurve2DRibbonStartShape{
-			// Initialisation of associations
 		}).(*Type)
 	case PartiallyGrowthCurve2DTrajectory:
 		return any(&PartiallyGrowthCurve2DTrajectory{
-			// Initialisation of associations
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryShape with the name of the field
 			PartiallyGrowthCurve2DTrajectoryShapes: []*PartiallyGrowthCurve2DTrajectoryShape{{Name: "PartiallyGrowthCurve2DTrajectoryShapes"}},
-		}).(*Type)
-	case PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		return any(&PartiallyGrowthCurve2DTrajectoryP1CurveShape{
-			// Initialisation of associations
 		}).(*Type)
 	case PartiallyGrowthCurve2DTrajectoryP1P2:
 		return any(&PartiallyGrowthCurve2DTrajectoryP1P2{
-			// Initialisation of associations
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1PointShape with the name of the field
 			P1PointShapes: []*PartiallyGrowthCurve2DTrajectoryP1PointShape{{Name: "P1PointShapes"}},
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP2PointShape with the name of the field
 			P2PointShapes: []*PartiallyGrowthCurve2DTrajectoryP2PointShape{{Name: "P2PointShapes"}},
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1CurveShape with the name of the field
 			P1CurveShapes: []*PartiallyGrowthCurve2DTrajectoryP1CurveShape{{Name: "P1CurveShapes"}},
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP2CurveShape with the name of the field
 			P2CurveShapes: []*PartiallyGrowthCurve2DTrajectoryP2CurveShape{{Name: "P2CurveShapes"}},
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape with the name of the field
 			P1P2PairLineShapes: []*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape{{Name: "P1P2PairLineShapes"}},
-		}).(*Type)
-	case PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		return any(&PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape{
-			// Initialisation of associations
-		}).(*Type)
-	case PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		return any(&PartiallyGrowthCurve2DTrajectoryP1PointShape{
-			// Initialisation of associations
-		}).(*Type)
-	case PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		return any(&PartiallyGrowthCurve2DTrajectoryP2CurveShape{
-			// Initialisation of associations
-		}).(*Type)
-	case PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		return any(&PartiallyGrowthCurve2DTrajectoryP2PointShape{
-			// Initialisation of associations
-		}).(*Type)
-	case PartiallyGrowthCurve2DTrajectoryShape:
-		return any(&PartiallyGrowthCurve2DTrajectoryShape{
-			// Initialisation of associations
-		}).(*Type)
-	case PartiallyRotatedSeatBottomCurveShape:
-		return any(&PartiallyRotatedSeatBottomCurveShape{
-			// Initialisation of associations
-		}).(*Type)
-	case PartiallyRotatedSeatTopCurveShape:
-		return any(&PartiallyRotatedSeatTopCurveShape{
-			// Initialisation of associations
-		}).(*Type)
-	case PartiallyRotatedTorusShape:
-		return any(&PartiallyRotatedTorusShape{
-			// Initialisation of associations
-		}).(*Type)
-	case PerpendicularVector:
-		return any(&PerpendicularVector{
-			// Initialisation of associations
 		}).(*Type)
 	case PerpendicularVectorGrid:
 		return any(&PerpendicularVectorGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of PerpendicularVector with the name of the field
 			PerpendicularVectors: []*PerpendicularVector{{Name: "PerpendicularVectors"}},
 		}).(*Type)
 	case PerpendicularVectorGridHalfway:
 		return any(&PerpendicularVectorGridHalfway{
-			// Initialisation of associations
-			// field is initialized with an instance of PerpendicularVectorHalfway with the name of the field
 			PerpendicularVectorHalfways: []*PerpendicularVectorHalfway{{Name: "PerpendicularVectorHalfways"}},
-		}).(*Type)
-	case PerpendicularVectorHalfway:
-		return any(&PerpendicularVectorHalfway{
-			// Initialisation of associations
-		}).(*Type)
-	case Plant2DDiagram:
-		return any(&Plant2DDiagram{
-			// Initialisation of associations
 		}).(*Type)
 	case Plant3DDiagram:
 		return any(&Plant3DDiagram{
-			// Initialisation of associations
-			// field is initialized with an instance of StemCylinder3DShape with the name of the field
 			StemCylinder3DShape: &StemCylinder3DShape{Name: "StemCylinder3DShape"},
-			// field is initialized with an instance of ParastichyNCurves3DShape with the name of the field
 			ParastichyNCurves3DShape: &ParastichyNCurves3DShape{Name: "ParastichyNCurves3DShape"},
-			// field is initialized with an instance of ParastichyMCurves3DShape with the name of the field
 			ParastichyMCurves3DShape: &ParastichyMCurves3DShape{Name: "ParastichyMCurves3DShape"},
-			// field is initialized with an instance of CutLine3DShape with the name of the field
 			CutLine3DShape: &CutLine3DShape{Name: "CutLine3DShape"},
-			// field is initialized with an instance of Circumference3DShape with the name of the field
 			Circumference3DShape: &Circumference3DShape{Name: "Circumference3DShape"},
-			// field is initialized with an instance of TiledFloor3DShape with the name of the field
 			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
-			// field is initialized with an instance of Leaves3DShape with the name of the field
 			Leaves3DShape: &Leaves3DShape{Name: "Leaves3DShape"},
-			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
 		}).(*Type)
 	case PlantAbstract:
 		return any(&PlantAbstract{
-			// Initialisation of associations
-			// field is initialized with an instance of TubeVaseAbstract with the name of the field
 			TubeVaseAbstract: &TubeVaseAbstract{Name: "TubeVaseAbstract"},
-			// field is initialized with an instance of Plant2DDiagram with the name of the field
 			Plant2DDiagrams: []*Plant2DDiagram{{Name: "Plant2DDiagrams"}},
-			// field is initialized with an instance of Plant3DDiagram with the name of the field
 			Plant3DDiagrams: []*Plant3DDiagram{{Name: "Plant3DDiagrams"}},
-			// field is initialized with an instance of Vase2DDiagram with the name of the field
 			Vase2DDiagrams: []*Vase2DDiagram{{Name: "Vase2DDiagrams"}},
-			// field is initialized with an instance of TubeVase3DDiagram with the name of the field
 			TubeVase3DDiagrams: []*TubeVase3DDiagram{{Name: "TubeVase3DDiagrams"}},
-			// field is initialized with an instance of Stool2DDiagram with the name of the field
 			Stool2DDiagrams: []*Stool2DDiagram{{Name: "Stool2DDiagrams"}},
-			// field is initialized with an instance of Stool3DDiagram with the name of the field
 			Stool3DDiagrams: []*Stool3DDiagram{{Name: "Stool3DDiagrams"}},
-			// field is initialized with an instance of Clock2DDiagram with the name of the field
 			Clock2DDiagrams: []*Clock2DDiagram{{Name: "Clock2DDiagrams"}},
-			// field is initialized with an instance of Clock3DDiagram with the name of the field
 			Clock3DDiagrams: []*Clock3DDiagram{{Name: "Clock3DDiagrams"}},
-			// field is initialized with an instance of AxesShape with the name of the field
 			AxesShape: &AxesShape{Name: "AxesShape"},
-			// field is initialized with an instance of RhombusStuff with the name of the field
 			RhombusStuff: &RhombusStuff{Name: "RhombusStuff"},
-			// field is initialized with an instance of GrowthVectorShape with the name of the field
 			GrowthVectorShape: &GrowthVectorShape{Name: "GrowthVectorShape"},
-			// field is initialized with an instance of PerpendicularVectorGrid with the name of the field
 			PerpendicularVectorGrid: &PerpendicularVectorGrid{Name: "PerpendicularVectorGrid"},
-			// field is initialized with an instance of BaseVectorShapeGrid with the name of the field
 			BaseVectorShapeGrid: &BaseVectorShapeGrid{Name: "BaseVectorShapeGrid"},
-			// field is initialized with an instance of ArcNormalVectorShapeGrid with the name of the field
 			ArcNormalVectorShapeGrid: &ArcNormalVectorShapeGrid{Name: "ArcNormalVectorShapeGrid"},
-			// field is initialized with an instance of StartArcShapeGrid with the name of the field
 			StartArcShapeGrid: &StartArcShapeGrid{Name: "StartArcShapeGrid"},
-			// field is initialized with an instance of MidArcVectorShapeGrid with the name of the field
 			MidArcVectorShapeGrid: &MidArcVectorShapeGrid{Name: "MidArcVectorShapeGrid"},
-			// field is initialized with an instance of EndArcShapeGrid with the name of the field
 			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
-			// field is initialized with an instance of GrowthCurve2D with the name of the field
 			GrowthCurve2D: &GrowthCurve2D{Name: "GrowthCurve2D"},
-			// field is initialized with an instance of StackOfGrowthCurve2DByGrowthVector with the name of the field
 			StackOfGrowthCurve2DByGrowthVector: &StackOfGrowthCurve2DByGrowthVector{Name: "StackOfGrowthCurve2DByGrowthVector"},
-		}).(*Type)
-	case PlantCircumferenceShape:
-		return any(&PlantCircumferenceShape{
-			// Initialisation of associations
-		}).(*Type)
-	case PointsAndLines3DShape:
-		return any(&PointsAndLines3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case PxShape:
-		return any(&PxShape{
-			// Initialisation of associations
-		}).(*Type)
-	case Rendered3DShape:
-		return any(&Rendered3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case RhombusShape:
-		return any(&RhombusShape{
-			// Initialisation of associations
 		}).(*Type)
 	case RhombusStuff:
 		return any(&RhombusStuff{
-			// Initialisation of associations
-			// field is initialized with an instance of RhombusShape with the name of the field
 			ReferenceRhombus: &RhombusShape{Name: "ReferenceRhombus"},
-			// field is initialized with an instance of PlantCircumferenceShape with the name of the field
 			PlantCircumferenceShape: &PlantCircumferenceShape{Name: "PlantCircumferenceShape"},
-			// field is initialized with an instance of GridPathShape with the name of the field
 			GridPathShape: &GridPathShape{Name: "GridPathShape"},
-			// field is initialized with an instance of InitialRhombusGridShape with the name of the field
 			InitialRhombusGridShape: &InitialRhombusGridShape{Name: "InitialRhombusGridShape"},
-			// field is initialized with an instance of ExplanationTextShape with the name of the field
 			ExplanationTextShape: &ExplanationTextShape{Name: "ExplanationTextShape"},
-			// field is initialized with an instance of RhombusShape with the name of the field
 			RotatedReferenceRhombus: &RhombusShape{Name: "RotatedReferenceRhombus"},
-			// field is initialized with an instance of PlantCircumferenceShape with the name of the field
 			RotatedPlantCircumferenceShape: &PlantCircumferenceShape{Name: "RotatedPlantCircumferenceShape"},
-			// field is initialized with an instance of GridPathShape with the name of the field
 			RotatedGridPathShape: &GridPathShape{Name: "RotatedGridPathShape"},
-			// field is initialized with an instance of RotatedRhombusGridShape with the name of the field
 			RotatedRhombusGridShape2: &RotatedRhombusGridShape{Name: "RotatedRhombusGridShape2"},
-			// field is initialized with an instance of GrowthCurveRhombusGridShape with the name of the field
 			GrowthCurveRhombusGridShape: &GrowthCurveRhombusGridShape{Name: "GrowthCurveRhombusGridShape"},
 		}).(*Type)
 	case RotatedRhombusGridShape:
 		return any(&RotatedRhombusGridShape{
-			// Initialisation of associations
-			// field is initialized with an instance of RotatedRhombusShape with the name of the field
 			RotatedRhombusShapes: []*RotatedRhombusShape{{Name: "RotatedRhombusShapes"}},
-		}).(*Type)
-	case RotatedRhombusShape:
-		return any(&RotatedRhombusShape{
-			// Initialisation of associations
-		}).(*Type)
-	case RotatedSampledPoints3DShape:
-		return any(&RotatedSampledPoints3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case RotatedSeatAndLegs3DShape:
-		return any(&RotatedSeatAndLegs3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case SampledPoints3DShape:
-		return any(&SampledPoints3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case Seat3DShape:
-		return any(&Seat3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case SeatAndLegs3DShape:
-		return any(&SeatAndLegs3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case SeatBottomCurveShape:
-		return any(&SeatBottomCurveShape{
-			// Initialisation of associations
-		}).(*Type)
-	case SeatTopCurveShape:
-		return any(&SeatTopCurveShape{
-			// Initialisation of associations
-		}).(*Type)
-	case ShiftedBottomTopStartArcShape:
-		return any(&ShiftedBottomTopStartArcShape{
-			// Initialisation of associations
 		}).(*Type)
 	case ShiftedBottomTopStartArcShapeGrid:
 		return any(&ShiftedBottomTopStartArcShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of ShiftedBottomTopStartArcShape with the name of the field
 			ShiftedBottomTopStartArcShapes: []*ShiftedBottomTopStartArcShape{{Name: "ShiftedBottomTopStartArcShapes"}},
 		}).(*Type)
 	case ShiftedLeftGrowthCurve2DRibbon:
 		return any(&ShiftedLeftGrowthCurve2DRibbon{
-			// Initialisation of associations
-			// field is initialized with an instance of ShiftedLeftGrowthCurve2DRibbonStartShape with the name of the field
 			ShiftedLeftGrowthCurve2DRibbonStartShapes: []*ShiftedLeftGrowthCurve2DRibbonStartShape{{Name: "ShiftedLeftGrowthCurve2DRibbonStartShapes"}},
-			// field is initialized with an instance of ShiftedLeftGrowthCurve2DRibbonEndShape with the name of the field
 			ShiftedLeftGrowthCurve2DRibbonEndShapes: []*ShiftedLeftGrowthCurve2DRibbonEndShape{{Name: "ShiftedLeftGrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case ShiftedLeftGrowthCurve2DRibbonEndShape:
-		return any(&ShiftedLeftGrowthCurve2DRibbonEndShape{
-			// Initialisation of associations
-		}).(*Type)
-	case ShiftedLeftGrowthCurve2DRibbonStartShape:
-		return any(&ShiftedLeftGrowthCurve2DRibbonStartShape{
-			// Initialisation of associations
 		}).(*Type)
 	case ShiftedLeftPartiallyGrowthCurve2DRibbon:
 		return any(&ShiftedLeftPartiallyGrowthCurve2DRibbon{
-			// Initialisation of associations
-			// field is initialized with an instance of ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape with the name of the field
 			ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes: []*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape{{Name: "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes"}},
-			// field is initialized with an instance of ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape with the name of the field
 			ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes: []*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape{{Name: "ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		return any(&ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape{
-			// Initialisation of associations
-		}).(*Type)
-	case ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		return any(&ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape{
-			// Initialisation of associations
-		}).(*Type)
-	case ShiftedLeftStackGrowthCurveEndArcShape:
-		return any(&ShiftedLeftStackGrowthCurveEndArcShape{
-			// Initialisation of associations
-		}).(*Type)
-	case ShiftedLeftStackGrowthCurveStartArcShape:
-		return any(&ShiftedLeftStackGrowthCurveStartArcShape{
-			// Initialisation of associations
-		}).(*Type)
-	case ShiftedLeftStackNormalVector:
-		return any(&ShiftedLeftStackNormalVector{
-			// Initialisation of associations
 		}).(*Type)
 	case ShiftedLeftStackOfGrowthCurve:
 		return any(&ShiftedLeftStackOfGrowthCurve{
-			// Initialisation of associations
-			// field is initialized with an instance of ShiftedLeftStackGrowthCurveStartArcShape with the name of the field
 			ShiftedLeftStackGrowthCurveStartArcShapes: []*ShiftedLeftStackGrowthCurveStartArcShape{{Name: "ShiftedLeftStackGrowthCurveStartArcShapes"}},
-			// field is initialized with an instance of ShiftedLeftStackGrowthCurveEndArcShape with the name of the field
 			ShiftedLeftStackGrowthCurveEndArcShapes: []*ShiftedLeftStackGrowthCurveEndArcShape{{Name: "ShiftedLeftStackGrowthCurveEndArcShapes"}},
 		}).(*Type)
 	case ShiftedLeftStackOfNormalVector:
 		return any(&ShiftedLeftStackOfNormalVector{
-			// Initialisation of associations
-			// field is initialized with an instance of ShiftedLeftStackNormalVector with the name of the field
 			ShiftedLeftStackNormalVectors: []*ShiftedLeftStackNormalVector{{Name: "ShiftedLeftStackNormalVectors"}},
 		}).(*Type)
 	case ShiftedRightGrowthCurve2DRibbon:
 		return any(&ShiftedRightGrowthCurve2DRibbon{
-			// Initialisation of associations
-			// field is initialized with an instance of ShiftedRightGrowthCurve2DRibbonStartShape with the name of the field
 			ShiftedRightGrowthCurve2DRibbonStartShapes: []*ShiftedRightGrowthCurve2DRibbonStartShape{{Name: "ShiftedRightGrowthCurve2DRibbonStartShapes"}},
-			// field is initialized with an instance of ShiftedRightGrowthCurve2DRibbonEndShape with the name of the field
 			ShiftedRightGrowthCurve2DRibbonEndShapes: []*ShiftedRightGrowthCurve2DRibbonEndShape{{Name: "ShiftedRightGrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case ShiftedRightGrowthCurve2DRibbonEndShape:
-		return any(&ShiftedRightGrowthCurve2DRibbonEndShape{
-			// Initialisation of associations
-		}).(*Type)
-	case ShiftedRightGrowthCurve2DRibbonStartShape:
-		return any(&ShiftedRightGrowthCurve2DRibbonStartShape{
-			// Initialisation of associations
-		}).(*Type)
-	case StackGrowthCurve2DEndHalfwayArcShape:
-		return any(&StackGrowthCurve2DEndHalfwayArcShape{
-			// Initialisation of associations
-		}).(*Type)
-	case StackGrowthCurve2DRibbonEndShape:
-		return any(&StackGrowthCurve2DRibbonEndShape{
-			// Initialisation of associations
-		}).(*Type)
-	case StackGrowthCurve2DRibbonStartShape:
-		return any(&StackGrowthCurve2DRibbonStartShape{
-			// Initialisation of associations
-		}).(*Type)
-	case StackGrowthCurve2DStartHalfwayArcShape:
-		return any(&StackGrowthCurve2DStartHalfwayArcShape{
-			// Initialisation of associations
 		}).(*Type)
 	case StackOfGrowthCurve2D:
 		return any(&StackOfGrowthCurve2D{
-			// Initialisation of associations
-			// field is initialized with an instance of StackGrowthCurve2DStartHalfwayArcShape with the name of the field
 			StackGrowthCurve2DStartHalfwayArcShapes: []*StackGrowthCurve2DStartHalfwayArcShape{{Name: "StackGrowthCurve2DStartHalfwayArcShapes"}},
-			// field is initialized with an instance of StackGrowthCurve2DEndHalfwayArcShape with the name of the field
 			StackGrowthCurve2DEndHalfwayArcShapes: []*StackGrowthCurve2DEndHalfwayArcShape{{Name: "StackGrowthCurve2DEndHalfwayArcShapes"}},
-		}).(*Type)
-	case StackOfGrowthCurve2DByGrowthVector:
-		return any(&StackOfGrowthCurve2DByGrowthVector{
-			// Initialisation of associations
 		}).(*Type)
 	case StackOfGrowthCurve2DRibbon:
 		return any(&StackOfGrowthCurve2DRibbon{
-			// Initialisation of associations
-			// field is initialized with an instance of StackGrowthCurve2DRibbonStartShape with the name of the field
 			StackGrowthCurve2DRibbonStartShapes: []*StackGrowthCurve2DRibbonStartShape{{Name: "StackGrowthCurve2DRibbonStartShapes"}},
-			// field is initialized with an instance of StackGrowthCurve2DRibbonEndShape with the name of the field
 			StackGrowthCurve2DRibbonEndShapes: []*StackGrowthCurve2DRibbonEndShape{{Name: "StackGrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case StackOfPartiallyRotatedTorusShape:
-		return any(&StackOfPartiallyRotatedTorusShape{
-			// Initialisation of associations
 		}).(*Type)
 	case StackOfRotatedGrowthCurve2D:
 		return any(&StackOfRotatedGrowthCurve2D{
-			// Initialisation of associations
-			// field is initialized with an instance of StackRotatedGrowthCurve2DStartArcShape with the name of the field
 			StackRotatedGrowthCurve2DStartArcShapes: []*StackRotatedGrowthCurve2DStartArcShape{{Name: "StackRotatedGrowthCurve2DStartArcShapes"}},
-			// field is initialized with an instance of StackRotatedGrowthCurve2DEndArcShape with the name of the field
 			StackRotatedGrowthCurve2DEndArcShapes: []*StackRotatedGrowthCurve2DEndArcShape{{Name: "StackRotatedGrowthCurve2DEndArcShapes"}},
 		}).(*Type)
 	case StackOfRotatedGrowthCurve2DRibbon:
 		return any(&StackOfRotatedGrowthCurve2DRibbon{
-			// Initialisation of associations
-			// field is initialized with an instance of StackRotatedGrowthCurve2DRibbonStartShape with the name of the field
 			StackRotatedGrowthCurve2DRibbonStartShapes: []*StackRotatedGrowthCurve2DRibbonStartShape{{Name: "StackRotatedGrowthCurve2DRibbonStartShapes"}},
-			// field is initialized with an instance of StackRotatedGrowthCurve2DRibbonEndShape with the name of the field
 			StackRotatedGrowthCurve2DRibbonEndShapes: []*StackRotatedGrowthCurve2DRibbonEndShape{{Name: "StackRotatedGrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case StackOfRotatedVaseTrapezeRingsShape:
-		return any(&StackOfRotatedVaseTrapezeRingsShape{
-			// Initialisation of associations
-		}).(*Type)
-	case StackOfVaseTrapezeRingsShape:
-		return any(&StackOfVaseTrapezeRingsShape{
-			// Initialisation of associations
-		}).(*Type)
-	case StackRotatedGrowthCurve2DEndArcShape:
-		return any(&StackRotatedGrowthCurve2DEndArcShape{
-			// Initialisation of associations
-		}).(*Type)
-	case StackRotatedGrowthCurve2DRibbonEndShape:
-		return any(&StackRotatedGrowthCurve2DRibbonEndShape{
-			// Initialisation of associations
-		}).(*Type)
-	case StackRotatedGrowthCurve2DRibbonStartShape:
-		return any(&StackRotatedGrowthCurve2DRibbonStartShape{
-			// Initialisation of associations
-		}).(*Type)
-	case StackRotatedGrowthCurve2DStartArcShape:
-		return any(&StackRotatedGrowthCurve2DStartArcShape{
-			// Initialisation of associations
-		}).(*Type)
-	case StartArcShape:
-		return any(&StartArcShape{
-			// Initialisation of associations
 		}).(*Type)
 	case StartArcShapeGrid:
 		return any(&StartArcShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of StartArcShape with the name of the field
 			StartArcShapes: []*StartArcShape{{Name: "StartArcShapes"}},
-		}).(*Type)
-	case StartHalfwayArcShape:
-		return any(&StartHalfwayArcShape{
-			// Initialisation of associations
 		}).(*Type)
 	case StartHalfwayArcShapeGrid:
 		return any(&StartHalfwayArcShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of StartHalfwayArcShape with the name of the field
 			StartHalfwayArcShapes: []*StartHalfwayArcShape{{Name: "StartHalfwayArcShapes"}},
-		}).(*Type)
-	case StemCylinder3DShape:
-		return any(&StemCylinder3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case Stool2DDiagram:
-		return any(&Stool2DDiagram{
-			// Initialisation of associations
 		}).(*Type)
 	case Stool3DDiagram:
 		return any(&Stool3DDiagram{
-			// Initialisation of associations
-			// field is initialized with an instance of SeatTopCurveShape with the name of the field
 			SeatTopCurveShape: &SeatTopCurveShape{Name: "SeatTopCurveShape"},
-			// field is initialized with an instance of PartiallyRotatedSeatTopCurveShape with the name of the field
 			RotatedSeatTopCurveShape: &PartiallyRotatedSeatTopCurveShape{Name: "RotatedSeatTopCurveShape"},
-			// field is initialized with an instance of SeatBottomCurveShape with the name of the field
 			SeatBottomCurveShape: &SeatBottomCurveShape{Name: "SeatBottomCurveShape"},
-			// field is initialized with an instance of PartiallyRotatedSeatBottomCurveShape with the name of the field
 			RotatedSeatBottomCurveShape: &PartiallyRotatedSeatBottomCurveShape{Name: "RotatedSeatBottomCurveShape"},
-			// field is initialized with an instance of Torus3DShape with the name of the field
 			Torus3DShape: &Torus3DShape{Name: "Torus3DShape"},
-			// field is initialized with an instance of PartiallyRotatedTorusShape with the name of the field
 			RotatedTorusShape: &PartiallyRotatedTorusShape{Name: "RotatedTorusShape"},
-			// field is initialized with an instance of SampledPoints3DShape with the name of the field
 			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
-			// field is initialized with an instance of RotatedSampledPoints3DShape with the name of the field
 			RotatedSampledPoints3DShape: &RotatedSampledPoints3DShape{Name: "RotatedSampledPoints3DShape"},
-			// field is initialized with an instance of EyeSampledPoints3DShape with the name of the field
 			EyeSampledPoints3DShape: &EyeSampledPoints3DShape{Name: "EyeSampledPoints3DShape"},
-			// field is initialized with an instance of EyeCornersSampledPoints3DShape with the name of the field
 			EyeCornersSampledPoints3DShape: &EyeCornersSampledPoints3DShape{Name: "EyeCornersSampledPoints3DShape"},
-			// field is initialized with an instance of Eye3DShape with the name of the field
 			Eye3DShape: &Eye3DShape{Name: "Eye3DShape"},
-			// field is initialized with an instance of EyeSeatBottomCurveShape with the name of the field
 			EyeSeatBottomCurveShape: &EyeSeatBottomCurveShape{Name: "EyeSeatBottomCurveShape"},
-			// field is initialized with an instance of EyeStoolBottomCurveShape with the name of the field
 			EyeStoolBottomCurveShape: &EyeStoolBottomCurveShape{Name: "EyeStoolBottomCurveShape"},
-			// field is initialized with an instance of Seat3DShape with the name of the field
 			Seat3DShape: &Seat3DShape{Name: "Seat3DShape"},
-			// field is initialized with an instance of EyeVolume3DShape with the name of the field
 			EyeVolume3DShape: &EyeVolume3DShape{Name: "EyeVolume3DShape"},
-			// field is initialized with an instance of SeatAndLegs3DShape with the name of the field
 			SeatAndLegs3DShape: &SeatAndLegs3DShape{Name: "SeatAndLegs3DShape"},
-			// field is initialized with an instance of RotatedSeatAndLegs3DShape with the name of the field
 			RotatedSeatAndLegs3DShape: &RotatedSeatAndLegs3DShape{Name: "RotatedSeatAndLegs3DShape"},
-			// field is initialized with an instance of TiledFloor3DShape with the name of the field
 			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
-			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
-		}).(*Type)
-	case TiledFloor3DShape:
-		return any(&TiledFloor3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case TopCurvePlane1Shape:
-		return any(&TopCurvePlane1Shape{
-			// Initialisation of associations
-		}).(*Type)
-	case TopCurvePlane2Shape:
-		return any(&TopCurvePlane2Shape{
-			// Initialisation of associations
-		}).(*Type)
-	case TopEndArcShape:
-		return any(&TopEndArcShape{
-			// Initialisation of associations
 		}).(*Type)
 	case TopEndArcShapeGrid:
 		return any(&TopEndArcShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of TopEndArcShape with the name of the field
 			TopEndArcShapes: []*TopEndArcShape{{Name: "TopEndArcShapes"}},
-		}).(*Type)
-	case TopEndHalfwayArcShape:
-		return any(&TopEndHalfwayArcShape{
-			// Initialisation of associations
 		}).(*Type)
 	case TopEndHalfwayArcShapeGrid:
 		return any(&TopEndHalfwayArcShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of TopEndHalfwayArcShape with the name of the field
 			TopEndHalfwayArcShapes: []*TopEndHalfwayArcShape{{Name: "TopEndHalfwayArcShapes"}},
 		}).(*Type)
 	case TopGrowthCurve2D:
 		return any(&TopGrowthCurve2D{
-			// Initialisation of associations
-			// field is initialized with an instance of TopStartHalfwayArcShapeGrid with the name of the field
 			TopStartHalfwayArcShapeGrid: &TopStartHalfwayArcShapeGrid{Name: "TopStartHalfwayArcShapeGrid"},
-			// field is initialized with an instance of TopEndHalfwayArcShapeGrid with the name of the field
 			TopEndHalfwayArcShapeGrid: &TopEndHalfwayArcShapeGrid{Name: "TopEndHalfwayArcShapeGrid"},
-		}).(*Type)
-	case TopMidArcVectorShape:
-		return any(&TopMidArcVectorShape{
-			// Initialisation of associations
 		}).(*Type)
 	case TopMidArcVectorShapeGrid:
 		return any(&TopMidArcVectorShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of TopMidArcVectorShape with the name of the field
 			TopMidArcVectorShapes: []*TopMidArcVectorShape{{Name: "TopMidArcVectorShapes"}},
-		}).(*Type)
-	case TopStackGrowthCurve2DEndHalfwayArcShape:
-		return any(&TopStackGrowthCurve2DEndHalfwayArcShape{
-			// Initialisation of associations
-		}).(*Type)
-	case TopStackGrowthCurve2DStartHalfwayArcShape:
-		return any(&TopStackGrowthCurve2DStartHalfwayArcShape{
-			// Initialisation of associations
 		}).(*Type)
 	case TopStackOfGrowthCurve2D:
 		return any(&TopStackOfGrowthCurve2D{
-			// Initialisation of associations
-			// field is initialized with an instance of TopStackGrowthCurve2DStartHalfwayArcShape with the name of the field
 			TopStackGrowthCurve2DStartHalfwayArcShapes: []*TopStackGrowthCurve2DStartHalfwayArcShape{{Name: "TopStackGrowthCurve2DStartHalfwayArcShapes"}},
-			// field is initialized with an instance of TopStackGrowthCurve2DEndHalfwayArcShape with the name of the field
 			TopStackGrowthCurve2DEndHalfwayArcShapes: []*TopStackGrowthCurve2DEndHalfwayArcShape{{Name: "TopStackGrowthCurve2DEndHalfwayArcShapes"}},
 		}).(*Type)
 	case TopStackOfRotatedGrowthCurve2D:
 		return any(&TopStackOfRotatedGrowthCurve2D{
-			// Initialisation of associations
-			// field is initialized with an instance of TopStackOfRotatedGrowthCurve2DStartArcShape with the name of the field
 			TopStackOfRotatedGrowthCurve2DStartArcShapes: []*TopStackOfRotatedGrowthCurve2DStartArcShape{{Name: "TopStackOfRotatedGrowthCurve2DStartArcShapes"}},
-			// field is initialized with an instance of TopStackOfRotatedGrowthCurve2DEndArcShape with the name of the field
 			TopStackOfRotatedGrowthCurve2DEndArcShapes: []*TopStackOfRotatedGrowthCurve2DEndArcShape{{Name: "TopStackOfRotatedGrowthCurve2DEndArcShapes"}},
-		}).(*Type)
-	case TopStackOfRotatedGrowthCurve2DEndArcShape:
-		return any(&TopStackOfRotatedGrowthCurve2DEndArcShape{
-			// Initialisation of associations
-		}).(*Type)
-	case TopStackOfRotatedGrowthCurve2DStartArcShape:
-		return any(&TopStackOfRotatedGrowthCurve2DStartArcShape{
-			// Initialisation of associations
-		}).(*Type)
-	case TopStartArcShape:
-		return any(&TopStartArcShape{
-			// Initialisation of associations
 		}).(*Type)
 	case TopStartArcShapeGrid:
 		return any(&TopStartArcShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of TopStartArcShape with the name of the field
 			TopStartArcShapes: []*TopStartArcShape{{Name: "TopStartArcShapes"}},
-		}).(*Type)
-	case TopStartHalfwayArcShape:
-		return any(&TopStartHalfwayArcShape{
-			// Initialisation of associations
 		}).(*Type)
 	case TopStartHalfwayArcShapeGrid:
 		return any(&TopStartHalfwayArcShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of TopStartHalfwayArcShape with the name of the field
 			TopStartHalfwayArcShapes: []*TopStartHalfwayArcShape{{Name: "TopStartHalfwayArcShapes"}},
-		}).(*Type)
-	case Torus3DShape:
-		return any(&Torus3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case TorusEdge3DShape:
-		return any(&TorusEdge3DShape{
-			// Initialisation of associations
-		}).(*Type)
-	case TorusStackShape:
-		return any(&TorusStackShape{
-			// Initialisation of associations
 		}).(*Type)
 	case TubeVase3DDiagram:
 		return any(&TubeVase3DDiagram{
-			// Initialisation of associations
-			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
-			// field is initialized with an instance of TorusStackShape with the name of the field
 			TorusStackShape: &TorusStackShape{Name: "TorusStackShape"},
-			// field is initialized with an instance of VerticalTorusStackShape with the name of the field
 			VerticalTorusStackShape: &VerticalTorusStackShape{Name: "VerticalTorusStackShape"},
-			// field is initialized with an instance of PartiallyRotatedTorusShape with the name of the field
 			PartiallyRotatedTorusShape: &PartiallyRotatedTorusShape{Name: "PartiallyRotatedTorusShape"},
-			// field is initialized with an instance of StackOfPartiallyRotatedTorusShape with the name of the field
 			StackOfPartiallyRotatedTorusShape: &StackOfPartiallyRotatedTorusShape{Name: "StackOfPartiallyRotatedTorusShape"},
-			// field is initialized with an instance of PointsAndLines3DShape with the name of the field
 			PointsAndLines3DShape: &PointsAndLines3DShape{Name: "PointsAndLines3DShape"},
-			// field is initialized with an instance of SampledPoints3DShape with the name of the field
 			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
-			// field is initialized with an instance of OriginalPoints3DShape with the name of the field
 			OriginalPoints3DShape: &OriginalPoints3DShape{Name: "OriginalPoints3DShape"},
-			// field is initialized with an instance of Angle0Shape with the name of the field
 			Angle0Shape: &Angle0Shape{Name: "Angle0Shape"},
-			// field is initialized with an instance of KeyHole3DShape with the name of the field
 			KeyHole3DShape: &KeyHole3DShape{Name: "KeyHole3DShape"},
-			// field is initialized with an instance of Key3DShape with the name of the field
 			Key3DShape: &Key3DShape{Name: "Key3DShape"},
-			// field is initialized with an instance of VolumeKey3DShape with the name of the field
 			VolumeKey3DShape: &VolumeKey3DShape{Name: "VolumeKey3DShape"},
-			// field is initialized with an instance of TorusEdge3DShape with the name of the field
 			TorusEdge3DShape: &TorusEdge3DShape{Name: "TorusEdge3DShape"},
-			// field is initialized with an instance of TiledFloor3DShape with the name of the field
 			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
-			// field is initialized with an instance of TopCurvePlane1Shape with the name of the field
 			TopCurvePlane1Shape: &TopCurvePlane1Shape{Name: "TopCurvePlane1Shape"},
-			// field is initialized with an instance of BottomCurvePlane1Shape with the name of the field
 			BottomCurvePlane1Shape: &BottomCurvePlane1Shape{Name: "BottomCurvePlane1Shape"},
-			// field is initialized with an instance of TopCurvePlane2Shape with the name of the field
 			TopCurvePlane2Shape: &TopCurvePlane2Shape{Name: "TopCurvePlane2Shape"},
-			// field is initialized with an instance of BottomCurvePlane2Shape with the name of the field
 			BottomCurvePlane2Shape: &BottomCurvePlane2Shape{Name: "BottomCurvePlane2Shape"},
-			// field is initialized with an instance of VaseTrapezeRingShape with the name of the field
 			VaseTrapezeRingShape: &VaseTrapezeRingShape{Name: "VaseTrapezeRingShape"},
-			// field is initialized with an instance of StackOfVaseTrapezeRingsShape with the name of the field
 			StackOfVaseTrapezeRingsShape: &StackOfVaseTrapezeRingsShape{Name: "StackOfVaseTrapezeRingsShape"},
-			// field is initialized with an instance of StackOfRotatedVaseTrapezeRingsShape with the name of the field
 			StackOfRotatedVaseTrapezeRingsShape: &StackOfRotatedVaseTrapezeRingsShape{Name: "StackOfRotatedVaseTrapezeRingsShape"},
 		}).(*Type)
 	case TubeVaseAbstract:
 		return any(&TubeVaseAbstract{
-			// Initialisation of associations
-			// field is initialized with an instance of PerpendicularVectorGridHalfway with the name of the field
 			PerpendicularVectorGridHalfway: &PerpendicularVectorGridHalfway{Name: "PerpendicularVectorGridHalfway"},
-			// field is initialized with an instance of TopStartArcShapeGrid with the name of the field
 			TopStartArcShapeGrid: &TopStartArcShapeGrid{Name: "TopStartArcShapeGrid"},
-			// field is initialized with an instance of TopEndArcShapeGrid with the name of the field
 			TopEndArcShapeGrid: &TopEndArcShapeGrid{Name: "TopEndArcShapeGrid"},
-			// field is initialized with an instance of ShiftedBottomTopStartArcShapeGrid with the name of the field
 			ShiftedBottomTopStartArcShapeGrid: &ShiftedBottomTopStartArcShapeGrid{Name: "ShiftedBottomTopStartArcShapeGrid"},
-			// field is initialized with an instance of TopMidArcVectorShapeGrid with the name of the field
 			TopMidArcVectorShapeGrid: &TopMidArcVectorShapeGrid{Name: "TopMidArcVectorShapeGrid"},
-			// field is initialized with an instance of StartHalfwayArcShapeGrid with the name of the field
 			StartHalfwayArcShapeGrid: &StartHalfwayArcShapeGrid{Name: "StartHalfwayArcShapeGrid"},
-			// field is initialized with an instance of TopStartHalfwayArcShapeGrid with the name of the field
 			TopStartHalfwayArcShapeGrid: &TopStartHalfwayArcShapeGrid{Name: "TopStartHalfwayArcShapeGrid"},
-			// field is initialized with an instance of EndHalfwayArcShapeGrid with the name of the field
 			EndHalfwayArcShapeGrid: &EndHalfwayArcShapeGrid{Name: "EndHalfwayArcShapeGrid"},
-			// field is initialized with an instance of TopEndHalfwayArcShapeGrid with the name of the field
 			TopEndHalfwayArcShapeGrid: &TopEndHalfwayArcShapeGrid{Name: "TopEndHalfwayArcShapeGrid"},
-			// field is initialized with an instance of StackOfRotatedGrowthCurve2D with the name of the field
 			StackOfRotatedGrowthCurve2D: &StackOfRotatedGrowthCurve2D{Name: "StackOfRotatedGrowthCurve2D"},
-			// field is initialized with an instance of TopStackOfRotatedGrowthCurve2D with the name of the field
 			TopStackOfRotatedGrowthCurve2D: &TopStackOfRotatedGrowthCurve2D{Name: "TopStackOfRotatedGrowthCurve2D"},
-			// field is initialized with an instance of TopGrowthCurve2D with the name of the field
 			TopGrowthCurve2D: &TopGrowthCurve2D{Name: "TopGrowthCurve2D"},
-			// field is initialized with an instance of StackOfGrowthCurve2D with the name of the field
 			StackOfGrowthCurve2D: &StackOfGrowthCurve2D{Name: "StackOfGrowthCurve2D"},
-			// field is initialized with an instance of TopStackOfGrowthCurve2D with the name of the field
 			TopStackOfGrowthCurve2D: &TopStackOfGrowthCurve2D{Name: "TopStackOfGrowthCurve2D"},
-			// field is initialized with an instance of StackOfGrowthCurve2DRibbon with the name of the field
 			StackOfGrowthCurve2DRibbon: &StackOfGrowthCurve2DRibbon{Name: "StackOfGrowthCurve2DRibbon"},
-			// field is initialized with an instance of StackOfRotatedGrowthCurve2DRibbon with the name of the field
 			StackOfRotatedGrowthCurve2DRibbon: &StackOfRotatedGrowthCurve2DRibbon{Name: "StackOfRotatedGrowthCurve2DRibbon"},
-			// field is initialized with an instance of GrowthCurve2DRibbon with the name of the field
 			GrowthCurve2DRibbon: &GrowthCurve2DRibbon{Name: "GrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedRightGrowthCurve2DRibbon with the name of the field
 			ShiftedRightGrowthCurve2DRibbon: &ShiftedRightGrowthCurve2DRibbon{Name: "ShiftedRightGrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedLeftGrowthCurve2DRibbon with the name of the field
 			ShiftedLeftGrowthCurve2DRibbon: &ShiftedLeftGrowthCurve2DRibbon{Name: "ShiftedLeftGrowthCurve2DRibbon"},
-			// field is initialized with an instance of PartiallyGrowthCurve2DRibbon with the name of the field
 			PartiallyGrowthCurve2DRibbon: &PartiallyGrowthCurve2DRibbon{Name: "PartiallyGrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedLeftPartiallyGrowthCurve2DRibbon with the name of the field
 			ShiftedLeftPartiallyGrowthCurve2DRibbon: &ShiftedLeftPartiallyGrowthCurve2DRibbon{Name: "ShiftedLeftPartiallyGrowthCurve2DRibbon"},
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectory with the name of the field
 			PartiallyGrowthCurve2DTrajectory: &PartiallyGrowthCurve2DTrajectory{Name: "PartiallyGrowthCurve2DTrajectory"},
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1P2 with the name of the field
 			PartiallyGrowthCurve2DTrajectoryP1P2: &PartiallyGrowthCurve2DTrajectoryP1P2{Name: "PartiallyGrowthCurve2DTrajectoryP1P2"},
-			// field is initialized with an instance of PxShape with the name of the field
 			PxShape: &PxShape{Name: "PxShape"},
-			// field is initialized with an instance of ChosenP1P2PairShape with the name of the field
 			ChosenP1P2PairShape: &ChosenP1P2PairShape{Name: "ChosenP1P2PairShape"},
-			// field is initialized with an instance of KeyHoleShape with the name of the field
 			KeyHoleShape: &KeyHoleShape{Name: "KeyHoleShape"},
 		}).(*Type)
-	case Vase2DDiagram:
-		return any(&Vase2DDiagram{
-			// Initialisation of associations
-		}).(*Type)
-	case VaseTrapezeRingShape:
-		return any(&VaseTrapezeRingShape{
-			// Initialisation of associations
-		}).(*Type)
-	case VerticalTorusStackShape:
-		return any(&VerticalTorusStackShape{
-			// Initialisation of associations
-		}).(*Type)
-	case VolumeKey3DShape:
-		return any(&VolumeKey3DShape{
-			// Initialisation of associations
-		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

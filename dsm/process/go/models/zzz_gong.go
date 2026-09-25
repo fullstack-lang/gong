@@ -4088,244 +4088,140 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case AllocatedProcessShape:
 		return any(&AllocatedProcessShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Participant with the name of the field
 			Participant: &Participant{Name: "Participant"},
-			// field is initialized with an instance of Process with the name of the field
 			Process: &Process{Name: "Process"},
 		}).(*Type)
 	case AllocatedResourceShape:
 		return any(&AllocatedResourceShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Participant with the name of the field
 			Participant: &Participant{Name: "Participant"},
-			// field is initialized with an instance of Resource with the name of the field
 			Resource: &Resource{Name: "Resource"},
 		}).(*Type)
 	case ControlFlow:
 		return any(&ControlFlow{
-			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
 			Start: &Task{Name: "Start"},
-			// field is initialized with an instance of Task with the name of the field
 			End: &Task{Name: "End"},
 		}).(*Type)
 	case ControlFlowShape:
 		return any(&ControlFlowShape{
-			// Initialisation of associations
-			// field is initialized with an instance of ControlFlow with the name of the field
 			ControlFlow: &ControlFlow{Name: "ControlFlow"},
-		}).(*Type)
-	case Data:
-		return any(&Data{
-			// Initialisation of associations
 		}).(*Type)
 	case DataFlow:
 		return any(&DataFlow{
-			// Initialisation of associations
-			// field is initialized with an instance of Data with the name of the field
 			Datas: []*Data{{Name: "Datas"}},
-			// field is initialized with an instance of Task with the name of the field
 			StartTask: &Task{Name: "StartTask"},
-			// field is initialized with an instance of Task with the name of the field
 			EndTask: &Task{Name: "EndTask"},
-			// field is initialized with an instance of Participant with the name of the field
 			StartExternalParticipant: &Participant{Name: "StartExternalParticipant"},
-			// field is initialized with an instance of Participant with the name of the field
 			EndExternalParticipant: &Participant{Name: "EndExternalParticipant"},
 		}).(*Type)
 	case DataFlowShape:
 		return any(&DataFlowShape{
-			// Initialisation of associations
-			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlow: &DataFlow{Name: "DataFlow"},
 		}).(*Type)
 	case DataShape:
 		return any(&DataShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Data with the name of the field
 			Data: &Data{Name: "Data"},
-			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlow: &DataFlow{Name: "DataFlow"},
 		}).(*Type)
 	case DiagramProcess:
 		return any(&DiagramProcess{
-			// Initialisation of associations
-			// field is initialized with an instance of ProcessShape with the name of the field
 			Process_Shapes: []*ProcessShape{{Name: "Process_Shapes"}},
-			// field is initialized with an instance of Process with the name of the field
 			ProcesssWhoseNodeIsExpanded: []*Process{{Name: "ProcesssWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ParticipantShape with the name of the field
 			Participant_Shapes: []*ParticipantShape{{Name: "Participant_Shapes"}},
-			// field is initialized with an instance of Participant with the name of the field
 			ParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ParticipantWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ExternalParticipantShape with the name of the field
 			ExternalParticipant_Shapes: []*ExternalParticipantShape{{Name: "ExternalParticipant_Shapes"}},
-			// field is initialized with an instance of Participant with the name of the field
 			ExternalParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ExternalParticipantWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Participant with the name of the field
 			ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded: []*Participant{{Name: "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Participant with the name of the field
 			ExternalParticipantsWhoseInDataFlowsNodeIsExpanded: []*Participant{{Name: "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Task with the name of the field
 			TasksWhoseNodeIsExpanded: []*Task{{Name: "TasksWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of TaskShape with the name of the field
 			Task_Shapes: []*TaskShape{{Name: "Task_Shapes"}},
-			// field is initialized with an instance of ControlFlow with the name of the field
 			ControlFlowsWhoseNodeIsExpanded: []*ControlFlow{{Name: "ControlFlowsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ControlFlowShape with the name of the field
 			ControlFlow_Shapes: []*ControlFlowShape{{Name: "ControlFlow_Shapes"}},
-			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlowsWhoseNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of DataFlowShape with the name of the field
 			DataFlow_Shapes: []*DataFlowShape{{Name: "DataFlow_Shapes"}},
-			// field is initialized with an instance of Data with the name of the field
 			DatasWhoseNodeIsExpanded: []*Data{{Name: "DatasWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of DataShape with the name of the field
 			Data_Shapes: []*DataShape{{Name: "Data_Shapes"}},
-			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlowsWhoseDataNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseDataNodeIsExpanded"}},
-			// field is initialized with an instance of Resource with the name of the field
 			AllocatedResourcesWhoseNodeIsExpanded: []*Resource{{Name: "AllocatedResourcesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of AllocatedResourceShape with the name of the field
 			AllocatedResourceShapes: []*AllocatedResourceShape{{Name: "AllocatedResourceShapes"}},
-			// field is initialized with an instance of Process with the name of the field
 			AllocatedProcessesWhoseNodeIsExpanded: []*Process{{Name: "AllocatedProcessesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of AllocatedProcessShape with the name of the field
 			AllocatedProcessShapes: []*AllocatedProcessShape{{Name: "AllocatedProcessShapes"}},
-			// field is initialized with an instance of NoteShape with the name of the field
 			Note_Shapes: []*NoteShape{{Name: "Note_Shapes"}},
-			// field is initialized with an instance of Note with the name of the field
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of NoteTaskShape with the name of the field
 			NoteTaskShapes: []*NoteTaskShape{{Name: "NoteTaskShapes"}},
 		}).(*Type)
 	case ExternalParticipantShape:
 		return any(&ExternalParticipantShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Participant with the name of the field
 			Participant: &Participant{Name: "Participant"},
 		}).(*Type)
 	case Library:
 		return any(&Library{
-			// Initialisation of associations
-			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
-			// field is initialized with an instance of Library with the name of the field
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Process with the name of the field
 			RootProcesses: []*Process{{Name: "RootProcesses"}},
-			// field is initialized with an instance of Process with the name of the field
 			ProcesssWhoseNodeIsExpanded: []*Process{{Name: "ProcesssWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of DataFlow with the name of the field
 			RootDataFlows: []*DataFlow{{Name: "RootDataFlows"}},
-			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlowsWhoseNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Data with the name of the field
 			RootDatas: []*Data{{Name: "RootDatas"}},
-			// field is initialized with an instance of Data with the name of the field
 			DatasWhoseNodeIsExpanded: []*Data{{Name: "DatasWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Resource with the name of the field
 			RootResources: []*Resource{{Name: "RootResources"}},
-			// field is initialized with an instance of Resource with the name of the field
 			ResourcesWhoseNodeIsExpanded: []*Resource{{Name: "ResourcesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Participant with the name of the field
 			ParticipantsWhoseNodeIsExpanded: []*Participant{{Name: "ParticipantsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Note with the name of the field
 			RootNotes: []*Note{{Name: "RootNotes"}},
-			// field is initialized with an instance of Note with the name of the field
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Note:
 		return any(&Note{
-			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
 			Tasks: []*Task{{Name: "Tasks"}},
 		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
 		}).(*Type)
 	case NoteTaskShape:
 		return any(&NoteTaskShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Task with the name of the field
 			Task: &Task{Name: "Task"},
 		}).(*Type)
 	case Participant:
 		return any(&Participant{
-			// Initialisation of associations
-			// field is initialized with an instance of Resource with the name of the field
 			Resources: []*Resource{{Name: "Resources"}},
-			// field is initialized with an instance of Process with the name of the field
 			Processes: []*Process{{Name: "Processes"}},
-			// field is initialized with an instance of Task with the name of the field
 			Tasks: []*Task{{Name: "Tasks"}},
-			// field is initialized with an instance of ControlFlow with the name of the field
 			ControlFlows: []*ControlFlow{{Name: "ControlFlows"}},
-			// field is initialized with an instance of Task with the name of the field
 			TaskWhoseOutControlFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseOutControlFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Task with the name of the field
 			TaskWhoseInControlFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseInControlFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Task with the name of the field
 			TaskWhoseOutDataFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseOutDataFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Task with the name of the field
 			TaskWhoseInDataFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseInDataFlowsNodeIsExpanded"}},
 		}).(*Type)
 	case ParticipantShape:
 		return any(&ParticipantShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Participant with the name of the field
 			Participant: &Participant{Name: "Participant"},
 		}).(*Type)
 	case Process:
 		return any(&Process{
-			// Initialisation of associations
-			// field is initialized with an instance of DiagramProcess with the name of the field
 			DiagramProcesss: []*DiagramProcess{{Name: "DiagramProcesss"}},
-			// field is initialized with an instance of DiagramProcess with the name of the field
 			DiagramProcessWhoseNodeIsExpanded: []*DiagramProcess{{Name: "DiagramProcessWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Process with the name of the field
 			SubProcesses: []*Process{{Name: "SubProcesses"}},
-			// field is initialized with an instance of Participant with the name of the field
 			Participants: []*Participant{{Name: "Participants"}},
-			// field is initialized with an instance of Participant with the name of the field
 			ParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ParticipantWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlows: []*DataFlow{{Name: "DataFlows"}},
-			// field is initialized with an instance of Participant with the name of the field
 			ExternalParticipants: []*Participant{{Name: "ExternalParticipants"}},
-			// field is initialized with an instance of Participant with the name of the field
 			ExternalParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ExternalParticipantWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case ProcessShape:
 		return any(&ProcessShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Process with the name of the field
 			Process: &Process{Name: "Process"},
-		}).(*Type)
-	case Resource:
-		return any(&Resource{
-			// Initialisation of associations
 		}).(*Type)
 	case Task:
 		return any(&Task{
-			// Initialisation of associations
-			// field is initialized with an instance of Process with the name of the field
 			Type: &Process{Name: "Type"},
 		}).(*Type)
 	case TaskShape:
 		return any(&TaskShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
 			Task: &Task{Name: "Task"},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

@@ -2664,144 +2664,78 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case CompareAnalysis:
 		return any(&CompareAnalysis{
-			// Initialisation of associations
-			// field is initialized with an instance of System with the name of the field
 			FromSystem: &System{Name: "FromSystem"},
-			// field is initialized with an instance of System with the name of the field
 			ToSystem: &System{Name: "ToSystem"},
-			// field is initialized with an instance of DiagramFlossEquation with the name of the field
 			DiagramFlossEquations: []*DiagramFlossEquation{{Name: "DiagramFlossEquations"}},
-			// field is initialized with an instance of DiagramFlossEquation with the name of the field
 			DiagramFlossEquationsWhoseNodeIsExpanded: []*DiagramFlossEquation{{Name: "DiagramFlossEquationsWhoseNodeIsExpanded"}},
-		}).(*Type)
-	case Complexity:
-		return any(&Complexity{
-			// Initialisation of associations
 		}).(*Type)
 	case DiagramFlossEquation:
 		return any(&DiagramFlossEquation{
-			// Initialisation of associations
-			// field is initialized with an instance of NoteShape with the name of the field
 			Note_Shapes: []*NoteShape{{Name: "Note_Shapes"}},
-			// field is initialized with an instance of NoteComplexityShape with the name of the field
 			NoteComplexityShapes: []*NoteComplexityShape{{Name: "NoteComplexityShapes"}},
-			// field is initialized with an instance of NotePerformanceShape with the name of the field
 			NotePerformanceShapes: []*NotePerformanceShape{{Name: "NotePerformanceShapes"}},
-			// field is initialized with an instance of NoteEffortShape with the name of the field
 			NoteEffortShapes: []*NoteEffortShape{{Name: "NoteEffortShapes"}},
-			// field is initialized with an instance of Note with the name of the field
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Complexity with the name of the field
 			ComplexitysWhoseNodeIsExpanded: []*Complexity{{Name: "ComplexitysWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Performance with the name of the field
 			PerformancesWhoseNodeIsExpanded: []*Performance{{Name: "PerformancesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Effort with the name of the field
 			EffortsWhoseNodeIsExpanded: []*Effort{{Name: "EffortsWhoseNodeIsExpanded"}},
-		}).(*Type)
-	case Effort:
-		return any(&Effort{
-			// Initialisation of associations
 		}).(*Type)
 	case Library:
 		return any(&Library{
-			// Initialisation of associations
-			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
-			// field is initialized with an instance of System with the name of the field
 			RootSystems: []*System{{Name: "RootSystems"}},
-			// field is initialized with an instance of Complexity with the name of the field
 			RootComplexitys: []*Complexity{{Name: "RootComplexitys"}},
-			// field is initialized with an instance of Performance with the name of the field
 			RootPerformances: []*Performance{{Name: "RootPerformances"}},
-			// field is initialized with an instance of Effort with the name of the field
 			RootEfforts: []*Effort{{Name: "RootEfforts"}},
-			// field is initialized with an instance of CompareAnalysis with the name of the field
 			RootCompareAnalysis: []*CompareAnalysis{{Name: "RootCompareAnalysis"}},
-			// field is initialized with an instance of Note with the name of the field
 			RootNotes: []*Note{{Name: "RootNotes"}},
-			// field is initialized with an instance of Library with the name of the field
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of System with the name of the field
 			SystemsWhoseNodeIsExpanded: []*System{{Name: "SystemsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Complexity with the name of the field
 			ComplexitysWhoseNodeIsExpanded: []*Complexity{{Name: "ComplexitysWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Performance with the name of the field
 			PerformancesWhoseNodeIsExpanded: []*Performance{{Name: "PerformancesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Effort with the name of the field
 			EffortsWhoseNodeIsExpanded: []*Effort{{Name: "EffortsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of CompareAnalysis with the name of the field
 			CompareAnalysisWhoseNodeIsExpanded: []*CompareAnalysis{{Name: "CompareAnalysisWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Note with the name of the field
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Note:
 		return any(&Note{
-			// Initialisation of associations
-			// field is initialized with an instance of Complexity with the name of the field
 			Complexities: []*Complexity{{Name: "Complexities"}},
-			// field is initialized with an instance of Performance with the name of the field
 			Performances: []*Performance{{Name: "Performances"}},
-			// field is initialized with an instance of Effort with the name of the field
 			Efforts: []*Effort{{Name: "Efforts"}},
 		}).(*Type)
 	case NoteComplexityShape:
 		return any(&NoteComplexityShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Complexity with the name of the field
 			Complexity: &Complexity{Name: "Complexity"},
 		}).(*Type)
 	case NoteEffortShape:
 		return any(&NoteEffortShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Effort with the name of the field
 			Effort: &Effort{Name: "Effort"},
 		}).(*Type)
 	case NotePerformanceShape:
 		return any(&NotePerformanceShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Performance with the name of the field
 			Performance: &Performance{Name: "Performance"},
 		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-		}).(*Type)
-	case Performance:
-		return any(&Performance{
-			// Initialisation of associations
 		}).(*Type)
 	case System:
 		return any(&System{
-			// Initialisation of associations
-			// field is initialized with an instance of Complexity with the name of the field
 			Complexities: []*Complexity{{Name: "Complexities"}},
-			// field is initialized with an instance of Performance with the name of the field
 			Performances: []*Performance{{Name: "Performances"}},
-			// field is initialized with an instance of Effort with the name of the field
 			Efforts: []*Effort{{Name: "Efforts"}},
-			// field is initialized with an instance of System with the name of the field
 			SubSystems: []*System{{Name: "SubSystems"}},
-			// field is initialized with an instance of DiagramFlossEquation with the name of the field
 			DiagramFlossEquations: []*DiagramFlossEquation{{Name: "DiagramFlossEquations"}},
-			// field is initialized with an instance of DiagramFlossEquation with the name of the field
 			DiagramFlossEquationsWhoseNodeIsExpanded: []*DiagramFlossEquation{{Name: "DiagramFlossEquationsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Complexity with the name of the field
 			ComplexitysWhoseNodeIsExpanded: []*Complexity{{Name: "ComplexitysWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Performance with the name of the field
 			PerformancesWhoseNodeIsExpanded: []*Performance{{Name: "PerformancesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Effort with the name of the field
 			EffortsWhoseNodeIsExpanded: []*Effort{{Name: "EffortsWhoseNodeIsExpanded"}},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

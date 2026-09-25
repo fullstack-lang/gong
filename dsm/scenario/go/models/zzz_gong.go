@@ -5584,242 +5584,132 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case ActorState:
-		return any(&ActorState{
-			// Initialisation of associations
-		}).(*Type)
 	case ActorStateShape:
 		return any(&ActorStateShape{
-			// Initialisation of associations
-			// field is initialized with an instance of ActorState with the name of the field
 			ActorState: &ActorState{Name: "ActorState"},
 		}).(*Type)
 	case ActorStateTransition:
 		return any(&ActorStateTransition{
-			// Initialisation of associations
-			// field is initialized with an instance of ActorState with the name of the field
 			StartState: &ActorState{Name: "StartState"},
-			// field is initialized with an instance of ActorState with the name of the field
 			EndState: &ActorState{Name: "EndState"},
-			// field is initialized with an instance of Parameter with the name of the field
 			Justifications: []*Parameter{{Name: "Justifications"}},
 		}).(*Type)
 	case ActorStateTransitionShape:
 		return any(&ActorStateTransitionShape{
-			// Initialisation of associations
-			// field is initialized with an instance of ActorStateTransition with the name of the field
 			ActorStateTransition: &ActorStateTransition{Name: "ActorStateTransition"},
-			// field is initialized with an instance of ActorStateShape with the name of the field
 			Start: &ActorStateShape{Name: "Start"},
-			// field is initialized with an instance of ActorStateShape with the name of the field
 			End: &ActorStateShape{Name: "End"},
-			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case Analysis:
 		return any(&Analysis{
-			// Initialisation of associations
-			// field is initialized with an instance of Scenario with the name of the field
 			Scenarios: []*Scenario{{Name: "Scenarios"}},
-			// field is initialized with an instance of GroupUse with the name of the field
 			GroupUse: []*GroupUse{{Name: "GroupUse"}},
-			// field is initialized with an instance of GeoObjectUse with the name of the field
 			GeoObjectUse: []*GeoObjectUse{{Name: "GeoObjectUse"}},
-			// field is initialized with an instance of MapObjectUse with the name of the field
 			MapUse: []*MapObjectUse{{Name: "MapUse"}},
-		}).(*Type)
-	case ControlPointShape:
-		return any(&ControlPointShape{
-			// Initialisation of associations
 		}).(*Type)
 	case Diagram:
 		return any(&Diagram{
-			// Initialisation of associations
-			// field is initialized with an instance of EvolutionDirectionShape with the name of the field
 			EvolutionDirectionShapes: []*EvolutionDirectionShape{{Name: "EvolutionDirectionShapes"}},
-			// field is initialized with an instance of EvolutionDirection with the name of the field
 			EvolutionDirectionsWhoseNodeIsExpanded: []*EvolutionDirection{{Name: "EvolutionDirectionsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ActorStateShape with the name of the field
 			ActorStateShapes: []*ActorStateShape{{Name: "ActorStateShapes"}},
-			// field is initialized with an instance of ActorState with the name of the field
 			ActorStatesWhoseNodeIsExpanded: []*ActorState{{Name: "ActorStatesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ParameterShape with the name of the field
 			ParameterShapes: []*ParameterShape{{Name: "ParameterShapes"}},
-			// field is initialized with an instance of Parameter with the name of the field
 			ParametersWhoseNodeIsExpanded: []*Parameter{{Name: "ParametersWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ParametersAggregateShape with the name of the field
 			ScenarioParameterShapes: []*ParametersAggregateShape{{Name: "ScenarioParameterShapes"}},
-			// field is initialized with an instance of ParametersAggregate with the name of the field
 			ParametersAggregatesWhoseNodeIsExpanded: []*ParametersAggregate{{Name: "ParametersAggregatesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ActorStateTransitionShape with the name of the field
 			ActorStateTransitionShapes: []*ActorStateTransitionShape{{Name: "ActorStateTransitionShapes"}},
-			// field is initialized with an instance of ActorStateTransition with the name of the field
 			ActorStateTransitionsWhoseNodeIsExpanded: []*ActorStateTransition{{Name: "ActorStateTransitionsWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Document:
 		return any(&Document{
-			// Initialisation of associations
-			// field is initialized with an instance of GeoObjectUse with the name of the field
 			GeoObjectUse: []*GeoObjectUse{{Name: "GeoObjectUse"}},
 		}).(*Type)
 	case DocumentUse:
 		return any(&DocumentUse{
-			// Initialisation of associations
-			// field is initialized with an instance of Document with the name of the field
 			Document: &Document{Name: "Document"},
-		}).(*Type)
-	case EvolutionDirection:
-		return any(&EvolutionDirection{
-			// Initialisation of associations
 		}).(*Type)
 	case EvolutionDirectionShape:
 		return any(&EvolutionDirectionShape{
-			// Initialisation of associations
-			// field is initialized with an instance of EvolutionDirection with the name of the field
 			EvolutionDirection: &EvolutionDirection{Name: "EvolutionDirection"},
-		}).(*Type)
-	case Foo:
-		return any(&Foo{
-			// Initialisation of associations
-		}).(*Type)
-	case GeoObject:
-		return any(&GeoObject{
-			// Initialisation of associations
 		}).(*Type)
 	case GeoObjectUse:
 		return any(&GeoObjectUse{
-			// Initialisation of associations
-			// field is initialized with an instance of GeoObject with the name of the field
 			GeoObject: &GeoObject{Name: "GeoObject"},
 		}).(*Type)
 	case Group:
 		return any(&Group{
-			// Initialisation of associations
-			// field is initialized with an instance of UserUse with the name of the field
 			UserUse: []*UserUse{{Name: "UserUse"}},
 		}).(*Type)
 	case GroupUse:
 		return any(&GroupUse{
-			// Initialisation of associations
-			// field is initialized with an instance of Group with the name of the field
 			Group: &Group{Name: "Group"},
 		}).(*Type)
 	case Library:
 		return any(&Library{
-			// Initialisation of associations
-			// field is initialized with an instance of Analysis with the name of the field
 			Analyses: []*Analysis{{Name: "Analyses"}},
-			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
-			// field is initialized with an instance of Library with the name of the field
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
-		}).(*Type)
-	case MapObject:
-		return any(&MapObject{
-			// Initialisation of associations
 		}).(*Type)
 	case MapObjectUse:
 		return any(&MapObjectUse{
-			// Initialisation of associations
-			// field is initialized with an instance of MapObject with the name of the field
 			Map: &MapObject{Name: "Map"},
 		}).(*Type)
 	case Parameter:
 		return any(&Parameter{
-			// Initialisation of associations
-			// field is initialized with an instance of GroupUse with the name of the field
 			GroupUse: []*GroupUse{{Name: "GroupUse"}},
-			// field is initialized with an instance of DocumentUse with the name of the field
 			DocumentUse: []*DocumentUse{{Name: "DocumentUse"}},
-			// field is initialized with an instance of GeoObjectUse with the name of the field
 			GeoObjectUse: []*GeoObjectUse{{Name: "GeoObjectUse"}},
 		}).(*Type)
 	case ParameterCategory:
 		return any(&ParameterCategory{
-			// Initialisation of associations
-			// field is initialized with an instance of ParameterShape with the name of the field
 			ParameterUse: []*ParameterShape{{Name: "ParameterUse"}},
 		}).(*Type)
 	case ParameterCategoryUse:
 		return any(&ParameterCategoryUse{
-			// Initialisation of associations
-			// field is initialized with an instance of ParameterCategory with the name of the field
 			ParameterCategory: &ParameterCategory{Name: "ParameterCategory"},
 		}).(*Type)
 	case ParameterShape:
 		return any(&ParameterShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Parameter with the name of the field
 			Parameter: &Parameter{Name: "Parameter"},
 		}).(*Type)
 	case ParametersAggregate:
 		return any(&ParametersAggregate{
-			// Initialisation of associations
-			// field is initialized with an instance of Parameter with the name of the field
 			Parameters: []*Parameter{{Name: "Parameters"}},
 		}).(*Type)
 	case ParametersAggregateShape:
 		return any(&ParametersAggregateShape{
-			// Initialisation of associations
-			// field is initialized with an instance of ParametersAggregate with the name of the field
 			ScenarioParameter: &ParametersAggregate{Name: "ScenarioParameter"},
-		}).(*Type)
-	case Position:
-		return any(&Position{
-			// Initialisation of associations
 		}).(*Type)
 	case Repository:
 		return any(&Repository{
-			// Initialisation of associations
-			// field is initialized with an instance of ParameterShape with the name of the field
 			ParameterUse: []*ParameterShape{{Name: "ParameterUse"}},
-			// field is initialized with an instance of GroupUse with the name of the field
 			GroupUse: []*GroupUse{{Name: "GroupUse"}},
 		}).(*Type)
 	case Scenario:
 		return any(&Scenario{
-			// Initialisation of associations
-			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
-			// field is initialized with an instance of ActorState with the name of the field
 			ActorStates: []*ActorState{{Name: "ActorStates"}},
-			// field is initialized with an instance of ActorStateTransition with the name of the field
 			ActorStateTransitions: []*ActorStateTransition{{Name: "ActorStateTransitions"}},
-			// field is initialized with an instance of EvolutionDirection with the name of the field
 			EvolutionDirections: []*EvolutionDirection{{Name: "EvolutionDirections"}},
-			// field is initialized with an instance of Parameter with the name of the field
 			Parameters: []*Parameter{{Name: "Parameters"}},
-			// field is initialized with an instance of ParametersAggregate with the name of the field
 			ParametersAggretates: []*ParametersAggregate{{Name: "ParametersAggretates"}},
-		}).(*Type)
-	case User:
-		return any(&User{
-			// Initialisation of associations
 		}).(*Type)
 	case UserUse:
 		return any(&UserUse{
-			// Initialisation of associations
-			// field is initialized with an instance of User with the name of the field
 			User: &User{Name: "User"},
 		}).(*Type)
 	case Workspace:
 		return any(&Workspace{
-			// Initialisation of associations
-			// field is initialized with an instance of Diagram with the name of the field
 			SelectedDiagram: &Diagram{Name: "SelectedDiagram"},
-			// field is initialized with an instance of EvolutionDirectionShape with the name of the field
 			Default_EvolutionDirectionShape: &EvolutionDirectionShape{Name: "Default_EvolutionDirectionShape"},
-			// field is initialized with an instance of ParameterShape with the name of the field
 			Default_ParameterShape: &ParameterShape{Name: "Default_ParameterShape"},
-			// field is initialized with an instance of ParametersAggregateShape with the name of the field
 			Default_ScenarioParameterShape: &ParametersAggregateShape{Name: "Default_ScenarioParameterShape"},
-			// field is initialized with an instance of ActorStateShape with the name of the field
 			Default_ActorStateShape: &ActorStateShape{Name: "Default_ActorStateShape"},
-			// field is initialized with an instance of ActorStateTransitionShape with the name of the field
 			Default_ActorStateTransitionShape: &ActorStateTransitionShape{Name: "Default_ActorStateTransitionShape"},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

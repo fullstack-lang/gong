@@ -5334,300 +5334,174 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case AnalysisNeed:
-		return any(&AnalysisNeed{
-			// Initialisation of associations
-		}).(*Type)
 	case Concept:
 		return any(&Concept{
-			// Initialisation of associations
-			// field is initialized with an instance of Tool with the name of the field
 			Tools: []*Tool{{Name: "Tools"}},
 		}).(*Type)
 	case ConceptShape:
 		return any(&ConceptShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Concept with the name of the field
 			Concept: &Concept{Name: "Concept"},
 		}).(*Type)
 	case Concern:
 		return any(&Concern{
-			// Initialisation of associations
-			// field is initialized with an instance of Concern with the name of the field
 			SubConcerns: []*Concern{{Name: "SubConcerns"}},
-			// field is initialized with an instance of Deliverable with the name of the field
 			Inputs: []*Deliverable{{Name: "Inputs"}},
-			// field is initialized with an instance of Deliverable with the name of the field
 			Outputs: []*Deliverable{{Name: "Outputs"}},
-			// field is initialized with an instance of Requirement with the name of the field
 			Requirements: []*Requirement{{Name: "Requirements"}},
 		}).(*Type)
 	case ConcernCompositionShape:
 		return any(&ConcernCompositionShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Concern with the name of the field
 			Concern: &Concern{Name: "Concern"},
-			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case ConcernInputShape:
 		return any(&ConcernInputShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Deliverable with the name of the field
 			Deliverable: &Deliverable{Name: "Deliverable"},
-			// field is initialized with an instance of Concern with the name of the field
 			Concern: &Concern{Name: "Concern"},
-			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case ConcernOutputShape:
 		return any(&ConcernOutputShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Concern with the name of the field
 			Concern: &Concern{Name: "Concern"},
-			// field is initialized with an instance of Deliverable with the name of the field
 			Deliverable: &Deliverable{Name: "Deliverable"},
-			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case ConcernShape:
 		return any(&ConcernShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Concern with the name of the field
 			Concern: &Concern{Name: "Concern"},
-		}).(*Type)
-	case ControlPointShape:
-		return any(&ControlPointShape{
-			// Initialisation of associations
 		}).(*Type)
 	case Deliverable:
 		return any(&Deliverable{
-			// Initialisation of associations
-			// field is initialized with an instance of Deliverable with the name of the field
 			SubDeliverables: []*Deliverable{{Name: "SubDeliverables"}},
-			// field is initialized with an instance of Concept with the name of the field
 			Concepts: []*Concept{{Name: "Concepts"}},
 		}).(*Type)
 	case DeliverableCompositionShape:
 		return any(&DeliverableCompositionShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Deliverable with the name of the field
 			Deliverable: &Deliverable{Name: "Deliverable"},
-			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case DeliverableConceptShape:
 		return any(&DeliverableConceptShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Deliverable with the name of the field
 			Deliverable: &Deliverable{Name: "Deliverable"},
-			// field is initialized with an instance of Concept with the name of the field
 			Concept: &Concept{Name: "Concept"},
-			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case DeliverableShape:
 		return any(&DeliverableShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Deliverable with the name of the field
 			Deliverable: &Deliverable{Name: "Deliverable"},
 		}).(*Type)
 	case Diagram:
 		return any(&Diagram{
-			// Initialisation of associations
-			// field is initialized with an instance of Concern with the name of the field
 			ConcernsWhoseRequirementsNodeIsExpanded: []*Concern{{Name: "ConcernsWhoseRequirementsNodeIsExpanded"}},
-			// field is initialized with an instance of DeliverableShape with the name of the field
 			Deliverable_Shapes: []*DeliverableShape{{Name: "Deliverable_Shapes"}},
-			// field is initialized with an instance of Deliverable with the name of the field
 			DeliverablesWhoseNodeIsExpanded: []*Deliverable{{Name: "DeliverablesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Deliverable with the name of the field
 			DeliverablesWhoseConceptsNodeIsExpanded: []*Deliverable{{Name: "DeliverablesWhoseConceptsNodeIsExpanded"}},
-			// field is initialized with an instance of DeliverableCompositionShape with the name of the field
 			DeliverableComposition_Shapes: []*DeliverableCompositionShape{{Name: "DeliverableComposition_Shapes"}},
-			// field is initialized with an instance of ConcernShape with the name of the field
 			Concern_Shapes: []*ConcernShape{{Name: "Concern_Shapes"}},
-			// field is initialized with an instance of Concern with the name of the field
 			ConcernsWhoseNodeIsExpanded: []*Concern{{Name: "ConcernsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Concern with the name of the field
 			ConcernsWhoseInputNodeIsExpanded: []*Concern{{Name: "ConcernsWhoseInputNodeIsExpanded"}},
-			// field is initialized with an instance of Concern with the name of the field
 			ConcernsWhoseStakeholderNodeIsExpanded: []*Concern{{Name: "ConcernsWhoseStakeholderNodeIsExpanded"}},
-			// field is initialized with an instance of Concern with the name of the field
 			ConcernssWhoseOutputNodeIsExpanded: []*Concern{{Name: "ConcernssWhoseOutputNodeIsExpanded"}},
-			// field is initialized with an instance of ConcernCompositionShape with the name of the field
 			ConcernComposition_Shapes: []*ConcernCompositionShape{{Name: "ConcernComposition_Shapes"}},
-			// field is initialized with an instance of ConcernInputShape with the name of the field
 			ConcernInputShapes: []*ConcernInputShape{{Name: "ConcernInputShapes"}},
-			// field is initialized with an instance of ConcernOutputShape with the name of the field
 			ConcernOutputShapes: []*ConcernOutputShape{{Name: "ConcernOutputShapes"}},
-			// field is initialized with an instance of NoteShape with the name of the field
 			Note_Shapes: []*NoteShape{{Name: "Note_Shapes"}},
-			// field is initialized with an instance of Note with the name of the field
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of NoteDeliverableShape with the name of the field
 			NoteDeliverableShapes: []*NoteDeliverableShape{{Name: "NoteDeliverableShapes"}},
-			// field is initialized with an instance of NoteTaskShape with the name of the field
 			NoteTaskShapes: []*NoteTaskShape{{Name: "NoteTaskShapes"}},
-			// field is initialized with an instance of NoteStakeholderShape with the name of the field
 			NoteResourceShapes: []*NoteStakeholderShape{{Name: "NoteResourceShapes"}},
-			// field is initialized with an instance of StakeholderShape with the name of the field
 			Stakeholder_Shapes: []*StakeholderShape{{Name: "Stakeholder_Shapes"}},
-			// field is initialized with an instance of Stakeholder with the name of the field
 			ResourcesWhoseNodeIsExpanded: []*Stakeholder{{Name: "ResourcesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of StakeholderCompositionShape with the name of the field
 			ResourceComposition_Shapes: []*StakeholderCompositionShape{{Name: "ResourceComposition_Shapes"}},
-			// field is initialized with an instance of StakeholderConcernShape with the name of the field
 			StakeholderConcernShapes: []*StakeholderConcernShape{{Name: "StakeholderConcernShapes"}},
-			// field is initialized with an instance of RequirementShape with the name of the field
 			Requirement_Shapes: []*RequirementShape{{Name: "Requirement_Shapes"}},
-			// field is initialized with an instance of Requirement with the name of the field
 			RequirementsWhoseNodeIsExpanded: []*Requirement{{Name: "RequirementsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ConceptShape with the name of the field
 			Concept_Shapes: []*ConceptShape{{Name: "Concept_Shapes"}},
-			// field is initialized with an instance of Concept with the name of the field
 			ConceptsWhoseNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Concept with the name of the field
 			ConceptsWhoseDeliverablesNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseDeliverablesNodeIsExpanded"}},
-			// field is initialized with an instance of DeliverableConceptShape with the name of the field
 			DeliverableConceptShapes: []*DeliverableConceptShape{{Name: "DeliverableConceptShapes"}},
-			// field is initialized with an instance of DiagramShape with the name of the field
 			Diagram_Shapes: []*DiagramShape{{Name: "Diagram_Shapes"}},
-			// field is initialized with an instance of Diagram with the name of the field
 			DiagramsWhoseNodeIsExpanded: []*Diagram{{Name: "DiagramsWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case DiagramShape:
 		return any(&DiagramShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Diagram with the name of the field
 			Diagram: &Diagram{Name: "Diagram"},
 		}).(*Type)
 	case Library:
 		return any(&Library{
-			// Initialisation of associations
-			// field is initialized with an instance of Deliverable with the name of the field
 			RootDeliverables: []*Deliverable{{Name: "RootDeliverables"}},
-			// field is initialized with an instance of Concern with the name of the field
 			RootConcerns: []*Concern{{Name: "RootConcerns"}},
-			// field is initialized with an instance of Stakeholder with the name of the field
 			RootStakeholders: []*Stakeholder{{Name: "RootStakeholders"}},
-			// field is initialized with an instance of Requirement with the name of the field
 			RootRequirements: []*Requirement{{Name: "RootRequirements"}},
-			// field is initialized with an instance of Concept with the name of the field
 			RootConcepts: []*Concept{{Name: "RootConcepts"}},
-			// field is initialized with an instance of AnalysisNeed with the name of the field
 			AnalysisNeeds: []*AnalysisNeed{{Name: "AnalysisNeeds"}},
-			// field is initialized with an instance of Note with the name of the field
 			Notes: []*Note{{Name: "Notes"}},
-			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
-			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
 		}).(*Type)
 	case Note:
 		return any(&Note{
-			// Initialisation of associations
-			// field is initialized with an instance of Deliverable with the name of the field
 			Deliverables: []*Deliverable{{Name: "Deliverables"}},
-			// field is initialized with an instance of Concern with the name of the field
 			Tasks: []*Concern{{Name: "Tasks"}},
-			// field is initialized with an instance of Stakeholder with the name of the field
 			Resources: []*Stakeholder{{Name: "Resources"}},
 		}).(*Type)
 	case NoteDeliverableShape:
 		return any(&NoteDeliverableShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Deliverable with the name of the field
 			Deliverable: &Deliverable{Name: "Deliverable"},
-			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
 		}).(*Type)
 	case NoteStakeholderShape:
 		return any(&NoteStakeholderShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Stakeholder with the name of the field
 			Stakeholder: &Stakeholder{Name: "Stakeholder"},
-			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case NoteTaskShape:
 		return any(&NoteTaskShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Concern with the name of the field
 			Task: &Concern{Name: "Task"},
-			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case Requirement:
 		return any(&Requirement{
-			// Initialisation of associations
-			// field is initialized with an instance of SupportLevel with the name of the field
 			SupportLevels: []*SupportLevel{{Name: "SupportLevels"}},
-			// field is initialized with an instance of Concept with the name of the field
 			Concepts: []*Concept{{Name: "Concepts"}},
 		}).(*Type)
 	case RequirementShape:
 		return any(&RequirementShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Requirement with the name of the field
 			Requirement: &Requirement{Name: "Requirement"},
 		}).(*Type)
 	case Stakeholder:
 		return any(&Stakeholder{
-			// Initialisation of associations
-			// field is initialized with an instance of Concern with the name of the field
 			Concerns: []*Concern{{Name: "Concerns"}},
-			// field is initialized with an instance of Stakeholder with the name of the field
 			SubStakeholders: []*Stakeholder{{Name: "SubStakeholders"}},
 		}).(*Type)
 	case StakeholderCompositionShape:
 		return any(&StakeholderCompositionShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Stakeholder with the name of the field
 			Stakeholder: &Stakeholder{Name: "Stakeholder"},
-			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case StakeholderConcernShape:
 		return any(&StakeholderConcernShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Stakeholder with the name of the field
 			Stakeholder: &Stakeholder{Name: "Stakeholder"},
-			// field is initialized with an instance of Concern with the name of the field
 			Concern: &Concern{Name: "Concern"},
-			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case StakeholderShape:
 		return any(&StakeholderShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Stakeholder with the name of the field
 			Stakeholder: &Stakeholder{Name: "Stakeholder"},
 		}).(*Type)
 	case SupportLevel:
 		return any(&SupportLevel{
-			// Initialisation of associations
-			// field is initialized with an instance of Tool with the name of the field
 			Tool: &Tool{Name: "Tool"},
 		}).(*Type)
-	case Tool:
-		return any(&Tool{
-			// Initialisation of associations
-		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

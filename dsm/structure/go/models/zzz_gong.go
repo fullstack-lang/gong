@@ -4864,278 +4864,156 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case AllocatedResourceShape:
 		return any(&AllocatedResourceShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Part with the name of the field
 			Part: &Part{Name: "Part"},
-			// field is initialized with an instance of Resource with the name of the field
 			Resource: &Resource{Name: "Resource"},
 		}).(*Type)
 	case AllocatedSystemShape:
 		return any(&AllocatedSystemShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Part with the name of the field
 			Part: &Part{Name: "Part"},
-			// field is initialized with an instance of System with the name of the field
 			System: &System{Name: "System"},
 		}).(*Type)
 	case ControlFlow:
 		return any(&ControlFlow{
-			// Initialisation of associations
-			// field is initialized with an instance of Port with the name of the field
 			Start: &Port{Name: "Start"},
-			// field is initialized with an instance of Port with the name of the field
 			End: &Port{Name: "End"},
 		}).(*Type)
 	case ControlFlowShape:
 		return any(&ControlFlowShape{
-			// Initialisation of associations
-			// field is initialized with an instance of ControlFlow with the name of the field
 			ControlFlow: &ControlFlow{Name: "ControlFlow"},
-		}).(*Type)
-	case Data:
-		return any(&Data{
-			// Initialisation of associations
 		}).(*Type)
 	case DataFlow:
 		return any(&DataFlow{
-			// Initialisation of associations
-			// field is initialized with an instance of Port with the name of the field
 			StartPort: &Port{Name: "StartPort"},
-			// field is initialized with an instance of Port with the name of the field
 			EndPort: &Port{Name: "EndPort"},
-			// field is initialized with an instance of Part with the name of the field
 			StartExternalPart: &Part{Name: "StartExternalPart"},
-			// field is initialized with an instance of Part with the name of the field
 			EndExternalPart: &Part{Name: "EndExternalPart"},
-			// field is initialized with an instance of Data with the name of the field
 			Datas: []*Data{{Name: "Datas"}},
 		}).(*Type)
 	case DataFlowShape:
 		return any(&DataFlowShape{
-			// Initialisation of associations
-			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlow: &DataFlow{Name: "DataFlow"},
 		}).(*Type)
 	case DataShape:
 		return any(&DataShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Data with the name of the field
 			Data: &Data{Name: "Data"},
-			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlow: &DataFlow{Name: "DataFlow"},
 		}).(*Type)
 	case DiagramLayerState:
 		return any(&DiagramLayerState{
-			// Initialisation of associations
-			// field is initialized with an instance of DiagramStructure with the name of the field
 			DiagramStructure: &DiagramStructure{Name: "DiagramStructure"},
-			// field is initialized with an instance of LayerDefinition with the name of the field
 			LayerDefinition: &LayerDefinition{Name: "LayerDefinition"},
 		}).(*Type)
 	case DiagramStructure:
 		return any(&DiagramStructure{
-			// Initialisation of associations
-			// field is initialized with an instance of SystemShape with the name of the field
 			System_Shapes: []*SystemShape{{Name: "System_Shapes"}},
-			// field is initialized with an instance of System with the name of the field
 			SystemsWhoseNodeIsExpanded: []*System{{Name: "SystemsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of PartShape with the name of the field
 			Part_Shapes: []*PartShape{{Name: "Part_Shapes"}},
-			// field is initialized with an instance of Part with the name of the field
 			PartWhoseNodeIsExpanded: []*Part{{Name: "PartWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ExternalPartShape with the name of the field
 			ExternalPart_Shapes: []*ExternalPartShape{{Name: "ExternalPart_Shapes"}},
-			// field is initialized with an instance of Part with the name of the field
 			ExternalPartWhoseNodeIsExpanded: []*Part{{Name: "ExternalPartWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Part with the name of the field
 			ExternalPartsWhoseOutDataFlowsNodeIsExpanded: []*Part{{Name: "ExternalPartsWhoseOutDataFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Part with the name of the field
 			ExternalPartsWhoseInDataFlowsNodeIsExpanded: []*Part{{Name: "ExternalPartsWhoseInDataFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Port with the name of the field
 			PortsWhoseNodeIsExpanded: []*Port{{Name: "PortsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of PortShape with the name of the field
 			Port_Shapes: []*PortShape{{Name: "Port_Shapes"}},
-			// field is initialized with an instance of ControlFlow with the name of the field
 			ControlFlowsWhoseNodeIsExpanded: []*ControlFlow{{Name: "ControlFlowsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ControlFlowShape with the name of the field
 			ControlFlow_Shapes: []*ControlFlowShape{{Name: "ControlFlow_Shapes"}},
-			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlowsWhoseNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of DataFlowShape with the name of the field
 			DataFlow_Shapes: []*DataFlowShape{{Name: "DataFlow_Shapes"}},
-			// field is initialized with an instance of Data with the name of the field
 			DatasWhoseNodeIsExpanded: []*Data{{Name: "DatasWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of DataShape with the name of the field
 			Data_Shapes: []*DataShape{{Name: "Data_Shapes"}},
-			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlowsWhoseDataNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseDataNodeIsExpanded"}},
-			// field is initialized with an instance of Resource with the name of the field
 			AllocatedResourcesWhoseNodeIsExpanded: []*Resource{{Name: "AllocatedResourcesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of AllocatedResourceShape with the name of the field
 			AllocatedResourceShapes: []*AllocatedResourceShape{{Name: "AllocatedResourceShapes"}},
-			// field is initialized with an instance of System with the name of the field
 			AllocatedSystemesWhoseNodeIsExpanded: []*System{{Name: "AllocatedSystemesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of AllocatedSystemShape with the name of the field
 			AllocatedSystemShapes: []*AllocatedSystemShape{{Name: "AllocatedSystemShapes"}},
-			// field is initialized with an instance of NoteShape with the name of the field
 			Note_Shapes: []*NoteShape{{Name: "Note_Shapes"}},
-			// field is initialized with an instance of Note with the name of the field
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of NotePortShape with the name of the field
 			NotePortShapes: []*NotePortShape{{Name: "NotePortShapes"}},
-			// field is initialized with an instance of NotePartShape with the name of the field
 			NotePartShapes: []*NotePartShape{{Name: "NotePartShapes"}},
 		}).(*Type)
 	case ExternalPartShape:
 		return any(&ExternalPartShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Part with the name of the field
 			Part: &Part{Name: "Part"},
 		}).(*Type)
 	case LayerDefinition:
 		return any(&LayerDefinition{
-			// Initialisation of associations
-			// field is initialized with an instance of SemanticTag with the name of the field
 			Query: []*SemanticTag{{Name: "Query"}},
 		}).(*Type)
 	case Library:
 		return any(&Library{
-			// Initialisation of associations
-			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
-			// field is initialized with an instance of Library with the name of the field
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of System with the name of the field
 			RootSystemes: []*System{{Name: "RootSystemes"}},
-			// field is initialized with an instance of System with the name of the field
 			SystemsWhoseNodeIsExpanded: []*System{{Name: "SystemsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of DataFlow with the name of the field
 			RootDataFlows: []*DataFlow{{Name: "RootDataFlows"}},
-			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlowsWhoseNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Data with the name of the field
 			RootDatas: []*Data{{Name: "RootDatas"}},
-			// field is initialized with an instance of Data with the name of the field
 			DatasWhoseNodeIsExpanded: []*Data{{Name: "DatasWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Resource with the name of the field
 			RootResources: []*Resource{{Name: "RootResources"}},
-			// field is initialized with an instance of Resource with the name of the field
 			ResourcesWhoseNodeIsExpanded: []*Resource{{Name: "ResourcesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Part with the name of the field
 			PartsWhoseNodeIsExpanded: []*Part{{Name: "PartsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Note with the name of the field
 			RootNotes: []*Note{{Name: "RootNotes"}},
-			// field is initialized with an instance of Note with the name of the field
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Note:
 		return any(&Note{
-			// Initialisation of associations
-			// field is initialized with an instance of Part with the name of the field
 			Parts: []*Part{{Name: "Parts"}},
-			// field is initialized with an instance of Port with the name of the field
 			Ports: []*Port{{Name: "Ports"}},
 		}).(*Type)
 	case NotePartShape:
 		return any(&NotePartShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Part with the name of the field
 			Part: &Part{Name: "Part"},
 		}).(*Type)
 	case NotePortShape:
 		return any(&NotePortShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Port with the name of the field
 			Port: &Port{Name: "Port"},
 		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
 		}).(*Type)
 	case Part:
 		return any(&Part{
-			// Initialisation of associations
-			// field is initialized with an instance of Port with the name of the field
 			Ports: []*Port{{Name: "Ports"}},
-			// field is initialized with an instance of System with the name of the field
 			TypeOfPart: &System{Name: "TypeOfPart"},
-			// field is initialized with an instance of ControlFlow with the name of the field
 			ControlFlows: []*ControlFlow{{Name: "ControlFlows"}},
-			// field is initialized with an instance of Port with the name of the field
 			PortWhoseOutControlFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseOutControlFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Port with the name of the field
 			PortWhoseInControlFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseInControlFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Port with the name of the field
 			PortWhoseOutDataFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseOutDataFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Port with the name of the field
 			PortWhoseInDataFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseInDataFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of PartAnchoredPath with the name of the field
 			PartAnchoredPath: []*PartAnchoredPath{{Name: "PartAnchoredPath"}},
-		}).(*Type)
-	case PartAnchoredPath:
-		return any(&PartAnchoredPath{
-			// Initialisation of associations
 		}).(*Type)
 	case PartShape:
 		return any(&PartShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Part with the name of the field
 			Part: &Part{Name: "Part"},
-		}).(*Type)
-	case Port:
-		return any(&Port{
-			// Initialisation of associations
 		}).(*Type)
 	case PortShape:
 		return any(&PortShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Port with the name of the field
 			Port: &Port{Name: "Port"},
-		}).(*Type)
-	case Resource:
-		return any(&Resource{
-			// Initialisation of associations
 		}).(*Type)
 	case SemanticTag:
 		return any(&SemanticTag{
-			// Initialisation of associations
-			// field is initialized with an instance of Part with the name of the field
 			Parts: []*Part{{Name: "Parts"}},
 		}).(*Type)
 	case System:
 		return any(&System{
-			// Initialisation of associations
-			// field is initialized with an instance of DiagramStructure with the name of the field
 			DiagramStructures: []*DiagramStructure{{Name: "DiagramStructures"}},
-			// field is initialized with an instance of DiagramStructure with the name of the field
 			DiagramStructureWhoseNodeIsExpanded: []*DiagramStructure{{Name: "DiagramStructureWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of System with the name of the field
 			SubSystemes: []*System{{Name: "SubSystemes"}},
-			// field is initialized with an instance of Part with the name of the field
 			Parts: []*Part{{Name: "Parts"}},
-			// field is initialized with an instance of Part with the name of the field
 			PartWhoseNodeIsExpanded: []*Part{{Name: "PartWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlows: []*DataFlow{{Name: "DataFlows"}},
-			// field is initialized with an instance of Part with the name of the field
 			ExternalParts: []*Part{{Name: "ExternalParts"}},
-			// field is initialized with an instance of Part with the name of the field
 			ExternalPartWhoseNodeIsExpanded: []*Part{{Name: "ExternalPartWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case SystemShape:
 		return any(&SystemShape{
-			// Initialisation of associations
-			// field is initialized with an instance of System with the name of the field
 			System: &System{Name: "System"},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

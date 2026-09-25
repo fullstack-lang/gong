@@ -3558,156 +3558,85 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case Action:
-		return any(&Action{
-			// Initialisation of associations
-		}).(*Type)
-	case Activities:
-		return any(&Activities{
-			// Initialisation of associations
-		}).(*Type)
 	case Diagram:
 		return any(&Diagram{
-			// Initialisation of associations
-			// field is initialized with an instance of StateShape with the name of the field
 			State_Shapes: []*StateShape{{Name: "State_Shapes"}},
-			// field is initialized with an instance of State with the name of the field
 			StatesWhoseNodeIsExpanded: []*State{{Name: "StatesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Transition_Shape with the name of the field
 			Transition_Shapes: []*Transition_Shape{{Name: "Transition_Shapes"}},
-			// field is initialized with an instance of NoteShape with the name of the field
 			Note_Shapes: []*NoteShape{{Name: "Note_Shapes"}},
-			// field is initialized with an instance of NoteStateShape with the name of the field
 			NoteState_Shapes: []*NoteStateShape{{Name: "NoteState_Shapes"}},
-		}).(*Type)
-	case Guard:
-		return any(&Guard{
-			// Initialisation of associations
-		}).(*Type)
-	case Kill:
-		return any(&Kill{
-			// Initialisation of associations
 		}).(*Type)
 	case Library:
 		return any(&Library{
-			// Initialisation of associations
-			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
-			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
-			// field is initialized with an instance of StateMachine with the name of the field
 			RootStateMachines: []*StateMachine{{Name: "RootStateMachines"}},
-			// field is initialized with an instance of StateMachine with the name of the field
 			StateMachinesWhoseNodeIsExpanded: []*StateMachine{{Name: "StateMachinesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Library with the name of the field
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Role with the name of the field
 			Roles: []*Role{{Name: "Roles"}},
 		}).(*Type)
 	case Message:
 		return any(&Message{
-			// Initialisation of associations
-			// field is initialized with an instance of MessageType with the name of the field
 			MessageType: &MessageType{Name: "MessageType"},
-			// field is initialized with an instance of Transition with the name of the field
 			OriginTransition: &Transition{Name: "OriginTransition"},
-		}).(*Type)
-	case MessageType:
-		return any(&MessageType{
-			// Initialisation of associations
 		}).(*Type)
 	case Note:
 		return any(&Note{
-			// Initialisation of associations
-			// field is initialized with an instance of State with the name of the field
 			State: &State{Name: "State"},
 		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
 		}).(*Type)
 	case NoteStateShape:
 		return any(&NoteStateShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of State with the name of the field
 			State: &State{Name: "State"},
 		}).(*Type)
 	case Object:
 		return any(&Object{
-			// Initialisation of associations
-			// field is initialized with an instance of State with the name of the field
 			State: &State{Name: "State"},
-			// field is initialized with an instance of Message with the name of the field
 			Messages: []*Message{{Name: "Messages"}},
 		}).(*Type)
 	case Role:
 		return any(&Role{
-			// Initialisation of associations
-			// field is initialized with an instance of Role with the name of the field
 			RolesWithSamePermissions: []*Role{{Name: "RolesWithSamePermissions"}},
 		}).(*Type)
 	case State:
 		return any(&State{
-			// Initialisation of associations
-			// field is initialized with an instance of State with the name of the field
 			SubStates: []*State{{Name: "SubStates"}},
-			// field is initialized with an instance of Action with the name of the field
 			Entry: &Action{Name: "Entry"},
-			// field is initialized with an instance of Activities with the name of the field
 			Activities: []*Activities{{Name: "Activities"}},
-			// field is initialized with an instance of Action with the name of the field
 			Exit: &Action{Name: "Exit"},
-			// field is initialized with an instance of State with the name of the field
 			Parent: &State{Name: "Parent"},
-			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
-			// field is initialized with an instance of Note with the name of the field
 			Notes: []*Note{{Name: "Notes"}},
 		}).(*Type)
 	case StateMachine:
 		return any(&StateMachine{
-			// Initialisation of associations
-			// field is initialized with an instance of State with the name of the field
 			InitialState: &State{Name: "InitialState"},
-			// field is initialized with an instance of State with the name of the field
 			States: []*State{{Name: "States"}},
-			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
 		}).(*Type)
 	case StateShape:
 		return any(&StateShape{
-			// Initialisation of associations
-			// field is initialized with an instance of State with the name of the field
 			State: &State{Name: "State"},
 		}).(*Type)
 	case Transition:
 		return any(&Transition{
-			// Initialisation of associations
-			// field is initialized with an instance of State with the name of the field
 			Start: &State{Name: "Start"},
-			// field is initialized with an instance of State with the name of the field
 			End: &State{Name: "End"},
-			// field is initialized with an instance of Role with the name of the field
 			RolesWithPermissions: []*Role{{Name: "RolesWithPermissions"}},
-			// field is initialized with an instance of MessageType with the name of the field
 			GeneratedMessages: []*MessageType{{Name: "GeneratedMessages"}},
-			// field is initialized with an instance of Guard with the name of the field
 			Guard: &Guard{Name: "Guard"},
-			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
 		}).(*Type)
 	case Transition_Shape:
 		return any(&Transition_Shape{
-			// Initialisation of associations
-			// field is initialized with an instance of Transition with the name of the field
 			Transition: &Transition{Name: "Transition"},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

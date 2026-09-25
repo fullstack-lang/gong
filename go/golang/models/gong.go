@@ -299,8 +299,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 
 	ModelGongStructInsertionGenericGetAssociationNameFunctions: `
 	case {{Structname}}:
-		return any(&{{Structname}}{
-			// Initialisation of associations{{associationFieldInitialization}}
+		return any(&{{Structname}}{{{associationFieldInitialization}}
 		}).(*Type)`,
 
 	ModelGongOrderFields: ``,
@@ -562,11 +561,9 @@ map[GongFilePerStructSubTemplateId]string{
 		}`,
 
 	GongFileFieldSubTmplAssociationNamePointerField: `
-			// field is initialized with an instance of {{AssocStructName}} with the name of the field
 			{{FieldName}}: &{{AssocStructName}}{Name: "{{FieldName}}"},`,
 
 	GongFileFieldSubTmplAssociationNameSliceOfPointersField: `
-			// field is initialized with an instance of {{AssocStructName}} with the name of the field
 			{{FieldName}}: []*{{AssocStructName}}{{Name: "{{FieldName}}"}},`,
 
 	GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction: `
@@ -840,6 +837,10 @@ func CodeGeneratorModelGong(
 			fieldNames += `}`
 			fieldHeaders += `
 	}`
+
+			if subStructTemplate == ModelGongStructInsertionGenericGetAssociationNameFunctions && associationFieldInitialization == "" {
+				continue
+			}
 
 			generatedCodeFromSubTemplate := models.Replace10(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),

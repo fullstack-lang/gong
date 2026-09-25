@@ -2760,100 +2760,58 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case ArtefactType:
-		return any(&ArtefactType{
-			// Initialisation of associations
-		}).(*Type)
 	case ArtefactTypeShape:
 		return any(&ArtefactTypeShape{
-			// Initialisation of associations
-			// field is initialized with an instance of ArtefactType with the name of the field
 			ArtefactType: &ArtefactType{Name: "ArtefactType"},
 		}).(*Type)
 	case Artist:
 		return any(&Artist{
-			// Initialisation of associations
-			// field is initialized with an instance of Place with the name of the field
 			Place: &Place{Name: "Place"},
 		}).(*Type)
 	case ArtistShape:
 		return any(&ArtistShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Artist with the name of the field
 			Artist: &Artist{Name: "Artist"},
-		}).(*Type)
-	case ControlPointShape:
-		return any(&ControlPointShape{
-			// Initialisation of associations
 		}).(*Type)
 	case Desk:
 		return any(&Desk{
-			// Initialisation of associations
-			// field is initialized with an instance of Diagram with the name of the field
 			SelectedDiagram: &Diagram{Name: "SelectedDiagram"},
 		}).(*Type)
 	case Diagram:
 		return any(&Diagram{
-			// Initialisation of associations
-			// field is initialized with an instance of MovementShape with the name of the field
 			MovementShapes: []*MovementShape{{Name: "MovementShapes"}},
-			// field is initialized with an instance of ArtefactTypeShape with the name of the field
 			ArtefactTypeShapes: []*ArtefactTypeShape{{Name: "ArtefactTypeShapes"}},
-			// field is initialized with an instance of ArtistShape with the name of the field
 			ArtistShapes: []*ArtistShape{{Name: "ArtistShapes"}},
-			// field is initialized with an instance of InfluenceShape with the name of the field
 			InfluenceShapes: []*InfluenceShape{{Name: "InfluenceShapes"}},
 		}).(*Type)
 	case Influence:
 		return any(&Influence{
-			// Initialisation of associations
-			// field is initialized with an instance of Movement with the name of the field
 			SourceMovement: &Movement{Name: "SourceMovement"},
-			// field is initialized with an instance of ArtefactType with the name of the field
 			SourceArtefactType: &ArtefactType{Name: "SourceArtefactType"},
-			// field is initialized with an instance of Artist with the name of the field
 			SourceArtist: &Artist{Name: "SourceArtist"},
-			// field is initialized with an instance of Movement with the name of the field
 			TargetMovement: &Movement{Name: "TargetMovement"},
-			// field is initialized with an instance of ArtefactType with the name of the field
 			TargetArtefactType: &ArtefactType{Name: "TargetArtefactType"},
-			// field is initialized with an instance of Artist with the name of the field
 			TargetArtist: &Artist{Name: "TargetArtist"},
 		}).(*Type)
 	case InfluenceShape:
 		return any(&InfluenceShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Influence with the name of the field
 			Influence: &Influence{Name: "Influence"},
-			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case Library:
 		return any(&Library{
-			// Initialisation of associations
-			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
-			// field is initialized with an instance of Library with the name of the field
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Movement:
 		return any(&Movement{
-			// Initialisation of associations
-			// field is initialized with an instance of Place with the name of the field
 			Places: []*Place{{Name: "Places"}},
 		}).(*Type)
 	case MovementShape:
 		return any(&MovementShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Movement with the name of the field
 			Movement: &Movement{Name: "Movement"},
 		}).(*Type)
-	case Place:
-		return any(&Place{
-			// Initialisation of associations
-		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

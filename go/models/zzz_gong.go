@@ -2760,78 +2760,37 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case GongBasicField:
 		return any(&GongBasicField{
-			// Initialisation of associations
-			// field is initialized with an instance of GongEnum with the name of the field
 			GongEnum: &GongEnum{Name: "GongEnum"},
 		}).(*Type)
 	case GongEnum:
 		return any(&GongEnum{
-			// Initialisation of associations
-			// field is initialized with an instance of GongEnumValue with the name of the field
 			GongEnumValues: []*GongEnumValue{{Name: "GongEnumValues"}},
-		}).(*Type)
-	case GongEnumValue:
-		return any(&GongEnumValue{
-			// Initialisation of associations
-		}).(*Type)
-	case GongLink:
-		return any(&GongLink{
-			// Initialisation of associations
 		}).(*Type)
 	case GongNote:
 		return any(&GongNote{
-			// Initialisation of associations
-			// field is initialized with an instance of GongLink with the name of the field
 			Links: []*GongLink{{Name: "Links"}},
 		}).(*Type)
 	case GongStruct:
 		return any(&GongStruct{
-			// Initialisation of associations
-			// field is initialized with an instance of GongBasicField with the name of the field
 			GongBasicFields: []*GongBasicField{{Name: "GongBasicFields"}},
-			// field is initialized with an instance of GongTimeField with the name of the field
 			GongTimeFields: []*GongTimeField{{Name: "GongTimeFields"}},
-			// field is initialized with an instance of PointerToGongStructField with the name of the field
 			PointerToGongStructFields: []*PointerToGongStructField{{Name: "PointerToGongStructFields"}},
-			// field is initialized with an instance of SliceOfPointerToGongStructField with the name of the field
 			SliceOfPointerToGongStructFields: []*SliceOfPointerToGongStructField{{Name: "SliceOfPointerToGongStructFields"}},
-		}).(*Type)
-	case GongTimeField:
-		return any(&GongTimeField{
-			// Initialisation of associations
-		}).(*Type)
-	case MetaReference:
-		return any(&MetaReference{
-			// Initialisation of associations
-		}).(*Type)
-	case ModelPkg:
-		return any(&ModelPkg{
-			// Initialisation of associations
 		}).(*Type)
 	case PointerToGongStructField:
 		return any(&PointerToGongStructField{
-			// Initialisation of associations
-			// field is initialized with an instance of GongStruct with the name of the field
 			GongStruct: &GongStruct{Name: "GongStruct"},
 		}).(*Type)
 	case SliceOfPointerToGongStructField:
 		return any(&SliceOfPointerToGongStructField{
-			// Initialisation of associations
-			// field is initialized with an instance of GongStruct with the name of the field
 			GongStruct: &GongStruct{Name: "GongStruct"},
-		}).(*Type)
-	case StageSetField:
-		return any(&StageSetField{
-			// Initialisation of associations
 		}).(*Type)
 	case StageSetModel:
 		return any(&StageSetModel{
-			// Initialisation of associations
-			// field is initialized with an instance of StageSetField with the name of the field
 			Fields: []*StageSetField{{Name: "Fields"}},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 
