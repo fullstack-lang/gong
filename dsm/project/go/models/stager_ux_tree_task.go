@@ -100,6 +100,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 	callbacksSubTask.OnBeforeCommit = func() {
 		if callbacksSubTask.createdItem != nil {
 			callbacksSubTask.createdItem.IsAllDay = true
+			callbacksSubTask.createdItem.DependencyType = FINISH_TO_START
 		}
 	}
 

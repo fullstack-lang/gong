@@ -229,6 +229,9 @@ func (stager *Stager) displayTask(diagram *Diagram, task *Task, taskShape *TaskS
 			}
 
 			updateTaskDurationAndPredecessors(task, true, true, newStart, newEnd)
+			if stager.probeForm != nil {
+				stager.probeForm.FillUpFormFromGongstruct(task, "Task")
+			}
 			stager.stage.Commit()
 		}
 
@@ -271,6 +274,9 @@ func (stager *Stager) displayTask(diagram *Diagram, task *Task, taskShape *TaskS
 			}
 
 			updateTaskDurationAndPredecessors(task, startMoved, endMoved, newStart, newEnd)
+			if stager.probeForm != nil {
+				stager.probeForm.FillUpFormFromGongstruct(task, "Task")
+			}
 			stager.stage.Commit()
 		}
 	}

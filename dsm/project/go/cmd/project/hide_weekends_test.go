@@ -7,6 +7,7 @@ import (
 
 	"github.com/fullstack-lang/gong/dsm/project/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/project/go/models"
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 )
 
 func TestHideWeekendsPeriodDateToX(t *testing.T) {
@@ -301,5 +302,155 @@ func TestTimeDiagramTaskHandlesAndMove(t *testing.T) {
 	if task.DurationDays != 2.0 {
 		t.Errorf("After OnMove: task.DurationDays = %f, expected 2.0", task.DurationDays)
 	}
+
+	// Test 4: Verify task form was updated in probeForm
+	formStage := stack.Probe.GetFormStage()
+	if len(formStage.FormGroups) == 0 {
+		t.Fatal("Expected task form in probe formStage, but none found")
+	}
+	var fg *form.FormGroup
+	for formGroup := range formStage.FormGroups {
+		fg = formGroup
+		break
+	}
+	if fg.TypeLabel != "Task" || fg.Label != task.Name {
+		t.Errorf("FormGroup TypeLabel=%s, Label=%s, expected Task / %s", fg.TypeLabel, fg.Label, task.Name)
+	}
+	for _, div := range fg.FormDivs {
+		for _, field := range div.FormFields {
+			if field.Name == "StartDate" && field.FormFieldDate != nil {
+				if !field.FormFieldDate.Value.Equal(expectedStart3) {
+					t.Errorf("Form Start = %v, expected %v", field.FormFieldDate.Value, expectedStart3)
+				}
+			}
+			if field.Name == "EndDate" && field.FormFieldDate != nil {
+				if !field.FormFieldDate.Value.Equal(expectedEnd3) {
+					t.Errorf("Form End = %v, expected %v", field.FormFieldDate.Value, expectedEnd3)
+				}
+			}
+		}
+	}
 }
+
+func TestTimeDiagramSizeTakesIntoAccountTextOnRight(t *testing.T) {
+	stack := level1stack.NewLevel1StackDelta("test_diagram_size", "", "", true, false, false)
+	stager := models.NewStager(
+		stack.R,
+		stack.Stage,
+		stack.Probe,
+		"",
+	)
+	_ = stager
+	stage := stack.Stage
+
+	lib := (&models.Library{
+		Name:              "RootLib",
+		IsRootLibrary:     true,
+		NbPixPerCharacter: 8.0,
+	}).Stage(stage)
+
+	// Diagram spanning 2 weeks: Monday Jan 5 to Monday Jan 19
+	start := time.Date(2026, 1, 5, 0, 0, 0, 0, time.UTC)
+	end := time.Date(2026, 1, 19, 0, 0, 0, 0, time.UTC)
+
+	// Milestone on the last day: Monday Jan 19 (which is at XRightMargin = 1200)
+	milestoneName := "General Availability Milestone" // 30 chars -> 240px
+	milestone := (&models.Task{
+		Name:        milestoneName,
+		Start:       end,
+		End:         end,
+		IsMilestone: true,
+	}).Stage(stage)
+	lib.RootTasks = []*models.Task{milestone}
+
+	tg := (&models.TaskGroup{
+		Name:  "MilestonesGroup",
+		Tasks: []*models.Task{milestone},
+	}).Stage(stage)
+	lib.RootTaskGroups = []*models.TaskGroup{tg}
+
+	for _, d := range stage.GetInstancesSorted[*models.Diagram]() {
+		d.IsChecked = false
+	}
+
+	diag := (&models.Diagram{
+		Name:                      "GanttDiag",
+		IsTimeDiagram:             true,
+		IsChecked:                 true,
+		XLeftText:                 15.0,
+		XLeftLanes:                200.0,
+		XRightMargin:              1200.0,
+		LaneHeight:                60.0,
+		RatioBarToLaneHeight:      0.8,
+		HideWeekendsPeriod:        true,
+		UseManualStartAndEndDates: true,
+		ManualStart:               start,
+		ManualEnd:                 end,
+	}).Stage(stage)
+	lib.Diagrams = []*models.Diagram{diag}
+
+	tgs := (&models.TaskGroupShape{
+		Name:      "GanttDiag-Group",
+		TaskGroup: tg,
+	}).Stage(stage)
+	diag.TaskGroupShapes = []*models.TaskGroupShape{tgs}
+
+	ts := (&models.TaskShape{
+		Name: "GanttDiag-Milestone",
+		Task: milestone,
+	}).Stage(stage)
+	diag.Task_Shapes = []*models.TaskShape{ts}
+
+	stage.Commit()
+
+	// lineX for milestone is 1200.0
+	// diamondWidth is 18.0 => dummyX is 1209.0
+	// milestoneText offset is 15.0 => text starts at 1224.0
+	// textWidth is 30 * 8 = 240.0 => text ends at 1464.0
+	// margin is 100.0 => expected width is at least 1464 + 100 = 1564.0
+	expectedMinRight := 1209.0 + 15.0 + float64(len(milestoneName))*8.0 // 1464.0
+	expectedMinWidth := expectedMinRight + 100.0                       // 1564.0
+
+	if diag.Width < expectedMinWidth {
+		t.Errorf("diag.Width = %f, expected at least %f to accommodate right-side milestone text", diag.Width, expectedMinWidth)
+	}
+
+	// Also verify that SVG object has the updated OverriddenWidth
+	svgObj := stager.GetSvgObject()
+	if svgObj == nil {
+		t.Fatal("SVG object was nil")
+	}
+	if svgObj.OverriddenWidth != diag.Width {
+		t.Errorf("svgObj.OverriddenWidth = %f, expected %f", svgObj.OverriddenWidth, diag.Width)
+	}
+}
+
+func TestTaskDefaultDependencyTypeFinishToStart(t *testing.T) {
+	stack := level1stack.NewLevel1StackDelta("test_default_dependency_type", "", "", true, false, false)
+	stager := models.NewStager(
+		stack.R,
+		stack.Stage,
+		stack.Probe,
+		"",
+	)
+	_ = stager
+	stage := stack.Stage
+
+	lib := (&models.Library{
+		Name:          "RootLib",
+		IsRootLibrary: true,
+	}).Stage(stage)
+
+	task := (&models.Task{
+		Name: "TaskWithoutDependencyType",
+	}).Stage(stage)
+	lib.RootTasks = []*models.Task{task}
+
+	stage.Commit()
+
+	if task.DependencyType != models.FINISH_TO_START {
+		t.Errorf("task.DependencyType = %q, expected %q", task.DependencyType, models.FINISH_TO_START)
+	}
+}
+
 

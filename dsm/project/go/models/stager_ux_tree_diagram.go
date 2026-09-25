@@ -251,6 +251,7 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		diagram.IsExpanded = true
 		if callbacksWBS.createdItem != nil {
 			callbacksWBS.createdItem.IsAllDay = true
+			callbacksWBS.createdItem.DependencyType = FINISH_TO_START
 		}
 	}
 
@@ -357,6 +358,7 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 			diagram.IsExpanded = true
 			if callbacksWBSNode.createdItem != nil {
 				callbacksWBSNode.createdItem.IsAllDay = true
+				callbacksWBSNode.createdItem.DependencyType = FINISH_TO_START
 			}
 		}
 

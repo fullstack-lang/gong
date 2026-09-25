@@ -32,6 +32,10 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: `Cloud Platform Launch`}).Stage(stage)
 
+	__Note__00000000_ := (&models.Note{Name: `AAA AAA AAA`}).Stage(stage)
+
+	__NoteShape__00000000_ := (&models.NoteShape{Name: `gantt-AAA AAA AAA`}).Stage(stage)
+
 	__Product__00000000_ := (&models.Product{Name: `Architecture Spec`}).Stage(stage)
 	__Product__00000001_ := (&models.Product{Name: `Security Assessment`}).Stage(stage)
 	__Product__00000002_ := (&models.Product{Name: `Storage Engine v1`}).Stage(stage)
@@ -57,6 +61,7 @@ func _(stage *models.Stage) {
 	__Task__00000006_ := (&models.Task{Name: `End-to-End Integration Testing`}).Stage(stage)
 	__Task__00000007_ := (&models.Task{Name: `Production Deployment`}).Stage(stage)
 	__Task__00000008_ := (&models.Task{Name: `General Availability Milestone`}).Stage(stage)
+	__Task__00000010_ := (&models.Task{Name: `Pre Alha`}).Stage(stage)
 
 	__TaskGroup__00000000_ := (&models.TaskGroup{Name: `Specifications & Architecture`}).Stage(stage)
 	__TaskGroup__00000001_ := (&models.TaskGroup{Name: `Backend & Core Engine`}).Stage(stage)
@@ -98,6 +103,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000015_ := (&models.TaskShape{Name: `wbs-End-to-End Integration Testing`}).Stage(stage)
 	__TaskShape__00000016_ := (&models.TaskShape{Name: `wbs-Production Deployment`}).Stage(stage)
 	__TaskShape__00000017_ := (&models.TaskShape{Name: `wbs-General Availability Milestone`}).Stage(stage)
+	__TaskShape__00000019_ := (&models.TaskShape{Name: `gantt-Pre Alha`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -105,7 +111,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000000_.DateFormat = ``
-	__Diagram__00000000_.Width = 1350.000000
+	__Diagram__00000000_.Width = 1614.000000
 	__Diagram__00000000_.Height = 495.000000
 	__Diagram__00000000_.IsTimeDiagram = true
 	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-06 00:00:00 +0000 UTC")
@@ -145,7 +151,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsTaskGroupsNodeExpanded = true
-	__Diagram__00000000_.IsNotesNodeExpanded = false
+	__Diagram__00000000_.IsNotesNodeExpanded = true
 	__Diagram__00000000_.IsResourcesNodeExpanded = false
 
 	__Diagram__00000001_.Name = `wbs`
@@ -192,7 +198,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.IsPBSNodeExpanded = true
 	__Diagram__00000001_.IsWBSNodeExpanded = true
 	__Diagram__00000001_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000001_.IsNotesNodeExpanded = false
+	__Diagram__00000001_.IsNotesNodeExpanded = true
 	__Diagram__00000001_.IsResourcesNodeExpanded = false
 
 	__Library__00000000_.Name = `Cloud Platform Launch`
@@ -201,6 +207,20 @@ func _(stage *models.Stage) {
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.IsRootLibrary = true
+
+	__Note__00000000_.Name = `AAA AAA AAA`
+	__Note__00000000_.ComputedPrefix = `1`
+	__Note__00000000_.IsExpanded = false
+	__Note__00000000_.LayoutDirection = models.Vertical
+
+	__NoteShape__00000000_.Name = `gantt-AAA AAA AAA`
+	__NoteShape__00000000_.OverideLayoutDirection = false
+	__NoteShape__00000000_.LayoutDirection = models.Vertical
+	__NoteShape__00000000_.X = 782.317513
+	__NoteShape__00000000_.Y = 50.411765
+	__NoteShape__00000000_.Width = 250.000000
+	__NoteShape__00000000_.Height = 70.000000
+	__NoteShape__00000000_.IsHidden = false
 
 	__Product__00000000_.Name = `Architecture Spec`
 	__Product__00000000_.Description = ``
@@ -311,7 +331,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000006_.IsShowType = false
 	__ProductShape__00000006_.OverideLayoutDirection = false
 	__ProductShape__00000006_.LayoutDirection = models.Vertical
-	__ProductShape__00000006_.X = 400.000000
+	__ProductShape__00000006_.X = 100.000000
 	__ProductShape__00000006_.Y = 50.000000
 	__ProductShape__00000006_.Width = 0.000000
 	__ProductShape__00000006_.Height = 0.000000
@@ -321,7 +341,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000007_.IsShowType = false
 	__ProductShape__00000007_.OverideLayoutDirection = false
 	__ProductShape__00000007_.LayoutDirection = models.Vertical
-	__ProductShape__00000007_.X = 450.000000
+	__ProductShape__00000007_.X = 150.000000
 	__ProductShape__00000007_.Y = 50.000000
 	__ProductShape__00000007_.Width = 0.000000
 	__ProductShape__00000007_.Height = 0.000000
@@ -331,7 +351,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000008_.IsShowType = false
 	__ProductShape__00000008_.OverideLayoutDirection = false
 	__ProductShape__00000008_.LayoutDirection = models.Vertical
-	__ProductShape__00000008_.X = 500.000000
+	__ProductShape__00000008_.X = 200.000000
 	__ProductShape__00000008_.Y = 50.000000
 	__ProductShape__00000008_.Width = 0.000000
 	__ProductShape__00000008_.Height = 0.000000
@@ -343,7 +363,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-09 00:00:00 +0000 UTC")
 	__Task__00000000_.IsAllDay = true
 	__Task__00000000_.IsMilestone = false
-	__Task__00000000_.DependencyType = ""
+	__Task__00000000_.DependencyType = models.FINISH_TO_START
 	__Task__00000000_.DependencyDurationYears = 0.000000
 	__Task__00000000_.DependencyDurationMonths = 0.000000
 	__Task__00000000_.DependencyDurationWeeks = 0.000000
@@ -436,7 +456,7 @@ func _(stage *models.Stage) {
 	__Task__00000003_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-13 00:00:00 +0000 UTC")
 	__Task__00000003_.IsAllDay = false
 	__Task__00000003_.IsMilestone = true
-	__Task__00000003_.DependencyType = ""
+	__Task__00000003_.DependencyType = models.FINISH_TO_START
 	__Task__00000003_.DependencyDurationYears = 0.000000
 	__Task__00000003_.DependencyDurationMonths = 0.000000
 	__Task__00000003_.DependencyDurationWeeks = 0.000000
@@ -591,7 +611,7 @@ func _(stage *models.Stage) {
 	__Task__00000008_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-23 00:00:00 +0000 UTC")
 	__Task__00000008_.IsAllDay = false
 	__Task__00000008_.IsMilestone = true
-	__Task__00000008_.DependencyType = ""
+	__Task__00000008_.DependencyType = models.FINISH_TO_START
 	__Task__00000008_.DependencyDurationYears = 0.000000
 	__Task__00000008_.DependencyDurationMonths = 0.000000
 	__Task__00000008_.DependencyDurationWeeks = 0.000000
@@ -615,6 +635,37 @@ func _(stage *models.Stage) {
 	__Task__00000008_.ComputedPrefix = `9`
 	__Task__00000008_.IsExpanded = false
 	__Task__00000008_.LayoutDirection = models.Vertical
+
+	__Task__00000010_.Name = `Pre Alha`
+	__Task__00000010_.Description = ``
+	__Task__00000010_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000010_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000010_.IsAllDay = true
+	__Task__00000010_.IsMilestone = false
+	__Task__00000010_.DependencyType = models.FINISH_TO_START
+	__Task__00000010_.DependencyDurationYears = 0.000000
+	__Task__00000010_.DependencyDurationMonths = 0.000000
+	__Task__00000010_.DependencyDurationWeeks = 0.000000
+	__Task__00000010_.DependencyDurationDays = 0.000000
+	__Task__00000010_.DependencyDurationHours = 0.000000
+	__Task__00000010_.DurationYears = 0.000000
+	__Task__00000010_.DurationMonths = 0.000000
+	__Task__00000010_.DurationWeeks = 0.000000
+	__Task__00000010_.DurationDays = 0.000000
+	__Task__00000010_.DurationHours = 0.000000
+	__Task__00000010_.IsEndDateComputedFromDuration = false
+	__Task__00000010_.IsWithCompletion = false
+	__Task__00000010_.Completion = ""
+	__Task__00000010_.DisplayVerticalBar = false
+	__Task__00000010_.TextPosition = ""
+	__Task__00000010_.XOffset = 0.000000
+	__Task__00000010_.YOffset = 0.000000
+	__Task__00000010_.IsImport = false
+	__Task__00000010_.IsInputsNodeExpanded = false
+	__Task__00000010_.IsOutputsNodeExpanded = false
+	__Task__00000010_.ComputedPrefix = `10`
+	__Task__00000010_.IsExpanded = false
+	__Task__00000010_.LayoutDirection = models.Vertical
 
 	__TaskGroup__00000000_.Name = `Specifications & Architecture`
 	__TaskGroup__00000000_.ComputedPrefix = ``
@@ -744,7 +795,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000000_.IsShowDate = false
 	__TaskShape__00000000_.OverideLayoutDirection = false
 	__TaskShape__00000000_.LayoutDirection = models.Vertical
-	__TaskShape__00000000_.X = 550.000000
+	__TaskShape__00000000_.X = 250.000000
 	__TaskShape__00000000_.Y = 50.000000
 	__TaskShape__00000000_.Width = 0.000000
 	__TaskShape__00000000_.Height = 0.000000
@@ -754,7 +805,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000001_.IsShowDate = false
 	__TaskShape__00000001_.OverideLayoutDirection = false
 	__TaskShape__00000001_.LayoutDirection = models.Vertical
-	__TaskShape__00000001_.X = 600.000000
+	__TaskShape__00000001_.X = 300.000000
 	__TaskShape__00000001_.Y = 50.000000
 	__TaskShape__00000001_.Width = 0.000000
 	__TaskShape__00000001_.Height = 0.000000
@@ -764,7 +815,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000002_.IsShowDate = false
 	__TaskShape__00000002_.OverideLayoutDirection = false
 	__TaskShape__00000002_.LayoutDirection = models.Vertical
-	__TaskShape__00000002_.X = 650.000000
+	__TaskShape__00000002_.X = 350.000000
 	__TaskShape__00000002_.Y = 50.000000
 	__TaskShape__00000002_.Width = 0.000000
 	__TaskShape__00000002_.Height = 0.000000
@@ -774,7 +825,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000003_.IsShowDate = false
 	__TaskShape__00000003_.OverideLayoutDirection = false
 	__TaskShape__00000003_.LayoutDirection = models.Vertical
-	__TaskShape__00000003_.X = 700.000000
+	__TaskShape__00000003_.X = 400.000000
 	__TaskShape__00000003_.Y = 50.000000
 	__TaskShape__00000003_.Width = 0.000000
 	__TaskShape__00000003_.Height = 0.000000
@@ -784,7 +835,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000004_.IsShowDate = false
 	__TaskShape__00000004_.OverideLayoutDirection = false
 	__TaskShape__00000004_.LayoutDirection = models.Vertical
-	__TaskShape__00000004_.X = 750.000000
+	__TaskShape__00000004_.X = 450.000000
 	__TaskShape__00000004_.Y = 50.000000
 	__TaskShape__00000004_.Width = 0.000000
 	__TaskShape__00000004_.Height = 0.000000
@@ -794,7 +845,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000005_.IsShowDate = false
 	__TaskShape__00000005_.OverideLayoutDirection = false
 	__TaskShape__00000005_.LayoutDirection = models.Vertical
-	__TaskShape__00000005_.X = 800.000000
+	__TaskShape__00000005_.X = 500.000000
 	__TaskShape__00000005_.Y = 50.000000
 	__TaskShape__00000005_.Width = 0.000000
 	__TaskShape__00000005_.Height = 0.000000
@@ -804,7 +855,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000006_.IsShowDate = false
 	__TaskShape__00000006_.OverideLayoutDirection = false
 	__TaskShape__00000006_.LayoutDirection = models.Vertical
-	__TaskShape__00000006_.X = 850.000000
+	__TaskShape__00000006_.X = 550.000000
 	__TaskShape__00000006_.Y = 50.000000
 	__TaskShape__00000006_.Width = 0.000000
 	__TaskShape__00000006_.Height = 0.000000
@@ -814,7 +865,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000007_.IsShowDate = false
 	__TaskShape__00000007_.OverideLayoutDirection = false
 	__TaskShape__00000007_.LayoutDirection = models.Vertical
-	__TaskShape__00000007_.X = 900.000000
+	__TaskShape__00000007_.X = 600.000000
 	__TaskShape__00000007_.Y = 50.000000
 	__TaskShape__00000007_.Width = 0.000000
 	__TaskShape__00000007_.Height = 0.000000
@@ -824,7 +875,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000008_.IsShowDate = false
 	__TaskShape__00000008_.OverideLayoutDirection = false
 	__TaskShape__00000008_.LayoutDirection = models.Vertical
-	__TaskShape__00000008_.X = 950.000000
+	__TaskShape__00000008_.X = 650.000000
 	__TaskShape__00000008_.Y = 50.000000
 	__TaskShape__00000008_.Width = 0.000000
 	__TaskShape__00000008_.Height = 0.000000
@@ -920,6 +971,16 @@ func _(stage *models.Stage) {
 	__TaskShape__00000017_.Height = 0.000000
 	__TaskShape__00000017_.IsHidden = false
 
+	__TaskShape__00000019_.Name = `gantt-Pre Alha`
+	__TaskShape__00000019_.IsShowDate = false
+	__TaskShape__00000019_.OverideLayoutDirection = false
+	__TaskShape__00000019_.LayoutDirection = models.Vertical
+	__TaskShape__00000019_.X = 700.000000
+	__TaskShape__00000019_.Y = 50.000000
+	__TaskShape__00000019_.Width = 250.000000
+	__TaskShape__00000019_.Height = 70.000000
+	__TaskShape__00000019_.IsHidden = false
+
 	// insertion point for setup of pointers
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000005_)
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000006_)
@@ -934,6 +995,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000006_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000007_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000008_)
+	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000019_)
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000000_)
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000001_)
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000002_)
@@ -949,6 +1011,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.TaskPredecessorShapes = append(__Diagram__00000000_.TaskPredecessorShapes, __TaskPredecessorShape__00000003_)
 	__Diagram__00000000_.TaskPredecessorShapes = append(__Diagram__00000000_.TaskPredecessorShapes, __TaskPredecessorShape__00000004_)
 	__Diagram__00000000_.TaskPredecessorShapes = append(__Diagram__00000000_.TaskPredecessorShapes, __TaskPredecessorShape__00000005_)
+	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
 	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000000_)
 	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000001_)
 	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000002_)
@@ -977,12 +1040,15 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000006_)
 	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000007_)
 	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000008_)
+	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000010_)
 	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000000_)
 	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000001_)
 	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000002_)
 	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000003_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000001_)
+	__NoteShape__00000000_.Note = __Note__00000000_
 	__Product__00000000_.ReferencedProduct = nil
 	__Product__00000001_.ReferencedProduct = nil
 	__Product__00000002_.ReferencedProduct = nil
@@ -1016,6 +1082,7 @@ func _(stage *models.Stage) {
 	__Task__00000007_.Predecessors = append(__Task__00000007_.Predecessors, __Task__00000006_)
 	__Task__00000007_.ReferencedTask = nil
 	__Task__00000008_.ReferencedTask = nil
+	__Task__00000010_.ReferencedTask = nil
 	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000000_)
 	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000001_)
 	__TaskGroup__00000001_.Tasks = append(__TaskGroup__00000001_.Tasks, __Task__00000002_)
@@ -1067,4 +1134,5 @@ func _(stage *models.Stage) {
 	__TaskShape__00000015_.Task = __Task__00000006_
 	__TaskShape__00000016_.Task = __Task__00000007_
 	__TaskShape__00000017_.Task = __Task__00000008_
+	__TaskShape__00000019_.Task = __Task__00000010_
 }

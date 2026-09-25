@@ -112,6 +112,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		}
 		if callbacksTasks.createdItem != nil {
 			callbacksTasks.createdItem.IsAllDay = true
+			callbacksTasks.createdItem.DependencyType = FINISH_TO_START
 		}
 	}
 

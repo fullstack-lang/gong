@@ -130,5 +130,17 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			}
 		}
 	}
+
+	for _, task := range stager.stage.GetInstancesSorted[*Task]() {
+		if task.DependencyType == "" {
+			task.DependencyType = FINISH_TO_START
+			needCommit = true
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(),
+					fmt.Sprintf("Task %s: setting default dependency type to FINISH_TO_START", task.Name))
+			}
+		}
+	}
+
 	return
 }
