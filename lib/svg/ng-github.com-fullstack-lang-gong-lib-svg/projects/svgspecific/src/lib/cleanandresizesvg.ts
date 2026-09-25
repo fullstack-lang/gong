@@ -56,6 +56,123 @@ export function processSVG(svgString: string): string {
     }
   }
 
+  // Convert emojis (such as note memo 📝 or link 🔗) into clean vector SVG icons for PowerPoint compatibility.
+  // PowerPoint and Microsoft Office SVG renderers do not support color emoji glyphs in SVG text,
+  // causing missing glyphs to render as solid black rectangles (■).
+  const allTextElements = Array.from(svg.querySelectorAll('text'));
+  for (const textEl of allTextElements) {
+    const tspans = Array.from(textEl.querySelectorAll('tspan'));
+    const targetNodes = tspans.length > 0 ? tspans : [textEl];
+    const firstNode = targetNodes[0];
+    const textContent = firstNode.textContent || '';
+
+    if (textContent.includes('📝')) {
+      const textX = parseFloat(firstNode.getAttribute('x') || textEl.getAttribute('x') || '0');
+      const textY = parseFloat(firstNode.getAttribute('y') || textEl.getAttribute('y') || '0');
+      const fontSize = parseFloat(textEl.getAttribute('font-size') || '16');
+
+      const iconX = textX;
+      const iconY = textY - fontSize * 0.82;
+
+      // Create a crisp vector note/memo icon
+      const iconG = doc.createElementNS('http://www.w3.org/2000/svg', 'g');
+      iconG.setAttribute('class', 'note-icon');
+      iconG.setAttribute('transform', `translate(${iconX} ${iconY})`);
+
+      // Note page background with folded top-right corner
+      const paper = doc.createElementNS('http://www.w3.org/2000/svg', 'path');
+      paper.setAttribute('d', 'M 0 0 L 8 0 L 12 4 L 12 14 L 0 14 Z');
+      paper.setAttribute('fill', '#FFFFFF');
+      paper.setAttribute('stroke', '#E65100');
+      paper.setAttribute('stroke-width', '1.2');
+      paper.setAttribute('stroke-linejoin', 'round');
+
+      // Folded corner flap
+      const fold = doc.createElementNS('http://www.w3.org/2000/svg', 'path');
+      fold.setAttribute('d', 'M 8 0 L 8 4 L 12 4 Z');
+      fold.setAttribute('fill', '#FFB300');
+      fold.setAttribute('stroke', '#E65100');
+      fold.setAttribute('stroke-width', '1.2');
+      fold.setAttribute('stroke-linejoin', 'round');
+
+      // Note text lines
+      const lines = doc.createElementNS('http://www.w3.org/2000/svg', 'path');
+      lines.setAttribute('d', 'M 2.5 5.5 L 9.5 5.5 M 2.5 8.5 L 9.5 8.5 M 2.5 11.5 L 7 11.5');
+      lines.setAttribute('fill', 'none');
+      lines.setAttribute('stroke', '#757575');
+      lines.setAttribute('stroke-width', '1.0');
+      lines.setAttribute('stroke-linecap', 'round');
+
+      iconG.appendChild(paper);
+      iconG.appendChild(fold);
+      iconG.appendChild(lines);
+
+      textEl.parentNode?.insertBefore(iconG, textEl);
+
+      // Remove the emoji from the text node
+      firstNode.textContent = textContent.replace(/📝\s*/g, '');
+
+      // Shift text to the right of the icon (icon width 12px + 6px spacing = 18px)
+      const shiftAmount = 18;
+      for (const node of targetNodes) {
+        const curX = parseFloat(node.getAttribute('x') || String(textX));
+        node.setAttribute('x', String(curX + shiftAmount));
+      }
+      if (textEl.hasAttribute('x')) {
+        const curX = parseFloat(textEl.getAttribute('x') || '0');
+        textEl.setAttribute('x', String(curX + shiftAmount));
+      }
+    } else if (textContent.includes('🔗')) {
+      const textX = parseFloat(firstNode.getAttribute('x') || textEl.getAttribute('x') || '0');
+      const textY = parseFloat(firstNode.getAttribute('y') || textEl.getAttribute('y') || '0');
+      const fontSize = parseFloat(textEl.getAttribute('font-size') || '16');
+
+      const iconX = textX;
+      const iconY = textY - fontSize * 0.75;
+
+      // Create a crisp vector link icon
+      const iconG = doc.createElementNS('http://www.w3.org/2000/svg', 'g');
+      iconG.setAttribute('class', 'link-icon');
+      iconG.setAttribute('transform', `translate(${iconX} ${iconY})`);
+
+      const link = doc.createElementNS('http://www.w3.org/2000/svg', 'path');
+      link.setAttribute('d', 'M 4.5 7.5 L 7.5 4.5 M 6 3 L 7.5 1.5 C 8.9 0.1 11.1 0.1 12.5 1.5 C 13.9 2.9 13.9 5.1 12.5 6.5 L 11 8 M 8 11 L 6.5 12.5 C 5.1 13.9 2.9 13.9 1.5 12.5 C 0.1 11.1 0.1 8.9 1.5 7.5 L 3 6');
+      link.setAttribute('fill', 'none');
+      link.setAttribute('stroke', '#666666');
+      link.setAttribute('stroke-width', '1.2');
+      link.setAttribute('stroke-linecap', 'round');
+
+      iconG.appendChild(link);
+      textEl.parentNode?.insertBefore(iconG, textEl);
+
+      firstNode.textContent = textContent.replace(/🔗\s*/g, '');
+
+      const shiftAmount = 18;
+      for (const node of targetNodes) {
+        const curX = parseFloat(node.getAttribute('x') || String(textX));
+        node.setAttribute('x', String(curX + shiftAmount));
+      }
+      if (textEl.hasAttribute('x')) {
+        const curX = parseFloat(textEl.getAttribute('x') || '0');
+        textEl.setAttribute('x', String(curX + shiftAmount));
+      }
+    }
+  }
+
+  // Strip any remaining emoji characters in text elements to prevent PowerPoint from displaying black rectangles
+  const allTextAndTspans = Array.from(svg.querySelectorAll('text, tspan'));
+  for (const el of allTextAndTspans) {
+    for (const child of Array.from(el.childNodes)) {
+      if (child.nodeType === 3 /* Node.TEXT_NODE */) {
+        const original = child.textContent || '';
+        const cleaned = original.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '');
+        if (cleaned !== original) {
+          child.textContent = cleaned;
+        }
+      }
+    }
+  }
+
   // Initialize boundaries
   let minX = Infinity;
   let minY = Infinity;
