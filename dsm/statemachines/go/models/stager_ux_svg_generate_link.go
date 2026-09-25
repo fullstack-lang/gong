@@ -7,6 +7,7 @@ import (
 )
 
 func (stager *Stager) svgGenerateLink(
+	diagram *Diagram,
 	startRect *svg.Rect,
 	endRect *svg.Rect,
 	transitionShape *LinkShape,
@@ -29,8 +30,7 @@ func (stager *Stager) svgGenerateLink(
 	}
 
 	var rolesNames string
-	{
-
+	if diagram == nil || diagram.ShowRoles {
 		for _, role := range transition.RolesWithPermissions {
 
 			rolesNames += role.Acronym
@@ -45,12 +45,14 @@ func (stager *Stager) svgGenerateLink(
 	}
 
 	var messageName string
-	for idx, messageType := range transition.GeneratedMessages {
-		messageName += messageType.Name
+	if diagram == nil || diagram.ShowMessages {
+		for idx, messageType := range transition.GeneratedMessages {
+			messageName += messageType.Name
 
-		l := len(transition.GeneratedMessages)
-		if idx < l-1 {
-			messageName += " + "
+			l := len(transition.GeneratedMessages)
+			if idx < l-1 {
+				messageName += " + "
+			}
 		}
 	}
 

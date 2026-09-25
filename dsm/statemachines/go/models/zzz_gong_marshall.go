@@ -368,6 +368,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Transition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Note_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteState_Shapes"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ShowRoles"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ShowMessages"))
 	}
 
 	guardOrdered := []*Guard{}
@@ -460,6 +462,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Roles"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRolesNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "MessageTypes"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsMessageTypesNodeExpanded"))
 	}
 
 	messageOrdered := []*Message{}
@@ -804,6 +809,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "GeneratedMessages"))
 		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Guard"))
 		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Diagrams"))
+		initializerStatements.WriteString(transition.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(transition.GongMarshallField(stage, "IsRolesNodeExpanded"))
+		initializerStatements.WriteString(transition.GongMarshallField(stage, "IsMessagesNodeExpanded"))
 	}
 
 	transition_shapeOrdered := []*Transition_Shape{}
@@ -1137,6 +1145,16 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsStatesNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsStatesNodeExpanded))
+	case "ShowRoles":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowRoles")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.ShowRoles))
+	case "ShowMessages":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowMessages")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.ShowMessages))
 
 	case "State_Shapes":
 		var sb strings.Builder
@@ -1272,6 +1290,16 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpandedTmp")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsExpandedTmp))
+	case "IsRolesNodeExpanded":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsRolesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsRolesNodeExpanded))
+	case "IsMessageTypesNodeExpanded":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMessageTypesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsMessageTypesNodeExpanded))
 
 	case "SubLibraries":
 		var sb strings.Builder
@@ -1330,6 +1358,16 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Roles")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _role.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "MessageTypes":
+		var sb strings.Builder
+		for _, _messagetype := range library.MessageTypes {
+			tmp := GongSliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "MessageTypes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _messagetype.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -1917,6 +1955,21 @@ func (transition *Transition) GongMarshallField(stage *Stage, fieldName string) 
 		res = strings.ReplaceAll(res, "{{Identifier}}", transition.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(transition.Name))
+	case "IsExpanded":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", transition.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", transition.IsExpanded))
+	case "IsRolesNodeExpanded":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", transition.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsRolesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", transition.IsRolesNodeExpanded))
+	case "IsMessagesNodeExpanded":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", transition.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMessagesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", transition.IsMessagesNodeExpanded))
 
 	case "Start":
 		if transition.Start != nil {
@@ -2107,6 +2160,8 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Transition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Note_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteState_Shapes"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ShowRoles"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ShowMessages"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2154,6 +2209,9 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Roles"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRolesNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "MessageTypes"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsMessageTypesNodeExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2333,6 +2391,9 @@ func (transition *Transition) GongMarshallAllFields(stage *Stage) (initRes strin
 		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "GeneratedMessages"))
 		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Guard"))
 		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Diagrams"))
+		initializerStatements.WriteString(transition.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(transition.GongMarshallField(stage, "IsRolesNodeExpanded"))
+		initializerStatements.WriteString(transition.GongMarshallField(stage, "IsMessagesNodeExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

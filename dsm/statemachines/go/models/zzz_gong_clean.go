@@ -87,6 +87,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&library.StateMachinesWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.SubLibrariesWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.Roles) || modified
+	modified = stage.CleanSlice(&library.MessageTypes) || modified
 	// insertion point per field
 	return
 }

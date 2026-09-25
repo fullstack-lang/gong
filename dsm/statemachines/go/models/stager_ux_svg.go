@@ -103,6 +103,7 @@ func (stager *Stager) svg() {
 		}
 
 		stager.svgGenerateLink(
+			diagram,
 			startRect, endRect,
 			&transtionShape.LinkShape, transition, layer, false)
 	}

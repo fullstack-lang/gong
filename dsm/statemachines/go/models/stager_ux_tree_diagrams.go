@@ -169,6 +169,206 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		libraryNode.Menu.Buttons = append(libraryNode.Menu.Buttons, libraryNode.Buttons[0])
 	}
 
+	addRoleButtonToMenu := &tree.Button{
+		Name:            "Add Role",
+		Icon:            string(buttons.BUTTON_person_add),
+		ToolTipText:     "Add a Role to \"" + library.Name + "\"",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Above,
+		OnClick: func() {
+			newRole := (&Role{
+				Name:    "New Role",
+				Acronym: "R",
+			}).Stage(stager.stage)
+			library.Roles = append(library.Roles, newRole)
+			library.IsRolesNodeExpanded = true
+			if stager.probeForm != nil {
+				stager.probeForm.FillUpFormFromGongstruct(newRole, "Role")
+			}
+			stager.stage.Commit()
+		},
+	}
+	if libraryNode.Menu != nil {
+		libraryNode.Menu.Buttons = append(libraryNode.Menu.Buttons, addRoleButtonToMenu)
+	}
+
+	addMessageButtonToMenu := &tree.Button{
+		Name:            "Add Message",
+		Icon:            string(buttons.BUTTON_mail),
+		ToolTipText:     "Add a Message to \"" + library.Name + "\"",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Above,
+		OnClick: func() {
+			newMessage := (&MessageType{
+				Name: "New Message",
+			}).Stage(stager.stage)
+			library.MessageTypes = append(library.MessageTypes, newMessage)
+			library.IsMessageTypesNodeExpanded = true
+			if stager.probeForm != nil {
+				stager.probeForm.FillUpFormFromGongstruct(newMessage, "MessageType")
+			}
+			stager.stage.Commit()
+		},
+	}
+	if libraryNode.Menu != nil {
+		libraryNode.Menu.Buttons = append(libraryNode.Menu.Buttons, addMessageButtonToMenu)
+	}
+
+	//
+	// Roles
+	//
+	if len(library.Roles) > 0 {
+		rolesNode := &tree.Node{
+			Name:                 "Roles",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           library.IsRolesNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
+		}
+		libraryNode.Children = append(libraryNode.Children, rolesNode)
+		rolesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsRolesNodeExpanded)
+		rolesNode.OnClick = onNodeClicked(stager, library)
+
+		addRoleButton := &tree.Button{
+			Name:            "Add Role",
+			Icon:            string(buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+			ToolTipText:     "Add a Role",
+			OnClick: func() {
+				newRole := (&Role{
+					Name:    "New Role",
+					Acronym: "R",
+				}).Stage(stager.stage)
+				library.Roles = append(library.Roles, newRole)
+				library.IsRolesNodeExpanded = true
+				if stager.probeForm != nil {
+					stager.probeForm.FillUpFormFromGongstruct(newRole, "Role")
+				}
+				stager.stage.Commit()
+			},
+		}
+		rolesNode.Buttons = append(rolesNode.Buttons, addRoleButton)
+
+		for _, role := range library.Roles {
+			roleNode := &tree.Node{
+				Name:                 role.Name,
+				IsNodeClickable:      true,
+				IsInEditMode:         role.isInRenameMode,
+				IsWithPreceedingIcon: true,
+				PreceedingIcon:       string(buttons.BUTTON_person),
+			}
+			rolesNode.Children = append(rolesNode.Children, roleNode)
+
+			stager.addNodeRenameButton(roleNode, "role", role.isInRenameMode, func(v bool) { role.isInRenameMode = v })
+			roleNode.OnNameChange = func(newName string) {
+				role.Name = newName
+				role.isInRenameMode = false
+				stager.stage.Commit()
+			}
+			roleNode.OnClick = func(*tree.Node) {
+				if stager.probeForm != nil {
+					stager.probeForm.FillUpFormFromGongstruct(role, "Role")
+				}
+			}
+
+			deleteRoleButton := &tree.Button{
+				Name:            "Delete Role",
+				Icon:            string(buttons.BUTTON_delete),
+				HasToolTip:      true,
+				ToolTipPosition: tree.Above,
+				ToolTipText:     "Delete Role",
+				OnClick: func() {
+					role.Unstage(stager.stage)
+					library.Roles = slices.DeleteFunc(library.Roles, func(r *Role) bool { return r == role })
+					for _, trans := range stager.stage.GetInstancesSorted[*Transition]() {
+						trans.RolesWithPermissions = slices.DeleteFunc(trans.RolesWithPermissions, func(r *Role) bool { return r == role })
+					}
+					stager.stage.Commit()
+				},
+			}
+			roleNode.Buttons = append(roleNode.Buttons, deleteRoleButton)
+		}
+	}
+
+	//
+	// Messages
+	//
+	if len(library.MessageTypes) > 0 {
+		messagesNode := &tree.Node{
+			Name:                 "Messages",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           library.IsMessageTypesNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
+		}
+		libraryNode.Children = append(libraryNode.Children, messagesNode)
+		messagesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsMessageTypesNodeExpanded)
+		messagesNode.OnClick = onNodeClicked(stager, library)
+
+		addMessageButton := &tree.Button{
+			Name:            "Add Message",
+			Icon:            string(buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+			ToolTipText:     "Add a Message",
+			OnClick: func() {
+				newMessage := (&MessageType{
+					Name: "New Message",
+				}).Stage(stager.stage)
+				library.MessageTypes = append(library.MessageTypes, newMessage)
+				library.IsMessageTypesNodeExpanded = true
+				if stager.probeForm != nil {
+					stager.probeForm.FillUpFormFromGongstruct(newMessage, "MessageType")
+				}
+				stager.stage.Commit()
+			},
+		}
+		messagesNode.Buttons = append(messagesNode.Buttons, addMessageButton)
+
+		for _, messageType := range library.MessageTypes {
+			messageNode := &tree.Node{
+				Name:                 messageType.Name,
+				IsNodeClickable:      true,
+				IsInEditMode:         messageType.isInRenameMode,
+				IsWithPreceedingIcon: true,
+				PreceedingIcon:       string(buttons.BUTTON_mail),
+			}
+			messagesNode.Children = append(messagesNode.Children, messageNode)
+
+			stager.addNodeRenameButton(messageNode, "message", messageType.isInRenameMode, func(v bool) { messageType.isInRenameMode = v })
+			messageNode.OnNameChange = func(newName string) {
+				messageType.Name = newName
+				messageType.isInRenameMode = false
+				stager.stage.Commit()
+			}
+			messageNode.OnClick = func(*tree.Node) {
+				if stager.probeForm != nil {
+					stager.probeForm.FillUpFormFromGongstruct(messageType, "MessageType")
+				}
+			}
+
+			deleteMessageButton := &tree.Button{
+				Name:            "Delete Message",
+				Icon:            string(buttons.BUTTON_delete),
+				HasToolTip:      true,
+				ToolTipPosition: tree.Above,
+				ToolTipText:     "Delete Message",
+				OnClick: func() {
+					messageType.Unstage(stager.stage)
+					library.MessageTypes = slices.DeleteFunc(library.MessageTypes, func(m *MessageType) bool { return m == messageType })
+					for _, trans := range stager.stage.GetInstancesSorted[*Transition]() {
+						trans.GeneratedMessages = slices.DeleteFunc(trans.GeneratedMessages, func(m *MessageType) bool { return m == messageType })
+					}
+					stager.stage.Commit()
+				},
+			}
+			messageNode.Buttons = append(messageNode.Buttons, deleteMessageButton)
+		}
+	}
+
 	for _, stateMachine := range library.RootStateMachines {
 		stager.treeStateMachines(stateMachine, libraryNode, &library.StateMachinesWhoseNodeIsExpanded)
 	}
@@ -208,8 +408,10 @@ func (stager *Stager) treeStateMachines(
 			OnClick: func() {
 				s := stager.stage
 				newDiagram := (&Diagram{
-					Name:        "New Diagram",
-					IsEditable_: true,
+					Name:         "New Diagram",
+					IsEditable_:  true,
+					ShowRoles:    true,
+					ShowMessages: true,
 				}).Stage(s)
 
 				stateMachine.Diagrams = append(stateMachine.Diagrams, newDiagram)
@@ -270,6 +472,52 @@ func (stager *Stager) treeStateMachines(
 				},
 			}
 			diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, copyButton)
+		}
+
+		{
+			showHideRolesButton := &tree.Button{
+				Name:            "Show/Hide Roles",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Above,
+				OnClick: func() {
+					diagram.ShowRoles = !diagram.ShowRoles
+					stager.stage.Commit()
+				},
+			}
+			if diagram.ShowRoles {
+				showHideRolesButton.Icon = string(buttons.BUTTON_person_off)
+				showHideRolesButton.ToolTipText = "Hide Roles"
+			} else {
+				showHideRolesButton.Icon = string(buttons.BUTTON_person)
+				showHideRolesButton.ToolTipText = "Show Roles"
+			}
+			diagramNode.Buttons = append(diagramNode.Buttons, showHideRolesButton)
+			if diagramNode.Menu != nil {
+				diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, showHideRolesButton)
+			}
+		}
+
+		{
+			showHideMessagesButton := &tree.Button{
+				Name:            "Show/Hide Messages",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Above,
+				OnClick: func() {
+					diagram.ShowMessages = !diagram.ShowMessages
+					stager.stage.Commit()
+				},
+			}
+			if diagram.ShowMessages {
+				showHideMessagesButton.Icon = string(buttons.BUTTON_speaker_notes_off)
+				showHideMessagesButton.ToolTipText = "Hide Messages"
+			} else {
+				showHideMessagesButton.Icon = string(buttons.BUTTON_speaker_notes)
+				showHideMessagesButton.ToolTipText = "Show Messages"
+			}
+			diagramNode.Buttons = append(diagramNode.Buttons, showHideMessagesButton)
+			if diagramNode.Menu != nil {
+				diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, showHideMessagesButton)
+			}
 		}
 		// for displaying wether the State node is checked
 		map_State__StateShape := make(map[*State]*StateShape)
@@ -436,6 +684,171 @@ func (stager *Stager) treeStateMachines(
 						if transitionShape != nil && !transitionShape.GetIsHidden() {
 							showHideButton.Icon = string(buttons.BUTTON_visibility_off)
 							showHideButton.ToolTipText = "Hide Transition Shape"
+						}
+
+						transitionNode.IsExpanded = transition_.IsExpanded
+						transitionNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&transition_.IsExpanded)
+
+						allRoles := stager.stage.GetInstancesSorted[*Role]()
+						allMessageTypes := stager.stage.GetInstancesSorted[*MessageType]()
+
+						if len(allRoles) > 0 || len(transition_.RolesWithPermissions) > 0 {
+							transitionRolesNode := &tree.Node{
+								Name:                 "Roles",
+								FontStyle:            tree.ITALIC,
+								IsExpanded:           transition_.IsRolesNodeExpanded,
+								IsNodeClickable:      true,
+								IsWithPreceedingIcon: true,
+								PreceedingIcon:       string(buttons.BUTTON_folder),
+							}
+							transitionNode.Children = append(transitionNode.Children, transitionRolesNode)
+							transitionRolesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&transition_.IsRolesNodeExpanded)
+							transitionRolesNode.OnClick = func(*tree.Node) {
+								if stager.probeForm != nil {
+									stager.probeForm.FillUpFormFromGongstruct(transition_, "Transition")
+								}
+							}
+
+							addRoleToTransButton := &tree.Button{
+								Name:            "Add Role",
+								Icon:            string(buttons.BUTTON_add),
+								HasToolTip:      true,
+								ToolTipPosition: tree.Above,
+								ToolTipText:     "Add a new Role to this Transition",
+								OnClick: func() {
+									newRole := (&Role{
+										Name:    "New Role",
+										Acronym: "R",
+									}).Stage(stager.stage)
+									rootLib := stager.getRootLibrary()
+									if rootLib != nil {
+										rootLib.Roles = append(rootLib.Roles, newRole)
+									}
+									transition_.RolesWithPermissions = append(transition_.RolesWithPermissions, newRole)
+									transition_.IsRolesNodeExpanded = true
+									if stager.probeForm != nil {
+										stager.probeForm.FillUpFormFromGongstruct(newRole, "Role")
+									}
+									stager.stage.Commit()
+								},
+							}
+							transitionRolesNode.Buttons = append(transitionRolesNode.Buttons, addRoleToTransButton)
+
+							for _, role := range allRoles {
+								isRoleChecked := slices.Contains(transition_.RolesWithPermissions, role)
+								roleItemNode := &tree.Node{
+									Name:                 role.Name,
+									HasCheckboxButton:   true,
+									IsChecked:           isRoleChecked,
+									IsNodeClickable:      true,
+									IsInEditMode:         role.isInRenameMode,
+									IsWithPreceedingIcon: true,
+									PreceedingIcon:       string(buttons.BUTTON_person),
+								}
+								transitionRolesNode.Children = append(transitionRolesNode.Children, roleItemNode)
+
+								stager.addNodeRenameButton(roleItemNode, "role", role.isInRenameMode, func(v bool) { role.isInRenameMode = v })
+								roleItemNode.OnNameChange = func(newName string) {
+									role.Name = newName
+									role.isInRenameMode = false
+									stager.stage.Commit()
+								}
+								roleItemNode.OnClick = func(*tree.Node) {
+									if stager.probeForm != nil {
+										stager.probeForm.FillUpFormFromGongstruct(role, "Role")
+									}
+								}
+								roleItemNode.OnIsCheckedChanged = func(isChecked bool) {
+									if isChecked {
+										if !slices.Contains(transition_.RolesWithPermissions, role) {
+											transition_.RolesWithPermissions = append(transition_.RolesWithPermissions, role)
+											stager.stage.Commit()
+										}
+									} else {
+										transition_.RolesWithPermissions = slices.DeleteFunc(transition_.RolesWithPermissions, func(r *Role) bool { return r == role })
+										stager.stage.Commit()
+									}
+								}
+							}
+						}
+
+						if len(allMessageTypes) > 0 || len(transition_.GeneratedMessages) > 0 {
+							transitionMessagesNode := &tree.Node{
+								Name:                 "Messages",
+								FontStyle:            tree.ITALIC,
+								IsExpanded:           transition_.IsMessagesNodeExpanded,
+								IsNodeClickable:      true,
+								IsWithPreceedingIcon: true,
+								PreceedingIcon:       string(buttons.BUTTON_folder),
+							}
+							transitionNode.Children = append(transitionNode.Children, transitionMessagesNode)
+							transitionMessagesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&transition_.IsMessagesNodeExpanded)
+							transitionMessagesNode.OnClick = func(*tree.Node) {
+								if stager.probeForm != nil {
+									stager.probeForm.FillUpFormFromGongstruct(transition_, "Transition")
+								}
+							}
+
+							addMsgToTransButton := &tree.Button{
+								Name:            "Add Message",
+								Icon:            string(buttons.BUTTON_add),
+								HasToolTip:      true,
+								ToolTipPosition: tree.Above,
+								ToolTipText:     "Add a new Message to this Transition",
+								OnClick: func() {
+									newMsg := (&MessageType{
+										Name: "New Message",
+									}).Stage(stager.stage)
+									rootLib := stager.getRootLibrary()
+									if rootLib != nil {
+										rootLib.MessageTypes = append(rootLib.MessageTypes, newMsg)
+									}
+									transition_.GeneratedMessages = append(transition_.GeneratedMessages, newMsg)
+									transition_.IsMessagesNodeExpanded = true
+									if stager.probeForm != nil {
+										stager.probeForm.FillUpFormFromGongstruct(newMsg, "MessageType")
+									}
+									stager.stage.Commit()
+								},
+							}
+							transitionMessagesNode.Buttons = append(transitionMessagesNode.Buttons, addMsgToTransButton)
+
+							for _, messageType := range allMessageTypes {
+								isMsgChecked := slices.Contains(transition_.GeneratedMessages, messageType)
+								msgItemNode := &tree.Node{
+									Name:                 messageType.Name,
+									HasCheckboxButton:   true,
+									IsChecked:           isMsgChecked,
+									IsNodeClickable:      true,
+									IsInEditMode:         messageType.isInRenameMode,
+									IsWithPreceedingIcon: true,
+									PreceedingIcon:       string(buttons.BUTTON_mail),
+								}
+								transitionMessagesNode.Children = append(transitionMessagesNode.Children, msgItemNode)
+
+								stager.addNodeRenameButton(msgItemNode, "message", messageType.isInRenameMode, func(v bool) { messageType.isInRenameMode = v })
+								msgItemNode.OnNameChange = func(newName string) {
+									messageType.Name = newName
+									messageType.isInRenameMode = false
+									stager.stage.Commit()
+								}
+								msgItemNode.OnClick = func(*tree.Node) {
+									if stager.probeForm != nil {
+										stager.probeForm.FillUpFormFromGongstruct(messageType, "MessageType")
+									}
+								}
+								msgItemNode.OnIsCheckedChanged = func(isChecked bool) {
+									if isChecked {
+										if !slices.Contains(transition_.GeneratedMessages, messageType) {
+											transition_.GeneratedMessages = append(transition_.GeneratedMessages, messageType)
+											stager.stage.Commit()
+										}
+									} else {
+										transition_.GeneratedMessages = slices.DeleteFunc(transition_.GeneratedMessages, func(m *MessageType) bool { return m == messageType })
+										stager.stage.Commit()
+									}
+								}
+							}
 						}
 
 						diagramStateNode.Children = append(diagramStateNode.Children, transitionNode)

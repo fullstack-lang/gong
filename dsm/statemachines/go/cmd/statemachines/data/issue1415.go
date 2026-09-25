@@ -83,18 +83,24 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsStatesNodeExpanded = true
+	__Diagram__00000000_.ShowRoles = true
+	__Diagram__00000000_.ShowMessages = true
 
 	__Diagram__00000001_.Name = `New Diagram`
 	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsStatesNodeExpanded = false
+	__Diagram__00000001_.ShowRoles = true
+	__Diagram__00000001_.ShowMessages = true
 
 	__Diagram__00000002_.Name = `SMx`
 	__Diagram__00000002_.IsChecked = false
 	__Diagram__00000002_.IsExpanded = true
 	__Diagram__00000002_.IsEditable_ = true
 	__Diagram__00000002_.IsStatesNodeExpanded = true
+	__Diagram__00000002_.ShowRoles = true
+	__Diagram__00000002_.ShowMessages = true
 
 	__Library__00000000_.Name = `Top library`
 	__Library__00000000_.NbPixPerCharacter = 8.000000
@@ -314,6 +320,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootStateMachines = append(__Library__00000000_.RootStateMachines, __StateMachine__00000002_)
 	__Library__00000000_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000000_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000002_)
 	__Library__00000000_.Roles = append(__Library__00000000_.Roles, __Role__00000000_)
+	__Library__00000000_.MessageTypes = append(__Library__00000000_.MessageTypes, __MessageType__00000000_)
 	__Library__00000001_.RootStateMachines = append(__Library__00000001_.RootStateMachines, __StateMachine__00000000_)
 	__Library__00000001_.RootStateMachines = append(__Library__00000001_.RootStateMachines, __StateMachine__00000001_)
 	__Library__00000001_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000001_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000000_)

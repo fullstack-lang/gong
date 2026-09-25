@@ -380,6 +380,9 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _role := range library.Roles {
 		stage.StageBranch(_role)
 	}
+	for _, _messagetype := range library.MessageTypes {
+		stage.StageBranch(_messagetype)
+	}
 
 }
 
@@ -925,6 +928,9 @@ func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libra
 	for _, _role := range libraryFrom.Roles {
 		libraryTo.Roles = append(libraryTo.Roles, GongCopyBranchRole(mapOrigCopy, _role))
 	}
+	for _, _messagetype := range libraryFrom.MessageTypes {
+		libraryTo.MessageTypes = append(libraryTo.MessageTypes, GongCopyBranchMessageType(mapOrigCopy, _messagetype))
+	}
 
 	return
 }
@@ -1394,6 +1400,9 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _role := range library.Roles {
 		stage.UnstageBranch(_role)
 	}
+	for _, _messagetype := range library.MessageTypes {
+		stage.UnstageBranch(_messagetype)
+	}
 
 }
 
@@ -1779,6 +1788,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Roles {
 		reference.Roles = append(reference.Roles, stage.Roles_reference[_b])
 	}
+	reference.MessageTypes = reference.MessageTypes[:0]
+	for _, _b := range instance.MessageTypes {
+		reference.MessageTypes = append(reference.MessageTypes, stage.MessageTypes_reference[_b])
+	}
 }
 
 func (reference *Message) GongReconstructPointersFromReferences(stage *Stage, instance *Message) {
@@ -2039,6 +2052,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Roles = _Roles
+	var _MessageTypes []*MessageType
+	for _, _reference := range reference.MessageTypes {
+		if _instance, ok := stage.MessageTypes_instance[_reference]; ok {
+			_MessageTypes = append(_MessageTypes, _instance)
+		}
+	}
+	reference.MessageTypes = _MessageTypes
 }
 
 func (reference *Message) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2482,6 +2502,12 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		)
 		diffs = append(diffs, ops)
 	}
+	if diagram.ShowRoles != diagramOther.ShowRoles {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ShowRoles"))
+	}
+	if diagram.ShowMessages != diagramOther.ShowMessages {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ShowMessages"))
+	}
 
 	return
 }
@@ -2730,6 +2756,44 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 			},
 		)
 		diffs = append(diffs, ops)
+	}
+	if library.IsRolesNodeExpanded != libraryOther.IsRolesNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsRolesNodeExpanded"))
+	}
+	MessageTypesDifferent := false
+	if len(library.MessageTypes) != len(libraryOther.MessageTypes) {
+		MessageTypesDifferent = true
+	} else {
+		for i := range library.MessageTypes {
+			if (library.MessageTypes[i] == nil) != (libraryOther.MessageTypes[i] == nil) {
+				MessageTypesDifferent = true
+				break
+			} else if library.MessageTypes[i] != nil && libraryOther.MessageTypes[i] != nil {
+				// this is a pointer comparaison
+				if library.MessageTypes[i] != libraryOther.MessageTypes[i] {
+					MessageTypesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if MessageTypesDifferent {
+		ops := stage.Diff(
+			library,
+			"MessageTypes",
+			len(libraryOther.MessageTypes),
+			len(library.MessageTypes),
+			func(i, j int) bool {
+				return libraryOther.MessageTypes[i] == library.MessageTypes[j]
+			},
+			func(j int) string {
+				return library.MessageTypes[j].GongGetIdentifier(stage)
+			},
+		)
+		diffs = append(diffs, ops)
+	}
+	if library.IsMessageTypesNodeExpanded != libraryOther.IsMessageTypesNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsMessageTypesNodeExpanded"))
 	}
 
 	return
@@ -3404,6 +3468,15 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 			},
 		)
 		diffs = append(diffs, ops)
+	}
+	if transition.IsExpanded != transitionOther.IsExpanded {
+		diffs = append(diffs, transition.GongMarshallField(stage, "IsExpanded"))
+	}
+	if transition.IsRolesNodeExpanded != transitionOther.IsRolesNodeExpanded {
+		diffs = append(diffs, transition.GongMarshallField(stage, "IsRolesNodeExpanded"))
+	}
+	if transition.IsMessagesNodeExpanded != transitionOther.IsMessagesNodeExpanded {
+		diffs = append(diffs, transition.GongMarshallField(stage, "IsMessagesNodeExpanded"))
 	}
 
 	return

@@ -47,6 +47,10 @@ type Diagram_WOP struct {
 	IsEditable_ bool
 
 	IsStatesNodeExpanded bool
+
+	ShowRoles bool
+
+	ShowMessages bool
 }
 
 func (from *Diagram) GongCopyBasicFields(to *Diagram) {
@@ -56,6 +60,8 @@ func (from *Diagram) GongCopyBasicFields(to *Diagram) {
 	to.IsExpanded = from.IsExpanded
 	to.IsEditable_ = from.IsEditable_
 	to.IsStatesNodeExpanded = from.IsStatesNodeExpanded
+	to.ShowRoles = from.ShowRoles
+	to.ShowMessages = from.ShowMessages
 }
 
 type Guard_WOP struct {
@@ -100,6 +106,10 @@ type Library_WOP struct {
 	IsSubLibrariesNodeExpanded bool
 
 	IsExpandedTmp bool
+
+	IsRolesNodeExpanded bool
+
+	IsMessageTypesNodeExpanded bool
 }
 
 func (from *Library) GongCopyBasicFields(to *Library) {
@@ -113,6 +123,8 @@ func (from *Library) GongCopyBasicFields(to *Library) {
 	to.IsStateMachinesNodeExpanded = from.IsStateMachinesNodeExpanded
 	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
 	to.IsExpandedTmp = from.IsExpandedTmp
+	to.IsRolesNodeExpanded = from.IsRolesNodeExpanded
+	to.IsMessageTypesNodeExpanded = from.IsMessageTypesNodeExpanded
 }
 
 type Message_WOP struct {
@@ -325,11 +337,20 @@ type Transition_WOP struct {
 	// insertion point
 
 	Name string
+
+	IsExpanded bool
+
+	IsRolesNodeExpanded bool
+
+	IsMessagesNodeExpanded bool
 }
 
 func (from *Transition) GongCopyBasicFields(to *Transition) {
 	// insertion point
 	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.IsRolesNodeExpanded = from.IsRolesNodeExpanded
+	to.IsMessagesNodeExpanded = from.IsMessagesNodeExpanded
 }
 
 type Transition_Shape_WOP struct {

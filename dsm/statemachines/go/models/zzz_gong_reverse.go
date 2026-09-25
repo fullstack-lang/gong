@@ -123,6 +123,13 @@ func (inst *MessageType) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "MessageTypes":
+			if _library, ok := stage.Library_MessageTypes_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
 	case "Transition":
 		switch reverseField.Fieldname {
 		case "GeneratedMessages":
@@ -418,6 +425,11 @@ func (inst *MessageType) GongGetReverseFieldOwner(stage *Stage, reverseField *Go
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "MessageTypes":
+			res = stage.Library_MessageTypes_reverseMap[inst]
+		}
 	case "Transition":
 		switch reverseField.Fieldname {
 		case "GeneratedMessages":

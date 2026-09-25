@@ -200,6 +200,10 @@ func saveDiagramFields(
 			FormDivSliceOfPointersToField(_instance, "Note_Shapes", &(_instance.Note_Shapes), formDiv, probe)
 		case "NoteState_Shapes":
 			FormDivSliceOfPointersToField(_instance, "NoteState_Shapes", &(_instance.NoteState_Shapes), formDiv, probe)
+		case "ShowRoles":
+			FormDivBasicFieldToField(&(_instance.ShowRoles), formDiv)
+		case "ShowMessages":
+			FormDivBasicFieldToField(&(_instance.ShowMessages), formDiv)
 		case "Library:Diagrams":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Diagrams", func(owner *models.Library) *[]*models.Diagram { return &owner.Diagrams })
 		case "State:Diagrams":
@@ -323,6 +327,12 @@ func saveLibraryFields(
 			FormDivBasicFieldToField(&(_instance.IsExpandedTmp), formDiv)
 		case "Roles":
 			FormDivSliceOfPointersToField(_instance, "Roles", &(_instance.Roles), formDiv, probe)
+		case "IsRolesNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsRolesNodeExpanded), formDiv)
+		case "MessageTypes":
+			FormDivSliceOfPointersToField(_instance, "MessageTypes", &(_instance.MessageTypes), formDiv, probe)
+		case "IsMessageTypesNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsMessageTypesNodeExpanded), formDiv)
 		case "Library:SubLibraries":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SubLibraries", func(owner *models.Library) *[]*models.Library { return &owner.SubLibraries })
 		case "Library:SubLibrariesWhoseNodeIsExpanded":
@@ -395,6 +405,8 @@ func saveMessageTypeFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(_instance.Description), formDiv)
+		case "Library:MessageTypes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "MessageTypes", func(owner *models.Library) *[]*models.MessageType { return &owner.MessageTypes })
 		case "Transition:GeneratedMessages":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "GeneratedMessages", func(owner *models.Transition) *[]*models.MessageType { return &owner.GeneratedMessages })
 		}
@@ -790,6 +802,12 @@ func saveTransitionFields(
 			FormDivSelectFieldToField(&(_instance.Guard), probe.stageOfInterest, formDiv)
 		case "Diagrams":
 			FormDivSliceOfPointersToField(_instance, "Diagrams", &(_instance.Diagrams), formDiv, probe)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
+		case "IsRolesNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsRolesNodeExpanded), formDiv)
+		case "IsMessagesNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsMessagesNodeExpanded), formDiv)
 		}
 	}
 }

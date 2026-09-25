@@ -34,5 +34,9 @@ type Library struct {
 	// temporary persistance of the library expand status.
 	IsExpandedTmp bool
 
-	Roles []*Role
+	Roles               []*Role
+	IsRolesNodeExpanded bool
+
+	MessageTypes               []*MessageType
+	IsMessageTypesNodeExpanded bool
 }

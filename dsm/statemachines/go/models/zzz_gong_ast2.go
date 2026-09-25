@@ -560,6 +560,10 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.Note_Shapes, valueExpr, identifierMap)
 	case "NoteState_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.NoteState_Shapes, valueExpr, identifierMap)
+	case "ShowRoles":
+		instance.ShowRoles = GongExtractBool(valueExpr)
+	case "ShowMessages":
+		instance.ShowMessages = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -675,6 +679,12 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsExpandedTmp = GongExtractBool(valueExpr)
 	case "Roles":
 		GongUnmarshallSliceOfPointers(&instance.Roles, valueExpr, identifierMap)
+	case "IsRolesNodeExpanded":
+		instance.IsRolesNodeExpanded = GongExtractBool(valueExpr)
+	case "MessageTypes":
+		GongUnmarshallSliceOfPointers(&instance.MessageTypes, valueExpr, identifierMap)
+	case "IsMessageTypesNodeExpanded":
+		instance.IsMessageTypesNodeExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -1116,6 +1126,12 @@ func (u *TransitionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 		GongUnmarshallPointer(&instance.Guard, valueExpr, identifierMap)
 	case "Diagrams":
 		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "IsRolesNodeExpanded":
+		instance.IsRolesNodeExpanded = GongExtractBool(valueExpr)
+	case "IsMessagesNodeExpanded":
+		instance.IsMessagesNodeExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }

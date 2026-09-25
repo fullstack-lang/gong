@@ -20,6 +20,8 @@ func (p *DiagramCopyButtonProxy) ButtonUpdated(stage *tree.Stage, button *tree.B
 	}
 
 	newDiagram.Name = p.diagram.Name + " copy"
+	newDiagram.ShowRoles = p.diagram.ShowRoles
+	newDiagram.ShowMessages = p.diagram.ShowMessages
 
 	for _, stateShape_ := range p.diagram.State_Shapes {
 		stateShape := new(StateShape).Stage(s)

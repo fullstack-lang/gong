@@ -217,6 +217,8 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", diagramIdent, diagram.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsEditable_ = %t", diagramIdent, diagram.IsEditable_))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsStatesNodeExpanded = %t", diagramIdent, diagram.IsStatesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowRoles = %t", diagramIdent, diagram.ShowRoles))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowMessages = %t", diagramIdent, diagram.ShowMessages))
 			for _, elem := range diagram.State_Shapes {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -353,6 +355,8 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsStateMachinesNodeExpanded = %t", libraryIdent, library.IsStateMachinesNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsSubLibrariesNodeExpanded = %t", libraryIdent, library.IsSubLibrariesNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpandedTmp = %t", libraryIdent, library.IsExpandedTmp))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsRolesNodeExpanded = %t", libraryIdent, library.IsRolesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsMessageTypesNodeExpanded = %t", libraryIdent, library.IsMessageTypesNodeExpanded))
 			for _, elem := range library.SubLibraries {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -412,6 +416,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				}
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Roles = append(%s.Roles, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.MessageTypes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MessageTypes = append(%s.MessageTypes, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 		}
 	}
@@ -931,6 +945,9 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", transitionIdent, __gong__toRawStringLiteral(transition.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", transitionIdent, transition.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsRolesNodeExpanded = %t", transitionIdent, transition.IsRolesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsMessagesNodeExpanded = %t", transitionIdent, transition.IsMessagesNodeExpanded))
 			if transition.Start != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1465,6 +1482,10 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								}
 							}
 						}
+					case "ShowRoles":
+						inst.ShowRoles = GongExtractBool(rhs)
+					case "ShowMessages":
+						inst.ShowMessages = GongExtractBool(rhs)
 					}
 				case *Guard:
 					switch fieldName {
@@ -1556,6 +1577,20 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								}
 							}
 						}
+					case "IsRolesNodeExpanded":
+						inst.IsRolesNodeExpanded = GongExtractBool(rhs)
+					case "MessageTypes":
+						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+								if target, ok := identifierMap[rIdent.Name]; ok {
+									if typedTarget, ok := target.(*MessageType); ok {
+										inst.MessageTypes = append(inst.MessageTypes, typedTarget)
+									}
+								}
+							}
+						}
+					case "IsMessageTypesNodeExpanded":
+						inst.IsMessageTypesNodeExpanded = GongExtractBool(rhs)
 					}
 				case *Message:
 					switch fieldName {
@@ -1909,6 +1944,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								}
 							}
 						}
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "IsRolesNodeExpanded":
+						inst.IsRolesNodeExpanded = GongExtractBool(rhs)
+					case "IsMessagesNodeExpanded":
+						inst.IsMessagesNodeExpanded = GongExtractBool(rhs)
 					}
 				case *Transition_Shape:
 					switch fieldName {

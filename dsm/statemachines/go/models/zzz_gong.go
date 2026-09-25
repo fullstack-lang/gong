@@ -226,6 +226,8 @@ type Stage struct {
 
 	Library_Roles_reverseMap map[*Role]*Library
 
+	Library_MessageTypes_reverseMap map[*MessageType]*Library
+
 	OnAfterLibraryCreateCallback GongOnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback GongOnAfterUpdateInterface[Library]
 	OnAfterLibraryDeleteCallback GongOnAfterDeleteInterface[Library]
@@ -3574,6 +3576,7 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			StateMachinesWhoseNodeIsExpanded: []*StateMachine{{Name: "StateMachinesWhoseNodeIsExpanded"}},
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
 			Roles: []*Role{{Name: "Roles"}},
+			MessageTypes: []*MessageType{{Name: "MessageTypes"}},
 		}).(*Type)
 	case Message:
 		return any(&Message{
@@ -4142,6 +4145,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "MessageTypes":
+			res := make(map[*MessageType][]*Library)
+			for library := range stage.Librarys {
+				for _, messagetype_ := range library.MessageTypes {
+					res[messagetype_] = append(res[messagetype_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Message
 	case Message:
@@ -4472,6 +4483,9 @@ func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 	case *MessageType:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "MessageTypes"
+		res = append(res, rf)
 		rf.GongstructName = "Transition"
 		rf.Fieldname = "GeneratedMessages"
 		res = append(res, rf)
@@ -4633,6 +4647,14 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "NoteStateShape",
 		},
+		{
+			Name:               "ShowRoles",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ShowMessages",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -4727,6 +4749,19 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Roles",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Role",
+		},
+		{
+			Name:               "IsRolesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "MessageTypes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "MessageType",
+		},
+		{
+			Name:               "IsMessageTypesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -5110,6 +5145,18 @@ func (transition *Transition) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Diagram",
 		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsRolesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsMessagesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -5310,6 +5357,14 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "ShowRoles":
+		res.valueString = fmt.Sprintf("%t", diagram.ShowRoles)
+		res.valueBool = diagram.ShowRoles
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ShowMessages":
+		res.valueString = fmt.Sprintf("%t", diagram.ShowMessages)
+		res.valueBool = diagram.ShowMessages
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5425,6 +5480,24 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsRolesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsRolesNodeExpanded)
+		res.valueBool = library.IsRolesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "MessageTypes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.MessageTypes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsMessageTypesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsMessageTypesNodeExpanded)
+		res.valueBool = library.IsMessageTypesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5839,6 +5912,18 @@ func (transition *Transition) GongGetFieldValue(fieldName string, stage *Stage) 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", transition.IsExpanded)
+		res.valueBool = transition.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsRolesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", transition.IsRolesNodeExpanded)
+		res.valueBool = transition.IsRolesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsMessagesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", transition.IsMessagesNodeExpanded)
+		res.valueBool = transition.IsMessagesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }

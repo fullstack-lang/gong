@@ -114,6 +114,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_Roles_reverseMap[_role] = library
 		}
 	}
+	stage.Library_MessageTypes_reverseMap = make(map[*MessageType]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _messagetype := range library.MessageTypes {
+			stage.Library_MessageTypes_reverseMap[_messagetype] = library
+		}
+	}
 
 	// Compute reverse map for named struct Message
 	// insertion point per field

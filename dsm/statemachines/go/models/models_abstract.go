@@ -20,6 +20,9 @@ type Diagram struct {
 
 	Note_Shapes      []*NoteShape
 	NoteState_Shapes []*NoteStateShape
+
+	ShowRoles    bool
+	ShowMessages bool
 }
 
 func (d *Diagram) IsEditable() bool {
@@ -32,6 +35,22 @@ func (d *Diagram) GetIsChecked() bool {
 
 func (d *Diagram) SetIsChecked(v bool) {
 	d.IsChecked = v
+}
+
+func (d *Diagram) GetShowRoles() bool {
+	return d.ShowRoles
+}
+
+func (d *Diagram) SetShowRoles(v bool) {
+	d.ShowRoles = v
+}
+
+func (d *Diagram) GetShowMessages() bool {
+	return d.ShowMessages
+}
+
+func (d *Diagram) SetShowMessages(v bool) {
+	d.ShowMessages = v
 }
 
 type Message struct {
@@ -49,6 +68,8 @@ type MessageType struct {
 	//gong:text
 	//gong:width 600 gong:height 300
 	Description string
+
+	isInRenameMode bool
 }
 
 type Object struct {
@@ -70,6 +91,8 @@ type Role struct {
 
 	// Role that inherit the access right of this Role
 	RolesWithSamePermissions []*Role
+
+	isInRenameMode bool
 }
 
 type State struct {
@@ -173,6 +196,10 @@ type Transition struct {
 	Diagrams []*Diagram
 
 	isInRenameMode bool
+
+	IsExpanded             bool
+	IsRolesNodeExpanded    bool
+	IsMessagesNodeExpanded bool
 }
 
 type Guard struct {

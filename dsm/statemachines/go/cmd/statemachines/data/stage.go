@@ -83,6 +83,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsStatesNodeExpanded = true
+	__Diagram__00000001_.ShowRoles = true
+	__Diagram__00000001_.ShowMessages = true
 
 	__Guard__00000000_.Name = `YES`
 
@@ -247,6 +249,7 @@ func _(stage *models.Stage) {
 	// insertion point for setup of pointers
 	__Library__00000000_.Roles = append(__Library__00000000_.Roles, __Role__00000000_)
 	__Library__00000000_.Roles = append(__Library__00000000_.Roles, __Role__00000001_)
+	__Library__00000000_.MessageTypes = append(__Library__00000000_.MessageTypes, __MessageType__00000000_)
 	__Diagram__00000001_.State_Shapes = append(__Diagram__00000001_.State_Shapes, __StateShape__00000010_)
 	__Diagram__00000001_.State_Shapes = append(__Diagram__00000001_.State_Shapes, __StateShape__00000006_)
 	__Diagram__00000001_.State_Shapes = append(__Diagram__00000001_.State_Shapes, __StateShape__00000007_)

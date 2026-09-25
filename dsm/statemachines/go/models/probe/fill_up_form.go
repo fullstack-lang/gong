@@ -65,6 +65,10 @@ func FillUpForm(
 		AssociationSliceToForm("Transition_Shapes", instanceWithInferedType, &instanceWithInferedType.Transition_Shapes, formGroup, probe)
 		AssociationSliceToForm("Note_Shapes", instanceWithInferedType, &instanceWithInferedType.Note_Shapes, formGroup, probe)
 		AssociationSliceToForm("NoteState_Shapes", instanceWithInferedType, &instanceWithInferedType.NoteState_Shapes, formGroup, probe)
+		BasicFieldtoForm("ShowRoles", instanceWithInferedType.ShowRoles, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ShowMessages", instanceWithInferedType.ShowMessages, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -153,6 +157,11 @@ func FillUpForm(
 		BasicFieldtoForm("IsExpandedTmp", instanceWithInferedType.IsExpandedTmp, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Roles", instanceWithInferedType, &instanceWithInferedType.Roles, formGroup, probe)
+		BasicFieldtoForm("IsRolesNodeExpanded", instanceWithInferedType.IsRolesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("MessageTypes", instanceWithInferedType, &instanceWithInferedType.MessageTypes, formGroup, probe)
+		BasicFieldtoForm("IsMessageTypesNodeExpanded", instanceWithInferedType.IsMessageTypesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -211,6 +220,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Library",
+			"MessageTypes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.MessageType {
+				return owner.MessageTypes
+			})
 		AssociationReverseSliceToForm(
 			"Transition",
 			"GeneratedMessages",
@@ -494,6 +512,12 @@ func FillUpForm(
 		AssociationSliceToForm("GeneratedMessages", instanceWithInferedType, &instanceWithInferedType.GeneratedMessages, formGroup, probe)
 		AssociationFieldToForm("Guard", instanceWithInferedType.Guard, formGroup, probe)
 		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsRolesNodeExpanded", instanceWithInferedType.IsRolesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsMessagesNodeExpanded", instanceWithInferedType.IsMessagesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

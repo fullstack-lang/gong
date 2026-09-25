@@ -69,6 +69,12 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 				needCommit = true
 			}
 		}
+		for _, messageType := range stager.stage.GetInstancesSorted[*MessageType]() {
+			if !slices.Contains(root.MessageTypes, messageType) {
+				root.MessageTypes = append(root.MessageTypes, messageType)
+				needCommit = true
+			}
+		}
 	}
 
 	for _, object := range stager.stage.GetInstancesSorted[*Object]() {
