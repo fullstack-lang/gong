@@ -454,23 +454,42 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 	}
 }
 
-// insertion point per named struct
-type StoolAbstractUnmarshaller struct{}
+func GongExtractDate(expr ast.Expr) time.Time {
+	if call, ok := expr.(*ast.CallExpr); ok {
+		if len(call.Args) == 2 {
+			if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+				t, _ := time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				return t
+			}
+		}
+	}
+	return time.Time{}
+}
 
-func (u *StoolAbstractUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(StoolAbstract)
-	instance.Name = instanceName
+// GongInitialize initializes a staged instance, sets its name, and stages it
+func GongInitialize[P interface {
+	GongstructIF
+	StagePreserveOrder(stage *Stage, order uint)
+}](instance P, stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance.SetName(instanceName)
 	if !preserveOrder {
-		instance.Stage(stage)
+		instance.StageVoid(stage)
 	} else {
 		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
+			instance.StageVoid(stage)
 		} else {
 			instance.StagePreserveOrder(stage, newOrder)
 		}
 	}
 	return instance, nil
+}
+
+// insertion point per named struct
+type StoolAbstractUnmarshaller struct{}
+
+func (u *StoolAbstractUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(StoolAbstract), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *StoolAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {

@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		filetodownloadOrdered := []*FileToDownload{}
-		for filetodownload := range stageSet.Stage.FileToDownloads {
-			filetodownloadOrdered = append(filetodownloadOrdered, filetodownload)
-		}
-		sort.Slice(filetodownloadOrdered, func(i, j int) bool {
-			return stageSet.Stage.FileToDownload_stagedOrder[filetodownloadOrdered[i]] < stageSet.Stage.FileToDownload_stagedOrder[filetodownloadOrdered[j]]
-		})
-		for _, filetodownload := range filetodownloadOrdered {
+		for _, filetodownload := range __gong__sortStageSetInstances(stageSet.Stage.FileToDownloads, stageSet.Stage.FileToDownload_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -163,14 +156,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		filetouploadOrdered := []*FileToUpload{}
-		for filetoupload := range stageSet.Stage.FileToUploads {
-			filetouploadOrdered = append(filetouploadOrdered, filetoupload)
-		}
-		sort.Slice(filetouploadOrdered, func(i, j int) bool {
-			return stageSet.Stage.FileToUpload_stagedOrder[filetouploadOrdered[i]] < stageSet.Stage.FileToUpload_stagedOrder[filetouploadOrdered[j]]
-		})
-		for _, filetoupload := range filetouploadOrdered {
+		for _, filetoupload := range __gong__sortStageSetInstances(stageSet.Stage.FileToUploads, stageSet.Stage.FileToUpload_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -190,14 +176,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		messageOrdered := []*Message{}
-		for message := range stageSet.Stage.Messages {
-			messageOrdered = append(messageOrdered, message)
-		}
-		sort.Slice(messageOrdered, func(i, j int) bool {
-			return stageSet.Stage.Message_stagedOrder[messageOrdered[i]] < stageSet.Stage.Message_stagedOrder[messageOrdered[j]]
-		})
-		for _, message := range messageOrdered {
+		for _, message := range __gong__sortStageSetInstances(stageSet.Stage.Messages, stageSet.Stage.Message_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -358,38 +337,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "FileToDownload":
-					if !preserveOrder {
-						inst := (&FileToDownload{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FileToDownload)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FileToDownload), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FileToUpload":
-					if !preserveOrder {
-						inst := (&FileToUpload{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FileToUpload)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FileToUpload), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Message":
-					if !preserveOrder {
-						inst := (&Message{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Message)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Message), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -433,4 +385,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }

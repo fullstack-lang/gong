@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		chapterOrdered := []*Chapter{}
-		for chapter := range stageSet.Stage.Chapters {
-			chapterOrdered = append(chapterOrdered, chapter)
-		}
-		sort.Slice(chapterOrdered, func(i, j int) bool {
-			return stageSet.Stage.Chapter_stagedOrder[chapterOrdered[i]] < stageSet.Stage.Chapter_stagedOrder[chapterOrdered[j]]
-		})
-		for _, chapter := range chapterOrdered {
+		for _, chapter := range __gong__sortStageSetInstances(stageSet.Stage.Chapters, stageSet.Stage.Chapter_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -193,14 +186,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		contentOrdered := []*Content{}
-		for content := range stageSet.Stage.Contents {
-			contentOrdered = append(contentOrdered, content)
-		}
-		sort.Slice(contentOrdered, func(i, j int) bool {
-			return stageSet.Stage.Content_stagedOrder[contentOrdered[i]] < stageSet.Stage.Content_stagedOrder[contentOrdered[j]]
-		})
-		for _, content := range contentOrdered {
+		for _, content := range __gong__sortStageSetInstances(stageSet.Stage.Contents, stageSet.Stage.Content_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -240,14 +226,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		downloadablefileOrdered := []*DownloadableFile{}
-		for downloadablefile := range stageSet.Stage.DownloadableFiles {
-			downloadablefileOrdered = append(downloadablefileOrdered, downloadablefile)
-		}
-		sort.Slice(downloadablefileOrdered, func(i, j int) bool {
-			return stageSet.Stage.DownloadableFile_stagedOrder[downloadablefileOrdered[i]] < stageSet.Stage.DownloadableFile_stagedOrder[downloadablefileOrdered[j]]
-		})
-		for _, downloadablefile := range downloadablefileOrdered {
+		for _, downloadablefile := range __gong__sortStageSetInstances(stageSet.Stage.DownloadableFiles, stageSet.Stage.DownloadableFile_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -267,14 +246,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		jpgimageOrdered := []*JpgImage{}
-		for jpgimage := range stageSet.Stage.JpgImages {
-			jpgimageOrdered = append(jpgimageOrdered, jpgimage)
-		}
-		sort.Slice(jpgimageOrdered, func(i, j int) bool {
-			return stageSet.Stage.JpgImage_stagedOrder[jpgimageOrdered[i]] < stageSet.Stage.JpgImage_stagedOrder[jpgimageOrdered[j]]
-		})
-		for _, jpgimage := range jpgimageOrdered {
+		for _, jpgimage := range __gong__sortStageSetInstances(stageSet.Stage.JpgImages, stageSet.Stage.JpgImage_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -294,14 +266,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		pageOrdered := []*Page{}
-		for page := range stageSet.Stage.Pages {
-			pageOrdered = append(pageOrdered, page)
-		}
-		sort.Slice(pageOrdered, func(i, j int) bool {
-			return stageSet.Stage.Page_stagedOrder[pageOrdered[i]] < stageSet.Stage.Page_stagedOrder[pageOrdered[j]]
-		})
-		for _, page := range pageOrdered {
+		for _, page := range __gong__sortStageSetInstances(stageSet.Stage.Pages, stageSet.Stage.Page_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -331,14 +296,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		pngimageOrdered := []*PngImage{}
-		for pngimage := range stageSet.Stage.PngImages {
-			pngimageOrdered = append(pngimageOrdered, pngimage)
-		}
-		sort.Slice(pngimageOrdered, func(i, j int) bool {
-			return stageSet.Stage.PngImage_stagedOrder[pngimageOrdered[i]] < stageSet.Stage.PngImage_stagedOrder[pngimageOrdered[j]]
-		})
-		for _, pngimage := range pngimageOrdered {
+		for _, pngimage := range __gong__sortStageSetInstances(stageSet.Stage.PngImages, stageSet.Stage.PngImage_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -358,14 +316,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		sectionOrdered := []*Section{}
-		for section := range stageSet.Stage.Sections {
-			sectionOrdered = append(sectionOrdered, section)
-		}
-		sort.Slice(sectionOrdered, func(i, j int) bool {
-			return stageSet.Stage.Section_stagedOrder[sectionOrdered[i]] < stageSet.Stage.Section_stagedOrder[sectionOrdered[j]]
-		})
-		for _, section := range sectionOrdered {
+		for _, section := range __gong__sortStageSetInstances(stageSet.Stage.Sections, stageSet.Stage.Section_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -427,14 +378,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		svgimageOrdered := []*SvgImage{}
-		for svgimage := range stageSet.Stage.SvgImages {
-			svgimageOrdered = append(svgimageOrdered, svgimage)
-		}
-		sort.Slice(svgimageOrdered, func(i, j int) bool {
-			return stageSet.Stage.SvgImage_stagedOrder[svgimageOrdered[i]] < stageSet.Stage.SvgImage_stagedOrder[svgimageOrdered[j]]
-		})
-		for _, svgimage := range svgimageOrdered {
+		for _, svgimage := range __gong__sortStageSetInstances(stageSet.Stage.SvgImages, stageSet.Stage.SvgImage_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -596,93 +540,21 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "Chapter":
-					if !preserveOrder {
-						inst := (&Chapter{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Chapter)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Chapter), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Content":
-					if !preserveOrder {
-						inst := (&Content{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Content)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Content), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DownloadableFile":
-					if !preserveOrder {
-						inst := (&DownloadableFile{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DownloadableFile)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DownloadableFile), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "JpgImage":
-					if !preserveOrder {
-						inst := (&JpgImage{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(JpgImage)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(JpgImage), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Page":
-					if !preserveOrder {
-						inst := (&Page{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Page)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Page), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "PngImage":
-					if !preserveOrder {
-						inst := (&PngImage{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(PngImage)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(PngImage), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Section":
-					if !preserveOrder {
-						inst := (&Section{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Section)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Section), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "SvgImage":
-					if !preserveOrder {
-						inst := (&SvgImage{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(SvgImage)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SvgImage), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -704,35 +576,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "MardownContent":
 						inst.MardownContent = GongExtractString(rhs)
 					case "Sections":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Section); ok {
-										inst.Sections = append(inst.Sections, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Sections, rhs, identifierMap)
 					case "Pages":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Page); ok {
-										inst.Pages = append(inst.Pages, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Pages, rhs, identifierMap)
 					case "SubChapters":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Chapter); ok {
-										inst.SubChapters = append(inst.SubChapters, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SubChapters, rhs, identifierMap)
 					}
 				case *Content:
 					switch fieldName {
@@ -759,15 +607,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Target":
 						inst.Target = Target(GongExtractString(rhs))
 					case "Chapters":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Chapter); ok {
-										inst.Chapters = append(inst.Chapters, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Chapters, rhs, identifierMap)
 					case "VersionInfo":
 						inst.VersionInfo = GongExtractString(rhs)
 					}
@@ -792,15 +632,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "MardownContent":
 						inst.MardownContent = GongExtractString(rhs)
 					case "Sections":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Section); ok {
-										inst.Sections = append(inst.Sections, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Sections, rhs, identifierMap)
 					}
 				case *PngImage:
 					switch fieldName {
@@ -818,39 +650,15 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsImage":
 						inst.IsImage = GongExtractBool(rhs)
 					case "SvgImage":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SvgImage); ok {
-									inst.SvgImage = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SvgImage, rhs, identifierMap)
 					case "PngImage":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PngImage); ok {
-									inst.PngImage = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.PngImage, rhs, identifierMap)
 					case "JpgImage":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*JpgImage); ok {
-									inst.JpgImage = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.JpgImage, rhs, identifierMap)
 					case "IsDownloadableFile":
 						inst.IsDownloadableFile = GongExtractBool(rhs)
 					case "DownloadableFile":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DownloadableFile); ok {
-									inst.DownloadableFile = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DownloadableFile, rhs, identifierMap)
 					}
 				case *SvgImage:
 					switch fieldName {
@@ -869,4 +677,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }

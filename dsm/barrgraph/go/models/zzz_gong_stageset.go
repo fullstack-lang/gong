@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		artefacttypeOrdered := []*ArtefactType{}
-		for artefacttype := range stageSet.Stage.ArtefactTypes {
-			artefacttypeOrdered = append(artefacttypeOrdered, artefacttype)
-		}
-		sort.Slice(artefacttypeOrdered, func(i, j int) bool {
-			return stageSet.Stage.ArtefactType_stagedOrder[artefacttypeOrdered[i]] < stageSet.Stage.ArtefactType_stagedOrder[artefacttypeOrdered[j]]
-		})
-		for _, artefacttype := range artefacttypeOrdered {
+		for _, artefacttype := range __gong__sortStageSetInstances(stageSet.Stage.ArtefactTypes, stageSet.Stage.ArtefactType_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -164,14 +157,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		artefacttypeshapeOrdered := []*ArtefactTypeShape{}
-		for artefacttypeshape := range stageSet.Stage.ArtefactTypeShapes {
-			artefacttypeshapeOrdered = append(artefacttypeshapeOrdered, artefacttypeshape)
-		}
-		sort.Slice(artefacttypeshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.ArtefactTypeShape_stagedOrder[artefacttypeshapeOrdered[i]] < stageSet.Stage.ArtefactTypeShape_stagedOrder[artefacttypeshapeOrdered[j]]
-		})
-		for _, artefacttypeshape := range artefacttypeshapeOrdered {
+		for _, artefacttypeshape := range __gong__sortStageSetInstances(stageSet.Stage.ArtefactTypeShapes, stageSet.Stage.ArtefactTypeShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -205,14 +191,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		artistOrdered := []*Artist{}
-		for artist := range stageSet.Stage.Artists {
-			artistOrdered = append(artistOrdered, artist)
-		}
-		sort.Slice(artistOrdered, func(i, j int) bool {
-			return stageSet.Stage.Artist_stagedOrder[artistOrdered[i]] < stageSet.Stage.Artist_stagedOrder[artistOrdered[j]]
-		})
-		for _, artist := range artistOrdered {
+		for _, artist := range __gong__sortStageSetInstances(stageSet.Stage.Artists, stageSet.Stage.Artist_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -245,14 +224,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		artistshapeOrdered := []*ArtistShape{}
-		for artistshape := range stageSet.Stage.ArtistShapes {
-			artistshapeOrdered = append(artistshapeOrdered, artistshape)
-		}
-		sort.Slice(artistshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.ArtistShape_stagedOrder[artistshapeOrdered[i]] < stageSet.Stage.ArtistShape_stagedOrder[artistshapeOrdered[j]]
-		})
-		for _, artistshape := range artistshapeOrdered {
+		for _, artistshape := range __gong__sortStageSetInstances(stageSet.Stage.ArtistShapes, stageSet.Stage.ArtistShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -294,14 +266,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		controlpointshapeOrdered := []*ControlPointShape{}
-		for controlpointshape := range stageSet.Stage.ControlPointShapes {
-			controlpointshapeOrdered = append(controlpointshapeOrdered, controlpointshape)
-		}
-		sort.Slice(controlpointshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.ControlPointShape_stagedOrder[controlpointshapeOrdered[i]] < stageSet.Stage.ControlPointShape_stagedOrder[controlpointshapeOrdered[j]]
-		})
-		for _, controlpointshape := range controlpointshapeOrdered {
+		for _, controlpointshape := range __gong__sortStageSetInstances(stageSet.Stage.ControlPointShapes, stageSet.Stage.ControlPointShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -323,14 +288,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		deskOrdered := []*Desk{}
-		for desk := range stageSet.Stage.Desks {
-			deskOrdered = append(deskOrdered, desk)
-		}
-		sort.Slice(deskOrdered, func(i, j int) bool {
-			return stageSet.Stage.Desk_stagedOrder[deskOrdered[i]] < stageSet.Stage.Desk_stagedOrder[deskOrdered[j]]
-		})
-		for _, desk := range deskOrdered {
+		for _, desk := range __gong__sortStageSetInstances(stageSet.Stage.Desks, stageSet.Stage.Desk_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -359,14 +317,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		diagramOrdered := []*Diagram{}
-		for diagram := range stageSet.Stage.Diagrams {
-			diagramOrdered = append(diagramOrdered, diagram)
-		}
-		sort.Slice(diagramOrdered, func(i, j int) bool {
-			return stageSet.Stage.Diagram_stagedOrder[diagramOrdered[i]] < stageSet.Stage.Diagram_stagedOrder[diagramOrdered[j]]
-		})
-		for _, diagram := range diagramOrdered {
+		for _, diagram := range __gong__sortStageSetInstances(stageSet.Stage.Diagrams, stageSet.Stage.Diagram_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -512,14 +463,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		influenceOrdered := []*Influence{}
-		for influence := range stageSet.Stage.Influences {
-			influenceOrdered = append(influenceOrdered, influence)
-		}
-		sort.Slice(influenceOrdered, func(i, j int) bool {
-			return stageSet.Stage.Influence_stagedOrder[influenceOrdered[i]] < stageSet.Stage.Influence_stagedOrder[influenceOrdered[j]]
-		})
-		for _, influence := range influenceOrdered {
+		for _, influence := range __gong__sortStageSetInstances(stageSet.Stage.Influences, stageSet.Stage.Influence_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -601,14 +545,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		influenceshapeOrdered := []*InfluenceShape{}
-		for influenceshape := range stageSet.Stage.InfluenceShapes {
-			influenceshapeOrdered = append(influenceshapeOrdered, influenceshape)
-		}
-		sort.Slice(influenceshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.InfluenceShape_stagedOrder[influenceshapeOrdered[i]] < stageSet.Stage.InfluenceShape_stagedOrder[influenceshapeOrdered[j]]
-		})
-		for _, influenceshape := range influenceshapeOrdered {
+		for _, influenceshape := range __gong__sortStageSetInstances(stageSet.Stage.InfluenceShapes, stageSet.Stage.InfluenceShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -648,14 +585,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		libraryOrdered := []*Library{}
-		for library := range stageSet.Stage.Librarys {
-			libraryOrdered = append(libraryOrdered, library)
-		}
-		sort.Slice(libraryOrdered, func(i, j int) bool {
-			return stageSet.Stage.Library_stagedOrder[libraryOrdered[i]] < stageSet.Stage.Library_stagedOrder[libraryOrdered[j]]
-		})
-		for _, library := range libraryOrdered {
+		for _, library := range __gong__sortStageSetInstances(stageSet.Stage.Librarys, stageSet.Stage.Library_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -702,14 +632,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		movementOrdered := []*Movement{}
-		for movement := range stageSet.Stage.Movements {
-			movementOrdered = append(movementOrdered, movement)
-		}
-		sort.Slice(movementOrdered, func(i, j int) bool {
-			return stageSet.Stage.Movement_stagedOrder[movementOrdered[i]] < stageSet.Stage.Movement_stagedOrder[movementOrdered[j]]
-		})
-		for _, movement := range movementOrdered {
+		for _, movement := range __gong__sortStageSetInstances(stageSet.Stage.Movements, stageSet.Stage.Movement_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -749,14 +672,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		movementshapeOrdered := []*MovementShape{}
-		for movementshape := range stageSet.Stage.MovementShapes {
-			movementshapeOrdered = append(movementshapeOrdered, movementshape)
-		}
-		sort.Slice(movementshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.MovementShape_stagedOrder[movementshapeOrdered[i]] < stageSet.Stage.MovementShape_stagedOrder[movementshapeOrdered[j]]
-		})
-		for _, movementshape := range movementshapeOrdered {
+		for _, movementshape := range __gong__sortStageSetInstances(stageSet.Stage.MovementShapes, stageSet.Stage.MovementShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -790,14 +706,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		placeOrdered := []*Place{}
-		for place := range stageSet.Stage.Places {
-			placeOrdered = append(placeOrdered, place)
-		}
-		sort.Slice(placeOrdered, func(i, j int) bool {
-			return stageSet.Stage.Place_stagedOrder[placeOrdered[i]] < stageSet.Stage.Place_stagedOrder[placeOrdered[j]]
-		})
-		for _, place := range placeOrdered {
+		for _, place := range __gong__sortStageSetInstances(stageSet.Stage.Places, stageSet.Stage.Place_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -958,148 +867,31 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "ArtefactType":
-					if !preserveOrder {
-						inst := (&ArtefactType{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ArtefactType)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ArtefactType), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ArtefactTypeShape":
-					if !preserveOrder {
-						inst := (&ArtefactTypeShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ArtefactTypeShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ArtefactTypeShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Artist":
-					if !preserveOrder {
-						inst := (&Artist{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Artist)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Artist), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ArtistShape":
-					if !preserveOrder {
-						inst := (&ArtistShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ArtistShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ArtistShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ControlPointShape":
-					if !preserveOrder {
-						inst := (&ControlPointShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ControlPointShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ControlPointShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Desk":
-					if !preserveOrder {
-						inst := (&Desk{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Desk)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Desk), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Diagram":
-					if !preserveOrder {
-						inst := (&Diagram{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Diagram)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Diagram), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Influence":
-					if !preserveOrder {
-						inst := (&Influence{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Influence)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Influence), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "InfluenceShape":
-					if !preserveOrder {
-						inst := (&InfluenceShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(InfluenceShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(InfluenceShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Library":
-					if !preserveOrder {
-						inst := (&Library{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Library)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Library), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Movement":
-					if !preserveOrder {
-						inst := (&Movement{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Movement)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Movement), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "MovementShape":
-					if !preserveOrder {
-						inst := (&MovementShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(MovementShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(MovementShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Place":
-					if !preserveOrder {
-						inst := (&Place{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Place)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Place), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -1128,13 +920,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ArtefactType":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ArtefactType); ok {
-									inst.ArtefactType = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ArtefactType, rhs, identifierMap)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -1157,32 +943,16 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsDead":
 						inst.IsDead = GongExtractBool(rhs)
 					case "DateOfDeath":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-								inst.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-							}
-						}
+						inst.DateOfDeath = GongExtractDate(rhs)
 					case "Place":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Place); ok {
-									inst.Place = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Place, rhs, identifierMap)
 					}
 				case *ArtistShape:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Artist":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Artist); ok {
-									inst.Artist = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Artist, rhs, identifierMap)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -1226,13 +996,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "SelectedDiagram":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Diagram); ok {
-									inst.SelectedDiagram = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SelectedDiagram, rhs, identifierMap)
 					}
 				case *Diagram:
 					switch fieldName {
@@ -1245,45 +1009,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsChecked":
 						inst.IsChecked = GongExtractBool(rhs)
 					case "MovementShapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*MovementShape); ok {
-										inst.MovementShapes = append(inst.MovementShapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.MovementShapes, rhs, identifierMap)
 					case "ArtefactTypeShapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ArtefactTypeShape); ok {
-										inst.ArtefactTypeShapes = append(inst.ArtefactTypeShapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ArtefactTypeShapes, rhs, identifierMap)
 					case "ArtistShapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ArtistShape); ok {
-										inst.ArtistShapes = append(inst.ArtistShapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ArtistShapes, rhs, identifierMap)
 					case "InfluenceShapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*InfluenceShape); ok {
-										inst.InfluenceShapes = append(inst.InfluenceShapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.InfluenceShapes, rhs, identifierMap)
 					case "IsEditable":
 						inst.IsEditable = GongExtractBool(rhs)
 					case "IsNodeExpanded":
@@ -1305,17 +1037,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsInfluenceCategoryHidden":
 						inst.IsInfluenceCategoryHidden = GongExtractBool(rhs)
 					case "StartDate":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-								inst.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-							}
-						}
+						inst.StartDate = GongExtractDate(rhs)
 					case "EndDate":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-								inst.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-							}
-						}
+						inst.EndDate = GongExtractDate(rhs)
 					case "NbYearsForIntervals":
 						inst.NbYearsForIntervals = GongExtractInt(rhs)
 					case "XMargin":
@@ -1470,53 +1194,17 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "SourceMovement":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Movement); ok {
-									inst.SourceMovement = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SourceMovement, rhs, identifierMap)
 					case "SourceArtefactType":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ArtefactType); ok {
-									inst.SourceArtefactType = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SourceArtefactType, rhs, identifierMap)
 					case "SourceArtist":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Artist); ok {
-									inst.SourceArtist = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SourceArtist, rhs, identifierMap)
 					case "TargetMovement":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Movement); ok {
-									inst.TargetMovement = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TargetMovement, rhs, identifierMap)
 					case "TargetArtefactType":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ArtefactType); ok {
-									inst.TargetArtefactType = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TargetArtefactType, rhs, identifierMap)
 					case "TargetArtist":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Artist); ok {
-									inst.TargetArtist = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TargetArtist, rhs, identifierMap)
 					case "IsHypothtical":
 						inst.IsHypothtical = GongExtractBool(rhs)
 					}
@@ -1525,25 +1213,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Influence":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Influence); ok {
-									inst.Influence = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Influence, rhs, identifierMap)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
 					case "ControlPointShapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ControlPointShape); ok {
-										inst.ControlPointShapes = append(inst.ControlPointShapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
 				case *Library:
 					switch fieldName {
@@ -1558,27 +1232,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsRootLibrary":
 						inst.IsRootLibrary = GongExtractBool(rhs)
 					case "SubLibraries":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Library); ok {
-										inst.SubLibraries = append(inst.SubLibraries, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SubLibraries, rhs, identifierMap)
 					case "IsSubLibrariesNodeExpanded":
 						inst.IsSubLibrariesNodeExpanded = GongExtractBool(rhs)
 					case "SubLibrariesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Library); ok {
-										inst.SubLibrariesWhoseNodeIsExpanded = append(inst.SubLibrariesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SubLibrariesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "NbPixPerCharacter":
 						inst.NbPixPerCharacter = GongExtractFloat(rhs)
 					case "LogoSVGFile":
@@ -1595,23 +1253,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "Date":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-								inst.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-							}
-						}
+						inst.Date = GongExtractDate(rhs)
 					case "HideDate":
 						inst.HideDate = GongExtractBool(rhs)
 					case "Places":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Place); ok {
-										inst.Places = append(inst.Places, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Places, rhs, identifierMap)
 					case "HasTaxonomicFilter":
 						inst.HasTaxonomicFilter = GongExtractBool(rhs)
 					case "TaxonomicFilter":
@@ -1632,13 +1278,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Movement":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Movement); ok {
-									inst.Movement = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Movement, rhs, identifierMap)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -1665,4 +1305,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }

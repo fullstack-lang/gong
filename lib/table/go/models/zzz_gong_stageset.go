@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		buttonOrdered := []*Button{}
-		for button := range stageSet.Stage.Buttons {
-			buttonOrdered = append(buttonOrdered, button)
-		}
-		sort.Slice(buttonOrdered, func(i, j int) bool {
-			return stageSet.Stage.Button_stagedOrder[buttonOrdered[i]] < stageSet.Stage.Button_stagedOrder[buttonOrdered[j]]
-		})
-		for _, button := range buttonOrdered {
+		for _, button := range __gong__sortStageSetInstances(stageSet.Stage.Buttons, stageSet.Stage.Button_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -177,14 +170,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		cellOrdered := []*Cell{}
-		for cell := range stageSet.Stage.Cells {
-			cellOrdered = append(cellOrdered, cell)
-		}
-		sort.Slice(cellOrdered, func(i, j int) bool {
-			return stageSet.Stage.Cell_stagedOrder[cellOrdered[i]] < stageSet.Stage.Cell_stagedOrder[cellOrdered[j]]
-		})
-		for _, cell := range cellOrdered {
+		for _, cell := range __gong__sortStageSetInstances(stageSet.Stage.Cells, stageSet.Stage.Cell_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -253,14 +239,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		cellbooleanOrdered := []*CellBoolean{}
-		for cellboolean := range stageSet.Stage.CellBooleans {
-			cellbooleanOrdered = append(cellbooleanOrdered, cellboolean)
-		}
-		sort.Slice(cellbooleanOrdered, func(i, j int) bool {
-			return stageSet.Stage.CellBoolean_stagedOrder[cellbooleanOrdered[i]] < stageSet.Stage.CellBoolean_stagedOrder[cellbooleanOrdered[j]]
-		})
-		for _, cellboolean := range cellbooleanOrdered {
+		for _, cellboolean := range __gong__sortStageSetInstances(stageSet.Stage.CellBooleans, stageSet.Stage.CellBoolean_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -280,14 +259,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		cellfloat64Ordered := []*CellFloat64{}
-		for cellfloat64 := range stageSet.Stage.CellFloat64s {
-			cellfloat64Ordered = append(cellfloat64Ordered, cellfloat64)
-		}
-		sort.Slice(cellfloat64Ordered, func(i, j int) bool {
-			return stageSet.Stage.CellFloat64_stagedOrder[cellfloat64Ordered[i]] < stageSet.Stage.CellFloat64_stagedOrder[cellfloat64Ordered[j]]
-		})
-		for _, cellfloat64 := range cellfloat64Ordered {
+		for _, cellfloat64 := range __gong__sortStageSetInstances(stageSet.Stage.CellFloat64s, stageSet.Stage.CellFloat64_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -307,14 +279,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		celliconOrdered := []*CellIcon{}
-		for cellicon := range stageSet.Stage.CellIcons {
-			celliconOrdered = append(celliconOrdered, cellicon)
-		}
-		sort.Slice(celliconOrdered, func(i, j int) bool {
-			return stageSet.Stage.CellIcon_stagedOrder[celliconOrdered[i]] < stageSet.Stage.CellIcon_stagedOrder[celliconOrdered[j]]
-		})
-		for _, cellicon := range celliconOrdered {
+		for _, cellicon := range __gong__sortStageSetInstances(stageSet.Stage.CellIcons, stageSet.Stage.CellIcon_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -336,14 +301,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		cellintOrdered := []*CellInt{}
-		for cellint := range stageSet.Stage.CellInts {
-			cellintOrdered = append(cellintOrdered, cellint)
-		}
-		sort.Slice(cellintOrdered, func(i, j int) bool {
-			return stageSet.Stage.CellInt_stagedOrder[cellintOrdered[i]] < stageSet.Stage.CellInt_stagedOrder[cellintOrdered[j]]
-		})
-		for _, cellint := range cellintOrdered {
+		for _, cellint := range __gong__sortStageSetInstances(stageSet.Stage.CellInts, stageSet.Stage.CellInt_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -363,14 +321,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		cellstringOrdered := []*CellString{}
-		for cellstring := range stageSet.Stage.CellStrings {
-			cellstringOrdered = append(cellstringOrdered, cellstring)
-		}
-		sort.Slice(cellstringOrdered, func(i, j int) bool {
-			return stageSet.Stage.CellString_stagedOrder[cellstringOrdered[i]] < stageSet.Stage.CellString_stagedOrder[cellstringOrdered[j]]
-		})
-		for _, cellstring := range cellstringOrdered {
+		for _, cellstring := range __gong__sortStageSetInstances(stageSet.Stage.CellStrings, stageSet.Stage.CellString_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -390,14 +341,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		displayedcolumnOrdered := []*DisplayedColumn{}
-		for displayedcolumn := range stageSet.Stage.DisplayedColumns {
-			displayedcolumnOrdered = append(displayedcolumnOrdered, displayedcolumn)
-		}
-		sort.Slice(displayedcolumnOrdered, func(i, j int) bool {
-			return stageSet.Stage.DisplayedColumn_stagedOrder[displayedcolumnOrdered[i]] < stageSet.Stage.DisplayedColumn_stagedOrder[displayedcolumnOrdered[j]]
-		})
-		for _, displayedcolumn := range displayedcolumnOrdered {
+		for _, displayedcolumn := range __gong__sortStageSetInstances(stageSet.Stage.DisplayedColumns, stageSet.Stage.DisplayedColumn_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -416,14 +360,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		rowOrdered := []*Row{}
-		for row := range stageSet.Stage.Rows {
-			rowOrdered = append(rowOrdered, row)
-		}
-		sort.Slice(rowOrdered, func(i, j int) bool {
-			return stageSet.Stage.Row_stagedOrder[rowOrdered[i]] < stageSet.Stage.Row_stagedOrder[rowOrdered[j]]
-		})
-		for _, row := range rowOrdered {
+		for _, row := range __gong__sortStageSetInstances(stageSet.Stage.Rows, stageSet.Stage.Row_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -453,14 +390,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		svgiconOrdered := []*SVGIcon{}
-		for svgicon := range stageSet.Stage.SVGIcons {
-			svgiconOrdered = append(svgiconOrdered, svgicon)
-		}
-		sort.Slice(svgiconOrdered, func(i, j int) bool {
-			return stageSet.Stage.SVGIcon_stagedOrder[svgiconOrdered[i]] < stageSet.Stage.SVGIcon_stagedOrder[svgiconOrdered[j]]
-		})
-		for _, svgicon := range svgiconOrdered {
+		for _, svgicon := range __gong__sortStageSetInstances(stageSet.Stage.SVGIcons, stageSet.Stage.SVGIcon_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -480,14 +410,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		tableOrdered := []*Table{}
-		for table := range stageSet.Stage.Tables {
-			tableOrdered = append(tableOrdered, table)
-		}
-		sort.Slice(tableOrdered, func(i, j int) bool {
-			return stageSet.Stage.Table_stagedOrder[tableOrdered[i]] < stageSet.Stage.Table_stagedOrder[tableOrdered[j]]
-		})
-		for _, table := range tableOrdered {
+		for _, table := range __gong__sortStageSetInstances(stageSet.Stage.Tables, stageSet.Stage.Table_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -700,126 +623,27 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "Button":
-					if !preserveOrder {
-						inst := (&Button{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Button)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Button), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Cell":
-					if !preserveOrder {
-						inst := (&Cell{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Cell)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Cell), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "CellBoolean":
-					if !preserveOrder {
-						inst := (&CellBoolean{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(CellBoolean)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(CellBoolean), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "CellFloat64":
-					if !preserveOrder {
-						inst := (&CellFloat64{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(CellFloat64)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(CellFloat64), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "CellIcon":
-					if !preserveOrder {
-						inst := (&CellIcon{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(CellIcon)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(CellIcon), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "CellInt":
-					if !preserveOrder {
-						inst := (&CellInt{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(CellInt)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(CellInt), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "CellString":
-					if !preserveOrder {
-						inst := (&CellString{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(CellString)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(CellString), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DisplayedColumn":
-					if !preserveOrder {
-						inst := (&DisplayedColumn{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DisplayedColumn)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DisplayedColumn), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Row":
-					if !preserveOrder {
-						inst := (&Row{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Row)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Row), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "SVGIcon":
-					if !preserveOrder {
-						inst := (&SVGIcon{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(SVGIcon)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SVGIcon), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Table":
-					if !preserveOrder {
-						inst := (&Table{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Table)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Table), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -841,13 +665,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Icon":
 						inst.Icon = GongExtractString(rhs)
 					case "SVGIcon":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SVGIcon); ok {
-									inst.SVGIcon = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SVGIcon, rhs, identifierMap)
 					case "IsDisabled":
 						inst.IsDisabled = GongExtractBool(rhs)
 					case "HasToolTip":
@@ -862,45 +680,15 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "CellString":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*CellString); ok {
-									inst.CellString = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.CellString, rhs, identifierMap)
 					case "CellFloat64":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*CellFloat64); ok {
-									inst.CellFloat64 = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.CellFloat64, rhs, identifierMap)
 					case "CellInt":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*CellInt); ok {
-									inst.CellInt = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.CellInt, rhs, identifierMap)
 					case "CellBool":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*CellBoolean); ok {
-									inst.CellBool = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.CellBool, rhs, identifierMap)
 					case "CellIcon":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*CellIcon); ok {
-									inst.CellIcon = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.CellIcon, rhs, identifierMap)
 					}
 				case *CellBoolean:
 					switch fieldName {
@@ -951,15 +739,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Cells":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Cell); ok {
-										inst.Cells = append(inst.Cells, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Cells, rhs, identifierMap)
 					case "IsChecked":
 						inst.IsChecked = GongExtractBool(rhs)
 					}
@@ -975,25 +755,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "DisplayedColumns":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DisplayedColumn); ok {
-										inst.DisplayedColumns = append(inst.DisplayedColumns, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DisplayedColumns, rhs, identifierMap)
 					case "Rows":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Row); ok {
-										inst.Rows = append(inst.Rows, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Rows, rhs, identifierMap)
 					case "HasFiltering":
 						inst.HasFiltering = GongExtractBool(rhs)
 					case "HasColumnSorting":
@@ -1011,15 +775,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "BulkDeleteButtonTooltip":
 						inst.BulkDeleteButtonTooltip = GongExtractString(rhs)
 					case "RowsSelectedForBulkDelete":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Row); ok {
-										inst.RowsSelectedForBulkDelete = append(inst.RowsSelectedForBulkDelete, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RowsSelectedForBulkDelete, rhs, identifierMap)
 					case "CanDragDropRows":
 						inst.CanDragDropRows = GongExtractBool(rhs)
 					case "HasCloseButton":
@@ -1029,15 +785,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "NbOfStickyColumns":
 						inst.NbOfStickyColumns = GongExtractInt(rhs)
 					case "Buttons":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Button); ok {
-										inst.Buttons = append(inst.Buttons, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Buttons, rhs, identifierMap)
 					}
 							}
 						}
@@ -1049,4 +797,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }

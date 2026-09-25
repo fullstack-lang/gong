@@ -454,23 +454,42 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 	}
 }
 
-// insertion point per named struct
-type ActorStateUnmarshaller struct{}
+func GongExtractDate(expr ast.Expr) time.Time {
+	if call, ok := expr.(*ast.CallExpr); ok {
+		if len(call.Args) == 2 {
+			if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+				t, _ := time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				return t
+			}
+		}
+	}
+	return time.Time{}
+}
 
-func (u *ActorStateUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(ActorState)
-	instance.Name = instanceName
+// GongInitialize initializes a staged instance, sets its name, and stages it
+func GongInitialize[P interface {
+	GongstructIF
+	StagePreserveOrder(stage *Stage, order uint)
+}](instance P, stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance.SetName(instanceName)
 	if !preserveOrder {
-		instance.Stage(stage)
+		instance.StageVoid(stage)
 	} else {
 		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
+			instance.StageVoid(stage)
 		} else {
 			instance.StagePreserveOrder(stage, newOrder)
 		}
 	}
 	return instance, nil
+}
+
+// insertion point per named struct
+type ActorStateUnmarshaller struct{}
+
+func (u *ActorStateUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(ActorState), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ActorStateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -497,19 +516,7 @@ func (u *ActorStateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 type ActorStateShapeUnmarshaller struct{}
 
 func (u *ActorStateShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(ActorStateShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(ActorStateShape), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ActorStateShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -538,19 +545,7 @@ func (u *ActorStateShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 type ActorStateTransitionUnmarshaller struct{}
 
 func (u *ActorStateTransitionUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(ActorStateTransition)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(ActorStateTransition), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ActorStateTransitionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -577,19 +572,7 @@ func (u *ActorStateTransitionUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 type ActorStateTransitionShapeUnmarshaller struct{}
 
 func (u *ActorStateTransitionShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(ActorStateTransitionShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(ActorStateTransitionShape), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ActorStateTransitionShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -624,19 +607,7 @@ func (u *ActorStateTransitionShapeUnmarshaller) UnmarshallField(stage *Stage, i 
 type AnalysisUnmarshaller struct{}
 
 func (u *AnalysisUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Analysis)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Analysis), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *AnalysisUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -675,19 +646,7 @@ func (u *AnalysisUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 type ControlPointShapeUnmarshaller struct{}
 
 func (u *ControlPointShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(ControlPointShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(ControlPointShape), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ControlPointShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -710,19 +669,7 @@ func (u *ControlPointShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 type DiagramUnmarshaller struct{}
 
 func (u *DiagramUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Diagram)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Diagram), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -785,21 +732,9 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "HorizontalAxis_Right_X":
 		instance.HorizontalAxis_Right_X = GongExtractFloat(valueExpr)
 	case "Start":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-				}
-			}
-		}
+		instance.Start = GongExtractDate(valueExpr)
 	case "End":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-				}
-			}
-		}
+		instance.End = GongExtractDate(valueExpr)
 	case "NumberOfYearsBetweenTicks":
 		instance.NumberOfYearsBetweenTicks = GongExtractInt(valueExpr)
 	}
@@ -809,19 +744,7 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 type DocumentUnmarshaller struct{}
 
 func (u *DocumentUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Document)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Document), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *DocumentUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -844,19 +767,7 @@ func (u *DocumentUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 type DocumentUseUnmarshaller struct{}
 
 func (u *DocumentUseUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(DocumentUse)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(DocumentUse), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *DocumentUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -875,19 +786,7 @@ func (u *DocumentUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 type EvolutionDirectionUnmarshaller struct{}
 
 func (u *EvolutionDirectionUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(EvolutionDirection)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(EvolutionDirection), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *EvolutionDirectionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -910,19 +809,7 @@ func (u *EvolutionDirectionUnmarshaller) UnmarshallField(stage *Stage, i Gongstr
 type EvolutionDirectionShapeUnmarshaller struct{}
 
 func (u *EvolutionDirectionShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(EvolutionDirectionShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(EvolutionDirectionShape), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *EvolutionDirectionShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -951,19 +838,7 @@ func (u *EvolutionDirectionShapeUnmarshaller) UnmarshallField(stage *Stage, i Go
 type FooUnmarshaller struct{}
 
 func (u *FooUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Foo)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Foo), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *FooUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -980,19 +855,7 @@ func (u *FooUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNam
 type GeoObjectUnmarshaller struct{}
 
 func (u *GeoObjectUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(GeoObject)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(GeoObject), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *GeoObjectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1013,19 +876,7 @@ func (u *GeoObjectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 type GeoObjectUseUnmarshaller struct{}
 
 func (u *GeoObjectUseUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(GeoObjectUse)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(GeoObjectUse), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *GeoObjectUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1044,19 +895,7 @@ func (u *GeoObjectUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 type GroupUnmarshaller struct{}
 
 func (u *GroupUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Group)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Group), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *GroupUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1079,19 +918,7 @@ func (u *GroupUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 type GroupUseUnmarshaller struct{}
 
 func (u *GroupUseUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(GroupUse)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(GroupUse), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *GroupUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1110,19 +937,7 @@ func (u *GroupUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 type LibraryUnmarshaller struct{}
 
 func (u *LibraryUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Library)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Library), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1163,19 +978,7 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 type MapObjectUnmarshaller struct{}
 
 func (u *MapObjectUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(MapObject)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(MapObject), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *MapObjectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1196,19 +999,7 @@ func (u *MapObjectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 type MapObjectUseUnmarshaller struct{}
 
 func (u *MapObjectUseUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(MapObjectUse)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(MapObjectUse), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *MapObjectUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1227,19 +1018,7 @@ func (u *MapObjectUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 type ParameterUnmarshaller struct{}
 
 func (u *ParameterUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Parameter)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Parameter), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ParameterUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1254,21 +1033,9 @@ func (u *ParameterUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "IsResponse":
 		instance.IsResponse = GongExtractBool(valueExpr)
 	case "Start":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-				}
-			}
-		}
+		instance.Start = GongExtractDate(valueExpr)
 	case "End":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-				}
-			}
-		}
+		instance.End = GongExtractDate(valueExpr)
 	case "Force":
 		instance.Force = GongExtractFloat(valueExpr)
 	case "GroupUse":
@@ -1290,19 +1057,7 @@ func (u *ParameterUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 type ParameterCategoryUnmarshaller struct{}
 
 func (u *ParameterCategoryUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(ParameterCategory)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(ParameterCategory), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ParameterCategoryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1325,19 +1080,7 @@ func (u *ParameterCategoryUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 type ParameterCategoryUseUnmarshaller struct{}
 
 func (u *ParameterCategoryUseUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(ParameterCategoryUse)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(ParameterCategoryUse), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ParameterCategoryUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1356,19 +1099,7 @@ func (u *ParameterCategoryUseUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 type ParameterShapeUnmarshaller struct{}
 
 func (u *ParameterShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(ParameterShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(ParameterShape), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ParameterShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1401,19 +1132,7 @@ func (u *ParameterShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 type ParametersAggregateUnmarshaller struct{}
 
 func (u *ParametersAggregateUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(ParametersAggregate)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(ParametersAggregate), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ParametersAggregateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1440,19 +1159,7 @@ func (u *ParametersAggregateUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 type ParametersAggregateShapeUnmarshaller struct{}
 
 func (u *ParametersAggregateShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(ParametersAggregateShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(ParametersAggregateShape), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ParametersAggregateShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1483,19 +1190,7 @@ func (u *ParametersAggregateShapeUnmarshaller) UnmarshallField(stage *Stage, i G
 type PositionUnmarshaller struct{}
 
 func (u *PositionUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Position)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Position), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *PositionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1506,13 +1201,7 @@ func (u *PositionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Date":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-				}
-			}
-		}
+		instance.Date = GongExtractDate(valueExpr)
 	case "Ordinate":
 		instance.Ordinate = GongExtractFloat(valueExpr)
 	case "ComputedPrefix":
@@ -1526,19 +1215,7 @@ func (u *PositionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 type RepositoryUnmarshaller struct{}
 
 func (u *RepositoryUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Repository)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Repository), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *RepositoryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1563,19 +1240,7 @@ func (u *RepositoryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 type ScenarioUnmarshaller struct{}
 
 func (u *ScenarioUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Scenario)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Scenario), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ScenarioUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1622,19 +1287,7 @@ func (u *ScenarioUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 type UserUnmarshaller struct{}
 
 func (u *UserUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(User)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(User), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *UserUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1655,19 +1308,7 @@ func (u *UserUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 type UserUseUnmarshaller struct{}
 
 func (u *UserUseUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(UserUse)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(UserUse), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *UserUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -1686,19 +1327,7 @@ func (u *UserUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 type WorkspaceUnmarshaller struct{}
 
 func (u *WorkspaceUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Workspace)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Workspace), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *WorkspaceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {

@@ -454,23 +454,42 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 	}
 }
 
-// insertion point per named struct
-type ArrowUnmarshaller struct{}
+func GongExtractDate(expr ast.Expr) time.Time {
+	if call, ok := expr.(*ast.CallExpr); ok {
+		if len(call.Args) == 2 {
+			if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+				t, _ := time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				return t
+			}
+		}
+	}
+	return time.Time{}
+}
 
-func (u *ArrowUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Arrow)
-	instance.Name = instanceName
+// GongInitialize initializes a staged instance, sets its name, and stages it
+func GongInitialize[P interface {
+	GongstructIF
+	StagePreserveOrder(stage *Stage, order uint)
+}](instance P, stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance.SetName(instanceName)
 	if !preserveOrder {
-		instance.Stage(stage)
+		instance.StageVoid(stage)
 	} else {
 		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
+			instance.StageVoid(stage)
 		} else {
 			instance.StagePreserveOrder(stage, newOrder)
 		}
 	}
 	return instance, nil
+}
+
+// insertion point per named struct
+type ArrowUnmarshaller struct{}
+
+func (u *ArrowUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(Arrow), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *ArrowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -495,19 +514,7 @@ func (u *ArrowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 type BarUnmarshaller struct{}
 
 func (u *BarUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Bar)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Bar), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *BarUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -518,21 +525,9 @@ func (u *BarUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNam
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Start":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-				}
-			}
-		}
+		instance.Start = GongExtractDate(valueExpr)
 	case "End":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-				}
-			}
-		}
+		instance.End = GongExtractDate(valueExpr)
 	case "ComputedDuration":
 		instance.ComputedDuration = time.Duration(GongExtractInt(valueExpr))
 	case "OptionnalColor":
@@ -552,19 +547,7 @@ func (u *BarUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNam
 type GanttUnmarshaller struct{}
 
 func (u *GanttUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Gantt)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Gantt), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *GanttUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -575,41 +558,17 @@ func (u *GanttUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedStart":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-				}
-			}
-		}
+		instance.ComputedStart = GongExtractDate(valueExpr)
 	case "ComputedEnd":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-				}
-			}
-		}
+		instance.ComputedEnd = GongExtractDate(valueExpr)
 	case "ComputedDuration":
 		instance.ComputedDuration = time.Duration(GongExtractInt(valueExpr))
 	case "UseManualStartAndEndDates":
 		instance.UseManualStartAndEndDates = GongExtractBool(valueExpr)
 	case "ManualStart":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-				}
-			}
-		}
+		instance.ManualStart = GongExtractDate(valueExpr)
 	case "ManualEnd":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-				}
-			}
-		}
+		instance.ManualEnd = GongExtractDate(valueExpr)
 	case "LaneHeight":
 		instance.LaneHeight = GongExtractFloat(valueExpr)
 	case "RatioBarToLaneHeight":
@@ -661,19 +620,7 @@ func (u *GanttUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 type GroupUnmarshaller struct{}
 
 func (u *GroupUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Group)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Group), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *GroupUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -692,19 +639,7 @@ func (u *GroupUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 type LaneUnmarshaller struct{}
 
 func (u *LaneUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Lane)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Lane), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *LaneUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -725,19 +660,7 @@ func (u *LaneUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 type LaneUseUnmarshaller struct{}
 
 func (u *LaneUseUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(LaneUse)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(LaneUse), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *LaneUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -756,19 +679,7 @@ func (u *LaneUseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 type MilestoneUnmarshaller struct{}
 
 func (u *MilestoneUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Milestone)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new(Milestone), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *MilestoneUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -779,13 +690,7 @@ func (u *MilestoneUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Date":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-				}
-			}
-		}
+		instance.Date = GongExtractDate(valueExpr)
 	case "DisplayVerticalBar":
 		instance.DisplayVerticalBar = GongExtractBool(valueExpr)
 	case "LanesToDisplay":

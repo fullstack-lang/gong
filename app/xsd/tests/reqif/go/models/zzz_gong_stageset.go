@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		alternative_idOrdered := []*ALTERNATIVE_ID{}
-		for alternative_id := range stageSet.Stage.ALTERNATIVE_IDs {
-			alternative_idOrdered = append(alternative_idOrdered, alternative_id)
-		}
-		sort.Slice(alternative_idOrdered, func(i, j int) bool {
-			return stageSet.Stage.ALTERNATIVE_ID_stagedOrder[alternative_idOrdered[i]] < stageSet.Stage.ALTERNATIVE_ID_stagedOrder[alternative_idOrdered[j]]
-		})
-		for _, alternative_id := range alternative_idOrdered {
+		for _, alternative_id := range __gong__sortStageSetInstances(stageSet.Stage.ALTERNATIVE_IDs, stageSet.Stage.ALTERNATIVE_ID_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -163,14 +156,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_definition_booleanOrdered := []*ATTRIBUTE_DEFINITION_BOOLEAN{}
-		for attribute_definition_boolean := range stageSet.Stage.ATTRIBUTE_DEFINITION_BOOLEANs {
-			attribute_definition_booleanOrdered = append(attribute_definition_booleanOrdered, attribute_definition_boolean)
-		}
-		sort.Slice(attribute_definition_booleanOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder[attribute_definition_booleanOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder[attribute_definition_booleanOrdered[j]]
-		})
-		for _, attribute_definition_boolean := range attribute_definition_booleanOrdered {
+		for _, attribute_definition_boolean := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_DEFINITION_BOOLEANs, stageSet.Stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -224,14 +210,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_definition_dateOrdered := []*ATTRIBUTE_DEFINITION_DATE{}
-		for attribute_definition_date := range stageSet.Stage.ATTRIBUTE_DEFINITION_DATEs {
-			attribute_definition_dateOrdered = append(attribute_definition_dateOrdered, attribute_definition_date)
-		}
-		sort.Slice(attribute_definition_dateOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder[attribute_definition_dateOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder[attribute_definition_dateOrdered[j]]
-		})
-		for _, attribute_definition_date := range attribute_definition_dateOrdered {
+		for _, attribute_definition_date := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_DEFINITION_DATEs, stageSet.Stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -285,14 +264,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_definition_enumerationOrdered := []*ATTRIBUTE_DEFINITION_ENUMERATION{}
-		for attribute_definition_enumeration := range stageSet.Stage.ATTRIBUTE_DEFINITION_ENUMERATIONs {
-			attribute_definition_enumerationOrdered = append(attribute_definition_enumerationOrdered, attribute_definition_enumeration)
-		}
-		sort.Slice(attribute_definition_enumerationOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder[attribute_definition_enumerationOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder[attribute_definition_enumerationOrdered[j]]
-		})
-		for _, attribute_definition_enumeration := range attribute_definition_enumerationOrdered {
+		for _, attribute_definition_enumeration := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_DEFINITION_ENUMERATIONs, stageSet.Stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -347,14 +319,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_definition_integerOrdered := []*ATTRIBUTE_DEFINITION_INTEGER{}
-		for attribute_definition_integer := range stageSet.Stage.ATTRIBUTE_DEFINITION_INTEGERs {
-			attribute_definition_integerOrdered = append(attribute_definition_integerOrdered, attribute_definition_integer)
-		}
-		sort.Slice(attribute_definition_integerOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder[attribute_definition_integerOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder[attribute_definition_integerOrdered[j]]
-		})
-		for _, attribute_definition_integer := range attribute_definition_integerOrdered {
+		for _, attribute_definition_integer := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_DEFINITION_INTEGERs, stageSet.Stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -408,14 +373,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_definition_realOrdered := []*ATTRIBUTE_DEFINITION_REAL{}
-		for attribute_definition_real := range stageSet.Stage.ATTRIBUTE_DEFINITION_REALs {
-			attribute_definition_realOrdered = append(attribute_definition_realOrdered, attribute_definition_real)
-		}
-		sort.Slice(attribute_definition_realOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder[attribute_definition_realOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder[attribute_definition_realOrdered[j]]
-		})
-		for _, attribute_definition_real := range attribute_definition_realOrdered {
+		for _, attribute_definition_real := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_DEFINITION_REALs, stageSet.Stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -469,14 +427,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_definition_stringOrdered := []*ATTRIBUTE_DEFINITION_STRING{}
-		for attribute_definition_string := range stageSet.Stage.ATTRIBUTE_DEFINITION_STRINGs {
-			attribute_definition_stringOrdered = append(attribute_definition_stringOrdered, attribute_definition_string)
-		}
-		sort.Slice(attribute_definition_stringOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder[attribute_definition_stringOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder[attribute_definition_stringOrdered[j]]
-		})
-		for _, attribute_definition_string := range attribute_definition_stringOrdered {
+		for _, attribute_definition_string := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_DEFINITION_STRINGs, stageSet.Stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -530,14 +481,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_definition_xhtmlOrdered := []*ATTRIBUTE_DEFINITION_XHTML{}
-		for attribute_definition_xhtml := range stageSet.Stage.ATTRIBUTE_DEFINITION_XHTMLs {
-			attribute_definition_xhtmlOrdered = append(attribute_definition_xhtmlOrdered, attribute_definition_xhtml)
-		}
-		sort.Slice(attribute_definition_xhtmlOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder[attribute_definition_xhtmlOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder[attribute_definition_xhtmlOrdered[j]]
-		})
-		for _, attribute_definition_xhtml := range attribute_definition_xhtmlOrdered {
+		for _, attribute_definition_xhtml := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_DEFINITION_XHTMLs, stageSet.Stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -591,14 +535,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_value_booleanOrdered := []*ATTRIBUTE_VALUE_BOOLEAN{}
-		for attribute_value_boolean := range stageSet.Stage.ATTRIBUTE_VALUE_BOOLEANs {
-			attribute_value_booleanOrdered = append(attribute_value_booleanOrdered, attribute_value_boolean)
-		}
-		sort.Slice(attribute_value_booleanOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[attribute_value_booleanOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[attribute_value_booleanOrdered[j]]
-		})
-		for _, attribute_value_boolean := range attribute_value_booleanOrdered {
+		for _, attribute_value_boolean := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_VALUE_BOOLEANs, stageSet.Stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -628,14 +565,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_value_dateOrdered := []*ATTRIBUTE_VALUE_DATE{}
-		for attribute_value_date := range stageSet.Stage.ATTRIBUTE_VALUE_DATEs {
-			attribute_value_dateOrdered = append(attribute_value_dateOrdered, attribute_value_date)
-		}
-		sort.Slice(attribute_value_dateOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_VALUE_DATE_stagedOrder[attribute_value_dateOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_DATE_stagedOrder[attribute_value_dateOrdered[j]]
-		})
-		for _, attribute_value_date := range attribute_value_dateOrdered {
+		for _, attribute_value_date := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_VALUE_DATEs, stageSet.Stage.ATTRIBUTE_VALUE_DATE_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -665,14 +595,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_value_enumerationOrdered := []*ATTRIBUTE_VALUE_ENUMERATION{}
-		for attribute_value_enumeration := range stageSet.Stage.ATTRIBUTE_VALUE_ENUMERATIONs {
-			attribute_value_enumerationOrdered = append(attribute_value_enumerationOrdered, attribute_value_enumeration)
-		}
-		sort.Slice(attribute_value_enumerationOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[attribute_value_enumerationOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[attribute_value_enumerationOrdered[j]]
-		})
-		for _, attribute_value_enumeration := range attribute_value_enumerationOrdered {
+		for _, attribute_value_enumeration := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_VALUE_ENUMERATIONs, stageSet.Stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -711,14 +634,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_value_integerOrdered := []*ATTRIBUTE_VALUE_INTEGER{}
-		for attribute_value_integer := range stageSet.Stage.ATTRIBUTE_VALUE_INTEGERs {
-			attribute_value_integerOrdered = append(attribute_value_integerOrdered, attribute_value_integer)
-		}
-		sort.Slice(attribute_value_integerOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder[attribute_value_integerOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder[attribute_value_integerOrdered[j]]
-		})
-		for _, attribute_value_integer := range attribute_value_integerOrdered {
+		for _, attribute_value_integer := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_VALUE_INTEGERs, stageSet.Stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -748,14 +664,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_value_realOrdered := []*ATTRIBUTE_VALUE_REAL{}
-		for attribute_value_real := range stageSet.Stage.ATTRIBUTE_VALUE_REALs {
-			attribute_value_realOrdered = append(attribute_value_realOrdered, attribute_value_real)
-		}
-		sort.Slice(attribute_value_realOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_VALUE_REAL_stagedOrder[attribute_value_realOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_REAL_stagedOrder[attribute_value_realOrdered[j]]
-		})
-		for _, attribute_value_real := range attribute_value_realOrdered {
+		for _, attribute_value_real := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_VALUE_REALs, stageSet.Stage.ATTRIBUTE_VALUE_REAL_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -785,14 +694,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_value_stringOrdered := []*ATTRIBUTE_VALUE_STRING{}
-		for attribute_value_string := range stageSet.Stage.ATTRIBUTE_VALUE_STRINGs {
-			attribute_value_stringOrdered = append(attribute_value_stringOrdered, attribute_value_string)
-		}
-		sort.Slice(attribute_value_stringOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_VALUE_STRING_stagedOrder[attribute_value_stringOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_STRING_stagedOrder[attribute_value_stringOrdered[j]]
-		})
-		for _, attribute_value_string := range attribute_value_stringOrdered {
+		for _, attribute_value_string := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_VALUE_STRINGs, stageSet.Stage.ATTRIBUTE_VALUE_STRING_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -822,14 +724,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		attribute_value_xhtmlOrdered := []*ATTRIBUTE_VALUE_XHTML{}
-		for attribute_value_xhtml := range stageSet.Stage.ATTRIBUTE_VALUE_XHTMLs {
-			attribute_value_xhtmlOrdered = append(attribute_value_xhtmlOrdered, attribute_value_xhtml)
-		}
-		sort.Slice(attribute_value_xhtmlOrdered, func(i, j int) bool {
-			return stageSet.Stage.ATTRIBUTE_VALUE_XHTML_stagedOrder[attribute_value_xhtmlOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_XHTML_stagedOrder[attribute_value_xhtmlOrdered[j]]
-		})
-		for _, attribute_value_xhtml := range attribute_value_xhtmlOrdered {
+		for _, attribute_value_xhtml := range __gong__sortStageSetInstances(stageSet.Stage.ATTRIBUTE_VALUE_XHTMLs, stageSet.Stage.ATTRIBUTE_VALUE_XHTML_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -879,14 +774,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_alternative_idOrdered := []*A_ALTERNATIVE_ID{}
-		for a_alternative_id := range stageSet.Stage.A_ALTERNATIVE_IDs {
-			a_alternative_idOrdered = append(a_alternative_idOrdered, a_alternative_id)
-		}
-		sort.Slice(a_alternative_idOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ALTERNATIVE_ID_stagedOrder[a_alternative_idOrdered[i]] < stageSet.Stage.A_ALTERNATIVE_ID_stagedOrder[a_alternative_idOrdered[j]]
-		})
-		for _, a_alternative_id := range a_alternative_idOrdered {
+		for _, a_alternative_id := range __gong__sortStageSetInstances(stageSet.Stage.A_ALTERNATIVE_IDs, stageSet.Stage.A_ALTERNATIVE_ID_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -915,14 +803,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_definition_boolean_refOrdered := []*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF{}
-		for a_attribute_definition_boolean_ref := range stageSet.Stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs {
-			a_attribute_definition_boolean_refOrdered = append(a_attribute_definition_boolean_refOrdered, a_attribute_definition_boolean_ref)
-		}
-		sort.Slice(a_attribute_definition_boolean_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder[a_attribute_definition_boolean_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder[a_attribute_definition_boolean_refOrdered[j]]
-		})
-		for _, a_attribute_definition_boolean_ref := range a_attribute_definition_boolean_refOrdered {
+		for _, a_attribute_definition_boolean_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs, stageSet.Stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -942,14 +823,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_definition_date_refOrdered := []*A_ATTRIBUTE_DEFINITION_DATE_REF{}
-		for a_attribute_definition_date_ref := range stageSet.Stage.A_ATTRIBUTE_DEFINITION_DATE_REFs {
-			a_attribute_definition_date_refOrdered = append(a_attribute_definition_date_refOrdered, a_attribute_definition_date_ref)
-		}
-		sort.Slice(a_attribute_definition_date_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder[a_attribute_definition_date_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder[a_attribute_definition_date_refOrdered[j]]
-		})
-		for _, a_attribute_definition_date_ref := range a_attribute_definition_date_refOrdered {
+		for _, a_attribute_definition_date_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_DEFINITION_DATE_REFs, stageSet.Stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -969,14 +843,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_definition_enumeration_refOrdered := []*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF{}
-		for a_attribute_definition_enumeration_ref := range stageSet.Stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs {
-			a_attribute_definition_enumeration_refOrdered = append(a_attribute_definition_enumeration_refOrdered, a_attribute_definition_enumeration_ref)
-		}
-		sort.Slice(a_attribute_definition_enumeration_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder[a_attribute_definition_enumeration_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder[a_attribute_definition_enumeration_refOrdered[j]]
-		})
-		for _, a_attribute_definition_enumeration_ref := range a_attribute_definition_enumeration_refOrdered {
+		for _, a_attribute_definition_enumeration_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs, stageSet.Stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -996,14 +863,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_definition_integer_refOrdered := []*A_ATTRIBUTE_DEFINITION_INTEGER_REF{}
-		for a_attribute_definition_integer_ref := range stageSet.Stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs {
-			a_attribute_definition_integer_refOrdered = append(a_attribute_definition_integer_refOrdered, a_attribute_definition_integer_ref)
-		}
-		sort.Slice(a_attribute_definition_integer_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder[a_attribute_definition_integer_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder[a_attribute_definition_integer_refOrdered[j]]
-		})
-		for _, a_attribute_definition_integer_ref := range a_attribute_definition_integer_refOrdered {
+		for _, a_attribute_definition_integer_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs, stageSet.Stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1023,14 +883,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_definition_real_refOrdered := []*A_ATTRIBUTE_DEFINITION_REAL_REF{}
-		for a_attribute_definition_real_ref := range stageSet.Stage.A_ATTRIBUTE_DEFINITION_REAL_REFs {
-			a_attribute_definition_real_refOrdered = append(a_attribute_definition_real_refOrdered, a_attribute_definition_real_ref)
-		}
-		sort.Slice(a_attribute_definition_real_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder[a_attribute_definition_real_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder[a_attribute_definition_real_refOrdered[j]]
-		})
-		for _, a_attribute_definition_real_ref := range a_attribute_definition_real_refOrdered {
+		for _, a_attribute_definition_real_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_DEFINITION_REAL_REFs, stageSet.Stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1050,14 +903,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_definition_string_refOrdered := []*A_ATTRIBUTE_DEFINITION_STRING_REF{}
-		for a_attribute_definition_string_ref := range stageSet.Stage.A_ATTRIBUTE_DEFINITION_STRING_REFs {
-			a_attribute_definition_string_refOrdered = append(a_attribute_definition_string_refOrdered, a_attribute_definition_string_ref)
-		}
-		sort.Slice(a_attribute_definition_string_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder[a_attribute_definition_string_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder[a_attribute_definition_string_refOrdered[j]]
-		})
-		for _, a_attribute_definition_string_ref := range a_attribute_definition_string_refOrdered {
+		for _, a_attribute_definition_string_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_DEFINITION_STRING_REFs, stageSet.Stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1077,14 +923,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_definition_xhtml_refOrdered := []*A_ATTRIBUTE_DEFINITION_XHTML_REF{}
-		for a_attribute_definition_xhtml_ref := range stageSet.Stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs {
-			a_attribute_definition_xhtml_refOrdered = append(a_attribute_definition_xhtml_refOrdered, a_attribute_definition_xhtml_ref)
-		}
-		sort.Slice(a_attribute_definition_xhtml_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder[a_attribute_definition_xhtml_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder[a_attribute_definition_xhtml_refOrdered[j]]
-		})
-		for _, a_attribute_definition_xhtml_ref := range a_attribute_definition_xhtml_refOrdered {
+		for _, a_attribute_definition_xhtml_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs, stageSet.Stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1104,14 +943,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_value_booleanOrdered := []*A_ATTRIBUTE_VALUE_BOOLEAN{}
-		for a_attribute_value_boolean := range stageSet.Stage.A_ATTRIBUTE_VALUE_BOOLEANs {
-			a_attribute_value_booleanOrdered = append(a_attribute_value_booleanOrdered, a_attribute_value_boolean)
-		}
-		sort.Slice(a_attribute_value_booleanOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[a_attribute_value_booleanOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[a_attribute_value_booleanOrdered[j]]
-		})
-		for _, a_attribute_value_boolean := range a_attribute_value_booleanOrdered {
+		for _, a_attribute_value_boolean := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_VALUE_BOOLEANs, stageSet.Stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1140,14 +972,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_value_dateOrdered := []*A_ATTRIBUTE_VALUE_DATE{}
-		for a_attribute_value_date := range stageSet.Stage.A_ATTRIBUTE_VALUE_DATEs {
-			a_attribute_value_dateOrdered = append(a_attribute_value_dateOrdered, a_attribute_value_date)
-		}
-		sort.Slice(a_attribute_value_dateOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder[a_attribute_value_dateOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder[a_attribute_value_dateOrdered[j]]
-		})
-		for _, a_attribute_value_date := range a_attribute_value_dateOrdered {
+		for _, a_attribute_value_date := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_VALUE_DATEs, stageSet.Stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1176,14 +1001,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_value_enumerationOrdered := []*A_ATTRIBUTE_VALUE_ENUMERATION{}
-		for a_attribute_value_enumeration := range stageSet.Stage.A_ATTRIBUTE_VALUE_ENUMERATIONs {
-			a_attribute_value_enumerationOrdered = append(a_attribute_value_enumerationOrdered, a_attribute_value_enumeration)
-		}
-		sort.Slice(a_attribute_value_enumerationOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[a_attribute_value_enumerationOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[a_attribute_value_enumerationOrdered[j]]
-		})
-		for _, a_attribute_value_enumeration := range a_attribute_value_enumerationOrdered {
+		for _, a_attribute_value_enumeration := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_VALUE_ENUMERATIONs, stageSet.Stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1212,14 +1030,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_value_integerOrdered := []*A_ATTRIBUTE_VALUE_INTEGER{}
-		for a_attribute_value_integer := range stageSet.Stage.A_ATTRIBUTE_VALUE_INTEGERs {
-			a_attribute_value_integerOrdered = append(a_attribute_value_integerOrdered, a_attribute_value_integer)
-		}
-		sort.Slice(a_attribute_value_integerOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder[a_attribute_value_integerOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder[a_attribute_value_integerOrdered[j]]
-		})
-		for _, a_attribute_value_integer := range a_attribute_value_integerOrdered {
+		for _, a_attribute_value_integer := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_VALUE_INTEGERs, stageSet.Stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1248,14 +1059,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_value_realOrdered := []*A_ATTRIBUTE_VALUE_REAL{}
-		for a_attribute_value_real := range stageSet.Stage.A_ATTRIBUTE_VALUE_REALs {
-			a_attribute_value_realOrdered = append(a_attribute_value_realOrdered, a_attribute_value_real)
-		}
-		sort.Slice(a_attribute_value_realOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder[a_attribute_value_realOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder[a_attribute_value_realOrdered[j]]
-		})
-		for _, a_attribute_value_real := range a_attribute_value_realOrdered {
+		for _, a_attribute_value_real := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_VALUE_REALs, stageSet.Stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1284,14 +1088,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_value_stringOrdered := []*A_ATTRIBUTE_VALUE_STRING{}
-		for a_attribute_value_string := range stageSet.Stage.A_ATTRIBUTE_VALUE_STRINGs {
-			a_attribute_value_stringOrdered = append(a_attribute_value_stringOrdered, a_attribute_value_string)
-		}
-		sort.Slice(a_attribute_value_stringOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder[a_attribute_value_stringOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder[a_attribute_value_stringOrdered[j]]
-		})
-		for _, a_attribute_value_string := range a_attribute_value_stringOrdered {
+		for _, a_attribute_value_string := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_VALUE_STRINGs, stageSet.Stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1320,14 +1117,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_value_xhtmlOrdered := []*A_ATTRIBUTE_VALUE_XHTML{}
-		for a_attribute_value_xhtml := range stageSet.Stage.A_ATTRIBUTE_VALUE_XHTMLs {
-			a_attribute_value_xhtmlOrdered = append(a_attribute_value_xhtmlOrdered, a_attribute_value_xhtml)
-		}
-		sort.Slice(a_attribute_value_xhtmlOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder[a_attribute_value_xhtmlOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder[a_attribute_value_xhtmlOrdered[j]]
-		})
-		for _, a_attribute_value_xhtml := range a_attribute_value_xhtmlOrdered {
+		for _, a_attribute_value_xhtml := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_VALUE_XHTMLs, stageSet.Stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1356,14 +1146,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_attribute_value_xhtml_1Ordered := []*A_ATTRIBUTE_VALUE_XHTML_1{}
-		for a_attribute_value_xhtml_1 := range stageSet.Stage.A_ATTRIBUTE_VALUE_XHTML_1s {
-			a_attribute_value_xhtml_1Ordered = append(a_attribute_value_xhtml_1Ordered, a_attribute_value_xhtml_1)
-		}
-		sort.Slice(a_attribute_value_xhtml_1Ordered, func(i, j int) bool {
-			return stageSet.Stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder[a_attribute_value_xhtml_1Ordered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder[a_attribute_value_xhtml_1Ordered[j]]
-		})
-		for _, a_attribute_value_xhtml_1 := range a_attribute_value_xhtml_1Ordered {
+		for _, a_attribute_value_xhtml_1 := range __gong__sortStageSetInstances(stageSet.Stage.A_ATTRIBUTE_VALUE_XHTML_1s, stageSet.Stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1452,14 +1235,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_childrenOrdered := []*A_CHILDREN{}
-		for a_children := range stageSet.Stage.A_CHILDRENs {
-			a_childrenOrdered = append(a_childrenOrdered, a_children)
-		}
-		sort.Slice(a_childrenOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_CHILDREN_stagedOrder[a_childrenOrdered[i]] < stageSet.Stage.A_CHILDREN_stagedOrder[a_childrenOrdered[j]]
-		})
-		for _, a_children := range a_childrenOrdered {
+		for _, a_children := range __gong__sortStageSetInstances(stageSet.Stage.A_CHILDRENs, stageSet.Stage.A_CHILDREN_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1488,14 +1264,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_core_contentOrdered := []*A_CORE_CONTENT{}
-		for a_core_content := range stageSet.Stage.A_CORE_CONTENTs {
-			a_core_contentOrdered = append(a_core_contentOrdered, a_core_content)
-		}
-		sort.Slice(a_core_contentOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_CORE_CONTENT_stagedOrder[a_core_contentOrdered[i]] < stageSet.Stage.A_CORE_CONTENT_stagedOrder[a_core_contentOrdered[j]]
-		})
-		for _, a_core_content := range a_core_contentOrdered {
+		for _, a_core_content := range __gong__sortStageSetInstances(stageSet.Stage.A_CORE_CONTENTs, stageSet.Stage.A_CORE_CONTENT_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1524,14 +1293,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_datatypesOrdered := []*A_DATATYPES{}
-		for a_datatypes := range stageSet.Stage.A_DATATYPESs {
-			a_datatypesOrdered = append(a_datatypesOrdered, a_datatypes)
-		}
-		sort.Slice(a_datatypesOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_DATATYPES_stagedOrder[a_datatypesOrdered[i]] < stageSet.Stage.A_DATATYPES_stagedOrder[a_datatypesOrdered[j]]
-		})
-		for _, a_datatypes := range a_datatypesOrdered {
+		for _, a_datatypes := range __gong__sortStageSetInstances(stageSet.Stage.A_DATATYPESs, stageSet.Stage.A_DATATYPES_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1620,14 +1382,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_datatype_definition_boolean_refOrdered := []*A_DATATYPE_DEFINITION_BOOLEAN_REF{}
-		for a_datatype_definition_boolean_ref := range stageSet.Stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs {
-			a_datatype_definition_boolean_refOrdered = append(a_datatype_definition_boolean_refOrdered, a_datatype_definition_boolean_ref)
-		}
-		sort.Slice(a_datatype_definition_boolean_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder[a_datatype_definition_boolean_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder[a_datatype_definition_boolean_refOrdered[j]]
-		})
-		for _, a_datatype_definition_boolean_ref := range a_datatype_definition_boolean_refOrdered {
+		for _, a_datatype_definition_boolean_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs, stageSet.Stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1647,14 +1402,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_datatype_definition_date_refOrdered := []*A_DATATYPE_DEFINITION_DATE_REF{}
-		for a_datatype_definition_date_ref := range stageSet.Stage.A_DATATYPE_DEFINITION_DATE_REFs {
-			a_datatype_definition_date_refOrdered = append(a_datatype_definition_date_refOrdered, a_datatype_definition_date_ref)
-		}
-		sort.Slice(a_datatype_definition_date_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder[a_datatype_definition_date_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder[a_datatype_definition_date_refOrdered[j]]
-		})
-		for _, a_datatype_definition_date_ref := range a_datatype_definition_date_refOrdered {
+		for _, a_datatype_definition_date_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_DATATYPE_DEFINITION_DATE_REFs, stageSet.Stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1674,14 +1422,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_datatype_definition_enumeration_refOrdered := []*A_DATATYPE_DEFINITION_ENUMERATION_REF{}
-		for a_datatype_definition_enumeration_ref := range stageSet.Stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs {
-			a_datatype_definition_enumeration_refOrdered = append(a_datatype_definition_enumeration_refOrdered, a_datatype_definition_enumeration_ref)
-		}
-		sort.Slice(a_datatype_definition_enumeration_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder[a_datatype_definition_enumeration_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder[a_datatype_definition_enumeration_refOrdered[j]]
-		})
-		for _, a_datatype_definition_enumeration_ref := range a_datatype_definition_enumeration_refOrdered {
+		for _, a_datatype_definition_enumeration_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs, stageSet.Stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1701,14 +1442,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_datatype_definition_integer_refOrdered := []*A_DATATYPE_DEFINITION_INTEGER_REF{}
-		for a_datatype_definition_integer_ref := range stageSet.Stage.A_DATATYPE_DEFINITION_INTEGER_REFs {
-			a_datatype_definition_integer_refOrdered = append(a_datatype_definition_integer_refOrdered, a_datatype_definition_integer_ref)
-		}
-		sort.Slice(a_datatype_definition_integer_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder[a_datatype_definition_integer_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder[a_datatype_definition_integer_refOrdered[j]]
-		})
-		for _, a_datatype_definition_integer_ref := range a_datatype_definition_integer_refOrdered {
+		for _, a_datatype_definition_integer_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_DATATYPE_DEFINITION_INTEGER_REFs, stageSet.Stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1728,14 +1462,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_datatype_definition_real_refOrdered := []*A_DATATYPE_DEFINITION_REAL_REF{}
-		for a_datatype_definition_real_ref := range stageSet.Stage.A_DATATYPE_DEFINITION_REAL_REFs {
-			a_datatype_definition_real_refOrdered = append(a_datatype_definition_real_refOrdered, a_datatype_definition_real_ref)
-		}
-		sort.Slice(a_datatype_definition_real_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder[a_datatype_definition_real_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder[a_datatype_definition_real_refOrdered[j]]
-		})
-		for _, a_datatype_definition_real_ref := range a_datatype_definition_real_refOrdered {
+		for _, a_datatype_definition_real_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_DATATYPE_DEFINITION_REAL_REFs, stageSet.Stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1755,14 +1482,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_datatype_definition_string_refOrdered := []*A_DATATYPE_DEFINITION_STRING_REF{}
-		for a_datatype_definition_string_ref := range stageSet.Stage.A_DATATYPE_DEFINITION_STRING_REFs {
-			a_datatype_definition_string_refOrdered = append(a_datatype_definition_string_refOrdered, a_datatype_definition_string_ref)
-		}
-		sort.Slice(a_datatype_definition_string_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder[a_datatype_definition_string_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder[a_datatype_definition_string_refOrdered[j]]
-		})
-		for _, a_datatype_definition_string_ref := range a_datatype_definition_string_refOrdered {
+		for _, a_datatype_definition_string_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_DATATYPE_DEFINITION_STRING_REFs, stageSet.Stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1782,14 +1502,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_datatype_definition_xhtml_refOrdered := []*A_DATATYPE_DEFINITION_XHTML_REF{}
-		for a_datatype_definition_xhtml_ref := range stageSet.Stage.A_DATATYPE_DEFINITION_XHTML_REFs {
-			a_datatype_definition_xhtml_refOrdered = append(a_datatype_definition_xhtml_refOrdered, a_datatype_definition_xhtml_ref)
-		}
-		sort.Slice(a_datatype_definition_xhtml_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder[a_datatype_definition_xhtml_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder[a_datatype_definition_xhtml_refOrdered[j]]
-		})
-		for _, a_datatype_definition_xhtml_ref := range a_datatype_definition_xhtml_refOrdered {
+		for _, a_datatype_definition_xhtml_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_DATATYPE_DEFINITION_XHTML_REFs, stageSet.Stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1809,14 +1522,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_editable_attsOrdered := []*A_EDITABLE_ATTS{}
-		for a_editable_atts := range stageSet.Stage.A_EDITABLE_ATTSs {
-			a_editable_attsOrdered = append(a_editable_attsOrdered, a_editable_atts)
-		}
-		sort.Slice(a_editable_attsOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_EDITABLE_ATTS_stagedOrder[a_editable_attsOrdered[i]] < stageSet.Stage.A_EDITABLE_ATTS_stagedOrder[a_editable_attsOrdered[j]]
-		})
-		for _, a_editable_atts := range a_editable_attsOrdered {
+		for _, a_editable_atts := range __gong__sortStageSetInstances(stageSet.Stage.A_EDITABLE_ATTSs, stageSet.Stage.A_EDITABLE_ATTS_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1842,14 +1548,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_enum_value_refOrdered := []*A_ENUM_VALUE_REF{}
-		for a_enum_value_ref := range stageSet.Stage.A_ENUM_VALUE_REFs {
-			a_enum_value_refOrdered = append(a_enum_value_refOrdered, a_enum_value_ref)
-		}
-		sort.Slice(a_enum_value_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_ENUM_VALUE_REF_stagedOrder[a_enum_value_refOrdered[i]] < stageSet.Stage.A_ENUM_VALUE_REF_stagedOrder[a_enum_value_refOrdered[j]]
-		})
-		for _, a_enum_value_ref := range a_enum_value_refOrdered {
+		for _, a_enum_value_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_ENUM_VALUE_REFs, stageSet.Stage.A_ENUM_VALUE_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1869,14 +1568,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_objectOrdered := []*A_OBJECT{}
-		for a_object := range stageSet.Stage.A_OBJECTs {
-			a_objectOrdered = append(a_objectOrdered, a_object)
-		}
-		sort.Slice(a_objectOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_OBJECT_stagedOrder[a_objectOrdered[i]] < stageSet.Stage.A_OBJECT_stagedOrder[a_objectOrdered[j]]
-		})
-		for _, a_object := range a_objectOrdered {
+		for _, a_object := range __gong__sortStageSetInstances(stageSet.Stage.A_OBJECTs, stageSet.Stage.A_OBJECT_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1896,14 +1588,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_propertiesOrdered := []*A_PROPERTIES{}
-		for a_properties := range stageSet.Stage.A_PROPERTIESs {
-			a_propertiesOrdered = append(a_propertiesOrdered, a_properties)
-		}
-		sort.Slice(a_propertiesOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_PROPERTIES_stagedOrder[a_propertiesOrdered[i]] < stageSet.Stage.A_PROPERTIES_stagedOrder[a_propertiesOrdered[j]]
-		})
-		for _, a_properties := range a_propertiesOrdered {
+		for _, a_properties := range __gong__sortStageSetInstances(stageSet.Stage.A_PROPERTIESs, stageSet.Stage.A_PROPERTIES_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1932,14 +1617,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_relation_group_type_refOrdered := []*A_RELATION_GROUP_TYPE_REF{}
-		for a_relation_group_type_ref := range stageSet.Stage.A_RELATION_GROUP_TYPE_REFs {
-			a_relation_group_type_refOrdered = append(a_relation_group_type_refOrdered, a_relation_group_type_ref)
-		}
-		sort.Slice(a_relation_group_type_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_RELATION_GROUP_TYPE_REF_stagedOrder[a_relation_group_type_refOrdered[i]] < stageSet.Stage.A_RELATION_GROUP_TYPE_REF_stagedOrder[a_relation_group_type_refOrdered[j]]
-		})
-		for _, a_relation_group_type_ref := range a_relation_group_type_refOrdered {
+		for _, a_relation_group_type_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_RELATION_GROUP_TYPE_REFs, stageSet.Stage.A_RELATION_GROUP_TYPE_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1959,14 +1637,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_source_1Ordered := []*A_SOURCE_1{}
-		for a_source_1 := range stageSet.Stage.A_SOURCE_1s {
-			a_source_1Ordered = append(a_source_1Ordered, a_source_1)
-		}
-		sort.Slice(a_source_1Ordered, func(i, j int) bool {
-			return stageSet.Stage.A_SOURCE_1_stagedOrder[a_source_1Ordered[i]] < stageSet.Stage.A_SOURCE_1_stagedOrder[a_source_1Ordered[j]]
-		})
-		for _, a_source_1 := range a_source_1Ordered {
+		for _, a_source_1 := range __gong__sortStageSetInstances(stageSet.Stage.A_SOURCE_1s, stageSet.Stage.A_SOURCE_1_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1986,14 +1657,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_source_specification_1Ordered := []*A_SOURCE_SPECIFICATION_1{}
-		for a_source_specification_1 := range stageSet.Stage.A_SOURCE_SPECIFICATION_1s {
-			a_source_specification_1Ordered = append(a_source_specification_1Ordered, a_source_specification_1)
-		}
-		sort.Slice(a_source_specification_1Ordered, func(i, j int) bool {
-			return stageSet.Stage.A_SOURCE_SPECIFICATION_1_stagedOrder[a_source_specification_1Ordered[i]] < stageSet.Stage.A_SOURCE_SPECIFICATION_1_stagedOrder[a_source_specification_1Ordered[j]]
-		})
-		for _, a_source_specification_1 := range a_source_specification_1Ordered {
+		for _, a_source_specification_1 := range __gong__sortStageSetInstances(stageSet.Stage.A_SOURCE_SPECIFICATION_1s, stageSet.Stage.A_SOURCE_SPECIFICATION_1_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2013,14 +1677,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_specificationsOrdered := []*A_SPECIFICATIONS{}
-		for a_specifications := range stageSet.Stage.A_SPECIFICATIONSs {
-			a_specificationsOrdered = append(a_specificationsOrdered, a_specifications)
-		}
-		sort.Slice(a_specificationsOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_SPECIFICATIONS_stagedOrder[a_specificationsOrdered[i]] < stageSet.Stage.A_SPECIFICATIONS_stagedOrder[a_specificationsOrdered[j]]
-		})
-		for _, a_specifications := range a_specificationsOrdered {
+		for _, a_specifications := range __gong__sortStageSetInstances(stageSet.Stage.A_SPECIFICATIONSs, stageSet.Stage.A_SPECIFICATIONS_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2049,14 +1706,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_specification_type_refOrdered := []*A_SPECIFICATION_TYPE_REF{}
-		for a_specification_type_ref := range stageSet.Stage.A_SPECIFICATION_TYPE_REFs {
-			a_specification_type_refOrdered = append(a_specification_type_refOrdered, a_specification_type_ref)
-		}
-		sort.Slice(a_specification_type_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_SPECIFICATION_TYPE_REF_stagedOrder[a_specification_type_refOrdered[i]] < stageSet.Stage.A_SPECIFICATION_TYPE_REF_stagedOrder[a_specification_type_refOrdered[j]]
-		})
-		for _, a_specification_type_ref := range a_specification_type_refOrdered {
+		for _, a_specification_type_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_SPECIFICATION_TYPE_REFs, stageSet.Stage.A_SPECIFICATION_TYPE_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2076,14 +1726,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_specified_valuesOrdered := []*A_SPECIFIED_VALUES{}
-		for a_specified_values := range stageSet.Stage.A_SPECIFIED_VALUESs {
-			a_specified_valuesOrdered = append(a_specified_valuesOrdered, a_specified_values)
-		}
-		sort.Slice(a_specified_valuesOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_SPECIFIED_VALUES_stagedOrder[a_specified_valuesOrdered[i]] < stageSet.Stage.A_SPECIFIED_VALUES_stagedOrder[a_specified_valuesOrdered[j]]
-		})
-		for _, a_specified_values := range a_specified_valuesOrdered {
+		for _, a_specified_values := range __gong__sortStageSetInstances(stageSet.Stage.A_SPECIFIED_VALUESs, stageSet.Stage.A_SPECIFIED_VALUES_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2112,14 +1755,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_spec_attributesOrdered := []*A_SPEC_ATTRIBUTES{}
-		for a_spec_attributes := range stageSet.Stage.A_SPEC_ATTRIBUTESs {
-			a_spec_attributesOrdered = append(a_spec_attributesOrdered, a_spec_attributes)
-		}
-		sort.Slice(a_spec_attributesOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_SPEC_ATTRIBUTES_stagedOrder[a_spec_attributesOrdered[i]] < stageSet.Stage.A_SPEC_ATTRIBUTES_stagedOrder[a_spec_attributesOrdered[j]]
-		})
-		for _, a_spec_attributes := range a_spec_attributesOrdered {
+		for _, a_spec_attributes := range __gong__sortStageSetInstances(stageSet.Stage.A_SPEC_ATTRIBUTESs, stageSet.Stage.A_SPEC_ATTRIBUTES_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2208,14 +1844,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_spec_objectsOrdered := []*A_SPEC_OBJECTS{}
-		for a_spec_objects := range stageSet.Stage.A_SPEC_OBJECTSs {
-			a_spec_objectsOrdered = append(a_spec_objectsOrdered, a_spec_objects)
-		}
-		sort.Slice(a_spec_objectsOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_SPEC_OBJECTS_stagedOrder[a_spec_objectsOrdered[i]] < stageSet.Stage.A_SPEC_OBJECTS_stagedOrder[a_spec_objectsOrdered[j]]
-		})
-		for _, a_spec_objects := range a_spec_objectsOrdered {
+		for _, a_spec_objects := range __gong__sortStageSetInstances(stageSet.Stage.A_SPEC_OBJECTSs, stageSet.Stage.A_SPEC_OBJECTS_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2244,14 +1873,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_spec_object_type_refOrdered := []*A_SPEC_OBJECT_TYPE_REF{}
-		for a_spec_object_type_ref := range stageSet.Stage.A_SPEC_OBJECT_TYPE_REFs {
-			a_spec_object_type_refOrdered = append(a_spec_object_type_refOrdered, a_spec_object_type_ref)
-		}
-		sort.Slice(a_spec_object_type_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder[a_spec_object_type_refOrdered[i]] < stageSet.Stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder[a_spec_object_type_refOrdered[j]]
-		})
-		for _, a_spec_object_type_ref := range a_spec_object_type_refOrdered {
+		for _, a_spec_object_type_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_SPEC_OBJECT_TYPE_REFs, stageSet.Stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2271,14 +1893,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_spec_relationsOrdered := []*A_SPEC_RELATIONS{}
-		for a_spec_relations := range stageSet.Stage.A_SPEC_RELATIONSs {
-			a_spec_relationsOrdered = append(a_spec_relationsOrdered, a_spec_relations)
-		}
-		sort.Slice(a_spec_relationsOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_SPEC_RELATIONS_stagedOrder[a_spec_relationsOrdered[i]] < stageSet.Stage.A_SPEC_RELATIONS_stagedOrder[a_spec_relationsOrdered[j]]
-		})
-		for _, a_spec_relations := range a_spec_relationsOrdered {
+		for _, a_spec_relations := range __gong__sortStageSetInstances(stageSet.Stage.A_SPEC_RELATIONSs, stageSet.Stage.A_SPEC_RELATIONS_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2307,14 +1922,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_spec_relation_groupsOrdered := []*A_SPEC_RELATION_GROUPS{}
-		for a_spec_relation_groups := range stageSet.Stage.A_SPEC_RELATION_GROUPSs {
-			a_spec_relation_groupsOrdered = append(a_spec_relation_groupsOrdered, a_spec_relation_groups)
-		}
-		sort.Slice(a_spec_relation_groupsOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_SPEC_RELATION_GROUPS_stagedOrder[a_spec_relation_groupsOrdered[i]] < stageSet.Stage.A_SPEC_RELATION_GROUPS_stagedOrder[a_spec_relation_groupsOrdered[j]]
-		})
-		for _, a_spec_relation_groups := range a_spec_relation_groupsOrdered {
+		for _, a_spec_relation_groups := range __gong__sortStageSetInstances(stageSet.Stage.A_SPEC_RELATION_GROUPSs, stageSet.Stage.A_SPEC_RELATION_GROUPS_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2343,14 +1951,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_spec_relation_refOrdered := []*A_SPEC_RELATION_REF{}
-		for a_spec_relation_ref := range stageSet.Stage.A_SPEC_RELATION_REFs {
-			a_spec_relation_refOrdered = append(a_spec_relation_refOrdered, a_spec_relation_ref)
-		}
-		sort.Slice(a_spec_relation_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_SPEC_RELATION_REF_stagedOrder[a_spec_relation_refOrdered[i]] < stageSet.Stage.A_SPEC_RELATION_REF_stagedOrder[a_spec_relation_refOrdered[j]]
-		})
-		for _, a_spec_relation_ref := range a_spec_relation_refOrdered {
+		for _, a_spec_relation_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_SPEC_RELATION_REFs, stageSet.Stage.A_SPEC_RELATION_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2370,14 +1971,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_spec_relation_type_refOrdered := []*A_SPEC_RELATION_TYPE_REF{}
-		for a_spec_relation_type_ref := range stageSet.Stage.A_SPEC_RELATION_TYPE_REFs {
-			a_spec_relation_type_refOrdered = append(a_spec_relation_type_refOrdered, a_spec_relation_type_ref)
-		}
-		sort.Slice(a_spec_relation_type_refOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_SPEC_RELATION_TYPE_REF_stagedOrder[a_spec_relation_type_refOrdered[i]] < stageSet.Stage.A_SPEC_RELATION_TYPE_REF_stagedOrder[a_spec_relation_type_refOrdered[j]]
-		})
-		for _, a_spec_relation_type_ref := range a_spec_relation_type_refOrdered {
+		for _, a_spec_relation_type_ref := range __gong__sortStageSetInstances(stageSet.Stage.A_SPEC_RELATION_TYPE_REFs, stageSet.Stage.A_SPEC_RELATION_TYPE_REF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2397,14 +1991,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_spec_typesOrdered := []*A_SPEC_TYPES{}
-		for a_spec_types := range stageSet.Stage.A_SPEC_TYPESs {
-			a_spec_typesOrdered = append(a_spec_typesOrdered, a_spec_types)
-		}
-		sort.Slice(a_spec_typesOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_SPEC_TYPES_stagedOrder[a_spec_typesOrdered[i]] < stageSet.Stage.A_SPEC_TYPES_stagedOrder[a_spec_typesOrdered[j]]
-		})
-		for _, a_spec_types := range a_spec_typesOrdered {
+		for _, a_spec_types := range __gong__sortStageSetInstances(stageSet.Stage.A_SPEC_TYPESs, stageSet.Stage.A_SPEC_TYPES_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2463,14 +2050,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_the_headerOrdered := []*A_THE_HEADER{}
-		for a_the_header := range stageSet.Stage.A_THE_HEADERs {
-			a_the_headerOrdered = append(a_the_headerOrdered, a_the_header)
-		}
-		sort.Slice(a_the_headerOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_THE_HEADER_stagedOrder[a_the_headerOrdered[i]] < stageSet.Stage.A_THE_HEADER_stagedOrder[a_the_headerOrdered[j]]
-		})
-		for _, a_the_header := range a_the_headerOrdered {
+		for _, a_the_header := range __gong__sortStageSetInstances(stageSet.Stage.A_THE_HEADERs, stageSet.Stage.A_THE_HEADER_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2499,14 +2079,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		a_tool_extensionsOrdered := []*A_TOOL_EXTENSIONS{}
-		for a_tool_extensions := range stageSet.Stage.A_TOOL_EXTENSIONSs {
-			a_tool_extensionsOrdered = append(a_tool_extensionsOrdered, a_tool_extensions)
-		}
-		sort.Slice(a_tool_extensionsOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_TOOL_EXTENSIONS_stagedOrder[a_tool_extensionsOrdered[i]] < stageSet.Stage.A_TOOL_EXTENSIONS_stagedOrder[a_tool_extensionsOrdered[j]]
-		})
-		for _, a_tool_extensions := range a_tool_extensionsOrdered {
+		for _, a_tool_extensions := range __gong__sortStageSetInstances(stageSet.Stage.A_TOOL_EXTENSIONSs, stageSet.Stage.A_TOOL_EXTENSIONS_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2535,14 +2108,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		datatype_definition_booleanOrdered := []*DATATYPE_DEFINITION_BOOLEAN{}
-		for datatype_definition_boolean := range stageSet.Stage.DATATYPE_DEFINITION_BOOLEANs {
-			datatype_definition_booleanOrdered = append(datatype_definition_booleanOrdered, datatype_definition_boolean)
-		}
-		sort.Slice(datatype_definition_booleanOrdered, func(i, j int) bool {
-			return stageSet.Stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder[datatype_definition_booleanOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder[datatype_definition_booleanOrdered[j]]
-		})
-		for _, datatype_definition_boolean := range datatype_definition_booleanOrdered {
+		for _, datatype_definition_boolean := range __gong__sortStageSetInstances(stageSet.Stage.DATATYPE_DEFINITION_BOOLEANs, stageSet.Stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2575,14 +2141,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		datatype_definition_dateOrdered := []*DATATYPE_DEFINITION_DATE{}
-		for datatype_definition_date := range stageSet.Stage.DATATYPE_DEFINITION_DATEs {
-			datatype_definition_dateOrdered = append(datatype_definition_dateOrdered, datatype_definition_date)
-		}
-		sort.Slice(datatype_definition_dateOrdered, func(i, j int) bool {
-			return stageSet.Stage.DATATYPE_DEFINITION_DATE_stagedOrder[datatype_definition_dateOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_DATE_stagedOrder[datatype_definition_dateOrdered[j]]
-		})
-		for _, datatype_definition_date := range datatype_definition_dateOrdered {
+		for _, datatype_definition_date := range __gong__sortStageSetInstances(stageSet.Stage.DATATYPE_DEFINITION_DATEs, stageSet.Stage.DATATYPE_DEFINITION_DATE_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2615,14 +2174,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		datatype_definition_enumerationOrdered := []*DATATYPE_DEFINITION_ENUMERATION{}
-		for datatype_definition_enumeration := range stageSet.Stage.DATATYPE_DEFINITION_ENUMERATIONs {
-			datatype_definition_enumerationOrdered = append(datatype_definition_enumerationOrdered, datatype_definition_enumeration)
-		}
-		sort.Slice(datatype_definition_enumerationOrdered, func(i, j int) bool {
-			return stageSet.Stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder[datatype_definition_enumerationOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder[datatype_definition_enumerationOrdered[j]]
-		})
-		for _, datatype_definition_enumeration := range datatype_definition_enumerationOrdered {
+		for _, datatype_definition_enumeration := range __gong__sortStageSetInstances(stageSet.Stage.DATATYPE_DEFINITION_ENUMERATIONs, stageSet.Stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2665,14 +2217,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		datatype_definition_integerOrdered := []*DATATYPE_DEFINITION_INTEGER{}
-		for datatype_definition_integer := range stageSet.Stage.DATATYPE_DEFINITION_INTEGERs {
-			datatype_definition_integerOrdered = append(datatype_definition_integerOrdered, datatype_definition_integer)
-		}
-		sort.Slice(datatype_definition_integerOrdered, func(i, j int) bool {
-			return stageSet.Stage.DATATYPE_DEFINITION_INTEGER_stagedOrder[datatype_definition_integerOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_INTEGER_stagedOrder[datatype_definition_integerOrdered[j]]
-		})
-		for _, datatype_definition_integer := range datatype_definition_integerOrdered {
+		for _, datatype_definition_integer := range __gong__sortStageSetInstances(stageSet.Stage.DATATYPE_DEFINITION_INTEGERs, stageSet.Stage.DATATYPE_DEFINITION_INTEGER_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2707,14 +2252,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		datatype_definition_realOrdered := []*DATATYPE_DEFINITION_REAL{}
-		for datatype_definition_real := range stageSet.Stage.DATATYPE_DEFINITION_REALs {
-			datatype_definition_realOrdered = append(datatype_definition_realOrdered, datatype_definition_real)
-		}
-		sort.Slice(datatype_definition_realOrdered, func(i, j int) bool {
-			return stageSet.Stage.DATATYPE_DEFINITION_REAL_stagedOrder[datatype_definition_realOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_REAL_stagedOrder[datatype_definition_realOrdered[j]]
-		})
-		for _, datatype_definition_real := range datatype_definition_realOrdered {
+		for _, datatype_definition_real := range __gong__sortStageSetInstances(stageSet.Stage.DATATYPE_DEFINITION_REALs, stageSet.Stage.DATATYPE_DEFINITION_REAL_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2750,14 +2288,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		datatype_definition_stringOrdered := []*DATATYPE_DEFINITION_STRING{}
-		for datatype_definition_string := range stageSet.Stage.DATATYPE_DEFINITION_STRINGs {
-			datatype_definition_stringOrdered = append(datatype_definition_stringOrdered, datatype_definition_string)
-		}
-		sort.Slice(datatype_definition_stringOrdered, func(i, j int) bool {
-			return stageSet.Stage.DATATYPE_DEFINITION_STRING_stagedOrder[datatype_definition_stringOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_STRING_stagedOrder[datatype_definition_stringOrdered[j]]
-		})
-		for _, datatype_definition_string := range datatype_definition_stringOrdered {
+		for _, datatype_definition_string := range __gong__sortStageSetInstances(stageSet.Stage.DATATYPE_DEFINITION_STRINGs, stageSet.Stage.DATATYPE_DEFINITION_STRING_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2791,14 +2322,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		datatype_definition_xhtmlOrdered := []*DATATYPE_DEFINITION_XHTML{}
-		for datatype_definition_xhtml := range stageSet.Stage.DATATYPE_DEFINITION_XHTMLs {
-			datatype_definition_xhtmlOrdered = append(datatype_definition_xhtmlOrdered, datatype_definition_xhtml)
-		}
-		sort.Slice(datatype_definition_xhtmlOrdered, func(i, j int) bool {
-			return stageSet.Stage.DATATYPE_DEFINITION_XHTML_stagedOrder[datatype_definition_xhtmlOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_XHTML_stagedOrder[datatype_definition_xhtmlOrdered[j]]
-		})
-		for _, datatype_definition_xhtml := range datatype_definition_xhtmlOrdered {
+		for _, datatype_definition_xhtml := range __gong__sortStageSetInstances(stageSet.Stage.DATATYPE_DEFINITION_XHTMLs, stageSet.Stage.DATATYPE_DEFINITION_XHTML_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2831,14 +2355,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		embedded_valueOrdered := []*EMBEDDED_VALUE{}
-		for embedded_value := range stageSet.Stage.EMBEDDED_VALUEs {
-			embedded_valueOrdered = append(embedded_valueOrdered, embedded_value)
-		}
-		sort.Slice(embedded_valueOrdered, func(i, j int) bool {
-			return stageSet.Stage.EMBEDDED_VALUE_stagedOrder[embedded_valueOrdered[i]] < stageSet.Stage.EMBEDDED_VALUE_stagedOrder[embedded_valueOrdered[j]]
-		})
-		for _, embedded_value := range embedded_valueOrdered {
+		for _, embedded_value := range __gong__sortStageSetInstances(stageSet.Stage.EMBEDDED_VALUEs, stageSet.Stage.EMBEDDED_VALUE_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2859,14 +2376,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		enum_valueOrdered := []*ENUM_VALUE{}
-		for enum_value := range stageSet.Stage.ENUM_VALUEs {
-			enum_valueOrdered = append(enum_valueOrdered, enum_value)
-		}
-		sort.Slice(enum_valueOrdered, func(i, j int) bool {
-			return stageSet.Stage.ENUM_VALUE_stagedOrder[enum_valueOrdered[i]] < stageSet.Stage.ENUM_VALUE_stagedOrder[enum_valueOrdered[j]]
-		})
-		for _, enum_value := range enum_valueOrdered {
+		for _, enum_value := range __gong__sortStageSetInstances(stageSet.Stage.ENUM_VALUEs, stageSet.Stage.ENUM_VALUE_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2909,14 +2419,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		relation_groupOrdered := []*RELATION_GROUP{}
-		for relation_group := range stageSet.Stage.RELATION_GROUPs {
-			relation_groupOrdered = append(relation_groupOrdered, relation_group)
-		}
-		sort.Slice(relation_groupOrdered, func(i, j int) bool {
-			return stageSet.Stage.RELATION_GROUP_stagedOrder[relation_groupOrdered[i]] < stageSet.Stage.RELATION_GROUP_stagedOrder[relation_groupOrdered[j]]
-		})
-		for _, relation_group := range relation_groupOrdered {
+		for _, relation_group := range __gong__sortStageSetInstances(stageSet.Stage.RELATION_GROUPs, stageSet.Stage.RELATION_GROUP_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -2989,14 +2492,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		relation_group_typeOrdered := []*RELATION_GROUP_TYPE{}
-		for relation_group_type := range stageSet.Stage.RELATION_GROUP_TYPEs {
-			relation_group_typeOrdered = append(relation_group_typeOrdered, relation_group_type)
-		}
-		sort.Slice(relation_group_typeOrdered, func(i, j int) bool {
-			return stageSet.Stage.RELATION_GROUP_TYPE_stagedOrder[relation_group_typeOrdered[i]] < stageSet.Stage.RELATION_GROUP_TYPE_stagedOrder[relation_group_typeOrdered[j]]
-		})
-		for _, relation_group_type := range relation_group_typeOrdered {
+		for _, relation_group_type := range __gong__sortStageSetInstances(stageSet.Stage.RELATION_GROUP_TYPEs, stageSet.Stage.RELATION_GROUP_TYPE_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3039,14 +2535,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		req_ifOrdered := []*REQ_IF{}
-		for req_if := range stageSet.Stage.REQ_IFs {
-			req_ifOrdered = append(req_ifOrdered, req_if)
-		}
-		sort.Slice(req_ifOrdered, func(i, j int) bool {
-			return stageSet.Stage.REQ_IF_stagedOrder[req_ifOrdered[i]] < stageSet.Stage.REQ_IF_stagedOrder[req_ifOrdered[j]]
-		})
-		for _, req_if := range req_ifOrdered {
+		for _, req_if := range __gong__sortStageSetInstances(stageSet.Stage.REQ_IFs, stageSet.Stage.REQ_IF_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3096,14 +2585,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		req_if_contentOrdered := []*REQ_IF_CONTENT{}
-		for req_if_content := range stageSet.Stage.REQ_IF_CONTENTs {
-			req_if_contentOrdered = append(req_if_contentOrdered, req_if_content)
-		}
-		sort.Slice(req_if_contentOrdered, func(i, j int) bool {
-			return stageSet.Stage.REQ_IF_CONTENT_stagedOrder[req_if_contentOrdered[i]] < stageSet.Stage.REQ_IF_CONTENT_stagedOrder[req_if_contentOrdered[j]]
-		})
-		for _, req_if_content := range req_if_contentOrdered {
+		for _, req_if_content := range __gong__sortStageSetInstances(stageSet.Stage.REQ_IF_CONTENTs, stageSet.Stage.REQ_IF_CONTENT_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3182,14 +2664,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		req_if_headerOrdered := []*REQ_IF_HEADER{}
-		for req_if_header := range stageSet.Stage.REQ_IF_HEADERs {
-			req_if_headerOrdered = append(req_if_headerOrdered, req_if_header)
-		}
-		sort.Slice(req_if_headerOrdered, func(i, j int) bool {
-			return stageSet.Stage.REQ_IF_HEADER_stagedOrder[req_if_headerOrdered[i]] < stageSet.Stage.REQ_IF_HEADER_stagedOrder[req_if_headerOrdered[j]]
-		})
-		for _, req_if_header := range req_if_headerOrdered {
+		for _, req_if_header := range __gong__sortStageSetInstances(stageSet.Stage.REQ_IF_HEADERs, stageSet.Stage.REQ_IF_HEADER_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3216,14 +2691,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		req_if_tool_extensionOrdered := []*REQ_IF_TOOL_EXTENSION{}
-		for req_if_tool_extension := range stageSet.Stage.REQ_IF_TOOL_EXTENSIONs {
-			req_if_tool_extensionOrdered = append(req_if_tool_extensionOrdered, req_if_tool_extension)
-		}
-		sort.Slice(req_if_tool_extensionOrdered, func(i, j int) bool {
-			return stageSet.Stage.REQ_IF_TOOL_EXTENSION_stagedOrder[req_if_tool_extensionOrdered[i]] < stageSet.Stage.REQ_IF_TOOL_EXTENSION_stagedOrder[req_if_tool_extensionOrdered[j]]
-		})
-		for _, req_if_tool_extension := range req_if_tool_extensionOrdered {
+		for _, req_if_tool_extension := range __gong__sortStageSetInstances(stageSet.Stage.REQ_IF_TOOL_EXTENSIONs, stageSet.Stage.REQ_IF_TOOL_EXTENSION_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3242,14 +2710,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		specificationOrdered := []*SPECIFICATION{}
-		for specification := range stageSet.Stage.SPECIFICATIONs {
-			specificationOrdered = append(specificationOrdered, specification)
-		}
-		sort.Slice(specificationOrdered, func(i, j int) bool {
-			return stageSet.Stage.SPECIFICATION_stagedOrder[specificationOrdered[i]] < stageSet.Stage.SPECIFICATION_stagedOrder[specificationOrdered[j]]
-		})
-		for _, specification := range specificationOrdered {
+		for _, specification := range __gong__sortStageSetInstances(stageSet.Stage.SPECIFICATIONs, stageSet.Stage.SPECIFICATION_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3312,14 +2773,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		specification_typeOrdered := []*SPECIFICATION_TYPE{}
-		for specification_type := range stageSet.Stage.SPECIFICATION_TYPEs {
-			specification_typeOrdered = append(specification_typeOrdered, specification_type)
-		}
-		sort.Slice(specification_typeOrdered, func(i, j int) bool {
-			return stageSet.Stage.SPECIFICATION_TYPE_stagedOrder[specification_typeOrdered[i]] < stageSet.Stage.SPECIFICATION_TYPE_stagedOrder[specification_typeOrdered[j]]
-		})
-		for _, specification_type := range specification_typeOrdered {
+		for _, specification_type := range __gong__sortStageSetInstances(stageSet.Stage.SPECIFICATION_TYPEs, stageSet.Stage.SPECIFICATION_TYPE_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3362,14 +2816,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		spec_hierarchyOrdered := []*SPEC_HIERARCHY{}
-		for spec_hierarchy := range stageSet.Stage.SPEC_HIERARCHYs {
-			spec_hierarchyOrdered = append(spec_hierarchyOrdered, spec_hierarchy)
-		}
-		sort.Slice(spec_hierarchyOrdered, func(i, j int) bool {
-			return stageSet.Stage.SPEC_HIERARCHY_stagedOrder[spec_hierarchyOrdered[i]] < stageSet.Stage.SPEC_HIERARCHY_stagedOrder[spec_hierarchyOrdered[j]]
-		})
-		for _, spec_hierarchy := range spec_hierarchyOrdered {
+		for _, spec_hierarchy := range __gong__sortStageSetInstances(stageSet.Stage.SPEC_HIERARCHYs, stageSet.Stage.SPEC_HIERARCHY_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3434,14 +2881,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		spec_objectOrdered := []*SPEC_OBJECT{}
-		for spec_object := range stageSet.Stage.SPEC_OBJECTs {
-			spec_objectOrdered = append(spec_objectOrdered, spec_object)
-		}
-		sort.Slice(spec_objectOrdered, func(i, j int) bool {
-			return stageSet.Stage.SPEC_OBJECT_stagedOrder[spec_objectOrdered[i]] < stageSet.Stage.SPEC_OBJECT_stagedOrder[spec_objectOrdered[j]]
-		})
-		for _, spec_object := range spec_objectOrdered {
+		for _, spec_object := range __gong__sortStageSetInstances(stageSet.Stage.SPEC_OBJECTs, stageSet.Stage.SPEC_OBJECT_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3494,14 +2934,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		spec_object_typeOrdered := []*SPEC_OBJECT_TYPE{}
-		for spec_object_type := range stageSet.Stage.SPEC_OBJECT_TYPEs {
-			spec_object_typeOrdered = append(spec_object_typeOrdered, spec_object_type)
-		}
-		sort.Slice(spec_object_typeOrdered, func(i, j int) bool {
-			return stageSet.Stage.SPEC_OBJECT_TYPE_stagedOrder[spec_object_typeOrdered[i]] < stageSet.Stage.SPEC_OBJECT_TYPE_stagedOrder[spec_object_typeOrdered[j]]
-		})
-		for _, spec_object_type := range spec_object_typeOrdered {
+		for _, spec_object_type := range __gong__sortStageSetInstances(stageSet.Stage.SPEC_OBJECT_TYPEs, stageSet.Stage.SPEC_OBJECT_TYPE_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3544,14 +2977,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		spec_relationOrdered := []*SPEC_RELATION{}
-		for spec_relation := range stageSet.Stage.SPEC_RELATIONs {
-			spec_relationOrdered = append(spec_relationOrdered, spec_relation)
-		}
-		sort.Slice(spec_relationOrdered, func(i, j int) bool {
-			return stageSet.Stage.SPEC_RELATION_stagedOrder[spec_relationOrdered[i]] < stageSet.Stage.SPEC_RELATION_stagedOrder[spec_relationOrdered[j]]
-		})
-		for _, spec_relation := range spec_relationOrdered {
+		for _, spec_relation := range __gong__sortStageSetInstances(stageSet.Stage.SPEC_RELATIONs, stageSet.Stage.SPEC_RELATION_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3624,14 +3050,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		spec_relation_typeOrdered := []*SPEC_RELATION_TYPE{}
-		for spec_relation_type := range stageSet.Stage.SPEC_RELATION_TYPEs {
-			spec_relation_typeOrdered = append(spec_relation_typeOrdered, spec_relation_type)
-		}
-		sort.Slice(spec_relation_typeOrdered, func(i, j int) bool {
-			return stageSet.Stage.SPEC_RELATION_TYPE_stagedOrder[spec_relation_typeOrdered[i]] < stageSet.Stage.SPEC_RELATION_TYPE_stagedOrder[spec_relation_typeOrdered[j]]
-		})
-		for _, spec_relation_type := range spec_relation_typeOrdered {
+		for _, spec_relation_type := range __gong__sortStageSetInstances(stageSet.Stage.SPEC_RELATION_TYPEs, stageSet.Stage.SPEC_RELATION_TYPE_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3674,14 +3093,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		xhtml_contentOrdered := []*XHTML_CONTENT{}
-		for xhtml_content := range stageSet.Stage.XHTML_CONTENTs {
-			xhtml_contentOrdered = append(xhtml_contentOrdered, xhtml_content)
-		}
-		sort.Slice(xhtml_contentOrdered, func(i, j int) bool {
-			return stageSet.Stage.XHTML_CONTENT_stagedOrder[xhtml_contentOrdered[i]] < stageSet.Stage.XHTML_CONTENT_stagedOrder[xhtml_contentOrdered[j]]
-		})
-		for _, xhtml_content := range xhtml_contentOrdered {
+		for _, xhtml_content := range __gong__sortStageSetInstances(stageSet.Stage.XHTML_CONTENTs, stageSet.Stage.XHTML_CONTENT_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -3843,929 +3255,173 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "ALTERNATIVE_ID":
-					if !preserveOrder {
-						inst := (&ALTERNATIVE_ID{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ALTERNATIVE_ID)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ALTERNATIVE_ID), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_DEFINITION_BOOLEAN":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_DEFINITION_BOOLEAN{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_DEFINITION_BOOLEAN)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_DEFINITION_BOOLEAN), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_DEFINITION_DATE":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_DEFINITION_DATE{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_DEFINITION_DATE)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_DEFINITION_DATE), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_DEFINITION_ENUMERATION":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_DEFINITION_ENUMERATION{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_DEFINITION_ENUMERATION)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_DEFINITION_ENUMERATION), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_DEFINITION_INTEGER":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_DEFINITION_INTEGER{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_DEFINITION_INTEGER)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_DEFINITION_INTEGER), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_DEFINITION_REAL":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_DEFINITION_REAL{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_DEFINITION_REAL)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_DEFINITION_REAL), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_DEFINITION_STRING":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_DEFINITION_STRING{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_DEFINITION_STRING)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_DEFINITION_STRING), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_DEFINITION_XHTML":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_DEFINITION_XHTML{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_DEFINITION_XHTML)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_DEFINITION_XHTML), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_VALUE_BOOLEAN":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_VALUE_BOOLEAN{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_VALUE_BOOLEAN)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_VALUE_BOOLEAN), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_VALUE_DATE":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_VALUE_DATE{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_VALUE_DATE)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_VALUE_DATE), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_VALUE_ENUMERATION":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_VALUE_ENUMERATION{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_VALUE_ENUMERATION)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_VALUE_ENUMERATION), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_VALUE_INTEGER":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_VALUE_INTEGER{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_VALUE_INTEGER)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_VALUE_INTEGER), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_VALUE_REAL":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_VALUE_REAL{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_VALUE_REAL)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_VALUE_REAL), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_VALUE_STRING":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_VALUE_STRING{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_VALUE_STRING)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_VALUE_STRING), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ATTRIBUTE_VALUE_XHTML":
-					if !preserveOrder {
-						inst := (&ATTRIBUTE_VALUE_XHTML{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ATTRIBUTE_VALUE_XHTML)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ATTRIBUTE_VALUE_XHTML), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ALTERNATIVE_ID":
-					if !preserveOrder {
-						inst := (&A_ALTERNATIVE_ID{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ALTERNATIVE_ID)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ALTERNATIVE_ID), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_DEFINITION_BOOLEAN_REF":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_DEFINITION_BOOLEAN_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_DEFINITION_BOOLEAN_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_DEFINITION_BOOLEAN_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_DEFINITION_DATE_REF":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_DEFINITION_DATE_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_DEFINITION_DATE_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_DEFINITION_DATE_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_DEFINITION_ENUMERATION_REF":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_DEFINITION_ENUMERATION_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_DEFINITION_ENUMERATION_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_DEFINITION_ENUMERATION_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_DEFINITION_INTEGER_REF":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_DEFINITION_INTEGER_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_DEFINITION_INTEGER_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_DEFINITION_INTEGER_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_DEFINITION_REAL_REF":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_DEFINITION_REAL_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_DEFINITION_REAL_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_DEFINITION_REAL_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_DEFINITION_STRING_REF":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_DEFINITION_STRING_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_DEFINITION_STRING_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_DEFINITION_STRING_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_DEFINITION_XHTML_REF":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_DEFINITION_XHTML_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_DEFINITION_XHTML_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_DEFINITION_XHTML_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_VALUE_BOOLEAN":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_VALUE_BOOLEAN{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_VALUE_BOOLEAN)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_VALUE_BOOLEAN), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_VALUE_DATE":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_VALUE_DATE{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_VALUE_DATE)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_VALUE_DATE), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_VALUE_ENUMERATION":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_VALUE_ENUMERATION{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_VALUE_ENUMERATION)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_VALUE_ENUMERATION), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_VALUE_INTEGER":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_VALUE_INTEGER{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_VALUE_INTEGER)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_VALUE_INTEGER), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_VALUE_REAL":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_VALUE_REAL{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_VALUE_REAL)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_VALUE_REAL), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_VALUE_STRING":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_VALUE_STRING{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_VALUE_STRING)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_VALUE_STRING), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_VALUE_XHTML":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_VALUE_XHTML{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_VALUE_XHTML)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_VALUE_XHTML), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ATTRIBUTE_VALUE_XHTML_1":
-					if !preserveOrder {
-						inst := (&A_ATTRIBUTE_VALUE_XHTML_1{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ATTRIBUTE_VALUE_XHTML_1)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ATTRIBUTE_VALUE_XHTML_1), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_CHILDREN":
-					if !preserveOrder {
-						inst := (&A_CHILDREN{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_CHILDREN)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_CHILDREN), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_CORE_CONTENT":
-					if !preserveOrder {
-						inst := (&A_CORE_CONTENT{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_CORE_CONTENT)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_CORE_CONTENT), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_DATATYPES":
-					if !preserveOrder {
-						inst := (&A_DATATYPES{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_DATATYPES)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_DATATYPES), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_DATATYPE_DEFINITION_BOOLEAN_REF":
-					if !preserveOrder {
-						inst := (&A_DATATYPE_DEFINITION_BOOLEAN_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_DATATYPE_DEFINITION_BOOLEAN_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_DATATYPE_DEFINITION_BOOLEAN_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_DATATYPE_DEFINITION_DATE_REF":
-					if !preserveOrder {
-						inst := (&A_DATATYPE_DEFINITION_DATE_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_DATATYPE_DEFINITION_DATE_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_DATATYPE_DEFINITION_DATE_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_DATATYPE_DEFINITION_ENUMERATION_REF":
-					if !preserveOrder {
-						inst := (&A_DATATYPE_DEFINITION_ENUMERATION_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_DATATYPE_DEFINITION_ENUMERATION_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_DATATYPE_DEFINITION_ENUMERATION_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_DATATYPE_DEFINITION_INTEGER_REF":
-					if !preserveOrder {
-						inst := (&A_DATATYPE_DEFINITION_INTEGER_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_DATATYPE_DEFINITION_INTEGER_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_DATATYPE_DEFINITION_INTEGER_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_DATATYPE_DEFINITION_REAL_REF":
-					if !preserveOrder {
-						inst := (&A_DATATYPE_DEFINITION_REAL_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_DATATYPE_DEFINITION_REAL_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_DATATYPE_DEFINITION_REAL_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_DATATYPE_DEFINITION_STRING_REF":
-					if !preserveOrder {
-						inst := (&A_DATATYPE_DEFINITION_STRING_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_DATATYPE_DEFINITION_STRING_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_DATATYPE_DEFINITION_STRING_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_DATATYPE_DEFINITION_XHTML_REF":
-					if !preserveOrder {
-						inst := (&A_DATATYPE_DEFINITION_XHTML_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_DATATYPE_DEFINITION_XHTML_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_DATATYPE_DEFINITION_XHTML_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_EDITABLE_ATTS":
-					if !preserveOrder {
-						inst := (&A_EDITABLE_ATTS{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_EDITABLE_ATTS)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_EDITABLE_ATTS), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_ENUM_VALUE_REF":
-					if !preserveOrder {
-						inst := (&A_ENUM_VALUE_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_ENUM_VALUE_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_ENUM_VALUE_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_OBJECT":
-					if !preserveOrder {
-						inst := (&A_OBJECT{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_OBJECT)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_OBJECT), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_PROPERTIES":
-					if !preserveOrder {
-						inst := (&A_PROPERTIES{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_PROPERTIES)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_PROPERTIES), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_RELATION_GROUP_TYPE_REF":
-					if !preserveOrder {
-						inst := (&A_RELATION_GROUP_TYPE_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_RELATION_GROUP_TYPE_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_RELATION_GROUP_TYPE_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SOURCE_1":
-					if !preserveOrder {
-						inst := (&A_SOURCE_1{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SOURCE_1)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SOURCE_1), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SOURCE_SPECIFICATION_1":
-					if !preserveOrder {
-						inst := (&A_SOURCE_SPECIFICATION_1{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SOURCE_SPECIFICATION_1)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SOURCE_SPECIFICATION_1), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPECIFICATIONS":
-					if !preserveOrder {
-						inst := (&A_SPECIFICATIONS{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SPECIFICATIONS)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SPECIFICATIONS), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPECIFICATION_TYPE_REF":
-					if !preserveOrder {
-						inst := (&A_SPECIFICATION_TYPE_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SPECIFICATION_TYPE_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SPECIFICATION_TYPE_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPECIFIED_VALUES":
-					if !preserveOrder {
-						inst := (&A_SPECIFIED_VALUES{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SPECIFIED_VALUES)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SPECIFIED_VALUES), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPEC_ATTRIBUTES":
-					if !preserveOrder {
-						inst := (&A_SPEC_ATTRIBUTES{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SPEC_ATTRIBUTES)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SPEC_ATTRIBUTES), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPEC_OBJECTS":
-					if !preserveOrder {
-						inst := (&A_SPEC_OBJECTS{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SPEC_OBJECTS)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SPEC_OBJECTS), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPEC_OBJECT_TYPE_REF":
-					if !preserveOrder {
-						inst := (&A_SPEC_OBJECT_TYPE_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SPEC_OBJECT_TYPE_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SPEC_OBJECT_TYPE_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPEC_RELATIONS":
-					if !preserveOrder {
-						inst := (&A_SPEC_RELATIONS{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SPEC_RELATIONS)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SPEC_RELATIONS), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPEC_RELATION_GROUPS":
-					if !preserveOrder {
-						inst := (&A_SPEC_RELATION_GROUPS{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SPEC_RELATION_GROUPS)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SPEC_RELATION_GROUPS), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPEC_RELATION_REF":
-					if !preserveOrder {
-						inst := (&A_SPEC_RELATION_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SPEC_RELATION_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SPEC_RELATION_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPEC_RELATION_TYPE_REF":
-					if !preserveOrder {
-						inst := (&A_SPEC_RELATION_TYPE_REF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SPEC_RELATION_TYPE_REF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SPEC_RELATION_TYPE_REF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPEC_TYPES":
-					if !preserveOrder {
-						inst := (&A_SPEC_TYPES{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_SPEC_TYPES)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SPEC_TYPES), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_THE_HEADER":
-					if !preserveOrder {
-						inst := (&A_THE_HEADER{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_THE_HEADER)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_THE_HEADER), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "A_TOOL_EXTENSIONS":
-					if !preserveOrder {
-						inst := (&A_TOOL_EXTENSIONS{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(A_TOOL_EXTENSIONS)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_TOOL_EXTENSIONS), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DATATYPE_DEFINITION_BOOLEAN":
-					if !preserveOrder {
-						inst := (&DATATYPE_DEFINITION_BOOLEAN{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DATATYPE_DEFINITION_BOOLEAN)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DATATYPE_DEFINITION_BOOLEAN), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DATATYPE_DEFINITION_DATE":
-					if !preserveOrder {
-						inst := (&DATATYPE_DEFINITION_DATE{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DATATYPE_DEFINITION_DATE)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DATATYPE_DEFINITION_DATE), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DATATYPE_DEFINITION_ENUMERATION":
-					if !preserveOrder {
-						inst := (&DATATYPE_DEFINITION_ENUMERATION{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DATATYPE_DEFINITION_ENUMERATION)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DATATYPE_DEFINITION_ENUMERATION), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DATATYPE_DEFINITION_INTEGER":
-					if !preserveOrder {
-						inst := (&DATATYPE_DEFINITION_INTEGER{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DATATYPE_DEFINITION_INTEGER)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DATATYPE_DEFINITION_INTEGER), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DATATYPE_DEFINITION_REAL":
-					if !preserveOrder {
-						inst := (&DATATYPE_DEFINITION_REAL{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DATATYPE_DEFINITION_REAL)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DATATYPE_DEFINITION_REAL), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DATATYPE_DEFINITION_STRING":
-					if !preserveOrder {
-						inst := (&DATATYPE_DEFINITION_STRING{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DATATYPE_DEFINITION_STRING)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DATATYPE_DEFINITION_STRING), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DATATYPE_DEFINITION_XHTML":
-					if !preserveOrder {
-						inst := (&DATATYPE_DEFINITION_XHTML{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DATATYPE_DEFINITION_XHTML)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DATATYPE_DEFINITION_XHTML), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "EMBEDDED_VALUE":
-					if !preserveOrder {
-						inst := (&EMBEDDED_VALUE{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(EMBEDDED_VALUE)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(EMBEDDED_VALUE), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ENUM_VALUE":
-					if !preserveOrder {
-						inst := (&ENUM_VALUE{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ENUM_VALUE)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ENUM_VALUE), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "RELATION_GROUP":
-					if !preserveOrder {
-						inst := (&RELATION_GROUP{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(RELATION_GROUP)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(RELATION_GROUP), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "RELATION_GROUP_TYPE":
-					if !preserveOrder {
-						inst := (&RELATION_GROUP_TYPE{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(RELATION_GROUP_TYPE)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(RELATION_GROUP_TYPE), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "REQ_IF":
-					if !preserveOrder {
-						inst := (&REQ_IF{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(REQ_IF)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(REQ_IF), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "REQ_IF_CONTENT":
-					if !preserveOrder {
-						inst := (&REQ_IF_CONTENT{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(REQ_IF_CONTENT)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(REQ_IF_CONTENT), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "REQ_IF_HEADER":
-					if !preserveOrder {
-						inst := (&REQ_IF_HEADER{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(REQ_IF_HEADER)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(REQ_IF_HEADER), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "REQ_IF_TOOL_EXTENSION":
-					if !preserveOrder {
-						inst := (&REQ_IF_TOOL_EXTENSION{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(REQ_IF_TOOL_EXTENSION)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(REQ_IF_TOOL_EXTENSION), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "SPECIFICATION":
-					if !preserveOrder {
-						inst := (&SPECIFICATION{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(SPECIFICATION)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SPECIFICATION), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "SPECIFICATION_TYPE":
-					if !preserveOrder {
-						inst := (&SPECIFICATION_TYPE{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(SPECIFICATION_TYPE)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SPECIFICATION_TYPE), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "SPEC_HIERARCHY":
-					if !preserveOrder {
-						inst := (&SPEC_HIERARCHY{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(SPEC_HIERARCHY)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SPEC_HIERARCHY), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "SPEC_OBJECT":
-					if !preserveOrder {
-						inst := (&SPEC_OBJECT{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(SPEC_OBJECT)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SPEC_OBJECT), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "SPEC_OBJECT_TYPE":
-					if !preserveOrder {
-						inst := (&SPEC_OBJECT_TYPE{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(SPEC_OBJECT_TYPE)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SPEC_OBJECT_TYPE), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "SPEC_RELATION":
-					if !preserveOrder {
-						inst := (&SPEC_RELATION{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(SPEC_RELATION)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SPEC_RELATION), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "SPEC_RELATION_TYPE":
-					if !preserveOrder {
-						inst := (&SPEC_RELATION_TYPE{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(SPEC_RELATION_TYPE)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SPEC_RELATION_TYPE), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "XHTML_CONTENT":
-					if !preserveOrder {
-						inst := (&XHTML_CONTENT{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(XHTML_CONTENT)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(XHTML_CONTENT), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -4802,29 +3458,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_VALUE_BOOLEAN); ok {
-									inst.DEFAULT_VALUE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
 					case "TYPE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_DATATYPE_DEFINITION_BOOLEAN_REF); ok {
-									inst.TYPE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_DEFINITION_DATE:
 					switch fieldName {
@@ -4841,29 +3479,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_VALUE_DATE); ok {
-									inst.DEFAULT_VALUE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
 					case "TYPE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_DATATYPE_DEFINITION_DATE_REF); ok {
-									inst.TYPE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_DEFINITION_ENUMERATION:
 					switch fieldName {
@@ -4882,29 +3502,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "MULTI_VALUED":
 						inst.MULTI_VALUED = GongExtractBool(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_VALUE_ENUMERATION); ok {
-									inst.DEFAULT_VALUE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
 					case "TYPE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_DATATYPE_DEFINITION_ENUMERATION_REF); ok {
-									inst.TYPE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_DEFINITION_INTEGER:
 					switch fieldName {
@@ -4921,29 +3523,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_VALUE_INTEGER); ok {
-									inst.DEFAULT_VALUE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
 					case "TYPE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_DATATYPE_DEFINITION_INTEGER_REF); ok {
-									inst.TYPE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_DEFINITION_REAL:
 					switch fieldName {
@@ -4960,29 +3544,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_VALUE_REAL); ok {
-									inst.DEFAULT_VALUE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
 					case "TYPE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_DATATYPE_DEFINITION_REAL_REF); ok {
-									inst.TYPE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_DEFINITION_STRING:
 					switch fieldName {
@@ -4999,29 +3565,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_VALUE_STRING); ok {
-									inst.DEFAULT_VALUE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
 					case "TYPE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_DATATYPE_DEFINITION_STRING_REF); ok {
-									inst.TYPE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_DEFINITION_XHTML:
 					switch fieldName {
@@ -5038,29 +3586,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_VALUE_XHTML); ok {
-									inst.DEFAULT_VALUE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
 					case "TYPE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_DATATYPE_DEFINITION_XHTML_REF); ok {
-									inst.TYPE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_VALUE_BOOLEAN:
 					switch fieldName {
@@ -5069,13 +3599,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "THE_VALUE":
 						inst.THE_VALUE = GongExtractBool(rhs)
 					case "DEFINITION":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF); ok {
-									inst.DEFINITION = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFINITION, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_VALUE_DATE:
 					switch fieldName {
@@ -5084,34 +3608,16 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "THE_VALUE":
 						inst.THE_VALUE = GongExtractString(rhs)
 					case "DEFINITION":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_DEFINITION_DATE_REF); ok {
-									inst.DEFINITION = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFINITION, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_VALUE_ENUMERATION:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "DEFINITION":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF); ok {
-									inst.DEFINITION = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFINITION, rhs, identifierMap)
 					case "VALUES":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ENUM_VALUE_REF); ok {
-									inst.VALUES = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.VALUES, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_VALUE_INTEGER:
 					switch fieldName {
@@ -5120,13 +3626,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "THE_VALUE":
 						inst.THE_VALUE = GongExtractInt(rhs)
 					case "DEFINITION":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_DEFINITION_INTEGER_REF); ok {
-									inst.DEFINITION = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFINITION, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_VALUE_REAL:
 					switch fieldName {
@@ -5135,13 +3635,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "THE_VALUE":
 						inst.THE_VALUE = GongExtractFloat(rhs)
 					case "DEFINITION":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_DEFINITION_REAL_REF); ok {
-									inst.DEFINITION = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFINITION, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_VALUE_STRING:
 					switch fieldName {
@@ -5150,13 +3644,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "THE_VALUE":
 						inst.THE_VALUE = GongExtractString(rhs)
 					case "DEFINITION":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_DEFINITION_STRING_REF); ok {
-									inst.DEFINITION = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFINITION, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_VALUE_XHTML:
 					switch fieldName {
@@ -5165,42 +3653,18 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IS_SIMPLIFIED":
 						inst.IS_SIMPLIFIED = GongExtractBool(rhs)
 					case "THE_VALUE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*XHTML_CONTENT); ok {
-									inst.THE_VALUE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.THE_VALUE, rhs, identifierMap)
 					case "THE_ORIGINAL_VALUE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*XHTML_CONTENT); ok {
-									inst.THE_ORIGINAL_VALUE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.THE_ORIGINAL_VALUE, rhs, identifierMap)
 					case "DEFINITION":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_DEFINITION_XHTML_REF); ok {
-									inst.DEFINITION = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DEFINITION, rhs, identifierMap)
 					}
 				case *A_ALTERNATIVE_ID:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					}
 				case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
 					switch fieldName {
@@ -5256,283 +3720,101 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ATTRIBUTE_VALUE_BOOLEAN":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_BOOLEAN); ok {
-										inst.ATTRIBUTE_VALUE_BOOLEAN = append(inst.ATTRIBUTE_VALUE_BOOLEAN, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_BOOLEAN, rhs, identifierMap)
 					}
 				case *A_ATTRIBUTE_VALUE_DATE:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ATTRIBUTE_VALUE_DATE":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_DATE); ok {
-										inst.ATTRIBUTE_VALUE_DATE = append(inst.ATTRIBUTE_VALUE_DATE, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_DATE, rhs, identifierMap)
 					}
 				case *A_ATTRIBUTE_VALUE_ENUMERATION:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ATTRIBUTE_VALUE_ENUMERATION":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_ENUMERATION); ok {
-										inst.ATTRIBUTE_VALUE_ENUMERATION = append(inst.ATTRIBUTE_VALUE_ENUMERATION, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_ENUMERATION, rhs, identifierMap)
 					}
 				case *A_ATTRIBUTE_VALUE_INTEGER:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ATTRIBUTE_VALUE_INTEGER":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_INTEGER); ok {
-										inst.ATTRIBUTE_VALUE_INTEGER = append(inst.ATTRIBUTE_VALUE_INTEGER, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_INTEGER, rhs, identifierMap)
 					}
 				case *A_ATTRIBUTE_VALUE_REAL:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ATTRIBUTE_VALUE_REAL":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_REAL); ok {
-										inst.ATTRIBUTE_VALUE_REAL = append(inst.ATTRIBUTE_VALUE_REAL, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_REAL, rhs, identifierMap)
 					}
 				case *A_ATTRIBUTE_VALUE_STRING:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ATTRIBUTE_VALUE_STRING":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_STRING); ok {
-										inst.ATTRIBUTE_VALUE_STRING = append(inst.ATTRIBUTE_VALUE_STRING, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_STRING, rhs, identifierMap)
 					}
 				case *A_ATTRIBUTE_VALUE_XHTML:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ATTRIBUTE_VALUE_XHTML":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_XHTML); ok {
-										inst.ATTRIBUTE_VALUE_XHTML = append(inst.ATTRIBUTE_VALUE_XHTML, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_XHTML, rhs, identifierMap)
 					}
 				case *A_ATTRIBUTE_VALUE_XHTML_1:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ATTRIBUTE_VALUE_BOOLEAN":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_BOOLEAN); ok {
-										inst.ATTRIBUTE_VALUE_BOOLEAN = append(inst.ATTRIBUTE_VALUE_BOOLEAN, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_BOOLEAN, rhs, identifierMap)
 					case "ATTRIBUTE_VALUE_DATE":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_DATE); ok {
-										inst.ATTRIBUTE_VALUE_DATE = append(inst.ATTRIBUTE_VALUE_DATE, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_DATE, rhs, identifierMap)
 					case "ATTRIBUTE_VALUE_ENUMERATION":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_ENUMERATION); ok {
-										inst.ATTRIBUTE_VALUE_ENUMERATION = append(inst.ATTRIBUTE_VALUE_ENUMERATION, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_ENUMERATION, rhs, identifierMap)
 					case "ATTRIBUTE_VALUE_INTEGER":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_INTEGER); ok {
-										inst.ATTRIBUTE_VALUE_INTEGER = append(inst.ATTRIBUTE_VALUE_INTEGER, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_INTEGER, rhs, identifierMap)
 					case "ATTRIBUTE_VALUE_REAL":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_REAL); ok {
-										inst.ATTRIBUTE_VALUE_REAL = append(inst.ATTRIBUTE_VALUE_REAL, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_REAL, rhs, identifierMap)
 					case "ATTRIBUTE_VALUE_STRING":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_STRING); ok {
-										inst.ATTRIBUTE_VALUE_STRING = append(inst.ATTRIBUTE_VALUE_STRING, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_STRING, rhs, identifierMap)
 					case "ATTRIBUTE_VALUE_XHTML":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_XHTML); ok {
-										inst.ATTRIBUTE_VALUE_XHTML = append(inst.ATTRIBUTE_VALUE_XHTML, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_VALUE_XHTML, rhs, identifierMap)
 					}
 				case *A_CHILDREN:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "SPEC_HIERARCHY":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*SPEC_HIERARCHY); ok {
-										inst.SPEC_HIERARCHY = append(inst.SPEC_HIERARCHY, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SPEC_HIERARCHY, rhs, identifierMap)
 					}
 				case *A_CORE_CONTENT:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "REQ_IF_CONTENT":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*REQ_IF_CONTENT); ok {
-									inst.REQ_IF_CONTENT = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.REQ_IF_CONTENT, rhs, identifierMap)
 					}
 				case *A_DATATYPES:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "DATATYPE_DEFINITION_BOOLEAN":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DATATYPE_DEFINITION_BOOLEAN); ok {
-										inst.DATATYPE_DEFINITION_BOOLEAN = append(inst.DATATYPE_DEFINITION_BOOLEAN, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DATATYPE_DEFINITION_BOOLEAN, rhs, identifierMap)
 					case "DATATYPE_DEFINITION_DATE":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DATATYPE_DEFINITION_DATE); ok {
-										inst.DATATYPE_DEFINITION_DATE = append(inst.DATATYPE_DEFINITION_DATE, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DATATYPE_DEFINITION_DATE, rhs, identifierMap)
 					case "DATATYPE_DEFINITION_ENUMERATION":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DATATYPE_DEFINITION_ENUMERATION); ok {
-										inst.DATATYPE_DEFINITION_ENUMERATION = append(inst.DATATYPE_DEFINITION_ENUMERATION, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DATATYPE_DEFINITION_ENUMERATION, rhs, identifierMap)
 					case "DATATYPE_DEFINITION_INTEGER":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DATATYPE_DEFINITION_INTEGER); ok {
-										inst.DATATYPE_DEFINITION_INTEGER = append(inst.DATATYPE_DEFINITION_INTEGER, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DATATYPE_DEFINITION_INTEGER, rhs, identifierMap)
 					case "DATATYPE_DEFINITION_REAL":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DATATYPE_DEFINITION_REAL); ok {
-										inst.DATATYPE_DEFINITION_REAL = append(inst.DATATYPE_DEFINITION_REAL, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DATATYPE_DEFINITION_REAL, rhs, identifierMap)
 					case "DATATYPE_DEFINITION_STRING":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DATATYPE_DEFINITION_STRING); ok {
-										inst.DATATYPE_DEFINITION_STRING = append(inst.DATATYPE_DEFINITION_STRING, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DATATYPE_DEFINITION_STRING, rhs, identifierMap)
 					case "DATATYPE_DEFINITION_XHTML":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DATATYPE_DEFINITION_XHTML); ok {
-										inst.DATATYPE_DEFINITION_XHTML = append(inst.DATATYPE_DEFINITION_XHTML, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DATATYPE_DEFINITION_XHTML, rhs, identifierMap)
 					}
 				case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
 					switch fieldName {
@@ -5621,13 +3903,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "EMBEDDED_VALUE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*EMBEDDED_VALUE); ok {
-									inst.EMBEDDED_VALUE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.EMBEDDED_VALUE, rhs, identifierMap)
 					}
 				case *A_RELATION_GROUP_TYPE_REF:
 					switch fieldName {
@@ -5655,15 +3931,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "SPECIFICATION":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*SPECIFICATION); ok {
-										inst.SPECIFICATION = append(inst.SPECIFICATION, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SPECIFICATION, rhs, identifierMap)
 					}
 				case *A_SPECIFICATION_TYPE_REF:
 					switch fieldName {
@@ -5677,105 +3945,33 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ENUM_VALUE":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ENUM_VALUE); ok {
-										inst.ENUM_VALUE = append(inst.ENUM_VALUE, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ENUM_VALUE, rhs, identifierMap)
 					}
 				case *A_SPEC_ATTRIBUTES:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ATTRIBUTE_DEFINITION_BOOLEAN":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_BOOLEAN); ok {
-										inst.ATTRIBUTE_DEFINITION_BOOLEAN = append(inst.ATTRIBUTE_DEFINITION_BOOLEAN, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_DEFINITION_BOOLEAN, rhs, identifierMap)
 					case "ATTRIBUTE_DEFINITION_DATE":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_DATE); ok {
-										inst.ATTRIBUTE_DEFINITION_DATE = append(inst.ATTRIBUTE_DEFINITION_DATE, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_DEFINITION_DATE, rhs, identifierMap)
 					case "ATTRIBUTE_DEFINITION_ENUMERATION":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_ENUMERATION); ok {
-										inst.ATTRIBUTE_DEFINITION_ENUMERATION = append(inst.ATTRIBUTE_DEFINITION_ENUMERATION, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_DEFINITION_ENUMERATION, rhs, identifierMap)
 					case "ATTRIBUTE_DEFINITION_INTEGER":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_INTEGER); ok {
-										inst.ATTRIBUTE_DEFINITION_INTEGER = append(inst.ATTRIBUTE_DEFINITION_INTEGER, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_DEFINITION_INTEGER, rhs, identifierMap)
 					case "ATTRIBUTE_DEFINITION_REAL":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_REAL); ok {
-										inst.ATTRIBUTE_DEFINITION_REAL = append(inst.ATTRIBUTE_DEFINITION_REAL, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_DEFINITION_REAL, rhs, identifierMap)
 					case "ATTRIBUTE_DEFINITION_STRING":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_STRING); ok {
-										inst.ATTRIBUTE_DEFINITION_STRING = append(inst.ATTRIBUTE_DEFINITION_STRING, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_DEFINITION_STRING, rhs, identifierMap)
 					case "ATTRIBUTE_DEFINITION_XHTML":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_XHTML); ok {
-										inst.ATTRIBUTE_DEFINITION_XHTML = append(inst.ATTRIBUTE_DEFINITION_XHTML, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ATTRIBUTE_DEFINITION_XHTML, rhs, identifierMap)
 					}
 				case *A_SPEC_OBJECTS:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "SPEC_OBJECT":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*SPEC_OBJECT); ok {
-										inst.SPEC_OBJECT = append(inst.SPEC_OBJECT, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SPEC_OBJECT, rhs, identifierMap)
 					}
 				case *A_SPEC_OBJECT_TYPE_REF:
 					switch fieldName {
@@ -5789,30 +3985,14 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "SPEC_RELATION":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*SPEC_RELATION); ok {
-										inst.SPEC_RELATION = append(inst.SPEC_RELATION, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SPEC_RELATION, rhs, identifierMap)
 					}
 				case *A_SPEC_RELATION_GROUPS:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "RELATION_GROUP":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*RELATION_GROUP); ok {
-										inst.RELATION_GROUP = append(inst.RELATION_GROUP, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RELATION_GROUP, rhs, identifierMap)
 					}
 				case *A_SPEC_RELATION_REF:
 					switch fieldName {
@@ -5833,73 +4013,27 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "RELATION_GROUP_TYPE":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*RELATION_GROUP_TYPE); ok {
-										inst.RELATION_GROUP_TYPE = append(inst.RELATION_GROUP_TYPE, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RELATION_GROUP_TYPE, rhs, identifierMap)
 					case "SPEC_OBJECT_TYPE":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*SPEC_OBJECT_TYPE); ok {
-										inst.SPEC_OBJECT_TYPE = append(inst.SPEC_OBJECT_TYPE, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SPEC_OBJECT_TYPE, rhs, identifierMap)
 					case "SPEC_RELATION_TYPE":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*SPEC_RELATION_TYPE); ok {
-										inst.SPEC_RELATION_TYPE = append(inst.SPEC_RELATION_TYPE, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SPEC_RELATION_TYPE, rhs, identifierMap)
 					case "SPECIFICATION_TYPE":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*SPECIFICATION_TYPE); ok {
-										inst.SPECIFICATION_TYPE = append(inst.SPECIFICATION_TYPE, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SPECIFICATION_TYPE, rhs, identifierMap)
 					}
 				case *A_THE_HEADER:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "REQ_IF_HEADER":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*REQ_IF_HEADER); ok {
-									inst.REQ_IF_HEADER = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.REQ_IF_HEADER, rhs, identifierMap)
 					}
 				case *A_TOOL_EXTENSIONS:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "REQ_IF_TOOL_EXTENSION":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*REQ_IF_TOOL_EXTENSION); ok {
-										inst.REQ_IF_TOOL_EXTENSION = append(inst.REQ_IF_TOOL_EXTENSION, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.REQ_IF_TOOL_EXTENSION, rhs, identifierMap)
 					}
 				case *DATATYPE_DEFINITION_BOOLEAN:
 					switch fieldName {
@@ -5914,13 +4048,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					}
 				case *DATATYPE_DEFINITION_DATE:
 					switch fieldName {
@@ -5935,13 +4063,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					}
 				case *DATATYPE_DEFINITION_ENUMERATION:
 					switch fieldName {
@@ -5956,21 +4078,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "SPECIFIED_VALUES":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPECIFIED_VALUES); ok {
-									inst.SPECIFIED_VALUES = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SPECIFIED_VALUES, rhs, identifierMap)
 					}
 				case *DATATYPE_DEFINITION_INTEGER:
 					switch fieldName {
@@ -5989,13 +4099,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "MIN":
 						inst.MIN = GongExtractInt(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					}
 				case *DATATYPE_DEFINITION_REAL:
 					switch fieldName {
@@ -6016,13 +4120,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "MIN":
 						inst.MIN = GongExtractFloat(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					}
 				case *DATATYPE_DEFINITION_STRING:
 					switch fieldName {
@@ -6039,13 +4137,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "MAX_LENGTH":
 						inst.MAX_LENGTH = GongExtractInt(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					}
 				case *DATATYPE_DEFINITION_XHTML:
 					switch fieldName {
@@ -6060,13 +4152,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					}
 				case *EMBEDDED_VALUE:
 					switch fieldName {
@@ -6090,21 +4176,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "PROPERTIES":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_PROPERTIES); ok {
-									inst.PROPERTIES = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.PROPERTIES, rhs, identifierMap)
 					}
 				case *RELATION_GROUP:
 					switch fieldName {
@@ -6119,45 +4193,15 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "SOURCE_SPECIFICATION":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SOURCE_SPECIFICATION_1); ok {
-									inst.SOURCE_SPECIFICATION = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SOURCE_SPECIFICATION, rhs, identifierMap)
 					case "SPEC_RELATIONS":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPEC_RELATION_REF); ok {
-									inst.SPEC_RELATIONS = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SPEC_RELATIONS, rhs, identifierMap)
 					case "TARGET_SPECIFICATION":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SOURCE_SPECIFICATION_1); ok {
-									inst.TARGET_SPECIFICATION = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TARGET_SPECIFICATION, rhs, identifierMap)
 					case "TYPE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_RELATION_GROUP_TYPE_REF); ok {
-									inst.TYPE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
 					}
 				case *RELATION_GROUP_TYPE:
 					switch fieldName {
@@ -6172,21 +4216,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "SPEC_ATTRIBUTES":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPEC_ATTRIBUTES); ok {
-									inst.SPEC_ATTRIBUTES = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SPEC_ATTRIBUTES, rhs, identifierMap)
 					}
 				case *REQ_IF:
 					switch fieldName {
@@ -6195,82 +4227,28 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Lang":
 						inst.Lang = GongExtractString(rhs)
 					case "THE_HEADER":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_THE_HEADER); ok {
-									inst.THE_HEADER = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.THE_HEADER, rhs, identifierMap)
 					case "CORE_CONTENT":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_CORE_CONTENT); ok {
-									inst.CORE_CONTENT = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.CORE_CONTENT, rhs, identifierMap)
 					case "TOOL_EXTENSIONS":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_TOOL_EXTENSIONS); ok {
-									inst.TOOL_EXTENSIONS = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TOOL_EXTENSIONS, rhs, identifierMap)
 					}
 				case *REQ_IF_CONTENT:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "DATATYPES":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_DATATYPES); ok {
-									inst.DATATYPES = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DATATYPES, rhs, identifierMap)
 					case "SPEC_TYPES":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPEC_TYPES); ok {
-									inst.SPEC_TYPES = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SPEC_TYPES, rhs, identifierMap)
 					case "SPEC_OBJECTS":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPEC_OBJECTS); ok {
-									inst.SPEC_OBJECTS = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SPEC_OBJECTS, rhs, identifierMap)
 					case "SPEC_RELATIONS":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPEC_RELATIONS); ok {
-									inst.SPEC_RELATIONS = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SPEC_RELATIONS, rhs, identifierMap)
 					case "SPECIFICATIONS":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPECIFICATIONS); ok {
-									inst.SPECIFICATIONS = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SPECIFICATIONS, rhs, identifierMap)
 					case "SPEC_RELATION_GROUPS":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPEC_RELATION_GROUPS); ok {
-									inst.SPEC_RELATION_GROUPS = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SPEC_RELATION_GROUPS, rhs, identifierMap)
 					}
 				case *REQ_IF_HEADER:
 					switch fieldName {
@@ -6311,37 +4289,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "CHILDREN":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_CHILDREN); ok {
-									inst.CHILDREN = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.CHILDREN, rhs, identifierMap)
 					case "VALUES":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_VALUE_XHTML_1); ok {
-									inst.VALUES = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.VALUES, rhs, identifierMap)
 					case "TYPE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPECIFICATION_TYPE_REF); ok {
-									inst.TYPE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
 					}
 				case *SPECIFICATION_TYPE:
 					switch fieldName {
@@ -6356,21 +4310,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "SPEC_ATTRIBUTES":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPEC_ATTRIBUTES); ok {
-									inst.SPEC_ATTRIBUTES = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SPEC_ATTRIBUTES, rhs, identifierMap)
 					}
 				case *SPEC_HIERARCHY:
 					switch fieldName {
@@ -6389,37 +4331,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "CHILDREN":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_CHILDREN); ok {
-									inst.CHILDREN = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.CHILDREN, rhs, identifierMap)
 					case "EDITABLE_ATTS":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_EDITABLE_ATTS); ok {
-									inst.EDITABLE_ATTS = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.EDITABLE_ATTS, rhs, identifierMap)
 					case "OBJECT":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_OBJECT); ok {
-									inst.OBJECT = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.OBJECT, rhs, identifierMap)
 					}
 				case *SPEC_OBJECT:
 					switch fieldName {
@@ -6434,29 +4352,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "VALUES":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_VALUE_XHTML_1); ok {
-									inst.VALUES = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.VALUES, rhs, identifierMap)
 					case "TYPE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPEC_OBJECT_TYPE_REF); ok {
-									inst.TYPE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
 					}
 				case *SPEC_OBJECT_TYPE:
 					switch fieldName {
@@ -6471,21 +4371,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "SPEC_ATTRIBUTES":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPEC_ATTRIBUTES); ok {
-									inst.SPEC_ATTRIBUTES = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SPEC_ATTRIBUTES, rhs, identifierMap)
 					}
 				case *SPEC_RELATION:
 					switch fieldName {
@@ -6500,45 +4388,15 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "VALUES":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ATTRIBUTE_VALUE_XHTML_1); ok {
-									inst.VALUES = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.VALUES, rhs, identifierMap)
 					case "SOURCE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SOURCE_1); ok {
-									inst.SOURCE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SOURCE, rhs, identifierMap)
 					case "TARGET":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SOURCE_1); ok {
-									inst.TARGET = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TARGET, rhs, identifierMap)
 					case "TYPE":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPEC_RELATION_TYPE_REF); ok {
-									inst.TYPE = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
 					}
 				case *SPEC_RELATION_TYPE:
 					switch fieldName {
@@ -6553,21 +4411,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
 					case "ALTERNATIVE_ID":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_ALTERNATIVE_ID); ok {
-									inst.ALTERNATIVE_ID = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "SPEC_ATTRIBUTES":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*A_SPEC_ATTRIBUTES); ok {
-									inst.SPEC_ATTRIBUTES = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SPEC_ATTRIBUTES, rhs, identifierMap)
 					}
 				case *XHTML_CONTENT:
 					switch fieldName {
@@ -6586,4 +4432,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }

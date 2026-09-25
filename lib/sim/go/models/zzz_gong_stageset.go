@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		commandOrdered := []*Command{}
-		for command := range stageSet.Stage.Commands {
-			commandOrdered = append(commandOrdered, command)
-		}
-		sort.Slice(commandOrdered, func(i, j int) bool {
-			return stageSet.Stage.Command_stagedOrder[commandOrdered[i]] < stageSet.Stage.Command_stagedOrder[commandOrdered[j]]
-		})
-		for _, command := range commandOrdered {
+		for _, command := range __gong__sortStageSetInstances(stageSet.Stage.Commands, stageSet.Stage.Command_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -174,14 +167,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		dummyagentOrdered := []*DummyAgent{}
-		for dummyagent := range stageSet.Stage.DummyAgents {
-			dummyagentOrdered = append(dummyagentOrdered, dummyagent)
-		}
-		sort.Slice(dummyagentOrdered, func(i, j int) bool {
-			return stageSet.Stage.DummyAgent_stagedOrder[dummyagentOrdered[i]] < stageSet.Stage.DummyAgent_stagedOrder[dummyagentOrdered[j]]
-		})
-		for _, dummyagent := range dummyagentOrdered {
+		for _, dummyagent := range __gong__sortStageSetInstances(stageSet.Stage.DummyAgents, stageSet.Stage.DummyAgent_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -211,14 +197,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		engineOrdered := []*Engine{}
-		for engine := range stageSet.Stage.Engines {
-			engineOrdered = append(engineOrdered, engine)
-		}
-		sort.Slice(engineOrdered, func(i, j int) bool {
-			return stageSet.Stage.Engine_stagedOrder[engineOrdered[i]] < stageSet.Stage.Engine_stagedOrder[engineOrdered[j]]
-		})
-		for _, engine := range engineOrdered {
+		for _, engine := range __gong__sortStageSetInstances(stageSet.Stage.Engines, stageSet.Stage.Engine_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -245,14 +224,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		eventOrdered := []*Event{}
-		for event := range stageSet.Stage.Events {
-			eventOrdered = append(eventOrdered, event)
-		}
-		sort.Slice(eventOrdered, func(i, j int) bool {
-			return stageSet.Stage.Event_stagedOrder[eventOrdered[i]] < stageSet.Stage.Event_stagedOrder[eventOrdered[j]]
-		})
-		for _, event := range eventOrdered {
+		for _, event := range __gong__sortStageSetInstances(stageSet.Stage.Events, stageSet.Stage.Event_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -272,14 +244,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		statusOrdered := []*Status{}
-		for status := range stageSet.Stage.Statuss {
-			statusOrdered = append(statusOrdered, status)
-		}
-		sort.Slice(statusOrdered, func(i, j int) bool {
-			return stageSet.Stage.Status_stagedOrder[statusOrdered[i]] < stageSet.Stage.Status_stagedOrder[statusOrdered[j]]
-		})
-		for _, status := range statusOrdered {
+		for _, status := range __gong__sortStageSetInstances(stageSet.Stage.Statuss, stageSet.Stage.Status_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -302,14 +267,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		updatestateOrdered := []*UpdateState{}
-		for updatestate := range stageSet.Stage.UpdateStates {
-			updatestateOrdered = append(updatestateOrdered, updatestate)
-		}
-		sort.Slice(updatestateOrdered, func(i, j int) bool {
-			return stageSet.Stage.UpdateState_stagedOrder[updatestateOrdered[i]] < stageSet.Stage.UpdateState_stagedOrder[updatestateOrdered[j]]
-		})
-		for _, updatestate := range updatestateOrdered {
+		for _, updatestate := range __gong__sortStageSetInstances(stageSet.Stage.UpdateStates, stageSet.Stage.UpdateState_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -472,71 +430,17 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "Command":
-					if !preserveOrder {
-						inst := (&Command{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Command)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Command), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DummyAgent":
-					if !preserveOrder {
-						inst := (&DummyAgent{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DummyAgent)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DummyAgent), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Engine":
-					if !preserveOrder {
-						inst := (&Engine{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Engine)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Engine), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Event":
-					if !preserveOrder {
-						inst := (&Event{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Event)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Event), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Status":
-					if !preserveOrder {
-						inst := (&Status{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Status)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Status), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "UpdateState":
-					if !preserveOrder {
-						inst := (&UpdateState{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(UpdateState)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(UpdateState), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -560,26 +464,14 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "CommandDate":
 						inst.CommandDate = GongExtractString(rhs)
 					case "Engine":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Engine); ok {
-									inst.Engine = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Engine, rhs, identifierMap)
 					}
 				case *DummyAgent:
 					switch fieldName {
 					case "TechName":
 						inst.TechName = GongExtractString(rhs)
 					case "Engine":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Engine); ok {
-									inst.Engine = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Engine, rhs, identifierMap)
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					}
@@ -643,4 +535,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }

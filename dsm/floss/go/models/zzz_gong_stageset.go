@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		compareanalysisOrdered := []*CompareAnalysis{}
-		for compareanalysis := range stageSet.Stage.CompareAnalysiss {
-			compareanalysisOrdered = append(compareanalysisOrdered, compareanalysis)
-		}
-		sort.Slice(compareanalysisOrdered, func(i, j int) bool {
-			return stageSet.Stage.CompareAnalysis_stagedOrder[compareanalysisOrdered[i]] < stageSet.Stage.CompareAnalysis_stagedOrder[compareanalysisOrdered[j]]
-		})
-		for _, compareanalysis := range compareanalysisOrdered {
+		for _, compareanalysis := range __gong__sortStageSetInstances(stageSet.Stage.CompareAnalysiss, stageSet.Stage.CompareAnalysis_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -206,14 +199,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		complexityOrdered := []*Complexity{}
-		for complexity := range stageSet.Stage.Complexitys {
-			complexityOrdered = append(complexityOrdered, complexity)
-		}
-		sort.Slice(complexityOrdered, func(i, j int) bool {
-			return stageSet.Stage.Complexity_stagedOrder[complexityOrdered[i]] < stageSet.Stage.Complexity_stagedOrder[complexityOrdered[j]]
-		})
-		for _, complexity := range complexityOrdered {
+		for _, complexity := range __gong__sortStageSetInstances(stageSet.Stage.Complexitys, stageSet.Stage.Complexity_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -236,14 +222,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		diagramflossequationOrdered := []*DiagramFlossEquation{}
-		for diagramflossequation := range stageSet.Stage.DiagramFlossEquations {
-			diagramflossequationOrdered = append(diagramflossequationOrdered, diagramflossequation)
-		}
-		sort.Slice(diagramflossequationOrdered, func(i, j int) bool {
-			return stageSet.Stage.DiagramFlossEquation_stagedOrder[diagramflossequationOrdered[i]] < stageSet.Stage.DiagramFlossEquation_stagedOrder[diagramflossequationOrdered[j]]
-		})
-		for _, diagramflossequation := range diagramflossequationOrdered {
+		for _, diagramflossequation := range __gong__sortStageSetInstances(stageSet.Stage.DiagramFlossEquations, stageSet.Stage.DiagramFlossEquation_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -363,14 +342,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		effortOrdered := []*Effort{}
-		for effort := range stageSet.Stage.Efforts {
-			effortOrdered = append(effortOrdered, effort)
-		}
-		sort.Slice(effortOrdered, func(i, j int) bool {
-			return stageSet.Stage.Effort_stagedOrder[effortOrdered[i]] < stageSet.Stage.Effort_stagedOrder[effortOrdered[j]]
-		})
-		for _, effort := range effortOrdered {
+		for _, effort := range __gong__sortStageSetInstances(stageSet.Stage.Efforts, stageSet.Stage.Effort_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -393,14 +365,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		libraryOrdered := []*Library{}
-		for library := range stageSet.Stage.Librarys {
-			libraryOrdered = append(libraryOrdered, library)
-		}
-		sort.Slice(libraryOrdered, func(i, j int) bool {
-			return stageSet.Stage.Library_stagedOrder[libraryOrdered[i]] < stageSet.Stage.Library_stagedOrder[libraryOrdered[j]]
-		})
-		for _, library := range libraryOrdered {
+		for _, library := range __gong__sortStageSetInstances(stageSet.Stage.Librarys, stageSet.Stage.Library_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -573,14 +538,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		noteOrdered := []*Note{}
-		for note := range stageSet.Stage.Notes {
-			noteOrdered = append(noteOrdered, note)
-		}
-		sort.Slice(noteOrdered, func(i, j int) bool {
-			return stageSet.Stage.Note_stagedOrder[noteOrdered[i]] < stageSet.Stage.Note_stagedOrder[noteOrdered[j]]
-		})
-		for _, note := range noteOrdered {
+		for _, note := range __gong__sortStageSetInstances(stageSet.Stage.Notes, stageSet.Stage.Note_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -635,14 +593,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		notecomplexityshapeOrdered := []*NoteComplexityShape{}
-		for notecomplexityshape := range stageSet.Stage.NoteComplexityShapes {
-			notecomplexityshapeOrdered = append(notecomplexityshapeOrdered, notecomplexityshape)
-		}
-		sort.Slice(notecomplexityshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.NoteComplexityShape_stagedOrder[notecomplexityshapeOrdered[i]] < stageSet.Stage.NoteComplexityShape_stagedOrder[notecomplexityshapeOrdered[j]]
-		})
-		for _, notecomplexityshape := range notecomplexityshapeOrdered {
+		for _, notecomplexityshape := range __gong__sortStageSetInstances(stageSet.Stage.NoteComplexityShapes, stageSet.Stage.NoteComplexityShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -687,14 +638,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		noteeffortshapeOrdered := []*NoteEffortShape{}
-		for noteeffortshape := range stageSet.Stage.NoteEffortShapes {
-			noteeffortshapeOrdered = append(noteeffortshapeOrdered, noteeffortshape)
-		}
-		sort.Slice(noteeffortshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.NoteEffortShape_stagedOrder[noteeffortshapeOrdered[i]] < stageSet.Stage.NoteEffortShape_stagedOrder[noteeffortshapeOrdered[j]]
-		})
-		for _, noteeffortshape := range noteeffortshapeOrdered {
+		for _, noteeffortshape := range __gong__sortStageSetInstances(stageSet.Stage.NoteEffortShapes, stageSet.Stage.NoteEffortShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -739,14 +683,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		noteperformanceshapeOrdered := []*NotePerformanceShape{}
-		for noteperformanceshape := range stageSet.Stage.NotePerformanceShapes {
-			noteperformanceshapeOrdered = append(noteperformanceshapeOrdered, noteperformanceshape)
-		}
-		sort.Slice(noteperformanceshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.NotePerformanceShape_stagedOrder[noteperformanceshapeOrdered[i]] < stageSet.Stage.NotePerformanceShape_stagedOrder[noteperformanceshapeOrdered[j]]
-		})
-		for _, noteperformanceshape := range noteperformanceshapeOrdered {
+		for _, noteperformanceshape := range __gong__sortStageSetInstances(stageSet.Stage.NotePerformanceShapes, stageSet.Stage.NotePerformanceShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -791,14 +728,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		noteshapeOrdered := []*NoteShape{}
-		for noteshape := range stageSet.Stage.NoteShapes {
-			noteshapeOrdered = append(noteshapeOrdered, noteshape)
-		}
-		sort.Slice(noteshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.NoteShape_stagedOrder[noteshapeOrdered[i]] < stageSet.Stage.NoteShape_stagedOrder[noteshapeOrdered[j]]
-		})
-		for _, noteshape := range noteshapeOrdered {
+		for _, noteshape := range __gong__sortStageSetInstances(stageSet.Stage.NoteShapes, stageSet.Stage.NoteShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -832,14 +762,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		performanceOrdered := []*Performance{}
-		for performance := range stageSet.Stage.Performances {
-			performanceOrdered = append(performanceOrdered, performance)
-		}
-		sort.Slice(performanceOrdered, func(i, j int) bool {
-			return stageSet.Stage.Performance_stagedOrder[performanceOrdered[i]] < stageSet.Stage.Performance_stagedOrder[performanceOrdered[j]]
-		})
-		for _, performance := range performanceOrdered {
+		for _, performance := range __gong__sortStageSetInstances(stageSet.Stage.Performances, stageSet.Stage.Performance_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -862,14 +785,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		systemOrdered := []*System{}
-		for system := range stageSet.Stage.Systems {
-			systemOrdered = append(systemOrdered, system)
-		}
-		sort.Slice(systemOrdered, func(i, j int) bool {
-			return stageSet.Stage.System_stagedOrder[systemOrdered[i]] < stageSet.Stage.System_stagedOrder[systemOrdered[j]]
-		})
-		for _, system := range systemOrdered {
+		for _, system := range __gong__sortStageSetInstances(stageSet.Stage.Systems, stageSet.Stage.System_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1130,137 +1046,29 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "CompareAnalysis":
-					if !preserveOrder {
-						inst := (&CompareAnalysis{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(CompareAnalysis)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(CompareAnalysis), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Complexity":
-					if !preserveOrder {
-						inst := (&Complexity{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Complexity)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Complexity), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DiagramFlossEquation":
-					if !preserveOrder {
-						inst := (&DiagramFlossEquation{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DiagramFlossEquation)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DiagramFlossEquation), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Effort":
-					if !preserveOrder {
-						inst := (&Effort{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Effort)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Effort), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Library":
-					if !preserveOrder {
-						inst := (&Library{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Library)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Library), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Note":
-					if !preserveOrder {
-						inst := (&Note{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Note)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Note), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "NoteComplexityShape":
-					if !preserveOrder {
-						inst := (&NoteComplexityShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(NoteComplexityShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteComplexityShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "NoteEffortShape":
-					if !preserveOrder {
-						inst := (&NoteEffortShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(NoteEffortShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteEffortShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "NotePerformanceShape":
-					if !preserveOrder {
-						inst := (&NotePerformanceShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(NotePerformanceShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(NotePerformanceShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "NoteShape":
-					if !preserveOrder {
-						inst := (&NoteShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(NoteShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Performance":
-					if !preserveOrder {
-						inst := (&Performance{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Performance)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Performance), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "System":
-					if !preserveOrder {
-						inst := (&System{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(System)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(System), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -1280,45 +1088,17 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "FromSystem":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*System); ok {
-									inst.FromSystem = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.FromSystem, rhs, identifierMap)
 					case "ToSystem":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*System); ok {
-									inst.ToSystem = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ToSystem, rhs, identifierMap)
 					case "Mu":
 						inst.Mu = GongExtractFloat(rhs)
 					case "Epsilon":
 						inst.Epsilon = GongExtractFloat(rhs)
 					case "DiagramFlossEquations":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DiagramFlossEquation); ok {
-										inst.DiagramFlossEquations = append(inst.DiagramFlossEquations, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DiagramFlossEquations, rhs, identifierMap)
 					case "DiagramFlossEquationsWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DiagramFlossEquation); ok {
-										inst.DiagramFlossEquationsWhoseNodeIsExpanded = append(inst.DiagramFlossEquationsWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DiagramFlossEquationsWhoseNodeIsExpanded, rhs, identifierMap)
 					case "ComputedPrefix":
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
@@ -1376,93 +1156,29 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "DefaultBoxHeigth":
 						inst.DefaultBoxHeigth = GongExtractFloat(rhs)
 					case "Note_Shapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*NoteShape); ok {
-										inst.Note_Shapes = append(inst.Note_Shapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Note_Shapes, rhs, identifierMap)
 					case "NoteComplexityShapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*NoteComplexityShape); ok {
-										inst.NoteComplexityShapes = append(inst.NoteComplexityShapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.NoteComplexityShapes, rhs, identifierMap)
 					case "NotePerformanceShapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*NotePerformanceShape); ok {
-										inst.NotePerformanceShapes = append(inst.NotePerformanceShapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.NotePerformanceShapes, rhs, identifierMap)
 					case "NoteEffortShapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*NoteEffortShape); ok {
-										inst.NoteEffortShapes = append(inst.NoteEffortShapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.NoteEffortShapes, rhs, identifierMap)
 					case "IsNotesNodeExpanded":
 						inst.IsNotesNodeExpanded = GongExtractBool(rhs)
 					case "NotesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Note); ok {
-										inst.NotesWhoseNodeIsExpanded = append(inst.NotesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.NotesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsComplexitysNodeExpanded":
 						inst.IsComplexitysNodeExpanded = GongExtractBool(rhs)
 					case "ComplexitysWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Complexity); ok {
-										inst.ComplexitysWhoseNodeIsExpanded = append(inst.ComplexitysWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ComplexitysWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsPerformancesNodeExpanded":
 						inst.IsPerformancesNodeExpanded = GongExtractBool(rhs)
 					case "PerformancesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Performance); ok {
-										inst.PerformancesWhoseNodeIsExpanded = append(inst.PerformancesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.PerformancesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsEffortsNodeExpanded":
 						inst.IsEffortsNodeExpanded = GongExtractBool(rhs)
 					case "EffortsWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Effort); ok {
-										inst.EffortsWhoseNodeIsExpanded = append(inst.EffortsWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.EffortsWhoseNodeIsExpanded, rhs, identifierMap)
 					}
 				case *Effort:
 					switch fieldName {
@@ -1488,89 +1204,25 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "SubLibraries":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Library); ok {
-										inst.SubLibraries = append(inst.SubLibraries, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SubLibraries, rhs, identifierMap)
 					case "RootSystems":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*System); ok {
-										inst.RootSystems = append(inst.RootSystems, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RootSystems, rhs, identifierMap)
 					case "RootComplexitys":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Complexity); ok {
-										inst.RootComplexitys = append(inst.RootComplexitys, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RootComplexitys, rhs, identifierMap)
 					case "RootPerformances":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Performance); ok {
-										inst.RootPerformances = append(inst.RootPerformances, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RootPerformances, rhs, identifierMap)
 					case "RootEfforts":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Effort); ok {
-										inst.RootEfforts = append(inst.RootEfforts, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RootEfforts, rhs, identifierMap)
 					case "RootCompareAnalysis":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*CompareAnalysis); ok {
-										inst.RootCompareAnalysis = append(inst.RootCompareAnalysis, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RootCompareAnalysis, rhs, identifierMap)
 					case "RootNotes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Note); ok {
-										inst.RootNotes = append(inst.RootNotes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RootNotes, rhs, identifierMap)
 					case "IsRootLibrary":
 						inst.IsRootLibrary = GongExtractBool(rhs)
 					case "IsSubLibrariesNodeExpanded":
 						inst.IsSubLibrariesNodeExpanded = GongExtractBool(rhs)
 					case "SubLibrariesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Library); ok {
-										inst.SubLibrariesWhoseNodeIsExpanded = append(inst.SubLibrariesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SubLibrariesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "NbPixPerCharacter":
 						inst.NbPixPerCharacter = GongExtractFloat(rhs)
 					case "LogoSVGFile":
@@ -1578,75 +1230,27 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsSystemsNodeExpanded":
 						inst.IsSystemsNodeExpanded = GongExtractBool(rhs)
 					case "SystemsWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*System); ok {
-										inst.SystemsWhoseNodeIsExpanded = append(inst.SystemsWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SystemsWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsComplexitysNodeExpanded":
 						inst.IsComplexitysNodeExpanded = GongExtractBool(rhs)
 					case "ComplexitysWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Complexity); ok {
-										inst.ComplexitysWhoseNodeIsExpanded = append(inst.ComplexitysWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ComplexitysWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsPerformancesNodeExpanded":
 						inst.IsPerformancesNodeExpanded = GongExtractBool(rhs)
 					case "PerformancesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Performance); ok {
-										inst.PerformancesWhoseNodeIsExpanded = append(inst.PerformancesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.PerformancesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsEffortsNodeExpanded":
 						inst.IsEffortsNodeExpanded = GongExtractBool(rhs)
 					case "EffortsWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Effort); ok {
-										inst.EffortsWhoseNodeIsExpanded = append(inst.EffortsWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.EffortsWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsCompareAnalysisNodeExpanded":
 						inst.IsCompareAnalysisNodeExpanded = GongExtractBool(rhs)
 					case "CompareAnalysisWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*CompareAnalysis); ok {
-										inst.CompareAnalysisWhoseNodeIsExpanded = append(inst.CompareAnalysisWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.CompareAnalysisWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsNotesNodeExpanded":
 						inst.IsNotesNodeExpanded = GongExtractBool(rhs)
 					case "NotesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Note); ok {
-										inst.NotesWhoseNodeIsExpanded = append(inst.NotesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.NotesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsExpandedTmp":
 						inst.IsExpandedTmp = GongExtractBool(rhs)
 					}
@@ -1657,35 +1261,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Description":
 						inst.Description = GongExtractString(rhs)
 					case "Complexities":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Complexity); ok {
-										inst.Complexities = append(inst.Complexities, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Complexities, rhs, identifierMap)
 					case "Performances":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Performance); ok {
-										inst.Performances = append(inst.Performances, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Performances, rhs, identifierMap)
 					case "Efforts":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Effort); ok {
-										inst.Efforts = append(inst.Efforts, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Efforts, rhs, identifierMap)
 					case "ComputedPrefix":
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
@@ -1702,21 +1282,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Note":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Note); ok {
-									inst.Note = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Note, rhs, identifierMap)
 					case "Complexity":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Complexity); ok {
-									inst.Complexity = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Complexity, rhs, identifierMap)
 					case "StartRatio":
 						inst.StartRatio = GongExtractFloat(rhs)
 					case "EndRatio":
@@ -1735,21 +1303,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Note":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Note); ok {
-									inst.Note = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Note, rhs, identifierMap)
 					case "Effort":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Effort); ok {
-									inst.Effort = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Effort, rhs, identifierMap)
 					case "StartRatio":
 						inst.StartRatio = GongExtractFloat(rhs)
 					case "EndRatio":
@@ -1768,21 +1324,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Note":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Note); ok {
-									inst.Note = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Note, rhs, identifierMap)
 					case "Performance":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Performance); ok {
-									inst.Performance = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Performance, rhs, identifierMap)
 					case "StartRatio":
 						inst.StartRatio = GongExtractFloat(rhs)
 					case "EndRatio":
@@ -1801,13 +1345,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Note":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Note); ok {
-									inst.Note = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Note, rhs, identifierMap)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -1839,45 +1377,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Description":
 						inst.Description = GongExtractString(rhs)
 					case "Complexities":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Complexity); ok {
-										inst.Complexities = append(inst.Complexities, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Complexities, rhs, identifierMap)
 					case "Performances":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Performance); ok {
-										inst.Performances = append(inst.Performances, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Performances, rhs, identifierMap)
 					case "Efforts":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Effort); ok {
-										inst.Efforts = append(inst.Efforts, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Efforts, rhs, identifierMap)
 					case "SubSystems":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*System); ok {
-										inst.SubSystems = append(inst.SubSystems, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SubSystems, rhs, identifierMap)
 					case "AreCPEsCompoundedFromSubSystems":
 						inst.AreCPEsCompoundedFromSubSystems = GongExtractBool(rhs)
 					case "ComputedPrefix":
@@ -1889,63 +1395,23 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "InverseAppliedScaling":
 						inst.InverseAppliedScaling = GongExtractFloat(rhs)
 					case "DiagramFlossEquations":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DiagramFlossEquation); ok {
-										inst.DiagramFlossEquations = append(inst.DiagramFlossEquations, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DiagramFlossEquations, rhs, identifierMap)
 					case "DiagramFlossEquationsWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DiagramFlossEquation); ok {
-										inst.DiagramFlossEquationsWhoseNodeIsExpanded = append(inst.DiagramFlossEquationsWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DiagramFlossEquationsWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsSubSystemNodeExpanded":
 						inst.IsSubSystemNodeExpanded = GongExtractBool(rhs)
 					case "IsComplexitysNodeExpanded":
 						inst.IsComplexitysNodeExpanded = GongExtractBool(rhs)
 					case "ComplexitysWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Complexity); ok {
-										inst.ComplexitysWhoseNodeIsExpanded = append(inst.ComplexitysWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ComplexitysWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsPerformancesNodeExpanded":
 						inst.IsPerformancesNodeExpanded = GongExtractBool(rhs)
 					case "PerformancesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Performance); ok {
-										inst.PerformancesWhoseNodeIsExpanded = append(inst.PerformancesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.PerformancesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsEffortsNodeExpanded":
 						inst.IsEffortsNodeExpanded = GongExtractBool(rhs)
 					case "EffortsWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Effort); ok {
-										inst.EffortsWhoseNodeIsExpanded = append(inst.EffortsWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.EffortsWhoseNodeIsExpanded, rhs, identifierMap)
 					}
 							}
 						}
@@ -1957,4 +1423,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }

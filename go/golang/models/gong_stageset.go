@@ -302,23 +302,11 @@ func CodeGeneratorModelGongStageSet(
 		for _, sName := range structNames {
 			sVar := strings.ToLower(sName)
 			sPlural := sName + "s"
-			typeQual := sName
-			if !f.IsLocal {
-				typeQual = f.ImportAlias + "." + sName
-			}
 
 			fields := ExtractStructFields(mPkg, sName, pkgPathToField)
 
 			marshallBody.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n", f.Name))
-			marshallBody.WriteString(fmt.Sprintf("\t\t%sOrdered := []*%s{}\n", sVar, typeQual))
-			marshallBody.WriteString(fmt.Sprintf("\t\tfor %s := range stageSet.%s.%s {\n", sVar, f.Name, sPlural))
-			marshallBody.WriteString(fmt.Sprintf("\t\t\t%sOrdered = append(%sOrdered, %s)\n", sVar, sVar, sVar))
-			marshallBody.WriteString("\t\t}\n")
-			marshallBody.WriteString(fmt.Sprintf("\t\tsort.Slice(%sOrdered, func(i, j int) bool {\n", sVar))
-			marshallBody.WriteString(fmt.Sprintf("\t\t\treturn stageSet.%s.%s_stagedOrder[%sOrdered[i]] < stageSet.%s.%s_stagedOrder[%sOrdered[j]]\n", f.Name, sName, sVar, f.Name, sName, sVar))
-			marshallBody.WriteString("\t\t})\n")
-
-			marshallBody.WriteString(fmt.Sprintf("\t\tfor _, %s := range %sOrdered {\n", sVar, sVar))
+			marshallBody.WriteString(fmt.Sprintf("\t\tfor _, %s := range __gong__sortStageSetInstances(stageSet.%s.%s, stageSet.%s.%s_stagedOrder) {\n", sVar, f.Name, sPlural, f.Name, sName))
 			marshallBody.WriteString(fmt.Sprintf("\t\t\tif lastStageDecl != %q {\n", f.Name))
 			marshallBody.WriteString("\t\t\t\tif declarations.Len() > 0 {\n")
 			marshallBody.WriteString("\t\t\t\t\tdeclarations.WriteString(\"\\n\")\n")
@@ -453,16 +441,7 @@ func CodeGeneratorModelGongStageSet(
 				typeQual = f.ImportAlias + "." + sName
 			}
 			defineCases.WriteString(fmt.Sprintf("\t\t\t\tcase \"%s\":\n", sName))
-			defineCases.WriteString("\t\t\t\t\tif !preserveOrder {\n")
-			defineCases.WriteString(fmt.Sprintf("\t\t\t\t\t\tinst := (&%s{Name: instanceName}).Stage(stageSet.%s)\n", typeQual, f.Name))
-			defineCases.WriteString("\t\t\t\t\t\tidentifierMap[ident.Name] = inst\n")
-			defineCases.WriteString("\t\t\t\t\t} else {\n")
-			defineCases.WriteString(fmt.Sprintf("\t\t\t\t\t\tinst := new(%s)\n", typeQual))
-			defineCases.WriteString("\t\t\t\t\t\tinst.Name = instanceName\n")
-			defineCases.WriteString("\t\t\t\t\t\torder, _ := __gong__extractMiddleUint(ident.Name)\n")
-			defineCases.WriteString(fmt.Sprintf("\t\t\t\t\t\tinst.StagePreserveOrder(stageSet.%s, uint(order))\n", f.Name))
-			defineCases.WriteString("\t\t\t\t\t\tidentifierMap[ident.Name] = inst\n")
-			defineCases.WriteString("\t\t\t\t\t}\n")
+			defineCases.WriteString(fmt.Sprintf("\t\t\t\t\tidentifierMap[ident.Name] = __gong__stageSetInit(new(%s), stageSet.%s, ident.Name, instanceName, preserveOrder)\n", typeQual, f.Name))
 		}
 		defineCases.WriteString("\t\t\t\t}\n")
 
@@ -485,18 +464,7 @@ func CodeGeneratorModelGongStageSet(
 								continue
 							}
 						}
-						targetQual := fld.TargetStructName
-						if !targetSSF.IsLocal {
-							targetQual = targetSSF.ImportAlias + "." + fld.TargetStructName
-						}
-						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n", fld.Name))
-						assignCases.WriteString("\t\t\t\t\t\tif rIdent, ok := rhs.(*ast.Ident); ok {\n")
-						assignCases.WriteString("\t\t\t\t\t\t\tif target, ok := identifierMap[rIdent.Name]; ok {\n")
-						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\t\t\t\tif typedTarget, ok := target.(*%s); ok {\n", targetQual))
-						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\t\t\t\t\tinst.%s = typedTarget\n", fld.Name))
-						assignCases.WriteString("\t\t\t\t\t\t\t\t}\n")
-						assignCases.WriteString("\t\t\t\t\t\t\t}\n")
-						assignCases.WriteString("\t\t\t\t\t\t}\n")
+						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\t__gong__assignPointer(&inst.%s, rhs, identifierMap)\n", fld.Name, fld.Name))
 					}
 				} else if fld.IsSliceOfPointer {
 					targetSSF := pkgPathToField[fld.TargetPackagePath]
@@ -507,20 +475,7 @@ func CodeGeneratorModelGongStageSet(
 								continue
 							}
 						}
-						targetQual := fld.TargetStructName
-						if !targetSSF.IsLocal {
-							targetQual = targetSSF.ImportAlias + "." + fld.TargetStructName
-						}
-						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n", fld.Name))
-						assignCases.WriteString("\t\t\t\t\t\tif call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {\n")
-						assignCases.WriteString("\t\t\t\t\t\t\tif rIdent, ok := call.Args[1].(*ast.Ident); ok {\n")
-						assignCases.WriteString("\t\t\t\t\t\t\t\tif target, ok := identifierMap[rIdent.Name]; ok {\n")
-						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\t\t\t\t\tif typedTarget, ok := target.(*%s); ok {\n", targetQual))
-						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\t\t\t\t\t\tinst.%s = append(inst.%s, typedTarget)\n", fld.Name, fld.Name))
-						assignCases.WriteString("\t\t\t\t\t\t\t\t\t}\n")
-						assignCases.WriteString("\t\t\t\t\t\t\t\t}\n")
-						assignCases.WriteString("\t\t\t\t\t\t\t}\n")
-						assignCases.WriteString("\t\t\t\t\t\t}\n")
+						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\t__gong__assignSliceOfPointers(&inst.%s, rhs, identifierMap)\n", fld.Name, fld.Name))
 					}
 				} else {
 					switch fld.BasicKind {
@@ -610,7 +565,7 @@ func CodeGeneratorModelGongStageSet(
 						}
 					default:
 						if fld.IsTime {
-							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tif call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {\n\t\t\t\t\t\t\tif bl, ok := call.Args[1].(*ast.BasicLit); ok {\n\t\t\t\t\t\t\t\tinst.%s, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", strings.Trim(bl.Value, \"\\\"`\"))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n", fld.Name, fld.Name))
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = GongExtractDate(rhs)\n", fld.Name, fld.Name))
 						} else if fld.IsDuration {
 							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = time.Duration(GongExtractInt(rhs))\n", fld.Name, fld.Name))
 						} else if fld.IsEnum {

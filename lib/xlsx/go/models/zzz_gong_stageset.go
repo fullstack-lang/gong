@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		displayselectionOrdered := []*DisplaySelection{}
-		for displayselection := range stageSet.Stage.DisplaySelections {
-			displayselectionOrdered = append(displayselectionOrdered, displayselection)
-		}
-		sort.Slice(displayselectionOrdered, func(i, j int) bool {
-			return stageSet.Stage.DisplaySelection_stagedOrder[displayselectionOrdered[i]] < stageSet.Stage.DisplaySelection_stagedOrder[displayselectionOrdered[j]]
-		})
-		for _, displayselection := range displayselectionOrdered {
+		for _, displayselection := range __gong__sortStageSetInstances(stageSet.Stage.DisplaySelections, stageSet.Stage.DisplaySelection_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -182,14 +175,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		xlcellOrdered := []*XLCell{}
-		for xlcell := range stageSet.Stage.XLCells {
-			xlcellOrdered = append(xlcellOrdered, xlcell)
-		}
-		sort.Slice(xlcellOrdered, func(i, j int) bool {
-			return stageSet.Stage.XLCell_stagedOrder[xlcellOrdered[i]] < stageSet.Stage.XLCell_stagedOrder[xlcellOrdered[j]]
-		})
-		for _, xlcell := range xlcellOrdered {
+		for _, xlcell := range __gong__sortStageSetInstances(stageSet.Stage.XLCells, stageSet.Stage.XLCell_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -210,14 +196,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		xlfileOrdered := []*XLFile{}
-		for xlfile := range stageSet.Stage.XLFiles {
-			xlfileOrdered = append(xlfileOrdered, xlfile)
-		}
-		sort.Slice(xlfileOrdered, func(i, j int) bool {
-			return stageSet.Stage.XLFile_stagedOrder[xlfileOrdered[i]] < stageSet.Stage.XLFile_stagedOrder[xlfileOrdered[j]]
-		})
-		for _, xlfile := range xlfileOrdered {
+		for _, xlfile := range __gong__sortStageSetInstances(stageSet.Stage.XLFiles, stageSet.Stage.XLFile_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -247,14 +226,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		xlrowOrdered := []*XLRow{}
-		for xlrow := range stageSet.Stage.XLRows {
-			xlrowOrdered = append(xlrowOrdered, xlrow)
-		}
-		sort.Slice(xlrowOrdered, func(i, j int) bool {
-			return stageSet.Stage.XLRow_stagedOrder[xlrowOrdered[i]] < stageSet.Stage.XLRow_stagedOrder[xlrowOrdered[j]]
-		})
-		for _, xlrow := range xlrowOrdered {
+		for _, xlrow := range __gong__sortStageSetInstances(stageSet.Stage.XLRows, stageSet.Stage.XLRow_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -284,14 +256,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		xlsheetOrdered := []*XLSheet{}
-		for xlsheet := range stageSet.Stage.XLSheets {
-			xlsheetOrdered = append(xlsheetOrdered, xlsheet)
-		}
-		sort.Slice(xlsheetOrdered, func(i, j int) bool {
-			return stageSet.Stage.XLSheet_stagedOrder[xlsheetOrdered[i]] < stageSet.Stage.XLSheet_stagedOrder[xlsheetOrdered[j]]
-		})
-		for _, xlsheet := range xlsheetOrdered {
+		for _, xlsheet := range __gong__sortStageSetInstances(stageSet.Stage.XLSheets, stageSet.Stage.XLSheet_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -475,60 +440,15 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "DisplaySelection":
-					if !preserveOrder {
-						inst := (&DisplaySelection{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DisplaySelection)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DisplaySelection), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "XLCell":
-					if !preserveOrder {
-						inst := (&XLCell{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(XLCell)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(XLCell), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "XLFile":
-					if !preserveOrder {
-						inst := (&XLFile{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(XLFile)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(XLFile), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "XLRow":
-					if !preserveOrder {
-						inst := (&XLRow{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(XLRow)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(XLRow), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "XLSheet":
-					if !preserveOrder {
-						inst := (&XLSheet{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(XLSheet)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(XLSheet), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -548,21 +468,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "XLFile":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*XLFile); ok {
-									inst.XLFile = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.XLFile, rhs, identifierMap)
 					case "XLSheet":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*XLSheet); ok {
-									inst.XLSheet = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.XLSheet, rhs, identifierMap)
 					}
 				case *XLCell:
 					switch fieldName {
@@ -580,15 +488,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "NbSheets":
 						inst.NbSheets = GongExtractInt(rhs)
 					case "Sheets":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*XLSheet); ok {
-										inst.Sheets = append(inst.Sheets, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Sheets, rhs, identifierMap)
 					}
 				case *XLRow:
 					switch fieldName {
@@ -597,15 +497,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "RowIndex":
 						inst.RowIndex = GongExtractInt(rhs)
 					case "Cells":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*XLCell); ok {
-										inst.Cells = append(inst.Cells, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Cells, rhs, identifierMap)
 					}
 				case *XLSheet:
 					switch fieldName {
@@ -618,25 +510,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "NbRows":
 						inst.NbRows = GongExtractInt(rhs)
 					case "Rows":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*XLRow); ok {
-										inst.Rows = append(inst.Rows, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Rows, rhs, identifierMap)
 					case "SheetCells":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*XLCell); ok {
-										inst.SheetCells = append(inst.SheetCells, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SheetCells, rhs, identifierMap)
 					}
 							}
 						}
@@ -648,4 +524,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }

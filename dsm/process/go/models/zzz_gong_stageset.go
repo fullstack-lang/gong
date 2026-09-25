@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		allocatedprocessshapeOrdered := []*AllocatedProcessShape{}
-		for allocatedprocessshape := range stageSet.Stage.AllocatedProcessShapes {
-			allocatedprocessshapeOrdered = append(allocatedprocessshapeOrdered, allocatedprocessshape)
-		}
-		sort.Slice(allocatedprocessshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.AllocatedProcessShape_stagedOrder[allocatedprocessshapeOrdered[i]] < stageSet.Stage.AllocatedProcessShape_stagedOrder[allocatedprocessshapeOrdered[j]]
-		})
-		for _, allocatedprocessshape := range allocatedprocessshapeOrdered {
+		for _, allocatedprocessshape := range __gong__sortStageSetInstances(stageSet.Stage.AllocatedProcessShapes, stageSet.Stage.AllocatedProcessShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -182,14 +175,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		allocatedresourceshapeOrdered := []*AllocatedResourceShape{}
-		for allocatedresourceshape := range stageSet.Stage.AllocatedResourceShapes {
-			allocatedresourceshapeOrdered = append(allocatedresourceshapeOrdered, allocatedresourceshape)
-		}
-		sort.Slice(allocatedresourceshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.AllocatedResourceShape_stagedOrder[allocatedresourceshapeOrdered[i]] < stageSet.Stage.AllocatedResourceShape_stagedOrder[allocatedresourceshapeOrdered[j]]
-		})
-		for _, allocatedresourceshape := range allocatedresourceshapeOrdered {
+		for _, allocatedresourceshape := range __gong__sortStageSetInstances(stageSet.Stage.AllocatedResourceShapes, stageSet.Stage.AllocatedResourceShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -228,14 +214,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		controlflowOrdered := []*ControlFlow{}
-		for controlflow := range stageSet.Stage.ControlFlows {
-			controlflowOrdered = append(controlflowOrdered, controlflow)
-		}
-		sort.Slice(controlflowOrdered, func(i, j int) bool {
-			return stageSet.Stage.ControlFlow_stagedOrder[controlflowOrdered[i]] < stageSet.Stage.ControlFlow_stagedOrder[controlflowOrdered[j]]
-		})
-		for _, controlflow := range controlflowOrdered {
+		for _, controlflow := range __gong__sortStageSetInstances(stageSet.Stage.ControlFlows, stageSet.Stage.ControlFlow_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -277,14 +256,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		controlflowshapeOrdered := []*ControlFlowShape{}
-		for controlflowshape := range stageSet.Stage.ControlFlowShapes {
-			controlflowshapeOrdered = append(controlflowshapeOrdered, controlflowshape)
-		}
-		sort.Slice(controlflowshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.ControlFlowShape_stagedOrder[controlflowshapeOrdered[i]] < stageSet.Stage.ControlFlowShape_stagedOrder[controlflowshapeOrdered[j]]
-		})
-		for _, controlflowshape := range controlflowshapeOrdered {
+		for _, controlflowshape := range __gong__sortStageSetInstances(stageSet.Stage.ControlFlowShapes, stageSet.Stage.ControlFlowShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -319,14 +291,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		dataOrdered := []*Data{}
-		for data := range stageSet.Stage.Datas {
-			dataOrdered = append(dataOrdered, data)
-		}
-		sort.Slice(dataOrdered, func(i, j int) bool {
-			return stageSet.Stage.Data_stagedOrder[dataOrdered[i]] < stageSet.Stage.Data_stagedOrder[dataOrdered[j]]
-		})
-		for _, data := range dataOrdered {
+		for _, data := range __gong__sortStageSetInstances(stageSet.Stage.Datas, stageSet.Stage.Data_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -351,14 +316,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		dataflowOrdered := []*DataFlow{}
-		for dataflow := range stageSet.Stage.DataFlows {
-			dataflowOrdered = append(dataflowOrdered, dataflow)
-		}
-		sort.Slice(dataflowOrdered, func(i, j int) bool {
-			return stageSet.Stage.DataFlow_stagedOrder[dataflowOrdered[i]] < stageSet.Stage.DataFlow_stagedOrder[dataflowOrdered[j]]
-		})
-		for _, dataflow := range dataflowOrdered {
+		for _, dataflow := range __gong__sortStageSetInstances(stageSet.Stage.DataFlows, stageSet.Stage.DataFlow_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -432,14 +390,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		dataflowshapeOrdered := []*DataFlowShape{}
-		for dataflowshape := range stageSet.Stage.DataFlowShapes {
-			dataflowshapeOrdered = append(dataflowshapeOrdered, dataflowshape)
-		}
-		sort.Slice(dataflowshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.DataFlowShape_stagedOrder[dataflowshapeOrdered[i]] < stageSet.Stage.DataFlowShape_stagedOrder[dataflowshapeOrdered[j]]
-		})
-		for _, dataflowshape := range dataflowshapeOrdered {
+		for _, dataflowshape := range __gong__sortStageSetInstances(stageSet.Stage.DataFlowShapes, stageSet.Stage.DataFlowShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -474,14 +425,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		datashapeOrdered := []*DataShape{}
-		for datashape := range stageSet.Stage.DataShapes {
-			datashapeOrdered = append(datashapeOrdered, datashape)
-		}
-		sort.Slice(datashapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.DataShape_stagedOrder[datashapeOrdered[i]] < stageSet.Stage.DataShape_stagedOrder[datashapeOrdered[j]]
-		})
-		for _, datashape := range datashapeOrdered {
+		for _, datashape := range __gong__sortStageSetInstances(stageSet.Stage.DataShapes, stageSet.Stage.DataShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -520,14 +464,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		diagramprocessOrdered := []*DiagramProcess{}
-		for diagramprocess := range stageSet.Stage.DiagramProcesss {
-			diagramprocessOrdered = append(diagramprocessOrdered, diagramprocess)
-		}
-		sort.Slice(diagramprocessOrdered, func(i, j int) bool {
-			return stageSet.Stage.DiagramProcess_stagedOrder[diagramprocessOrdered[i]] < stageSet.Stage.DiagramProcess_stagedOrder[diagramprocessOrdered[j]]
-		})
-		for _, diagramprocess := range diagramprocessOrdered {
+		for _, diagramprocess := range __gong__sortStageSetInstances(stageSet.Stage.DiagramProcesss, stageSet.Stage.DiagramProcess_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -800,14 +737,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		externalparticipantshapeOrdered := []*ExternalParticipantShape{}
-		for externalparticipantshape := range stageSet.Stage.ExternalParticipantShapes {
-			externalparticipantshapeOrdered = append(externalparticipantshapeOrdered, externalparticipantshape)
-		}
-		sort.Slice(externalparticipantshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.ExternalParticipantShape_stagedOrder[externalparticipantshapeOrdered[i]] < stageSet.Stage.ExternalParticipantShape_stagedOrder[externalparticipantshapeOrdered[j]]
-		})
-		for _, externalparticipantshape := range externalparticipantshapeOrdered {
+		for _, externalparticipantshape := range __gong__sortStageSetInstances(stageSet.Stage.ExternalParticipantShapes, stageSet.Stage.ExternalParticipantShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -843,14 +773,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		libraryOrdered := []*Library{}
-		for library := range stageSet.Stage.Librarys {
-			libraryOrdered = append(libraryOrdered, library)
-		}
-		sort.Slice(libraryOrdered, func(i, j int) bool {
-			return stageSet.Stage.Library_stagedOrder[libraryOrdered[i]] < stageSet.Stage.Library_stagedOrder[libraryOrdered[j]]
-		})
-		for _, library := range libraryOrdered {
+		for _, library := range __gong__sortStageSetInstances(stageSet.Stage.Librarys, stageSet.Stage.Library_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1012,14 +935,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		noteOrdered := []*Note{}
-		for note := range stageSet.Stage.Notes {
-			noteOrdered = append(noteOrdered, note)
-		}
-		sort.Slice(noteOrdered, func(i, j int) bool {
-			return stageSet.Stage.Note_stagedOrder[noteOrdered[i]] < stageSet.Stage.Note_stagedOrder[noteOrdered[j]]
-		})
-		for _, note := range noteOrdered {
+		for _, note := range __gong__sortStageSetInstances(stageSet.Stage.Notes, stageSet.Stage.Note_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1052,14 +968,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		noteshapeOrdered := []*NoteShape{}
-		for noteshape := range stageSet.Stage.NoteShapes {
-			noteshapeOrdered = append(noteshapeOrdered, noteshape)
-		}
-		sort.Slice(noteshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.NoteShape_stagedOrder[noteshapeOrdered[i]] < stageSet.Stage.NoteShape_stagedOrder[noteshapeOrdered[j]]
-		})
-		for _, noteshape := range noteshapeOrdered {
+		for _, noteshape := range __gong__sortStageSetInstances(stageSet.Stage.NoteShapes, stageSet.Stage.NoteShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1093,14 +1002,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		notetaskshapeOrdered := []*NoteTaskShape{}
-		for notetaskshape := range stageSet.Stage.NoteTaskShapes {
-			notetaskshapeOrdered = append(notetaskshapeOrdered, notetaskshape)
-		}
-		sort.Slice(notetaskshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.NoteTaskShape_stagedOrder[notetaskshapeOrdered[i]] < stageSet.Stage.NoteTaskShape_stagedOrder[notetaskshapeOrdered[j]]
-		})
-		for _, notetaskshape := range notetaskshapeOrdered {
+		for _, notetaskshape := range __gong__sortStageSetInstances(stageSet.Stage.NoteTaskShapes, stageSet.Stage.NoteTaskShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1145,14 +1047,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		participantOrdered := []*Participant{}
-		for participant := range stageSet.Stage.Participants {
-			participantOrdered = append(participantOrdered, participant)
-		}
-		sort.Slice(participantOrdered, func(i, j int) bool {
-			return stageSet.Stage.Participant_stagedOrder[participantOrdered[i]] < stageSet.Stage.Participant_stagedOrder[participantOrdered[j]]
-		})
-		for _, participant := range participantOrdered {
+		for _, participant := range __gong__sortStageSetInstances(stageSet.Stage.Participants, stageSet.Stage.Participant_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1260,14 +1155,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		participantshapeOrdered := []*ParticipantShape{}
-		for participantshape := range stageSet.Stage.ParticipantShapes {
-			participantshapeOrdered = append(participantshapeOrdered, participantshape)
-		}
-		sort.Slice(participantshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.ParticipantShape_stagedOrder[participantshapeOrdered[i]] < stageSet.Stage.ParticipantShape_stagedOrder[participantshapeOrdered[j]]
-		})
-		for _, participantshape := range participantshapeOrdered {
+		for _, participantshape := range __gong__sortStageSetInstances(stageSet.Stage.ParticipantShapes, stageSet.Stage.ParticipantShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1303,14 +1191,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		processOrdered := []*Process{}
-		for process := range stageSet.Stage.Processs {
-			processOrdered = append(processOrdered, process)
-		}
-		sort.Slice(processOrdered, func(i, j int) bool {
-			return stageSet.Stage.Process_stagedOrder[processOrdered[i]] < stageSet.Stage.Process_stagedOrder[processOrdered[j]]
-		})
-		for _, process := range processOrdered {
+		for _, process := range __gong__sortStageSetInstances(stageSet.Stage.Processs, stageSet.Stage.Process_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1416,14 +1297,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		processshapeOrdered := []*ProcessShape{}
-		for processshape := range stageSet.Stage.ProcessShapes {
-			processshapeOrdered = append(processshapeOrdered, processshape)
-		}
-		sort.Slice(processshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.ProcessShape_stagedOrder[processshapeOrdered[i]] < stageSet.Stage.ProcessShape_stagedOrder[processshapeOrdered[j]]
-		})
-		for _, processshape := range processshapeOrdered {
+		for _, processshape := range __gong__sortStageSetInstances(stageSet.Stage.ProcessShapes, stageSet.Stage.ProcessShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1458,14 +1332,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		resourceOrdered := []*Resource{}
-		for resource := range stageSet.Stage.Resources {
-			resourceOrdered = append(resourceOrdered, resource)
-		}
-		sort.Slice(resourceOrdered, func(i, j int) bool {
-			return stageSet.Stage.Resource_stagedOrder[resourceOrdered[i]] < stageSet.Stage.Resource_stagedOrder[resourceOrdered[j]]
-		})
-		for _, resource := range resourceOrdered {
+		for _, resource := range __gong__sortStageSetInstances(stageSet.Stage.Resources, stageSet.Stage.Resource_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1490,14 +1357,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		taskOrdered := []*Task{}
-		for task := range stageSet.Stage.Tasks {
-			taskOrdered = append(taskOrdered, task)
-		}
-		sort.Slice(taskOrdered, func(i, j int) bool {
-			return stageSet.Stage.Task_stagedOrder[taskOrdered[i]] < stageSet.Stage.Task_stagedOrder[taskOrdered[j]]
-		})
-		for _, task := range taskOrdered {
+		for _, task := range __gong__sortStageSetInstances(stageSet.Stage.Tasks, stageSet.Stage.Task_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1532,14 +1392,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		taskshapeOrdered := []*TaskShape{}
-		for taskshape := range stageSet.Stage.TaskShapes {
-			taskshapeOrdered = append(taskshapeOrdered, taskshape)
-		}
-		sort.Slice(taskshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.TaskShape_stagedOrder[taskshapeOrdered[i]] < stageSet.Stage.TaskShape_stagedOrder[taskshapeOrdered[j]]
-		})
-		for _, taskshape := range taskshapeOrdered {
+		for _, taskshape := range __gong__sortStageSetInstances(stageSet.Stage.TaskShapes, stageSet.Stage.TaskShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1716,236 +1569,47 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "AllocatedProcessShape":
-					if !preserveOrder {
-						inst := (&AllocatedProcessShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(AllocatedProcessShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(AllocatedProcessShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "AllocatedResourceShape":
-					if !preserveOrder {
-						inst := (&AllocatedResourceShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(AllocatedResourceShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(AllocatedResourceShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ControlFlow":
-					if !preserveOrder {
-						inst := (&ControlFlow{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ControlFlow)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ControlFlow), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ControlFlowShape":
-					if !preserveOrder {
-						inst := (&ControlFlowShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ControlFlowShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ControlFlowShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Data":
-					if !preserveOrder {
-						inst := (&Data{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Data)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Data), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DataFlow":
-					if !preserveOrder {
-						inst := (&DataFlow{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DataFlow)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DataFlow), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DataFlowShape":
-					if !preserveOrder {
-						inst := (&DataFlowShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DataFlowShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DataFlowShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DataShape":
-					if !preserveOrder {
-						inst := (&DataShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DataShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DataShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DiagramProcess":
-					if !preserveOrder {
-						inst := (&DiagramProcess{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DiagramProcess)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DiagramProcess), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ExternalParticipantShape":
-					if !preserveOrder {
-						inst := (&ExternalParticipantShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ExternalParticipantShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ExternalParticipantShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Library":
-					if !preserveOrder {
-						inst := (&Library{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Library)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Library), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Note":
-					if !preserveOrder {
-						inst := (&Note{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Note)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Note), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "NoteShape":
-					if !preserveOrder {
-						inst := (&NoteShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(NoteShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "NoteTaskShape":
-					if !preserveOrder {
-						inst := (&NoteTaskShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(NoteTaskShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteTaskShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Participant":
-					if !preserveOrder {
-						inst := (&Participant{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Participant)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Participant), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ParticipantShape":
-					if !preserveOrder {
-						inst := (&ParticipantShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ParticipantShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ParticipantShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Process":
-					if !preserveOrder {
-						inst := (&Process{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Process)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Process), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ProcessShape":
-					if !preserveOrder {
-						inst := (&ProcessShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ProcessShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ProcessShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Resource":
-					if !preserveOrder {
-						inst := (&Resource{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Resource)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Resource), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Task":
-					if !preserveOrder {
-						inst := (&Task{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Task)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Task), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "TaskShape":
-					if !preserveOrder {
-						inst := (&TaskShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(TaskShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TaskShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -1965,42 +1629,18 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Participant":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
-									inst.Participant = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Participant, rhs, identifierMap)
 					case "Process":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Process); ok {
-									inst.Process = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Process, rhs, identifierMap)
 					}
 				case *AllocatedResourceShape:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Participant":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
-									inst.Participant = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Participant, rhs, identifierMap)
 					case "Resource":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Resource); ok {
-									inst.Resource = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Resource, rhs, identifierMap)
 					}
 				case *ControlFlow:
 					switch fieldName {
@@ -2013,34 +1653,16 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "Start":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
-									inst.Start = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Start, rhs, identifierMap)
 					case "End":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
-									inst.End = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.End, rhs, identifierMap)
 					}
 				case *ControlFlowShape:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "ControlFlow":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ControlFlow); ok {
-									inst.ControlFlow = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ControlFlow, rhs, identifierMap)
 					case "StartRatio":
 						inst.StartRatio = GongExtractFloat(rhs)
 					case "EndRatio":
@@ -2076,15 +1698,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Datas":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Data); ok {
-										inst.Datas = append(inst.Datas, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Datas, rhs, identifierMap)
 					case "Description":
 						inst.Description = GongExtractString(rhs)
 					case "ComputedPrefix":
@@ -2094,37 +1708,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Type":
 						inst.Type = DataFlowType(GongExtractString(rhs))
 					case "StartTask":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
-									inst.StartTask = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.StartTask, rhs, identifierMap)
 					case "EndTask":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
-									inst.EndTask = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.EndTask, rhs, identifierMap)
 					case "StartExternalParticipant":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
-									inst.StartExternalParticipant = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.StartExternalParticipant, rhs, identifierMap)
 					case "EndExternalParticipant":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
-									inst.EndExternalParticipant = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.EndExternalParticipant, rhs, identifierMap)
 					case "IsDatasNodeExpanded":
 						inst.IsDatasNodeExpanded = GongExtractBool(rhs)
 					}
@@ -2133,13 +1723,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "DataFlow":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DataFlow); ok {
-									inst.DataFlow = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DataFlow, rhs, identifierMap)
 					case "StartRatio":
 						inst.StartRatio = GongExtractFloat(rhs)
 					case "EndRatio":
@@ -2158,21 +1742,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Data":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Data); ok {
-									inst.Data = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Data, rhs, identifierMap)
 					case "DataFlow":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DataFlow); ok {
-									inst.DataFlow = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.DataFlow, rhs, identifierMap)
 					}
 				case *DiagramProcess:
 					switch fieldName {
@@ -2199,266 +1771,68 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Height":
 						inst.Height = GongExtractFloat(rhs)
 					case "Process_Shapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ProcessShape); ok {
-										inst.Process_Shapes = append(inst.Process_Shapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Process_Shapes, rhs, identifierMap)
 					case "IsProcesssNodeExpanded":
 						inst.IsProcesssNodeExpanded = GongExtractBool(rhs)
 					case "ProcesssWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Process); ok {
-										inst.ProcesssWhoseNodeIsExpanded = append(inst.ProcesssWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ProcesssWhoseNodeIsExpanded, rhs, identifierMap)
 					case "Participant_Shapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ParticipantShape); ok {
-										inst.Participant_Shapes = append(inst.Participant_Shapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Participant_Shapes, rhs, identifierMap)
 					case "IsParticipantsNodeExpanded":
 						inst.IsParticipantsNodeExpanded = GongExtractBool(rhs)
 					case "ParticipantWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Participant); ok {
-										inst.ParticipantWhoseNodeIsExpanded = append(inst.ParticipantWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ParticipantWhoseNodeIsExpanded, rhs, identifierMap)
 					case "ExternalParticipant_Shapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ExternalParticipantShape); ok {
-										inst.ExternalParticipant_Shapes = append(inst.ExternalParticipant_Shapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ExternalParticipant_Shapes, rhs, identifierMap)
 					case "IsExternalParticipantsNodeExpanded":
 						inst.IsExternalParticipantsNodeExpanded = GongExtractBool(rhs)
 					case "ExternalParticipantWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Participant); ok {
-										inst.ExternalParticipantWhoseNodeIsExpanded = append(inst.ExternalParticipantWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ExternalParticipantWhoseNodeIsExpanded, rhs, identifierMap)
 					case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Participant); ok {
-										inst.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(inst.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, rhs, identifierMap)
 					case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Participant); ok {
-										inst.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(inst.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, rhs, identifierMap)
 					case "TasksWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Task); ok {
-										inst.TasksWhoseNodeIsExpanded = append(inst.TasksWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.TasksWhoseNodeIsExpanded, rhs, identifierMap)
 					case "Task_Shapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*TaskShape); ok {
-										inst.Task_Shapes = append(inst.Task_Shapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Task_Shapes, rhs, identifierMap)
 					case "ControlFlowsWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ControlFlow); ok {
-										inst.ControlFlowsWhoseNodeIsExpanded = append(inst.ControlFlowsWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ControlFlowsWhoseNodeIsExpanded, rhs, identifierMap)
 					case "ControlFlow_Shapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ControlFlowShape); ok {
-										inst.ControlFlow_Shapes = append(inst.ControlFlow_Shapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ControlFlow_Shapes, rhs, identifierMap)
 					case "DataFlowsWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DataFlow); ok {
-										inst.DataFlowsWhoseNodeIsExpanded = append(inst.DataFlowsWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DataFlowsWhoseNodeIsExpanded, rhs, identifierMap)
 					case "DataFlow_Shapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DataFlowShape); ok {
-										inst.DataFlow_Shapes = append(inst.DataFlow_Shapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DataFlow_Shapes, rhs, identifierMap)
 					case "DatasWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Data); ok {
-										inst.DatasWhoseNodeIsExpanded = append(inst.DatasWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DatasWhoseNodeIsExpanded, rhs, identifierMap)
 					case "Data_Shapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DataShape); ok {
-										inst.Data_Shapes = append(inst.Data_Shapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Data_Shapes, rhs, identifierMap)
 					case "DataFlowsWhoseDataNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DataFlow); ok {
-										inst.DataFlowsWhoseDataNodeIsExpanded = append(inst.DataFlowsWhoseDataNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DataFlowsWhoseDataNodeIsExpanded, rhs, identifierMap)
 					case "AllocatedResourcesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Resource); ok {
-										inst.AllocatedResourcesWhoseNodeIsExpanded = append(inst.AllocatedResourcesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.AllocatedResourcesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "AllocatedResourceShapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*AllocatedResourceShape); ok {
-										inst.AllocatedResourceShapes = append(inst.AllocatedResourceShapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.AllocatedResourceShapes, rhs, identifierMap)
 					case "AllocatedProcessesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Process); ok {
-										inst.AllocatedProcessesWhoseNodeIsExpanded = append(inst.AllocatedProcessesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.AllocatedProcessesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "AllocatedProcessShapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*AllocatedProcessShape); ok {
-										inst.AllocatedProcessShapes = append(inst.AllocatedProcessShapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.AllocatedProcessShapes, rhs, identifierMap)
 					case "Note_Shapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*NoteShape); ok {
-										inst.Note_Shapes = append(inst.Note_Shapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Note_Shapes, rhs, identifierMap)
 					case "NotesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Note); ok {
-										inst.NotesWhoseNodeIsExpanded = append(inst.NotesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.NotesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsNotesNodeExpanded":
 						inst.IsNotesNodeExpanded = GongExtractBool(rhs)
 					case "NoteTaskShapes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*NoteTaskShape); ok {
-										inst.NoteTaskShapes = append(inst.NoteTaskShapes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.NoteTaskShapes, rhs, identifierMap)
 					}
 				case *ExternalParticipantShape:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Participant":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
-									inst.Participant = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Participant, rhs, identifierMap)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "X":
@@ -2487,151 +1861,47 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsRootLibrary":
 						inst.IsRootLibrary = GongExtractBool(rhs)
 					case "SubLibraries":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Library); ok {
-										inst.SubLibraries = append(inst.SubLibraries, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SubLibraries, rhs, identifierMap)
 					case "IsSubLibrariesNodeExpanded":
 						inst.IsSubLibrariesNodeExpanded = GongExtractBool(rhs)
 					case "SubLibrariesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Library); ok {
-										inst.SubLibrariesWhoseNodeIsExpanded = append(inst.SubLibrariesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SubLibrariesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "NbPixPerCharacter":
 						inst.NbPixPerCharacter = GongExtractFloat(rhs)
 					case "LogoSVGFile":
 						inst.LogoSVGFile = GongExtractString(rhs)
 					case "RootProcesses":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Process); ok {
-										inst.RootProcesses = append(inst.RootProcesses, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RootProcesses, rhs, identifierMap)
 					case "IsProcessesNodeExpanded":
 						inst.IsProcessesNodeExpanded = GongExtractBool(rhs)
 					case "ProcesssWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Process); ok {
-										inst.ProcesssWhoseNodeIsExpanded = append(inst.ProcesssWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ProcesssWhoseNodeIsExpanded, rhs, identifierMap)
 					case "RootDataFlows":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DataFlow); ok {
-										inst.RootDataFlows = append(inst.RootDataFlows, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RootDataFlows, rhs, identifierMap)
 					case "IsDataFlowsNodeExpanded":
 						inst.IsDataFlowsNodeExpanded = GongExtractBool(rhs)
 					case "DataFlowsWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DataFlow); ok {
-										inst.DataFlowsWhoseNodeIsExpanded = append(inst.DataFlowsWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DataFlowsWhoseNodeIsExpanded, rhs, identifierMap)
 					case "RootDatas":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Data); ok {
-										inst.RootDatas = append(inst.RootDatas, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RootDatas, rhs, identifierMap)
 					case "IsDatasNodeExpanded":
 						inst.IsDatasNodeExpanded = GongExtractBool(rhs)
 					case "DatasWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Data); ok {
-										inst.DatasWhoseNodeIsExpanded = append(inst.DatasWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DatasWhoseNodeIsExpanded, rhs, identifierMap)
 					case "RootResources":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Resource); ok {
-										inst.RootResources = append(inst.RootResources, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RootResources, rhs, identifierMap)
 					case "IsResourcesNodeExpanded":
 						inst.IsResourcesNodeExpanded = GongExtractBool(rhs)
 					case "ResourcesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Resource); ok {
-										inst.ResourcesWhoseNodeIsExpanded = append(inst.ResourcesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ResourcesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "ParticipantsWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Participant); ok {
-										inst.ParticipantsWhoseNodeIsExpanded = append(inst.ParticipantsWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ParticipantsWhoseNodeIsExpanded, rhs, identifierMap)
 					case "RootNotes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Note); ok {
-										inst.RootNotes = append(inst.RootNotes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.RootNotes, rhs, identifierMap)
 					case "IsNotesNodeExpanded":
 						inst.IsNotesNodeExpanded = GongExtractBool(rhs)
 					case "NotesWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Note); ok {
-										inst.NotesWhoseNodeIsExpanded = append(inst.NotesWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.NotesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsExpandedTmp":
 						inst.IsExpandedTmp = GongExtractBool(rhs)
 					}
@@ -2648,28 +1918,14 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsTasksNodeExpanded":
 						inst.IsTasksNodeExpanded = GongExtractBool(rhs)
 					case "Tasks":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Task); ok {
-										inst.Tasks = append(inst.Tasks, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Tasks, rhs, identifierMap)
 					}
 				case *NoteShape:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Note":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Note); ok {
-									inst.Note = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Note, rhs, identifierMap)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -2686,21 +1942,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Note":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Note); ok {
-									inst.Note = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Note, rhs, identifierMap)
 					case "Task":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
-									inst.Task = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Task, rhs, identifierMap)
 					case "StartRatio":
 						inst.StartRatio = GongExtractFloat(rhs)
 					case "EndRatio":
@@ -2723,27 +1967,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Description":
 						inst.Description = GongExtractString(rhs)
 					case "Resources":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Resource); ok {
-										inst.Resources = append(inst.Resources, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Resources, rhs, identifierMap)
 					case "IsResourcesNodeExpanded":
 						inst.IsResourcesNodeExpanded = GongExtractBool(rhs)
 					case "Processes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Process); ok {
-										inst.Processes = append(inst.Processes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Processes, rhs, identifierMap)
 					case "IsProcessesNodeExpanded":
 						inst.IsProcessesNodeExpanded = GongExtractBool(rhs)
 					case "ComputedPrefix":
@@ -2753,82 +1981,28 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsTasksNodeExpanded":
 						inst.IsTasksNodeExpanded = GongExtractBool(rhs)
 					case "Tasks":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Task); ok {
-										inst.Tasks = append(inst.Tasks, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Tasks, rhs, identifierMap)
 					case "IsControlFlowsNodeExpanded":
 						inst.IsControlFlowsNodeExpanded = GongExtractBool(rhs)
 					case "ControlFlows":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*ControlFlow); ok {
-										inst.ControlFlows = append(inst.ControlFlows, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ControlFlows, rhs, identifierMap)
 					case "TaskWhoseOutControlFlowsNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Task); ok {
-										inst.TaskWhoseOutControlFlowsNodeIsExpanded = append(inst.TaskWhoseOutControlFlowsNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.TaskWhoseOutControlFlowsNodeIsExpanded, rhs, identifierMap)
 					case "TaskWhoseInControlFlowsNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Task); ok {
-										inst.TaskWhoseInControlFlowsNodeIsExpanded = append(inst.TaskWhoseInControlFlowsNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.TaskWhoseInControlFlowsNodeIsExpanded, rhs, identifierMap)
 					case "IsDataFlowsNodeExpanded":
 						inst.IsDataFlowsNodeExpanded = GongExtractBool(rhs)
 					case "TaskWhoseOutDataFlowsNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Task); ok {
-										inst.TaskWhoseOutDataFlowsNodeIsExpanded = append(inst.TaskWhoseOutDataFlowsNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.TaskWhoseOutDataFlowsNodeIsExpanded, rhs, identifierMap)
 					case "TaskWhoseInDataFlowsNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Task); ok {
-										inst.TaskWhoseInDataFlowsNodeIsExpanded = append(inst.TaskWhoseInDataFlowsNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.TaskWhoseInDataFlowsNodeIsExpanded, rhs, identifierMap)
 					}
 				case *ParticipantShape:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Participant":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
-									inst.Participant = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Participant, rhs, identifierMap)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "X":
@@ -2859,102 +2033,32 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "InverseAppliedScaling":
 						inst.InverseAppliedScaling = GongExtractFloat(rhs)
 					case "DiagramProcesss":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DiagramProcess); ok {
-										inst.DiagramProcesss = append(inst.DiagramProcesss, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DiagramProcesss, rhs, identifierMap)
 					case "DiagramProcessWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DiagramProcess); ok {
-										inst.DiagramProcessWhoseNodeIsExpanded = append(inst.DiagramProcessWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DiagramProcessWhoseNodeIsExpanded, rhs, identifierMap)
 					case "IsSubProcessNodeExpanded":
 						inst.IsSubProcessNodeExpanded = GongExtractBool(rhs)
 					case "SubProcesses":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Process); ok {
-										inst.SubProcesses = append(inst.SubProcesses, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.SubProcesses, rhs, identifierMap)
 					case "Participants":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Participant); ok {
-										inst.Participants = append(inst.Participants, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Participants, rhs, identifierMap)
 					case "ParticipantWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Participant); ok {
-										inst.ParticipantWhoseNodeIsExpanded = append(inst.ParticipantWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ParticipantWhoseNodeIsExpanded, rhs, identifierMap)
 					case "DataFlows":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DataFlow); ok {
-										inst.DataFlows = append(inst.DataFlows, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DataFlows, rhs, identifierMap)
 					case "IsDataFlowsNodeExpanded":
 						inst.IsDataFlowsNodeExpanded = GongExtractBool(rhs)
 					case "ExternalParticipants":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Participant); ok {
-										inst.ExternalParticipants = append(inst.ExternalParticipants, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ExternalParticipants, rhs, identifierMap)
 					case "ExternalParticipantWhoseNodeIsExpanded":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Participant); ok {
-										inst.ExternalParticipantWhoseNodeIsExpanded = append(inst.ExternalParticipantWhoseNodeIsExpanded, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.ExternalParticipantWhoseNodeIsExpanded, rhs, identifierMap)
 					}
 				case *ProcessShape:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Process":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Process); ok {
-									inst.Process = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Process, rhs, identifierMap)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "X":
@@ -3000,13 +2104,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsEndTask":
 						inst.IsEndTask = GongExtractBool(rhs)
 					case "Type":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Process); ok {
-									inst.Type = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Type, rhs, identifierMap)
 					case "IsTaskNameNotProcessName":
 						inst.IsTaskNameNotProcessName = GongExtractBool(rhs)
 					}
@@ -3015,13 +2113,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Task":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
-									inst.Task = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Task, rhs, identifierMap)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "X":
@@ -3045,4 +2137,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }

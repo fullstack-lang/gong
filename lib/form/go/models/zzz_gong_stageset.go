@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		checkboxOrdered := []*CheckBox{}
-		for checkbox := range stageSet.Stage.CheckBoxs {
-			checkboxOrdered = append(checkboxOrdered, checkbox)
-		}
-		sort.Slice(checkboxOrdered, func(i, j int) bool {
-			return stageSet.Stage.CheckBox_stagedOrder[checkboxOrdered[i]] < stageSet.Stage.CheckBox_stagedOrder[checkboxOrdered[j]]
-		})
-		for _, checkbox := range checkboxOrdered {
+		for _, checkbox := range __gong__sortStageSetInstances(stageSet.Stage.CheckBoxs, stageSet.Stage.CheckBox_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -163,14 +156,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		formdivOrdered := []*FormDiv{}
-		for formdiv := range stageSet.Stage.FormDivs {
-			formdivOrdered = append(formdivOrdered, formdiv)
-		}
-		sort.Slice(formdivOrdered, func(i, j int) bool {
-			return stageSet.Stage.FormDiv_stagedOrder[formdivOrdered[i]] < stageSet.Stage.FormDiv_stagedOrder[formdivOrdered[j]]
-		})
-		for _, formdiv := range formdivOrdered {
+		for _, formdiv := range __gong__sortStageSetInstances(stageSet.Stage.FormDivs, stageSet.Stage.FormDiv_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -233,14 +219,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		formeditassocbuttonOrdered := []*FormEditAssocButton{}
-		for formeditassocbutton := range stageSet.Stage.FormEditAssocButtons {
-			formeditassocbuttonOrdered = append(formeditassocbuttonOrdered, formeditassocbutton)
-		}
-		sort.Slice(formeditassocbuttonOrdered, func(i, j int) bool {
-			return stageSet.Stage.FormEditAssocButton_stagedOrder[formeditassocbuttonOrdered[i]] < stageSet.Stage.FormEditAssocButton_stagedOrder[formeditassocbuttonOrdered[j]]
-		})
-		for _, formeditassocbutton := range formeditassocbuttonOrdered {
+		for _, formeditassocbutton := range __gong__sortStageSetInstances(stageSet.Stage.FormEditAssocButtons, stageSet.Stage.FormEditAssocButton_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -266,14 +245,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		formfieldOrdered := []*FormField{}
-		for formfield := range stageSet.Stage.FormFields {
-			formfieldOrdered = append(formfieldOrdered, formfield)
-		}
-		sort.Slice(formfieldOrdered, func(i, j int) bool {
-			return stageSet.Stage.FormField_stagedOrder[formfieldOrdered[i]] < stageSet.Stage.FormField_stagedOrder[formfieldOrdered[j]]
-		})
-		for _, formfield := range formfieldOrdered {
+		for _, formfield := range __gong__sortStageSetInstances(stageSet.Stage.FormFields, stageSet.Stage.FormField_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -369,14 +341,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		formfielddateOrdered := []*FormFieldDate{}
-		for formfielddate := range stageSet.Stage.FormFieldDates {
-			formfielddateOrdered = append(formfielddateOrdered, formfielddate)
-		}
-		sort.Slice(formfielddateOrdered, func(i, j int) bool {
-			return stageSet.Stage.FormFieldDate_stagedOrder[formfielddateOrdered[i]] < stageSet.Stage.FormFieldDate_stagedOrder[formfielddateOrdered[j]]
-		})
-		for _, formfielddate := range formfielddateOrdered {
+		for _, formfielddate := range __gong__sortStageSetInstances(stageSet.Stage.FormFieldDates, stageSet.Stage.FormFieldDate_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -396,14 +361,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		formfielddatetimeOrdered := []*FormFieldDateTime{}
-		for formfielddatetime := range stageSet.Stage.FormFieldDateTimes {
-			formfielddatetimeOrdered = append(formfielddatetimeOrdered, formfielddatetime)
-		}
-		sort.Slice(formfielddatetimeOrdered, func(i, j int) bool {
-			return stageSet.Stage.FormFieldDateTime_stagedOrder[formfielddatetimeOrdered[i]] < stageSet.Stage.FormFieldDateTime_stagedOrder[formfielddatetimeOrdered[j]]
-		})
-		for _, formfielddatetime := range formfielddatetimeOrdered {
+		for _, formfielddatetime := range __gong__sortStageSetInstances(stageSet.Stage.FormFieldDateTimes, stageSet.Stage.FormFieldDateTime_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -423,14 +381,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		formfieldfloat64Ordered := []*FormFieldFloat64{}
-		for formfieldfloat64 := range stageSet.Stage.FormFieldFloat64s {
-			formfieldfloat64Ordered = append(formfieldfloat64Ordered, formfieldfloat64)
-		}
-		sort.Slice(formfieldfloat64Ordered, func(i, j int) bool {
-			return stageSet.Stage.FormFieldFloat64_stagedOrder[formfieldfloat64Ordered[i]] < stageSet.Stage.FormFieldFloat64_stagedOrder[formfieldfloat64Ordered[j]]
-		})
-		for _, formfieldfloat64 := range formfieldfloat64Ordered {
+		for _, formfieldfloat64 := range __gong__sortStageSetInstances(stageSet.Stage.FormFieldFloat64s, stageSet.Stage.FormFieldFloat64_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -454,14 +405,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		formfieldintOrdered := []*FormFieldInt{}
-		for formfieldint := range stageSet.Stage.FormFieldInts {
-			formfieldintOrdered = append(formfieldintOrdered, formfieldint)
-		}
-		sort.Slice(formfieldintOrdered, func(i, j int) bool {
-			return stageSet.Stage.FormFieldInt_stagedOrder[formfieldintOrdered[i]] < stageSet.Stage.FormFieldInt_stagedOrder[formfieldintOrdered[j]]
-		})
-		for _, formfieldint := range formfieldintOrdered {
+		for _, formfieldint := range __gong__sortStageSetInstances(stageSet.Stage.FormFieldInts, stageSet.Stage.FormFieldInt_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -485,14 +429,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		formfieldselectOrdered := []*FormFieldSelect{}
-		for formfieldselect := range stageSet.Stage.FormFieldSelects {
-			formfieldselectOrdered = append(formfieldselectOrdered, formfieldselect)
-		}
-		sort.Slice(formfieldselectOrdered, func(i, j int) bool {
-			return stageSet.Stage.FormFieldSelect_stagedOrder[formfieldselectOrdered[i]] < stageSet.Stage.FormFieldSelect_stagedOrder[formfieldselectOrdered[j]]
-		})
-		for _, formfieldselect := range formfieldselectOrdered {
+		for _, formfieldselect := range __gong__sortStageSetInstances(stageSet.Stage.FormFieldSelects, stageSet.Stage.FormFieldSelect_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -533,14 +470,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		formfieldstringOrdered := []*FormFieldString{}
-		for formfieldstring := range stageSet.Stage.FormFieldStrings {
-			formfieldstringOrdered = append(formfieldstringOrdered, formfieldstring)
-		}
-		sort.Slice(formfieldstringOrdered, func(i, j int) bool {
-			return stageSet.Stage.FormFieldString_stagedOrder[formfieldstringOrdered[i]] < stageSet.Stage.FormFieldString_stagedOrder[formfieldstringOrdered[j]]
-		})
-		for _, formfieldstring := range formfieldstringOrdered {
+		for _, formfieldstring := range __gong__sortStageSetInstances(stageSet.Stage.FormFieldStrings, stageSet.Stage.FormFieldString_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -561,14 +491,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		formfieldtimeOrdered := []*FormFieldTime{}
-		for formfieldtime := range stageSet.Stage.FormFieldTimes {
-			formfieldtimeOrdered = append(formfieldtimeOrdered, formfieldtime)
-		}
-		sort.Slice(formfieldtimeOrdered, func(i, j int) bool {
-			return stageSet.Stage.FormFieldTime_stagedOrder[formfieldtimeOrdered[i]] < stageSet.Stage.FormFieldTime_stagedOrder[formfieldtimeOrdered[j]]
-		})
-		for _, formfieldtime := range formfieldtimeOrdered {
+		for _, formfieldtime := range __gong__sortStageSetInstances(stageSet.Stage.FormFieldTimes, stageSet.Stage.FormFieldTime_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -589,14 +512,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		formgroupOrdered := []*FormGroup{}
-		for formgroup := range stageSet.Stage.FormGroups {
-			formgroupOrdered = append(formgroupOrdered, formgroup)
-		}
-		sort.Slice(formgroupOrdered, func(i, j int) bool {
-			return stageSet.Stage.FormGroup_stagedOrder[formgroupOrdered[i]] < stageSet.Stage.FormGroup_stagedOrder[formgroupOrdered[j]]
-		})
-		for _, formgroup := range formgroupOrdered {
+		for _, formgroup := range __gong__sortStageSetInstances(stageSet.Stage.FormGroups, stageSet.Stage.FormGroup_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -629,14 +545,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		formsortassocbuttonOrdered := []*FormSortAssocButton{}
-		for formsortassocbutton := range stageSet.Stage.FormSortAssocButtons {
-			formsortassocbuttonOrdered = append(formsortassocbuttonOrdered, formsortassocbutton)
-		}
-		sort.Slice(formsortassocbuttonOrdered, func(i, j int) bool {
-			return stageSet.Stage.FormSortAssocButton_stagedOrder[formsortassocbuttonOrdered[i]] < stageSet.Stage.FormSortAssocButton_stagedOrder[formsortassocbuttonOrdered[j]]
-		})
-		for _, formsortassocbutton := range formsortassocbuttonOrdered {
+		for _, formsortassocbutton := range __gong__sortStageSetInstances(stageSet.Stage.FormSortAssocButtons, stageSet.Stage.FormSortAssocButton_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -669,14 +578,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		optionOrdered := []*Option{}
-		for option := range stageSet.Stage.Options {
-			optionOrdered = append(optionOrdered, option)
-		}
-		sort.Slice(optionOrdered, func(i, j int) bool {
-			return stageSet.Stage.Option_stagedOrder[optionOrdered[i]] < stageSet.Stage.Option_stagedOrder[optionOrdered[j]]
-		})
-		for _, option := range optionOrdered {
+		for _, option := range __gong__sortStageSetInstances(stageSet.Stage.Options, stageSet.Stage.Option_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -837,159 +739,33 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "CheckBox":
-					if !preserveOrder {
-						inst := (&CheckBox{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(CheckBox)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(CheckBox), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FormDiv":
-					if !preserveOrder {
-						inst := (&FormDiv{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FormDiv)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FormDiv), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FormEditAssocButton":
-					if !preserveOrder {
-						inst := (&FormEditAssocButton{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FormEditAssocButton)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FormEditAssocButton), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FormField":
-					if !preserveOrder {
-						inst := (&FormField{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FormField)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FormField), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FormFieldDate":
-					if !preserveOrder {
-						inst := (&FormFieldDate{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FormFieldDate)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FormFieldDate), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FormFieldDateTime":
-					if !preserveOrder {
-						inst := (&FormFieldDateTime{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FormFieldDateTime)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FormFieldDateTime), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FormFieldFloat64":
-					if !preserveOrder {
-						inst := (&FormFieldFloat64{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FormFieldFloat64)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FormFieldFloat64), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FormFieldInt":
-					if !preserveOrder {
-						inst := (&FormFieldInt{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FormFieldInt)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FormFieldInt), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FormFieldSelect":
-					if !preserveOrder {
-						inst := (&FormFieldSelect{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FormFieldSelect)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FormFieldSelect), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FormFieldString":
-					if !preserveOrder {
-						inst := (&FormFieldString{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FormFieldString)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FormFieldString), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FormFieldTime":
-					if !preserveOrder {
-						inst := (&FormFieldTime{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FormFieldTime)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FormFieldTime), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FormGroup":
-					if !preserveOrder {
-						inst := (&FormGroup{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FormGroup)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FormGroup), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "FormSortAssocButton":
-					if !preserveOrder {
-						inst := (&FormSortAssocButton{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(FormSortAssocButton)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FormSortAssocButton), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Option":
-					if !preserveOrder {
-						inst := (&Option{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Option)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Option), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -1016,41 +792,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "FormFields":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*FormField); ok {
-										inst.FormFields = append(inst.FormFields, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.FormFields, rhs, identifierMap)
 					case "CheckBoxs":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*CheckBox); ok {
-										inst.CheckBoxs = append(inst.CheckBoxs, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.CheckBoxs, rhs, identifierMap)
 					case "FormEditAssocButton":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*FormEditAssocButton); ok {
-									inst.FormEditAssocButton = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.FormEditAssocButton, rhs, identifierMap)
 					case "FormSortAssocButton":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*FormSortAssocButton); ok {
-									inst.FormSortAssocButton = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.FormSortAssocButton, rhs, identifierMap)
 					case "IsADivider":
 						inst.IsADivider = GongExtractBool(rhs)
 					case "IsAStartAccordionGroup":
@@ -1090,61 +838,19 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Placeholder":
 						inst.Placeholder = GongExtractString(rhs)
 					case "FormFieldString":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*FormFieldString); ok {
-									inst.FormFieldString = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.FormFieldString, rhs, identifierMap)
 					case "FormFieldFloat64":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*FormFieldFloat64); ok {
-									inst.FormFieldFloat64 = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.FormFieldFloat64, rhs, identifierMap)
 					case "FormFieldInt":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*FormFieldInt); ok {
-									inst.FormFieldInt = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.FormFieldInt, rhs, identifierMap)
 					case "FormFieldDate":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*FormFieldDate); ok {
-									inst.FormFieldDate = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.FormFieldDate, rhs, identifierMap)
 					case "FormFieldTime":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*FormFieldTime); ok {
-									inst.FormFieldTime = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.FormFieldTime, rhs, identifierMap)
 					case "FormFieldDateTime":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*FormFieldDateTime); ok {
-									inst.FormFieldDateTime = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.FormFieldDateTime, rhs, identifierMap)
 					case "FormFieldSelect":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*FormFieldSelect); ok {
-									inst.FormFieldSelect = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.FormFieldSelect, rhs, identifierMap)
 					case "HasBespokeWidth":
 						inst.HasBespokeWidth = GongExtractBool(rhs)
 					case "BespokeWidthPx":
@@ -1159,22 +865,14 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Value":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-								inst.Value, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-							}
-						}
+						inst.Value = GongExtractDate(rhs)
 					}
 				case *FormFieldDateTime:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Value":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-								inst.Value, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-							}
-						}
+						inst.Value = GongExtractDate(rhs)
 					}
 				case *FormFieldFloat64:
 					switch fieldName {
@@ -1211,23 +909,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Value":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Option); ok {
-									inst.Value = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Value, rhs, identifierMap)
 					case "Options":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Option); ok {
-										inst.Options = append(inst.Options, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Options, rhs, identifierMap)
 					case "CanBeEmpty":
 						inst.CanBeEmpty = GongExtractBool(rhs)
 					case "PreserveInitialOrder":
@@ -1247,11 +931,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Value":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-								inst.Value, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-							}
-						}
+						inst.Value = GongExtractDate(rhs)
 					case "Step":
 						inst.Step = GongExtractFloat(rhs)
 					}
@@ -1264,15 +944,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "TypeLabel":
 						inst.TypeLabel = GongExtractString(rhs)
 					case "FormDivs":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*FormDiv); ok {
-										inst.FormDivs = append(inst.FormDivs, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.FormDivs, rhs, identifierMap)
 					case "HasSuppressButton":
 						inst.HasSuppressButton = GongExtractBool(rhs)
 					case "HasSuppressButtonBeenPressed":
@@ -1291,13 +963,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "MatTooltipShowDelay":
 						inst.MatTooltipShowDelay = GongExtractString(rhs)
 					case "FormEditAssocButton":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*FormEditAssocButton); ok {
-									inst.FormEditAssocButton = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.FormEditAssocButton, rhs, identifierMap)
 					}
 				case *Option:
 					switch fieldName {
@@ -1314,4 +980,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }

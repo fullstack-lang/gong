@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		astructOrdered := []*Astruct{}
-		for astruct := range stageSet.Stage.Astructs {
-			astructOrdered = append(astructOrdered, astruct)
-		}
-		sort.Slice(astructOrdered, func(i, j int) bool {
-			return stageSet.Stage.Astruct_stagedOrder[astructOrdered[i]] < stageSet.Stage.Astruct_stagedOrder[astructOrdered[j]]
-		})
-		for _, astruct := range astructOrdered {
+		for _, astruct := range __gong__sortStageSetInstances(stageSet.Stage.Astructs, stageSet.Stage.Astruct_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -327,14 +320,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		astructbstruct2useOrdered := []*AstructBstruct2Use{}
-		for astructbstruct2use := range stageSet.Stage.AstructBstruct2Uses {
-			astructbstruct2useOrdered = append(astructbstruct2useOrdered, astructbstruct2use)
-		}
-		sort.Slice(astructbstruct2useOrdered, func(i, j int) bool {
-			return stageSet.Stage.AstructBstruct2Use_stagedOrder[astructbstruct2useOrdered[i]] < stageSet.Stage.AstructBstruct2Use_stagedOrder[astructbstruct2useOrdered[j]]
-		})
-		for _, astructbstruct2use := range astructbstruct2useOrdered {
+		for _, astructbstruct2use := range __gong__sortStageSetInstances(stageSet.Stage.AstructBstruct2Uses, stageSet.Stage.AstructBstruct2Use_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -363,14 +349,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		astructbstructuseOrdered := []*AstructBstructUse{}
-		for astructbstructuse := range stageSet.Stage.AstructBstructUses {
-			astructbstructuseOrdered = append(astructbstructuseOrdered, astructbstructuse)
-		}
-		sort.Slice(astructbstructuseOrdered, func(i, j int) bool {
-			return stageSet.Stage.AstructBstructUse_stagedOrder[astructbstructuseOrdered[i]] < stageSet.Stage.AstructBstructUse_stagedOrder[astructbstructuseOrdered[j]]
-		})
-		for _, astructbstructuse := range astructbstructuseOrdered {
+		for _, astructbstructuse := range __gong__sortStageSetInstances(stageSet.Stage.AstructBstructUses, stageSet.Stage.AstructBstructUse_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -399,14 +378,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		bstructOrdered := []*Bstruct{}
-		for bstruct := range stageSet.Stage.Bstructs {
-			bstructOrdered = append(bstructOrdered, bstruct)
-		}
-		sort.Slice(bstructOrdered, func(i, j int) bool {
-			return stageSet.Stage.Bstruct_stagedOrder[bstructOrdered[i]] < stageSet.Stage.Bstruct_stagedOrder[bstructOrdered[j]]
-		})
-		for _, bstruct := range bstructOrdered {
+		for _, bstruct := range __gong__sortStageSetInstances(stageSet.Stage.Bstructs, stageSet.Stage.Bstruct_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -429,14 +401,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		dstructOrdered := []*Dstruct{}
-		for dstruct := range stageSet.Stage.Dstructs {
-			dstructOrdered = append(dstructOrdered, dstruct)
-		}
-		sort.Slice(dstructOrdered, func(i, j int) bool {
-			return stageSet.Stage.Dstruct_stagedOrder[dstructOrdered[i]] < stageSet.Stage.Dstruct_stagedOrder[dstructOrdered[j]]
-		})
-		for _, dstruct := range dstructOrdered {
+		for _, dstruct := range __gong__sortStageSetInstances(stageSet.Stage.Dstructs, stageSet.Stage.Dstruct_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -485,14 +450,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		f0123456789012345678901234567890Ordered := []*F0123456789012345678901234567890{}
-		for f0123456789012345678901234567890 := range stageSet.Stage.F0123456789012345678901234567890s {
-			f0123456789012345678901234567890Ordered = append(f0123456789012345678901234567890Ordered, f0123456789012345678901234567890)
-		}
-		sort.Slice(f0123456789012345678901234567890Ordered, func(i, j int) bool {
-			return stageSet.Stage.F0123456789012345678901234567890_stagedOrder[f0123456789012345678901234567890Ordered[i]] < stageSet.Stage.F0123456789012345678901234567890_stagedOrder[f0123456789012345678901234567890Ordered[j]]
-		})
-		for _, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
+		for _, f0123456789012345678901234567890 := range __gong__sortStageSetInstances(stageSet.Stage.F0123456789012345678901234567890s, stageSet.Stage.F0123456789012345678901234567890_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -512,14 +470,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		gstructOrdered := []*Gstruct{}
-		for gstruct := range stageSet.Stage.Gstructs {
-			gstructOrdered = append(gstructOrdered, gstruct)
-		}
-		sort.Slice(gstructOrdered, func(i, j int) bool {
-			return stageSet.Stage.Gstruct_stagedOrder[gstructOrdered[i]] < stageSet.Stage.Gstruct_stagedOrder[gstructOrdered[j]]
-		})
-		for _, gstruct := range gstructOrdered {
+		for _, gstruct := range __gong__sortStageSetInstances(stageSet.Stage.Gstructs, stageSet.Stage.Gstruct_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -684,82 +635,19 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "Astruct":
-					if !preserveOrder {
-						inst := (&Astruct{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Astruct)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Astruct), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "AstructBstruct2Use":
-					if !preserveOrder {
-						inst := (&AstructBstruct2Use{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(AstructBstruct2Use)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(AstructBstruct2Use), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "AstructBstructUse":
-					if !preserveOrder {
-						inst := (&AstructBstructUse{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(AstructBstructUse)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(AstructBstructUse), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Bstruct":
-					if !preserveOrder {
-						inst := (&Bstruct{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Bstruct)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Bstruct), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Dstruct":
-					if !preserveOrder {
-						inst := (&Dstruct{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Dstruct)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Dstruct), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "F0123456789012345678901234567890":
-					if !preserveOrder {
-						inst := (&F0123456789012345678901234567890{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(F0123456789012345678901234567890)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(F0123456789012345678901234567890), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Gstruct":
-					if !preserveOrder {
-						inst := (&Gstruct{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Gstruct)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Gstruct), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -779,43 +667,15 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Associationtob":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Bstruct); ok {
-									inst.Associationtob = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Associationtob, rhs, identifierMap)
 					case "Anarrayofb":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Bstruct); ok {
-										inst.Anarrayofb = append(inst.Anarrayofb, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Anarrayofb, rhs, identifierMap)
 					case "Anotherassociationtob_2":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Bstruct); ok {
-									inst.Anotherassociationtob_2 = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Anotherassociationtob_2, rhs, identifierMap)
 					case "Date":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-								inst.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-							}
-						}
+						inst.Date = GongExtractDate(rhs)
 					case "Date2":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-								inst.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-							}
-						}
+						inst.Date2 = GongExtractDate(rhs)
 					case "Booleanfield":
 						inst.Booleanfield = GongExtractBool(rhs)
 					case "Aenum":
@@ -831,63 +691,19 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "CFloatfield":
 						inst.CFloatfield = GongExtractFloat(rhs)
 					case "Bstruct":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Bstruct); ok {
-									inst.Bstruct = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Bstruct, rhs, identifierMap)
 					case "Bstruct2":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Bstruct); ok {
-									inst.Bstruct2 = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Bstruct2, rhs, identifierMap)
 					case "Dstruct":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Dstruct); ok {
-									inst.Dstruct = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Dstruct, rhs, identifierMap)
 					case "Dstruct2":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Dstruct); ok {
-									inst.Dstruct2 = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Dstruct2, rhs, identifierMap)
 					case "Dstruct3":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Dstruct); ok {
-									inst.Dstruct3 = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Dstruct3, rhs, identifierMap)
 					case "Dstruct4":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Dstruct); ok {
-									inst.Dstruct4 = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Dstruct4, rhs, identifierMap)
 					case "Dstruct4s":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Dstruct); ok {
-										inst.Dstruct4s = append(inst.Dstruct4s, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Dstruct4s, rhs, identifierMap)
 					case "Floatfield":
 						inst.Floatfield = GongExtractFloat(rhs)
 					case "Intfield":
@@ -897,53 +713,15 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Duration1":
 						inst.Duration1 = time.Duration(GongExtractInt(rhs))
 					case "Anarrayofa":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Astruct); ok {
-										inst.Anarrayofa = append(inst.Anarrayofa, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Anarrayofa, rhs, identifierMap)
 					case "Anotherarrayofb":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Bstruct); ok {
-										inst.Anotherarrayofb = append(inst.Anotherarrayofb, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Anotherarrayofb, rhs, identifierMap)
 					case "AnarrayofbUse":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*AstructBstructUse); ok {
-										inst.AnarrayofbUse = append(inst.AnarrayofbUse, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.AnarrayofbUse, rhs, identifierMap)
 					case "Anarrayofb2Use":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*AstructBstruct2Use); ok {
-										inst.Anarrayofb2Use = append(inst.Anarrayofb2Use, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Anarrayofb2Use, rhs, identifierMap)
 					case "AnAstruct":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Astruct); ok {
-									inst.AnAstruct = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.AnAstruct, rhs, identifierMap)
 					case "TextFieldBespokeSize":
 						inst.TextFieldBespokeSize = GongExtractString(rhs)
 					case "TextArea":
@@ -954,26 +732,14 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Bstrcut2":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Bstruct); ok {
-									inst.Bstrcut2 = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Bstrcut2, rhs, identifierMap)
 					}
 				case *AstructBstructUse:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Bstruct2":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Bstruct); ok {
-									inst.Bstruct2 = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Bstruct2, rhs, identifierMap)
 					}
 				case *Bstruct:
 					switch fieldName {
@@ -993,44 +759,18 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Anarrayofb":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Bstruct); ok {
-										inst.Anarrayofb = append(inst.Anarrayofb, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Anarrayofb, rhs, identifierMap)
 					case "Gstruct":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Gstruct); ok {
-									inst.Gstruct = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Gstruct, rhs, identifierMap)
 					case "Gstructs":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Gstruct); ok {
-										inst.Gstructs = append(inst.Gstructs, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Gstructs, rhs, identifierMap)
 					}
 				case *F0123456789012345678901234567890:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Date":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-								inst.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-							}
-						}
+						inst.Date = GongExtractDate(rhs)
 					}
 				case *Gstruct:
 					switch fieldName {
@@ -1055,4 +795,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }

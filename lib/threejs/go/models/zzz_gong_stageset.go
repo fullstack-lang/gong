@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		ambiantlightOrdered := []*AmbiantLight{}
-		for ambiantlight := range stageSet.Stage.AmbiantLights {
-			ambiantlightOrdered = append(ambiantlightOrdered, ambiantlight)
-		}
-		sort.Slice(ambiantlightOrdered, func(i, j int) bool {
-			return stageSet.Stage.AmbiantLight_stagedOrder[ambiantlightOrdered[i]] < stageSet.Stage.AmbiantLight_stagedOrder[ambiantlightOrdered[j]]
-		})
-		for _, ambiantlight := range ambiantlightOrdered {
+		for _, ambiantlight := range __gong__sortStageSetInstances(stageSet.Stage.AmbiantLights, stageSet.Stage.AmbiantLight_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -163,14 +156,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		boxgeometryOrdered := []*BoxGeometry{}
-		for boxgeometry := range stageSet.Stage.BoxGeometrys {
-			boxgeometryOrdered = append(boxgeometryOrdered, boxgeometry)
-		}
-		sort.Slice(boxgeometryOrdered, func(i, j int) bool {
-			return stageSet.Stage.BoxGeometry_stagedOrder[boxgeometryOrdered[i]] < stageSet.Stage.BoxGeometry_stagedOrder[boxgeometryOrdered[j]]
-		})
-		for _, boxgeometry := range boxgeometryOrdered {
+		for _, boxgeometry := range __gong__sortStageSetInstances(stageSet.Stage.BoxGeometrys, stageSet.Stage.BoxGeometry_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -195,14 +181,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		buffergeometryOrdered := []*BufferGeometry{}
-		for buffergeometry := range stageSet.Stage.BufferGeometrys {
-			buffergeometryOrdered = append(buffergeometryOrdered, buffergeometry)
-		}
-		sort.Slice(buffergeometryOrdered, func(i, j int) bool {
-			return stageSet.Stage.BufferGeometry_stagedOrder[buffergeometryOrdered[i]] < stageSet.Stage.BufferGeometry_stagedOrder[buffergeometryOrdered[j]]
-		})
-		for _, buffergeometry := range buffergeometryOrdered {
+		for _, buffergeometry := range __gong__sortStageSetInstances(stageSet.Stage.BufferGeometrys, stageSet.Stage.BufferGeometry_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -241,14 +220,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		cameraOrdered := []*Camera{}
-		for camera := range stageSet.Stage.Cameras {
-			cameraOrdered = append(cameraOrdered, camera)
-		}
-		sort.Slice(cameraOrdered, func(i, j int) bool {
-			return stageSet.Stage.Camera_stagedOrder[cameraOrdered[i]] < stageSet.Stage.Camera_stagedOrder[cameraOrdered[j]]
-		})
-		for _, camera := range cameraOrdered {
+		for _, camera := range __gong__sortStageSetInstances(stageSet.Stage.Cameras, stageSet.Stage.Camera_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -274,14 +246,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		canvasOrdered := []*Canvas{}
-		for canvas := range stageSet.Stage.Canvass {
-			canvasOrdered = append(canvasOrdered, canvas)
-		}
-		sort.Slice(canvasOrdered, func(i, j int) bool {
-			return stageSet.Stage.Canvas_stagedOrder[canvasOrdered[i]] < stageSet.Stage.Canvas_stagedOrder[canvasOrdered[j]]
-		})
-		for _, canvas := range canvasOrdered {
+		for _, canvas := range __gong__sortStageSetInstances(stageSet.Stage.Canvass, stageSet.Stage.Canvas_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -343,14 +308,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		curveOrdered := []*Curve{}
-		for curve := range stageSet.Stage.Curves {
-			curveOrdered = append(curveOrdered, curve)
-		}
-		sort.Slice(curveOrdered, func(i, j int) bool {
-			return stageSet.Stage.Curve_stagedOrder[curveOrdered[i]] < stageSet.Stage.Curve_stagedOrder[curveOrdered[j]]
-		})
-		for _, curve := range curveOrdered {
+		for _, curve := range __gong__sortStageSetInstances(stageSet.Stage.Curves, stageSet.Stage.Curve_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -379,14 +337,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		cylindergeometryOrdered := []*CylinderGeometry{}
-		for cylindergeometry := range stageSet.Stage.CylinderGeometrys {
-			cylindergeometryOrdered = append(cylindergeometryOrdered, cylindergeometry)
-		}
-		sort.Slice(cylindergeometryOrdered, func(i, j int) bool {
-			return stageSet.Stage.CylinderGeometry_stagedOrder[cylindergeometryOrdered[i]] < stageSet.Stage.CylinderGeometry_stagedOrder[cylindergeometryOrdered[j]]
-		})
-		for _, cylindergeometry := range cylindergeometryOrdered {
+		for _, cylindergeometry := range __gong__sortStageSetInstances(stageSet.Stage.CylinderGeometrys, stageSet.Stage.CylinderGeometry_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -413,14 +364,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		directionallightOrdered := []*DirectionalLight{}
-		for directionallight := range stageSet.Stage.DirectionalLights {
-			directionallightOrdered = append(directionallightOrdered, directionallight)
-		}
-		sort.Slice(directionallightOrdered, func(i, j int) bool {
-			return stageSet.Stage.DirectionalLight_stagedOrder[directionallightOrdered[i]] < stageSet.Stage.DirectionalLight_stagedOrder[directionallightOrdered[j]]
-		})
-		for _, directionallight := range directionallightOrdered {
+		for _, directionallight := range __gong__sortStageSetInstances(stageSet.Stage.DirectionalLights, stageSet.Stage.DirectionalLight_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -444,14 +388,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		extrudegeometryOrdered := []*ExtrudeGeometry{}
-		for extrudegeometry := range stageSet.Stage.ExtrudeGeometrys {
-			extrudegeometryOrdered = append(extrudegeometryOrdered, extrudegeometry)
-		}
-		sort.Slice(extrudegeometryOrdered, func(i, j int) bool {
-			return stageSet.Stage.ExtrudeGeometry_stagedOrder[extrudegeometryOrdered[i]] < stageSet.Stage.ExtrudeGeometry_stagedOrder[extrudegeometryOrdered[j]]
-		})
-		for _, extrudegeometry := range extrudegeometryOrdered {
+		for _, extrudegeometry := range __gong__sortStageSetInstances(stageSet.Stage.ExtrudeGeometrys, stageSet.Stage.ExtrudeGeometry_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -491,14 +428,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		meshOrdered := []*Mesh{}
-		for mesh := range stageSet.Stage.Meshs {
-			meshOrdered = append(meshOrdered, mesh)
-		}
-		sort.Slice(meshOrdered, func(i, j int) bool {
-			return stageSet.Stage.Mesh_stagedOrder[meshOrdered[i]] < stageSet.Stage.Mesh_stagedOrder[meshOrdered[j]]
-		})
-		for _, mesh := range meshOrdered {
+		for _, mesh := range __gong__sortStageSetInstances(stageSet.Stage.Meshs, stageSet.Stage.Mesh_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -620,14 +550,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		meshmaterialbasicOrdered := []*MeshMaterialBasic{}
-		for meshmaterialbasic := range stageSet.Stage.MeshMaterialBasics {
-			meshmaterialbasicOrdered = append(meshmaterialbasicOrdered, meshmaterialbasic)
-		}
-		sort.Slice(meshmaterialbasicOrdered, func(i, j int) bool {
-			return stageSet.Stage.MeshMaterialBasic_stagedOrder[meshmaterialbasicOrdered[i]] < stageSet.Stage.MeshMaterialBasic_stagedOrder[meshmaterialbasicOrdered[j]]
-		})
-		for _, meshmaterialbasic := range meshmaterialbasicOrdered {
+		for _, meshmaterialbasic := range __gong__sortStageSetInstances(stageSet.Stage.MeshMaterialBasics, stageSet.Stage.MeshMaterialBasic_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -647,14 +570,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		meshphysicalmaterialOrdered := []*MeshPhysicalMaterial{}
-		for meshphysicalmaterial := range stageSet.Stage.MeshPhysicalMaterials {
-			meshphysicalmaterialOrdered = append(meshphysicalmaterialOrdered, meshphysicalmaterial)
-		}
-		sort.Slice(meshphysicalmaterialOrdered, func(i, j int) bool {
-			return stageSet.Stage.MeshPhysicalMaterial_stagedOrder[meshphysicalmaterialOrdered[i]] < stageSet.Stage.MeshPhysicalMaterial_stagedOrder[meshphysicalmaterialOrdered[j]]
-		})
-		for _, meshphysicalmaterial := range meshphysicalmaterialOrdered {
+		for _, meshphysicalmaterial := range __gong__sortStageSetInstances(stageSet.Stage.MeshPhysicalMaterials, stageSet.Stage.MeshPhysicalMaterial_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -678,14 +594,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		planegeometryOrdered := []*PlaneGeometry{}
-		for planegeometry := range stageSet.Stage.PlaneGeometrys {
-			planegeometryOrdered = append(planegeometryOrdered, planegeometry)
-		}
-		sort.Slice(planegeometryOrdered, func(i, j int) bool {
-			return stageSet.Stage.PlaneGeometry_stagedOrder[planegeometryOrdered[i]] < stageSet.Stage.PlaneGeometry_stagedOrder[planegeometryOrdered[j]]
-		})
-		for _, planegeometry := range planegeometryOrdered {
+		for _, planegeometry := range __gong__sortStageSetInstances(stageSet.Stage.PlaneGeometrys, stageSet.Stage.PlaneGeometry_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -708,14 +617,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		shapeOrdered := []*Shape{}
-		for shape := range stageSet.Stage.Shapes {
-			shapeOrdered = append(shapeOrdered, shape)
-		}
-		sort.Slice(shapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.Shape_stagedOrder[shapeOrdered[i]] < stageSet.Stage.Shape_stagedOrder[shapeOrdered[j]]
-		})
-		for _, shape := range shapeOrdered {
+		for _, shape := range __gong__sortStageSetInstances(stageSet.Stage.Shapes, stageSet.Stage.Shape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -744,14 +646,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		spheregeometryOrdered := []*SphereGeometry{}
-		for spheregeometry := range stageSet.Stage.SphereGeometrys {
-			spheregeometryOrdered = append(spheregeometryOrdered, spheregeometry)
-		}
-		sort.Slice(spheregeometryOrdered, func(i, j int) bool {
-			return stageSet.Stage.SphereGeometry_stagedOrder[spheregeometryOrdered[i]] < stageSet.Stage.SphereGeometry_stagedOrder[spheregeometryOrdered[j]]
-		})
-		for _, spheregeometry := range spheregeometryOrdered {
+		for _, spheregeometry := range __gong__sortStageSetInstances(stageSet.Stage.SphereGeometrys, stageSet.Stage.SphereGeometry_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -777,14 +672,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		torusgeometryOrdered := []*TorusGeometry{}
-		for torusgeometry := range stageSet.Stage.TorusGeometrys {
-			torusgeometryOrdered = append(torusgeometryOrdered, torusgeometry)
-		}
-		sort.Slice(torusgeometryOrdered, func(i, j int) bool {
-			return stageSet.Stage.TorusGeometry_stagedOrder[torusgeometryOrdered[i]] < stageSet.Stage.TorusGeometry_stagedOrder[torusgeometryOrdered[j]]
-		})
-		for _, torusgeometry := range torusgeometryOrdered {
+		for _, torusgeometry := range __gong__sortStageSetInstances(stageSet.Stage.TorusGeometrys, stageSet.Stage.TorusGeometry_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -808,14 +696,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		triangleOrdered := []*Triangle{}
-		for triangle := range stageSet.Stage.Triangles {
-			triangleOrdered = append(triangleOrdered, triangle)
-		}
-		sort.Slice(triangleOrdered, func(i, j int) bool {
-			return stageSet.Stage.Triangle_stagedOrder[triangleOrdered[i]] < stageSet.Stage.Triangle_stagedOrder[triangleOrdered[j]]
-		})
-		for _, triangle := range triangleOrdered {
+		for _, triangle := range __gong__sortStageSetInstances(stageSet.Stage.Triangles, stageSet.Stage.Triangle_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -837,14 +718,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		tubegeometryOrdered := []*TubeGeometry{}
-		for tubegeometry := range stageSet.Stage.TubeGeometrys {
-			tubegeometryOrdered = append(tubegeometryOrdered, tubegeometry)
-		}
-		sort.Slice(tubegeometryOrdered, func(i, j int) bool {
-			return stageSet.Stage.TubeGeometry_stagedOrder[tubegeometryOrdered[i]] < stageSet.Stage.TubeGeometry_stagedOrder[tubegeometryOrdered[j]]
-		})
-		for _, tubegeometry := range tubegeometryOrdered {
+		for _, tubegeometry := range __gong__sortStageSetInstances(stageSet.Stage.TubeGeometrys, stageSet.Stage.TubeGeometry_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -877,14 +751,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		vector2Ordered := []*Vector2{}
-		for vector2 := range stageSet.Stage.Vector2s {
-			vector2Ordered = append(vector2Ordered, vector2)
-		}
-		sort.Slice(vector2Ordered, func(i, j int) bool {
-			return stageSet.Stage.Vector2_stagedOrder[vector2Ordered[i]] < stageSet.Stage.Vector2_stagedOrder[vector2Ordered[j]]
-		})
-		for _, vector2 := range vector2Ordered {
+		for _, vector2 := range __gong__sortStageSetInstances(stageSet.Stage.Vector2s, stageSet.Stage.Vector2_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -905,14 +772,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		vector3Ordered := []*Vector3{}
-		for vector3 := range stageSet.Stage.Vector3s {
-			vector3Ordered = append(vector3Ordered, vector3)
-		}
-		sort.Slice(vector3Ordered, func(i, j int) bool {
-			return stageSet.Stage.Vector3_stagedOrder[vector3Ordered[i]] < stageSet.Stage.Vector3_stagedOrder[vector3Ordered[j]]
-		})
-		for _, vector3 := range vector3Ordered {
+		for _, vector3 := range __gong__sortStageSetInstances(stageSet.Stage.Vector3s, stageSet.Stage.Vector3_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -1076,225 +936,45 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "AmbiantLight":
-					if !preserveOrder {
-						inst := (&AmbiantLight{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(AmbiantLight)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(AmbiantLight), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "BoxGeometry":
-					if !preserveOrder {
-						inst := (&BoxGeometry{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(BoxGeometry)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(BoxGeometry), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "BufferGeometry":
-					if !preserveOrder {
-						inst := (&BufferGeometry{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(BufferGeometry)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(BufferGeometry), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Camera":
-					if !preserveOrder {
-						inst := (&Camera{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Camera)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Camera), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Canvas":
-					if !preserveOrder {
-						inst := (&Canvas{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Canvas)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Canvas), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Curve":
-					if !preserveOrder {
-						inst := (&Curve{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Curve)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Curve), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "CylinderGeometry":
-					if !preserveOrder {
-						inst := (&CylinderGeometry{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(CylinderGeometry)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(CylinderGeometry), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DirectionalLight":
-					if !preserveOrder {
-						inst := (&DirectionalLight{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(DirectionalLight)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DirectionalLight), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "ExtrudeGeometry":
-					if !preserveOrder {
-						inst := (&ExtrudeGeometry{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ExtrudeGeometry)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ExtrudeGeometry), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Mesh":
-					if !preserveOrder {
-						inst := (&Mesh{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Mesh)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Mesh), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "MeshMaterialBasic":
-					if !preserveOrder {
-						inst := (&MeshMaterialBasic{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(MeshMaterialBasic)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(MeshMaterialBasic), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "MeshPhysicalMaterial":
-					if !preserveOrder {
-						inst := (&MeshPhysicalMaterial{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(MeshPhysicalMaterial)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(MeshPhysicalMaterial), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "PlaneGeometry":
-					if !preserveOrder {
-						inst := (&PlaneGeometry{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(PlaneGeometry)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(PlaneGeometry), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Shape":
-					if !preserveOrder {
-						inst := (&Shape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Shape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Shape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "SphereGeometry":
-					if !preserveOrder {
-						inst := (&SphereGeometry{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(SphereGeometry)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SphereGeometry), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "TorusGeometry":
-					if !preserveOrder {
-						inst := (&TorusGeometry{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(TorusGeometry)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TorusGeometry), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Triangle":
-					if !preserveOrder {
-						inst := (&Triangle{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Triangle)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Triangle), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "TubeGeometry":
-					if !preserveOrder {
-						inst := (&TubeGeometry{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(TubeGeometry)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TubeGeometry), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Vector2":
-					if !preserveOrder {
-						inst := (&Vector2{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Vector2)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Vector2), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Vector3":
-					if !preserveOrder {
-						inst := (&Vector3{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Vector3)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Vector3), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -1338,25 +1018,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Vertices":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Vector3); ok {
-										inst.Vertices = append(inst.Vertices, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Vertices, rhs, identifierMap)
 					case "Faces":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Triangle); ok {
-										inst.Faces = append(inst.Faces, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Faces, rhs, identifierMap)
 					}
 				case *Camera:
 					switch fieldName {
@@ -1382,49 +1046,17 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "DirectionalLights":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*DirectionalLight); ok {
-										inst.DirectionalLights = append(inst.DirectionalLights, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.DirectionalLights, rhs, identifierMap)
 					case "AmbiantLight":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*AmbiantLight); ok {
-									inst.AmbiantLight = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.AmbiantLight, rhs, identifierMap)
 					case "Meshs":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Mesh); ok {
-										inst.Meshs = append(inst.Meshs, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Meshs, rhs, identifierMap)
 					case "Camera":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Camera); ok {
-									inst.Camera = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Camera, rhs, identifierMap)
 					case "IsWithLastRenderingUpdate":
 						inst.IsWithLastRenderingUpdate = GongExtractBool(rhs)
 					case "LastRendering":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-								inst.LastRendering, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
-							}
-						}
+						inst.LastRendering = GongExtractDate(rhs)
 					case "Frame64BitsEncoded":
 						inst.Frame64BitsEncoded = GongExtractString(rhs)
 					}
@@ -1433,15 +1065,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Points":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Vector3); ok {
-										inst.Points = append(inst.Points, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Points, rhs, identifierMap)
 					}
 				case *CylinderGeometry:
 					switch fieldName {
@@ -1484,21 +1108,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Shape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Shape); ok {
-									inst.Shape = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Shape, rhs, identifierMap)
 					case "ExtrudePath":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Curve); ok {
-									inst.ExtrudePath = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ExtrudePath, rhs, identifierMap)
 					case "Steps":
 						inst.Steps = GongExtractInt(rhs)
 					}
@@ -1513,85 +1125,25 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Z":
 						inst.Z = GongExtractFloat(rhs)
 					case "MeshMaterialBasic":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*MeshMaterialBasic); ok {
-									inst.MeshMaterialBasic = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.MeshMaterialBasic, rhs, identifierMap)
 					case "MeshPhysicalMaterial":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*MeshPhysicalMaterial); ok {
-									inst.MeshPhysicalMaterial = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.MeshPhysicalMaterial, rhs, identifierMap)
 					case "CylinderGeometry":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*CylinderGeometry); ok {
-									inst.CylinderGeometry = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.CylinderGeometry, rhs, identifierMap)
 					case "BoxGeometry":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*BoxGeometry); ok {
-									inst.BoxGeometry = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.BoxGeometry, rhs, identifierMap)
 					case "SphereGeometry":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SphereGeometry); ok {
-									inst.SphereGeometry = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.SphereGeometry, rhs, identifierMap)
 					case "TorusGeometry":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TorusGeometry); ok {
-									inst.TorusGeometry = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TorusGeometry, rhs, identifierMap)
 					case "PlaneGeometry":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PlaneGeometry); ok {
-									inst.PlaneGeometry = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.PlaneGeometry, rhs, identifierMap)
 					case "TubeGeometry":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TubeGeometry); ok {
-									inst.TubeGeometry = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.TubeGeometry, rhs, identifierMap)
 					case "ExtrudeGeometry":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ExtrudeGeometry); ok {
-									inst.ExtrudeGeometry = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.ExtrudeGeometry, rhs, identifierMap)
 					case "BufferGeometry":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*BufferGeometry); ok {
-									inst.BufferGeometry = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.BufferGeometry, rhs, identifierMap)
 					}
 				case *MeshMaterialBasic:
 					switch fieldName {
@@ -1633,15 +1185,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Points":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Vector2); ok {
-										inst.Points = append(inst.Points, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Points, rhs, identifierMap)
 					}
 				case *SphereGeometry:
 					switch fieldName {
@@ -1693,13 +1237,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Path":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Curve); ok {
-									inst.Path = typedTarget
-								}
-							}
-						}
+						__gong__assignPointer(&inst.Path, rhs, identifierMap)
 					case "TubularSegments":
 						inst.TubularSegments = GongExtractInt(rhs)
 					case "Radius":
@@ -1739,4 +1277,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }

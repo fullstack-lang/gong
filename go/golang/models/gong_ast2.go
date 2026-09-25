@@ -470,6 +470,37 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 	}
 }
 
+func GongExtractDate(expr ast.Expr) time.Time {
+	if call, ok := expr.(*ast.CallExpr); ok {
+		if len(call.Args) == 2 {
+			if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+				t, _ := time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"` + "`" + `"))
+				return t
+			}
+		}
+	}
+	return time.Time{}
+}
+
+// GongInitialize initializes a staged instance, sets its name, and stages it
+func GongInitialize[P interface {
+	GongstructIF
+	StagePreserveOrder(stage *Stage, order uint)
+}](instance P, stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
 // insertion point per named struct{{` + string(rune(GongAst2Unmarshaller)) + `}}`
 
 type GongAst2GongstructInsertionId int
@@ -485,19 +516,7 @@ map[GongAst2GongstructInsertionId]string{
 type {{Structname}}Unmarshaller struct{}
 
 func (u *{{Structname}}Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new({{Structname}})
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
+	return GongInitialize(new({{Structname}}), stage, identifier, instanceName, preserveOrder)
 }
 
 func (u *{{Structname}}Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
@@ -535,13 +554,7 @@ map[GongAst2SubTemplateId]string{
 		instance.{{FieldName}} = GongExtractString(valueExpr)`,
 	GongAst2SubTmplDateField: `
 	case "{{FieldName}}":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) == 2 {
-				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
-					instance.{{FieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"` + "`" + `"))
-				}
-			}
-		}`,
+		instance.{{FieldName}} = GongExtractDate(valueExpr)`,
 	GongAst2SubTmplDurationField: `
 	case "{{FieldName}}":
 		instance.{{FieldName}} = time.Duration(GongExtractInt(valueExpr))`,

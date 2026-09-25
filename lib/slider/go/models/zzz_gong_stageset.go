@@ -136,14 +136,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
-		checkboxOrdered := []*Checkbox{}
-		for checkbox := range stageSet.Stage.Checkboxs {
-			checkboxOrdered = append(checkboxOrdered, checkbox)
-		}
-		sort.Slice(checkboxOrdered, func(i, j int) bool {
-			return stageSet.Stage.Checkbox_stagedOrder[checkboxOrdered[i]] < stageSet.Stage.Checkbox_stagedOrder[checkboxOrdered[j]]
-		})
-		for _, checkbox := range checkboxOrdered {
+		for _, checkbox := range __gong__sortStageSetInstances(stageSet.Stage.Checkboxs, stageSet.Stage.Checkbox_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -165,14 +158,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		groupOrdered := []*Group{}
-		for group := range stageSet.Stage.Groups {
-			groupOrdered = append(groupOrdered, group)
-		}
-		sort.Slice(groupOrdered, func(i, j int) bool {
-			return stageSet.Stage.Group_stagedOrder[groupOrdered[i]] < stageSet.Stage.Group_stagedOrder[groupOrdered[j]]
-		})
-		for _, group := range groupOrdered {
+		for _, group := range __gong__sortStageSetInstances(stageSet.Stage.Groups, stageSet.Stage.Group_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -212,14 +198,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		layoutOrdered := []*Layout{}
-		for layout := range stageSet.Stage.Layouts {
-			layoutOrdered = append(layoutOrdered, layout)
-		}
-		sort.Slice(layoutOrdered, func(i, j int) bool {
-			return stageSet.Stage.Layout_stagedOrder[layoutOrdered[i]] < stageSet.Stage.Layout_stagedOrder[layoutOrdered[j]]
-		})
-		for _, layout := range layoutOrdered {
+		for _, layout := range __gong__sortStageSetInstances(stageSet.Stage.Layouts, stageSet.Stage.Layout_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -250,14 +229,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		sliderOrdered := []*Slider{}
-		for slider := range stageSet.Stage.Sliders {
-			sliderOrdered = append(sliderOrdered, slider)
-		}
-		sort.Slice(sliderOrdered, func(i, j int) bool {
-			return stageSet.Stage.Slider_stagedOrder[sliderOrdered[i]] < stageSet.Stage.Slider_stagedOrder[sliderOrdered[j]]
-		})
-		for _, slider := range sliderOrdered {
+		for _, slider := range __gong__sortStageSetInstances(stageSet.Stage.Sliders, stageSet.Stage.Slider_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
@@ -429,49 +401,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			case "models":
 				switch typeName {
 				case "Checkbox":
-					if !preserveOrder {
-						inst := (&Checkbox{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Checkbox)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Checkbox), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Group":
-					if !preserveOrder {
-						inst := (&Group{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Group)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Group), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Layout":
-					if !preserveOrder {
-						inst := (&Layout{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Layout)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Layout), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Slider":
-					if !preserveOrder {
-						inst := (&Slider{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(Slider)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Slider), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -504,40 +440,16 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Percentage":
 						inst.Percentage = GongExtractFloat(rhs)
 					case "Sliders":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Slider); ok {
-										inst.Sliders = append(inst.Sliders, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Sliders, rhs, identifierMap)
 					case "Checkboxes":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Checkbox); ok {
-										inst.Checkboxes = append(inst.Checkboxes, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Checkboxes, rhs, identifierMap)
 					}
 				case *Layout:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Groups":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*Group); ok {
-										inst.Groups = append(inst.Groups, typedTarget)
-									}
-								}
-							}
-						}
+						__gong__assignSliceOfPointers(&inst.Groups, rhs, identifierMap)
 					case "IsWithCustomGutterSize":
 						inst.IsWithCustomGutterSize = GongExtractBool(rhs)
 					case "GutterSize":
@@ -580,4 +492,61 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 	})
 
 	return nil
+}
+
+// __gong__sortStageSetInstances sorts instances by their staged order
+func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, orderMap map[T]uint) []T {
+	ordered := make([]T, 0, len(instances))
+	for inst := range instances {
+		ordered = append(ordered, inst)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return orderMap[ordered[i]] < orderMap[ordered[j]]
+	})
+	return ordered
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+			if target, ok := identifierMap[rIdent.Name]; ok {
+				if typedTarget, ok := target.(*T); ok {
+					*slice = append(*slice, typedTarget)
+				}
+			}
+		}
+	}
 }
