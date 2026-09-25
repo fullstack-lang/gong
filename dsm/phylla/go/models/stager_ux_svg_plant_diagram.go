@@ -51,13 +51,13 @@ func (stager *Stager) ux_svg_plant_diagram() {
 
 	// 1. Generate and stage Plant 2D SVG
 	svgPlantObject := stager.generateSvgPlantObject(plant2DDiagram, plant)
-	svg.StageBranch(stager.svgPlantStage, svgPlantObject)
+	stager.svgPlantStage.StageBranch(svgPlantObject)
 	stager.svgPlantStage.Commit()
 
 	// 2. Generate and stage Vase 2D SVG
 	if vase2DDiagram != nil {
 		svgVaseObject := stager.generateSvgVaseObject(plant2DDiagram, vase2DDiagram, plant)
-		svg.StageBranch(stager.svgVaseStage, svgVaseObject)
+		stager.svgVaseStage.StageBranch(svgVaseObject)
 		stager.svgObject = svgVaseObject
 		stager.svgVaseStage.Commit()
 	} else {

@@ -218,7 +218,7 @@ Ce site web statique présente l'analyse des besoins pour l'outil du référenti
 </style></svg>
 `
 
-	ssg.StageBranch(stager.ssgStage, &content)
+	stager.ssgStage.StageBranch(&content)
 
 	stager.ssgStage.Commit()
 

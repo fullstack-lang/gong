@@ -173,7 +173,7 @@ func (stager *Stager) exportWebsite() {
 	content.LogoSVGFile = stager.GetRootLibrary().LogoSVGFile
 
 	fmt.Println("exportWebsite: Staging SSG branch...")
-	ssg.StageBranch(stager.ssgStage, &content)
+	stager.ssgStage.StageBranch(&content)
 
 	fmt.Println("exportWebsite: Committing SSG stage...")
 	stager.ssgStage.Commit()

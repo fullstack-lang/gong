@@ -5,7 +5,7 @@ import split "github.com/fullstack-lang/gong/lib/split/go/models"
 func (stager *Stager) createViews() {
 	stager.splitStage.Reset()
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "tree & diagram",
 
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -71,7 +71,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -82,7 +82,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "About",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -104,7 +104,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "svg probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -116,7 +116,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "markdown probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{

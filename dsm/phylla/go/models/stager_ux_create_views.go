@@ -251,7 +251,7 @@ func (stager *Stager) createViews() {
 		},
 	}
 	if isPlant2DChecked || isStool2DChecked || isClock2DChecked || (!isVase2DChecked && !isTubeVase3DChecked && !isStool3DChecked && !isClock3DChecked) {
-		split.StageBranch(stager.splitStage, v0)
+		stager.splitStage.StageBranch(v0)
 	}
 	v0.OnClick = func() {
 		plant := stager.GetCurrentPlant()
@@ -335,7 +335,7 @@ func (stager *Stager) createViews() {
 			},
 		},
 	}
-	split.StageBranch(stager.splitStage, vPlant3D)
+	stager.splitStage.StageBranch(vPlant3D)
 	vPlant3D.OnClick = func() {
 		plant := stager.GetCurrentPlant()
 		if plant != nil {
@@ -428,7 +428,7 @@ func (stager *Stager) createViews() {
 				},
 			},
 		}
-		split.StageBranch(stager.splitStage, v1)
+		stager.splitStage.StageBranch(v1)
 		v1.OnClick = func() {
 			plant := stager.GetCurrentPlant()
 			if plant != nil && plant.CurrentView != VIEW_VASE_FORM {
@@ -511,7 +511,7 @@ func (stager *Stager) createViews() {
 				},
 			},
 		}
-		split.StageBranch(stager.splitStage, v2)
+		stager.splitStage.StageBranch(v2)
 		v2.OnClick = func() {
 			plant := stager.GetCurrentPlant()
 			if plant != nil {
@@ -607,7 +607,7 @@ func (stager *Stager) createViews() {
 				},
 			},
 		}
-		split.StageBranch(stager.splitStage, v3)
+		stager.splitStage.StageBranch(v3)
 		v3.OnClick = func() {
 			plant := stager.GetCurrentPlant()
 			if plant != nil {
@@ -706,7 +706,7 @@ func (stager *Stager) createViews() {
 			},
 		}
 		if isStool3DChecked {
-			split.StageBranch(stager.splitStage, vStool)
+			stager.splitStage.StageBranch(vStool)
 		}
 		vStool.OnClick = func() {
 			plant := stager.GetCurrentPlant()
@@ -794,7 +794,7 @@ func (stager *Stager) createViews() {
 			},
 		}
 		if isClock3DChecked {
-			split.StageBranch(stager.splitStage, vClock)
+			stager.splitStage.StageBranch(vClock)
 		}
 		vClock.OnClick = func() {
 			plant := stager.GetCurrentPlant()
@@ -914,7 +914,7 @@ func (stager *Stager) createViews() {
 				},
 			},
 		}
-		split.StageBranch(stager.splitStage, vMusicScore)
+		stager.splitStage.StageBranch(vMusicScore)
 		vMusicScore.OnClick = func() {
 			plant := stager.GetCurrentPlant()
 			if plant != nil && plant.CurrentView != VIEW_MUSIC_SCORE {
@@ -992,7 +992,7 @@ func (stager *Stager) createViews() {
 			},
 		},
 	}
-	split.StageBranch(stager.splitStage, vAbout)
+	stager.splitStage.StageBranch(vAbout)
 	vAbout.OnClick = func() {
 		plant := stager.GetCurrentPlant()
 		if plant != nil && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
@@ -1001,7 +1001,7 @@ func (stager *Stager) createViews() {
 		}
 	}
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -1013,7 +1013,7 @@ func (stager *Stager) createViews() {
 	})
 
 	if stager.stageSet != nil {
-		split.StageBranch(stager.splitStage, &split.View{
+		stager.splitStage.StageBranch(&split.View{
 			Name: "StageSet Probe",
 			RootAsSplitAreas: []*split.AsSplitArea{
 				{
@@ -1025,7 +1025,7 @@ func (stager *Stager) createViews() {
 		})
 	}
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "Tree Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -1037,7 +1037,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "Svg Plant Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -1049,7 +1049,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "Svg Vase Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -1061,7 +1061,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "ssg Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -1073,7 +1073,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "threejs Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -1085,7 +1085,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "stool3d Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -1097,7 +1097,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "sliderStool Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -1109,7 +1109,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "clock3d Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -1121,7 +1121,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "sliderClock Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -1133,7 +1133,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "plant3d Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -1145,7 +1145,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "markdown probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -1157,7 +1157,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "form stage probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{

@@ -260,7 +260,7 @@ func NewProbe(
 		},
 	}
 
-	split.StageBranch(probe.splitStage, &split.View{
+	probe.splitStage.StageBranch(&split.View{
 		Name: "Main view",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -326,7 +326,7 @@ func (probe *Probe) initLoadStage() {
 		},
 	}
 
-	load.StageBranch(probe.loadStage,
+	probe.loadStage.StageBranch(
 		fileToUpload,
 	)
 
@@ -409,7 +409,7 @@ func (probe *Probe) DownloadNotificationsCSV() {
 	fileToDownload.Name = "notifications.csv"
 	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(csvContent))
 
-	load.StageBranch(probe.loadStage, fileToDownload)
+	probe.loadStage.StageBranch(fileToDownload)
 	probe.loadStage.Commit()
 
 	time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.
@@ -440,7 +440,7 @@ func (probe *Probe) ExportStageExcel() {
 
 	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString(excelBytes)
 
-	load.StageBranch(probe.loadStage, fileToDownload)
+	probe.loadStage.StageBranch(fileToDownload)
 	probe.loadStage.Commit()
 
 	time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.
@@ -470,7 +470,7 @@ func (probe *Probe) ExportStage() {
 
 	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stageString))
 
-	load.StageBranch(probe.loadStage, fileToDownload)
+	probe.loadStage.StageBranch(fileToDownload)
 	probe.loadStage.Commit()
 
 	time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.

@@ -28,7 +28,7 @@ func (stager *Stager) svg() {
 
 	svgObject := stager.generateSvgObject(diagram)
 
-	svg.StageBranch(stager.svgStage, svgObject)
+	stager.svgStage.StageBranch(svgObject)
 	stager.svgObject = svgObject
 	stager.svgObject.OnUpdate = stager.onUpdateSVG
 
@@ -810,7 +810,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		configureLinkWithControlPoints(stager, link, &deliverableConceptShape.ControlPointShapes, startRect.Name)
 	}
 
-	svg.StageBranch(svgStage, stager.svgObject)
+	svgStage.StageBranch(stager.svgObject)
 	stager.svgStage.Commit()
 
 	return stager.svgObject

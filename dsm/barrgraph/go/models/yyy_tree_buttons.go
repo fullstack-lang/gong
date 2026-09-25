@@ -1261,8 +1261,8 @@ func (stager *Stager) button() {
 				},
 			}
 
-			load.StageBranch(stager.loadStage, fileToDownload)
-			load.StageBranch(stager.loadStage, fileToUpload)
+			stager.loadStage.StageBranch(fileToDownload)
+			stager.loadStage.StageBranch(fileToUpload)
 
 			message := &load.Message{
 				Name: "Drop your <library>.go file here or ",
@@ -1346,8 +1346,8 @@ func (stager *Stager) button() {
 					},
 				}
 
-				load.StageBranch(stager.loadStageMultistage, fileToDownload)
-				load.StageBranch(stager.loadStageMultistage, fileToUploadMulti)
+				stager.loadStageMultistage.StageBranch(fileToDownload)
+				stager.loadStageMultistage.StageBranch(fileToUploadMulti)
 
 				messageMulti := &load.Message{
 					Name: "Drop your multistage .go file here or ",
@@ -1371,8 +1371,8 @@ func (stager *Stager) button() {
 					},
 				}
 
-				load.StageBranch(stager.loadStage, fileToDownloadMono)
-				load.StageBranch(stager.loadStage, fileToUploadMono)
+				stager.loadStage.StageBranch(fileToDownloadMono)
+				stager.loadStage.StageBranch(fileToUploadMono)
 
 				messageMono := &load.Message{
 					Name: "Drop your <library>.go file here or ",
@@ -1511,8 +1511,8 @@ func (stager *Stager) button() {
 					},
 				}
 
-				load.StageBranch(stager.loadStage, fileToDownload)
-				load.StageBranch(stager.loadStage, fileToUpload)
+				stager.loadStage.StageBranch(fileToDownload)
+				stager.loadStage.StageBranch(fileToUpload)
 
 				message := &load.Message{
 					Name: "Drop your <library>.go file here or ",
@@ -1524,7 +1524,7 @@ func (stager *Stager) button() {
 		})
 	}
 
-	button.StageBranch(buttonStage, layout)
+	buttonStage.StageBranch(layout)
 
 	buttonStage.Commit()
 }
@@ -1543,7 +1543,7 @@ func (stager *Stager) load() {
 		},
 	}
 
-	load.StageBranch(stager.loadStage,
+	stager.loadStage.StageBranch(
 		fileToUpload,
 	)
 
@@ -1565,7 +1565,7 @@ func (stager *Stager) load() {
 			},
 		}
 
-		load.StageBranch(stager.loadStageMultistage,
+		stager.loadStageMultistage.StageBranch(
 			fileToUploadMulti,
 		)
 

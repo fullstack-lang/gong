@@ -394,8 +394,8 @@ func (stager *Stager) exportSysML(library *Library) {
 		},
 	}
 
-	load.StageBranch(stager.loadStage, fileToDownload)
-	load.StageBranch(stager.loadStage, fileToUpload)
+	stager.loadStage.StageBranch(fileToDownload)
+	stager.loadStage.StageBranch(fileToUpload)
 
 	message := &load.Message{
 		Name: "Drop your <library>.go file here or ",

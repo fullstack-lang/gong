@@ -19,7 +19,7 @@ func (stager *Stager) createViews() {
 	}
 	tabTitle.Stage(stager.splitStage)
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:           "Edit PBS/WBS (" + getPersistanceFile(stager) + ")",
 		Direction:      split.Horizontal,
 		IsSizeInPixel:  true,
@@ -94,7 +94,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:      "Edit PBS/WBS with Probe",
 		Direction: split.Horizontal,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -140,7 +140,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -151,7 +151,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:      "All",
 		Direction: split.Horizontal,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -197,7 +197,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Load / Download / Buttons",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -226,7 +226,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "Tree Product Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -238,7 +238,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "Svg Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -250,7 +250,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "ssg Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{

@@ -54,7 +54,7 @@ func onCopyDiagram(stager *Stager, diagram *Diagram) func() {
 			newDiagram.NoteTaskShapes = append(newDiagram.NoteTaskShapes, newShape)
 		}
 
-		StageBranch(stager.stage, newDiagram)
+		stager.stage.StageBranch(newDiagram)
 		stager.stage.Commit()
 	}
 }

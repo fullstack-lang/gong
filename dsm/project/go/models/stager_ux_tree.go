@@ -80,7 +80,7 @@ func (stager *Stager) ux_tree() {
 
 	EnsureRenameIsFirstOnTree(treeInstance)
 
-	tree.StageBranch(stager.treeStage, treeInstance)
+	stager.treeStage.StageBranch(treeInstance)
 
 	stager.treeStage.Commit()
 }

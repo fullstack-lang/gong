@@ -84,7 +84,7 @@ func (specRelationsTreeUpdater *SpecRelationsTreeStageUpdater) UpdateAndCommitSp
 		}
 	}
 
-	tree.StageBranch(treeStage,
+	treeStage.StageBranch(
 		&tree.Tree{
 			RootNodes: sliceOfSpecRelationNodes,
 		},

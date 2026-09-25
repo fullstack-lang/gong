@@ -170,7 +170,7 @@ func (stager *Stager) exportWebsite() {
 		chapter.Pages = append(chapter.Pages, page)
 	}
 
-	ssg.StageBranch(stager.ssgStage, &content)
+	stager.ssgStage.StageBranch(&content)
 
 	stager.ssgStage.Commit()
 

@@ -26,7 +26,7 @@ func (stager *Stager) svg() {
 	}
 	svgObject := stager.generateSvgObject(diagram)
 
-	svg.StageBranch(stager.svgStage, svgObject)
+	stager.svgStage.StageBranch(svgObject)
 	stager.svgObject = svgObject
 
 	stager.svgStage.Commit()

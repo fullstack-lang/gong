@@ -109,6 +109,8 @@ type DiagramProcess struct {
 
 	Note_Shapes              []*NoteShape
 	map_Note_NoteShape       map[*Note]*NoteShape
+	map_Note_Rect            map[*Note]*svg.Rect
+	map_SvgRect_NoteShape    map[*svg.Rect]*NoteShape
 	NotesWhoseNodeIsExpanded []*Note
 	IsNotesNodeExpanded      bool
 

@@ -152,7 +152,7 @@ func (stager *Stager) svg() {
 		)
 	}
 
-	svg.StageBranch(svgStage, svgObject)
+	svgStage.StageBranch(svgObject)
 	stager.svgStage.Commit()
 }
 

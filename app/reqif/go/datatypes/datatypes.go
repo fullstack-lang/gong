@@ -247,7 +247,7 @@ func (dataTypeTreeStageUpdater *DataTypeTreeStageUpdater) UpdateAndCommitDataTyp
 		}
 	}
 
-	tree.StageBranch(stager.GetDataTypeTreeStage(),
+	stager.GetDataTypeTreeStage().StageBranch(
 		&tree.Tree{
 			RootNodes: []*tree.Node{
 				rootNode,

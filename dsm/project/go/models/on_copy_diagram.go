@@ -25,7 +25,7 @@ func onCopyDiagram(stager *Stager, diagram *Diagram) func() {
 			newDiagram.AddLink(newLink)
 		}
 
-		StageBranch(stager.stage, newDiagram)
+		stager.stage.StageBranch(newDiagram)
 		stager.stage.Commit()
 	}
 }

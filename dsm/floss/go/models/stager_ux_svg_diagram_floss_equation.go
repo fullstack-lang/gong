@@ -23,7 +23,7 @@ func (stager *Stager) svg() {
 
 	if diagramFlossEquation != nil {
 		svgObject := stager.generateSvgObjectFlossEquation(diagramFlossEquation)
-		svg.StageBranch(stager.systemDiagramSvgStage, svgObject)
+		stager.systemDiagramSvgStage.StageBranch(svgObject)
 		stager.svgObjectDiagramFloss = svgObject
 		stager.svgObjectDiagramFloss.OnUpdate = stager.onUpdateSVG
 	}

@@ -75,7 +75,7 @@ func TestBasicCommitNavigation(t *testing.T) {
 	// vanilla setup of the stager to be able to run the server
 	splitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
 
-	split.StageBranch(splitStage, &split.View{
+	splitStage.StageBranch(&split.View{
 		Name: "Data Probe & Data Model",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{

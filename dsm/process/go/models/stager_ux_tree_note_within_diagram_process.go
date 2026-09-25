@@ -113,15 +113,21 @@ func (stager *Stager) treeNoteWithinDiagramProcess(
 		nodeTask.OnClick = onNodeClicked(stager, task)
 		nodeTask.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
-				noteTaskShape := (&NoteTaskShape{
-					Name:      task.GetName() + " shape",
-					Task:      task,
-					Note:      note,
-					LinkShape: LinkShape{},
-				}).Stage(stager.stage)
-				diagramProcess.NoteTaskShapes = append(diagramProcess.NoteTaskShapes, noteTaskShape)
+				addAssociationShapeToDiagram(stager, note, task, &diagramProcess.NoteTaskShapes)
 				stage.Commit()
 				return
+			}
+			if !isChecked && ok {
+				noteTaskShape := diagramProcess.map_Note_NoteTaskShape[noteTaskKey]
+				if noteTaskShape != nil {
+					idx := slices.Index(diagramProcess.NoteTaskShapes, noteTaskShape)
+					if idx != -1 {
+						diagramProcess.NoteTaskShapes = slices.Delete(diagramProcess.NoteTaskShapes, idx, idx+1)
+					}
+					noteTaskShape.UnstageVoid(stage)
+					stage.Commit()
+					return
+				}
 			}
 		}
 		tasksNode.Children = append(tasksNode.Children, nodeTask)

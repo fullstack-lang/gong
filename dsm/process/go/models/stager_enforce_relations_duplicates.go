@@ -5,7 +5,9 @@ import "time"
 func (stager *Stager) enforceRelationDuplicates() (needCommit bool) {
 	// Iterate through all diagrams in the stage
 	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
-		_ = diagram
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ControlFlow_Shapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.DataFlow_Shapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteTaskShapes)
 	}
 	return
 }

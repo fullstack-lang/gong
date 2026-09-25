@@ -44,7 +44,7 @@ func executeServer(unmarshallFromCode string, marshallOnCommit string, port int,
 	log.Printf("%v\n", tmp)
 
 	// one for the probe of the
-	split.StageBranch(splitStage, &split.View{
+	splitStage.StageBranch(&split.View{
 		Name: stack.Stage.GetName() + "with Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -63,7 +63,7 @@ func executeServer(unmarshallFromCode string, marshallOnCommit string, port int,
 		},
 	})
 
-	split.StageBranch(splitStage, &split.View{
+	splitStage.StageBranch(&split.View{
 		Name: "Diagram Editor",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			stack.Probe.GetDiagramEditor(),

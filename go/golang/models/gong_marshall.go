@@ -110,7 +110,7 @@ var GongMarshallFileFieldFieldSubTemplateCode map[GongMarshallFilePerStructSubTe
 map[GongMarshallFilePerStructSubTemplateId]string{
 
 	GongMarshallFileFieldSubTmplSetBasicFieldBool: `
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", {{structname}}.{{FieldName}}))

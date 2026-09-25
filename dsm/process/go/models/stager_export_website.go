@@ -43,7 +43,7 @@ func (stager *Stager) exportWebsite() {
 	appendWebExportableChapter(stager, refChapter, "Notes", stager.stage.GetInstancesSorted[*Note]())
 	appendWebExportableChapter(stager, refChapter, "Libraries", stager.stage.GetInstancesSorted[*Library]())
 
-	ssg.StageBranch(stager.ssgStage, &content)
+	stager.ssgStage.StageBranch(&content)
 
 	stager.ssgStage.Commit()
 

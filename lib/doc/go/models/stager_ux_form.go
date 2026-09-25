@@ -53,7 +53,7 @@ func (stager *Stager) form() {
 		classdiagram: selectedDiagram,
 	}
 
-	form.StageBranch(stager.formStage, formGroup)
+	stager.formStage.StageBranch(formGroup)
 
 	stager.formStage.Commit()
 }

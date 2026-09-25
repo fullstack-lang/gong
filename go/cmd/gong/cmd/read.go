@@ -72,7 +72,7 @@ var readCmd = &cobra.Command{
 		stager := gong_models.NewStager(r, modelStage, splitStage)
 
 		// one for the probe of the
-		split.StageBranch(splitStage, &split.View{
+		splitStage.StageBranch(&split.View{
 			Name: modelStage.GetName() + " with Probe",
 			RootAsSplitAreas: []*split.AsSplitArea{
 				(&split.AsSplitArea{
@@ -91,7 +91,7 @@ var readCmd = &cobra.Command{
 			},
 		})
 
-		split.StageBranch(splitStage, &split.View{
+		splitStage.StageBranch(&split.View{
 			Name: "Diagram Editor",
 			RootAsSplitAreas: []*split.AsSplitArea{
 				prb.GetDiagramEditor(),

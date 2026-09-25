@@ -5,7 +5,7 @@ import split "github.com/fullstack-lang/gong/lib/split/go/models"
 func (stager *Stager) createViews() {
 	stager.splitStage.Reset()
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:           "Edit PBS/WBS",
 		Direction:      split.Horizontal,
 		IsSelectedView: true,
@@ -78,7 +78,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:      "Edit PBS/WBS with Probe",
 		Direction: split.Horizontal,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -124,7 +124,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -135,7 +135,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:      "All",
 		Direction: split.Horizontal,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -181,7 +181,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Load / Download / Buttons",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -210,7 +210,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "Tree Deliverable Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -222,7 +222,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "Svg Probe",
 		IsSecondaryView: false,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -234,7 +234,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "Ssg Probe",
 		IsSecondaryView: false,
 		RootAsSplitAreas: []*split.AsSplitArea{

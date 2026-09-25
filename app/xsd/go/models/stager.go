@@ -29,7 +29,7 @@ func NewStager(
 
 	// StageBranch will stage on the the first argument
 	// all instances related to the second argument
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{

@@ -195,7 +195,7 @@ func (updater *SpecTypesTreeStageUpdater) UpdateAndCommitSpecTypesTreeStage(stag
 		}
 	}
 
-	tree.StageBranch(stager.GetSpecTypesTreeStage(),
+	stager.GetSpecTypesTreeStage().StageBranch(
 		&tree.Tree{
 			RootNodes: []*tree.Node{
 				rootNode,

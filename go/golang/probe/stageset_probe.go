@@ -693,7 +693,7 @@ func NewStageSetProbe(
 		},
 	}
 
-	{{SplitPkg}}.StageBranch(probe.splitStage, &{{SplitPkg}}.View{
+	probe.splitStage.StageBranch(&{{SplitPkg}}.View{
 		Name: "StageSet Main view",
 		RootAsSplitAreas: []*{{SplitPkg}}.AsSplitArea{
 			{
@@ -796,7 +796,7 @@ func (probe *StageSetProbe) CommitNotificationTable() {
 		tableInstance.Rows = append(tableInstance.Rows, row)
 	}
 
-	table.StageBranch(probe.notificationTableStage, tableInstance)
+	probe.notificationTableStage.StageBranch(tableInstance)
 	probe.notificationTableStage.Commit()
 }
 
@@ -821,7 +821,7 @@ func (probe *StageSetProbe) ExportStage() {
 	}
 
 	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stageString))
-	load.StageBranch(probe.loadStage, fileToDownload)
+	probe.loadStage.StageBranch(fileToDownload)
 	probe.loadStage.Commit()
 
 	time.Sleep(1 * time.Second)
@@ -858,7 +858,7 @@ func (probe *StageSetProbe) initLoadStage() {
 		},
 	}
 
-	load.StageBranch(probe.loadStage,
+	probe.loadStage.StageBranch(
 		fileToUpload,
 	)
 
@@ -1066,7 +1066,7 @@ import (
 func (probe *StageSetProbe) ux_navigation_tree() {
 	probe.treeNavigationStage.Reset()
 	sidebar := &tree_models.Tree{Name: "Sidebar"}
-	tree_models.StageBranch(probe.treeNavigationStage, sidebar)
+	probe.treeNavigationStage.StageBranch(sidebar)
 	probe.treeNavigationStage.Commit()
 }
 
@@ -1122,7 +1122,7 @@ func (probe *StageSetProbe) ux_tree() {
 	}
 	topNode.Buttons = append(topNode.Buttons, exportGoButton)
 %s
-	tree_models.StageBranch(probe.treeStage, sidebar)
+	probe.treeStage.StageBranch(sidebar)
 	probe.treeStage.Commit()
 }
 `, pkgPathRoot, extImports.String(), pkgTreeNodes.String())
@@ -1355,7 +1355,7 @@ func updateStageSetTable_%s_%s(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 `, si.structName, si.pkgField.Name, si.typeQual, columnDefs.String(), si.pkgField.Name, si.typeQual, si.pkgField.Name, si.pkgField.Name, si.structName, si.pkgField.Name, cellAssignments.String()))

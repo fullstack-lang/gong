@@ -68,7 +68,7 @@ func main() {
 		}
 	}
 
-	models.StageBranch(stack.Stage, &books)
+	stack.Stage.StageBranch(&books)
 	stack.Stage.Commit()
 
 	// refresh the probe, therefore we can see what has been unmarshalled

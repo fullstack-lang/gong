@@ -694,7 +694,7 @@ func (stager *Stager) Svg() {
 
 	}
 
-	svg_models.StageBranch(stager.svgStage, svg)
+	stager.svgStage.StageBranch(svg)
 
 	stager.svgStage.Commit()
 	stager.navigationTree()

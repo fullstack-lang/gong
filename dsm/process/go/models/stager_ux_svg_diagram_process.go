@@ -28,7 +28,7 @@ func (stager *Stager) svg() {
 	}
 	svgObject := stager.generateSvgObject(diagramProcess)
 
-	svg.StageBranch(stager.processDiagramSvgStage, svgObject)
+	stager.processDiagramSvgStage.StageBranch(svgObject)
 	stager.svgObjectDiagramProcess = svgObject
 	stager.svgObjectDiagramProcess.OnUpdate = stager.onUpdateSVG
 
@@ -51,6 +51,8 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	diagramProcess.map_SvgRect_TaskShape = make(map[*svg.Rect]*TaskShape)
 	diagramProcess.map_SvgRect_ExternalParticipantShape = map[*svg.Rect]*ExternalParticipantShape{}
 	diagramProcess.map_SvgRect_Participant = map[*svg.Rect]*Participant{}
+	diagramProcess.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
+	diagramProcess.map_Note_Rect = make(map[*Note]*svg.Rect)
 
 	// // to implement association between abstract elements by mouse drag
 	// svgImpl := &svgProxy{
@@ -754,7 +756,7 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 }
 
 func (stager *Stager) drawNoteShapes(diagramProcess *DiagramProcess, layer *svg.Layer) map[*Note]*svg.Rect {
-	map_Note_Rect := make(map[*Note]*svg.Rect)
+	diagramProcess.map_Note_Rect = make(map[*Note]*svg.Rect)
 	for _, noteShape := range diagramProcess.Note_Shapes {
 		if noteShape.GetIsHidden() {
 			continue
@@ -766,11 +768,12 @@ func (stager *Stager) drawNoteShapes(diagramProcess *DiagramProcess, layer *svg.
 			noteShape,
 			layer)
 
-		map_Note_Rect[noteShape.Note] = rect
+		diagramProcess.map_Note_Rect[noteShape.Note] = rect
+		diagramProcess.map_SvgRect_NoteShape[rect] = noteShape
 
 		FormatNoteRect(stager, diagramProcess, noteShape, rect)
 	}
-	return map_Note_Rect
+	return diagramProcess.map_Note_Rect
 }
 
 func (stager *Stager) drawNoteTaskShapes(diagramProcess *DiagramProcess, layer *svg.Layer, map_Note_Rect map[*Note]*svg.Rect) {
@@ -799,7 +802,7 @@ func (stager *Stager) drawNoteTaskShapes(diagramProcess *DiagramProcess, layer *
 			noteTaskShape,
 			startNote,
 			layer,
-			false)
+			true)
 
 		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
 		link.StartAnchorType = svg.ANCHOR_CENTER
@@ -809,6 +812,7 @@ func (stager *Stager) drawNoteTaskShapes(diagramProcess *DiagramProcess, layer *
 		link.Presentation.StrokeDashArray = "5,5"
 		link.Stroke = "#9E9E9E"
 		link.StrokeWidth = 1.5
+		link.StrokeOpacity = 1.0
 	}
 }
 

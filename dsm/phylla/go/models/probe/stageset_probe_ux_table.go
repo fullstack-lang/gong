@@ -187,7 +187,7 @@ func updateStageSetTable_Angle0Shape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -282,7 +282,7 @@ func updateStageSetTable_BottomCurvePlane1Shape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -377,7 +377,7 @@ func updateStageSetTable_BottomCurvePlane2Shape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -472,7 +472,7 @@ func updateStageSetTable_Circumference3DShape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -625,7 +625,7 @@ func updateStageSetTable_Clock2DDiagram_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -875,7 +875,7 @@ func updateStageSetTable_Clock3DDiagram_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -970,7 +970,7 @@ func updateStageSetTable_CutLine3DShape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -1065,7 +1065,7 @@ func updateStageSetTable_Leaves3DShape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -1252,7 +1252,7 @@ func updateStageSetTable_Library_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -1347,7 +1347,7 @@ func updateStageSetTable_OriginalPoints3DShape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -1442,7 +1442,7 @@ func updateStageSetTable_ParastichyMCurves3DShape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -1537,7 +1537,7 @@ func updateStageSetTable_ParastichyNCurves3DShape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -1943,7 +1943,7 @@ func updateStageSetTable_Plant2DDiagram_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -2271,7 +2271,7 @@ func updateStageSetTable_Plant3DDiagram_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -2928,7 +2928,7 @@ func updateStageSetTable_PlantAbstract_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -3154,7 +3154,7 @@ func updateStageSetTable_Rendered3DShape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -3285,7 +3285,7 @@ func updateStageSetTable_SampledPoints3DShape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -3380,7 +3380,7 @@ func updateStageSetTable_StackOfRotatedVaseTrapezeRingsShape_Stage(probe *StageS
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -3475,7 +3475,7 @@ func updateStageSetTable_StackOfVaseTrapezeRingsShape_Stage(probe *StageSetProbe
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -3581,7 +3581,7 @@ func updateStageSetTable_StemCylinder3DShape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -3734,7 +3734,7 @@ func updateStageSetTable_Stool2DDiagram_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -4348,7 +4348,7 @@ func updateStageSetTable_Stool3DDiagram_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -4443,7 +4443,7 @@ func updateStageSetTable_TopCurvePlane1Shape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -4538,7 +4538,7 @@ func updateStageSetTable_TopCurvePlane2Shape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -5215,7 +5215,7 @@ func updateStageSetTable_TubeVase3DDiagram_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -5964,7 +5964,7 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -6480,7 +6480,7 @@ func updateStageSetTable_Vase2DDiagram_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -6575,7 +6575,7 @@ func updateStageSetTable_VaseTrapezeRingShape_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -6780,7 +6780,7 @@ func updateStageSetTable_StoolAbstract_StoolStage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -7161,7 +7161,7 @@ func updateStageSetTable_MusicAbstract_MusicStage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -7333,7 +7333,7 @@ func updateStageSetTable_ClockAbstract_ClockStage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 

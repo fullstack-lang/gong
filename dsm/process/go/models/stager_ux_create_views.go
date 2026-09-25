@@ -6,7 +6,7 @@ func (stager *Stager) createViews() {
 	stager.splitStage.Reset()
 
 	stage := stager.stage
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:           "Edit PBS/WBS",
 		Direction:      split.Horizontal,
 		IsSelectedView: true,
@@ -78,7 +78,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:      "Edit PBS/WBS",
 		Direction: split.Horizontal,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -123,7 +123,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -134,7 +134,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:      "All",
 		Direction: split.Horizontal,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -180,7 +180,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "Tree Product Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -192,7 +192,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "Svg Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -204,7 +204,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "ssg Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{

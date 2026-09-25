@@ -42,7 +42,7 @@ func executeServer(args []string) {
 	ganttSVGMapper.GenerateSvg(stack.Stage, stager.GetSvgStage())
 
 	// one for the probe of the
-	split.StageBranch(splitStage, &split.View{
+	splitStage.StageBranch(&split.View{
 		Name: stack.Stage.GetName() + "with Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{

@@ -86,7 +86,7 @@ func executeServer(args []string) {
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
 	// one for the probe of the
-	split.StageBranch(splitStage, &split.View{
+	splitStage.StageBranch(&split.View{
 		Name: stageForManualyEditedTable.GetName(),
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -123,7 +123,7 @@ func executeServer(args []string) {
 	})
 
 	// one for the probe of the
-	split.StageBranch(splitStage, &split.View{
+	splitStage.StageBranch(&split.View{
 		Name: stageForGeneratedTable.GetName(),
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{

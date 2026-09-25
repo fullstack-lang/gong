@@ -29,6 +29,6 @@ func (stager *Stager) ux_tree() {
 		treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
 	})
 	stager.treeLibrary(treeInstance, rootLibrary, &treeInstance.RootNodes, currentView)
-	tree.StageBranch(stager.treeStage2D, treeInstance)
+	stager.treeStage2D.StageBranch(treeInstance)
 	stager.treeStage2D.Commit()
 }

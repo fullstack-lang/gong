@@ -45,7 +45,7 @@ func executeServerStageSet() {
 	rootSplitStage := %s_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
 
 	if stack.StageSet != nil {
-		%s.StageBranch(rootSplitStage, &%s.View{
+		rootSplitStage.StageBranch(&%s.View{
 			Name: "StageSet Probe",
 			RootAsSplitAreas: []*%s.AsSplitArea{
 				{
@@ -57,7 +57,7 @@ func executeServerStageSet() {
 		})
 	}
 
-	%s.StageBranch(rootSplitStage, &%s.View{
+	rootSplitStage.StageBranch(&%s.View{
 		Name: "Data Probe & Data Model",
 		RootAsSplitAreas: []*%s.AsSplitArea{
 			{
@@ -101,7 +101,7 @@ var migrateCmd = &cobra.Command{
 		log.Printf("Successfully migrated %%s to %%s", inputFile, outputFile)
 	},
 }
-`, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg)
+`, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg)
 		addStageSetCmd = "\n\trootCmd.AddCommand(editStageSetCmd)\n\tmigrateCmd.Flags().StringVar(&migrateOut, \"out\", \"\", \"output file path (default: data/stageset.go)\")\n\trootCmd.AddCommand(migrateCmd)"
 	}
 
@@ -156,7 +156,7 @@ func executeServer() {
 	// Create root split stage for the probe
 	rootSplitStage := %s_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
 
-	%s.StageBranch(rootSplitStage, &%s.View{
+	rootSplitStage.StageBranch(&%s.View{
 		Name: "Data Probe & Data Model",
 		RootAsSplitAreas: []*%s.AsSplitArea{
 			{
@@ -203,7 +203,6 @@ func main() {
 		splitImport,
 		splitStackImport,
 		splitStaticImport,
-		splitPkg,
 		splitPkg,
 		splitPkg,
 		splitPkg,
@@ -269,7 +268,7 @@ func executeServer() {
 	// Create root split stage for the probe
 	rootSplitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
-	split.StageBranch(rootSplitStage, &split.View{
+	rootSplitStage.StageBranch(&split.View{
 		Name: "Data Probe & Data Model",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{

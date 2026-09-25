@@ -164,7 +164,7 @@ func (stager *Stager) UpdateAndCommitLoadReqifStage() {
 		},
 	}
 
-	load.StageBranch(stager.loadReqifStage,
+	stager.loadReqifStage.StageBranch(
 		fileToUpload,
 	)
 

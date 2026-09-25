@@ -1,6 +1,8 @@
 package models
 
 import (
+	"slices"
+
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
@@ -27,6 +29,7 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		ASSOCIATION_TYPE_TASK_TASK                 associationType = "TaskTask"
 		ASSOCIATION_TYPE_EXTERNAL_PARTICIPANT_TASK associationType = "ExternalParticipantTask"
 		ASSOCIATION_TYPE_TASK_EXTERNAL_PARTICIPANT associationType = "TaskExternalParticipant"
+		ASSOCIATION_TYPE_NOTE_TASK                 associationType = "NoteTask"
 	)
 
 	var assocType associationType
@@ -53,6 +56,20 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			assocType = ASSOCIATION_TYPE_EXTERNAL_PARTICIPANT_TASK
 			sourceAbstratctElement = startExternalParticipantShape.Participant
 			targetAbstractElement = endTaskShape.Task
+		}
+	}
+	if startNoteShape, ok := diagramProcess.map_SvgRect_NoteShape[startRect]; ok {
+		if endTaskShape, ok := diagramProcess.map_SvgRect_TaskShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_NOTE_TASK
+			sourceAbstratctElement = startNoteShape.Note
+			targetAbstractElement = endTaskShape.Task
+		}
+	}
+	if startTaskShape, ok := diagramProcess.map_SvgRect_TaskShape[startRect]; ok {
+		if endNoteShape, ok := diagramProcess.map_SvgRect_NoteShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_NOTE_TASK
+			sourceAbstratctElement = endNoteShape.Note
+			targetAbstractElement = startTaskShape.Task
 		}
 	}
 
@@ -165,6 +182,18 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		dataFlowShape.SetStartRatio(0.5)
 		dataFlowShape.SetEndRatio(0.5)
 		diagramProcess.DataFlow_Shapes = append(diagramProcess.DataFlow_Shapes, dataFlowShape)
+	case ASSOCIATION_TYPE_NOTE_TASK:
+		note := sourceAbstratctElement.(*Note)
+		task := targetAbstractElement.(*Task)
+
+		if !slices.Contains(note.Tasks, task) {
+			note.Tasks = append(note.Tasks, task)
+		}
+
+		key := noteTaskKey{Note: note, Task: task}
+		if _, ok := diagramProcess.map_Note_NoteTaskShape[key]; !ok {
+			addAssociationShapeToDiagram(stager, note, task, &diagramProcess.NoteTaskShapes)
+		}
 	}
 
 	// commit to encode the result, this will generate a new SVG generation

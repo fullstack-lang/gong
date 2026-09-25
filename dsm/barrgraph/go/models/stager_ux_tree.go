@@ -565,7 +565,7 @@ func (stager *Stager) ux_tree() {
 		}
 	}
 
-	tree.StageBranch(stager.treeStage, tree_)
+	stager.treeStage.StageBranch(tree_)
 
 	stager.treeStage.Commit()
 }

@@ -67,7 +67,7 @@ func (stager *Stager) updateAndCommitLoadRenderingConfStage() {
 		},
 	}
 
-	load.StageBranch(stager.loadRenderingConfStage,
+	stager.loadRenderingConfStage.StageBranch(
 		fileToUpload,
 	)
 

@@ -79,7 +79,7 @@ func (stager *Stager) ux_tree() {
 	}
 	treeInstance.RootNodes = append(treeInstance.RootNodes, examplesNode)
 
-	tree.StageBranch(stager.treeStage, treeInstance)
+	stager.treeStage.StageBranch(treeInstance)
 
 	stager.treeStage.Commit()
 }

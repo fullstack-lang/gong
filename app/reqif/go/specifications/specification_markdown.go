@@ -80,7 +80,7 @@ func (o *SpecificationsTreeStageUpdater) UpdateAndCommitSpecificationsMarkdownSt
 			markdownSvgImage.Name = pngImage.Name
 		}
 
-		markdown.StageBranch(markdownStage, content)
+		markdownStage.StageBranch(content)
 
 		if GetSpecificationRendering(stage, selectedSpecification).IsWithHeadingNumbering {
 			content.Content = AddHeaderNumbering(content.Content)

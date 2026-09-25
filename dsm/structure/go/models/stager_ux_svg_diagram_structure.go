@@ -27,7 +27,7 @@ func (stager *Stager) svg() {
 	}
 	svgObject := stager.generateSvgObject(diagramStructure)
 
-	svg.StageBranch(stager.systemDiagramSvgStage, svgObject)
+	stager.systemDiagramSvgStage.StageBranch(svgObject)
 	stager.svgObjectDiagramStructure = svgObject
 	stager.svgObjectDiagramStructure.OnUpdate = stager.onUpdateSVG
 

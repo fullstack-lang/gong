@@ -421,7 +421,7 @@ func (stager *Stager) tree() {
 			}
 		}
 	}
-	tree.StageBranch(stager.treeStage,
+	stager.treeStage.StageBranch(
 		classdiagramsTree,
 	)
 

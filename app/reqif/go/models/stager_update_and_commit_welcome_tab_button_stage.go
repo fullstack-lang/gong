@@ -157,7 +157,7 @@ func (proxy *ResetReqifButtonProxy) OnAfterUpdateButton() {
 	var A_SPECIFICATIONS A_SPECIFICATIONS
 	req_if.CORE_CONTENT.REQ_IF_CONTENT.SPECIFICATIONS = &A_SPECIFICATIONS
 
-	StageBranch(proxy.stager.stage, &req_if)
+	proxy.stager.stage.StageBranch(&req_if)
 	proxy.stager.rootReqif = &req_if
 
 	proxy.stager.stage.Commit()

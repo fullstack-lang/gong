@@ -81,7 +81,7 @@ func (stager *Stager) UpdateAndCommitSsgStage() {
 
 	}
 
-	ssg.StageBranch(stager.ssgStage, content)
+	stager.ssgStage.StageBranch(content)
 
 	stager.ssgStage.Commit()
 

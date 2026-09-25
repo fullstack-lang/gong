@@ -69,7 +69,7 @@ func (o *SpecObjectsTreeStageUpdater) UpdateAndCommitSpecObjectsTreeStage(stager
 		nodeSpecType.Name = nodeSpecType.Name + fmt.Sprintf(" (%d)", nbInstances)
 	}
 
-	tree.StageBranch(treeStage,
+	treeStage.StageBranch(
 		&tree.Tree{
 			RootNodes: sliceOfSpecObjectNodes,
 		},

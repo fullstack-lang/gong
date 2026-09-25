@@ -20,7 +20,7 @@ func (stager *Stager) createViews() {
 	}
 	tabTitle.Stage(stager.splitStage)
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:           "Edit view (" + getFileName(stager) + ")",
 		IsSelectedView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -124,7 +124,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Edit + Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -205,7 +205,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Main view",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -264,7 +264,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Sim. view",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -296,7 +296,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Data Probe & Data Model",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -307,7 +307,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Data Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -316,14 +316,14 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Data Model",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			stager.probeForm.GetDiagramEditor(),
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "svg Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -334,7 +334,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Diagram Tree Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{

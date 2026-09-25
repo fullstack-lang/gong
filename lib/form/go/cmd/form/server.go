@@ -61,7 +61,7 @@ func executeServer(args []string) {
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
 	// form_models.NewStager(r, stack.Stage, stack.Probe)
-	split.StageBranch(splitStage, &split.View{
+	splitStage.StageBranch(&split.View{
 		Name: "Split",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{

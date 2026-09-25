@@ -42,7 +42,7 @@ func NewStager(r *http.ServeMux, stage *Stage) (stager *Stager) {
 
 	// StageBranch will stage on the the first argument
 	// all instances related to the second argument
-	split.StageBranch(stager.splitStage,
+	stager.splitStage.StageBranch(
 		&split.View{
 			Name: "Main view",
 			RootAsSplitAreas: []*split.AsSplitArea{

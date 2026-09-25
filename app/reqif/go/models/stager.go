@@ -334,7 +334,7 @@ func NewStager(
 
 	// StageBranch will stage on the the first argument
 	// all instances related to the second argument
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Welcome to reqif",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -397,7 +397,7 @@ func NewStager(
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "REQIF Data",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -440,7 +440,7 @@ func NewStager(
 	asSplitAreaRenderingConfStage := load.NewStager(r, stager.loadRenderingConfStage, stager.splitStage).GetAsSplitArea()
 	asSplitAreaRenderingConfStage.Size = 20
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "REQIF Render",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -518,7 +518,7 @@ func NewStager(
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "(Dev) REQIF Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -530,7 +530,7 @@ func NewStager(
 		IsSecondaryView: true,
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "(Dev) summary table probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -542,7 +542,7 @@ func NewStager(
 		IsSecondaryView: true,
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "(Dev) data type tree probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -554,7 +554,7 @@ func NewStager(
 		IsSecondaryView: true,
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "(Dev) spec type tree probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -566,7 +566,7 @@ func NewStager(
 		IsSecondaryView: true,
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "(Dev) markdownStage",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -578,7 +578,7 @@ func NewStager(
 		IsSecondaryView: true,
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "(Dev) load Reqif Stage",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -589,7 +589,7 @@ func NewStager(
 		},
 		IsSecondaryView: true,
 	})
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "(Dev) load Rendering Conf Stage",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -663,7 +663,7 @@ func (stager *Stager) processReqifData(reqifData []byte, svgImages []*EmbeddedSv
 		return
 	}
 
-	StageBranch(stager.stage, &req_if)
+	stager.stage.StageBranch(&req_if)
 
 	for _, svgImage := range svgImages {
 		svgImage.Stage(stager.stage)

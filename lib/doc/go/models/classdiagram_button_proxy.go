@@ -53,7 +53,7 @@ func (proxy *ClassDiagramButtonProxy) ButtonUpdated(
 	case DUPLICATE:
 		duplicateDiagram := proxy.classdiagram.DuplicateDiagram()
 		duplicateDiagram.Name += " Copy"
-		StageBranch(proxy.stager.stage, duplicateDiagram)
+		proxy.stager.stage.StageBranch(duplicateDiagram)
 
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
 		diagramPackage.Classdiagrams = append(diagramPackage.Classdiagrams, duplicateDiagram)

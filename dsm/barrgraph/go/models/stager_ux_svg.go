@@ -20,7 +20,7 @@ func (stager *Stager) ux_svg() {
 	stager.svgObject = svgObject
 	stager.svgObject.OnUpdate = stager.onUpdateSVG
 
-	svg.StageBranch(stager.svgStage, svgObject)
+	stager.svgStage.StageBranch(svgObject)
 
 	stager.svgStage.Commit()
 }

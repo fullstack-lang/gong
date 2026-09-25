@@ -157,7 +157,7 @@ func (o *SpecificationsTreeStageUpdater) UpdateAndCommitSpecificationsTreeStage(
 		nodeSpecType.Name = nodeSpecType.Name + fmt.Sprintf(" (%d)", nbInstances)
 	}
 
-	tree.StageBranch(treeStage,
+	treeStage.StageBranch(
 		&tree.Tree{
 			RootNodes: sliceOfSpecificationNodes,
 		},

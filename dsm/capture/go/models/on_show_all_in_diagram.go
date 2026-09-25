@@ -154,7 +154,7 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func() {
 
 		// 5. Unstage the diagram and re-stage it with StageBranch to include all new shapes recursively
 		diagram.Unstage(stager.stage)
-		StageBranch(stager.stage, diagram)
+		stager.stage.StageBranch(diagram)
 
 		// Save changes
 		stager.stage.Commit()

@@ -23,7 +23,7 @@ func executeServer(args []string) {
 
 	probeSplitStageName := stack.Stage.GetProbeSplitStageName()
 
-	split.StageBranch(splitStage, &split.View{
+	splitStage.StageBranch(&split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{

@@ -32,7 +32,7 @@ func executeServer(args []string) {
 	stager := load_models.NewStager(r, stack.Stage, splitStage)
 
 	// one for the probe of the
-	split.StageBranch(splitStage, &split.View{
+	splitStage.StageBranch(&split.View{
 		Name: stack.Stage.GetName() + "with Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -54,7 +54,7 @@ func executeServer(args []string) {
 	})
 
 	// one for the probe of the
-	split.StageBranch(splitStage, &split.View{
+	splitStage.StageBranch(&split.View{
 		Name: "with Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{

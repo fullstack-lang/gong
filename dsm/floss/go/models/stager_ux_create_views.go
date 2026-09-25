@@ -14,7 +14,7 @@ func (stager *Stager) createViews() {
 	}
 
 	// View 1: System Diagram (Tree, SVG, Form ONLY - no sliders)
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:           "System Diagram",
 		Direction:      split.Horizontal,
 		IsSelectedView: !equationChecked,
@@ -101,7 +101,7 @@ func (stager *Stager) createViews() {
 	})
 
 	// View 4: Probe
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -112,7 +112,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "Tree probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -124,7 +124,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
-	split.StageBranch(stager.splitStage, &split.View{
+	stager.splitStage.StageBranch(&split.View{
 		Name:            "SVG probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{

@@ -68,7 +68,7 @@ func main() {
 	// 	return
 	// }
 
-	// models.StageBranch(stack.Stage, &scorePartwise)
+	// stack.Stage.StageBranch(&scorePartwise)
 
 	// stack.Stage.Commit()
 	// stack.Probe.Refresh()

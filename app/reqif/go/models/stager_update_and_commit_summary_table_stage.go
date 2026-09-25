@@ -134,7 +134,7 @@ func (stager *Stager) updateAndCommitSummaryTableStage() {
 		},
 	}
 
-	table.StageBranch(stager.summaryTableStage, summary)
+	stager.summaryTableStage.StageBranch(summary)
 
 	stager.summaryTableStage.Commit()
 }

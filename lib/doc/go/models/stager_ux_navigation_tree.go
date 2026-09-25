@@ -96,7 +96,7 @@ func (stager *Stager) navigationTree() {
 	}
 	deltaNode.Buttons = append(deltaNode.Buttons, squashButton)
 
-	tree_models.StageBranch(stager.treeNavigationStage, tree)
+	stager.treeNavigationStage.StageBranch(tree)
 
 	stager.treeNavigationStage.Commit()
 }
