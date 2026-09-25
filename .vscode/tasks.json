@@ -477,9 +477,10 @@
             "options": {
                 "cwd": "${workspaceFolder}/app/reqif/go/cmd/reqif"
             },
-            "command": "go run",
+            "command": "go",
             "group": "build",
             "args": [
+                "run",
                 ".",
                 "edit",
                 "data/stage.go"
@@ -491,9 +492,10 @@
             "options": {
                 "cwd": "${workspaceFolder}/dsm/scenario/go/cmd/scenario"
             },
-            "command": "go run",
+            "command": "go",
             "group": "build",
             "args": [
+                "run",
                 ".",
                 "edit",
                 "data/stage.go"

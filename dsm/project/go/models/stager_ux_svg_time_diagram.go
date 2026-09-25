@@ -149,22 +149,6 @@ func (stager *Stager) displayTask(diagram *Diagram, task *Task, taskShape *TaskS
 	layer.Rects = append(layer.Rects, rect4Bar)
 	rect4Bar.Name = task.Name
 	rect4Bar.IsSelectable = true
-	rect4Bar.CanHaveRightHandle = true
-	rect4Bar.CanHaveLeftHandle = true
-	rect4Bar.CanMoveHorizontaly = true
-
-	rect4Bar.OnSelect = func() {
-		stager.stage.CommitWithSuspendedCallbacks()
-		stager.probeForm.FillUpFormFromGongstruct(task, "Task")
-		stager.ux_tree()
-	}
-	rect4Bar.OnMove = func(x, y float64) {
-		stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
-	}
-	rect4Bar.OnResize = func(x, y, width, height float64) {
-		stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
-	}
-
 	var taskToDisplay = *task
 
 	endToDisplay := taskToDisplay.End
@@ -195,6 +179,102 @@ func (stager *Stager) displayTask(diagram *Diagram, task *Task, taskShape *TaskS
 	rect4Bar.Stroke = "darkblue"
 	rect4Bar.StrokeWidth = 1.0
 	rect4Bar.RX = 4.0
+
+	rect4Bar.OnSelect = func() {
+		stager.stage.CommitWithSuspendedCallbacks()
+		stager.probeForm.FillUpFormFromGongstruct(task, "Task")
+		stager.ux_tree()
+	}
+
+	if !task.IsMilestone {
+		rect4Bar.CanHaveRightHandle = true
+		rect4Bar.CanHaveLeftHandle = true
+		rect4Bar.CanMoveHorizontaly = true
+
+		rect4Bar.OnMove = func(x, y float64) {
+			origStartX := rect4Bar.X
+			newStartX := x
+
+			if math.Abs(newStartX-origStartX) <= 0.001 {
+				stager.stage.CommitWithSuspendedCallbacks()
+				return
+			}
+
+			rawStart := diagram.XToDate(newStartX)
+			newStart := diagram.SnapStartDate(rawStart, task.IsAllDay)
+
+			// Preserve duration in days
+			origEffectiveEnd := task.End
+			if task.IsAllDay && !task.IsMilestone {
+				origEffectiveEnd = origEffectiveEnd.AddDate(0, 0, 1)
+			}
+			durationDays := int(math.Round(origEffectiveEnd.Sub(task.Start).Hours() / 24.0))
+
+			newEffectiveEnd := newStart.AddDate(0, 0, durationDays)
+			newEnd := newEffectiveEnd
+			if task.IsAllDay && !task.IsMilestone {
+				newEnd = newEffectiveEnd.AddDate(0, 0, -1)
+			}
+			if diagram.HideWeekendsPeriod {
+				if newEnd.Weekday() == time.Saturday {
+					newEnd = newEnd.AddDate(0, 0, -1)
+				} else if newEnd.Weekday() == time.Sunday {
+					newEnd = newEnd.AddDate(0, 0, -2)
+				}
+			}
+
+			if newStart.Equal(task.Start) && newEnd.Equal(task.End) {
+				stager.stage.CommitWithSuspendedCallbacks()
+				return
+			}
+
+			updateTaskDurationAndPredecessors(task, true, true, newStart, newEnd)
+			stager.stage.Commit()
+		}
+
+		rect4Bar.OnResize = func(x, y, width, height float64) {
+			origStartX := rect4Bar.X
+			origEndX := rect4Bar.X + rect4Bar.Width
+			newStartX := x
+			newEndX := x + width
+
+			startMoved := math.Abs(newStartX-origStartX) > 0.001
+			endMoved := math.Abs(newEndX-origEndX) > 0.001
+
+			if !startMoved && !endMoved {
+				stager.stage.CommitWithSuspendedCallbacks()
+				return
+			}
+
+			newStart := task.Start
+			newEnd := task.End
+
+			if startMoved {
+				rawStart := diagram.XToDate(newStartX)
+				newStart = diagram.SnapStartDate(rawStart, task.IsAllDay)
+				if newStart.After(newEnd) {
+					newStart = newEnd
+				}
+			}
+
+			if endMoved {
+				rawVisualEnd := diagram.XToDate(newEndX)
+				newEnd = diagram.SnapEndDate(rawVisualEnd, task.IsAllDay)
+				if newEnd.Before(newStart) {
+					newEnd = newStart
+				}
+			}
+
+			if newStart.Equal(task.Start) && newEnd.Equal(task.End) {
+				stager.stage.CommitWithSuspendedCallbacks()
+				return
+			}
+
+			updateTaskDurationAndPredecessors(task, startMoved, endMoved, newStart, newEnd)
+			stager.stage.Commit()
+		}
+	}
+
 	return rect4Bar
 }
 
@@ -616,4 +696,160 @@ func (diagram *Diagram) DateToX(t time.Time) float64 {
 
 func (diagram *Diagram) dateToX(t time.Time) float64 {
 	return diagram.DateToX(t)
+}
+
+// XToDate converts a horizontal X coordinate within the diagram's lane area to a date.
+// If diagram.HideWeekendsPeriod is true, weekends are excluded from the timescale.
+func (diagram *Diagram) XToDate(x float64) time.Time {
+	laneWidth := diagram.XRightMargin - diagram.XLeftLanes
+	if diagram.ComputedDuration == 0 || laneWidth <= 0 {
+		return diagram.ComputedStart
+	}
+
+	fraction := (x - diagram.XLeftLanes) / laneWidth
+
+	if diagram.HideWeekendsPeriod {
+		totalWorkDuration := diagram.workDurationBetween(diagram.ComputedStart, diagram.ComputedEnd)
+		if totalWorkDuration <= 0 {
+			return diagram.ComputedStart
+		}
+		targetWorkDuration := time.Duration(fraction * float64(totalWorkDuration))
+		targetWorkTime := diagram.workTime(diagram.ComputedStart) + targetWorkDuration
+
+		// Binary search for t around ComputedStart and ComputedEnd
+		low := diagram.ComputedStart.AddDate(-5, 0, 0)
+		for diagram.workTime(low) > targetWorkTime {
+			low = low.AddDate(-5, 0, 0)
+		}
+		high := diagram.ComputedEnd.AddDate(5, 0, 0)
+		for diagram.workTime(high) < targetWorkTime {
+			high = high.AddDate(5, 0, 0)
+		}
+		for i := 0; i < 60; i++ {
+			mid := low.Add(high.Sub(low) / 2)
+			if diagram.workTime(mid) < targetWorkTime {
+				low = mid
+			} else {
+				high = mid
+			}
+		}
+		return high
+	}
+
+	durationFromStart := time.Duration(fraction * float64(diagram.ComputedDuration))
+	return diagram.ComputedStart.Add(durationFromStart)
+}
+
+// SnapStartDate snaps a date to a calendar day, taking into account weekends if hidden.
+func (diagram *Diagram) SnapStartDate(raw time.Time, isAllDay bool) time.Time {
+	loc := diagram.ComputedStart.Location()
+	t := raw.In(loc)
+	dayStart := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, loc)
+	if t.Sub(dayStart) >= 12*time.Hour {
+		dayStart = dayStart.AddDate(0, 0, 1)
+	}
+
+	if diagram.HideWeekendsPeriod {
+		if dayStart.Weekday() == time.Saturday {
+			dayStart = dayStart.AddDate(0, 0, 2)
+		} else if dayStart.Weekday() == time.Sunday {
+			dayStart = dayStart.AddDate(0, 0, 1)
+		}
+	}
+	return dayStart
+}
+
+// SnapEndDate snaps a visual end date to a task End date.
+// For all-day tasks, the visual end is (task.End + 1 day), so 1 day is subtracted.
+func (diagram *Diagram) SnapEndDate(rawVisualEnd time.Time, isAllDay bool) time.Time {
+	loc := diagram.ComputedStart.Location()
+	t := rawVisualEnd.In(loc)
+	dayStart := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, loc)
+	if t.Sub(dayStart) >= 12*time.Hour {
+		dayStart = dayStart.AddDate(0, 0, 1)
+	}
+
+	newEnd := dayStart
+	if isAllDay {
+		newEnd = dayStart.AddDate(0, 0, -1)
+	}
+
+	if diagram.HideWeekendsPeriod {
+		if newEnd.Weekday() == time.Saturday {
+			newEnd = newEnd.AddDate(0, 0, -1)
+		} else if newEnd.Weekday() == time.Sunday {
+			newEnd = newEnd.AddDate(0, 0, -2)
+		}
+	}
+	return newEnd
+}
+
+func updateTaskDurationAndPredecessors(task *Task, startMoved, endMoved bool, newStart, newEnd time.Time) {
+	effectiveEnd := newEnd
+	if task.IsAllDay && !task.IsMilestone {
+		effectiveEnd = effectiveEnd.AddDate(0, 0, 1)
+	}
+	durationDays := math.Round(effectiveEnd.Sub(newStart).Hours() / 24.0)
+	if durationDays < 0 {
+		durationDays = 0
+	}
+
+	task.Start = newStart
+	task.End = newEnd
+
+	// Update duration fields so semantic enforcement doesn't revert
+	if task.DurationYears == 0 && task.DurationMonths == 0 {
+		if task.DurationWeeks > 0 && int(durationDays)%7 == 0 {
+			task.DurationWeeks = float64(int(durationDays) / 7)
+			task.DurationDays = 0
+		} else {
+			task.DurationWeeks = 0
+			task.DurationDays = durationDays
+		}
+		task.DurationHours = 0
+	} else {
+		task.DurationDays = durationDays
+	}
+
+	// Update dependency duration if predecessors exist
+	if len(task.Predecessors) > 0 {
+		var maxDate time.Time
+		first := true
+		for _, predecessor := range task.Predecessors {
+			if predecessor == nil {
+				continue
+			}
+			var predDate time.Time
+			switch task.DependencyType {
+			case FINISH_TO_START, FINISH_TO_FINISH:
+				predDate = predecessor.End
+				if predecessor.IsAllDay && !predecessor.IsMilestone {
+					predDate = predDate.AddDate(0, 0, 1)
+				}
+			case START_TO_START, START_TO_FINISH:
+				predDate = predecessor.Start
+			}
+			if first || predDate.After(maxDate) {
+				maxDate = predDate
+				first = false
+			}
+		}
+		if !first {
+			if startMoved && (task.DependencyType == FINISH_TO_START || task.DependencyType == START_TO_START) {
+				depDays := math.Round(newStart.Sub(maxDate).Hours() / 24.0)
+				task.DependencyDurationYears = 0
+				task.DependencyDurationMonths = 0
+				task.DependencyDurationWeeks = 0
+				task.DependencyDurationHours = 0
+				task.DependencyDurationDays = depDays
+			} else if endMoved && (task.DependencyType == FINISH_TO_FINISH || task.DependencyType == START_TO_FINISH) {
+				depDays := math.Round(effectiveEnd.Sub(maxDate).Hours() / 24.0)
+				task.DependencyDurationYears = 0
+				task.DependencyDurationMonths = 0
+				task.DependencyDurationWeeks = 0
+				task.DependencyDurationHours = 0
+				task.DependencyDurationDays = depDays
+			}
+		}
+	}
 }

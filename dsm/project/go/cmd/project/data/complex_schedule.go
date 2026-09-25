@@ -108,9 +108,9 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Width = 1350.000000
 	__Diagram__00000000_.Height = 495.000000
 	__Diagram__00000000_.IsTimeDiagram = true
-	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-09 00:00:00 +0000 UTC")
+	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-06 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-23 00:00:00 +0000 UTC")
-	__Diagram__00000000_.ComputedDuration = 1209600000000000
+	__Diagram__00000000_.ComputedDuration = 1468800000000000
 	__Diagram__00000000_.DrawVerticalTimeLines = true
 	__Diagram__00000000_.HideWeekendsPeriod = true
 	__Diagram__00000000_.UseManualStartAndEndDates = false
@@ -339,8 +339,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000000_.Name = `Architecture Blueprint`
 	__Task__00000000_.Description = `High-level architecture and storage layer specification`
-	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-09 00:00:00 +0000 UTC")
-	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-10 00:00:00 +0000 UTC")
+	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-06 00:00:00 +0000 UTC")
+	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-09 00:00:00 +0000 UTC")
 	__Task__00000000_.IsAllDay = true
 	__Task__00000000_.IsMilestone = false
 	__Task__00000000_.DependencyType = ""
@@ -352,7 +352,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_.DurationYears = 0.000000
 	__Task__00000000_.DurationMonths = 0.000000
 	__Task__00000000_.DurationWeeks = 0.000000
-	__Task__00000000_.DurationDays = 2.000000
+	__Task__00000000_.DurationDays = 4.000000
 	__Task__00000000_.DurationHours = 0.000000
 	__Task__00000000_.IsEndDateComputedFromDuration = true
 	__Task__00000000_.IsWithCompletion = false
@@ -370,8 +370,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000001_.Name = `Security Review`
 	__Task__00000001_.Description = `Threat modeling and compliance checklist`
-	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-11 00:00:00 +0000 UTC")
-	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-11 00:00:00 +0000 UTC")
+	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-10 00:00:00 +0000 UTC")
+	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-10 00:00:00 +0000 UTC")
 	__Task__00000001_.IsAllDay = true
 	__Task__00000001_.IsMilestone = false
 	__Task__00000001_.DependencyType = models.FINISH_TO_START
@@ -401,8 +401,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000002_.Name = `Storage Engine Sprint`
 	__Task__00000002_.Description = `Core persistence engine and distributed WAL implementation`
-	__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-12 00:00:00 +0000 UTC")
-	__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-13 00:00:00 +0000 UTC")
+	__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-11 00:00:00 +0000 UTC")
+	__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-12 00:00:00 +0000 UTC")
 	__Task__00000002_.IsAllDay = true
 	__Task__00000002_.IsMilestone = false
 	__Task__00000002_.DependencyType = models.FINISH_TO_START
@@ -463,8 +463,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000004_.Name = `Frontend Web UI Sprint`
 	__Task__00000004_.Description = `Dashboard, Gantt visualizer, and form editor`
-	__Task__00000004_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-14 00:00:00 +0000 UTC")
-	__Task__00000004_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-16 00:00:00 +0000 UTC")
+	__Task__00000004_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-13 00:00:00 +0000 UTC")
+	__Task__00000004_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-15 00:00:00 +0000 UTC")
 	__Task__00000004_.IsAllDay = true
 	__Task__00000004_.IsMilestone = false
 	__Task__00000004_.DependencyType = models.FINISH_TO_START
@@ -494,8 +494,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000005_.Name = `UI Polish & Theming`
 	__Task__00000005_.Description = `Design system harmonization, dark mode palette, responsive tweaks`
-	__Task__00000005_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-17 00:00:00 +0000 UTC")
-	__Task__00000005_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-17 00:00:00 +0000 UTC")
+	__Task__00000005_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-16 00:00:00 +0000 UTC")
+	__Task__00000005_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-16 00:00:00 +0000 UTC")
 	__Task__00000005_.IsAllDay = true
 	__Task__00000005_.IsMilestone = false
 	__Task__00000005_.DependencyType = models.FINISH_TO_START
@@ -525,8 +525,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000006_.Name = `End-to-End Integration Testing`
 	__Task__00000006_.Description = `Automated regression test suite and performance stress testing`
-	__Task__00000006_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-18 00:00:00 +0000 UTC")
-	__Task__00000006_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-18 00:00:00 +0000 UTC")
+	__Task__00000006_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-17 00:00:00 +0000 UTC")
+	__Task__00000006_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-17 00:00:00 +0000 UTC")
 	__Task__00000006_.IsAllDay = true
 	__Task__00000006_.IsMilestone = false
 	__Task__00000006_.DependencyType = models.FINISH_TO_START
@@ -556,8 +556,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000007_.Name = `Production Deployment`
 	__Task__00000007_.Description = `Blue/green canary rollout to cloud regions`
-	__Task__00000007_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-19 00:00:00 +0000 UTC")
-	__Task__00000007_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-19 00:00:00 +0000 UTC")
+	__Task__00000007_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-18 00:00:00 +0000 UTC")
+	__Task__00000007_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-18 00:00:00 +0000 UTC")
 	__Task__00000007_.IsAllDay = true
 	__Task__00000007_.IsMilestone = false
 	__Task__00000007_.DependencyType = models.FINISH_TO_START
@@ -693,15 +693,15 @@ func _(stage *models.Stage) {
 	__TaskOutputShape__00000003_.IsHidden = false
 
 	__TaskPredecessorShape__00000000_.Name = `gantt-Architecture Blueprint-Security Review`
-	__TaskPredecessorShape__00000000_.StartRatio = 0.000000
-	__TaskPredecessorShape__00000000_.EndRatio = 0.000000
+	__TaskPredecessorShape__00000000_.StartRatio = 0.381197
+	__TaskPredecessorShape__00000000_.EndRatio = 0.542162
 	__TaskPredecessorShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskPredecessorShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskPredecessorShape__00000000_.CornerOffsetRatio = 0.000000
 	__TaskPredecessorShape__00000000_.IsHidden = false
 
 	__TaskPredecessorShape__00000001_.Name = `gantt-Security Review-Storage Engine Sprint`
-	__TaskPredecessorShape__00000001_.StartRatio = 0.000000
+	__TaskPredecessorShape__00000001_.StartRatio = 0.405958
 	__TaskPredecessorShape__00000001_.EndRatio = 0.000000
 	__TaskPredecessorShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskPredecessorShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
@@ -709,7 +709,7 @@ func _(stage *models.Stage) {
 	__TaskPredecessorShape__00000001_.IsHidden = false
 
 	__TaskPredecessorShape__00000002_.Name = `gantt-Storage Engine Sprint-Frontend Web UI Sprint`
-	__TaskPredecessorShape__00000002_.StartRatio = 0.000000
+	__TaskPredecessorShape__00000002_.StartRatio = 0.668325
 	__TaskPredecessorShape__00000002_.EndRatio = 0.000000
 	__TaskPredecessorShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskPredecessorShape__00000002_.EndOrientation = models.ORIENTATION_HORIZONTAL

@@ -123,6 +123,11 @@ func TestHideWeekendsPeriodSVGIntegration(t *testing.T) {
 		Name:  "Group1",
 		Tasks: []*models.Task{task},
 	}).Stage(stage)
+	lib.RootTaskGroups = []*models.TaskGroup{tg}
+
+	for _, d := range stage.GetInstancesSorted[*models.Diagram]() {
+		d.IsChecked = false
+	}
 
 	diag := (&models.Diagram{
 		Name:               "GanttDiag",
@@ -169,6 +174,132 @@ func TestHideWeekendsPeriodSVGIntegration(t *testing.T) {
 	}
 	if math.Abs(rect.Width-expectedW) > 0.001 {
 		t.Errorf("rect.Width = %f, expected %f", rect.Width, expectedW)
+	}
+}
+
+func TestTimeDiagramTaskHandlesAndMove(t *testing.T) {
+	stack := level1stack.NewLevel1StackDelta("test_handles", "", "", true, false, false)
+	stager := models.NewStager(
+		stack.R,
+		stack.Stage,
+		stack.Probe,
+		"",
+	)
+	_ = stager
+	stage := stack.Stage
+
+	lib := (&models.Library{
+		Name:          "RootLib",
+		IsRootLibrary: true,
+	}).Stage(stage)
+
+	// Task from Monday Jan 5 to Tuesday Jan 6 (2 days, all day)
+	task := (&models.Task{
+		Name:                          "Task1",
+		Start:                         time.Date(2026, 1, 5, 0, 0, 0, 0, time.UTC),
+		End:                           time.Date(2026, 1, 6, 0, 0, 0, 0, time.UTC),
+		IsAllDay:                      true,
+		DurationDays:                  2.0,
+		IsEndDateComputedFromDuration: true,
+	}).Stage(stage)
+	lib.RootTasks = []*models.Task{task}
+
+	tg := (&models.TaskGroup{
+		Name:  "Group1",
+		Tasks: []*models.Task{task},
+	}).Stage(stage)
+	lib.RootTaskGroups = []*models.TaskGroup{tg}
+
+	for _, d := range stage.GetInstancesSorted[*models.Diagram]() {
+		d.IsChecked = false
+	}
+
+	diag := (&models.Diagram{
+		Name:                      "GanttDiag",
+		IsTimeDiagram:             true,
+		IsChecked:                 true,
+		XLeftLanes:                200.0,
+		XRightMargin:              1200.0, // 1000px total
+		LaneHeight:                60.0,
+		RatioBarToLaneHeight:      0.8,
+		HideWeekendsPeriod:        true,
+		UseManualStartAndEndDates: true,
+		ManualStart:               time.Date(2026, 1, 5, 0, 0, 0, 0, time.UTC),  // Monday
+		ManualEnd:                 time.Date(2026, 1, 19, 0, 0, 0, 0, time.UTC), // Monday 2 weeks later (10 work days)
+	}).Stage(stage)
+	lib.Diagrams = []*models.Diagram{diag}
+
+	tgs := (&models.TaskGroupShape{
+		Name:      "GanttDiag-Group1",
+		TaskGroup: tg,
+	}).Stage(stage)
+	diag.TaskGroupShapes = []*models.TaskGroupShape{tgs}
+
+	ts := (&models.TaskShape{
+		Name: "GanttDiag-Task1",
+		Task: task,
+	}).Stage(stage)
+	diag.Task_Shapes = []*models.TaskShape{ts}
+
+	stage.Commit()
+
+	rect := diag.GetTaskRect(task)
+	if rect == nil {
+		t.Fatal("Task rect was not generated in SVG")
+	}
+
+	// 10 work days, width = 1000 => 100px per work day
+	// Jan 5 00:00 is x = 200
+	// Jan 7 00:00 (end of Tuesday) is x = 400 => width = 200
+	if math.Abs(rect.X-200.0) > 0.001 || math.Abs(rect.Width-200.0) > 0.001 {
+		t.Fatalf("Initial rect: got X=%f, Width=%f, expected X=200, Width=200", rect.X, rect.Width)
+	}
+
+	// Test 1: Move right handle (extend to Wednesday Jan 7 end of day, +100px width => 300px)
+	rect.OnResize(rect.X, rect.Y, 300.0, rect.Height)
+
+	expectedEnd1 := time.Date(2026, 1, 7, 0, 0, 0, 0, time.UTC)
+	if !task.End.Equal(expectedEnd1) {
+		t.Errorf("After right handle resize: task.End = %v, expected %v", task.End, expectedEnd1)
+	}
+	if task.DurationDays != 3.0 {
+		t.Errorf("After right handle resize: task.DurationDays = %f, expected 3.0", task.DurationDays)
+	}
+
+	// Verify the SVG rect updated
+	rect = diag.GetTaskRect(task)
+	if math.Abs(rect.Width-300.0) > 0.001 {
+		t.Errorf("After right handle resize: rect.Width = %f, expected 300.0", rect.Width)
+	}
+
+	// Test 2: Move left handle (start at Tuesday Jan 6, x = 300px, width = 200px)
+	rect.OnResize(300.0, rect.Y, 200.0, rect.Height)
+
+	expectedStart2 := time.Date(2026, 1, 6, 0, 0, 0, 0, time.UTC)
+	if !task.Start.Equal(expectedStart2) {
+		t.Errorf("After left handle resize: task.Start = %v, expected %v", task.Start, expectedStart2)
+	}
+	if !task.End.Equal(expectedEnd1) {
+		t.Errorf("After left handle resize: task.End = %v, expected %v", task.End, expectedEnd1)
+	}
+	if task.DurationDays != 2.0 {
+		t.Errorf("After left handle resize: task.DurationDays = %f, expected 2.0", task.DurationDays)
+	}
+
+	// Test 3: Move task horizontally (shift by 1 work day to Wednesday Jan 7, x = 400px)
+	rect = diag.GetTaskRect(task)
+	rect.OnMove(400.0, rect.Y)
+
+	expectedStart3 := time.Date(2026, 1, 7, 0, 0, 0, 0, time.UTC)
+	expectedEnd3 := time.Date(2026, 1, 8, 0, 0, 0, 0, time.UTC)
+	if !task.Start.Equal(expectedStart3) {
+		t.Errorf("After OnMove: task.Start = %v, expected %v", task.Start, expectedStart3)
+	}
+	if !task.End.Equal(expectedEnd3) {
+		t.Errorf("After OnMove: task.End = %v, expected %v", task.End, expectedEnd3)
+	}
+	if task.DurationDays != 2.0 {
+		t.Errorf("After OnMove: task.DurationDays = %f, expected 2.0", task.DurationDays)
 	}
 }
 
