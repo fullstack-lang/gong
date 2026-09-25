@@ -123,11 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.DisplaySelection]()
-	stage.SetOrchestratorOnAfterUpdate[models.XLCell]()
-	stage.SetOrchestratorOnAfterUpdate[models.XLFile]()
-	stage.SetOrchestratorOnAfterUpdate[models.XLRow]()
-	stage.SetOrchestratorOnAfterUpdate[models.XLSheet]()
 
 	return
 }

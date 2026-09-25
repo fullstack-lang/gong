@@ -3,65 +3,37 @@ package models
 
 // insertion point
 func (inst *AmbiantLight) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *BoxGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *BufferGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Camera) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Canvas) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Curve) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *CylinderGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -82,11 +54,7 @@ func (inst *DirectionalLight) GongGetReverseFieldOwnerName(stage *Stage, reverse
 }
 
 func (inst *ExtrudeGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -107,56 +75,32 @@ func (inst *Mesh) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongR
 }
 
 func (inst *MeshMaterialBasic) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *MeshPhysicalMaterial) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *PlaneGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Shape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *SphereGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *TorusGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -177,11 +121,7 @@ func (inst *Triangle) GongGetReverseFieldOwnerName(stage *Stage, reverseField *G
 }
 
 func (inst *TubeGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -226,65 +166,37 @@ func (inst *Vector3) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Go
 
 // insertion point
 func (inst *AmbiantLight) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *BoxGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *BufferGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Camera) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Canvas) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Curve) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *CylinderGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -303,11 +215,7 @@ func (inst *DirectionalLight) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 }
 
 func (inst *ExtrudeGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -326,56 +234,32 @@ func (inst *Mesh) GongGetReverseFieldOwner(stage *Stage, reverseField *GongRever
 }
 
 func (inst *MeshMaterialBasic) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *MeshPhysicalMaterial) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *PlaneGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Shape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *SphereGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *TorusGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -394,11 +278,7 @@ func (inst *Triangle) GongGetReverseFieldOwner(stage *Stage, reverseField *GongR
 }
 
 func (inst *TubeGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 

@@ -35,17 +35,7 @@ type StoolAbstract_WOP struct {
 
 func (from *StoolAbstract) GongCopyBasicFields(to *StoolAbstract) {
 	// insertion point
-	to.Name = from.Name
-	to.RadialRepetitions = from.RadialRepetitions
-	to.Transparency = from.Transparency
-	to.RelativeTubeDiameter = from.RelativeTubeDiameter
-	to.RelativeHeight3DTorus = from.RelativeHeight3DTorus
-	to.StoolTorusVerticalScale = from.StoolTorusVerticalScale
-	to.RelativeHeight = from.RelativeHeight
-	to.RelativeSeatThickness = from.RelativeSeatThickness
-	to.ProjectionAngle = from.ProjectionAngle
-	to.RelativeEyeSeparationCriteria = from.RelativeEyeSeparationCriteria
-	to.RelativeEyeCornerControlVectorStrength = from.RelativeEyeCornerControlVectorStrength
+	*to = *from
 }
 
 // end of insertion point

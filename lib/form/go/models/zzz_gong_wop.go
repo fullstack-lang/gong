@@ -17,8 +17,7 @@ type CheckBox_WOP struct {
 
 func (from *CheckBox) GongCopyBasicFields(to *CheckBox) {
 	// insertion point
-	to.Name = from.Name
-	to.Value = from.Value
+	*to = *from
 }
 
 type FormDiv_WOP struct {
@@ -66,14 +65,7 @@ type FormEditAssocButton_WOP struct {
 
 func (from *FormEditAssocButton) GongCopyBasicFields(to *FormEditAssocButton) {
 	// insertion point
-	to.Name = from.Name
-	to.Label = from.Label
-	to.AssociationStorage = from.AssociationStorage
-	to.HasChanged = from.HasChanged
-	to.IsForSavePurpose = from.IsForSavePurpose
-	to.HasToolTip = from.HasToolTip
-	to.ToolTipText = from.ToolTipText
-	to.MatTooltipShowDelay = from.MatTooltipShowDelay
+	*to = *from
 }
 
 type FormField_WOP struct {
@@ -118,8 +110,7 @@ type FormFieldDate_WOP struct {
 
 func (from *FormFieldDate) GongCopyBasicFields(to *FormFieldDate) {
 	// insertion point
-	to.Name = from.Name
-	to.Value = from.Value
+	*to = *from
 }
 
 type FormFieldDateTime_WOP struct {
@@ -132,8 +123,7 @@ type FormFieldDateTime_WOP struct {
 
 func (from *FormFieldDateTime) GongCopyBasicFields(to *FormFieldDateTime) {
 	// insertion point
-	to.Name = from.Name
-	to.Value = from.Value
+	*to = *from
 }
 
 type FormFieldFloat64_WOP struct {
@@ -154,12 +144,7 @@ type FormFieldFloat64_WOP struct {
 
 func (from *FormFieldFloat64) GongCopyBasicFields(to *FormFieldFloat64) {
 	// insertion point
-	to.Name = from.Name
-	to.Value = from.Value
-	to.HasMinValidator = from.HasMinValidator
-	to.MinValue = from.MinValue
-	to.HasMaxValidator = from.HasMaxValidator
-	to.MaxValue = from.MaxValue
+	*to = *from
 }
 
 type FormFieldInt_WOP struct {
@@ -180,12 +165,7 @@ type FormFieldInt_WOP struct {
 
 func (from *FormFieldInt) GongCopyBasicFields(to *FormFieldInt) {
 	// insertion point
-	to.Name = from.Name
-	to.Value = from.Value
-	to.HasMinValidator = from.HasMinValidator
-	to.MinValue = from.MinValue
-	to.HasMaxValidator = from.HasMaxValidator
-	to.MaxValue = from.MaxValue
+	*to = *from
 }
 
 type FormFieldSelect_WOP struct {
@@ -217,9 +197,7 @@ type FormFieldString_WOP struct {
 
 func (from *FormFieldString) GongCopyBasicFields(to *FormFieldString) {
 	// insertion point
-	to.Name = from.Name
-	to.Value = from.Value
-	to.IsTextArea = from.IsTextArea
+	*to = *from
 }
 
 type FormFieldTime_WOP struct {
@@ -234,9 +212,7 @@ type FormFieldTime_WOP struct {
 
 func (from *FormFieldTime) GongCopyBasicFields(to *FormFieldTime) {
 	// insertion point
-	to.Name = from.Name
-	to.Value = from.Value
-	to.Step = from.Step
+	*to = *from
 }
 
 type FormGroup_WOP struct {
@@ -293,7 +269,7 @@ type Option_WOP struct {
 
 func (from *Option) GongCopyBasicFields(to *Option) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 // end of insertion point

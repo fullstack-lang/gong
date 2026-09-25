@@ -102,10 +102,7 @@ type Bstruct_WOP struct {
 
 func (from *Bstruct) GongCopyBasicFields(to *Bstruct) {
 	// insertion point
-	to.Name = from.Name
-	to.Floatfield = from.Floatfield
-	to.Floatfield2 = from.Floatfield2
-	to.Intfield = from.Intfield
+	*to = *from
 }
 
 type Dstruct_WOP struct {
@@ -129,8 +126,7 @@ type F0123456789012345678901234567890_WOP struct {
 
 func (from *F0123456789012345678901234567890) GongCopyBasicFields(to *F0123456789012345678901234567890) {
 	// insertion point
-	to.Name = from.Name
-	to.Date = from.Date
+	*to = *from
 }
 
 type Gstruct_WOP struct {
@@ -147,10 +143,7 @@ type Gstruct_WOP struct {
 
 func (from *Gstruct) GongCopyBasicFields(to *Gstruct) {
 	// insertion point
-	to.Name = from.Name
-	to.Floatfield = from.Floatfield
-	to.Floatfield2 = from.Floatfield2
-	to.Intfield = from.Intfield
+	*to = *from
 }
 
 // end of insertion point

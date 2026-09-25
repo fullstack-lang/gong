@@ -186,26 +186,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Bs = append(%s.Bs, %s)", aIdent, aIdent, targetIdent))
 			}
-			if a.C != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + a.C.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.C = %s", aIdent, targetIdent))
-			}
-			for _, elem := range a.Cs {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Cs = append(%s.Cs, %s)", aIdent, aIdent, targetIdent))
-			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -446,24 +426,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								if target, ok := identifierMap[rIdent.Name]; ok {
 									if typedTarget, ok := target.(*B); ok {
 										inst.Bs = append(inst.Bs, typedTarget)
-									}
-								}
-							}
-						}
-					case "C":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*C); ok {
-									inst.C = typedTarget
-								}
-							}
-						}
-					case "Cs":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-									if typedTarget, ok := target.(*C); ok {
-										inst.Cs = append(inst.Cs, typedTarget)
 									}
 								}
 							}

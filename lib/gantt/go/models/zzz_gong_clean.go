@@ -37,6 +37,10 @@ func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	return
 }
 
+type GongCleaner interface {
+	GongClean(stage *Stage) (modified bool)
+}
+
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Arrow
 func (arrow *Arrow) GongClean(stage *Stage) (modified bool) {
@@ -44,13 +48,6 @@ func (arrow *Arrow) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanPointer(&arrow.From) || modified
 	modified = stage.CleanPointer(&arrow.To) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Bar
-func (bar *Bar) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
 	return
 }
 
@@ -100,7 +97,9 @@ func (milestone *Milestone) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		modified = instance.GongClean(stage) || modified
+		if cleaner, ok := any(instance).(GongCleaner); ok {
+			modified = cleaner.GongClean(stage) || modified
+		}
 	}
 	if modified {
 		if stage.probeIF != nil {

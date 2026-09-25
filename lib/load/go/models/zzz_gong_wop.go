@@ -17,8 +17,7 @@ type FileToDownload_WOP struct {
 
 func (from *FileToDownload) GongCopyBasicFields(to *FileToDownload) {
 	// insertion point
-	to.Name = from.Name
-	to.Base64EncodedContent = from.Base64EncodedContent
+	*to = *from
 }
 
 type FileToUpload_WOP struct {
@@ -31,8 +30,7 @@ type FileToUpload_WOP struct {
 
 func (from *FileToUpload) GongCopyBasicFields(to *FileToUpload) {
 	// insertion point
-	to.Name = from.Name
-	to.Base64EncodedContent = from.Base64EncodedContent
+	*to = *from
 }
 
 type Message_WOP struct {
@@ -43,7 +41,7 @@ type Message_WOP struct {
 
 func (from *Message) GongCopyBasicFields(to *Message) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 // end of insertion point

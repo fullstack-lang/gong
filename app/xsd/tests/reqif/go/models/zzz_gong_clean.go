@@ -37,14 +37,11 @@ func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	return
 }
 
-// insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by ALTERNATIVE_ID
-func (alternative_id *ALTERNATIVE_ID) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
+type GongCleaner interface {
+	GongClean(stage *Stage) (modified bool)
 }
 
+// insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by ATTRIBUTE_DEFINITION_BOOLEAN
 func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -182,55 +179,6 @@ func (a_alternative_id *A_ALTERNATIVE_ID) GongClean(stage *Stage) (modified bool
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_DEFINITION_BOOLEAN_REF
-func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_DEFINITION_DATE_REF
-func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_DEFINITION_ENUMERATION_REF
-func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_DEFINITION_INTEGER_REF
-func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_DEFINITION_REAL_REF
-func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_DEFINITION_STRING_REF
-func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_DEFINITION_XHTML_REF
-func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_VALUE_BOOLEAN
 func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -331,76 +279,6 @@ func (a_datatypes *A_DATATYPES) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by A_DATATYPE_DEFINITION_BOOLEAN_REF
-func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_DATATYPE_DEFINITION_DATE_REF
-func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_DATATYPE_DEFINITION_ENUMERATION_REF
-func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_DATATYPE_DEFINITION_INTEGER_REF
-func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_DATATYPE_DEFINITION_REAL_REF
-func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_DATATYPE_DEFINITION_STRING_REF
-func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_DATATYPE_DEFINITION_XHTML_REF
-func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_EDITABLE_ATTS
-func (a_editable_atts *A_EDITABLE_ATTS) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_ENUM_VALUE_REF
-func (a_enum_value_ref *A_ENUM_VALUE_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_OBJECT
-func (a_object *A_OBJECT) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by A_PROPERTIES
 func (a_properties *A_PROPERTIES) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -409,38 +287,10 @@ func (a_properties *A_PROPERTIES) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by A_RELATION_GROUP_TYPE_REF
-func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_SOURCE_1
-func (a_source_1 *A_SOURCE_1) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_SOURCE_SPECIFICATION_1
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by A_SPECIFICATIONS
 func (a_specifications *A_SPECIFICATIONS) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&a_specifications.SPECIFICATION) || modified
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_SPECIFICATION_TYPE_REF
-func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -475,13 +325,6 @@ func (a_spec_objects *A_SPEC_OBJECTS) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by A_SPEC_OBJECT_TYPE_REF
-func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by A_SPEC_RELATIONS
 func (a_spec_relations *A_SPEC_RELATIONS) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -494,20 +337,6 @@ func (a_spec_relations *A_SPEC_RELATIONS) GongClean(stage *Stage) (modified bool
 func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&a_spec_relation_groups.RELATION_GROUP) || modified
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_SPEC_RELATION_REF
-func (a_spec_relation_ref *A_SPEC_RELATION_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by A_SPEC_RELATION_TYPE_REF
-func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -596,13 +425,6 @@ func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongClean(stage *Sta
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by EMBEDDED_VALUE
-func (embedded_value *EMBEDDED_VALUE) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by ENUM_VALUE
 func (enum_value *ENUM_VALUE) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -653,20 +475,6 @@ func (req_if_content *REQ_IF_CONTENT) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanPointer(&req_if_content.SPEC_RELATIONS) || modified
 	modified = stage.CleanPointer(&req_if_content.SPECIFICATIONS) || modified
 	modified = stage.CleanPointer(&req_if_content.SPEC_RELATION_GROUPS) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by REQ_IF_HEADER
-func (req_if_header *REQ_IF_HEADER) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by REQ_IF_TOOL_EXTENSION
-func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
 	return
 }
 
@@ -741,17 +549,12 @@ func (spec_relation_type *SPEC_RELATION_TYPE) GongClean(stage *Stage) (modified 
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by XHTML_CONTENT
-func (xhtml_content *XHTML_CONTENT) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		modified = instance.GongClean(stage) || modified
+		if cleaner, ok := any(instance).(GongCleaner); ok {
+			modified = cleaner.GongClean(stage) || modified
+		}
 	}
 	if modified {
 		if stage.probeIF != nil {

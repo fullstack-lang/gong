@@ -37,21 +37,11 @@ func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	return
 }
 
+type GongCleaner interface {
+	GongClean(stage *Stage) (modified bool)
+}
+
 // insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by Action
-func (action *Action) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Activities
-func (activities *Activities) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -60,20 +50,6 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&diagram.Transition_Shapes) || modified
 	modified = stage.CleanSlice(&diagram.Note_Shapes) || modified
 	modified = stage.CleanSlice(&diagram.NoteState_Shapes) || modified
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Guard
-func (guard *Guard) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Kill
-func (kill *Kill) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -98,13 +74,6 @@ func (message *Message) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanPointer(&message.MessageType) || modified
 	modified = stage.CleanPointer(&message.OriginTransition) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by MessageType
-func (messagetype *MessageType) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
 	return
 }
 
@@ -206,7 +175,9 @@ func (transition_shape *Transition_Shape) GongClean(stage *Stage) (modified bool
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		modified = instance.GongClean(stage) || modified
+		if cleaner, ok := any(instance).(GongCleaner); ok {
+			modified = cleaner.GongClean(stage) || modified
+		}
 	}
 	if modified {
 		if stage.probeIF != nil {

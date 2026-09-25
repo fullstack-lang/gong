@@ -270,7 +270,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 		}
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 
 	probe.tableStage.Commit()
 }
@@ -365,7 +365,7 @@ func (probe *Probe) UpdateAndCommitNotificationTable() {
 		}
 	}
 
-	table_models.StageBranch(probe.notificationTableStage, table)
+	probe.notificationTableStage.StageBranch(table)
 
 	probe.notificationTableStage.Commit()
 }

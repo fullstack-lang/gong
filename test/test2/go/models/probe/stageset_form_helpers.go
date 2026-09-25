@@ -223,3 +223,110 @@ func StageSetAssociationReverseFieldToForm(
 	}).Stage(formStage)
 	formDiv.FormFields = append(formDiv.FormFields, formField)
 }
+
+// StageSetEnumStringFieldToForm appends a FormFieldSelect dropdown for a string enum
+func StageSetEnumStringFieldToForm[TF interface {
+	Codes() []string
+	CodeValues() []string
+	ToString() string
+}](
+	fieldName string,
+	field TF,
+	formGroup *form.FormGroup,
+	formStage *form.Stage,
+) {
+	formDiv := (&form.FormDiv{
+		Name: fieldName,
+	}).Stage(formStage)
+	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+
+	formField := (&form.FormField{
+		Name:        fieldName,
+		Label:       fieldName,
+		Placeholder: "",
+	}).Stage(formStage)
+	formDiv.FormFields = append(formDiv.FormFields, formField)
+
+	formFieldSelect := (&form.FormFieldSelect{
+		Name: "enum",
+	}).Stage(formStage)
+	formField.FormFieldSelect = formFieldSelect
+
+	formFieldSelect.Options = make([]*form.Option, 0)
+	for idx, optionCode := range field.Codes() {
+		optionValue := field.CodeValues()[idx]
+
+		option := (&form.Option{
+			Name: optionCode,
+		}).Stage(formStage)
+
+		if field.ToString() == optionValue {
+			formFieldSelect.Value = option
+		}
+
+		formFieldSelect.Options =
+			append(formFieldSelect.Options, option)
+	}
+}
+
+// StageSetEnumIntFieldToForm appends a FormFieldSelect dropdown for an int enum
+func StageSetEnumIntFieldToForm[TF interface {
+	Codes() []string
+	CodeValues() []int
+}](
+	fieldName string,
+	field TF,
+	formGroup *form.FormGroup,
+	formStage *form.Stage,
+) {
+	formDiv := (&form.FormDiv{
+		Name: fieldName,
+	}).Stage(formStage)
+	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+
+	formField := (&form.FormField{
+		Name:        fieldName,
+		Label:       fieldName,
+		Placeholder: "",
+	}).Stage(formStage)
+	formDiv.FormFields = append(formDiv.FormFields, formField)
+
+	formFieldSelect := (&form.FormFieldSelect{
+		Name: "enum",
+	}).Stage(formStage)
+	formField.FormFieldSelect = formFieldSelect
+
+	formFieldSelect.Options = make([]*form.Option, 0)
+	for idx, optionCode := range field.Codes() {
+		optionValue := field.CodeValues()[idx]
+
+		option := (&form.Option{
+			Name: optionCode,
+		}).Stage(formStage)
+
+		if any(field) == any(optionValue) {
+			formFieldSelect.Value = option
+		}
+
+		formFieldSelect.Options =
+			append(formFieldSelect.Options, option)
+	}
+}
+
+// StageSetFormDivEnumStringFieldToField updates a string enum field from the form
+func StageSetFormDivEnumStringFieldToField[TF interface {
+	FromCodeString(input string) error
+}](field TF, formDiv *form.FormDiv) {
+	if len(formDiv.FormFields) > 0 && formDiv.FormFields[0].FormFieldSelect != nil && formDiv.FormFields[0].FormFieldSelect.Value != nil {
+		_ = field.FromCodeString(formDiv.FormFields[0].FormFieldSelect.Value.GetName())
+	}
+}
+
+// StageSetFormDivEnumIntFieldToField updates an int enum field from the form
+func StageSetFormDivEnumIntFieldToField[TF interface {
+	FromCodeString(input string) error
+}](field TF, formDiv *form.FormDiv) {
+	if len(formDiv.FormFields) > 0 && formDiv.FormFields[0].FormFieldSelect != nil && formDiv.FormFields[0].FormFieldSelect.Value != nil {
+		_ = field.FromCodeString(formDiv.FormFields[0].FormFieldSelect.Value.GetName())
+	}
+}

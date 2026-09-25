@@ -35,11 +35,7 @@ func (inst *Classdiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 }
 
 func (inst *DiagramPackage) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -169,11 +165,7 @@ func (inst *Classdiagram) GongGetReverseFieldOwner(stage *Stage, reverseField *G
 }
 
 func (inst *DiagramPackage) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 

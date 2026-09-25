@@ -49,30 +49,14 @@ func NewStackInstance(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.Animate]()
-	stage.SetOrchestratorOnAfterUpdate[models.Circle]()
-	stage.SetOrchestratorOnAfterUpdate[models.Condition]()
 	stage.SetOrchestratorOnAfterUpdate[models.ControlPoint]()
-	stage.SetOrchestratorOnAfterUpdate[models.Ellipse]()
-	stage.SetOrchestratorOnAfterUpdate[models.FileToDownload]()
-	stage.SetOrchestratorOnAfterUpdate[models.Layer]()
 	stage.SetOrchestratorOnAfterUpdate[models.Line]()
 	stage.SetOrchestratorOnAfterUpdate[models.Link]()
-	stage.SetOrchestratorOnAfterUpdate[models.LinkAnchoredPath]()
 	stage.SetOrchestratorOnAfterUpdate[models.LinkAnchoredText]()
-	stage.SetOrchestratorOnAfterUpdate[models.Path]()
 	stage.SetOrchestratorOnAfterUpdate[models.Point]()
-	stage.SetOrchestratorOnAfterUpdate[models.Polygone]()
-	stage.SetOrchestratorOnAfterUpdate[models.Polyline]()
 	stage.SetOrchestratorOnAfterUpdate[models.Rect]()
-	stage.SetOrchestratorOnAfterUpdate[models.RectAnchoredPath]()
-	stage.SetOrchestratorOnAfterUpdate[models.RectAnchoredPngImage]()
-	stage.SetOrchestratorOnAfterUpdate[models.RectAnchoredRect]()
-	stage.SetOrchestratorOnAfterUpdate[models.RectAnchoredText]()
-	stage.SetOrchestratorOnAfterUpdate[models.RectLinkLink]()
 	stage.SetOrchestratorOnAfterUpdate[models.SVG]()
 	stage.SetOrchestratorOnAfterUpdate[models.SvgText]()
-	stage.SetOrchestratorOnAfterUpdate[models.Text]()
 
 	return
 }

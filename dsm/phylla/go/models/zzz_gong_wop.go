@@ -15,7 +15,7 @@ type Angle0Shape_WOP struct {
 
 func (from *Angle0Shape) GongCopyBasicFields(to *Angle0Shape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type ArcNormalVectorShape_WOP struct {
@@ -34,11 +34,7 @@ type ArcNormalVectorShape_WOP struct {
 
 func (from *ArcNormalVectorShape) GongCopyBasicFields(to *ArcNormalVectorShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
+	*to = *from
 }
 
 type ArcNormalVectorShapeGrid_WOP struct {
@@ -66,10 +62,7 @@ type AxesShape_WOP struct {
 
 func (from *AxesShape) GongCopyBasicFields(to *AxesShape) {
 	// insertion point
-	to.Name = from.Name
-	to.LengthX = from.LengthX
-	to.LengthY = from.LengthY
-	to.IsWithHiddenHandle = from.IsWithHiddenHandle
+	*to = *from
 }
 
 type BaseVectorShape_WOP struct {
@@ -88,11 +81,7 @@ type BaseVectorShape_WOP struct {
 
 func (from *BaseVectorShape) GongCopyBasicFields(to *BaseVectorShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
+	*to = *from
 }
 
 type BaseVectorShapeGrid_WOP struct {
@@ -114,7 +103,7 @@ type BottomCurvePlane1Shape_WOP struct {
 
 func (from *BottomCurvePlane1Shape) GongCopyBasicFields(to *BottomCurvePlane1Shape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type BottomCurvePlane2Shape_WOP struct {
@@ -125,7 +114,7 @@ type BottomCurvePlane2Shape_WOP struct {
 
 func (from *BottomCurvePlane2Shape) GongCopyBasicFields(to *BottomCurvePlane2Shape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type ChosenP1P2PairShape_WOP struct {
@@ -154,16 +143,7 @@ type ChosenP1P2PairShape_WOP struct {
 
 func (from *ChosenP1P2PairShape) GongCopyBasicFields(to *ChosenP1P2PairShape) {
 	// insertion point
-	to.Name = from.Name
-	to.P1X = from.P1X
-	to.P1Y = from.P1Y
-	to.P2X = from.P2X
-	to.P2Y = from.P2Y
-	to.PxX = from.PxX
-	to.PxY = from.PxY
-	to.DistanceP1Px = from.DistanceP1Px
-	to.DistanceP2Px = from.DistanceP2Px
-	to.DistanceSum = from.DistanceSum
+	*to = *from
 }
 
 type CircleGridShape_WOP struct {
@@ -174,7 +154,7 @@ type CircleGridShape_WOP struct {
 
 func (from *CircleGridShape) GongCopyBasicFields(to *CircleGridShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Circumference3DShape_WOP struct {
@@ -185,7 +165,7 @@ type Circumference3DShape_WOP struct {
 
 func (from *Circumference3DShape) GongCopyBasicFields(to *Circumference3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Clock2DDiagram_WOP struct {
@@ -206,12 +186,7 @@ type Clock2DDiagram_WOP struct {
 
 func (from *Clock2DDiagram) GongCopyBasicFields(to *Clock2DDiagram) {
 	// insertion point
-	to.Name = from.Name
-	to.Zoom = from.Zoom
-	to.IsHiddenAxesShape = from.IsHiddenAxesShape
-	to.IsChecked = from.IsChecked
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type Clock3DDiagram_WOP struct {
@@ -254,7 +229,7 @@ type ClockTopCurveShape_WOP struct {
 
 func (from *ClockTopCurveShape) GongCopyBasicFields(to *ClockTopCurveShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type CutLine3DShape_WOP struct {
@@ -265,7 +240,7 @@ type CutLine3DShape_WOP struct {
 
 func (from *CutLine3DShape) GongCopyBasicFields(to *CutLine3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type EndArcShape_WOP struct {
@@ -294,16 +269,7 @@ type EndArcShape_WOP struct {
 
 func (from *EndArcShape) GongCopyBasicFields(to *EndArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
+	*to = *from
 }
 
 type EndArcShapeGrid_WOP struct {
@@ -343,16 +309,7 @@ type EndHalfwayArcShape_WOP struct {
 
 func (from *EndHalfwayArcShape) GongCopyBasicFields(to *EndHalfwayArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
+	*to = *from
 }
 
 type EndHalfwayArcShapeGrid_WOP struct {
@@ -374,7 +331,7 @@ type ExplanationTextShape_WOP struct {
 
 func (from *ExplanationTextShape) GongCopyBasicFields(to *ExplanationTextShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Eye3DShape_WOP struct {
@@ -385,7 +342,7 @@ type Eye3DShape_WOP struct {
 
 func (from *Eye3DShape) GongCopyBasicFields(to *Eye3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type EyeCornersSampledPoints3DShape_WOP struct {
@@ -396,7 +353,7 @@ type EyeCornersSampledPoints3DShape_WOP struct {
 
 func (from *EyeCornersSampledPoints3DShape) GongCopyBasicFields(to *EyeCornersSampledPoints3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type EyeSampledPoints3DShape_WOP struct {
@@ -407,7 +364,7 @@ type EyeSampledPoints3DShape_WOP struct {
 
 func (from *EyeSampledPoints3DShape) GongCopyBasicFields(to *EyeSampledPoints3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type EyeSeatBottomCurveShape_WOP struct {
@@ -418,7 +375,7 @@ type EyeSeatBottomCurveShape_WOP struct {
 
 func (from *EyeSeatBottomCurveShape) GongCopyBasicFields(to *EyeSeatBottomCurveShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type EyeStoolBottomCurveShape_WOP struct {
@@ -429,7 +386,7 @@ type EyeStoolBottomCurveShape_WOP struct {
 
 func (from *EyeStoolBottomCurveShape) GongCopyBasicFields(to *EyeStoolBottomCurveShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type EyeVolume3DShape_WOP struct {
@@ -440,7 +397,7 @@ type EyeVolume3DShape_WOP struct {
 
 func (from *EyeVolume3DShape) GongCopyBasicFields(to *EyeVolume3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type GridPathShape_WOP struct {
@@ -451,7 +408,7 @@ type GridPathShape_WOP struct {
 
 func (from *GridPathShape) GongCopyBasicFields(to *GridPathShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type GrowthCurve2D_WOP struct {
@@ -520,25 +477,7 @@ type GrowthCurve2DRibbonEndShape_WOP struct {
 
 func (from *GrowthCurve2DRibbonEndShape) GongCopyBasicFields(to *GrowthCurve2DRibbonEndShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type GrowthCurve2DRibbonStartShape_WOP struct {
@@ -585,25 +524,7 @@ type GrowthCurve2DRibbonStartShape_WOP struct {
 
 func (from *GrowthCurve2DRibbonStartShape) GongCopyBasicFields(to *GrowthCurve2DRibbonStartShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type GrowthCurveRhombusGridShape_WOP struct {
@@ -629,9 +550,7 @@ type GrowthCurveRhombusShape_WOP struct {
 
 func (from *GrowthCurveRhombusShape) GongCopyBasicFields(to *GrowthCurveRhombusShape) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
+	*to = *from
 }
 
 type GrowthVectorShape_WOP struct {
@@ -646,9 +565,7 @@ type GrowthVectorShape_WOP struct {
 
 func (from *GrowthVectorShape) GongCopyBasicFields(to *GrowthVectorShape) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
+	*to = *from
 }
 
 type InitialRhombusGridShape_WOP struct {
@@ -674,9 +591,7 @@ type InitialRhombusShape_WOP struct {
 
 func (from *InitialRhombusShape) GongCopyBasicFields(to *InitialRhombusShape) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
+	*to = *from
 }
 
 type Key3DShape_WOP struct {
@@ -687,7 +602,7 @@ type Key3DShape_WOP struct {
 
 func (from *Key3DShape) GongCopyBasicFields(to *Key3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type KeyHole3DShape_WOP struct {
@@ -698,7 +613,7 @@ type KeyHole3DShape_WOP struct {
 
 func (from *KeyHole3DShape) GongCopyBasicFields(to *KeyHole3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type KeyHoleShape_WOP struct {
@@ -717,11 +632,7 @@ type KeyHoleShape_WOP struct {
 
 func (from *KeyHoleShape) GongCopyBasicFields(to *KeyHoleShape) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
-	to.Width = from.Width
-	to.Height = from.Height
+	*to = *from
 }
 
 type Leaves3DShape_WOP struct {
@@ -732,7 +643,7 @@ type Leaves3DShape_WOP struct {
 
 func (from *Leaves3DShape) GongCopyBasicFields(to *Leaves3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Library_WOP struct {
@@ -777,11 +688,7 @@ type MidArcVectorShape_WOP struct {
 
 func (from *MidArcVectorShape) GongCopyBasicFields(to *MidArcVectorShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
+	*to = *from
 }
 
 type MidArcVectorShapeGrid_WOP struct {
@@ -803,7 +710,7 @@ type OriginalPoints3DShape_WOP struct {
 
 func (from *OriginalPoints3DShape) GongCopyBasicFields(to *OriginalPoints3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type ParastichyMCurves3DShape_WOP struct {
@@ -814,7 +721,7 @@ type ParastichyMCurves3DShape_WOP struct {
 
 func (from *ParastichyMCurves3DShape) GongCopyBasicFields(to *ParastichyMCurves3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type ParastichyNCurves3DShape_WOP struct {
@@ -825,7 +732,7 @@ type ParastichyNCurves3DShape_WOP struct {
 
 func (from *ParastichyNCurves3DShape) GongCopyBasicFields(to *ParastichyNCurves3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type PartiallyGrowthCurve2DRibbon_WOP struct {
@@ -883,25 +790,7 @@ type PartiallyGrowthCurve2DRibbonEndShape_WOP struct {
 
 func (from *PartiallyGrowthCurve2DRibbonEndShape) GongCopyBasicFields(to *PartiallyGrowthCurve2DRibbonEndShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type PartiallyGrowthCurve2DRibbonStartShape_WOP struct {
@@ -948,25 +837,7 @@ type PartiallyGrowthCurve2DRibbonStartShape_WOP struct {
 
 func (from *PartiallyGrowthCurve2DRibbonStartShape) GongCopyBasicFields(to *PartiallyGrowthCurve2DRibbonStartShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type PartiallyGrowthCurve2DTrajectory_WOP struct {
@@ -996,11 +867,7 @@ type PartiallyGrowthCurve2DTrajectoryP1CurveShape_WOP struct {
 
 func (from *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongCopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryP1CurveShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
+	*to = *from
 }
 
 type PartiallyGrowthCurve2DTrajectoryP1P2_WOP struct {
@@ -1030,11 +897,7 @@ type PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_WOP struct {
 
 func (from *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongCopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
+	*to = *from
 }
 
 type PartiallyGrowthCurve2DTrajectoryP1PointShape_WOP struct {
@@ -1049,9 +912,7 @@ type PartiallyGrowthCurve2DTrajectoryP1PointShape_WOP struct {
 
 func (from *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongCopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryP1PointShape) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
+	*to = *from
 }
 
 type PartiallyGrowthCurve2DTrajectoryP2CurveShape_WOP struct {
@@ -1070,11 +931,7 @@ type PartiallyGrowthCurve2DTrajectoryP2CurveShape_WOP struct {
 
 func (from *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongCopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryP2CurveShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
+	*to = *from
 }
 
 type PartiallyGrowthCurve2DTrajectoryP2PointShape_WOP struct {
@@ -1089,9 +946,7 @@ type PartiallyGrowthCurve2DTrajectoryP2PointShape_WOP struct {
 
 func (from *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongCopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryP2PointShape) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
+	*to = *from
 }
 
 type PartiallyGrowthCurve2DTrajectoryShape_WOP struct {
@@ -1110,11 +965,7 @@ type PartiallyGrowthCurve2DTrajectoryShape_WOP struct {
 
 func (from *PartiallyGrowthCurve2DTrajectoryShape) GongCopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
+	*to = *from
 }
 
 type PartiallyRotatedSeatBottomCurveShape_WOP struct {
@@ -1125,7 +976,7 @@ type PartiallyRotatedSeatBottomCurveShape_WOP struct {
 
 func (from *PartiallyRotatedSeatBottomCurveShape) GongCopyBasicFields(to *PartiallyRotatedSeatBottomCurveShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type PartiallyRotatedSeatTopCurveShape_WOP struct {
@@ -1136,7 +987,7 @@ type PartiallyRotatedSeatTopCurveShape_WOP struct {
 
 func (from *PartiallyRotatedSeatTopCurveShape) GongCopyBasicFields(to *PartiallyRotatedSeatTopCurveShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type PartiallyRotatedTorusShape_WOP struct {
@@ -1147,7 +998,7 @@ type PartiallyRotatedTorusShape_WOP struct {
 
 func (from *PartiallyRotatedTorusShape) GongCopyBasicFields(to *PartiallyRotatedTorusShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type PerpendicularVector_WOP struct {
@@ -1166,11 +1017,7 @@ type PerpendicularVector_WOP struct {
 
 func (from *PerpendicularVector) GongCopyBasicFields(to *PerpendicularVector) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
+	*to = *from
 }
 
 type PerpendicularVectorGrid_WOP struct {
@@ -1211,11 +1058,7 @@ type PerpendicularVectorHalfway_WOP struct {
 
 func (from *PerpendicularVectorHalfway) GongCopyBasicFields(to *PerpendicularVectorHalfway) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
+	*to = *from
 }
 
 type Plant2DDiagram_WOP struct {
@@ -1282,35 +1125,7 @@ type Plant2DDiagram_WOP struct {
 
 func (from *Plant2DDiagram) GongCopyBasicFields(to *Plant2DDiagram) {
 	// insertion point
-	to.Name = from.Name
-	to.OriginX = from.OriginX
-	to.OriginY = from.OriginY
-	to.Zoom = from.Zoom
-	to.IsRhombusNodesExpanded = from.IsRhombusNodesExpanded
-	to.IsArcNodesExpanded = from.IsArcNodesExpanded
-	to.IsHiddenAxesShape = from.IsHiddenAxesShape
-	to.IsHiddenReferenceRhombus = from.IsHiddenReferenceRhombus
-	to.IsHiddenPlantCircumferenceShape = from.IsHiddenPlantCircumferenceShape
-	to.IsHiddenGridPathShape = from.IsHiddenGridPathShape
-	to.IsHiddenRhombusGridShape = from.IsHiddenRhombusGridShape
-	to.IsHiddenExplanationTextShape = from.IsHiddenExplanationTextShape
-	to.IsHiddenRotatedReferenceRhombus = from.IsHiddenRotatedReferenceRhombus
-	to.IsHiddenRotatedPlantCircumferenceShape = from.IsHiddenRotatedPlantCircumferenceShape
-	to.IsHiddenRotatedGridPathShape = from.IsHiddenRotatedGridPathShape
-	to.IsHiddenRotatedRhombusGridShape = from.IsHiddenRotatedRhombusGridShape
-	to.IsHiddenGrowthPathRhombusGridShape = from.IsHiddenGrowthPathRhombusGridShape
-	to.IsHiddenGrowthVectorShape = from.IsHiddenGrowthVectorShape
-	to.IsHiddenPerpendicularVectorGrid = from.IsHiddenPerpendicularVectorGrid
-	to.IsHiddenBaseVectorShapeGrid = from.IsHiddenBaseVectorShapeGrid
-	to.IsHiddenArcNormalVectorShapeGrid = from.IsHiddenArcNormalVectorShapeGrid
-	to.IsHiddenStartArcShapeGrid = from.IsHiddenStartArcShapeGrid
-	to.IsHiddenMidArcVectorShapeGrid = from.IsHiddenMidArcVectorShapeGrid
-	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
-	to.IsHiddenGrowthCurve2D = from.IsHiddenGrowthCurve2D
-	to.IsHiddenStackOfGrowthCurve2DByGrowthVector = from.IsHiddenStackOfGrowthCurve2DByGrowthVector
-	to.IsChecked = from.IsChecked
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type Plant3DDiagram_WOP struct {
@@ -1431,9 +1246,7 @@ type PlantCircumferenceShape_WOP struct {
 
 func (from *PlantCircumferenceShape) GongCopyBasicFields(to *PlantCircumferenceShape) {
 	// insertion point
-	to.Name = from.Name
-	to.AngleDegree = from.AngleDegree
-	to.Length = from.Length
+	*to = *from
 }
 
 type PointsAndLines3DShape_WOP struct {
@@ -1444,7 +1257,7 @@ type PointsAndLines3DShape_WOP struct {
 
 func (from *PointsAndLines3DShape) GongCopyBasicFields(to *PointsAndLines3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type PxShape_WOP struct {
@@ -1459,9 +1272,7 @@ type PxShape_WOP struct {
 
 func (from *PxShape) GongCopyBasicFields(to *PxShape) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
+	*to = *from
 }
 
 type Rendered3DShape_WOP struct {
@@ -1486,14 +1297,7 @@ type Rendered3DShape_WOP struct {
 
 func (from *Rendered3DShape) GongCopyBasicFields(to *Rendered3DShape) {
 	// insertion point
-	to.Name = from.Name
-	to.ViewX = from.ViewX
-	to.ViewY = from.ViewY
-	to.ViewZ = from.ViewZ
-	to.TargetX = from.TargetX
-	to.TargetY = from.TargetY
-	to.TargetZ = from.TargetZ
-	to.Fov = from.Fov
+	*to = *from
 }
 
 type RhombusShape_WOP struct {
@@ -1508,9 +1312,7 @@ type RhombusShape_WOP struct {
 
 func (from *RhombusShape) GongCopyBasicFields(to *RhombusShape) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
+	*to = *from
 }
 
 type RhombusStuff_WOP struct {
@@ -1547,9 +1349,7 @@ type RotatedRhombusShape_WOP struct {
 
 func (from *RotatedRhombusShape) GongCopyBasicFields(to *RotatedRhombusShape) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
+	*to = *from
 }
 
 type RotatedSampledPoints3DShape_WOP struct {
@@ -1560,7 +1360,7 @@ type RotatedSampledPoints3DShape_WOP struct {
 
 func (from *RotatedSampledPoints3DShape) GongCopyBasicFields(to *RotatedSampledPoints3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type RotatedSeatAndLegs3DShape_WOP struct {
@@ -1571,7 +1371,7 @@ type RotatedSeatAndLegs3DShape_WOP struct {
 
 func (from *RotatedSeatAndLegs3DShape) GongCopyBasicFields(to *RotatedSeatAndLegs3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type SampledPoints3DShape_WOP struct {
@@ -1582,7 +1382,7 @@ type SampledPoints3DShape_WOP struct {
 
 func (from *SampledPoints3DShape) GongCopyBasicFields(to *SampledPoints3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Seat3DShape_WOP struct {
@@ -1593,7 +1393,7 @@ type Seat3DShape_WOP struct {
 
 func (from *Seat3DShape) GongCopyBasicFields(to *Seat3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type SeatAndLegs3DShape_WOP struct {
@@ -1604,7 +1404,7 @@ type SeatAndLegs3DShape_WOP struct {
 
 func (from *SeatAndLegs3DShape) GongCopyBasicFields(to *SeatAndLegs3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type SeatBottomCurveShape_WOP struct {
@@ -1615,7 +1415,7 @@ type SeatBottomCurveShape_WOP struct {
 
 func (from *SeatBottomCurveShape) GongCopyBasicFields(to *SeatBottomCurveShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type SeatTopCurveShape_WOP struct {
@@ -1626,7 +1426,7 @@ type SeatTopCurveShape_WOP struct {
 
 func (from *SeatTopCurveShape) GongCopyBasicFields(to *SeatTopCurveShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type ShiftedBottomTopStartArcShape_WOP struct {
@@ -1655,16 +1455,7 @@ type ShiftedBottomTopStartArcShape_WOP struct {
 
 func (from *ShiftedBottomTopStartArcShape) GongCopyBasicFields(to *ShiftedBottomTopStartArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
+	*to = *from
 }
 
 type ShiftedBottomTopStartArcShapeGrid_WOP struct {
@@ -1733,25 +1524,7 @@ type ShiftedLeftGrowthCurve2DRibbonEndShape_WOP struct {
 
 func (from *ShiftedLeftGrowthCurve2DRibbonEndShape) GongCopyBasicFields(to *ShiftedLeftGrowthCurve2DRibbonEndShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type ShiftedLeftGrowthCurve2DRibbonStartShape_WOP struct {
@@ -1798,25 +1571,7 @@ type ShiftedLeftGrowthCurve2DRibbonStartShape_WOP struct {
 
 func (from *ShiftedLeftGrowthCurve2DRibbonStartShape) GongCopyBasicFields(to *ShiftedLeftGrowthCurve2DRibbonStartShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type ShiftedLeftPartiallyGrowthCurve2DRibbon_WOP struct {
@@ -1874,25 +1629,7 @@ type ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape_WOP struct {
 
 func (from *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongCopyBasicFields(to *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape_WOP struct {
@@ -1939,25 +1676,7 @@ type ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape_WOP struct {
 
 func (from *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongCopyBasicFields(to *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type ShiftedLeftStackGrowthCurveEndArcShape_WOP struct {
@@ -1986,16 +1705,7 @@ type ShiftedLeftStackGrowthCurveEndArcShape_WOP struct {
 
 func (from *ShiftedLeftStackGrowthCurveEndArcShape) GongCopyBasicFields(to *ShiftedLeftStackGrowthCurveEndArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
+	*to = *from
 }
 
 type ShiftedLeftStackGrowthCurveStartArcShape_WOP struct {
@@ -2024,16 +1734,7 @@ type ShiftedLeftStackGrowthCurveStartArcShape_WOP struct {
 
 func (from *ShiftedLeftStackGrowthCurveStartArcShape) GongCopyBasicFields(to *ShiftedLeftStackGrowthCurveStartArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
+	*to = *from
 }
 
 type ShiftedLeftStackNormalVector_WOP struct {
@@ -2052,11 +1753,7 @@ type ShiftedLeftStackNormalVector_WOP struct {
 
 func (from *ShiftedLeftStackNormalVector) GongCopyBasicFields(to *ShiftedLeftStackNormalVector) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
+	*to = *from
 }
 
 type ShiftedLeftStackOfGrowthCurve_WOP struct {
@@ -2136,25 +1833,7 @@ type ShiftedRightGrowthCurve2DRibbonEndShape_WOP struct {
 
 func (from *ShiftedRightGrowthCurve2DRibbonEndShape) GongCopyBasicFields(to *ShiftedRightGrowthCurve2DRibbonEndShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type ShiftedRightGrowthCurve2DRibbonStartShape_WOP struct {
@@ -2201,25 +1880,7 @@ type ShiftedRightGrowthCurve2DRibbonStartShape_WOP struct {
 
 func (from *ShiftedRightGrowthCurve2DRibbonStartShape) GongCopyBasicFields(to *ShiftedRightGrowthCurve2DRibbonStartShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type StackGrowthCurve2DEndHalfwayArcShape_WOP struct {
@@ -2248,16 +1909,7 @@ type StackGrowthCurve2DEndHalfwayArcShape_WOP struct {
 
 func (from *StackGrowthCurve2DEndHalfwayArcShape) GongCopyBasicFields(to *StackGrowthCurve2DEndHalfwayArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
+	*to = *from
 }
 
 type StackGrowthCurve2DRibbonEndShape_WOP struct {
@@ -2304,25 +1956,7 @@ type StackGrowthCurve2DRibbonEndShape_WOP struct {
 
 func (from *StackGrowthCurve2DRibbonEndShape) GongCopyBasicFields(to *StackGrowthCurve2DRibbonEndShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type StackGrowthCurve2DRibbonStartShape_WOP struct {
@@ -2369,25 +2003,7 @@ type StackGrowthCurve2DRibbonStartShape_WOP struct {
 
 func (from *StackGrowthCurve2DRibbonStartShape) GongCopyBasicFields(to *StackGrowthCurve2DRibbonStartShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type StackGrowthCurve2DStartHalfwayArcShape_WOP struct {
@@ -2416,16 +2032,7 @@ type StackGrowthCurve2DStartHalfwayArcShape_WOP struct {
 
 func (from *StackGrowthCurve2DStartHalfwayArcShape) GongCopyBasicFields(to *StackGrowthCurve2DStartHalfwayArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
+	*to = *from
 }
 
 type StackOfGrowthCurve2D_WOP struct {
@@ -2447,7 +2054,7 @@ type StackOfGrowthCurve2DByGrowthVector_WOP struct {
 
 func (from *StackOfGrowthCurve2DByGrowthVector) GongCopyBasicFields(to *StackOfGrowthCurve2DByGrowthVector) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type StackOfGrowthCurve2DRibbon_WOP struct {
@@ -2469,7 +2076,7 @@ type StackOfPartiallyRotatedTorusShape_WOP struct {
 
 func (from *StackOfPartiallyRotatedTorusShape) GongCopyBasicFields(to *StackOfPartiallyRotatedTorusShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type StackOfRotatedGrowthCurve2D_WOP struct {
@@ -2502,7 +2109,7 @@ type StackOfRotatedVaseTrapezeRingsShape_WOP struct {
 
 func (from *StackOfRotatedVaseTrapezeRingsShape) GongCopyBasicFields(to *StackOfRotatedVaseTrapezeRingsShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type StackOfVaseTrapezeRingsShape_WOP struct {
@@ -2513,7 +2120,7 @@ type StackOfVaseTrapezeRingsShape_WOP struct {
 
 func (from *StackOfVaseTrapezeRingsShape) GongCopyBasicFields(to *StackOfVaseTrapezeRingsShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type StackRotatedGrowthCurve2DEndArcShape_WOP struct {
@@ -2542,16 +2149,7 @@ type StackRotatedGrowthCurve2DEndArcShape_WOP struct {
 
 func (from *StackRotatedGrowthCurve2DEndArcShape) GongCopyBasicFields(to *StackRotatedGrowthCurve2DEndArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
+	*to = *from
 }
 
 type StackRotatedGrowthCurve2DRibbonEndShape_WOP struct {
@@ -2598,25 +2196,7 @@ type StackRotatedGrowthCurve2DRibbonEndShape_WOP struct {
 
 func (from *StackRotatedGrowthCurve2DRibbonEndShape) GongCopyBasicFields(to *StackRotatedGrowthCurve2DRibbonEndShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type StackRotatedGrowthCurve2DRibbonStartShape_WOP struct {
@@ -2663,25 +2243,7 @@ type StackRotatedGrowthCurve2DRibbonStartShape_WOP struct {
 
 func (from *StackRotatedGrowthCurve2DRibbonStartShape) GongCopyBasicFields(to *StackRotatedGrowthCurve2DRibbonStartShape) {
 	// insertion point
-	to.Name = from.Name
-	to.BottomStartX = from.BottomStartX
-	to.BottomStartY = from.BottomStartY
-	to.BottomEndX = from.BottomEndX
-	to.BottomEndY = from.BottomEndY
-	to.BottomRadiusX = from.BottomRadiusX
-	to.BottomRadiusY = from.BottomRadiusY
-	to.BottomXAxisRotation = from.BottomXAxisRotation
-	to.BottomLargeArcFlag = from.BottomLargeArcFlag
-	to.BottomSweepFlag = from.BottomSweepFlag
-	to.TopStartX = from.TopStartX
-	to.TopStartY = from.TopStartY
-	to.TopEndX = from.TopEndX
-	to.TopEndY = from.TopEndY
-	to.TopRadiusX = from.TopRadiusX
-	to.TopRadiusY = from.TopRadiusY
-	to.TopXAxisRotation = from.TopXAxisRotation
-	to.TopLargeArcFlag = from.TopLargeArcFlag
-	to.TopSweepFlag = from.TopSweepFlag
+	*to = *from
 }
 
 type StackRotatedGrowthCurve2DStartArcShape_WOP struct {
@@ -2710,16 +2272,7 @@ type StackRotatedGrowthCurve2DStartArcShape_WOP struct {
 
 func (from *StackRotatedGrowthCurve2DStartArcShape) GongCopyBasicFields(to *StackRotatedGrowthCurve2DStartArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
+	*to = *from
 }
 
 type StartArcShape_WOP struct {
@@ -2748,16 +2301,7 @@ type StartArcShape_WOP struct {
 
 func (from *StartArcShape) GongCopyBasicFields(to *StartArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
+	*to = *from
 }
 
 type StartArcShapeGrid_WOP struct {
@@ -2797,16 +2341,7 @@ type StartHalfwayArcShape_WOP struct {
 
 func (from *StartHalfwayArcShape) GongCopyBasicFields(to *StartHalfwayArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
+	*to = *from
 }
 
 type StartHalfwayArcShapeGrid_WOP struct {
@@ -2830,8 +2365,7 @@ type StemCylinder3DShape_WOP struct {
 
 func (from *StemCylinder3DShape) GongCopyBasicFields(to *StemCylinder3DShape) {
 	// insertion point
-	to.Name = from.Name
-	to.Transparency = from.Transparency
+	*to = *from
 }
 
 type Stool2DDiagram_WOP struct {
@@ -2852,12 +2386,7 @@ type Stool2DDiagram_WOP struct {
 
 func (from *Stool2DDiagram) GongCopyBasicFields(to *Stool2DDiagram) {
 	// insertion point
-	to.Name = from.Name
-	to.Zoom = from.Zoom
-	to.IsHiddenAxesShape = from.IsHiddenAxesShape
-	to.IsChecked = from.IsChecked
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type Stool3DDiagram_WOP struct {
@@ -2942,7 +2471,7 @@ type TiledFloor3DShape_WOP struct {
 
 func (from *TiledFloor3DShape) GongCopyBasicFields(to *TiledFloor3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type TopCurvePlane1Shape_WOP struct {
@@ -2953,7 +2482,7 @@ type TopCurvePlane1Shape_WOP struct {
 
 func (from *TopCurvePlane1Shape) GongCopyBasicFields(to *TopCurvePlane1Shape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type TopCurvePlane2Shape_WOP struct {
@@ -2964,7 +2493,7 @@ type TopCurvePlane2Shape_WOP struct {
 
 func (from *TopCurvePlane2Shape) GongCopyBasicFields(to *TopCurvePlane2Shape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type TopEndArcShape_WOP struct {
@@ -2993,16 +2522,7 @@ type TopEndArcShape_WOP struct {
 
 func (from *TopEndArcShape) GongCopyBasicFields(to *TopEndArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
+	*to = *from
 }
 
 type TopEndArcShapeGrid_WOP struct {
@@ -3042,16 +2562,7 @@ type TopEndHalfwayArcShape_WOP struct {
 
 func (from *TopEndHalfwayArcShape) GongCopyBasicFields(to *TopEndHalfwayArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
+	*to = *from
 }
 
 type TopEndHalfwayArcShapeGrid_WOP struct {
@@ -3092,11 +2603,7 @@ type TopMidArcVectorShape_WOP struct {
 
 func (from *TopMidArcVectorShape) GongCopyBasicFields(to *TopMidArcVectorShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
+	*to = *from
 }
 
 type TopMidArcVectorShapeGrid_WOP struct {
@@ -3136,16 +2643,7 @@ type TopStackGrowthCurve2DEndHalfwayArcShape_WOP struct {
 
 func (from *TopStackGrowthCurve2DEndHalfwayArcShape) GongCopyBasicFields(to *TopStackGrowthCurve2DEndHalfwayArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
+	*to = *from
 }
 
 type TopStackGrowthCurve2DStartHalfwayArcShape_WOP struct {
@@ -3174,16 +2672,7 @@ type TopStackGrowthCurve2DStartHalfwayArcShape_WOP struct {
 
 func (from *TopStackGrowthCurve2DStartHalfwayArcShape) GongCopyBasicFields(to *TopStackGrowthCurve2DStartHalfwayArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
+	*to = *from
 }
 
 type TopStackOfGrowthCurve2D_WOP struct {
@@ -3234,16 +2723,7 @@ type TopStackOfRotatedGrowthCurve2DEndArcShape_WOP struct {
 
 func (from *TopStackOfRotatedGrowthCurve2DEndArcShape) GongCopyBasicFields(to *TopStackOfRotatedGrowthCurve2DEndArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
+	*to = *from
 }
 
 type TopStackOfRotatedGrowthCurve2DStartArcShape_WOP struct {
@@ -3272,16 +2752,7 @@ type TopStackOfRotatedGrowthCurve2DStartArcShape_WOP struct {
 
 func (from *TopStackOfRotatedGrowthCurve2DStartArcShape) GongCopyBasicFields(to *TopStackOfRotatedGrowthCurve2DStartArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
+	*to = *from
 }
 
 type TopStartArcShape_WOP struct {
@@ -3310,16 +2781,7 @@ type TopStartArcShape_WOP struct {
 
 func (from *TopStartArcShape) GongCopyBasicFields(to *TopStartArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
+	*to = *from
 }
 
 type TopStartArcShapeGrid_WOP struct {
@@ -3359,16 +2821,7 @@ type TopStartHalfwayArcShape_WOP struct {
 
 func (from *TopStartHalfwayArcShape) GongCopyBasicFields(to *TopStartHalfwayArcShape) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
+	*to = *from
 }
 
 type TopStartHalfwayArcShapeGrid_WOP struct {
@@ -3390,7 +2843,7 @@ type Torus3DShape_WOP struct {
 
 func (from *Torus3DShape) GongCopyBasicFields(to *Torus3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type TorusEdge3DShape_WOP struct {
@@ -3401,7 +2854,7 @@ type TorusEdge3DShape_WOP struct {
 
 func (from *TorusEdge3DShape) GongCopyBasicFields(to *TorusEdge3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type TorusStackShape_WOP struct {
@@ -3412,7 +2865,7 @@ type TorusStackShape_WOP struct {
 
 func (from *TorusStackShape) GongCopyBasicFields(to *TorusStackShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type TubeVase3DDiagram_WOP struct {
@@ -3665,45 +3118,7 @@ type Vase2DDiagram_WOP struct {
 
 func (from *Vase2DDiagram) GongCopyBasicFields(to *Vase2DDiagram) {
 	// insertion point
-	to.Name = from.Name
-	to.Zoom = from.Zoom
-	to.IsVaseArcNodesExpanded = from.IsVaseArcNodesExpanded
-	to.IsVaseClampingNodesExpanded = from.IsVaseClampingNodesExpanded
-	to.IsHiddenAxesShape = from.IsHiddenAxesShape
-	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid
-	to.IsHiddenBottomEndArcShapeGrid = from.IsHiddenBottomEndArcShapeGrid
-	to.IsHiddenBottomStackOfGrowthCurve = from.IsHiddenBottomStackOfGrowthCurve
-	to.IsHiddenShiftedLeftStackOfGrowthCurve = from.IsHiddenShiftedLeftStackOfGrowthCurve
-	to.IsHiddenShiftedLeftStackOfNormalVector = from.IsHiddenShiftedLeftStackOfNormalVector
-	to.IsHiddenPerpendicularVectorGridHalfway = from.IsHiddenPerpendicularVectorGridHalfway
-	to.IsHiddenTopStartArcShapeGrid = from.IsHiddenTopStartArcShapeGrid
-	to.IsHiddenShiftedBottomTopStartArcShapeGrid = from.IsHiddenShiftedBottomTopStartArcShapeGrid
-	to.IsHiddenTopMidArcVectorShapeGrid = from.IsHiddenTopMidArcVectorShapeGrid
-	to.IsHiddenStartHalfwayArcShapeGrid = from.IsHiddenStartHalfwayArcShapeGrid
-	to.IsHiddenTopStartHalfwayArcShapeGrid = from.IsHiddenTopStartHalfwayArcShapeGrid
-	to.IsHiddenEndHalfwayArcShapeGrid = from.IsHiddenEndHalfwayArcShapeGrid
-	to.IsHiddenTopEndHalfwayArcShapeGrid = from.IsHiddenTopEndHalfwayArcShapeGrid
-	to.IsHiddenTopEndArcShapeGrid = from.IsHiddenTopEndArcShapeGrid
-	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
-	to.IsHiddenTopStackOfGrowthCurve = from.IsHiddenTopStackOfGrowthCurve
-	to.IsHiddenTopGrowthCurve2D = from.IsHiddenTopGrowthCurve2D
-	to.IsHiddenStackOfGrowthCurve2D = from.IsHiddenStackOfGrowthCurve2D
-	to.IsHiddenTopStackOfGrowthCurve2D = from.IsHiddenTopStackOfGrowthCurve2D
-	to.IsHiddenGrowthCurve2DRibbon = from.IsHiddenGrowthCurve2DRibbon
-	to.IsHiddenShiftedRightGrowthCurve2DRibbon = from.IsHiddenShiftedRightGrowthCurve2DRibbon
-	to.IsHiddenShiftedLeftGrowthCurve2DRibbon = from.IsHiddenShiftedLeftGrowthCurve2DRibbon
-	to.IsHiddenStackOfGrowthCurve2DRibbon = from.IsHiddenStackOfGrowthCurve2DRibbon
-	to.IsHiddenStackOfRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfRotatedGrowthCurve2DRibbon
-	to.IsHiddenPartiallyGrowthCurve2DRibbon = from.IsHiddenPartiallyGrowthCurve2DRibbon
-	to.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = from.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon
-	to.IsHiddenPartiallyGrowthCurve2DTrajectory = from.IsHiddenPartiallyGrowthCurve2DTrajectory
-	to.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = from.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
-	to.IsHiddenPxShape = from.IsHiddenPxShape
-	to.IsHiddenChosenP1P2PairShape = from.IsHiddenChosenP1P2PairShape
-	to.IsHiddenKeyHoleShape = from.IsHiddenKeyHoleShape
-	to.IsChecked = from.IsChecked
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type VaseTrapezeRingShape_WOP struct {
@@ -3714,7 +3129,7 @@ type VaseTrapezeRingShape_WOP struct {
 
 func (from *VaseTrapezeRingShape) GongCopyBasicFields(to *VaseTrapezeRingShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type VerticalTorusStackShape_WOP struct {
@@ -3725,7 +3140,7 @@ type VerticalTorusStackShape_WOP struct {
 
 func (from *VerticalTorusStackShape) GongCopyBasicFields(to *VerticalTorusStackShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type VolumeKey3DShape_WOP struct {
@@ -3736,7 +3151,7 @@ type VolumeKey3DShape_WOP struct {
 
 func (from *VolumeKey3DShape) GongCopyBasicFields(to *VolumeKey3DShape) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 // end of insertion point

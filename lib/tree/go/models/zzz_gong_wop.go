@@ -149,8 +149,7 @@ type SVGIcon_WOP struct {
 
 func (from *SVGIcon) GongCopyBasicFields(to *SVGIcon) {
 	// insertion point
-	to.Name = from.Name
-	to.SVG = from.SVG
+	*to = *from
 }
 
 type Tree_WOP struct {

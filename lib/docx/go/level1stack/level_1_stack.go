@@ -123,22 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.Body]()
-	stage.SetOrchestratorOnAfterUpdate[models.Document]()
-	stage.SetOrchestratorOnAfterUpdate[models.Docx]()
-	stage.SetOrchestratorOnAfterUpdate[models.File]()
-	stage.SetOrchestratorOnAfterUpdate[models.Node]()
-	stage.SetOrchestratorOnAfterUpdate[models.Paragraph]()
-	stage.SetOrchestratorOnAfterUpdate[models.ParagraphProperties]()
-	stage.SetOrchestratorOnAfterUpdate[models.ParagraphStyle]()
-	stage.SetOrchestratorOnAfterUpdate[models.Rune]()
-	stage.SetOrchestratorOnAfterUpdate[models.RuneProperties]()
-	stage.SetOrchestratorOnAfterUpdate[models.Table]()
-	stage.SetOrchestratorOnAfterUpdate[models.TableColumn]()
-	stage.SetOrchestratorOnAfterUpdate[models.TableProperties]()
-	stage.SetOrchestratorOnAfterUpdate[models.TableRow]()
-	stage.SetOrchestratorOnAfterUpdate[models.TableStyle]()
-	stage.SetOrchestratorOnAfterUpdate[models.Text]()
 
 	return
 }

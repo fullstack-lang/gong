@@ -75,8 +75,7 @@ type DownloadableFile_WOP struct {
 
 func (from *DownloadableFile) GongCopyBasicFields(to *DownloadableFile) {
 	// insertion point
-	to.Name = from.Name
-	to.Base64Content = from.Base64Content
+	*to = *from
 }
 
 type JpgImage_WOP struct {
@@ -89,8 +88,7 @@ type JpgImage_WOP struct {
 
 func (from *JpgImage) GongCopyBasicFields(to *JpgImage) {
 	// insertion point
-	to.Name = from.Name
-	to.Base64Content = from.Base64Content
+	*to = *from
 }
 
 type Page_WOP struct {
@@ -117,8 +115,7 @@ type PngImage_WOP struct {
 
 func (from *PngImage) GongCopyBasicFields(to *PngImage) {
 	// insertion point
-	to.Name = from.Name
-	to.Base64Content = from.Base64Content
+	*to = *from
 }
 
 type Section_WOP struct {
@@ -151,8 +148,7 @@ type SvgImage_WOP struct {
 
 func (from *SvgImage) GongCopyBasicFields(to *SvgImage) {
 	// insertion point
-	to.Name = from.Name
-	to.Content = from.Content
+	*to = *from
 }
 
 // end of insertion point

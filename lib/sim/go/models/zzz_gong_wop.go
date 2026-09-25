@@ -34,8 +34,7 @@ type DummyAgent_WOP struct {
 
 func (from *DummyAgent) GongCopyBasicFields(to *DummyAgent) {
 	// insertion point
-	to.TechName = from.TechName
-	to.Name = from.Name
+	*to = *from
 }
 
 type Engine_WOP struct {
@@ -62,15 +61,7 @@ type Engine_WOP struct {
 
 func (from *Engine) GongCopyBasicFields(to *Engine) {
 	// insertion point
-	to.Name = from.Name
-	to.EndTime = from.EndTime
-	to.CurrentTime = from.CurrentTime
-	to.DisplayFormat = from.DisplayFormat
-	to.SecondsSinceStart = from.SecondsSinceStart
-	to.Fired = from.Fired
-	to.ControlMode = from.ControlMode
-	to.State = from.State
-	to.Speed = from.Speed
+	*to = *from
 }
 
 type Event_WOP struct {
@@ -83,8 +74,7 @@ type Event_WOP struct {
 
 func (from *Event) GongCopyBasicFields(to *Event) {
 	// insertion point
-	to.Name = from.Name
-	to.Duration = from.Duration
+	*to = *from
 }
 
 type Status_WOP struct {
@@ -103,11 +93,7 @@ type Status_WOP struct {
 
 func (from *Status) GongCopyBasicFields(to *Status) {
 	// insertion point
-	to.Name = from.Name
-	to.CurrentCommand = from.CurrentCommand
-	to.CompletionDate = from.CompletionDate
-	to.CurrentSpeedCommand = from.CurrentSpeedCommand
-	to.SpeedCommandCompletionDate = from.SpeedCommandCompletionDate
+	*to = *from
 }
 
 type UpdateState_WOP struct {
@@ -122,9 +108,7 @@ type UpdateState_WOP struct {
 
 func (from *UpdateState) GongCopyBasicFields(to *UpdateState) {
 	// insertion point
-	to.Name = from.Name
-	to.Duration = from.Duration
-	to.Period = from.Period
+	*to = *from
 }
 
 // end of insertion point

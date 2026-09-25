@@ -50,7 +50,7 @@ func executeServer() {
 	// Create root split stage for the probe
 	rootSplitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
-	split.StageBranch(rootSplitStage, &split.View{
+	rootSplitStage.StageBranch(&split.View{
 		Name: "Data Probe & Data Model",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{

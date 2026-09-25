@@ -37,25 +37,15 @@ func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	return
 }
 
-// insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by Animate
-func (animate *Animate) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
+type GongCleaner interface {
+	GongClean(stage *Stage) (modified bool)
 }
 
+// insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Circle
 func (circle *Circle) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&circle.Animations) || modified
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Condition
-func (condition *Condition) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -72,13 +62,6 @@ func (controlpoint *ControlPoint) GongClean(stage *Stage) (modified bool) {
 func (ellipse *Ellipse) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&ellipse.Animates) || modified
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by FileToDownload
-func (filetodownload *FileToDownload) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -124,13 +107,6 @@ func (link *Link) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by LinkAnchoredPath
-func (linkanchoredpath *LinkAnchoredPath) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by LinkAnchoredText
 func (linkanchoredtext *LinkAnchoredText) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -143,13 +119,6 @@ func (linkanchoredtext *LinkAnchoredText) GongClean(stage *Stage) (modified bool
 func (path *Path) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&path.Animates) || modified
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Point
-func (point *Point) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -188,27 +157,6 @@ func (rect *Rect) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by RectAnchoredPath
-func (rectanchoredpath *RectAnchoredPath) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by RectAnchoredPngImage
-func (rectanchoredpngimage *RectAnchoredPngImage) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by RectAnchoredRect
-func (rectanchoredrect *RectAnchoredRect) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by RectAnchoredText
 func (rectanchoredtext *RectAnchoredText) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -236,13 +184,6 @@ func (svg *SVG) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by SvgText
-func (svgtext *SvgText) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by Text
 func (text *Text) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -254,7 +195,9 @@ func (text *Text) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		modified = instance.GongClean(stage) || modified
+		if cleaner, ok := any(instance).(GongCleaner); ok {
+			modified = cleaner.GongClean(stage) || modified
+		}
 	}
 	if modified {
 		if stage.probeIF != nil {

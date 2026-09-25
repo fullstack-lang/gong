@@ -17,8 +17,7 @@ type AmbiantLight_WOP struct {
 
 func (from *AmbiantLight) GongCopyBasicFields(to *AmbiantLight) {
 	// insertion point
-	to.Name = from.Name
-	to.Intensity = from.Intensity
+	*to = *from
 }
 
 type BoxGeometry_WOP struct {
@@ -41,13 +40,7 @@ type BoxGeometry_WOP struct {
 
 func (from *BoxGeometry) GongCopyBasicFields(to *BoxGeometry) {
 	// insertion point
-	to.Name = from.Name
-	to.Width = from.Width
-	to.Height = from.Height
-	to.Depth = from.Depth
-	to.WidthSegments = from.WidthSegments
-	to.HeightSegments = from.HeightSegments
-	to.DepthSegments = from.DepthSegments
+	*to = *from
 }
 
 type BufferGeometry_WOP struct {
@@ -83,14 +76,7 @@ type Camera_WOP struct {
 
 func (from *Camera) GongCopyBasicFields(to *Camera) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
-	to.Z = from.Z
-	to.TargetX = from.TargetX
-	to.TargetY = from.TargetY
-	to.TargetZ = from.TargetZ
-	to.Fov = from.Fov
+	*to = *from
 }
 
 type Canvas_WOP struct {
@@ -148,15 +134,7 @@ type CylinderGeometry_WOP struct {
 
 func (from *CylinderGeometry) GongCopyBasicFields(to *CylinderGeometry) {
 	// insertion point
-	to.Name = from.Name
-	to.RadiusTop = from.RadiusTop
-	to.RadiusBottom = from.RadiusBottom
-	to.Height = from.Height
-	to.RadialSegments = from.RadialSegments
-	to.HeightSegments = from.HeightSegments
-	to.OpenEnded = from.OpenEnded
-	to.ThetaStart = from.ThetaStart
-	to.ThetaLength = from.ThetaLength
+	*to = *from
 }
 
 type DirectionalLight_WOP struct {
@@ -177,12 +155,7 @@ type DirectionalLight_WOP struct {
 
 func (from *DirectionalLight) GongCopyBasicFields(to *DirectionalLight) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
-	to.Z = from.Z
-	to.Intensity = from.Intensity
-	to.IsWithCastShadow = from.IsWithCastShadow
+	*to = *from
 }
 
 type ExtrudeGeometry_WOP struct {
@@ -229,8 +202,7 @@ type MeshMaterialBasic_WOP struct {
 
 func (from *MeshMaterialBasic) GongCopyBasicFields(to *MeshMaterialBasic) {
 	// insertion point
-	to.Name = from.Name
-	to.Color = from.Color
+	*to = *from
 }
 
 type MeshPhysicalMaterial_WOP struct {
@@ -251,12 +223,7 @@ type MeshPhysicalMaterial_WOP struct {
 
 func (from *MeshPhysicalMaterial) GongCopyBasicFields(to *MeshPhysicalMaterial) {
 	// insertion point
-	to.Name = from.Name
-	to.Color = from.Color
-	to.Wireframe = from.Wireframe
-	to.Opacity = from.Opacity
-	to.Transparent = from.Transparent
-	to.Visible = from.Visible
+	*to = *from
 }
 
 type PlaneGeometry_WOP struct {
@@ -275,11 +242,7 @@ type PlaneGeometry_WOP struct {
 
 func (from *PlaneGeometry) GongCopyBasicFields(to *PlaneGeometry) {
 	// insertion point
-	to.Name = from.Name
-	to.Width = from.Width
-	to.Height = from.Height
-	to.WidthSegments = from.WidthSegments
-	to.HeightSegments = from.HeightSegments
+	*to = *from
 }
 
 type Shape_WOP struct {
@@ -315,14 +278,7 @@ type SphereGeometry_WOP struct {
 
 func (from *SphereGeometry) GongCopyBasicFields(to *SphereGeometry) {
 	// insertion point
-	to.Name = from.Name
-	to.Radius = from.Radius
-	to.WidthSegments = from.WidthSegments
-	to.HeightSegments = from.HeightSegments
-	to.PhiStart = from.PhiStart
-	to.PhiLength = from.PhiLength
-	to.ThetaStart = from.ThetaStart
-	to.ThetaLength = from.ThetaLength
+	*to = *from
 }
 
 type TorusGeometry_WOP struct {
@@ -343,12 +299,7 @@ type TorusGeometry_WOP struct {
 
 func (from *TorusGeometry) GongCopyBasicFields(to *TorusGeometry) {
 	// insertion point
-	to.Name = from.Name
-	to.Radius = from.Radius
-	to.Tube = from.Tube
-	to.RadialSegments = from.RadialSegments
-	to.TubularSegments = from.TubularSegments
-	to.Arc = from.Arc
+	*to = *from
 }
 
 type Triangle_WOP struct {
@@ -365,10 +316,7 @@ type Triangle_WOP struct {
 
 func (from *Triangle) GongCopyBasicFields(to *Triangle) {
 	// insertion point
-	to.Name = from.Name
-	to.V1 = from.V1
-	to.V2 = from.V2
-	to.V3 = from.V3
+	*to = *from
 }
 
 type TubeGeometry_WOP struct {
@@ -406,9 +354,7 @@ type Vector2_WOP struct {
 
 func (from *Vector2) GongCopyBasicFields(to *Vector2) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
+	*to = *from
 }
 
 type Vector3_WOP struct {
@@ -425,10 +371,7 @@ type Vector3_WOP struct {
 
 func (from *Vector3) GongCopyBasicFields(to *Vector3) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
-	to.Z = from.Z
+	*to = *from
 }
 
 // end of insertion point

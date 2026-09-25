@@ -276,24 +276,30 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		hasMultiStageSet := modelPkg.StageSet != nil && len(modelPkg.StageSet.Fields) > 1
 		level1StackTemplate := level1stack.GetLevel1StackTemplate(useSplitlite, hasMultiStageSet)
 
-		gong_models.SimpleCodeGenerator(
+		gong_models.CodeGenerator(
 			modelPkg,
 			caserEnglish.String(modelPkg.Name),
 			modelPkg.PkgPath, filepath.Join(pkgPath, "../level1stack/level_1_stack.go"),
 			level1StackTemplate,
-			level1stack.ModelGongNLevel1tackInstanceStructSubTemplateCode)
+			level1stack.ModelGongNLevel1tackInstanceStructSubTemplateCode,
+			map[string]string{}, map[string]string{},
+			true,
+			true)
 
 	}
 
 	// a level 1 application does not need the static files service since
 	// it uses the gong split static file
 	if stackHeight == 4 {
-		gong_models.SimpleCodeGeneratorForGongStructWithNameField(
+		gong_models.CodeGenerator(
 			modelPkg,
 			caserEnglish.String(modelPkg.Name),
 			modelPkg.PkgPath, filepath.Join(pkgPath, "../fullstack/new_stack_instance.go"),
 			template,
-			fullstack.ModelGongNewStackInstanceStructSubTemplateCode)
+			fullstack.ModelGongNewStackInstanceStructSubTemplateCode,
+			map[string]string{}, map[string]string{},
+			true,
+			true)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
@@ -608,12 +614,25 @@ func GeneratesGoModelPackageCode(modelPkg *gong_models.ModelPkg, pkgPath string,
 		filepath.Join(pkgPath, string(gong_models.GeneratedGongCallbacksGoFilePath)),
 		models.ModelGongCallbacksFileTemplate, models.ModelGongCallbacksStructSubTemplateCode)
 
+	hasOrchestrator := false
+	for _, _struct := range modelPkg.GongStructs {
+		if _struct.HasOnAfterUpdateSignature {
+			hasOrchestrator = true
+			break
+		}
+	}
+
+	orchestratorTemplate := models.ModelGongOrchestratorFileTemplate
+	if !hasOrchestrator {
+		orchestratorTemplate = models.ModelGongOrchestratorEmptyFileTemplate
+	}
+
 	gong_models.CodeGenerator(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(pkgPath, string(gong_models.GeneratedGongOrchestratorGoFilePath)),
-		models.ModelGongOrchestratorFileTemplate,
+		orchestratorTemplate,
 		models.ModelGongOrchestratorStructSubTemplateCode,
 		map[string]string{}, map[string]string{},
 		true,

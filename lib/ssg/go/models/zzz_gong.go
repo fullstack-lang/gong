@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -1885,7 +1876,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -1995,56 +1985,27 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case Chapter:
 		return any(&Chapter{
-			// Initialisation of associations
-			// field is initialized with an instance of Section with the name of the field
 			Sections: []*Section{{Name: "Sections"}},
-			// field is initialized with an instance of Page with the name of the field
 			Pages: []*Page{{Name: "Pages"}},
-			// field is initialized with an instance of Chapter with the name of the field
 			SubChapters: []*Chapter{{Name: "SubChapters"}},
 		}).(*Type)
 	case Content:
 		return any(&Content{
-			// Initialisation of associations
-			// field is initialized with an instance of Chapter with the name of the field
 			Chapters: []*Chapter{{Name: "Chapters"}},
-		}).(*Type)
-	case DownloadableFile:
-		return any(&DownloadableFile{
-			// Initialisation of associations
-		}).(*Type)
-	case JpgImage:
-		return any(&JpgImage{
-			// Initialisation of associations
 		}).(*Type)
 	case Page:
 		return any(&Page{
-			// Initialisation of associations
-			// field is initialized with an instance of Section with the name of the field
 			Sections: []*Section{{Name: "Sections"}},
-		}).(*Type)
-	case PngImage:
-		return any(&PngImage{
-			// Initialisation of associations
 		}).(*Type)
 	case Section:
 		return any(&Section{
-			// Initialisation of associations
-			// field is initialized with an instance of SvgImage with the name of the field
 			SvgImage: &SvgImage{Name: "SvgImage"},
-			// field is initialized with an instance of PngImage with the name of the field
 			PngImage: &PngImage{Name: "PngImage"},
-			// field is initialized with an instance of JpgImage with the name of the field
 			JpgImage: &JpgImage{Name: "JpgImage"},
-			// field is initialized with an instance of DownloadableFile with the name of the field
 			DownloadableFile: &DownloadableFile{Name: "DownloadableFile"},
 		}).(*Type)
-	case SvgImage:
-		return any(&SvgImage{
-			// Initialisation of associations
-		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

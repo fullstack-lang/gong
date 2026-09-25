@@ -48,15 +48,7 @@ type Bar_WOP struct {
 
 func (from *Bar) GongCopyBasicFields(to *Bar) {
 	// insertion point
-	to.Name = from.Name
-	to.Start = from.Start
-	to.End = from.End
-	to.ComputedDuration = from.ComputedDuration
-	to.OptionnalColor = from.OptionnalColor
-	to.OptionnalStroke = from.OptionnalStroke
-	to.FillOpacity = from.FillOpacity
-	to.StrokeWidth = from.StrokeWidth
-	to.StrokeDashArray = from.StrokeDashArray
+	*to = *from
 }
 
 type Gantt_WOP struct {

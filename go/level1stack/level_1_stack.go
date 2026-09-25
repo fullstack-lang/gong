@@ -123,19 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.GongBasicField]()
-	stage.SetOrchestratorOnAfterUpdate[models.GongEnum]()
-	stage.SetOrchestratorOnAfterUpdate[models.GongEnumValue]()
-	stage.SetOrchestratorOnAfterUpdate[models.GongLink]()
-	stage.SetOrchestratorOnAfterUpdate[models.GongNote]()
-	stage.SetOrchestratorOnAfterUpdate[models.GongStruct]()
-	stage.SetOrchestratorOnAfterUpdate[models.GongTimeField]()
-	stage.SetOrchestratorOnAfterUpdate[models.MetaReference]()
-	stage.SetOrchestratorOnAfterUpdate[models.ModelPkg]()
-	stage.SetOrchestratorOnAfterUpdate[models.PointerToGongStructField]()
-	stage.SetOrchestratorOnAfterUpdate[models.SliceOfPointerToGongStructField]()
-	stage.SetOrchestratorOnAfterUpdate[models.StageSetField]()
-	stage.SetOrchestratorOnAfterUpdate[models.StageSetModel]()
 
 	return
 }

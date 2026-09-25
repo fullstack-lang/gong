@@ -51,9 +51,6 @@ func NewStackInstance(
 	// insertion point
 	stage.SetOrchestratorOnAfterUpdate[models.Button]()
 	stage.SetOrchestratorOnAfterUpdate[models.ButtonToggle]()
-	stage.SetOrchestratorOnAfterUpdate[models.Group]()
-	stage.SetOrchestratorOnAfterUpdate[models.GroupToogle]()
-	stage.SetOrchestratorOnAfterUpdate[models.Layout]()
 
 	return
 }

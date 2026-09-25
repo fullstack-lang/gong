@@ -49,19 +49,6 @@ func NewStackInstance(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.AsSplit]()
-	stage.SetOrchestratorOnAfterUpdate[models.AsSplitArea]()
-	stage.SetOrchestratorOnAfterUpdate[models.Button]()
-	stage.SetOrchestratorOnAfterUpdate[models.FavIcon]()
-	stage.SetOrchestratorOnAfterUpdate[models.Form]()
-	stage.SetOrchestratorOnAfterUpdate[models.Load]()
-	stage.SetOrchestratorOnAfterUpdate[models.LogoOnTheLeft]()
-	stage.SetOrchestratorOnAfterUpdate[models.LogoOnTheRight]()
-	stage.SetOrchestratorOnAfterUpdate[models.Split]()
-	stage.SetOrchestratorOnAfterUpdate[models.Svg]()
-	stage.SetOrchestratorOnAfterUpdate[models.Table]()
-	stage.SetOrchestratorOnAfterUpdate[models.Title]()
-	stage.SetOrchestratorOnAfterUpdate[models.Tree]()
 	stage.SetOrchestratorOnAfterUpdate[models.View]()
 
 	return

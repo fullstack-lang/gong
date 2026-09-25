@@ -98,13 +98,7 @@ type Data_WOP struct {
 
 func (from *Data) GongCopyBasicFields(to *Data) {
 	// insertion point
-	to.Name = from.Name
-	to.Acronym = from.Acronym
-	to.Description = from.Description
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
-	to.SVG_Path = from.SVG_Path
-	to.InverseAppliedScaling = from.InverseAppliedScaling
+	*to = *from
 }
 
 type DataFlow_WOP struct {
@@ -537,13 +531,7 @@ type Resource_WOP struct {
 
 func (from *Resource) GongCopyBasicFields(to *Resource) {
 	// insertion point
-	to.Name = from.Name
-	to.Acronym = from.Acronym
-	to.Description = from.Description
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
-	to.SVG_Path = from.SVG_Path
-	to.InverseAppliedScaling = from.InverseAppliedScaling
+	*to = *from
 }
 
 type Task_WOP struct {

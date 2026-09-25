@@ -72,17 +72,6 @@ const GongSliceOfPointersFieldInitStatement = `
 const GongTimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
 
-// backward compatibility
-const (
-	StringInitStatement           = GongStringInitStatement
-	MetaFieldStructInitStatement  = GongMetaFieldStructInitStatement
-	StringEnumInitStatement       = GongStringEnumInitStatement
-	NumberInitStatement           = GongNumberInitStatement
-	PointerFieldInitStatement     = GongPointerFieldInitStatement
-	SliceOfPointersFieldInitStatement = GongSliceOfPointersFieldInitStatement
-	TimeInitStatement             = GongTimeInitStatement
-)
-
 // __gong__toRawStringLiteral formats a string into safe Go source code,
 // using backticks to preserve newlines and readability.
 func __gong__toRawStringLiteral(s string) string {
@@ -4280,7 +4269,7 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongMarshallFi
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_boolean.IDENTIFIER))
 	case "IS_EDITABLE":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IS_EDITABLE")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_boolean.IS_EDITABLE))
@@ -4349,17 +4338,17 @@ func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rende
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_boolean_rendering.Name))
 	case "ShowInTable":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_boolean_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTable")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_boolean_rendering.ShowInTable))
 	case "ShowInTitle":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_boolean_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTitle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_boolean_rendering.ShowInTitle))
 	case "ShowInSubject":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_boolean_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInSubject")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_boolean_rendering.ShowInSubject))
@@ -4394,7 +4383,7 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongMarshallField(st
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_date.IDENTIFIER))
 	case "IS_EDITABLE":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IS_EDITABLE")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_date.IS_EDITABLE))
@@ -4463,17 +4452,17 @@ func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) 
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_date_rendering.Name))
 	case "ShowInTable":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_date_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTable")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_date_rendering.ShowInTable))
 	case "ShowInTitle":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_date_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTitle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_date_rendering.ShowInTitle))
 	case "ShowInSubject":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_date_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInSubject")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_date_rendering.ShowInSubject))
@@ -4508,7 +4497,7 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongMa
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_enumeration.IDENTIFIER))
 	case "IS_EDITABLE":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IS_EDITABLE")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_enumeration.IS_EDITABLE))
@@ -4523,7 +4512,7 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongMa
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_enumeration.LONG_NAME))
 	case "MULTI_VALUED":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MULTI_VALUED")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_enumeration.MULTI_VALUED))
@@ -4582,17 +4571,17 @@ func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATI
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_enumeration_rendering.Name))
 	case "ShowInTable":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTable")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_enumeration_rendering.ShowInTable))
 	case "ShowInTitle":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTitle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_enumeration_rendering.ShowInTitle))
 	case "ShowInSubject":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInSubject")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_enumeration_rendering.ShowInSubject))
@@ -4627,7 +4616,7 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongMarshallFi
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_integer.IDENTIFIER))
 	case "IS_EDITABLE":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IS_EDITABLE")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_integer.IS_EDITABLE))
@@ -4696,17 +4685,17 @@ func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rende
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_integer_rendering.Name))
 	case "ShowInTable":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_integer_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTable")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_integer_rendering.ShowInTable))
 	case "ShowInTitle":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_integer_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTitle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_integer_rendering.ShowInTitle))
 	case "ShowInSubject":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_integer_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInSubject")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_integer_rendering.ShowInSubject))
@@ -4741,7 +4730,7 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongMarshallField(st
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_real.IDENTIFIER))
 	case "IS_EDITABLE":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IS_EDITABLE")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_real.IS_EDITABLE))
@@ -4810,17 +4799,17 @@ func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) 
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_real_rendering.Name))
 	case "ShowInTable":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_real_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTable")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_real_rendering.ShowInTable))
 	case "ShowInTitle":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_real_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTitle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_real_rendering.ShowInTitle))
 	case "ShowInSubject":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_real_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInSubject")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_real_rendering.ShowInSubject))
@@ -4845,17 +4834,17 @@ func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) GongMarsha
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_rendering.Name))
 	case "ShowInTable":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTable")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_rendering.ShowInTable))
 	case "ShowInTitle":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTitle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_rendering.ShowInTitle))
 	case "ShowInSubject":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInSubject")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_rendering.ShowInSubject))
@@ -4890,7 +4879,7 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongMarshallFiel
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_string.IDENTIFIER))
 	case "IS_EDITABLE":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IS_EDITABLE")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_string.IS_EDITABLE))
@@ -4959,17 +4948,17 @@ func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Renderi
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_string_rendering.Name))
 	case "ShowInTable":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_string_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTable")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_string_rendering.ShowInTable))
 	case "ShowInTitle":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_string_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTitle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_string_rendering.ShowInTitle))
 	case "ShowInSubject":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_string_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInSubject")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_string_rendering.ShowInSubject))
@@ -5004,7 +4993,7 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongMarshallField(
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_xhtml.IDENTIFIER))
 	case "IS_EDITABLE":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IS_EDITABLE")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_xhtml.IS_EDITABLE))
@@ -5073,17 +5062,17 @@ func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_xhtml_rendering.Name))
 	case "ShowInTable":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_xhtml_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTable")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_xhtml_rendering.ShowInTable))
 	case "ShowInTitle":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_xhtml_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInTitle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_xhtml_rendering.ShowInTitle))
 	case "ShowInSubject":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_xhtml_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowInSubject")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_definition_xhtml_rendering.ShowInSubject))
@@ -5108,7 +5097,7 @@ func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongMarshallField(stage 
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_value_boolean.Name))
 	case "THE_VALUE":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "THE_VALUE")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_value_boolean.THE_VALUE))
@@ -5314,7 +5303,7 @@ func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongMarshallField(stage *Sta
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_value_xhtml.Name))
 	case "IS_SIMPLIFIED":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IS_SIMPLIFIED")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", attribute_value_xhtml.IS_SIMPLIFIED))
@@ -7203,7 +7192,7 @@ func (map_identifier_bool *Map_identifier_bool) GongMarshallField(stage *Stage, 
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(map_identifier_bool.Name))
 	case "Value":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", map_identifier_bool.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", map_identifier_bool.Value))
@@ -7693,17 +7682,17 @@ func (specification_rendering *SPECIFICATION_Rendering) GongMarshallField(stage 
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(specification_rendering.Name))
 	case "IsNodeExpanded":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", specification_rendering.IsNodeExpanded))
 	case "IsSelected":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSelected")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", specification_rendering.IsSelected))
 	case "IsWithHeadingNumbering":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithHeadingNumbering")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", specification_rendering.IsWithHeadingNumbering))
@@ -7794,12 +7783,12 @@ func (spec_hierarchy *SPEC_HIERARCHY) GongMarshallField(stage *Stage, fieldName 
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_hierarchy.IDENTIFIER))
 	case "IS_EDITABLE":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_hierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IS_EDITABLE")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", spec_hierarchy.IS_EDITABLE))
 	case "IS_TABLE_INTERNAL":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_hierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IS_TABLE_INTERNAL")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", spec_hierarchy.IS_TABLE_INTERNAL))
@@ -8016,27 +8005,27 @@ func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) GongMarshallField(
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_object_type_rendering.Name))
 	case "IsNodeExpanded":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object_type_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", spec_object_type_rendering.IsNodeExpanded))
 	case "ShowIdentifier":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object_type_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowIdentifier")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", spec_object_type_rendering.ShowIdentifier))
 	case "ShowName":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object_type_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", spec_object_type_rendering.ShowName))
 	case "ShowRelations":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object_type_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowRelations")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", spec_object_type_rendering.ShowRelations))
 	case "IsHeading":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object_type_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHeading")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", spec_object_type_rendering.IsHeading))

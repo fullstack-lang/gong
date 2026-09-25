@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -1433,7 +1424,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -1531,38 +1521,24 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case DisplaySelection:
 		return any(&DisplaySelection{
-			// Initialisation of associations
-			// field is initialized with an instance of XLFile with the name of the field
 			XLFile: &XLFile{Name: "XLFile"},
-			// field is initialized with an instance of XLSheet with the name of the field
 			XLSheet: &XLSheet{Name: "XLSheet"},
-		}).(*Type)
-	case XLCell:
-		return any(&XLCell{
-			// Initialisation of associations
 		}).(*Type)
 	case XLFile:
 		return any(&XLFile{
-			// Initialisation of associations
-			// field is initialized with an instance of XLSheet with the name of the field
 			Sheets: []*XLSheet{{Name: "Sheets"}},
 		}).(*Type)
 	case XLRow:
 		return any(&XLRow{
-			// Initialisation of associations
-			// field is initialized with an instance of XLCell with the name of the field
 			Cells: []*XLCell{{Name: "Cells"}},
 		}).(*Type)
 	case XLSheet:
 		return any(&XLSheet{
-			// Initialisation of associations
-			// field is initialized with an instance of XLRow with the name of the field
 			Rows: []*XLRow{{Name: "Rows"}},
-			// field is initialized with an instance of XLCell with the name of the field
 			SheetCells: []*XLCell{{Name: "SheetCells"}},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

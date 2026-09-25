@@ -37,18 +37,7 @@ type A_directive_WOP struct {
 
 func (from *A_directive) GongCopyBasicFields(to *A_directive) {
 	// insertion point
-	to.Name = from.Name
-	to.Lang = from.Lang
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type A_measure_WOP struct {
@@ -177,23 +166,7 @@ type Accidental_WOP struct {
 
 func (from *Accidental) GongCopyBasicFields(to *Accidental) {
 	// insertion point
-	to.Name = from.Name
-	to.Cautionary = from.Cautionary
-	to.Editorial = from.Editorial
-	to.Smufl = from.Smufl
-	to.Parentheses = from.Parentheses
-	to.Bracket = from.Bracket
-	to.Size = from.Size
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Accidental_mark_WOP struct {
@@ -236,23 +209,7 @@ type Accidental_mark_WOP struct {
 
 func (from *Accidental_mark) GongCopyBasicFields(to *Accidental_mark) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.Parentheses = from.Parentheses
-	to.Bracket = from.Bracket
-	to.Size = from.Size
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.Id = from.Id
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Accidental_text_WOP struct {
@@ -311,31 +268,7 @@ type Accidental_text_WOP struct {
 
 func (from *Accidental_text) GongCopyBasicFields(to *Accidental_text) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.Lang = from.Lang
-	to.Space = from.Space
-	to.Justify = from.Justify
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Underline = from.Underline
-	to.Overline = from.Overline
-	to.Line_through = from.Line_through
-	to.Rotation = from.Rotation
-	to.Letter_spacing = from.Letter_spacing
-	to.Line_height = from.Line_height
-	to.Dir = from.Dir
-	to.Enclosure = from.Enclosure
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Accord_WOP struct {
@@ -354,11 +287,7 @@ type Accord_WOP struct {
 
 func (from *Accord) GongCopyBasicFields(to *Accord) {
 	// insertion point
-	to.Name = from.Name
-	to.String = from.String
-	to.Tuning_step = from.Tuning_step
-	to.Tuning_alter = from.Tuning_alter
-	to.Tuning_octave = from.Tuning_octave
+	*to = *from
 }
 
 type Accordion_registration_WOP struct {
@@ -399,22 +328,7 @@ type Accordion_registration_WOP struct {
 
 func (from *Accordion_registration) GongCopyBasicFields(to *Accordion_registration) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Id = from.Id
-	to.Accordion_high = from.Accordion_high
-	to.Accordion_middle = from.Accordion_middle
-	to.Accordion_low = from.Accordion_low
+	*to = *from
 }
 
 type Appearance_WOP struct {
@@ -456,17 +370,7 @@ type Arpeggiate_WOP struct {
 
 func (from *Arpeggiate) GongCopyBasicFields(to *Arpeggiate) {
 	// insertion point
-	to.Name = from.Name
-	to.Number = from.Number
-	to.Direction = from.Direction
-	to.Unbroken = from.Unbroken
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Placement = from.Placement
-	to.Color = from.Color
-	to.Id = from.Id
+	*to = *from
 }
 
 type Arrow_WOP struct {
@@ -507,22 +411,7 @@ type Arrow_WOP struct {
 
 func (from *Arrow) GongCopyBasicFields(to *Arrow) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.Smufl = from.Smufl
-	to.Arrow_direction = from.Arrow_direction
-	to.Arrow_style = from.Arrow_style
-	to.Arrowhead = from.Arrowhead
-	to.Circular_arrow = from.Circular_arrow
+	*to = *from
 }
 
 type Articulations_WOP struct {
@@ -553,10 +442,7 @@ type Assess_WOP struct {
 
 func (from *Assess) GongCopyBasicFields(to *Assess) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Player = from.Player
-	to.Time_only = from.Time_only
+	*to = *from
 }
 
 type Attributes_WOP struct {
@@ -605,9 +491,7 @@ type Bar_style_color_WOP struct {
 
 func (from *Bar_style_color) GongCopyBasicFields(to *Bar_style_color) {
 	// insertion point
-	to.Name = from.Name
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Barline_WOP struct {
@@ -648,9 +532,7 @@ type Barre_WOP struct {
 
 func (from *Barre) GongCopyBasicFields(to *Barre) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Color = from.Color
+	*to = *from
 }
 
 type Bass_WOP struct {
@@ -697,18 +579,7 @@ type Bass_step_WOP struct {
 
 func (from *Bass_step) GongCopyBasicFields(to *Bass_step) {
 	// insertion point
-	to.Name = from.Name
-	to.Text = from.Text
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Beam_WOP struct {
@@ -731,13 +602,7 @@ type Beam_WOP struct {
 
 func (from *Beam) GongCopyBasicFields(to *Beam) {
 	// insertion point
-	to.Name = from.Name
-	to.Number = from.Number
-	to.Repeater = from.Repeater
-	to.Fan = from.Fan
-	to.Color = from.Color
-	to.Id = from.Id
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Beat_repeat_WOP struct {
@@ -760,13 +625,7 @@ type Beat_repeat_WOP struct {
 
 func (from *Beat_repeat) GongCopyBasicFields(to *Beat_repeat) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Slashes = from.Slashes
-	to.Use_dots = from.Use_dots
-	to.Slash_type = from.Slash_type
-	to.Slash_dot = from.Slash_dot
-	to.Except_voice = from.Except_voice
+	*to = *from
 }
 
 type Beat_unit_tied_WOP struct {
@@ -781,9 +640,7 @@ type Beat_unit_tied_WOP struct {
 
 func (from *Beat_unit_tied) GongCopyBasicFields(to *Beat_unit_tied) {
 	// insertion point
-	to.Name = from.Name
-	to.Beat_unit = from.Beat_unit
-	to.Beat_unit_dot = from.Beat_unit_dot
+	*to = *from
 }
 
 type Beater_WOP struct {
@@ -798,9 +655,7 @@ type Beater_WOP struct {
 
 func (from *Beater) GongCopyBasicFields(to *Beater) {
 	// insertion point
-	to.Name = from.Name
-	to.Tip = from.Tip
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Bend_WOP struct {
@@ -878,11 +733,7 @@ type Bookmark_WOP struct {
 
 func (from *Bookmark) GongCopyBasicFields(to *Bookmark) {
 	// insertion point
-	to.Name = from.Name
-	to.Id = from.Id
-	to.NameXSD = from.NameXSD
-	to.Element = from.Element
-	to.Position = from.Position
+	*to = *from
 }
 
 type Bracket_WOP struct {
@@ -919,20 +770,7 @@ type Bracket_WOP struct {
 
 func (from *Bracket) GongCopyBasicFields(to *Bracket) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Line_end = from.Line_end
-	to.End_length = from.End_length
-	to.Line_type = from.Line_type
-	to.Dash_length = from.Dash_length
-	to.Space_length = from.Space_length
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Color = from.Color
-	to.Id = from.Id
+	*to = *from
 }
 
 type Breath_mark_WOP struct {
@@ -965,18 +803,7 @@ type Breath_mark_WOP struct {
 
 func (from *Breath_mark) GongCopyBasicFields(to *Breath_mark) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Caesura_WOP struct {
@@ -1009,18 +836,7 @@ type Caesura_WOP struct {
 
 func (from *Caesura) GongCopyBasicFields(to *Caesura) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Cancel_WOP struct {
@@ -1035,9 +851,7 @@ type Cancel_WOP struct {
 
 func (from *Cancel) GongCopyBasicFields(to *Cancel) {
 	// insertion point
-	to.Name = from.Name
-	to.Location = from.Location
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Clef_WOP struct {
@@ -1084,25 +898,7 @@ type Clef_WOP struct {
 
 func (from *Clef) GongCopyBasicFields(to *Clef) {
 	// insertion point
-	to.Name = from.Name
-	to.Number = from.Number
-	to.Additional = from.Additional
-	to.Size = from.Size
-	to.After_barline = from.After_barline
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Print_object = from.Print_object
-	to.Id = from.Id
-	to.Sign = from.Sign
-	to.Line = from.Line
-	to.Clef_octave_change = from.Clef_octave_change
+	*to = *from
 }
 
 type Coda_WOP struct {
@@ -1139,20 +935,7 @@ type Coda_WOP struct {
 
 func (from *Coda) GongCopyBasicFields(to *Coda) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Id = from.Id
+	*to = *from
 }
 
 type Credit_WOP struct {
@@ -1203,17 +986,7 @@ type Dashes_WOP struct {
 
 func (from *Dashes) GongCopyBasicFields(to *Dashes) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Dash_length = from.Dash_length
-	to.Space_length = from.Space_length
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Color = from.Color
-	to.Id = from.Id
+	*to = *from
 }
 
 type Defaults_WOP struct {
@@ -1274,18 +1047,7 @@ type Degree_alter_WOP struct {
 
 func (from *Degree_alter) GongCopyBasicFields(to *Degree_alter) {
 	// insertion point
-	to.Name = from.Name
-	to.Plus_minus = from.Plus_minus
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Degree_type_WOP struct {
@@ -1318,18 +1080,7 @@ type Degree_type_WOP struct {
 
 func (from *Degree_type) GongCopyBasicFields(to *Degree_type) {
 	// insertion point
-	to.Name = from.Name
-	to.Text = from.Text
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Degree_value_WOP struct {
@@ -1364,19 +1115,7 @@ type Degree_value_WOP struct {
 
 func (from *Degree_value) GongCopyBasicFields(to *Degree_value) {
 	// insertion point
-	to.Name = from.Name
-	to.Symbol = from.Symbol
-	to.Text = from.Text
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Direction_WOP struct {
@@ -1434,9 +1173,7 @@ type Distance_WOP struct {
 
 func (from *Distance) GongCopyBasicFields(to *Distance) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Double_WOP struct {
@@ -1449,8 +1186,7 @@ type Double_WOP struct {
 
 func (from *Double) GongCopyBasicFields(to *Double) {
 	// insertion point
-	to.Name = from.Name
-	to.Above = from.Above
+	*to = *from
 }
 
 type Dynamics_WOP struct {
@@ -1605,9 +1341,7 @@ type Effect_WOP struct {
 
 func (from *Effect) GongCopyBasicFields(to *Effect) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Elision_WOP struct {
@@ -1632,14 +1366,7 @@ type Elision_WOP struct {
 
 func (from *Elision) GongCopyBasicFields(to *Elision) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Empty_WOP struct {
@@ -1650,7 +1377,7 @@ type Empty_WOP struct {
 
 func (from *Empty) GongCopyBasicFields(to *Empty) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Empty_font_WOP struct {
@@ -1669,11 +1396,7 @@ type Empty_font_WOP struct {
 
 func (from *Empty_font) GongCopyBasicFields(to *Empty_font) {
 	// insertion point
-	to.Name = from.Name
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
+	*to = *from
 }
 
 type Empty_line_WOP struct {
@@ -1714,22 +1437,7 @@ type Empty_line_WOP struct {
 
 func (from *Empty_line) GongCopyBasicFields(to *Empty_line) {
 	// insertion point
-	to.Name = from.Name
-	to.Line_shape = from.Line_shape
-	to.Line_type = from.Line_type
-	to.Line_length = from.Line_length
-	to.Dash_length = from.Dash_length
-	to.Space_length = from.Space_length
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
+	*to = *from
 }
 
 type Empty_placement_WOP struct {
@@ -1760,17 +1468,7 @@ type Empty_placement_WOP struct {
 
 func (from *Empty_placement) GongCopyBasicFields(to *Empty_placement) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
+	*to = *from
 }
 
 type Empty_placement_smufl_WOP struct {
@@ -1803,18 +1501,7 @@ type Empty_placement_smufl_WOP struct {
 
 func (from *Empty_placement_smufl) GongCopyBasicFields(to *Empty_placement_smufl) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.Smufl = from.Smufl
+	*to = *from
 }
 
 type Empty_print_object_style_align_WOP struct {
@@ -1849,19 +1536,7 @@ type Empty_print_object_style_align_WOP struct {
 
 func (from *Empty_print_object_style_align) GongCopyBasicFields(to *Empty_print_object_style_align) {
 	// insertion point
-	to.Name = from.Name
-	to.Print_object = from.Print_object
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
+	*to = *from
 }
 
 type Empty_print_style_WOP struct {
@@ -1890,16 +1565,7 @@ type Empty_print_style_WOP struct {
 
 func (from *Empty_print_style) GongCopyBasicFields(to *Empty_print_style) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
+	*to = *from
 }
 
 type Empty_print_style_align_WOP struct {
@@ -1932,18 +1598,7 @@ type Empty_print_style_align_WOP struct {
 
 func (from *Empty_print_style_align) GongCopyBasicFields(to *Empty_print_style_align) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
+	*to = *from
 }
 
 type Empty_print_style_align_id_WOP struct {
@@ -1978,19 +1633,7 @@ type Empty_print_style_align_id_WOP struct {
 
 func (from *Empty_print_style_align_id) GongCopyBasicFields(to *Empty_print_style_align_id) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Id = from.Id
+	*to = *from
 }
 
 type Empty_trill_sound_WOP struct {
@@ -2035,24 +1678,7 @@ type Empty_trill_sound_WOP struct {
 
 func (from *Empty_trill_sound) GongCopyBasicFields(to *Empty_trill_sound) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.Start_note = from.Start_note
-	to.Trill_step = from.Trill_step
-	to.Two_note_turn = from.Two_note_turn
-	to.Accelerate = from.Accelerate
-	to.Beats = from.Beats
-	to.Second_beat = from.Second_beat
-	to.Last_beat = from.Last_beat
+	*to = *from
 }
 
 type Encoding_WOP struct {
@@ -2114,24 +1740,7 @@ type Ending_WOP struct {
 
 func (from *Ending) GongCopyBasicFields(to *Ending) {
 	// insertion point
-	to.Name = from.Name
-	to.Number = from.Number
-	to.Type = from.Type
-	to.End_length = from.End_length
-	to.Text_x = from.Text_x
-	to.Text_y = from.Text_y
-	to.Print_object = from.Print_object
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.System = from.System
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Extend_WOP struct {
@@ -2154,13 +1763,7 @@ type Extend_WOP struct {
 
 func (from *Extend) GongCopyBasicFields(to *Extend) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Color = from.Color
+	*to = *from
 }
 
 type Feature_WOP struct {
@@ -2175,9 +1778,7 @@ type Feature_WOP struct {
 
 func (from *Feature) GongCopyBasicFields(to *Feature) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Fermata_WOP struct {
@@ -2212,19 +1813,7 @@ type Fermata_WOP struct {
 
 func (from *Fermata) GongCopyBasicFields(to *Fermata) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Id = from.Id
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Figure_WOP struct {
@@ -2340,20 +1929,7 @@ type Fingering_WOP struct {
 
 func (from *Fingering) GongCopyBasicFields(to *Fingering) {
 	// insertion point
-	to.Name = from.Name
-	to.Substitution = from.Substitution
-	to.Alternate = from.Alternate
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type First_fret_WOP struct {
@@ -2370,10 +1946,7 @@ type First_fret_WOP struct {
 
 func (from *First_fret) GongCopyBasicFields(to *First_fret) {
 	// insertion point
-	to.Name = from.Name
-	to.Text = from.Text
-	to.Location = from.Location
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type For_part_WOP struct {
@@ -2443,28 +2016,7 @@ type Formatted_symbol_WOP struct {
 
 func (from *Formatted_symbol) GongCopyBasicFields(to *Formatted_symbol) {
 	// insertion point
-	to.Name = from.Name
-	to.Justify = from.Justify
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Underline = from.Underline
-	to.Overline = from.Overline
-	to.Line_through = from.Line_through
-	to.Rotation = from.Rotation
-	to.Letter_spacing = from.Letter_spacing
-	to.Line_height = from.Line_height
-	to.Dir = from.Dir
-	to.Enclosure = from.Enclosure
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Formatted_symbol_id_WOP struct {
@@ -2519,29 +2071,7 @@ type Formatted_symbol_id_WOP struct {
 
 func (from *Formatted_symbol_id) GongCopyBasicFields(to *Formatted_symbol_id) {
 	// insertion point
-	to.Name = from.Name
-	to.Justify = from.Justify
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Underline = from.Underline
-	to.Overline = from.Overline
-	to.Line_through = from.Line_through
-	to.Rotation = from.Rotation
-	to.Letter_spacing = from.Letter_spacing
-	to.Line_height = from.Line_height
-	to.Dir = from.Dir
-	to.Enclosure = from.Enclosure
-	to.Id = from.Id
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Formatted_text_WOP struct {
@@ -2598,30 +2128,7 @@ type Formatted_text_WOP struct {
 
 func (from *Formatted_text) GongCopyBasicFields(to *Formatted_text) {
 	// insertion point
-	to.Name = from.Name
-	to.Lang = from.Lang
-	to.Space = from.Space
-	to.Justify = from.Justify
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Underline = from.Underline
-	to.Overline = from.Overline
-	to.Line_through = from.Line_through
-	to.Rotation = from.Rotation
-	to.Letter_spacing = from.Letter_spacing
-	to.Line_height = from.Line_height
-	to.Dir = from.Dir
-	to.Enclosure = from.Enclosure
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Formatted_text_id_WOP struct {
@@ -2680,31 +2187,7 @@ type Formatted_text_id_WOP struct {
 
 func (from *Formatted_text_id) GongCopyBasicFields(to *Formatted_text_id) {
 	// insertion point
-	to.Name = from.Name
-	to.Lang = from.Lang
-	to.Space = from.Space
-	to.Justify = from.Justify
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Underline = from.Underline
-	to.Overline = from.Overline
-	to.Line_through = from.Line_through
-	to.Rotation = from.Rotation
-	to.Letter_spacing = from.Letter_spacing
-	to.Line_height = from.Line_height
-	to.Dir = from.Dir
-	to.Enclosure = from.Enclosure
-	to.Id = from.Id
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Forward_WOP struct {
@@ -2808,13 +2291,7 @@ type Fret_WOP struct {
 
 func (from *Fret) GongCopyBasicFields(to *Fret) {
 	// insertion point
-	to.Name = from.Name
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Glass_WOP struct {
@@ -2829,9 +2306,7 @@ type Glass_WOP struct {
 
 func (from *Glass) GongCopyBasicFields(to *Glass) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Glissando_WOP struct {
@@ -2874,23 +2349,7 @@ type Glissando_WOP struct {
 
 func (from *Glissando) GongCopyBasicFields(to *Glissando) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Line_type = from.Line_type
-	to.Dash_length = from.Dash_length
-	to.Space_length = from.Space_length
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Id = from.Id
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Glyph_WOP struct {
@@ -2905,9 +2364,7 @@ type Glyph_WOP struct {
 
 func (from *Glyph) GongCopyBasicFields(to *Glyph) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Grace_WOP struct {
@@ -2926,11 +2383,7 @@ type Grace_WOP struct {
 
 func (from *Grace) GongCopyBasicFields(to *Grace) {
 	// insertion point
-	to.Name = from.Name
-	to.Steal_time_previous = from.Steal_time_previous
-	to.Steal_time_following = from.Steal_time_following
-	to.Make_time = from.Make_time
-	to.Slash = from.Slash
+	*to = *from
 }
 
 type Group_barline_WOP struct {
@@ -2945,9 +2398,7 @@ type Group_barline_WOP struct {
 
 func (from *Group_barline) GongCopyBasicFields(to *Group_barline) {
 	// insertion point
-	to.Name = from.Name
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Group_name_WOP struct {
@@ -2980,18 +2431,7 @@ type Group_name_WOP struct {
 
 func (from *Group_name) GongCopyBasicFields(to *Group_name) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Justify = from.Justify
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Group_symbol_WOP struct {
@@ -3014,13 +2454,7 @@ type Group_symbol_WOP struct {
 
 func (from *Group_symbol) GongCopyBasicFields(to *Group_symbol) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Grouping_WOP struct {
@@ -3080,20 +2514,7 @@ type Hammer_on_pull_off_WOP struct {
 
 func (from *Hammer_on_pull_off) GongCopyBasicFields(to *Hammer_on_pull_off) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Handbell_WOP struct {
@@ -3126,18 +2547,7 @@ type Handbell_WOP struct {
 
 func (from *Handbell) GongCopyBasicFields(to *Handbell) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Harmon_closed_WOP struct {
@@ -3152,9 +2562,7 @@ type Harmon_closed_WOP struct {
 
 func (from *Harmon_closed) GongCopyBasicFields(to *Harmon_closed) {
 	// insertion point
-	to.Name = from.Name
-	to.Location = from.Location
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Harmon_mute_WOP struct {
@@ -3238,23 +2646,7 @@ type Harmonic_WOP struct {
 
 func (from *Harmonic) GongCopyBasicFields(to *Harmonic) {
 	// insertion point
-	to.Name = from.Name
-	to.Print_object = from.Print_object
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.Natural = from.Natural
-	to.Artificial = from.Artificial
-	to.Base_pitch = from.Base_pitch
-	to.Touching_pitch = from.Touching_pitch
-	to.Sounding_pitch = from.Sounding_pitch
+	*to = *from
 }
 
 type Harmony_WOP struct {
@@ -3351,19 +2743,7 @@ type Harmony_alter_WOP struct {
 
 func (from *Harmony_alter) GongCopyBasicFields(to *Harmony_alter) {
 	// insertion point
-	to.Name = from.Name
-	to.Location = from.Location
-	to.Print_object = from.Print_object
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Harp_pedals_WOP struct {
@@ -3421,7 +2801,7 @@ type Heel_toe_WOP struct {
 
 func (from *Heel_toe) GongCopyBasicFields(to *Heel_toe) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Hole_WOP struct {
@@ -3483,9 +2863,7 @@ type Hole_closed_WOP struct {
 
 func (from *Hole_closed) GongCopyBasicFields(to *Hole_closed) {
 	// insertion point
-	to.Name = from.Name
-	to.Location = from.Location
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Horizontal_turn_WOP struct {
@@ -3532,25 +2910,7 @@ type Horizontal_turn_WOP struct {
 
 func (from *Horizontal_turn) GongCopyBasicFields(to *Horizontal_turn) {
 	// insertion point
-	to.Name = from.Name
-	to.Slash = from.Slash
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.Start_note = from.Start_note
-	to.Trill_step = from.Trill_step
-	to.Two_note_turn = from.Two_note_turn
-	to.Accelerate = from.Accelerate
-	to.Beats = from.Beats
-	to.Second_beat = from.Second_beat
-	to.Last_beat = from.Last_beat
+	*to = *from
 }
 
 type Identification_WOP struct {
@@ -3597,18 +2957,7 @@ type Image_WOP struct {
 
 func (from *Image) GongCopyBasicFields(to *Image) {
 	// insertion point
-	to.Name = from.Name
-	to.Source = from.Source
-	to.Type = from.Type
-	to.Height = from.Height
-	to.Width = from.Width
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Id = from.Id
+	*to = *from
 }
 
 type Instrument_WOP struct {
@@ -3621,8 +2970,7 @@ type Instrument_WOP struct {
 
 func (from *Instrument) GongCopyBasicFields(to *Instrument) {
 	// insertion point
-	to.Name = from.Name
-	to.Id = from.Id
+	*to = *from
 }
 
 type Instrument_change_WOP struct {
@@ -3658,8 +3006,7 @@ type Instrument_link_WOP struct {
 
 func (from *Instrument_link) GongCopyBasicFields(to *Instrument_link) {
 	// insertion point
-	to.Name = from.Name
-	to.Id = from.Id
+	*to = *from
 }
 
 type Interchangeable_WOP struct {
@@ -3680,12 +3027,7 @@ type Interchangeable_WOP struct {
 
 func (from *Interchangeable) GongCopyBasicFields(to *Interchangeable) {
 	// insertion point
-	to.Name = from.Name
-	to.Symbol = from.Symbol
-	to.Separator = from.Separator
-	to.Time_relation = from.Time_relation
-	to.Beats = from.Beats
-	to.Beat_type = from.Beat_type
+	*to = *from
 }
 
 type Inversion_WOP struct {
@@ -3718,18 +3060,7 @@ type Inversion_WOP struct {
 
 func (from *Inversion) GongCopyBasicFields(to *Inversion) {
 	// insertion point
-	to.Name = from.Name
-	to.Text = from.Text
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Key_WOP struct {
@@ -3803,9 +3134,7 @@ type Key_accidental_WOP struct {
 
 func (from *Key_accidental) GongCopyBasicFields(to *Key_accidental) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Key_octave_WOP struct {
@@ -3822,10 +3151,7 @@ type Key_octave_WOP struct {
 
 func (from *Key_octave) GongCopyBasicFields(to *Key_octave) {
 	// insertion point
-	to.Name = from.Name
-	to.Number = from.Number
-	to.Cancel = from.Cancel
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Kind_WOP struct {
@@ -3870,24 +3196,7 @@ type Kind_WOP struct {
 
 func (from *Kind) GongCopyBasicFields(to *Kind) {
 	// insertion point
-	to.Name = from.Name
-	to.Use_symbols = from.Use_symbols
-	to.Text = from.Text
-	to.Stack_degrees = from.Stack_degrees
-	to.Parentheses_degrees = from.Parentheses_degrees
-	to.Bracket_degrees = from.Bracket_degrees
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Level_WOP struct {
@@ -3910,13 +3219,7 @@ type Level_WOP struct {
 
 func (from *Level) GongCopyBasicFields(to *Level) {
 	// insertion point
-	to.Name = from.Name
-	to.Reference = from.Reference
-	to.Type = from.Type
-	to.Parentheses = from.Parentheses
-	to.Bracket = from.Bracket
-	to.Size = from.Size
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Line_detail_WOP struct {
@@ -3937,12 +3240,7 @@ type Line_detail_WOP struct {
 
 func (from *Line_detail) GongCopyBasicFields(to *Line_detail) {
 	// insertion point
-	to.Name = from.Name
-	to.Line = from.Line
-	to.Width = from.Width
-	to.Color = from.Color
-	to.Line_type = from.Line_type
-	to.Print_object = from.Print_object
+	*to = *from
 }
 
 type Line_width_WOP struct {
@@ -3957,9 +3255,7 @@ type Line_width_WOP struct {
 
 func (from *Line_width) GongCopyBasicFields(to *Line_width) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Link_WOP struct {
@@ -3996,20 +3292,7 @@ type Link_WOP struct {
 
 func (from *Link) GongCopyBasicFields(to *Link) {
 	// insertion point
-	to.Name = from.Name
-	to.NameXSD = from.NameXSD
-	to.Href = from.Href
-	to.Type = from.Type
-	to.Role = from.Role
-	to.Title = from.Title
-	to.Show = from.Show
-	to.Actuate = from.Actuate
-	to.Element = from.Element
-	to.Position = from.Position
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
+	*to = *from
 }
 
 type Listen_WOP struct {
@@ -4116,13 +3399,7 @@ type Lyric_font_WOP struct {
 
 func (from *Lyric_font) GongCopyBasicFields(to *Lyric_font) {
 	// insertion point
-	to.Name = from.Name
-	to.Number = from.Number
-	to.NameXSD = from.NameXSD
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
+	*to = *from
 }
 
 type Lyric_language_WOP struct {
@@ -4139,10 +3416,7 @@ type Lyric_language_WOP struct {
 
 func (from *Lyric_language) GongCopyBasicFields(to *Lyric_language) {
 	// insertion point
-	to.Name = from.Name
-	to.Number = from.Number
-	to.NameXSD = from.NameXSD
-	to.Lang = from.Lang
+	*to = *from
 }
 
 type Measure_layout_WOP struct {
@@ -4155,8 +3429,7 @@ type Measure_layout_WOP struct {
 
 func (from *Measure_layout) GongCopyBasicFields(to *Measure_layout) {
 	// insertion point
-	to.Name = from.Name
-	to.Measure_distance = from.Measure_distance
+	*to = *from
 }
 
 type Measure_numbering_WOP struct {
@@ -4199,23 +3472,7 @@ type Measure_numbering_WOP struct {
 
 func (from *Measure_numbering) GongCopyBasicFields(to *Measure_numbering) {
 	// insertion point
-	to.Name = from.Name
-	to.System = from.System
-	to.Staff = from.Staff
-	to.Multiple_rest_always = from.Multiple_rest_always
-	to.Multiple_rest_range = from.Multiple_rest_range
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Measure_repeat_WOP struct {
@@ -4232,10 +3489,7 @@ type Measure_repeat_WOP struct {
 
 func (from *Measure_repeat) GongCopyBasicFields(to *Measure_repeat) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Slashes = from.Slashes
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Measure_style_WOP struct {
@@ -4282,9 +3536,7 @@ type Membrane_WOP struct {
 
 func (from *Membrane) GongCopyBasicFields(to *Membrane) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Metal_WOP struct {
@@ -4299,9 +3551,7 @@ type Metal_WOP struct {
 
 func (from *Metal) GongCopyBasicFields(to *Metal) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Metronome_WOP struct {
@@ -4384,9 +3634,7 @@ type Metronome_beam_WOP struct {
 
 func (from *Metronome_beam) GongCopyBasicFields(to *Metronome_beam) {
 	// insertion point
-	to.Name = from.Name
-	to.Number = from.Number
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Metronome_note_WOP struct {
@@ -4416,8 +3664,7 @@ type Metronome_tied_WOP struct {
 
 func (from *Metronome_tied) GongCopyBasicFields(to *Metronome_tied) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
+	*to = *from
 }
 
 type Metronome_tuplet_WOP struct {
@@ -4428,7 +3675,7 @@ type Metronome_tuplet_WOP struct {
 
 func (from *Metronome_tuplet) GongCopyBasicFields(to *Metronome_tuplet) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Midi_device_WOP struct {
@@ -4445,10 +3692,7 @@ type Midi_device_WOP struct {
 
 func (from *Midi_device) GongCopyBasicFields(to *Midi_device) {
 	// insertion point
-	to.Name = from.Name
-	to.Port = from.Port
-	to.Id = from.Id
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Midi_instrument_WOP struct {
@@ -4477,16 +3721,7 @@ type Midi_instrument_WOP struct {
 
 func (from *Midi_instrument) GongCopyBasicFields(to *Midi_instrument) {
 	// insertion point
-	to.Name = from.Name
-	to.Id = from.Id
-	to.Midi_channel = from.Midi_channel
-	to.Midi_name = from.Midi_name
-	to.Midi_bank = from.Midi_bank
-	to.Midi_program = from.Midi_program
-	to.Midi_unpitched = from.Midi_unpitched
-	to.Volume = from.Volume
-	to.Pan = from.Pan
-	to.Elevation = from.Elevation
+	*to = *from
 }
 
 type Miscellaneous_WOP struct {
@@ -4512,9 +3747,7 @@ type Miscellaneous_field_WOP struct {
 
 func (from *Miscellaneous_field) GongCopyBasicFields(to *Miscellaneous_field) {
 	// insertion point
-	to.Name = from.Name
-	to.NameXSD = from.NameXSD
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Mordent_WOP struct {
@@ -4525,7 +3758,7 @@ type Mordent_WOP struct {
 
 func (from *Mordent) GongCopyBasicFields(to *Mordent) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Multiple_rest_WOP struct {
@@ -4540,9 +3773,7 @@ type Multiple_rest_WOP struct {
 
 func (from *Multiple_rest) GongCopyBasicFields(to *Multiple_rest) {
 	// insertion point
-	to.Name = from.Name
-	to.Use_symbols = from.Use_symbols
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Name_display_WOP struct {
@@ -4585,16 +3816,7 @@ type Non_arpeggiate_WOP struct {
 
 func (from *Non_arpeggiate) GongCopyBasicFields(to *Non_arpeggiate) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Placement = from.Placement
-	to.Color = from.Color
-	to.Id = from.Id
+	*to = *from
 }
 
 type Notations_WOP struct {
@@ -4715,9 +3937,7 @@ type Note_size_WOP struct {
 
 func (from *Note_size) GongCopyBasicFields(to *Note_size) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Note_type_WOP struct {
@@ -4732,9 +3952,7 @@ type Note_type_WOP struct {
 
 func (from *Note_type) GongCopyBasicFields(to *Note_type) {
 	// insertion point
-	to.Name = from.Name
-	to.Size = from.Size
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Notehead_WOP struct {
@@ -4763,16 +3981,7 @@ type Notehead_WOP struct {
 
 func (from *Notehead) GongCopyBasicFields(to *Notehead) {
 	// insertion point
-	to.Name = from.Name
-	to.Filled = from.Filled
-	to.Parentheses = from.Parentheses
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Smufl = from.Smufl
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Notehead_text_WOP struct {
@@ -4811,10 +4020,7 @@ type Numeral_key_WOP struct {
 
 func (from *Numeral_key) GongCopyBasicFields(to *Numeral_key) {
 	// insertion point
-	to.Name = from.Name
-	to.Print_object = from.Print_object
-	to.Numeral_fifths = from.Numeral_fifths
-	to.Numeral_mode = from.Numeral_mode
+	*to = *from
 }
 
 type Numeral_root_WOP struct {
@@ -4847,18 +4053,7 @@ type Numeral_root_WOP struct {
 
 func (from *Numeral_root) GongCopyBasicFields(to *Numeral_root) {
 	// insertion point
-	to.Name = from.Name
-	to.Text = from.Text
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Octave_shift_WOP struct {
@@ -4899,22 +4094,7 @@ type Octave_shift_WOP struct {
 
 func (from *Octave_shift) GongCopyBasicFields(to *Octave_shift) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Size = from.Size
-	to.Dash_length = from.Dash_length
-	to.Space_length = from.Space_length
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Id = from.Id
+	*to = *from
 }
 
 type Offset_WOP struct {
@@ -4929,9 +4109,7 @@ type Offset_WOP struct {
 
 func (from *Offset) GongCopyBasicFields(to *Offset) {
 	// insertion point
-	to.Name = from.Name
-	to.Sound = from.Sound
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Opus_WOP struct {
@@ -4954,13 +4132,7 @@ type Opus_WOP struct {
 
 func (from *Opus) GongCopyBasicFields(to *Opus) {
 	// insertion point
-	to.Name = from.Name
-	to.Href = from.Href
-	to.Type = from.Type
-	to.Role = from.Role
-	to.Title = from.Title
-	to.Show = from.Show
-	to.Actuate = from.Actuate
+	*to = *from
 }
 
 type Ornaments_WOP struct {
@@ -4989,9 +4161,7 @@ type Other_appearance_WOP struct {
 
 func (from *Other_appearance) GongCopyBasicFields(to *Other_appearance) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Other_direction_WOP struct {
@@ -5032,22 +4202,7 @@ type Other_direction_WOP struct {
 
 func (from *Other_direction) GongCopyBasicFields(to *Other_direction) {
 	// insertion point
-	to.Name = from.Name
-	to.Print_object = from.Print_object
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Smufl = from.Smufl
-	to.Id = from.Id
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Other_listening_WOP struct {
@@ -5066,11 +4221,7 @@ type Other_listening_WOP struct {
 
 func (from *Other_listening) GongCopyBasicFields(to *Other_listening) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Player = from.Player
-	to.Time_only = from.Time_only
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Other_notation_WOP struct {
@@ -5113,23 +4264,7 @@ type Other_notation_WOP struct {
 
 func (from *Other_notation) GongCopyBasicFields(to *Other_notation) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Print_object = from.Print_object
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.Smufl = from.Smufl
-	to.Id = from.Id
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Other_placement_text_WOP struct {
@@ -5164,19 +4299,7 @@ type Other_placement_text_WOP struct {
 
 func (from *Other_placement_text) GongCopyBasicFields(to *Other_placement_text) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.Smufl = from.Smufl
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Other_play_WOP struct {
@@ -5191,9 +4314,7 @@ type Other_play_WOP struct {
 
 func (from *Other_play) GongCopyBasicFields(to *Other_play) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Other_text_WOP struct {
@@ -5208,9 +4329,7 @@ type Other_text_WOP struct {
 
 func (from *Other_text) GongCopyBasicFields(to *Other_text) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Page_layout_WOP struct {
@@ -5248,12 +4367,7 @@ type Page_margins_WOP struct {
 
 func (from *Page_margins) GongCopyBasicFields(to *Page_margins) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Left_margin = from.Left_margin
-	to.Right_margin = from.Right_margin
-	to.Top_margin = from.Top_margin
-	to.Bottom_margin = from.Bottom_margin
+	*to = *from
 }
 
 type Part_clef_WOP struct {
@@ -5270,10 +4384,7 @@ type Part_clef_WOP struct {
 
 func (from *Part_clef) GongCopyBasicFields(to *Part_clef) {
 	// insertion point
-	to.Name = from.Name
-	to.Sign = from.Sign
-	to.Line = from.Line
-	to.Clef_octave_change = from.Clef_octave_change
+	*to = *from
 }
 
 type Part_group_WOP struct {
@@ -5371,19 +4482,7 @@ type Part_name_WOP struct {
 
 func (from *Part_name) GongCopyBasicFields(to *Part_name) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Print_object = from.Print_object
-	to.Justify = from.Justify
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Part_symbol_WOP struct {
@@ -5410,15 +4509,7 @@ type Part_symbol_WOP struct {
 
 func (from *Part_symbol) GongCopyBasicFields(to *Part_symbol) {
 	// insertion point
-	to.Name = from.Name
-	to.Top_staff = from.Top_staff
-	to.Bottom_staff = from.Bottom_staff
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Part_transpose_WOP struct {
@@ -5437,11 +4528,7 @@ type Part_transpose_WOP struct {
 
 func (from *Part_transpose) GongCopyBasicFields(to *Part_transpose) {
 	// insertion point
-	to.Name = from.Name
-	to.Diatonic = from.Diatonic
-	to.Chromatic = from.Chromatic
-	to.Octave_change = from.Octave_change
-	to.Double = from.Double
+	*to = *from
 }
 
 type Pedal_WOP struct {
@@ -5486,24 +4573,7 @@ type Pedal_WOP struct {
 
 func (from *Pedal) GongCopyBasicFields(to *Pedal) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Line = from.Line
-	to.Sign = from.Sign
-	to.Abbreviated = from.Abbreviated
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Id = from.Id
+	*to = *from
 }
 
 type Pedal_tuning_WOP struct {
@@ -5518,9 +4588,7 @@ type Pedal_tuning_WOP struct {
 
 func (from *Pedal_tuning) GongCopyBasicFields(to *Pedal_tuning) {
 	// insertion point
-	to.Name = from.Name
-	to.Pedal_step = from.Pedal_step
-	to.Pedal_alter = from.Pedal_alter
+	*to = *from
 }
 
 type Per_minute_WOP struct {
@@ -5541,12 +4609,7 @@ type Per_minute_WOP struct {
 
 func (from *Per_minute) GongCopyBasicFields(to *Per_minute) {
 	// insertion point
-	to.Name = from.Name
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Percussion_WOP struct {
@@ -5616,10 +4679,7 @@ type Pitch_WOP struct {
 
 func (from *Pitch) GongCopyBasicFields(to *Pitch) {
 	// insertion point
-	to.Name = from.Name
-	to.Step = from.Step
-	to.Alter = from.Alter
-	to.Octave = from.Octave
+	*to = *from
 }
 
 type Pitched_WOP struct {
@@ -5634,9 +4694,7 @@ type Pitched_WOP struct {
 
 func (from *Pitched) GongCopyBasicFields(to *Pitched) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Placement_text_WOP struct {
@@ -5669,18 +4727,7 @@ type Placement_text_WOP struct {
 
 func (from *Placement_text) GongCopyBasicFields(to *Placement_text) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Play_WOP struct {
@@ -5718,9 +4765,7 @@ type Player_WOP struct {
 
 func (from *Player) GongCopyBasicFields(to *Player) {
 	// insertion point
-	to.Name = from.Name
-	to.Id = from.Id
-	to.Player_name = from.Player_name
+	*to = *from
 }
 
 type Principal_voice_WOP struct {
@@ -5761,22 +4806,7 @@ type Principal_voice_WOP struct {
 
 func (from *Principal_voice) GongCopyBasicFields(to *Principal_voice) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Symbol = from.Symbol
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Id = from.Id
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Print_WOP struct {
@@ -5816,7 +4846,7 @@ type Release_WOP struct {
 
 func (from *Release) GongCopyBasicFields(to *Release) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Repeat_WOP struct {
@@ -5835,11 +4865,7 @@ type Repeat_WOP struct {
 
 func (from *Repeat) GongCopyBasicFields(to *Repeat) {
 	// insertion point
-	to.Name = from.Name
-	to.Direction = from.Direction
-	to.Times = from.Times
-	to.After_jump = from.After_jump
-	to.Winged = from.Winged
+	*to = *from
 }
 
 type Rest_WOP struct {
@@ -5856,10 +4882,7 @@ type Rest_WOP struct {
 
 func (from *Rest) GongCopyBasicFields(to *Rest) {
 	// insertion point
-	to.Name = from.Name
-	to.Measure = from.Measure
-	to.Display_step = from.Display_step
-	to.Display_octave = from.Display_octave
+	*to = *from
 }
 
 type Root_WOP struct {
@@ -5903,18 +4926,7 @@ type Root_step_WOP struct {
 
 func (from *Root_step) GongCopyBasicFields(to *Root_step) {
 	// insertion point
-	to.Name = from.Name
-	to.Text = from.Text
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Scaling_WOP struct {
@@ -5929,9 +4941,7 @@ type Scaling_WOP struct {
 
 func (from *Scaling) GongCopyBasicFields(to *Scaling) {
 	// insertion point
-	to.Name = from.Name
-	to.Millimeters = from.Millimeters
-	to.Tenths = from.Tenths
+	*to = *from
 }
 
 type Scordatura_WOP struct {
@@ -6068,20 +5078,7 @@ type Segno_WOP struct {
 
 func (from *Segno) GongCopyBasicFields(to *Segno) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Id = from.Id
+	*to = *from
 }
 
 type Slash_WOP struct {
@@ -6104,13 +5101,7 @@ type Slash_WOP struct {
 
 func (from *Slash) GongCopyBasicFields(to *Slash) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Use_dots = from.Use_dots
-	to.Use_stems = from.Use_stems
-	to.Slash_type = from.Slash_type
-	to.Slash_dot = from.Slash_dot
-	to.Except_voice = from.Except_voice
+	*to = *from
 }
 
 type Slide_WOP struct {
@@ -6161,27 +5152,7 @@ type Slide_WOP struct {
 
 func (from *Slide) GongCopyBasicFields(to *Slide) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Line_type = from.Line_type
-	to.Dash_length = from.Dash_length
-	to.Space_length = from.Space_length
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Accelerate = from.Accelerate
-	to.Beats = from.Beats
-	to.First_beat = from.First_beat
-	to.Last_beat = from.Last_beat
-	to.Id = from.Id
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Slur_WOP struct {
@@ -6230,26 +5201,7 @@ type Slur_WOP struct {
 
 func (from *Slur) GongCopyBasicFields(to *Slur) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Line_type = from.Line_type
-	to.Dash_length = from.Dash_length
-	to.Space_length = from.Space_length
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Placement = from.Placement
-	to.Orientation = from.Orientation
-	to.Bezier_x = from.Bezier_x
-	to.Bezier_y = from.Bezier_y
-	to.Bezier_x2 = from.Bezier_x2
-	to.Bezier_y2 = from.Bezier_y2
-	to.Bezier_offset = from.Bezier_offset
-	to.Bezier_offset2 = from.Bezier_offset2
-	to.Color = from.Color
-	to.Id = from.Id
+	*to = *from
 }
 
 type Sound_WOP struct {
@@ -6383,20 +5335,7 @@ type Staff_divide_WOP struct {
 
 func (from *Staff_divide) GongCopyBasicFields(to *Staff_divide) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Id = from.Id
+	*to = *from
 }
 
 type Staff_layout_WOP struct {
@@ -6411,9 +5350,7 @@ type Staff_layout_WOP struct {
 
 func (from *Staff_layout) GongCopyBasicFields(to *Staff_layout) {
 	// insertion point
-	to.Name = from.Name
-	to.Number = from.Number
-	to.Staff_distance = from.Staff_distance
+	*to = *from
 }
 
 type Staff_size_WOP struct {
@@ -6428,9 +5365,7 @@ type Staff_size_WOP struct {
 
 func (from *Staff_size) GongCopyBasicFields(to *Staff_size) {
 	// insertion point
-	to.Name = from.Name
-	to.Scaling = from.Scaling
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Staff_tuning_WOP struct {
@@ -6449,11 +5384,7 @@ type Staff_tuning_WOP struct {
 
 func (from *Staff_tuning) GongCopyBasicFields(to *Staff_tuning) {
 	// insertion point
-	to.Name = from.Name
-	to.Line = from.Line
-	to.Tuning_step = from.Tuning_step
-	to.Tuning_alter = from.Tuning_alter
-	to.Tuning_octave = from.Tuning_octave
+	*to = *from
 }
 
 type Stem_WOP struct {
@@ -6476,13 +5407,7 @@ type Stem_WOP struct {
 
 func (from *Stem) GongCopyBasicFields(to *Stem) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Stick_WOP struct {
@@ -6503,12 +5428,7 @@ type Stick_WOP struct {
 
 func (from *Stick) GongCopyBasicFields(to *Stick) {
 	// insertion point
-	to.Name = from.Name
-	to.Tip = from.Tip
-	to.Parentheses = from.Parentheses
-	to.Dashed_circle = from.Dashed_circle
-	to.Stick_type = from.Stick_type
-	to.Stick_material = from.Stick_material
+	*to = *from
 }
 
 type String_mute_WOP struct {
@@ -6545,20 +5465,7 @@ type String_mute_WOP struct {
 
 func (from *String_mute) GongCopyBasicFields(to *String_mute) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Halign = from.Halign
-	to.Valign = from.Valign
-	to.Id = from.Id
+	*to = *from
 }
 
 type String_type_WOP struct {
@@ -6591,18 +5498,7 @@ type String_type_WOP struct {
 
 func (from *String_type) GongCopyBasicFields(to *String_type) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Strong_accent_WOP struct {
@@ -6613,7 +5509,7 @@ type Strong_accent_WOP struct {
 
 func (from *Strong_accent) GongCopyBasicFields(to *Strong_accent) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Style_text_WOP struct {
@@ -6644,17 +5540,7 @@ type Style_text_WOP struct {
 
 func (from *Style_text) GongCopyBasicFields(to *Style_text) {
 	// insertion point
-	to.Name = from.Name
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Supports_WOP struct {
@@ -6673,11 +5559,7 @@ type Supports_WOP struct {
 
 func (from *Supports) GongCopyBasicFields(to *Supports) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Element = from.Element
-	to.Attribute = from.Attribute
-	to.Value = from.Value
+	*to = *from
 }
 
 type Swing_WOP struct {
@@ -6698,12 +5580,7 @@ type Swing_WOP struct {
 
 func (from *Swing) GongCopyBasicFields(to *Swing) {
 	// insertion point
-	to.Name = from.Name
-	to.Straight = from.Straight
-	to.First = from.First
-	to.Second = from.Second
-	to.Swing_type = from.Swing_type
-	to.Swing_style = from.Swing_style
+	*to = *from
 }
 
 type Sync_WOP struct {
@@ -6722,11 +5599,7 @@ type Sync_WOP struct {
 
 func (from *Sync) GongCopyBasicFields(to *Sync) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Latency = from.Latency
-	to.Player = from.Player
-	to.Time_only = from.Time_only
+	*to = *from
 }
 
 type System_dividers_WOP struct {
@@ -6769,9 +5642,7 @@ type System_margins_WOP struct {
 
 func (from *System_margins) GongCopyBasicFields(to *System_margins) {
 	// insertion point
-	to.Name = from.Name
-	to.Left_margin = from.Left_margin
-	to.Right_margin = from.Right_margin
+	*to = *from
 }
 
 type Tap_WOP struct {
@@ -6806,19 +5677,7 @@ type Tap_WOP struct {
 
 func (from *Tap) GongCopyBasicFields(to *Tap) {
 	// insertion point
-	to.Name = from.Name
-	to.Hand = from.Hand
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Technical_WOP struct {
@@ -6869,20 +5728,7 @@ type Text_element_data_WOP struct {
 
 func (from *Text_element_data) GongCopyBasicFields(to *Text_element_data) {
 	// insertion point
-	to.Name = from.Name
-	to.Lang = from.Lang
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Underline = from.Underline
-	to.Overline = from.Overline
-	to.Line_through = from.Line_through
-	to.Rotation = from.Rotation
-	to.Letter_spacing = from.Letter_spacing
-	to.Dir = from.Dir
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Tie_WOP struct {
@@ -6897,9 +5743,7 @@ type Tie_WOP struct {
 
 func (from *Tie) GongCopyBasicFields(to *Tie) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Time_only = from.Time_only
+	*to = *from
 }
 
 type Tied_WOP struct {
@@ -6948,26 +5792,7 @@ type Tied_WOP struct {
 
 func (from *Tied) GongCopyBasicFields(to *Tied) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Line_type = from.Line_type
-	to.Dash_length = from.Dash_length
-	to.Space_length = from.Space_length
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Placement = from.Placement
-	to.Orientation = from.Orientation
-	to.Bezier_x = from.Bezier_x
-	to.Bezier_y = from.Bezier_y
-	to.Bezier_x2 = from.Bezier_x2
-	to.Bezier_y2 = from.Bezier_y2
-	to.Bezier_offset = from.Bezier_offset
-	to.Bezier_offset2 = from.Bezier_offset2
-	to.Color = from.Color
-	to.Id = from.Id
+	*to = *from
 }
 
 type Time_WOP struct {
@@ -7054,11 +5879,7 @@ type Time_modification_WOP struct {
 
 func (from *Time_modification) GongCopyBasicFields(to *Time_modification) {
 	// insertion point
-	to.Name = from.Name
-	to.Actual_notes = from.Actual_notes
-	to.Normal_notes = from.Normal_notes
-	to.Normal_type = from.Normal_type
-	to.Normal_dot = from.Normal_dot
+	*to = *from
 }
 
 type Timpani_WOP struct {
@@ -7071,8 +5892,7 @@ type Timpani_WOP struct {
 
 func (from *Timpani) GongCopyBasicFields(to *Timpani) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
+	*to = *from
 }
 
 type Transpose_WOP struct {
@@ -7095,13 +5915,7 @@ type Transpose_WOP struct {
 
 func (from *Transpose) GongCopyBasicFields(to *Transpose) {
 	// insertion point
-	to.Name = from.Name
-	to.Number = from.Number
-	to.Id = from.Id
-	to.Diatonic = from.Diatonic
-	to.Chromatic = from.Chromatic
-	to.Octave_change = from.Octave_change
-	to.Double = from.Double
+	*to = *from
 }
 
 type Tremolo_WOP struct {
@@ -7138,20 +5952,7 @@ type Tremolo_WOP struct {
 
 func (from *Tremolo) GongCopyBasicFields(to *Tremolo) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.Placement = from.Placement
-	to.Smufl = from.Smufl
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Tuplet_WOP struct {
@@ -7219,12 +6020,7 @@ type Tuplet_dot_WOP struct {
 
 func (from *Tuplet_dot) GongCopyBasicFields(to *Tuplet_dot) {
 	// insertion point
-	to.Name = from.Name
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
+	*to = *from
 }
 
 type Tuplet_number_WOP struct {
@@ -7247,13 +6043,7 @@ type Tuplet_number_WOP struct {
 
 func (from *Tuplet_number) GongCopyBasicFields(to *Tuplet_number) {
 	// insertion point
-	to.Name = from.Name
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Tuplet_portion_WOP struct {
@@ -7287,13 +6077,7 @@ type Tuplet_type_WOP struct {
 
 func (from *Tuplet_type) GongCopyBasicFields(to *Tuplet_type) {
 	// insertion point
-	to.Name = from.Name
-	to.Font_family = from.Font_family
-	to.Font_style = from.Font_style
-	to.Font_size = from.Font_size
-	to.Font_weight = from.Font_weight
-	to.Color = from.Color
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Typed_text_WOP struct {
@@ -7308,9 +6092,7 @@ type Typed_text_WOP struct {
 
 func (from *Typed_text) GongCopyBasicFields(to *Typed_text) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Unpitched_WOP struct {
@@ -7325,9 +6107,7 @@ type Unpitched_WOP struct {
 
 func (from *Unpitched) GongCopyBasicFields(to *Unpitched) {
 	// insertion point
-	to.Name = from.Name
-	to.Display_step = from.Display_step
-	to.Display_octave = from.Display_octave
+	*to = *from
 }
 
 type Virtual_instrument_WOP struct {
@@ -7342,9 +6122,7 @@ type Virtual_instrument_WOP struct {
 
 func (from *Virtual_instrument) GongCopyBasicFields(to *Virtual_instrument) {
 	// insertion point
-	to.Name = from.Name
-	to.Virtual_library = from.Virtual_library
-	to.Virtual_name = from.Virtual_name
+	*to = *from
 }
 
 type Wait_WOP struct {
@@ -7359,9 +6137,7 @@ type Wait_WOP struct {
 
 func (from *Wait) GongCopyBasicFields(to *Wait) {
 	// insertion point
-	to.Name = from.Name
-	to.Player = from.Player
-	to.Time_only = from.Time_only
+	*to = *from
 }
 
 type Wavy_line_WOP struct {
@@ -7404,23 +6180,7 @@ type Wavy_line_WOP struct {
 
 func (from *Wavy_line) GongCopyBasicFields(to *Wavy_line) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Smufl = from.Smufl
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Placement = from.Placement
-	to.Color = from.Color
-	to.Start_note = from.Start_note
-	to.Trill_step = from.Trill_step
-	to.Two_note_turn = from.Two_note_turn
-	to.Accelerate = from.Accelerate
-	to.Beats = from.Beats
-	to.Second_beat = from.Second_beat
-	to.Last_beat = from.Last_beat
+	*to = *from
 }
 
 type Wedge_WOP struct {
@@ -7457,20 +6217,7 @@ type Wedge_WOP struct {
 
 func (from *Wedge) GongCopyBasicFields(to *Wedge) {
 	// insertion point
-	to.Name = from.Name
-	to.Type = from.Type
-	to.Number = from.Number
-	to.Spread = from.Spread
-	to.Niente = from.Niente
-	to.Line_type = from.Line_type
-	to.Dash_length = from.Dash_length
-	to.Space_length = from.Space_length
-	to.Default_x = from.Default_x
-	to.Default_y = from.Default_y
-	to.Relative_x = from.Relative_x
-	to.Relative_y = from.Relative_y
-	to.Color = from.Color
-	to.Id = from.Id
+	*to = *from
 }
 
 type Wood_WOP struct {
@@ -7485,9 +6232,7 @@ type Wood_WOP struct {
 
 func (from *Wood) GongCopyBasicFields(to *Wood) {
 	// insertion point
-	to.Name = from.Name
-	to.Smufl = from.Smufl
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 type Work_WOP struct {

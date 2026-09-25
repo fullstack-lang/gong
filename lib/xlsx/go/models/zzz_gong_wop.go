@@ -30,9 +30,7 @@ type XLCell_WOP struct {
 
 func (from *XLCell) GongCopyBasicFields(to *XLCell) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
+	*to = *from
 }
 
 type XLFile_WOP struct {

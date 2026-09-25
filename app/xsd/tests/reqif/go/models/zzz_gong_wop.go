@@ -17,8 +17,7 @@ type ALTERNATIVE_ID_WOP struct {
 
 func (from *ALTERNATIVE_ID) GongCopyBasicFields(to *ALTERNATIVE_ID) {
 	// insertion point
-	to.Name = from.Name
-	to.IDENTIFIER = from.IDENTIFIER
+	*to = *from
 }
 
 type ATTRIBUTE_DEFINITION_BOOLEAN_WOP struct {
@@ -322,8 +321,7 @@ type A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_WOP struct {
 
 func (from *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.ATTRIBUTE_DEFINITION_BOOLEAN_REF = from.ATTRIBUTE_DEFINITION_BOOLEAN_REF
+	*to = *from
 }
 
 type A_ATTRIBUTE_DEFINITION_DATE_REF_WOP struct {
@@ -336,8 +334,7 @@ type A_ATTRIBUTE_DEFINITION_DATE_REF_WOP struct {
 
 func (from *A_ATTRIBUTE_DEFINITION_DATE_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_DATE_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.ATTRIBUTE_DEFINITION_DATE_REF = from.ATTRIBUTE_DEFINITION_DATE_REF
+	*to = *from
 }
 
 type A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_WOP struct {
@@ -350,8 +347,7 @@ type A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_WOP struct {
 
 func (from *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.ATTRIBUTE_DEFINITION_ENUMERATION_REF = from.ATTRIBUTE_DEFINITION_ENUMERATION_REF
+	*to = *from
 }
 
 type A_ATTRIBUTE_DEFINITION_INTEGER_REF_WOP struct {
@@ -364,8 +360,7 @@ type A_ATTRIBUTE_DEFINITION_INTEGER_REF_WOP struct {
 
 func (from *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_INTEGER_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.ATTRIBUTE_DEFINITION_INTEGER_REF = from.ATTRIBUTE_DEFINITION_INTEGER_REF
+	*to = *from
 }
 
 type A_ATTRIBUTE_DEFINITION_REAL_REF_WOP struct {
@@ -378,8 +373,7 @@ type A_ATTRIBUTE_DEFINITION_REAL_REF_WOP struct {
 
 func (from *A_ATTRIBUTE_DEFINITION_REAL_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_REAL_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.ATTRIBUTE_DEFINITION_REAL_REF = from.ATTRIBUTE_DEFINITION_REAL_REF
+	*to = *from
 }
 
 type A_ATTRIBUTE_DEFINITION_STRING_REF_WOP struct {
@@ -392,8 +386,7 @@ type A_ATTRIBUTE_DEFINITION_STRING_REF_WOP struct {
 
 func (from *A_ATTRIBUTE_DEFINITION_STRING_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_STRING_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.ATTRIBUTE_DEFINITION_STRING_REF = from.ATTRIBUTE_DEFINITION_STRING_REF
+	*to = *from
 }
 
 type A_ATTRIBUTE_DEFINITION_XHTML_REF_WOP struct {
@@ -406,8 +399,7 @@ type A_ATTRIBUTE_DEFINITION_XHTML_REF_WOP struct {
 
 func (from *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_XHTML_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.ATTRIBUTE_DEFINITION_XHTML_REF = from.ATTRIBUTE_DEFINITION_XHTML_REF
+	*to = *from
 }
 
 type A_ATTRIBUTE_VALUE_BOOLEAN_WOP struct {
@@ -541,8 +533,7 @@ type A_DATATYPE_DEFINITION_BOOLEAN_REF_WOP struct {
 
 func (from *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_BOOLEAN_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.DATATYPE_DEFINITION_BOOLEAN_REF = from.DATATYPE_DEFINITION_BOOLEAN_REF
+	*to = *from
 }
 
 type A_DATATYPE_DEFINITION_DATE_REF_WOP struct {
@@ -555,8 +546,7 @@ type A_DATATYPE_DEFINITION_DATE_REF_WOP struct {
 
 func (from *A_DATATYPE_DEFINITION_DATE_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_DATE_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.DATATYPE_DEFINITION_DATE_REF = from.DATATYPE_DEFINITION_DATE_REF
+	*to = *from
 }
 
 type A_DATATYPE_DEFINITION_ENUMERATION_REF_WOP struct {
@@ -569,8 +559,7 @@ type A_DATATYPE_DEFINITION_ENUMERATION_REF_WOP struct {
 
 func (from *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_ENUMERATION_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.DATATYPE_DEFINITION_ENUMERATION_REF = from.DATATYPE_DEFINITION_ENUMERATION_REF
+	*to = *from
 }
 
 type A_DATATYPE_DEFINITION_INTEGER_REF_WOP struct {
@@ -583,8 +572,7 @@ type A_DATATYPE_DEFINITION_INTEGER_REF_WOP struct {
 
 func (from *A_DATATYPE_DEFINITION_INTEGER_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_INTEGER_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.DATATYPE_DEFINITION_INTEGER_REF = from.DATATYPE_DEFINITION_INTEGER_REF
+	*to = *from
 }
 
 type A_DATATYPE_DEFINITION_REAL_REF_WOP struct {
@@ -597,8 +585,7 @@ type A_DATATYPE_DEFINITION_REAL_REF_WOP struct {
 
 func (from *A_DATATYPE_DEFINITION_REAL_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_REAL_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.DATATYPE_DEFINITION_REAL_REF = from.DATATYPE_DEFINITION_REAL_REF
+	*to = *from
 }
 
 type A_DATATYPE_DEFINITION_STRING_REF_WOP struct {
@@ -611,8 +598,7 @@ type A_DATATYPE_DEFINITION_STRING_REF_WOP struct {
 
 func (from *A_DATATYPE_DEFINITION_STRING_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_STRING_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.DATATYPE_DEFINITION_STRING_REF = from.DATATYPE_DEFINITION_STRING_REF
+	*to = *from
 }
 
 type A_DATATYPE_DEFINITION_XHTML_REF_WOP struct {
@@ -625,8 +611,7 @@ type A_DATATYPE_DEFINITION_XHTML_REF_WOP struct {
 
 func (from *A_DATATYPE_DEFINITION_XHTML_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_XHTML_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.DATATYPE_DEFINITION_XHTML_REF = from.DATATYPE_DEFINITION_XHTML_REF
+	*to = *from
 }
 
 type A_EDITABLE_ATTS_WOP struct {
@@ -651,14 +636,7 @@ type A_EDITABLE_ATTS_WOP struct {
 
 func (from *A_EDITABLE_ATTS) GongCopyBasicFields(to *A_EDITABLE_ATTS) {
 	// insertion point
-	to.Name = from.Name
-	to.ATTRIBUTE_DEFINITION_BOOLEAN_REF = from.ATTRIBUTE_DEFINITION_BOOLEAN_REF
-	to.ATTRIBUTE_DEFINITION_DATE_REF = from.ATTRIBUTE_DEFINITION_DATE_REF
-	to.ATTRIBUTE_DEFINITION_ENUMERATION_REF = from.ATTRIBUTE_DEFINITION_ENUMERATION_REF
-	to.ATTRIBUTE_DEFINITION_INTEGER_REF = from.ATTRIBUTE_DEFINITION_INTEGER_REF
-	to.ATTRIBUTE_DEFINITION_REAL_REF = from.ATTRIBUTE_DEFINITION_REAL_REF
-	to.ATTRIBUTE_DEFINITION_STRING_REF = from.ATTRIBUTE_DEFINITION_STRING_REF
-	to.ATTRIBUTE_DEFINITION_XHTML_REF = from.ATTRIBUTE_DEFINITION_XHTML_REF
+	*to = *from
 }
 
 type A_ENUM_VALUE_REF_WOP struct {
@@ -671,8 +649,7 @@ type A_ENUM_VALUE_REF_WOP struct {
 
 func (from *A_ENUM_VALUE_REF) GongCopyBasicFields(to *A_ENUM_VALUE_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.ENUM_VALUE_REF = from.ENUM_VALUE_REF
+	*to = *from
 }
 
 type A_OBJECT_WOP struct {
@@ -685,8 +662,7 @@ type A_OBJECT_WOP struct {
 
 func (from *A_OBJECT) GongCopyBasicFields(to *A_OBJECT) {
 	// insertion point
-	to.Name = from.Name
-	to.SPEC_OBJECT_REF = from.SPEC_OBJECT_REF
+	*to = *from
 }
 
 type A_PROPERTIES_WOP struct {
@@ -710,8 +686,7 @@ type A_RELATION_GROUP_TYPE_REF_WOP struct {
 
 func (from *A_RELATION_GROUP_TYPE_REF) GongCopyBasicFields(to *A_RELATION_GROUP_TYPE_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.RELATION_GROUP_TYPE_REF = from.RELATION_GROUP_TYPE_REF
+	*to = *from
 }
 
 type A_SOURCE_1_WOP struct {
@@ -724,8 +699,7 @@ type A_SOURCE_1_WOP struct {
 
 func (from *A_SOURCE_1) GongCopyBasicFields(to *A_SOURCE_1) {
 	// insertion point
-	to.Name = from.Name
-	to.SPEC_OBJECT_REF = from.SPEC_OBJECT_REF
+	*to = *from
 }
 
 type A_SOURCE_SPECIFICATION_1_WOP struct {
@@ -738,8 +712,7 @@ type A_SOURCE_SPECIFICATION_1_WOP struct {
 
 func (from *A_SOURCE_SPECIFICATION_1) GongCopyBasicFields(to *A_SOURCE_SPECIFICATION_1) {
 	// insertion point
-	to.Name = from.Name
-	to.SPECIFICATION_REF = from.SPECIFICATION_REF
+	*to = *from
 }
 
 type A_SPECIFICATIONS_WOP struct {
@@ -763,8 +736,7 @@ type A_SPECIFICATION_TYPE_REF_WOP struct {
 
 func (from *A_SPECIFICATION_TYPE_REF) GongCopyBasicFields(to *A_SPECIFICATION_TYPE_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.SPECIFICATION_TYPE_REF = from.SPECIFICATION_TYPE_REF
+	*to = *from
 }
 
 type A_SPECIFIED_VALUES_WOP struct {
@@ -810,8 +782,7 @@ type A_SPEC_OBJECT_TYPE_REF_WOP struct {
 
 func (from *A_SPEC_OBJECT_TYPE_REF) GongCopyBasicFields(to *A_SPEC_OBJECT_TYPE_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.SPEC_OBJECT_TYPE_REF = from.SPEC_OBJECT_TYPE_REF
+	*to = *from
 }
 
 type A_SPEC_RELATIONS_WOP struct {
@@ -846,8 +817,7 @@ type A_SPEC_RELATION_REF_WOP struct {
 
 func (from *A_SPEC_RELATION_REF) GongCopyBasicFields(to *A_SPEC_RELATION_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.SPEC_RELATION_REF = from.SPEC_RELATION_REF
+	*to = *from
 }
 
 type A_SPEC_RELATION_TYPE_REF_WOP struct {
@@ -860,8 +830,7 @@ type A_SPEC_RELATION_TYPE_REF_WOP struct {
 
 func (from *A_SPEC_RELATION_TYPE_REF) GongCopyBasicFields(to *A_SPEC_RELATION_TYPE_REF) {
 	// insertion point
-	to.Name = from.Name
-	to.SPEC_RELATION_TYPE_REF = from.SPEC_RELATION_TYPE_REF
+	*to = *from
 }
 
 type A_SPEC_TYPES_WOP struct {
@@ -1088,9 +1057,7 @@ type EMBEDDED_VALUE_WOP struct {
 
 func (from *EMBEDDED_VALUE) GongCopyBasicFields(to *EMBEDDED_VALUE) {
 	// insertion point
-	to.Name = from.Name
-	to.KEY = from.KEY
-	to.OTHER_CONTENT = from.OTHER_CONTENT
+	*to = *from
 }
 
 type ENUM_VALUE_WOP struct {
@@ -1211,15 +1178,7 @@ type REQ_IF_HEADER_WOP struct {
 
 func (from *REQ_IF_HEADER) GongCopyBasicFields(to *REQ_IF_HEADER) {
 	// insertion point
-	to.Name = from.Name
-	to.IDENTIFIER = from.IDENTIFIER
-	to.COMMENT = from.COMMENT
-	to.CREATION_TIME = from.CREATION_TIME
-	to.REPOSITORY_ID = from.REPOSITORY_ID
-	to.REQ_IF_TOOL_ID = from.REQ_IF_TOOL_ID
-	to.REQ_IF_VERSION = from.REQ_IF_VERSION
-	to.SOURCE_TOOL_ID = from.SOURCE_TOOL_ID
-	to.TITLE = from.TITLE
+	*to = *from
 }
 
 type REQ_IF_TOOL_EXTENSION_WOP struct {
@@ -1230,7 +1189,7 @@ type REQ_IF_TOOL_EXTENSION_WOP struct {
 
 func (from *REQ_IF_TOOL_EXTENSION) GongCopyBasicFields(to *REQ_IF_TOOL_EXTENSION) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type SPECIFICATION_WOP struct {
@@ -1410,8 +1369,7 @@ type XHTML_CONTENT_WOP struct {
 
 func (from *XHTML_CONTENT) GongCopyBasicFields(to *XHTML_CONTENT) {
 	// insertion point
-	to.Name = from.Name
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 // end of insertion point

@@ -150,11 +150,7 @@ func (inst *Ellipse) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Go
 }
 
 func (inst *FileToDownload) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -271,11 +267,7 @@ func (inst *Path) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongR
 }
 
 func (inst *Point) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -419,20 +411,12 @@ func (inst *RectLinkLink) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 }
 
 func (inst *SVG) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *SvgText) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -571,11 +555,7 @@ func (inst *Ellipse) GongGetReverseFieldOwner(stage *Stage, reverseField *GongRe
 }
 
 func (inst *FileToDownload) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -672,11 +652,7 @@ func (inst *Path) GongGetReverseFieldOwner(stage *Stage, reverseField *GongRever
 }
 
 func (inst *Point) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -800,20 +776,12 @@ func (inst *RectLinkLink) GongGetReverseFieldOwner(stage *Stage, reverseField *G
 }
 
 func (inst *SVG) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *SvgText) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 

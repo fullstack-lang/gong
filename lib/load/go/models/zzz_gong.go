@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -1125,7 +1116,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -1213,20 +1203,8 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case FileToDownload:
-		return any(&FileToDownload{
-			// Initialisation of associations
-		}).(*Type)
-	case FileToUpload:
-		return any(&FileToUpload{
-			// Initialisation of associations
-		}).(*Type)
-	case Message:
-		return any(&Message{
-			// Initialisation of associations
-		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

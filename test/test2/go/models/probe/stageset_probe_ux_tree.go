@@ -16,7 +16,7 @@ import (
 func (probe *StageSetProbe) ux_navigation_tree() {
 	probe.treeNavigationStage.Reset()
 	sidebar := &tree_models.Tree{Name: "Sidebar"}
-	tree_models.StageBranch(probe.treeNavigationStage, sidebar)
+	probe.treeNavigationStage.StageBranch(sidebar)
 	probe.treeNavigationStage.Commit()
 }
 
@@ -407,6 +407,6 @@ func (probe *StageSetProbe) ux_tree() {
 		}
 	}
 
-	tree_models.StageBranch(probe.treeStage, sidebar)
+	probe.treeStage.StageBranch(sidebar)
 	probe.treeStage.Commit()
 }

@@ -37,6 +37,10 @@ func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	return
 }
 
+type GongCleaner interface {
+	GongClean(stage *Stage) (modified bool)
+}
+
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by AllocatedResourceShape
 func (allocatedresourceshape *AllocatedResourceShape) GongClean(stage *Stage) (modified bool) {
@@ -70,13 +74,6 @@ func (controlflowshape *ControlFlowShape) GongClean(stage *Stage) (modified bool
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&controlflowshape.ControlFlow) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Data
-func (data *Data) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
 	return
 }
 
@@ -236,13 +233,6 @@ func (part *Part) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by PartAnchoredPath
-func (partanchoredpath *PartAnchoredPath) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by PartShape
 func (partshape *PartShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -251,25 +241,11 @@ func (partshape *PartShape) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by Port
-func (port *Port) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by PortShape
 func (portshape *PortShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&portshape.Port) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Resource
-func (resource *Resource) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
 	return
 }
 
@@ -307,7 +283,9 @@ func (systemshape *SystemShape) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		modified = instance.GongClean(stage) || modified
+		if cleaner, ok := any(instance).(GongCleaner); ok {
+			modified = cleaner.GongClean(stage) || modified
+		}
 	}
 	if modified {
 		if stage.probeIF != nil {

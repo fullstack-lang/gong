@@ -3,11 +3,7 @@ package models
 
 // insertion point
 func (inst *Angle0Shape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -28,20 +24,12 @@ func (inst *ArcNormalVectorShape) GongGetReverseFieldOwnerName(stage *Stage, rev
 }
 
 func (inst *ArcNormalVectorShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *AxesShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -62,56 +50,32 @@ func (inst *BaseVectorShape) GongGetReverseFieldOwnerName(stage *Stage, reverseF
 }
 
 func (inst *BaseVectorShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *BottomCurvePlane1Shape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *BottomCurvePlane2Shape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *ChosenP1P2PairShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *CircleGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Circumference3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -148,20 +112,12 @@ func (inst *Clock3DDiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 }
 
 func (inst *ClockTopCurveShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *CutLine3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -182,11 +138,7 @@ func (inst *EndArcShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 }
 
 func (inst *EndArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -207,101 +159,57 @@ func (inst *EndHalfwayArcShape) GongGetReverseFieldOwnerName(stage *Stage, rever
 }
 
 func (inst *EndHalfwayArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *ExplanationTextShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Eye3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *EyeCornersSampledPoints3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *EyeSampledPoints3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *EyeSeatBottomCurveShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *EyeStoolBottomCurveShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *EyeVolume3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *GridPathShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *GrowthCurve2D) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *GrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -338,11 +246,7 @@ func (inst *GrowthCurve2DRibbonStartShape) GongGetReverseFieldOwnerName(stage *S
 }
 
 func (inst *GrowthCurveRhombusGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -363,20 +267,12 @@ func (inst *GrowthCurveRhombusShape) GongGetReverseFieldOwnerName(stage *Stage, 
 }
 
 func (inst *GrowthVectorShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *InitialRhombusGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -397,38 +293,22 @@ func (inst *InitialRhombusShape) GongGetReverseFieldOwnerName(stage *Stage, reve
 }
 
 func (inst *Key3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *KeyHole3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *KeyHoleShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Leaves3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -465,47 +345,27 @@ func (inst *MidArcVectorShape) GongGetReverseFieldOwnerName(stage *Stage, revers
 }
 
 func (inst *MidArcVectorShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *OriginalPoints3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *ParastichyMCurves3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *ParastichyNCurves3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *PartiallyGrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -542,11 +402,7 @@ func (inst *PartiallyGrowthCurve2DRibbonStartShape) GongGetReverseFieldOwnerName
 }
 
 func (inst *PartiallyGrowthCurve2DTrajectory) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -567,11 +423,7 @@ func (inst *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongGetReverseFieldOwn
 }
 
 func (inst *PartiallyGrowthCurve2DTrajectoryP1P2) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -656,29 +508,17 @@ func (inst *PartiallyGrowthCurve2DTrajectoryShape) GongGetReverseFieldOwnerName(
 }
 
 func (inst *PartiallyRotatedSeatBottomCurveShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *PartiallyRotatedSeatTopCurveShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *PartiallyRotatedTorusShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -699,20 +539,12 @@ func (inst *PerpendicularVector) GongGetReverseFieldOwnerName(stage *Stage, reve
 }
 
 func (inst *PerpendicularVectorGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *PerpendicularVectorGridHalfway) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -781,65 +613,37 @@ func (inst *PlantAbstract) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 }
 
 func (inst *PlantCircumferenceShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *PointsAndLines3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *PxShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Rendered3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *RhombusShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *RhombusStuff) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *RotatedRhombusGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -860,65 +664,37 @@ func (inst *RotatedRhombusShape) GongGetReverseFieldOwnerName(stage *Stage, reve
 }
 
 func (inst *RotatedSampledPoints3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *RotatedSeatAndLegs3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *SampledPoints3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Seat3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *SeatAndLegs3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *SeatBottomCurveShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *SeatTopCurveShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -939,20 +715,12 @@ func (inst *ShiftedBottomTopStartArcShape) GongGetReverseFieldOwnerName(stage *S
 }
 
 func (inst *ShiftedBottomTopStartArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *ShiftedLeftGrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -989,11 +757,7 @@ func (inst *ShiftedLeftGrowthCurve2DRibbonStartShape) GongGetReverseFieldOwnerNa
 }
 
 func (inst *ShiftedLeftPartiallyGrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1078,29 +842,17 @@ func (inst *ShiftedLeftStackNormalVector) GongGetReverseFieldOwnerName(stage *St
 }
 
 func (inst *ShiftedLeftStackOfGrowthCurve) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *ShiftedLeftStackOfNormalVector) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *ShiftedRightGrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1201,74 +953,42 @@ func (inst *StackGrowthCurve2DStartHalfwayArcShape) GongGetReverseFieldOwnerName
 }
 
 func (inst *StackOfGrowthCurve2D) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *StackOfGrowthCurve2DByGrowthVector) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *StackOfGrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *StackOfPartiallyRotatedTorusShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *StackOfRotatedGrowthCurve2D) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *StackOfRotatedGrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *StackOfRotatedVaseTrapezeRingsShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *StackOfVaseTrapezeRingsShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1353,11 +1073,7 @@ func (inst *StartArcShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 }
 
 func (inst *StartArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1378,20 +1094,12 @@ func (inst *StartHalfwayArcShape) GongGetReverseFieldOwnerName(stage *Stage, rev
 }
 
 func (inst *StartHalfwayArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *StemCylinder3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1428,29 +1136,17 @@ func (inst *Stool3DDiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 }
 
 func (inst *TiledFloor3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *TopCurvePlane1Shape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *TopCurvePlane2Shape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1471,11 +1167,7 @@ func (inst *TopEndArcShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 }
 
 func (inst *TopEndArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1496,20 +1188,12 @@ func (inst *TopEndHalfwayArcShape) GongGetReverseFieldOwnerName(stage *Stage, re
 }
 
 func (inst *TopEndHalfwayArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *TopGrowthCurve2D) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1530,11 +1214,7 @@ func (inst *TopMidArcVectorShape) GongGetReverseFieldOwnerName(stage *Stage, rev
 }
 
 func (inst *TopMidArcVectorShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1571,20 +1251,12 @@ func (inst *TopStackGrowthCurve2DStartHalfwayArcShape) GongGetReverseFieldOwnerN
 }
 
 func (inst *TopStackOfGrowthCurve2D) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *TopStackOfRotatedGrowthCurve2D) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1637,11 +1309,7 @@ func (inst *TopStartArcShape) GongGetReverseFieldOwnerName(stage *Stage, reverse
 }
 
 func (inst *TopStartArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1662,38 +1330,22 @@ func (inst *TopStartHalfwayArcShape) GongGetReverseFieldOwnerName(stage *Stage, 
 }
 
 func (inst *TopStartHalfwayArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Torus3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *TorusEdge3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *TorusStackShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1714,11 +1366,7 @@ func (inst *TubeVase3DDiagram) GongGetReverseFieldOwnerName(stage *Stage, revers
 }
 
 func (inst *TubeVaseAbstract) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -1739,39 +1387,23 @@ func (inst *Vase2DDiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 }
 
 func (inst *VaseTrapezeRingShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *VerticalTorusStackShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *VolumeKey3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 // insertion point
 func (inst *Angle0Shape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -1790,20 +1422,12 @@ func (inst *ArcNormalVectorShape) GongGetReverseFieldOwner(stage *Stage, reverse
 }
 
 func (inst *ArcNormalVectorShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *AxesShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -1822,56 +1446,32 @@ func (inst *BaseVectorShape) GongGetReverseFieldOwner(stage *Stage, reverseField
 }
 
 func (inst *BaseVectorShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *BottomCurvePlane1Shape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *BottomCurvePlane2Shape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *ChosenP1P2PairShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *CircleGridShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Circumference3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -1904,20 +1504,12 @@ func (inst *Clock3DDiagram) GongGetReverseFieldOwner(stage *Stage, reverseField 
 }
 
 func (inst *ClockTopCurveShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *CutLine3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -1936,11 +1528,7 @@ func (inst *EndArcShape) GongGetReverseFieldOwner(stage *Stage, reverseField *Go
 }
 
 func (inst *EndArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -1959,101 +1547,57 @@ func (inst *EndHalfwayArcShape) GongGetReverseFieldOwner(stage *Stage, reverseFi
 }
 
 func (inst *EndHalfwayArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *ExplanationTextShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Eye3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *EyeCornersSampledPoints3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *EyeSampledPoints3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *EyeSeatBottomCurveShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *EyeStoolBottomCurveShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *EyeVolume3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *GridPathShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *GrowthCurve2D) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *GrowthCurve2DRibbon) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2086,11 +1630,7 @@ func (inst *GrowthCurve2DRibbonStartShape) GongGetReverseFieldOwner(stage *Stage
 }
 
 func (inst *GrowthCurveRhombusGridShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2109,20 +1649,12 @@ func (inst *GrowthCurveRhombusShape) GongGetReverseFieldOwner(stage *Stage, reve
 }
 
 func (inst *GrowthVectorShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *InitialRhombusGridShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2141,38 +1673,22 @@ func (inst *InitialRhombusShape) GongGetReverseFieldOwner(stage *Stage, reverseF
 }
 
 func (inst *Key3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *KeyHole3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *KeyHoleShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Leaves3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2205,47 +1721,27 @@ func (inst *MidArcVectorShape) GongGetReverseFieldOwner(stage *Stage, reverseFie
 }
 
 func (inst *MidArcVectorShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *OriginalPoints3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *ParastichyMCurves3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *ParastichyNCurves3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *PartiallyGrowthCurve2DRibbon) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2278,11 +1774,7 @@ func (inst *PartiallyGrowthCurve2DRibbonStartShape) GongGetReverseFieldOwner(sta
 }
 
 func (inst *PartiallyGrowthCurve2DTrajectory) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2301,11 +1793,7 @@ func (inst *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongGetReverseFieldOwn
 }
 
 func (inst *PartiallyGrowthCurve2DTrajectoryP1P2) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2380,29 +1868,17 @@ func (inst *PartiallyGrowthCurve2DTrajectoryShape) GongGetReverseFieldOwner(stag
 }
 
 func (inst *PartiallyRotatedSeatBottomCurveShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *PartiallyRotatedSeatTopCurveShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *PartiallyRotatedTorusShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2421,20 +1897,12 @@ func (inst *PerpendicularVector) GongGetReverseFieldOwner(stage *Stage, reverseF
 }
 
 func (inst *PerpendicularVectorGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *PerpendicularVectorGridHalfway) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2495,65 +1963,37 @@ func (inst *PlantAbstract) GongGetReverseFieldOwner(stage *Stage, reverseField *
 }
 
 func (inst *PlantCircumferenceShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *PointsAndLines3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *PxShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Rendered3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *RhombusShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *RhombusStuff) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *RotatedRhombusGridShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2572,65 +2012,37 @@ func (inst *RotatedRhombusShape) GongGetReverseFieldOwner(stage *Stage, reverseF
 }
 
 func (inst *RotatedSampledPoints3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *RotatedSeatAndLegs3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *SampledPoints3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Seat3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *SeatAndLegs3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *SeatBottomCurveShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *SeatTopCurveShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2649,20 +2061,12 @@ func (inst *ShiftedBottomTopStartArcShape) GongGetReverseFieldOwner(stage *Stage
 }
 
 func (inst *ShiftedBottomTopStartArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *ShiftedLeftGrowthCurve2DRibbon) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2695,11 +2099,7 @@ func (inst *ShiftedLeftGrowthCurve2DRibbonStartShape) GongGetReverseFieldOwner(s
 }
 
 func (inst *ShiftedLeftPartiallyGrowthCurve2DRibbon) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2774,29 +2174,17 @@ func (inst *ShiftedLeftStackNormalVector) GongGetReverseFieldOwner(stage *Stage,
 }
 
 func (inst *ShiftedLeftStackOfGrowthCurve) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *ShiftedLeftStackOfNormalVector) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *ShiftedRightGrowthCurve2DRibbon) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -2885,74 +2273,42 @@ func (inst *StackGrowthCurve2DStartHalfwayArcShape) GongGetReverseFieldOwner(sta
 }
 
 func (inst *StackOfGrowthCurve2D) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *StackOfGrowthCurve2DByGrowthVector) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *StackOfGrowthCurve2DRibbon) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *StackOfPartiallyRotatedTorusShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *StackOfRotatedGrowthCurve2D) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *StackOfRotatedGrowthCurve2DRibbon) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *StackOfRotatedVaseTrapezeRingsShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *StackOfVaseTrapezeRingsShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -3027,11 +2383,7 @@ func (inst *StartArcShape) GongGetReverseFieldOwner(stage *Stage, reverseField *
 }
 
 func (inst *StartArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -3050,20 +2402,12 @@ func (inst *StartHalfwayArcShape) GongGetReverseFieldOwner(stage *Stage, reverse
 }
 
 func (inst *StartHalfwayArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *StemCylinder3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -3096,29 +2440,17 @@ func (inst *Stool3DDiagram) GongGetReverseFieldOwner(stage *Stage, reverseField 
 }
 
 func (inst *TiledFloor3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *TopCurvePlane1Shape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *TopCurvePlane2Shape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -3137,11 +2469,7 @@ func (inst *TopEndArcShape) GongGetReverseFieldOwner(stage *Stage, reverseField 
 }
 
 func (inst *TopEndArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -3160,20 +2488,12 @@ func (inst *TopEndHalfwayArcShape) GongGetReverseFieldOwner(stage *Stage, revers
 }
 
 func (inst *TopEndHalfwayArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *TopGrowthCurve2D) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -3192,11 +2512,7 @@ func (inst *TopMidArcVectorShape) GongGetReverseFieldOwner(stage *Stage, reverse
 }
 
 func (inst *TopMidArcVectorShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -3229,20 +2545,12 @@ func (inst *TopStackGrowthCurve2DStartHalfwayArcShape) GongGetReverseFieldOwner(
 }
 
 func (inst *TopStackOfGrowthCurve2D) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *TopStackOfRotatedGrowthCurve2D) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -3289,11 +2597,7 @@ func (inst *TopStartArcShape) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 }
 
 func (inst *TopStartArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -3312,38 +2616,22 @@ func (inst *TopStartHalfwayArcShape) GongGetReverseFieldOwner(stage *Stage, reve
 }
 
 func (inst *TopStartHalfwayArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Torus3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *TorusEdge3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *TorusStackShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -3362,11 +2650,7 @@ func (inst *TubeVase3DDiagram) GongGetReverseFieldOwner(stage *Stage, reverseFie
 }
 
 func (inst *TubeVaseAbstract) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -3385,28 +2669,16 @@ func (inst *Vase2DDiagram) GongGetReverseFieldOwner(stage *Stage, reverseField *
 }
 
 func (inst *VaseTrapezeRingShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *VerticalTorusStackShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *VolumeKey3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }

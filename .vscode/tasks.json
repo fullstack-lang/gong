@@ -1163,6 +1163,23 @@
             ]
         },
         {
+            "label": "lib - splitlite: gong generate splitlite",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/splitlite"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmWorkspaces",
+                "--skipNpmInstall",
+                "--stack-height=4",
+                "go/models"
+            ]
+        },
+        {
             "label": "lib - split: ng serve split",
             "type": "shell",
             "options": {

@@ -54,8 +54,7 @@ type CellBoolean_WOP struct {
 
 func (from *CellBoolean) GongCopyBasicFields(to *CellBoolean) {
 	// insertion point
-	to.Name = from.Name
-	to.Value = from.Value
+	*to = *from
 }
 
 type CellFloat64_WOP struct {
@@ -68,8 +67,7 @@ type CellFloat64_WOP struct {
 
 func (from *CellFloat64) GongCopyBasicFields(to *CellFloat64) {
 	// insertion point
-	to.Name = from.Name
-	to.Value = from.Value
+	*to = *from
 }
 
 type CellIcon_WOP struct {
@@ -86,10 +84,7 @@ type CellIcon_WOP struct {
 
 func (from *CellIcon) GongCopyBasicFields(to *CellIcon) {
 	// insertion point
-	to.Name = from.Name
-	to.Icon = from.Icon
-	to.NeedsConfirmation = from.NeedsConfirmation
-	to.ConfirmationMessage = from.ConfirmationMessage
+	*to = *from
 }
 
 type CellInt_WOP struct {
@@ -102,8 +97,7 @@ type CellInt_WOP struct {
 
 func (from *CellInt) GongCopyBasicFields(to *CellInt) {
 	// insertion point
-	to.Name = from.Name
-	to.Value = from.Value
+	*to = *from
 }
 
 type CellString_WOP struct {
@@ -116,8 +110,7 @@ type CellString_WOP struct {
 
 func (from *CellString) GongCopyBasicFields(to *CellString) {
 	// insertion point
-	to.Name = from.Name
-	to.Value = from.Value
+	*to = *from
 }
 
 type DisplayedColumn_WOP struct {
@@ -128,7 +121,7 @@ type DisplayedColumn_WOP struct {
 
 func (from *DisplayedColumn) GongCopyBasicFields(to *DisplayedColumn) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Row_WOP struct {
@@ -155,8 +148,7 @@ type SVGIcon_WOP struct {
 
 func (from *SVGIcon) GongCopyBasicFields(to *SVGIcon) {
 	// insertion point
-	to.Name = from.Name
-	to.SVG = from.SVG
+	*to = *from
 }
 
 type Table_WOP struct {

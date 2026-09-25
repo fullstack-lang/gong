@@ -15,7 +15,7 @@ type Y_WOP struct {
 
 func (from *Y) GongCopyBasicFields(to *Y) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 // end of insertion point

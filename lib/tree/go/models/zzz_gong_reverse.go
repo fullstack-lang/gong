@@ -26,11 +26,7 @@ func (inst *Button) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Gon
 }
 
 func (inst *Menu) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -58,20 +54,12 @@ func (inst *Node) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongR
 }
 
 func (inst *SVGIcon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Tree) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -96,11 +84,7 @@ func (inst *Button) GongGetReverseFieldOwner(stage *Stage, reverseField *GongRev
 }
 
 func (inst *Menu) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -124,19 +108,11 @@ func (inst *Node) GongGetReverseFieldOwner(stage *Stage, reverseField *GongRever
 }
 
 func (inst *SVGIcon) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Tree) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }

@@ -123,29 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.Diagram]()
-	stage.SetOrchestratorOnAfterUpdate[models.Library]()
-	stage.SetOrchestratorOnAfterUpdate[models.Note]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteProductShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteResourceShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteTaskShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Product]()
-	stage.SetOrchestratorOnAfterUpdate[models.ProductCompositionShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ProductReferenceShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ProductShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Resource]()
-	stage.SetOrchestratorOnAfterUpdate[models.ResourceCompositionShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ResourceShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ResourceTaskShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Task]()
-	stage.SetOrchestratorOnAfterUpdate[models.TaskCompositionShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.TaskGroup]()
-	stage.SetOrchestratorOnAfterUpdate[models.TaskGroupShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.TaskInputShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.TaskOutputShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.TaskPredecessorShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.TaskShape]()
 
 	return
 }

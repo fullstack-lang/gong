@@ -123,10 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.BookType]()
-	stage.SetOrchestratorOnAfterUpdate[models.Books]()
-	stage.SetOrchestratorOnAfterUpdate[models.Credit]()
-	stage.SetOrchestratorOnAfterUpdate[models.Link]()
 
 	return
 }

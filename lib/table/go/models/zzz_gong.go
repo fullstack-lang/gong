@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -2335,7 +2326,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -2457,72 +2447,29 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case Button:
 		return any(&Button{
-			// Initialisation of associations
-			// field is initialized with an instance of SVGIcon with the name of the field
 			SVGIcon: &SVGIcon{Name: "SVGIcon"},
 		}).(*Type)
 	case Cell:
 		return any(&Cell{
-			// Initialisation of associations
-			// field is initialized with an instance of CellString with the name of the field
 			CellString: &CellString{Name: "CellString"},
-			// field is initialized with an instance of CellFloat64 with the name of the field
 			CellFloat64: &CellFloat64{Name: "CellFloat64"},
-			// field is initialized with an instance of CellInt with the name of the field
 			CellInt: &CellInt{Name: "CellInt"},
-			// field is initialized with an instance of CellBoolean with the name of the field
 			CellBool: &CellBoolean{Name: "CellBool"},
-			// field is initialized with an instance of CellIcon with the name of the field
 			CellIcon: &CellIcon{Name: "CellIcon"},
-		}).(*Type)
-	case CellBoolean:
-		return any(&CellBoolean{
-			// Initialisation of associations
-		}).(*Type)
-	case CellFloat64:
-		return any(&CellFloat64{
-			// Initialisation of associations
-		}).(*Type)
-	case CellIcon:
-		return any(&CellIcon{
-			// Initialisation of associations
-		}).(*Type)
-	case CellInt:
-		return any(&CellInt{
-			// Initialisation of associations
-		}).(*Type)
-	case CellString:
-		return any(&CellString{
-			// Initialisation of associations
-		}).(*Type)
-	case DisplayedColumn:
-		return any(&DisplayedColumn{
-			// Initialisation of associations
 		}).(*Type)
 	case Row:
 		return any(&Row{
-			// Initialisation of associations
-			// field is initialized with an instance of Cell with the name of the field
 			Cells: []*Cell{{Name: "Cells"}},
-		}).(*Type)
-	case SVGIcon:
-		return any(&SVGIcon{
-			// Initialisation of associations
 		}).(*Type)
 	case Table:
 		return any(&Table{
-			// Initialisation of associations
-			// field is initialized with an instance of DisplayedColumn with the name of the field
 			DisplayedColumns: []*DisplayedColumn{{Name: "DisplayedColumns"}},
-			// field is initialized with an instance of Row with the name of the field
 			Rows: []*Row{{Name: "Rows"}},
-			// field is initialized with an instance of Row with the name of the field
 			RowsSelectedForBulkDelete: []*Row{{Name: "RowsSelectedForBulkDelete"}},
-			// field is initialized with an instance of Button with the name of the field
 			Buttons: []*Button{{Name: "Buttons"}},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

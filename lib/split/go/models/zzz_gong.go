@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -3679,7 +3670,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -3837,118 +3827,31 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case AsSplit:
 		return any(&AsSplit{
-			// Initialisation of associations
-			// field is initialized with an instance of AsSplitArea with the name of the field
 			AsSplitAreas: []*AsSplitArea{{Name: "AsSplitAreas"}},
 		}).(*Type)
 	case AsSplitArea:
 		return any(&AsSplitArea{
-			// Initialisation of associations
-			// field is initialized with an instance of AsSplit with the name of the field
 			AsSplit: &AsSplit{Name: "AsSplit"},
-			// field is initialized with an instance of Button with the name of the field
 			Button: &Button{Name: "Button"},
-			// field is initialized with an instance of Cursor with the name of the field
 			Cursor: &Cursor{Name: "Cursor"},
-			// field is initialized with an instance of Form with the name of the field
 			Form: &Form{Name: "Form"},
-			// field is initialized with an instance of Load with the name of the field
 			Load: &Load{Name: "Load"},
-			// field is initialized with an instance of Markdown with the name of the field
 			Markdown: &Markdown{Name: "Markdown"},
-			// field is initialized with an instance of Slider with the name of the field
 			Slider: &Slider{Name: "Slider"},
-			// field is initialized with an instance of Split with the name of the field
 			Split: &Split{Name: "Split"},
-			// field is initialized with an instance of Svg with the name of the field
 			Svg: &Svg{Name: "Svg"},
-			// field is initialized with an instance of Table with the name of the field
 			Table: &Table{Name: "Table"},
-			// field is initialized with an instance of Tone with the name of the field
 			Tone: &Tone{Name: "Tone"},
-			// field is initialized with an instance of Tree with the name of the field
 			Tree: &Tree{Name: "Tree"},
-			// field is initialized with an instance of Threejs with the name of the field
 			Threejs: &Threejs{Name: "Threejs"},
-			// field is initialized with an instance of Xlsx with the name of the field
 			Xlsx: &Xlsx{Name: "Xlsx"},
-		}).(*Type)
-	case Button:
-		return any(&Button{
-			// Initialisation of associations
-		}).(*Type)
-	case Cursor:
-		return any(&Cursor{
-			// Initialisation of associations
-		}).(*Type)
-	case FavIcon:
-		return any(&FavIcon{
-			// Initialisation of associations
-		}).(*Type)
-	case Form:
-		return any(&Form{
-			// Initialisation of associations
-		}).(*Type)
-	case Load:
-		return any(&Load{
-			// Initialisation of associations
-		}).(*Type)
-	case LogoOnTheLeft:
-		return any(&LogoOnTheLeft{
-			// Initialisation of associations
-		}).(*Type)
-	case LogoOnTheRight:
-		return any(&LogoOnTheRight{
-			// Initialisation of associations
-		}).(*Type)
-	case Markdown:
-		return any(&Markdown{
-			// Initialisation of associations
-		}).(*Type)
-	case Slider:
-		return any(&Slider{
-			// Initialisation of associations
-		}).(*Type)
-	case Split:
-		return any(&Split{
-			// Initialisation of associations
-		}).(*Type)
-	case Svg:
-		return any(&Svg{
-			// Initialisation of associations
-		}).(*Type)
-	case Table:
-		return any(&Table{
-			// Initialisation of associations
-		}).(*Type)
-	case Threejs:
-		return any(&Threejs{
-			// Initialisation of associations
-		}).(*Type)
-	case Title:
-		return any(&Title{
-			// Initialisation of associations
-		}).(*Type)
-	case Tone:
-		return any(&Tone{
-			// Initialisation of associations
-		}).(*Type)
-	case Tree:
-		return any(&Tree{
-			// Initialisation of associations
 		}).(*Type)
 	case View:
 		return any(&View{
-			// Initialisation of associations
-			// field is initialized with an instance of AsSplitArea with the name of the field
 			RootAsSplitAreas: []*AsSplitArea{{Name: "RootAsSplitAreas"}},
 		}).(*Type)
-	case Xlsx:
-		return any(&Xlsx{
-			// Initialisation of associations
-		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

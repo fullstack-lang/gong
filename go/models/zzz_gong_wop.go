@@ -78,8 +78,7 @@ type GongEnumValue_WOP struct {
 
 func (from *GongEnumValue) GongCopyBasicFields(to *GongEnumValue) {
 	// insertion point
-	to.Name = from.Name
-	to.Value = from.Value
+	*to = *from
 }
 
 type GongLink_WOP struct {
@@ -94,9 +93,7 @@ type GongLink_WOP struct {
 
 func (from *GongLink) GongCopyBasicFields(to *GongLink) {
 	// insertion point
-	to.Name = from.Name
-	to.Recv = from.Recv
-	to.ImportPath = from.ImportPath
+	*to = *from
 }
 
 type GongNote_WOP struct {
@@ -158,14 +155,7 @@ type GongTimeField_WOP struct {
 
 func (from *GongTimeField) GongCopyBasicFields(to *GongTimeField) {
 	// insertion point
-	to.Name = from.Name
-	to.Index = from.Index
-	to.CompositeStructName = from.CompositeStructName
-	to.IsAccordionStart = from.IsAccordionStart
-	to.AccordionName = from.AccordionName
-	to.IsAccordionEnd = from.IsAccordionEnd
-	to.BespokeTimeFormat = from.BespokeTimeFormat
-	to.TimeFormOnly = from.TimeFormOnly
+	*to = *from
 }
 
 type MetaReference_WOP struct {
@@ -176,7 +166,7 @@ type MetaReference_WOP struct {
 
 func (from *MetaReference) GongCopyBasicFields(to *MetaReference) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type ModelPkg_WOP struct {
@@ -223,25 +213,7 @@ type ModelPkg_WOP struct {
 
 func (from *ModelPkg) GongCopyBasicFields(to *ModelPkg) {
 	// insertion point
-	to.Name = from.Name
-	to.PkgGoName = from.PkgGoName
-	to.PkgPath = from.PkgPath
-	to.PathToGoSubDirectory = from.PathToGoSubDirectory
-	to.OrmPkgGenPath = from.OrmPkgGenPath
-	to.DbOrmPkgGenPath = from.DbOrmPkgGenPath
-	to.DbLiteOrmPkgGenPath = from.DbLiteOrmPkgGenPath
-	to.DbPkgGenPath = from.DbPkgGenPath
-	to.ControllersPkgGenPath = from.ControllersPkgGenPath
-	to.FullstackPkgGenPath = from.FullstackPkgGenPath
-	to.StackPkgGenPath = from.StackPkgGenPath
-	to.Level1StackPkgGenPath = from.Level1StackPkgGenPath
-	to.StaticPkgGenPath = from.StaticPkgGenPath
-	to.ProbePkgGenPath = from.ProbePkgGenPath
-	to.NgWorkspacePath = from.NgWorkspacePath
-	to.NgWorkspaceName = from.NgWorkspaceName
-	to.NgDataLibrarySourceCodeDirectory = from.NgDataLibrarySourceCodeDirectory
-	to.NgSpecificLibrarySourceCodeDirectory = from.NgSpecificLibrarySourceCodeDirectory
-	to.MaterialLibDatamodelTargetPath = from.MaterialLibDatamodelTargetPath
+	*to = *from
 }
 
 type PointerToGongStructField_WOP struct {
@@ -315,11 +287,7 @@ type StageSetField_WOP struct {
 
 func (from *StageSetField) GongCopyBasicFields(to *StageSetField) {
 	// insertion point
-	to.Name = from.Name
-	to.PackageName = from.PackageName
-	to.PackagePath = from.PackagePath
-	to.IsLocal = from.IsLocal
-	to.ImportAlias = from.ImportAlias
+	*to = *from
 }
 
 type StageSetModel_WOP struct {

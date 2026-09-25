@@ -123,19 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.ArtefactType]()
-	stage.SetOrchestratorOnAfterUpdate[models.ArtefactTypeShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Artist]()
-	stage.SetOrchestratorOnAfterUpdate[models.ArtistShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ControlPointShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Desk]()
-	stage.SetOrchestratorOnAfterUpdate[models.Diagram]()
-	stage.SetOrchestratorOnAfterUpdate[models.Influence]()
-	stage.SetOrchestratorOnAfterUpdate[models.InfluenceShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Library]()
-	stage.SetOrchestratorOnAfterUpdate[models.Movement]()
-	stage.SetOrchestratorOnAfterUpdate[models.MovementShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Place]()
 
 	return
 }

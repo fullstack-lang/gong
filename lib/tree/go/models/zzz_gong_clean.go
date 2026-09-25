@@ -37,6 +37,10 @@ func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	return
 }
 
+type GongCleaner interface {
+	GongClean(stage *Stage) (modified bool)
+}
+
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Button
 func (button *Button) GongClean(stage *Stage) (modified bool) {
@@ -65,13 +69,6 @@ func (node *Node) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by SVGIcon
-func (svgicon *SVGIcon) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by Tree
 func (tree *Tree) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -83,7 +80,9 @@ func (tree *Tree) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		modified = instance.GongClean(stage) || modified
+		if cleaner, ok := any(instance).(GongCleaner); ok {
+			modified = cleaner.GongClean(stage) || modified
+		}
 	}
 	if modified {
 		if stage.probeIF != nil {

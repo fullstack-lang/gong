@@ -19,9 +19,7 @@ type AnalysisNeed_WOP struct {
 
 func (from *AnalysisNeed) GongCopyBasicFields(to *AnalysisNeed) {
 	// insertion point
-	to.Name = from.Name
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type Concept_WOP struct {
@@ -238,10 +236,7 @@ type ControlPointShape_WOP struct {
 
 func (from *ControlPointShape) GongCopyBasicFields(to *ControlPointShape) {
 	// insertion point
-	to.Name = from.Name
-	to.X_Relative = from.X_Relative
-	to.Y_Relative = from.Y_Relative
-	to.IsStartShapeTheClosestShape = from.IsStartShapeTheClosestShape
+	*to = *from
 }
 
 type Deliverable_WOP struct {
@@ -776,7 +771,7 @@ type Tool_WOP struct {
 
 func (from *Tool) GongCopyBasicFields(to *Tool) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 // end of insertion point

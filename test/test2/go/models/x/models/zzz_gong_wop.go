@@ -15,7 +15,7 @@ type SubModel_WOP struct {
 
 func (from *SubModel) GongCopyBasicFields(to *SubModel) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 // end of insertion point

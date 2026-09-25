@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -1433,7 +1424,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -1531,40 +1521,25 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case Button:
 		return any(&Button{
-			// Initialisation of associations
-			// field is initialized with an instance of SVGIcon with the name of the field
 			SVGIcon: &SVGIcon{Name: "SVGIcon"},
 		}).(*Type)
 	case Menu:
 		return any(&Menu{
-			// Initialisation of associations
-			// field is initialized with an instance of Button with the name of the field
 			Buttons: []*Button{{Name: "Buttons"}},
 		}).(*Type)
 	case Node:
 		return any(&Node{
-			// Initialisation of associations
-			// field is initialized with an instance of SVGIcon with the name of the field
 			PreceedingSVGIcon: &SVGIcon{Name: "PreceedingSVGIcon"},
-			// field is initialized with an instance of Node with the name of the field
 			Children: []*Node{{Name: "Children"}},
-			// field is initialized with an instance of Button with the name of the field
 			Buttons: []*Button{{Name: "Buttons"}},
-			// field is initialized with an instance of Menu with the name of the field
 			Menu: &Menu{Name: "Menu"},
-		}).(*Type)
-	case SVGIcon:
-		return any(&SVGIcon{
-			// Initialisation of associations
 		}).(*Type)
 	case Tree:
 		return any(&Tree{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
 			RootNodes: []*Node{{Name: "RootNodes"}},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

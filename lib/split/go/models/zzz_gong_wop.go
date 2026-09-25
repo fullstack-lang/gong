@@ -66,8 +66,7 @@ type Button_WOP struct {
 
 func (from *Button) GongCopyBasicFields(to *Button) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
+	*to = *from
 }
 
 type Cursor_WOP struct {
@@ -82,9 +81,7 @@ type Cursor_WOP struct {
 
 func (from *Cursor) GongCopyBasicFields(to *Cursor) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
-	to.Style = from.Style
+	*to = *from
 }
 
 type FavIcon_WOP struct {
@@ -97,8 +94,7 @@ type FavIcon_WOP struct {
 
 func (from *FavIcon) GongCopyBasicFields(to *FavIcon) {
 	// insertion point
-	to.Name = from.Name
-	to.SVG = from.SVG
+	*to = *from
 }
 
 type Form_WOP struct {
@@ -111,8 +107,7 @@ type Form_WOP struct {
 
 func (from *Form) GongCopyBasicFields(to *Form) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
+	*to = *from
 }
 
 type Load_WOP struct {
@@ -125,8 +120,7 @@ type Load_WOP struct {
 
 func (from *Load) GongCopyBasicFields(to *Load) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
+	*to = *from
 }
 
 type LogoOnTheLeft_WOP struct {
@@ -143,10 +137,7 @@ type LogoOnTheLeft_WOP struct {
 
 func (from *LogoOnTheLeft) GongCopyBasicFields(to *LogoOnTheLeft) {
 	// insertion point
-	to.Name = from.Name
-	to.Width = from.Width
-	to.Height = from.Height
-	to.SVG = from.SVG
+	*to = *from
 }
 
 type LogoOnTheRight_WOP struct {
@@ -163,10 +154,7 @@ type LogoOnTheRight_WOP struct {
 
 func (from *LogoOnTheRight) GongCopyBasicFields(to *LogoOnTheRight) {
 	// insertion point
-	to.Name = from.Name
-	to.Width = from.Width
-	to.Height = from.Height
-	to.SVG = from.SVG
+	*to = *from
 }
 
 type Markdown_WOP struct {
@@ -179,8 +167,7 @@ type Markdown_WOP struct {
 
 func (from *Markdown) GongCopyBasicFields(to *Markdown) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
+	*to = *from
 }
 
 type Slider_WOP struct {
@@ -193,8 +180,7 @@ type Slider_WOP struct {
 
 func (from *Slider) GongCopyBasicFields(to *Slider) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
+	*to = *from
 }
 
 type Split_WOP struct {
@@ -207,8 +193,7 @@ type Split_WOP struct {
 
 func (from *Split) GongCopyBasicFields(to *Split) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
+	*to = *from
 }
 
 type Svg_WOP struct {
@@ -223,9 +208,7 @@ type Svg_WOP struct {
 
 func (from *Svg) GongCopyBasicFields(to *Svg) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
-	to.Style = from.Style
+	*to = *from
 }
 
 type Table_WOP struct {
@@ -238,8 +221,7 @@ type Table_WOP struct {
 
 func (from *Table) GongCopyBasicFields(to *Table) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
+	*to = *from
 }
 
 type Threejs_WOP struct {
@@ -252,8 +234,7 @@ type Threejs_WOP struct {
 
 func (from *Threejs) GongCopyBasicFields(to *Threejs) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
+	*to = *from
 }
 
 type Title_WOP struct {
@@ -264,7 +245,7 @@ type Title_WOP struct {
 
 func (from *Title) GongCopyBasicFields(to *Title) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Tone_WOP struct {
@@ -277,8 +258,7 @@ type Tone_WOP struct {
 
 func (from *Tone) GongCopyBasicFields(to *Tone) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
+	*to = *from
 }
 
 type Tree_WOP struct {
@@ -291,8 +271,7 @@ type Tree_WOP struct {
 
 func (from *Tree) GongCopyBasicFields(to *Tree) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
+	*to = *from
 }
 
 type View_WOP struct {
@@ -337,8 +316,7 @@ type Xlsx_WOP struct {
 
 func (from *Xlsx) GongCopyBasicFields(to *Xlsx) {
 	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
+	*to = *from
 }
 
 // end of insertion point

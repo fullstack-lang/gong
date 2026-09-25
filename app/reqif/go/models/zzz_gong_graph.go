@@ -1267,11 +1267,6 @@ func (stage *Stage) StageBranch(instance GongstructIF) {
 	}
 }
 
-// StageBranch is a backward-compatible package-level forwarder.
-func StageBranch(stage *Stage, instance GongstructIF) {
-	stage.StageBranch(instance)
-}
-
 // insertion point for stage branch per struct
 func (alternative_id *ALTERNATIVE_ID) GongStageBranch(stage *Stage) {
 	stage.StageBranchALTERNATIVE_ID(alternative_id)
@@ -6418,11 +6413,6 @@ func (stage *Stage) UnstageBranch(instance GongstructIF) {
 	if instance != nil {
 		instance.GongUnstageBranch(stage)
 	}
-}
-
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch(stage *Stage, instance GongstructIF) {
-	stage.UnstageBranch(instance)
 }
 
 // insertion point for unstage branch per struct

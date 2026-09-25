@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -4663,7 +4654,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -4845,278 +4835,162 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case All:
 		return any(&All{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
-			// field is initialized with an instance of Sequence with the name of the field
 			Sequences: []*Sequence{{Name: "Sequences"}},
-			// field is initialized with an instance of All with the name of the field
 			Alls: []*All{{Name: "Alls"}},
-			// field is initialized with an instance of Choice with the name of the field
 			Choices: []*Choice{{Name: "Choices"}},
-			// field is initialized with an instance of Group with the name of the field
 			Groups: []*Group{{Name: "Groups"}},
-			// field is initialized with an instance of Element with the name of the field
 			Elements: []*Element{{Name: "Elements"}},
 		}).(*Type)
 	case Annotation:
 		return any(&Annotation{
-			// Initialisation of associations
-			// field is initialized with an instance of Documentation with the name of the field
 			Documentations: []*Documentation{{Name: "Documentations"}},
 		}).(*Type)
 	case Attribute:
 		return any(&Attribute{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case AttributeGroup:
 		return any(&AttributeGroup{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
-			// field is initialized with an instance of AttributeGroup with the name of the field
 			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
-			// field is initialized with an instance of Attribute with the name of the field
 			Attributes: []*Attribute{{Name: "Attributes"}},
 		}).(*Type)
 	case Choice:
 		return any(&Choice{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
-			// field is initialized with an instance of Sequence with the name of the field
 			Sequences: []*Sequence{{Name: "Sequences"}},
-			// field is initialized with an instance of All with the name of the field
 			Alls: []*All{{Name: "Alls"}},
-			// field is initialized with an instance of Choice with the name of the field
 			Choices: []*Choice{{Name: "Choices"}},
-			// field is initialized with an instance of Group with the name of the field
 			Groups: []*Group{{Name: "Groups"}},
-			// field is initialized with an instance of Element with the name of the field
 			Elements: []*Element{{Name: "Elements"}},
-		}).(*Type)
-	case ComplexContent:
-		return any(&ComplexContent{
-			// Initialisation of associations
 		}).(*Type)
 	case ComplexType:
 		return any(&ComplexType{
-			// Initialisation of associations
-			// field is initialized with an instance of Element with the name of the field
 			OuterElement: &Element{Name: "OuterElement"},
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
-			// field is initialized with an instance of Sequence with the name of the field
 			Sequences: []*Sequence{{Name: "Sequences"}},
-			// field is initialized with an instance of All with the name of the field
 			Alls: []*All{{Name: "Alls"}},
-			// field is initialized with an instance of Choice with the name of the field
 			Choices: []*Choice{{Name: "Choices"}},
-			// field is initialized with an instance of Group with the name of the field
 			Groups: []*Group{{Name: "Groups"}},
-			// field is initialized with an instance of Element with the name of the field
 			Elements: []*Element{{Name: "Elements"}},
-			// field is initialized with an instance of Extension with the name of the field
 			Extension: &Extension{Name: "Extension"},
-			// field is initialized with an instance of SimpleContent with the name of the field
 			SimpleContent: &SimpleContent{Name: "SimpleContent"},
-			// field is initialized with an instance of ComplexContent with the name of the field
 			ComplexContent: &ComplexContent{Name: "ComplexContent"},
-			// field is initialized with an instance of Attribute with the name of the field
 			Attributes: []*Attribute{{Name: "Attributes"}},
-			// field is initialized with an instance of AttributeGroup with the name of the field
 			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
-		}).(*Type)
-	case Documentation:
-		return any(&Documentation{
-			// Initialisation of associations
 		}).(*Type)
 	case Element:
 		return any(&Element{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
-			// field is initialized with an instance of SimpleType with the name of the field
 			SimpleType: &SimpleType{Name: "SimpleType"},
-			// field is initialized with an instance of ComplexType with the name of the field
 			ComplexType: &ComplexType{Name: "ComplexType"},
-			// field is initialized with an instance of Group with the name of the field
 			Groups: []*Group{{Name: "Groups"}},
 		}).(*Type)
 	case Enumeration:
 		return any(&Enumeration{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case Extension:
 		return any(&Extension{
-			// Initialisation of associations
-			// field is initialized with an instance of Sequence with the name of the field
 			Sequences: []*Sequence{{Name: "Sequences"}},
-			// field is initialized with an instance of All with the name of the field
 			Alls: []*All{{Name: "Alls"}},
-			// field is initialized with an instance of Choice with the name of the field
 			Choices: []*Choice{{Name: "Choices"}},
-			// field is initialized with an instance of Group with the name of the field
 			Groups: []*Group{{Name: "Groups"}},
-			// field is initialized with an instance of Element with the name of the field
 			Elements: []*Element{{Name: "Elements"}},
-			// field is initialized with an instance of Attribute with the name of the field
 			Attributes: []*Attribute{{Name: "Attributes"}},
-			// field is initialized with an instance of AttributeGroup with the name of the field
 			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
 		}).(*Type)
 	case Group:
 		return any(&Group{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
-			// field is initialized with an instance of Element with the name of the field
 			OuterElement: &Element{Name: "OuterElement"},
-			// field is initialized with an instance of Sequence with the name of the field
 			Sequences: []*Sequence{{Name: "Sequences"}},
-			// field is initialized with an instance of All with the name of the field
 			Alls: []*All{{Name: "Alls"}},
-			// field is initialized with an instance of Choice with the name of the field
 			Choices: []*Choice{{Name: "Choices"}},
-			// field is initialized with an instance of Group with the name of the field
 			Groups: []*Group{{Name: "Groups"}},
-			// field is initialized with an instance of Element with the name of the field
 			Elements: []*Element{{Name: "Elements"}},
 		}).(*Type)
 	case Length:
 		return any(&Length{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case MaxInclusive:
 		return any(&MaxInclusive{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case MaxLength:
 		return any(&MaxLength{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case MinInclusive:
 		return any(&MinInclusive{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case MinLength:
 		return any(&MinLength{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case Pattern:
 		return any(&Pattern{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case Restriction:
 		return any(&Restriction{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
-			// field is initialized with an instance of Enumeration with the name of the field
 			Enumerations: []*Enumeration{{Name: "Enumerations"}},
-			// field is initialized with an instance of MinInclusive with the name of the field
 			MinInclusive: &MinInclusive{Name: "MinInclusive"},
-			// field is initialized with an instance of MaxInclusive with the name of the field
 			MaxInclusive: &MaxInclusive{Name: "MaxInclusive"},
-			// field is initialized with an instance of Pattern with the name of the field
 			Pattern: &Pattern{Name: "Pattern"},
-			// field is initialized with an instance of WhiteSpace with the name of the field
 			WhiteSpace: &WhiteSpace{Name: "WhiteSpace"},
-			// field is initialized with an instance of MinLength with the name of the field
 			MinLength: &MinLength{Name: "MinLength"},
-			// field is initialized with an instance of MaxLength with the name of the field
 			MaxLength: &MaxLength{Name: "MaxLength"},
-			// field is initialized with an instance of Length with the name of the field
 			Length: &Length{Name: "Length"},
-			// field is initialized with an instance of TotalDigit with the name of the field
 			TotalDigit: &TotalDigit{Name: "TotalDigit"},
 		}).(*Type)
 	case Schema:
 		return any(&Schema{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
-			// field is initialized with an instance of Element with the name of the field
 			Elements: []*Element{{Name: "Elements"}},
-			// field is initialized with an instance of SimpleType with the name of the field
 			SimpleTypes: []*SimpleType{{Name: "SimpleTypes"}},
-			// field is initialized with an instance of ComplexType with the name of the field
 			ComplexTypes: []*ComplexType{{Name: "ComplexTypes"}},
-			// field is initialized with an instance of AttributeGroup with the name of the field
 			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
-			// field is initialized with an instance of Group with the name of the field
 			Groups: []*Group{{Name: "Groups"}},
 		}).(*Type)
 	case Sequence:
 		return any(&Sequence{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
-			// field is initialized with an instance of Sequence with the name of the field
 			Sequences: []*Sequence{{Name: "Sequences"}},
-			// field is initialized with an instance of All with the name of the field
 			Alls: []*All{{Name: "Alls"}},
-			// field is initialized with an instance of Choice with the name of the field
 			Choices: []*Choice{{Name: "Choices"}},
-			// field is initialized with an instance of Group with the name of the field
 			Groups: []*Group{{Name: "Groups"}},
-			// field is initialized with an instance of Element with the name of the field
 			Elements: []*Element{{Name: "Elements"}},
 		}).(*Type)
 	case SimpleContent:
 		return any(&SimpleContent{
-			// Initialisation of associations
-			// field is initialized with an instance of Extension with the name of the field
 			Extension: &Extension{Name: "Extension"},
-			// field is initialized with an instance of Restriction with the name of the field
 			Restriction: &Restriction{Name: "Restriction"},
 		}).(*Type)
 	case SimpleType:
 		return any(&SimpleType{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
-			// field is initialized with an instance of Restriction with the name of the field
 			Restriction: &Restriction{Name: "Restriction"},
-			// field is initialized with an instance of Union with the name of the field
 			Union: &Union{Name: "Union"},
 		}).(*Type)
 	case TotalDigit:
 		return any(&TotalDigit{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case Union:
 		return any(&Union{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case WhiteSpace:
 		return any(&WhiteSpace{
-			// Initialisation of associations
-			// field is initialized with an instance of Annotation with the name of the field
 			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

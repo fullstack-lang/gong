@@ -98,13 +98,7 @@ type Data_WOP struct {
 
 func (from *Data) GongCopyBasicFields(to *Data) {
 	// insertion point
-	to.Name = from.Name
-	to.Acronym = from.Acronym
-	to.Description = from.Description
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
-	to.SVG_Path = from.SVG_Path
-	to.InverseAppliedScaling = from.InverseAppliedScaling
+	*to = *from
 }
 
 type DataFlow_WOP struct {
@@ -514,21 +508,7 @@ type PartAnchoredPath_WOP struct {
 
 func (from *PartAnchoredPath) GongCopyBasicFields(to *PartAnchoredPath) {
 	// insertion point
-	to.Name = from.Name
-	to.Definition = from.Definition
-	to.X_Offset = from.X_Offset
-	to.Y_Offset = from.Y_Offset
-	to.RectAnchorType = from.RectAnchorType
-	to.ScalePropotionnally = from.ScalePropotionnally
-	to.AppliedScaling = from.AppliedScaling
-	to.Color = from.Color
-	to.FillOpacity = from.FillOpacity
-	to.Stroke = from.Stroke
-	to.StrokeOpacity = from.StrokeOpacity
-	to.StrokeWidth = from.StrokeWidth
-	to.StrokeDashArray = from.StrokeDashArray
-	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
-	to.Transform = from.Transform
+	*to = *from
 }
 
 type PartShape_WOP struct {
@@ -574,10 +554,7 @@ type Port_WOP struct {
 
 func (from *Port) GongCopyBasicFields(to *Port) {
 	// insertion point
-	to.Name = from.Name
-	to.Description = from.Description
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type PortShape_WOP struct {
@@ -629,13 +606,7 @@ type Resource_WOP struct {
 
 func (from *Resource) GongCopyBasicFields(to *Resource) {
 	// insertion point
-	to.Name = from.Name
-	to.Acronym = from.Acronym
-	to.Description = from.Description
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
-	to.SVG_Path = from.SVG_Path
-	to.InverseAppliedScaling = from.InverseAppliedScaling
+	*to = *from
 }
 
 type SemanticTag_WOP struct {

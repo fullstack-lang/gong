@@ -123,9 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.A]()
-	stage.SetOrchestratorOnAfterUpdate[models.B]()
-	stage.SetOrchestratorOnAfterUpdate[models.C]()
 
 	return
 }

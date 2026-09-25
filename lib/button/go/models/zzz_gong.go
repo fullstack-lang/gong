@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -1433,7 +1424,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -1529,36 +1519,21 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case Button:
-		return any(&Button{
-			// Initialisation of associations
-		}).(*Type)
-	case ButtonToggle:
-		return any(&ButtonToggle{
-			// Initialisation of associations
-		}).(*Type)
 	case Group:
 		return any(&Group{
-			// Initialisation of associations
-			// field is initialized with an instance of Button with the name of the field
 			Buttons: []*Button{{Name: "Buttons"}},
 		}).(*Type)
 	case GroupToogle:
 		return any(&GroupToogle{
-			// Initialisation of associations
-			// field is initialized with an instance of ButtonToggle with the name of the field
 			ButtonToggles: []*ButtonToggle{{Name: "ButtonToggles"}},
 		}).(*Type)
 	case Layout:
 		return any(&Layout{
-			// Initialisation of associations
-			// field is initialized with an instance of Group with the name of the field
 			Groups: []*Group{{Name: "Groups"}},
-			// field is initialized with an instance of GroupToogle with the name of the field
 			GroupToogles: []*GroupToogle{{Name: "GroupToogles"}},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

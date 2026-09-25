@@ -123,18 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.CompareAnalysis]()
-	stage.SetOrchestratorOnAfterUpdate[models.Complexity]()
-	stage.SetOrchestratorOnAfterUpdate[models.DiagramFlossEquation]()
-	stage.SetOrchestratorOnAfterUpdate[models.Effort]()
-	stage.SetOrchestratorOnAfterUpdate[models.Library]()
-	stage.SetOrchestratorOnAfterUpdate[models.Note]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteComplexityShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteEffortShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NotePerformanceShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Performance]()
-	stage.SetOrchestratorOnAfterUpdate[models.System]()
 
 	return
 }

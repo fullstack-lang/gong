@@ -123,37 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.ActorState]()
-	stage.SetOrchestratorOnAfterUpdate[models.ActorStateShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ActorStateTransition]()
-	stage.SetOrchestratorOnAfterUpdate[models.ActorStateTransitionShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Analysis]()
-	stage.SetOrchestratorOnAfterUpdate[models.ControlPointShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Diagram]()
-	stage.SetOrchestratorOnAfterUpdate[models.Document]()
-	stage.SetOrchestratorOnAfterUpdate[models.DocumentUse]()
-	stage.SetOrchestratorOnAfterUpdate[models.EvolutionDirection]()
-	stage.SetOrchestratorOnAfterUpdate[models.EvolutionDirectionShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Foo]()
-	stage.SetOrchestratorOnAfterUpdate[models.GeoObject]()
-	stage.SetOrchestratorOnAfterUpdate[models.GeoObjectUse]()
-	stage.SetOrchestratorOnAfterUpdate[models.Group]()
-	stage.SetOrchestratorOnAfterUpdate[models.GroupUse]()
-	stage.SetOrchestratorOnAfterUpdate[models.Library]()
-	stage.SetOrchestratorOnAfterUpdate[models.MapObject]()
-	stage.SetOrchestratorOnAfterUpdate[models.MapObjectUse]()
-	stage.SetOrchestratorOnAfterUpdate[models.Parameter]()
-	stage.SetOrchestratorOnAfterUpdate[models.ParameterCategory]()
-	stage.SetOrchestratorOnAfterUpdate[models.ParameterCategoryUse]()
-	stage.SetOrchestratorOnAfterUpdate[models.ParameterShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ParametersAggregate]()
-	stage.SetOrchestratorOnAfterUpdate[models.ParametersAggregateShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Position]()
-	stage.SetOrchestratorOnAfterUpdate[models.Repository]()
-	stage.SetOrchestratorOnAfterUpdate[models.Scenario]()
-	stage.SetOrchestratorOnAfterUpdate[models.User]()
-	stage.SetOrchestratorOnAfterUpdate[models.UserUse]()
-	stage.SetOrchestratorOnAfterUpdate[models.Workspace]()
 
 	return
 }

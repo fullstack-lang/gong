@@ -15,7 +15,7 @@ type Freqency_WOP struct {
 
 func (from *Freqency) GongCopyBasicFields(to *Freqency) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Note_WOP struct {
@@ -51,8 +51,7 @@ type Player_WOP struct {
 
 func (from *Player) GongCopyBasicFields(to *Player) {
 	// insertion point
-	to.Name = from.Name
-	to.Status = from.Status
+	*to = *from
 }
 
 // end of insertion point

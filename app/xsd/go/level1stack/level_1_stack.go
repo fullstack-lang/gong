@@ -123,32 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.All]()
-	stage.SetOrchestratorOnAfterUpdate[models.Annotation]()
-	stage.SetOrchestratorOnAfterUpdate[models.Attribute]()
-	stage.SetOrchestratorOnAfterUpdate[models.AttributeGroup]()
-	stage.SetOrchestratorOnAfterUpdate[models.Choice]()
-	stage.SetOrchestratorOnAfterUpdate[models.ComplexContent]()
-	stage.SetOrchestratorOnAfterUpdate[models.ComplexType]()
-	stage.SetOrchestratorOnAfterUpdate[models.Documentation]()
-	stage.SetOrchestratorOnAfterUpdate[models.Element]()
-	stage.SetOrchestratorOnAfterUpdate[models.Enumeration]()
-	stage.SetOrchestratorOnAfterUpdate[models.Extension]()
-	stage.SetOrchestratorOnAfterUpdate[models.Group]()
-	stage.SetOrchestratorOnAfterUpdate[models.Length]()
-	stage.SetOrchestratorOnAfterUpdate[models.MaxInclusive]()
-	stage.SetOrchestratorOnAfterUpdate[models.MaxLength]()
-	stage.SetOrchestratorOnAfterUpdate[models.MinInclusive]()
-	stage.SetOrchestratorOnAfterUpdate[models.MinLength]()
-	stage.SetOrchestratorOnAfterUpdate[models.Pattern]()
-	stage.SetOrchestratorOnAfterUpdate[models.Restriction]()
-	stage.SetOrchestratorOnAfterUpdate[models.Schema]()
-	stage.SetOrchestratorOnAfterUpdate[models.Sequence]()
-	stage.SetOrchestratorOnAfterUpdate[models.SimpleContent]()
-	stage.SetOrchestratorOnAfterUpdate[models.SimpleType]()
-	stage.SetOrchestratorOnAfterUpdate[models.TotalDigit]()
-	stage.SetOrchestratorOnAfterUpdate[models.Union]()
-	stage.SetOrchestratorOnAfterUpdate[models.WhiteSpace]()
 
 	return
 }

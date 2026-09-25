@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -3091,7 +3082,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -3233,142 +3223,87 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case Body:
 		return any(&Body{
-			// Initialisation of associations
-			// field is initialized with an instance of Paragraph with the name of the field
 			Paragraphs: []*Paragraph{{Name: "Paragraphs"}},
-			// field is initialized with an instance of Table with the name of the field
 			Tables: []*Table{{Name: "Tables"}},
-			// field is initialized with an instance of Paragraph with the name of the field
 			LastParagraph: &Paragraph{Name: "LastParagraph"},
 		}).(*Type)
 	case Document:
 		return any(&Document{
-			// Initialisation of associations
-			// field is initialized with an instance of File with the name of the field
 			File: &File{Name: "File"},
-			// field is initialized with an instance of Node with the name of the field
 			Root: &Node{Name: "Root"},
-			// field is initialized with an instance of Body with the name of the field
 			Body: &Body{Name: "Body"},
 		}).(*Type)
 	case Docx:
 		return any(&Docx{
-			// Initialisation of associations
-			// field is initialized with an instance of File with the name of the field
 			Files: []*File{{Name: "Files"}},
-			// field is initialized with an instance of Document with the name of the field
 			Document: &Document{Name: "Document"},
-		}).(*Type)
-	case File:
-		return any(&File{
-			// Initialisation of associations
 		}).(*Type)
 	case Node:
 		return any(&Node{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
 			Nodes: []*Node{{Name: "Nodes"}},
 		}).(*Type)
 	case Paragraph:
 		return any(&Paragraph{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
 			Node: &Node{Name: "Node"},
-			// field is initialized with an instance of ParagraphProperties with the name of the field
 			ParagraphProperties: &ParagraphProperties{Name: "ParagraphProperties"},
-			// field is initialized with an instance of Rune with the name of the field
 			Runes: []*Rune{{Name: "Runes"}},
-			// field is initialized with an instance of Paragraph with the name of the field
 			Next: &Paragraph{Name: "Next"},
-			// field is initialized with an instance of Paragraph with the name of the field
 			Previous: &Paragraph{Name: "Previous"},
-			// field is initialized with an instance of Body with the name of the field
 			EnclosingBody: &Body{Name: "EnclosingBody"},
-			// field is initialized with an instance of TableColumn with the name of the field
 			EnclosingTableColumn: &TableColumn{Name: "EnclosingTableColumn"},
 		}).(*Type)
 	case ParagraphProperties:
 		return any(&ParagraphProperties{
-			// Initialisation of associations
-			// field is initialized with an instance of ParagraphStyle with the name of the field
 			ParagraphStyle: &ParagraphStyle{Name: "ParagraphStyle"},
-			// field is initialized with an instance of Node with the name of the field
 			Node: &Node{Name: "Node"},
 		}).(*Type)
 	case ParagraphStyle:
 		return any(&ParagraphStyle{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
 			Node: &Node{Name: "Node"},
 		}).(*Type)
 	case Rune:
 		return any(&Rune{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
 			Node: &Node{Name: "Node"},
-			// field is initialized with an instance of Text with the name of the field
 			Text: &Text{Name: "Text"},
-			// field is initialized with an instance of RuneProperties with the name of the field
 			RuneProperties: &RuneProperties{Name: "RuneProperties"},
-			// field is initialized with an instance of Paragraph with the name of the field
 			EnclosingParagraph: &Paragraph{Name: "EnclosingParagraph"},
 		}).(*Type)
 	case RuneProperties:
 		return any(&RuneProperties{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
 			Node: &Node{Name: "Node"},
 		}).(*Type)
 	case Table:
 		return any(&Table{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
 			Node: &Node{Name: "Node"},
-			// field is initialized with an instance of TableProperties with the name of the field
 			TableProperties: &TableProperties{Name: "TableProperties"},
-			// field is initialized with an instance of TableRow with the name of the field
 			TableRows: []*TableRow{{Name: "TableRows"}},
 		}).(*Type)
 	case TableColumn:
 		return any(&TableColumn{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
 			Node: &Node{Name: "Node"},
-			// field is initialized with an instance of Paragraph with the name of the field
 			Paragraphs: []*Paragraph{{Name: "Paragraphs"}},
 		}).(*Type)
 	case TableProperties:
 		return any(&TableProperties{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
 			Node: &Node{Name: "Node"},
-			// field is initialized with an instance of TableStyle with the name of the field
 			TableStyle: &TableStyle{Name: "TableStyle"},
 		}).(*Type)
 	case TableRow:
 		return any(&TableRow{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
 			Node: &Node{Name: "Node"},
-			// field is initialized with an instance of TableColumn with the name of the field
 			TableColumns: []*TableColumn{{Name: "TableColumns"}},
 		}).(*Type)
 	case TableStyle:
 		return any(&TableStyle{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
 			Node: &Node{Name: "Node"},
 		}).(*Type)
 	case Text:
 		return any(&Text{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
 			Node: &Node{Name: "Node"},
-			// field is initialized with an instance of Rune with the name of the field
 			EnclosingRune: &Rune{Name: "EnclosingRune"},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

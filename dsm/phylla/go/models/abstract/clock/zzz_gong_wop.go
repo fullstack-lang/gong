@@ -29,14 +29,7 @@ type ClockAbstract_WOP struct {
 
 func (from *ClockAbstract) GongCopyBasicFields(to *ClockAbstract) {
 	// insertion point
-	to.Name = from.Name
-	to.RadialRepetitions = from.RadialRepetitions
-	to.Transparency = from.Transparency
-	to.RelativeTubeDiameter = from.RelativeTubeDiameter
-	to.RelativeHeight3DTorus = from.RelativeHeight3DTorus
-	to.ClockTorusVerticalScale = from.ClockTorusVerticalScale
-	to.RelativeHeight = from.RelativeHeight
-	to.ProjectionAngle = from.ProjectionAngle
+	*to = *from
 }
 
 // end of insertion point

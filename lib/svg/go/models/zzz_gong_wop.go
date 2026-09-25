@@ -27,13 +27,7 @@ type Animate_WOP struct {
 
 func (from *Animate) GongCopyBasicFields(to *Animate) {
 	// insertion point
-	to.Name = from.Name
-	to.AttributeName = from.AttributeName
-	to.Values = from.Values
-	to.From = from.From
-	to.To = from.To
-	to.Dur = from.Dur
-	to.RepeatCount = from.RepeatCount
+	*to = *from
 }
 
 type Circle_WOP struct {
@@ -88,7 +82,7 @@ type Condition_WOP struct {
 
 func (from *Condition) GongCopyBasicFields(to *Condition) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type ControlPoint_WOP struct {
@@ -165,8 +159,7 @@ type FileToDownload_WOP struct {
 
 func (from *FileToDownload) GongCopyBasicFields(to *FileToDownload) {
 	// insertion point
-	to.Name = from.Name
-	to.Base64EncodedContent = from.Base64EncodedContent
+	*to = *from
 }
 
 type Layer_WOP struct {
@@ -359,20 +352,7 @@ type LinkAnchoredPath_WOP struct {
 
 func (from *LinkAnchoredPath) GongCopyBasicFields(to *LinkAnchoredPath) {
 	// insertion point
-	to.Name = from.Name
-	to.Definition = from.Definition
-	to.X_Offset = from.X_Offset
-	to.Y_Offset = from.Y_Offset
-	to.ScalePropotionnally = from.ScalePropotionnally
-	to.AppliedScaling = from.AppliedScaling
-	to.Color = from.Color
-	to.FillOpacity = from.FillOpacity
-	to.Stroke = from.Stroke
-	to.StrokeOpacity = from.StrokeOpacity
-	to.StrokeWidth = from.StrokeWidth
-	to.StrokeDashArray = from.StrokeDashArray
-	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
-	to.Transform = from.Transform
+	*to = *from
 }
 
 type LinkAnchoredText_WOP struct {
@@ -493,9 +473,7 @@ type Point_WOP struct {
 
 func (from *Point) GongCopyBasicFields(to *Point) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
+	*to = *from
 }
 
 type Polygone_WOP struct {
@@ -738,21 +716,7 @@ type RectAnchoredPath_WOP struct {
 
 func (from *RectAnchoredPath) GongCopyBasicFields(to *RectAnchoredPath) {
 	// insertion point
-	to.Name = from.Name
-	to.Definition = from.Definition
-	to.X_Offset = from.X_Offset
-	to.Y_Offset = from.Y_Offset
-	to.RectAnchorType = from.RectAnchorType
-	to.ScalePropotionnally = from.ScalePropotionnally
-	to.AppliedScaling = from.AppliedScaling
-	to.Color = from.Color
-	to.FillOpacity = from.FillOpacity
-	to.Stroke = from.Stroke
-	to.StrokeOpacity = from.StrokeOpacity
-	to.StrokeWidth = from.StrokeWidth
-	to.StrokeDashArray = from.StrokeDashArray
-	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
-	to.Transform = from.Transform
+	*to = *from
 }
 
 type RectAnchoredPngImage_WOP struct {
@@ -781,16 +745,7 @@ type RectAnchoredPngImage_WOP struct {
 
 func (from *RectAnchoredPngImage) GongCopyBasicFields(to *RectAnchoredPngImage) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
-	to.Width = from.Width
-	to.Height = from.Height
-	to.RX = from.RX
-	to.X_Offset = from.X_Offset
-	to.Y_Offset = from.Y_Offset
-	to.RectAnchorType = from.RectAnchorType
-	to.Base64Content = from.Base64Content
+	*to = *from
 }
 
 type RectAnchoredRect_WOP struct {
@@ -841,27 +796,7 @@ type RectAnchoredRect_WOP struct {
 
 func (from *RectAnchoredRect) GongCopyBasicFields(to *RectAnchoredRect) {
 	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
-	to.Width = from.Width
-	to.Height = from.Height
-	to.RX = from.RX
-	to.X_Offset = from.X_Offset
-	to.Y_Offset = from.Y_Offset
-	to.RectAnchorType = from.RectAnchorType
-	to.WidthFollowRect = from.WidthFollowRect
-	to.HeightFollowRect = from.HeightFollowRect
-	to.HasToolTip = from.HasToolTip
-	to.ToolTipText = from.ToolTipText
-	to.Color = from.Color
-	to.FillOpacity = from.FillOpacity
-	to.Stroke = from.Stroke
-	to.StrokeOpacity = from.StrokeOpacity
-	to.StrokeWidth = from.StrokeWidth
-	to.StrokeDashArray = from.StrokeDashArray
-	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
-	to.Transform = from.Transform
+	*to = *from
 }
 
 type RectAnchoredText_WOP struct {
@@ -1042,8 +977,7 @@ type SvgText_WOP struct {
 
 func (from *SvgText) GongCopyBasicFields(to *SvgText) {
 	// insertion point
-	to.Name = from.Name
-	to.Text = from.Text
+	*to = *from
 }
 
 type Text_WOP struct {

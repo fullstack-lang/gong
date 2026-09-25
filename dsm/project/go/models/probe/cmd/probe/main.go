@@ -49,7 +49,7 @@ func executeServer() {
 	// Create root split stage for the probe
 	rootSplitStage := splitlite_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
 
-	splitlite.StageBranch(rootSplitStage, &splitlite.View{
+	rootSplitStage.StageBranch(&splitlite.View{
 		Name: "Data Probe & Data Model",
 		RootAsSplitAreas: []*splitlite.AsSplitArea{
 			{

@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -4211,7 +4202,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -4381,238 +4371,145 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case Diagram:
 		return any(&Diagram{
-			// Initialisation of associations
-			// field is initialized with an instance of ProductShape with the name of the field
 			Product_Shapes: []*ProductShape{{Name: "Product_Shapes"}},
-			// field is initialized with an instance of Product with the name of the field
 			ProductsWhoseNodeIsExpanded: []*Product{{Name: "ProductsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ProductCompositionShape with the name of the field
 			ProductComposition_Shapes: []*ProductCompositionShape{{Name: "ProductComposition_Shapes"}},
-			// field is initialized with an instance of ProductReferenceShape with the name of the field
 			ProductReference_Shapes: []*ProductReferenceShape{{Name: "ProductReference_Shapes"}},
-			// field is initialized with an instance of TaskShape with the name of the field
 			Task_Shapes: []*TaskShape{{Name: "Task_Shapes"}},
-			// field is initialized with an instance of Task with the name of the field
 			TasksWhoseNodeIsExpanded: []*Task{{Name: "TasksWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Task with the name of the field
 			TasksWhoseInputNodeIsExpanded: []*Task{{Name: "TasksWhoseInputNodeIsExpanded"}},
-			// field is initialized with an instance of Task with the name of the field
 			TasksWhoseOutputNodeIsExpanded: []*Task{{Name: "TasksWhoseOutputNodeIsExpanded"}},
-			// field is initialized with an instance of Task with the name of the field
 			TasksWhosePredecessorNodeIsExpanded: []*Task{{Name: "TasksWhosePredecessorNodeIsExpanded"}},
-			// field is initialized with an instance of TaskGroupShape with the name of the field
 			TaskGroupShapes: []*TaskGroupShape{{Name: "TaskGroupShapes"}},
-			// field is initialized with an instance of TaskGroup with the name of the field
 			TaskGroupsWhoseNodeIsExpanded: []*TaskGroup{{Name: "TaskGroupsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of TaskCompositionShape with the name of the field
 			TaskComposition_Shapes: []*TaskCompositionShape{{Name: "TaskComposition_Shapes"}},
-			// field is initialized with an instance of TaskInputShape with the name of the field
 			TaskInputShapes: []*TaskInputShape{{Name: "TaskInputShapes"}},
-			// field is initialized with an instance of TaskOutputShape with the name of the field
 			TaskOutputShapes: []*TaskOutputShape{{Name: "TaskOutputShapes"}},
-			// field is initialized with an instance of TaskPredecessorShape with the name of the field
 			TaskPredecessorShapes: []*TaskPredecessorShape{{Name: "TaskPredecessorShapes"}},
-			// field is initialized with an instance of NoteShape with the name of the field
 			Note_Shapes: []*NoteShape{{Name: "Note_Shapes"}},
-			// field is initialized with an instance of Note with the name of the field
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of NoteProductShape with the name of the field
 			NoteProductShapes: []*NoteProductShape{{Name: "NoteProductShapes"}},
-			// field is initialized with an instance of NoteTaskShape with the name of the field
 			NoteTaskShapes: []*NoteTaskShape{{Name: "NoteTaskShapes"}},
-			// field is initialized with an instance of NoteResourceShape with the name of the field
 			NoteResourceShapes: []*NoteResourceShape{{Name: "NoteResourceShapes"}},
-			// field is initialized with an instance of ResourceShape with the name of the field
 			Resource_Shapes: []*ResourceShape{{Name: "Resource_Shapes"}},
-			// field is initialized with an instance of Resource with the name of the field
 			ResourcesWhoseNodeIsExpanded: []*Resource{{Name: "ResourcesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ResourceCompositionShape with the name of the field
 			ResourceComposition_Shapes: []*ResourceCompositionShape{{Name: "ResourceComposition_Shapes"}},
-			// field is initialized with an instance of ResourceTaskShape with the name of the field
 			ResourceTaskShapes: []*ResourceTaskShape{{Name: "ResourceTaskShapes"}},
 		}).(*Type)
 	case Library:
 		return any(&Library{
-			// Initialisation of associations
-			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
-			// field is initialized with an instance of Product with the name of the field
 			RootProducts: []*Product{{Name: "RootProducts"}},
-			// field is initialized with an instance of Task with the name of the field
 			RootTasks: []*Task{{Name: "RootTasks"}},
-			// field is initialized with an instance of TaskGroup with the name of the field
 			RootTaskGroups: []*TaskGroup{{Name: "RootTaskGroups"}},
-			// field is initialized with an instance of Resource with the name of the field
 			RootResources: []*Resource{{Name: "RootResources"}},
-			// field is initialized with an instance of Note with the name of the field
 			Notes: []*Note{{Name: "Notes"}},
-			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
 		}).(*Type)
 	case Note:
 		return any(&Note{
-			// Initialisation of associations
-			// field is initialized with an instance of Product with the name of the field
 			Products: []*Product{{Name: "Products"}},
-			// field is initialized with an instance of Task with the name of the field
 			Tasks: []*Task{{Name: "Tasks"}},
-			// field is initialized with an instance of Resource with the name of the field
 			Resources: []*Resource{{Name: "Resources"}},
 		}).(*Type)
 	case NoteProductShape:
 		return any(&NoteProductShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Product with the name of the field
 			Product: &Product{Name: "Product"},
 		}).(*Type)
 	case NoteResourceShape:
 		return any(&NoteResourceShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Resource with the name of the field
 			Resource: &Resource{Name: "Resource"},
 		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
 		}).(*Type)
 	case NoteTaskShape:
 		return any(&NoteTaskShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Task with the name of the field
 			Task: &Task{Name: "Task"},
 		}).(*Type)
 	case Product:
 		return any(&Product{
-			// Initialisation of associations
-			// field is initialized with an instance of Product with the name of the field
 			SubProducts: []*Product{{Name: "SubProducts"}},
-			// field is initialized with an instance of Product with the name of the field
 			ReferencedProduct: &Product{Name: "ReferencedProduct"},
 		}).(*Type)
 	case ProductCompositionShape:
 		return any(&ProductCompositionShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Product with the name of the field
 			Product: &Product{Name: "Product"},
 		}).(*Type)
 	case ProductReferenceShape:
 		return any(&ProductReferenceShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Product with the name of the field
 			Product: &Product{Name: "Product"},
-			// field is initialized with an instance of Product with the name of the field
 			ReferencedProduct: &Product{Name: "ReferencedProduct"},
 		}).(*Type)
 	case ProductShape:
 		return any(&ProductShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Product with the name of the field
 			Product: &Product{Name: "Product"},
 		}).(*Type)
 	case Resource:
 		return any(&Resource{
-			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
 			Tasks: []*Task{{Name: "Tasks"}},
-			// field is initialized with an instance of Resource with the name of the field
 			SubResources: []*Resource{{Name: "SubResources"}},
-			// field is initialized with an instance of Resource with the name of the field
 			ReferencedResource: &Resource{Name: "ReferencedResource"},
 		}).(*Type)
 	case ResourceCompositionShape:
 		return any(&ResourceCompositionShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Resource with the name of the field
 			Resource: &Resource{Name: "Resource"},
 		}).(*Type)
 	case ResourceShape:
 		return any(&ResourceShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Resource with the name of the field
 			Resource: &Resource{Name: "Resource"},
 		}).(*Type)
 	case ResourceTaskShape:
 		return any(&ResourceTaskShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Resource with the name of the field
 			Resource: &Resource{Name: "Resource"},
-			// field is initialized with an instance of Task with the name of the field
 			Task: &Task{Name: "Task"},
 		}).(*Type)
 	case Task:
 		return any(&Task{
-			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
 			Predecessors: []*Task{{Name: "Predecessors"}},
-			// field is initialized with an instance of Product with the name of the field
 			Inputs: []*Product{{Name: "Inputs"}},
-			// field is initialized with an instance of Product with the name of the field
 			Outputs: []*Product{{Name: "Outputs"}},
-			// field is initialized with an instance of Task with the name of the field
 			SubTasks: []*Task{{Name: "SubTasks"}},
-			// field is initialized with an instance of TaskGroup with the name of the field
 			TaskGroupsToDisplay: []*TaskGroup{{Name: "TaskGroupsToDisplay"}},
-			// field is initialized with an instance of Task with the name of the field
 			ReferencedTask: &Task{Name: "ReferencedTask"},
 		}).(*Type)
 	case TaskCompositionShape:
 		return any(&TaskCompositionShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
 			Task: &Task{Name: "Task"},
 		}).(*Type)
 	case TaskGroup:
 		return any(&TaskGroup{
-			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
 			Tasks: []*Task{{Name: "Tasks"}},
 		}).(*Type)
 	case TaskGroupShape:
 		return any(&TaskGroupShape{
-			// Initialisation of associations
-			// field is initialized with an instance of TaskGroup with the name of the field
 			TaskGroup: &TaskGroup{Name: "TaskGroup"},
 		}).(*Type)
 	case TaskInputShape:
 		return any(&TaskInputShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Product with the name of the field
 			Product: &Product{Name: "Product"},
-			// field is initialized with an instance of Task with the name of the field
 			Task: &Task{Name: "Task"},
 		}).(*Type)
 	case TaskOutputShape:
 		return any(&TaskOutputShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
 			Task: &Task{Name: "Task"},
-			// field is initialized with an instance of Product with the name of the field
 			Product: &Product{Name: "Product"},
 		}).(*Type)
 	case TaskPredecessorShape:
 		return any(&TaskPredecessorShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
 			Predecessor: &Task{Name: "Predecessor"},
-			// field is initialized with an instance of Task with the name of the field
 			Task: &Task{Name: "Task"},
 		}).(*Type)
 	case TaskShape:
 		return any(&TaskShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
 			Task: &Task{Name: "Task"},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

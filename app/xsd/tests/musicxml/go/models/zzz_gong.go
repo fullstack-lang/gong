@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -35699,7 +35690,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -36699,1652 +36689,569 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case A_directive:
-		return any(&A_directive{
-			// Initialisation of associations
-		}).(*Type)
 	case A_measure:
 		return any(&A_measure{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: []*Note{{Name: "Note"}},
-			// field is initialized with an instance of Backup with the name of the field
 			Backup: []*Backup{{Name: "Backup"}},
-			// field is initialized with an instance of Forward with the name of the field
 			Forward: []*Forward{{Name: "Forward"}},
-			// field is initialized with an instance of Direction with the name of the field
 			Direction: []*Direction{{Name: "Direction"}},
-			// field is initialized with an instance of Attributes with the name of the field
 			Attributes: []*Attributes{{Name: "Attributes"}},
-			// field is initialized with an instance of Harmony with the name of the field
 			Harmony: []*Harmony{{Name: "Harmony"}},
-			// field is initialized with an instance of Figured_bass with the name of the field
 			Figured_bass: []*Figured_bass{{Name: "Figured_bass"}},
-			// field is initialized with an instance of Print with the name of the field
 			Print: []*Print{{Name: "Print"}},
-			// field is initialized with an instance of Sound with the name of the field
 			Sound: []*Sound{{Name: "Sound"}},
-			// field is initialized with an instance of Listening with the name of the field
 			Listening: []*Listening{{Name: "Listening"}},
-			// field is initialized with an instance of Barline with the name of the field
 			Barline: []*Barline{{Name: "Barline"}},
-			// field is initialized with an instance of Grouping with the name of the field
 			Grouping: []*Grouping{{Name: "Grouping"}},
-			// field is initialized with an instance of Link with the name of the field
 			Link: []*Link{{Name: "Link"}},
-			// field is initialized with an instance of Bookmark with the name of the field
 			Bookmark: []*Bookmark{{Name: "Bookmark"}},
 		}).(*Type)
 	case A_measure_1:
 		return any(&A_measure_1{
-			// Initialisation of associations
-			// field is initialized with an instance of A_part_1 with the name of the field
 			Part: []*A_part_1{{Name: "Part"}},
 		}).(*Type)
 	case A_part:
 		return any(&A_part{
-			// Initialisation of associations
-			// field is initialized with an instance of A_measure with the name of the field
 			Measure: []*A_measure{{Name: "Measure"}},
 		}).(*Type)
 	case A_part_1:
 		return any(&A_part_1{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
 			Note: []*Note{{Name: "Note"}},
-			// field is initialized with an instance of Backup with the name of the field
 			Backup: []*Backup{{Name: "Backup"}},
-			// field is initialized with an instance of Forward with the name of the field
 			Forward: []*Forward{{Name: "Forward"}},
-			// field is initialized with an instance of Direction with the name of the field
 			Direction: []*Direction{{Name: "Direction"}},
-			// field is initialized with an instance of Attributes with the name of the field
 			Attributes: []*Attributes{{Name: "Attributes"}},
-			// field is initialized with an instance of Harmony with the name of the field
 			Harmony: []*Harmony{{Name: "Harmony"}},
-			// field is initialized with an instance of Figured_bass with the name of the field
 			Figured_bass: []*Figured_bass{{Name: "Figured_bass"}},
-			// field is initialized with an instance of Print with the name of the field
 			Print: []*Print{{Name: "Print"}},
-			// field is initialized with an instance of Sound with the name of the field
 			Sound: []*Sound{{Name: "Sound"}},
-			// field is initialized with an instance of Listening with the name of the field
 			Listening: []*Listening{{Name: "Listening"}},
-			// field is initialized with an instance of Barline with the name of the field
 			Barline: []*Barline{{Name: "Barline"}},
-			// field is initialized with an instance of Grouping with the name of the field
 			Grouping: []*Grouping{{Name: "Grouping"}},
-			// field is initialized with an instance of Link with the name of the field
 			Link: []*Link{{Name: "Link"}},
-			// field is initialized with an instance of Bookmark with the name of the field
 			Bookmark: []*Bookmark{{Name: "Bookmark"}},
-		}).(*Type)
-	case Accidental:
-		return any(&Accidental{
-			// Initialisation of associations
-		}).(*Type)
-	case Accidental_mark:
-		return any(&Accidental_mark{
-			// Initialisation of associations
-		}).(*Type)
-	case Accidental_text:
-		return any(&Accidental_text{
-			// Initialisation of associations
-		}).(*Type)
-	case Accord:
-		return any(&Accord{
-			// Initialisation of associations
-		}).(*Type)
-	case Accordion_registration:
-		return any(&Accordion_registration{
-			// Initialisation of associations
 		}).(*Type)
 	case Appearance:
 		return any(&Appearance{
-			// Initialisation of associations
-			// field is initialized with an instance of Line_width with the name of the field
 			Line_width: []*Line_width{{Name: "Line_width"}},
-			// field is initialized with an instance of Note_size with the name of the field
 			Note_size: []*Note_size{{Name: "Note_size"}},
-			// field is initialized with an instance of Distance with the name of the field
 			Distance: []*Distance{{Name: "Distance"}},
-			// field is initialized with an instance of Glyph with the name of the field
 			Glyph: []*Glyph{{Name: "Glyph"}},
-			// field is initialized with an instance of Other_appearance with the name of the field
 			Other_appearance: []*Other_appearance{{Name: "Other_appearance"}},
-		}).(*Type)
-	case Arpeggiate:
-		return any(&Arpeggiate{
-			// Initialisation of associations
-		}).(*Type)
-	case Arrow:
-		return any(&Arrow{
-			// Initialisation of associations
 		}).(*Type)
 	case Articulations:
 		return any(&Articulations{
-			// Initialisation of associations
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Accent: []*Empty_placement{{Name: "Accent"}},
-			// field is initialized with an instance of Strong_accent with the name of the field
 			Strong_accent: []*Strong_accent{{Name: "Strong_accent"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Staccato: []*Empty_placement{{Name: "Staccato"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Tenuto: []*Empty_placement{{Name: "Tenuto"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Detached_legato: []*Empty_placement{{Name: "Detached_legato"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Staccatissimo: []*Empty_placement{{Name: "Staccatissimo"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Spiccato: []*Empty_placement{{Name: "Spiccato"}},
-			// field is initialized with an instance of Empty_line with the name of the field
 			Scoop: []*Empty_line{{Name: "Scoop"}},
-			// field is initialized with an instance of Empty_line with the name of the field
 			Plop: []*Empty_line{{Name: "Plop"}},
-			// field is initialized with an instance of Empty_line with the name of the field
 			Doit: []*Empty_line{{Name: "Doit"}},
-			// field is initialized with an instance of Empty_line with the name of the field
 			Falloff: []*Empty_line{{Name: "Falloff"}},
-			// field is initialized with an instance of Breath_mark with the name of the field
 			Breath_mark: []*Breath_mark{{Name: "Breath_mark"}},
-			// field is initialized with an instance of Caesura with the name of the field
 			Caesura: []*Caesura{{Name: "Caesura"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Stress: []*Empty_placement{{Name: "Stress"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Unstress: []*Empty_placement{{Name: "Unstress"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Soft_accent: []*Empty_placement{{Name: "Soft_accent"}},
-			// field is initialized with an instance of Other_placement_text with the name of the field
 			Other_articulation: []*Other_placement_text{{Name: "Other_articulation"}},
-		}).(*Type)
-	case Assess:
-		return any(&Assess{
-			// Initialisation of associations
 		}).(*Type)
 	case Attributes:
 		return any(&Attributes{
-			// Initialisation of associations
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Footnote: &Formatted_text{Name: "Footnote"},
-			// field is initialized with an instance of Level with the name of the field
 			Level: &Level{Name: "Level"},
-			// field is initialized with an instance of Key with the name of the field
 			Key: []*Key{{Name: "Key"}},
-			// field is initialized with an instance of Time with the name of the field
 			Time: []*Time{{Name: "Time"}},
-			// field is initialized with an instance of Part_symbol with the name of the field
 			Part_symbol: &Part_symbol{Name: "Part_symbol"},
-			// field is initialized with an instance of Clef with the name of the field
 			Clef: []*Clef{{Name: "Clef"}},
-			// field is initialized with an instance of Staff_details with the name of the field
 			Staff_details: []*Staff_details{{Name: "Staff_details"}},
-			// field is initialized with an instance of Transpose with the name of the field
 			Transpose: []*Transpose{{Name: "Transpose"}},
-			// field is initialized with an instance of For_part with the name of the field
 			For_part: []*For_part{{Name: "For_part"}},
-			// field is initialized with an instance of A_directive with the name of the field
 			Directive: []*A_directive{{Name: "Directive"}},
-			// field is initialized with an instance of Measure_style with the name of the field
 			Measure_style: []*Measure_style{{Name: "Measure_style"}},
 		}).(*Type)
 	case Backup:
 		return any(&Backup{
-			// Initialisation of associations
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Footnote: &Formatted_text{Name: "Footnote"},
-			// field is initialized with an instance of Level with the name of the field
 			Level: &Level{Name: "Level"},
-		}).(*Type)
-	case Bar_style_color:
-		return any(&Bar_style_color{
-			// Initialisation of associations
 		}).(*Type)
 	case Barline:
 		return any(&Barline{
-			// Initialisation of associations
-			// field is initialized with an instance of Bar_style_color with the name of the field
 			Bar_style: &Bar_style_color{Name: "Bar_style"},
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Footnote: &Formatted_text{Name: "Footnote"},
-			// field is initialized with an instance of Level with the name of the field
 			Level: &Level{Name: "Level"},
-			// field is initialized with an instance of Wavy_line with the name of the field
 			Wavy_line: &Wavy_line{Name: "Wavy_line"},
-			// field is initialized with an instance of Segno with the name of the field
 			Segno_1: &Segno{Name: "Segno_1"},
-			// field is initialized with an instance of Coda with the name of the field
 			Coda_1: &Coda{Name: "Coda_1"},
-			// field is initialized with an instance of Fermata with the name of the field
 			Fermata: &Fermata{Name: "Fermata"},
-			// field is initialized with an instance of Ending with the name of the field
 			Ending: &Ending{Name: "Ending"},
-			// field is initialized with an instance of Repeat with the name of the field
 			Repeat: &Repeat{Name: "Repeat"},
-		}).(*Type)
-	case Barre:
-		return any(&Barre{
-			// Initialisation of associations
 		}).(*Type)
 	case Bass:
 		return any(&Bass{
-			// Initialisation of associations
-			// field is initialized with an instance of Style_text with the name of the field
 			Bass_separator: &Style_text{Name: "Bass_separator"},
-			// field is initialized with an instance of Bass_step with the name of the field
 			Bass_step: &Bass_step{Name: "Bass_step"},
-			// field is initialized with an instance of Harmony_alter with the name of the field
 			Bass_alter: &Harmony_alter{Name: "Bass_alter"},
-		}).(*Type)
-	case Bass_step:
-		return any(&Bass_step{
-			// Initialisation of associations
-		}).(*Type)
-	case Beam:
-		return any(&Beam{
-			// Initialisation of associations
-		}).(*Type)
-	case Beat_repeat:
-		return any(&Beat_repeat{
-			// Initialisation of associations
-		}).(*Type)
-	case Beat_unit_tied:
-		return any(&Beat_unit_tied{
-			// Initialisation of associations
-		}).(*Type)
-	case Beater:
-		return any(&Beater{
-			// Initialisation of associations
 		}).(*Type)
 	case Bend:
 		return any(&Bend{
-			// Initialisation of associations
-			// field is initialized with an instance of Release with the name of the field
 			Release: &Release{Name: "Release"},
-			// field is initialized with an instance of Placement_text with the name of the field
 			With_bar: &Placement_text{Name: "With_bar"},
-		}).(*Type)
-	case Bookmark:
-		return any(&Bookmark{
-			// Initialisation of associations
-		}).(*Type)
-	case Bracket:
-		return any(&Bracket{
-			// Initialisation of associations
-		}).(*Type)
-	case Breath_mark:
-		return any(&Breath_mark{
-			// Initialisation of associations
-		}).(*Type)
-	case Caesura:
-		return any(&Caesura{
-			// Initialisation of associations
-		}).(*Type)
-	case Cancel:
-		return any(&Cancel{
-			// Initialisation of associations
-		}).(*Type)
-	case Clef:
-		return any(&Clef{
-			// Initialisation of associations
-		}).(*Type)
-	case Coda:
-		return any(&Coda{
-			// Initialisation of associations
 		}).(*Type)
 	case Credit:
 		return any(&Credit{
-			// Initialisation of associations
-			// field is initialized with an instance of Image with the name of the field
 			Credit_image: &Image{Name: "Credit_image"},
-			// field is initialized with an instance of Link with the name of the field
 			Link: []*Link{{Name: "Link"}},
-			// field is initialized with an instance of Bookmark with the name of the field
 			Bookmark: []*Bookmark{{Name: "Bookmark"}},
-			// field is initialized with an instance of Formatted_text_id with the name of the field
 			Credit_words: []*Formatted_text_id{{Name: "Credit_words"}},
-			// field is initialized with an instance of Formatted_symbol_id with the name of the field
 			Credit_symbol: []*Formatted_symbol_id{{Name: "Credit_symbol"}},
-		}).(*Type)
-	case Dashes:
-		return any(&Dashes{
-			// Initialisation of associations
 		}).(*Type)
 	case Defaults:
 		return any(&Defaults{
-			// Initialisation of associations
-			// field is initialized with an instance of Scaling with the name of the field
 			Scaling: &Scaling{Name: "Scaling"},
-			// field is initialized with an instance of Page_layout with the name of the field
 			Page_layout: &Page_layout{Name: "Page_layout"},
-			// field is initialized with an instance of System_layout with the name of the field
 			System_layout: &System_layout{Name: "System_layout"},
-			// field is initialized with an instance of Staff_layout with the name of the field
 			Staff_layout: []*Staff_layout{{Name: "Staff_layout"}},
-			// field is initialized with an instance of Appearance with the name of the field
 			Appearance: &Appearance{Name: "Appearance"},
-			// field is initialized with an instance of Empty_font with the name of the field
 			Music_font: &Empty_font{Name: "Music_font"},
-			// field is initialized with an instance of Empty_font with the name of the field
 			Word_font: &Empty_font{Name: "Word_font"},
-			// field is initialized with an instance of Lyric_font with the name of the field
 			Lyric_font: []*Lyric_font{{Name: "Lyric_font"}},
-			// field is initialized with an instance of Lyric_language with the name of the field
 			Lyric_language: []*Lyric_language{{Name: "Lyric_language"}},
 		}).(*Type)
 	case Degree:
 		return any(&Degree{
-			// Initialisation of associations
-			// field is initialized with an instance of Degree_value with the name of the field
 			Degree_value: &Degree_value{Name: "Degree_value"},
-			// field is initialized with an instance of Degree_alter with the name of the field
 			Degree_alter: &Degree_alter{Name: "Degree_alter"},
-			// field is initialized with an instance of Degree_type with the name of the field
 			Degree_type: &Degree_type{Name: "Degree_type"},
-		}).(*Type)
-	case Degree_alter:
-		return any(&Degree_alter{
-			// Initialisation of associations
-		}).(*Type)
-	case Degree_type:
-		return any(&Degree_type{
-			// Initialisation of associations
-		}).(*Type)
-	case Degree_value:
-		return any(&Degree_value{
-			// Initialisation of associations
 		}).(*Type)
 	case Direction:
 		return any(&Direction{
-			// Initialisation of associations
-			// field is initialized with an instance of Direction_type with the name of the field
 			Direction_type: []*Direction_type{{Name: "Direction_type"}},
-			// field is initialized with an instance of Offset with the name of the field
 			Offset: &Offset{Name: "Offset"},
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Footnote: &Formatted_text{Name: "Footnote"},
-			// field is initialized with an instance of Level with the name of the field
 			Level: &Level{Name: "Level"},
-			// field is initialized with an instance of Sound with the name of the field
 			Sound: &Sound{Name: "Sound"},
-			// field is initialized with an instance of Listening with the name of the field
 			Listening: &Listening{Name: "Listening"},
 		}).(*Type)
 	case Direction_type:
 		return any(&Direction_type{
-			// Initialisation of associations
-			// field is initialized with an instance of Formatted_text_id with the name of the field
 			Rehearsal: []*Formatted_text_id{{Name: "Rehearsal"}},
-			// field is initialized with an instance of Segno with the name of the field
 			Segno: []*Segno{{Name: "Segno"}},
-			// field is initialized with an instance of Coda with the name of the field
 			Coda: []*Coda{{Name: "Coda"}},
-			// field is initialized with an instance of Formatted_text_id with the name of the field
 			Words: []*Formatted_text_id{{Name: "Words"}},
-			// field is initialized with an instance of Formatted_symbol_id with the name of the field
 			Symbol: []*Formatted_symbol_id{{Name: "Symbol"}},
-			// field is initialized with an instance of Wedge with the name of the field
 			Wedge: &Wedge{Name: "Wedge"},
-			// field is initialized with an instance of Dynamics with the name of the field
 			Dynamics: []*Dynamics{{Name: "Dynamics"}},
-			// field is initialized with an instance of Dashes with the name of the field
 			Dashes: &Dashes{Name: "Dashes"},
-			// field is initialized with an instance of Bracket with the name of the field
 			Bracket: &Bracket{Name: "Bracket"},
-			// field is initialized with an instance of Pedal with the name of the field
 			Pedal: &Pedal{Name: "Pedal"},
-			// field is initialized with an instance of Metronome with the name of the field
 			Metronome: &Metronome{Name: "Metronome"},
-			// field is initialized with an instance of Octave_shift with the name of the field
 			Octave_shift: &Octave_shift{Name: "Octave_shift"},
-			// field is initialized with an instance of Harp_pedals with the name of the field
 			Harp_pedals: &Harp_pedals{Name: "Harp_pedals"},
-			// field is initialized with an instance of Empty_print_style_align_id with the name of the field
 			Damp: &Empty_print_style_align_id{Name: "Damp"},
-			// field is initialized with an instance of Empty_print_style_align_id with the name of the field
 			Damp_all: &Empty_print_style_align_id{Name: "Damp_all"},
-			// field is initialized with an instance of Empty_print_style_align_id with the name of the field
 			Eyeglasses: &Empty_print_style_align_id{Name: "Eyeglasses"},
-			// field is initialized with an instance of String_mute with the name of the field
 			String_mute: &String_mute{Name: "String_mute"},
-			// field is initialized with an instance of Scordatura with the name of the field
 			Scordatura: &Scordatura{Name: "Scordatura"},
-			// field is initialized with an instance of Image with the name of the field
 			Image: &Image{Name: "Image"},
-			// field is initialized with an instance of Principal_voice with the name of the field
 			Principal_voice: &Principal_voice{Name: "Principal_voice"},
-			// field is initialized with an instance of Percussion with the name of the field
 			Percussion: []*Percussion{{Name: "Percussion"}},
-			// field is initialized with an instance of Accordion_registration with the name of the field
 			Accordion_registration: &Accordion_registration{Name: "Accordion_registration"},
-			// field is initialized with an instance of Staff_divide with the name of the field
 			Staff_divide: &Staff_divide{Name: "Staff_divide"},
-			// field is initialized with an instance of Other_direction with the name of the field
 			Other_direction: &Other_direction{Name: "Other_direction"},
-		}).(*Type)
-	case Distance:
-		return any(&Distance{
-			// Initialisation of associations
-		}).(*Type)
-	case Double:
-		return any(&Double{
-			// Initialisation of associations
 		}).(*Type)
 	case Dynamics:
 		return any(&Dynamics{
-			// Initialisation of associations
-			// field is initialized with an instance of Other_text with the name of the field
 			Other_dynamics: []*Other_text{{Name: "Other_dynamics"}},
-		}).(*Type)
-	case Effect:
-		return any(&Effect{
-			// Initialisation of associations
-		}).(*Type)
-	case Elision:
-		return any(&Elision{
-			// Initialisation of associations
-		}).(*Type)
-	case Empty:
-		return any(&Empty{
-			// Initialisation of associations
-		}).(*Type)
-	case Empty_font:
-		return any(&Empty_font{
-			// Initialisation of associations
-		}).(*Type)
-	case Empty_line:
-		return any(&Empty_line{
-			// Initialisation of associations
-		}).(*Type)
-	case Empty_placement:
-		return any(&Empty_placement{
-			// Initialisation of associations
-		}).(*Type)
-	case Empty_placement_smufl:
-		return any(&Empty_placement_smufl{
-			// Initialisation of associations
-		}).(*Type)
-	case Empty_print_object_style_align:
-		return any(&Empty_print_object_style_align{
-			// Initialisation of associations
-		}).(*Type)
-	case Empty_print_style:
-		return any(&Empty_print_style{
-			// Initialisation of associations
-		}).(*Type)
-	case Empty_print_style_align:
-		return any(&Empty_print_style_align{
-			// Initialisation of associations
-		}).(*Type)
-	case Empty_print_style_align_id:
-		return any(&Empty_print_style_align_id{
-			// Initialisation of associations
-		}).(*Type)
-	case Empty_trill_sound:
-		return any(&Empty_trill_sound{
-			// Initialisation of associations
 		}).(*Type)
 	case Encoding:
 		return any(&Encoding{
-			// Initialisation of associations
-			// field is initialized with an instance of Typed_text with the name of the field
 			Encoder: []*Typed_text{{Name: "Encoder"}},
-			// field is initialized with an instance of Supports with the name of the field
 			Supports: []*Supports{{Name: "Supports"}},
-		}).(*Type)
-	case Ending:
-		return any(&Ending{
-			// Initialisation of associations
-		}).(*Type)
-	case Extend:
-		return any(&Extend{
-			// Initialisation of associations
-		}).(*Type)
-	case Feature:
-		return any(&Feature{
-			// Initialisation of associations
-		}).(*Type)
-	case Fermata:
-		return any(&Fermata{
-			// Initialisation of associations
 		}).(*Type)
 	case Figure:
 		return any(&Figure{
-			// Initialisation of associations
-			// field is initialized with an instance of Style_text with the name of the field
 			Prefix: &Style_text{Name: "Prefix"},
-			// field is initialized with an instance of Style_text with the name of the field
 			Figure_number: &Style_text{Name: "Figure_number"},
-			// field is initialized with an instance of Style_text with the name of the field
 			Suffix: &Style_text{Name: "Suffix"},
-			// field is initialized with an instance of Extend with the name of the field
 			Extend: &Extend{Name: "Extend"},
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Footnote: &Formatted_text{Name: "Footnote"},
-			// field is initialized with an instance of Level with the name of the field
 			Level: &Level{Name: "Level"},
 		}).(*Type)
 	case Figured_bass:
 		return any(&Figured_bass{
-			// Initialisation of associations
-			// field is initialized with an instance of Figure with the name of the field
 			Figure: []*Figure{{Name: "Figure"}},
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Footnote: &Formatted_text{Name: "Footnote"},
-			// field is initialized with an instance of Level with the name of the field
 			Level: &Level{Name: "Level"},
-		}).(*Type)
-	case Fingering:
-		return any(&Fingering{
-			// Initialisation of associations
-		}).(*Type)
-	case First_fret:
-		return any(&First_fret{
-			// Initialisation of associations
 		}).(*Type)
 	case For_part:
 		return any(&For_part{
-			// Initialisation of associations
-			// field is initialized with an instance of Part_clef with the name of the field
 			Part_clef: &Part_clef{Name: "Part_clef"},
-			// field is initialized with an instance of Part_transpose with the name of the field
 			Part_transpose: &Part_transpose{Name: "Part_transpose"},
-		}).(*Type)
-	case Formatted_symbol:
-		return any(&Formatted_symbol{
-			// Initialisation of associations
-		}).(*Type)
-	case Formatted_symbol_id:
-		return any(&Formatted_symbol_id{
-			// Initialisation of associations
-		}).(*Type)
-	case Formatted_text:
-		return any(&Formatted_text{
-			// Initialisation of associations
-		}).(*Type)
-	case Formatted_text_id:
-		return any(&Formatted_text_id{
-			// Initialisation of associations
 		}).(*Type)
 	case Forward:
 		return any(&Forward{
-			// Initialisation of associations
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Footnote: &Formatted_text{Name: "Footnote"},
-			// field is initialized with an instance of Level with the name of the field
 			Level: &Level{Name: "Level"},
 		}).(*Type)
 	case Frame:
 		return any(&Frame{
-			// Initialisation of associations
-			// field is initialized with an instance of First_fret with the name of the field
 			First_fret: &First_fret{Name: "First_fret"},
-			// field is initialized with an instance of Frame_note with the name of the field
 			Frame_note: []*Frame_note{{Name: "Frame_note"}},
 		}).(*Type)
 	case Frame_note:
 		return any(&Frame_note{
-			// Initialisation of associations
-			// field is initialized with an instance of String_type with the name of the field
 			String: &String_type{Name: "String"},
-			// field is initialized with an instance of Fret with the name of the field
 			Fret: &Fret{Name: "Fret"},
-			// field is initialized with an instance of Fingering with the name of the field
 			Fingering: &Fingering{Name: "Fingering"},
-			// field is initialized with an instance of Barre with the name of the field
 			Barre: &Barre{Name: "Barre"},
-		}).(*Type)
-	case Fret:
-		return any(&Fret{
-			// Initialisation of associations
-		}).(*Type)
-	case Glass:
-		return any(&Glass{
-			// Initialisation of associations
-		}).(*Type)
-	case Glissando:
-		return any(&Glissando{
-			// Initialisation of associations
-		}).(*Type)
-	case Glyph:
-		return any(&Glyph{
-			// Initialisation of associations
-		}).(*Type)
-	case Grace:
-		return any(&Grace{
-			// Initialisation of associations
-		}).(*Type)
-	case Group_barline:
-		return any(&Group_barline{
-			// Initialisation of associations
-		}).(*Type)
-	case Group_name:
-		return any(&Group_name{
-			// Initialisation of associations
-		}).(*Type)
-	case Group_symbol:
-		return any(&Group_symbol{
-			// Initialisation of associations
 		}).(*Type)
 	case Grouping:
 		return any(&Grouping{
-			// Initialisation of associations
-			// field is initialized with an instance of Feature with the name of the field
 			Feature: []*Feature{{Name: "Feature"}},
-		}).(*Type)
-	case Hammer_on_pull_off:
-		return any(&Hammer_on_pull_off{
-			// Initialisation of associations
-		}).(*Type)
-	case Handbell:
-		return any(&Handbell{
-			// Initialisation of associations
-		}).(*Type)
-	case Harmon_closed:
-		return any(&Harmon_closed{
-			// Initialisation of associations
 		}).(*Type)
 	case Harmon_mute:
 		return any(&Harmon_mute{
-			// Initialisation of associations
-			// field is initialized with an instance of Harmon_closed with the name of the field
 			Harmon_closed: &Harmon_closed{Name: "Harmon_closed"},
-		}).(*Type)
-	case Harmonic:
-		return any(&Harmonic{
-			// Initialisation of associations
 		}).(*Type)
 	case Harmony:
 		return any(&Harmony{
-			// Initialisation of associations
-			// field is initialized with an instance of Root with the name of the field
 			Root: &Root{Name: "Root"},
-			// field is initialized with an instance of Numeral with the name of the field
 			Numeral: &Numeral{Name: "Numeral"},
-			// field is initialized with an instance of Style_text with the name of the field
 			Function: &Style_text{Name: "Function"},
-			// field is initialized with an instance of Kind with the name of the field
 			Kind: &Kind{Name: "Kind"},
-			// field is initialized with an instance of Inversion with the name of the field
 			Inversion: &Inversion{Name: "Inversion"},
-			// field is initialized with an instance of Bass with the name of the field
 			Bass: &Bass{Name: "Bass"},
-			// field is initialized with an instance of Degree with the name of the field
 			Degree: []*Degree{{Name: "Degree"}},
-			// field is initialized with an instance of Frame with the name of the field
 			Frame: &Frame{Name: "Frame"},
-			// field is initialized with an instance of Offset with the name of the field
 			Offset: &Offset{Name: "Offset"},
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Footnote: &Formatted_text{Name: "Footnote"},
-			// field is initialized with an instance of Level with the name of the field
 			Level: &Level{Name: "Level"},
-		}).(*Type)
-	case Harmony_alter:
-		return any(&Harmony_alter{
-			// Initialisation of associations
 		}).(*Type)
 	case Harp_pedals:
 		return any(&Harp_pedals{
-			// Initialisation of associations
-			// field is initialized with an instance of Pedal_tuning with the name of the field
 			Pedal_tuning: []*Pedal_tuning{{Name: "Pedal_tuning"}},
-		}).(*Type)
-	case Heel_toe:
-		return any(&Heel_toe{
-			// Initialisation of associations
 		}).(*Type)
 	case Hole:
 		return any(&Hole{
-			// Initialisation of associations
-			// field is initialized with an instance of Hole_closed with the name of the field
 			Hole_closed: &Hole_closed{Name: "Hole_closed"},
-		}).(*Type)
-	case Hole_closed:
-		return any(&Hole_closed{
-			// Initialisation of associations
-		}).(*Type)
-	case Horizontal_turn:
-		return any(&Horizontal_turn{
-			// Initialisation of associations
 		}).(*Type)
 	case Identification:
 		return any(&Identification{
-			// Initialisation of associations
-			// field is initialized with an instance of Typed_text with the name of the field
 			Creator: []*Typed_text{{Name: "Creator"}},
-			// field is initialized with an instance of Typed_text with the name of the field
 			Rights: []*Typed_text{{Name: "Rights"}},
-			// field is initialized with an instance of Encoding with the name of the field
 			Encoding: &Encoding{Name: "Encoding"},
-			// field is initialized with an instance of Typed_text with the name of the field
 			Relation: []*Typed_text{{Name: "Relation"}},
-			// field is initialized with an instance of Miscellaneous with the name of the field
 			Miscellaneous: &Miscellaneous{Name: "Miscellaneous"},
-		}).(*Type)
-	case Image:
-		return any(&Image{
-			// Initialisation of associations
-		}).(*Type)
-	case Instrument:
-		return any(&Instrument{
-			// Initialisation of associations
 		}).(*Type)
 	case Instrument_change:
 		return any(&Instrument_change{
-			// Initialisation of associations
-			// field is initialized with an instance of Virtual_instrument with the name of the field
 			Virtual_instrument: &Virtual_instrument{Name: "Virtual_instrument"},
-		}).(*Type)
-	case Instrument_link:
-		return any(&Instrument_link{
-			// Initialisation of associations
-		}).(*Type)
-	case Interchangeable:
-		return any(&Interchangeable{
-			// Initialisation of associations
-		}).(*Type)
-	case Inversion:
-		return any(&Inversion{
-			// Initialisation of associations
 		}).(*Type)
 	case Key:
 		return any(&Key{
-			// Initialisation of associations
-			// field is initialized with an instance of Cancel with the name of the field
 			Cancel: &Cancel{Name: "Cancel"},
-			// field is initialized with an instance of Key_accidental with the name of the field
 			Key_accidental: &Key_accidental{Name: "Key_accidental"},
-			// field is initialized with an instance of Key_octave with the name of the field
 			Key_octave: []*Key_octave{{Name: "Key_octave"}},
-		}).(*Type)
-	case Key_accidental:
-		return any(&Key_accidental{
-			// Initialisation of associations
-		}).(*Type)
-	case Key_octave:
-		return any(&Key_octave{
-			// Initialisation of associations
-		}).(*Type)
-	case Kind:
-		return any(&Kind{
-			// Initialisation of associations
-		}).(*Type)
-	case Level:
-		return any(&Level{
-			// Initialisation of associations
-		}).(*Type)
-	case Line_detail:
-		return any(&Line_detail{
-			// Initialisation of associations
-		}).(*Type)
-	case Line_width:
-		return any(&Line_width{
-			// Initialisation of associations
-		}).(*Type)
-	case Link:
-		return any(&Link{
-			// Initialisation of associations
 		}).(*Type)
 	case Listen:
 		return any(&Listen{
-			// Initialisation of associations
-			// field is initialized with an instance of Assess with the name of the field
 			Assess: []*Assess{{Name: "Assess"}},
-			// field is initialized with an instance of Wait with the name of the field
 			Wait: []*Wait{{Name: "Wait"}},
-			// field is initialized with an instance of Other_listening with the name of the field
 			Other_listen: []*Other_listening{{Name: "Other_listen"}},
 		}).(*Type)
 	case Listening:
 		return any(&Listening{
-			// Initialisation of associations
-			// field is initialized with an instance of Sync with the name of the field
 			Sync: []*Sync{{Name: "Sync"}},
-			// field is initialized with an instance of Other_listening with the name of the field
 			Other_listening: []*Other_listening{{Name: "Other_listening"}},
-			// field is initialized with an instance of Offset with the name of the field
 			Offset: &Offset{Name: "Offset"},
 		}).(*Type)
 	case Lyric:
 		return any(&Lyric{
-			// Initialisation of associations
-			// field is initialized with an instance of Elision with the name of the field
 			Elision: []*Elision{{Name: "Elision"}},
-			// field is initialized with an instance of Text_element_data with the name of the field
 			Text: []*Text_element_data{{Name: "Text"}},
-			// field is initialized with an instance of Extend with the name of the field
 			Extend: &Extend{Name: "Extend"},
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Footnote: &Formatted_text{Name: "Footnote"},
-			// field is initialized with an instance of Level with the name of the field
 			Level: &Level{Name: "Level"},
-		}).(*Type)
-	case Lyric_font:
-		return any(&Lyric_font{
-			// Initialisation of associations
-		}).(*Type)
-	case Lyric_language:
-		return any(&Lyric_language{
-			// Initialisation of associations
-		}).(*Type)
-	case Measure_layout:
-		return any(&Measure_layout{
-			// Initialisation of associations
-		}).(*Type)
-	case Measure_numbering:
-		return any(&Measure_numbering{
-			// Initialisation of associations
-		}).(*Type)
-	case Measure_repeat:
-		return any(&Measure_repeat{
-			// Initialisation of associations
 		}).(*Type)
 	case Measure_style:
 		return any(&Measure_style{
-			// Initialisation of associations
-			// field is initialized with an instance of Multiple_rest with the name of the field
 			Multiple_rest: &Multiple_rest{Name: "Multiple_rest"},
-			// field is initialized with an instance of Measure_repeat with the name of the field
 			Measure_repeat: &Measure_repeat{Name: "Measure_repeat"},
-			// field is initialized with an instance of Beat_repeat with the name of the field
 			Beat_repeat: &Beat_repeat{Name: "Beat_repeat"},
-			// field is initialized with an instance of Slash with the name of the field
 			Slash: &Slash{Name: "Slash"},
-		}).(*Type)
-	case Membrane:
-		return any(&Membrane{
-			// Initialisation of associations
-		}).(*Type)
-	case Metal:
-		return any(&Metal{
-			// Initialisation of associations
 		}).(*Type)
 	case Metronome:
 		return any(&Metronome{
-			// Initialisation of associations
-			// field is initialized with an instance of Per_minute with the name of the field
 			Per_minute: &Per_minute{Name: "Per_minute"},
-			// field is initialized with an instance of Beat_unit_tied with the name of the field
 			Beat_unit_tied: []*Beat_unit_tied{{Name: "Beat_unit_tied"}},
-			// field is initialized with an instance of Metronome_note with the name of the field
 			Metronome_note: []*Metronome_note{{Name: "Metronome_note"}},
-		}).(*Type)
-	case Metronome_beam:
-		return any(&Metronome_beam{
-			// Initialisation of associations
 		}).(*Type)
 	case Metronome_note:
 		return any(&Metronome_note{
-			// Initialisation of associations
-			// field is initialized with an instance of Metronome_beam with the name of the field
 			Metronome_beam: []*Metronome_beam{{Name: "Metronome_beam"}},
-			// field is initialized with an instance of Metronome_tied with the name of the field
 			Metronome_tied: &Metronome_tied{Name: "Metronome_tied"},
-			// field is initialized with an instance of Metronome_tuplet with the name of the field
 			Metronome_tuplet: &Metronome_tuplet{Name: "Metronome_tuplet"},
-		}).(*Type)
-	case Metronome_tied:
-		return any(&Metronome_tied{
-			// Initialisation of associations
-		}).(*Type)
-	case Metronome_tuplet:
-		return any(&Metronome_tuplet{
-			// Initialisation of associations
-		}).(*Type)
-	case Midi_device:
-		return any(&Midi_device{
-			// Initialisation of associations
-		}).(*Type)
-	case Midi_instrument:
-		return any(&Midi_instrument{
-			// Initialisation of associations
 		}).(*Type)
 	case Miscellaneous:
 		return any(&Miscellaneous{
-			// Initialisation of associations
-			// field is initialized with an instance of Miscellaneous_field with the name of the field
 			Miscellaneous_field: []*Miscellaneous_field{{Name: "Miscellaneous_field"}},
-		}).(*Type)
-	case Miscellaneous_field:
-		return any(&Miscellaneous_field{
-			// Initialisation of associations
-		}).(*Type)
-	case Mordent:
-		return any(&Mordent{
-			// Initialisation of associations
-		}).(*Type)
-	case Multiple_rest:
-		return any(&Multiple_rest{
-			// Initialisation of associations
 		}).(*Type)
 	case Name_display:
 		return any(&Name_display{
-			// Initialisation of associations
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Display_text: []*Formatted_text{{Name: "Display_text"}},
-			// field is initialized with an instance of Accidental_text with the name of the field
 			Accidental_text: []*Accidental_text{{Name: "Accidental_text"}},
-		}).(*Type)
-	case Non_arpeggiate:
-		return any(&Non_arpeggiate{
-			// Initialisation of associations
 		}).(*Type)
 	case Notations:
 		return any(&Notations{
-			// Initialisation of associations
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Footnote: &Formatted_text{Name: "Footnote"},
-			// field is initialized with an instance of Level with the name of the field
 			Level: &Level{Name: "Level"},
-			// field is initialized with an instance of Tied with the name of the field
 			Tied: []*Tied{{Name: "Tied"}},
-			// field is initialized with an instance of Slur with the name of the field
 			Slur: []*Slur{{Name: "Slur"}},
-			// field is initialized with an instance of Tuplet with the name of the field
 			Tuplet: []*Tuplet{{Name: "Tuplet"}},
-			// field is initialized with an instance of Glissando with the name of the field
 			Glissando: []*Glissando{{Name: "Glissando"}},
-			// field is initialized with an instance of Slide with the name of the field
 			Slide: []*Slide{{Name: "Slide"}},
-			// field is initialized with an instance of Ornaments with the name of the field
 			Ornaments: []*Ornaments{{Name: "Ornaments"}},
-			// field is initialized with an instance of Technical with the name of the field
 			Technical: []*Technical{{Name: "Technical"}},
-			// field is initialized with an instance of Articulations with the name of the field
 			Articulations: []*Articulations{{Name: "Articulations"}},
-			// field is initialized with an instance of Dynamics with the name of the field
 			Dynamics: []*Dynamics{{Name: "Dynamics"}},
-			// field is initialized with an instance of Fermata with the name of the field
 			Fermata: []*Fermata{{Name: "Fermata"}},
-			// field is initialized with an instance of Arpeggiate with the name of the field
 			Arpeggiate: []*Arpeggiate{{Name: "Arpeggiate"}},
-			// field is initialized with an instance of Non_arpeggiate with the name of the field
 			Non_arpeggiate: []*Non_arpeggiate{{Name: "Non_arpeggiate"}},
-			// field is initialized with an instance of Accidental_mark with the name of the field
 			Accidental_mark: []*Accidental_mark{{Name: "Accidental_mark"}},
-			// field is initialized with an instance of Other_notation with the name of the field
 			Other_notation: []*Other_notation{{Name: "Other_notation"}},
 		}).(*Type)
 	case Note:
 		return any(&Note{
-			// Initialisation of associations
-			// field is initialized with an instance of Grace with the name of the field
 			Grace: &Grace{Name: "Grace"},
-			// field is initialized with an instance of Pitch with the name of the field
 			Pitch: &Pitch{Name: "Pitch"},
-			// field is initialized with an instance of Unpitched with the name of the field
 			Unpitched: &Unpitched{Name: "Unpitched"},
-			// field is initialized with an instance of Rest with the name of the field
 			Rest: &Rest{Name: "Rest"},
-			// field is initialized with an instance of Tie with the name of the field
 			Tie: &Tie{Name: "Tie"},
-			// field is initialized with an instance of Instrument with the name of the field
 			Instrument: []*Instrument{{Name: "Instrument"}},
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Footnote: &Formatted_text{Name: "Footnote"},
-			// field is initialized with an instance of Level with the name of the field
 			Level: &Level{Name: "Level"},
-			// field is initialized with an instance of Note_type with the name of the field
 			Type: &Note_type{Name: "Type"},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Dot: []*Empty_placement{{Name: "Dot"}},
-			// field is initialized with an instance of Accidental with the name of the field
 			Accidental: &Accidental{Name: "Accidental"},
-			// field is initialized with an instance of Time_modification with the name of the field
 			Time_modification: &Time_modification{Name: "Time_modification"},
-			// field is initialized with an instance of Stem with the name of the field
 			Stem: &Stem{Name: "Stem"},
-			// field is initialized with an instance of Notehead with the name of the field
 			Notehead: &Notehead{Name: "Notehead"},
-			// field is initialized with an instance of Notehead_text with the name of the field
 			Notehead_text: &Notehead_text{Name: "Notehead_text"},
-			// field is initialized with an instance of Beam with the name of the field
 			Beam: &Beam{Name: "Beam"},
-			// field is initialized with an instance of Notations with the name of the field
 			Notations: []*Notations{{Name: "Notations"}},
-			// field is initialized with an instance of Lyric with the name of the field
 			Lyric: []*Lyric{{Name: "Lyric"}},
-			// field is initialized with an instance of Play with the name of the field
 			Play: &Play{Name: "Play"},
-			// field is initialized with an instance of Listen with the name of the field
 			Listen: &Listen{Name: "Listen"},
-		}).(*Type)
-	case Note_size:
-		return any(&Note_size{
-			// Initialisation of associations
-		}).(*Type)
-	case Note_type:
-		return any(&Note_type{
-			// Initialisation of associations
-		}).(*Type)
-	case Notehead:
-		return any(&Notehead{
-			// Initialisation of associations
 		}).(*Type)
 	case Notehead_text:
 		return any(&Notehead_text{
-			// Initialisation of associations
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Display_text: []*Formatted_text{{Name: "Display_text"}},
-			// field is initialized with an instance of Accidental_text with the name of the field
 			Accidental_text: []*Accidental_text{{Name: "Accidental_text"}},
 		}).(*Type)
 	case Numeral:
 		return any(&Numeral{
-			// Initialisation of associations
-			// field is initialized with an instance of Numeral_root with the name of the field
 			Numeral_root: &Numeral_root{Name: "Numeral_root"},
-			// field is initialized with an instance of Harmony_alter with the name of the field
 			Numeral_alter: &Harmony_alter{Name: "Numeral_alter"},
-			// field is initialized with an instance of Numeral_key with the name of the field
 			Numeral_key: &Numeral_key{Name: "Numeral_key"},
-		}).(*Type)
-	case Numeral_key:
-		return any(&Numeral_key{
-			// Initialisation of associations
-		}).(*Type)
-	case Numeral_root:
-		return any(&Numeral_root{
-			// Initialisation of associations
-		}).(*Type)
-	case Octave_shift:
-		return any(&Octave_shift{
-			// Initialisation of associations
-		}).(*Type)
-	case Offset:
-		return any(&Offset{
-			// Initialisation of associations
-		}).(*Type)
-	case Opus:
-		return any(&Opus{
-			// Initialisation of associations
 		}).(*Type)
 	case Ornaments:
 		return any(&Ornaments{
-			// Initialisation of associations
-			// field is initialized with an instance of Empty_trill_sound with the name of the field
 			Trill_mark: []*Empty_trill_sound{{Name: "Trill_mark"}},
-			// field is initialized with an instance of Horizontal_turn with the name of the field
 			Turn: []*Horizontal_turn{{Name: "Turn"}},
-			// field is initialized with an instance of Horizontal_turn with the name of the field
 			Delayed_turn: []*Horizontal_turn{{Name: "Delayed_turn"}},
-			// field is initialized with an instance of Horizontal_turn with the name of the field
 			Inverted_turn: []*Horizontal_turn{{Name: "Inverted_turn"}},
-			// field is initialized with an instance of Horizontal_turn with the name of the field
 			Delayed_inverted_turn: []*Horizontal_turn{{Name: "Delayed_inverted_turn"}},
-			// field is initialized with an instance of Empty_trill_sound with the name of the field
 			Vertical_turn: []*Empty_trill_sound{{Name: "Vertical_turn"}},
-			// field is initialized with an instance of Empty_trill_sound with the name of the field
 			Inverted_vertical_turn: []*Empty_trill_sound{{Name: "Inverted_vertical_turn"}},
-			// field is initialized with an instance of Empty_trill_sound with the name of the field
 			Shake: []*Empty_trill_sound{{Name: "Shake"}},
-			// field is initialized with an instance of Wavy_line with the name of the field
 			Wavy_line: []*Wavy_line{{Name: "Wavy_line"}},
-			// field is initialized with an instance of Mordent with the name of the field
 			Mordent: []*Mordent{{Name: "Mordent"}},
-			// field is initialized with an instance of Mordent with the name of the field
 			Inverted_mordent: []*Mordent{{Name: "Inverted_mordent"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Schleifer: []*Empty_placement{{Name: "Schleifer"}},
-			// field is initialized with an instance of Tremolo with the name of the field
 			Tremolo: []*Tremolo{{Name: "Tremolo"}},
-			// field is initialized with an instance of Empty_trill_sound with the name of the field
 			Haydn: []*Empty_trill_sound{{Name: "Haydn"}},
-			// field is initialized with an instance of Other_placement_text with the name of the field
 			Other_ornament: []*Other_placement_text{{Name: "Other_ornament"}},
-			// field is initialized with an instance of Accidental_mark with the name of the field
 			Accidental_mark: []*Accidental_mark{{Name: "Accidental_mark"}},
-		}).(*Type)
-	case Other_appearance:
-		return any(&Other_appearance{
-			// Initialisation of associations
-		}).(*Type)
-	case Other_direction:
-		return any(&Other_direction{
-			// Initialisation of associations
-		}).(*Type)
-	case Other_listening:
-		return any(&Other_listening{
-			// Initialisation of associations
-		}).(*Type)
-	case Other_notation:
-		return any(&Other_notation{
-			// Initialisation of associations
-		}).(*Type)
-	case Other_placement_text:
-		return any(&Other_placement_text{
-			// Initialisation of associations
-		}).(*Type)
-	case Other_play:
-		return any(&Other_play{
-			// Initialisation of associations
-		}).(*Type)
-	case Other_text:
-		return any(&Other_text{
-			// Initialisation of associations
 		}).(*Type)
 	case Page_layout:
 		return any(&Page_layout{
-			// Initialisation of associations
-			// field is initialized with an instance of Page_margins with the name of the field
 			Page_margins: &Page_margins{Name: "Page_margins"},
-		}).(*Type)
-	case Page_margins:
-		return any(&Page_margins{
-			// Initialisation of associations
-		}).(*Type)
-	case Part_clef:
-		return any(&Part_clef{
-			// Initialisation of associations
 		}).(*Type)
 	case Part_group:
 		return any(&Part_group{
-			// Initialisation of associations
-			// field is initialized with an instance of Group_name with the name of the field
 			Group_name: &Group_name{Name: "Group_name"},
-			// field is initialized with an instance of Name_display with the name of the field
 			Group_name_display: &Name_display{Name: "Group_name_display"},
-			// field is initialized with an instance of Group_name with the name of the field
 			Group_abbreviation: &Group_name{Name: "Group_abbreviation"},
-			// field is initialized with an instance of Name_display with the name of the field
 			Group_abbreviation_display: &Name_display{Name: "Group_abbreviation_display"},
-			// field is initialized with an instance of Group_symbol with the name of the field
 			Group_symbol: &Group_symbol{Name: "Group_symbol"},
-			// field is initialized with an instance of Group_barline with the name of the field
 			Group_barline: &Group_barline{Name: "Group_barline"},
-			// field is initialized with an instance of Formatted_text with the name of the field
 			Footnote: &Formatted_text{Name: "Footnote"},
-			// field is initialized with an instance of Level with the name of the field
 			Level: &Level{Name: "Level"},
 		}).(*Type)
 	case Part_link:
 		return any(&Part_link{
-			// Initialisation of associations
-			// field is initialized with an instance of Instrument_link with the name of the field
 			Instrument_link: []*Instrument_link{{Name: "Instrument_link"}},
 		}).(*Type)
 	case Part_list:
 		return any(&Part_list{
-			// Initialisation of associations
-			// field is initialized with an instance of Part_group with the name of the field
 			Part_group: &Part_group{Name: "Part_group"},
-			// field is initialized with an instance of Score_part with the name of the field
 			Score_part: &Score_part{Name: "Score_part"},
-		}).(*Type)
-	case Part_name:
-		return any(&Part_name{
-			// Initialisation of associations
-		}).(*Type)
-	case Part_symbol:
-		return any(&Part_symbol{
-			// Initialisation of associations
-		}).(*Type)
-	case Part_transpose:
-		return any(&Part_transpose{
-			// Initialisation of associations
-		}).(*Type)
-	case Pedal:
-		return any(&Pedal{
-			// Initialisation of associations
-		}).(*Type)
-	case Pedal_tuning:
-		return any(&Pedal_tuning{
-			// Initialisation of associations
-		}).(*Type)
-	case Per_minute:
-		return any(&Per_minute{
-			// Initialisation of associations
 		}).(*Type)
 	case Percussion:
 		return any(&Percussion{
-			// Initialisation of associations
-			// field is initialized with an instance of Glass with the name of the field
 			Glass: &Glass{Name: "Glass"},
-			// field is initialized with an instance of Metal with the name of the field
 			Metal: &Metal{Name: "Metal"},
-			// field is initialized with an instance of Wood with the name of the field
 			Wood: &Wood{Name: "Wood"},
-			// field is initialized with an instance of Pitched with the name of the field
 			Pitched: &Pitched{Name: "Pitched"},
-			// field is initialized with an instance of Membrane with the name of the field
 			Membrane: &Membrane{Name: "Membrane"},
-			// field is initialized with an instance of Effect with the name of the field
 			Effect: &Effect{Name: "Effect"},
-			// field is initialized with an instance of Timpani with the name of the field
 			Timpani: &Timpani{Name: "Timpani"},
-			// field is initialized with an instance of Beater with the name of the field
 			Beater: &Beater{Name: "Beater"},
-			// field is initialized with an instance of Stick with the name of the field
 			Stick: &Stick{Name: "Stick"},
-			// field is initialized with an instance of Other_text with the name of the field
 			Other_percussion: &Other_text{Name: "Other_percussion"},
-		}).(*Type)
-	case Pitch:
-		return any(&Pitch{
-			// Initialisation of associations
-		}).(*Type)
-	case Pitched:
-		return any(&Pitched{
-			// Initialisation of associations
-		}).(*Type)
-	case Placement_text:
-		return any(&Placement_text{
-			// Initialisation of associations
 		}).(*Type)
 	case Play:
 		return any(&Play{
-			// Initialisation of associations
-			// field is initialized with an instance of Other_play with the name of the field
 			Other_play: []*Other_play{{Name: "Other_play"}},
-		}).(*Type)
-	case Player:
-		return any(&Player{
-			// Initialisation of associations
-		}).(*Type)
-	case Principal_voice:
-		return any(&Principal_voice{
-			// Initialisation of associations
 		}).(*Type)
 	case Print:
 		return any(&Print{
-			// Initialisation of associations
-			// field is initialized with an instance of Page_layout with the name of the field
 			Page_layout: &Page_layout{Name: "Page_layout"},
-			// field is initialized with an instance of System_layout with the name of the field
 			System_layout: &System_layout{Name: "System_layout"},
-			// field is initialized with an instance of Staff_layout with the name of the field
 			Staff_layout: []*Staff_layout{{Name: "Staff_layout"}},
-			// field is initialized with an instance of Measure_layout with the name of the field
 			Measure_layout: &Measure_layout{Name: "Measure_layout"},
-			// field is initialized with an instance of Measure_numbering with the name of the field
 			Measure_numbering: &Measure_numbering{Name: "Measure_numbering"},
-			// field is initialized with an instance of Name_display with the name of the field
 			Part_name_display: &Name_display{Name: "Part_name_display"},
-			// field is initialized with an instance of Name_display with the name of the field
 			Part_abbreviation_display: &Name_display{Name: "Part_abbreviation_display"},
-		}).(*Type)
-	case Release:
-		return any(&Release{
-			// Initialisation of associations
-		}).(*Type)
-	case Repeat:
-		return any(&Repeat{
-			// Initialisation of associations
-		}).(*Type)
-	case Rest:
-		return any(&Rest{
-			// Initialisation of associations
 		}).(*Type)
 	case Root:
 		return any(&Root{
-			// Initialisation of associations
-			// field is initialized with an instance of Root_step with the name of the field
 			Root_step: &Root_step{Name: "Root_step"},
-			// field is initialized with an instance of Harmony_alter with the name of the field
 			Root_alter: &Harmony_alter{Name: "Root_alter"},
-		}).(*Type)
-	case Root_step:
-		return any(&Root_step{
-			// Initialisation of associations
-		}).(*Type)
-	case Scaling:
-		return any(&Scaling{
-			// Initialisation of associations
 		}).(*Type)
 	case Scordatura:
 		return any(&Scordatura{
-			// Initialisation of associations
-			// field is initialized with an instance of Accord with the name of the field
 			Accord: []*Accord{{Name: "Accord"}},
 		}).(*Type)
 	case Score_instrument:
 		return any(&Score_instrument{
-			// Initialisation of associations
-			// field is initialized with an instance of Virtual_instrument with the name of the field
 			Virtual_instrument: &Virtual_instrument{Name: "Virtual_instrument"},
 		}).(*Type)
 	case Score_part:
 		return any(&Score_part{
-			// Initialisation of associations
-			// field is initialized with an instance of Identification with the name of the field
 			Identification: &Identification{Name: "Identification"},
-			// field is initialized with an instance of Part_link with the name of the field
 			Part_link: []*Part_link{{Name: "Part_link"}},
-			// field is initialized with an instance of Part_name with the name of the field
 			Part_name: &Part_name{Name: "Part_name"},
-			// field is initialized with an instance of Name_display with the name of the field
 			Part_name_display: &Name_display{Name: "Part_name_display"},
-			// field is initialized with an instance of Part_name with the name of the field
 			Part_abbreviation: &Part_name{Name: "Part_abbreviation"},
-			// field is initialized with an instance of Name_display with the name of the field
 			Part_abbreviation_display: &Name_display{Name: "Part_abbreviation_display"},
-			// field is initialized with an instance of Score_instrument with the name of the field
 			Score_instrument: []*Score_instrument{{Name: "Score_instrument"}},
-			// field is initialized with an instance of Player with the name of the field
 			Player: []*Player{{Name: "Player"}},
-			// field is initialized with an instance of Midi_device with the name of the field
 			Midi_device: []*Midi_device{{Name: "Midi_device"}},
-			// field is initialized with an instance of Midi_instrument with the name of the field
 			Midi_instrument: []*Midi_instrument{{Name: "Midi_instrument"}},
 		}).(*Type)
 	case Score_partwise:
 		return any(&Score_partwise{
-			// Initialisation of associations
-			// field is initialized with an instance of Work with the name of the field
 			Work: &Work{Name: "Work"},
-			// field is initialized with an instance of Identification with the name of the field
 			Identification: &Identification{Name: "Identification"},
-			// field is initialized with an instance of Defaults with the name of the field
 			Defaults: &Defaults{Name: "Defaults"},
-			// field is initialized with an instance of Credit with the name of the field
 			Credit: []*Credit{{Name: "Credit"}},
-			// field is initialized with an instance of Part_list with the name of the field
 			Part_list: &Part_list{Name: "Part_list"},
-			// field is initialized with an instance of A_part with the name of the field
 			Part: []*A_part{{Name: "Part"}},
 		}).(*Type)
 	case Score_timewise:
 		return any(&Score_timewise{
-			// Initialisation of associations
-			// field is initialized with an instance of Work with the name of the field
 			Work: &Work{Name: "Work"},
-			// field is initialized with an instance of Identification with the name of the field
 			Identification: &Identification{Name: "Identification"},
-			// field is initialized with an instance of Defaults with the name of the field
 			Defaults: &Defaults{Name: "Defaults"},
-			// field is initialized with an instance of Credit with the name of the field
 			Credit: []*Credit{{Name: "Credit"}},
-			// field is initialized with an instance of Part_list with the name of the field
 			Part_list: &Part_list{Name: "Part_list"},
-			// field is initialized with an instance of A_measure_1 with the name of the field
 			Measure: []*A_measure_1{{Name: "Measure"}},
-		}).(*Type)
-	case Segno:
-		return any(&Segno{
-			// Initialisation of associations
-		}).(*Type)
-	case Slash:
-		return any(&Slash{
-			// Initialisation of associations
-		}).(*Type)
-	case Slide:
-		return any(&Slide{
-			// Initialisation of associations
-		}).(*Type)
-	case Slur:
-		return any(&Slur{
-			// Initialisation of associations
 		}).(*Type)
 	case Sound:
 		return any(&Sound{
-			// Initialisation of associations
-			// field is initialized with an instance of Instrument_change with the name of the field
 			Instrument_change: []*Instrument_change{{Name: "Instrument_change"}},
-			// field is initialized with an instance of Midi_device with the name of the field
 			Midi_device: []*Midi_device{{Name: "Midi_device"}},
-			// field is initialized with an instance of Midi_instrument with the name of the field
 			Midi_instrument: []*Midi_instrument{{Name: "Midi_instrument"}},
-			// field is initialized with an instance of Play with the name of the field
 			Play: []*Play{{Name: "Play"}},
-			// field is initialized with an instance of Swing with the name of the field
 			Swing: &Swing{Name: "Swing"},
-			// field is initialized with an instance of Offset with the name of the field
 			Offset: &Offset{Name: "Offset"},
 		}).(*Type)
 	case Staff_details:
 		return any(&Staff_details{
-			// Initialisation of associations
-			// field is initialized with an instance of Line_detail with the name of the field
 			Line_detail: []*Line_detail{{Name: "Line_detail"}},
-			// field is initialized with an instance of Staff_tuning with the name of the field
 			Staff_tuning: []*Staff_tuning{{Name: "Staff_tuning"}},
-			// field is initialized with an instance of Staff_size with the name of the field
 			Staff_size: &Staff_size{Name: "Staff_size"},
-		}).(*Type)
-	case Staff_divide:
-		return any(&Staff_divide{
-			// Initialisation of associations
-		}).(*Type)
-	case Staff_layout:
-		return any(&Staff_layout{
-			// Initialisation of associations
-		}).(*Type)
-	case Staff_size:
-		return any(&Staff_size{
-			// Initialisation of associations
-		}).(*Type)
-	case Staff_tuning:
-		return any(&Staff_tuning{
-			// Initialisation of associations
-		}).(*Type)
-	case Stem:
-		return any(&Stem{
-			// Initialisation of associations
-		}).(*Type)
-	case Stick:
-		return any(&Stick{
-			// Initialisation of associations
-		}).(*Type)
-	case String_mute:
-		return any(&String_mute{
-			// Initialisation of associations
-		}).(*Type)
-	case String_type:
-		return any(&String_type{
-			// Initialisation of associations
-		}).(*Type)
-	case Strong_accent:
-		return any(&Strong_accent{
-			// Initialisation of associations
-		}).(*Type)
-	case Style_text:
-		return any(&Style_text{
-			// Initialisation of associations
-		}).(*Type)
-	case Supports:
-		return any(&Supports{
-			// Initialisation of associations
-		}).(*Type)
-	case Swing:
-		return any(&Swing{
-			// Initialisation of associations
-		}).(*Type)
-	case Sync:
-		return any(&Sync{
-			// Initialisation of associations
 		}).(*Type)
 	case System_dividers:
 		return any(&System_dividers{
-			// Initialisation of associations
-			// field is initialized with an instance of Empty_print_object_style_align with the name of the field
 			Left_divider: &Empty_print_object_style_align{Name: "Left_divider"},
-			// field is initialized with an instance of Empty_print_object_style_align with the name of the field
 			Right_divider: &Empty_print_object_style_align{Name: "Right_divider"},
 		}).(*Type)
 	case System_layout:
 		return any(&System_layout{
-			// Initialisation of associations
-			// field is initialized with an instance of System_margins with the name of the field
 			System_margins: &System_margins{Name: "System_margins"},
-			// field is initialized with an instance of System_dividers with the name of the field
 			System_dividers: &System_dividers{Name: "System_dividers"},
-		}).(*Type)
-	case System_margins:
-		return any(&System_margins{
-			// Initialisation of associations
-		}).(*Type)
-	case Tap:
-		return any(&Tap{
-			// Initialisation of associations
 		}).(*Type)
 	case Technical:
 		return any(&Technical{
-			// Initialisation of associations
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Up_bow: []*Empty_placement{{Name: "Up_bow"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Down_bow: []*Empty_placement{{Name: "Down_bow"}},
-			// field is initialized with an instance of Harmonic with the name of the field
 			Harmonic: []*Harmonic{{Name: "Harmonic"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Open_string: []*Empty_placement{{Name: "Open_string"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Thumb_position: []*Empty_placement{{Name: "Thumb_position"}},
-			// field is initialized with an instance of Fingering with the name of the field
 			Fingering: []*Fingering{{Name: "Fingering"}},
-			// field is initialized with an instance of Placement_text with the name of the field
 			Pluck: []*Placement_text{{Name: "Pluck"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Double_tongue: []*Empty_placement{{Name: "Double_tongue"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Triple_tongue: []*Empty_placement{{Name: "Triple_tongue"}},
-			// field is initialized with an instance of Empty_placement_smufl with the name of the field
 			Stopped: []*Empty_placement_smufl{{Name: "Stopped"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Snap_pizzicato: []*Empty_placement{{Name: "Snap_pizzicato"}},
-			// field is initialized with an instance of Fret with the name of the field
 			Fret: []*Fret{{Name: "Fret"}},
-			// field is initialized with an instance of String_type with the name of the field
 			String: []*String_type{{Name: "String"}},
-			// field is initialized with an instance of Hammer_on_pull_off with the name of the field
 			Hammer_on: []*Hammer_on_pull_off{{Name: "Hammer_on"}},
-			// field is initialized with an instance of Hammer_on_pull_off with the name of the field
 			Pull_off: []*Hammer_on_pull_off{{Name: "Pull_off"}},
-			// field is initialized with an instance of Bend with the name of the field
 			Bend: []*Bend{{Name: "Bend"}},
-			// field is initialized with an instance of Tap with the name of the field
 			Tap: []*Tap{{Name: "Tap"}},
-			// field is initialized with an instance of Heel_toe with the name of the field
 			Heel: []*Heel_toe{{Name: "Heel"}},
-			// field is initialized with an instance of Heel_toe with the name of the field
 			Toe: []*Heel_toe{{Name: "Toe"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Fingernails: []*Empty_placement{{Name: "Fingernails"}},
-			// field is initialized with an instance of Hole with the name of the field
 			Hole: []*Hole{{Name: "Hole"}},
-			// field is initialized with an instance of Arrow with the name of the field
 			Arrow: []*Arrow{{Name: "Arrow"}},
-			// field is initialized with an instance of Handbell with the name of the field
 			Handbell: []*Handbell{{Name: "Handbell"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Brass_bend: []*Empty_placement{{Name: "Brass_bend"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Flip: []*Empty_placement{{Name: "Flip"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Smear: []*Empty_placement{{Name: "Smear"}},
-			// field is initialized with an instance of Empty_placement_smufl with the name of the field
 			Open: []*Empty_placement_smufl{{Name: "Open"}},
-			// field is initialized with an instance of Empty_placement_smufl with the name of the field
 			Half_muted: []*Empty_placement_smufl{{Name: "Half_muted"}},
-			// field is initialized with an instance of Harmon_mute with the name of the field
 			Harmon_mute: []*Harmon_mute{{Name: "Harmon_mute"}},
-			// field is initialized with an instance of Empty_placement with the name of the field
 			Golpe: []*Empty_placement{{Name: "Golpe"}},
-			// field is initialized with an instance of Other_placement_text with the name of the field
 			Other_technical: []*Other_placement_text{{Name: "Other_technical"}},
-		}).(*Type)
-	case Text_element_data:
-		return any(&Text_element_data{
-			// Initialisation of associations
-		}).(*Type)
-	case Tie:
-		return any(&Tie{
-			// Initialisation of associations
-		}).(*Type)
-	case Tied:
-		return any(&Tied{
-			// Initialisation of associations
 		}).(*Type)
 	case Time:
 		return any(&Time{
-			// Initialisation of associations
-			// field is initialized with an instance of Interchangeable with the name of the field
 			Interchangeable: &Interchangeable{Name: "Interchangeable"},
-		}).(*Type)
-	case Time_modification:
-		return any(&Time_modification{
-			// Initialisation of associations
-		}).(*Type)
-	case Timpani:
-		return any(&Timpani{
-			// Initialisation of associations
-		}).(*Type)
-	case Transpose:
-		return any(&Transpose{
-			// Initialisation of associations
-		}).(*Type)
-	case Tremolo:
-		return any(&Tremolo{
-			// Initialisation of associations
 		}).(*Type)
 	case Tuplet:
 		return any(&Tuplet{
-			// Initialisation of associations
-			// field is initialized with an instance of Tuplet_portion with the name of the field
 			Tuplet_actual: &Tuplet_portion{Name: "Tuplet_actual"},
-			// field is initialized with an instance of Tuplet_portion with the name of the field
 			Tuplet_normal: &Tuplet_portion{Name: "Tuplet_normal"},
-		}).(*Type)
-	case Tuplet_dot:
-		return any(&Tuplet_dot{
-			// Initialisation of associations
-		}).(*Type)
-	case Tuplet_number:
-		return any(&Tuplet_number{
-			// Initialisation of associations
 		}).(*Type)
 	case Tuplet_portion:
 		return any(&Tuplet_portion{
-			// Initialisation of associations
-			// field is initialized with an instance of Tuplet_number with the name of the field
 			Tuplet_number: &Tuplet_number{Name: "Tuplet_number"},
-			// field is initialized with an instance of Tuplet_type with the name of the field
 			Tuplet_type: &Tuplet_type{Name: "Tuplet_type"},
-			// field is initialized with an instance of Tuplet_dot with the name of the field
 			Tuplet_dot: []*Tuplet_dot{{Name: "Tuplet_dot"}},
-		}).(*Type)
-	case Tuplet_type:
-		return any(&Tuplet_type{
-			// Initialisation of associations
-		}).(*Type)
-	case Typed_text:
-		return any(&Typed_text{
-			// Initialisation of associations
-		}).(*Type)
-	case Unpitched:
-		return any(&Unpitched{
-			// Initialisation of associations
-		}).(*Type)
-	case Virtual_instrument:
-		return any(&Virtual_instrument{
-			// Initialisation of associations
-		}).(*Type)
-	case Wait:
-		return any(&Wait{
-			// Initialisation of associations
-		}).(*Type)
-	case Wavy_line:
-		return any(&Wavy_line{
-			// Initialisation of associations
-		}).(*Type)
-	case Wedge:
-		return any(&Wedge{
-			// Initialisation of associations
-		}).(*Type)
-	case Wood:
-		return any(&Wood{
-			// Initialisation of associations
 		}).(*Type)
 	case Work:
 		return any(&Work{
-			// Initialisation of associations
-			// field is initialized with an instance of Opus with the name of the field
 			Opus: &Opus{Name: "Opus"},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

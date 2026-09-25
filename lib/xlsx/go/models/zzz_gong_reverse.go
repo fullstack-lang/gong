@@ -3,11 +3,7 @@ package models
 
 // insertion point
 func (inst *DisplaySelection) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -35,11 +31,7 @@ func (inst *XLCell) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Gon
 }
 
 func (inst *XLFile) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -77,11 +69,7 @@ func (inst *XLSheet) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Go
 
 // insertion point
 func (inst *DisplaySelection) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -105,11 +93,7 @@ func (inst *XLCell) GongGetReverseFieldOwner(stage *Stage, reverseField *GongRev
 }
 
 func (inst *XLFile) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 

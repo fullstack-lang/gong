@@ -37,14 +37,11 @@ func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	return
 }
 
-// insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by ActorState
-func (actorstate *ActorState) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
+type GongCleaner interface {
+	GongClean(stage *Stage) (modified bool)
 }
 
+// insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by ActorStateShape
 func (actorstateshape *ActorStateShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -85,13 +82,6 @@ func (analysis *Analysis) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by ControlPointShape
-func (controlpointshape *ControlPointShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -125,32 +115,11 @@ func (documentuse *DocumentUse) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by EvolutionDirection
-func (evolutiondirection *EvolutionDirection) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by EvolutionDirectionShape
 func (evolutiondirectionshape *EvolutionDirectionShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&evolutiondirectionshape.EvolutionDirection) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Foo
-func (foo *Foo) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by GeoObject
-func (geoobject *GeoObject) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
 	return
 }
 
@@ -184,13 +153,6 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&library.Analyses) || modified
 	modified = stage.CleanSlice(&library.SubLibraries) || modified
 	modified = stage.CleanSlice(&library.SubLibrariesWhoseNodeIsExpanded) || modified
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by MapObject
-func (mapobject *MapObject) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -253,13 +215,6 @@ func (parametersaggregateshape *ParametersAggregateShape) GongClean(stage *Stage
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by Position
-func (position *Position) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by Repository
 func (repository *Repository) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -278,13 +233,6 @@ func (scenario *Scenario) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&scenario.EvolutionDirections) || modified
 	modified = stage.CleanSlice(&scenario.Parameters) || modified
 	modified = stage.CleanSlice(&scenario.ParametersAggretates) || modified
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by User
-func (user *User) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -313,7 +261,9 @@ func (workspace *Workspace) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		modified = instance.GongClean(stage) || modified
+		if cleaner, ok := any(instance).(GongCleaner); ok {
+			modified = cleaner.GongClean(stage) || modified
+		}
 	}
 	if modified {
 		if stage.probeIF != nil {

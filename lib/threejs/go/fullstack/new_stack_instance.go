@@ -49,26 +49,8 @@ func NewStackInstance(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.AmbiantLight]()
-	stage.SetOrchestratorOnAfterUpdate[models.BoxGeometry]()
-	stage.SetOrchestratorOnAfterUpdate[models.BufferGeometry]()
 	stage.SetOrchestratorOnAfterUpdate[models.Camera]()
 	stage.SetOrchestratorOnAfterUpdate[models.Canvas]()
-	stage.SetOrchestratorOnAfterUpdate[models.Curve]()
-	stage.SetOrchestratorOnAfterUpdate[models.CylinderGeometry]()
-	stage.SetOrchestratorOnAfterUpdate[models.DirectionalLight]()
-	stage.SetOrchestratorOnAfterUpdate[models.ExtrudeGeometry]()
-	stage.SetOrchestratorOnAfterUpdate[models.Mesh]()
-	stage.SetOrchestratorOnAfterUpdate[models.MeshMaterialBasic]()
-	stage.SetOrchestratorOnAfterUpdate[models.MeshPhysicalMaterial]()
-	stage.SetOrchestratorOnAfterUpdate[models.PlaneGeometry]()
-	stage.SetOrchestratorOnAfterUpdate[models.Shape]()
-	stage.SetOrchestratorOnAfterUpdate[models.SphereGeometry]()
-	stage.SetOrchestratorOnAfterUpdate[models.TorusGeometry]()
-	stage.SetOrchestratorOnAfterUpdate[models.Triangle]()
-	stage.SetOrchestratorOnAfterUpdate[models.TubeGeometry]()
-	stage.SetOrchestratorOnAfterUpdate[models.Vector2]()
-	stage.SetOrchestratorOnAfterUpdate[models.Vector3]()
 
 	return
 }

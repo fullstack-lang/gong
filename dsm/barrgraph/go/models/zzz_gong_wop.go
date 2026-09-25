@@ -19,9 +19,7 @@ type ArtefactType_WOP struct {
 
 func (from *ArtefactType) GongCopyBasicFields(to *ArtefactType) {
 	// insertion point
-	to.Name = from.Name
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type ArtefactTypeShape_WOP struct {
@@ -137,10 +135,7 @@ type ControlPointShape_WOP struct {
 
 func (from *ControlPointShape) GongCopyBasicFields(to *ControlPointShape) {
 	// insertion point
-	to.Name = from.Name
-	to.X_Relative = from.X_Relative
-	to.Y_Relative = from.Y_Relative
-	to.IsStartShapeTheClosestShape = from.IsStartShapeTheClosestShape
+	*to = *from
 }
 
 type Desk_WOP struct {
@@ -573,7 +568,7 @@ type Place_WOP struct {
 
 func (from *Place) GongCopyBasicFields(to *Place) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 // end of insertion point

@@ -85,9 +85,7 @@ type Link_WOP struct {
 
 func (from *Link) GongCopyBasicFields(to *Link) {
 	// insertion point
-	to.Name = from.Name
-	to.NameXSD = from.NameXSD
-	to.EnclosedText = from.EnclosedText
+	*to = *from
 }
 
 // end of insertion point

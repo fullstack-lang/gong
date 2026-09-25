@@ -50,12 +50,7 @@ func NewStackInstance(
 	// add orchestration
 	// insertion point
 	stage.SetOrchestratorOnAfterUpdate[models.Astruct]()
-	stage.SetOrchestratorOnAfterUpdate[models.AstructBstruct2Use]()
-	stage.SetOrchestratorOnAfterUpdate[models.AstructBstructUse]()
 	stage.SetOrchestratorOnAfterUpdate[models.Bstruct]()
-	stage.SetOrchestratorOnAfterUpdate[models.Dstruct]()
-	stage.SetOrchestratorOnAfterUpdate[models.F0123456789012345678901234567890]()
-	stage.SetOrchestratorOnAfterUpdate[models.Gstruct]()
 
 	return
 }

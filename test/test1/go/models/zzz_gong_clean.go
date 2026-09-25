@@ -37,6 +37,10 @@ func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	return
 }
 
+type GongCleaner interface {
+	GongClean(stage *Stage) (modified bool)
+}
+
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Astruct
 func (astruct *Astruct) GongClean(stage *Stage) (modified bool) {
@@ -76,13 +80,6 @@ func (astructbstructuse *AstructBstructUse) GongClean(stage *Stage) (modified bo
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by Bstruct
-func (bstruct *Bstruct) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by Dstruct
 func (dstruct *Dstruct) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -93,24 +90,12 @@ func (dstruct *Dstruct) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by F0123456789012345678901234567890
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Gstruct
-func (gstruct *Gstruct) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		modified = instance.GongClean(stage) || modified
+		if cleaner, ok := any(instance).(GongCleaner); ok {
+			modified = cleaner.GongClean(stage) || modified
+		}
 	}
 	if modified {
 		if stage.probeIF != nil {

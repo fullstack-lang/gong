@@ -43,21 +43,7 @@ type Cursor_WOP struct {
 
 func (from *Cursor) GongCopyBasicFields(to *Cursor) {
 	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.EndX = from.EndX
-	to.Y1 = from.Y1
-	to.Y2 = from.Y2
-	to.DurationSeconds = from.DurationSeconds
-	to.Color = from.Color
-	to.FillOpacity = from.FillOpacity
-	to.Stroke = from.Stroke
-	to.StrokeOpacity = from.StrokeOpacity
-	to.StrokeWidth = from.StrokeWidth
-	to.StrokeDashArray = from.StrokeDashArray
-	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
-	to.Transform = from.Transform
-	to.IsPlaying = from.IsPlaying
+	*to = *from
 }
 
 // end of insertion point

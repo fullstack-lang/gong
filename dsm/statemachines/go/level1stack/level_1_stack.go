@@ -123,24 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.Action]()
-	stage.SetOrchestratorOnAfterUpdate[models.Activities]()
-	stage.SetOrchestratorOnAfterUpdate[models.Diagram]()
-	stage.SetOrchestratorOnAfterUpdate[models.Guard]()
-	stage.SetOrchestratorOnAfterUpdate[models.Kill]()
-	stage.SetOrchestratorOnAfterUpdate[models.Library]()
-	stage.SetOrchestratorOnAfterUpdate[models.Message]()
-	stage.SetOrchestratorOnAfterUpdate[models.MessageType]()
-	stage.SetOrchestratorOnAfterUpdate[models.Note]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteStateShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Object]()
-	stage.SetOrchestratorOnAfterUpdate[models.Role]()
-	stage.SetOrchestratorOnAfterUpdate[models.State]()
-	stage.SetOrchestratorOnAfterUpdate[models.StateMachine]()
-	stage.SetOrchestratorOnAfterUpdate[models.StateShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Transition]()
-	stage.SetOrchestratorOnAfterUpdate[models.Transition_Shape]()
 
 	return
 }

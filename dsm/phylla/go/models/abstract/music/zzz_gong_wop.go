@@ -67,33 +67,7 @@ type MusicAbstract_WOP struct {
 
 func (from *MusicAbstract) GongCopyBasicFields(to *MusicAbstract) {
 	// insertion point
-	to.Name = from.Name
-	to.IsChecked = from.IsChecked
-	to.PitchHeight = from.PitchHeight
-	to.NbOfBeatsInTheme = from.NbOfBeatsInTheme
-	to.BeatsPerSecond = from.BeatsPerSecond
-	to.FirstVoiceShiftX = from.FirstVoiceShiftX
-	to.FirstVoiceShiftY = from.FirstVoiceShiftY
-	to.PitchDifference = from.PitchDifference
-	to.Level = from.Level
-	to.ActualBeatsTemporalShift = from.ActualBeatsTemporalShift
-	to.IsMinor = from.IsMinor
-	to.ThemeBinaryEncoding = from.ThemeBinaryEncoding
-	to.BezierControlLengthRatio = from.BezierControlLengthRatio
-	to.NbPitchLines = from.NbPitchLines
-	to.NbBeatLines = from.NbBeatLines
-	to.OriginX = from.OriginX
-	to.OriginY = from.OriginY
-	to.ScoreScale = from.ScoreScale
-	to.ShowFirstVoice = from.ShowFirstVoice
-	to.ShowFirstVoiceShiftRight = from.ShowFirstVoiceShiftRight
-	to.ShowSecondVoice = from.ShowSecondVoice
-	to.ShowSecondVoiceShiftRight = from.ShowSecondVoiceShiftRight
-	to.ShowFirstVoiceNotes = from.ShowFirstVoiceNotes
-	to.ShowFirstVoiceNotesShiftRight = from.ShowFirstVoiceNotesShiftRight
-	to.ShowSecondVoiceNotes = from.ShowSecondVoiceNotes
-	to.ShowSecondVoiceNotesShiftRight = from.ShowSecondVoiceNotesShiftRight
-	to.IsComposerNodeExpanded = from.IsComposerNodeExpanded
+	*to = *from
 }
 
 // end of insertion point

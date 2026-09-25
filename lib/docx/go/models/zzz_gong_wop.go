@@ -48,7 +48,7 @@ type File_WOP struct {
 
 func (from *File) GongCopyBasicFields(to *File) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Node_WOP struct {

@@ -123,15 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.AttributeShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Classdiagram]()
-	stage.SetOrchestratorOnAfterUpdate[models.DiagramPackage]()
-	stage.SetOrchestratorOnAfterUpdate[models.GongEnumShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.GongEnumValueShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.GongNoteLinkShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.GongNoteShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.GongStructShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.LinkShape]()
 
 	return
 }

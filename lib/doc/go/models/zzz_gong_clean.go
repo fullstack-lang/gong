@@ -37,14 +37,11 @@ func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	return
 }
 
-// insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by AttributeShape
-func (attributeshape *AttributeShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
+type GongCleaner interface {
+	GongClean(stage *Stage) (modified bool)
 }
 
+// insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Classdiagram
 func (classdiagram *Classdiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -72,20 +69,6 @@ func (gongenumshape *GongEnumShape) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by GongEnumValueShape
-func (gongenumvalueshape *GongEnumValueShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by GongNoteLinkShape
-func (gongnotelinkshape *GongNoteLinkShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by GongNoteShape
 func (gongnoteshape *GongNoteShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -103,17 +86,12 @@ func (gongstructshape *GongStructShape) GongClean(stage *Stage) (modified bool) 
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by LinkShape
-func (linkshape *LinkShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		modified = instance.GongClean(stage) || modified
+		if cleaner, ok := any(instance).(GongCleaner); ok {
+			modified = cleaner.GongClean(stage) || modified
+		}
 	}
 	if modified {
 		if stage.probeIF != nil {

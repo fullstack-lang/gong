@@ -123,35 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.AnalysisNeed]()
-	stage.SetOrchestratorOnAfterUpdate[models.Concept]()
-	stage.SetOrchestratorOnAfterUpdate[models.ConceptShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Concern]()
-	stage.SetOrchestratorOnAfterUpdate[models.ConcernCompositionShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ConcernInputShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ConcernOutputShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ConcernShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ControlPointShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Deliverable]()
-	stage.SetOrchestratorOnAfterUpdate[models.DeliverableCompositionShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.DeliverableConceptShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.DeliverableShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Diagram]()
-	stage.SetOrchestratorOnAfterUpdate[models.DiagramShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Library]()
-	stage.SetOrchestratorOnAfterUpdate[models.Note]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteDeliverableShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteStakeholderShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteTaskShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Requirement]()
-	stage.SetOrchestratorOnAfterUpdate[models.RequirementShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Stakeholder]()
-	stage.SetOrchestratorOnAfterUpdate[models.StakeholderCompositionShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.StakeholderConcernShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.StakeholderShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.SupportLevel]()
-	stage.SetOrchestratorOnAfterUpdate[models.Tool]()
 
 	return
 }

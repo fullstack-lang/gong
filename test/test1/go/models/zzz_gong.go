@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -1741,7 +1732,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -1847,74 +1837,38 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case Astruct:
 		return any(&Astruct{
-			// Initialisation of associations
-			// field is initialized with an instance of Bstruct with the name of the field
 			Associationtob: &Bstruct{Name: "Associationtob"},
-			// field is initialized with an instance of Bstruct with the name of the field
 			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
-			// field is initialized with an instance of Bstruct with the name of the field
 			Anotherassociationtob_2: &Bstruct{Name: "Anotherassociationtob_2"},
-			// field is initialized with an instance of Bstruct with the name of the field
 			Bstruct: &Bstruct{Name: "Bstruct"},
-			// field is initialized with an instance of Bstruct with the name of the field
 			Bstruct2: &Bstruct{Name: "Bstruct2"},
-			// field is initialized with an instance of Dstruct with the name of the field
 			Dstruct: &Dstruct{Name: "Dstruct"},
-			// field is initialized with an instance of Dstruct with the name of the field
 			Dstruct2: &Dstruct{Name: "Dstruct2"},
-			// field is initialized with an instance of Dstruct with the name of the field
 			Dstruct3: &Dstruct{Name: "Dstruct3"},
-			// field is initialized with an instance of Dstruct with the name of the field
 			Dstruct4: &Dstruct{Name: "Dstruct4"},
-			// field is initialized with an instance of Dstruct with the name of the field
 			Dstruct4s: []*Dstruct{{Name: "Dstruct4s"}},
-			// field is initialized with an instance of Astruct with the name of the field
 			Anarrayofa: []*Astruct{{Name: "Anarrayofa"}},
-			// field is initialized with an instance of Bstruct with the name of the field
 			Anotherarrayofb: []*Bstruct{{Name: "Anotherarrayofb"}},
-			// field is initialized with an instance of AstructBstructUse with the name of the field
 			AnarrayofbUse: []*AstructBstructUse{{Name: "AnarrayofbUse"}},
-			// field is initialized with an instance of AstructBstruct2Use with the name of the field
 			Anarrayofb2Use: []*AstructBstruct2Use{{Name: "Anarrayofb2Use"}},
-			// field is initialized with an instance of Astruct with the name of the field
 			AnAstruct: &Astruct{Name: "AnAstruct"},
 		}).(*Type)
 	case AstructBstruct2Use:
 		return any(&AstructBstruct2Use{
-			// Initialisation of associations
-			// field is initialized with an instance of Bstruct with the name of the field
 			Bstrcut2: &Bstruct{Name: "Bstrcut2"},
 		}).(*Type)
 	case AstructBstructUse:
 		return any(&AstructBstructUse{
-			// Initialisation of associations
-			// field is initialized with an instance of Bstruct with the name of the field
 			Bstruct2: &Bstruct{Name: "Bstruct2"},
-		}).(*Type)
-	case Bstruct:
-		return any(&Bstruct{
-			// Initialisation of associations
 		}).(*Type)
 	case Dstruct:
 		return any(&Dstruct{
-			// Initialisation of associations
-			// field is initialized with an instance of Bstruct with the name of the field
 			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
-			// field is initialized with an instance of Gstruct with the name of the field
 			Gstruct: &Gstruct{Name: "Gstruct"},
-			// field is initialized with an instance of Gstruct with the name of the field
 			Gstructs: []*Gstruct{{Name: "Gstructs"}},
 		}).(*Type)
-	case F0123456789012345678901234567890:
-		return any(&F0123456789012345678901234567890{
-			// Initialisation of associations
-		}).(*Type)
-	case Gstruct:
-		return any(&Gstruct{
-			// Initialisation of associations
-		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

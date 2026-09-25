@@ -21,10 +21,7 @@ type Checkbox_WOP struct {
 
 func (from *Checkbox) GongCopyBasicFields(to *Checkbox) {
 	// insertion point
-	to.Name = from.Name
-	to.ValueBool = from.ValueBool
-	to.LabelForTrue = from.LabelForTrue
-	to.LabelForFalse = from.LabelForFalse
+	*to = *from
 }
 
 type Group_WOP struct {
@@ -88,18 +85,7 @@ type Slider_WOP struct {
 
 func (from *Slider) GongCopyBasicFields(to *Slider) {
 	// insertion point
-	to.Name = from.Name
-	to.IsFloat64 = from.IsFloat64
-	to.IsInt = from.IsInt
-	to.MinInt = from.MinInt
-	to.MaxInt = from.MaxInt
-	to.StepInt = from.StepInt
-	to.ValueInt = from.ValueInt
-	to.MinFloat64 = from.MinFloat64
-	to.MaxFloat64 = from.MaxFloat64
-	to.StepFloat64 = from.StepFloat64
-	to.ValueFloat64 = from.ValueFloat64
-	to.IsDisabled = from.IsDisabled
+	*to = *from
 }
 
 // end of insertion point

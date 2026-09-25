@@ -37,14 +37,11 @@ func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	return
 }
 
-// insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by CheckBox
-func (checkbox *CheckBox) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
+type GongCleaner interface {
+	GongClean(stage *Stage) (modified bool)
 }
 
+// insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by FormDiv
 func (formdiv *FormDiv) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -53,13 +50,6 @@ func (formdiv *FormDiv) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanPointer(&formdiv.FormEditAssocButton) || modified
 	modified = stage.CleanPointer(&formdiv.FormSortAssocButton) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by FormEditAssocButton
-func (formeditassocbutton *FormEditAssocButton) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
 	return
 }
 
@@ -77,54 +67,12 @@ func (formfield *FormField) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by FormFieldDate
-func (formfielddate *FormFieldDate) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by FormFieldDateTime
-func (formfielddatetime *FormFieldDateTime) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by FormFieldFloat64
-func (formfieldfloat64 *FormFieldFloat64) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by FormFieldInt
-func (formfieldint *FormFieldInt) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by FormFieldSelect
 func (formfieldselect *FormFieldSelect) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&formfieldselect.Options) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&formfieldselect.Value) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by FormFieldString
-func (formfieldstring *FormFieldString) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by FormFieldTime
-func (formfieldtime *FormFieldTime) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
 	return
 }
 
@@ -144,17 +92,12 @@ func (formsortassocbutton *FormSortAssocButton) GongClean(stage *Stage) (modifie
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by Option
-func (option *Option) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		modified = instance.GongClean(stage) || modified
+		if cleaner, ok := any(instance).(GongCleaner); ok {
+			modified = cleaner.GongClean(stage) || modified
+		}
 	}
 	if modified {
 		if stage.probeIF != nil {

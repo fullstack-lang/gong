@@ -46,11 +46,7 @@ type Complexity_WOP struct {
 
 func (from *Complexity) GongCopyBasicFields(to *Complexity) {
 	// insertion point
-	to.Name = from.Name
-	to.Strength = from.Strength
-	to.Description = from.Description
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type DiagramFlossEquation_WOP struct {
@@ -143,11 +139,7 @@ type Effort_WOP struct {
 
 func (from *Effort) GongCopyBasicFields(to *Effort) {
 	// insertion point
-	to.Name = from.Name
-	to.Strength = from.Strength
-	to.Description = from.Description
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type Library_WOP struct {
@@ -361,11 +353,7 @@ type Performance_WOP struct {
 
 func (from *Performance) GongCopyBasicFields(to *Performance) {
 	// insertion point
-	to.Name = from.Name
-	to.Strength = from.Strength
-	to.Description = from.Description
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type System_WOP struct {

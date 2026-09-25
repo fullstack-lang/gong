@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -2783,7 +2774,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -2915,94 +2905,38 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case CheckBox:
-		return any(&CheckBox{
-			// Initialisation of associations
-		}).(*Type)
 	case FormDiv:
 		return any(&FormDiv{
-			// Initialisation of associations
-			// field is initialized with an instance of FormField with the name of the field
 			FormFields: []*FormField{{Name: "FormFields"}},
-			// field is initialized with an instance of CheckBox with the name of the field
 			CheckBoxs: []*CheckBox{{Name: "CheckBoxs"}},
-			// field is initialized with an instance of FormEditAssocButton with the name of the field
 			FormEditAssocButton: &FormEditAssocButton{Name: "FormEditAssocButton"},
-			// field is initialized with an instance of FormSortAssocButton with the name of the field
 			FormSortAssocButton: &FormSortAssocButton{Name: "FormSortAssocButton"},
-		}).(*Type)
-	case FormEditAssocButton:
-		return any(&FormEditAssocButton{
-			// Initialisation of associations
 		}).(*Type)
 	case FormField:
 		return any(&FormField{
-			// Initialisation of associations
-			// field is initialized with an instance of FormFieldString with the name of the field
 			FormFieldString: &FormFieldString{Name: "FormFieldString"},
-			// field is initialized with an instance of FormFieldFloat64 with the name of the field
 			FormFieldFloat64: &FormFieldFloat64{Name: "FormFieldFloat64"},
-			// field is initialized with an instance of FormFieldInt with the name of the field
 			FormFieldInt: &FormFieldInt{Name: "FormFieldInt"},
-			// field is initialized with an instance of FormFieldDate with the name of the field
 			FormFieldDate: &FormFieldDate{Name: "FormFieldDate"},
-			// field is initialized with an instance of FormFieldTime with the name of the field
 			FormFieldTime: &FormFieldTime{Name: "FormFieldTime"},
-			// field is initialized with an instance of FormFieldDateTime with the name of the field
 			FormFieldDateTime: &FormFieldDateTime{Name: "FormFieldDateTime"},
-			// field is initialized with an instance of FormFieldSelect with the name of the field
 			FormFieldSelect: &FormFieldSelect{Name: "FormFieldSelect"},
-		}).(*Type)
-	case FormFieldDate:
-		return any(&FormFieldDate{
-			// Initialisation of associations
-		}).(*Type)
-	case FormFieldDateTime:
-		return any(&FormFieldDateTime{
-			// Initialisation of associations
-		}).(*Type)
-	case FormFieldFloat64:
-		return any(&FormFieldFloat64{
-			// Initialisation of associations
-		}).(*Type)
-	case FormFieldInt:
-		return any(&FormFieldInt{
-			// Initialisation of associations
 		}).(*Type)
 	case FormFieldSelect:
 		return any(&FormFieldSelect{
-			// Initialisation of associations
-			// field is initialized with an instance of Option with the name of the field
 			Value: &Option{Name: "Value"},
-			// field is initialized with an instance of Option with the name of the field
 			Options: []*Option{{Name: "Options"}},
-		}).(*Type)
-	case FormFieldString:
-		return any(&FormFieldString{
-			// Initialisation of associations
-		}).(*Type)
-	case FormFieldTime:
-		return any(&FormFieldTime{
-			// Initialisation of associations
 		}).(*Type)
 	case FormGroup:
 		return any(&FormGroup{
-			// Initialisation of associations
-			// field is initialized with an instance of FormDiv with the name of the field
 			FormDivs: []*FormDiv{{Name: "FormDivs"}},
 		}).(*Type)
 	case FormSortAssocButton:
 		return any(&FormSortAssocButton{
-			// Initialisation of associations
-			// field is initialized with an instance of FormEditAssocButton with the name of the field
 			FormEditAssocButton: &FormEditAssocButton{Name: "FormEditAssocButton"},
 		}).(*Type)
-	case Option:
-		return any(&Option{
-			// Initialisation of associations
-		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

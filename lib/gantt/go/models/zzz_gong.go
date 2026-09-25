@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -1739,7 +1730,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -1845,54 +1835,34 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case Arrow:
 		return any(&Arrow{
-			// Initialisation of associations
-			// field is initialized with an instance of Bar with the name of the field
 			From: &Bar{Name: "From"},
-			// field is initialized with an instance of Bar with the name of the field
 			To: &Bar{Name: "To"},
-		}).(*Type)
-	case Bar:
-		return any(&Bar{
-			// Initialisation of associations
 		}).(*Type)
 	case Gantt:
 		return any(&Gantt{
-			// Initialisation of associations
-			// field is initialized with an instance of Lane with the name of the field
 			Lanes: []*Lane{{Name: "Lanes"}},
-			// field is initialized with an instance of Milestone with the name of the field
 			Milestones: []*Milestone{{Name: "Milestones"}},
-			// field is initialized with an instance of Group with the name of the field
 			Groups: []*Group{{Name: "Groups"}},
-			// field is initialized with an instance of Arrow with the name of the field
 			Arrows: []*Arrow{{Name: "Arrows"}},
 		}).(*Type)
 	case Group:
 		return any(&Group{
-			// Initialisation of associations
-			// field is initialized with an instance of Lane with the name of the field
 			GroupLanes: []*Lane{{Name: "GroupLanes"}},
 		}).(*Type)
 	case Lane:
 		return any(&Lane{
-			// Initialisation of associations
-			// field is initialized with an instance of Bar with the name of the field
 			Bars: []*Bar{{Name: "Bars"}},
 		}).(*Type)
 	case LaneUse:
 		return any(&LaneUse{
-			// Initialisation of associations
-			// field is initialized with an instance of Lane with the name of the field
 			Lane: &Lane{Name: "Lane"},
 		}).(*Type)
 	case Milestone:
 		return any(&Milestone{
-			// Initialisation of associations
-			// field is initialized with an instance of Lane with the name of the field
 			LanesToDisplay: []*Lane{{Name: "LanesToDisplay"}},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

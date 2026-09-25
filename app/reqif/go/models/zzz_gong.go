@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -16357,7 +16348,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -16849,674 +16839,307 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case ALTERNATIVE_ID:
-		return any(&ALTERNATIVE_ID{
-			// Initialisation of associations
-		}).(*Type)
 	case ATTRIBUTE_DEFINITION_BOOLEAN:
 		return any(&ATTRIBUTE_DEFINITION_BOOLEAN{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_ATTRIBUTE_VALUE_BOOLEAN with the name of the field
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_BOOLEAN{Name: "DEFAULT_VALUE"},
-			// field is initialized with an instance of A_DATATYPE_DEFINITION_BOOLEAN_REF with the name of the field
 			TYPE: &A_DATATYPE_DEFINITION_BOOLEAN_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_BOOLEAN_Rendering:
-		return any(&ATTRIBUTE_DEFINITION_BOOLEAN_Rendering{
-			// Initialisation of associations
 		}).(*Type)
 	case ATTRIBUTE_DEFINITION_DATE:
 		return any(&ATTRIBUTE_DEFINITION_DATE{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_ATTRIBUTE_VALUE_DATE with the name of the field
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_DATE{Name: "DEFAULT_VALUE"},
-			// field is initialized with an instance of A_DATATYPE_DEFINITION_DATE_REF with the name of the field
 			TYPE: &A_DATATYPE_DEFINITION_DATE_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_DATE_Rendering:
-		return any(&ATTRIBUTE_DEFINITION_DATE_Rendering{
-			// Initialisation of associations
 		}).(*Type)
 	case ATTRIBUTE_DEFINITION_ENUMERATION:
 		return any(&ATTRIBUTE_DEFINITION_ENUMERATION{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_ATTRIBUTE_VALUE_ENUMERATION with the name of the field
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_ENUMERATION{Name: "DEFAULT_VALUE"},
-			// field is initialized with an instance of A_DATATYPE_DEFINITION_ENUMERATION_REF with the name of the field
 			TYPE: &A_DATATYPE_DEFINITION_ENUMERATION_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_ENUMERATION_Rendering:
-		return any(&ATTRIBUTE_DEFINITION_ENUMERATION_Rendering{
-			// Initialisation of associations
 		}).(*Type)
 	case ATTRIBUTE_DEFINITION_INTEGER:
 		return any(&ATTRIBUTE_DEFINITION_INTEGER{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_ATTRIBUTE_VALUE_INTEGER with the name of the field
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_INTEGER{Name: "DEFAULT_VALUE"},
-			// field is initialized with an instance of A_DATATYPE_DEFINITION_INTEGER_REF with the name of the field
 			TYPE: &A_DATATYPE_DEFINITION_INTEGER_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_INTEGER_Rendering:
-		return any(&ATTRIBUTE_DEFINITION_INTEGER_Rendering{
-			// Initialisation of associations
 		}).(*Type)
 	case ATTRIBUTE_DEFINITION_REAL:
 		return any(&ATTRIBUTE_DEFINITION_REAL{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_ATTRIBUTE_VALUE_REAL with the name of the field
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_REAL{Name: "DEFAULT_VALUE"},
-			// field is initialized with an instance of A_DATATYPE_DEFINITION_REAL_REF with the name of the field
 			TYPE: &A_DATATYPE_DEFINITION_REAL_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_REAL_Rendering:
-		return any(&ATTRIBUTE_DEFINITION_REAL_Rendering{
-			// Initialisation of associations
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_Rendering:
-		return any(&ATTRIBUTE_DEFINITION_Rendering{
-			// Initialisation of associations
 		}).(*Type)
 	case ATTRIBUTE_DEFINITION_STRING:
 		return any(&ATTRIBUTE_DEFINITION_STRING{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_ATTRIBUTE_VALUE_STRING with the name of the field
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_STRING{Name: "DEFAULT_VALUE"},
-			// field is initialized with an instance of A_DATATYPE_DEFINITION_STRING_REF with the name of the field
 			TYPE: &A_DATATYPE_DEFINITION_STRING_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_STRING_Rendering:
-		return any(&ATTRIBUTE_DEFINITION_STRING_Rendering{
-			// Initialisation of associations
 		}).(*Type)
 	case ATTRIBUTE_DEFINITION_XHTML:
 		return any(&ATTRIBUTE_DEFINITION_XHTML{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_ATTRIBUTE_VALUE_XHTML with the name of the field
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_XHTML{Name: "DEFAULT_VALUE"},
-			// field is initialized with an instance of A_DATATYPE_DEFINITION_XHTML_REF with the name of the field
 			TYPE: &A_DATATYPE_DEFINITION_XHTML_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_XHTML_Rendering:
-		return any(&ATTRIBUTE_DEFINITION_XHTML_Rendering{
-			// Initialisation of associations
 		}).(*Type)
 	case ATTRIBUTE_VALUE_BOOLEAN:
 		return any(&ATTRIBUTE_VALUE_BOOLEAN{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ATTRIBUTE_DEFINITION_BOOLEAN_REF with the name of the field
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_BOOLEAN_REF{Name: "DEFINITION"},
 		}).(*Type)
 	case ATTRIBUTE_VALUE_DATE:
 		return any(&ATTRIBUTE_VALUE_DATE{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ATTRIBUTE_DEFINITION_DATE_REF with the name of the field
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_DATE_REF{Name: "DEFINITION"},
 		}).(*Type)
 	case ATTRIBUTE_VALUE_ENUMERATION:
 		return any(&ATTRIBUTE_VALUE_ENUMERATION{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ATTRIBUTE_DEFINITION_ENUMERATION_REF with the name of the field
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_ENUMERATION_REF{Name: "DEFINITION"},
-			// field is initialized with an instance of A_ENUM_VALUE_REF with the name of the field
 			VALUES: &A_ENUM_VALUE_REF{Name: "VALUES"},
 		}).(*Type)
 	case ATTRIBUTE_VALUE_INTEGER:
 		return any(&ATTRIBUTE_VALUE_INTEGER{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ATTRIBUTE_DEFINITION_INTEGER_REF with the name of the field
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_INTEGER_REF{Name: "DEFINITION"},
 		}).(*Type)
 	case ATTRIBUTE_VALUE_REAL:
 		return any(&ATTRIBUTE_VALUE_REAL{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ATTRIBUTE_DEFINITION_REAL_REF with the name of the field
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_REAL_REF{Name: "DEFINITION"},
 		}).(*Type)
 	case ATTRIBUTE_VALUE_STRING:
 		return any(&ATTRIBUTE_VALUE_STRING{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ATTRIBUTE_DEFINITION_STRING_REF with the name of the field
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_STRING_REF{Name: "DEFINITION"},
 		}).(*Type)
 	case ATTRIBUTE_VALUE_XHTML:
 		return any(&ATTRIBUTE_VALUE_XHTML{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ATTRIBUTE_DEFINITION_XHTML_REF with the name of the field
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_XHTML_REF{Name: "DEFINITION"},
-			// field is initialized with an instance of XHTML_CONTENT with the name of the field
 			THE_VALUE: &XHTML_CONTENT{Name: "THE_VALUE"},
-			// field is initialized with an instance of XHTML_CONTENT with the name of the field
 			THE_ORIGINAL_VALUE: &XHTML_CONTENT{Name: "THE_ORIGINAL_VALUE"},
 		}).(*Type)
 	case A_ALTERNATIVE_ID:
 		return any(&A_ALTERNATIVE_ID{
-			// Initialisation of associations
-			// field is initialized with an instance of ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-		}).(*Type)
-	case A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		return any(&A_ATTRIBUTE_DEFINITION_BOOLEAN_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_ATTRIBUTE_DEFINITION_DATE_REF:
-		return any(&A_ATTRIBUTE_DEFINITION_DATE_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		return any(&A_ATTRIBUTE_DEFINITION_ENUMERATION_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		return any(&A_ATTRIBUTE_DEFINITION_INTEGER_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_ATTRIBUTE_DEFINITION_REAL_REF:
-		return any(&A_ATTRIBUTE_DEFINITION_REAL_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_ATTRIBUTE_DEFINITION_STRING_REF:
-		return any(&A_ATTRIBUTE_DEFINITION_STRING_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		return any(&A_ATTRIBUTE_DEFINITION_XHTML_REF{
-			// Initialisation of associations
 		}).(*Type)
 	case A_ATTRIBUTE_VALUE_BOOLEAN:
 		return any(&A_ATTRIBUTE_VALUE_BOOLEAN{
-			// Initialisation of associations
-			// field is initialized with an instance of ATTRIBUTE_VALUE_BOOLEAN with the name of the field
 			ATTRIBUTE_VALUE_BOOLEAN: []*ATTRIBUTE_VALUE_BOOLEAN{{Name: "ATTRIBUTE_VALUE_BOOLEAN"}},
 		}).(*Type)
 	case A_ATTRIBUTE_VALUE_DATE:
 		return any(&A_ATTRIBUTE_VALUE_DATE{
-			// Initialisation of associations
-			// field is initialized with an instance of ATTRIBUTE_VALUE_DATE with the name of the field
 			ATTRIBUTE_VALUE_DATE: []*ATTRIBUTE_VALUE_DATE{{Name: "ATTRIBUTE_VALUE_DATE"}},
 		}).(*Type)
 	case A_ATTRIBUTE_VALUE_ENUMERATION:
 		return any(&A_ATTRIBUTE_VALUE_ENUMERATION{
-			// Initialisation of associations
-			// field is initialized with an instance of ATTRIBUTE_VALUE_ENUMERATION with the name of the field
 			ATTRIBUTE_VALUE_ENUMERATION: []*ATTRIBUTE_VALUE_ENUMERATION{{Name: "ATTRIBUTE_VALUE_ENUMERATION"}},
 		}).(*Type)
 	case A_ATTRIBUTE_VALUE_INTEGER:
 		return any(&A_ATTRIBUTE_VALUE_INTEGER{
-			// Initialisation of associations
-			// field is initialized with an instance of ATTRIBUTE_VALUE_INTEGER with the name of the field
 			ATTRIBUTE_VALUE_INTEGER: []*ATTRIBUTE_VALUE_INTEGER{{Name: "ATTRIBUTE_VALUE_INTEGER"}},
 		}).(*Type)
 	case A_ATTRIBUTE_VALUE_REAL:
 		return any(&A_ATTRIBUTE_VALUE_REAL{
-			// Initialisation of associations
-			// field is initialized with an instance of ATTRIBUTE_VALUE_REAL with the name of the field
 			ATTRIBUTE_VALUE_REAL: []*ATTRIBUTE_VALUE_REAL{{Name: "ATTRIBUTE_VALUE_REAL"}},
 		}).(*Type)
 	case A_ATTRIBUTE_VALUE_STRING:
 		return any(&A_ATTRIBUTE_VALUE_STRING{
-			// Initialisation of associations
-			// field is initialized with an instance of ATTRIBUTE_VALUE_STRING with the name of the field
 			ATTRIBUTE_VALUE_STRING: []*ATTRIBUTE_VALUE_STRING{{Name: "ATTRIBUTE_VALUE_STRING"}},
 		}).(*Type)
 	case A_ATTRIBUTE_VALUE_XHTML:
 		return any(&A_ATTRIBUTE_VALUE_XHTML{
-			// Initialisation of associations
-			// field is initialized with an instance of ATTRIBUTE_VALUE_XHTML with the name of the field
 			ATTRIBUTE_VALUE_XHTML: []*ATTRIBUTE_VALUE_XHTML{{Name: "ATTRIBUTE_VALUE_XHTML"}},
 		}).(*Type)
 	case A_ATTRIBUTE_VALUE_XHTML_1:
 		return any(&A_ATTRIBUTE_VALUE_XHTML_1{
-			// Initialisation of associations
-			// field is initialized with an instance of ATTRIBUTE_VALUE_BOOLEAN with the name of the field
 			ATTRIBUTE_VALUE_BOOLEAN: []*ATTRIBUTE_VALUE_BOOLEAN{{Name: "ATTRIBUTE_VALUE_BOOLEAN"}},
-			// field is initialized with an instance of ATTRIBUTE_VALUE_DATE with the name of the field
 			ATTRIBUTE_VALUE_DATE: []*ATTRIBUTE_VALUE_DATE{{Name: "ATTRIBUTE_VALUE_DATE"}},
-			// field is initialized with an instance of ATTRIBUTE_VALUE_ENUMERATION with the name of the field
 			ATTRIBUTE_VALUE_ENUMERATION: []*ATTRIBUTE_VALUE_ENUMERATION{{Name: "ATTRIBUTE_VALUE_ENUMERATION"}},
-			// field is initialized with an instance of ATTRIBUTE_VALUE_INTEGER with the name of the field
 			ATTRIBUTE_VALUE_INTEGER: []*ATTRIBUTE_VALUE_INTEGER{{Name: "ATTRIBUTE_VALUE_INTEGER"}},
-			// field is initialized with an instance of ATTRIBUTE_VALUE_REAL with the name of the field
 			ATTRIBUTE_VALUE_REAL: []*ATTRIBUTE_VALUE_REAL{{Name: "ATTRIBUTE_VALUE_REAL"}},
-			// field is initialized with an instance of ATTRIBUTE_VALUE_STRING with the name of the field
 			ATTRIBUTE_VALUE_STRING: []*ATTRIBUTE_VALUE_STRING{{Name: "ATTRIBUTE_VALUE_STRING"}},
-			// field is initialized with an instance of ATTRIBUTE_VALUE_XHTML with the name of the field
 			ATTRIBUTE_VALUE_XHTML: []*ATTRIBUTE_VALUE_XHTML{{Name: "ATTRIBUTE_VALUE_XHTML"}},
 		}).(*Type)
 	case A_CHILDREN:
 		return any(&A_CHILDREN{
-			// Initialisation of associations
-			// field is initialized with an instance of SPEC_HIERARCHY with the name of the field
 			SPEC_HIERARCHY: []*SPEC_HIERARCHY{{Name: "SPEC_HIERARCHY"}},
 		}).(*Type)
 	case A_CORE_CONTENT:
 		return any(&A_CORE_CONTENT{
-			// Initialisation of associations
-			// field is initialized with an instance of REQ_IF_CONTENT with the name of the field
 			REQ_IF_CONTENT: &REQ_IF_CONTENT{Name: "REQ_IF_CONTENT"},
 		}).(*Type)
 	case A_DATATYPES:
 		return any(&A_DATATYPES{
-			// Initialisation of associations
-			// field is initialized with an instance of DATATYPE_DEFINITION_BOOLEAN with the name of the field
 			DATATYPE_DEFINITION_BOOLEAN: []*DATATYPE_DEFINITION_BOOLEAN{{Name: "DATATYPE_DEFINITION_BOOLEAN"}},
-			// field is initialized with an instance of DATATYPE_DEFINITION_DATE with the name of the field
 			DATATYPE_DEFINITION_DATE: []*DATATYPE_DEFINITION_DATE{{Name: "DATATYPE_DEFINITION_DATE"}},
-			// field is initialized with an instance of DATATYPE_DEFINITION_ENUMERATION with the name of the field
 			DATATYPE_DEFINITION_ENUMERATION: []*DATATYPE_DEFINITION_ENUMERATION{{Name: "DATATYPE_DEFINITION_ENUMERATION"}},
-			// field is initialized with an instance of DATATYPE_DEFINITION_INTEGER with the name of the field
 			DATATYPE_DEFINITION_INTEGER: []*DATATYPE_DEFINITION_INTEGER{{Name: "DATATYPE_DEFINITION_INTEGER"}},
-			// field is initialized with an instance of DATATYPE_DEFINITION_REAL with the name of the field
 			DATATYPE_DEFINITION_REAL: []*DATATYPE_DEFINITION_REAL{{Name: "DATATYPE_DEFINITION_REAL"}},
-			// field is initialized with an instance of DATATYPE_DEFINITION_STRING with the name of the field
 			DATATYPE_DEFINITION_STRING: []*DATATYPE_DEFINITION_STRING{{Name: "DATATYPE_DEFINITION_STRING"}},
-			// field is initialized with an instance of DATATYPE_DEFINITION_XHTML with the name of the field
 			DATATYPE_DEFINITION_XHTML: []*DATATYPE_DEFINITION_XHTML{{Name: "DATATYPE_DEFINITION_XHTML"}},
-		}).(*Type)
-	case A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		return any(&A_DATATYPE_DEFINITION_BOOLEAN_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_DATATYPE_DEFINITION_DATE_REF:
-		return any(&A_DATATYPE_DEFINITION_DATE_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		return any(&A_DATATYPE_DEFINITION_ENUMERATION_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_DATATYPE_DEFINITION_INTEGER_REF:
-		return any(&A_DATATYPE_DEFINITION_INTEGER_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_DATATYPE_DEFINITION_REAL_REF:
-		return any(&A_DATATYPE_DEFINITION_REAL_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_DATATYPE_DEFINITION_STRING_REF:
-		return any(&A_DATATYPE_DEFINITION_STRING_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_DATATYPE_DEFINITION_XHTML_REF:
-		return any(&A_DATATYPE_DEFINITION_XHTML_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_EDITABLE_ATTS:
-		return any(&A_EDITABLE_ATTS{
-			// Initialisation of associations
-		}).(*Type)
-	case A_ENUM_VALUE_REF:
-		return any(&A_ENUM_VALUE_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_OBJECT:
-		return any(&A_OBJECT{
-			// Initialisation of associations
 		}).(*Type)
 	case A_PROPERTIES:
 		return any(&A_PROPERTIES{
-			// Initialisation of associations
-			// field is initialized with an instance of EMBEDDED_VALUE with the name of the field
 			EMBEDDED_VALUE: &EMBEDDED_VALUE{Name: "EMBEDDED_VALUE"},
-		}).(*Type)
-	case A_RELATION_GROUP_TYPE_REF:
-		return any(&A_RELATION_GROUP_TYPE_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_SOURCE_1:
-		return any(&A_SOURCE_1{
-			// Initialisation of associations
-		}).(*Type)
-	case A_SOURCE_SPECIFICATION_1:
-		return any(&A_SOURCE_SPECIFICATION_1{
-			// Initialisation of associations
 		}).(*Type)
 	case A_SPECIFICATIONS:
 		return any(&A_SPECIFICATIONS{
-			// Initialisation of associations
-			// field is initialized with an instance of SPECIFICATION with the name of the field
 			SPECIFICATION: []*SPECIFICATION{{Name: "SPECIFICATION"}},
-		}).(*Type)
-	case A_SPECIFICATION_TYPE_REF:
-		return any(&A_SPECIFICATION_TYPE_REF{
-			// Initialisation of associations
 		}).(*Type)
 	case A_SPECIFIED_VALUES:
 		return any(&A_SPECIFIED_VALUES{
-			// Initialisation of associations
-			// field is initialized with an instance of ENUM_VALUE with the name of the field
 			ENUM_VALUE: []*ENUM_VALUE{{Name: "ENUM_VALUE"}},
 		}).(*Type)
 	case A_SPEC_ATTRIBUTES:
 		return any(&A_SPEC_ATTRIBUTES{
-			// Initialisation of associations
-			// field is initialized with an instance of ATTRIBUTE_DEFINITION_BOOLEAN with the name of the field
 			ATTRIBUTE_DEFINITION_BOOLEAN: []*ATTRIBUTE_DEFINITION_BOOLEAN{{Name: "ATTRIBUTE_DEFINITION_BOOLEAN"}},
-			// field is initialized with an instance of ATTRIBUTE_DEFINITION_DATE with the name of the field
 			ATTRIBUTE_DEFINITION_DATE: []*ATTRIBUTE_DEFINITION_DATE{{Name: "ATTRIBUTE_DEFINITION_DATE"}},
-			// field is initialized with an instance of ATTRIBUTE_DEFINITION_ENUMERATION with the name of the field
 			ATTRIBUTE_DEFINITION_ENUMERATION: []*ATTRIBUTE_DEFINITION_ENUMERATION{{Name: "ATTRIBUTE_DEFINITION_ENUMERATION"}},
-			// field is initialized with an instance of ATTRIBUTE_DEFINITION_INTEGER with the name of the field
 			ATTRIBUTE_DEFINITION_INTEGER: []*ATTRIBUTE_DEFINITION_INTEGER{{Name: "ATTRIBUTE_DEFINITION_INTEGER"}},
-			// field is initialized with an instance of ATTRIBUTE_DEFINITION_REAL with the name of the field
 			ATTRIBUTE_DEFINITION_REAL: []*ATTRIBUTE_DEFINITION_REAL{{Name: "ATTRIBUTE_DEFINITION_REAL"}},
-			// field is initialized with an instance of ATTRIBUTE_DEFINITION_STRING with the name of the field
 			ATTRIBUTE_DEFINITION_STRING: []*ATTRIBUTE_DEFINITION_STRING{{Name: "ATTRIBUTE_DEFINITION_STRING"}},
-			// field is initialized with an instance of ATTRIBUTE_DEFINITION_XHTML with the name of the field
 			ATTRIBUTE_DEFINITION_XHTML: []*ATTRIBUTE_DEFINITION_XHTML{{Name: "ATTRIBUTE_DEFINITION_XHTML"}},
 		}).(*Type)
 	case A_SPEC_OBJECTS:
 		return any(&A_SPEC_OBJECTS{
-			// Initialisation of associations
-			// field is initialized with an instance of SPEC_OBJECT with the name of the field
 			SPEC_OBJECT: []*SPEC_OBJECT{{Name: "SPEC_OBJECT"}},
-		}).(*Type)
-	case A_SPEC_OBJECT_TYPE_REF:
-		return any(&A_SPEC_OBJECT_TYPE_REF{
-			// Initialisation of associations
 		}).(*Type)
 	case A_SPEC_RELATIONS:
 		return any(&A_SPEC_RELATIONS{
-			// Initialisation of associations
-			// field is initialized with an instance of SPEC_RELATION with the name of the field
 			SPEC_RELATION: []*SPEC_RELATION{{Name: "SPEC_RELATION"}},
 		}).(*Type)
 	case A_SPEC_RELATION_GROUPS:
 		return any(&A_SPEC_RELATION_GROUPS{
-			// Initialisation of associations
-			// field is initialized with an instance of RELATION_GROUP with the name of the field
 			RELATION_GROUP: []*RELATION_GROUP{{Name: "RELATION_GROUP"}},
-		}).(*Type)
-	case A_SPEC_RELATION_REF:
-		return any(&A_SPEC_RELATION_REF{
-			// Initialisation of associations
-		}).(*Type)
-	case A_SPEC_RELATION_TYPE_REF:
-		return any(&A_SPEC_RELATION_TYPE_REF{
-			// Initialisation of associations
 		}).(*Type)
 	case A_SPEC_TYPES:
 		return any(&A_SPEC_TYPES{
-			// Initialisation of associations
-			// field is initialized with an instance of RELATION_GROUP_TYPE with the name of the field
 			RELATION_GROUP_TYPE: []*RELATION_GROUP_TYPE{{Name: "RELATION_GROUP_TYPE"}},
-			// field is initialized with an instance of SPEC_OBJECT_TYPE with the name of the field
 			SPEC_OBJECT_TYPE: []*SPEC_OBJECT_TYPE{{Name: "SPEC_OBJECT_TYPE"}},
-			// field is initialized with an instance of SPEC_RELATION_TYPE with the name of the field
 			SPEC_RELATION_TYPE: []*SPEC_RELATION_TYPE{{Name: "SPEC_RELATION_TYPE"}},
-			// field is initialized with an instance of SPECIFICATION_TYPE with the name of the field
 			SPECIFICATION_TYPE: []*SPECIFICATION_TYPE{{Name: "SPECIFICATION_TYPE"}},
 		}).(*Type)
 	case A_THE_HEADER:
 		return any(&A_THE_HEADER{
-			// Initialisation of associations
-			// field is initialized with an instance of REQ_IF_HEADER with the name of the field
 			REQ_IF_HEADER: &REQ_IF_HEADER{Name: "REQ_IF_HEADER"},
 		}).(*Type)
 	case A_TOOL_EXTENSIONS:
 		return any(&A_TOOL_EXTENSIONS{
-			// Initialisation of associations
-			// field is initialized with an instance of REQ_IF_TOOL_EXTENSION with the name of the field
 			REQ_IF_TOOL_EXTENSION: []*REQ_IF_TOOL_EXTENSION{{Name: "REQ_IF_TOOL_EXTENSION"}},
 		}).(*Type)
 	case DATATYPE_DEFINITION_BOOLEAN:
 		return any(&DATATYPE_DEFINITION_BOOLEAN{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 		}).(*Type)
 	case DATATYPE_DEFINITION_DATE:
 		return any(&DATATYPE_DEFINITION_DATE{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 		}).(*Type)
 	case DATATYPE_DEFINITION_ENUMERATION:
 		return any(&DATATYPE_DEFINITION_ENUMERATION{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_SPECIFIED_VALUES with the name of the field
 			SPECIFIED_VALUES: &A_SPECIFIED_VALUES{Name: "SPECIFIED_VALUES"},
 		}).(*Type)
 	case DATATYPE_DEFINITION_INTEGER:
 		return any(&DATATYPE_DEFINITION_INTEGER{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 		}).(*Type)
 	case DATATYPE_DEFINITION_REAL:
 		return any(&DATATYPE_DEFINITION_REAL{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 		}).(*Type)
 	case DATATYPE_DEFINITION_STRING:
 		return any(&DATATYPE_DEFINITION_STRING{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 		}).(*Type)
 	case DATATYPE_DEFINITION_XHTML:
 		return any(&DATATYPE_DEFINITION_XHTML{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-		}).(*Type)
-	case EMBEDDED_VALUE:
-		return any(&EMBEDDED_VALUE{
-			// Initialisation of associations
 		}).(*Type)
 	case ENUM_VALUE:
 		return any(&ENUM_VALUE{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_PROPERTIES with the name of the field
 			PROPERTIES: &A_PROPERTIES{Name: "PROPERTIES"},
-		}).(*Type)
-	case EmbeddedJpgImage:
-		return any(&EmbeddedJpgImage{
-			// Initialisation of associations
-		}).(*Type)
-	case EmbeddedPngImage:
-		return any(&EmbeddedPngImage{
-			// Initialisation of associations
-		}).(*Type)
-	case EmbeddedSvgImage:
-		return any(&EmbeddedSvgImage{
-			// Initialisation of associations
-		}).(*Type)
-	case Kill:
-		return any(&Kill{
-			// Initialisation of associations
-		}).(*Type)
-	case Map_identifier_bool:
-		return any(&Map_identifier_bool{
-			// Initialisation of associations
 		}).(*Type)
 	case RELATION_GROUP:
 		return any(&RELATION_GROUP{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_SOURCE_SPECIFICATION_1 with the name of the field
 			SOURCE_SPECIFICATION: &A_SOURCE_SPECIFICATION_1{Name: "SOURCE_SPECIFICATION"},
-			// field is initialized with an instance of A_SPEC_RELATION_REF with the name of the field
 			SPEC_RELATIONS: &A_SPEC_RELATION_REF{Name: "SPEC_RELATIONS"},
-			// field is initialized with an instance of A_SOURCE_SPECIFICATION_1 with the name of the field
 			TARGET_SPECIFICATION: &A_SOURCE_SPECIFICATION_1{Name: "TARGET_SPECIFICATION"},
-			// field is initialized with an instance of A_RELATION_GROUP_TYPE_REF with the name of the field
 			TYPE: &A_RELATION_GROUP_TYPE_REF{Name: "TYPE"},
 		}).(*Type)
 	case RELATION_GROUP_TYPE:
 		return any(&RELATION_GROUP_TYPE{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_SPEC_ATTRIBUTES with the name of the field
 			SPEC_ATTRIBUTES: &A_SPEC_ATTRIBUTES{Name: "SPEC_ATTRIBUTES"},
 		}).(*Type)
 	case REQ_IF:
 		return any(&REQ_IF{
-			// Initialisation of associations
-			// field is initialized with an instance of A_THE_HEADER with the name of the field
 			THE_HEADER: &A_THE_HEADER{Name: "THE_HEADER"},
-			// field is initialized with an instance of A_CORE_CONTENT with the name of the field
 			CORE_CONTENT: &A_CORE_CONTENT{Name: "CORE_CONTENT"},
-			// field is initialized with an instance of A_TOOL_EXTENSIONS with the name of the field
 			TOOL_EXTENSIONS: &A_TOOL_EXTENSIONS{Name: "TOOL_EXTENSIONS"},
 		}).(*Type)
 	case REQ_IF_CONTENT:
 		return any(&REQ_IF_CONTENT{
-			// Initialisation of associations
-			// field is initialized with an instance of A_DATATYPES with the name of the field
 			DATATYPES: &A_DATATYPES{Name: "DATATYPES"},
-			// field is initialized with an instance of A_SPEC_TYPES with the name of the field
 			SPEC_TYPES: &A_SPEC_TYPES{Name: "SPEC_TYPES"},
-			// field is initialized with an instance of A_SPEC_OBJECTS with the name of the field
 			SPEC_OBJECTS: &A_SPEC_OBJECTS{Name: "SPEC_OBJECTS"},
-			// field is initialized with an instance of A_SPEC_RELATIONS with the name of the field
 			SPEC_RELATIONS: &A_SPEC_RELATIONS{Name: "SPEC_RELATIONS"},
-			// field is initialized with an instance of A_SPECIFICATIONS with the name of the field
 			SPECIFICATIONS: &A_SPECIFICATIONS{Name: "SPECIFICATIONS"},
-			// field is initialized with an instance of A_SPEC_RELATION_GROUPS with the name of the field
 			SPEC_RELATION_GROUPS: &A_SPEC_RELATION_GROUPS{Name: "SPEC_RELATION_GROUPS"},
-		}).(*Type)
-	case REQ_IF_HEADER:
-		return any(&REQ_IF_HEADER{
-			// Initialisation of associations
-		}).(*Type)
-	case REQ_IF_TOOL_EXTENSION:
-		return any(&REQ_IF_TOOL_EXTENSION{
-			// Initialisation of associations
 		}).(*Type)
 	case SPECIFICATION:
 		return any(&SPECIFICATION{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_SPECIFICATION_TYPE_REF with the name of the field
 			TYPE: &A_SPECIFICATION_TYPE_REF{Name: "TYPE"},
-			// field is initialized with an instance of A_CHILDREN with the name of the field
 			CHILDREN: &A_CHILDREN{Name: "CHILDREN"},
-			// field is initialized with an instance of A_ATTRIBUTE_VALUE_XHTML_1 with the name of the field
 			VALUES: &A_ATTRIBUTE_VALUE_XHTML_1{Name: "VALUES"},
-		}).(*Type)
-	case SPECIFICATION_Rendering:
-		return any(&SPECIFICATION_Rendering{
-			// Initialisation of associations
 		}).(*Type)
 	case SPECIFICATION_TYPE:
 		return any(&SPECIFICATION_TYPE{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_SPEC_ATTRIBUTES with the name of the field
 			SPEC_ATTRIBUTES: &A_SPEC_ATTRIBUTES{Name: "SPEC_ATTRIBUTES"},
 		}).(*Type)
 	case SPEC_HIERARCHY:
 		return any(&SPEC_HIERARCHY{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_OBJECT with the name of the field
 			OBJECT: &A_OBJECT{Name: "OBJECT"},
-			// field is initialized with an instance of A_CHILDREN with the name of the field
 			CHILDREN: &A_CHILDREN{Name: "CHILDREN"},
-			// field is initialized with an instance of A_EDITABLE_ATTS with the name of the field
 			EDITABLE_ATTS: &A_EDITABLE_ATTS{Name: "EDITABLE_ATTS"},
 		}).(*Type)
 	case SPEC_OBJECT:
 		return any(&SPEC_OBJECT{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_ATTRIBUTE_VALUE_XHTML_1 with the name of the field
 			VALUES: &A_ATTRIBUTE_VALUE_XHTML_1{Name: "VALUES"},
-			// field is initialized with an instance of A_SPEC_OBJECT_TYPE_REF with the name of the field
 			TYPE: &A_SPEC_OBJECT_TYPE_REF{Name: "TYPE"},
 		}).(*Type)
 	case SPEC_OBJECT_TYPE:
 		return any(&SPEC_OBJECT_TYPE{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_SPEC_ATTRIBUTES with the name of the field
 			SPEC_ATTRIBUTES: &A_SPEC_ATTRIBUTES{Name: "SPEC_ATTRIBUTES"},
-		}).(*Type)
-	case SPEC_OBJECT_TYPE_Rendering:
-		return any(&SPEC_OBJECT_TYPE_Rendering{
-			// Initialisation of associations
 		}).(*Type)
 	case SPEC_RELATION:
 		return any(&SPEC_RELATION{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_ATTRIBUTE_VALUE_XHTML_1 with the name of the field
 			VALUES: &A_ATTRIBUTE_VALUE_XHTML_1{Name: "VALUES"},
-			// field is initialized with an instance of A_SOURCE_1 with the name of the field
 			SOURCE: &A_SOURCE_1{Name: "SOURCE"},
-			// field is initialized with an instance of A_SOURCE_1 with the name of the field
 			TARGET: &A_SOURCE_1{Name: "TARGET"},
-			// field is initialized with an instance of A_SPEC_RELATION_TYPE_REF with the name of the field
 			TYPE: &A_SPEC_RELATION_TYPE_REF{Name: "TYPE"},
 		}).(*Type)
 	case SPEC_RELATION_TYPE:
 		return any(&SPEC_RELATION_TYPE{
-			// Initialisation of associations
-			// field is initialized with an instance of A_ALTERNATIVE_ID with the name of the field
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			// field is initialized with an instance of A_SPEC_ATTRIBUTES with the name of the field
 			SPEC_ATTRIBUTES: &A_SPEC_ATTRIBUTES{Name: "SPEC_ATTRIBUTES"},
 		}).(*Type)
 	case StaticWebSite:
 		return any(&StaticWebSite{
-			// Initialisation of associations
-			// field is initialized with an instance of StaticWebSiteChapter with the name of the field
 			Chapters: []*StaticWebSiteChapter{{Name: "Chapters"}},
 		}).(*Type)
 	case StaticWebSiteChapter:
 		return any(&StaticWebSiteChapter{
-			// Initialisation of associations
-			// field is initialized with an instance of StaticWebSiteParagraph with the name of the field
 			Paragraphs: []*StaticWebSiteParagraph{{Name: "Paragraphs"}},
-		}).(*Type)
-	case StaticWebSiteGeneratedImage:
-		return any(&StaticWebSiteGeneratedImage{
-			// Initialisation of associations
-		}).(*Type)
-	case StaticWebSiteImage:
-		return any(&StaticWebSiteImage{
-			// Initialisation of associations
 		}).(*Type)
 	case StaticWebSiteParagraph:
 		return any(&StaticWebSiteParagraph{
-			// Initialisation of associations
-			// field is initialized with an instance of StaticWebSiteImage with the name of the field
 			Image: &StaticWebSiteImage{Name: "Image"},
 		}).(*Type)
-	case XHTML_CONTENT:
-		return any(&XHTML_CONTENT{
-			// Initialisation of associations
-		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

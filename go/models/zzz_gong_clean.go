@@ -37,6 +37,10 @@ func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	return
 }
 
+type GongCleaner interface {
+	GongClean(stage *Stage) (modified bool)
+}
+
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by GongBasicField
 func (gongbasicfield *GongBasicField) GongClean(stage *Stage) (modified bool) {
@@ -50,20 +54,6 @@ func (gongbasicfield *GongBasicField) GongClean(stage *Stage) (modified bool) {
 func (gongenum *GongEnum) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&gongenum.GongEnumValues) || modified
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by GongEnumValue
-func (gongenumvalue *GongEnumValue) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by GongLink
-func (gonglink *GongLink) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -87,27 +77,6 @@ func (gongstruct *GongStruct) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by GongTimeField
-func (gongtimefield *GongTimeField) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by MetaReference
-func (metareference *MetaReference) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by ModelPkg
-func (modelpkg *ModelPkg) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by PointerToGongStructField
 func (pointertogongstructfield *PointerToGongStructField) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -124,13 +93,6 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongClea
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by StageSetField
-func (stagesetfield *StageSetField) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by StageSetModel
 func (stagesetmodel *StageSetModel) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -142,7 +104,9 @@ func (stagesetmodel *StageSetModel) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		modified = instance.GongClean(stage) || modified
+		if cleaner, ok := any(instance).(GongCleaner); ok {
+			modified = cleaner.GongClean(stage) || modified
+		}
 	}
 	if modified {
 		if stage.probeIF != nil {

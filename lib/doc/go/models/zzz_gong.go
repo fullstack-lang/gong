@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -2041,7 +2032,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -2153,62 +2143,32 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case AttributeShape:
-		return any(&AttributeShape{
-			// Initialisation of associations
-		}).(*Type)
 	case Classdiagram:
 		return any(&Classdiagram{
-			// Initialisation of associations
-			// field is initialized with an instance of GongStructShape with the name of the field
 			GongStructShapes: []*GongStructShape{{Name: "GongStructShapes"}},
-			// field is initialized with an instance of GongEnumShape with the name of the field
 			GongEnumShapes: []*GongEnumShape{{Name: "GongEnumShapes"}},
-			// field is initialized with an instance of GongNoteShape with the name of the field
 			GongNoteShapes: []*GongNoteShape{{Name: "GongNoteShapes"}},
 		}).(*Type)
 	case DiagramPackage:
 		return any(&DiagramPackage{
-			// Initialisation of associations
-			// field is initialized with an instance of Classdiagram with the name of the field
 			Classdiagrams: []*Classdiagram{{Name: "Classdiagrams"}},
-			// field is initialized with an instance of Classdiagram with the name of the field
 			SelectedClassdiagram: &Classdiagram{Name: "SelectedClassdiagram"},
 		}).(*Type)
 	case GongEnumShape:
 		return any(&GongEnumShape{
-			// Initialisation of associations
-			// field is initialized with an instance of GongEnumValueShape with the name of the field
 			GongEnumValueShapes: []*GongEnumValueShape{{Name: "GongEnumValueShapes"}},
-		}).(*Type)
-	case GongEnumValueShape:
-		return any(&GongEnumValueShape{
-			// Initialisation of associations
-		}).(*Type)
-	case GongNoteLinkShape:
-		return any(&GongNoteLinkShape{
-			// Initialisation of associations
 		}).(*Type)
 	case GongNoteShape:
 		return any(&GongNoteShape{
-			// Initialisation of associations
-			// field is initialized with an instance of GongNoteLinkShape with the name of the field
 			GongNoteLinkShapes: []*GongNoteLinkShape{{Name: "GongNoteLinkShapes"}},
 		}).(*Type)
 	case GongStructShape:
 		return any(&GongStructShape{
-			// Initialisation of associations
-			// field is initialized with an instance of AttributeShape with the name of the field
 			AttributeShapes: []*AttributeShape{{Name: "AttributeShapes"}},
-			// field is initialized with an instance of LinkShape with the name of the field
 			LinkShapes: []*LinkShape{{Name: "LinkShapes"}},
 		}).(*Type)
-	case LinkShape:
-		return any(&LinkShape{
-			// Initialisation of associations
-		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

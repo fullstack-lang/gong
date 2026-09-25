@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -1281,7 +1272,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -1375,28 +1365,18 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case BookType:
 		return any(&BookType{
-			// Initialisation of associations
-			// field is initialized with an instance of Credit with the name of the field
 			Credit: []*Credit{{Name: "Credit"}},
 		}).(*Type)
 	case Books:
 		return any(&Books{
-			// Initialisation of associations
-			// field is initialized with an instance of BookType with the name of the field
 			Book: []*BookType{{Name: "Book"}},
 		}).(*Type)
 	case Credit:
 		return any(&Credit{
-			// Initialisation of associations
-			// field is initialized with an instance of Link with the name of the field
 			Link: []*Link{{Name: "Link"}},
 		}).(*Type)
-	case Link:
-		return any(&Link{
-			// Initialisation of associations
-		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

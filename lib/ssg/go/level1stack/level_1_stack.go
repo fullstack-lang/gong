@@ -123,14 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.Chapter]()
-	stage.SetOrchestratorOnAfterUpdate[models.Content]()
-	stage.SetOrchestratorOnAfterUpdate[models.DownloadableFile]()
-	stage.SetOrchestratorOnAfterUpdate[models.JpgImage]()
-	stage.SetOrchestratorOnAfterUpdate[models.Page]()
-	stage.SetOrchestratorOnAfterUpdate[models.PngImage]()
-	stage.SetOrchestratorOnAfterUpdate[models.Section]()
-	stage.SetOrchestratorOnAfterUpdate[models.SvgImage]()
 
 	return
 }

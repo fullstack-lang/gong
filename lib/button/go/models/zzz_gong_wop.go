@@ -33,16 +33,7 @@ type Button_WOP struct {
 
 func (from *Button) GongCopyBasicFields(to *Button) {
 	// insertion point
-	to.Name = from.Name
-	to.Label = from.Label
-	to.Icon = from.Icon
-	to.IsDisabled = from.IsDisabled
-	to.Color = from.Color
-	to.MatButtonType = from.MatButtonType
-	to.MatButtonAppearance = from.MatButtonAppearance
-	to.HasToolTip = from.HasToolTip
-	to.ToolTipText = from.ToolTipText
-	to.ToolTipPosition = from.ToolTipPosition
+	*to = *from
 }
 
 type ButtonToggle_WOP struct {
@@ -61,11 +52,7 @@ type ButtonToggle_WOP struct {
 
 func (from *ButtonToggle) GongCopyBasicFields(to *ButtonToggle) {
 	// insertion point
-	to.Name = from.Name
-	to.Label = from.Label
-	to.Icon = from.Icon
-	to.IsDisabled = from.IsDisabled
-	to.IsChecked = from.IsChecked
+	*to = *from
 }
 
 type Group_WOP struct {

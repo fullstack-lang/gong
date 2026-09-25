@@ -179,6 +179,21 @@ func CodeGeneratorModelGongWop(
 
 			}
 
+			hasPointerFields := false
+			nbBasicFields := 0
+			for _, field := range gongStruct.Fields {
+				switch field.(type) {
+				case *models.PointerToGongStructField, *models.SliceOfPointerToGongStructField:
+					hasPointerFields = true
+				case *models.GongBasicField, *models.GongTimeField:
+					nbBasicFields++
+				}
+			}
+
+			if !hasPointerFields && nbBasicFields > 0 {
+				fieldCopyCode = "\n\t*to = *from"
+			}
+
 			fieldCode = models.Replace2(fieldCode,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)

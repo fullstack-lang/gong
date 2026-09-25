@@ -31,15 +31,15 @@ func (probe *StageSetProbe) ux_table() {
 		tableName = tbl.Name
 	}
 	switch tableName {
-	case "A":
+	case "models.A":
 		updateStageSetTable_A_Stage(probe)
-	case "B":
+	case "models.B":
 		updateStageSetTable_B_Stage(probe)
-	case "X":
+	case "x.X":
 		updateStageSetTable_X_XStage(probe)
-	case "Y":
+	case "y.Y":
 		updateStageSetTable_Y_YStage(probe)
-	case "SubModel":
+	case "model.SubModel":
 		updateStageSetTable_SubModel_ModelStage(probe)
 	}
 }
@@ -48,7 +48,7 @@ func updateStageSetTable_A_Stage(probe *StageSetProbe) {
 	probe.tableStage.Reset()
 
 	table := new(table_models.Table)
-	table.Name = "A"
+	table.Name = "models.A"
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true
@@ -208,7 +208,7 @@ func updateStageSetTable_A_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -216,7 +216,7 @@ func updateStageSetTable_B_Stage(probe *StageSetProbe) {
 	probe.tableStage.Reset()
 
 	table := new(table_models.Table)
-	table.Name = "B"
+	table.Name = "models.B"
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true
@@ -324,7 +324,7 @@ func updateStageSetTable_B_Stage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -332,7 +332,7 @@ func updateStageSetTable_X_XStage(probe *StageSetProbe) {
 	probe.tableStage.Reset()
 
 	table := new(table_models.Table)
-	table.Name = "X"
+	table.Name = "x.X"
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true
@@ -434,7 +434,7 @@ func updateStageSetTable_X_XStage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -442,7 +442,7 @@ func updateStageSetTable_Y_YStage(probe *StageSetProbe) {
 	probe.tableStage.Reset()
 
 	table := new(table_models.Table)
-	table.Name = "Y"
+	table.Name = "y.Y"
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true
@@ -544,7 +544,7 @@ func updateStageSetTable_Y_YStage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 
@@ -552,7 +552,7 @@ func updateStageSetTable_SubModel_ModelStage(probe *StageSetProbe) {
 	probe.tableStage.Reset()
 
 	table := new(table_models.Table)
-	table.Name = "SubModel"
+	table.Name = "model.SubModel"
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true
@@ -639,7 +639,7 @@ func updateStageSetTable_SubModel_ModelStage(probe *StageSetProbe) {
 		table.Rows = append(table.Rows, row)
 	}
 
-	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
 

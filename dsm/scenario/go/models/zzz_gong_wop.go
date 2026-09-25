@@ -25,12 +25,7 @@ type ActorState_WOP struct {
 
 func (from *ActorState) GongCopyBasicFields(to *ActorState) {
 	// insertion point
-	to.Name = from.Name
-	to.Description = from.Description
-	to.IsWithProbaility = from.IsWithProbaility
-	to.Probability = from.Probability
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type ActorStateShape_WOP struct {
@@ -148,10 +143,7 @@ type ControlPointShape_WOP struct {
 
 func (from *ControlPointShape) GongCopyBasicFields(to *ControlPointShape) {
 	// insertion point
-	to.Name = from.Name
-	to.X_Relative = from.X_Relative
-	to.Y_Relative = from.Y_Relative
-	to.IsStartShapeTheClosestShape = from.IsStartShapeTheClosestShape
+	*to = *from
 }
 
 type Diagram_WOP struct {
@@ -264,10 +256,7 @@ type EvolutionDirection_WOP struct {
 
 func (from *EvolutionDirection) GongCopyBasicFields(to *EvolutionDirection) {
 	// insertion point
-	to.Name = from.Name
-	to.Description = from.Description
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type EvolutionDirectionShape_WOP struct {
@@ -304,7 +293,7 @@ type Foo_WOP struct {
 
 func (from *Foo) GongCopyBasicFields(to *Foo) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type GeoObject_WOP struct {
@@ -319,9 +308,7 @@ type GeoObject_WOP struct {
 
 func (from *GeoObject) GongCopyBasicFields(to *GeoObject) {
 	// insertion point
-	to.Name = from.Name
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type GeoObjectUse_WOP struct {
@@ -413,9 +400,7 @@ type MapObject_WOP struct {
 
 func (from *MapObject) GongCopyBasicFields(to *MapObject) {
 	// insertion point
-	to.Name = from.Name
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type MapObjectUse_WOP struct {
@@ -592,11 +577,7 @@ type Position_WOP struct {
 
 func (from *Position) GongCopyBasicFields(to *Position) {
 	// insertion point
-	to.Name = from.Name
-	to.Date = from.Date
-	to.Ordinate = from.Ordinate
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type Repository_WOP struct {
@@ -666,9 +647,7 @@ type User_WOP struct {
 
 func (from *User) GongCopyBasicFields(to *User) {
 	// insertion point
-	to.Name = from.Name
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
+	*to = *from
 }
 
 type UserUse_WOP struct {

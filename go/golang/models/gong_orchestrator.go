@@ -17,6 +17,10 @@ func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 }
 `
 
+const ModelGongOrchestratorEmptyFileTemplate = `// generated code - do not edit
+package {{PkgGoName}}
+`
+
 type ModelGongOrchestratorStructInsertionId int
 
 const (

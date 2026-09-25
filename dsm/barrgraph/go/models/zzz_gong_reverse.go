@@ -3,11 +3,7 @@ package models
 
 // insertion point
 func (inst *ArtefactType) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -28,11 +24,7 @@ func (inst *ArtefactTypeShape) GongGetReverseFieldOwnerName(stage *Stage, revers
 }
 
 func (inst *Artist) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -69,29 +61,17 @@ func (inst *ControlPointShape) GongGetReverseFieldOwnerName(stage *Stage, revers
 }
 
 func (inst *Desk) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Diagram) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
 func (inst *Influence) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -132,11 +112,7 @@ func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Go
 }
 
 func (inst *Movement) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -174,11 +150,7 @@ func (inst *Place) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Gong
 
 // insertion point
 func (inst *ArtefactType) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -197,11 +169,7 @@ func (inst *ArtefactTypeShape) GongGetReverseFieldOwner(stage *Stage, reverseFie
 }
 
 func (inst *Artist) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -234,29 +202,17 @@ func (inst *ControlPointShape) GongGetReverseFieldOwner(stage *Stage, reverseFie
 }
 
 func (inst *Desk) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Diagram) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
 func (inst *Influence) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -291,11 +247,7 @@ func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *GongRe
 }
 
 func (inst *Movement) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 

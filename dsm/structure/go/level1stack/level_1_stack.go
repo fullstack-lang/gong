@@ -123,32 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.AllocatedResourceShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.AllocatedSystemShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ControlFlow]()
-	stage.SetOrchestratorOnAfterUpdate[models.ControlFlowShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Data]()
-	stage.SetOrchestratorOnAfterUpdate[models.DataFlow]()
-	stage.SetOrchestratorOnAfterUpdate[models.DataFlowShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.DataShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.DiagramLayerState]()
-	stage.SetOrchestratorOnAfterUpdate[models.DiagramStructure]()
-	stage.SetOrchestratorOnAfterUpdate[models.ExternalPartShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.LayerDefinition]()
-	stage.SetOrchestratorOnAfterUpdate[models.Library]()
-	stage.SetOrchestratorOnAfterUpdate[models.Note]()
-	stage.SetOrchestratorOnAfterUpdate[models.NotePartShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NotePortShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Part]()
-	stage.SetOrchestratorOnAfterUpdate[models.PartAnchoredPath]()
-	stage.SetOrchestratorOnAfterUpdate[models.PartShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Port]()
-	stage.SetOrchestratorOnAfterUpdate[models.PortShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Resource]()
-	stage.SetOrchestratorOnAfterUpdate[models.SemanticTag]()
-	stage.SetOrchestratorOnAfterUpdate[models.System]()
-	stage.SetOrchestratorOnAfterUpdate[models.SystemShape]()
 
 	return
 }

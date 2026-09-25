@@ -191,7 +191,7 @@ func NewStageSetProbe(
 		},
 	}
 
-	split.StageBranch(probe.splitStage, &split.View{
+	probe.splitStage.StageBranch(&split.View{
 		Name: "StageSet Main view",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -318,7 +318,7 @@ func (probe *StageSetProbe) CommitNotificationTable() {
 		tableInstance.Rows = append(tableInstance.Rows, row)
 	}
 
-	table.StageBranch(probe.notificationTableStage, tableInstance)
+	probe.notificationTableStage.StageBranch(tableInstance)
 	probe.notificationTableStage.Commit()
 }
 
@@ -343,7 +343,7 @@ func (probe *StageSetProbe) ExportStage() {
 	}
 
 	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stageString))
-	load.StageBranch(probe.loadStage, fileToDownload)
+	probe.loadStage.StageBranch(fileToDownload)
 	probe.loadStage.Commit()
 
 	time.Sleep(1 * time.Second)
@@ -380,7 +380,7 @@ func (probe *StageSetProbe) initLoadStage() {
 		},
 	}
 
-	load.StageBranch(probe.loadStage,
+	probe.loadStage.StageBranch(
 		fileToUpload,
 	)
 

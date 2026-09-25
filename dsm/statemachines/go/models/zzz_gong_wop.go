@@ -17,8 +17,7 @@ type Action_WOP struct {
 
 func (from *Action) GongCopyBasicFields(to *Action) {
 	// insertion point
-	to.Name = from.Name
-	to.Criticality = from.Criticality
+	*to = *from
 }
 
 type Activities_WOP struct {
@@ -31,8 +30,7 @@ type Activities_WOP struct {
 
 func (from *Activities) GongCopyBasicFields(to *Activities) {
 	// insertion point
-	to.Name = from.Name
-	to.Criticality = from.Criticality
+	*to = *from
 }
 
 type Diagram_WOP struct {
@@ -72,7 +70,7 @@ type Guard_WOP struct {
 
 func (from *Guard) GongCopyBasicFields(to *Guard) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Kill_WOP struct {
@@ -83,7 +81,7 @@ type Kill_WOP struct {
 
 func (from *Kill) GongCopyBasicFields(to *Kill) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type Library_WOP struct {
@@ -151,8 +149,7 @@ type MessageType_WOP struct {
 
 func (from *MessageType) GongCopyBasicFields(to *MessageType) {
 	// insertion point
-	to.Name = from.Name
-	to.Description = from.Description
+	*to = *from
 }
 
 type Note_WOP struct {

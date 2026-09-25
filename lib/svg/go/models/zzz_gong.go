@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -4347,7 +4338,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -4519,194 +4509,98 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case Animate:
-		return any(&Animate{
-			// Initialisation of associations
-		}).(*Type)
 	case Circle:
 		return any(&Circle{
-			// Initialisation of associations
-			// field is initialized with an instance of Animate with the name of the field
 			Animations: []*Animate{{Name: "Animations"}},
-		}).(*Type)
-	case Condition:
-		return any(&Condition{
-			// Initialisation of associations
 		}).(*Type)
 	case ControlPoint:
 		return any(&ControlPoint{
-			// Initialisation of associations
-			// field is initialized with an instance of Rect with the name of the field
 			ClosestRect: &Rect{Name: "ClosestRect"},
 		}).(*Type)
 	case Ellipse:
 		return any(&Ellipse{
-			// Initialisation of associations
-			// field is initialized with an instance of Animate with the name of the field
 			Animates: []*Animate{{Name: "Animates"}},
-		}).(*Type)
-	case FileToDownload:
-		return any(&FileToDownload{
-			// Initialisation of associations
 		}).(*Type)
 	case Layer:
 		return any(&Layer{
-			// Initialisation of associations
-			// field is initialized with an instance of Rect with the name of the field
 			Rects: []*Rect{{Name: "Rects"}},
-			// field is initialized with an instance of Text with the name of the field
 			Texts: []*Text{{Name: "Texts"}},
-			// field is initialized with an instance of Circle with the name of the field
 			Circles: []*Circle{{Name: "Circles"}},
-			// field is initialized with an instance of Line with the name of the field
 			Lines: []*Line{{Name: "Lines"}},
-			// field is initialized with an instance of Ellipse with the name of the field
 			Ellipses: []*Ellipse{{Name: "Ellipses"}},
-			// field is initialized with an instance of Polyline with the name of the field
 			Polylines: []*Polyline{{Name: "Polylines"}},
-			// field is initialized with an instance of Polygone with the name of the field
 			Polygones: []*Polygone{{Name: "Polygones"}},
-			// field is initialized with an instance of Path with the name of the field
 			Paths: []*Path{{Name: "Paths"}},
-			// field is initialized with an instance of Link with the name of the field
 			Links: []*Link{{Name: "Links"}},
-			// field is initialized with an instance of RectLinkLink with the name of the field
 			RectLinkLinks: []*RectLinkLink{{Name: "RectLinkLinks"}},
 		}).(*Type)
 	case Line:
 		return any(&Line{
-			// Initialisation of associations
-			// field is initialized with an instance of Animate with the name of the field
 			Animates: []*Animate{{Name: "Animates"}},
 		}).(*Type)
 	case Link:
 		return any(&Link{
-			// Initialisation of associations
-			// field is initialized with an instance of Rect with the name of the field
 			Start: &Rect{Name: "Start"},
-			// field is initialized with an instance of Rect with the name of the field
 			End: &Rect{Name: "End"},
-			// field is initialized with an instance of LinkAnchoredText with the name of the field
 			TextAtArrowStart: []*LinkAnchoredText{{Name: "TextAtArrowStart"}},
-			// field is initialized with an instance of LinkAnchoredText with the name of the field
 			TextAtArrowEnd: []*LinkAnchoredText{{Name: "TextAtArrowEnd"}},
-			// field is initialized with an instance of LinkAnchoredText with the name of the field
 			TextAtCorner: []*LinkAnchoredText{{Name: "TextAtCorner"}},
-			// field is initialized with an instance of LinkAnchoredPath with the name of the field
 			PathAtArrowStart: []*LinkAnchoredPath{{Name: "PathAtArrowStart"}},
-			// field is initialized with an instance of LinkAnchoredPath with the name of the field
 			PathAtArrowEnd: []*LinkAnchoredPath{{Name: "PathAtArrowEnd"}},
-			// field is initialized with an instance of LinkAnchoredPath with the name of the field
 			PathAtCorner: []*LinkAnchoredPath{{Name: "PathAtCorner"}},
-			// field is initialized with an instance of ControlPoint with the name of the field
 			ControlPoints: []*ControlPoint{{Name: "ControlPoints"}},
-		}).(*Type)
-	case LinkAnchoredPath:
-		return any(&LinkAnchoredPath{
-			// Initialisation of associations
 		}).(*Type)
 	case LinkAnchoredText:
 		return any(&LinkAnchoredText{
-			// Initialisation of associations
-			// field is initialized with an instance of Animate with the name of the field
 			Animates: []*Animate{{Name: "Animates"}},
 		}).(*Type)
 	case Path:
 		return any(&Path{
-			// Initialisation of associations
-			// field is initialized with an instance of Animate with the name of the field
 			Animates: []*Animate{{Name: "Animates"}},
-		}).(*Type)
-	case Point:
-		return any(&Point{
-			// Initialisation of associations
 		}).(*Type)
 	case Polygone:
 		return any(&Polygone{
-			// Initialisation of associations
-			// field is initialized with an instance of Animate with the name of the field
 			Animates: []*Animate{{Name: "Animates"}},
 		}).(*Type)
 	case Polyline:
 		return any(&Polyline{
-			// Initialisation of associations
-			// field is initialized with an instance of Animate with the name of the field
 			Animates: []*Animate{{Name: "Animates"}},
 		}).(*Type)
 	case Rect:
 		return any(&Rect{
-			// Initialisation of associations
-			// field is initialized with an instance of Rect with the name of the field
 			Peers: []*Rect{{Name: "Peers"}},
-			// field is initialized with an instance of Rect with the name of the field
 			EnclosingRect: &Rect{Name: "EnclosingRect"},
-			// field is initialized with an instance of Rect with the name of the field
 			Obstacles: []*Rect{{Name: "Obstacles"}},
-			// field is initialized with an instance of Rect with the name of the field
 			AnchoredTo: &Rect{Name: "AnchoredTo"},
-			// field is initialized with an instance of Condition with the name of the field
 			HoveringTrigger: []*Condition{{Name: "HoveringTrigger"}},
-			// field is initialized with an instance of Condition with the name of the field
 			DisplayConditions: []*Condition{{Name: "DisplayConditions"}},
-			// field is initialized with an instance of Animate with the name of the field
 			Animations: []*Animate{{Name: "Animations"}},
-			// field is initialized with an instance of RectAnchoredText with the name of the field
 			RectAnchoredTexts: []*RectAnchoredText{{Name: "RectAnchoredTexts"}},
-			// field is initialized with an instance of RectAnchoredRect with the name of the field
 			RectAnchoredRects: []*RectAnchoredRect{{Name: "RectAnchoredRects"}},
-			// field is initialized with an instance of RectAnchoredPath with the name of the field
 			RectAnchoredPaths: []*RectAnchoredPath{{Name: "RectAnchoredPaths"}},
-			// field is initialized with an instance of RectAnchoredPngImage with the name of the field
 			RectAnchoredPngImages: []*RectAnchoredPngImage{{Name: "RectAnchoredPngImages"}},
-		}).(*Type)
-	case RectAnchoredPath:
-		return any(&RectAnchoredPath{
-			// Initialisation of associations
-		}).(*Type)
-	case RectAnchoredPngImage:
-		return any(&RectAnchoredPngImage{
-			// Initialisation of associations
-		}).(*Type)
-	case RectAnchoredRect:
-		return any(&RectAnchoredRect{
-			// Initialisation of associations
 		}).(*Type)
 	case RectAnchoredText:
 		return any(&RectAnchoredText{
-			// Initialisation of associations
-			// field is initialized with an instance of Animate with the name of the field
 			Animates: []*Animate{{Name: "Animates"}},
 		}).(*Type)
 	case RectLinkLink:
 		return any(&RectLinkLink{
-			// Initialisation of associations
-			// field is initialized with an instance of Rect with the name of the field
 			Start: &Rect{Name: "Start"},
-			// field is initialized with an instance of Link with the name of the field
 			End: &Link{Name: "End"},
 		}).(*Type)
 	case SVG:
 		return any(&SVG{
-			// Initialisation of associations
-			// field is initialized with an instance of Layer with the name of the field
 			Layers: []*Layer{{Name: "Layers"}},
-			// field is initialized with an instance of Rect with the name of the field
 			StartRect: &Rect{Name: "StartRect"},
-			// field is initialized with an instance of Rect with the name of the field
 			EndRect: &Rect{Name: "EndRect"},
-		}).(*Type)
-	case SvgText:
-		return any(&SvgText{
-			// Initialisation of associations
 		}).(*Type)
 	case Text:
 		return any(&Text{
-			// Initialisation of associations
-			// field is initialized with an instance of Animate with the name of the field
 			Animates: []*Animate{{Name: "Animates"}},
 		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

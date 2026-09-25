@@ -123,27 +123,6 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	stage.SetOrchestratorOnAfterUpdate[models.AllocatedProcessShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.AllocatedResourceShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.ControlFlow]()
-	stage.SetOrchestratorOnAfterUpdate[models.ControlFlowShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Data]()
-	stage.SetOrchestratorOnAfterUpdate[models.DataFlow]()
-	stage.SetOrchestratorOnAfterUpdate[models.DataFlowShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.DataShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.DiagramProcess]()
-	stage.SetOrchestratorOnAfterUpdate[models.ExternalParticipantShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Library]()
-	stage.SetOrchestratorOnAfterUpdate[models.Note]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.NoteTaskShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Participant]()
-	stage.SetOrchestratorOnAfterUpdate[models.ParticipantShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Process]()
-	stage.SetOrchestratorOnAfterUpdate[models.ProcessShape]()
-	stage.SetOrchestratorOnAfterUpdate[models.Resource]()
-	stage.SetOrchestratorOnAfterUpdate[models.Task]()
-	stage.SetOrchestratorOnAfterUpdate[models.TaskShape]()
 
 	return
 }

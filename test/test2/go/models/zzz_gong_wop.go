@@ -38,7 +38,7 @@ type B_WOP struct {
 
 func (from *B) GongCopyBasicFields(to *B) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 // end of insertion point

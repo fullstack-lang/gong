@@ -157,7 +157,7 @@ type ComplexContent_WOP struct {
 
 func (from *ComplexContent) GongCopyBasicFields(to *ComplexContent) {
 	// insertion point
-	to.Name = from.Name
+	*to = *from
 }
 
 type ComplexType_WOP struct {
@@ -215,10 +215,7 @@ type Documentation_WOP struct {
 
 func (from *Documentation) GongCopyBasicFields(to *Documentation) {
 	// insertion point
-	to.Name = from.Name
-	to.Text = from.Text
-	to.Source = from.Source
-	to.Lang = from.Lang
+	*to = *from
 }
 
 type Element_WOP struct {

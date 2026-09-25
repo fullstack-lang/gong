@@ -28,7 +28,7 @@ func (probe *Probe) ux_navigation_tree() {
 		sidebar.RootNodes = append(sidebar.RootNodes, node.(*tree_models.Node))
 	})
 
-	tree_models.StageBranch(probe.treeNavigationStage, sidebar)
+	probe.treeNavigationStage.StageBranch(sidebar)
 
 	probe.treeNavigationStage.Commit()
 }
@@ -803,7 +803,7 @@ func (probe *Probe) ux_tree() {
 		sidebar.RootNodes = append(sidebar.RootNodes, nodeGongstruct)
 	}
 
-	tree_models.StageBranch(probe.treeStage, sidebar)
+	probe.treeStage.StageBranch(sidebar)
 
 	probe.treeStage.Commit()
 }

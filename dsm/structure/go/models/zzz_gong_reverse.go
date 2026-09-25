@@ -178,11 +178,7 @@ func (inst *DataShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 }
 
 func (inst *DiagramLayerState) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -223,11 +219,7 @@ func (inst *ExternalPartShape) GongGetReverseFieldOwnerName(stage *Stage, revers
 }
 
 func (inst *LayerDefinition) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -730,11 +722,7 @@ func (inst *DataShape) GongGetReverseFieldOwner(stage *Stage, reverseField *Gong
 }
 
 func (inst *DiagramLayerState) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -769,11 +757,7 @@ func (inst *ExternalPartShape) GongGetReverseFieldOwner(stage *Stage, reverseFie
 }
 
 func (inst *LayerDefinition) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 

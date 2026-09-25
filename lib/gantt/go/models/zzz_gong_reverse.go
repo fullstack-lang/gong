@@ -35,11 +35,7 @@ func (inst *Bar) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongRe
 }
 
 func (inst *Gantt) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -90,11 +86,7 @@ func (inst *Lane) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongR
 }
 
 func (inst *LaneUse) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -144,11 +136,7 @@ func (inst *Bar) GongGetReverseFieldOwner(stage *Stage, reverseField *GongRevers
 }
 
 func (inst *Gantt) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 
@@ -191,11 +179,7 @@ func (inst *Lane) GongGetReverseFieldOwner(stage *Stage, reverseField *GongRever
 }
 
 func (inst *LaneUse) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 

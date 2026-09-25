@@ -37,15 +37,6 @@ const (
 	GongProbeFormSuffix                  = ":form of the probe"
 	GongProbeSplitSuffix                 = ":probe of the probe"
 	GongProbeLoadSuffix                  = ":load of the probe"
-
-	// backward compatibility
-	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
-	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
-	ProbeTableSuffix                 = GongProbeTableSuffix
-	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
-	ProbeFormSuffix                  = GongProbeFormSuffix
-	ProbeSplitSuffix                 = GongProbeSplitSuffix
-	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -3687,7 +3678,6 @@ type GongstructIF interface {
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
-	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
@@ -3843,130 +3833,50 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case AmbiantLight:
-		return any(&AmbiantLight{
-			// Initialisation of associations
-		}).(*Type)
-	case BoxGeometry:
-		return any(&BoxGeometry{
-			// Initialisation of associations
-		}).(*Type)
 	case BufferGeometry:
 		return any(&BufferGeometry{
-			// Initialisation of associations
-			// field is initialized with an instance of Vector3 with the name of the field
 			Vertices: []*Vector3{{Name: "Vertices"}},
-			// field is initialized with an instance of Triangle with the name of the field
 			Faces: []*Triangle{{Name: "Faces"}},
-		}).(*Type)
-	case Camera:
-		return any(&Camera{
-			// Initialisation of associations
 		}).(*Type)
 	case Canvas:
 		return any(&Canvas{
-			// Initialisation of associations
-			// field is initialized with an instance of DirectionalLight with the name of the field
 			DirectionalLights: []*DirectionalLight{{Name: "DirectionalLights"}},
-			// field is initialized with an instance of AmbiantLight with the name of the field
 			AmbiantLight: &AmbiantLight{Name: "AmbiantLight"},
-			// field is initialized with an instance of Mesh with the name of the field
 			Meshs: []*Mesh{{Name: "Meshs"}},
-			// field is initialized with an instance of Camera with the name of the field
 			Camera: &Camera{Name: "Camera"},
 		}).(*Type)
 	case Curve:
 		return any(&Curve{
-			// Initialisation of associations
-			// field is initialized with an instance of Vector3 with the name of the field
 			Points: []*Vector3{{Name: "Points"}},
-		}).(*Type)
-	case CylinderGeometry:
-		return any(&CylinderGeometry{
-			// Initialisation of associations
-		}).(*Type)
-	case DirectionalLight:
-		return any(&DirectionalLight{
-			// Initialisation of associations
 		}).(*Type)
 	case ExtrudeGeometry:
 		return any(&ExtrudeGeometry{
-			// Initialisation of associations
-			// field is initialized with an instance of Shape with the name of the field
 			Shape: &Shape{Name: "Shape"},
-			// field is initialized with an instance of Curve with the name of the field
 			ExtrudePath: &Curve{Name: "ExtrudePath"},
 		}).(*Type)
 	case Mesh:
 		return any(&Mesh{
-			// Initialisation of associations
-			// field is initialized with an instance of MeshMaterialBasic with the name of the field
 			MeshMaterialBasic: &MeshMaterialBasic{Name: "MeshMaterialBasic"},
-			// field is initialized with an instance of MeshPhysicalMaterial with the name of the field
 			MeshPhysicalMaterial: &MeshPhysicalMaterial{Name: "MeshPhysicalMaterial"},
-			// field is initialized with an instance of CylinderGeometry with the name of the field
 			CylinderGeometry: &CylinderGeometry{Name: "CylinderGeometry"},
-			// field is initialized with an instance of BoxGeometry with the name of the field
 			BoxGeometry: &BoxGeometry{Name: "BoxGeometry"},
-			// field is initialized with an instance of SphereGeometry with the name of the field
 			SphereGeometry: &SphereGeometry{Name: "SphereGeometry"},
-			// field is initialized with an instance of TorusGeometry with the name of the field
 			TorusGeometry: &TorusGeometry{Name: "TorusGeometry"},
-			// field is initialized with an instance of PlaneGeometry with the name of the field
 			PlaneGeometry: &PlaneGeometry{Name: "PlaneGeometry"},
-			// field is initialized with an instance of TubeGeometry with the name of the field
 			TubeGeometry: &TubeGeometry{Name: "TubeGeometry"},
-			// field is initialized with an instance of ExtrudeGeometry with the name of the field
 			ExtrudeGeometry: &ExtrudeGeometry{Name: "ExtrudeGeometry"},
-			// field is initialized with an instance of BufferGeometry with the name of the field
 			BufferGeometry: &BufferGeometry{Name: "BufferGeometry"},
-		}).(*Type)
-	case MeshMaterialBasic:
-		return any(&MeshMaterialBasic{
-			// Initialisation of associations
-		}).(*Type)
-	case MeshPhysicalMaterial:
-		return any(&MeshPhysicalMaterial{
-			// Initialisation of associations
-		}).(*Type)
-	case PlaneGeometry:
-		return any(&PlaneGeometry{
-			// Initialisation of associations
 		}).(*Type)
 	case Shape:
 		return any(&Shape{
-			// Initialisation of associations
-			// field is initialized with an instance of Vector2 with the name of the field
 			Points: []*Vector2{{Name: "Points"}},
-		}).(*Type)
-	case SphereGeometry:
-		return any(&SphereGeometry{
-			// Initialisation of associations
-		}).(*Type)
-	case TorusGeometry:
-		return any(&TorusGeometry{
-			// Initialisation of associations
-		}).(*Type)
-	case Triangle:
-		return any(&Triangle{
-			// Initialisation of associations
 		}).(*Type)
 	case TubeGeometry:
 		return any(&TubeGeometry{
-			// Initialisation of associations
-			// field is initialized with an instance of Curve with the name of the field
 			Path: &Curve{Name: "Path"},
 		}).(*Type)
-	case Vector2:
-		return any(&Vector2{
-			// Initialisation of associations
-		}).(*Type)
-	case Vector3:
-		return any(&Vector3{
-			// Initialisation of associations
-		}).(*Type)
 	default:
-		return nil
+		return &ret
 	}
 }
 

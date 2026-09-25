@@ -35,11 +35,7 @@ func (inst *Group) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Gong
 }
 
 func (inst *Layout) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return
 }
 
@@ -89,11 +85,7 @@ func (inst *Group) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReve
 }
 
 func (inst *Layout) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
 	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
 	return res
 }
 

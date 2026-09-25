@@ -23,11 +23,7 @@ type AttributeShape_WOP struct {
 
 func (from *AttributeShape) GongCopyBasicFields(to *AttributeShape) {
 	// insertion point
-	to.Name = from.Name
-	to.IdentifierMeta = from.IdentifierMeta
-	to.FieldTypeAsString = from.FieldTypeAsString
-	to.Structname = from.Structname
-	to.Fieldtypename = from.Fieldtypename
+	*to = *from
 }
 
 type Classdiagram_WOP struct {
@@ -142,8 +138,7 @@ type GongEnumValueShape_WOP struct {
 
 func (from *GongEnumValueShape) GongCopyBasicFields(to *GongEnumValueShape) {
 	// insertion point
-	to.Name = from.Name
-	to.IdentifierMeta = from.IdentifierMeta
+	*to = *from
 }
 
 type GongNoteLinkShape_WOP struct {
@@ -158,9 +153,7 @@ type GongNoteLinkShape_WOP struct {
 
 func (from *GongNoteLinkShape) GongCopyBasicFields(to *GongNoteLinkShape) {
 	// insertion point
-	to.Name = from.Name
-	to.Identifier = from.Identifier
-	to.Type = from.Type
+	*to = *from
 }
 
 type GongNoteShape_WOP struct {
@@ -278,24 +271,7 @@ type LinkShape_WOP struct {
 
 func (from *LinkShape) GongCopyBasicFields(to *LinkShape) {
 	// insertion point
-	to.Name = from.Name
-	to.IdentifierMeta = from.IdentifierMeta
-	to.FieldTypeIdentifierMeta = from.FieldTypeIdentifierMeta
-	to.FieldOffsetX = from.FieldOffsetX
-	to.FieldOffsetY = from.FieldOffsetY
-	to.TargetMultiplicity = from.TargetMultiplicity
-	to.TargetMultiplicityOffsetX = from.TargetMultiplicityOffsetX
-	to.TargetMultiplicityOffsetY = from.TargetMultiplicityOffsetY
-	to.SourceMultiplicity = from.SourceMultiplicity
-	to.SourceMultiplicityOffsetX = from.SourceMultiplicityOffsetX
-	to.SourceMultiplicityOffsetY = from.SourceMultiplicityOffsetY
-	to.X = from.X
-	to.Y = from.Y
-	to.StartOrientation = from.StartOrientation
-	to.StartRatio = from.StartRatio
-	to.EndOrientation = from.EndOrientation
-	to.EndRatio = from.EndRatio
-	to.CornerOffsetRatio = from.CornerOffsetRatio
+	*to = *from
 }
 
 // end of insertion point

@@ -37,6 +37,10 @@ func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	return
 }
 
+type GongCleaner interface {
+	GongClean(stage *Stage) (modified bool)
+}
+
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by CompareAnalysis
 func (compareanalysis *CompareAnalysis) GongClean(stage *Stage) (modified bool) {
@@ -46,13 +50,6 @@ func (compareanalysis *CompareAnalysis) GongClean(stage *Stage) (modified bool) 
 	// insertion point per field
 	modified = stage.CleanPointer(&compareanalysis.FromSystem) || modified
 	modified = stage.CleanPointer(&compareanalysis.ToSystem) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Complexity
-func (complexity *Complexity) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
 	return
 }
 
@@ -67,13 +64,6 @@ func (diagramflossequation *DiagramFlossEquation) GongClean(stage *Stage) (modif
 	modified = stage.CleanSlice(&diagramflossequation.ComplexitysWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramflossequation.PerformancesWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramflossequation.EffortsWhoseNodeIsExpanded) || modified
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Effort
-func (effort *Effort) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -144,13 +134,6 @@ func (noteshape *NoteShape) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by Performance
-func (performance *Performance) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by System
 func (system *System) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -170,7 +153,9 @@ func (system *System) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		modified = instance.GongClean(stage) || modified
+		if cleaner, ok := any(instance).(GongCleaner); ok {
+			modified = cleaner.GongClean(stage) || modified
+		}
 	}
 	if modified {
 		if stage.probeIF != nil {
