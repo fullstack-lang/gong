@@ -48,52 +48,61 @@ export function processSVG(svgString: string): string {
     }
   }
 
-  // Get all remaining elements and convert to array for iteration
-  const elements = Array.from(svg.getElementsByTagName('*'));
+  // Reset pan/zoom transform on top-level <g> so content coordinates are 1:1 in SVG space
+  const topGroups = Array.from(svg.querySelectorAll('g'));
+  for (const g of topGroups) {
+    if (g.parentElement === svg && g.hasAttribute('transform')) {
+      g.removeAttribute('transform');
+    }
+  }
 
   // Initialize boundaries
   let minX = Infinity;
   let minY = Infinity;
   let maxX = -Infinity;
   let maxY = -Infinity;
+  let measuredByDOM = false;
 
-  // Process each element to find boundaries
-  for (const element of elements) {
-    // Special handling for rect elements
-    if (element.tagName.toLowerCase() === 'rect') {
-      const x = parseFloat(element.getAttribute('x') || '0');
-      const y = parseFloat(element.getAttribute('y') || '0');
-      const width = parseFloat(element.getAttribute('width') || '0');
-      const height = parseFloat(element.getAttribute('height') || '0');
-      const rx = parseFloat(element.getAttribute('rx') || '0');
-
-      // Consider transform attributes
-      const transform = element.getAttribute('transform');
-      let tx = 0, ty = 0;
-
-      if (transform) {
-        const match = transform.match(/translate\(([-\d.]+)\s*([-\d.]+)?\)/);
-        if (match) {
-          tx = parseFloat(match[1]) || 0;
-          ty = parseFloat(match[2]) || 0;
-        }
-      }
-
-      minX = Math.min(minX, x + tx);
-      minY = Math.min(minY, y + ty);
-      maxX = Math.max(maxX, x + width + tx);
-      maxY = Math.max(maxY, y + height + ty);
-      continue;
-    }
-
-    // Handle other SVG elements
+  // When running in a browser environment, measure the clean SVG using the browser's live layout engine
+  if (typeof document !== 'undefined' && document.body) {
     try {
-      const bbox = (element as SVGGraphicsElement).getBBox?.();
-      if (bbox) {
-        // Consider transform attributes
-        const transform = element.getAttribute('transform');
-        let tx = 0, ty = 0;
+      const tempSvg = svg.cloneNode(true) as SVGSVGElement;
+      tempSvg.style.position = 'absolute';
+      tempSvg.style.visibility = 'hidden';
+      tempSvg.style.left = '-99999px';
+      tempSvg.style.top = '-99999px';
+      document.body.appendChild(tempSvg);
 
+      const bbox = tempSvg.getBBox();
+      if (bbox && !isNaN(bbox.x) && !isNaN(bbox.y) && bbox.width > 0 && bbox.height > 0) {
+        minX = bbox.x;
+        minY = bbox.y;
+        maxX = bbox.x + bbox.width;
+        maxY = bbox.y + bbox.height;
+        measuredByDOM = true;
+      }
+      document.body.removeChild(tempSvg);
+    } catch (_) {
+      // In case getBBox fails, fall back to manual measurement
+    }
+  }
+
+  // Manual fallback measurement when DOM measurement is unavailable
+  if (!measuredByDOM) {
+    const elements = Array.from(svg.getElementsByTagName('*'));
+
+    for (const element of elements) {
+      const tagName = element.tagName.toLowerCase();
+
+      // Rect elements
+      if (tagName === 'rect') {
+        const x = parseFloat(element.getAttribute('x') || '0');
+        const y = parseFloat(element.getAttribute('y') || '0');
+        const width = parseFloat(element.getAttribute('width') || '0');
+        const height = parseFloat(element.getAttribute('height') || '0');
+
+        let tx = 0, ty = 0;
+        const transform = element.getAttribute('transform');
         if (transform) {
           const match = transform.match(/translate\(([-\d.]+)\s*([-\d.]+)?\)/);
           if (match) {
@@ -102,71 +111,180 @@ export function processSVG(svgString: string): string {
           }
         }
 
-        minX = Math.min(minX, bbox.x + tx);
-        minY = Math.min(minY, bbox.y + ty);
-        maxX = Math.max(maxX, bbox.x + bbox.width + tx);
-        maxY = Math.max(maxY, bbox.y + bbox.height + ty);
+        minX = Math.min(minX, x + tx);
+        minY = Math.min(minY, y + ty);
+        maxX = Math.max(maxX, x + width + tx);
+        maxY = Math.max(maxY, y + height + ty);
+        continue;
       }
-    } catch (e) {
-      // Some elements might not support getBBox
-    }
 
-    // Handle explicit coordinates for elements like lines
-    ['x', 'x1', 'x2', 'cx'].forEach(attr => {
-      const val = parseFloat(element.getAttribute(attr) || '');
-      if (!isNaN(val)) {
-        minX = Math.min(minX, val);
-        maxX = Math.max(maxX, val);
+      // Circle elements
+      if (tagName === 'circle') {
+        const cx = parseFloat(element.getAttribute('cx') || '0');
+        const cy = parseFloat(element.getAttribute('cy') || '0');
+        const r = parseFloat(element.getAttribute('r') || '0');
+        minX = Math.min(minX, cx - r);
+        maxX = Math.max(maxX, cx + r);
+        minY = Math.min(minY, cy - r);
+        maxY = Math.max(maxY, cy + r);
+        continue;
       }
-    });
 
-    ['y', 'y1', 'y2', 'cy'].forEach(attr => {
-      const val = parseFloat(element.getAttribute(attr) || '');
-      if (!isNaN(val)) {
-        minY = Math.min(minY, val);
-        maxY = Math.max(maxY, val);
+      // Ellipse elements
+      if (tagName === 'ellipse') {
+        const cx = parseFloat(element.getAttribute('cx') || '0');
+        const cy = parseFloat(element.getAttribute('cy') || '0');
+        const rx = parseFloat(element.getAttribute('rx') || '0');
+        const ry = parseFloat(element.getAttribute('ry') || '0');
+        minX = Math.min(minX, cx - rx);
+        maxX = Math.max(maxX, cx + rx);
+        minY = Math.min(minY, cy - ry);
+        maxY = Math.max(maxY, cy + ry);
+        continue;
       }
-    });
 
-    // Handle path elements
-    if (element.tagName.toLowerCase() === 'path') {
-      const d = element.getAttribute('d');
-      if (d) {
-        // Split path into commands
-        const commands = d.match(/[MmLlHhVvCcSsQqTtAaZz][^MmLlHhVvCcSsQqTtAaZz]*/g) || [];
-        for (const cmd of commands) {
-          // Extract numbers from command
-          const numbers = cmd.slice(1).trim().split(/[\s,]+/).map(parseFloat);
-          for (let i = 0; i < numbers.length; i += 2) {
-            if (!isNaN(numbers[i])) {
-              minX = Math.min(minX, numbers[i]);
-              maxX = Math.max(maxX, numbers[i]);
-            }
-            if (!isNaN(numbers[i + 1])) {
-              minY = Math.min(minY, numbers[i + 1]);
-              maxY = Math.max(maxY, numbers[i + 1]);
+      // Line elements
+      if (tagName === 'line') {
+        const x1 = parseFloat(element.getAttribute('x1') || '');
+        const y1 = parseFloat(element.getAttribute('y1') || '');
+        const x2 = parseFloat(element.getAttribute('x2') || '');
+        const y2 = parseFloat(element.getAttribute('y2') || '');
+        if (!isNaN(x1)) { minX = Math.min(minX, x1); maxX = Math.max(maxX, x1); }
+        if (!isNaN(x2)) { minX = Math.min(minX, x2); maxX = Math.max(maxX, x2); }
+        if (!isNaN(y1)) { minY = Math.min(minY, y1); maxY = Math.max(maxY, y1); }
+        if (!isNaN(y2)) { minY = Math.min(minY, y2); maxY = Math.max(maxY, y2); }
+        continue;
+      }
+
+      // Text and TSpan elements
+      if (tagName === 'text' || tagName === 'tspan') {
+        const x = parseFloat(element.getAttribute('x') || '0');
+        const y = parseFloat(element.getAttribute('y') || '0');
+        const text = (element.textContent || '').trim();
+        if (text.length > 0) {
+          const fontSize = parseFloat(element.getAttribute('font-size') || '16') || 16;
+          const textAnchor = element.getAttribute('text-anchor') || 'start';
+          let textWidth = text.length * fontSize * 0.65;
+          if (typeof document !== 'undefined') {
+            try {
+              const canvas = document.createElement('canvas');
+              const ctx = canvas.getContext('2d');
+              if (ctx) {
+                const fontFamily = element.getAttribute('font-family') || 'Roboto, Arial, sans-serif';
+                ctx.font = `${fontSize}px ${fontFamily}`;
+                textWidth = ctx.measureText(text).width;
+              }
+            } catch (_) {}
+          }
+          let tMinX = x;
+          let tMaxX = x + textWidth;
+          if (textAnchor === 'middle') {
+            tMinX = x - textWidth / 2;
+            tMaxX = x + textWidth / 2;
+          } else if (textAnchor === 'end') {
+            tMinX = x - textWidth;
+            tMaxX = x;
+          }
+          minX = Math.min(minX, tMinX);
+          maxX = Math.max(maxX, tMaxX);
+          minY = Math.min(minY, y - fontSize * 0.85);
+          maxY = Math.max(maxY, y + fontSize * 0.25);
+        }
+        continue;
+      }
+
+      // Path elements
+      if (tagName === 'path') {
+        const d = element.getAttribute('d');
+        if (d) {
+          const matches = d.matchAll(/([MmLlHhVvCcSsQqTtAaZz])([^MmLlHhVvCcSsQqTtAaZz]*)/g);
+          let curX = 0, curY = 0;
+          for (const match of matches) {
+            const type = match[1];
+            const nums = match[2].trim().split(/[\s,]+/).filter(Boolean).map(parseFloat);
+            if (type === 'M' || type === 'L' || type === 'T') {
+              for (let i = 0; i < nums.length - 1; i += 2) {
+                curX = nums[i]; curY = nums[i + 1];
+                minX = Math.min(minX, curX); maxX = Math.max(maxX, curX);
+                minY = Math.min(minY, curY); maxY = Math.max(maxY, curY);
+              }
+            } else if (type === 'm' || type === 'l' || type === 't') {
+              for (let i = 0; i < nums.length - 1; i += 2) {
+                curX += nums[i]; curY += nums[i + 1];
+                minX = Math.min(minX, curX); maxX = Math.max(maxX, curX);
+                minY = Math.min(minY, curY); maxY = Math.max(maxY, curY);
+              }
+            } else if (type === 'H') {
+              for (const n of nums) { curX = n; minX = Math.min(minX, curX); maxX = Math.max(maxX, curX); }
+            } else if (type === 'h') {
+              for (const n of nums) { curX += n; minX = Math.min(minX, curX); maxX = Math.max(maxX, curX); }
+            } else if (type === 'V') {
+              for (const n of nums) { curY = n; minY = Math.min(minY, curY); maxY = Math.max(maxY, curY); }
+            } else if (type === 'v') {
+              for (const n of nums) { curY += n; minY = Math.min(minY, curY); maxY = Math.max(maxY, curY); }
+            } else if (type === 'C') {
+              for (let i = 0; i < nums.length - 5; i += 6) {
+                [nums[i], nums[i + 2], nums[i + 4]].forEach(x => { minX = Math.min(minX, x); maxX = Math.max(maxX, x); });
+                [nums[i + 1], nums[i + 3], nums[i + 5]].forEach(y => { minY = Math.min(minY, y); maxY = Math.max(maxY, y); });
+                curX = nums[i + 4]; curY = nums[i + 5];
+              }
+            } else if (type === 'c') {
+              for (let i = 0; i < nums.length - 5; i += 6) {
+                [curX + nums[i], curX + nums[i + 2], curX + nums[i + 4]].forEach(x => { minX = Math.min(minX, x); maxX = Math.max(maxX, x); });
+                [curY + nums[i + 1], curY + nums[i + 3], curY + nums[i + 5]].forEach(y => { minY = Math.min(minY, y); maxY = Math.max(maxY, y); });
+                curX += nums[i + 4]; curY += nums[i + 5];
+              }
+            } else if (type === 'S' || type === 'Q') {
+              for (let i = 0; i < nums.length - 3; i += 4) {
+                [nums[i], nums[i + 2]].forEach(x => { minX = Math.min(minX, x); maxX = Math.max(maxX, x); });
+                [nums[i + 1], nums[i + 3]].forEach(y => { minY = Math.min(minY, y); maxY = Math.max(maxY, y); });
+                curX = nums[i + 2]; curY = nums[i + 3];
+              }
+            } else if (type === 's' || type === 'q') {
+              for (let i = 0; i < nums.length - 3; i += 4) {
+                [curX + nums[i], curX + nums[i + 2]].forEach(x => { minX = Math.min(minX, x); maxX = Math.max(maxX, x); });
+                [curY + nums[i + 1], curY + nums[i + 3]].forEach(y => { minY = Math.min(minY, y); maxY = Math.max(maxY, y); });
+                curX += nums[i + 2]; curY += nums[i + 3];
+              }
+            } else if (type === 'A') {
+              // A rx ry x-axis-rotation large-arc-flag sweep-flag x y
+              for (let i = 0; i < nums.length - 6; i += 7) {
+                const x = nums[i + 5], y = nums[i + 6];
+                minX = Math.min(minX, x); maxX = Math.max(maxX, x);
+                minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+                curX = x; curY = y;
+              }
+            } else if (type === 'a') {
+              for (let i = 0; i < nums.length - 6; i += 7) {
+                curX += nums[i + 5]; curY += nums[i + 6];
+                minX = Math.min(minX, curX); maxX = Math.max(maxX, curX);
+                minY = Math.min(minY, curY); maxY = Math.max(maxY, curY);
+              }
             }
           }
         }
+        continue;
       }
     }
   }
 
   // Add padding
-  const padding = 10;
-  minX -= padding;
-  minY -= padding;
-  maxX += padding;
-  maxY += padding;
+  if (isFinite(minX) && isFinite(maxX) && isFinite(minY) && isFinite(maxY)) {
+    const padding = 10;
+    minX -= padding;
+    minY -= padding;
+    maxX += padding;
+    maxY += padding;
 
-  // Calculate new dimensions
-  const width = maxX - minX;
-  const height = maxY - minY;
+    // Calculate new dimensions
+    const width = Math.max(maxX - minX, 100);
+    const height = Math.max(maxY - minY, 100);
 
-  // Update SVG attributes
-  svg.setAttribute('width', width.toString());
-  svg.setAttribute('height', height.toString());
-  svg.setAttribute('viewBox', `${minX} ${minY} ${width} ${height}`);
+    // Update SVG attributes
+    svg.setAttribute('width', width.toString());
+    svg.setAttribute('height', height.toString());
+    svg.setAttribute('viewBox', `${minX} ${minY} ${width} ${height}`);
+  }
 
   // Ensure font-family is declared on the SVG root for PowerPoint compatibility
   if (!svg.getAttribute('font-family')) {

@@ -5,23 +5,15 @@ import "math"
 func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 
+		margin := 100.0
 		width := 0.0
 		height := 0.0
 
-		// parse all concrete shapes in the diagram that are not links
-		//  to compute the size of the diagram
-		// the size of the diagram is the max of the position of the shapes + their size
-		for _, shape := range diagram.Product_Shapes {
-			if shape.X+shape.Width > width {
-				width = shape.X + shape.Width
-			}
-			if shape.Y+shape.Height > height {
-				height = shape.Y + shape.Height
-			}
-		}
-
 		if !diagram.IsTimeDiagram {
-			for _, shape := range diagram.Task_Shapes {
+			for _, shape := range diagram.Product_Shapes {
+				if shape.IsHidden {
+					continue
+				}
 				if shape.X+shape.Width > width {
 					width = shape.X + shape.Width
 				}
@@ -29,31 +21,45 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 					height = shape.Y + shape.Height
 				}
 			}
-		}
 
-		for _, shape := range diagram.Note_Shapes {
-			if shape.X+shape.Width > width {
-				width = shape.X + shape.Width
+			for _, shape := range diagram.Task_Shapes {
+				if shape.IsHidden {
+					continue
+				}
+				if shape.X+shape.Width > width {
+					width = shape.X + shape.Width
+				}
+				if shape.Y+shape.Height > height {
+					height = shape.Y + shape.Height
+				}
 			}
-			if shape.Y+shape.Height > height {
-				height = shape.Y + shape.Height
-			}
-		}
-		for _, shape := range diagram.Resource_Shapes {
-			if shape.X+shape.Width > width {
-				width = shape.X + shape.Width
-			}
-			if shape.Y+shape.Height > height {
-				height = shape.Y + shape.Height
-			}
-		}
 
-		// add a margin to the diagram size
-		margin := 100.0
-		width += margin
-		height += margin
+			for _, shape := range diagram.Note_Shapes {
+				if shape.IsHidden {
+					continue
+				}
+				if shape.X+shape.Width > width {
+					width = shape.X + shape.Width
+				}
+				if shape.Y+shape.Height > height {
+					height = shape.Y + shape.Height
+				}
+			}
+			for _, shape := range diagram.Resource_Shapes {
+				if shape.IsHidden {
+					continue
+				}
+				if shape.X+shape.Width > width {
+					width = shape.X + shape.Width
+				}
+				if shape.Y+shape.Height > height {
+					height = shape.Y + shape.Height
+				}
+			}
 
-		if diagram.IsTimeDiagram {
+			width += margin
+			height += margin
+		} else {
 			maxRight := diagram.XRightMargin
 
 			hasDuration := false
@@ -140,8 +146,31 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 				}
 			}
 
-			if width < maxRight+margin {
-				width = maxRight + margin
+			width = maxRight + margin
+
+			for _, shape := range diagram.Product_Shapes {
+				if shape.IsHidden {
+					continue
+				}
+				if shape.X+shape.Width+margin > width {
+					width = shape.X + shape.Width + margin
+				}
+			}
+			for _, shape := range diagram.Note_Shapes {
+				if shape.IsHidden {
+					continue
+				}
+				if shape.X+shape.Width+margin > width {
+					width = shape.X + shape.Width + margin
+				}
+			}
+			for _, shape := range diagram.Resource_Shapes {
+				if shape.IsHidden {
+					continue
+				}
+				if shape.X+shape.Width+margin > width {
+					width = shape.X + shape.Width + margin
+				}
 			}
 
 			var nbVisibleTaskGroups int
@@ -151,10 +180,43 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 				}
 			}
 
-			timeDiagramHeight := diagram.YTopMargin + diagram.LaneHeight*float64(nbVisibleTaskGroups)
-			timeDiagramHeight += diagram.DateYOffset + margin // margin for date labels
-			if height < timeDiagramHeight {
-				height = timeDiagramHeight
+			dateYOffset := diagram.DateYOffset
+			if dateYOffset <= 0 {
+				dateYOffset = 15.0
+			}
+			textHeight := diagram.TextHeight
+			if textHeight <= 0 {
+				textHeight = 15.0
+			}
+			dateMargin := dateYOffset + textHeight + 5.0
+			yTimeLine := diagram.YTopMargin + diagram.LaneHeight*float64(nbVisibleTaskGroups)
+			timeDiagramHeight := yTimeLine + dateMargin
+			height = timeDiagramHeight
+
+			// If any visible shape extends below timeDiagramHeight, expand diagram height to fit it
+			for _, shape := range diagram.Product_Shapes {
+				if shape.IsHidden {
+					continue
+				}
+				if shape.Y+shape.Height+margin > height {
+					height = shape.Y + shape.Height + margin
+				}
+			}
+			for _, shape := range diagram.Note_Shapes {
+				if shape.IsHidden {
+					continue
+				}
+				if shape.Y+shape.Height+margin > height {
+					height = shape.Y + shape.Height + margin
+				}
+			}
+			for _, shape := range diagram.Resource_Shapes {
+				if shape.IsHidden {
+					continue
+				}
+				if shape.Y+shape.Height+margin > height {
+					height = shape.Y + shape.Height + margin
+				}
 			}
 		}
 

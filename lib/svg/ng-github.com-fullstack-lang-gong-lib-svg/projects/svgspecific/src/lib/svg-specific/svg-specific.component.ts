@@ -1285,64 +1285,14 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
     // Retrieve the native SVG element through the ViewChild/ElementRef
     const svgElement: SVGSVGElement = this.svgContainer.nativeElement;
 
-    // Find the main content group element (the first <g> inside the <svg>)
-    // This assumes your drawable content is within the first <g> tag directly under <svg>
-    const contentGroup = svgElement.querySelector('g');
-    if (!contentGroup) {
-      console.error("Could not find the main content group <g> element.");
-      return; // Exit if the group isn't found
-    }
-
-    // Calculate the bounding box of the content group
-    // Note: getBBox might not be perfectly accurate if elements have transforms applied.
-    // Consider iterating through elements if needed for complex cases.
-    const bbox = contentGroup.getBBox();
-
-    // Add some padding around the bounding box (optional, adjust as needed)
-    const padding = 20;
-    const viewBoxX = bbox.x - padding;
-    const viewBoxY = bbox.y - padding;
-    const viewBoxWidth = bbox.width + (padding * 2);
-    const viewBoxHeight = bbox.height + (padding * 2);
-
-    // --- Store original attributes ---
-    const originalWidth = svgElement.getAttribute('width');
-    const originalHeight = svgElement.getAttribute('height');
-    const originalViewBox = svgElement.getAttribute('viewBox');
-
-    // --- Set attributes for download ---
-    // Set viewBox to encompass the calculated bounding box
-    // Ensure width/height are positive, fallback if bbox is empty
-    const finalViewBoxWidth = viewBoxWidth > 0 ? viewBoxWidth : 100; // Min width 100
-    const finalViewBoxHeight = viewBoxHeight > 0 ? viewBoxHeight : 100; // Min height 100
-    svgElement.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${finalViewBoxWidth} ${finalViewBoxHeight}`);
-
-    // Set width/height based on viewBox aspect ratio for clarity in downloaded file
-    // These attributes often help standalone SVG viewers determine initial size
-    svgElement.setAttribute('width', `${finalViewBoxWidth}`);
-    svgElement.setAttribute('height', `${finalViewBoxHeight}`);
-
     // Create a serializer to convert the SVG DOM node to a string
     const serializer: XMLSerializer = new XMLSerializer();
 
-    // Serialize the SVG element (now with the correct viewBox/dimensions)
+    // Serialize the SVG element
     let svgData: string = serializer.serializeToString(svgElement);
 
-    // --- Restore original attributes (important!) ---
-    // Restore original width, height, and viewBox so the on-screen display isn't affected
-    if (originalWidth !== null) svgElement.setAttribute('width', originalWidth); else svgElement.removeAttribute('width');
-    if (originalHeight !== null) svgElement.setAttribute('height', originalHeight); else svgElement.removeAttribute('height');
-    if (originalViewBox !== null) svgElement.setAttribute('viewBox', originalViewBox); else svgElement.removeAttribute('viewBox');
-
-    // --- Continue with the rest of the processing ---
-
-    // Remove any existing HTML comments in the serialized SVG (if '//g' was intended for comments)
-    // This regex might need adjustment depending on actual comment format
-    // let withoutComments: string = svgData.replace(/\/\/g/g, ''); // Example regex for "//g" comment
-    let withoutComments: string = svgData; // Assuming no specific comment format "//g"
-
     // Remove Angular's auto-generated attributes
-    let res: string = withoutComments
+    let res: string = svgData
       .replace(/\s*_ngcontent-[^="]*=""/g, '')
       .replace(/\s+_nghost-[^="]*=""/g, '');
 
