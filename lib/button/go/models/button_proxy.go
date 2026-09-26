@@ -11,6 +11,8 @@ func NewButton(
 	button.Name = name
 	button.Icon = icon
 	button.Label = label
+	button.HasToolTip = true
+	button.ToolTipText = label
 
 	proxy := NewButtonProxy(
 		button,

@@ -14,6 +14,7 @@ func (stager *Stager) UpdateAndCommitRenderingTabButtonStage() {
 
 	group1 := new(button.Group).Stage(stage)
 	group1.Percentage = 100
+	group1.NbColumns = 1
 	layout.Groups = append(layout.Groups, group1)
 
 	buttonExportRenderingCong := button.NewButton(

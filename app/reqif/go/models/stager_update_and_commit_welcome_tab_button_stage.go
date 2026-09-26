@@ -14,7 +14,19 @@ func (stager *Stager) UpdateAndCommitWelcomeTabButtonStage() {
 
 	group1 := new(button.Group).Stage(stage)
 	group1.Percentage = 100
+	group1.NbColumns = 1
 	layout.Groups = append(layout.Groups, group1)
+
+	buttonLoadSample := button.NewButton(
+		&LoadSampleWelcomeTabButtonProxy{
+			stager: stager,
+		},
+		"Load sample (collecting drone)",
+		string(buttons.BUTTON_file_open),
+		"Load sample (collecting drone)",
+	)
+
+	group1.Buttons = append(group1.Buttons, buttonLoadSample)
 
 	buttonGeneratesModel := button.NewButton(
 		// stager is the target of the button. stager implements interface method OnAfterUpdateButton()
@@ -55,7 +67,7 @@ func (stager *Stager) UpdateAndCommitWelcomeTabButtonStage() {
 	}
 
 	{
-		buttonExportModifiedReqif := button.NewButton(
+		buttonResetReqif := button.NewButton(
 			// stager is the target of the button. stager implements interface method OnAfterUpdateButton()
 			&ResetReqifButtonProxy{
 				stager: stager,
@@ -65,11 +77,11 @@ func (stager *Stager) UpdateAndCommitWelcomeTabButtonStage() {
 			"Reset ReqIF file",
 		)
 
-		group1.Buttons = append(group1.Buttons, buttonExportModifiedReqif)
+		group1.Buttons = append(group1.Buttons, buttonResetReqif)
 	}
 
-	buttonExportRenderingCong := button.NewButton(
-		&ExportRenderingConfButtonProxy{
+	buttonExportRenderingConf := button.NewButton(
+		&ExportRenderingConfWelcomeTabButtonProxy{
 			stager: stager,
 		},
 		"Export Rendering Configuration",
@@ -77,9 +89,37 @@ func (stager *Stager) UpdateAndCommitWelcomeTabButtonStage() {
 		"Export Rendering Configuration",
 	)
 
-	group1.Buttons = append(group1.Buttons, buttonExportRenderingCong)
+	group1.Buttons = append(group1.Buttons, buttonExportRenderingConf)
 
 	stager.welcomeTabButtonStage.Commit()
+}
+
+type LoadSampleWelcomeTabButtonProxy struct {
+	stager *Stager
+}
+
+// GetButtonsStage implements models.Target.
+func (e *LoadSampleWelcomeTabButtonProxy) GetButtonsStage() *button.Stage {
+	return e.stager.welcomeTabButtonStage
+}
+
+// OnAfterUpdateButton implements models.Target.
+func (e *LoadSampleWelcomeTabButtonProxy) OnAfterUpdateButton() {
+	e.stager.LoadSampleProject()
+}
+
+type ExportRenderingConfWelcomeTabButtonProxy struct {
+	stager *Stager
+}
+
+// GetButtonsStage implements models.Target.
+func (e *ExportRenderingConfWelcomeTabButtonProxy) GetButtonsStage() *button.Stage {
+	return e.stager.welcomeTabButtonStage
+}
+
+// OnAfterUpdateButton implements models.Target.
+func (e *ExportRenderingConfWelcomeTabButtonProxy) OnAfterUpdateButton() {
+	e.stager.reqifExporter.ExportRenderingConf(e.stager)
 }
 
 type GenerateModelButtonProxy struct {

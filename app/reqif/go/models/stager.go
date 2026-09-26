@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/fullstack-lang/gong/app/reqif/go/icons"
+	samples "github.com/fullstack-lang/gong/app/reqif/go/cmd/reqif/samples"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	"net/http"
 
@@ -346,21 +347,21 @@ func NewStager(
 					AsSplitAreas: []*split.AsSplitArea{
 						{
 							Name: "Summary + upload + button",
-							Size: 20,
+							Size: 24,
 							AsSplit: (&split.AsSplit{
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
 									{
 										Name:             "Summary table",
 										ShowNameInHeader: false,
-										Size:             50,
+										Size:             35,
 										Table: &split.Table{
 											StackName: stager.summaryTableStage.GetName(),
 										},
 									},
 									{
 										Name: "Upload Reqif File",
-										Size: 25,
+										Size: 20,
 										AsSplit: (&split.AsSplit{
 											Direction: split.Horizontal,
 											AsSplitAreas: []*split.AsSplitArea{
@@ -370,7 +371,7 @@ func NewStager(
 									{
 										Name:             "Buttons",
 										ShowNameInHeader: false,
-										Size:             25,
+										Size:             45,
 										Button: &split.Button{
 											StackName: stager.welcomeTabButtonStage.GetName(),
 										},
@@ -380,13 +381,13 @@ func NewStager(
 						},
 
 						{
-							Size: 40,
+							Size: 38,
 							Tree: &split.Tree{
 								StackName: stager.dataTypeTreeStage.GetName(),
 							},
 						},
 						{
-							Size: 40,
+							Size: 38,
 							Tree: &split.Tree{
 								StackName: stager.specTypesTreeStage.GetName(),
 							},
@@ -456,7 +457,7 @@ func NewStager(
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
 									{
-										Size: 70,
+										Size: 60,
 										Tree: &split.Tree{
 											StackName: stager.specificationsTreeStage.GetName(),
 										},
@@ -471,7 +472,7 @@ func NewStager(
 										}),
 									},
 									{
-										Size: 10,
+										Size: 20,
 										Button: &split.Button{
 											StackName: stager.anonymousButtonStage.GetName(),
 										},
@@ -710,4 +711,21 @@ func (stager *Stager) GetSpecificationsTreeUpdater() (specificationsTreeUpdater 
 
 func (stager *Stager) GetSpecTypesTreeUpdater() (specTypesTreeUpdater SpecTypesTreeUpdaterInterface) {
 	return stager.specTypesTreeUpdater
+}
+
+func (stager *Stager) LoadSampleProject() {
+	// 1. Load the reqifz file embedded in data samples
+	content, svgImages, jpgImages, pngImages, err := extractReqifFromZip(samples.SampleReqIFz)
+	if err != nil {
+		fmt.Println("Error extracting reqif from zip:", err)
+		return
+	}
+
+	stager.processReqifData(content, svgImages, jpgImages, pngImages, "ReqIF for Wheeled Tennis Ball Drone.reqifz")
+
+	// 2. Load the rendering conf embedded in data samples
+	stageForRenderingConf := NewStage("renderingConf")
+	ParseAstFromBytes(stageForRenderingConf, samples.SampleRenderingConf)
+
+	stager.processRenderingConf(stageForRenderingConf)
 }

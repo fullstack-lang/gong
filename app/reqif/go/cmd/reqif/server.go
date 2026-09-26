@@ -5,6 +5,8 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 
@@ -48,6 +50,25 @@ func executeServer(args []string) {
 
 		if isReqifz {
 			*pathToReqifFile = strings.TrimSuffix(pathToReqifOrReqifz, ".reqifz") + ".reqif"
+		} else {
+			*pathToReqifFile = pathToReqifOrReqifz
+		}
+
+		if len(args) > 1 {
+			*pathToRenderingConf = args[1]
+		} else if *pathToRenderingConf == "" {
+			dir := filepath.Dir(pathToReqifOrReqifz)
+			base := filepath.Base(pathToReqifOrReqifz)
+			baseNoExt := strings.TrimSuffix(strings.TrimSuffix(base, ".reqifz"), ".reqif")
+			candidate1 := filepath.Join(dir, "reqif samples_"+baseNoExt+"-renderingConf.go1")
+			if _, err := os.Stat(candidate1); err == nil {
+				*pathToRenderingConf = candidate1
+			} else {
+				candidate2 := filepath.Join(dir, baseNoExt+"-renderingConf.go1")
+				if _, err := os.Stat(candidate2); err == nil {
+					*pathToRenderingConf = candidate2
+				}
+			}
 		}
 	}
 

@@ -1,11 +1,8 @@
 package models
 
 import (
-	"fmt"
 	"log"
 	"os"
-
-	samples "github.com/fullstack-lang/gong/app/reqif/go/cmd/reqif/samples"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 
@@ -20,6 +17,7 @@ func (stager *Stager) UpdateAndCommitAnonymousButtonStage() {
 
 	group1 := new(button.Group).Stage(stage)
 	group1.Percentage = 100
+	group1.NbColumns = 1
 	layout.Groups = append(layout.Groups, group1)
 
 	group1.Buttons = append(group1.Buttons,
@@ -38,7 +36,7 @@ func (stager *Stager) UpdateAndCommitAnonymousButtonStage() {
 				stager: stager,
 			},
 			"Load sample (collecting drone)",
-			string(buttons.BUTTON_shuffle),
+			string(buttons.BUTTON_file_open),
 			"Load sample (collecting drone)",
 		))
 
@@ -77,20 +75,7 @@ func (e *LoadSampleButtonProxy) GetButtonsStage() *button.Stage {
 }
 
 func (e *LoadSampleButtonProxy) OnAfterUpdateButton() {
-	// 1. Load the reqifz file embedded in data samples
-	content, svgImages, jpgImages, pngImages, err := extractReqifFromZip(samples.SampleReqIFz)
-	if err != nil {
-		fmt.Println("Error extracting reqif from zip:", err)
-		return
-	}
-
-	e.stager.processReqifData(content, svgImages, jpgImages, pngImages, "ReqIF for Wheeled Tennis Ball Drone.reqifz")
-
-	// 2. Load the rendering conf embedded in data samples
-	stageForRenderingConf := NewStage("renderingConf")
-	ParseAstFromBytes(stageForRenderingConf, samples.SampleRenderingConf)
-
-	e.stager.processRenderingConf(stageForRenderingConf)
+	e.stager.LoadSampleProject()
 }
 
 type StopButtonProxy struct {

@@ -3,6 +3,8 @@
 package main
 
 import (
+	"strings"
+
 	"github.com/spf13/cobra"
 )
 
@@ -14,8 +16,10 @@ var editCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
-			unmarshallFromCode = args[0]
-			marshallOnCommit = args[0]
+			if strings.HasSuffix(args[0], ".go") {
+				unmarshallFromCode = args[0]
+				marshallOnCommit = args[0]
+			}
 		}
 
 		if editOut != "" {
