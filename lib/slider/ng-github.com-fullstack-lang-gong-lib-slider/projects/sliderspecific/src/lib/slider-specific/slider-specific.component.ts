@@ -46,6 +46,9 @@ export class SliderSpecificComponent implements OnInit, OnDestroy {
 
   private frontRepoSub: Subscription | undefined;
   private sliderServiceSub: Subscription | undefined;
+  private debounceTimers: Map<number, any> = new Map()
+  private pendingSliderUpdates: Map<number, { slider: slider.Slider, name: string }> = new Map()
+  private readonly debounceDelayMs = 200
 
   constructor(
     private frontRepoService: slider.FrontRepoService,
@@ -90,13 +93,48 @@ export class SliderSpecificComponent implements OnInit, OnDestroy {
     // teardown logic in the connectToWebSocket observable, closing the socket.
     this.frontRepoSub?.unsubscribe()
     this.sliderServiceSub?.unsubscribe()
+    this.debounceTimers.forEach(timer => clearTimeout(timer))
+    this.debounceTimers.clear()
+    this.pendingSliderUpdates.clear()
   }
 
   input($event: Event, slider: slider.Slider) {
+    const sliderId = slider.ID
+    this.pendingSliderUpdates.set(sliderId, { slider, name: this.Name })
+
+    const existingTimer = this.debounceTimers.get(sliderId)
+    if (existingTimer) {
+      clearTimeout(existingTimer)
+    }
+
+    const timer = setTimeout(() => {
+      this.debounceTimers.delete(sliderId)
+      const pending = this.pendingSliderUpdates.get(sliderId)
+      if (pending) {
+        this.pendingSliderUpdates.delete(sliderId)
+        this.sendSliderUpdate(pending.slider, pending.name)
+      }
+    }, this.debounceDelayMs)
+
+    this.debounceTimers.set(sliderId, timer)
+  }
+
+  change($event: Event, slider: slider.Slider) {
+    const sliderId = slider.ID
+    const existingTimer = this.debounceTimers.get(sliderId)
+    if (existingTimer) {
+      clearTimeout(existingTimer)
+      this.debounceTimers.delete(sliderId)
+    }
+    this.pendingSliderUpdates.delete(sliderId)
+    this.sendSliderUpdate(slider, this.Name)
+  }
+
+  private sendSliderUpdate(slider: slider.Slider, name: string) {
     this.sliderServiceSub?.unsubscribe()
-    this.sliderService.updateFront(slider, this.Name).subscribe(
+    this.sliderServiceSub = this.sliderService.updateFront(slider, name).subscribe(
       () => {
-        console.log("slider updated")
+        // console.log("slider updated")
       }
     )
   }

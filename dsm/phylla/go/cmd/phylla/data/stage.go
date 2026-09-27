@@ -841,7 +841,7 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVaseAbstract__00000001_.Z_Ribbon = 286.000000
 	__models__TubeVaseAbstract__00000001_.RibbonVerticalScale = 4.290000
 	__models__TubeVaseAbstract__00000001_.TopPlaneHeight = 123.000000
-	__models__TubeVaseAbstract__00000001_.BottomPlaneHeight = 43.000000
+	__models__TubeVaseAbstract__00000001_.BottomPlaneHeight = 42.000000
 	__models__TubeVaseAbstract__00000001_.ProjectionAngle = -14.900000
 	__models__TubeVaseAbstract__00000001_.BasePlateHeight = 40.000000
 	__models__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.130000

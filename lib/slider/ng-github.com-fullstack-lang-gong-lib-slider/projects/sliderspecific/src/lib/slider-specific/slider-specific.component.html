@@ -19,13 +19,13 @@
                     @if( slider.IsInt ) {
                       <mat-slider style="width: 100%;" [disabled]="slider.IsDisabled"
                       [min]="slider.MinInt" [max]="slider.MaxInt" [step]="slider.StepInt" showTickMarks discrete [displayWith]="formatLabel">
-                        <input matSliderThumb [(ngModel)]="slider.ValueInt" (input)="input($event, slider)" [disabled]="slider.IsDisabled">
+                        <input matSliderThumb [(ngModel)]="slider.ValueInt" (input)="input($event, slider)" (change)="change($event, slider)" [disabled]="slider.IsDisabled">
                       </mat-slider>
                     }
                     @if( slider.IsFloat64 ) {
                       <mat-slider style="width: 100%;" [disabled]="slider.IsDisabled"
                       [min]="slider.MinFloat64" [max]="slider.MaxFloat64" [step]="slider.StepFloat64" showTickMarks discrete [displayWith]="formatLabel">
-                        <input matSliderThumb [(ngModel)]="slider.ValueFloat64" (input)="input($event, slider)" [disabled]="slider.IsDisabled">
+                        <input matSliderThumb [(ngModel)]="slider.ValueFloat64" (input)="input($event, slider)" (change)="change($event, slider)" [disabled]="slider.IsDisabled">
                       </mat-slider>
                     }
                   </mat-grid-tile>
