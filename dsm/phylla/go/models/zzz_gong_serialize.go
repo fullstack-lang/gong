@@ -1055,6 +1055,13 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.VaseTrapezeBasePlateShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "VaseTrapezeBasePlateShape", instances, (*VaseTrapezeBasePlateShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.VaseTrapezeRingShapes {
 				instances = append(instances, instance)
 			}

@@ -1386,6 +1386,11 @@ func (inst *Vase2DDiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	return
 }
 
+func (inst *VaseTrapezeBasePlateShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
 func (inst *VaseTrapezeRingShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return

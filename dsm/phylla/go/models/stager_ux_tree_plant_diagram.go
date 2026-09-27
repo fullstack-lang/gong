@@ -444,6 +444,7 @@ func (stager *Stager) treeTubeVase3DDiagram(plant *PlantAbstract, diagram *TubeV
 			appendDiagramNode(stager, node, "Vase Trapeze Ring", diagram.VaseTrapezeRingShape, &diagram.IsHiddenVaseTrapezeRingShape)
 			appendDiagramNode(stager, node, "Stack Of Vase Trapeze Rings", diagram.StackOfVaseTrapezeRingsShape, &diagram.IsHiddenStackOfVaseTrapezeRingsShape)
 			appendDiagramNode(stager, node, "Stack Of Rotated Vase Trapeze Rings", diagram.StackOfRotatedVaseTrapezeRingsShape, &diagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape)
+			appendDiagramNode(stager, node, "Vase Trapeze Base Plate", diagram.VaseTrapezeBasePlateShape, &diagram.IsHiddenVaseTrapezeBasePlateShape)
 			appendDiagramNode(stager, node, "3D Sampled Points", diagram.SampledPoints3DShape, &diagram.IsHiddenSampledPoints3DShape)
 			appendDiagramNode(stager, node, "3D Original Points", diagram.OriginalPoints3DShape, &diagram.IsHiddenOriginalPoints3DShape)
 			appendDiagramNode(stager, node, "3D Tiled Floor", diagram.TiledFloor3DShape, &diagram.IsHiddenTiledFloor3DShape)

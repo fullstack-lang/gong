@@ -4439,6 +4439,8 @@ func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		instance.IsHiddenStackOfVaseTrapezeRingsShape = GongExtractBool(valueExpr)
 	case "IsHiddenStackOfRotatedVaseTrapezeRingsShape":
 		instance.IsHiddenStackOfRotatedVaseTrapezeRingsShape = GongExtractBool(valueExpr)
+	case "IsHiddenVaseTrapezeBasePlateShape":
+		instance.IsHiddenVaseTrapezeBasePlateShape = GongExtractBool(valueExpr)
 	case "Rendered3DShape":
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
 	case "TorusStackShape":
@@ -4481,6 +4483,8 @@ func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		GongUnmarshallPointer(&instance.StackOfVaseTrapezeRingsShape, valueExpr, identifierMap)
 	case "StackOfRotatedVaseTrapezeRingsShape":
 		GongUnmarshallPointer(&instance.StackOfRotatedVaseTrapezeRingsShape, valueExpr, identifierMap)
+	case "VaseTrapezeBasePlateShape":
+		GongUnmarshallPointer(&instance.VaseTrapezeBasePlateShape, valueExpr, identifierMap)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -4514,6 +4518,8 @@ func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.BottomPlaneHeight = GongExtractFloat(valueExpr)
 	case "ProjectionAngle":
 		instance.ProjectionAngle = GongExtractFloat(valueExpr)
+	case "BasePlateHeight":
+		instance.BasePlateHeight = GongExtractFloat(valueExpr)
 	case "RelativeVerticalThickness":
 		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
 	case "RelativeRadialThickness":
@@ -4697,6 +4703,23 @@ func (u *Vase2DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type VaseTrapezeBasePlateShapeUnmarshaller struct{}
+
+func (u *VaseTrapezeBasePlateShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(VaseTrapezeBasePlateShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *VaseTrapezeBasePlateShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*VaseTrapezeBasePlateShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }

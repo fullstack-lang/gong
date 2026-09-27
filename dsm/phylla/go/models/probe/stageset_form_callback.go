@@ -570,6 +570,26 @@ func StageSetFillUpFormFromGongstruct(
 			},
 		}
 		StageSetFillUpForm(inst, formGroup, probe)
+	case *models.VaseTrapezeBasePlateShape:
+		formGroup.OnSave = &functionalStageSetFormCallback{
+			onSave: func() {
+				probe.stageSet.Stage.Lock()
+				defer probe.stageSet.Stage.Unlock()
+				probe.formStage.Checkout()
+				saveStageSet_VaseTrapezeBasePlateShape_Stage(inst, probe, formGroup)
+				if formGroup.HasSuppressButtonBeenPressed {
+					inst.UnstageVoid(probe.stageSet.Stage)
+				}
+				probe.stageSet.Stage.Commit()
+				updateStageSetTable_VaseTrapezeBasePlateShape_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		StageSetFillUpForm(inst, formGroup, probe)
 	case *models.VaseTrapezeRingShape:
 		formGroup.OnSave = &functionalStageSetFormCallback{
 			onSave: func() {
@@ -1328,6 +1348,8 @@ func saveStageSet_TubeVase3DDiagram_Stage(
 			FormDivBasicFieldToField(&inst.IsHiddenStackOfVaseTrapezeRingsShape, formDiv)
 		case "IsHiddenStackOfRotatedVaseTrapezeRingsShape":
 			FormDivBasicFieldToField(&inst.IsHiddenStackOfRotatedVaseTrapezeRingsShape, formDiv)
+		case "IsHiddenVaseTrapezeBasePlateShape":
+			FormDivBasicFieldToField(&inst.IsHiddenVaseTrapezeBasePlateShape, formDiv)
 		case "Rendered3DShape":
 			StageSetFormDivSelectFieldToField(&inst.Rendered3DShape, probe.stageSet.Stage.GetInstancesSet[*models.Rendered3DShape](), formDiv)
 		case "TorusStackShape":
@@ -1370,6 +1392,8 @@ func saveStageSet_TubeVase3DDiagram_Stage(
 			StageSetFormDivSelectFieldToField(&inst.StackOfVaseTrapezeRingsShape, probe.stageSet.Stage.GetInstancesSet[*models.StackOfVaseTrapezeRingsShape](), formDiv)
 		case "StackOfRotatedVaseTrapezeRingsShape":
 			StageSetFormDivSelectFieldToField(&inst.StackOfRotatedVaseTrapezeRingsShape, probe.stageSet.Stage.GetInstancesSet[*models.StackOfRotatedVaseTrapezeRingsShape](), formDiv)
+		case "VaseTrapezeBasePlateShape":
+			StageSetFormDivSelectFieldToField(&inst.VaseTrapezeBasePlateShape, probe.stageSet.Stage.GetInstancesSet[*models.VaseTrapezeBasePlateShape](), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&inst.IsChecked, formDiv)
 		case "ComputedPrefix":
@@ -1399,6 +1423,8 @@ func saveStageSet_TubeVaseAbstract_Stage(
 			FormDivBasicFieldToField(&inst.BottomPlaneHeight, formDiv)
 		case "ProjectionAngle":
 			FormDivBasicFieldToField(&inst.ProjectionAngle, formDiv)
+		case "BasePlateHeight":
+			FormDivBasicFieldToField(&inst.BasePlateHeight, formDiv)
 		case "RelativeVerticalThickness":
 			FormDivBasicFieldToField(&inst.RelativeVerticalThickness, formDiv)
 		case "RelativeRadialThickness":
@@ -1578,6 +1604,19 @@ func saveStageSet_Vase2DDiagram_Stage(
 			FormDivBasicFieldToField(&inst.ComputedPrefix, formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&inst.IsExpanded, formDiv)
+		}
+	}
+}
+
+func saveStageSet_VaseTrapezeBasePlateShape_Stage(
+	inst *models.VaseTrapezeBasePlateShape,
+	probe *StageSetProbe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		case "Name":
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		}
 	}
 }
@@ -2492,6 +2531,35 @@ func StageSetNewInstance_Vase2DDiagram_Stage(probe *StageSetProbe) {
 			saveStageSet_Vase2DDiagram_Stage(inst, probe, formGroup)
 			probe.stageSet.Stage.Commit()
 			updateStageSetTable_Vase2DDiagram_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			StageSetFillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	StageSetFillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_VaseTrapezeBasePlateShape_Stage(probe *StageSetProbe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  "Form",
+		Label: "New VaseTrapezeBasePlateShape",
+	}).Stage(probe.formStage)
+	inst := new(models.VaseTrapezeBasePlateShape)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageSet.Stage.Lock()
+			defer probe.stageSet.Stage.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageSet.Stage)
+			saveStageSet_VaseTrapezeBasePlateShape_Stage(inst, probe, formGroup)
+			probe.stageSet.Stage.Commit()
+			updateStageSetTable_VaseTrapezeBasePlateShape_Stage(probe)
 			probe.ux_tree()
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())

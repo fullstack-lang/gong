@@ -1185,6 +1185,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenVaseTrapezeRingShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenVaseTrapezeRingShape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfVaseTrapezeRingsShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenStackOfVaseTrapezeRingsShape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfRotatedVaseTrapezeRingsShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenVaseTrapezeBasePlateShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsChecked))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", tubevase3ddiagramIdent, __gong__toRawStringLiteral(tubevase3ddiagram.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsExpanded))
@@ -1298,6 +1299,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.StackOfRotatedVaseTrapezeRingsShape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
+			if tubevase3ddiagram.VaseTrapezeBasePlateShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tubevase3ddiagram.VaseTrapezeBasePlateShape.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.VaseTrapezeBasePlateShape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -1322,6 +1333,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.TopPlaneHeight = %f", tubevaseabstractIdent, tubevaseabstract.TopPlaneHeight))
 			values.WriteString(fmt.Sprintf("\n\t%s.BottomPlaneHeight = %f", tubevaseabstractIdent, tubevaseabstract.BottomPlaneHeight))
 			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", tubevaseabstractIdent, tubevaseabstract.ProjectionAngle))
+			values.WriteString(fmt.Sprintf("\n\t%s.BasePlateHeight = %f", tubevaseabstractIdent, tubevaseabstract.BasePlateHeight))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeVerticalThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeVerticalThickness))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeRadialThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeRadialThickness))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeCuttedStackFloorHeight = %f", tubevaseabstractIdent, tubevaseabstract.RelativeCuttedStackFloorHeight))
@@ -1398,6 +1410,25 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", vase2ddiagramIdent, vase2ddiagram.IsChecked))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", vase2ddiagramIdent, __gong__toRawStringLiteral(vase2ddiagram.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", vase2ddiagramIdent, vase2ddiagram.IsExpanded))
+		}
+	}
+	if stageSet.Stage != nil {
+		for _, vasetrapezebaseplateshape := range __gong__sortStageSetInstances(stageSet.Stage.VaseTrapezeBasePlateShapes, stageSet.Stage.VaseTrapezeBasePlateShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			vasetrapezebaseplateshapeIdent := "__models" + vasetrapezebaseplateshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.VaseTrapezeBasePlateShape{Name: %s}).Stage(stageSet.Stage)", vasetrapezebaseplateshapeIdent, __gong__toRawStringLiteral(vasetrapezebaseplateshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", vasetrapezebaseplateshapeIdent, __gong__toRawStringLiteral(vasetrapezebaseplateshape.Name)))
 		}
 	}
 	if stageSet.Stage != nil {
@@ -1642,6 +1673,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					identifierMap[ident.Name] = __gong__stageSetInit(new(TubeVaseAbstract), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Vase2DDiagram":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Vase2DDiagram), stageSet.Stage, ident.Name, instanceName, preserveOrder)
+				case "VaseTrapezeBasePlateShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(VaseTrapezeBasePlateShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "VaseTrapezeRingShape":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(VaseTrapezeRingShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
@@ -2189,6 +2222,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.IsHiddenStackOfVaseTrapezeRingsShape = GongExtractBool(rhs)
 					case "IsHiddenStackOfRotatedVaseTrapezeRingsShape":
 						inst.IsHiddenStackOfRotatedVaseTrapezeRingsShape = GongExtractBool(rhs)
+					case "IsHiddenVaseTrapezeBasePlateShape":
+						inst.IsHiddenVaseTrapezeBasePlateShape = GongExtractBool(rhs)
 					case "Rendered3DShape":
 						__gong__assignPointer(&inst.Rendered3DShape, rhs, identifierMap)
 					case "SampledPoints3DShape":
@@ -2211,6 +2246,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						__gong__assignPointer(&inst.StackOfVaseTrapezeRingsShape, rhs, identifierMap)
 					case "StackOfRotatedVaseTrapezeRingsShape":
 						__gong__assignPointer(&inst.StackOfRotatedVaseTrapezeRingsShape, rhs, identifierMap)
+					case "VaseTrapezeBasePlateShape":
+						__gong__assignPointer(&inst.VaseTrapezeBasePlateShape, rhs, identifierMap)
 					case "IsChecked":
 						inst.IsChecked = GongExtractBool(rhs)
 					case "ComputedPrefix":
@@ -2232,6 +2269,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.BottomPlaneHeight = GongExtractFloat(rhs)
 					case "ProjectionAngle":
 						inst.ProjectionAngle = GongExtractFloat(rhs)
+					case "BasePlateHeight":
+						inst.BasePlateHeight = GongExtractFloat(rhs)
 					case "RelativeVerticalThickness":
 						inst.RelativeVerticalThickness = GongExtractFloat(rhs)
 					case "RelativeRadialThickness":
@@ -2351,6 +2390,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
+					}
+				case *VaseTrapezeBasePlateShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
 					}
 				case *VaseTrapezeRingShape:
 					switch fieldName {

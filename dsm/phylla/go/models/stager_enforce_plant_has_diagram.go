@@ -87,6 +87,7 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 				vase3DDiagram.IsHiddenVaseTrapezeRingShape = false
 				vase3DDiagram.IsHiddenStackOfVaseTrapezeRingsShape = false
 				vase3DDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape = false
+				vase3DDiagram.IsHiddenVaseTrapezeBasePlateShape = false
 			} else {
 				vase3DDiagram.IsHiddenTopCurvePlane1Shape = true
 				vase3DDiagram.IsHiddenBottomCurvePlane1Shape = true
@@ -95,6 +96,7 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 				vase3DDiagram.IsHiddenVaseTrapezeRingShape = true
 				vase3DDiagram.IsHiddenStackOfVaseTrapezeRingsShape = true
 				vase3DDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape = true
+				vase3DDiagram.IsHiddenVaseTrapezeBasePlateShape = true
 			}
 			plant.TubeVase3DDiagrams = append(plant.TubeVase3DDiagrams, vase3DDiagram)
 			stager.logAndNotify(fmt.Sprintf("Added default TubeVase3DDiagram for plant %s", plant.Name))

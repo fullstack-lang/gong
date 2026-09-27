@@ -5900,6 +5900,8 @@ func saveTubeVase3DDiagramFields(
 			FormDivBasicFieldToField(&(_instance.IsHiddenStackOfVaseTrapezeRingsShape), formDiv)
 		case "IsHiddenStackOfRotatedVaseTrapezeRingsShape":
 			FormDivBasicFieldToField(&(_instance.IsHiddenStackOfRotatedVaseTrapezeRingsShape), formDiv)
+		case "IsHiddenVaseTrapezeBasePlateShape":
+			FormDivBasicFieldToField(&(_instance.IsHiddenVaseTrapezeBasePlateShape), formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(_instance.Rendered3DShape), probe.stageOfInterest, formDiv)
 		case "TorusStackShape":
@@ -5942,6 +5944,8 @@ func saveTubeVase3DDiagramFields(
 			FormDivSelectFieldToField(&(_instance.StackOfVaseTrapezeRingsShape), probe.stageOfInterest, formDiv)
 		case "StackOfRotatedVaseTrapezeRingsShape":
 			FormDivSelectFieldToField(&(_instance.StackOfRotatedVaseTrapezeRingsShape), probe.stageOfInterest, formDiv)
+		case "VaseTrapezeBasePlateShape":
+			FormDivSelectFieldToField(&(_instance.VaseTrapezeBasePlateShape), probe.stageOfInterest, formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(_instance.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -5989,6 +5993,8 @@ func saveTubeVaseAbstractFields(
 			FormDivBasicFieldToField(&(_instance.BottomPlaneHeight), formDiv)
 		case "ProjectionAngle":
 			FormDivBasicFieldToField(&(_instance.ProjectionAngle), formDiv)
+		case "BasePlateHeight":
+			FormDivBasicFieldToField(&(_instance.BasePlateHeight), formDiv)
 		case "RelativeVerticalThickness":
 			FormDivBasicFieldToField(&(_instance.RelativeVerticalThickness), formDiv)
 		case "RelativeRadialThickness":
@@ -6186,6 +6192,35 @@ func saveVase2DDiagramFields(
 			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "PlantAbstract:Vase2DDiagrams":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Vase2DDiagrams", func(owner *models.PlantAbstract) *[]*models.Vase2DDiagram { return &owner.Vase2DDiagrams })
+		}
+	}
+}
+
+func __gong__New__VaseTrapezeBasePlateShapeFormCallback(
+	_instance *models.VaseTrapezeBasePlateShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (vasetrapezebaseplateshapeFormCallback *FormCallback[*models.VaseTrapezeBasePlateShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveVaseTrapezeBasePlateShapeFields,
+	)
+}
+
+type VaseTrapezeBasePlateShapeFormCallback = FormCallback[*models.VaseTrapezeBasePlateShape]
+
+func saveVaseTrapezeBasePlateShapeFields(
+	_instance *models.VaseTrapezeBasePlateShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		}
 	}
 }

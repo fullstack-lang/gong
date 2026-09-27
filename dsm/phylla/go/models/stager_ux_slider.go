@@ -258,6 +258,14 @@ func (stager *Stager) ux_slider() {
 						0.1,
 						&plant.TubeVaseAbstract.ProjectionAngle,
 					),
+					m.NewSlider(
+						stager,
+						"Base Plate Height",
+						0.0,
+						500.0,
+						1.0,
+						&plant.TubeVaseAbstract.BasePlateHeight,
+					),
 				)
 			}
 

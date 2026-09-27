@@ -3849,6 +3849,32 @@ func (vase2ddiagram *Vase2DDiagram) GongAfterDeleteFromFront(stage *Stage, front
 	}
 }
 
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterVaseTrapezeBasePlateShapeCreateCallback != nil {
+		stage.OnAfterVaseTrapezeBasePlateShapeCreateCallback.OnAfterCreate(stage, vasetrapezebaseplateshape)
+	}
+}
+
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterVaseTrapezeBasePlateShapeUpdateCallback != nil {
+		var frontVaseTrapezeBasePlateShape *VaseTrapezeBasePlateShape
+		if front != nil {
+			frontVaseTrapezeBasePlateShape, _ = front.(*VaseTrapezeBasePlateShape)
+		}
+		stage.OnAfterVaseTrapezeBasePlateShapeUpdateCallback.OnAfterUpdate(stage, vasetrapezebaseplateshape, frontVaseTrapezeBasePlateShape)
+	}
+}
+
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterVaseTrapezeBasePlateShapeDeleteCallback != nil {
+		var frontVaseTrapezeBasePlateShape *VaseTrapezeBasePlateShape
+		if front != nil {
+			frontVaseTrapezeBasePlateShape, _ = front.(*VaseTrapezeBasePlateShape)
+		}
+		stage.OnAfterVaseTrapezeBasePlateShapeDeleteCallback.OnAfterDelete(stage, vasetrapezebaseplateshape, frontVaseTrapezeBasePlateShape)
+	}
+}
+
 func (vasetrapezeringshape *VaseTrapezeRingShape) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterVaseTrapezeRingShapeCreateCallback != nil {
 		stage.OnAfterVaseTrapezeRingShapeCreateCallback.OnAfterCreate(stage, vasetrapezeringshape)

@@ -41,6 +41,7 @@ func (stager *Stager) enforceDiagramShapes() bool {
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.VaseTrapezeRingShape, "VaseTrapezeRingShape", func() *VaseTrapezeRingShape { return new(VaseTrapezeRingShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.StackOfVaseTrapezeRingsShape, "StackOfVaseTrapezeRingsShape", func() *StackOfVaseTrapezeRingsShape { return new(StackOfVaseTrapezeRingsShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.StackOfRotatedVaseTrapezeRingsShape, "StackOfRotatedVaseTrapezeRingsShape", func() *StackOfRotatedVaseTrapezeRingsShape { return new(StackOfRotatedVaseTrapezeRingsShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.VaseTrapezeBasePlateShape, "VaseTrapezeBasePlateShape", func() *VaseTrapezeBasePlateShape { return new(VaseTrapezeBasePlateShape) }) || modified
 	}
 
 	for diagram := range *stage.GetInstancesSet[*Stool3DDiagram]() {

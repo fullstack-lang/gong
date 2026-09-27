@@ -44,4 +44,32 @@ func TestStageSetUnmarshallStageFile(t *testing.T) {
 
 	t.Logf("Successfully unmarshalled StageSet: %d plants, %d clocks, %d musics, %d stools",
 		plantCount, clockCount, musicCount, stoolCount)
+
+	// Verify VaseTrapezeBasePlateShape and BasePlateHeight
+	basePlateCount := len(stageSet.Stage.VaseTrapezeBasePlateShapes)
+	if basePlateCount == 0 {
+		t.Errorf("expected VaseTrapezeBasePlateShapes in Stage, got 0")
+	}
+
+	foundBasePlateHeight := false
+	for vase := range stageSet.Stage.TubeVaseAbstracts {
+		if vase.BasePlateHeight > 0 {
+			foundBasePlateHeight = true
+			break
+		}
+	}
+	if !foundBasePlateHeight {
+		t.Errorf("expected at least one TubeVaseAbstract with BasePlateHeight > 0")
+	}
+
+	for diagram := range stageSet.Stage.TubeVase3DDiagrams {
+		if diagram.Name == "Vase Trapeze-TubeVase3DDiagram" {
+			if diagram.VaseTrapezeBasePlateShape == nil {
+				t.Errorf("expected VaseTrapeze-TubeVase3DDiagram to have VaseTrapezeBasePlateShape")
+			}
+			if diagram.IsHiddenVaseTrapezeBasePlateShape {
+				t.Errorf("expected VaseTrapeze-TubeVase3DDiagram.IsHiddenVaseTrapezeBasePlateShape to be false")
+			}
+		}
+	}
 }

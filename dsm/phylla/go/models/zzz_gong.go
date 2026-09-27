@@ -2295,6 +2295,20 @@ type Stage struct {
 	OnAfterVase2DDiagramUpdateCallback GongOnAfterUpdateInterface[Vase2DDiagram]
 	OnAfterVase2DDiagramDeleteCallback GongOnAfterDeleteInterface[Vase2DDiagram]
 
+	VaseTrapezeBasePlateShapes                map[*VaseTrapezeBasePlateShape]struct{}
+	VaseTrapezeBasePlateShapes_instance       map[*VaseTrapezeBasePlateShape]*VaseTrapezeBasePlateShape
+	VaseTrapezeBasePlateShapes_mapString      map[string]*VaseTrapezeBasePlateShape
+	VaseTrapezeBasePlateShapeOrder            uint
+	VaseTrapezeBasePlateShape_stagedOrder     map[*VaseTrapezeBasePlateShape]uint
+	VaseTrapezeBasePlateShape_orderStaged     map[uint]*VaseTrapezeBasePlateShape
+	VaseTrapezeBasePlateShapes_reference      map[*VaseTrapezeBasePlateShape]*VaseTrapezeBasePlateShape
+	VaseTrapezeBasePlateShapes_referenceOrder map[*VaseTrapezeBasePlateShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterVaseTrapezeBasePlateShapeCreateCallback GongOnAfterCreateInterface[VaseTrapezeBasePlateShape]
+	OnAfterVaseTrapezeBasePlateShapeUpdateCallback GongOnAfterUpdateInterface[VaseTrapezeBasePlateShape]
+	OnAfterVaseTrapezeBasePlateShapeDeleteCallback GongOnAfterDeleteInterface[VaseTrapezeBasePlateShape]
+
 	VaseTrapezeRingShapes                map[*VaseTrapezeRingShape]struct{}
 	VaseTrapezeRingShapes_instance       map[*VaseTrapezeRingShape]*VaseTrapezeRingShape
 	VaseTrapezeRingShapes_mapString      map[string]*VaseTrapezeRingShape
@@ -2864,6 +2878,8 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.Vase2DDiagrams_reference, &stage.Vase2DDiagrams_instance, &stage.Vase2DDiagrams_referenceOrder)
 
+	__gong__clearReferences(&stage.VaseTrapezeBasePlateShapes_reference, &stage.VaseTrapezeBasePlateShapes_instance, &stage.VaseTrapezeBasePlateShapes_referenceOrder)
+
 	__gong__clearReferences(&stage.VaseTrapezeRingShapes_reference, &stage.VaseTrapezeRingShapes_instance, &stage.VaseTrapezeRingShapes_referenceOrder)
 
 	__gong__clearReferences(&stage.VerticalTorusStackShapes_reference, &stage.VerticalTorusStackShapes_instance, &stage.VerticalTorusStackShapes_referenceOrder)
@@ -3190,6 +3206,8 @@ func (stage *Stage) recomputeOrders() {
 	stage.TubeVaseAbstractOrder = __gong__recomputeOrder(stage.TubeVaseAbstract_stagedOrder)
 
 	stage.Vase2DDiagramOrder = __gong__recomputeOrder(stage.Vase2DDiagram_stagedOrder)
+
+	stage.VaseTrapezeBasePlateShapeOrder = __gong__recomputeOrder(stage.VaseTrapezeBasePlateShape_stagedOrder)
 
 	stage.VaseTrapezeRingShapeOrder = __gong__recomputeOrder(stage.VaseTrapezeRingShape_stagedOrder)
 
@@ -3520,6 +3538,8 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TubeVaseAbstracts, stage.TubeVaseAbstract_stagedOrder))
 	case *Vase2DDiagram:
 		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Vase2DDiagrams, stage.Vase2DDiagram_stagedOrder))
+	case *VaseTrapezeBasePlateShape:
+		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.VaseTrapezeBasePlateShapes, stage.VaseTrapezeBasePlateShape_stagedOrder))
 	case *VaseTrapezeRingShape:
 		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.VaseTrapezeRingShapes, stage.VaseTrapezeRingShape_stagedOrder))
 	case *VerticalTorusStackShape:
@@ -4142,6 +4162,9 @@ func NewStage(name string) (stage *Stage) {
 		Vase2DDiagrams:           make(map[*Vase2DDiagram]struct{}),
 		Vase2DDiagrams_mapString: make(map[string]*Vase2DDiagram),
 
+		VaseTrapezeBasePlateShapes:           make(map[*VaseTrapezeBasePlateShape]struct{}),
+		VaseTrapezeBasePlateShapes_mapString: make(map[string]*VaseTrapezeBasePlateShape),
+
 		VaseTrapezeRingShapes:           make(map[*VaseTrapezeRingShape]struct{}),
 		VaseTrapezeRingShapes_mapString: make(map[string]*VaseTrapezeRingShape),
 
@@ -4749,6 +4772,10 @@ func NewStage(name string) (stage *Stage) {
 		Vase2DDiagram_orderStaged: make(map[uint]*Vase2DDiagram),
 		Vase2DDiagrams_reference:  make(map[*Vase2DDiagram]*Vase2DDiagram),
 
+		VaseTrapezeBasePlateShape_stagedOrder: make(map[*VaseTrapezeBasePlateShape]uint),
+		VaseTrapezeBasePlateShape_orderStaged: make(map[uint]*VaseTrapezeBasePlateShape),
+		VaseTrapezeBasePlateShapes_reference:  make(map[*VaseTrapezeBasePlateShape]*VaseTrapezeBasePlateShape),
+
 		VaseTrapezeRingShape_stagedOrder: make(map[*VaseTrapezeRingShape]uint),
 		VaseTrapezeRingShape_orderStaged: make(map[uint]*VaseTrapezeRingShape),
 		VaseTrapezeRingShapes_reference:  make(map[*VaseTrapezeRingShape]*VaseTrapezeRingShape),
@@ -5056,6 +5083,8 @@ func NewStage(name string) (stage *Stage) {
 			"TubeVaseAbstract": &TubeVaseAbstractUnmarshaller{},
 
 			"Vase2DDiagram": &Vase2DDiagramUnmarshaller{},
+
+			"VaseTrapezeBasePlateShape": &VaseTrapezeBasePlateShapeUnmarshaller{},
 
 			"VaseTrapezeRingShape": &VaseTrapezeRingShapeUnmarshaller{},
 
@@ -5379,6 +5408,8 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return any(stage.TubeVaseAbstract_orderStaged[order]).(Type)
 	case *Vase2DDiagram:
 		return any(stage.Vase2DDiagram_orderStaged[order]).(Type)
+	case *VaseTrapezeBasePlateShape:
+		return any(stage.VaseTrapezeBasePlateShape_orderStaged[order]).(Type)
 	case *VaseTrapezeRingShape:
 		return any(stage.VaseTrapezeRingShape_orderStaged[order]).(Type)
 	case *VerticalTorusStackShape:
@@ -5597,6 +5628,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["TubeVase3DDiagram"] = len(stage.TubeVase3DDiagrams)
 	stage.Map_GongStructName_InstancesNb["TubeVaseAbstract"] = len(stage.TubeVaseAbstracts)
 	stage.Map_GongStructName_InstancesNb["Vase2DDiagram"] = len(stage.Vase2DDiagrams)
+	stage.Map_GongStructName_InstancesNb["VaseTrapezeBasePlateShape"] = len(stage.VaseTrapezeBasePlateShapes)
 	stage.Map_GongStructName_InstancesNb["VaseTrapezeRingShape"] = len(stage.VaseTrapezeRingShapes)
 	stage.Map_GongStructName_InstancesNb["VerticalTorusStackShape"] = len(stage.VerticalTorusStackShapes)
 	stage.Map_GongStructName_InstancesNb["VolumeKey3DShape"] = len(stage.VolumeKey3DShapes)
@@ -11520,6 +11552,46 @@ func (vase2ddiagram *Vase2DDiagram) SetName(name string) {
 	vase2ddiagram.Name = name
 }
 
+// Stage puts vasetrapezebaseplateshape to the model stage
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) Stage(stage *Stage) *VaseTrapezeBasePlateShape {
+	__gong__stage(stage.VaseTrapezeBasePlateShapes, stage.VaseTrapezeBasePlateShape_stagedOrder, stage.VaseTrapezeBasePlateShape_orderStaged, &stage.VaseTrapezeBasePlateShapeOrder, stage.VaseTrapezeBasePlateShapes_mapString, vasetrapezebaseplateshape, vasetrapezebaseplateshape.Name)
+	return vasetrapezebaseplateshape
+}
+
+// StagePreserveOrder puts vasetrapezebaseplateshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.VaseTrapezeBasePlateShapeOrder
+// - update stage.VaseTrapezeBasePlateShapeOrder accordingly
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.VaseTrapezeBasePlateShapes, stage.VaseTrapezeBasePlateShape_stagedOrder, stage.VaseTrapezeBasePlateShape_orderStaged, &stage.VaseTrapezeBasePlateShapeOrder, stage.VaseTrapezeBasePlateShapes_mapString, vasetrapezebaseplateshape, order, vasetrapezebaseplateshape.Name)
+}
+
+// Unstage removes vasetrapezebaseplateshape off the model stage
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) Unstage(stage *Stage) *VaseTrapezeBasePlateShape {
+	__gong__unstage(stage.VaseTrapezeBasePlateShapes, stage.VaseTrapezeBasePlateShapes_mapString, vasetrapezebaseplateshape, vasetrapezebaseplateshape.Name)
+	return vasetrapezebaseplateshape
+}
+
+// UnstageVoid removes vasetrapezebaseplateshape off the model stage
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) UnstageVoid(stage *Stage) {
+	vasetrapezebaseplateshape.Unstage(stage)
+}
+
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) StageVoid(stage *Stage) {
+	vasetrapezebaseplateshape.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GetName() (res string) {
+	return vasetrapezebaseplateshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) SetName(name string) {
+	vasetrapezebaseplateshape.Name = name
+}
+
 // Stage puts vasetrapezeringshape to the model stage
 func (vasetrapezeringshape *VaseTrapezeRingShape) Stage(stage *Stage) *VaseTrapezeRingShape {
 	__gong__stage(stage.VaseTrapezeRingShapes, stage.VaseTrapezeRingShape_stagedOrder, stage.VaseTrapezeRingShape_orderStaged, &stage.VaseTrapezeRingShapeOrder, stage.VaseTrapezeRingShapes_mapString, vasetrapezeringshape, vasetrapezeringshape.Name)
@@ -11935,6 +12007,8 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Vase2DDiagrams, &stage.Vase2DDiagrams_mapString, &stage.Vase2DDiagram_stagedOrder, &stage.Vase2DDiagramOrder)
 
+	__gong__resetStageType(&stage.VaseTrapezeBasePlateShapes, &stage.VaseTrapezeBasePlateShapes_mapString, &stage.VaseTrapezeBasePlateShape_stagedOrder, &stage.VaseTrapezeBasePlateShapeOrder)
+
 	__gong__resetStageType(&stage.VaseTrapezeRingShapes, &stage.VaseTrapezeRingShapes_mapString, &stage.VaseTrapezeRingShape_stagedOrder, &stage.VaseTrapezeRingShapeOrder)
 
 	__gong__resetStageType(&stage.VerticalTorusStackShapes, &stage.VerticalTorusStackShapes_mapString, &stage.VerticalTorusStackShape_stagedOrder, &stage.VerticalTorusStackShapeOrder)
@@ -12314,6 +12388,8 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return any(stage.TubeVaseAbstracts_mapString).(map[string]Type)
 	case *Vase2DDiagram:
 		return any(stage.Vase2DDiagrams_mapString).(map[string]Type)
+	case *VaseTrapezeBasePlateShape:
+		return any(stage.VaseTrapezeBasePlateShapes_mapString).(map[string]Type)
 	case *VaseTrapezeRingShape:
 		return any(stage.VaseTrapezeRingShapes_mapString).(map[string]Type)
 	case *VerticalTorusStackShape:
@@ -12625,6 +12701,8 @@ func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 		return any(&stage.TubeVaseAbstracts).(*map[Type]struct{})
 	case *Vase2DDiagram:
 		return any(&stage.Vase2DDiagrams).(*map[Type]struct{})
+	case *VaseTrapezeBasePlateShape:
+		return any(&stage.VaseTrapezeBasePlateShapes).(*map[Type]struct{})
 	case *VaseTrapezeRingShape:
 		return any(&stage.VaseTrapezeRingShapes).(*map[Type]struct{})
 	case *VerticalTorusStackShape:
@@ -12908,6 +12986,7 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			VaseTrapezeRingShape: &VaseTrapezeRingShape{Name: "VaseTrapezeRingShape"},
 			StackOfVaseTrapezeRingsShape: &StackOfVaseTrapezeRingsShape{Name: "StackOfVaseTrapezeRingsShape"},
 			StackOfRotatedVaseTrapezeRingsShape: &StackOfRotatedVaseTrapezeRingsShape{Name: "StackOfRotatedVaseTrapezeRingsShape"},
+			VaseTrapezeBasePlateShape: &VaseTrapezeBasePlateShape{Name: "VaseTrapezeBasePlateShape"},
 		}).(*Type)
 	case TubeVaseAbstract:
 		return any(&TubeVaseAbstract{
@@ -15023,6 +15102,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "VaseTrapezeBasePlateShape":
+			res := make(map[*VaseTrapezeBasePlateShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.VaseTrapezeBasePlateShape != nil {
+					vasetrapezebaseplateshape_ := tubevase3ddiagram.VaseTrapezeBasePlateShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
+					_, ok := res[vasetrapezebaseplateshape_]
+					if ok {
+						tubevase3ddiagrams = res[vasetrapezebaseplateshape_]
+					} else {
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
+					}
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[vasetrapezebaseplateshape_] = tubevase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of TubeVaseAbstract
 	case TubeVaseAbstract:
@@ -15473,6 +15569,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		}
 	// reverse maps of direct associations of Vase2DDiagram
 	case Vase2DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of VaseTrapezeBasePlateShape
+	case VaseTrapezeBasePlateShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -16708,6 +16809,11 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of VaseTrapezeBasePlateShape
+	case VaseTrapezeBasePlateShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of VaseTrapezeRingShape
 	case VaseTrapezeRingShape:
 		switch fieldname {
@@ -17027,6 +17133,8 @@ func GongNewInstance[Type GongstructPtr]() (res Type) {
 		res = any(new(TubeVaseAbstract)).(Type)
 	case *Vase2DDiagram:
 		res = any(new(Vase2DDiagram)).(Type)
+	case *VaseTrapezeBasePlateShape:
+		res = any(new(VaseTrapezeBasePlateShape)).(Type)
 	case *VaseTrapezeRingShape:
 		res = any(new(VaseTrapezeRingShape)).(Type)
 	case *VerticalTorusStackShape:
@@ -17355,6 +17463,8 @@ func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "TubeVaseAbstract"
 	case *Vase2DDiagram:
 		res = "Vase2DDiagram"
+	case *VaseTrapezeBasePlateShape:
+		res = "VaseTrapezeBasePlateShape"
 	case *VaseTrapezeRingShape:
 		res = "VaseTrapezeRingShape"
 	case *VerticalTorusStackShape:
@@ -18002,6 +18112,9 @@ func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 		rf.GongstructName = "PlantAbstract"
 		rf.Fieldname = "Vase2DDiagrams"
 		res = append(res, rf)
+	case *VaseTrapezeBasePlateShape:
+		var rf ReverseField
+		_ = rf
 	case *VaseTrapezeRingShape:
 		var rf ReverseField
 		_ = rf
@@ -22715,6 +22828,10 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsHiddenVaseTrapezeBasePlateShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "Rendered3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rendered3DShape",
@@ -22820,6 +22937,11 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldHeaders() (res []GongFie
 			TargetGongstructName: "StackOfRotatedVaseTrapezeRingsShape",
 		},
 		{
+			Name:                 "VaseTrapezeBasePlateShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "VaseTrapezeBasePlateShape",
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -22860,6 +22982,10 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldHeaders() (res []GongField
 		},
 		{
 			Name:               "ProjectionAngle",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BasePlateHeight",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -23230,6 +23356,17 @@ func (vase2ddiagram *Vase2DDiagram) GongGetFieldHeaders() (res []GongFieldHeader
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -28062,6 +28199,10 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldValue(fieldName string, 
 		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape)
 		res.valueBool = tubevase3ddiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenVaseTrapezeBasePlateShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Rendered3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if tubevase3ddiagram.Rendered3DShape != nil {
@@ -28188,6 +28329,12 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldValue(fieldName string, 
 			res.valueString = tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape.Name
 			res.ids = tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape.GongGetUUID(stage)
 		}
+	case "VaseTrapezeBasePlateShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.VaseTrapezeBasePlateShape != nil {
+			res.valueString = tubevase3ddiagram.VaseTrapezeBasePlateShape.Name
+			res.ids = tubevase3ddiagram.VaseTrapezeBasePlateShape.GongGetUUID(stage)
+		}
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsChecked)
 		res.valueBool = tubevase3ddiagram.IsChecked
@@ -28226,6 +28373,10 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldValue(fieldName string, st
 	case "ProjectionAngle":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.ProjectionAngle)
 		res.valueFloat = tubevaseabstract.ProjectionAngle
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BasePlateHeight":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.BasePlateHeight)
+		res.valueFloat = tubevaseabstract.BasePlateHeight
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RelativeVerticalThickness":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeVerticalThickness)
@@ -28618,6 +28769,15 @@ func (vase2ddiagram *Vase2DDiagram) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsExpanded)
 		res.valueBool = vase2ddiagram.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = vasetrapezebaseplateshape.Name
 	}
 	return
 }
@@ -29247,6 +29407,10 @@ func (vase2ddiagram *Vase2DDiagram) GongGetGongstructName() string {
 	return "Vase2DDiagram"
 }
 
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongGetGongstructName() string {
+	return "VaseTrapezeBasePlateShape"
+}
+
 func (vasetrapezeringshape *VaseTrapezeRingShape) GongGetGongstructName() string {
 	return "VaseTrapezeRingShape"
 }
@@ -29563,6 +29727,8 @@ func (stage *Stage) ResetMapStrings() {
 	__gong__rebuildMapString(stage.TubeVaseAbstracts, &stage.TubeVaseAbstracts_mapString)
 
 	__gong__rebuildMapString(stage.Vase2DDiagrams, &stage.Vase2DDiagrams_mapString)
+
+	__gong__rebuildMapString(stage.VaseTrapezeBasePlateShapes, &stage.VaseTrapezeBasePlateShapes_mapString)
 
 	__gong__rebuildMapString(stage.VaseTrapezeRingShapes, &stage.VaseTrapezeRingShapes_mapString)
 

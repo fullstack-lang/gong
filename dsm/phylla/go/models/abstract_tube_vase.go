@@ -19,6 +19,9 @@ type TubeVaseAbstract struct {
 	// ProjectionAngle is the constant projection angle in degrees (for Vase Trapeze).
 	ProjectionAngle float64
 
+	// BasePlateHeight is the height of the plancher (base plate) for the vase wall (for Vase Trapeze).
+	BasePlateHeight float64
+
 	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
 	// the vertical thickness is RelativeVerticalThickness x RhombusSideLength
 	RelativeVerticalThickness float64

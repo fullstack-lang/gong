@@ -147,6 +147,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refVaseTrapezeRingShape := make(map[*VaseTrapezeRingShape]bool)
 	refStackOfVaseTrapezeRingsShape := make(map[*StackOfVaseTrapezeRingsShape]bool)
 	refStackOfRotatedVaseTrapezeRingsShape := make(map[*StackOfRotatedVaseTrapezeRingsShape]bool)
+	refVaseTrapezeBasePlateShape := make(map[*VaseTrapezeBasePlateShape]bool)
 
 	// Collect referenced shapes from all plants
 	for plant := range *stage.GetInstancesSet[*PlantAbstract]() {
@@ -532,6 +533,9 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		if diagram.StackOfRotatedVaseTrapezeRingsShape != nil {
 			refStackOfRotatedVaseTrapezeRingsShape[diagram.StackOfRotatedVaseTrapezeRingsShape] = true
 		}
+		if diagram.VaseTrapezeBasePlateShape != nil {
+			refVaseTrapezeBasePlateShape[diagram.VaseTrapezeBasePlateShape] = true
+		}
 	}
 	for diagram := range *stage.GetInstancesSet[*Stool3DDiagram]() {
 		if diagram.Rendered3DShape != nil {
@@ -909,6 +913,12 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	}
 	for shape := range *stage.GetInstancesSet[*StackOfRotatedVaseTrapezeRingsShape]() {
 		if !refStackOfRotatedVaseTrapezeRingsShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *stage.GetInstancesSet[*VaseTrapezeBasePlateShape]() {
+		if !refVaseTrapezeBasePlateShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

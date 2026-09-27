@@ -74,7 +74,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		!checkedDiagram.IsHiddenBottomCurvePlane2Shape ||
 		!checkedDiagram.IsHiddenVaseTrapezeRingShape ||
 		!checkedDiagram.IsHiddenStackOfVaseTrapezeRingsShape ||
-		!checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape
+		!checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape ||
+		!checkedDiagram.IsHiddenVaseTrapezeBasePlateShape
 
 	// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
 	if !isOne3DShapeVisible || plant.StackHeight == 0 {
@@ -518,6 +519,192 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 				buildRingMesh(ringTopP1, ringBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Rotated Vase Trapeze Rings h%d", h), h)
 			}
+		}
+
+		buildBasePlateMesh := func(cTopB, cBottomB *threejs.Curve, shapeName string) {
+			M := min(len(cTopB.Points), len(cBottomB.Points))
+			if M < 3 {
+				return
+			}
+			pBottomH := p2H
+			floorY := floorMinY
+			if pBottomH <= floorY {
+				return
+			}
+
+			hPlancher := 0.0
+			if plant.TubeVaseAbstract != nil {
+				hPlancher = plant.TubeVaseAbstract.BasePlateHeight
+			}
+			if hPlancher < 0 {
+				hPlancher = 0
+			}
+			if hPlancher > (pBottomH - floorY) {
+				hPlancher = pBottomH - floorY
+			}
+
+			var sumRTop, sumRBottom float64
+			for i := 0; i < M; i++ {
+				ptTop := cTopB.Points[i]
+				ptBot := cBottomB.Points[i]
+				sumRTop += math.Hypot(ptTop.X, ptTop.Z)
+				sumRBottom += math.Hypot(ptBot.X, ptBot.Z)
+			}
+			cOuter := cTopB
+			cInner := cBottomB
+			if sumRBottom > sumRTop {
+				cOuter = cBottomB
+				cInner = cTopB
+			}
+
+			basePlateGeom := (&threejs.BufferGeometry{
+				Name: fmt.Sprintf("%s %s BufferGeometry", plant.Name, shapeName),
+			}).Stage(threejsStage)
+
+			idxOuterTop := make([]int, M)
+			idxOuterFloor := make([]int, M)
+			idxInnerTop := make([]int, M)
+			idxInnerPlancher := make([]int, M)
+
+			var sumOuterX, sumOuterZ float64
+			var sumInnerX, sumInnerZ float64
+
+			for i := 0; i < M; i++ {
+				ptOut := cOuter.Points[i]
+				ptIn := cInner.Points[i]
+
+				sumOuterX += ptOut.X
+				sumOuterZ += ptOut.Z
+				sumInnerX += ptIn.X
+				sumInnerZ += ptIn.Z
+
+				// 1. Outer Top (at bottom plane)
+				idxOuterTop[i] = len(basePlateGeom.Vertices)
+				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s Outer Top %d", plant.Name, shapeName, i),
+					X:    ptOut.X, Y: pBottomH, Z: ptOut.Z,
+				}).Stage(threejsStage))
+
+				// 2. Outer Floor (at floor)
+				idxOuterFloor[i] = len(basePlateGeom.Vertices)
+				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s Outer Floor %d", plant.Name, shapeName, i),
+					X:    ptOut.X, Y: floorY, Z: ptOut.Z,
+				}).Stage(threejsStage))
+
+				// 3. Inner Top (at bottom plane)
+				idxInnerTop[i] = len(basePlateGeom.Vertices)
+				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s Inner Top %d", plant.Name, shapeName, i),
+					X:    ptIn.X, Y: pBottomH, Z: ptIn.Z,
+				}).Stage(threejsStage))
+
+				// 4. Inner Plancher (at floor + hPlancher)
+				idxInnerPlancher[i] = len(basePlateGeom.Vertices)
+				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s Inner Plancher %d", plant.Name, shapeName, i),
+					X:    ptIn.X, Y: floorY + hPlancher, Z: ptIn.Z,
+				}).Stage(threejsStage))
+			}
+
+			idxPlancherCenter := len(basePlateGeom.Vertices)
+			basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+				Name: fmt.Sprintf("%s %s Plancher Center", plant.Name, shapeName),
+				X:    sumInnerX / float64(M), Y: floorY + hPlancher, Z: sumInnerZ / float64(M),
+			}).Stage(threejsStage))
+
+			idxFloorCenter := len(basePlateGeom.Vertices)
+			basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+				Name: fmt.Sprintf("%s %s Floor Center", plant.Name, shapeName),
+				X:    sumOuterX / float64(M), Y: floorY, Z: sumOuterZ / float64(M),
+			}).Stage(threejsStage))
+
+			for i := 0; i < M; i++ {
+				nextI := (i + 1) % M
+
+				// 1. Outer vertical wall (normal pointing outward +r):
+				basePlateGeom.Faces = append(basePlateGeom.Faces,
+					(&threejs.Triangle{
+						Name: fmt.Sprintf("%s %s Outer Wall T1 %d", plant.Name, shapeName, i),
+						V1:   idxOuterTop[i], V2: idxOuterTop[nextI], V3: idxOuterFloor[nextI],
+					}).Stage(threejsStage),
+					(&threejs.Triangle{
+						Name: fmt.Sprintf("%s %s Outer Wall T2 %d", plant.Name, shapeName, i),
+						V1:   idxOuterTop[i], V2: idxOuterFloor[nextI], V3: idxOuterFloor[i],
+					}).Stage(threejsStage),
+				)
+
+				// 2. Inner vertical wall (normal pointing inward -r):
+				basePlateGeom.Faces = append(basePlateGeom.Faces,
+					(&threejs.Triangle{
+						Name: fmt.Sprintf("%s %s Inner Wall T1 %d", plant.Name, shapeName, i),
+						V1:   idxInnerTop[i], V2: idxInnerPlancher[nextI], V3: idxInnerTop[nextI],
+					}).Stage(threejsStage),
+					(&threejs.Triangle{
+						Name: fmt.Sprintf("%s %s Inner Wall T2 %d", plant.Name, shapeName, i),
+						V1:   idxInnerTop[i], V2: idxInnerPlancher[i], V3: idxInnerPlancher[nextI],
+					}).Stage(threejsStage),
+				)
+
+				// 3. Top annular face at pBottomH (normal pointing up +Y):
+				basePlateGeom.Faces = append(basePlateGeom.Faces,
+					(&threejs.Triangle{
+						Name: fmt.Sprintf("%s %s Top Face T1 %d", plant.Name, shapeName, i),
+						V1:   idxInnerTop[i], V2: idxOuterTop[i], V3: idxOuterTop[nextI],
+					}).Stage(threejsStage),
+					(&threejs.Triangle{
+						Name: fmt.Sprintf("%s %s Top Face T2 %d", plant.Name, shapeName, i),
+						V1:   idxInnerTop[i], V2: idxOuterTop[nextI], V3: idxInnerTop[nextI],
+					}).Stage(threejsStage),
+				)
+
+				// 4. Plancher top face (normal pointing up +Y):
+				basePlateGeom.Faces = append(basePlateGeom.Faces,
+					(&threejs.Triangle{
+						Name: fmt.Sprintf("%s %s Plancher Face %d", plant.Name, shapeName, i),
+						V1:   idxPlancherCenter, V2: idxInnerPlancher[nextI], V3: idxInnerPlancher[i],
+					}).Stage(threejsStage),
+				)
+
+				// 5. Floor bottom face (normal pointing down -Y):
+				basePlateGeom.Faces = append(basePlateGeom.Faces,
+					(&threejs.Triangle{
+						Name: fmt.Sprintf("%s %s Floor Face %d", plant.Name, shapeName, i),
+						V1:   idxFloorCenter, V2: idxOuterFloor[i], V3: idxOuterFloor[nextI],
+					}).Stage(threejsStage),
+				)
+			}
+
+			color := "#fdf6e3"
+			transparency := 0.0
+			if plant.TubeVaseAbstract != nil {
+				transparency = plant.TubeVaseAbstract.Transparency
+			}
+			opacity := 1.0 - transparency
+			if opacity < 0.0 {
+				opacity = 0.0
+			}
+			if opacity > 1.0 {
+				opacity = 1.0
+			}
+
+			basePlateMesh := (&threejs.Mesh{
+				Name: fmt.Sprintf("%s %s Mesh", plant.Name, shapeName),
+				X:    0, Y: 0, Z: 0,
+				BufferGeometry: basePlateGeom,
+				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+					Name:        fmt.Sprintf("%s %s Material", plant.Name, shapeName),
+					Color:       color,
+					Transparent: transparency > 0,
+					Opacity:     opacity,
+				}).Stage(threejsStage),
+			}).Stage(threejsStage)
+
+			canvas.Meshs = append(canvas.Meshs, basePlateMesh)
+		}
+
+		if !checkedDiagram.IsHiddenVaseTrapezeBasePlateShape {
+			buildBasePlateMesh(cTopP2, cBottomP2, "Vase Trapeze Base Plate")
 		}
 	}
 

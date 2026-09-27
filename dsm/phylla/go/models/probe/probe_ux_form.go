@@ -1953,6 +1953,19 @@ func FillUpFormFromGongstructName(
 		vase2ddiagram := new(models.Vase2DDiagram)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(vase2ddiagram, formGroup, probe)
+	case "VaseTrapezeBasePlateShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "VaseTrapezeBasePlateShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__VaseTrapezeBasePlateShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		vasetrapezebaseplateshape := new(models.VaseTrapezeBasePlateShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(vasetrapezebaseplateshape, formGroup, probe)
 	case "VaseTrapezeRingShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

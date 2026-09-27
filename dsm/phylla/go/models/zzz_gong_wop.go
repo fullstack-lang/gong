@@ -2915,6 +2915,8 @@ type TubeVase3DDiagram_WOP struct {
 
 	IsHiddenStackOfRotatedVaseTrapezeRingsShape bool
 
+	IsHiddenVaseTrapezeBasePlateShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -2946,6 +2948,7 @@ func (from *TubeVase3DDiagram) GongCopyBasicFields(to *TubeVase3DDiagram) {
 	to.IsHiddenVaseTrapezeRingShape = from.IsHiddenVaseTrapezeRingShape
 	to.IsHiddenStackOfVaseTrapezeRingsShape = from.IsHiddenStackOfVaseTrapezeRingsShape
 	to.IsHiddenStackOfRotatedVaseTrapezeRingsShape = from.IsHiddenStackOfRotatedVaseTrapezeRingsShape
+	to.IsHiddenVaseTrapezeBasePlateShape = from.IsHiddenVaseTrapezeBasePlateShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -2965,6 +2968,8 @@ type TubeVaseAbstract_WOP struct {
 	BottomPlaneHeight float64
 
 	ProjectionAngle float64
+
+	BasePlateHeight float64
 
 	RelativeVerticalThickness float64
 
@@ -3013,6 +3018,7 @@ func (from *TubeVaseAbstract) GongCopyBasicFields(to *TubeVaseAbstract) {
 	to.TopPlaneHeight = from.TopPlaneHeight
 	to.BottomPlaneHeight = from.BottomPlaneHeight
 	to.ProjectionAngle = from.ProjectionAngle
+	to.BasePlateHeight = from.BasePlateHeight
 	to.RelativeVerticalThickness = from.RelativeVerticalThickness
 	to.RelativeRadialThickness = from.RelativeRadialThickness
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
@@ -3117,6 +3123,17 @@ type Vase2DDiagram_WOP struct {
 }
 
 func (from *Vase2DDiagram) GongCopyBasicFields(to *Vase2DDiagram) {
+	// insertion point
+	*to = *from
+}
+
+type VaseTrapezeBasePlateShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *VaseTrapezeBasePlateShape) GongCopyBasicFields(to *VaseTrapezeBasePlateShape) {
 	// insertion point
 	*to = *from
 }

@@ -1930,6 +1930,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.VaseTrapezeBasePlateShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "VaseTrapezeBasePlateShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__VaseTrapezeBasePlateShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.VaseTrapezeRingShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

@@ -792,6 +792,7 @@ func StageSetFillUpForm(
 		StageSetBasicFieldtoForm("IsHiddenVaseTrapezeRingShape", inst.IsHiddenVaseTrapezeRingShape, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsHiddenStackOfVaseTrapezeRingsShape", inst.IsHiddenStackOfVaseTrapezeRingsShape, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsHiddenStackOfRotatedVaseTrapezeRingsShape", inst.IsHiddenStackOfRotatedVaseTrapezeRingsShape, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsHiddenVaseTrapezeBasePlateShape", inst.IsHiddenVaseTrapezeBasePlateShape, probe.formStage, formGroup)
 		StageSetAssociationFieldToForm("Rendered3DShape", inst.Rendered3DShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.Rendered3DShape](), probe.formStage)
 		StageSetAssociationFieldToForm("TorusStackShape", inst.TorusStackShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.TorusStackShape](), probe.formStage)
 		StageSetAssociationFieldToForm("VerticalTorusStackShape", inst.VerticalTorusStackShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.VerticalTorusStackShape](), probe.formStage)
@@ -813,6 +814,7 @@ func StageSetFillUpForm(
 		StageSetAssociationFieldToForm("VaseTrapezeRingShape", inst.VaseTrapezeRingShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.VaseTrapezeRingShape](), probe.formStage)
 		StageSetAssociationFieldToForm("StackOfVaseTrapezeRingsShape", inst.StackOfVaseTrapezeRingsShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.StackOfVaseTrapezeRingsShape](), probe.formStage)
 		StageSetAssociationFieldToForm("StackOfRotatedVaseTrapezeRingsShape", inst.StackOfRotatedVaseTrapezeRingsShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.StackOfRotatedVaseTrapezeRingsShape](), probe.formStage)
+		StageSetAssociationFieldToForm("VaseTrapezeBasePlateShape", inst.VaseTrapezeBasePlateShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.VaseTrapezeBasePlateShape](), probe.formStage)
 		StageSetBasicFieldtoForm("IsChecked", inst.IsChecked, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("ComputedPrefix", inst.ComputedPrefix, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsExpanded", inst.IsExpanded, probe.formStage, formGroup)
@@ -837,6 +839,7 @@ func StageSetFillUpForm(
 		StageSetBasicFieldtoForm("TopPlaneHeight", inst.TopPlaneHeight, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("BottomPlaneHeight", inst.BottomPlaneHeight, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("ProjectionAngle", inst.ProjectionAngle, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("BasePlateHeight", inst.BasePlateHeight, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("RelativeVerticalThickness", inst.RelativeVerticalThickness, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("RelativeRadialThickness", inst.RelativeRadialThickness, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("RelativeCuttedStackFloorHeight", inst.RelativeCuttedStackFloorHeight, probe.formStage, formGroup)
@@ -946,6 +949,19 @@ func StageSetFillUpForm(
 			}
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("models.PlantAbstract", "Vase2DDiagrams", refNames, formGroup, probe.formStage)
+		}
+	case *models.VaseTrapezeBasePlateShape:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.TubeVase3DDiagrams {
+				if src.VaseTrapezeBasePlateShape == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.TubeVase3DDiagram", "VaseTrapezeBasePlateShape", refNames, formGroup, probe.formStage)
 		}
 	case *models.VaseTrapezeRingShape:
 		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)

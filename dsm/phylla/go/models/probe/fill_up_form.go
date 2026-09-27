@@ -3347,6 +3347,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenStackOfRotatedVaseTrapezeRingsShape", instanceWithInferedType.IsHiddenStackOfRotatedVaseTrapezeRingsShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenVaseTrapezeBasePlateShape", instanceWithInferedType.IsHiddenVaseTrapezeBasePlateShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
 		AssociationFieldToForm("TorusStackShape", instanceWithInferedType.TorusStackShape, formGroup, probe)
 		AssociationFieldToForm("VerticalTorusStackShape", instanceWithInferedType.VerticalTorusStackShape, formGroup, probe)
@@ -3368,6 +3370,7 @@ func FillUpForm(
 		AssociationFieldToForm("VaseTrapezeRingShape", instanceWithInferedType.VaseTrapezeRingShape, formGroup, probe)
 		AssociationFieldToForm("StackOfVaseTrapezeRingsShape", instanceWithInferedType.StackOfVaseTrapezeRingsShape, formGroup, probe)
 		AssociationFieldToForm("StackOfRotatedVaseTrapezeRingsShape", instanceWithInferedType.StackOfRotatedVaseTrapezeRingsShape, formGroup, probe)
+		AssociationFieldToForm("VaseTrapezeBasePlateShape", instanceWithInferedType.VaseTrapezeBasePlateShape, formGroup, probe)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
@@ -3402,6 +3405,8 @@ func FillUpForm(
 		BasicFieldtoForm("BottomPlaneHeight", instanceWithInferedType.BottomPlaneHeight, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ProjectionAngle", instanceWithInferedType.ProjectionAngle, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BasePlateHeight", instanceWithInferedType.BasePlateHeight, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeVerticalThickness", instanceWithInferedType.RelativeVerticalThickness, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -3567,6 +3572,16 @@ func FillUpForm(
 			func(owner *models.PlantAbstract) []*models.Vase2DDiagram {
 				return owner.Vase2DDiagrams
 			})
+
+	case *models.VaseTrapezeBasePlateShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.VaseTrapezeRingShape:
 		// insertion point

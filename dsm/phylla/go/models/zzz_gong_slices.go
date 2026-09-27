@@ -395,6 +395,8 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.Vase2DDiagrams)
 
+	res = __gong__appendInstances(res, stage.VaseTrapezeBasePlateShapes)
+
 	res = __gong__appendInstances(res, stage.VaseTrapezeRingShapes)
 
 	res = __gong__appendInstances(res, stage.VerticalTorusStackShapes)
@@ -1287,6 +1289,12 @@ func (vase2ddiagram *Vase2DDiagram) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongCopy() GongstructIF {
+	newInstance := new(VaseTrapezeBasePlateShape)
+	vasetrapezebaseplateshape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (vasetrapezeringshape *VaseTrapezeRingShape) GongCopy() GongstructIF {
 	newInstance := new(VaseTrapezeRingShape)
 	vasetrapezeringshape.GongCopyBasicFields(newInstance)
@@ -1894,6 +1902,10 @@ func (vase2ddiagram *Vase2DDiagram) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, vase2ddiagram)
 }
 
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, vasetrapezebaseplateshape)
+}
+
 func (vasetrapezeringshape *VaseTrapezeRingShape) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, vasetrapezeringshape)
 }
@@ -2467,6 +2479,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.VaseTrapezeBasePlateShapes,
+		stage.VaseTrapezeBasePlateShape_stagedOrder,
+		stage.VaseTrapezeBasePlateShapes_reference,
+		&stage.VaseTrapezeBasePlateShapes_referenceOrder,
+		stage.VaseTrapezeBasePlateShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.VaseTrapezeRingShapes,
 		stage.VaseTrapezeRingShape_stagedOrder,
 		stage.VaseTrapezeRingShapes_reference,
@@ -2811,6 +2840,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.Vase2DDiagrams, &stage.Vase2DDiagrams_reference, &stage.Vase2DDiagrams_referenceOrder, &stage.Vase2DDiagrams_instance)
 
+	__gong__computeReferencePass1(stage, stage.VaseTrapezeBasePlateShapes, &stage.VaseTrapezeBasePlateShapes_reference, &stage.VaseTrapezeBasePlateShapes_referenceOrder, &stage.VaseTrapezeBasePlateShapes_instance)
+
 	__gong__computeReferencePass1(stage, stage.VaseTrapezeRingShapes, &stage.VaseTrapezeRingShapes_reference, &stage.VaseTrapezeRingShapes_referenceOrder, &stage.VaseTrapezeRingShapes_instance)
 
 	__gong__computeReferencePass1(stage, stage.VerticalTorusStackShapes, &stage.VerticalTorusStackShapes_reference, &stage.VerticalTorusStackShapes_referenceOrder, &stage.VerticalTorusStackShapes_instance)
@@ -3111,6 +3142,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.TubeVaseAbstracts, stage.TubeVaseAbstracts_reference, stage)
 
 	__gong__computeReferencePass2(stage.Vase2DDiagrams, stage.Vase2DDiagrams_reference, stage)
+
+	__gong__computeReferencePass2(stage.VaseTrapezeBasePlateShapes, stage.VaseTrapezeBasePlateShapes_reference, stage)
 
 	__gong__computeReferencePass2(stage.VaseTrapezeRingShapes, stage.VaseTrapezeRingShapes_reference, stage)
 
@@ -3714,6 +3747,10 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetOrder(stage *Stage) uint {
 
 func (vase2ddiagram *Vase2DDiagram) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Vase2DDiagram_stagedOrder, stage.Vase2DDiagrams_referenceOrder, vase2ddiagram, "Vase2DDiagram")
+}
+
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.VaseTrapezeBasePlateShape_stagedOrder, stage.VaseTrapezeBasePlateShapes_referenceOrder, vasetrapezebaseplateshape, "VaseTrapezeBasePlateShape")
 }
 
 func (vasetrapezeringshape *VaseTrapezeRingShape) GongGetOrder(stage *Stage) uint {
@@ -5056,6 +5093,15 @@ func (vase2ddiagram *Vase2DDiagram) GongGetReferenceIdentifier(stage *Stage) str
 	return vase2ddiagram.GongGetIdentifier(stage)
 }
 
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(vasetrapezebaseplateshape, vasetrapezebaseplateshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return vasetrapezebaseplateshape.GongGetIdentifier(stage)
+}
+
 func (vasetrapezeringshape *VaseTrapezeRingShape) GongGetIdentifier(stage *Stage) string {
 	return __gong__formatIdentifier(vasetrapezeringshape, vasetrapezeringshape.GongGetOrder(stage))
 }
@@ -5674,6 +5720,10 @@ func (vase2ddiagram *Vase2DDiagram) GongMarshallIdentifier(stage *Stage) string 
 	return __gong__marshallIdentifier(vase2ddiagram.GongGetIdentifier(stage), "Vase2DDiagram", vase2ddiagram.Name)
 }
 
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(vasetrapezebaseplateshape.GongGetIdentifier(stage), "VaseTrapezeBasePlateShape", vasetrapezebaseplateshape.Name)
+}
+
 func (vasetrapezeringshape *VaseTrapezeRingShape) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(vasetrapezeringshape.GongGetIdentifier(stage), "VaseTrapezeRingShape", vasetrapezeringshape.Name)
 }
@@ -6273,6 +6323,10 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallUnstaging(stage *Stage) st
 
 func (vase2ddiagram *Vase2DDiagram) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(vase2ddiagram.GongGetReferenceIdentifier(stage))
+}
+
+func (vasetrapezebaseplateshape *VaseTrapezeBasePlateShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(vasetrapezebaseplateshape.GongGetReferenceIdentifier(stage))
 }
 
 func (vasetrapezeringshape *VaseTrapezeRingShape) GongMarshallUnstaging(stage *Stage) string {

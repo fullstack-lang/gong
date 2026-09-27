@@ -129,6 +129,8 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVaseAbstract__00000001_ := (&models.TubeVaseAbstract{Name: `Vase Trapeze-TubeVaseAbstract`}).Stage(stageSet.Stage)
 	__models__Vase2DDiagram__00000000_ := (&models.Vase2DDiagram{Name: `Plant 1-Vase2DDiagram`}).Stage(stageSet.Stage)
 	__models__Vase2DDiagram__00000001_ := (&models.Vase2DDiagram{Name: `Vase Trapeze-Vase2DDiagram`}).Stage(stageSet.Stage)
+	__models__VaseTrapezeBasePlateShape__00000000_ := (&models.VaseTrapezeBasePlateShape{Name: `Vase Trapeze-TubeVase3DDiagram-VaseTrapezeBasePlateShape`}).Stage(stageSet.Stage)
+	__models__VaseTrapezeBasePlateShape__00000001_ := (&models.VaseTrapezeBasePlateShape{Name: `Plant 1-TubeVase3DDiagram-VaseTrapezeBasePlateShape`}).Stage(stageSet.Stage)
 	__models__VaseTrapezeRingShape__00000000_ := (&models.VaseTrapezeRingShape{Name: `Vase Trapeze-TubeVase3DDiagram-VaseTrapezeRingShape`}).Stage(stageSet.Stage)
 	__models__VaseTrapezeRingShape__00000001_ := (&models.VaseTrapezeRingShape{Name: `Plant 1-TubeVase3DDiagram-VaseTrapezeRingShape`}).Stage(stageSet.Stage)
 
@@ -779,6 +781,7 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVase3DDiagram__00000000_.IsHiddenVaseTrapezeRingShape = false
 	__models__TubeVase3DDiagram__00000000_.IsHiddenStackOfVaseTrapezeRingsShape = false
 	__models__TubeVase3DDiagram__00000000_.IsHiddenStackOfRotatedVaseTrapezeRingsShape = false
+	__models__TubeVase3DDiagram__00000000_.IsHiddenVaseTrapezeBasePlateShape = true
 	__models__TubeVase3DDiagram__00000000_.IsChecked = false
 	__models__TubeVase3DDiagram__00000000_.ComputedPrefix = ``
 	__models__TubeVase3DDiagram__00000000_.IsExpanded = true
@@ -804,6 +807,7 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVase3DDiagram__00000001_.IsHiddenVaseTrapezeRingShape = false
 	__models__TubeVase3DDiagram__00000001_.IsHiddenStackOfVaseTrapezeRingsShape = false
 	__models__TubeVase3DDiagram__00000001_.IsHiddenStackOfRotatedVaseTrapezeRingsShape = false
+	__models__TubeVase3DDiagram__00000001_.IsHiddenVaseTrapezeBasePlateShape = false
 	__models__TubeVase3DDiagram__00000001_.IsChecked = true
 	__models__TubeVase3DDiagram__00000001_.ComputedPrefix = ``
 	__models__TubeVase3DDiagram__00000001_.IsExpanded = true
@@ -813,6 +817,7 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVaseAbstract__00000000_.TopPlaneHeight = 0.000000
 	__models__TubeVaseAbstract__00000000_.BottomPlaneHeight = 0.000000
 	__models__TubeVaseAbstract__00000000_.ProjectionAngle = 0.000000
+	__models__TubeVaseAbstract__00000000_.BasePlateHeight = 0.000000
 	__models__TubeVaseAbstract__00000000_.RelativeVerticalThickness = 0.100000
 	__models__TubeVaseAbstract__00000000_.RelativeRadialThickness = 0.000000
 	__models__TubeVaseAbstract__00000000_.RelativeCuttedStackFloorHeight = 0.000000
@@ -838,6 +843,7 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVaseAbstract__00000001_.TopPlaneHeight = 123.000000
 	__models__TubeVaseAbstract__00000001_.BottomPlaneHeight = 209.000000
 	__models__TubeVaseAbstract__00000001_.ProjectionAngle = -14.900000
+	__models__TubeVaseAbstract__00000001_.BasePlateHeight = 10.000000
 	__models__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.130000
 	__models__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
 	__models__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000
@@ -935,6 +941,8 @@ func _(stageSet *models.StageSet) {
 	__models__Vase2DDiagram__00000001_.IsChecked = false
 	__models__Vase2DDiagram__00000001_.ComputedPrefix = ``
 	__models__Vase2DDiagram__00000001_.IsExpanded = true
+	__models__VaseTrapezeBasePlateShape__00000000_.Name = `Vase Trapeze-TubeVase3DDiagram-VaseTrapezeBasePlateShape`
+	__models__VaseTrapezeBasePlateShape__00000001_.Name = `Plant 1-TubeVase3DDiagram-VaseTrapezeBasePlateShape`
 	__models__VaseTrapezeRingShape__00000000_.Name = `Vase Trapeze-TubeVase3DDiagram-VaseTrapezeRingShape`
 	__models__VaseTrapezeRingShape__00000001_.Name = `Plant 1-TubeVase3DDiagram-VaseTrapezeRingShape`
 
@@ -1030,6 +1038,7 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVase3DDiagram__00000000_.VaseTrapezeRingShape = __models__VaseTrapezeRingShape__00000001_
 	__models__TubeVase3DDiagram__00000000_.StackOfVaseTrapezeRingsShape = __models__StackOfVaseTrapezeRingsShape__00000000_
 	__models__TubeVase3DDiagram__00000000_.StackOfRotatedVaseTrapezeRingsShape = __models__StackOfRotatedVaseTrapezeRingsShape__00000000_
+	__models__TubeVase3DDiagram__00000000_.VaseTrapezeBasePlateShape = __models__VaseTrapezeBasePlateShape__00000001_
 	__models__TubeVase3DDiagram__00000001_.Rendered3DShape = __models__Rendered3DShape__00000010_
 	__models__TubeVase3DDiagram__00000001_.SampledPoints3DShape = __models__SampledPoints3DShape__00000003_
 	__models__TubeVase3DDiagram__00000001_.OriginalPoints3DShape = __models__OriginalPoints3DShape__00000001_
@@ -1041,5 +1050,6 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVase3DDiagram__00000001_.VaseTrapezeRingShape = __models__VaseTrapezeRingShape__00000000_
 	__models__TubeVase3DDiagram__00000001_.StackOfVaseTrapezeRingsShape = __models__StackOfVaseTrapezeRingsShape__00000001_
 	__models__TubeVase3DDiagram__00000001_.StackOfRotatedVaseTrapezeRingsShape = __models__StackOfRotatedVaseTrapezeRingsShape__00000001_
+	__models__TubeVase3DDiagram__00000001_.VaseTrapezeBasePlateShape = __models__VaseTrapezeBasePlateShape__00000000_
 }
 
