@@ -49,6 +49,9 @@ func (stager *Stager) Svg() {
 	svg.IsEditable = !stager.embeddedDiagrams
 
 	for _, gongstructShape := range classdiagram.GongStructShapes {
+		if gongstructShape.IsHidden {
+			continue
+		}
 
 		rectLayer := new(svg_models.Layer)
 
@@ -155,20 +158,25 @@ func (stager *Stager) Svg() {
 		//
 		// fields
 		//
-		for idx, field := range gongstructShape.AttributeShapes {
+		visibleFieldIndex := 0
+		for _, field := range gongstructShape.AttributeShapes {
+			if field.IsHidden {
+				continue
+			}
 			fieldText := new(svg_models.RectAnchoredText)
 			fieldText.Name = IdentifierMetaToFieldName(field.IdentifierMeta) + " : " + field.Fieldtypename
 			fieldText.Content = IdentifierMetaToFieldName(field.IdentifierMeta) + " : " + field.Fieldtypename
 
 			// field position
 			fieldText.X_Offset = 10
-			fieldText.Y_Offset = 20 + 30 + float64(idx)*HeightBetween2AttributeShapes
+			fieldText.Y_Offset = 20 + 30 + float64(visibleFieldIndex)*HeightBetween2AttributeShapes
 			fieldText.RectAnchorType = svg_models.RECT_TOP_LEFT
 			fieldText.TextAnchorType = svg_models.TEXT_ANCHOR_START
 
 			fieldText.Color = "black"
 			fieldText.FillOpacity = 1.0
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, fieldText)
+			visibleFieldIndex++
 		}
 
 		//
@@ -201,9 +209,17 @@ func (stager *Stager) Svg() {
 
 	// display links between gongstruct shapes
 	for _, gongstructShape := range classdiagram.GongStructShapes {
-
+		if gongstructShape.IsHidden {
+			continue
+		}
 		startRect := stager.map_GongstructShape_Rect[gongstructShape]
+		if startRect == nil {
+			continue
+		}
 		for _, linkShape := range gongstructShape.LinkShapes {
+			if linkShape.IsHidden {
+				continue
+			}
 			var ok bool
 			var fieldMetaIdentifierString string
 			if fieldMetaIdentifierString, ok = linkShape.IdentifierMeta.(string); !ok {
@@ -220,7 +236,7 @@ func (stager *Stager) Svg() {
 			}
 
 			// if some renaming of field type name has occured, end rect might be nil
-			if !ok {
+			if !ok || endRect == nil {
 				continue
 			}
 
@@ -366,6 +382,9 @@ func (stager *Stager) Svg() {
 	// GongEnumShapes
 	//
 	for _, gongenumShape := range classdiagram.GongEnumShapes {
+		if gongenumShape.IsHidden {
+			continue
+		}
 
 		rectLayer := new(svg_models.Layer)
 		rectLayer.Name = "Layer" + GongEnumIdentifierMetaToGongEnumName(gongenumShape.IdentifierMeta)
@@ -463,20 +482,25 @@ func (stager *Stager) Svg() {
 		//
 		// fields
 		//
-		for idx, gongEnumValueShape := range gongenumShape.GongEnumValueShapes {
+		visibleEnumValueIndex := 0
+		for _, gongEnumValueShape := range gongenumShape.GongEnumValueShapes {
+			if gongEnumValueShape.IsHidden {
+				continue
+			}
 			fieldText := new(svg_models.RectAnchoredText)
 			fieldText.Name = GongEnumValueShapeIdentifierMetaToValueName(gongEnumValueShape.IdentifierMeta)
 			fieldText.Content = GongEnumValueShapeIdentifierMetaToValueName(gongEnumValueShape.IdentifierMeta)
 
 			// field position
 			fieldText.X_Offset = 10
-			fieldText.Y_Offset = 20 + 30 + float64(idx)*HeightBetween2AttributeShapes
+			fieldText.Y_Offset = 20 + 30 + float64(visibleEnumValueIndex)*HeightBetween2AttributeShapes
 			fieldText.RectAnchorType = svg_models.RECT_TOP_LEFT
 			fieldText.TextAnchorType = svg_models.TEXT_ANCHOR_START
 
 			fieldText.Color = "black"
 			fieldText.FillOpacity = 1.0
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, fieldText)
+			visibleEnumValueIndex++
 		}
 	}
 
@@ -484,6 +508,9 @@ func (stager *Stager) Svg() {
 	// Notes
 	//
 	for _, noteShape := range classdiagram.GongNoteShapes {
+		if noteShape.IsHidden {
+			continue
+		}
 
 		rectLayer := new(svg_models.Layer)
 		rectLayer.Name = "Layer" + noteShape.Identifier
@@ -612,11 +639,18 @@ func (stager *Stager) Svg() {
 	// Links between notes and othe shapes
 	//
 	for _, noteShape := range classdiagram.GongNoteShapes {
-
+		if noteShape.IsHidden {
+			continue
+		}
 		startRect := stager.map_NoteShape_Rect[noteShape]
-		_ = startRect
+		if startRect == nil {
+			continue
+		}
 
 		for _, noteLink := range noteShape.GongNoteLinkShapes {
+			if noteLink.IsHidden {
+				continue
+			}
 
 			if noteLink.Type == NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE {
 
@@ -627,7 +661,7 @@ func (stager *Stager) Svg() {
 				if !ok {
 					endRect, ok = stager.map_Structname_Rect[IdentifierToGongStructName(noteLink.Identifier)]
 				}
-				if ok {
+				if ok && endRect != nil {
 					// create the link
 					link := new(svg_models.Link)
 					link.Name = startRect.Name + " - to - " + endRect.Name
@@ -670,7 +704,7 @@ func (stager *Stager) Svg() {
 				var ok bool
 				// find the endLink
 				endLink, ok = stager.map_Fieldname_Link[noteLink.Identifier]
-				if ok {
+				if ok && endLink != nil {
 					rectLinkLink := new(svg_models.RectLinkLink)
 					rectLinkLink.Name = startRect.Name + " - to - " + endLink.Name
 					rectLinkLinkLayer := new(svg_models.Layer)

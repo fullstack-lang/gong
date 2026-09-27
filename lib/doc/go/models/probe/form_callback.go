@@ -124,6 +124,8 @@ func saveAttributeShapeFields(
 			FormDivBasicFieldToField(&(_instance.Structname), formDiv)
 		case "Fieldtypename":
 			FormDivBasicFieldToField(&(_instance.Fieldtypename), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
 		case "GongStructShape:AttributeShapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "AttributeShapes", func(owner *models.GongStructShape) *[]*models.AttributeShape { return &owner.AttributeShapes })
 		}
@@ -302,6 +304,8 @@ func saveGongEnumValueShapeFields(
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
 		case "GongEnumShape:GongEnumValueShapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "GongEnumValueShapes", func(owner *models.GongEnumShape) *[]*models.GongEnumValueShape { return &owner.GongEnumValueShapes })
 		}
@@ -337,6 +341,8 @@ func saveGongNoteLinkShapeFields(
 			FormDivBasicFieldToField(&(_instance.Identifier), formDiv)
 		case "Type":
 			FormDivEnumStringFieldToField(&(_instance.Type), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
 		case "GongNoteShape:GongNoteLinkShapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "GongNoteLinkShapes", func(owner *models.GongNoteShape) *[]*models.GongNoteLinkShape { return &owner.GongNoteLinkShapes })
 		}
@@ -498,6 +504,8 @@ func saveLinkShapeFields(
 			FormDivBasicFieldToField(&(_instance.EndRatio), formDiv)
 		case "CornerOffsetRatio":
 			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
 		case "GongStructShape:LinkShapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "LinkShapes", func(owner *models.GongStructShape) *[]*models.LinkShape { return &owner.LinkShapes })
 		}

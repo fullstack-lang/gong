@@ -1948,6 +1948,10 @@ func (attributeshape *AttributeShape) GongGetFieldHeaders() (res []GongFieldHead
 			Name:               "Fieldtypename",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -2118,6 +2122,10 @@ func (gongenumvalueshape *GongEnumValueShape) GongGetFieldHeaders() (res []GongF
 			Name:               "IdentifierMeta",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -2137,6 +2145,10 @@ func (gongnotelinkshape *GongNoteLinkShape) GongGetFieldHeaders() (res []GongFie
 			Name:                 "Type",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "NoteShapeLinkType",
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -2326,6 +2338,10 @@ func (linkshape *LinkShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "CornerOffsetRatio",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -2400,6 +2416,10 @@ func (attributeshape *AttributeShape) GongGetFieldValue(fieldName string, stage 
 		res.valueString = attributeshape.Structname
 	case "Fieldtypename":
 		res.valueString = attributeshape.Fieldtypename
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", attributeshape.IsHidden)
+		res.valueBool = attributeshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -2566,6 +2586,10 @@ func (gongenumvalueshape *GongEnumValueShape) GongGetFieldValue(fieldName string
 	// string value of fields
 	case "Name":
 		res.valueString = gongenumvalueshape.Name
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", gongenumvalueshape.IsHidden)
+		res.valueBool = gongenumvalueshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -2580,6 +2604,10 @@ func (gongnotelinkshape *GongNoteLinkShape) GongGetFieldValue(fieldName string, 
 	case "Type":
 		enum := gongnotelinkshape.Type
 		res.valueString = enum.ToCodeString()
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", gongnotelinkshape.IsHidden)
+		res.valueBool = gongnotelinkshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -2751,6 +2779,10 @@ func (linkshape *LinkShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%f", linkshape.CornerOffsetRatio)
 		res.valueFloat = linkshape.CornerOffsetRatio
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", linkshape.IsHidden)
+		res.valueBool = linkshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }

@@ -750,6 +750,9 @@ func (attributeshape *AttributeShape) GongDiff(stage *Stage, attributeshapeOther
 	if attributeshape.Fieldtypename != attributeshapeOther.Fieldtypename {
 		diffs = append(diffs, attributeshape.GongMarshallField(stage, "Fieldtypename"))
 	}
+	if attributeshape.IsHidden != attributeshapeOther.IsHidden {
+		diffs = append(diffs, attributeshape.GongMarshallField(stage, "IsHidden"))
+	}
 
 	return
 }
@@ -884,6 +887,9 @@ func (gongenumvalueshape *GongEnumValueShape) GongDiff(stage *Stage, gongenumval
 	if gongenumvalueshape.IdentifierMeta != gongenumvalueshapeOther.IdentifierMeta {
 		diffs = append(diffs, gongenumvalueshape.GongMarshallField(stage, "IdentifierMeta"))
 	}
+	if gongenumvalueshape.IsHidden != gongenumvalueshapeOther.IsHidden {
+		diffs = append(diffs, gongenumvalueshape.GongMarshallField(stage, "IsHidden"))
+	}
 
 	return
 }
@@ -900,6 +906,9 @@ func (gongnotelinkshape *GongNoteLinkShape) GongDiff(stage *Stage, gongnotelinks
 	}
 	if gongnotelinkshape.Type != gongnotelinkshapeOther.Type {
 		diffs = append(diffs, gongnotelinkshape.GongMarshallField(stage, "Type"))
+	}
+	if gongnotelinkshape.IsHidden != gongnotelinkshapeOther.IsHidden {
+		diffs = append(diffs, gongnotelinkshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -1044,6 +1053,9 @@ func (linkshape *LinkShape) GongDiff(stage *Stage, linkshapeOther *LinkShape) (d
 	}
 	if linkshape.CornerOffsetRatio != linkshapeOther.CornerOffsetRatio {
 		diffs = append(diffs, linkshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if linkshape.IsHidden != linkshapeOther.IsHidden {
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return

@@ -24,7 +24,18 @@ type GongNoteLinkShape struct {
 
 	// Type of the target shape / link of the note link
 	Type NoteShapeLinkType
+
+	IsHidden bool
 }
+
+func (s *GongNoteLinkShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *GongNoteLinkShape) GetIsHidden() bool {
+	return s.IsHidden
+}
+
 
 func (classdiagram *Classdiagram) AddGongNoteLinkShapeToDiagram(
 	stage *Stage,

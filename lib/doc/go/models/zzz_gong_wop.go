@@ -19,6 +19,8 @@ type AttributeShape_WOP struct {
 	Structname string
 
 	Fieldtypename string
+
+	IsHidden bool
 }
 
 func (from *AttributeShape) GongCopyBasicFields(to *AttributeShape) {
@@ -134,6 +136,8 @@ type GongEnumValueShape_WOP struct {
 	Name string
 
 	IdentifierMeta any
+
+	IsHidden bool
 }
 
 func (from *GongEnumValueShape) GongCopyBasicFields(to *GongEnumValueShape) {
@@ -149,6 +153,8 @@ type GongNoteLinkShape_WOP struct {
 	Identifier string
 
 	Type NoteShapeLinkType
+
+	IsHidden bool
 }
 
 func (from *GongNoteLinkShape) GongCopyBasicFields(to *GongNoteLinkShape) {
@@ -267,6 +273,8 @@ type LinkShape_WOP struct {
 	EndRatio float64
 
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
 
 func (from *LinkShape) GongCopyBasicFields(to *LinkShape) {

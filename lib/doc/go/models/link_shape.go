@@ -56,7 +56,18 @@ type LinkShape struct {
 	// there is a perpendicular line that reach the corner at
 	// CornerOffsetRatio
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
+
+func (s *LinkShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *LinkShape) GetIsHidden() bool {
+	return s.IsHidden
+}
+
 
 func (classdiagram *Classdiagram) AddLinkShape(
 	stage *Stage,

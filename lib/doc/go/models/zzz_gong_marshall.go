@@ -470,6 +470,8 @@ func (attributeshape *AttributeShape) GongMarshallField(stage *Stage, fieldName 
 		res = __gong__marshallString(ident, "Structname", attributeshape.Structname)
 	case "Fieldtypename":
 		res = __gong__marshallString(ident, "Fieldtypename", attributeshape.Fieldtypename)
+	case "IsHidden":
+		res = __gong__marshallBool(ident, "IsHidden", attributeshape.IsHidden)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct AttributeShape", fieldName)
@@ -610,6 +612,8 @@ func (gongenumvalueshape *GongEnumValueShape) GongMarshallField(stage *Stage, fi
 		if str, ok := gongenumvalueshape.IdentifierMeta.(string); ok {
 			res = __gong__marshallMeta(ident, "IdentifierMeta", str)
 		}
+	case "IsHidden":
+		res = __gong__marshallBool(ident, "IsHidden", gongenumvalueshape.IsHidden)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GongEnumValueShape", fieldName)
@@ -627,6 +631,8 @@ func (gongnotelinkshape *GongNoteLinkShape) GongMarshallField(stage *Stage, fiel
 		res = __gong__marshallString(ident, "Identifier", gongnotelinkshape.Identifier)
 	case "Type":
 		res = __gong__marshallEnumString(ident, "Type", gongnotelinkshape.Type.ToCodeString())
+	case "IsHidden":
+		res = __gong__marshallBool(ident, "IsHidden", gongnotelinkshape.IsHidden)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GongNoteLinkShape", fieldName)
@@ -758,6 +764,8 @@ func (linkshape *LinkShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = __gong__marshallFloat(ident, "EndRatio", linkshape.EndRatio)
 	case "CornerOffsetRatio":
 		res = __gong__marshallFloat(ident, "CornerOffsetRatio", linkshape.CornerOffsetRatio)
+	case "IsHidden":
+		res = __gong__marshallBool(ident, "IsHidden", linkshape.IsHidden)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct LinkShape", fieldName)
@@ -776,6 +784,7 @@ func (attributeshape *AttributeShape) GongMarshallAllFields(stage *Stage) (initR
 		initializerStatements.WriteString(attributeshape.GongMarshallField(stage, "FieldTypeAsString"))
 		initializerStatements.WriteString(attributeshape.GongMarshallField(stage, "Structname"))
 		initializerStatements.WriteString(attributeshape.GongMarshallField(stage, "Fieldtypename"))
+		initializerStatements.WriteString(attributeshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -850,6 +859,7 @@ func (gongenumvalueshape *GongEnumValueShape) GongMarshallAllFields(stage *Stage
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(gongenumvalueshape.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(gongenumvalueshape.GongMarshallField(stage, "IdentifierMeta"))
+		initializerStatements.WriteString(gongenumvalueshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -863,6 +873,7 @@ func (gongnotelinkshape *GongNoteLinkShape) GongMarshallAllFields(stage *Stage) 
 		initializerStatements.WriteString(gongnotelinkshape.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(gongnotelinkshape.GongMarshallField(stage, "Identifier"))
 		initializerStatements.WriteString(gongnotelinkshape.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(gongnotelinkshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -933,6 +944,7 @@ func (linkshape *LinkShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(linkshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(linkshape.GongMarshallField(stage, "EndRatio"))
 		initializerStatements.WriteString(linkshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(linkshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

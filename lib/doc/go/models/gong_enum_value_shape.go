@@ -12,7 +12,18 @@ type GongEnumValueShape struct {
 
 	//gong:meta
 	IdentifierMeta any
+
+	IsHidden bool
 }
+
+func (s *GongEnumValueShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *GongEnumValueShape) GetIsHidden() bool {
+	return s.IsHidden
+}
+
 
 const HeightBetween2AttributeShapes = 20
 

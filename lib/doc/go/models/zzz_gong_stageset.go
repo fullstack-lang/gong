@@ -155,6 +155,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.FieldTypeAsString = %s", attributeshapeIdent, __gong__toRawStringLiteral(attributeshape.FieldTypeAsString)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Structname = %s", attributeshapeIdent, __gong__toRawStringLiteral(attributeshape.Structname)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Fieldtypename = %s", attributeshapeIdent, __gong__toRawStringLiteral(attributeshape.Fieldtypename)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", attributeshapeIdent, attributeshape.IsHidden))
 		}
 	}
 	if stageSet.Stage != nil {
@@ -313,6 +314,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", gongenumvalueshapeIdent, __gong__toRawStringLiteral(gongenumvalueshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", gongenumvalueshapeIdent, gongenumvalueshape.IsHidden))
 		}
 	}
 	if stageSet.Stage != nil {
@@ -334,6 +336,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", gongnotelinkshapeIdent, __gong__toRawStringLiteral(gongnotelinkshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Identifier = %s", gongnotelinkshapeIdent, __gong__toRawStringLiteral(gongnotelinkshape.Identifier)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", gongnotelinkshapeIdent, __gong__toRawStringLiteral(string(gongnotelinkshape.Type))))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", gongnotelinkshapeIdent, gongnotelinkshape.IsHidden))
 		}
 	}
 	if stageSet.Stage != nil {
@@ -452,6 +455,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", linkshapeIdent, __gong__toRawStringLiteral(string(linkshape.EndOrientation))))
 			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", linkshapeIdent, linkshape.EndRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", linkshapeIdent, linkshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", linkshapeIdent, linkshape.IsHidden))
 		}
 	}
 
@@ -638,6 +642,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Structname = GongExtractString(rhs)
 					case "Fieldtypename":
 						inst.Fieldtypename = GongExtractString(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
 					}
 				case *Classdiagram:
 					switch fieldName {
@@ -714,6 +720,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
 					}
 				case *GongNoteLinkShape:
 					switch fieldName {
@@ -723,6 +731,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Identifier = GongExtractString(rhs)
 					case "Type":
 						inst.Type = NoteShapeLinkType(GongExtractString(rhs))
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
 					}
 				case *GongNoteShape:
 					switch fieldName {
@@ -806,6 +816,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.EndRatio = GongExtractFloat(rhs)
 					case "CornerOffsetRatio":
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
 					}
 							}
 						}

@@ -507,6 +507,8 @@ func (u *AttributeShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.Structname = GongExtractString(valueExpr)
 	case "Fieldtypename":
 		instance.Fieldtypename = GongExtractString(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -635,6 +637,8 @@ func (u *GongEnumValueShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstr
 		instance.Name = GongExtractString(valueExpr)
 	case "IdentifierMeta":
 		instance.IdentifierMeta = GongExtractExpr(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -656,6 +660,8 @@ func (u *GongNoteLinkShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		instance.Identifier = GongExtractString(valueExpr)
 	case "Type":
 		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -781,6 +787,8 @@ func (u *LinkShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.EndRatio = GongExtractFloat(valueExpr)
 	case "CornerOffsetRatio":
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }

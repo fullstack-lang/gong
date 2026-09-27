@@ -19,7 +19,18 @@ type AttributeShape struct {
 	FieldTypeAsString string
 	Structname        string
 	Fieldtypename     string
+
+	IsHidden bool
 }
+
+func (s *AttributeShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *AttributeShape) GetIsHidden() bool {
+	return s.IsHidden
+}
+
 
 // RemoveAttributeFieldShape implements diagrammer.ModelElementNode.
 func (classdiagram *Classdiagram) RemoveAttributeFieldShape(

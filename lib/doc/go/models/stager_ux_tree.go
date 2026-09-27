@@ -428,6 +428,34 @@ func (stager *Stager) tree() {
 	stager.treeStage.Commit()
 }
 
+type ShapeWithVisibility interface {
+	GetIsHidden() bool
+	SetIsHidden(bool)
+}
+
+func (stager *Stager) addVisibilityButton(node *tree.Node, shape ShapeWithVisibility) {
+	if stager.embeddedDiagrams {
+		return
+	}
+	visibilityButton := &tree.Button{
+		Name:            "Hide",
+		Icon:            string(buttons.BUTTON_visibility_off),
+		ToolTipText:     "Hide from diagram",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+		OnClick: func() {
+			shape.SetIsHidden(!shape.GetIsHidden())
+			stager.stage.Commit()
+		},
+	}
+	if shape.GetIsHidden() {
+		visibilityButton.Icon = string(buttons.BUTTON_visibility)
+		visibilityButton.Name = "Show"
+		visibilityButton.ToolTipText = "Show on diagram"
+	}
+	node.Buttons = append(node.Buttons, visibilityButton)
+}
+
 func (stager *Stager) createStructNode(
 	classDiagram *Classdiagram,
 	gongStruct *gong.GongStruct,
@@ -468,6 +496,9 @@ func (stager *Stager) createStructNode(
 			}
 		}(),
 		CheckboxToolTipPosition: tree.Above,
+	}
+	if isGongStructShapeInDiagram {
+		stager.addVisibilityButton(nodeNamedStruct, gongStructShape)
 	}
 	nodeNamedStruct.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
@@ -557,6 +588,10 @@ func (stager *Stager) createStructNode(
 				}
 			}
 
+			if isInDiagram {
+				stager.addVisibilityButton(nodeField, attributeShape)
+			}
+
 			nodeNamedStruct.Children = append(nodeNamedStruct.Children, nodeField)
 		case *gong.PointerToGongStructField, *gong.SliceOfPointerToGongStructField:
 			shape, isInDiagram := map_modelElement_shape[field]
@@ -612,6 +647,10 @@ func (stager *Stager) createStructNode(
 				}
 			}
 
+			if isInDiagram {
+				stager.addVisibilityButton(nodeField, linkShape)
+			}
+
 			nodeNamedStruct.Children = append(nodeNamedStruct.Children, nodeField)
 		default:
 			log.Printf("Unknown field type encountered: %T for field %s", field, field.GetName())
@@ -650,6 +689,9 @@ func (stager *Stager) createEnumNode(
 		IsExpanded:         isExpanded,
 		IsCheckboxDisabled: stager.embeddedDiagrams || !selected,
 	}
+	if isEnumInDiagram {
+		stager.addVisibilityButton(node, gongEnumShape)
+	}
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			diagramPackage := getTheDiagramPackage(stager.stage)
@@ -669,7 +711,11 @@ func (stager *Stager) createEnumNode(
 	}
 
 	for _, gongEnumValue := range gongEnum.GongEnumValues {
-		_, isEnumValueInDiagram := map_modelElement_shape[gongEnumValue]
+		shape, isEnumValueInDiagram := map_modelElement_shape[gongEnumValue]
+		gongEnumValueShape, ok := shape.(*GongEnumValueShape)
+		if isEnumValueInDiagram && !ok {
+			log.Fatalln("a gongenumvalue should be associated to a gongenumvalue shape")
+		}
 		nodeEnumValue := &tree.Node{
 			Name:               gongEnumValue.Name,
 			HasCheckboxButton:  true,
@@ -692,6 +738,9 @@ func (stager *Stager) createEnumNode(
 				)
 				stager.stage.Commit()
 			}
+		}
+		if isEnumValueInDiagram {
+			stager.addVisibilityButton(nodeEnumValue, gongEnumValueShape)
 		}
 		node.Children = append(node.Children, nodeEnumValue)
 	}
@@ -727,6 +776,9 @@ func (stager *Stager) createNoteNode(
 		IsExpanded:         noteIsExpanded,
 		IsCheckboxDisabled: stager.embeddedDiagrams || !selected,
 	}
+	if isGongNoteShapeInDiagram {
+		stager.addVisibilityButton(gongNoteNode, gongNoteShape)
+	}
 	gongNoteNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			diagramPackage := getTheDiagramPackage(stager.stage)
@@ -746,7 +798,11 @@ func (stager *Stager) createNoteNode(
 	}
 
 	for _, gongLink := range gongNote.Links {
-		_, isGongLinkShapeInDiagram := map_modelElement_shape[gongLink]
+		shape, isGongLinkShapeInDiagram := map_modelElement_shape[gongLink]
+		gongNoteLinkShape, ok := shape.(*GongNoteLinkShape)
+		if isGongLinkShapeInDiagram && !ok {
+			log.Fatalln("a note link should be associated to a gong note link shape")
+		}
 
 		name := gongLink.Name
 		if gongLink.Recv != "" {
@@ -797,6 +853,9 @@ func (stager *Stager) createNoteNode(
 				classDiagram.RemoveGongNoteLinkShapeFromDiagram(stager.stage, gongNoteShape, gongLink)
 				stager.stage.Commit()
 			}
+		}
+		if isGongLinkShapeInDiagram {
+			stager.addVisibilityButton(docLinkNode, gongNoteLinkShape)
 		}
 		gongNoteNode.Children = append(gongNoteNode.Children, docLinkNode)
 	}
