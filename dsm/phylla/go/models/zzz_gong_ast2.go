@@ -4508,10 +4508,10 @@ func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.Z_Ribbon = GongExtractFloat(valueExpr)
 	case "RibbonVerticalScale":
 		instance.RibbonVerticalScale = GongExtractFloat(valueExpr)
-	case "Plane1Height":
-		instance.Plane1Height = GongExtractFloat(valueExpr)
-	case "Plane2Height":
-		instance.Plane2Height = GongExtractFloat(valueExpr)
+	case "TopPlaneHeight":
+		instance.TopPlaneHeight = GongExtractFloat(valueExpr)
+	case "BottomPlaneHeight":
+		instance.BottomPlaneHeight = GongExtractFloat(valueExpr)
 	case "ProjectionAngle":
 		instance.ProjectionAngle = GongExtractFloat(valueExpr)
 	case "RelativeVerticalThickness":

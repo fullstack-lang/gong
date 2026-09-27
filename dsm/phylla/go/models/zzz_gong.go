@@ -22851,11 +22851,11 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "Plane1Height",
+			Name:               "TopPlaneHeight",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "Plane2Height",
+			Name:               "BottomPlaneHeight",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -28215,13 +28215,13 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldValue(fieldName string, st
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RibbonVerticalScale)
 		res.valueFloat = tubevaseabstract.RibbonVerticalScale
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Plane1Height":
-		res.valueString = fmt.Sprintf("%f", tubevaseabstract.Plane1Height)
-		res.valueFloat = tubevaseabstract.Plane1Height
+	case "TopPlaneHeight":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.TopPlaneHeight)
+		res.valueFloat = tubevaseabstract.TopPlaneHeight
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Plane2Height":
-		res.valueString = fmt.Sprintf("%f", tubevaseabstract.Plane2Height)
-		res.valueFloat = tubevaseabstract.Plane2Height
+	case "BottomPlaneHeight":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.BottomPlaneHeight)
+		res.valueFloat = tubevaseabstract.BottomPlaneHeight
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ProjectionAngle":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.ProjectionAngle)

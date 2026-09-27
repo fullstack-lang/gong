@@ -1319,8 +1319,8 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tubevaseabstractIdent, __gong__toRawStringLiteral(tubevaseabstract.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Z_Ribbon = %f", tubevaseabstractIdent, tubevaseabstract.Z_Ribbon))
 			values.WriteString(fmt.Sprintf("\n\t%s.RibbonVerticalScale = %f", tubevaseabstractIdent, tubevaseabstract.RibbonVerticalScale))
-			values.WriteString(fmt.Sprintf("\n\t%s.Plane1Height = %f", tubevaseabstractIdent, tubevaseabstract.Plane1Height))
-			values.WriteString(fmt.Sprintf("\n\t%s.Plane2Height = %f", tubevaseabstractIdent, tubevaseabstract.Plane2Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.TopPlaneHeight = %f", tubevaseabstractIdent, tubevaseabstract.TopPlaneHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.BottomPlaneHeight = %f", tubevaseabstractIdent, tubevaseabstract.BottomPlaneHeight))
 			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", tubevaseabstractIdent, tubevaseabstract.ProjectionAngle))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeVerticalThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeVerticalThickness))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeRadialThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeRadialThickness))
@@ -2226,10 +2226,10 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Z_Ribbon = GongExtractFloat(rhs)
 					case "RibbonVerticalScale":
 						inst.RibbonVerticalScale = GongExtractFloat(rhs)
-					case "Plane1Height":
-						inst.Plane1Height = GongExtractFloat(rhs)
-					case "Plane2Height":
-						inst.Plane2Height = GongExtractFloat(rhs)
+					case "TopPlaneHeight":
+						inst.TopPlaneHeight = GongExtractFloat(rhs)
+					case "BottomPlaneHeight":
+						inst.BottomPlaneHeight = GongExtractFloat(rhs)
 					case "ProjectionAngle":
 						inst.ProjectionAngle = GongExtractFloat(rhs)
 					case "RelativeVerticalThickness":

@@ -5983,10 +5983,10 @@ func saveTubeVaseAbstractFields(
 			FormDivBasicFieldToField(&(_instance.Z_Ribbon), formDiv)
 		case "RibbonVerticalScale":
 			FormDivBasicFieldToField(&(_instance.RibbonVerticalScale), formDiv)
-		case "Plane1Height":
-			FormDivBasicFieldToField(&(_instance.Plane1Height), formDiv)
-		case "Plane2Height":
-			FormDivBasicFieldToField(&(_instance.Plane2Height), formDiv)
+		case "TopPlaneHeight":
+			FormDivBasicFieldToField(&(_instance.TopPlaneHeight), formDiv)
+		case "BottomPlaneHeight":
+			FormDivBasicFieldToField(&(_instance.BottomPlaneHeight), formDiv)
 		case "ProjectionAngle":
 			FormDivBasicFieldToField(&(_instance.ProjectionAngle), formDiv)
 		case "RelativeVerticalThickness":

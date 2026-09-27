@@ -810,8 +810,8 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVaseAbstract__00000000_.Name = `Tube Vase (2,1,104)-TubeVaseAbstract`
 	__models__TubeVaseAbstract__00000000_.Z_Ribbon = 0.000000
 	__models__TubeVaseAbstract__00000000_.RibbonVerticalScale = 1.000000
-	__models__TubeVaseAbstract__00000000_.Plane1Height = 0.000000
-	__models__TubeVaseAbstract__00000000_.Plane2Height = 0.000000
+	__models__TubeVaseAbstract__00000000_.TopPlaneHeight = 0.000000
+	__models__TubeVaseAbstract__00000000_.BottomPlaneHeight = 0.000000
 	__models__TubeVaseAbstract__00000000_.ProjectionAngle = 0.000000
 	__models__TubeVaseAbstract__00000000_.RelativeVerticalThickness = 0.100000
 	__models__TubeVaseAbstract__00000000_.RelativeRadialThickness = 0.000000
@@ -835,8 +835,8 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVaseAbstract__00000001_.Name = `Vase Trapeze-TubeVaseAbstract`
 	__models__TubeVaseAbstract__00000001_.Z_Ribbon = 286.000000
 	__models__TubeVaseAbstract__00000001_.RibbonVerticalScale = 4.290000
-	__models__TubeVaseAbstract__00000001_.Plane1Height = 123.000000
-	__models__TubeVaseAbstract__00000001_.Plane2Height = 209.000000
+	__models__TubeVaseAbstract__00000001_.TopPlaneHeight = 123.000000
+	__models__TubeVaseAbstract__00000001_.BottomPlaneHeight = 209.000000
 	__models__TubeVaseAbstract__00000001_.ProjectionAngle = -14.900000
 	__models__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.130000
 	__models__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000

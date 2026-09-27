@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go/parser"
 	"go/token"
+	"os"
 	"testing"
 
 	"github.com/fullstack-lang/gong/dsm/process/go/models"
@@ -632,9 +633,13 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 
 	o2cProcess.DiagramProcesss = append(o2cProcess.DiagramProcesss, diag1, diag2, diag3)
 
-	// Marshall to order_to_cash.go and stage.go
-	stage.MarshallFile("../cmd/process/data/order_to_cash.go", "github.com/fullstack-lang/gong/dsm/process/go/models", "main")
-	stage.MarshallFile("../cmd/process/data/stage.go", "github.com/fullstack-lang/gong/dsm/process/go/models", "main")
+	// Marshall to order_to_cash.go and stage.go only when explicitly requested
+	// (e.g. GENERATE_ORDER_TO_CASH=true) so normal 'go test' runs do not clobber
+	// manual diagram edits in data/stage.go.
+	if os.Getenv("GENERATE_ORDER_TO_CASH") == "true" {
+		stage.MarshallFile("../cmd/process/data/order_to_cash.go", "github.com/fullstack-lang/gong/dsm/process/go/models", "main")
+		stage.MarshallFile("../cmd/process/data/stage.go", "github.com/fullstack-lang/gong/dsm/process/go/models", "main")
+	}
 }
 
 func TestLoadAndVerifyStage(t *testing.T) {

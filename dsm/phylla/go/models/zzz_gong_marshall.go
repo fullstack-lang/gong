@@ -3830,10 +3830,10 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallField(stage *Stage, fieldN
 		res = __gong__marshallFloat(ident, "Z_Ribbon", tubevaseabstract.Z_Ribbon)
 	case "RibbonVerticalScale":
 		res = __gong__marshallFloat(ident, "RibbonVerticalScale", tubevaseabstract.RibbonVerticalScale)
-	case "Plane1Height":
-		res = __gong__marshallFloat(ident, "Plane1Height", tubevaseabstract.Plane1Height)
-	case "Plane2Height":
-		res = __gong__marshallFloat(ident, "Plane2Height", tubevaseabstract.Plane2Height)
+	case "TopPlaneHeight":
+		res = __gong__marshallFloat(ident, "TopPlaneHeight", tubevaseabstract.TopPlaneHeight)
+	case "BottomPlaneHeight":
+		res = __gong__marshallFloat(ident, "BottomPlaneHeight", tubevaseabstract.BottomPlaneHeight)
 	case "ProjectionAngle":
 		res = __gong__marshallFloat(ident, "ProjectionAngle", tubevaseabstract.ProjectionAngle)
 	case "RelativeVerticalThickness":
@@ -6278,8 +6278,8 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Z_Ribbon"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RibbonVerticalScale"))
-		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Plane1Height"))
-		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Plane2Height"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "TopPlaneHeight"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "BottomPlaneHeight"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "ProjectionAngle"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))

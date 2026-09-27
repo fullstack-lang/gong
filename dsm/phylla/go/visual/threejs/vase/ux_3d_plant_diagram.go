@@ -259,8 +259,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			scaleY = 1.0
 		}
 
-		p1H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.Plane1Height*scaleY
-		p2H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.Plane2Height*scaleY
+		p1H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.TopPlaneHeight*scaleY
+		p2H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.BottomPlaneHeight*scaleY
 		projAngleRad := -plant.TubeVaseAbstract.ProjectionAngle * math.Pi / 180.0
 
 		projectCurve := func(srcCurve *threejs.Curve, planeHeight float64, dy float64, curveName string) *threejs.Curve {
@@ -310,8 +310,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			}).Stage(threejsStage)
 
 			tMesh := (&threejs.Mesh{
-				Name:         shapeName + " Mesh",
-				X:            0, Y: 0, Z: 0,
+				Name: shapeName + " Mesh",
+				X:    0, Y: 0, Z: 0,
 				TubeGeometry: tGeom,
 				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
 					Name:        shapeName + " Material",
@@ -423,8 +423,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			}
 
 			volMesh := (&threejs.Mesh{
-				Name:           fmt.Sprintf("%s %s Mesh", plant.Name, ringName),
-				X:              0, Y: 0, Z: 0,
+				Name: fmt.Sprintf("%s %s Mesh", plant.Name, ringName),
+				X:    0, Y: 0, Z: 0,
 				BufferGeometry: volGeom,
 				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
 					Name:        fmt.Sprintf("%s %s Material", plant.Name, ringName),

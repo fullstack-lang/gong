@@ -236,19 +236,19 @@ func (stager *Stager) ux_slider() {
 					),
 					m.NewSlider(
 						stager,
-						"Plane 1 Height",
+						"Top Plane",
 						-200.0,
 						800.0,
 						1.0,
-						&plant.TubeVaseAbstract.Plane1Height,
+						&plant.TubeVaseAbstract.TopPlaneHeight,
 					),
 					m.NewSlider(
 						stager,
-						"Plane 2 Height",
+						"Bottom Plane",
 						-200.0,
 						800.0,
 						1.0,
-						&plant.TubeVaseAbstract.Plane2Height,
+						&plant.TubeVaseAbstract.BottomPlaneHeight,
 					),
 					m.NewSlider(
 						stager,

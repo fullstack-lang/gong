@@ -10,11 +10,11 @@ type TubeVaseAbstract struct {
 	// RibbonVerticalScale is the vertical scale applied to the 3D ribbon with origin at Z_Ribbon (for Vase Trapeze).
 	RibbonVerticalScale float64
 
-	// Plane1Height is the height of the first projection plane relative to Z_Ribbon (for Vase Trapeze).
-	Plane1Height float64
+	// TopPlaneHeight is the height of the first projection plane relative to Z_Ribbon (for Vase Trapeze).
+	TopPlaneHeight float64
 
-	// Plane2Height is the height of the second projection plane relative to Z_Ribbon (for Vase Trapeze).
-	Plane2Height float64
+	// BottomPlaneHeight is the height of the second projection plane relative to Z_Ribbon (for Vase Trapeze).
+	BottomPlaneHeight float64
 
 	// ProjectionAngle is the constant projection angle in degrees (for Vase Trapeze).
 	ProjectionAngle float64

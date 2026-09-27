@@ -5253,12 +5253,12 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
-		col.Name = "Plane1Height"
+		col.Name = "TopPlaneHeight"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
 		col := new(table_models.DisplayedColumn)
-		col.Name = "Plane2Height"
+		col.Name = "BottomPlaneHeight"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -5557,14 +5557,14 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *StageSetProbe) {
 		}
 
 		{
-			cell := &table_models.Cell{Name: "Plane1Height"}
-			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.Plane1Height)}
+			cell := &table_models.Cell{Name: "TopPlaneHeight"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.TopPlaneHeight)}
 			row.Cells = append(row.Cells, cell)
 		}
 
 		{
-			cell := &table_models.Cell{Name: "Plane2Height"}
-			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.Plane2Height)}
+			cell := &table_models.Cell{Name: "BottomPlaneHeight"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.BottomPlaneHeight)}
 			row.Cells = append(row.Cells, cell)
 		}
 

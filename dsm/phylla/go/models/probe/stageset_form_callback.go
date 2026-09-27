@@ -1393,10 +1393,10 @@ func saveStageSet_TubeVaseAbstract_Stage(
 			FormDivBasicFieldToField(&inst.Z_Ribbon, formDiv)
 		case "RibbonVerticalScale":
 			FormDivBasicFieldToField(&inst.RibbonVerticalScale, formDiv)
-		case "Plane1Height":
-			FormDivBasicFieldToField(&inst.Plane1Height, formDiv)
-		case "Plane2Height":
-			FormDivBasicFieldToField(&inst.Plane2Height, formDiv)
+		case "TopPlaneHeight":
+			FormDivBasicFieldToField(&inst.TopPlaneHeight, formDiv)
+		case "BottomPlaneHeight":
+			FormDivBasicFieldToField(&inst.BottomPlaneHeight, formDiv)
 		case "ProjectionAngle":
 			FormDivBasicFieldToField(&inst.ProjectionAngle, formDiv)
 		case "RelativeVerticalThickness":
