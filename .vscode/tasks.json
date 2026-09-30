@@ -401,6 +401,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - project: go run . edit data/eurocontol.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/project/go/cmd/project"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/eurocontol.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - project: go run . edit data/schedule.go",
             "type": "shell",
             "options": {
