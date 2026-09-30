@@ -214,8 +214,7 @@ func _(stage *models.Stage) {
 	__Note__00000000_.LayoutDirection = models.Vertical
 
 	__NoteShape__00000000_.Name = `gantt-AAA AAA AAA`
-	__NoteShape__00000000_.OverideLayoutDirection = false
-	__NoteShape__00000000_.LayoutDirection = models.Vertical
+	__NoteShape__00000000_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000000_.X = 782.317513
 	__NoteShape__00000000_.Y = 50.411765
 	__NoteShape__00000000_.Width = 250.000000
@@ -269,8 +268,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000000_.Name = `wbs-Architecture Spec`
 	__ProductShape__00000000_.IsShowType = false
-	__ProductShape__00000000_.OverideLayoutDirection = false
-	__ProductShape__00000000_.LayoutDirection = models.Vertical
+	__ProductShape__00000000_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000000_.X = 50.000000
 	__ProductShape__00000000_.Y = 50.000000
 	__ProductShape__00000000_.Width = 0.000000
@@ -279,8 +277,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000001_.Name = `wbs-Security Assessment`
 	__ProductShape__00000001_.IsShowType = false
-	__ProductShape__00000001_.OverideLayoutDirection = false
-	__ProductShape__00000001_.LayoutDirection = models.Vertical
+	__ProductShape__00000001_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000001_.X = 100.000000
 	__ProductShape__00000001_.Y = 50.000000
 	__ProductShape__00000001_.Width = 0.000000
@@ -289,8 +286,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000002_.Name = `wbs-Storage Engine v1`
 	__ProductShape__00000002_.IsShowType = false
-	__ProductShape__00000002_.OverideLayoutDirection = false
-	__ProductShape__00000002_.LayoutDirection = models.Vertical
+	__ProductShape__00000002_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000002_.X = 150.000000
 	__ProductShape__00000002_.Y = 50.000000
 	__ProductShape__00000002_.Width = 0.000000
@@ -299,8 +295,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000003_.Name = `wbs-Web App Package`
 	__ProductShape__00000003_.IsShowType = false
-	__ProductShape__00000003_.OverideLayoutDirection = false
-	__ProductShape__00000003_.LayoutDirection = models.Vertical
+	__ProductShape__00000003_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000003_.X = 200.000000
 	__ProductShape__00000003_.Y = 50.000000
 	__ProductShape__00000003_.Width = 0.000000
@@ -309,8 +304,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000004_.Name = `wbs-Test Certification`
 	__ProductShape__00000004_.IsShowType = false
-	__ProductShape__00000004_.OverideLayoutDirection = false
-	__ProductShape__00000004_.LayoutDirection = models.Vertical
+	__ProductShape__00000004_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000004_.X = 250.000000
 	__ProductShape__00000004_.Y = 50.000000
 	__ProductShape__00000004_.Width = 0.000000
@@ -319,8 +313,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000005_.Name = `gantt-Architecture Spec`
 	__ProductShape__00000005_.IsShowType = false
-	__ProductShape__00000005_.OverideLayoutDirection = false
-	__ProductShape__00000005_.LayoutDirection = models.Vertical
+	__ProductShape__00000005_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000005_.X = 50.000000
 	__ProductShape__00000005_.Y = 50.000000
 	__ProductShape__00000005_.Width = 0.000000
@@ -329,8 +322,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000006_.Name = `gantt-Storage Engine v1`
 	__ProductShape__00000006_.IsShowType = false
-	__ProductShape__00000006_.OverideLayoutDirection = false
-	__ProductShape__00000006_.LayoutDirection = models.Vertical
+	__ProductShape__00000006_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000006_.X = 100.000000
 	__ProductShape__00000006_.Y = 50.000000
 	__ProductShape__00000006_.Width = 0.000000
@@ -339,8 +331,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000007_.Name = `gantt-Web App Package`
 	__ProductShape__00000007_.IsShowType = false
-	__ProductShape__00000007_.OverideLayoutDirection = false
-	__ProductShape__00000007_.LayoutDirection = models.Vertical
+	__ProductShape__00000007_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000007_.X = 150.000000
 	__ProductShape__00000007_.Y = 50.000000
 	__ProductShape__00000007_.Width = 0.000000
@@ -349,8 +340,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000008_.Name = `gantt-Test Certification`
 	__ProductShape__00000008_.IsShowType = false
-	__ProductShape__00000008_.OverideLayoutDirection = false
-	__ProductShape__00000008_.LayoutDirection = models.Vertical
+	__ProductShape__00000008_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000008_.X = 200.000000
 	__ProductShape__00000008_.Y = 50.000000
 	__ProductShape__00000008_.Width = 0.000000
@@ -794,8 +784,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000000_.Name = `gantt-Architecture Blueprint`
 	__TaskShape__00000000_.IsShowDate = false
 	__TaskShape__00000000_.VerticalOffset = 0.000000
-	__TaskShape__00000000_.OverideLayoutDirection = false
-	__TaskShape__00000000_.LayoutDirection = models.Vertical
+	__TaskShape__00000000_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000000_.X = 250.000000
 	__TaskShape__00000000_.Y = 50.000000
 	__TaskShape__00000000_.Width = 0.000000
@@ -805,8 +794,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000001_.Name = `gantt-Security Review`
 	__TaskShape__00000001_.IsShowDate = false
 	__TaskShape__00000001_.VerticalOffset = 0.000000
-	__TaskShape__00000001_.OverideLayoutDirection = false
-	__TaskShape__00000001_.LayoutDirection = models.Vertical
+	__TaskShape__00000001_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000001_.X = 300.000000
 	__TaskShape__00000001_.Y = 50.000000
 	__TaskShape__00000001_.Width = 0.000000
@@ -816,8 +804,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000002_.Name = `gantt-Storage Engine Sprint`
 	__TaskShape__00000002_.IsShowDate = false
 	__TaskShape__00000002_.VerticalOffset = 0.000000
-	__TaskShape__00000002_.OverideLayoutDirection = false
-	__TaskShape__00000002_.LayoutDirection = models.Vertical
+	__TaskShape__00000002_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000002_.X = 350.000000
 	__TaskShape__00000002_.Y = 50.000000
 	__TaskShape__00000002_.Width = 0.000000
@@ -827,8 +814,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000003_.Name = `gantt-Alpha Release Milestone`
 	__TaskShape__00000003_.IsShowDate = false
 	__TaskShape__00000003_.VerticalOffset = 0.000000
-	__TaskShape__00000003_.OverideLayoutDirection = false
-	__TaskShape__00000003_.LayoutDirection = models.Vertical
+	__TaskShape__00000003_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000003_.X = 400.000000
 	__TaskShape__00000003_.Y = 50.000000
 	__TaskShape__00000003_.Width = 0.000000
@@ -838,8 +824,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000004_.Name = `gantt-Frontend Web UI Sprint`
 	__TaskShape__00000004_.IsShowDate = false
 	__TaskShape__00000004_.VerticalOffset = 0.000000
-	__TaskShape__00000004_.OverideLayoutDirection = false
-	__TaskShape__00000004_.LayoutDirection = models.Vertical
+	__TaskShape__00000004_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000004_.X = 450.000000
 	__TaskShape__00000004_.Y = 50.000000
 	__TaskShape__00000004_.Width = 0.000000
@@ -849,8 +834,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000005_.Name = `gantt-UI Polish & Theming`
 	__TaskShape__00000005_.IsShowDate = false
 	__TaskShape__00000005_.VerticalOffset = 0.000000
-	__TaskShape__00000005_.OverideLayoutDirection = false
-	__TaskShape__00000005_.LayoutDirection = models.Vertical
+	__TaskShape__00000005_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000005_.X = 500.000000
 	__TaskShape__00000005_.Y = 50.000000
 	__TaskShape__00000005_.Width = 0.000000
@@ -860,8 +844,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000006_.Name = `gantt-End-to-End Integration Testing`
 	__TaskShape__00000006_.IsShowDate = false
 	__TaskShape__00000006_.VerticalOffset = 0.000000
-	__TaskShape__00000006_.OverideLayoutDirection = false
-	__TaskShape__00000006_.LayoutDirection = models.Vertical
+	__TaskShape__00000006_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000006_.X = 550.000000
 	__TaskShape__00000006_.Y = 50.000000
 	__TaskShape__00000006_.Width = 0.000000
@@ -871,8 +854,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000007_.Name = `gantt-Production Deployment`
 	__TaskShape__00000007_.IsShowDate = false
 	__TaskShape__00000007_.VerticalOffset = 0.000000
-	__TaskShape__00000007_.OverideLayoutDirection = false
-	__TaskShape__00000007_.LayoutDirection = models.Vertical
+	__TaskShape__00000007_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000007_.X = 600.000000
 	__TaskShape__00000007_.Y = 50.000000
 	__TaskShape__00000007_.Width = 0.000000
@@ -882,8 +864,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000008_.Name = `gantt-General Availability Milestone`
 	__TaskShape__00000008_.IsShowDate = false
 	__TaskShape__00000008_.VerticalOffset = 0.000000
-	__TaskShape__00000008_.OverideLayoutDirection = false
-	__TaskShape__00000008_.LayoutDirection = models.Vertical
+	__TaskShape__00000008_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000008_.X = 650.000000
 	__TaskShape__00000008_.Y = 50.000000
 	__TaskShape__00000008_.Width = 0.000000
@@ -893,8 +874,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000009_.Name = `wbs-Architecture Blueprint`
 	__TaskShape__00000009_.IsShowDate = false
 	__TaskShape__00000009_.VerticalOffset = 0.000000
-	__TaskShape__00000009_.OverideLayoutDirection = false
-	__TaskShape__00000009_.LayoutDirection = models.Vertical
+	__TaskShape__00000009_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000009_.X = 300.000000
 	__TaskShape__00000009_.Y = 50.000000
 	__TaskShape__00000009_.Width = 0.000000
@@ -904,8 +884,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000010_.Name = `wbs-Security Review`
 	__TaskShape__00000010_.IsShowDate = false
 	__TaskShape__00000010_.VerticalOffset = 0.000000
-	__TaskShape__00000010_.OverideLayoutDirection = false
-	__TaskShape__00000010_.LayoutDirection = models.Vertical
+	__TaskShape__00000010_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000010_.X = 350.000000
 	__TaskShape__00000010_.Y = 50.000000
 	__TaskShape__00000010_.Width = 0.000000
@@ -915,8 +894,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000011_.Name = `wbs-Storage Engine Sprint`
 	__TaskShape__00000011_.IsShowDate = false
 	__TaskShape__00000011_.VerticalOffset = 0.000000
-	__TaskShape__00000011_.OverideLayoutDirection = false
-	__TaskShape__00000011_.LayoutDirection = models.Vertical
+	__TaskShape__00000011_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000011_.X = 400.000000
 	__TaskShape__00000011_.Y = 50.000000
 	__TaskShape__00000011_.Width = 0.000000
@@ -926,8 +904,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000012_.Name = `wbs-Alpha Release Milestone`
 	__TaskShape__00000012_.IsShowDate = false
 	__TaskShape__00000012_.VerticalOffset = 0.000000
-	__TaskShape__00000012_.OverideLayoutDirection = false
-	__TaskShape__00000012_.LayoutDirection = models.Vertical
+	__TaskShape__00000012_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000012_.X = 450.000000
 	__TaskShape__00000012_.Y = 50.000000
 	__TaskShape__00000012_.Width = 0.000000
@@ -937,8 +914,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000013_.Name = `wbs-Frontend Web UI Sprint`
 	__TaskShape__00000013_.IsShowDate = false
 	__TaskShape__00000013_.VerticalOffset = 0.000000
-	__TaskShape__00000013_.OverideLayoutDirection = false
-	__TaskShape__00000013_.LayoutDirection = models.Vertical
+	__TaskShape__00000013_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000013_.X = 500.000000
 	__TaskShape__00000013_.Y = 50.000000
 	__TaskShape__00000013_.Width = 0.000000
@@ -948,8 +924,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000014_.Name = `wbs-UI Polish & Theming`
 	__TaskShape__00000014_.IsShowDate = false
 	__TaskShape__00000014_.VerticalOffset = 0.000000
-	__TaskShape__00000014_.OverideLayoutDirection = false
-	__TaskShape__00000014_.LayoutDirection = models.Vertical
+	__TaskShape__00000014_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000014_.X = 550.000000
 	__TaskShape__00000014_.Y = 50.000000
 	__TaskShape__00000014_.Width = 0.000000
@@ -959,8 +934,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000015_.Name = `wbs-End-to-End Integration Testing`
 	__TaskShape__00000015_.IsShowDate = false
 	__TaskShape__00000015_.VerticalOffset = 0.000000
-	__TaskShape__00000015_.OverideLayoutDirection = false
-	__TaskShape__00000015_.LayoutDirection = models.Vertical
+	__TaskShape__00000015_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000015_.X = 600.000000
 	__TaskShape__00000015_.Y = 50.000000
 	__TaskShape__00000015_.Width = 0.000000
@@ -970,8 +944,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000016_.Name = `wbs-Production Deployment`
 	__TaskShape__00000016_.IsShowDate = false
 	__TaskShape__00000016_.VerticalOffset = 0.000000
-	__TaskShape__00000016_.OverideLayoutDirection = false
-	__TaskShape__00000016_.LayoutDirection = models.Vertical
+	__TaskShape__00000016_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000016_.X = 650.000000
 	__TaskShape__00000016_.Y = 50.000000
 	__TaskShape__00000016_.Width = 0.000000
@@ -981,8 +954,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000017_.Name = `wbs-General Availability Milestone`
 	__TaskShape__00000017_.IsShowDate = false
 	__TaskShape__00000017_.VerticalOffset = 0.000000
-	__TaskShape__00000017_.OverideLayoutDirection = false
-	__TaskShape__00000017_.LayoutDirection = models.Vertical
+	__TaskShape__00000017_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000017_.X = 700.000000
 	__TaskShape__00000017_.Y = 50.000000
 	__TaskShape__00000017_.Width = 0.000000
@@ -992,8 +964,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000019_.Name = `gantt-Pre Alha`
 	__TaskShape__00000019_.IsShowDate = false
 	__TaskShape__00000019_.VerticalOffset = 15.000000
-	__TaskShape__00000019_.OverideLayoutDirection = false
-	__TaskShape__00000019_.LayoutDirection = models.Vertical
+	__TaskShape__00000019_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000019_.X = 700.000000
 	__TaskShape__00000019_.Y = 50.000000
 	__TaskShape__00000019_.Width = 250.000000

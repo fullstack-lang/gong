@@ -897,10 +897,8 @@ func (noteshape *NoteShape) GongMarshallField(stage *Stage, fieldName string) (r
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", noteshape.Name)
-	case "OverideLayoutDirection":
-		res = __gong__marshallBool(ident, "OverideLayoutDirection", noteshape.OverideLayoutDirection)
-	case "LayoutDirection":
-		res = __gong__marshallEnumInt(ident, "LayoutDirection", noteshape.LayoutDirection.ToCodeString())
+	case "IsLayoutDirectionDifferent":
+		res = __gong__marshallBool(ident, "IsLayoutDirectionDifferent", noteshape.IsLayoutDirectionDifferent)
 	case "X":
 		res = __gong__marshallFloat(ident, "X", noteshape.X)
 	case "Y":
@@ -1076,10 +1074,8 @@ func (productshape *ProductShape) GongMarshallField(stage *Stage, fieldName stri
 		res = __gong__marshallString(ident, "Name", productshape.Name)
 	case "IsShowType":
 		res = __gong__marshallBool(ident, "IsShowType", productshape.IsShowType)
-	case "OverideLayoutDirection":
-		res = __gong__marshallBool(ident, "OverideLayoutDirection", productshape.OverideLayoutDirection)
-	case "LayoutDirection":
-		res = __gong__marshallEnumInt(ident, "LayoutDirection", productshape.LayoutDirection.ToCodeString())
+	case "IsLayoutDirectionDifferent":
+		res = __gong__marshallBool(ident, "IsLayoutDirectionDifferent", productshape.IsLayoutDirectionDifferent)
 	case "X":
 		res = __gong__marshallFloat(ident, "X", productshape.X)
 	case "Y":
@@ -1181,10 +1177,8 @@ func (resourceshape *ResourceShape) GongMarshallField(stage *Stage, fieldName st
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", resourceshape.Name)
-	case "OverideLayoutDirection":
-		res = __gong__marshallBool(ident, "OverideLayoutDirection", resourceshape.OverideLayoutDirection)
-	case "LayoutDirection":
-		res = __gong__marshallEnumInt(ident, "LayoutDirection", resourceshape.LayoutDirection.ToCodeString())
+	case "IsLayoutDirectionDifferent":
+		res = __gong__marshallBool(ident, "IsLayoutDirectionDifferent", resourceshape.IsLayoutDirectionDifferent)
 	case "X":
 		res = __gong__marshallFloat(ident, "X", resourceshape.X)
 	case "Y":
@@ -1556,10 +1550,8 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = __gong__marshallBool(ident, "IsShowDate", taskshape.IsShowDate)
 	case "VerticalOffset":
 		res = __gong__marshallFloat(ident, "VerticalOffset", taskshape.VerticalOffset)
-	case "OverideLayoutDirection":
-		res = __gong__marshallBool(ident, "OverideLayoutDirection", taskshape.OverideLayoutDirection)
-	case "LayoutDirection":
-		res = __gong__marshallEnumInt(ident, "LayoutDirection", taskshape.LayoutDirection.ToCodeString())
+	case "IsLayoutDirectionDifferent":
+		res = __gong__marshallBool(ident, "IsLayoutDirectionDifferent", taskshape.IsLayoutDirectionDifferent)
 	case "X":
 		res = __gong__marshallFloat(ident, "X", taskshape.X)
 	case "Y":
@@ -1749,8 +1741,7 @@ func (noteshape *NoteShape) GongMarshallAllFields(stage *Stage) (initRes string,
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(noteshape.GongMarshallField(stage, "Note"))
-		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "OverideLayoutDirection"))
-		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Width"))
@@ -1845,8 +1836,7 @@ func (productshape *ProductShape) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(productshape.GongMarshallField(stage, "Product"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "IsShowType"))
-		initializerStatements.WriteString(productshape.GongMarshallField(stage, "OverideLayoutDirection"))
-		initializerStatements.WriteString(productshape.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(productshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Width"))
@@ -1901,8 +1891,7 @@ func (resourceshape *ResourceShape) GongMarshallAllFields(stage *Stage) (initRes
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(resourceshape.GongMarshallField(stage, "Resource"))
-		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "OverideLayoutDirection"))
-		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Width"))
@@ -2093,8 +2082,7 @@ func (taskshape *TaskShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		pointersInitializesStatements.WriteString(taskshape.GongMarshallField(stage, "Task"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsShowDate"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "VerticalOffset"))
-		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "OverideLayoutDirection"))
-		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Width"))

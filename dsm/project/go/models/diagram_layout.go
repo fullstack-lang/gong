@@ -126,13 +126,7 @@ func layoutGenericShapes[AT interface {
 		element := getLinkElement(link)
 		if any(element) != nil {
 			if parentNode, ok := parentByElement[element]; ok {
-				layoutDirection := Vertical
-				if treeNode, ok := parentNode.shape.GetAbstractElement().(TreeAbstractType); ok {
-					layoutDirection = treeNode.GetLayoutDirection()
-				}
-				if parentNode.shape.GetOverideLayoutDirection() {
-					layoutDirection = parentNode.shape.GetConcreteLayoutDirection()
-				}
+				layoutDirection := GetConcreteLayoutDirection(parentNode.shape)
 				var expectedStartOrientation, expectedEndOrientation OrientationType
 				if layoutDirection == Horizontal {
 					expectedStartOrientation = ORIENTATION_VERTICAL
@@ -180,13 +174,7 @@ func layoutGenericDFS[AT interface {
 	var maxX float64 = currentX + w + margin
 	var maxY float64 = currentY + h + margin
 
-	layoutDirection := Vertical
-	if treeNode, ok := node.shape.GetAbstractElement().(TreeAbstractType); ok {
-		layoutDirection = treeNode.GetLayoutDirection()
-	}
-	if node.shape.GetOverideLayoutDirection() {
-		layoutDirection = node.shape.GetConcreteLayoutDirection()
-	}
+	layoutDirection := GetConcreteLayoutDirection(node.shape)
 
 	if layoutDirection == Vertical {
 		// Children are arranged horizontally.
@@ -194,13 +182,7 @@ func layoutGenericDFS[AT interface {
 
 		isParentHorizontal := false
 		if node.parent != nil {
-			parentLayout := Vertical
-			if treeParent, ok := node.parent.shape.GetAbstractElement().(TreeAbstractType); ok {
-				parentLayout = treeParent.GetLayoutDirection()
-			}
-			if node.parent.shape.GetOverideLayoutDirection() {
-				parentLayout = node.parent.shape.GetConcreteLayoutDirection()
-			}
+			parentLayout := GetConcreteLayoutDirection(node.parent.shape)
 			if parentLayout == Horizontal {
 				isParentHorizontal = true
 			}

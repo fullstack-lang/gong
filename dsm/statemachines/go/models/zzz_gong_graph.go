@@ -1857,11 +1857,8 @@ func (noteshape *NoteShape) GongDiff(stage *Stage, noteshapeOther *NoteShape) (d
 	if noteshape.Note != noteshapeOther.Note {
 		diffs = append(diffs, noteshape.GongMarshallField(stage, "Note"))
 	}
-	if noteshape.OverideLayoutDirection != noteshapeOther.OverideLayoutDirection {
-		diffs = append(diffs, noteshape.GongMarshallField(stage, "OverideLayoutDirection"))
-	}
-	if noteshape.LayoutDirection != noteshapeOther.LayoutDirection {
-		diffs = append(diffs, noteshape.GongMarshallField(stage, "LayoutDirection"))
+	if noteshape.IsLayoutDirectionDifferent != noteshapeOther.IsLayoutDirectionDifferent {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 	}
 	if noteshape.X != noteshapeOther.X {
 		diffs = append(diffs, noteshape.GongMarshallField(stage, "X"))

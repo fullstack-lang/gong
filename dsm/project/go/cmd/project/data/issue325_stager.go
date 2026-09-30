@@ -191,8 +191,7 @@ no new concepts.`
 Use case number one: a domain specific model with more than 10 concept. The number of abstract and concrete structures will be above 20 this is too much for one package.
 
 Use case number two: combination of more than one domain specific model`
-	__NoteShape__00000000_.OverideLayoutDirection = false
-	__NoteShape__00000000_.LayoutDirection = models.Vertical
+	__NoteShape__00000000_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000000_.X = 119.362871
 	__NoteShape__00000000_.Y = 165.000000
 	__NoteShape__00000000_.Width = 333.000000
@@ -200,8 +199,7 @@ Use case number two: combination of more than one domain specific model`
 	__NoteShape__00000000_.IsHidden = false
 
 	__NoteShape__00000001_.Name = `Use cases and requirements-Driving requirements: the existing stage architecture be kept. That is a DSM with a a single package and stage can be used with a probe and a stage.`
-	__NoteShape__00000001_.OverideLayoutDirection = false
-	__NoteShape__00000001_.LayoutDirection = models.Vertical
+	__NoteShape__00000001_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000001_.X = 519.049136
 	__NoteShape__00000001_.Y = 138.000000
 	__NoteShape__00000001_.Width = 323.000000
@@ -210,8 +208,7 @@ Use case number two: combination of more than one domain specific model`
 
 	__NoteShape__00000002_.Name = `Use cases and requirements-The big idea: add stages as field to a stage.
 no new concepts.`
-	__NoteShape__00000002_.OverideLayoutDirection = false
-	__NoteShape__00000002_.LayoutDirection = models.Vertical
+	__NoteShape__00000002_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000002_.X = 148.505231
 	__NoteShape__00000002_.Y = 468.000000
 	__NoteShape__00000002_.Width = 250.000000
@@ -296,8 +293,7 @@ no new concepts.`
 	__ProductCompositionShape__00000006_.IsHidden = false
 
 	__ProductShape__00000000_.Name = `Products-DSM/go`
-	__ProductShape__00000000_.OverideLayoutDirection = false
-	__ProductShape__00000000_.LayoutDirection = models.Vertical
+	__ProductShape__00000000_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000000_.X = 50.000000
 	__ProductShape__00000000_.Y = 50.000000
 	__ProductShape__00000000_.Width = 250.000000
@@ -305,8 +301,7 @@ no new concepts.`
 	__ProductShape__00000000_.IsHidden = false
 
 	__ProductShape__00000002_.Name = `Products-probe`
-	__ProductShape__00000002_.OverideLayoutDirection = false
-	__ProductShape__00000002_.LayoutDirection = models.Vertical
+	__ProductShape__00000002_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000002_.X = 536.000000
 	__ProductShape__00000002_.Y = 594.000000
 	__ProductShape__00000002_.Width = 250.000000
@@ -314,8 +309,7 @@ no new concepts.`
 	__ProductShape__00000002_.IsHidden = false
 
 	__ProductShape__00000003_.Name = `Products-diagrams`
-	__ProductShape__00000003_.OverideLayoutDirection = false
-	__ProductShape__00000003_.LayoutDirection = models.Vertical
+	__ProductShape__00000003_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000003_.X = 531.000000
 	__ProductShape__00000003_.Y = 495.000000
 	__ProductShape__00000003_.Width = 250.000000
@@ -323,8 +317,7 @@ no new concepts.`
 	__ProductShape__00000003_.IsHidden = false
 
 	__ProductShape__00000005_.Name = `Products-Stager`
-	__ProductShape__00000005_.OverideLayoutDirection = false
-	__ProductShape__00000005_.LayoutDirection = models.Vertical
+	__ProductShape__00000005_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000005_.X = 225.000000
 	__ProductShape__00000005_.Y = 305.000000
 	__ProductShape__00000005_.Width = 250.000000
@@ -332,8 +325,7 @@ no new concepts.`
 	__ProductShape__00000005_.IsHidden = false
 
 	__ProductShape__00000006_.Name = `Products-models`
-	__ProductShape__00000006_.OverideLayoutDirection = false
-	__ProductShape__00000006_.LayoutDirection = models.Vertical
+	__ProductShape__00000006_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000006_.X = 252.000000
 	__ProductShape__00000006_.Y = 408.000000
 	__ProductShape__00000006_.Width = 250.000000

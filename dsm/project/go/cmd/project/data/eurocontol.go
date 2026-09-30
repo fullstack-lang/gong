@@ -28,7 +28,9 @@ func _(stage *models.Stage) {
 	// insertion point for declaration of instances to stage
 
 	__Diagram__00000001_ := (&models.Diagram{Name: `Management L1 & L2`}).Stage(stage)
-	__Diagram__00000002_ := (&models.Diagram{Name: `Management OPS L1, L2 & L3`}).Stage(stage)
+	__Diagram__00000002_ := (&models.Diagram{Name: `OPS Management`}).Stage(stage)
+	__Diagram__00000003_ := (&models.Diagram{Name: `NMD Directorate & Units 1/3`}).Stage(stage)
+	__Diagram__00000004_ := (&models.Diagram{Name: `NMD Directorate & Units 2/3`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `EUROCONTROL`}).Stage(stage)
 
@@ -60,6 +62,31 @@ func _(stage *models.Stage) {
 	__Resource__00000025_ := (&models.Resource{Name: `Operations Division`}).Stage(stage)
 	__Resource__00000026_ := (&models.Resource{Name: `Systems & Engineering Division`}).Stage(stage)
 	__Resource__00000027_ := (&models.Resource{Name: `Support & Development`}).Stage(stage)
+	__Resource__00000028_ := (&models.Resource{Name: `Digital Transformation Office`}).Stage(stage)
+	__Resource__00000029_ := (&models.Resource{Name: `OPS Safety, SQS & Integrated Risk Management`}).Stage(stage)
+	__Resource__00000030_ := (&models.Resource{Name: `Cross-NM Support & Advice Service`}).Stage(stage)
+	__Resource__00000031_ := (&models.Resource{Name: `Business Coordination Unit`}).Stage(stage)
+	__Resource__00000032_ := (&models.Resource{Name: `Operational Planning & Evolution`}).Stage(stage)
+	__Resource__00000033_ := (&models.Resource{Name: `Airports Unit`}).Stage(stage)
+	__Resource__00000034_ := (&models.Resource{Name: `Operations Planning`}).Stage(stage)
+	__Resource__00000035_ := (&models.Resource{Name: `Project Coordination & Implementation`}).Stage(stage)
+	__Resource__00000036_ := (&models.Resource{Name: `Network Operations Strategy`}).Stage(stage)
+	__Resource__00000037_ := (&models.Resource{Name: `Network Management Operations Centre (NMOC)`}).Stage(stage)
+	__Resource__00000038_ := (&models.Resource{Name: `Operations Coordination & Analysis`}).Stage(stage)
+	__Resource__00000039_ := (&models.Resource{Name: `Operations Transformation`}).Stage(stage)
+	__Resource__00000040_ := (&models.Resource{Name: `Operations Architecture Support & Tools`}).Stage(stage)
+	__Resource__00000041_ := (&models.Resource{Name: `Performance & Sourcing`}).Stage(stage)
+	__Resource__00000042_ := (&models.Resource{Name: `Office of the Chief Technology Officer (CTO)`}).Stage(stage)
+	__Resource__00000043_ := (&models.Resource{Name: `Architecture & Tools`}).Stage(stage)
+	__Resource__00000044_ := (&models.Resource{Name: `Development & Delivery`}).Stage(stage)
+	__Resource__00000045_ := (&models.Resource{Name: `Deployment Strategy & Coordination`}).Stage(stage)
+	__Resource__00000046_ := (&models.Resource{Name: `Information Security, Quality, Risk & Compliance`}).Stage(stage)
+	__Resource__00000047_ := (&models.Resource{Name: `Sourcing, Finance & Contracting`}).Stage(stage)
+	__Resource__00000048_ := (&models.Resource{Name: `Integrated CNS`}).Stage(stage)
+	__Resource__00000049_ := (&models.Resource{Name: `Information & Cyber Infrastructure`}).Stage(stage)
+	__Resource__00000050_ := (&models.Resource{Name: `Partnerships & Performance`}).Stage(stage)
+	__Resource__00000051_ := (&models.Resource{Name: `Training Development & Delivery`}).Stage(stage)
+	__Resource__00000052_ := (&models.Resource{Name: `Training Support & Tools`}).Stage(stage)
 
 	__ResourceCompositionShape__00000000_ := (&models.ResourceCompositionShape{Name: `Management Hierarchy-Director General (DG)-Office of the Director General`}).Stage(stage)
 	__ResourceCompositionShape__00000001_ := (&models.ResourceCompositionShape{Name: `Management Hierarchy-Office of the Director General-Executive Office`}).Stage(stage)
@@ -88,33 +115,16 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000024_ := (&models.ResourceCompositionShape{Name: `Management Hierarchy-Maastricht Upper Area Control Centre (MUAC)-Operations Division`}).Stage(stage)
 	__ResourceCompositionShape__00000025_ := (&models.ResourceCompositionShape{Name: `Management Hierarchy-Maastricht Upper Area Control Centre (MUAC)-Systems & Engineering Division`}).Stage(stage)
 	__ResourceCompositionShape__00000026_ := (&models.ResourceCompositionShape{Name: `Management Hierarchy-Maastricht Upper Area Control Centre (MUAC)-Support & Development`}).Stage(stage)
-	__ResourceCompositionShape__00000054_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Director General (DG)-Office of the Director General`}).Stage(stage)
-	__ResourceCompositionShape__00000055_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Office of the Director General-Executive Office`}).Stage(stage)
-	__ResourceCompositionShape__00000056_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Office of the Director General-Internal Audit`}).Stage(stage)
-	__ResourceCompositionShape__00000057_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Office of the Director General-Legal Service`}).Stage(stage)
-	__ResourceCompositionShape__00000058_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Office of the Director General-Corporate Communications`}).Stage(stage)
-	__ResourceCompositionShape__00000059_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Office of the Director General-Central Secretariat`}).Stage(stage)
-	__ResourceCompositionShape__00000060_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Office of the Director General-ECAC Support`}).Stage(stage)
-	__ResourceCompositionShape__00000061_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Director General (DG)-Network Management Directorate (NMD)`}).Stage(stage)
-	__ResourceCompositionShape__00000062_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Network Management Directorate (NMD)-Airspace & Capacity`}).Stage(stage)
-	__ResourceCompositionShape__00000063_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Network Management Directorate (NMD)-Operations`}).Stage(stage)
-	__ResourceCompositionShape__00000064_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Network Management Directorate (NMD)-Technology`}).Stage(stage)
-	__ResourceCompositionShape__00000065_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Network Management Directorate (NMD)-Infrastructure`}).Stage(stage)
-	__ResourceCompositionShape__00000066_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Network Management Directorate (NMD)-Training`}).Stage(stage)
-	__ResourceCompositionShape__00000067_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Director General (DG)-European Green Sky Directorate (EGSD)`}).Stage(stage)
-	__ResourceCompositionShape__00000068_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-European Green Sky Directorate (EGSD)-Aviation Sustainability`}).Stage(stage)
-	__ResourceCompositionShape__00000069_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-European Green Sky Directorate (EGSD)-Innovation & Research`}).Stage(stage)
-	__ResourceCompositionShape__00000070_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-European Green Sky Directorate (EGSD)-Aviation Intelligence`}).Stage(stage)
-	__ResourceCompositionShape__00000071_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-European Green Sky Directorate (EGSD)-Drones & Emerging Activities`}).Stage(stage)
-	__ResourceCompositionShape__00000072_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Director General (DG)-Directorate Central Route Charges Office & Finance (CRCO & Finance)`}).Stage(stage)
-	__ResourceCompositionShape__00000073_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Directorate Central Route Charges Office & Finance (CRCO & Finance)-Central Route Charges Office (CRCO)`}).Stage(stage)
-	__ResourceCompositionShape__00000074_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Directorate Central Route Charges Office & Finance (CRCO & Finance)-Financial Services`}).Stage(stage)
-	__ResourceCompositionShape__00000075_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Director General (DG)-Directorate of People`}).Stage(stage)
-	__ResourceCompositionShape__00000076_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Director General (DG)-Civil-Military Cooperation Division (CMC)`}).Stage(stage)
-	__ResourceCompositionShape__00000077_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Director General (DG)-Maastricht Upper Area Control Centre (MUAC)`}).Stage(stage)
-	__ResourceCompositionShape__00000078_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Maastricht Upper Area Control Centre (MUAC)-Operations Division`}).Stage(stage)
-	__ResourceCompositionShape__00000079_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Maastricht Upper Area Control Centre (MUAC)-Systems & Engineering Division`}).Stage(stage)
-	__ResourceCompositionShape__00000080_ := (&models.ResourceCompositionShape{Name: `Management OPS L1, L2 & L3-Maastricht Upper Area Control Centre (MUAC)-Support & Development`}).Stage(stage)
+	__ResourceCompositionShape__00000061_ := (&models.ResourceCompositionShape{Name: `OPS Management-Director General (DG)-Network Management Directorate (NMD)`}).Stage(stage)
+	__ResourceCompositionShape__00000067_ := (&models.ResourceCompositionShape{Name: `OPS Management-Director General (DG)-European Green Sky Directorate (EGSD)`}).Stage(stage)
+	__ResourceCompositionShape__00000068_ := (&models.ResourceCompositionShape{Name: `OPS Management-European Green Sky Directorate (EGSD)-Aviation Sustainability`}).Stage(stage)
+	__ResourceCompositionShape__00000069_ := (&models.ResourceCompositionShape{Name: `OPS Management-European Green Sky Directorate (EGSD)-Innovation & Research`}).Stage(stage)
+	__ResourceCompositionShape__00000070_ := (&models.ResourceCompositionShape{Name: `OPS Management-European Green Sky Directorate (EGSD)-Aviation Intelligence`}).Stage(stage)
+	__ResourceCompositionShape__00000071_ := (&models.ResourceCompositionShape{Name: `OPS Management-European Green Sky Directorate (EGSD)-Drones & Emerging Activities`}).Stage(stage)
+	__ResourceCompositionShape__00000077_ := (&models.ResourceCompositionShape{Name: `OPS Management-Director General (DG)-Maastricht Upper Area Control Centre (MUAC)`}).Stage(stage)
+	__ResourceCompositionShape__00000078_ := (&models.ResourceCompositionShape{Name: `OPS Management-Maastricht Upper Area Control Centre (MUAC)-Operations Division`}).Stage(stage)
+	__ResourceCompositionShape__00000079_ := (&models.ResourceCompositionShape{Name: `OPS Management-Maastricht Upper Area Control Centre (MUAC)-Systems & Engineering Division`}).Stage(stage)
+	__ResourceCompositionShape__00000080_ := (&models.ResourceCompositionShape{Name: `OPS Management-Maastricht Upper Area Control Centre (MUAC)-Support & Development`}).Stage(stage)
 	__ResourceCompositionShape__00000090_ := (&models.ResourceCompositionShape{Name: `Management L1 & L2-Director General (DG)-Office of the Director General`}).Stage(stage)
 	__ResourceCompositionShape__00000091_ := (&models.ResourceCompositionShape{Name: `Management L1 & L2-Director General (DG)-Network Management Directorate (NMD)`}).Stage(stage)
 	__ResourceCompositionShape__00000092_ := (&models.ResourceCompositionShape{Name: `Management L1 & L2-Director General (DG)-Civil-Military Cooperation Division (CMC)`}).Stage(stage)
@@ -122,6 +132,47 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000094_ := (&models.ResourceCompositionShape{Name: `Management L1 & L2-Director General (DG)-Maastricht Upper Area Control Centre (MUAC)`}).Stage(stage)
 	__ResourceCompositionShape__00000095_ := (&models.ResourceCompositionShape{Name: `Management L1 & L2-Director General (DG)-Directorate Central Route Charges Office & Finance (CRCO & Finance)`}).Stage(stage)
 	__ResourceCompositionShape__00000096_ := (&models.ResourceCompositionShape{Name: `Management L1 & L2-Director General (DG)-Directorate of People`}).Stage(stage)
+	__ResourceCompositionShape__00000152_ := (&models.ResourceCompositionShape{Name: `OPS Management-Network Management Directorate (NMD)-Airspace & Capacity`}).Stage(stage)
+	__ResourceCompositionShape__00000153_ := (&models.ResourceCompositionShape{Name: `OPS Management-Network Management Directorate (NMD)-Operations`}).Stage(stage)
+	__ResourceCompositionShape__00000154_ := (&models.ResourceCompositionShape{Name: `OPS Management-Network Management Directorate (NMD)-Technology`}).Stage(stage)
+	__ResourceCompositionShape__00000155_ := (&models.ResourceCompositionShape{Name: `OPS Management-Network Management Directorate (NMD)-Infrastructure`}).Stage(stage)
+	__ResourceCompositionShape__00000156_ := (&models.ResourceCompositionShape{Name: `OPS Management-Network Management Directorate (NMD)-Training`}).Stage(stage)
+	__ResourceCompositionShape__00000157_ := (&models.ResourceCompositionShape{Name: `OPS Management-Network Management Directorate (NMD)-Digital Transformation Office`}).Stage(stage)
+	__ResourceCompositionShape__00000158_ := (&models.ResourceCompositionShape{Name: `OPS Management-Network Management Directorate (NMD)-OPS Safety, SQS & Integrated Risk Management`}).Stage(stage)
+	__ResourceCompositionShape__00000159_ := (&models.ResourceCompositionShape{Name: `OPS Management-Network Management Directorate (NMD)-Cross-NM Support & Advice Service`}).Stage(stage)
+	__ResourceCompositionShape__00000160_ := (&models.ResourceCompositionShape{Name: `OPS Management-Network Management Directorate (NMD)-Business Coordination Unit`}).Stage(stage)
+	__ResourceCompositionShape__00000161_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Network Management Directorate (NMD)-Airspace & Capacity`}).Stage(stage)
+	__ResourceCompositionShape__00000162_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Airspace & Capacity-Operational Planning & Evolution`}).Stage(stage)
+	__ResourceCompositionShape__00000163_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Airspace & Capacity-Airports Unit`}).Stage(stage)
+	__ResourceCompositionShape__00000164_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Airspace & Capacity-Operations Planning`}).Stage(stage)
+	__ResourceCompositionShape__00000165_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Airspace & Capacity-Project Coordination & Implementation`}).Stage(stage)
+	__ResourceCompositionShape__00000166_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Airspace & Capacity-Network Operations Strategy`}).Stage(stage)
+	__ResourceCompositionShape__00000167_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Network Management Directorate (NMD)-Operations`}).Stage(stage)
+	__ResourceCompositionShape__00000168_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Operations-Network Management Operations Centre (NMOC)`}).Stage(stage)
+	__ResourceCompositionShape__00000169_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Operations-Operations Coordination & Analysis`}).Stage(stage)
+	__ResourceCompositionShape__00000170_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Operations-Operations Transformation`}).Stage(stage)
+	__ResourceCompositionShape__00000171_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Operations-Operations Architecture Support & Tools`}).Stage(stage)
+	__ResourceCompositionShape__00000172_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Operations-Performance & Sourcing`}).Stage(stage)
+	__ResourceCompositionShape__00000173_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Network Management Directorate (NMD)-Technology`}).Stage(stage)
+	__ResourceCompositionShape__00000174_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Technology-Office of the Chief Technology Officer (CTO)`}).Stage(stage)
+	__ResourceCompositionShape__00000175_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Technology-Architecture & Tools`}).Stage(stage)
+	__ResourceCompositionShape__00000176_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Technology-Development & Delivery`}).Stage(stage)
+	__ResourceCompositionShape__00000177_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Technology-Deployment Strategy & Coordination`}).Stage(stage)
+	__ResourceCompositionShape__00000178_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Technology-Information Security, Quality, Risk & Compliance`}).Stage(stage)
+	__ResourceCompositionShape__00000179_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Technology-Sourcing, Finance & Contracting`}).Stage(stage)
+	__ResourceCompositionShape__00000196_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 1/3-Director General (DG)-Network Management Directorate (NMD)`}).Stage(stage)
+	__ResourceCompositionShape__00000222_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Director General (DG)-Network Management Directorate (NMD)`}).Stage(stage)
+	__ResourceCompositionShape__00000242_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-Infrastructure`}).Stage(stage)
+	__ResourceCompositionShape__00000243_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Infrastructure-Integrated CNS`}).Stage(stage)
+	__ResourceCompositionShape__00000244_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Infrastructure-Information & Cyber Infrastructure`}).Stage(stage)
+	__ResourceCompositionShape__00000245_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Infrastructure-Partnerships & Performance`}).Stage(stage)
+	__ResourceCompositionShape__00000246_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-Training`}).Stage(stage)
+	__ResourceCompositionShape__00000247_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Training-Training Development & Delivery`}).Stage(stage)
+	__ResourceCompositionShape__00000248_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Training-Training Support & Tools`}).Stage(stage)
+	__ResourceCompositionShape__00000249_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-Digital Transformation Office`}).Stage(stage)
+	__ResourceCompositionShape__00000250_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-OPS Safety, SQS & Integrated Risk Management`}).Stage(stage)
+	__ResourceCompositionShape__00000251_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-Cross-NM Support & Advice Service`}).Stage(stage)
+	__ResourceCompositionShape__00000252_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-Business Coordination Unit`}).Stage(stage)
 
 	__ResourceShape__00000000_ := (&models.ResourceShape{Name: `Management Hierarchy-Director General (DG)`}).Stage(stage)
 	__ResourceShape__00000001_ := (&models.ResourceShape{Name: `Management Hierarchy-Office of the Director General`}).Stage(stage)
@@ -152,34 +203,17 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000026_ := (&models.ResourceShape{Name: `Management Hierarchy-Systems & Engineering Division`}).Stage(stage)
 	__ResourceShape__00000027_ := (&models.ResourceShape{Name: `Management Hierarchy-Support & Development`}).Stage(stage)
 	__ResourceShape__00000028_ := (&models.ResourceShape{Name: `Management L1 & L2-Director General (DG)`}).Stage(stage)
-	__ResourceShape__00000056_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Director General (DG)`}).Stage(stage)
-	__ResourceShape__00000057_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Office of the Director General`}).Stage(stage)
-	__ResourceShape__00000058_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Executive Office`}).Stage(stage)
-	__ResourceShape__00000059_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Internal Audit`}).Stage(stage)
-	__ResourceShape__00000060_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Legal Service`}).Stage(stage)
-	__ResourceShape__00000061_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Corporate Communications`}).Stage(stage)
-	__ResourceShape__00000062_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Central Secretariat`}).Stage(stage)
-	__ResourceShape__00000063_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-ECAC Support`}).Stage(stage)
-	__ResourceShape__00000064_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Network Management Directorate (NMD)`}).Stage(stage)
-	__ResourceShape__00000065_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Airspace & Capacity`}).Stage(stage)
-	__ResourceShape__00000066_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Operations`}).Stage(stage)
-	__ResourceShape__00000067_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Technology`}).Stage(stage)
-	__ResourceShape__00000068_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Infrastructure`}).Stage(stage)
-	__ResourceShape__00000069_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Training`}).Stage(stage)
-	__ResourceShape__00000070_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-European Green Sky Directorate (EGSD)`}).Stage(stage)
-	__ResourceShape__00000071_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Aviation Sustainability`}).Stage(stage)
-	__ResourceShape__00000072_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Innovation & Research`}).Stage(stage)
-	__ResourceShape__00000073_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Aviation Intelligence`}).Stage(stage)
-	__ResourceShape__00000074_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Drones & Emerging Activities`}).Stage(stage)
-	__ResourceShape__00000075_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Directorate Central Route Charges Office & Finance (CRCO & Finance)`}).Stage(stage)
-	__ResourceShape__00000076_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Central Route Charges Office (CRCO)`}).Stage(stage)
-	__ResourceShape__00000077_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Financial Services`}).Stage(stage)
-	__ResourceShape__00000078_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Directorate of People`}).Stage(stage)
-	__ResourceShape__00000079_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Civil-Military Cooperation Division (CMC)`}).Stage(stage)
-	__ResourceShape__00000080_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Maastricht Upper Area Control Centre (MUAC)`}).Stage(stage)
-	__ResourceShape__00000081_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Operations Division`}).Stage(stage)
-	__ResourceShape__00000082_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Systems & Engineering Division`}).Stage(stage)
-	__ResourceShape__00000083_ := (&models.ResourceShape{Name: `Management OPS L1, L2 & L3-Support & Development`}).Stage(stage)
+	__ResourceShape__00000056_ := (&models.ResourceShape{Name: `OPS Management-Director General (DG)`}).Stage(stage)
+	__ResourceShape__00000064_ := (&models.ResourceShape{Name: `OPS Management-Network Management Directorate (NMD)`}).Stage(stage)
+	__ResourceShape__00000070_ := (&models.ResourceShape{Name: `OPS Management-European Green Sky Directorate (EGSD)`}).Stage(stage)
+	__ResourceShape__00000071_ := (&models.ResourceShape{Name: `OPS Management-Aviation Sustainability`}).Stage(stage)
+	__ResourceShape__00000072_ := (&models.ResourceShape{Name: `OPS Management-Innovation & Research`}).Stage(stage)
+	__ResourceShape__00000073_ := (&models.ResourceShape{Name: `OPS Management-Aviation Intelligence`}).Stage(stage)
+	__ResourceShape__00000074_ := (&models.ResourceShape{Name: `OPS Management-Drones & Emerging Activities`}).Stage(stage)
+	__ResourceShape__00000080_ := (&models.ResourceShape{Name: `OPS Management-Maastricht Upper Area Control Centre (MUAC)`}).Stage(stage)
+	__ResourceShape__00000081_ := (&models.ResourceShape{Name: `OPS Management-Operations Division`}).Stage(stage)
+	__ResourceShape__00000082_ := (&models.ResourceShape{Name: `OPS Management-Systems & Engineering Division`}).Stage(stage)
+	__ResourceShape__00000083_ := (&models.ResourceShape{Name: `OPS Management-Support & Development`}).Stage(stage)
 	__ResourceShape__00000093_ := (&models.ResourceShape{Name: `Management L1 & L2-Office of the Director General`}).Stage(stage)
 	__ResourceShape__00000094_ := (&models.ResourceShape{Name: `Management L1 & L2-Network Management Directorate (NMD)`}).Stage(stage)
 	__ResourceShape__00000095_ := (&models.ResourceShape{Name: `Management L1 & L2-Civil-Military Cooperation Division (CMC)`}).Stage(stage)
@@ -187,6 +221,49 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000097_ := (&models.ResourceShape{Name: `Management L1 & L2-Maastricht Upper Area Control Centre (MUAC)`}).Stage(stage)
 	__ResourceShape__00000098_ := (&models.ResourceShape{Name: `Management L1 & L2-Directorate Central Route Charges Office & Finance (CRCO & Finance)`}).Stage(stage)
 	__ResourceShape__00000099_ := (&models.ResourceShape{Name: `Management L1 & L2-Directorate of People`}).Stage(stage)
+	__ResourceShape__00000156_ := (&models.ResourceShape{Name: `OPS Management-Airspace & Capacity`}).Stage(stage)
+	__ResourceShape__00000157_ := (&models.ResourceShape{Name: `OPS Management-Operations`}).Stage(stage)
+	__ResourceShape__00000158_ := (&models.ResourceShape{Name: `OPS Management-Technology`}).Stage(stage)
+	__ResourceShape__00000159_ := (&models.ResourceShape{Name: `OPS Management-Infrastructure`}).Stage(stage)
+	__ResourceShape__00000160_ := (&models.ResourceShape{Name: `OPS Management-Training`}).Stage(stage)
+	__ResourceShape__00000161_ := (&models.ResourceShape{Name: `OPS Management-Digital Transformation Office`}).Stage(stage)
+	__ResourceShape__00000162_ := (&models.ResourceShape{Name: `OPS Management-OPS Safety, SQS & Integrated Risk Management`}).Stage(stage)
+	__ResourceShape__00000163_ := (&models.ResourceShape{Name: `OPS Management-Cross-NM Support & Advice Service`}).Stage(stage)
+	__ResourceShape__00000164_ := (&models.ResourceShape{Name: `OPS Management-Business Coordination Unit`}).Stage(stage)
+	__ResourceShape__00000165_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Network Management Directorate (NMD)`}).Stage(stage)
+	__ResourceShape__00000166_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Airspace & Capacity`}).Stage(stage)
+	__ResourceShape__00000167_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Operational Planning & Evolution`}).Stage(stage)
+	__ResourceShape__00000168_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Airports Unit`}).Stage(stage)
+	__ResourceShape__00000169_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Operations Planning`}).Stage(stage)
+	__ResourceShape__00000170_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Project Coordination & Implementation`}).Stage(stage)
+	__ResourceShape__00000171_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Network Operations Strategy`}).Stage(stage)
+	__ResourceShape__00000172_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Operations`}).Stage(stage)
+	__ResourceShape__00000173_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Network Management Operations Centre (NMOC)`}).Stage(stage)
+	__ResourceShape__00000174_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Operations Coordination & Analysis`}).Stage(stage)
+	__ResourceShape__00000175_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Operations Transformation`}).Stage(stage)
+	__ResourceShape__00000176_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Operations Architecture Support & Tools`}).Stage(stage)
+	__ResourceShape__00000177_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Performance & Sourcing`}).Stage(stage)
+	__ResourceShape__00000178_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Technology`}).Stage(stage)
+	__ResourceShape__00000179_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Office of the Chief Technology Officer (CTO)`}).Stage(stage)
+	__ResourceShape__00000180_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Architecture & Tools`}).Stage(stage)
+	__ResourceShape__00000181_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Development & Delivery`}).Stage(stage)
+	__ResourceShape__00000182_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Deployment Strategy & Coordination`}).Stage(stage)
+	__ResourceShape__00000183_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Information Security, Quality, Risk & Compliance`}).Stage(stage)
+	__ResourceShape__00000184_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Sourcing, Finance & Contracting`}).Stage(stage)
+	__ResourceShape__00000202_ := (&models.ResourceShape{Name: `NMD Directorate & Units 1/3-Director General (DG)`}).Stage(stage)
+	__ResourceShape__00000223_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Director General (DG)`}).Stage(stage)
+	__ResourceShape__00000229_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Network Management Directorate (NMD)`}).Stage(stage)
+	__ResourceShape__00000249_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Infrastructure`}).Stage(stage)
+	__ResourceShape__00000250_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Integrated CNS`}).Stage(stage)
+	__ResourceShape__00000251_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Information & Cyber Infrastructure`}).Stage(stage)
+	__ResourceShape__00000252_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Partnerships & Performance`}).Stage(stage)
+	__ResourceShape__00000253_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Training`}).Stage(stage)
+	__ResourceShape__00000254_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Training Development & Delivery`}).Stage(stage)
+	__ResourceShape__00000255_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Training Support & Tools`}).Stage(stage)
+	__ResourceShape__00000256_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Digital Transformation Office`}).Stage(stage)
+	__ResourceShape__00000257_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-OPS Safety, SQS & Integrated Risk Management`}).Stage(stage)
+	__ResourceShape__00000258_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Cross-NM Support & Advice Service`}).Stage(stage)
+	__ResourceShape__00000259_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Business Coordination Unit`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -194,8 +271,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.DefaultBoxWidth = 250.000000
 	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000001_.DateFormat = ``
-	__Diagram__00000001_.Width = 575.000000
-	__Diagram__00000001_.Height = 815.000000
+	__Diagram__00000001_.Width = 1349.000000
+	__Diagram__00000001_.Height = 479.000000
 	__Diagram__00000001_.IsTimeDiagram = false
 	__Diagram__00000001_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000001_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
@@ -230,19 +307,19 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsShowPrefix = false
-	__Diagram__00000001_.IsInAutoLayoutMode = true
+	__Diagram__00000001_.IsInAutoLayoutMode = false
 	__Diagram__00000001_.IsPBSNodeExpanded = false
 	__Diagram__00000001_.IsWBSNodeExpanded = false
 	__Diagram__00000001_.IsTaskGroupsNodeExpanded = false
 	__Diagram__00000001_.IsNotesNodeExpanded = false
 	__Diagram__00000001_.IsResourcesNodeExpanded = false
 
-	__Diagram__00000002_.Name = `Management OPS L1, L2 & L3`
+	__Diagram__00000002_.Name = `OPS Management`
 	__Diagram__00000002_.DefaultBoxWidth = 250.000000
 	__Diagram__00000002_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000002_.DateFormat = ``
-	__Diagram__00000002_.Width = 750.000000
-	__Diagram__00000002_.Height = 2515.000000
+	__Diagram__00000002_.Width = 1525.000000
+	__Diagram__00000002_.Height = 1125.000000
 	__Diagram__00000002_.IsTimeDiagram = false
 	__Diagram__00000002_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000002_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
@@ -273,16 +350,110 @@ func _(stage *models.Stage) {
 	__Diagram__00000002_.DateYOffset = 0.000000
 	__Diagram__00000002_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000002_.ComputedPrefix = `2`
-	__Diagram__00000002_.IsExpanded = true
-	__Diagram__00000002_.IsChecked = true
+	__Diagram__00000002_.IsExpanded = false
+	__Diagram__00000002_.IsChecked = false
 	__Diagram__00000002_.IsEditable_ = true
 	__Diagram__00000002_.IsShowPrefix = false
 	__Diagram__00000002_.IsInAutoLayoutMode = true
 	__Diagram__00000002_.IsPBSNodeExpanded = false
 	__Diagram__00000002_.IsWBSNodeExpanded = false
 	__Diagram__00000002_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000002_.IsNotesNodeExpanded = false
+	__Diagram__00000002_.IsNotesNodeExpanded = true
 	__Diagram__00000002_.IsResourcesNodeExpanded = true
+
+	__Diagram__00000003_.Name = `NMD Directorate & Units 1/3`
+	__Diagram__00000003_.DefaultBoxWidth = 280.000000
+	__Diagram__00000003_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000003_.DateFormat = ``
+	__Diagram__00000003_.Width = 1460.000000
+	__Diagram__00000003_.Height = 1010.000000
+	__Diagram__00000003_.IsTimeDiagram = false
+	__Diagram__00000003_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000003_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000003_.ComputedDuration = 0
+	__Diagram__00000003_.DrawVerticalTimeLines = false
+	__Diagram__00000003_.HideWeekendsPeriod = false
+	__Diagram__00000003_.UseManualStartAndEndDates = false
+	__Diagram__00000003_.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000003_.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000003_.TimeStep = 0
+	__Diagram__00000003_.TimeStepScale = ""
+	__Diagram__00000003_.LaneHeight = 0.000000
+	__Diagram__00000003_.RatioBarToLaneHeight = 0.000000
+	__Diagram__00000003_.YTopMargin = 0.000000
+	__Diagram__00000003_.XLeftText = 0.000000
+	__Diagram__00000003_.TextHeight = 0.000000
+	__Diagram__00000003_.XLeftLanes = 0.000000
+	__Diagram__00000003_.XRightMargin = 0.000000
+	__Diagram__00000003_.ArrowLengthToTheRightOfStartBar = 0.000000
+	__Diagram__00000003_.ArrowTipLenght = 0.000000
+	__Diagram__00000003_.TimeLine_Color = ``
+	__Diagram__00000003_.TimeLine_FillOpacity = 0.000000
+	__Diagram__00000003_.TimeLine_Stroke = ``
+	__Diagram__00000003_.TimeLine_StrokeWidth = 0.000000
+	__Diagram__00000003_.Group_Stroke = ``
+	__Diagram__00000003_.Group_StrokeWidth = 0.000000
+	__Diagram__00000003_.Group_StrokeDashArray = ``
+	__Diagram__00000003_.DateYOffset = 0.000000
+	__Diagram__00000003_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000003_.ComputedPrefix = `3`
+	__Diagram__00000003_.IsExpanded = true
+	__Diagram__00000003_.IsChecked = false
+	__Diagram__00000003_.IsEditable_ = true
+	__Diagram__00000003_.IsShowPrefix = false
+	__Diagram__00000003_.IsInAutoLayoutMode = true
+	__Diagram__00000003_.IsPBSNodeExpanded = false
+	__Diagram__00000003_.IsWBSNodeExpanded = false
+	__Diagram__00000003_.IsTaskGroupsNodeExpanded = false
+	__Diagram__00000003_.IsNotesNodeExpanded = false
+	__Diagram__00000003_.IsResourcesNodeExpanded = false
+
+	__Diagram__00000004_.Name = `NMD Directorate & Units 2/3`
+	__Diagram__00000004_.DefaultBoxWidth = 250.000000
+	__Diagram__00000004_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000004_.DateFormat = ``
+	__Diagram__00000004_.Width = 750.000000
+	__Diagram__00000004_.Height = 1295.000000
+	__Diagram__00000004_.IsTimeDiagram = false
+	__Diagram__00000004_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000004_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000004_.ComputedDuration = 0
+	__Diagram__00000004_.DrawVerticalTimeLines = false
+	__Diagram__00000004_.HideWeekendsPeriod = false
+	__Diagram__00000004_.UseManualStartAndEndDates = false
+	__Diagram__00000004_.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000004_.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000004_.TimeStep = 0
+	__Diagram__00000004_.TimeStepScale = ""
+	__Diagram__00000004_.LaneHeight = 0.000000
+	__Diagram__00000004_.RatioBarToLaneHeight = 0.000000
+	__Diagram__00000004_.YTopMargin = 0.000000
+	__Diagram__00000004_.XLeftText = 0.000000
+	__Diagram__00000004_.TextHeight = 0.000000
+	__Diagram__00000004_.XLeftLanes = 0.000000
+	__Diagram__00000004_.XRightMargin = 0.000000
+	__Diagram__00000004_.ArrowLengthToTheRightOfStartBar = 0.000000
+	__Diagram__00000004_.ArrowTipLenght = 0.000000
+	__Diagram__00000004_.TimeLine_Color = ``
+	__Diagram__00000004_.TimeLine_FillOpacity = 0.000000
+	__Diagram__00000004_.TimeLine_Stroke = ``
+	__Diagram__00000004_.TimeLine_StrokeWidth = 0.000000
+	__Diagram__00000004_.Group_Stroke = ``
+	__Diagram__00000004_.Group_StrokeWidth = 0.000000
+	__Diagram__00000004_.Group_StrokeDashArray = ``
+	__Diagram__00000004_.DateYOffset = 0.000000
+	__Diagram__00000004_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000004_.ComputedPrefix = `4`
+	__Diagram__00000004_.IsExpanded = true
+	__Diagram__00000004_.IsChecked = true
+	__Diagram__00000004_.IsEditable_ = true
+	__Diagram__00000004_.IsShowPrefix = false
+	__Diagram__00000004_.IsInAutoLayoutMode = true
+	__Diagram__00000004_.IsPBSNodeExpanded = false
+	__Diagram__00000004_.IsWBSNodeExpanded = false
+	__Diagram__00000004_.IsTaskGroupsNodeExpanded = false
+	__Diagram__00000004_.IsNotesNodeExpanded = false
+	__Diagram__00000004_.IsResourcesNodeExpanded = true
 
 	__Library__00000000_.Name = `EUROCONTROL`
 	__Library__00000000_.NbPixPerCharacter = 8.000000
@@ -295,7 +466,7 @@ func _(stage *models.Stage) {
 	__Resource__00000000_.Description = `Serves as the Chief Executive Officer responsible for the day-to-day operations and strategic direction of the Agency.`
 	__Resource__00000000_.ComputedPrefix = `1`
 	__Resource__00000000_.IsExpanded = true
-	__Resource__00000000_.LayoutDirection = models.Horizontal
+	__Resource__00000000_.LayoutDirection = models.Vertical
 	__Resource__00000000_.IsImport = false
 
 	__Resource__00000001_.Name = `Office of the Director General`
@@ -393,35 +564,35 @@ func _(stage *models.Stage) {
 	__Resource__00000014_.Description = `Manages strategic airspace design, capacity planning, and the European Route Network Improvement Plan (ERNIP).`
 	__Resource__00000014_.ComputedPrefix = `1.2.1`
 	__Resource__00000014_.IsExpanded = true
-	__Resource__00000014_.LayoutDirection = models.Vertical
+	__Resource__00000014_.LayoutDirection = models.Horizontal
 	__Resource__00000014_.IsImport = false
 
 	__Resource__00000015_.Name = `Operations`
 	__Resource__00000015_.Description = `Houses the Network Manager Operations Centre (NMOC), leading tactical and pre-tactical Air Traffic Flow and Capacity Management (ATFCM).`
 	__Resource__00000015_.ComputedPrefix = `1.2.2`
 	__Resource__00000015_.IsExpanded = true
-	__Resource__00000015_.LayoutDirection = models.Vertical
+	__Resource__00000015_.LayoutDirection = models.Horizontal
 	__Resource__00000015_.IsImport = false
 
 	__Resource__00000016_.Name = `Technology`
 	__Resource__00000016_.Description = `Oversees ATM digital architecture, systems evolution, and deployment of network tools (e.g., ETFMS, CASA, NM systems).`
 	__Resource__00000016_.ComputedPrefix = `1.2.3`
 	__Resource__00000016_.IsExpanded = true
-	__Resource__00000016_.LayoutDirection = models.Vertical
+	__Resource__00000016_.LayoutDirection = models.Horizontal
 	__Resource__00000016_.IsImport = false
 
 	__Resource__00000017_.Name = `Infrastructure`
 	__Resource__00000017_.Description = `Manages integrated CNS (Communication, Navigation, Surveillance) programs, frequency management, and cybersecurity operations.`
 	__Resource__00000017_.ComputedPrefix = `1.2.4`
 	__Resource__00000017_.IsExpanded = true
-	__Resource__00000017_.LayoutDirection = models.Vertical
+	__Resource__00000017_.LayoutDirection = models.Horizontal
 	__Resource__00000017_.IsImport = false
 
 	__Resource__00000018_.Name = `Training`
 	__Resource__00000018_.Description = `Manages ATM training services and the EUROCONTROL Aviation Learning Centre (ALC).`
 	__Resource__00000018_.ComputedPrefix = `1.2.5`
 	__Resource__00000018_.IsExpanded = true
-	__Resource__00000018_.LayoutDirection = models.Vertical
+	__Resource__00000018_.LayoutDirection = models.Horizontal
 	__Resource__00000018_.IsImport = false
 
 	__Resource__00000019_.Name = `Aviation Sustainability`
@@ -486,6 +657,181 @@ func _(stage *models.Stage) {
 	__Resource__00000027_.IsExpanded = true
 	__Resource__00000027_.LayoutDirection = models.Vertical
 	__Resource__00000027_.IsImport = false
+
+	__Resource__00000028_.Name = `Digital Transformation Office`
+	__Resource__00000028_.Description = `Drives digitalization, AI adoption, and modern service architecture across network management systems.`
+	__Resource__00000028_.ComputedPrefix = `1.2.6`
+	__Resource__00000028_.IsExpanded = true
+	__Resource__00000028_.LayoutDirection = models.Vertical
+	__Resource__00000028_.IsImport = false
+
+	__Resource__00000029_.Name = `OPS Safety, SQS & Integrated Risk Management`
+	__Resource__00000029_.Description = `Manages operational safety cases, Safety Quality Systems (SQS), and compliance monitoring.`
+	__Resource__00000029_.ComputedPrefix = `1.2.7`
+	__Resource__00000029_.IsExpanded = true
+	__Resource__00000029_.LayoutDirection = models.Vertical
+	__Resource__00000029_.IsImport = false
+
+	__Resource__00000030_.Name = `Cross-NM Support & Advice Service`
+	__Resource__00000030_.Description = `Provides functional alignment, regulatory advisory, and cross-divisional program governance.`
+	__Resource__00000030_.ComputedPrefix = `1.2.8`
+	__Resource__00000030_.IsExpanded = true
+	__Resource__00000030_.LayoutDirection = models.Vertical
+	__Resource__00000030_.IsImport = false
+
+	__Resource__00000031_.Name = `Business Coordination Unit`
+	__Resource__00000031_.Description = `Manages internal directorate performance, resources, and stakeholder business reporting.`
+	__Resource__00000031_.ComputedPrefix = `1.2.9`
+	__Resource__00000031_.IsExpanded = true
+	__Resource__00000031_.LayoutDirection = models.Vertical
+	__Resource__00000031_.IsImport = false
+
+	__Resource__00000032_.Name = `Operational Planning & Evolution`
+	__Resource__00000032_.Description = `Coordinates the multi-year European Route Network Improvement Plan (ERNIP) and strategic airspace redesign.`
+	__Resource__00000032_.ComputedPrefix = `1.2.1.1`
+	__Resource__00000032_.IsExpanded = true
+	__Resource__00000032_.LayoutDirection = models.Vertical
+	__Resource__00000032_.IsImport = false
+
+	__Resource__00000033_.Name = `Airports Unit`
+	__Resource__00000033_.Description = `Leads Airport Collaborative Decision Making (A-CDM) integration and airport-network throughput synchronization.`
+	__Resource__00000033_.ComputedPrefix = `1.2.1.2`
+	__Resource__00000033_.IsExpanded = true
+	__Resource__00000033_.LayoutDirection = models.Vertical
+	__Resource__00000033_.IsImport = false
+
+	__Resource__00000034_.Name = `Operations Planning`
+	__Resource__00000034_.Description = `Delivers seasonal airspace baseline plans and capacity-utilization agreements with national ANSPs.`
+	__Resource__00000034_.ComputedPrefix = `1.2.1.3`
+	__Resource__00000034_.IsExpanded = true
+	__Resource__00000034_.LayoutDirection = models.Vertical
+	__Resource__00000034_.IsImport = false
+
+	__Resource__00000035_.Name = `Project Coordination & Implementation`
+	__Resource__00000035_.Description = `Drives ATM change programs and airspace re-sectorization deployment.`
+	__Resource__00000035_.ComputedPrefix = `1.2.1.4`
+	__Resource__00000035_.IsExpanded = true
+	__Resource__00000035_.LayoutDirection = models.Vertical
+	__Resource__00000035_.IsImport = false
+
+	__Resource__00000036_.Name = `Network Operations Strategy`
+	__Resource__00000036_.Description = `Defines high-level network performance objectives and medium-to-long-term concepts of operations.`
+	__Resource__00000036_.ComputedPrefix = `1.2.1.5`
+	__Resource__00000036_.IsExpanded = true
+	__Resource__00000036_.LayoutDirection = models.Vertical
+	__Resource__00000036_.IsImport = false
+
+	__Resource__00000037_.Name = `Network Management Operations Centre (NMOC)`
+	__Resource__00000037_.Description = `Real-time execution cell managing European flight flows, route availability, rerouting, and ATFM delay mitigation.`
+	__Resource__00000037_.ComputedPrefix = `1.2.2.1`
+	__Resource__00000037_.IsExpanded = true
+	__Resource__00000037_.LayoutDirection = models.Vertical
+	__Resource__00000037_.IsImport = false
+
+	__Resource__00000038_.Name = `Operations Coordination & Analysis`
+	__Resource__00000038_.Description = `Post-operations analysis, daily network incident investigations, and operational reporting.`
+	__Resource__00000038_.ComputedPrefix = `1.2.2.2`
+	__Resource__00000038_.IsExpanded = true
+	__Resource__00000038_.LayoutDirection = models.Vertical
+	__Resource__00000038_.IsImport = false
+
+	__Resource__00000039_.Name = `Operations Transformation`
+	__Resource__00000039_.Description = `Modernizes control-room operational practices and procedural transitions toward trajectory-based operations.`
+	__Resource__00000039_.ComputedPrefix = `1.2.2.3`
+	__Resource__00000039_.IsExpanded = true
+	__Resource__00000039_.LayoutDirection = models.Vertical
+	__Resource__00000039_.IsImport = false
+
+	__Resource__00000040_.Name = `Operations Architecture Support & Tools`
+	__Resource__00000040_.Description = `Ensures operational validity and business tooling requirements for front-line operators.`
+	__Resource__00000040_.ComputedPrefix = `1.2.2.4`
+	__Resource__00000040_.IsExpanded = true
+	__Resource__00000040_.LayoutDirection = models.Vertical
+	__Resource__00000040_.IsImport = false
+
+	__Resource__00000041_.Name = `Performance & Sourcing`
+	__Resource__00000041_.Description = `Resource planning, shift governance, and operational workforce enablement.`
+	__Resource__00000041_.ComputedPrefix = `1.2.2.5`
+	__Resource__00000041_.IsExpanded = true
+	__Resource__00000041_.LayoutDirection = models.Vertical
+	__Resource__00000041_.IsImport = false
+
+	__Resource__00000042_.Name = `Office of the Chief Technology Officer (CTO)`
+	__Resource__00000042_.Description = `Technical governance, digital strategy roadmaps, and enterprise architecture standards.`
+	__Resource__00000042_.ComputedPrefix = `1.2.3.1`
+	__Resource__00000042_.IsExpanded = true
+	__Resource__00000042_.LayoutDirection = models.Vertical
+	__Resource__00000042_.IsImport = false
+
+	__Resource__00000043_.Name = `Architecture & Tools`
+	__Resource__00000043_.Description = `Technical specification and modular design of data processing systems and interfaces.`
+	__Resource__00000043_.ComputedPrefix = `1.2.3.2`
+	__Resource__00000043_.IsExpanded = true
+	__Resource__00000043_.LayoutDirection = models.Vertical
+	__Resource__00000043_.IsImport = false
+
+	__Resource__00000044_.Name = `Development & Delivery`
+	__Resource__00000044_.Description = `Software engineering, platform maintenance, and continuous delivery of NM software releases.`
+	__Resource__00000044_.ComputedPrefix = `1.2.3.3`
+	__Resource__00000044_.IsExpanded = true
+	__Resource__00000044_.LayoutDirection = models.Vertical
+	__Resource__00000044_.IsImport = false
+
+	__Resource__00000045_.Name = `Deployment Strategy & Coordination`
+	__Resource__00000045_.Description = `System integration, release transitions, testing environments, and site deployment.`
+	__Resource__00000045_.ComputedPrefix = `1.2.3.4`
+	__Resource__00000045_.IsExpanded = true
+	__Resource__00000045_.LayoutDirection = models.Vertical
+	__Resource__00000045_.IsImport = false
+
+	__Resource__00000046_.Name = `Information Security, Quality, Risk & Compliance`
+	__Resource__00000046_.Description = `Cyber resilience, cybersecurity operations, and technical quality assurance.`
+	__Resource__00000046_.ComputedPrefix = `1.2.3.5`
+	__Resource__00000046_.IsExpanded = true
+	__Resource__00000046_.LayoutDirection = models.Vertical
+	__Resource__00000046_.IsImport = false
+
+	__Resource__00000047_.Name = `Sourcing, Finance & Contracting`
+	__Resource__00000047_.Description = `Technology procurement, vendor management, and technical asset budgeting.`
+	__Resource__00000047_.ComputedPrefix = `1.2.3.6`
+	__Resource__00000047_.IsExpanded = true
+	__Resource__00000047_.LayoutDirection = models.Vertical
+	__Resource__00000047_.IsImport = false
+
+	__Resource__00000048_.Name = `Integrated CNS`
+	__Resource__00000048_.Description = `Harmonization, implementation oversight, and spectrum protection for Communication, Navigation, and Surveillance systems.`
+	__Resource__00000048_.ComputedPrefix = `1.2.4.1`
+	__Resource__00000048_.IsExpanded = true
+	__Resource__00000048_.LayoutDirection = models.Vertical
+	__Resource__00000048_.IsImport = false
+
+	__Resource__00000049_.Name = `Information & Cyber Infrastructure`
+	__Resource__00000049_.Description = `Pan-European network connectivity, NewPENS infrastructure oversight, and system-wide data interfaces.`
+	__Resource__00000049_.ComputedPrefix = `1.2.4.2`
+	__Resource__00000049_.IsExpanded = true
+	__Resource__00000049_.LayoutDirection = models.Vertical
+	__Resource__00000049_.IsImport = false
+
+	__Resource__00000050_.Name = `Partnerships & Performance`
+	__Resource__00000050_.Description = `Coordinates state implementation monitoring (such as Local Single Sky Implementation - LSSIP) and bilateral ANSP integration.`
+	__Resource__00000050_.ComputedPrefix = `1.2.4.3`
+	__Resource__00000050_.IsExpanded = true
+	__Resource__00000050_.LayoutDirection = models.Vertical
+	__Resource__00000050_.IsImport = false
+
+	__Resource__00000051_.Name = `Training Development & Delivery`
+	__Resource__00000051_.Description = `Course curriculum design, ATM simulation training, and instructor-led delivery.`
+	__Resource__00000051_.ComputedPrefix = `1.2.5.1`
+	__Resource__00000051_.IsExpanded = true
+	__Resource__00000051_.LayoutDirection = models.Vertical
+	__Resource__00000051_.IsImport = false
+
+	__Resource__00000052_.Name = `Training Support & Tools`
+	__Resource__00000052_.Description = `E-learning infrastructure, training media systems, and certification compliance administration.`
+	__Resource__00000052_.ComputedPrefix = `1.2.5.2`
+	__Resource__00000052_.IsExpanded = true
+	__Resource__00000052_.LayoutDirection = models.Vertical
+	__Resource__00000052_.IsImport = false
 
 	__ResourceCompositionShape__00000000_.Name = `Management Hierarchy-Director General (DG)-Office of the Director General`
 	__ResourceCompositionShape__00000000_.StartRatio = 0.000000
@@ -703,119 +1049,23 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000026_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000026_.IsHidden = false
 
-	__ResourceCompositionShape__00000054_.Name = `Management OPS L1, L2 & L3-Director General (DG)-Office of the Director General`
-	__ResourceCompositionShape__00000054_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000054_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000054_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000054_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000054_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000054_.IsHidden = false
-
-	__ResourceCompositionShape__00000055_.Name = `Management OPS L1, L2 & L3-Office of the Director General-Executive Office`
-	__ResourceCompositionShape__00000055_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000055_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000055_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000055_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000055_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000055_.IsHidden = false
-
-	__ResourceCompositionShape__00000056_.Name = `Management OPS L1, L2 & L3-Office of the Director General-Internal Audit`
-	__ResourceCompositionShape__00000056_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000056_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000056_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000056_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000056_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000056_.IsHidden = false
-
-	__ResourceCompositionShape__00000057_.Name = `Management OPS L1, L2 & L3-Office of the Director General-Legal Service`
-	__ResourceCompositionShape__00000057_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000057_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000057_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000057_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000057_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000057_.IsHidden = false
-
-	__ResourceCompositionShape__00000058_.Name = `Management OPS L1, L2 & L3-Office of the Director General-Corporate Communications`
-	__ResourceCompositionShape__00000058_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000058_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000058_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000058_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000058_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000058_.IsHidden = false
-
-	__ResourceCompositionShape__00000059_.Name = `Management OPS L1, L2 & L3-Office of the Director General-Central Secretariat`
-	__ResourceCompositionShape__00000059_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000059_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000059_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000059_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000059_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000059_.IsHidden = false
-
-	__ResourceCompositionShape__00000060_.Name = `Management OPS L1, L2 & L3-Office of the Director General-ECAC Support`
-	__ResourceCompositionShape__00000060_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000060_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000060_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000060_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000060_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000060_.IsHidden = false
-
-	__ResourceCompositionShape__00000061_.Name = `Management OPS L1, L2 & L3-Director General (DG)-Network Management Directorate (NMD)`
+	__ResourceCompositionShape__00000061_.Name = `OPS Management-Director General (DG)-Network Management Directorate (NMD)`
 	__ResourceCompositionShape__00000061_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000061_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000061_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000061_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000061_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000061_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000061_.IsHidden = false
 
-	__ResourceCompositionShape__00000062_.Name = `Management OPS L1, L2 & L3-Network Management Directorate (NMD)-Airspace & Capacity`
-	__ResourceCompositionShape__00000062_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000062_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000062_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000062_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000062_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000062_.IsHidden = false
-
-	__ResourceCompositionShape__00000063_.Name = `Management OPS L1, L2 & L3-Network Management Directorate (NMD)-Operations`
-	__ResourceCompositionShape__00000063_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000063_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000063_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000063_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000063_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000063_.IsHidden = false
-
-	__ResourceCompositionShape__00000064_.Name = `Management OPS L1, L2 & L3-Network Management Directorate (NMD)-Technology`
-	__ResourceCompositionShape__00000064_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000064_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000064_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000064_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000064_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000064_.IsHidden = false
-
-	__ResourceCompositionShape__00000065_.Name = `Management OPS L1, L2 & L3-Network Management Directorate (NMD)-Infrastructure`
-	__ResourceCompositionShape__00000065_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000065_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000065_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000065_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000065_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000065_.IsHidden = false
-
-	__ResourceCompositionShape__00000066_.Name = `Management OPS L1, L2 & L3-Network Management Directorate (NMD)-Training`
-	__ResourceCompositionShape__00000066_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000066_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000066_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000066_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000066_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000066_.IsHidden = false
-
-	__ResourceCompositionShape__00000067_.Name = `Management OPS L1, L2 & L3-Director General (DG)-European Green Sky Directorate (EGSD)`
+	__ResourceCompositionShape__00000067_.Name = `OPS Management-Director General (DG)-European Green Sky Directorate (EGSD)`
 	__ResourceCompositionShape__00000067_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000067_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000067_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000067_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000067_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000067_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000067_.IsHidden = false
 
-	__ResourceCompositionShape__00000068_.Name = `Management OPS L1, L2 & L3-European Green Sky Directorate (EGSD)-Aviation Sustainability`
+	__ResourceCompositionShape__00000068_.Name = `OPS Management-European Green Sky Directorate (EGSD)-Aviation Sustainability`
 	__ResourceCompositionShape__00000068_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000068_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000068_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -823,7 +1073,7 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000068_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000068_.IsHidden = false
 
-	__ResourceCompositionShape__00000069_.Name = `Management OPS L1, L2 & L3-European Green Sky Directorate (EGSD)-Innovation & Research`
+	__ResourceCompositionShape__00000069_.Name = `OPS Management-European Green Sky Directorate (EGSD)-Innovation & Research`
 	__ResourceCompositionShape__00000069_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000069_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000069_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -831,7 +1081,7 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000069_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000069_.IsHidden = false
 
-	__ResourceCompositionShape__00000070_.Name = `Management OPS L1, L2 & L3-European Green Sky Directorate (EGSD)-Aviation Intelligence`
+	__ResourceCompositionShape__00000070_.Name = `OPS Management-European Green Sky Directorate (EGSD)-Aviation Intelligence`
 	__ResourceCompositionShape__00000070_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000070_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000070_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -839,7 +1089,7 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000070_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000070_.IsHidden = false
 
-	__ResourceCompositionShape__00000071_.Name = `Management OPS L1, L2 & L3-European Green Sky Directorate (EGSD)-Drones & Emerging Activities`
+	__ResourceCompositionShape__00000071_.Name = `OPS Management-European Green Sky Directorate (EGSD)-Drones & Emerging Activities`
 	__ResourceCompositionShape__00000071_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000071_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000071_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -847,55 +1097,15 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000071_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000071_.IsHidden = false
 
-	__ResourceCompositionShape__00000072_.Name = `Management OPS L1, L2 & L3-Director General (DG)-Directorate Central Route Charges Office & Finance (CRCO & Finance)`
-	__ResourceCompositionShape__00000072_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000072_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000072_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000072_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000072_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000072_.IsHidden = false
-
-	__ResourceCompositionShape__00000073_.Name = `Management OPS L1, L2 & L3-Directorate Central Route Charges Office & Finance (CRCO & Finance)-Central Route Charges Office (CRCO)`
-	__ResourceCompositionShape__00000073_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000073_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000073_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000073_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000073_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000073_.IsHidden = false
-
-	__ResourceCompositionShape__00000074_.Name = `Management OPS L1, L2 & L3-Directorate Central Route Charges Office & Finance (CRCO & Finance)-Financial Services`
-	__ResourceCompositionShape__00000074_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000074_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000074_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000074_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000074_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000074_.IsHidden = false
-
-	__ResourceCompositionShape__00000075_.Name = `Management OPS L1, L2 & L3-Director General (DG)-Directorate of People`
-	__ResourceCompositionShape__00000075_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000075_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000075_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000075_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000075_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000075_.IsHidden = false
-
-	__ResourceCompositionShape__00000076_.Name = `Management OPS L1, L2 & L3-Director General (DG)-Civil-Military Cooperation Division (CMC)`
-	__ResourceCompositionShape__00000076_.StartRatio = 0.500000
-	__ResourceCompositionShape__00000076_.EndRatio = 0.500000
-	__ResourceCompositionShape__00000076_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000076_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__ResourceCompositionShape__00000076_.CornerOffsetRatio = 1.500000
-	__ResourceCompositionShape__00000076_.IsHidden = false
-
-	__ResourceCompositionShape__00000077_.Name = `Management OPS L1, L2 & L3-Director General (DG)-Maastricht Upper Area Control Centre (MUAC)`
+	__ResourceCompositionShape__00000077_.Name = `OPS Management-Director General (DG)-Maastricht Upper Area Control Centre (MUAC)`
 	__ResourceCompositionShape__00000077_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000077_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000077_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000077_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000077_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000077_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000077_.IsHidden = false
 
-	__ResourceCompositionShape__00000078_.Name = `Management OPS L1, L2 & L3-Maastricht Upper Area Control Centre (MUAC)-Operations Division`
+	__ResourceCompositionShape__00000078_.Name = `OPS Management-Maastricht Upper Area Control Centre (MUAC)-Operations Division`
 	__ResourceCompositionShape__00000078_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000078_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000078_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -903,7 +1113,7 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000078_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000078_.IsHidden = false
 
-	__ResourceCompositionShape__00000079_.Name = `Management OPS L1, L2 & L3-Maastricht Upper Area Control Centre (MUAC)-Systems & Engineering Division`
+	__ResourceCompositionShape__00000079_.Name = `OPS Management-Maastricht Upper Area Control Centre (MUAC)-Systems & Engineering Division`
 	__ResourceCompositionShape__00000079_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000079_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000079_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -911,7 +1121,7 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000079_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000079_.IsHidden = false
 
-	__ResourceCompositionShape__00000080_.Name = `Management OPS L1, L2 & L3-Maastricht Upper Area Control Centre (MUAC)-Support & Development`
+	__ResourceCompositionShape__00000080_.Name = `OPS Management-Maastricht Upper Area Control Centre (MUAC)-Support & Development`
 	__ResourceCompositionShape__00000080_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000080_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000080_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -923,7 +1133,7 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000090_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000090_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000090_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000090_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000090_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000090_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000090_.IsHidden = false
 
@@ -931,7 +1141,7 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000091_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000091_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000091_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000091_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000091_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000091_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000091_.IsHidden = false
 
@@ -939,7 +1149,7 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000092_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000092_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000092_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000092_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000092_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000092_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000092_.IsHidden = false
 
@@ -947,7 +1157,7 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000093_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000093_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000093_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000093_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000093_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000093_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000093_.IsHidden = false
 
@@ -955,7 +1165,7 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000094_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000094_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000094_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000094_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000094_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000094_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000094_.IsHidden = false
 
@@ -963,7 +1173,7 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000095_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000095_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000095_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000095_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000095_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000095_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000095_.IsHidden = false
 
@@ -971,13 +1181,340 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000096_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000096_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000096_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000096_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000096_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000096_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000096_.IsHidden = false
 
+	__ResourceCompositionShape__00000152_.Name = `OPS Management-Network Management Directorate (NMD)-Airspace & Capacity`
+	__ResourceCompositionShape__00000152_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000152_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000152_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000152_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000152_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000152_.IsHidden = false
+
+	__ResourceCompositionShape__00000153_.Name = `OPS Management-Network Management Directorate (NMD)-Operations`
+	__ResourceCompositionShape__00000153_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000153_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000153_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000153_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000153_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000153_.IsHidden = false
+
+	__ResourceCompositionShape__00000154_.Name = `OPS Management-Network Management Directorate (NMD)-Technology`
+	__ResourceCompositionShape__00000154_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000154_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000154_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000154_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000154_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000154_.IsHidden = false
+
+	__ResourceCompositionShape__00000155_.Name = `OPS Management-Network Management Directorate (NMD)-Infrastructure`
+	__ResourceCompositionShape__00000155_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000155_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000155_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000155_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000155_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000155_.IsHidden = false
+
+	__ResourceCompositionShape__00000156_.Name = `OPS Management-Network Management Directorate (NMD)-Training`
+	__ResourceCompositionShape__00000156_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000156_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000156_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000156_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000156_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000156_.IsHidden = false
+
+	__ResourceCompositionShape__00000157_.Name = `OPS Management-Network Management Directorate (NMD)-Digital Transformation Office`
+	__ResourceCompositionShape__00000157_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000157_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000157_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000157_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000157_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000157_.IsHidden = false
+
+	__ResourceCompositionShape__00000158_.Name = `OPS Management-Network Management Directorate (NMD)-OPS Safety, SQS & Integrated Risk Management`
+	__ResourceCompositionShape__00000158_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000158_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000158_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000158_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000158_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000158_.IsHidden = false
+
+	__ResourceCompositionShape__00000159_.Name = `OPS Management-Network Management Directorate (NMD)-Cross-NM Support & Advice Service`
+	__ResourceCompositionShape__00000159_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000159_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000159_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000159_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000159_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000159_.IsHidden = false
+
+	__ResourceCompositionShape__00000160_.Name = `OPS Management-Network Management Directorate (NMD)-Business Coordination Unit`
+	__ResourceCompositionShape__00000160_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000160_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000160_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000160_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000160_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000160_.IsHidden = false
+
+	__ResourceCompositionShape__00000161_.Name = `NMD Directorate & Units 1/3-Network Management Directorate (NMD)-Airspace & Capacity`
+	__ResourceCompositionShape__00000161_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000161_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000161_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000161_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000161_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000161_.IsHidden = false
+
+	__ResourceCompositionShape__00000162_.Name = `NMD Directorate & Units 1/3-Airspace & Capacity-Operational Planning & Evolution`
+	__ResourceCompositionShape__00000162_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000162_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000162_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000162_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000162_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000162_.IsHidden = false
+
+	__ResourceCompositionShape__00000163_.Name = `NMD Directorate & Units 1/3-Airspace & Capacity-Airports Unit`
+	__ResourceCompositionShape__00000163_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000163_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000163_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000163_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000163_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000163_.IsHidden = false
+
+	__ResourceCompositionShape__00000164_.Name = `NMD Directorate & Units 1/3-Airspace & Capacity-Operations Planning`
+	__ResourceCompositionShape__00000164_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000164_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000164_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000164_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000164_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000164_.IsHidden = false
+
+	__ResourceCompositionShape__00000165_.Name = `NMD Directorate & Units 1/3-Airspace & Capacity-Project Coordination & Implementation`
+	__ResourceCompositionShape__00000165_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000165_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000165_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000165_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000165_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000165_.IsHidden = false
+
+	__ResourceCompositionShape__00000166_.Name = `NMD Directorate & Units 1/3-Airspace & Capacity-Network Operations Strategy`
+	__ResourceCompositionShape__00000166_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000166_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000166_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000166_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000166_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000166_.IsHidden = false
+
+	__ResourceCompositionShape__00000167_.Name = `NMD Directorate & Units 1/3-Network Management Directorate (NMD)-Operations`
+	__ResourceCompositionShape__00000167_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000167_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000167_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000167_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000167_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000167_.IsHidden = false
+
+	__ResourceCompositionShape__00000168_.Name = `NMD Directorate & Units 1/3-Operations-Network Management Operations Centre (NMOC)`
+	__ResourceCompositionShape__00000168_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000168_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000168_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000168_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000168_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000168_.IsHidden = false
+
+	__ResourceCompositionShape__00000169_.Name = `NMD Directorate & Units 1/3-Operations-Operations Coordination & Analysis`
+	__ResourceCompositionShape__00000169_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000169_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000169_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000169_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000169_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000169_.IsHidden = false
+
+	__ResourceCompositionShape__00000170_.Name = `NMD Directorate & Units 1/3-Operations-Operations Transformation`
+	__ResourceCompositionShape__00000170_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000170_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000170_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000170_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000170_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000170_.IsHidden = false
+
+	__ResourceCompositionShape__00000171_.Name = `NMD Directorate & Units 1/3-Operations-Operations Architecture Support & Tools`
+	__ResourceCompositionShape__00000171_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000171_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000171_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000171_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000171_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000171_.IsHidden = false
+
+	__ResourceCompositionShape__00000172_.Name = `NMD Directorate & Units 1/3-Operations-Performance & Sourcing`
+	__ResourceCompositionShape__00000172_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000172_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000172_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000172_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000172_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000172_.IsHidden = false
+
+	__ResourceCompositionShape__00000173_.Name = `NMD Directorate & Units 1/3-Network Management Directorate (NMD)-Technology`
+	__ResourceCompositionShape__00000173_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000173_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000173_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000173_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000173_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000173_.IsHidden = false
+
+	__ResourceCompositionShape__00000174_.Name = `NMD Directorate & Units 1/3-Technology-Office of the Chief Technology Officer (CTO)`
+	__ResourceCompositionShape__00000174_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000174_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000174_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000174_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000174_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000174_.IsHidden = false
+
+	__ResourceCompositionShape__00000175_.Name = `NMD Directorate & Units 1/3-Technology-Architecture & Tools`
+	__ResourceCompositionShape__00000175_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000175_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000175_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000175_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000175_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000175_.IsHidden = false
+
+	__ResourceCompositionShape__00000176_.Name = `NMD Directorate & Units 1/3-Technology-Development & Delivery`
+	__ResourceCompositionShape__00000176_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000176_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000176_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000176_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000176_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000176_.IsHidden = false
+
+	__ResourceCompositionShape__00000177_.Name = `NMD Directorate & Units 1/3-Technology-Deployment Strategy & Coordination`
+	__ResourceCompositionShape__00000177_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000177_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000177_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000177_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000177_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000177_.IsHidden = false
+
+	__ResourceCompositionShape__00000178_.Name = `NMD Directorate & Units 1/3-Technology-Information Security, Quality, Risk & Compliance`
+	__ResourceCompositionShape__00000178_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000178_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000178_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000178_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000178_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000178_.IsHidden = false
+
+	__ResourceCompositionShape__00000179_.Name = `NMD Directorate & Units 1/3-Technology-Sourcing, Finance & Contracting`
+	__ResourceCompositionShape__00000179_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000179_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000179_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000179_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000179_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000179_.IsHidden = false
+
+	__ResourceCompositionShape__00000196_.Name = `NMD Directorate & Units 1/3-Director General (DG)-Network Management Directorate (NMD)`
+	__ResourceCompositionShape__00000196_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000196_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000196_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000196_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000196_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000196_.IsHidden = false
+
+	__ResourceCompositionShape__00000222_.Name = `NMD Directorate & Units 2/3-Director General (DG)-Network Management Directorate (NMD)`
+	__ResourceCompositionShape__00000222_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000222_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000222_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000222_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000222_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000222_.IsHidden = false
+
+	__ResourceCompositionShape__00000242_.Name = `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-Infrastructure`
+	__ResourceCompositionShape__00000242_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000242_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000242_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000242_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000242_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000242_.IsHidden = false
+
+	__ResourceCompositionShape__00000243_.Name = `NMD Directorate & Units 2/3-Infrastructure-Integrated CNS`
+	__ResourceCompositionShape__00000243_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000243_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000243_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000243_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000243_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000243_.IsHidden = false
+
+	__ResourceCompositionShape__00000244_.Name = `NMD Directorate & Units 2/3-Infrastructure-Information & Cyber Infrastructure`
+	__ResourceCompositionShape__00000244_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000244_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000244_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000244_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000244_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000244_.IsHidden = false
+
+	__ResourceCompositionShape__00000245_.Name = `NMD Directorate & Units 2/3-Infrastructure-Partnerships & Performance`
+	__ResourceCompositionShape__00000245_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000245_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000245_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000245_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000245_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000245_.IsHidden = false
+
+	__ResourceCompositionShape__00000246_.Name = `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-Training`
+	__ResourceCompositionShape__00000246_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000246_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000246_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000246_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000246_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000246_.IsHidden = false
+
+	__ResourceCompositionShape__00000247_.Name = `NMD Directorate & Units 2/3-Training-Training Development & Delivery`
+	__ResourceCompositionShape__00000247_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000247_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000247_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000247_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000247_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000247_.IsHidden = false
+
+	__ResourceCompositionShape__00000248_.Name = `NMD Directorate & Units 2/3-Training-Training Support & Tools`
+	__ResourceCompositionShape__00000248_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000248_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000248_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000248_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000248_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000248_.IsHidden = false
+
+	__ResourceCompositionShape__00000249_.Name = `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-Digital Transformation Office`
+	__ResourceCompositionShape__00000249_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000249_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000249_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000249_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000249_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000249_.IsHidden = false
+
+	__ResourceCompositionShape__00000250_.Name = `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-OPS Safety, SQS & Integrated Risk Management`
+	__ResourceCompositionShape__00000250_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000250_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000250_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000250_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000250_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000250_.IsHidden = false
+
+	__ResourceCompositionShape__00000251_.Name = `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-Cross-NM Support & Advice Service`
+	__ResourceCompositionShape__00000251_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000251_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000251_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000251_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000251_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000251_.IsHidden = false
+
+	__ResourceCompositionShape__00000252_.Name = `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-Business Coordination Unit`
+	__ResourceCompositionShape__00000252_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000252_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000252_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000252_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000252_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000252_.IsHidden = false
+
 	__ResourceShape__00000000_.Name = `Management Hierarchy-Director General (DG)`
-	__ResourceShape__00000000_.OverideLayoutDirection = false
-	__ResourceShape__00000000_.LayoutDirection = models.Vertical
+	__ResourceShape__00000000_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000000_.X = 50.000000
 	__ResourceShape__00000000_.Y = 50.000000
 	__ResourceShape__00000000_.Width = 280.000000
@@ -985,8 +1522,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000000_.IsHidden = false
 
 	__ResourceShape__00000001_.Name = `Management Hierarchy-Office of the Director General`
-	__ResourceShape__00000001_.OverideLayoutDirection = false
-	__ResourceShape__00000001_.LayoutDirection = models.Vertical
+	__ResourceShape__00000001_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000001_.X = 50.000000
 	__ResourceShape__00000001_.Y = 190.000000
 	__ResourceShape__00000001_.Width = 280.000000
@@ -994,8 +1530,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000001_.IsHidden = false
 
 	__ResourceShape__00000002_.Name = `Management Hierarchy-Executive Office`
-	__ResourceShape__00000002_.OverideLayoutDirection = false
-	__ResourceShape__00000002_.LayoutDirection = models.Vertical
+	__ResourceShape__00000002_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000002_.X = 240.000000
 	__ResourceShape__00000002_.Y = 275.000000
 	__ResourceShape__00000002_.Width = 280.000000
@@ -1003,8 +1538,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000002_.IsHidden = false
 
 	__ResourceShape__00000003_.Name = `Management Hierarchy-Internal Audit`
-	__ResourceShape__00000003_.OverideLayoutDirection = false
-	__ResourceShape__00000003_.LayoutDirection = models.Vertical
+	__ResourceShape__00000003_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000003_.X = 240.000000
 	__ResourceShape__00000003_.Y = 360.000000
 	__ResourceShape__00000003_.Width = 280.000000
@@ -1012,8 +1546,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000003_.IsHidden = false
 
 	__ResourceShape__00000004_.Name = `Management Hierarchy-Legal Service`
-	__ResourceShape__00000004_.OverideLayoutDirection = false
-	__ResourceShape__00000004_.LayoutDirection = models.Vertical
+	__ResourceShape__00000004_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000004_.X = 240.000000
 	__ResourceShape__00000004_.Y = 445.000000
 	__ResourceShape__00000004_.Width = 280.000000
@@ -1021,8 +1554,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000004_.IsHidden = false
 
 	__ResourceShape__00000005_.Name = `Management Hierarchy-Corporate Communications`
-	__ResourceShape__00000005_.OverideLayoutDirection = false
-	__ResourceShape__00000005_.LayoutDirection = models.Vertical
+	__ResourceShape__00000005_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000005_.X = 240.000000
 	__ResourceShape__00000005_.Y = 530.000000
 	__ResourceShape__00000005_.Width = 280.000000
@@ -1030,8 +1562,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000005_.IsHidden = false
 
 	__ResourceShape__00000006_.Name = `Management Hierarchy-Central Secretariat`
-	__ResourceShape__00000006_.OverideLayoutDirection = false
-	__ResourceShape__00000006_.LayoutDirection = models.Vertical
+	__ResourceShape__00000006_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000006_.X = 240.000000
 	__ResourceShape__00000006_.Y = 615.000000
 	__ResourceShape__00000006_.Width = 280.000000
@@ -1039,8 +1570,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000006_.IsHidden = false
 
 	__ResourceShape__00000007_.Name = `Management Hierarchy-ECAC Support`
-	__ResourceShape__00000007_.OverideLayoutDirection = false
-	__ResourceShape__00000007_.LayoutDirection = models.Vertical
+	__ResourceShape__00000007_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000007_.X = 240.000000
 	__ResourceShape__00000007_.Y = 700.000000
 	__ResourceShape__00000007_.Width = 280.000000
@@ -1048,8 +1578,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000007_.IsHidden = false
 
 	__ResourceShape__00000008_.Name = `Management Hierarchy-Network Management Directorate (NMD)`
-	__ResourceShape__00000008_.OverideLayoutDirection = false
-	__ResourceShape__00000008_.LayoutDirection = models.Vertical
+	__ResourceShape__00000008_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000008_.X = 570.000000
 	__ResourceShape__00000008_.Y = 190.000000
 	__ResourceShape__00000008_.Width = 280.000000
@@ -1057,8 +1586,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000008_.IsHidden = false
 
 	__ResourceShape__00000009_.Name = `Management Hierarchy-European Green Sky Directorate (EGSD)`
-	__ResourceShape__00000009_.OverideLayoutDirection = false
-	__ResourceShape__00000009_.LayoutDirection = models.Vertical
+	__ResourceShape__00000009_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000009_.X = 1090.000000
 	__ResourceShape__00000009_.Y = 190.000000
 	__ResourceShape__00000009_.Width = 280.000000
@@ -1066,8 +1594,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000009_.IsHidden = false
 
 	__ResourceShape__00000010_.Name = `Management Hierarchy-Directorate Central Route Charges Office & Finance (CRCO & Finance)`
-	__ResourceShape__00000010_.OverideLayoutDirection = false
-	__ResourceShape__00000010_.LayoutDirection = models.Vertical
+	__ResourceShape__00000010_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000010_.X = 1610.000000
 	__ResourceShape__00000010_.Y = 190.000000
 	__ResourceShape__00000010_.Width = 280.000000
@@ -1075,8 +1602,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000010_.IsHidden = false
 
 	__ResourceShape__00000011_.Name = `Management Hierarchy-Directorate of People`
-	__ResourceShape__00000011_.OverideLayoutDirection = false
-	__ResourceShape__00000011_.LayoutDirection = models.Vertical
+	__ResourceShape__00000011_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000011_.X = 2130.000000
 	__ResourceShape__00000011_.Y = 190.000000
 	__ResourceShape__00000011_.Width = 280.000000
@@ -1084,8 +1610,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000011_.IsHidden = false
 
 	__ResourceShape__00000012_.Name = `Management Hierarchy-Civil-Military Cooperation Division (CMC)`
-	__ResourceShape__00000012_.OverideLayoutDirection = false
-	__ResourceShape__00000012_.LayoutDirection = models.Vertical
+	__ResourceShape__00000012_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000012_.X = 2460.000000
 	__ResourceShape__00000012_.Y = 190.000000
 	__ResourceShape__00000012_.Width = 280.000000
@@ -1093,8 +1618,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000012_.IsHidden = false
 
 	__ResourceShape__00000013_.Name = `Management Hierarchy-Maastricht Upper Area Control Centre (MUAC)`
-	__ResourceShape__00000013_.OverideLayoutDirection = false
-	__ResourceShape__00000013_.LayoutDirection = models.Vertical
+	__ResourceShape__00000013_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000013_.X = 2790.000000
 	__ResourceShape__00000013_.Y = 190.000000
 	__ResourceShape__00000013_.Width = 280.000000
@@ -1102,8 +1626,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000013_.IsHidden = false
 
 	__ResourceShape__00000014_.Name = `Management Hierarchy-Airspace & Capacity`
-	__ResourceShape__00000014_.OverideLayoutDirection = false
-	__ResourceShape__00000014_.LayoutDirection = models.Vertical
+	__ResourceShape__00000014_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000014_.X = 760.000000
 	__ResourceShape__00000014_.Y = 275.000000
 	__ResourceShape__00000014_.Width = 280.000000
@@ -1111,8 +1634,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000014_.IsHidden = false
 
 	__ResourceShape__00000015_.Name = `Management Hierarchy-Operations`
-	__ResourceShape__00000015_.OverideLayoutDirection = false
-	__ResourceShape__00000015_.LayoutDirection = models.Vertical
+	__ResourceShape__00000015_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000015_.X = 760.000000
 	__ResourceShape__00000015_.Y = 360.000000
 	__ResourceShape__00000015_.Width = 280.000000
@@ -1120,8 +1642,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000015_.IsHidden = false
 
 	__ResourceShape__00000016_.Name = `Management Hierarchy-Technology`
-	__ResourceShape__00000016_.OverideLayoutDirection = false
-	__ResourceShape__00000016_.LayoutDirection = models.Vertical
+	__ResourceShape__00000016_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000016_.X = 760.000000
 	__ResourceShape__00000016_.Y = 445.000000
 	__ResourceShape__00000016_.Width = 280.000000
@@ -1129,8 +1650,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000016_.IsHidden = false
 
 	__ResourceShape__00000017_.Name = `Management Hierarchy-Infrastructure`
-	__ResourceShape__00000017_.OverideLayoutDirection = false
-	__ResourceShape__00000017_.LayoutDirection = models.Vertical
+	__ResourceShape__00000017_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000017_.X = 760.000000
 	__ResourceShape__00000017_.Y = 530.000000
 	__ResourceShape__00000017_.Width = 280.000000
@@ -1138,8 +1658,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000017_.IsHidden = false
 
 	__ResourceShape__00000018_.Name = `Management Hierarchy-Training`
-	__ResourceShape__00000018_.OverideLayoutDirection = false
-	__ResourceShape__00000018_.LayoutDirection = models.Vertical
+	__ResourceShape__00000018_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000018_.X = 760.000000
 	__ResourceShape__00000018_.Y = 615.000000
 	__ResourceShape__00000018_.Width = 280.000000
@@ -1147,8 +1666,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000018_.IsHidden = false
 
 	__ResourceShape__00000019_.Name = `Management Hierarchy-Aviation Sustainability`
-	__ResourceShape__00000019_.OverideLayoutDirection = false
-	__ResourceShape__00000019_.LayoutDirection = models.Vertical
+	__ResourceShape__00000019_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000019_.X = 1280.000000
 	__ResourceShape__00000019_.Y = 275.000000
 	__ResourceShape__00000019_.Width = 280.000000
@@ -1156,8 +1674,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000019_.IsHidden = false
 
 	__ResourceShape__00000020_.Name = `Management Hierarchy-Innovation & Research`
-	__ResourceShape__00000020_.OverideLayoutDirection = false
-	__ResourceShape__00000020_.LayoutDirection = models.Vertical
+	__ResourceShape__00000020_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000020_.X = 1280.000000
 	__ResourceShape__00000020_.Y = 360.000000
 	__ResourceShape__00000020_.Width = 280.000000
@@ -1165,8 +1682,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000020_.IsHidden = false
 
 	__ResourceShape__00000021_.Name = `Management Hierarchy-Aviation Intelligence`
-	__ResourceShape__00000021_.OverideLayoutDirection = false
-	__ResourceShape__00000021_.LayoutDirection = models.Vertical
+	__ResourceShape__00000021_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000021_.X = 1280.000000
 	__ResourceShape__00000021_.Y = 445.000000
 	__ResourceShape__00000021_.Width = 280.000000
@@ -1174,8 +1690,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000021_.IsHidden = false
 
 	__ResourceShape__00000022_.Name = `Management Hierarchy-Drones & Emerging Activities`
-	__ResourceShape__00000022_.OverideLayoutDirection = false
-	__ResourceShape__00000022_.LayoutDirection = models.Vertical
+	__ResourceShape__00000022_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000022_.X = 1280.000000
 	__ResourceShape__00000022_.Y = 530.000000
 	__ResourceShape__00000022_.Width = 280.000000
@@ -1183,8 +1698,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000022_.IsHidden = false
 
 	__ResourceShape__00000023_.Name = `Management Hierarchy-Central Route Charges Office (CRCO)`
-	__ResourceShape__00000023_.OverideLayoutDirection = false
-	__ResourceShape__00000023_.LayoutDirection = models.Vertical
+	__ResourceShape__00000023_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000023_.X = 1800.000000
 	__ResourceShape__00000023_.Y = 275.000000
 	__ResourceShape__00000023_.Width = 280.000000
@@ -1192,8 +1706,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000023_.IsHidden = false
 
 	__ResourceShape__00000024_.Name = `Management Hierarchy-Financial Services`
-	__ResourceShape__00000024_.OverideLayoutDirection = false
-	__ResourceShape__00000024_.LayoutDirection = models.Vertical
+	__ResourceShape__00000024_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000024_.X = 1800.000000
 	__ResourceShape__00000024_.Y = 360.000000
 	__ResourceShape__00000024_.Width = 280.000000
@@ -1201,8 +1714,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000024_.IsHidden = false
 
 	__ResourceShape__00000025_.Name = `Management Hierarchy-Operations Division`
-	__ResourceShape__00000025_.OverideLayoutDirection = false
-	__ResourceShape__00000025_.LayoutDirection = models.Vertical
+	__ResourceShape__00000025_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000025_.X = 2980.000000
 	__ResourceShape__00000025_.Y = 275.000000
 	__ResourceShape__00000025_.Width = 280.000000
@@ -1210,8 +1722,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000025_.IsHidden = false
 
 	__ResourceShape__00000026_.Name = `Management Hierarchy-Systems & Engineering Division`
-	__ResourceShape__00000026_.OverideLayoutDirection = false
-	__ResourceShape__00000026_.LayoutDirection = models.Vertical
+	__ResourceShape__00000026_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000026_.X = 2980.000000
 	__ResourceShape__00000026_.Y = 360.000000
 	__ResourceShape__00000026_.Width = 280.000000
@@ -1219,8 +1730,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000026_.IsHidden = false
 
 	__ResourceShape__00000027_.Name = `Management Hierarchy-Support & Development`
-	__ResourceShape__00000027_.OverideLayoutDirection = false
-	__ResourceShape__00000027_.LayoutDirection = models.Vertical
+	__ResourceShape__00000027_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000027_.X = 2980.000000
 	__ResourceShape__00000027_.Y = 445.000000
 	__ResourceShape__00000027_.Width = 280.000000
@@ -1228,328 +1738,500 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000027_.IsHidden = false
 
 	__ResourceShape__00000028_.Name = `Management L1 & L2-Director General (DG)`
-	__ResourceShape__00000028_.OverideLayoutDirection = false
-	__ResourceShape__00000028_.LayoutDirection = models.Vertical
+	__ResourceShape__00000028_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000028_.X = 50.000000
 	__ResourceShape__00000028_.Y = 50.000000
 	__ResourceShape__00000028_.Width = 250.000000
 	__ResourceShape__00000028_.Height = 70.000000
 	__ResourceShape__00000028_.IsHidden = false
 
-	__ResourceShape__00000056_.Name = `Management OPS L1, L2 & L3-Director General (DG)`
-	__ResourceShape__00000056_.OverideLayoutDirection = false
-	__ResourceShape__00000056_.LayoutDirection = models.Vertical
+	__ResourceShape__00000056_.Name = `OPS Management-Director General (DG)`
+	__ResourceShape__00000056_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000056_.X = 50.000000
 	__ResourceShape__00000056_.Y = 50.000000
 	__ResourceShape__00000056_.Width = 250.000000
 	__ResourceShape__00000056_.Height = 70.000000
 	__ResourceShape__00000056_.IsHidden = false
 
-	__ResourceShape__00000057_.Name = `Management OPS L1, L2 & L3-Office of the Director General`
-	__ResourceShape__00000057_.OverideLayoutDirection = false
-	__ResourceShape__00000057_.LayoutDirection = models.Vertical
-	__ResourceShape__00000057_.X = 225.000000
-	__ResourceShape__00000057_.Y = 135.000000
-	__ResourceShape__00000057_.Width = 250.000000
-	__ResourceShape__00000057_.Height = 70.000000
-	__ResourceShape__00000057_.IsHidden = false
-
-	__ResourceShape__00000058_.Name = `Management OPS L1, L2 & L3-Executive Office`
-	__ResourceShape__00000058_.OverideLayoutDirection = false
-	__ResourceShape__00000058_.LayoutDirection = models.Vertical
-	__ResourceShape__00000058_.X = 400.000000
-	__ResourceShape__00000058_.Y = 220.000000
-	__ResourceShape__00000058_.Width = 250.000000
-	__ResourceShape__00000058_.Height = 70.000000
-	__ResourceShape__00000058_.IsHidden = false
-
-	__ResourceShape__00000059_.Name = `Management OPS L1, L2 & L3-Internal Audit`
-	__ResourceShape__00000059_.OverideLayoutDirection = false
-	__ResourceShape__00000059_.LayoutDirection = models.Vertical
-	__ResourceShape__00000059_.X = 400.000000
-	__ResourceShape__00000059_.Y = 305.000000
-	__ResourceShape__00000059_.Width = 250.000000
-	__ResourceShape__00000059_.Height = 70.000000
-	__ResourceShape__00000059_.IsHidden = false
-
-	__ResourceShape__00000060_.Name = `Management OPS L1, L2 & L3-Legal Service`
-	__ResourceShape__00000060_.OverideLayoutDirection = false
-	__ResourceShape__00000060_.LayoutDirection = models.Vertical
-	__ResourceShape__00000060_.X = 400.000000
-	__ResourceShape__00000060_.Y = 390.000000
-	__ResourceShape__00000060_.Width = 250.000000
-	__ResourceShape__00000060_.Height = 70.000000
-	__ResourceShape__00000060_.IsHidden = false
-
-	__ResourceShape__00000061_.Name = `Management OPS L1, L2 & L3-Corporate Communications`
-	__ResourceShape__00000061_.OverideLayoutDirection = false
-	__ResourceShape__00000061_.LayoutDirection = models.Vertical
-	__ResourceShape__00000061_.X = 400.000000
-	__ResourceShape__00000061_.Y = 475.000000
-	__ResourceShape__00000061_.Width = 250.000000
-	__ResourceShape__00000061_.Height = 70.000000
-	__ResourceShape__00000061_.IsHidden = false
-
-	__ResourceShape__00000062_.Name = `Management OPS L1, L2 & L3-Central Secretariat`
-	__ResourceShape__00000062_.OverideLayoutDirection = false
-	__ResourceShape__00000062_.LayoutDirection = models.Vertical
-	__ResourceShape__00000062_.X = 400.000000
-	__ResourceShape__00000062_.Y = 560.000000
-	__ResourceShape__00000062_.Width = 250.000000
-	__ResourceShape__00000062_.Height = 70.000000
-	__ResourceShape__00000062_.IsHidden = false
-
-	__ResourceShape__00000063_.Name = `Management OPS L1, L2 & L3-ECAC Support`
-	__ResourceShape__00000063_.OverideLayoutDirection = false
-	__ResourceShape__00000063_.LayoutDirection = models.Vertical
-	__ResourceShape__00000063_.X = 400.000000
-	__ResourceShape__00000063_.Y = 645.000000
-	__ResourceShape__00000063_.Width = 250.000000
-	__ResourceShape__00000063_.Height = 70.000000
-	__ResourceShape__00000063_.IsHidden = false
-
-	__ResourceShape__00000064_.Name = `Management OPS L1, L2 & L3-Network Management Directorate (NMD)`
-	__ResourceShape__00000064_.OverideLayoutDirection = false
-	__ResourceShape__00000064_.LayoutDirection = models.Vertical
-	__ResourceShape__00000064_.X = 225.000000
-	__ResourceShape__00000064_.Y = 730.000000
+	__ResourceShape__00000064_.Name = `OPS Management-Network Management Directorate (NMD)`
+	__ResourceShape__00000064_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000064_.X = 50.000000
+	__ResourceShape__00000064_.Y = 190.000000
 	__ResourceShape__00000064_.Width = 250.000000
 	__ResourceShape__00000064_.Height = 70.000000
 	__ResourceShape__00000064_.IsHidden = false
 
-	__ResourceShape__00000065_.Name = `Management OPS L1, L2 & L3-Airspace & Capacity`
-	__ResourceShape__00000065_.OverideLayoutDirection = false
-	__ResourceShape__00000065_.LayoutDirection = models.Vertical
-	__ResourceShape__00000065_.X = 400.000000
-	__ResourceShape__00000065_.Y = 815.000000
-	__ResourceShape__00000065_.Width = 250.000000
-	__ResourceShape__00000065_.Height = 70.000000
-	__ResourceShape__00000065_.IsHidden = false
-
-	__ResourceShape__00000066_.Name = `Management OPS L1, L2 & L3-Operations`
-	__ResourceShape__00000066_.OverideLayoutDirection = false
-	__ResourceShape__00000066_.LayoutDirection = models.Vertical
-	__ResourceShape__00000066_.X = 400.000000
-	__ResourceShape__00000066_.Y = 900.000000
-	__ResourceShape__00000066_.Width = 250.000000
-	__ResourceShape__00000066_.Height = 70.000000
-	__ResourceShape__00000066_.IsHidden = false
-
-	__ResourceShape__00000067_.Name = `Management OPS L1, L2 & L3-Technology`
-	__ResourceShape__00000067_.OverideLayoutDirection = false
-	__ResourceShape__00000067_.LayoutDirection = models.Vertical
-	__ResourceShape__00000067_.X = 400.000000
-	__ResourceShape__00000067_.Y = 985.000000
-	__ResourceShape__00000067_.Width = 250.000000
-	__ResourceShape__00000067_.Height = 70.000000
-	__ResourceShape__00000067_.IsHidden = false
-
-	__ResourceShape__00000068_.Name = `Management OPS L1, L2 & L3-Infrastructure`
-	__ResourceShape__00000068_.OverideLayoutDirection = false
-	__ResourceShape__00000068_.LayoutDirection = models.Vertical
-	__ResourceShape__00000068_.X = 400.000000
-	__ResourceShape__00000068_.Y = 1070.000000
-	__ResourceShape__00000068_.Width = 250.000000
-	__ResourceShape__00000068_.Height = 70.000000
-	__ResourceShape__00000068_.IsHidden = false
-
-	__ResourceShape__00000069_.Name = `Management OPS L1, L2 & L3-Training`
-	__ResourceShape__00000069_.OverideLayoutDirection = false
-	__ResourceShape__00000069_.LayoutDirection = models.Vertical
-	__ResourceShape__00000069_.X = 400.000000
-	__ResourceShape__00000069_.Y = 1155.000000
-	__ResourceShape__00000069_.Width = 250.000000
-	__ResourceShape__00000069_.Height = 70.000000
-	__ResourceShape__00000069_.IsHidden = false
-
-	__ResourceShape__00000070_.Name = `Management OPS L1, L2 & L3-European Green Sky Directorate (EGSD)`
-	__ResourceShape__00000070_.OverideLayoutDirection = false
-	__ResourceShape__00000070_.LayoutDirection = models.Vertical
-	__ResourceShape__00000070_.X = 225.000000
-	__ResourceShape__00000070_.Y = 1325.000000
+	__ResourceShape__00000070_.Name = `OPS Management-European Green Sky Directorate (EGSD)`
+	__ResourceShape__00000070_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000070_.X = 525.000000
+	__ResourceShape__00000070_.Y = 190.000000
 	__ResourceShape__00000070_.Width = 250.000000
 	__ResourceShape__00000070_.Height = 70.000000
 	__ResourceShape__00000070_.IsHidden = false
 
-	__ResourceShape__00000071_.Name = `Management OPS L1, L2 & L3-Aviation Sustainability`
-	__ResourceShape__00000071_.OverideLayoutDirection = false
-	__ResourceShape__00000071_.LayoutDirection = models.Vertical
-	__ResourceShape__00000071_.X = 400.000000
-	__ResourceShape__00000071_.Y = 1410.000000
+	__ResourceShape__00000071_.Name = `OPS Management-Aviation Sustainability`
+	__ResourceShape__00000071_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000071_.X = 700.000000
+	__ResourceShape__00000071_.Y = 275.000000
 	__ResourceShape__00000071_.Width = 250.000000
 	__ResourceShape__00000071_.Height = 70.000000
 	__ResourceShape__00000071_.IsHidden = false
 
-	__ResourceShape__00000072_.Name = `Management OPS L1, L2 & L3-Innovation & Research`
-	__ResourceShape__00000072_.OverideLayoutDirection = false
-	__ResourceShape__00000072_.LayoutDirection = models.Vertical
-	__ResourceShape__00000072_.X = 400.000000
-	__ResourceShape__00000072_.Y = 1495.000000
+	__ResourceShape__00000072_.Name = `OPS Management-Innovation & Research`
+	__ResourceShape__00000072_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000072_.X = 700.000000
+	__ResourceShape__00000072_.Y = 360.000000
 	__ResourceShape__00000072_.Width = 250.000000
 	__ResourceShape__00000072_.Height = 70.000000
 	__ResourceShape__00000072_.IsHidden = false
 
-	__ResourceShape__00000073_.Name = `Management OPS L1, L2 & L3-Aviation Intelligence`
-	__ResourceShape__00000073_.OverideLayoutDirection = false
-	__ResourceShape__00000073_.LayoutDirection = models.Vertical
-	__ResourceShape__00000073_.X = 400.000000
-	__ResourceShape__00000073_.Y = 1580.000000
+	__ResourceShape__00000073_.Name = `OPS Management-Aviation Intelligence`
+	__ResourceShape__00000073_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000073_.X = 700.000000
+	__ResourceShape__00000073_.Y = 445.000000
 	__ResourceShape__00000073_.Width = 250.000000
 	__ResourceShape__00000073_.Height = 70.000000
 	__ResourceShape__00000073_.IsHidden = false
 
-	__ResourceShape__00000074_.Name = `Management OPS L1, L2 & L3-Drones & Emerging Activities`
-	__ResourceShape__00000074_.OverideLayoutDirection = false
-	__ResourceShape__00000074_.LayoutDirection = models.Vertical
-	__ResourceShape__00000074_.X = 400.000000
-	__ResourceShape__00000074_.Y = 1665.000000
+	__ResourceShape__00000074_.Name = `OPS Management-Drones & Emerging Activities`
+	__ResourceShape__00000074_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000074_.X = 700.000000
+	__ResourceShape__00000074_.Y = 530.000000
 	__ResourceShape__00000074_.Width = 250.000000
 	__ResourceShape__00000074_.Height = 70.000000
 	__ResourceShape__00000074_.IsHidden = false
 
-	__ResourceShape__00000075_.Name = `Management OPS L1, L2 & L3-Directorate Central Route Charges Office & Finance (CRCO & Finance)`
-	__ResourceShape__00000075_.OverideLayoutDirection = false
-	__ResourceShape__00000075_.LayoutDirection = models.Vertical
-	__ResourceShape__00000075_.X = 225.000000
-	__ResourceShape__00000075_.Y = 2090.000000
-	__ResourceShape__00000075_.Width = 250.000000
-	__ResourceShape__00000075_.Height = 70.000000
-	__ResourceShape__00000075_.IsHidden = false
-
-	__ResourceShape__00000076_.Name = `Management OPS L1, L2 & L3-Central Route Charges Office (CRCO)`
-	__ResourceShape__00000076_.OverideLayoutDirection = false
-	__ResourceShape__00000076_.LayoutDirection = models.Vertical
-	__ResourceShape__00000076_.X = 400.000000
-	__ResourceShape__00000076_.Y = 2175.000000
-	__ResourceShape__00000076_.Width = 250.000000
-	__ResourceShape__00000076_.Height = 70.000000
-	__ResourceShape__00000076_.IsHidden = false
-
-	__ResourceShape__00000077_.Name = `Management OPS L1, L2 & L3-Financial Services`
-	__ResourceShape__00000077_.OverideLayoutDirection = false
-	__ResourceShape__00000077_.LayoutDirection = models.Vertical
-	__ResourceShape__00000077_.X = 400.000000
-	__ResourceShape__00000077_.Y = 2260.000000
-	__ResourceShape__00000077_.Width = 250.000000
-	__ResourceShape__00000077_.Height = 70.000000
-	__ResourceShape__00000077_.IsHidden = false
-
-	__ResourceShape__00000078_.Name = `Management OPS L1, L2 & L3-Directorate of People`
-	__ResourceShape__00000078_.OverideLayoutDirection = false
-	__ResourceShape__00000078_.LayoutDirection = models.Vertical
-	__ResourceShape__00000078_.X = 225.000000
-	__ResourceShape__00000078_.Y = 2345.000000
-	__ResourceShape__00000078_.Width = 250.000000
-	__ResourceShape__00000078_.Height = 70.000000
-	__ResourceShape__00000078_.IsHidden = false
-
-	__ResourceShape__00000079_.Name = `Management OPS L1, L2 & L3-Civil-Military Cooperation Division (CMC)`
-	__ResourceShape__00000079_.OverideLayoutDirection = false
-	__ResourceShape__00000079_.LayoutDirection = models.Vertical
-	__ResourceShape__00000079_.X = 225.000000
-	__ResourceShape__00000079_.Y = 1240.000000
-	__ResourceShape__00000079_.Width = 250.000000
-	__ResourceShape__00000079_.Height = 70.000000
-	__ResourceShape__00000079_.IsHidden = false
-
-	__ResourceShape__00000080_.Name = `Management OPS L1, L2 & L3-Maastricht Upper Area Control Centre (MUAC)`
-	__ResourceShape__00000080_.OverideLayoutDirection = false
-	__ResourceShape__00000080_.LayoutDirection = models.Vertical
-	__ResourceShape__00000080_.X = 225.000000
-	__ResourceShape__00000080_.Y = 1750.000000
+	__ResourceShape__00000080_.Name = `OPS Management-Maastricht Upper Area Control Centre (MUAC)`
+	__ResourceShape__00000080_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000080_.X = 1000.000000
+	__ResourceShape__00000080_.Y = 190.000000
 	__ResourceShape__00000080_.Width = 250.000000
 	__ResourceShape__00000080_.Height = 70.000000
 	__ResourceShape__00000080_.IsHidden = false
 
-	__ResourceShape__00000081_.Name = `Management OPS L1, L2 & L3-Operations Division`
-	__ResourceShape__00000081_.OverideLayoutDirection = false
-	__ResourceShape__00000081_.LayoutDirection = models.Vertical
-	__ResourceShape__00000081_.X = 400.000000
-	__ResourceShape__00000081_.Y = 1835.000000
+	__ResourceShape__00000081_.Name = `OPS Management-Operations Division`
+	__ResourceShape__00000081_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000081_.X = 1175.000000
+	__ResourceShape__00000081_.Y = 275.000000
 	__ResourceShape__00000081_.Width = 250.000000
 	__ResourceShape__00000081_.Height = 70.000000
 	__ResourceShape__00000081_.IsHidden = false
 
-	__ResourceShape__00000082_.Name = `Management OPS L1, L2 & L3-Systems & Engineering Division`
-	__ResourceShape__00000082_.OverideLayoutDirection = false
-	__ResourceShape__00000082_.LayoutDirection = models.Vertical
-	__ResourceShape__00000082_.X = 400.000000
-	__ResourceShape__00000082_.Y = 1920.000000
+	__ResourceShape__00000082_.Name = `OPS Management-Systems & Engineering Division`
+	__ResourceShape__00000082_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000082_.X = 1175.000000
+	__ResourceShape__00000082_.Y = 360.000000
 	__ResourceShape__00000082_.Width = 250.000000
 	__ResourceShape__00000082_.Height = 70.000000
 	__ResourceShape__00000082_.IsHidden = false
 
-	__ResourceShape__00000083_.Name = `Management OPS L1, L2 & L3-Support & Development`
-	__ResourceShape__00000083_.OverideLayoutDirection = false
-	__ResourceShape__00000083_.LayoutDirection = models.Vertical
-	__ResourceShape__00000083_.X = 400.000000
-	__ResourceShape__00000083_.Y = 2005.000000
+	__ResourceShape__00000083_.Name = `OPS Management-Support & Development`
+	__ResourceShape__00000083_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000083_.X = 1175.000000
+	__ResourceShape__00000083_.Y = 445.000000
 	__ResourceShape__00000083_.Width = 250.000000
 	__ResourceShape__00000083_.Height = 70.000000
 	__ResourceShape__00000083_.IsHidden = false
 
 	__ResourceShape__00000093_.Name = `Management L1 & L2-Office of the Director General`
-	__ResourceShape__00000093_.OverideLayoutDirection = false
-	__ResourceShape__00000093_.LayoutDirection = models.Vertical
-	__ResourceShape__00000093_.X = 225.000000
-	__ResourceShape__00000093_.Y = 135.000000
+	__ResourceShape__00000093_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000093_.X = 50.000000
+	__ResourceShape__00000093_.Y = 190.000000
 	__ResourceShape__00000093_.Width = 250.000000
 	__ResourceShape__00000093_.Height = 70.000000
 	__ResourceShape__00000093_.IsHidden = false
 
 	__ResourceShape__00000094_.Name = `Management L1 & L2-Network Management Directorate (NMD)`
-	__ResourceShape__00000094_.OverideLayoutDirection = false
-	__ResourceShape__00000094_.LayoutDirection = models.Vertical
-	__ResourceShape__00000094_.X = 225.000000
-	__ResourceShape__00000094_.Y = 220.000000
+	__ResourceShape__00000094_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000094_.X = 193.000000
+	__ResourceShape__00000094_.Y = 309.000000
 	__ResourceShape__00000094_.Width = 250.000000
 	__ResourceShape__00000094_.Height = 70.000000
 	__ResourceShape__00000094_.IsHidden = false
 
 	__ResourceShape__00000095_.Name = `Management L1 & L2-Civil-Military Cooperation Division (CMC)`
-	__ResourceShape__00000095_.OverideLayoutDirection = false
-	__ResourceShape__00000095_.LayoutDirection = models.Vertical
-	__ResourceShape__00000095_.X = 225.000000
-	__ResourceShape__00000095_.Y = 305.000000
+	__ResourceShape__00000095_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000095_.X = 339.000000
+	__ResourceShape__00000095_.Y = 195.000000
 	__ResourceShape__00000095_.Width = 250.000000
 	__ResourceShape__00000095_.Height = 70.000000
 	__ResourceShape__00000095_.IsHidden = false
 
 	__ResourceShape__00000096_.Name = `Management L1 & L2-European Green Sky Directorate (EGSD)`
-	__ResourceShape__00000096_.OverideLayoutDirection = false
-	__ResourceShape__00000096_.LayoutDirection = models.Vertical
-	__ResourceShape__00000096_.X = 225.000000
-	__ResourceShape__00000096_.Y = 390.000000
+	__ResourceShape__00000096_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000096_.X = 490.000000
+	__ResourceShape__00000096_.Y = 298.000000
 	__ResourceShape__00000096_.Width = 250.000000
 	__ResourceShape__00000096_.Height = 70.000000
 	__ResourceShape__00000096_.IsHidden = false
 
 	__ResourceShape__00000097_.Name = `Management L1 & L2-Maastricht Upper Area Control Centre (MUAC)`
-	__ResourceShape__00000097_.OverideLayoutDirection = false
-	__ResourceShape__00000097_.LayoutDirection = models.Vertical
-	__ResourceShape__00000097_.X = 225.000000
-	__ResourceShape__00000097_.Y = 475.000000
+	__ResourceShape__00000097_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000097_.X = 665.000000
+	__ResourceShape__00000097_.Y = 197.000000
 	__ResourceShape__00000097_.Width = 250.000000
 	__ResourceShape__00000097_.Height = 70.000000
 	__ResourceShape__00000097_.IsHidden = false
 
 	__ResourceShape__00000098_.Name = `Management L1 & L2-Directorate Central Route Charges Office & Finance (CRCO & Finance)`
-	__ResourceShape__00000098_.OverideLayoutDirection = false
-	__ResourceShape__00000098_.LayoutDirection = models.Vertical
-	__ResourceShape__00000098_.X = 225.000000
-	__ResourceShape__00000098_.Y = 560.000000
+	__ResourceShape__00000098_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000098_.X = 827.000000
+	__ResourceShape__00000098_.Y = 295.000000
 	__ResourceShape__00000098_.Width = 250.000000
 	__ResourceShape__00000098_.Height = 70.000000
 	__ResourceShape__00000098_.IsHidden = false
 
 	__ResourceShape__00000099_.Name = `Management L1 & L2-Directorate of People`
-	__ResourceShape__00000099_.OverideLayoutDirection = false
-	__ResourceShape__00000099_.LayoutDirection = models.Vertical
-	__ResourceShape__00000099_.X = 225.000000
-	__ResourceShape__00000099_.Y = 645.000000
+	__ResourceShape__00000099_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000099_.X = 999.000000
+	__ResourceShape__00000099_.Y = 195.000000
 	__ResourceShape__00000099_.Width = 250.000000
 	__ResourceShape__00000099_.Height = 70.000000
 	__ResourceShape__00000099_.IsHidden = false
+
+	__ResourceShape__00000156_.Name = `OPS Management-Airspace & Capacity`
+	__ResourceShape__00000156_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000156_.X = 225.000000
+	__ResourceShape__00000156_.Y = 275.000000
+	__ResourceShape__00000156_.Width = 250.000000
+	__ResourceShape__00000156_.Height = 70.000000
+	__ResourceShape__00000156_.IsHidden = false
+
+	__ResourceShape__00000157_.Name = `OPS Management-Operations`
+	__ResourceShape__00000157_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000157_.X = 225.000000
+	__ResourceShape__00000157_.Y = 360.000000
+	__ResourceShape__00000157_.Width = 250.000000
+	__ResourceShape__00000157_.Height = 70.000000
+	__ResourceShape__00000157_.IsHidden = false
+
+	__ResourceShape__00000158_.Name = `OPS Management-Technology`
+	__ResourceShape__00000158_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000158_.X = 225.000000
+	__ResourceShape__00000158_.Y = 445.000000
+	__ResourceShape__00000158_.Width = 250.000000
+	__ResourceShape__00000158_.Height = 70.000000
+	__ResourceShape__00000158_.IsHidden = false
+
+	__ResourceShape__00000159_.Name = `OPS Management-Infrastructure`
+	__ResourceShape__00000159_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000159_.X = 225.000000
+	__ResourceShape__00000159_.Y = 530.000000
+	__ResourceShape__00000159_.Width = 250.000000
+	__ResourceShape__00000159_.Height = 70.000000
+	__ResourceShape__00000159_.IsHidden = false
+
+	__ResourceShape__00000160_.Name = `OPS Management-Training`
+	__ResourceShape__00000160_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000160_.X = 225.000000
+	__ResourceShape__00000160_.Y = 615.000000
+	__ResourceShape__00000160_.Width = 250.000000
+	__ResourceShape__00000160_.Height = 70.000000
+	__ResourceShape__00000160_.IsHidden = false
+
+	__ResourceShape__00000161_.Name = `OPS Management-Digital Transformation Office`
+	__ResourceShape__00000161_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000161_.X = 225.000000
+	__ResourceShape__00000161_.Y = 700.000000
+	__ResourceShape__00000161_.Width = 250.000000
+	__ResourceShape__00000161_.Height = 70.000000
+	__ResourceShape__00000161_.IsHidden = false
+
+	__ResourceShape__00000162_.Name = `OPS Management-OPS Safety, SQS & Integrated Risk Management`
+	__ResourceShape__00000162_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000162_.X = 225.000000
+	__ResourceShape__00000162_.Y = 785.000000
+	__ResourceShape__00000162_.Width = 250.000000
+	__ResourceShape__00000162_.Height = 70.000000
+	__ResourceShape__00000162_.IsHidden = false
+
+	__ResourceShape__00000163_.Name = `OPS Management-Cross-NM Support & Advice Service`
+	__ResourceShape__00000163_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000163_.X = 225.000000
+	__ResourceShape__00000163_.Y = 870.000000
+	__ResourceShape__00000163_.Width = 250.000000
+	__ResourceShape__00000163_.Height = 70.000000
+	__ResourceShape__00000163_.IsHidden = false
+
+	__ResourceShape__00000164_.Name = `OPS Management-Business Coordination Unit`
+	__ResourceShape__00000164_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000164_.X = 225.000000
+	__ResourceShape__00000164_.Y = 955.000000
+	__ResourceShape__00000164_.Width = 250.000000
+	__ResourceShape__00000164_.Height = 70.000000
+	__ResourceShape__00000164_.IsHidden = false
+
+	__ResourceShape__00000165_.Name = `NMD Directorate & Units 1/3-Network Management Directorate (NMD)`
+	__ResourceShape__00000165_.IsLayoutDirectionDifferent = true
+	__ResourceShape__00000165_.X = 50.000000
+	__ResourceShape__00000165_.Y = 190.000000
+	__ResourceShape__00000165_.Width = 280.000000
+	__ResourceShape__00000165_.Height = 70.000000
+	__ResourceShape__00000165_.IsHidden = false
+
+	__ResourceShape__00000166_.Name = `NMD Directorate & Units 1/3-Airspace & Capacity`
+	__ResourceShape__00000166_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000166_.X = 50.000000
+	__ResourceShape__00000166_.Y = 330.000000
+	__ResourceShape__00000166_.Width = 147.000000
+	__ResourceShape__00000166_.Height = 70.000000
+	__ResourceShape__00000166_.IsHidden = false
+
+	__ResourceShape__00000167_.Name = `NMD Directorate & Units 1/3-Operational Planning & Evolution`
+	__ResourceShape__00000167_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000167_.X = 173.500000
+	__ResourceShape__00000167_.Y = 415.000000
+	__ResourceShape__00000167_.Width = 280.000000
+	__ResourceShape__00000167_.Height = 70.000000
+	__ResourceShape__00000167_.IsHidden = false
+
+	__ResourceShape__00000168_.Name = `NMD Directorate & Units 1/3-Airports Unit`
+	__ResourceShape__00000168_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000168_.X = 173.500000
+	__ResourceShape__00000168_.Y = 500.000000
+	__ResourceShape__00000168_.Width = 280.000000
+	__ResourceShape__00000168_.Height = 70.000000
+	__ResourceShape__00000168_.IsHidden = false
+
+	__ResourceShape__00000169_.Name = `NMD Directorate & Units 1/3-Operations Planning`
+	__ResourceShape__00000169_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000169_.X = 173.500000
+	__ResourceShape__00000169_.Y = 585.000000
+	__ResourceShape__00000169_.Width = 280.000000
+	__ResourceShape__00000169_.Height = 70.000000
+	__ResourceShape__00000169_.IsHidden = false
+
+	__ResourceShape__00000170_.Name = `NMD Directorate & Units 1/3-Project Coordination & Implementation`
+	__ResourceShape__00000170_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000170_.X = 173.500000
+	__ResourceShape__00000170_.Y = 670.000000
+	__ResourceShape__00000170_.Width = 280.000000
+	__ResourceShape__00000170_.Height = 70.000000
+	__ResourceShape__00000170_.IsHidden = false
+
+	__ResourceShape__00000171_.Name = `NMD Directorate & Units 1/3-Network Operations Strategy`
+	__ResourceShape__00000171_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000171_.X = 173.500000
+	__ResourceShape__00000171_.Y = 755.000000
+	__ResourceShape__00000171_.Width = 280.000000
+	__ResourceShape__00000171_.Height = 70.000000
+	__ResourceShape__00000171_.IsHidden = false
+
+	__ResourceShape__00000172_.Name = `NMD Directorate & Units 1/3-Operations`
+	__ResourceShape__00000172_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000172_.X = 503.500000
+	__ResourceShape__00000172_.Y = 330.000000
+	__ResourceShape__00000172_.Width = 139.000000
+	__ResourceShape__00000172_.Height = 70.000000
+	__ResourceShape__00000172_.IsHidden = false
+
+	__ResourceShape__00000173_.Name = `NMD Directorate & Units 1/3-Network Management Operations Centre (NMOC)`
+	__ResourceShape__00000173_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000173_.X = 623.000000
+	__ResourceShape__00000173_.Y = 415.000000
+	__ResourceShape__00000173_.Width = 280.000000
+	__ResourceShape__00000173_.Height = 70.000000
+	__ResourceShape__00000173_.IsHidden = false
+
+	__ResourceShape__00000174_.Name = `NMD Directorate & Units 1/3-Operations Coordination & Analysis`
+	__ResourceShape__00000174_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000174_.X = 623.000000
+	__ResourceShape__00000174_.Y = 500.000000
+	__ResourceShape__00000174_.Width = 280.000000
+	__ResourceShape__00000174_.Height = 70.000000
+	__ResourceShape__00000174_.IsHidden = false
+
+	__ResourceShape__00000175_.Name = `NMD Directorate & Units 1/3-Operations Transformation`
+	__ResourceShape__00000175_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000175_.X = 623.000000
+	__ResourceShape__00000175_.Y = 585.000000
+	__ResourceShape__00000175_.Width = 280.000000
+	__ResourceShape__00000175_.Height = 70.000000
+	__ResourceShape__00000175_.IsHidden = false
+
+	__ResourceShape__00000176_.Name = `NMD Directorate & Units 1/3-Operations Architecture Support & Tools`
+	__ResourceShape__00000176_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000176_.X = 623.000000
+	__ResourceShape__00000176_.Y = 670.000000
+	__ResourceShape__00000176_.Width = 280.000000
+	__ResourceShape__00000176_.Height = 70.000000
+	__ResourceShape__00000176_.IsHidden = false
+
+	__ResourceShape__00000177_.Name = `NMD Directorate & Units 1/3-Performance & Sourcing`
+	__ResourceShape__00000177_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000177_.X = 623.000000
+	__ResourceShape__00000177_.Y = 755.000000
+	__ResourceShape__00000177_.Width = 280.000000
+	__ResourceShape__00000177_.Height = 70.000000
+	__ResourceShape__00000177_.IsHidden = false
+
+	__ResourceShape__00000178_.Name = `NMD Directorate & Units 1/3-Technology`
+	__ResourceShape__00000178_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000178_.X = 953.000000
+	__ResourceShape__00000178_.Y = 330.000000
+	__ResourceShape__00000178_.Width = 154.000000
+	__ResourceShape__00000178_.Height = 70.000000
+	__ResourceShape__00000178_.IsHidden = false
+
+	__ResourceShape__00000179_.Name = `NMD Directorate & Units 1/3-Office of the Chief Technology Officer (CTO)`
+	__ResourceShape__00000179_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000179_.X = 1080.000000
+	__ResourceShape__00000179_.Y = 415.000000
+	__ResourceShape__00000179_.Width = 280.000000
+	__ResourceShape__00000179_.Height = 70.000000
+	__ResourceShape__00000179_.IsHidden = false
+
+	__ResourceShape__00000180_.Name = `NMD Directorate & Units 1/3-Architecture & Tools`
+	__ResourceShape__00000180_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000180_.X = 1080.000000
+	__ResourceShape__00000180_.Y = 500.000000
+	__ResourceShape__00000180_.Width = 280.000000
+	__ResourceShape__00000180_.Height = 70.000000
+	__ResourceShape__00000180_.IsHidden = false
+
+	__ResourceShape__00000181_.Name = `NMD Directorate & Units 1/3-Development & Delivery`
+	__ResourceShape__00000181_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000181_.X = 1080.000000
+	__ResourceShape__00000181_.Y = 585.000000
+	__ResourceShape__00000181_.Width = 280.000000
+	__ResourceShape__00000181_.Height = 70.000000
+	__ResourceShape__00000181_.IsHidden = false
+
+	__ResourceShape__00000182_.Name = `NMD Directorate & Units 1/3-Deployment Strategy & Coordination`
+	__ResourceShape__00000182_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000182_.X = 1080.000000
+	__ResourceShape__00000182_.Y = 670.000000
+	__ResourceShape__00000182_.Width = 280.000000
+	__ResourceShape__00000182_.Height = 70.000000
+	__ResourceShape__00000182_.IsHidden = false
+
+	__ResourceShape__00000183_.Name = `NMD Directorate & Units 1/3-Information Security, Quality, Risk & Compliance`
+	__ResourceShape__00000183_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000183_.X = 1080.000000
+	__ResourceShape__00000183_.Y = 755.000000
+	__ResourceShape__00000183_.Width = 280.000000
+	__ResourceShape__00000183_.Height = 70.000000
+	__ResourceShape__00000183_.IsHidden = false
+
+	__ResourceShape__00000184_.Name = `NMD Directorate & Units 1/3-Sourcing, Finance & Contracting`
+	__ResourceShape__00000184_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000184_.X = 1080.000000
+	__ResourceShape__00000184_.Y = 840.000000
+	__ResourceShape__00000184_.Width = 280.000000
+	__ResourceShape__00000184_.Height = 70.000000
+	__ResourceShape__00000184_.IsHidden = false
+
+	__ResourceShape__00000202_.Name = `NMD Directorate & Units 1/3-Director General (DG)`
+	__ResourceShape__00000202_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000202_.X = 50.000000
+	__ResourceShape__00000202_.Y = 50.000000
+	__ResourceShape__00000202_.Width = 280.000000
+	__ResourceShape__00000202_.Height = 70.000000
+	__ResourceShape__00000202_.IsHidden = false
+
+	__ResourceShape__00000223_.Name = `NMD Directorate & Units 2/3-Director General (DG)`
+	__ResourceShape__00000223_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000223_.X = 50.000000
+	__ResourceShape__00000223_.Y = 50.000000
+	__ResourceShape__00000223_.Width = 280.000000
+	__ResourceShape__00000223_.Height = 70.000000
+	__ResourceShape__00000223_.IsHidden = false
+
+	__ResourceShape__00000229_.Name = `NMD Directorate & Units 2/3-Network Management Directorate (NMD)`
+	__ResourceShape__00000229_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000229_.X = 50.000000
+	__ResourceShape__00000229_.Y = 190.000000
+	__ResourceShape__00000229_.Width = 250.000000
+	__ResourceShape__00000229_.Height = 70.000000
+	__ResourceShape__00000229_.IsHidden = false
+
+	__ResourceShape__00000249_.Name = `NMD Directorate & Units 2/3-Infrastructure`
+	__ResourceShape__00000249_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000249_.X = 225.000000
+	__ResourceShape__00000249_.Y = 275.000000
+	__ResourceShape__00000249_.Width = 250.000000
+	__ResourceShape__00000249_.Height = 70.000000
+	__ResourceShape__00000249_.IsHidden = false
+
+	__ResourceShape__00000250_.Name = `NMD Directorate & Units 2/3-Integrated CNS`
+	__ResourceShape__00000250_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000250_.X = 400.000000
+	__ResourceShape__00000250_.Y = 360.000000
+	__ResourceShape__00000250_.Width = 250.000000
+	__ResourceShape__00000250_.Height = 70.000000
+	__ResourceShape__00000250_.IsHidden = false
+
+	__ResourceShape__00000251_.Name = `NMD Directorate & Units 2/3-Information & Cyber Infrastructure`
+	__ResourceShape__00000251_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000251_.X = 400.000000
+	__ResourceShape__00000251_.Y = 445.000000
+	__ResourceShape__00000251_.Width = 250.000000
+	__ResourceShape__00000251_.Height = 70.000000
+	__ResourceShape__00000251_.IsHidden = false
+
+	__ResourceShape__00000252_.Name = `NMD Directorate & Units 2/3-Partnerships & Performance`
+	__ResourceShape__00000252_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000252_.X = 400.000000
+	__ResourceShape__00000252_.Y = 530.000000
+	__ResourceShape__00000252_.Width = 250.000000
+	__ResourceShape__00000252_.Height = 70.000000
+	__ResourceShape__00000252_.IsHidden = false
+
+	__ResourceShape__00000253_.Name = `NMD Directorate & Units 2/3-Training`
+	__ResourceShape__00000253_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000253_.X = 225.000000
+	__ResourceShape__00000253_.Y = 615.000000
+	__ResourceShape__00000253_.Width = 250.000000
+	__ResourceShape__00000253_.Height = 70.000000
+	__ResourceShape__00000253_.IsHidden = false
+
+	__ResourceShape__00000254_.Name = `NMD Directorate & Units 2/3-Training Development & Delivery`
+	__ResourceShape__00000254_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000254_.X = 400.000000
+	__ResourceShape__00000254_.Y = 700.000000
+	__ResourceShape__00000254_.Width = 250.000000
+	__ResourceShape__00000254_.Height = 70.000000
+	__ResourceShape__00000254_.IsHidden = false
+
+	__ResourceShape__00000255_.Name = `NMD Directorate & Units 2/3-Training Support & Tools`
+	__ResourceShape__00000255_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000255_.X = 400.000000
+	__ResourceShape__00000255_.Y = 785.000000
+	__ResourceShape__00000255_.Width = 250.000000
+	__ResourceShape__00000255_.Height = 70.000000
+	__ResourceShape__00000255_.IsHidden = false
+
+	__ResourceShape__00000256_.Name = `NMD Directorate & Units 2/3-Digital Transformation Office`
+	__ResourceShape__00000256_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000256_.X = 225.000000
+	__ResourceShape__00000256_.Y = 870.000000
+	__ResourceShape__00000256_.Width = 250.000000
+	__ResourceShape__00000256_.Height = 70.000000
+	__ResourceShape__00000256_.IsHidden = false
+
+	__ResourceShape__00000257_.Name = `NMD Directorate & Units 2/3-OPS Safety, SQS & Integrated Risk Management`
+	__ResourceShape__00000257_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000257_.X = 225.000000
+	__ResourceShape__00000257_.Y = 955.000000
+	__ResourceShape__00000257_.Width = 250.000000
+	__ResourceShape__00000257_.Height = 70.000000
+	__ResourceShape__00000257_.IsHidden = false
+
+	__ResourceShape__00000258_.Name = `NMD Directorate & Units 2/3-Cross-NM Support & Advice Service`
+	__ResourceShape__00000258_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000258_.X = 225.000000
+	__ResourceShape__00000258_.Y = 1040.000000
+	__ResourceShape__00000258_.Width = 250.000000
+	__ResourceShape__00000258_.Height = 70.000000
+	__ResourceShape__00000258_.IsHidden = false
+
+	__ResourceShape__00000259_.Name = `NMD Directorate & Units 2/3-Business Coordination Unit`
+	__ResourceShape__00000259_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000259_.X = 225.000000
+	__ResourceShape__00000259_.Y = 1125.000000
+	__ResourceShape__00000259_.Width = 250.000000
+	__ResourceShape__00000259_.Height = 70.000000
+	__ResourceShape__00000259_.IsHidden = false
 
 	// insertion point for setup of pointers
 	__Diagram__00000001_.Resource_Shapes = append(__Diagram__00000001_.Resource_Shapes, __ResourceShape__00000028_)
@@ -1569,63 +2251,121 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.ResourceComposition_Shapes = append(__Diagram__00000001_.ResourceComposition_Shapes, __ResourceCompositionShape__00000095_)
 	__Diagram__00000001_.ResourceComposition_Shapes = append(__Diagram__00000001_.ResourceComposition_Shapes, __ResourceCompositionShape__00000096_)
 	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000056_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000057_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000058_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000059_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000060_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000061_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000062_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000063_)
 	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000064_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000065_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000066_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000067_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000068_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000069_)
 	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000070_)
 	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000071_)
 	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000072_)
 	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000073_)
 	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000074_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000075_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000076_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000077_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000078_)
-	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000079_)
 	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000080_)
 	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000081_)
 	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000082_)
 	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000083_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000054_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000055_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000056_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000057_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000058_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000059_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000060_)
+	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000156_)
+	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000157_)
+	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000158_)
+	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000159_)
+	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000160_)
+	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000161_)
+	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000162_)
+	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000163_)
+	__Diagram__00000002_.Resource_Shapes = append(__Diagram__00000002_.Resource_Shapes, __ResourceShape__00000164_)
+	__Diagram__00000002_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000002_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
+	__Diagram__00000002_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000002_.ResourcesWhoseNodeIsExpanded, __Resource__00000008_)
 	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000061_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000062_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000063_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000064_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000065_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000066_)
 	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000067_)
 	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000068_)
 	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000069_)
 	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000070_)
 	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000071_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000072_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000073_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000074_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000075_)
-	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000076_)
 	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000077_)
 	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000078_)
 	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000079_)
 	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000080_)
+	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000152_)
+	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000153_)
+	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000154_)
+	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000155_)
+	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000156_)
+	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000157_)
+	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000158_)
+	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000159_)
+	__Diagram__00000002_.ResourceComposition_Shapes = append(__Diagram__00000002_.ResourceComposition_Shapes, __ResourceCompositionShape__00000160_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000165_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000166_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000167_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000168_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000169_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000170_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000171_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000172_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000173_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000174_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000175_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000176_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000177_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000178_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000179_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000180_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000181_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000182_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000183_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000184_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000202_)
+	__Diagram__00000003_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000003_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
+	__Diagram__00000003_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000003_.ResourcesWhoseNodeIsExpanded, __Resource__00000008_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000161_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000162_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000163_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000164_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000165_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000166_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000167_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000168_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000169_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000170_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000171_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000172_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000173_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000174_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000175_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000176_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000177_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000178_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000179_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000196_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000223_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000229_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000249_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000250_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000251_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000252_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000253_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000254_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000255_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000256_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000257_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000258_)
+	__Diagram__00000004_.Resource_Shapes = append(__Diagram__00000004_.Resource_Shapes, __ResourceShape__00000259_)
+	__Diagram__00000004_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000004_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
+	__Diagram__00000004_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000004_.ResourcesWhoseNodeIsExpanded, __Resource__00000008_)
+	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000222_)
+	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000242_)
+	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000243_)
+	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000244_)
+	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000245_)
+	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000246_)
+	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000247_)
+	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000248_)
+	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000249_)
+	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000250_)
+	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000251_)
+	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000252_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000001_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000002_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000003_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000004_)
 	__Resource__00000000_.SubResources = append(__Resource__00000000_.SubResources, __Resource__00000001_)
 	__Resource__00000000_.SubResources = append(__Resource__00000000_.SubResources, __Resource__00000008_)
 	__Resource__00000000_.SubResources = append(__Resource__00000000_.SubResources, __Resource__00000012_)
@@ -1652,6 +2392,10 @@ func _(stage *models.Stage) {
 	__Resource__00000008_.SubResources = append(__Resource__00000008_.SubResources, __Resource__00000016_)
 	__Resource__00000008_.SubResources = append(__Resource__00000008_.SubResources, __Resource__00000017_)
 	__Resource__00000008_.SubResources = append(__Resource__00000008_.SubResources, __Resource__00000018_)
+	__Resource__00000008_.SubResources = append(__Resource__00000008_.SubResources, __Resource__00000028_)
+	__Resource__00000008_.SubResources = append(__Resource__00000008_.SubResources, __Resource__00000029_)
+	__Resource__00000008_.SubResources = append(__Resource__00000008_.SubResources, __Resource__00000030_)
+	__Resource__00000008_.SubResources = append(__Resource__00000008_.SubResources, __Resource__00000031_)
 	__Resource__00000008_.ReferencedResource = nil
 	__Resource__00000009_.SubResources = append(__Resource__00000009_.SubResources, __Resource__00000019_)
 	__Resource__00000009_.SubResources = append(__Resource__00000009_.SubResources, __Resource__00000020_)
@@ -1667,10 +2411,31 @@ func _(stage *models.Stage) {
 	__Resource__00000013_.SubResources = append(__Resource__00000013_.SubResources, __Resource__00000026_)
 	__Resource__00000013_.SubResources = append(__Resource__00000013_.SubResources, __Resource__00000027_)
 	__Resource__00000013_.ReferencedResource = nil
+	__Resource__00000014_.SubResources = append(__Resource__00000014_.SubResources, __Resource__00000032_)
+	__Resource__00000014_.SubResources = append(__Resource__00000014_.SubResources, __Resource__00000033_)
+	__Resource__00000014_.SubResources = append(__Resource__00000014_.SubResources, __Resource__00000034_)
+	__Resource__00000014_.SubResources = append(__Resource__00000014_.SubResources, __Resource__00000035_)
+	__Resource__00000014_.SubResources = append(__Resource__00000014_.SubResources, __Resource__00000036_)
 	__Resource__00000014_.ReferencedResource = nil
+	__Resource__00000015_.SubResources = append(__Resource__00000015_.SubResources, __Resource__00000037_)
+	__Resource__00000015_.SubResources = append(__Resource__00000015_.SubResources, __Resource__00000038_)
+	__Resource__00000015_.SubResources = append(__Resource__00000015_.SubResources, __Resource__00000039_)
+	__Resource__00000015_.SubResources = append(__Resource__00000015_.SubResources, __Resource__00000040_)
+	__Resource__00000015_.SubResources = append(__Resource__00000015_.SubResources, __Resource__00000041_)
 	__Resource__00000015_.ReferencedResource = nil
+	__Resource__00000016_.SubResources = append(__Resource__00000016_.SubResources, __Resource__00000042_)
+	__Resource__00000016_.SubResources = append(__Resource__00000016_.SubResources, __Resource__00000043_)
+	__Resource__00000016_.SubResources = append(__Resource__00000016_.SubResources, __Resource__00000044_)
+	__Resource__00000016_.SubResources = append(__Resource__00000016_.SubResources, __Resource__00000045_)
+	__Resource__00000016_.SubResources = append(__Resource__00000016_.SubResources, __Resource__00000046_)
+	__Resource__00000016_.SubResources = append(__Resource__00000016_.SubResources, __Resource__00000047_)
 	__Resource__00000016_.ReferencedResource = nil
+	__Resource__00000017_.SubResources = append(__Resource__00000017_.SubResources, __Resource__00000048_)
+	__Resource__00000017_.SubResources = append(__Resource__00000017_.SubResources, __Resource__00000049_)
+	__Resource__00000017_.SubResources = append(__Resource__00000017_.SubResources, __Resource__00000050_)
 	__Resource__00000017_.ReferencedResource = nil
+	__Resource__00000018_.SubResources = append(__Resource__00000018_.SubResources, __Resource__00000051_)
+	__Resource__00000018_.SubResources = append(__Resource__00000018_.SubResources, __Resource__00000052_)
 	__Resource__00000018_.ReferencedResource = nil
 	__Resource__00000019_.ReferencedResource = nil
 	__Resource__00000020_.ReferencedResource = nil
@@ -1681,6 +2446,31 @@ func _(stage *models.Stage) {
 	__Resource__00000025_.ReferencedResource = nil
 	__Resource__00000026_.ReferencedResource = nil
 	__Resource__00000027_.ReferencedResource = nil
+	__Resource__00000028_.ReferencedResource = nil
+	__Resource__00000029_.ReferencedResource = nil
+	__Resource__00000030_.ReferencedResource = nil
+	__Resource__00000031_.ReferencedResource = nil
+	__Resource__00000032_.ReferencedResource = nil
+	__Resource__00000033_.ReferencedResource = nil
+	__Resource__00000034_.ReferencedResource = nil
+	__Resource__00000035_.ReferencedResource = nil
+	__Resource__00000036_.ReferencedResource = nil
+	__Resource__00000037_.ReferencedResource = nil
+	__Resource__00000038_.ReferencedResource = nil
+	__Resource__00000039_.ReferencedResource = nil
+	__Resource__00000040_.ReferencedResource = nil
+	__Resource__00000041_.ReferencedResource = nil
+	__Resource__00000042_.ReferencedResource = nil
+	__Resource__00000043_.ReferencedResource = nil
+	__Resource__00000044_.ReferencedResource = nil
+	__Resource__00000045_.ReferencedResource = nil
+	__Resource__00000046_.ReferencedResource = nil
+	__Resource__00000047_.ReferencedResource = nil
+	__Resource__00000048_.ReferencedResource = nil
+	__Resource__00000049_.ReferencedResource = nil
+	__Resource__00000050_.ReferencedResource = nil
+	__Resource__00000051_.ReferencedResource = nil
+	__Resource__00000052_.ReferencedResource = nil
 	__ResourceCompositionShape__00000000_.Resource = __Resource__00000001_
 	__ResourceCompositionShape__00000001_.Resource = __Resource__00000002_
 	__ResourceCompositionShape__00000002_.Resource = __Resource__00000003_
@@ -1708,29 +2498,12 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000024_.Resource = __Resource__00000025_
 	__ResourceCompositionShape__00000025_.Resource = __Resource__00000026_
 	__ResourceCompositionShape__00000026_.Resource = __Resource__00000027_
-	__ResourceCompositionShape__00000054_.Resource = __Resource__00000001_
-	__ResourceCompositionShape__00000055_.Resource = __Resource__00000002_
-	__ResourceCompositionShape__00000056_.Resource = __Resource__00000003_
-	__ResourceCompositionShape__00000057_.Resource = __Resource__00000004_
-	__ResourceCompositionShape__00000058_.Resource = __Resource__00000005_
-	__ResourceCompositionShape__00000059_.Resource = __Resource__00000006_
-	__ResourceCompositionShape__00000060_.Resource = __Resource__00000007_
 	__ResourceCompositionShape__00000061_.Resource = __Resource__00000008_
-	__ResourceCompositionShape__00000062_.Resource = __Resource__00000014_
-	__ResourceCompositionShape__00000063_.Resource = __Resource__00000015_
-	__ResourceCompositionShape__00000064_.Resource = __Resource__00000016_
-	__ResourceCompositionShape__00000065_.Resource = __Resource__00000017_
-	__ResourceCompositionShape__00000066_.Resource = __Resource__00000018_
 	__ResourceCompositionShape__00000067_.Resource = __Resource__00000009_
 	__ResourceCompositionShape__00000068_.Resource = __Resource__00000019_
 	__ResourceCompositionShape__00000069_.Resource = __Resource__00000020_
 	__ResourceCompositionShape__00000070_.Resource = __Resource__00000021_
 	__ResourceCompositionShape__00000071_.Resource = __Resource__00000022_
-	__ResourceCompositionShape__00000072_.Resource = __Resource__00000010_
-	__ResourceCompositionShape__00000073_.Resource = __Resource__00000023_
-	__ResourceCompositionShape__00000074_.Resource = __Resource__00000024_
-	__ResourceCompositionShape__00000075_.Resource = __Resource__00000011_
-	__ResourceCompositionShape__00000076_.Resource = __Resource__00000012_
 	__ResourceCompositionShape__00000077_.Resource = __Resource__00000013_
 	__ResourceCompositionShape__00000078_.Resource = __Resource__00000025_
 	__ResourceCompositionShape__00000079_.Resource = __Resource__00000026_
@@ -1742,6 +2515,47 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000094_.Resource = __Resource__00000013_
 	__ResourceCompositionShape__00000095_.Resource = __Resource__00000010_
 	__ResourceCompositionShape__00000096_.Resource = __Resource__00000011_
+	__ResourceCompositionShape__00000152_.Resource = __Resource__00000014_
+	__ResourceCompositionShape__00000153_.Resource = __Resource__00000015_
+	__ResourceCompositionShape__00000154_.Resource = __Resource__00000016_
+	__ResourceCompositionShape__00000155_.Resource = __Resource__00000017_
+	__ResourceCompositionShape__00000156_.Resource = __Resource__00000018_
+	__ResourceCompositionShape__00000157_.Resource = __Resource__00000028_
+	__ResourceCompositionShape__00000158_.Resource = __Resource__00000029_
+	__ResourceCompositionShape__00000159_.Resource = __Resource__00000030_
+	__ResourceCompositionShape__00000160_.Resource = __Resource__00000031_
+	__ResourceCompositionShape__00000161_.Resource = __Resource__00000014_
+	__ResourceCompositionShape__00000162_.Resource = __Resource__00000032_
+	__ResourceCompositionShape__00000163_.Resource = __Resource__00000033_
+	__ResourceCompositionShape__00000164_.Resource = __Resource__00000034_
+	__ResourceCompositionShape__00000165_.Resource = __Resource__00000035_
+	__ResourceCompositionShape__00000166_.Resource = __Resource__00000036_
+	__ResourceCompositionShape__00000167_.Resource = __Resource__00000015_
+	__ResourceCompositionShape__00000168_.Resource = __Resource__00000037_
+	__ResourceCompositionShape__00000169_.Resource = __Resource__00000038_
+	__ResourceCompositionShape__00000170_.Resource = __Resource__00000039_
+	__ResourceCompositionShape__00000171_.Resource = __Resource__00000040_
+	__ResourceCompositionShape__00000172_.Resource = __Resource__00000041_
+	__ResourceCompositionShape__00000173_.Resource = __Resource__00000016_
+	__ResourceCompositionShape__00000174_.Resource = __Resource__00000042_
+	__ResourceCompositionShape__00000175_.Resource = __Resource__00000043_
+	__ResourceCompositionShape__00000176_.Resource = __Resource__00000044_
+	__ResourceCompositionShape__00000177_.Resource = __Resource__00000045_
+	__ResourceCompositionShape__00000178_.Resource = __Resource__00000046_
+	__ResourceCompositionShape__00000179_.Resource = __Resource__00000047_
+	__ResourceCompositionShape__00000196_.Resource = __Resource__00000008_
+	__ResourceCompositionShape__00000222_.Resource = __Resource__00000008_
+	__ResourceCompositionShape__00000242_.Resource = __Resource__00000017_
+	__ResourceCompositionShape__00000243_.Resource = __Resource__00000048_
+	__ResourceCompositionShape__00000244_.Resource = __Resource__00000049_
+	__ResourceCompositionShape__00000245_.Resource = __Resource__00000050_
+	__ResourceCompositionShape__00000246_.Resource = __Resource__00000018_
+	__ResourceCompositionShape__00000247_.Resource = __Resource__00000051_
+	__ResourceCompositionShape__00000248_.Resource = __Resource__00000052_
+	__ResourceCompositionShape__00000249_.Resource = __Resource__00000028_
+	__ResourceCompositionShape__00000250_.Resource = __Resource__00000029_
+	__ResourceCompositionShape__00000251_.Resource = __Resource__00000030_
+	__ResourceCompositionShape__00000252_.Resource = __Resource__00000031_
 	__ResourceShape__00000000_.Resource = __Resource__00000000_
 	__ResourceShape__00000001_.Resource = __Resource__00000001_
 	__ResourceShape__00000002_.Resource = __Resource__00000002_
@@ -1772,29 +2586,12 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000027_.Resource = __Resource__00000027_
 	__ResourceShape__00000028_.Resource = __Resource__00000000_
 	__ResourceShape__00000056_.Resource = __Resource__00000000_
-	__ResourceShape__00000057_.Resource = __Resource__00000001_
-	__ResourceShape__00000058_.Resource = __Resource__00000002_
-	__ResourceShape__00000059_.Resource = __Resource__00000003_
-	__ResourceShape__00000060_.Resource = __Resource__00000004_
-	__ResourceShape__00000061_.Resource = __Resource__00000005_
-	__ResourceShape__00000062_.Resource = __Resource__00000006_
-	__ResourceShape__00000063_.Resource = __Resource__00000007_
 	__ResourceShape__00000064_.Resource = __Resource__00000008_
-	__ResourceShape__00000065_.Resource = __Resource__00000014_
-	__ResourceShape__00000066_.Resource = __Resource__00000015_
-	__ResourceShape__00000067_.Resource = __Resource__00000016_
-	__ResourceShape__00000068_.Resource = __Resource__00000017_
-	__ResourceShape__00000069_.Resource = __Resource__00000018_
 	__ResourceShape__00000070_.Resource = __Resource__00000009_
 	__ResourceShape__00000071_.Resource = __Resource__00000019_
 	__ResourceShape__00000072_.Resource = __Resource__00000020_
 	__ResourceShape__00000073_.Resource = __Resource__00000021_
 	__ResourceShape__00000074_.Resource = __Resource__00000022_
-	__ResourceShape__00000075_.Resource = __Resource__00000010_
-	__ResourceShape__00000076_.Resource = __Resource__00000023_
-	__ResourceShape__00000077_.Resource = __Resource__00000024_
-	__ResourceShape__00000078_.Resource = __Resource__00000011_
-	__ResourceShape__00000079_.Resource = __Resource__00000012_
 	__ResourceShape__00000080_.Resource = __Resource__00000013_
 	__ResourceShape__00000081_.Resource = __Resource__00000025_
 	__ResourceShape__00000082_.Resource = __Resource__00000026_
@@ -1806,4 +2603,47 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000097_.Resource = __Resource__00000013_
 	__ResourceShape__00000098_.Resource = __Resource__00000010_
 	__ResourceShape__00000099_.Resource = __Resource__00000011_
+	__ResourceShape__00000156_.Resource = __Resource__00000014_
+	__ResourceShape__00000157_.Resource = __Resource__00000015_
+	__ResourceShape__00000158_.Resource = __Resource__00000016_
+	__ResourceShape__00000159_.Resource = __Resource__00000017_
+	__ResourceShape__00000160_.Resource = __Resource__00000018_
+	__ResourceShape__00000161_.Resource = __Resource__00000028_
+	__ResourceShape__00000162_.Resource = __Resource__00000029_
+	__ResourceShape__00000163_.Resource = __Resource__00000030_
+	__ResourceShape__00000164_.Resource = __Resource__00000031_
+	__ResourceShape__00000165_.Resource = __Resource__00000008_
+	__ResourceShape__00000166_.Resource = __Resource__00000014_
+	__ResourceShape__00000167_.Resource = __Resource__00000032_
+	__ResourceShape__00000168_.Resource = __Resource__00000033_
+	__ResourceShape__00000169_.Resource = __Resource__00000034_
+	__ResourceShape__00000170_.Resource = __Resource__00000035_
+	__ResourceShape__00000171_.Resource = __Resource__00000036_
+	__ResourceShape__00000172_.Resource = __Resource__00000015_
+	__ResourceShape__00000173_.Resource = __Resource__00000037_
+	__ResourceShape__00000174_.Resource = __Resource__00000038_
+	__ResourceShape__00000175_.Resource = __Resource__00000039_
+	__ResourceShape__00000176_.Resource = __Resource__00000040_
+	__ResourceShape__00000177_.Resource = __Resource__00000041_
+	__ResourceShape__00000178_.Resource = __Resource__00000016_
+	__ResourceShape__00000179_.Resource = __Resource__00000042_
+	__ResourceShape__00000180_.Resource = __Resource__00000043_
+	__ResourceShape__00000181_.Resource = __Resource__00000044_
+	__ResourceShape__00000182_.Resource = __Resource__00000045_
+	__ResourceShape__00000183_.Resource = __Resource__00000046_
+	__ResourceShape__00000184_.Resource = __Resource__00000047_
+	__ResourceShape__00000202_.Resource = __Resource__00000000_
+	__ResourceShape__00000223_.Resource = __Resource__00000000_
+	__ResourceShape__00000229_.Resource = __Resource__00000008_
+	__ResourceShape__00000249_.Resource = __Resource__00000017_
+	__ResourceShape__00000250_.Resource = __Resource__00000048_
+	__ResourceShape__00000251_.Resource = __Resource__00000049_
+	__ResourceShape__00000252_.Resource = __Resource__00000050_
+	__ResourceShape__00000253_.Resource = __Resource__00000018_
+	__ResourceShape__00000254_.Resource = __Resource__00000051_
+	__ResourceShape__00000255_.Resource = __Resource__00000052_
+	__ResourceShape__00000256_.Resource = __Resource__00000028_
+	__ResourceShape__00000257_.Resource = __Resource__00000029_
+	__ResourceShape__00000258_.Resource = __Resource__00000030_
+	__ResourceShape__00000259_.Resource = __Resource__00000031_
 }

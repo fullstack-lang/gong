@@ -141,55 +141,33 @@ func addLayoutButtons[AT interface {
 	}
 
 	if hasConcreteShape {
-		toggleLayoutButton := &tree.Button{
-			Name: "Toggle Concrete Layout Direction to " + func() string {
-				if concreteShape.GetConcreteLayoutDirection() == Vertical {
-					return "Horizontal"
-				} else {
-					return "Vertical"
-				}
-			}(),
+		isDifferent := concreteShape.GetIsLayoutDirectionDifferent()
+		concreteLayout := GetConcreteLayoutDirection(concreteShape)
+
+		targetLayout := "Horizontal"
+		if concreteLayout == Horizontal {
+			targetLayout = "Vertical"
+		}
+
+		toggleDifferentButton := &tree.Button{
+			Name:            "Toggle Layout Direction Difference from Abstract",
 			HasToolTip:      true,
 			ToolTipPosition: tree.Above,
 			OnClick: func() {
-				if concreteShape.GetConcreteLayoutDirection() == Vertical {
-					concreteShape.SetConcreteLayoutDirection(Horizontal)
-				} else {
-					concreteShape.SetConcreteLayoutDirection(Vertical)
-				}
+				concreteShape.SetIsLayoutDirectionDifferent(!concreteShape.GetIsLayoutDirectionDifferent())
 				recomputeLayout()
 				stager.stage.Commit()
 			},
 		}
 
-		if concreteShape.GetConcreteLayoutDirection() == Vertical {
-			toggleLayoutButton.Icon = string(buttons.BUTTON_swap_horiz)
-			toggleLayoutButton.ToolTipText = "Set concrete layout to Horizontal"
+		if isDifferent {
+			toggleDifferentButton.Icon = string(buttons.BUTTON_check_box)
+			toggleDifferentButton.ToolTipText = "Layout direction differs from abstract (currently " + concreteLayout.String() + "). Click to follow abstract layout (" + targetLayout + ")"
 		} else {
-			toggleLayoutButton.Icon = string(buttons.BUTTON_swap_vert)
-			toggleLayoutButton.ToolTipText = "Set concrete layout to Vertical"
+			toggleDifferentButton.Icon = string(buttons.BUTTON_check_box_outline_blank)
+			toggleDifferentButton.ToolTipText = "Layout direction follows abstract (currently " + concreteLayout.String() + "). Click to invert to " + targetLayout
 		}
 
-		toggleOverrideButton := &tree.Button{
-			Name:            "Toggle Override Layout Direction",
-			HasToolTip:      true,
-			ToolTipPosition: tree.Above,
-			OnClick: func() {
-				concreteShape.SetOverideLayoutDirection(!concreteShape.GetOverideLayoutDirection())
-				recomputeLayout()
-				stager.stage.Commit()
-			},
-		}
-
-		if concreteShape.GetOverideLayoutDirection() {
-			toggleOverrideButton.Icon = string(buttons.BUTTON_check_box)
-			toggleOverrideButton.ToolTipText = "Disable layout override"
-		} else {
-			toggleOverrideButton.Icon = string(buttons.BUTTON_check_box_outline_blank)
-			toggleOverrideButton.ToolTipText = "Enable layout override"
-		}
-
-		node.Menu.Buttons = append(node.Menu.Buttons, toggleLayoutButton)
-		node.Menu.Buttons = append(node.Menu.Buttons, toggleOverrideButton)
+		node.Menu.Buttons = append(node.Menu.Buttons, toggleDifferentButton)
 	}
 }

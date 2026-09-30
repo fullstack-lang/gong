@@ -792,10 +792,8 @@ func (u *NoteShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Name = GongExtractString(valueExpr)
 	case "Note":
 		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
-	case "OverideLayoutDirection":
-		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "IsLayoutDirectionDifferent":
+		instance.IsLayoutDirectionDifferent = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -959,10 +957,8 @@ func (u *ProductShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.Product, valueExpr, identifierMap)
 	case "IsShowType":
 		instance.IsShowType = GongExtractBool(valueExpr)
-	case "OverideLayoutDirection":
-		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "IsLayoutDirectionDifferent":
+		instance.IsLayoutDirectionDifferent = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -1056,10 +1052,8 @@ func (u *ResourceShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Name = GongExtractString(valueExpr)
 	case "Resource":
 		GongUnmarshallPointer(&instance.Resource, valueExpr, identifierMap)
-	case "OverideLayoutDirection":
-		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "IsLayoutDirectionDifferent":
+		instance.IsLayoutDirectionDifferent = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -1395,10 +1389,8 @@ func (u *TaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.IsShowDate = GongExtractBool(valueExpr)
 	case "VerticalOffset":
 		instance.VerticalOffset = GongExtractFloat(valueExpr)
-	case "OverideLayoutDirection":
-		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "IsLayoutDirectionDifferent":
+		instance.IsLayoutDirectionDifferent = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":

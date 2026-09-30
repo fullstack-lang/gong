@@ -1271,8 +1271,7 @@ The OFT-2 IFA related to valve/injector assembly temperature measurements exceed
 
 	__NoteShape__00000001_.Name = `PIT focus-A thorough review of the STAR report is advised (p14)
 `
-	__NoteShape__00000001_.OverideLayoutDirection = false
-	__NoteShape__00000001_.LayoutDirection = models.Vertical
+	__NoteShape__00000001_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000001_.X = 778.606649
 	__NoteShape__00000001_.Y = 81.204707
 	__NoteShape__00000001_.Width = 306.000000
@@ -1282,8 +1281,7 @@ The OFT-2 IFA related to valve/injector assembly temperature measurements exceed
 	__NoteShape__00000002_.Name = `PBS-NASA utilized a firm fixed price contracting type for CCtCap. 
 
 This was a significant shift from the cost-plus contracting for traditional NASA builds of developmental vehicles. These shifts signified that CCP was not only positioned to be an innovative, first-of-its kind program for NASA, but how it interacted with new and traditional space flight industry providers was setup to be significantly distinct and different.  `
-	__NoteShape__00000002_.OverideLayoutDirection = false
-	__NoteShape__00000002_.LayoutDirection = models.Vertical
+	__NoteShape__00000002_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000002_.X = 566.290428
 	__NoteShape__00000002_.Y = 403.921876
 	__NoteShape__00000002_.Width = 294.000000
@@ -1291,8 +1289,7 @@ This was a significant shift from the cost-plus contracting for traditional NASA
 	__NoteShape__00000002_.IsHidden = false
 
 	__NoteShape__00000003_.Name = `PIT Report-The CCP 1100 series of requirements were deliberately written at a higher-level, leaving room for provider innovation but there was also room for incorrect/inadequate interpretation by the providers. `
-	__NoteShape__00000003_.OverideLayoutDirection = false
-	__NoteShape__00000003_.LayoutDirection = models.Vertical
+	__NoteShape__00000003_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000003_.X = 1285.673362
 	__NoteShape__00000003_.Y = 221.503075
 	__NoteShape__00000003_.Width = 250.000000
@@ -1300,8 +1297,7 @@ This was a significant shift from the cost-plus contracting for traditional NASA
 	__NoteShape__00000003_.IsHidden = false
 
 	__NoteShape__00000004_.Name = `PIT Report-The Commercial Provider focused on meeting contractual requirement language resulting in insufficient demonstration across the components/system and ground/flight. `
-	__NoteShape__00000004_.OverideLayoutDirection = false
-	__NoteShape__00000004_.LayoutDirection = models.Vertical
+	__NoteShape__00000004_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000004_.X = 744.720613
 	__NoteShape__00000004_.Y = 305.622045
 	__NoteShape__00000004_.Width = 250.000000
@@ -1309,8 +1305,7 @@ This was a significant shift from the cost-plus contracting for traditional NASA
 	__NoteShape__00000004_.IsHidden = false
 
 	__NoteShape__00000005_.Name = `RCS PBS-Suppliers’ build quality/variability issues can be hard to exonerate for service modules, which is hardware that is disposed of during re-entry. `
-	__NoteShape__00000005_.OverideLayoutDirection = false
-	__NoteShape__00000005_.LayoutDirection = models.Vertical
+	__NoteShape__00000005_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000005_.X = 334.089724
 	__NoteShape__00000005_.Y = 779.092030
 	__NoteShape__00000005_.Width = 250.000000
@@ -1320,8 +1315,7 @@ This was a significant shift from the cost-plus contracting for traditional NASA
 	__NoteShape__00000006_.Name = `RCS PBS-The Aerojet Rocketdyne (AR) thermal model included the effects of jet firings, but these effects were not validated by ground testing.
 
 Boeing thermal model did not include the effects of jet firings before CFT. `
-	__NoteShape__00000006_.OverideLayoutDirection = false
-	__NoteShape__00000006_.LayoutDirection = models.Vertical
+	__NoteShape__00000006_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000006_.X = 1219.153628
 	__NoteShape__00000006_.Y = 777.461448
 	__NoteShape__00000006_.Width = 250.000000
@@ -1329,8 +1323,7 @@ Boeing thermal model did not include the effects of jet firings before CFT. `
 	__NoteShape__00000006_.IsHidden = false
 
 	__NoteShape__00000007_.Name = `RCS PBS-The thruster performance from OFT1 & OFT2 experienced greater than expected temperatures and continuing to operate lead to a false sense of security of the thruster capability/performance. `
-	__NoteShape__00000007_.OverideLayoutDirection = false
-	__NoteShape__00000007_.LayoutDirection = models.Vertical
+	__NoteShape__00000007_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000007_.X = 596.510371
 	__NoteShape__00000007_.Y = 678.471309
 	__NoteShape__00000007_.Width = 269.000000
@@ -1338,8 +1331,7 @@ Boeing thermal model did not include the effects of jet firings before CFT. `
 	__NoteShape__00000007_.IsHidden = false
 
 	__NoteShape__00000008_.Name = `RCS PBS-Flight instrumentation locations for thermal sensors were limited and in different locations than the locations for RCS Thruster ground firings. `
-	__NoteShape__00000008_.OverideLayoutDirection = false
-	__NoteShape__00000008_.LayoutDirection = models.Vertical
+	__NoteShape__00000008_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000008_.X = 917.375080
 	__NoteShape__00000008_.Y = 517.315922
 	__NoteShape__00000008_.Width = 250.000000
@@ -1347,8 +1339,7 @@ Boeing thermal model did not include the effects of jet firings before CFT. `
 	__NoteShape__00000008_.IsHidden = false
 
 	__NoteShape__00000009_.Name = `RCS PBS-OFT1 & OFT2 investigations did not include RCS/OMAC thruster firings and fault trees were not validated through subsequent ground testing. `
-	__NoteShape__00000009_.OverideLayoutDirection = false
-	__NoteShape__00000009_.LayoutDirection = models.Vertical
+	__NoteShape__00000009_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000009_.X = 880.446589
 	__NoteShape__00000009_.Y = 755.302818
 	__NoteShape__00000009_.Width = 250.000000
@@ -1356,8 +1347,7 @@ Boeing thermal model did not include the effects of jet firings before CFT. `
 	__NoteShape__00000009_.IsHidden = false
 
 	__NoteShape__00000010_.Name = `RCS PBS-For OFT2, NASA/Boeing did not have tools to measure thruster degradation, simply treated the thruster as failed/operational. `
-	__NoteShape__00000010_.OverideLayoutDirection = false
-	__NoteShape__00000010_.LayoutDirection = models.Vertical
+	__NoteShape__00000010_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000010_.X = 861.189303
 	__NoteShape__00000010_.Y = 1040.200971
 	__NoteShape__00000010_.Width = 250.000000
@@ -1365,8 +1355,7 @@ Boeing thermal model did not include the effects of jet firings before CFT. `
 	__NoteShape__00000010_.IsHidden = false
 
 	__NoteShape__00000011_.Name = `RCS PBS-Pc (Chamber Pressure).To know if a thruster is actually firing, the spacecraft's computer looks at the pressure sensor inside the combustion chamber (the Pc telemetry). If the pressure shoots up to the expected level, it means combustion is happening and the thruster is pushing. If the pressure stays low or at zero, it assumes the thruster failed.`
-	__NoteShape__00000011_.OverideLayoutDirection = false
-	__NoteShape__00000011_.LayoutDirection = models.Vertical
+	__NoteShape__00000011_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000011_.X = 45.256122
 	__NoteShape__00000011_.Y = 950.529205
 	__NoteShape__00000011_.Width = 250.000000
@@ -1374,8 +1363,7 @@ Boeing thermal model did not include the effects of jet firings before CFT. `
 	__NoteShape__00000011_.IsHidden = false
 
 	__NoteShape__00000012_.Name = `RCS PBS-Pc transducer failed but the engine was able to restart. Boing confidence in the harxware robustness`
-	__NoteShape__00000012_.OverideLayoutDirection = false
-	__NoteShape__00000012_.LayoutDirection = models.Vertical
+	__NoteShape__00000012_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000012_.X = 565.566920
 	__NoteShape__00000012_.Y = 924.052255
 	__NoteShape__00000012_.Width = 250.000000
@@ -1383,8 +1371,7 @@ Boeing thermal model did not include the effects of jet firings before CFT. `
 	__NoteShape__00000012_.IsHidden = false
 
 	__NoteShape__00000013_.Name = `PIT Report-The leading theory for the proximate cause of the CM RCS failure during the CFT is the formulation of carbazic acid, which corrodes stainless steel. The reaction between carbazic acid and stainless steel creates corrosion particulates in the thruster propellant valve, preventing it from opening. `
-	__NoteShape__00000013_.OverideLayoutDirection = false
-	__NoteShape__00000013_.LayoutDirection = models.Vertical
+	__NoteShape__00000013_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000013_.X = 1150.711246
 	__NoteShape__00000013_.Y = 600.447807
 	__NoteShape__00000013_.Width = 250.000000
@@ -1392,8 +1379,7 @@ Boeing thermal model did not include the effects of jet firings before CFT. `
 	__NoteShape__00000013_.IsHidden = false
 
 	__NoteShape__00000014_.Name = `PIT Report-Thruster health is monitored via chamber pressure and Fuel/Oxydizer injector temperatures`
-	__NoteShape__00000014_.OverideLayoutDirection = false
-	__NoteShape__00000014_.LayoutDirection = models.Vertical
+	__NoteShape__00000014_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000014_.X = 1335.901110
 	__NoteShape__00000014_.Y = 996.520214
 	__NoteShape__00000014_.Width = 250.000000
@@ -1403,8 +1389,7 @@ Boeing thermal model did not include the effects of jet firings before CFT. `
 	__NoteShape__00000015_.Name = `PIT Report-Commanded pulse lengths are neither recorded nor downlinked near real time with telemetry
 
 This complicates efforts to understand what went wrong with SM RCS jets when data suggests that pulse length is correlated to observed soakback temperatures.  `
-	__NoteShape__00000015_.OverideLayoutDirection = false
-	__NoteShape__00000015_.LayoutDirection = models.Vertical
+	__NoteShape__00000015_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000015_.X = 95.642801
 	__NoteShape__00000015_.Y = 1355.855478
 	__NoteShape__00000015_.Width = 250.000000
@@ -1412,8 +1397,7 @@ This complicates efforts to understand what went wrong with SM RCS jets when dat
 	__NoteShape__00000015_.IsHidden = false
 
 	__NoteShape__00000016_.Name = `PIT Report-Many thruster pulses are less  FDIR in the  The FMCs see chamber pressure over a data bus from the  but the chamber pressure is only sent to the ground with a sample rate for recording every  limiting insight into thruster performance. This does not meet Nyquist Criterion for capturing the chamber pressure signal. As a result, aliasing effects may occur for pulses shorter than  where high-frequency components of the pressure signal are misrepresented or lost, further complicating accurate reconstruction of thruster behavior.  `
-	__NoteShape__00000016_.OverideLayoutDirection = false
-	__NoteShape__00000016_.LayoutDirection = models.Vertical
+	__NoteShape__00000016_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000016_.X = 425.148282
 	__NoteShape__00000016_.Y = 1430.634730
 	__NoteShape__00000016_.Width = 314.000000
@@ -1421,8 +1405,7 @@ This complicates efforts to understand what went wrong with SM RCS jets when dat
 	__NoteShape__00000016_.IsHidden = false
 
 	__NoteShape__00000017_.Name = `WBS- S2A2 failed at 9050 m (GMT 14:00) and B1A3 failed at 526m (GMT 14:57).`
-	__NoteShape__00000017_.OverideLayoutDirection = false
-	__NoteShape__00000017_.LayoutDirection = models.Vertical
+	__NoteShape__00000017_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000017_.X = 591.638035
 	__NoteShape__00000017_.Y = 652.450426
 	__NoteShape__00000017_.Width = 292.000000
@@ -1434,8 +1417,7 @@ This complicates efforts to understand what went wrong with SM RCS jets when dat
 he spacecraft was moded back to auto and the rendezvous/dock was completed.  While the flight rules allow an SM RCS thruster to be used with jet-fail off FDIR inhibited, doing so removes a hazard control.
 
 Whaou.`
-	__NoteShape__00000018_.OverideLayoutDirection = false
-	__NoteShape__00000018_.LayoutDirection = models.Vertical
+	__NoteShape__00000018_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000018_.X = 753.803011
 	__NoteShape__00000018_.Y = 1447.804082
 	__NoteShape__00000018_.Width = 250.000000
@@ -1447,8 +1429,7 @@ Whaou.`
 It should have been done before ?!
 
  In addition to demonstrating transient degradation during high heating, the test program demonstrated an unrecoverable cumulative degradation that was potentially indicative of the observed performance of CFT. `
-	__NoteShape__00000019_.OverideLayoutDirection = false
-	__NoteShape__00000019_.LayoutDirection = models.Vertical
+	__NoteShape__00000019_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000019_.X = 1024.260622
 	__NoteShape__00000019_.Y = 1594.529677
 	__NoteShape__00000019_.Width = 250.000000
@@ -1458,8 +1439,7 @@ It should have been done before ?!
 	__NoteShape__00000020_.Name = `PIT Report-B1.3.3.1.1.1 Heat identifies that excessive heating could cause the poppet to extrude, reducing flow. Poppet extrusion was observed in the post-test tear down of the WSTF (White Sands Test Facility) thruster unit.
 
 The initial heating was caused by the internal doghouse temperatures (addressed in C4.1 Thermal) and the follow-on heating induced by B1.3.3.1.4.2 RCS Thermal Soakback. This caused excessive temperatures beyond the capability of the thruster softgoods, causing the Teflon poppet to extrude. The evidence supports this being a contributor to the thruster fail-offs.`
-	__NoteShape__00000020_.OverideLayoutDirection = false
-	__NoteShape__00000020_.LayoutDirection = models.Vertical
+	__NoteShape__00000020_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000020_.X = 1325.045052
 	__NoteShape__00000020_.Y = 1477.461652
 	__NoteShape__00000020_.Width = 250.000000
@@ -1469,8 +1449,7 @@ The initial heating was caused by the internal doghouse temperatures (addressed 
 	__NoteShape__00000021_.Name = `PIT Report-B1.3.3.1.4.2 RCS Thermal Soakback identifies the possibility that structure of the RCS thruster
 retains heat, and the heat is unable to be dissipated from the firings of the thrusters, causing the
 propellants to heat rapidly. `
-	__NoteShape__00000021_.OverideLayoutDirection = false
-	__NoteShape__00000021_.LayoutDirection = models.Vertical
+	__NoteShape__00000021_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000021_.X = 1009.364672
 	__NoteShape__00000021_.Y = 1927.551182
 	__NoteShape__00000021_.Width = 250.000000
@@ -1494,8 +1473,7 @@ comparison to every other thruster.
 There was no thermal model available to adequately understand the full impacts of the thermal
 environment upon the RCS thrusters, specifically the aft thrusters with the longest feed line tube,
 and very close proximity to the OMAC thrusters`
-	__NoteShape__00000022_.OverideLayoutDirection = false
-	__NoteShape__00000022_.LayoutDirection = models.Vertical
+	__NoteShape__00000022_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000022_.X = 409.341567
 	__NoteShape__00000022_.Y = 1822.743943
 	__NoteShape__00000022_.Width = 551.000000
@@ -1505,8 +1483,7 @@ and very close proximity to the OMAC thrusters`
 	__NoteShape__00000023_.Name = `PIT Report-Intermediate Cause 6: Insufficient Thruster Qualification
 
 SM RCS Thruster Qualification did not cover the flight envelope for temperature and duty cycle (TLYF).`
-	__NoteShape__00000023_.OverideLayoutDirection = false
-	__NoteShape__00000023_.LayoutDirection = models.Vertical
+	__NoteShape__00000023_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000023_.X = 100.414750
 	__NoteShape__00000023_.Y = 2029.668077
 	__NoteShape__00000023_.Width = 250.000000
@@ -1537,8 +1514,7 @@ CFT (Crew Flight Test)
 The qualification gap risk was addressed in April 2023 during PCB-23-100 (CFT: Starliner Prop, OMAC/RCS Hot-Fire Qual Gaps). The program directive resolved to accept the qualification gap for duty cycles for the CFT only. This acceptance was encompassed within a previously approved elevated 2x5 risk level (PCB-23-053), documented during the In-Flight Anomaly (IFA) closure for OFT-2.
 
 The OFT-2 IFA related to valve/injector assembly temperature measurements exceeding qualification limits, which were categorized as an Unexplained Anomaly (UA). The directive acknowledged that these exceedances were attributed to specific operational duty cycles. Consequently, the thermal risk was accepted as a 2x5 risk for potential jet failure. Despite this, engineering teams and the Engineering Review Board (ERB-23-0045-R2) emphasized the importance of testing SM RCS thrusters using flight-like duty cycles.`
-	__NoteShape__00000024_.OverideLayoutDirection = false
-	__NoteShape__00000024_.LayoutDirection = models.Vertical
+	__NoteShape__00000024_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000024_.X = 177.291855
 	__NoteShape__00000024_.Y = 2342.855372
 	__NoteShape__00000024_.Width = 1451.000000
@@ -1550,8 +1526,7 @@ The OFT-2 IFA related to valve/injector assembly temperature measurements exceed
 Note : Anomaly Reports (AR) were closed.
 
 Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads to Flawed Flight Rationale. The thermal risk for Starliner’s SM RCS thrusters was mischaracterized due to reliance on simple models and inadequate qualification testing that failed to replicate mission-representative conditions. Despite clear evidence of thermal soakback and temperature exceedances, risk acceptance proceeded without resolving key environment and duty cycle concerns.`
-	__NoteShape__00000025_.OverideLayoutDirection = false
-	__NoteShape__00000025_.LayoutDirection = models.Vertical
+	__NoteShape__00000025_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000025_.X = 507.887483
 	__NoteShape__00000025_.Y = 2973.225340
 	__NoteShape__00000025_.Width = 723.000000
@@ -2317,8 +2292,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductCompositionShape__00000044_.IsHidden = false
 
 	__ProductShape__00000002_.Name = `PBS-Dragon`
-	__ProductShape__00000002_.OverideLayoutDirection = false
-	__ProductShape__00000002_.LayoutDirection = models.Vertical
+	__ProductShape__00000002_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000002_.X = 350.000000
 	__ProductShape__00000002_.Y = 330.000000
 	__ProductShape__00000002_.Width = 250.000000
@@ -2326,8 +2300,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000002_.IsHidden = false
 
 	__ProductShape__00000003_.Name = `PBS-CST-100 Starliner`
-	__ProductShape__00000003_.OverideLayoutDirection = false
-	__ProductShape__00000003_.LayoutDirection = models.Vertical
+	__ProductShape__00000003_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000003_.X = 50.000000
 	__ProductShape__00000003_.Y = 330.000000
 	__ProductShape__00000003_.Width = 250.000000
@@ -2335,8 +2308,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000003_.IsHidden = false
 
 	__ProductShape__00000004_.Name = `PBS-Reports`
-	__ProductShape__00000004_.OverideLayoutDirection = false
-	__ProductShape__00000004_.LayoutDirection = models.Vertical
+	__ProductShape__00000004_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000004_.X = 950.000000
 	__ProductShape__00000004_.Y = 50.000000
 	__ProductShape__00000004_.Width = 250.000000
@@ -2344,8 +2316,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000004_.IsHidden = false
 
 	__ProductShape__00000005_.Name = `PBS- Starliner Tests and Anomalies Review (STAR) Investigation Report`
-	__ProductShape__00000005_.OverideLayoutDirection = false
-	__ProductShape__00000005_.LayoutDirection = models.Vertical
+	__ProductShape__00000005_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000005_.X = 1125.000000
 	__ProductShape__00000005_.Y = 135.000000
 	__ProductShape__00000005_.Width = 250.000000
@@ -2353,8 +2324,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000005_.IsHidden = false
 
 	__ProductShape__00000006_.Name = `PBS-Program Investigation Team (PIT) Reports`
-	__ProductShape__00000006_.OverideLayoutDirection = false
-	__ProductShape__00000006_.LayoutDirection = models.Vertical
+	__ProductShape__00000006_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000006_.X = 1125.000000
 	__ProductShape__00000006_.Y = 220.000000
 	__ProductShape__00000006_.Width = 250.000000
@@ -2362,8 +2332,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000006_.IsHidden = false
 
 	__ProductShape__00000007_.Name = `PIT focus-Program Investigation Team (PIT) Reports`
-	__ProductShape__00000007_.OverideLayoutDirection = false
-	__ProductShape__00000007_.LayoutDirection = models.Vertical
+	__ProductShape__00000007_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000007_.X = 912.017987
 	__ProductShape__00000007_.Y = 275.867255
 	__ProductShape__00000007_.Width = 250.000000
@@ -2371,8 +2340,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000007_.IsHidden = false
 
 	__ProductShape__00000008_.Name = `PIT focus- Starliner Tests and Anomalies Review (STAR) Investigation Report`
-	__ProductShape__00000008_.OverideLayoutDirection = false
-	__ProductShape__00000008_.LayoutDirection = models.Vertical
+	__ProductShape__00000008_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000008_.X = 452.865680
 	__ProductShape__00000008_.Y = 64.093982
 	__ProductShape__00000008_.Width = 250.000000
@@ -2380,8 +2348,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000008_.IsHidden = false
 
 	__ProductShape__00000009_.Name = `PBS-Commercial Crew Transportation Capability (CCtCap).`
-	__ProductShape__00000009_.OverideLayoutDirection = false
-	__ProductShape__00000009_.LayoutDirection = models.Vertical
+	__ProductShape__00000009_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000009_.X = 50.000000
 	__ProductShape__00000009_.Y = 190.000000
 	__ProductShape__00000009_.Width = 250.000000
@@ -2389,8 +2356,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000009_.IsHidden = false
 
 	__ProductShape__00000010_.Name = `PBS-NASA Assets/Capabities`
-	__ProductShape__00000010_.OverideLayoutDirection = false
-	__ProductShape__00000010_.LayoutDirection = models.Vertical
+	__ProductShape__00000010_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000010_.X = 50.000000
 	__ProductShape__00000010_.Y = 50.000000
 	__ProductShape__00000010_.Width = 250.000000
@@ -2398,8 +2364,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000010_.IsHidden = false
 
 	__ProductShape__00000011_.Name = `PBS-ISS`
-	__ProductShape__00000011_.OverideLayoutDirection = false
-	__ProductShape__00000011_.LayoutDirection = models.Vertical
+	__ProductShape__00000011_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000011_.X = 650.000000
 	__ProductShape__00000011_.Y = 190.000000
 	__ProductShape__00000011_.Width = 250.000000
@@ -2407,8 +2372,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000011_.IsHidden = false
 
 	__ProductShape__00000012_.Name = `PIT Report-Program Investigation Team (PIT) Reports`
-	__ProductShape__00000012_.OverideLayoutDirection = false
-	__ProductShape__00000012_.LayoutDirection = models.Vertical
+	__ProductShape__00000012_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000012_.X = 80.516205
 	__ProductShape__00000012_.Y = 109.119696
 	__ProductShape__00000012_.Width = 250.000000
@@ -2416,8 +2380,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000012_.IsHidden = false
 
 	__ProductShape__00000013_.Name = `PIT Report-3 Commercial Crew Program (CCP) Background`
-	__ProductShape__00000013_.OverideLayoutDirection = false
-	__ProductShape__00000013_.LayoutDirection = models.Vertical
+	__ProductShape__00000013_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000013_.X = 82.516205
 	__ProductShape__00000013_.Y = 559.119696
 	__ProductShape__00000013_.Width = 276.000000
@@ -2425,8 +2388,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000013_.IsHidden = false
 
 	__ProductShape__00000014_.Name = `PIT Report-CCP Requirements`
-	__ProductShape__00000014_.OverideLayoutDirection = false
-	__ProductShape__00000014_.LayoutDirection = models.Vertical
+	__ProductShape__00000014_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000014_.X = 766.767652
 	__ProductShape__00000014_.Y = 110.422064
 	__ProductShape__00000014_.Width = 250.000000
@@ -2434,8 +2396,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000014_.IsHidden = false
 
 	__ProductShape__00000015_.Name = `RCS PBS-Crew Module (CM)`
-	__ProductShape__00000015_.OverideLayoutDirection = false
-	__ProductShape__00000015_.LayoutDirection = models.Vertical
+	__ProductShape__00000015_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000015_.X = 34.373886
 	__ProductShape__00000015_.Y = 167.792999
 	__ProductShape__00000015_.Width = 250.000000
@@ -2443,8 +2404,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000015_.IsHidden = false
 
 	__ProductShape__00000016_.Name = `RCS PBS-CM Reaction Control System (RCS)`
-	__ProductShape__00000016_.OverideLayoutDirection = false
-	__ProductShape__00000016_.LayoutDirection = models.Vertical
+	__ProductShape__00000016_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000016_.X = 34.373886
 	__ProductShape__00000016_.Y = 307.792999
 	__ProductShape__00000016_.Width = 250.000000
@@ -2452,8 +2412,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000016_.IsHidden = false
 
 	__ProductShape__00000017_.Name = `RCS PBS-12 CM RCS Thrusters (1200 lbf)`
-	__ProductShape__00000017_.OverideLayoutDirection = false
-	__ProductShape__00000017_.LayoutDirection = models.Vertical
+	__ProductShape__00000017_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000017_.X = 34.373886
 	__ProductShape__00000017_.Y = 447.792999
 	__ProductShape__00000017_.Width = 250.000000
@@ -2461,8 +2420,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000017_.IsHidden = false
 
 	__ProductShape__00000018_.Name = `RCS PBS-CST-100 Starliner`
-	__ProductShape__00000018_.OverideLayoutDirection = false
-	__ProductShape__00000018_.LayoutDirection = models.Vertical
+	__ProductShape__00000018_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000018_.X = 33.736439
 	__ProductShape__00000018_.Y = 23.572991
 	__ProductShape__00000018_.Width = 250.000000
@@ -2470,8 +2428,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000018_.IsHidden = false
 
 	__ProductShape__00000019_.Name = `RCS PBS-Service Module (SM)`
-	__ProductShape__00000019_.OverideLayoutDirection = false
-	__ProductShape__00000019_.LayoutDirection = models.Vertical
+	__ProductShape__00000019_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000019_.X = 595.736439
 	__ProductShape__00000019_.Y = 182.573022
 	__ProductShape__00000019_.Width = 250.000000
@@ -2479,8 +2436,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000019_.IsHidden = false
 
 	__ProductShape__00000020_.Name = `RCS PBS-SM Reaction Control System (SM RCS)`
-	__ProductShape__00000020_.OverideLayoutDirection = false
-	__ProductShape__00000020_.LayoutDirection = models.Vertical
+	__ProductShape__00000020_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000020_.X = 595.736439
 	__ProductShape__00000020_.Y = 322.573022
 	__ProductShape__00000020_.Width = 250.000000
@@ -2488,8 +2444,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000020_.IsHidden = false
 
 	__ProductShape__00000021_.Name = `RCS PBS-28 SM RCS Thrusters (2800 lbf)`
-	__ProductShape__00000021_.OverideLayoutDirection = false
-	__ProductShape__00000021_.LayoutDirection = models.Vertical
+	__ProductShape__00000021_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000021_.X = 595.736439
 	__ProductShape__00000021_.Y = 462.573022
 	__ProductShape__00000021_.Width = 250.000000
@@ -2497,8 +2452,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000021_.IsHidden = false
 
 	__ProductShape__00000022_.Name = `PIT Report-2 Additional Investigations `
-	__ProductShape__00000022_.OverideLayoutDirection = false
-	__ProductShape__00000022_.LayoutDirection = models.Vertical
+	__ProductShape__00000022_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000022_.X = 99.516205
 	__ProductShape__00000022_.Y = 315.119696
 	__ProductShape__00000022_.Width = 250.000000
@@ -2506,8 +2460,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000022_.IsHidden = false
 
 	__ProductShape__00000023_.Name = `PIT Report-STAR Report Summary and Findings `
-	__ProductShape__00000023_.OverideLayoutDirection = false
-	__ProductShape__00000023_.LayoutDirection = models.Vertical
+	__ProductShape__00000023_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000023_.X = 232.516205
 	__ProductShape__00000023_.Y = 459.119696
 	__ProductShape__00000023_.Width = 285.000000
@@ -2515,8 +2468,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000023_.IsHidden = false
 
 	__ProductShape__00000024_.Name = `RCS PBS-Thermal Sensors`
-	__ProductShape__00000024_.OverideLayoutDirection = false
-	__ProductShape__00000024_.LayoutDirection = models.Vertical
+	__ProductShape__00000024_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000024_.X = 949.373825
 	__ProductShape__00000024_.Y = 158.793044
 	__ProductShape__00000024_.Width = 250.000000
@@ -2524,8 +2476,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000024_.IsHidden = false
 
 	__ProductShape__00000025_.Name = `RCS PBS-Dog House`
-	__ProductShape__00000025_.OverideLayoutDirection = false
-	__ProductShape__00000025_.LayoutDirection = models.Vertical
+	__ProductShape__00000025_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000025_.X = 34.373886
 	__ProductShape__00000025_.Y = 587.792999
 	__ProductShape__00000025_.Width = 250.000000
@@ -2533,8 +2484,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000025_.IsHidden = false
 
 	__ProductShape__00000027_.Name = `PBS-Boeing’s Enterprise Root Cause/Corrective Actions (eRCCA)`
-	__ProductShape__00000027_.OverideLayoutDirection = false
-	__ProductShape__00000027_.LayoutDirection = models.Vertical
+	__ProductShape__00000027_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000027_.X = 1125.000000
 	__ProductShape__00000027_.Y = 305.000000
 	__ProductShape__00000027_.Width = 250.000000
@@ -2542,8 +2492,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000027_.IsHidden = false
 
 	__ProductShape__00000028_.Name = `PIT Report-3.1   Orbital Flight Test (OFT) Summary`
-	__ProductShape__00000028_.OverideLayoutDirection = false
-	__ProductShape__00000028_.LayoutDirection = models.Vertical
+	__ProductShape__00000028_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000028_.X = 223.516205
 	__ProductShape__00000028_.Y = 706.119696
 	__ProductShape__00000028_.Width = 250.000000
@@ -2551,8 +2500,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000028_.IsHidden = false
 
 	__ProductShape__00000029_.Name = `PIT Report-3.2   Orbital Flight Test 2 (OFT-2) Summary`
-	__ProductShape__00000029_.OverideLayoutDirection = false
-	__ProductShape__00000029_.LayoutDirection = models.Vertical
+	__ProductShape__00000029_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000029_.X = 523.516205
 	__ProductShape__00000029_.Y = 706.119696
 	__ProductShape__00000029_.Width = 250.000000
@@ -2560,8 +2508,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000029_.IsHidden = false
 
 	__ProductShape__00000030_.Name = `RCS PBS-Flight Software (FSW)`
-	__ProductShape__00000030_.OverideLayoutDirection = false
-	__ProductShape__00000030_.LayoutDirection = models.Vertical
+	__ProductShape__00000030_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000030_.X = 1171.736439
 	__ProductShape__00000030_.Y = 335.572976
 	__ProductShape__00000030_.Width = 250.000000
@@ -2569,8 +2516,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000030_.IsHidden = false
 
 	__ProductShape__00000031_.Name = `RCS PBS-Fault Detection, Isolation, and Recovery (FDIR)`
-	__ProductShape__00000031_.OverideLayoutDirection = false
-	__ProductShape__00000031_.LayoutDirection = models.Vertical
+	__ProductShape__00000031_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000031_.X = 1174.736439
 	__ProductShape__00000031_.Y = 421.572976
 	__ProductShape__00000031_.Width = 250.000000
@@ -2578,8 +2524,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000031_.IsHidden = false
 
 	__ProductShape__00000032_.Name = `PIT Report-3.3 Comparing SM RCS Thrusters Triggering Fail-Off FDIR on OFT1/OFT2`
-	__ProductShape__00000032_.OverideLayoutDirection = false
-	__ProductShape__00000032_.LayoutDirection = models.Vertical
+	__ProductShape__00000032_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000032_.X = 823.516205
 	__ProductShape__00000032_.Y = 706.119696
 	__ProductShape__00000032_.Width = 250.000000
@@ -2587,8 +2532,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000032_.IsHidden = false
 
 	__ProductShape__00000033_.Name = `RCS PBS-Transducer / pressure sensor (Pc)`
-	__ProductShape__00000033_.OverideLayoutDirection = false
-	__ProductShape__00000033_.LayoutDirection = models.Vertical
+	__ProductShape__00000033_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000033_.X = 334.373886
 	__ProductShape__00000033_.Y = 587.792999
 	__ProductShape__00000033_.Width = 250.000000
@@ -2596,8 +2540,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000033_.IsHidden = false
 
 	__ProductShape__00000034_.Name = `PIT Report-4     Technical Root Cause Analysis (RCA) and Findings`
-	__ProductShape__00000034_.OverideLayoutDirection = false
-	__ProductShape__00000034_.LayoutDirection = models.Vertical
+	__ProductShape__00000034_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000034_.X = 86.516205
 	__ProductShape__00000034_.Y = 819.119696
 	__ProductShape__00000034_.Width = 250.000000
@@ -2605,8 +2548,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000034_.IsHidden = false
 
 	__ProductShape__00000035_.Name = `PIT Report-4.1   Objectives and Approach `
-	__ProductShape__00000035_.OverideLayoutDirection = false
-	__ProductShape__00000035_.LayoutDirection = models.Vertical
+	__ProductShape__00000035_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000035_.X = 86.516205
 	__ProductShape__00000035_.Y = 959.119696
 	__ProductShape__00000035_.Width = 250.000000
@@ -2614,8 +2556,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000035_.IsHidden = false
 
 	__ProductShape__00000036_.Name = `PIT Report-4.2 Definitions`
-	__ProductShape__00000036_.OverideLayoutDirection = false
-	__ProductShape__00000036_.LayoutDirection = models.Vertical
+	__ProductShape__00000036_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000036_.X = 386.516205
 	__ProductShape__00000036_.Y = 959.119696
 	__ProductShape__00000036_.Width = 250.000000
@@ -2623,8 +2564,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000036_.IsHidden = false
 
 	__ProductShape__00000037_.Name = `PIT Report-4.3 Fault Tree`
-	__ProductShape__00000037_.OverideLayoutDirection = false
-	__ProductShape__00000037_.LayoutDirection = models.Vertical
+	__ProductShape__00000037_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000037_.X = 686.516205
 	__ProductShape__00000037_.Y = 959.119696
 	__ProductShape__00000037_.Width = 250.000000
@@ -2632,8 +2572,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000037_.IsHidden = false
 
 	__ProductShape__00000038_.Name = `RCS PBS-Guidance, Navigation, and Control (GNC)`
-	__ProductShape__00000038_.OverideLayoutDirection = false
-	__ProductShape__00000038_.LayoutDirection = models.Vertical
+	__ProductShape__00000038_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000038_.X = 1173.736439
 	__ProductShape__00000038_.Y = 509.572991
 	__ProductShape__00000038_.Width = 250.000000
@@ -2641,8 +2580,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000038_.IsHidden = false
 
 	__ProductShape__00000039_.Name = `PIT Report-4.4   Analysis: CM RCS Jet Failure`
-	__ProductShape__00000039_.OverideLayoutDirection = false
-	__ProductShape__00000039_.LayoutDirection = models.Vertical
+	__ProductShape__00000039_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000039_.X = 986.516205
 	__ProductShape__00000039_.Y = 959.119696
 	__ProductShape__00000039_.Width = 250.000000
@@ -2650,8 +2588,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000039_.IsHidden = false
 
 	__ProductShape__00000040_.Name = `PIT Report-4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures`
-	__ProductShape__00000040_.OverideLayoutDirection = false
-	__ProductShape__00000040_.LayoutDirection = models.Vertical
+	__ProductShape__00000040_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000040_.X = 86.516205
 	__ProductShape__00000040_.Y = 1096.119696
 	__ProductShape__00000040_.Width = 250.000000
@@ -2659,8 +2596,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000040_.IsHidden = false
 
 	__ProductShape__00000041_.Name = `PIT Report-4.5.1 Description of the system`
-	__ProductShape__00000041_.OverideLayoutDirection = false
-	__ProductShape__00000041_.LayoutDirection = models.Vertical
+	__ProductShape__00000041_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000041_.X = 83.516205
 	__ProductShape__00000041_.Y = 1237.119696
 	__ProductShape__00000041_.Width = 250.000000
@@ -2668,8 +2604,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000041_.IsHidden = false
 
 	__ProductShape__00000042_.Name = `PIT Report-`
-	__ProductShape__00000042_.OverideLayoutDirection = false
-	__ProductShape__00000042_.LayoutDirection = models.Vertical
+	__ProductShape__00000042_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000042_.X = 542.516205
 	__ProductShape__00000042_.Y = 1105.119696
 	__ProductShape__00000042_.Width = 250.000000
@@ -2677,8 +2612,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000042_.IsHidden = false
 
 	__ProductShape__00000043_.Name = `RCS PBS-Inertial Measurement Unit (IMU) `
-	__ProductShape__00000043_.OverideLayoutDirection = false
-	__ProductShape__00000043_.LayoutDirection = models.Vertical
+	__ProductShape__00000043_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000043_.X = 1173.736439
 	__ProductShape__00000043_.Y = 649.572991
 	__ProductShape__00000043_.Width = 250.000000
@@ -2686,8 +2620,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000043_.IsHidden = false
 
 	__ProductShape__00000044_.Name = `RCS PBS-Orbital Maneuvering and Attitude Control (OMAC), 30 000 lbf`
-	__ProductShape__00000044_.OverideLayoutDirection = false
-	__ProductShape__00000044_.LayoutDirection = models.Vertical
+	__ProductShape__00000044_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000044_.X = 300.725524
 	__ProductShape__00000044_.Y = 254.217082
 	__ProductShape__00000044_.Width = 250.000000
@@ -2695,8 +2628,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000044_.IsHidden = false
 
 	__ProductShape__00000045_.Name = `PIT Report-4.5.2   Description of Events and Timeline `
-	__ProductShape__00000045_.OverideLayoutDirection = false
-	__ProductShape__00000045_.LayoutDirection = models.Vertical
+	__ProductShape__00000045_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000045_.X = 386.516205
 	__ProductShape__00000045_.Y = 1236.119696
 	__ProductShape__00000045_.Width = 250.000000
@@ -2704,8 +2636,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000045_.IsHidden = false
 
 	__ProductShape__00000046_.Name = `PIT Report-B1A3 Thruster failure`
-	__ProductShape__00000046_.OverideLayoutDirection = false
-	__ProductShape__00000046_.LayoutDirection = models.Vertical
+	__ProductShape__00000046_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000046_.X = 686.516205
 	__ProductShape__00000046_.Y = 1236.119696
 	__ProductShape__00000046_.Width = 250.000000
@@ -2713,8 +2644,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000046_.IsHidden = false
 
 	__ProductShape__00000047_.Name = `PIT Report-4.5.4   Starliner Engine Testing at White Sands Test Facility (WSTF) during CFT`
-	__ProductShape__00000047_.OverideLayoutDirection = false
-	__ProductShape__00000047_.LayoutDirection = models.Vertical
+	__ProductShape__00000047_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000047_.X = 986.516205
 	__ProductShape__00000047_.Y = 1236.119696
 	__ProductShape__00000047_.Width = 250.000000
@@ -2722,8 +2652,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000047_.IsHidden = false
 
 	__ProductShape__00000048_.Name = `PIT Report-4.5.5 Fault Tree`
-	__ProductShape__00000048_.OverideLayoutDirection = false
-	__ProductShape__00000048_.LayoutDirection = models.Vertical
+	__ProductShape__00000048_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000048_.X = 1286.516205
 	__ProductShape__00000048_.Y = 1236.119696
 	__ProductShape__00000048_.Width = 250.000000
@@ -2731,8 +2660,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000048_.IsHidden = false
 
 	__ProductShape__00000049_.Name = `PIT Report-4.5.6 Most Probable Proximate Cause`
-	__ProductShape__00000049_.OverideLayoutDirection = false
-	__ProductShape__00000049_.LayoutDirection = models.Vertical
+	__ProductShape__00000049_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000049_.X = 86.516205
 	__ProductShape__00000049_.Y = 1636.119696
 	__ProductShape__00000049_.Width = 250.000000
@@ -2740,8 +2668,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000049_.IsHidden = false
 
 	__ProductShape__00000050_.Name = `PIT Report-Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`
-	__ProductShape__00000050_.OverideLayoutDirection = false
-	__ProductShape__00000050_.LayoutDirection = models.Vertical
+	__ProductShape__00000050_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000050_.X = 86.516205
 	__ProductShape__00000050_.Y = 1776.119696
 	__ProductShape__00000050_.Width = 250.000000
@@ -2749,8 +2676,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000050_.IsHidden = false
 
 	__ProductShape__00000051_.Name = `PIT Report-4.6 Analysis: Helium Leak`
-	__ProductShape__00000051_.OverideLayoutDirection = false
-	__ProductShape__00000051_.LayoutDirection = models.Vertical
+	__ProductShape__00000051_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000051_.X = 99.516205
 	__ProductShape__00000051_.Y = 2954.119696
 	__ProductShape__00000051_.Width = 250.000000
@@ -2758,8 +2684,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000051_.IsHidden = false
 
 	__ProductShape__00000052_.Name = `PIT Report-4.6.1 Description of the system`
-	__ProductShape__00000052_.OverideLayoutDirection = false
-	__ProductShape__00000052_.LayoutDirection = models.Vertical
+	__ProductShape__00000052_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000052_.X = 99.516205
 	__ProductShape__00000052_.Y = 3094.119696
 	__ProductShape__00000052_.Width = 250.000000
@@ -2901,8 +2826,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceCompositionShape__00000008_.IsHidden = false
 
 	__ResourceShape__00000000_.Name = `-Default Diagram`
-	__ResourceShape__00000000_.OverideLayoutDirection = false
-	__ResourceShape__00000000_.LayoutDirection = models.Vertical
+	__ResourceShape__00000000_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000000_.X = 52.114853
 	__ResourceShape__00000000_.Y = 34.127119
 	__ResourceShape__00000000_.Width = 250.000000
@@ -2910,8 +2834,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000000_.IsHidden = false
 
 	__ResourceShape__00000001_.Name = `-Default Diagram`
-	__ResourceShape__00000001_.OverideLayoutDirection = false
-	__ResourceShape__00000001_.LayoutDirection = models.Vertical
+	__ResourceShape__00000001_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000001_.X = 34.180389
 	__ResourceShape__00000001_.Y = 553.010316
 	__ResourceShape__00000001_.Width = 250.000000
@@ -2919,8 +2842,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000001_.IsHidden = false
 
 	__ResourceShape__00000002_.Name = `-Default Diagram`
-	__ResourceShape__00000002_.OverideLayoutDirection = false
-	__ResourceShape__00000002_.LayoutDirection = models.Vertical
+	__ResourceShape__00000002_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000002_.X = 33.201744
 	__ResourceShape__00000002_.Y = 650.719328
 	__ResourceShape__00000002_.Width = 250.000000
@@ -2928,8 +2850,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000002_.IsHidden = false
 
 	__ResourceShape__00000003_.Name = `RBS-NASA`
-	__ResourceShape__00000003_.OverideLayoutDirection = false
-	__ResourceShape__00000003_.LayoutDirection = models.Vertical
+	__ResourceShape__00000003_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000003_.X = 134.737820
 	__ResourceShape__00000003_.Y = 123.124371
 	__ResourceShape__00000003_.Width = 250.000000
@@ -2937,8 +2858,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000003_.IsHidden = false
 
 	__ResourceShape__00000004_.Name = `RBS-Crew Commercial Program (CPP2)`
-	__ResourceShape__00000004_.OverideLayoutDirection = false
-	__ResourceShape__00000004_.LayoutDirection = models.Vertical
+	__ResourceShape__00000004_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000004_.X = 137.737820
 	__ResourceShape__00000004_.Y = 300.124371
 	__ResourceShape__00000004_.Width = 250.000000
@@ -2946,8 +2866,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000004_.IsHidden = false
 
 	__ResourceShape__00000005_.Name = `RBS-Crews`
-	__ResourceShape__00000005_.OverideLayoutDirection = false
-	__ResourceShape__00000005_.LayoutDirection = models.Vertical
+	__ResourceShape__00000005_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000005_.X = 137.737820
 	__ResourceShape__00000005_.Y = 440.124371
 	__ResourceShape__00000005_.Width = 250.000000
@@ -2955,8 +2874,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000005_.IsHidden = false
 
 	__ResourceShape__00000006_.Name = `RBS-Barry "Butch" Wilmore`
-	__ResourceShape__00000006_.OverideLayoutDirection = false
-	__ResourceShape__00000006_.LayoutDirection = models.Vertical
+	__ResourceShape__00000006_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000006_.X = 132.423066
 	__ResourceShape__00000006_.Y = 597.719206
 	__ResourceShape__00000006_.Width = 250.000000
@@ -2964,8 +2882,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000006_.IsHidden = false
 
 	__ResourceShape__00000007_.Name = `RBS-Sunita "Suni" Williams`
-	__ResourceShape__00000007_.OverideLayoutDirection = false
-	__ResourceShape__00000007_.LayoutDirection = models.Vertical
+	__ResourceShape__00000007_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000007_.X = 454.596590
 	__ResourceShape__00000007_.Y = 600.173621
 	__ResourceShape__00000007_.Width = 250.000000
@@ -2973,8 +2890,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000007_.IsHidden = false
 
 	__ResourceShape__00000008_.Name = `RBS-Program Investigation Team (PIT)`
-	__ResourceShape__00000008_.OverideLayoutDirection = false
-	__ResourceShape__00000008_.LayoutDirection = models.Vertical
+	__ResourceShape__00000008_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000008_.X = 835.651635
 	__ResourceShape__00000008_.Y = 297.886860
 	__ResourceShape__00000008_.Width = 250.000000
@@ -2982,8 +2898,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000008_.IsHidden = false
 
 	__ResourceShape__00000009_.Name = `RBS-Boeing`
-	__ResourceShape__00000009_.OverideLayoutDirection = false
-	__ResourceShape__00000009_.LayoutDirection = models.Vertical
+	__ResourceShape__00000009_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000009_.X = 126.434105
 	__ResourceShape__00000009_.Y = 846.201664
 	__ResourceShape__00000009_.Width = 250.000000
@@ -2991,8 +2906,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000009_.IsHidden = false
 
 	__ResourceShape__00000010_.Name = `RBS-`
-	__ResourceShape__00000010_.OverideLayoutDirection = false
-	__ResourceShape__00000010_.LayoutDirection = models.Vertical
+	__ResourceShape__00000010_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000010_.X = 110.434105
 	__ResourceShape__00000010_.Y = 1029.201740
 	__ResourceShape__00000010_.Width = 250.000000
@@ -3000,8 +2914,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000010_.IsHidden = false
 
 	__ResourceShape__00000012_.Name = `RBS- Starliner Tests and Anomalies Review (STAR) Investigation Team`
-	__ResourceShape__00000012_.OverideLayoutDirection = false
-	__ResourceShape__00000012_.LayoutDirection = models.Vertical
+	__ResourceShape__00000012_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000012_.X = 437.737820
 	__ResourceShape__00000012_.Y = 440.124371
 	__ResourceShape__00000012_.Width = 413.000000
@@ -3009,8 +2922,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000012_.IsHidden = false
 
 	__ResourceShape__00000013_.Name = `PBS-Program Investigation Team (PIT)`
-	__ResourceShape__00000013_.OverideLayoutDirection = false
-	__ResourceShape__00000013_.LayoutDirection = models.Vertical
+	__ResourceShape__00000013_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000013_.X = 155.000061
 	__ResourceShape__00000013_.Y = 835.999985
 	__ResourceShape__00000013_.Width = 250.000000
@@ -3018,8 +2930,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000013_.IsHidden = false
 
 	__ResourceShape__00000014_.Name = `PIT focus-Program Investigation Team (PIT)`
-	__ResourceShape__00000014_.OverideLayoutDirection = false
-	__ResourceShape__00000014_.LayoutDirection = models.Vertical
+	__ResourceShape__00000014_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000014_.X = 104.267926
 	__ResourceShape__00000014_.Y = 288.658205
 	__ResourceShape__00000014_.Width = 250.000000
@@ -3027,8 +2938,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000014_.IsHidden = false
 
 	__ResourceShape__00000015_.Name = `RBS-Flight Control Team (FCT)`
-	__ResourceShape__00000015_.OverideLayoutDirection = false
-	__ResourceShape__00000015_.LayoutDirection = models.Vertical
+	__ResourceShape__00000015_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000015_.X = 883.737820
 	__ResourceShape__00000015_.Y = 438.124371
 	__ResourceShape__00000015_.Width = 250.000000
@@ -3301,8 +3211,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 
 	__TaskShape__00000003_.Name = `WBS-Mishap investigations`
 	__TaskShape__00000003_.IsShowDate = false
-	__TaskShape__00000003_.OverideLayoutDirection = false
-	__TaskShape__00000003_.LayoutDirection = models.Vertical
+	__TaskShape__00000003_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000003_.X = 28.416829
 	__TaskShape__00000003_.Y = 546.674065
 	__TaskShape__00000003_.Width = 250.000000
@@ -3311,8 +3220,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 
 	__TaskShape__00000004_.Name = `WBS-Commercial Crew Program (CCP),`
 	__TaskShape__00000004_.IsShowDate = false
-	__TaskShape__00000004_.OverideLayoutDirection = false
-	__TaskShape__00000004_.LayoutDirection = models.Vertical
+	__TaskShape__00000004_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000004_.X = 14.071983
 	__TaskShape__00000004_.Y = 166.517160
 	__TaskShape__00000004_.Width = 250.000000
@@ -3321,8 +3229,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 
 	__TaskShape__00000005_.Name = `WBS-Starliner Crewed Flight Test (CFT)`
 	__TaskShape__00000005_.IsShowDate = false
-	__TaskShape__00000005_.OverideLayoutDirection = false
-	__TaskShape__00000005_.LayoutDirection = models.Vertical
+	__TaskShape__00000005_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000005_.X = 645.617766
 	__TaskShape__00000005_.Y = 360.295606
 	__TaskShape__00000005_.Width = 250.000000
@@ -3331,8 +3238,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 
 	__TaskShape__00000006_.Name = `WBS- Commercial ReSupply (CRS) `
 	__TaskShape__00000006_.IsShowDate = false
-	__TaskShape__00000006_.OverideLayoutDirection = false
-	__TaskShape__00000006_.LayoutDirection = models.Vertical
+	__TaskShape__00000006_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000006_.X = 14.409715
 	__TaskShape__00000006_.Y = 32.470060
 	__TaskShape__00000006_.Width = 250.000000
@@ -3341,8 +3247,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 
 	__TaskShape__00000007_.Name = `PBS-Mishap investigations`
 	__TaskShape__00000007_.IsShowDate = false
-	__TaskShape__00000007_.OverideLayoutDirection = false
-	__TaskShape__00000007_.LayoutDirection = models.Vertical
+	__TaskShape__00000007_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000007_.X = 117.000061
 	__TaskShape__00000007_.Y = 743.999985
 	__TaskShape__00000007_.Width = 250.000000
@@ -3351,8 +3256,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 
 	__TaskShape__00000008_.Name = `WBS-Program Investigation Team (PIT) Report`
 	__TaskShape__00000008_.IsShowDate = false
-	__TaskShape__00000008_.OverideLayoutDirection = false
-	__TaskShape__00000008_.LayoutDirection = models.Vertical
+	__TaskShape__00000008_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000008_.X = 28.416829
 	__TaskShape__00000008_.Y = 686.674065
 	__TaskShape__00000008_.Width = 250.000000
@@ -3361,8 +3265,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 
 	__TaskShape__00000009_.Name = `PIT focus-Program Investigation Team (PIT) Report`
 	__TaskShape__00000009_.IsShowDate = false
-	__TaskShape__00000009_.OverideLayoutDirection = false
-	__TaskShape__00000009_.LayoutDirection = models.Vertical
+	__TaskShape__00000009_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000009_.X = 499.174738
 	__TaskShape__00000009_.Y = 283.233412
 	__TaskShape__00000009_.Width = 250.000000
@@ -3371,8 +3274,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 
 	__TaskShape__00000010_.Name = `WBS-Orbital Flight Test-1 (OFT-1)`
 	__TaskShape__00000010_.IsShowDate = false
-	__TaskShape__00000010_.OverideLayoutDirection = false
-	__TaskShape__00000010_.LayoutDirection = models.Vertical
+	__TaskShape__00000010_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000010_.X = 19.071983
 	__TaskShape__00000010_.Y = 346.517160
 	__TaskShape__00000010_.Width = 250.000000
@@ -3381,8 +3283,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 
 	__TaskShape__00000011_.Name = `WBS-Orbital Flight Test-2 (OFT-2)`
 	__TaskShape__00000011_.IsShowDate = false
-	__TaskShape__00000011_.OverideLayoutDirection = false
-	__TaskShape__00000011_.LayoutDirection = models.Vertical
+	__TaskShape__00000011_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000011_.X = 336.071983
 	__TaskShape__00000011_.Y = 355.517160
 	__TaskShape__00000011_.Width = 250.000000
@@ -3391,8 +3292,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 
 	__TaskShape__00000012_.Name = `WBS-ISS Approach`
 	__TaskShape__00000012_.IsShowDate = false
-	__TaskShape__00000012_.OverideLayoutDirection = false
-	__TaskShape__00000012_.LayoutDirection = models.Vertical
+	__TaskShape__00000012_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000012_.X = 645.617766
 	__TaskShape__00000012_.Y = 500.295606
 	__TaskShape__00000012_.Width = 250.000000

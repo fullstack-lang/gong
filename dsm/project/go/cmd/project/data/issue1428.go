@@ -115,8 +115,7 @@ func _(stage *models.Stage) {
 	__Note__00000000_.LayoutDirection = models.Vertical
 
 	__NoteShape__00000000_.Name = `1428-FFA`
-	__NoteShape__00000000_.OverideLayoutDirection = false
-	__NoteShape__00000000_.LayoutDirection = models.Vertical
+	__NoteShape__00000000_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000000_.X = 166.445162
 	__NoteShape__00000000_.Y = 496.000000
 	__NoteShape__00000000_.Width = 250.000000
@@ -185,8 +184,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000000_.Name = `1428-P1`
 	__ProductShape__00000000_.IsShowType = false
-	__ProductShape__00000000_.OverideLayoutDirection = false
-	__ProductShape__00000000_.LayoutDirection = models.Vertical
+	__ProductShape__00000000_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000000_.X = 50.000000
 	__ProductShape__00000000_.Y = 50.000000
 	__ProductShape__00000000_.Width = 250.000000
@@ -195,8 +193,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000001_.Name = `1428-P1.1`
 	__ProductShape__00000001_.IsShowType = false
-	__ProductShape__00000001_.OverideLayoutDirection = false
-	__ProductShape__00000001_.LayoutDirection = models.Vertical
+	__ProductShape__00000001_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000001_.X = 225.000000
 	__ProductShape__00000001_.Y = 135.000000
 	__ProductShape__00000001_.Width = 250.000000
@@ -205,8 +202,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000002_.Name = `1428-P1.2`
 	__ProductShape__00000002_.IsShowType = false
-	__ProductShape__00000002_.OverideLayoutDirection = false
-	__ProductShape__00000002_.LayoutDirection = models.Vertical
+	__ProductShape__00000002_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000002_.X = 225.000000
 	__ProductShape__00000002_.Y = 220.000000
 	__ProductShape__00000002_.Width = 250.000000
@@ -215,8 +211,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000003_.Name = `1428-P1.2.1`
 	__ProductShape__00000003_.IsShowType = false
-	__ProductShape__00000003_.OverideLayoutDirection = false
-	__ProductShape__00000003_.LayoutDirection = models.Vertical
+	__ProductShape__00000003_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000003_.X = 400.000000
 	__ProductShape__00000003_.Y = 305.000000
 	__ProductShape__00000003_.Width = 250.000000
@@ -257,8 +252,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000000_.Name = `1428-Task1`
 	__TaskShape__00000000_.IsShowDate = false
 	__TaskShape__00000000_.VerticalOffset = 0.000000
-	__TaskShape__00000000_.OverideLayoutDirection = false
-	__TaskShape__00000000_.LayoutDirection = models.Vertical
+	__TaskShape__00000000_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000000_.X = 700.000000
 	__TaskShape__00000000_.Y = 50.000000
 	__TaskShape__00000000_.Width = 250.000000

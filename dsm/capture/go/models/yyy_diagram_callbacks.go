@@ -117,7 +117,7 @@ func setCallbacksElementInDiagram[
 
 							var isHorizontal bool
 							if pShape, ok := any(parentShape).(LayoutConcreteType); ok {
-								if pShape.GetConcreteLayoutDirection() == Horizontal {
+								if GetConcreteLayoutDirection(pShape) == Horizontal {
 									isHorizontal = true
 								}
 							}
@@ -140,7 +140,7 @@ func setCallbacksElementInDiagram[
 										if grandParentElement != nil {
 											if grandParentShape, ok := shapesMap[grandParentElement.(AT)]; ok {
 												if gpShape, ok := any(grandParentShape).(LayoutConcreteType); ok {
-													if gpShape.GetConcreteLayoutDirection() == Horizontal {
+													if GetConcreteLayoutDirection(gpShape) == Horizontal {
 														isGrandParentHorizontal = true
 													}
 												}

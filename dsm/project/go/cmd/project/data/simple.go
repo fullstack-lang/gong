@@ -143,8 +143,7 @@ func _(stage *models.Stage) {
 	__Note__00000000_.IsExpanded = false
 
 	__NoteShape__00000000_.Name = `D1-`
-	__NoteShape__00000000_.OverideLayoutDirection = false
-	__NoteShape__00000000_.LayoutDirection = models.Vertical
+	__NoteShape__00000000_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000000_.X = 409.078303
 	__NoteShape__00000000_.Y = 447.001756
 	__NoteShape__00000000_.Width = 250.000000
@@ -152,8 +151,7 @@ func _(stage *models.Stage) {
 	__NoteShape__00000000_.IsHidden = false
 
 	__NoteShape__00000003_.Name = `Default Diagram copy-`
-	__NoteShape__00000003_.OverideLayoutDirection = false
-	__NoteShape__00000003_.LayoutDirection = models.Vertical
+	__NoteShape__00000003_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000003_.X = 409.078303
 	__NoteShape__00000003_.Y = 447.001756
 	__NoteShape__00000003_.Width = 250.000000
@@ -187,8 +185,7 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000000_.IsHidden = false
 
 	__ProductShape__00000000_.Name = `D1-G3`
-	__ProductShape__00000000_.OverideLayoutDirection = false
-	__ProductShape__00000000_.LayoutDirection = models.Vertical
+	__ProductShape__00000000_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000000_.X = 159.729721
 	__ProductShape__00000000_.Y = 112.660089
 	__ProductShape__00000000_.Width = 250.000000
@@ -196,8 +193,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000000_.IsHidden = false
 
 	__ProductShape__00000001_.Name = `D1-G3.1`
-	__ProductShape__00000001_.OverideLayoutDirection = false
-	__ProductShape__00000001_.LayoutDirection = models.Vertical
+	__ProductShape__00000001_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000001_.X = 159.729721
 	__ProductShape__00000001_.Y = 252.660089
 	__ProductShape__00000001_.Width = 250.000000
@@ -205,8 +201,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000001_.IsHidden = false
 
 	__ProductShape__00000023_.Name = `Default Diagram copy-G3`
-	__ProductShape__00000023_.OverideLayoutDirection = false
-	__ProductShape__00000023_.LayoutDirection = models.Vertical
+	__ProductShape__00000023_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000023_.X = 159.729721
 	__ProductShape__00000023_.Y = 112.660089
 	__ProductShape__00000023_.Width = 250.000000

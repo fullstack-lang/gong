@@ -144,8 +144,7 @@ This diagram show the general principal of a DSM event loop.
 
 	__NoteShape__00000004_.Name = `This diagram shows the general principal of a DSM event loop.
 -UX Loop Diagram`
-	__NoteShape__00000004_.OverideLayoutDirection = false
-	__NoteShape__00000004_.LayoutDirection = models.Vertical
+	__NoteShape__00000004_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000004_.X = 444.000000
 	__NoteShape__00000004_.Y = 67.000000
 	__NoteShape__00000004_.Width = 339.000000

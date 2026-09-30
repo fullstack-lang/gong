@@ -692,8 +692,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.OverideLayoutDirection = %t", noteshapeIdent, noteshape.OverideLayoutDirection))
-			values.WriteString(fmt.Sprintf("\n\t%s.LayoutDirection = %d", noteshapeIdent, int(noteshape.LayoutDirection)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLayoutDirectionDifferent = %t", noteshapeIdent, noteshape.IsLayoutDirectionDifferent))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", noteshapeIdent, noteshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", noteshapeIdent, noteshape.Y))
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", noteshapeIdent, noteshape.Width))
@@ -900,8 +899,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", productshapeIdent, __gong__toRawStringLiteral(productshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsShowType = %t", productshapeIdent, productshape.IsShowType))
-			values.WriteString(fmt.Sprintf("\n\t%s.OverideLayoutDirection = %t", productshapeIdent, productshape.OverideLayoutDirection))
-			values.WriteString(fmt.Sprintf("\n\t%s.LayoutDirection = %d", productshapeIdent, int(productshape.LayoutDirection)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLayoutDirectionDifferent = %t", productshapeIdent, productshape.IsLayoutDirectionDifferent))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", productshapeIdent, productshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", productshapeIdent, productshape.Y))
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", productshapeIdent, productshape.Width))
@@ -1025,8 +1023,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", resourceshapeIdent, __gong__toRawStringLiteral(resourceshape.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.OverideLayoutDirection = %t", resourceshapeIdent, resourceshape.OverideLayoutDirection))
-			values.WriteString(fmt.Sprintf("\n\t%s.LayoutDirection = %d", resourceshapeIdent, int(resourceshape.LayoutDirection)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLayoutDirectionDifferent = %t", resourceshapeIdent, resourceshape.IsLayoutDirectionDifferent))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", resourceshapeIdent, resourceshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", resourceshapeIdent, resourceshape.Y))
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", resourceshapeIdent, resourceshape.Width))
@@ -1451,8 +1448,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", taskshapeIdent, __gong__toRawStringLiteral(taskshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsShowDate = %t", taskshapeIdent, taskshape.IsShowDate))
 			values.WriteString(fmt.Sprintf("\n\t%s.VerticalOffset = %f", taskshapeIdent, taskshape.VerticalOffset))
-			values.WriteString(fmt.Sprintf("\n\t%s.OverideLayoutDirection = %t", taskshapeIdent, taskshape.OverideLayoutDirection))
-			values.WriteString(fmt.Sprintf("\n\t%s.LayoutDirection = %d", taskshapeIdent, int(taskshape.LayoutDirection)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLayoutDirectionDifferent = %t", taskshapeIdent, taskshape.IsLayoutDirectionDifferent))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", taskshapeIdent, taskshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", taskshapeIdent, taskshape.Y))
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", taskshapeIdent, taskshape.Width))
@@ -1909,10 +1905,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Name = GongExtractString(rhs)
 					case "Note":
 						__gong__assignPointer(&inst.Note, rhs, identifierMap)
-					case "OverideLayoutDirection":
-						inst.OverideLayoutDirection = GongExtractBool(rhs)
-					case "LayoutDirection":
-						inst.LayoutDirection = LayoutDirection(GongExtractInt(rhs))
+					case "IsLayoutDirectionDifferent":
+						inst.IsLayoutDirectionDifferent = GongExtractBool(rhs)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -2016,10 +2010,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						__gong__assignPointer(&inst.Product, rhs, identifierMap)
 					case "IsShowType":
 						inst.IsShowType = GongExtractBool(rhs)
-					case "OverideLayoutDirection":
-						inst.OverideLayoutDirection = GongExtractBool(rhs)
-					case "LayoutDirection":
-						inst.LayoutDirection = LayoutDirection(GongExtractInt(rhs))
+					case "IsLayoutDirectionDifferent":
+						inst.IsLayoutDirectionDifferent = GongExtractBool(rhs)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -2077,10 +2069,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Name = GongExtractString(rhs)
 					case "Resource":
 						__gong__assignPointer(&inst.Resource, rhs, identifierMap)
-					case "OverideLayoutDirection":
-						inst.OverideLayoutDirection = GongExtractBool(rhs)
-					case "LayoutDirection":
-						inst.LayoutDirection = LayoutDirection(GongExtractInt(rhs))
+					case "IsLayoutDirectionDifferent":
+						inst.IsLayoutDirectionDifferent = GongExtractBool(rhs)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -2308,10 +2298,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.IsShowDate = GongExtractBool(rhs)
 					case "VerticalOffset":
 						inst.VerticalOffset = GongExtractFloat(rhs)
-					case "OverideLayoutDirection":
-						inst.OverideLayoutDirection = GongExtractBool(rhs)
-					case "LayoutDirection":
-						inst.LayoutDirection = LayoutDirection(GongExtractInt(rhs))
+					case "IsLayoutDirectionDifferent":
+						inst.IsLayoutDirectionDifferent = GongExtractBool(rhs)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":

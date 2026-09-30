@@ -2672,11 +2672,8 @@ func (noteshape *NoteShape) GongDiff(stage *Stage, noteshapeOther *NoteShape) (d
 	if noteshape.Note != noteshapeOther.Note {
 		diffs = append(diffs, noteshape.GongMarshallField(stage, "Note"))
 	}
-	if noteshape.OverideLayoutDirection != noteshapeOther.OverideLayoutDirection {
-		diffs = append(diffs, noteshape.GongMarshallField(stage, "OverideLayoutDirection"))
-	}
-	if noteshape.LayoutDirection != noteshapeOther.LayoutDirection {
-		diffs = append(diffs, noteshape.GongMarshallField(stage, "LayoutDirection"))
+	if noteshape.IsLayoutDirectionDifferent != noteshapeOther.IsLayoutDirectionDifferent {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 	}
 	if noteshape.X != noteshapeOther.X {
 		diffs = append(diffs, noteshape.GongMarshallField(stage, "X"))
@@ -2850,11 +2847,8 @@ func (productshape *ProductShape) GongDiff(stage *Stage, productshapeOther *Prod
 	if productshape.IsShowType != productshapeOther.IsShowType {
 		diffs = append(diffs, productshape.GongMarshallField(stage, "IsShowType"))
 	}
-	if productshape.OverideLayoutDirection != productshapeOther.OverideLayoutDirection {
-		diffs = append(diffs, productshape.GongMarshallField(stage, "OverideLayoutDirection"))
-	}
-	if productshape.LayoutDirection != productshapeOther.LayoutDirection {
-		diffs = append(diffs, productshape.GongMarshallField(stage, "LayoutDirection"))
+	if productshape.IsLayoutDirectionDifferent != productshapeOther.IsLayoutDirectionDifferent {
+		diffs = append(diffs, productshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 	}
 	if productshape.X != productshapeOther.X {
 		diffs = append(diffs, productshape.GongMarshallField(stage, "X"))
@@ -2952,11 +2946,8 @@ func (resourceshape *ResourceShape) GongDiff(stage *Stage, resourceshapeOther *R
 	if resourceshape.Resource != resourceshapeOther.Resource {
 		diffs = append(diffs, resourceshape.GongMarshallField(stage, "Resource"))
 	}
-	if resourceshape.OverideLayoutDirection != resourceshapeOther.OverideLayoutDirection {
-		diffs = append(diffs, resourceshape.GongMarshallField(stage, "OverideLayoutDirection"))
-	}
-	if resourceshape.LayoutDirection != resourceshapeOther.LayoutDirection {
-		diffs = append(diffs, resourceshape.GongMarshallField(stage, "LayoutDirection"))
+	if resourceshape.IsLayoutDirectionDifferent != resourceshapeOther.IsLayoutDirectionDifferent {
+		diffs = append(diffs, resourceshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 	}
 	if resourceshape.X != resourceshapeOther.X {
 		diffs = append(diffs, resourceshape.GongMarshallField(stage, "X"))
@@ -3330,11 +3321,8 @@ func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (d
 	if taskshape.VerticalOffset != taskshapeOther.VerticalOffset {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "VerticalOffset"))
 	}
-	if taskshape.OverideLayoutDirection != taskshapeOther.OverideLayoutDirection {
-		diffs = append(diffs, taskshape.GongMarshallField(stage, "OverideLayoutDirection"))
-	}
-	if taskshape.LayoutDirection != taskshapeOther.LayoutDirection {
-		diffs = append(diffs, taskshape.GongMarshallField(stage, "LayoutDirection"))
+	if taskshape.IsLayoutDirectionDifferent != taskshapeOther.IsLayoutDirectionDifferent {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 	}
 	if taskshape.X != taskshapeOther.X {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "X"))

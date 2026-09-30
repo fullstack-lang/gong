@@ -29,6 +29,13 @@ const (
 	Horizontal
 )
 
+func (d LayoutDirection) String() string {
+	if d == Vertical {
+		return "Vertical"
+	}
+	return "Horizontal"
+}
+
 type AbstractTypeFields struct {
 	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
 	ComputedPrefix string
@@ -272,31 +279,36 @@ type ConcreteType interface {
 type LayoutConcreteType interface {
 	RectShapeInterface
 	ConcreteType
-	GetConcreteLayoutDirection() LayoutDirection
-	SetConcreteLayoutDirection(LayoutDirection)
-	GetOverideLayoutDirection() bool
-	SetOverideLayoutDirection(bool)
+	GetIsLayoutDirectionDifferent() bool
+	SetIsLayoutDirectionDifferent(bool)
 }
 
 type ConcreteTypeFields struct {
-	OverideLayoutDirection bool
-	LayoutDirection        LayoutDirection
+	IsLayoutDirectionDifferent bool
 }
 
-func (c *ConcreteTypeFields) GetConcreteLayoutDirection() LayoutDirection {
-	return c.LayoutDirection
+func (c *ConcreteTypeFields) GetIsLayoutDirectionDifferent() bool {
+	return c.IsLayoutDirectionDifferent
 }
 
-func (c *ConcreteTypeFields) SetConcreteLayoutDirection(d LayoutDirection) {
-	c.LayoutDirection = d
+func (c *ConcreteTypeFields) SetIsLayoutDirectionDifferent(b bool) {
+	c.IsLayoutDirectionDifferent = b
 }
 
-func (c *ConcreteTypeFields) GetOverideLayoutDirection() bool {
-	return c.OverideLayoutDirection
-}
-
-func (c *ConcreteTypeFields) SetOverideLayoutDirection(b bool) {
-	c.OverideLayoutDirection = b
+func GetConcreteLayoutDirection(shape LayoutConcreteType) LayoutDirection {
+	abstractLayoutDirection := Vertical
+	if shape.GetAbstractElement() != nil {
+		if treeNode, ok := shape.GetAbstractElement().(TreeAbstractType); ok {
+			abstractLayoutDirection = treeNode.GetLayoutDirection()
+		}
+	}
+	if shape.GetIsLayoutDirectionDifferent() {
+		if abstractLayoutDirection == Vertical {
+			return Horizontal
+		}
+		return Vertical
+	}
+	return abstractLayoutDirection
 }
 
 type AssociationConcreteType interface {

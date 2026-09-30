@@ -150,8 +150,7 @@ func _(stage *models.Stage) {
 	__Note__00000005_.IsExpanded = false
 
 	__NoteShape__00000000_.Name = `Note SM1-SM1 state diagram`
-	__NoteShape__00000000_.OverideLayoutDirection = false
-	__NoteShape__00000000_.LayoutDirection = models.Vertical
+	__NoteShape__00000000_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000000_.X = 141.000000
 	__NoteShape__00000000_.Y = 86.000000
 	__NoteShape__00000000_.Width = 200.000000
@@ -159,8 +158,7 @@ func _(stage *models.Stage) {
 	__NoteShape__00000000_.IsHidden = false
 
 	__NoteShape__00000005_.Name = `New Note-SM1 state diagram`
-	__NoteShape__00000005_.OverideLayoutDirection = false
-	__NoteShape__00000005_.LayoutDirection = models.Vertical
+	__NoteShape__00000005_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000005_.X = 741.000000
 	__NoteShape__00000005_.Y = 142.000000
 	__NoteShape__00000005_.Width = 200.000000

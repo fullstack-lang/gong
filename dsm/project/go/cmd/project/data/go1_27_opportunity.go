@@ -257,8 +257,7 @@ func _(stage *models.Stage) {
 	__NoteProductShape__00000000_.IsHidden = false
 
 	__NoteShape__00000000_.Name = `PBS+WBS-gong prior to 1.27 has a lot of generic function with non optimized names`
-	__NoteShape__00000000_.OverideLayoutDirection = false
-	__NoteShape__00000000_.LayoutDirection = models.Vertical
+	__NoteShape__00000000_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000000_.X = 238.354116
 	__NoteShape__00000000_.Y = 343.000000
 	__NoteShape__00000000_.Width = 250.000000
@@ -310,8 +309,7 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000000_.IsHidden = false
 
 	__ProductShape__00000000_.Name = `PBS+WBS-gong simplified with go 1.27`
-	__ProductShape__00000000_.OverideLayoutDirection = false
-	__ProductShape__00000000_.LayoutDirection = models.Vertical
+	__ProductShape__00000000_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000000_.X = 50.000000
 	__ProductShape__00000000_.Y = 50.000000
 	__ProductShape__00000000_.Width = 250.000000
@@ -319,8 +317,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000000_.IsHidden = false
 
 	__ProductShape__00000001_.Name = `PBS+WBS-gong with generic method opportunities`
-	__ProductShape__00000001_.OverideLayoutDirection = false
-	__ProductShape__00000001_.LayoutDirection = models.Vertical
+	__ProductShape__00000001_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000001_.X = 50.000000
 	__ProductShape__00000001_.Y = 190.000000
 	__ProductShape__00000001_.Width = 250.000000
@@ -328,8 +325,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000001_.IsHidden = false
 
 	__ProductShape__00000002_.Name = `PBS+WBS-list of generic function in go < 1.27`
-	__ProductShape__00000002_.OverideLayoutDirection = false
-	__ProductShape__00000002_.LayoutDirection = models.Vertical
+	__ProductShape__00000002_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000002_.X = 302.000000
 	__ProductShape__00000002_.Y = 581.000000
 	__ProductShape__00000002_.Width = 250.000000
@@ -337,8 +333,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000002_.IsHidden = false
 
 	__ProductShape__00000003_.Name = `PBS+WBS-New Product Test`
-	__ProductShape__00000003_.OverideLayoutDirection = false
-	__ProductShape__00000003_.LayoutDirection = models.Vertical
+	__ProductShape__00000003_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000003_.X = 162.768381
 	__ProductShape__00000003_.Y = 310.000000
 	__ProductShape__00000003_.Width = 250.000000
@@ -346,8 +341,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000003_.IsHidden = false
 
 	__ProductShape__00000004_.Name = `Time diagram-New Product Test`
-	__ProductShape__00000004_.OverideLayoutDirection = false
-	__ProductShape__00000004_.LayoutDirection = models.Vertical
+	__ProductShape__00000004_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000004_.X = 133.000000
 	__ProductShape__00000004_.Y = 337.000000
 	__ProductShape__00000004_.Width = 250.000000
@@ -606,8 +600,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000000_.Name = `PBS+WBS-gather all uses of gong generated generic function`
 	__TaskShape__00000000_.IsShowDate = false
-	__TaskShape__00000000_.OverideLayoutDirection = false
-	__TaskShape__00000000_.LayoutDirection = models.Vertical
+	__TaskShape__00000000_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000000_.X = 137.000000
 	__TaskShape__00000000_.Y = 419.000000
 	__TaskShape__00000000_.Width = 250.000000
@@ -616,8 +609,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000001_.Name = `PBS+WBS-do not generate non use generic functions`
 	__TaskShape__00000001_.IsShowDate = false
-	__TaskShape__00000001_.OverideLayoutDirection = false
-	__TaskShape__00000001_.LayoutDirection = models.Vertical
+	__TaskShape__00000001_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000001_.X = 552.000000
 	__TaskShape__00000001_.Y = 417.000000
 	__TaskShape__00000001_.Width = 250.000000
@@ -626,8 +618,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000002_.Name = `PBS+WBS-migrate function to methods`
 	__TaskShape__00000002_.IsShowDate = false
-	__TaskShape__00000002_.OverideLayoutDirection = false
-	__TaskShape__00000002_.LayoutDirection = models.Vertical
+	__TaskShape__00000002_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000002_.X = 951.746037
 	__TaskShape__00000002_.Y = 558.000000
 	__TaskShape__00000002_.Width = 250.000000
@@ -636,8 +627,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000003_.Name = `PBS+WBS-find idiomatic names for stage methods`
 	__TaskShape__00000003_.IsShowDate = false
-	__TaskShape__00000003_.OverideLayoutDirection = false
-	__TaskShape__00000003_.LayoutDirection = models.Vertical
+	__TaskShape__00000003_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000003_.X = 650.284604
 	__TaskShape__00000003_.Y = 564.000000
 	__TaskShape__00000003_.Width = 250.000000
@@ -646,8 +636,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000005_.Name = `Time diagram-gather all uses of gong generated generic function`
 	__TaskShape__00000005_.IsShowDate = false
-	__TaskShape__00000005_.OverideLayoutDirection = false
-	__TaskShape__00000005_.LayoutDirection = models.Vertical
+	__TaskShape__00000005_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000005_.X = 350.000000
 	__TaskShape__00000005_.Y = 50.000000
 	__TaskShape__00000005_.Width = 250.000000
@@ -656,8 +645,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000006_.Name = `Time diagram-do not generate non use generic functions`
 	__TaskShape__00000006_.IsShowDate = false
-	__TaskShape__00000006_.OverideLayoutDirection = false
-	__TaskShape__00000006_.LayoutDirection = models.Vertical
+	__TaskShape__00000006_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000006_.X = 650.000000
 	__TaskShape__00000006_.Y = 50.000000
 	__TaskShape__00000006_.Width = 250.000000
@@ -666,8 +654,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000007_.Name = `Time diagram-find idiomatic names for stage methods`
 	__TaskShape__00000007_.IsShowDate = false
-	__TaskShape__00000007_.OverideLayoutDirection = false
-	__TaskShape__00000007_.LayoutDirection = models.Vertical
+	__TaskShape__00000007_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000007_.X = 950.000000
 	__TaskShape__00000007_.Y = 50.000000
 	__TaskShape__00000007_.Width = 250.000000
@@ -676,8 +663,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000008_.Name = `Time diagram-migrate function to methods`
 	__TaskShape__00000008_.IsShowDate = false
-	__TaskShape__00000008_.OverideLayoutDirection = false
-	__TaskShape__00000008_.LayoutDirection = models.Vertical
+	__TaskShape__00000008_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000008_.X = 1250.000000
 	__TaskShape__00000008_.Y = 50.000000
 	__TaskShape__00000008_.Width = 250.000000
@@ -686,8 +672,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000009_.Name = `Time diagram-T1`
 	__TaskShape__00000009_.IsShowDate = false
-	__TaskShape__00000009_.OverideLayoutDirection = false
-	__TaskShape__00000009_.LayoutDirection = models.Vertical
+	__TaskShape__00000009_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000009_.X = 50.000000
 	__TaskShape__00000009_.Y = 50.000000
 	__TaskShape__00000009_.Width = 250.000000
@@ -696,8 +681,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000010_.Name = `Time diagram-T2`
 	__TaskShape__00000010_.IsShowDate = false
-	__TaskShape__00000010_.OverideLayoutDirection = false
-	__TaskShape__00000010_.LayoutDirection = models.Vertical
+	__TaskShape__00000010_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000010_.X = 350.000000
 	__TaskShape__00000010_.Y = 50.000000
 	__TaskShape__00000010_.Width = 250.000000

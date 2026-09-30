@@ -316,8 +316,7 @@ func _(stage *models.Stage) {
 	__Note__00000000_.LayoutDirection = models.Vertical
 
 	__NoteShape__00000000_.Name = `Default Diagram-Note on new year`
-	__NoteShape__00000000_.OverideLayoutDirection = false
-	__NoteShape__00000000_.LayoutDirection = models.Vertical
+	__NoteShape__00000000_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000000_.X = 769.521169
 	__NoteShape__00000000_.Y = 227.504776
 	__NoteShape__00000000_.Width = 250.000000
@@ -923,8 +922,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000019_.Name = `Time Diagram-Seasons`
 	__TaskShape__00000019_.IsShowDate = false
-	__TaskShape__00000019_.OverideLayoutDirection = false
-	__TaskShape__00000019_.LayoutDirection = models.Vertical
+	__TaskShape__00000019_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000019_.X = 134.246143
 	__TaskShape__00000019_.Y = 124.124452
 	__TaskShape__00000019_.Width = 250.000000
@@ -933,8 +931,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000021_.Name = `Time Diagram-spring 26`
 	__TaskShape__00000021_.IsShowDate = true
-	__TaskShape__00000021_.OverideLayoutDirection = false
-	__TaskShape__00000021_.LayoutDirection = models.Vertical
+	__TaskShape__00000021_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000021_.X = 434.246143
 	__TaskShape__00000021_.Y = 264.124452
 	__TaskShape__00000021_.Width = 250.000000
@@ -943,8 +940,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000022_.Name = `Time Diagram-summer 26`
 	__TaskShape__00000022_.IsShowDate = true
-	__TaskShape__00000022_.OverideLayoutDirection = false
-	__TaskShape__00000022_.LayoutDirection = models.Vertical
+	__TaskShape__00000022_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000022_.X = 734.246143
 	__TaskShape__00000022_.Y = 264.124452
 	__TaskShape__00000022_.Width = 250.000000
@@ -953,8 +949,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000023_.Name = `Time Diagram-winter 27`
 	__TaskShape__00000023_.IsShowDate = true
-	__TaskShape__00000023_.OverideLayoutDirection = false
-	__TaskShape__00000023_.LayoutDirection = models.Vertical
+	__TaskShape__00000023_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000023_.X = 1034.246143
 	__TaskShape__00000023_.Y = 264.124452
 	__TaskShape__00000023_.Width = 250.000000
@@ -963,8 +958,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000032_.Name = `Time Diagram-New Year 2027`
 	__TaskShape__00000032_.IsShowDate = false
-	__TaskShape__00000032_.OverideLayoutDirection = false
-	__TaskShape__00000032_.LayoutDirection = models.Vertical
+	__TaskShape__00000032_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000032_.X = 1334.246143
 	__TaskShape__00000032_.Y = 264.124452
 	__TaskShape__00000032_.Width = 250.000000
@@ -973,8 +967,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000042_.Name = `Time Diagram-winter 26`
 	__TaskShape__00000042_.IsShowDate = false
-	__TaskShape__00000042_.OverideLayoutDirection = false
-	__TaskShape__00000042_.LayoutDirection = models.Vertical
+	__TaskShape__00000042_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000042_.X = 1334.246143
 	__TaskShape__00000042_.Y = 264.124452
 	__TaskShape__00000042_.Width = 250.000000
@@ -983,8 +976,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000054_.Name = `Time Diagram-Jan 26`
 	__TaskShape__00000054_.IsShowDate = false
-	__TaskShape__00000054_.OverideLayoutDirection = false
-	__TaskShape__00000054_.LayoutDirection = models.Vertical
+	__TaskShape__00000054_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000054_.X = 1934.246143
 	__TaskShape__00000054_.Y = 404.124452
 	__TaskShape__00000054_.Width = 250.000000
@@ -993,8 +985,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000056_.Name = `Time Diagram-Mar 26`
 	__TaskShape__00000056_.IsShowDate = false
-	__TaskShape__00000056_.OverideLayoutDirection = false
-	__TaskShape__00000056_.LayoutDirection = models.Vertical
+	__TaskShape__00000056_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000056_.X = 1934.246143
 	__TaskShape__00000056_.Y = 404.124452
 	__TaskShape__00000056_.Width = 250.000000
@@ -1003,8 +994,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000057_.Name = `Time Diagram-Feb 26`
 	__TaskShape__00000057_.IsShowDate = false
-	__TaskShape__00000057_.OverideLayoutDirection = false
-	__TaskShape__00000057_.LayoutDirection = models.Vertical
+	__TaskShape__00000057_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000057_.X = 1934.246143
 	__TaskShape__00000057_.Y = 404.124452
 	__TaskShape__00000057_.Width = 250.000000
@@ -1013,8 +1003,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000058_.Name = `Default Diagram-10 years`
 	__TaskShape__00000058_.IsShowDate = true
-	__TaskShape__00000058_.OverideLayoutDirection = false
-	__TaskShape__00000058_.LayoutDirection = models.Vertical
+	__TaskShape__00000058_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000058_.X = 50.000000
 	__TaskShape__00000058_.Y = 50.000000
 	__TaskShape__00000058_.Width = 250.000000
@@ -1023,8 +1012,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000059_.Name = `Default Diagram-new year 2032`
 	__TaskShape__00000059_.IsShowDate = true
-	__TaskShape__00000059_.OverideLayoutDirection = false
-	__TaskShape__00000059_.LayoutDirection = models.Vertical
+	__TaskShape__00000059_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000059_.X = 350.000000
 	__TaskShape__00000059_.Y = 50.000000
 	__TaskShape__00000059_.Width = 250.000000

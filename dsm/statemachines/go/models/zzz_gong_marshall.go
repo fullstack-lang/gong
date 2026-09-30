@@ -720,10 +720,8 @@ func (noteshape *NoteShape) GongMarshallField(stage *Stage, fieldName string) (r
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", noteshape.Name)
-	case "OverideLayoutDirection":
-		res = __gong__marshallBool(ident, "OverideLayoutDirection", noteshape.OverideLayoutDirection)
-	case "LayoutDirection":
-		res = __gong__marshallEnumInt(ident, "LayoutDirection", noteshape.LayoutDirection.ToCodeString())
+	case "IsLayoutDirectionDifferent":
+		res = __gong__marshallBool(ident, "IsLayoutDirectionDifferent", noteshape.IsLayoutDirectionDifferent)
 	case "X":
 		res = __gong__marshallFloat(ident, "X", noteshape.X)
 	case "Y":
@@ -1193,8 +1191,7 @@ func (noteshape *NoteShape) GongMarshallAllFields(stage *Stage) (initRes string,
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(noteshape.GongMarshallField(stage, "Note"))
-		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "OverideLayoutDirection"))
-		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Width"))

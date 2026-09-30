@@ -3561,13 +3561,8 @@ func (noteshape *NoteShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Note",
 		},
 		{
-			Name:               "OverideLayoutDirection",
+			Name:               "IsLayoutDirectionDifferent",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "X",
@@ -4287,13 +4282,10 @@ func (noteshape *NoteShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 			res.valueString = noteshape.Note.Name
 			res.ids = noteshape.Note.GongGetUUID(stage)
 		}
-	case "OverideLayoutDirection":
-		res.valueString = fmt.Sprintf("%t", noteshape.OverideLayoutDirection)
-		res.valueBool = noteshape.OverideLayoutDirection
+	case "IsLayoutDirectionDifferent":
+		res.valueString = fmt.Sprintf("%t", noteshape.IsLayoutDirectionDifferent)
+		res.valueBool = noteshape.IsLayoutDirectionDifferent
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := noteshape.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "X":
 		res.valueString = fmt.Sprintf("%f", noteshape.X)
 		res.valueFloat = noteshape.X

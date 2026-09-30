@@ -495,8 +495,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.OverideLayoutDirection = %t", noteshapeIdent, noteshape.OverideLayoutDirection))
-			values.WriteString(fmt.Sprintf("\n\t%s.LayoutDirection = %d", noteshapeIdent, int(noteshape.LayoutDirection)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLayoutDirectionDifferent = %t", noteshapeIdent, noteshape.IsLayoutDirectionDifferent))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", noteshapeIdent, noteshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", noteshapeIdent, noteshape.Y))
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", noteshapeIdent, noteshape.Width))
@@ -1243,10 +1242,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Name = GongExtractString(rhs)
 					case "Note":
 						__gong__assignPointer(&inst.Note, rhs, identifierMap)
-					case "OverideLayoutDirection":
-						inst.OverideLayoutDirection = GongExtractBool(rhs)
-					case "LayoutDirection":
-						inst.LayoutDirection = LayoutDirection(GongExtractInt(rhs))
+					case "IsLayoutDirectionDifferent":
+						inst.IsLayoutDirectionDifferent = GongExtractBool(rhs)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":

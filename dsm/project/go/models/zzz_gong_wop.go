@@ -262,9 +262,7 @@ type NoteShape_WOP struct {
 
 	Name string
 
-	OverideLayoutDirection bool
-
-	LayoutDirection LayoutDirection
+	IsLayoutDirectionDifferent bool
 
 	X float64
 
@@ -280,8 +278,7 @@ type NoteShape_WOP struct {
 func (from *NoteShape) GongCopyBasicFields(to *NoteShape) {
 	// insertion point
 	to.Name = from.Name
-	to.OverideLayoutDirection = from.OverideLayoutDirection
-	to.LayoutDirection = from.LayoutDirection
+	to.IsLayoutDirectionDifferent = from.IsLayoutDirectionDifferent
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width
@@ -415,9 +412,7 @@ type ProductShape_WOP struct {
 
 	IsShowType bool
 
-	OverideLayoutDirection bool
-
-	LayoutDirection LayoutDirection
+	IsLayoutDirectionDifferent bool
 
 	X float64
 
@@ -434,8 +429,7 @@ func (from *ProductShape) GongCopyBasicFields(to *ProductShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsShowType = from.IsShowType
-	to.OverideLayoutDirection = from.OverideLayoutDirection
-	to.LayoutDirection = from.LayoutDirection
+	to.IsLayoutDirectionDifferent = from.IsLayoutDirectionDifferent
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width
@@ -503,9 +497,7 @@ type ResourceShape_WOP struct {
 
 	Name string
 
-	OverideLayoutDirection bool
-
-	LayoutDirection LayoutDirection
+	IsLayoutDirectionDifferent bool
 
 	X float64
 
@@ -521,8 +513,7 @@ type ResourceShape_WOP struct {
 func (from *ResourceShape) GongCopyBasicFields(to *ResourceShape) {
 	// insertion point
 	to.Name = from.Name
-	to.OverideLayoutDirection = from.OverideLayoutDirection
-	to.LayoutDirection = from.LayoutDirection
+	to.IsLayoutDirectionDifferent = from.IsLayoutDirectionDifferent
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width
@@ -825,9 +816,7 @@ type TaskShape_WOP struct {
 
 	VerticalOffset float64
 
-	OverideLayoutDirection bool
-
-	LayoutDirection LayoutDirection
+	IsLayoutDirectionDifferent bool
 
 	X float64
 
@@ -845,8 +834,7 @@ func (from *TaskShape) GongCopyBasicFields(to *TaskShape) {
 	to.Name = from.Name
 	to.IsShowDate = from.IsShowDate
 	to.VerticalOffset = from.VerticalOffset
-	to.OverideLayoutDirection = from.OverideLayoutDirection
-	to.LayoutDirection = from.LayoutDirection
+	to.IsLayoutDirectionDifferent = from.IsLayoutDirectionDifferent
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width

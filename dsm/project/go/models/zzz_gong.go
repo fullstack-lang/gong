@@ -4791,13 +4791,8 @@ func (noteshape *NoteShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Note",
 		},
 		{
-			Name:               "OverideLayoutDirection",
+			Name:               "IsLayoutDirectionDifferent",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "X",
@@ -5026,13 +5021,8 @@ func (productshape *ProductShape) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "OverideLayoutDirection",
+			Name:               "IsLayoutDirectionDifferent",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "X",
@@ -5160,13 +5150,8 @@ func (resourceshape *ResourceShape) GongGetFieldHeaders() (res []GongFieldHeader
 			TargetGongstructName: "Resource",
 		},
 		{
-			Name:               "OverideLayoutDirection",
+			Name:               "IsLayoutDirectionDifferent",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "X",
@@ -5664,13 +5649,8 @@ func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "OverideLayoutDirection",
+			Name:               "IsLayoutDirectionDifferent",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "X",
@@ -6440,13 +6420,10 @@ func (noteshape *NoteShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 			res.valueString = noteshape.Note.Name
 			res.ids = noteshape.Note.GongGetUUID(stage)
 		}
-	case "OverideLayoutDirection":
-		res.valueString = fmt.Sprintf("%t", noteshape.OverideLayoutDirection)
-		res.valueBool = noteshape.OverideLayoutDirection
+	case "IsLayoutDirectionDifferent":
+		res.valueString = fmt.Sprintf("%t", noteshape.IsLayoutDirectionDifferent)
+		res.valueBool = noteshape.IsLayoutDirectionDifferent
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := noteshape.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "X":
 		res.valueString = fmt.Sprintf("%f", noteshape.X)
 		res.valueFloat = noteshape.X
@@ -6657,13 +6634,10 @@ func (productshape *ProductShape) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", productshape.IsShowType)
 		res.valueBool = productshape.IsShowType
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "OverideLayoutDirection":
-		res.valueString = fmt.Sprintf("%t", productshape.OverideLayoutDirection)
-		res.valueBool = productshape.OverideLayoutDirection
+	case "IsLayoutDirectionDifferent":
+		res.valueString = fmt.Sprintf("%t", productshape.IsLayoutDirectionDifferent)
+		res.valueBool = productshape.IsLayoutDirectionDifferent
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := productshape.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "X":
 		res.valueString = fmt.Sprintf("%f", productshape.X)
 		res.valueFloat = productshape.X
@@ -6786,13 +6760,10 @@ func (resourceshape *ResourceShape) GongGetFieldValue(fieldName string, stage *S
 			res.valueString = resourceshape.Resource.Name
 			res.ids = resourceshape.Resource.GongGetUUID(stage)
 		}
-	case "OverideLayoutDirection":
-		res.valueString = fmt.Sprintf("%t", resourceshape.OverideLayoutDirection)
-		res.valueBool = resourceshape.OverideLayoutDirection
+	case "IsLayoutDirectionDifferent":
+		res.valueString = fmt.Sprintf("%t", resourceshape.IsLayoutDirectionDifferent)
+		res.valueBool = resourceshape.IsLayoutDirectionDifferent
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := resourceshape.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "X":
 		res.valueString = fmt.Sprintf("%f", resourceshape.X)
 		res.valueFloat = resourceshape.X
@@ -7274,13 +7245,10 @@ func (taskshape *TaskShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%f", taskshape.VerticalOffset)
 		res.valueFloat = taskshape.VerticalOffset
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "OverideLayoutDirection":
-		res.valueString = fmt.Sprintf("%t", taskshape.OverideLayoutDirection)
-		res.valueBool = taskshape.OverideLayoutDirection
+	case "IsLayoutDirectionDifferent":
+		res.valueString = fmt.Sprintf("%t", taskshape.IsLayoutDirectionDifferent)
+		res.valueBool = taskshape.IsLayoutDirectionDifferent
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := taskshape.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "X":
 		res.valueString = fmt.Sprintf("%f", taskshape.X)
 		res.valueFloat = taskshape.X

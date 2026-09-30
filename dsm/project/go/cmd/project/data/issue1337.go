@@ -136,8 +136,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000000_.Name = `Default Diagram-winter 26`
 	__TaskShape__00000000_.IsShowDate = true
-	__TaskShape__00000000_.OverideLayoutDirection = false
-	__TaskShape__00000000_.LayoutDirection = models.Vertical
+	__TaskShape__00000000_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000000_.X = 139.724129
 	__TaskShape__00000000_.Y = 193.067462
 	__TaskShape__00000000_.Width = 250.000000
@@ -146,8 +145,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000002_.Name = `Default Diagram-spring 26`
 	__TaskShape__00000002_.IsShowDate = true
-	__TaskShape__00000002_.OverideLayoutDirection = false
-	__TaskShape__00000002_.LayoutDirection = models.Vertical
+	__TaskShape__00000002_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000002_.X = 457.847114
 	__TaskShape__00000002_.Y = 195.504572
 	__TaskShape__00000002_.Width = 250.000000

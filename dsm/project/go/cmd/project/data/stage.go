@@ -367,8 +367,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000001_.Name = `Default Diagram-A`
 	__ProductShape__00000001_.IsShowType = false
-	__ProductShape__00000001_.OverideLayoutDirection = false
-	__ProductShape__00000001_.LayoutDirection = models.Vertical
+	__ProductShape__00000001_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000001_.X = 50.000000
 	__ProductShape__00000001_.Y = 50.000000
 	__ProductShape__00000001_.Width = 250.000000
@@ -377,8 +376,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000002_.Name = `Default Diagram-A.1`
 	__ProductShape__00000002_.IsShowType = false
-	__ProductShape__00000002_.OverideLayoutDirection = false
-	__ProductShape__00000002_.LayoutDirection = models.Vertical
+	__ProductShape__00000002_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000002_.X = 225.000000
 	__ProductShape__00000002_.Y = 135.000000
 	__ProductShape__00000002_.Width = 250.000000
@@ -387,8 +385,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000003_.Name = `Default Diagram-A.1.1`
 	__ProductShape__00000003_.IsShowType = true
-	__ProductShape__00000003_.OverideLayoutDirection = false
-	__ProductShape__00000003_.LayoutDirection = models.Vertical
+	__ProductShape__00000003_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000003_.X = 400.000000
 	__ProductShape__00000003_.Y = 275.000000
 	__ProductShape__00000003_.Width = 250.000000
@@ -397,8 +394,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000004_.Name = `Default Diagram-A.2`
 	__ProductShape__00000004_.IsShowType = false
-	__ProductShape__00000004_.OverideLayoutDirection = false
-	__ProductShape__00000004_.LayoutDirection = models.Vertical
+	__ProductShape__00000004_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000004_.X = 225.000000
 	__ProductShape__00000004_.Y = 360.000000
 	__ProductShape__00000004_.Width = 250.000000
@@ -407,8 +403,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000005_.Name = `Default Diagram-A.3`
 	__ProductShape__00000005_.IsShowType = false
-	__ProductShape__00000005_.OverideLayoutDirection = false
-	__ProductShape__00000005_.LayoutDirection = models.Vertical
+	__ProductShape__00000005_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000005_.X = 225.000000
 	__ProductShape__00000005_.Y = 445.000000
 	__ProductShape__00000005_.Width = 250.000000
@@ -417,8 +412,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000007_.Name = `Default Diagram-LA1`
 	__ProductShape__00000007_.IsShowType = false
-	__ProductShape__00000007_.OverideLayoutDirection = false
-	__ProductShape__00000007_.LayoutDirection = models.Vertical
+	__ProductShape__00000007_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000007_.X = 50.000000
 	__ProductShape__00000007_.Y = 50.000000
 	__ProductShape__00000007_.Width = 250.000000
@@ -427,8 +421,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000009_.Name = `Default Diagram-A3`
 	__ProductShape__00000009_.IsShowType = false
-	__ProductShape__00000009_.OverideLayoutDirection = false
-	__ProductShape__00000009_.LayoutDirection = models.Vertical
+	__ProductShape__00000009_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000009_.X = 225.000000
 	__ProductShape__00000009_.Y = 530.000000
 	__ProductShape__00000009_.Width = 250.000000
@@ -437,8 +430,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000010_.Name = `Default Diagram-1`
 	__ProductShape__00000010_.IsShowType = false
-	__ProductShape__00000010_.OverideLayoutDirection = false
-	__ProductShape__00000010_.LayoutDirection = models.Vertical
+	__ProductShape__00000010_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000010_.X = 50.000000
 	__ProductShape__00000010_.Y = 50.000000
 	__ProductShape__00000010_.Width = 250.000000
@@ -447,8 +439,7 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000011_.Name = `Default Diagram-2`
 	__ProductShape__00000011_.IsShowType = false
-	__ProductShape__00000011_.OverideLayoutDirection = false
-	__ProductShape__00000011_.LayoutDirection = models.Vertical
+	__ProductShape__00000011_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000011_.X = 350.000000
 	__ProductShape__00000011_.Y = 50.000000
 	__ProductShape__00000011_.Width = 250.000000
@@ -508,8 +499,7 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000003_.IsHidden = false
 
 	__ResourceShape__00000002_.Name = `Default Diagram-R1`
-	__ResourceShape__00000002_.OverideLayoutDirection = false
-	__ResourceShape__00000002_.LayoutDirection = models.Vertical
+	__ResourceShape__00000002_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000002_.X = 1000.000000
 	__ResourceShape__00000002_.Y = 50.000000
 	__ResourceShape__00000002_.Width = 250.000000
@@ -517,8 +507,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000002_.IsHidden = false
 
 	__ResourceShape__00000003_.Name = `Default Diagram-R1.1`
-	__ResourceShape__00000003_.OverideLayoutDirection = false
-	__ResourceShape__00000003_.LayoutDirection = models.Vertical
+	__ResourceShape__00000003_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000003_.X = 1175.000000
 	__ResourceShape__00000003_.Y = 135.000000
 	__ResourceShape__00000003_.Width = 250.000000
@@ -526,8 +515,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000003_.IsHidden = false
 
 	__ResourceShape__00000004_.Name = `Default Diagram-R1.2`
-	__ResourceShape__00000004_.OverideLayoutDirection = false
-	__ResourceShape__00000004_.LayoutDirection = models.Vertical
+	__ResourceShape__00000004_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000004_.X = 1175.000000
 	__ResourceShape__00000004_.Y = 220.000000
 	__ResourceShape__00000004_.Width = 250.000000
@@ -535,8 +523,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000004_.IsHidden = false
 
 	__ResourceShape__00000005_.Name = `Default Diagram-R1.3`
-	__ResourceShape__00000005_.OverideLayoutDirection = false
-	__ResourceShape__00000005_.LayoutDirection = models.Vertical
+	__ResourceShape__00000005_.IsLayoutDirectionDifferent = false
 	__ResourceShape__00000005_.X = 1175.000000
 	__ResourceShape__00000005_.Y = 305.000000
 	__ResourceShape__00000005_.Width = 250.000000
@@ -603,8 +590,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000002_.Name = `Default Diagram-W1`
 	__TaskShape__00000002_.IsShowDate = false
-	__TaskShape__00000002_.OverideLayoutDirection = false
-	__TaskShape__00000002_.LayoutDirection = models.Vertical
+	__TaskShape__00000002_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000002_.X = 700.000000
 	__TaskShape__00000002_.Y = 50.000000
 	__TaskShape__00000002_.Width = 250.000000
@@ -613,8 +599,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000003_.Name = `Default Diagram-W1.1`
 	__TaskShape__00000003_.IsShowDate = false
-	__TaskShape__00000003_.OverideLayoutDirection = false
-	__TaskShape__00000003_.LayoutDirection = models.Vertical
+	__TaskShape__00000003_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000003_.X = 700.000000
 	__TaskShape__00000003_.Y = 190.000000
 	__TaskShape__00000003_.Width = 250.000000

@@ -174,9 +174,7 @@ type NoteShape_WOP struct {
 
 	Name string
 
-	OverideLayoutDirection bool
-
-	LayoutDirection LayoutDirection
+	IsLayoutDirectionDifferent bool
 
 	X float64
 
@@ -192,8 +190,7 @@ type NoteShape_WOP struct {
 func (from *NoteShape) GongCopyBasicFields(to *NoteShape) {
 	// insertion point
 	to.Name = from.Name
-	to.OverideLayoutDirection = from.OverideLayoutDirection
-	to.LayoutDirection = from.LayoutDirection
+	to.IsLayoutDirectionDifferent = from.IsLayoutDirectionDifferent
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width

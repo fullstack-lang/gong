@@ -483,10 +483,8 @@ func saveNoteShapeFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Note":
 			FormDivSelectFieldToField(&(_instance.Note), probe.stageOfInterest, formDiv)
-		case "OverideLayoutDirection":
-			FormDivBasicFieldToField(&(_instance.OverideLayoutDirection), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(_instance.LayoutDirection), formDiv)
+		case "IsLayoutDirectionDifferent":
+			FormDivBasicFieldToField(&(_instance.IsLayoutDirectionDifferent), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
@@ -730,10 +728,8 @@ func saveProductShapeFields(
 			FormDivSelectFieldToField(&(_instance.Product), probe.stageOfInterest, formDiv)
 		case "IsShowType":
 			FormDivBasicFieldToField(&(_instance.IsShowType), formDiv)
-		case "OverideLayoutDirection":
-			FormDivBasicFieldToField(&(_instance.OverideLayoutDirection), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(_instance.LayoutDirection), formDiv)
+		case "IsLayoutDirectionDifferent":
+			FormDivBasicFieldToField(&(_instance.IsLayoutDirectionDifferent), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
@@ -875,10 +871,8 @@ func saveResourceShapeFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Resource":
 			FormDivSelectFieldToField(&(_instance.Resource), probe.stageOfInterest, formDiv)
-		case "OverideLayoutDirection":
-			FormDivBasicFieldToField(&(_instance.OverideLayoutDirection), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(_instance.LayoutDirection), formDiv)
+		case "IsLayoutDirectionDifferent":
+			FormDivBasicFieldToField(&(_instance.IsLayoutDirectionDifferent), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
@@ -1362,10 +1356,8 @@ func saveTaskShapeFields(
 			FormDivBasicFieldToField(&(_instance.IsShowDate), formDiv)
 		case "VerticalOffset":
 			FormDivBasicFieldToField(&(_instance.VerticalOffset), formDiv)
-		case "OverideLayoutDirection":
-			FormDivBasicFieldToField(&(_instance.OverideLayoutDirection), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(_instance.LayoutDirection), formDiv)
+		case "IsLayoutDirectionDifferent":
+			FormDivBasicFieldToField(&(_instance.IsLayoutDirectionDifferent), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":

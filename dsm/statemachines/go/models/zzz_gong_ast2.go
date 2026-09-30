@@ -728,10 +728,8 @@ func (u *NoteShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Name = GongExtractString(valueExpr)
 	case "Note":
 		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
-	case "OverideLayoutDirection":
-		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "IsLayoutDirectionDifferent":
+		instance.IsLayoutDirectionDifferent = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":

@@ -295,8 +295,7 @@ like what is done in create views )
 	__NoteProductShape__00000000_.IsHidden = false
 
 	__NoteShape__00000000_.Name = `Default Diagram-Invariant : generated code never import a gong package `
-	__NoteShape__00000000_.OverideLayoutDirection = false
-	__NoteShape__00000000_.LayoutDirection = models.Vertical
+	__NoteShape__00000000_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000000_.X = 919.706973
 	__NoteShape__00000000_.Y = 1125.285144
 	__NoteShape__00000000_.Width = 250.000000
@@ -304,8 +303,7 @@ like what is done in create views )
 	__NoteShape__00000000_.IsHidden = false
 
 	__NoteShape__00000001_.Name = `Default Diagram-A typical DSM is "concept map", a tool to creates Noun, Verbs and directed relations between them. The visual diagram is very simple. `
-	__NoteShape__00000001_.OverideLayoutDirection = false
-	__NoteShape__00000001_.LayoutDirection = models.Vertical
+	__NoteShape__00000001_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000001_.X = 522.625303
 	__NoteShape__00000001_.Y = 472.810898
 	__NoteShape__00000001_.Width = 250.000000
@@ -325,8 +323,7 @@ like what is done in create views )
 
 
 `
-	__NoteShape__00000002_.OverideLayoutDirection = false
-	__NoteShape__00000002_.LayoutDirection = models.Vertical
+	__NoteShape__00000002_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000002_.X = 985.155913
 	__NoteShape__00000002_.Y = 37.256246
 	__NoteShape__00000002_.Width = 250.000000
@@ -334,8 +331,7 @@ like what is done in create views )
 	__NoteShape__00000002_.IsHidden = false
 
 	__NoteShape__00000003_.Name = `Default Diagram-Default functions like Rename, Delete, ...`
-	__NoteShape__00000003_.OverideLayoutDirection = false
-	__NoteShape__00000003_.LayoutDirection = models.Vertical
+	__NoteShape__00000003_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000003_.X = 950.184253
 	__NoteShape__00000003_.Y = 479.000000
 	__NoteShape__00000003_.Width = 250.000000
@@ -343,8 +339,7 @@ like what is done in create views )
 	__NoteShape__00000003_.IsHidden = false
 
 	__NoteShape__00000004_.Name = `Default Diagram-sqfsdqfqd`
-	__NoteShape__00000004_.OverideLayoutDirection = false
-	__NoteShape__00000004_.LayoutDirection = models.Vertical
+	__NoteShape__00000004_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000004_.X = 58.558884
 	__NoteShape__00000004_.Y = 1344.000000
 	__NoteShape__00000004_.Width = 250.000000
@@ -352,8 +347,7 @@ like what is done in create views )
 	__NoteShape__00000004_.IsHidden = false
 
 	__NoteShape__00000007_.Name = `Default Diagram-For instance, a project DSM needs a Requirement DSM and a Statemachine DSM `
-	__NoteShape__00000007_.OverideLayoutDirection = false
-	__NoteShape__00000007_.LayoutDirection = models.Vertical
+	__NoteShape__00000007_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000007_.X = 600.450625
 	__NoteShape__00000007_.Y = 621.387352
 	__NoteShape__00000007_.Width = 250.000000
@@ -712,8 +706,7 @@ like what is done in create views )
 	__ProductCompositionShape__00000020_.IsHidden = false
 
 	__ProductShape__00000000_.Name = `Default Diagram-Paint points`
-	__ProductShape__00000000_.OverideLayoutDirection = false
-	__ProductShape__00000000_.LayoutDirection = models.Vertical
+	__ProductShape__00000000_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000000_.X = 50.000000
 	__ProductShape__00000000_.Y = 50.000000
 	__ProductShape__00000000_.Width = 250.000000
@@ -721,8 +714,7 @@ like what is done in create views )
 	__ProductShape__00000000_.IsHidden = false
 
 	__ProductShape__00000001_.Name = `Default Diagram-lot of yyy files and no clear mental model `
-	__ProductShape__00000001_.OverideLayoutDirection = false
-	__ProductShape__00000001_.LayoutDirection = models.Vertical
+	__ProductShape__00000001_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000001_.X = 225.000000
 	__ProductShape__00000001_.Y = 135.000000
 	__ProductShape__00000001_.Width = 250.000000
@@ -730,8 +722,7 @@ like what is done in create views )
 	__ProductShape__00000001_.IsHidden = false
 
 	__ProductShape__00000002_.Name = `Default Diagram-lot of stager is a hybrid concept`
-	__ProductShape__00000002_.OverideLayoutDirection = false
-	__ProductShape__00000002_.LayoutDirection = models.Vertical
+	__ProductShape__00000002_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000002_.X = 225.000000
 	__ProductShape__00000002_.Y = 785.000000
 	__ProductShape__00000002_.Width = 250.000000
@@ -739,8 +730,7 @@ like what is done in create views )
 	__ProductShape__00000002_.IsHidden = false
 
 	__ProductShape__00000003_.Name = `Default Diagram-the stager concept is not clearly delineated`
-	__ProductShape__00000003_.OverideLayoutDirection = false
-	__ProductShape__00000003_.LayoutDirection = models.Vertical
+	__ProductShape__00000003_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000003_.X = 225.000000
 	__ProductShape__00000003_.Y = 1010.000000
 	__ProductShape__00000003_.Width = 250.000000
@@ -748,8 +738,7 @@ like what is done in create views )
 	__ProductShape__00000003_.IsHidden = false
 
 	__ProductShape__00000004_.Name = `Default Diagram-confusion between interface & generic code`
-	__ProductShape__00000004_.OverideLayoutDirection = false
-	__ProductShape__00000004_.LayoutDirection = models.Vertical
+	__ProductShape__00000004_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000004_.X = 225.000000
 	__ProductShape__00000004_.Y = 1235.000000
 	__ProductShape__00000004_.Width = 250.000000
@@ -757,8 +746,7 @@ like what is done in create views )
 	__ProductShape__00000004_.IsHidden = false
 
 	__ProductShape__00000005_.Name = `Default Diagram-There is a lifecycle "enforce sematntic", "marhsall", generate UXs`
-	__ProductShape__00000005_.OverideLayoutDirection = false
-	__ProductShape__00000005_.LayoutDirection = models.Vertical
+	__ProductShape__00000005_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000005_.X = 400.000000
 	__ProductShape__00000005_.Y = 1150.000000
 	__ProductShape__00000005_.Width = 250.000000
@@ -766,8 +754,7 @@ like what is done in create views )
 	__ProductShape__00000005_.IsHidden = false
 
 	__ProductShape__00000006_.Name = `Default Diagram-TBC`
-	__ProductShape__00000006_.OverideLayoutDirection = false
-	__ProductShape__00000006_.LayoutDirection = models.Vertical
+	__ProductShape__00000006_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000006_.X = 700.000000
 	__ProductShape__00000006_.Y = 1150.000000
 	__ProductShape__00000006_.Width = 250.000000
@@ -775,8 +762,7 @@ like what is done in create views )
 	__ProductShape__00000006_.IsHidden = false
 
 	__ProductShape__00000007_.Name = `Default Diagram-yyy files are helpers for UX updates of trees and svg`
-	__ProductShape__00000007_.OverideLayoutDirection = false
-	__ProductShape__00000007_.LayoutDirection = models.Vertical
+	__ProductShape__00000007_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000007_.X = 400.000000
 	__ProductShape__00000007_.Y = 275.000000
 	__ProductShape__00000007_.Width = 250.000000
@@ -784,8 +770,7 @@ like what is done in create views )
 	__ProductShape__00000007_.IsHidden = false
 
 	__ProductShape__00000008_.Name = `Default Diagram-Core Abstractions & Interfaces`
-	__ProductShape__00000008_.OverideLayoutDirection = false
-	__ProductShape__00000008_.LayoutDirection = models.Vertical
+	__ProductShape__00000008_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000008_.X = 575.000000
 	__ProductShape__00000008_.Y = 360.000000
 	__ProductShape__00000008_.Width = 250.000000
@@ -793,8 +778,7 @@ like what is done in create views )
 	__ProductShape__00000008_.IsHidden = false
 
 	__ProductShape__00000009_.Name = `Default Diagram-Tree UI & Context Menus`
-	__ProductShape__00000009_.OverideLayoutDirection = false
-	__ProductShape__00000009_.LayoutDirection = models.Vertical
+	__ProductShape__00000009_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000009_.X = 575.000000
 	__ProductShape__00000009_.Y = 445.000000
 	__ProductShape__00000009_.Width = 250.000000
@@ -802,8 +786,7 @@ like what is done in create views )
 	__ProductShape__00000009_.IsHidden = false
 
 	__ProductShape__00000010_.Name = `Default Diagram-UI Callbacks & State Syncing`
-	__ProductShape__00000010_.OverideLayoutDirection = false
-	__ProductShape__00000010_.LayoutDirection = models.Vertical
+	__ProductShape__00000010_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000010_.X = 575.000000
 	__ProductShape__00000010_.Y = 530.000000
 	__ProductShape__00000010_.Width = 250.000000
@@ -811,8 +794,7 @@ like what is done in create views )
 	__ProductShape__00000010_.IsHidden = false
 
 	__ProductShape__00000011_.Name = `Default Diagram-SVG Diagram Rendering & Interaction`
-	__ProductShape__00000011_.OverideLayoutDirection = false
-	__ProductShape__00000011_.LayoutDirection = models.Vertical
+	__ProductShape__00000011_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000011_.X = 575.000000
 	__ProductShape__00000011_.Y = 615.000000
 	__ProductShape__00000011_.Width = 250.000000
@@ -820,8 +802,7 @@ like what is done in create views )
 	__ProductShape__00000011_.IsHidden = false
 
 	__ProductShape__00000012_.Name = `Default Diagram-Graph Data Integrity & Traversal`
-	__ProductShape__00000012_.OverideLayoutDirection = false
-	__ProductShape__00000012_.LayoutDirection = models.Vertical
+	__ProductShape__00000012_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000012_.X = 575.000000
 	__ProductShape__00000012_.Y = 700.000000
 	__ProductShape__00000012_.Width = 250.000000
@@ -829,8 +810,7 @@ like what is done in create views )
 	__ProductShape__00000012_.IsHidden = false
 
 	__ProductShape__00000013_.Name = `Default Diagram-Rely on heavily typed Stage`
-	__ProductShape__00000013_.OverideLayoutDirection = false
-	__ProductShape__00000013_.LayoutDirection = models.Vertical
+	__ProductShape__00000013_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000013_.X = 400.000000
 	__ProductShape__00000013_.Y = 925.000000
 	__ProductShape__00000013_.Width = 250.000000
@@ -838,8 +818,7 @@ like what is done in create views )
 	__ProductShape__00000013_.IsHidden = false
 
 	__ProductShape__00000014_.Name = `Default Diagram-lots of boilerplate code`
-	__ProductShape__00000014_.OverideLayoutDirection = false
-	__ProductShape__00000014_.LayoutDirection = models.Vertical
+	__ProductShape__00000014_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000014_.X = 700.000000
 	__ProductShape__00000014_.Y = 925.000000
 	__ProductShape__00000014_.Width = 250.000000
@@ -847,8 +826,7 @@ like what is done in create views )
 	__ProductShape__00000014_.IsHidden = false
 
 	__ProductShape__00000015_.Name = `Default Diagram-Goals`
-	__ProductShape__00000015_.OverideLayoutDirection = false
-	__ProductShape__00000015_.LayoutDirection = models.Vertical
+	__ProductShape__00000015_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000015_.X = 50.000000
 	__ProductShape__00000015_.Y = 50.000000
 	__ProductShape__00000015_.Width = 250.000000
@@ -856,8 +834,7 @@ like what is done in create views )
 	__ProductShape__00000015_.IsHidden = false
 
 	__ProductShape__00000016_.Name = `Default Diagram-creates a DSM in les than 1/2 hour`
-	__ProductShape__00000016_.OverideLayoutDirection = false
-	__ProductShape__00000016_.LayoutDirection = models.Vertical
+	__ProductShape__00000016_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000016_.X = 50.000000
 	__ProductShape__00000016_.Y = 190.000000
 	__ProductShape__00000016_.Width = 250.000000
@@ -865,8 +842,7 @@ like what is done in create views )
 	__ProductShape__00000016_.IsHidden = false
 
 	__ProductShape__00000017_.Name = `Default Diagram-Provides cleans abstraction for the development of the tree`
-	__ProductShape__00000017_.OverideLayoutDirection = false
-	__ProductShape__00000017_.LayoutDirection = models.Vertical
+	__ProductShape__00000017_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000017_.X = 50.000000
 	__ProductShape__00000017_.Y = 330.000000
 	__ProductShape__00000017_.Width = 250.000000
@@ -874,8 +850,7 @@ like what is done in create views )
 	__ProductShape__00000017_.IsHidden = false
 
 	__ProductShape__00000018_.Name = `Default Diagram-Abstraction for semantic rules`
-	__ProductShape__00000018_.OverideLayoutDirection = false
-	__ProductShape__00000018_.LayoutDirection = models.Vertical
+	__ProductShape__00000018_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000018_.X = 350.000000
 	__ProductShape__00000018_.Y = 330.000000
 	__ProductShape__00000018_.Width = 250.000000
@@ -883,8 +858,7 @@ like what is done in create views )
 	__ProductShape__00000018_.IsHidden = false
 
 	__ProductShape__00000025_.Name = `Default Diagram-Allows combination of DSM `
-	__ProductShape__00000025_.OverideLayoutDirection = false
-	__ProductShape__00000025_.LayoutDirection = models.Vertical
+	__ProductShape__00000025_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000025_.X = 650.000000
 	__ProductShape__00000025_.Y = 190.000000
 	__ProductShape__00000025_.Width = 250.000000
@@ -892,8 +866,7 @@ like what is done in create views )
 	__ProductShape__00000025_.IsHidden = false
 
 	__ProductShape__00000029_.Name = `Default Diagram-sss`
-	__ProductShape__00000029_.OverideLayoutDirection = false
-	__ProductShape__00000029_.LayoutDirection = models.Vertical
+	__ProductShape__00000029_.IsLayoutDirectionDifferent = false
 	__ProductShape__00000029_.X = 950.000000
 	__ProductShape__00000029_.Y = 50.000000
 	__ProductShape__00000029_.Width = 250.000000

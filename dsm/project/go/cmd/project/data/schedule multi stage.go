@@ -149,8 +149,7 @@ func _(stageSet *models.StageSet) {
 	__models__Product__00000000_.LayoutDirection = 0
 	__models__ProductShape__00000001_.Name = `wbs-task 1 output`
 	__models__ProductShape__00000001_.IsShowType = false
-	__models__ProductShape__00000001_.OverideLayoutDirection = false
-	__models__ProductShape__00000001_.LayoutDirection = 0
+	__models__ProductShape__00000001_.IsLayoutDirectionDifferent = false
 	__models__ProductShape__00000001_.X = 50.000000
 	__models__ProductShape__00000001_.Y = 50.000000
 	__models__ProductShape__00000001_.Width = 250.000000
@@ -158,8 +157,7 @@ func _(stageSet *models.StageSet) {
 	__models__ProductShape__00000001_.IsHidden = false
 	__models__ProductShape__00000002_.Name = `gantt-task 1 output`
 	__models__ProductShape__00000002_.IsShowType = false
-	__models__ProductShape__00000002_.OverideLayoutDirection = false
-	__models__ProductShape__00000002_.LayoutDirection = 0
+	__models__ProductShape__00000002_.IsLayoutDirectionDifferent = false
 	__models__ProductShape__00000002_.X = 82.000000
 	__models__ProductShape__00000002_.Y = 425.000000
 	__models__ProductShape__00000002_.Width = 250.000000
@@ -247,8 +245,7 @@ func _(stageSet *models.StageSet) {
 	__models__TaskPredecessorShape__00000000_.IsHidden = false
 	__models__TaskShape__00000000_.Name = `gantt-Task 1 (before task 2)`
 	__models__TaskShape__00000000_.IsShowDate = false
-	__models__TaskShape__00000000_.OverideLayoutDirection = false
-	__models__TaskShape__00000000_.LayoutDirection = 0
+	__models__TaskShape__00000000_.IsLayoutDirectionDifferent = false
 	__models__TaskShape__00000000_.X = 350.000000
 	__models__TaskShape__00000000_.Y = 50.000000
 	__models__TaskShape__00000000_.Width = 250.000000
@@ -256,8 +253,7 @@ func _(stageSet *models.StageSet) {
 	__models__TaskShape__00000000_.IsHidden = false
 	__models__TaskShape__00000001_.Name = `gantt-Task 2`
 	__models__TaskShape__00000001_.IsShowDate = false
-	__models__TaskShape__00000001_.OverideLayoutDirection = false
-	__models__TaskShape__00000001_.LayoutDirection = 0
+	__models__TaskShape__00000001_.IsLayoutDirectionDifferent = false
 	__models__TaskShape__00000001_.X = 650.000000
 	__models__TaskShape__00000001_.Y = 50.000000
 	__models__TaskShape__00000001_.Width = 250.000000
@@ -265,8 +261,7 @@ func _(stageSet *models.StageSet) {
 	__models__TaskShape__00000001_.IsHidden = false
 	__models__TaskShape__00000002_.Name = `wbs-Task 1 (before task 2)`
 	__models__TaskShape__00000002_.IsShowDate = false
-	__models__TaskShape__00000002_.OverideLayoutDirection = false
-	__models__TaskShape__00000002_.LayoutDirection = 0
+	__models__TaskShape__00000002_.IsLayoutDirectionDifferent = false
 	__models__TaskShape__00000002_.X = 350.000000
 	__models__TaskShape__00000002_.Y = 50.000000
 	__models__TaskShape__00000002_.Width = 250.000000
@@ -274,8 +269,7 @@ func _(stageSet *models.StageSet) {
 	__models__TaskShape__00000002_.IsHidden = false
 	__models__TaskShape__00000003_.Name = `wbs-Task 2`
 	__models__TaskShape__00000003_.IsShowDate = false
-	__models__TaskShape__00000003_.OverideLayoutDirection = false
-	__models__TaskShape__00000003_.LayoutDirection = 0
+	__models__TaskShape__00000003_.IsLayoutDirectionDifferent = false
 	__models__TaskShape__00000003_.X = 650.000000
 	__models__TaskShape__00000003_.Y = 50.000000
 	__models__TaskShape__00000003_.Width = 250.000000

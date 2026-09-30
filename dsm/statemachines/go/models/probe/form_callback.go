@@ -477,10 +477,8 @@ func saveNoteShapeFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Note":
 			FormDivSelectFieldToField(&(_instance.Note), probe.stageOfInterest, formDiv)
-		case "OverideLayoutDirection":
-			FormDivBasicFieldToField(&(_instance.OverideLayoutDirection), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(_instance.LayoutDirection), formDiv)
+		case "IsLayoutDirectionDifferent":
+			FormDivBasicFieldToField(&(_instance.IsLayoutDirectionDifferent), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":

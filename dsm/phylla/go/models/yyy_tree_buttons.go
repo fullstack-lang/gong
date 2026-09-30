@@ -366,7 +366,7 @@ func addCreateItemShapeAndLinkButton[
 						autoLayouter.Layout(stager)
 					}
 				} else {
-					if parentShape.GetConcreteLayoutDirection() == Horizontal {
+					if GetConcreteLayoutDirection(parentShape) == Horizontal {
 						newShape.SetX(parentShape.GetX() + parentShape.GetWidth()/2.0 + 50.0)
 						newShape.SetY(parentShape.GetY() + parentShape.GetHeight() + 50.0 + float64(len(*conf.sliceForNewAddedItem)-1)*parentShape.GetHeight()*1.2)
 
