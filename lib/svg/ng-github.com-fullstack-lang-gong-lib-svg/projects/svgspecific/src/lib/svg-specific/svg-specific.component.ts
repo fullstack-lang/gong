@@ -1451,7 +1451,6 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
         break;
       case svg.RectAnchorType.RECT_LEFT:
       case svg.RectAnchorType.RECT_LEFT_MIDDLE:
-      case 'RECT_LEFT_MIDDLE' as any:
         anchorX = parentRect.X + anchoredRect.X_Offset;
         anchorY = parentRect.Y + parentRect.Height / 2 + anchoredRect.Y_Offset;
         break;
@@ -1461,7 +1460,6 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
         break;
       case svg.RectAnchorType.RECT_CENTER:
       case svg.RectAnchorType.RECT_CENTER_MIDDLE:
-      case 'RECT_CENTER_MIDDLE' as any:
         anchorX = parentRect.X + parentRect.Width / 2 + anchoredRect.X_Offset;
         anchorY = parentRect.Y + parentRect.Height / 2 + anchoredRect.Y_Offset;
         break;
@@ -1524,7 +1522,6 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
         break;
       case svg.RectAnchorType.RECT_LEFT:
       case svg.RectAnchorType.RECT_LEFT_MIDDLE:
-      case 'RECT_LEFT_MIDDLE' as any:
         anchorX = parentRect.X + path.X_Offset;
         anchorY = parentRect.Y + parentRect.Height / 2 + path.Y_Offset;
         break;
@@ -1534,7 +1531,6 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
         break;
       case svg.RectAnchorType.RECT_CENTER:
       case svg.RectAnchorType.RECT_CENTER_MIDDLE:
-      case 'RECT_CENTER_MIDDLE' as any:
         anchorX = parentRect.X + parentRect.Width / 2 + path.X_Offset;
         anchorY = parentRect.Y + parentRect.Height / 2 + path.Y_Offset;
         break;
@@ -1600,7 +1596,6 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
         anchorY = rect.Y + rect.Height / 2 + text.Y_Offset;
         break;
       case svg.RectAnchorType.RECT_LEFT_MIDDLE:
-      case 'RECT_LEFT_MIDDLE' as any:
         anchorX = rect.X + text.X_Offset;
         anchorY = rect.Y + rect.Height / 2 + text.Y_Offset;
         firstLineDy = -( (text.Content ? text.Content.split('\n').length : 1) - 1) / 2 + 'em';
@@ -1614,7 +1609,6 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
         anchorY = rect.Y + rect.Height / 2 + text.Y_Offset;
         break;
       case svg.RectAnchorType.RECT_CENTER_MIDDLE:
-      case 'RECT_CENTER_MIDDLE' as any: // Fallback if enum is stale
         anchorX = rect.X + rect.Width / 2 + text.X_Offset;
         anchorY = rect.Y + rect.Height / 2 + text.Y_Offset;
         let lineCount = text.Content ? text.Content.split('\n').length : 1;

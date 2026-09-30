@@ -226,10 +226,10 @@ func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
 		log.Printf("go mod vendor is over and took %s", time.Since(start))
 	}
 
-	// ng build
+	// build frontend via npm run build
 	{
 		start := time.Now()
-		cmd := exec.Command("ng", "build")
+		cmd := exec.Command("npm", "run", "build")
 		ConfigureNodeEnv(cmd)
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
@@ -248,6 +248,6 @@ func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
 		if err := cmd.Run(); err != nil {
 			log.Panic(err)
 		}
-		log.Printf("ng build is over and took %s", time.Since(start))
+		log.Printf("npm run build is over and took %s", time.Since(start))
 	}
 }

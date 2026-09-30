@@ -131,3 +131,5 @@ dsm/floss/go/cmd/floss/floss
 dsm/floss/floss
 dsm/scenario/go/cmd/scenario/scenario-app-portable2.html
 lib/splitlite/go/cmd/splitlite/splitlite
+lib/splitlite/ng-github.com-fullstack-lang-gong-lib-splitlite/.angular/cache/22.1.6/ng-github.com-fullstack-lang-gong-lib-splitlite/angular-compiler.db-lock
+svg
