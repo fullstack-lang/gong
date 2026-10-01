@@ -31,6 +31,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000002_ := (&models.Diagram{Name: `OPS Management`}).Stage(stage)
 	__Diagram__00000003_ := (&models.Diagram{Name: `NMD Directorate & Units 1/3`}).Stage(stage)
 	__Diagram__00000004_ := (&models.Diagram{Name: `NMD Directorate & Units 2/3`}).Stage(stage)
+	__Diagram__00000005_ := (&models.Diagram{Name: `NMD Directorate & Units 3/3`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `EUROCONTROL`}).Stage(stage)
 
@@ -87,6 +88,20 @@ func _(stage *models.Stage) {
 	__Resource__00000050_ := (&models.Resource{Name: `Partnerships & Performance`}).Stage(stage)
 	__Resource__00000051_ := (&models.Resource{Name: `Training Development & Delivery`}).Stage(stage)
 	__Resource__00000052_ := (&models.Resource{Name: `Training Support & Tools`}).Stage(stage)
+	__Resource__00000053_ := (&models.Resource{Name: `Tactical ATFCM Cell`}).Stage(stage)
+	__Resource__00000054_ := (&models.Resource{Name: `Pre-Tactical Planning Cell`}).Stage(stage)
+	__Resource__00000055_ := (&models.Resource{Name: `Flight Planning & IFPS Cell`}).Stage(stage)
+	__Resource__00000056_ := (&models.Resource{Name: `Re-routing & Traffic Orientation Cell`}).Stage(stage)
+	__Resource__00000057_ := (&models.Resource{Name: `Crisis Management & EACCC Support Cell`}).Stage(stage)
+	__Resource__00000058_ := (&models.Resource{Name: `Customer Support Management & Helpdesk (CSM)`}).Stage(stage)
+	__Resource__00000059_ := (&models.Resource{Name: `Post-Operations Analysis & Debriefing`}).Stage(stage)
+	__Resource__00000060_ := (&models.Resource{Name: `Incident Investigation & Safety Reporting`}).Stage(stage)
+	__Resource__00000061_ := (&models.Resource{Name: `iNM Operational Transition & Deployment`}).Stage(stage)
+	__Resource__00000062_ := (&models.Resource{Name: `Airspace User & ANSP Operational Integration`}).Stage(stage)
+	__Resource__00000063_ := (&models.Resource{Name: `Front-Line Tooling & HMI Requirements`}).Stage(stage)
+	__Resource__00000064_ := (&models.Resource{Name: `Systems Validation & User Acceptance (UAT)`}).Stage(stage)
+	__Resource__00000065_ := (&models.Resource{Name: `Shift Rostering & Shift Governance`}).Stage(stage)
+	__Resource__00000066_ := (&models.Resource{Name: `Operational Competency & Workforce Enablement`}).Stage(stage)
 
 	__ResourceCompositionShape__00000000_ := (&models.ResourceCompositionShape{Name: `Management Hierarchy-Director General (DG)-Office of the Director General`}).Stage(stage)
 	__ResourceCompositionShape__00000001_ := (&models.ResourceCompositionShape{Name: `Management Hierarchy-Office of the Director General-Executive Office`}).Stage(stage)
@@ -173,6 +188,27 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000250_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-OPS Safety, SQS & Integrated Risk Management`}).Stage(stage)
 	__ResourceCompositionShape__00000251_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-Cross-NM Support & Advice Service`}).Stage(stage)
 	__ResourceCompositionShape__00000252_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 2/3-Network Management Directorate (NMD)-Business Coordination Unit`}).Stage(stage)
+	__ResourceCompositionShape__00000253_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Network Management Directorate (NMD)-Operations`}).Stage(stage)
+	__ResourceCompositionShape__00000254_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Operations-Network Management Operations Centre (NMOC)`}).Stage(stage)
+	__ResourceCompositionShape__00000255_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Operations-Operations Coordination & Analysis`}).Stage(stage)
+	__ResourceCompositionShape__00000256_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Operations-Operations Transformation`}).Stage(stage)
+	__ResourceCompositionShape__00000257_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Operations-Operations Architecture Support & Tools`}).Stage(stage)
+	__ResourceCompositionShape__00000258_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Operations-Performance & Sourcing`}).Stage(stage)
+	__ResourceCompositionShape__00000259_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)-Tactical ATFCM Cell`}).Stage(stage)
+	__ResourceCompositionShape__00000260_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)-Pre-Tactical Planning Cell`}).Stage(stage)
+	__ResourceCompositionShape__00000261_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)-Flight Planning & IFPS Cell`}).Stage(stage)
+	__ResourceCompositionShape__00000262_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)-Re-routing & Traffic Orientation Cell`}).Stage(stage)
+	__ResourceCompositionShape__00000263_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)-Crisis Management & EACCC Support Cell`}).Stage(stage)
+	__ResourceCompositionShape__00000264_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)-Customer Support Management & Helpdesk (CSM)`}).Stage(stage)
+	__ResourceCompositionShape__00000265_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Operations Coordination & Analysis-Post-Operations Analysis & Debriefing`}).Stage(stage)
+	__ResourceCompositionShape__00000266_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Operations Coordination & Analysis-Incident Investigation & Safety Reporting`}).Stage(stage)
+	__ResourceCompositionShape__00000267_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Operations Transformation-iNM Operational Transition & Deployment`}).Stage(stage)
+	__ResourceCompositionShape__00000268_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Operations Transformation-Airspace User & ANSP Operational Integration`}).Stage(stage)
+	__ResourceCompositionShape__00000269_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Operations Architecture Support & Tools-Front-Line Tooling & HMI Requirements`}).Stage(stage)
+	__ResourceCompositionShape__00000270_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Operations Architecture Support & Tools-Systems Validation & User Acceptance (UAT)`}).Stage(stage)
+	__ResourceCompositionShape__00000271_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Performance & Sourcing-Shift Rostering & Shift Governance`}).Stage(stage)
+	__ResourceCompositionShape__00000272_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Performance & Sourcing-Operational Competency & Workforce Enablement`}).Stage(stage)
+	__ResourceCompositionShape__00000273_ := (&models.ResourceCompositionShape{Name: `NMD Directorate & Units 3/3-Director General (DG)-Network Management Directorate (NMD)`}).Stage(stage)
 
 	__ResourceShape__00000000_ := (&models.ResourceShape{Name: `Management Hierarchy-Director General (DG)`}).Stage(stage)
 	__ResourceShape__00000001_ := (&models.ResourceShape{Name: `Management Hierarchy-Office of the Director General`}).Stage(stage)
@@ -264,6 +300,28 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000257_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-OPS Safety, SQS & Integrated Risk Management`}).Stage(stage)
 	__ResourceShape__00000258_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Cross-NM Support & Advice Service`}).Stage(stage)
 	__ResourceShape__00000259_ := (&models.ResourceShape{Name: `NMD Directorate & Units 2/3-Business Coordination Unit`}).Stage(stage)
+	__ResourceShape__00000260_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Network Management Directorate (NMD)`}).Stage(stage)
+	__ResourceShape__00000261_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Operations`}).Stage(stage)
+	__ResourceShape__00000262_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)`}).Stage(stage)
+	__ResourceShape__00000263_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Operations Coordination & Analysis`}).Stage(stage)
+	__ResourceShape__00000264_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Operations Transformation`}).Stage(stage)
+	__ResourceShape__00000265_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Operations Architecture Support & Tools`}).Stage(stage)
+	__ResourceShape__00000266_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Performance & Sourcing`}).Stage(stage)
+	__ResourceShape__00000267_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Tactical ATFCM Cell`}).Stage(stage)
+	__ResourceShape__00000268_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Pre-Tactical Planning Cell`}).Stage(stage)
+	__ResourceShape__00000269_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Flight Planning & IFPS Cell`}).Stage(stage)
+	__ResourceShape__00000270_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Re-routing & Traffic Orientation Cell`}).Stage(stage)
+	__ResourceShape__00000271_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Crisis Management & EACCC Support Cell`}).Stage(stage)
+	__ResourceShape__00000272_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Customer Support Management & Helpdesk (CSM)`}).Stage(stage)
+	__ResourceShape__00000273_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Post-Operations Analysis & Debriefing`}).Stage(stage)
+	__ResourceShape__00000274_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Incident Investigation & Safety Reporting`}).Stage(stage)
+	__ResourceShape__00000275_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-iNM Operational Transition & Deployment`}).Stage(stage)
+	__ResourceShape__00000276_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Airspace User & ANSP Operational Integration`}).Stage(stage)
+	__ResourceShape__00000277_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Front-Line Tooling & HMI Requirements`}).Stage(stage)
+	__ResourceShape__00000278_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Systems Validation & User Acceptance (UAT)`}).Stage(stage)
+	__ResourceShape__00000279_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Shift Rostering & Shift Governance`}).Stage(stage)
+	__ResourceShape__00000280_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Operational Competency & Workforce Enablement`}).Stage(stage)
+	__ResourceShape__00000281_ := (&models.ResourceShape{Name: `NMD Directorate & Units 3/3-Director General (DG)`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -444,8 +502,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000004_.DateYOffset = 0.000000
 	__Diagram__00000004_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000004_.ComputedPrefix = `4`
-	__Diagram__00000004_.IsExpanded = true
-	__Diagram__00000004_.IsChecked = true
+	__Diagram__00000004_.IsExpanded = false
+	__Diagram__00000004_.IsChecked = false
 	__Diagram__00000004_.IsEditable_ = true
 	__Diagram__00000004_.IsShowPrefix = false
 	__Diagram__00000004_.IsInAutoLayoutMode = true
@@ -454,6 +512,53 @@ func _(stage *models.Stage) {
 	__Diagram__00000004_.IsTaskGroupsNodeExpanded = false
 	__Diagram__00000004_.IsNotesNodeExpanded = false
 	__Diagram__00000004_.IsResourcesNodeExpanded = true
+
+	__Diagram__00000005_.Name = `NMD Directorate & Units 3/3`
+	__Diagram__00000005_.DefaultBoxWidth = 270.000000
+	__Diagram__00000005_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000005_.DateFormat = ``
+	__Diagram__00000005_.Width = 2625.000000
+	__Diagram__00000005_.Height = 1150.000000
+	__Diagram__00000005_.IsTimeDiagram = false
+	__Diagram__00000005_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000005_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000005_.ComputedDuration = 0
+	__Diagram__00000005_.DrawVerticalTimeLines = false
+	__Diagram__00000005_.HideWeekendsPeriod = false
+	__Diagram__00000005_.UseManualStartAndEndDates = false
+	__Diagram__00000005_.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000005_.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000005_.TimeStep = 0
+	__Diagram__00000005_.TimeStepScale = ""
+	__Diagram__00000005_.LaneHeight = 0.000000
+	__Diagram__00000005_.RatioBarToLaneHeight = 0.000000
+	__Diagram__00000005_.YTopMargin = 0.000000
+	__Diagram__00000005_.XLeftText = 0.000000
+	__Diagram__00000005_.TextHeight = 0.000000
+	__Diagram__00000005_.XLeftLanes = 0.000000
+	__Diagram__00000005_.XRightMargin = 0.000000
+	__Diagram__00000005_.ArrowLengthToTheRightOfStartBar = 0.000000
+	__Diagram__00000005_.ArrowTipLenght = 0.000000
+	__Diagram__00000005_.TimeLine_Color = ``
+	__Diagram__00000005_.TimeLine_FillOpacity = 0.000000
+	__Diagram__00000005_.TimeLine_Stroke = ``
+	__Diagram__00000005_.TimeLine_StrokeWidth = 0.000000
+	__Diagram__00000005_.Group_Stroke = ``
+	__Diagram__00000005_.Group_StrokeWidth = 0.000000
+	__Diagram__00000005_.Group_StrokeDashArray = ``
+	__Diagram__00000005_.DateYOffset = 0.000000
+	__Diagram__00000005_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000005_.ComputedPrefix = `5`
+	__Diagram__00000005_.IsExpanded = true
+	__Diagram__00000005_.IsChecked = true
+	__Diagram__00000005_.IsEditable_ = true
+	__Diagram__00000005_.IsShowPrefix = true
+	__Diagram__00000005_.IsInAutoLayoutMode = true
+	__Diagram__00000005_.IsPBSNodeExpanded = false
+	__Diagram__00000005_.IsWBSNodeExpanded = false
+	__Diagram__00000005_.IsTaskGroupsNodeExpanded = false
+	__Diagram__00000005_.IsNotesNodeExpanded = false
+	__Diagram__00000005_.IsResourcesNodeExpanded = true
 
 	__Library__00000000_.Name = `EUROCONTROL`
 	__Library__00000000_.NbPixPerCharacter = 8.000000
@@ -725,21 +830,21 @@ func _(stage *models.Stage) {
 	__Resource__00000037_.Description = `Real-time execution cell managing European flight flows, route availability, rerouting, and ATFM delay mitigation.`
 	__Resource__00000037_.ComputedPrefix = `1.2.2.1`
 	__Resource__00000037_.IsExpanded = true
-	__Resource__00000037_.LayoutDirection = models.Vertical
+	__Resource__00000037_.LayoutDirection = models.Horizontal
 	__Resource__00000037_.IsImport = false
 
 	__Resource__00000038_.Name = `Operations Coordination & Analysis`
 	__Resource__00000038_.Description = `Post-operations analysis, daily network incident investigations, and operational reporting.`
 	__Resource__00000038_.ComputedPrefix = `1.2.2.2`
 	__Resource__00000038_.IsExpanded = true
-	__Resource__00000038_.LayoutDirection = models.Vertical
+	__Resource__00000038_.LayoutDirection = models.Horizontal
 	__Resource__00000038_.IsImport = false
 
 	__Resource__00000039_.Name = `Operations Transformation`
 	__Resource__00000039_.Description = `Modernizes control-room operational practices and procedural transitions toward trajectory-based operations.`
 	__Resource__00000039_.ComputedPrefix = `1.2.2.3`
 	__Resource__00000039_.IsExpanded = true
-	__Resource__00000039_.LayoutDirection = models.Vertical
+	__Resource__00000039_.LayoutDirection = models.Horizontal
 	__Resource__00000039_.IsImport = false
 
 	__Resource__00000040_.Name = `Operations Architecture Support & Tools`
@@ -832,6 +937,104 @@ func _(stage *models.Stage) {
 	__Resource__00000052_.IsExpanded = true
 	__Resource__00000052_.LayoutDirection = models.Vertical
 	__Resource__00000052_.IsImport = false
+
+	__Resource__00000053_.Name = `Tactical ATFCM Cell`
+	__Resource__00000053_.Description = `H24 real-time flow monitoring, slot revisions (CASA), tactical ATFCM delay mitigation, and live flow measures.`
+	__Resource__00000053_.ComputedPrefix = `1.2.2.1.1`
+	__Resource__00000053_.IsExpanded = true
+	__Resource__00000053_.LayoutDirection = models.Vertical
+	__Resource__00000053_.IsImport = false
+
+	__Resource__00000054_.Name = `Pre-Tactical Planning Cell`
+	__Resource__00000054_.Description = `D-1 to D-6 network planning, Daily ATFCM Plan (ADP) publication, and coordination with FMPs and AMCs.`
+	__Resource__00000054_.ComputedPrefix = `1.2.2.1.2`
+	__Resource__00000054_.IsExpanded = true
+	__Resource__00000054_.LayoutDirection = models.Vertical
+	__Resource__00000054_.IsImport = false
+
+	__Resource__00000055_.Name = `Flight Planning & IFPS Cell`
+	__Resource__00000055_.Description = `Integrated Initial Flight Plan Processing System (IFPS) operations, H24 validation, error correction, and IFR flight plan distribution.`
+	__Resource__00000055_.ComputedPrefix = `1.2.2.1.3`
+	__Resource__00000055_.IsExpanded = true
+	__Resource__00000055_.LayoutDirection = models.Vertical
+	__Resource__00000055_.IsImport = false
+
+	__Resource__00000056_.Name = `Re-routing & Traffic Orientation Cell`
+	__Resource__00000056_.Description = `Tactical rerouting proposals, Route Availability Document (RAD) compliance, and network bottleneck offloading.`
+	__Resource__00000056_.ComputedPrefix = `1.2.2.1.4`
+	__Resource__00000056_.IsExpanded = true
+	__Resource__00000056_.LayoutDirection = models.Vertical
+	__Resource__00000056_.IsImport = false
+
+	__Resource__00000057_.Name = `Crisis Management & EACCC Support Cell`
+	__Resource__00000057_.Description = `Operational arm supporting the European Aviation Crisis Coordination Cell (EACCC) during major network disruptions.`
+	__Resource__00000057_.ComputedPrefix = `1.2.2.1.5`
+	__Resource__00000057_.IsExpanded = true
+	__Resource__00000057_.LayoutDirection = models.Vertical
+	__Resource__00000057_.IsImport = false
+
+	__Resource__00000058_.Name = `Customer Support Management & Helpdesk (CSM)`
+	__Resource__00000058_.Description = `H24 frontline operational and technical user support for airlines, ANSPs, and airport operators.`
+	__Resource__00000058_.ComputedPrefix = `1.2.2.1.6`
+	__Resource__00000058_.IsExpanded = true
+	__Resource__00000058_.LayoutDirection = models.Vertical
+	__Resource__00000058_.IsImport = false
+
+	__Resource__00000059_.Name = `Post-Operations Analysis & Debriefing`
+	__Resource__00000059_.Description = `Daily network performance assessment, target achievement review, and ATFM delay root-cause categorization.`
+	__Resource__00000059_.ComputedPrefix = `1.2.2.2.1`
+	__Resource__00000059_.IsExpanded = true
+	__Resource__00000059_.LayoutDirection = models.Vertical
+	__Resource__00000059_.IsImport = false
+
+	__Resource__00000060_.Name = `Incident Investigation & Safety Reporting`
+	__Resource__00000060_.Description = `Investigation of network operational incidents, Safety Occurrence Reporting, and cross-centre coordination reviews.`
+	__Resource__00000060_.ComputedPrefix = `1.2.2.2.2`
+	__Resource__00000060_.IsExpanded = true
+	__Resource__00000060_.LayoutDirection = models.Vertical
+	__Resource__00000060_.IsImport = false
+
+	__Resource__00000061_.Name = `iNM Operational Transition & Deployment`
+	__Resource__00000061_.Description = `Control room operational migration, trial runs, and transition procedures for the integrated Network Management (iNM) suite.`
+	__Resource__00000061_.ComputedPrefix = `1.2.2.3.1`
+	__Resource__00000061_.IsExpanded = true
+	__Resource__00000061_.LayoutDirection = models.Vertical
+	__Resource__00000061_.IsImport = false
+
+	__Resource__00000062_.Name = `Airspace User & ANSP Operational Integration`
+	__Resource__00000062_.Description = `Stakeholder collaborative decision making (CDM) procedures and operational transition towards trajectory-based operations.`
+	__Resource__00000062_.ComputedPrefix = `1.2.2.3.2`
+	__Resource__00000062_.IsExpanded = true
+	__Resource__00000062_.LayoutDirection = models.Vertical
+	__Resource__00000062_.IsImport = false
+
+	__Resource__00000063_.Name = `Front-Line Tooling & HMI Requirements`
+	__Resource__00000063_.Description = `Operational specification of control room systems, user interface ergonomics, and business requirements for ATM tools.`
+	__Resource__00000063_.ComputedPrefix = `1.2.2.4.1`
+	__Resource__00000063_.IsExpanded = true
+	__Resource__00000063_.LayoutDirection = models.Vertical
+	__Resource__00000063_.IsImport = false
+
+	__Resource__00000064_.Name = `Systems Validation & User Acceptance (UAT)`
+	__Resource__00000064_.Description = `Operational validation, shadow-mode testing, and user acceptance sign-off for NMOC operational releases.`
+	__Resource__00000064_.ComputedPrefix = `1.2.2.4.2`
+	__Resource__00000064_.IsExpanded = true
+	__Resource__00000064_.LayoutDirection = models.Vertical
+	__Resource__00000064_.IsImport = false
+
+	__Resource__00000065_.Name = `Shift Rostering & Shift Governance`
+	__Resource__00000065_.Description = `H24 shift pattern planning, staff allocation, and fatigue risk management for operations personnel.`
+	__Resource__00000065_.ComputedPrefix = `1.2.2.5.1`
+	__Resource__00000065_.IsExpanded = true
+	__Resource__00000065_.LayoutDirection = models.Vertical
+	__Resource__00000065_.IsImport = false
+
+	__Resource__00000066_.Name = `Operational Competency & Workforce Enablement`
+	__Resource__00000066_.Description = `Qualification tracking, refresher training coordination, and licensing administration for NMOC operational staff.`
+	__Resource__00000066_.ComputedPrefix = `1.2.2.5.2`
+	__Resource__00000066_.IsExpanded = true
+	__Resource__00000066_.LayoutDirection = models.Vertical
+	__Resource__00000066_.IsImport = false
 
 	__ResourceCompositionShape__00000000_.Name = `Management Hierarchy-Director General (DG)-Office of the Director General`
 	__ResourceCompositionShape__00000000_.StartRatio = 0.000000
@@ -1512,6 +1715,174 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000252_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__ResourceCompositionShape__00000252_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000252_.IsHidden = false
+
+	__ResourceCompositionShape__00000253_.Name = `NMD Directorate & Units 3/3-Network Management Directorate (NMD)-Operations`
+	__ResourceCompositionShape__00000253_.StartRatio = 0.556937
+	__ResourceCompositionShape__00000253_.EndRatio = 0.571752
+	__ResourceCompositionShape__00000253_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000253_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000253_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000253_.IsHidden = false
+
+	__ResourceCompositionShape__00000254_.Name = `NMD Directorate & Units 3/3-Operations-Network Management Operations Centre (NMOC)`
+	__ResourceCompositionShape__00000254_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000254_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000254_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000254_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000254_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000254_.IsHidden = false
+
+	__ResourceCompositionShape__00000255_.Name = `NMD Directorate & Units 3/3-Operations-Operations Coordination & Analysis`
+	__ResourceCompositionShape__00000255_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000255_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000255_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000255_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000255_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000255_.IsHidden = false
+
+	__ResourceCompositionShape__00000256_.Name = `NMD Directorate & Units 3/3-Operations-Operations Transformation`
+	__ResourceCompositionShape__00000256_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000256_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000256_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000256_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000256_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000256_.IsHidden = false
+
+	__ResourceCompositionShape__00000257_.Name = `NMD Directorate & Units 3/3-Operations-Operations Architecture Support & Tools`
+	__ResourceCompositionShape__00000257_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000257_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000257_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000257_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000257_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000257_.IsHidden = false
+
+	__ResourceCompositionShape__00000258_.Name = `NMD Directorate & Units 3/3-Operations-Performance & Sourcing`
+	__ResourceCompositionShape__00000258_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000258_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000258_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000258_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000258_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000258_.IsHidden = false
+
+	__ResourceCompositionShape__00000259_.Name = `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)-Tactical ATFCM Cell`
+	__ResourceCompositionShape__00000259_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000259_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000259_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000259_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000259_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000259_.IsHidden = false
+
+	__ResourceCompositionShape__00000260_.Name = `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)-Pre-Tactical Planning Cell`
+	__ResourceCompositionShape__00000260_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000260_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000260_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000260_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000260_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000260_.IsHidden = false
+
+	__ResourceCompositionShape__00000261_.Name = `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)-Flight Planning & IFPS Cell`
+	__ResourceCompositionShape__00000261_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000261_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000261_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000261_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000261_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000261_.IsHidden = false
+
+	__ResourceCompositionShape__00000262_.Name = `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)-Re-routing & Traffic Orientation Cell`
+	__ResourceCompositionShape__00000262_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000262_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000262_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000262_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000262_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000262_.IsHidden = false
+
+	__ResourceCompositionShape__00000263_.Name = `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)-Crisis Management & EACCC Support Cell`
+	__ResourceCompositionShape__00000263_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000263_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000263_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000263_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000263_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000263_.IsHidden = false
+
+	__ResourceCompositionShape__00000264_.Name = `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)-Customer Support Management & Helpdesk (CSM)`
+	__ResourceCompositionShape__00000264_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000264_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000264_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000264_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000264_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000264_.IsHidden = false
+
+	__ResourceCompositionShape__00000265_.Name = `NMD Directorate & Units 3/3-Operations Coordination & Analysis-Post-Operations Analysis & Debriefing`
+	__ResourceCompositionShape__00000265_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000265_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000265_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000265_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000265_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000265_.IsHidden = false
+
+	__ResourceCompositionShape__00000266_.Name = `NMD Directorate & Units 3/3-Operations Coordination & Analysis-Incident Investigation & Safety Reporting`
+	__ResourceCompositionShape__00000266_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000266_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000266_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000266_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000266_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000266_.IsHidden = false
+
+	__ResourceCompositionShape__00000267_.Name = `NMD Directorate & Units 3/3-Operations Transformation-iNM Operational Transition & Deployment`
+	__ResourceCompositionShape__00000267_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000267_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000267_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000267_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000267_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000267_.IsHidden = false
+
+	__ResourceCompositionShape__00000268_.Name = `NMD Directorate & Units 3/3-Operations Transformation-Airspace User & ANSP Operational Integration`
+	__ResourceCompositionShape__00000268_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000268_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000268_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000268_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000268_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000268_.IsHidden = false
+
+	__ResourceCompositionShape__00000269_.Name = `NMD Directorate & Units 3/3-Operations Architecture Support & Tools-Front-Line Tooling & HMI Requirements`
+	__ResourceCompositionShape__00000269_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000269_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000269_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000269_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000269_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000269_.IsHidden = false
+
+	__ResourceCompositionShape__00000270_.Name = `NMD Directorate & Units 3/3-Operations Architecture Support & Tools-Systems Validation & User Acceptance (UAT)`
+	__ResourceCompositionShape__00000270_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000270_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000270_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000270_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000270_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000270_.IsHidden = false
+
+	__ResourceCompositionShape__00000271_.Name = `NMD Directorate & Units 3/3-Performance & Sourcing-Shift Rostering & Shift Governance`
+	__ResourceCompositionShape__00000271_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000271_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000271_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000271_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000271_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000271_.IsHidden = false
+
+	__ResourceCompositionShape__00000272_.Name = `NMD Directorate & Units 3/3-Performance & Sourcing-Operational Competency & Workforce Enablement`
+	__ResourceCompositionShape__00000272_.StartRatio = 0.000000
+	__ResourceCompositionShape__00000272_.EndRatio = 0.000000
+	__ResourceCompositionShape__00000272_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000272_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000272_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000272_.IsHidden = false
+
+	__ResourceCompositionShape__00000273_.Name = `NMD Directorate & Units 3/3-Director General (DG)-Network Management Directorate (NMD)`
+	__ResourceCompositionShape__00000273_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000273_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000273_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000273_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000273_.CornerOffsetRatio = 1.500000
+	__ResourceCompositionShape__00000273_.IsHidden = false
 
 	__ResourceShape__00000000_.Name = `Management Hierarchy-Director General (DG)`
 	__ResourceShape__00000000_.IsLayoutDirectionDifferent = false
@@ -2233,6 +2604,182 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000259_.Height = 70.000000
 	__ResourceShape__00000259_.IsHidden = false
 
+	__ResourceShape__00000260_.Name = `NMD Directorate & Units 3/3-Network Management Directorate (NMD)`
+	__ResourceShape__00000260_.IsLayoutDirectionDifferent = true
+	__ResourceShape__00000260_.X = 50.000000
+	__ResourceShape__00000260_.Y = 190.000000
+	__ResourceShape__00000260_.Width = 270.000000
+	__ResourceShape__00000260_.Height = 70.000000
+	__ResourceShape__00000260_.IsHidden = false
+
+	__ResourceShape__00000261_.Name = `NMD Directorate & Units 3/3-Operations`
+	__ResourceShape__00000261_.IsLayoutDirectionDifferent = true
+	__ResourceShape__00000261_.X = 50.000000
+	__ResourceShape__00000261_.Y = 330.000000
+	__ResourceShape__00000261_.Width = 270.000000
+	__ResourceShape__00000261_.Height = 70.000000
+	__ResourceShape__00000261_.IsHidden = false
+
+	__ResourceShape__00000262_.Name = `NMD Directorate & Units 3/3-Network Management Operations Centre (NMOC)`
+	__ResourceShape__00000262_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000262_.X = 50.000000
+	__ResourceShape__00000262_.Y = 470.000000
+	__ResourceShape__00000262_.Width = 270.000000
+	__ResourceShape__00000262_.Height = 70.000000
+	__ResourceShape__00000262_.IsHidden = false
+
+	__ResourceShape__00000263_.Name = `NMD Directorate & Units 3/3-Operations Coordination & Analysis`
+	__ResourceShape__00000263_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000263_.X = 555.000000
+	__ResourceShape__00000263_.Y = 470.000000
+	__ResourceShape__00000263_.Width = 270.000000
+	__ResourceShape__00000263_.Height = 70.000000
+	__ResourceShape__00000263_.IsHidden = false
+
+	__ResourceShape__00000264_.Name = `NMD Directorate & Units 3/3-Operations Transformation`
+	__ResourceShape__00000264_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000264_.X = 1060.000000
+	__ResourceShape__00000264_.Y = 470.000000
+	__ResourceShape__00000264_.Width = 270.000000
+	__ResourceShape__00000264_.Height = 70.000000
+	__ResourceShape__00000264_.IsHidden = false
+
+	__ResourceShape__00000265_.Name = `NMD Directorate & Units 3/3-Operations Architecture Support & Tools`
+	__ResourceShape__00000265_.IsLayoutDirectionDifferent = true
+	__ResourceShape__00000265_.X = 1565.000000
+	__ResourceShape__00000265_.Y = 470.000000
+	__ResourceShape__00000265_.Width = 270.000000
+	__ResourceShape__00000265_.Height = 70.000000
+	__ResourceShape__00000265_.IsHidden = false
+
+	__ResourceShape__00000266_.Name = `NMD Directorate & Units 3/3-Performance & Sourcing`
+	__ResourceShape__00000266_.IsLayoutDirectionDifferent = true
+	__ResourceShape__00000266_.X = 2070.000000
+	__ResourceShape__00000266_.Y = 470.000000
+	__ResourceShape__00000266_.Width = 270.000000
+	__ResourceShape__00000266_.Height = 70.000000
+	__ResourceShape__00000266_.IsHidden = false
+
+	__ResourceShape__00000267_.Name = `NMD Directorate & Units 3/3-Tactical ATFCM Cell`
+	__ResourceShape__00000267_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000267_.X = 235.000000
+	__ResourceShape__00000267_.Y = 555.000000
+	__ResourceShape__00000267_.Width = 270.000000
+	__ResourceShape__00000267_.Height = 70.000000
+	__ResourceShape__00000267_.IsHidden = false
+
+	__ResourceShape__00000268_.Name = `NMD Directorate & Units 3/3-Pre-Tactical Planning Cell`
+	__ResourceShape__00000268_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000268_.X = 235.000000
+	__ResourceShape__00000268_.Y = 640.000000
+	__ResourceShape__00000268_.Width = 270.000000
+	__ResourceShape__00000268_.Height = 70.000000
+	__ResourceShape__00000268_.IsHidden = false
+
+	__ResourceShape__00000269_.Name = `NMD Directorate & Units 3/3-Flight Planning & IFPS Cell`
+	__ResourceShape__00000269_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000269_.X = 235.000000
+	__ResourceShape__00000269_.Y = 725.000000
+	__ResourceShape__00000269_.Width = 270.000000
+	__ResourceShape__00000269_.Height = 70.000000
+	__ResourceShape__00000269_.IsHidden = false
+
+	__ResourceShape__00000270_.Name = `NMD Directorate & Units 3/3-Re-routing & Traffic Orientation Cell`
+	__ResourceShape__00000270_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000270_.X = 235.000000
+	__ResourceShape__00000270_.Y = 810.000000
+	__ResourceShape__00000270_.Width = 270.000000
+	__ResourceShape__00000270_.Height = 70.000000
+	__ResourceShape__00000270_.IsHidden = false
+
+	__ResourceShape__00000271_.Name = `NMD Directorate & Units 3/3-Crisis Management & EACCC Support Cell`
+	__ResourceShape__00000271_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000271_.X = 235.000000
+	__ResourceShape__00000271_.Y = 895.000000
+	__ResourceShape__00000271_.Width = 270.000000
+	__ResourceShape__00000271_.Height = 70.000000
+	__ResourceShape__00000271_.IsHidden = false
+
+	__ResourceShape__00000272_.Name = `NMD Directorate & Units 3/3-Customer Support Management & Helpdesk (CSM)`
+	__ResourceShape__00000272_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000272_.X = 235.000000
+	__ResourceShape__00000272_.Y = 980.000000
+	__ResourceShape__00000272_.Width = 270.000000
+	__ResourceShape__00000272_.Height = 70.000000
+	__ResourceShape__00000272_.IsHidden = false
+
+	__ResourceShape__00000273_.Name = `NMD Directorate & Units 3/3-Post-Operations Analysis & Debriefing`
+	__ResourceShape__00000273_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000273_.X = 740.000000
+	__ResourceShape__00000273_.Y = 555.000000
+	__ResourceShape__00000273_.Width = 270.000000
+	__ResourceShape__00000273_.Height = 70.000000
+	__ResourceShape__00000273_.IsHidden = false
+
+	__ResourceShape__00000274_.Name = `NMD Directorate & Units 3/3-Incident Investigation & Safety Reporting`
+	__ResourceShape__00000274_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000274_.X = 740.000000
+	__ResourceShape__00000274_.Y = 640.000000
+	__ResourceShape__00000274_.Width = 270.000000
+	__ResourceShape__00000274_.Height = 70.000000
+	__ResourceShape__00000274_.IsHidden = false
+
+	__ResourceShape__00000275_.Name = `NMD Directorate & Units 3/3-iNM Operational Transition & Deployment`
+	__ResourceShape__00000275_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000275_.X = 1245.000000
+	__ResourceShape__00000275_.Y = 555.000000
+	__ResourceShape__00000275_.Width = 270.000000
+	__ResourceShape__00000275_.Height = 70.000000
+	__ResourceShape__00000275_.IsHidden = false
+
+	__ResourceShape__00000276_.Name = `NMD Directorate & Units 3/3-Airspace User & ANSP Operational Integration`
+	__ResourceShape__00000276_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000276_.X = 1245.000000
+	__ResourceShape__00000276_.Y = 640.000000
+	__ResourceShape__00000276_.Width = 270.000000
+	__ResourceShape__00000276_.Height = 70.000000
+	__ResourceShape__00000276_.IsHidden = false
+
+	__ResourceShape__00000277_.Name = `NMD Directorate & Units 3/3-Front-Line Tooling & HMI Requirements`
+	__ResourceShape__00000277_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000277_.X = 1750.000000
+	__ResourceShape__00000277_.Y = 555.000000
+	__ResourceShape__00000277_.Width = 270.000000
+	__ResourceShape__00000277_.Height = 70.000000
+	__ResourceShape__00000277_.IsHidden = false
+
+	__ResourceShape__00000278_.Name = `NMD Directorate & Units 3/3-Systems Validation & User Acceptance (UAT)`
+	__ResourceShape__00000278_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000278_.X = 1750.000000
+	__ResourceShape__00000278_.Y = 640.000000
+	__ResourceShape__00000278_.Width = 270.000000
+	__ResourceShape__00000278_.Height = 70.000000
+	__ResourceShape__00000278_.IsHidden = false
+
+	__ResourceShape__00000279_.Name = `NMD Directorate & Units 3/3-Shift Rostering & Shift Governance`
+	__ResourceShape__00000279_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000279_.X = 2255.000000
+	__ResourceShape__00000279_.Y = 555.000000
+	__ResourceShape__00000279_.Width = 270.000000
+	__ResourceShape__00000279_.Height = 70.000000
+	__ResourceShape__00000279_.IsHidden = false
+
+	__ResourceShape__00000280_.Name = `NMD Directorate & Units 3/3-Operational Competency & Workforce Enablement`
+	__ResourceShape__00000280_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000280_.X = 2255.000000
+	__ResourceShape__00000280_.Y = 640.000000
+	__ResourceShape__00000280_.Width = 270.000000
+	__ResourceShape__00000280_.Height = 70.000000
+	__ResourceShape__00000280_.IsHidden = false
+
+	__ResourceShape__00000281_.Name = `NMD Directorate & Units 3/3-Director General (DG)`
+	__ResourceShape__00000281_.IsLayoutDirectionDifferent = false
+	__ResourceShape__00000281_.X = 50.000000
+	__ResourceShape__00000281_.Y = 50.000000
+	__ResourceShape__00000281_.Width = 270.000000
+	__ResourceShape__00000281_.Height = 70.000000
+	__ResourceShape__00000281_.IsHidden = false
+
 	// insertion point for setup of pointers
 	__Diagram__00000001_.Resource_Shapes = append(__Diagram__00000001_.Resource_Shapes, __ResourceShape__00000028_)
 	__Diagram__00000001_.Resource_Shapes = append(__Diagram__00000001_.Resource_Shapes, __ResourceShape__00000093_)
@@ -2361,11 +2908,58 @@ func _(stage *models.Stage) {
 	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000250_)
 	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000251_)
 	__Diagram__00000004_.ResourceComposition_Shapes = append(__Diagram__00000004_.ResourceComposition_Shapes, __ResourceCompositionShape__00000252_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000260_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000261_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000262_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000263_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000264_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000265_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000266_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000267_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000268_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000269_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000270_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000271_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000272_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000273_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000274_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000275_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000276_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000277_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000278_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000279_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000280_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000281_)
+	__Diagram__00000005_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000005_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
+	__Diagram__00000005_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000005_.ResourcesWhoseNodeIsExpanded, __Resource__00000008_)
+	__Diagram__00000005_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000005_.ResourcesWhoseNodeIsExpanded, __Resource__00000015_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000253_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000254_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000255_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000256_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000257_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000258_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000259_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000260_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000261_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000262_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000263_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000264_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000265_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000266_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000267_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000268_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000269_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000270_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000271_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000272_)
+	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000273_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000001_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000002_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000003_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000004_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000005_)
 	__Resource__00000000_.SubResources = append(__Resource__00000000_.SubResources, __Resource__00000001_)
 	__Resource__00000000_.SubResources = append(__Resource__00000000_.SubResources, __Resource__00000008_)
 	__Resource__00000000_.SubResources = append(__Resource__00000000_.SubResources, __Resource__00000012_)
@@ -2455,10 +3049,24 @@ func _(stage *models.Stage) {
 	__Resource__00000034_.ReferencedResource = nil
 	__Resource__00000035_.ReferencedResource = nil
 	__Resource__00000036_.ReferencedResource = nil
+	__Resource__00000037_.SubResources = append(__Resource__00000037_.SubResources, __Resource__00000053_)
+	__Resource__00000037_.SubResources = append(__Resource__00000037_.SubResources, __Resource__00000054_)
+	__Resource__00000037_.SubResources = append(__Resource__00000037_.SubResources, __Resource__00000055_)
+	__Resource__00000037_.SubResources = append(__Resource__00000037_.SubResources, __Resource__00000056_)
+	__Resource__00000037_.SubResources = append(__Resource__00000037_.SubResources, __Resource__00000057_)
+	__Resource__00000037_.SubResources = append(__Resource__00000037_.SubResources, __Resource__00000058_)
 	__Resource__00000037_.ReferencedResource = nil
+	__Resource__00000038_.SubResources = append(__Resource__00000038_.SubResources, __Resource__00000059_)
+	__Resource__00000038_.SubResources = append(__Resource__00000038_.SubResources, __Resource__00000060_)
 	__Resource__00000038_.ReferencedResource = nil
+	__Resource__00000039_.SubResources = append(__Resource__00000039_.SubResources, __Resource__00000061_)
+	__Resource__00000039_.SubResources = append(__Resource__00000039_.SubResources, __Resource__00000062_)
 	__Resource__00000039_.ReferencedResource = nil
+	__Resource__00000040_.SubResources = append(__Resource__00000040_.SubResources, __Resource__00000063_)
+	__Resource__00000040_.SubResources = append(__Resource__00000040_.SubResources, __Resource__00000064_)
 	__Resource__00000040_.ReferencedResource = nil
+	__Resource__00000041_.SubResources = append(__Resource__00000041_.SubResources, __Resource__00000065_)
+	__Resource__00000041_.SubResources = append(__Resource__00000041_.SubResources, __Resource__00000066_)
 	__Resource__00000041_.ReferencedResource = nil
 	__Resource__00000042_.ReferencedResource = nil
 	__Resource__00000043_.ReferencedResource = nil
@@ -2471,6 +3079,20 @@ func _(stage *models.Stage) {
 	__Resource__00000050_.ReferencedResource = nil
 	__Resource__00000051_.ReferencedResource = nil
 	__Resource__00000052_.ReferencedResource = nil
+	__Resource__00000053_.ReferencedResource = nil
+	__Resource__00000054_.ReferencedResource = nil
+	__Resource__00000055_.ReferencedResource = nil
+	__Resource__00000056_.ReferencedResource = nil
+	__Resource__00000057_.ReferencedResource = nil
+	__Resource__00000058_.ReferencedResource = nil
+	__Resource__00000059_.ReferencedResource = nil
+	__Resource__00000060_.ReferencedResource = nil
+	__Resource__00000061_.ReferencedResource = nil
+	__Resource__00000062_.ReferencedResource = nil
+	__Resource__00000063_.ReferencedResource = nil
+	__Resource__00000064_.ReferencedResource = nil
+	__Resource__00000065_.ReferencedResource = nil
+	__Resource__00000066_.ReferencedResource = nil
 	__ResourceCompositionShape__00000000_.Resource = __Resource__00000001_
 	__ResourceCompositionShape__00000001_.Resource = __Resource__00000002_
 	__ResourceCompositionShape__00000002_.Resource = __Resource__00000003_
@@ -2556,6 +3178,27 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000250_.Resource = __Resource__00000029_
 	__ResourceCompositionShape__00000251_.Resource = __Resource__00000030_
 	__ResourceCompositionShape__00000252_.Resource = __Resource__00000031_
+	__ResourceCompositionShape__00000253_.Resource = __Resource__00000015_
+	__ResourceCompositionShape__00000254_.Resource = __Resource__00000037_
+	__ResourceCompositionShape__00000255_.Resource = __Resource__00000038_
+	__ResourceCompositionShape__00000256_.Resource = __Resource__00000039_
+	__ResourceCompositionShape__00000257_.Resource = __Resource__00000040_
+	__ResourceCompositionShape__00000258_.Resource = __Resource__00000041_
+	__ResourceCompositionShape__00000259_.Resource = __Resource__00000053_
+	__ResourceCompositionShape__00000260_.Resource = __Resource__00000054_
+	__ResourceCompositionShape__00000261_.Resource = __Resource__00000055_
+	__ResourceCompositionShape__00000262_.Resource = __Resource__00000056_
+	__ResourceCompositionShape__00000263_.Resource = __Resource__00000057_
+	__ResourceCompositionShape__00000264_.Resource = __Resource__00000058_
+	__ResourceCompositionShape__00000265_.Resource = __Resource__00000059_
+	__ResourceCompositionShape__00000266_.Resource = __Resource__00000060_
+	__ResourceCompositionShape__00000267_.Resource = __Resource__00000061_
+	__ResourceCompositionShape__00000268_.Resource = __Resource__00000062_
+	__ResourceCompositionShape__00000269_.Resource = __Resource__00000063_
+	__ResourceCompositionShape__00000270_.Resource = __Resource__00000064_
+	__ResourceCompositionShape__00000271_.Resource = __Resource__00000065_
+	__ResourceCompositionShape__00000272_.Resource = __Resource__00000066_
+	__ResourceCompositionShape__00000273_.Resource = __Resource__00000008_
 	__ResourceShape__00000000_.Resource = __Resource__00000000_
 	__ResourceShape__00000001_.Resource = __Resource__00000001_
 	__ResourceShape__00000002_.Resource = __Resource__00000002_
@@ -2646,4 +3289,26 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000257_.Resource = __Resource__00000029_
 	__ResourceShape__00000258_.Resource = __Resource__00000030_
 	__ResourceShape__00000259_.Resource = __Resource__00000031_
+	__ResourceShape__00000260_.Resource = __Resource__00000008_
+	__ResourceShape__00000261_.Resource = __Resource__00000015_
+	__ResourceShape__00000262_.Resource = __Resource__00000037_
+	__ResourceShape__00000263_.Resource = __Resource__00000038_
+	__ResourceShape__00000264_.Resource = __Resource__00000039_
+	__ResourceShape__00000265_.Resource = __Resource__00000040_
+	__ResourceShape__00000266_.Resource = __Resource__00000041_
+	__ResourceShape__00000267_.Resource = __Resource__00000053_
+	__ResourceShape__00000268_.Resource = __Resource__00000054_
+	__ResourceShape__00000269_.Resource = __Resource__00000055_
+	__ResourceShape__00000270_.Resource = __Resource__00000056_
+	__ResourceShape__00000271_.Resource = __Resource__00000057_
+	__ResourceShape__00000272_.Resource = __Resource__00000058_
+	__ResourceShape__00000273_.Resource = __Resource__00000059_
+	__ResourceShape__00000274_.Resource = __Resource__00000060_
+	__ResourceShape__00000275_.Resource = __Resource__00000061_
+	__ResourceShape__00000276_.Resource = __Resource__00000062_
+	__ResourceShape__00000277_.Resource = __Resource__00000063_
+	__ResourceShape__00000278_.Resource = __Resource__00000064_
+	__ResourceShape__00000279_.Resource = __Resource__00000065_
+	__ResourceShape__00000280_.Resource = __Resource__00000066_
+	__ResourceShape__00000281_.Resource = __Resource__00000000_
 }
