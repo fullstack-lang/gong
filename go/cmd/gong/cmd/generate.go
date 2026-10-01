@@ -17,6 +17,7 @@ import (
 	"github.com/fullstack-lang/gong/go/flutter"
 	"github.com/fullstack-lang/gong/go/golang"
 	"github.com/fullstack-lang/gong/go/golang/diagrams"
+	golang_models "github.com/fullstack-lang/gong/go/golang/models"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	"github.com/fullstack-lang/gong/go/vscode"
 	"github.com/spf13/cobra"
@@ -97,6 +98,32 @@ var generateCmd = &cobra.Command{
 		}
 
 		if dsm {
+			// check if a struct Library exists in any .go file in pkgPath (excluding yyy_*.go)
+			hasLibrary := false
+			existingModelFiles, err := os.ReadDir(pkgPath)
+			if err == nil {
+				for _, entry := range existingModelFiles {
+					if !entry.IsDir() && strings.HasSuffix(entry.Name(), ".go") && !strings.HasPrefix(entry.Name(), "yyy_") {
+						content, errRead := os.ReadFile(filepath.Join(pkgPath, entry.Name()))
+						if errRead == nil && strings.Contains(string(content), "type Library struct") {
+							hasLibrary = true
+							break
+						}
+					}
+				}
+			}
+
+			if !hasLibrary {
+				libraryFilePath := filepath.Join(pkgPath, "library.go")
+				if _, errStat := os.Stat(libraryFilePath); os.IsNotExist(errStat) {
+					log.Printf("library.go does not exist, gong generate creates a default library.go for DSM")
+					errWrite := os.WriteFile(libraryFilePath, []byte(golang_models.LibraryTemplate), 0o644)
+					if errWrite != nil {
+						log.Fatalf("failed writing library.go: %v", errWrite)
+					}
+				}
+			}
+
 			// remove all existing yyy files before parsing the models
 			existingFiles, err := os.ReadDir(pkgPath)
 			if err == nil {
@@ -399,7 +426,7 @@ var generateCmd = &cobra.Command{
 
 		}
 
-		golang.GeneratesGoCode(modelPkg, pkgPath, skipCoder, dbLite, skipSerialize, skipStager, stackHeight, withProbe, skipNonUpdateFromControllers, useSplitlite)
+		golang.GeneratesGoCode(modelPkg, pkgPath, skipCoder, dbLite, skipSerialize, skipStager, stackHeight, withProbe, skipNonUpdateFromControllers, useSplitlite, dsm)
 
 		// The copying of yyy files has been moved to the beginning of the command
 

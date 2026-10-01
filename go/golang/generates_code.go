@@ -35,6 +35,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	withProbe bool,
 	skipNonUpdateFromControllers bool,
 	useSplitlite bool,
+	dsm bool,
 ) {
 	// generate main.go if absent
 	{
@@ -165,7 +166,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 			gong_models.VerySimpleCodeGenerator(
 				modelPkg,
 				coderFilePath,
-				models.StagerFileTemplate)
+				models.GetStagerTemplate(useSplitlite, dsm))
 		}
 
 	}
