@@ -84,15 +84,48 @@ func FormDivEnumIntFieldToField[TF models.PointerToGongstructEnumIntField](field
 
 func FormDivSelectFieldToField[TF models.PointerToGongstruct](field *TF, stageOfInterest *models.Stage, formDiv *form.FormDiv) {
 
+	if formDiv.FormEditAssocButton != nil && formDiv.FormEditAssocButton.HasChanged {
+		rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+		if err != nil {
+			log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+		}
+		var zero TF
+		if len(rowIDs) == 0 {
+			*field = zero
+			return
+		}
+		map_RowID_ID := GetMap_RowID_ID[TF](stageOfInterest)
+		lastRowID := rowIDs[len(rowIDs)-1]
+		if id, ok := map_RowID_ID[int(lastRowID)]; ok {
+			for _instance := range *stageOfInterest.GetInstancesSet[TF]() {
+				if stageOfInterest.GetOrder(_instance) == id {
+					*field = any(_instance).(TF)
+					return
+				}
+			}
+		}
+		*field = zero
+		return
+	}
+
 	if formDiv.FormFields[0].FormFieldSelect.Value == nil {
 		var zero TF
 		if *field != zero {
 			*field = zero
 		}
 	} else {
+		selectedValue := formDiv.FormFields[0].FormFieldSelect.Value.GetName()
+
+		nameCount := make(map[string]int)
 		for _instance := range *stageOfInterest.GetInstancesSet[TF]() {
-			if any(_instance).(TF).GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-				*field = any(_instance).(TF)
+			nameCount[any(_instance).(TF).GetName()]++
+		}
+
+		for _instance := range *stageOfInterest.GetInstancesSet[TF]() {
+			inst := any(_instance).(TF)
+			if GetAssociationOptionName(inst, stageOfInterest, nameCount) == selectedValue {
+				*field = inst
+				return
 			}
 		}
 	}

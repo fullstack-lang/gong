@@ -388,6 +388,9 @@ export class FormSpecific implements OnInit {
                 }
               }
               promises.push(this.formFieldSelectService.updateFront(formFieldSelect, this.Name))
+              if (formDiv.FormEditAssocButton) {
+                formDiv.FormEditAssocButton.HasChanged = false
+              }
             }
           }
         })
@@ -508,6 +511,26 @@ export class FormSpecific implements OnInit {
                     this.currentFormEditAssocButton.AssociationStorage = encodeIntArrayToString_json(newOrderedIDs);
                     this.currentFormEditAssocButton.HasChanged = true;
                     console.log('Result:', this.currentFormEditAssocButton.AssociationStorage);
+
+                    // If this formDiv also has a FormFieldSelect, sync the dropdown selection in the UI
+                    if (formDiv.FormFields && formDiv.FormFields.length > 0 && formDiv.FormFields[0].FormFieldSelect) {
+                      const formField = formDiv.FormFields[0]
+                      const uniqueFormControlName = `${formField.Name}_0`
+                      const select = formField.FormFieldSelect
+                      if (select) {
+                        if (newOrderedIDs.length > 0) {
+                          const lastID = newOrderedIDs[newOrderedIDs.length - 1]
+                          if (select.Options && lastID >= 0 && lastID < select.Options.length) {
+                            const option = select.Options[lastID]
+                            select.Value = option
+                            this.angularFormGroup?.get(uniqueFormControlName)?.setValue(option.Name)
+                          }
+                        } else {
+                          select.Value = undefined
+                          this.angularFormGroup?.get(uniqueFormControlName)?.setValue(null)
+                        }
+                      }
+                    }
                   }
                 }
               });

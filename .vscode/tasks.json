@@ -1829,6 +1829,21 @@
             "group": "build"
         },
         {
+            "label": "test - test3: go run . edit data/issue1465.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./test/test3/go/cmd/test3"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/issue1465.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "test - test3: go run . edit data/stage-large.go",
             "type": "shell",
             "options": {

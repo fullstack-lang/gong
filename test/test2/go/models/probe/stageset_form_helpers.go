@@ -146,8 +146,9 @@ func StageSetAssociationFieldToForm[T interface {
 	formDiv.FormFields = append(formDiv.FormFields, formField)
 
 	formFieldSelect := (&form.FormFieldSelect{
-		Name:       "association",
-		CanBeEmpty: true,
+		Name:                 "association",
+		CanBeEmpty:           true,
+		PreserveInitialOrder: true,
 	}).Stage(formStage)
 	formField.FormFieldSelect = formFieldSelect
 
@@ -160,9 +161,19 @@ func StageSetAssociationFieldToForm[T interface {
 		sort.Slice(instancesSorted, func(i, j int) bool {
 			return instancesSorted[i].GetName() < instancesSorted[j].GetName()
 		})
-		for _, instance := range instancesSorted {
+		nameCount := make(map[string]int)
+		for _, inst := range instancesSorted {
+			nameCount[inst.GetName()]++
+		}
+		for i, instance := range instancesSorted {
+			optName := instance.GetName()
+			if optName == "" {
+				optName = fmt.Sprintf("[Unnamed] (#%d)", i+1)
+			} else if nameCount[optName] > 1 {
+				optName = fmt.Sprintf("%s (#%d)", optName, i+1)
+			}
 			option := (&form.Option{
-				Name: instance.GetName(),
+				Name: optName,
 			}).Stage(formStage)
 
 			if instance == field {
@@ -191,8 +202,25 @@ func StageSetFormDivSelectFieldToField[T interface {
 	var zero T
 	*field = zero
 	if instancesSet != nil {
+		instancesSorted := make([]T, 0, len(*instancesSet))
 		for inst := range *instancesSet {
-			if inst.GetName() == selectedName {
+			instancesSorted = append(instancesSorted, inst)
+		}
+		sort.Slice(instancesSorted, func(i, j int) bool {
+			return instancesSorted[i].GetName() < instancesSorted[j].GetName()
+		})
+		nameCount := make(map[string]int)
+		for _, inst := range instancesSorted {
+			nameCount[inst.GetName()]++
+		}
+		for i, inst := range instancesSorted {
+			optName := inst.GetName()
+			if optName == "" {
+				optName = fmt.Sprintf("[Unnamed] (#%d)", i+1)
+			} else if nameCount[optName] > 1 {
+				optName = fmt.Sprintf("%s (#%d)", optName, i+1)
+			}
+			if optName == selectedName {
 				*field = inst
 				return
 			}
