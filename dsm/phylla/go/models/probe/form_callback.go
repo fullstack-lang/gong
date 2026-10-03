@@ -355,6 +355,93 @@ func saveBottomCurvePlane2ShapeFields(
 	}
 }
 
+func __gong__New__CarvedOutBottomCurvePlane1ShapeFormCallback(
+	_instance *models.CarvedOutBottomCurvePlane1Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (carvedoutbottomcurveplane1shapeFormCallback *FormCallback[*models.CarvedOutBottomCurvePlane1Shape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveCarvedOutBottomCurvePlane1ShapeFields,
+	)
+}
+
+type CarvedOutBottomCurvePlane1ShapeFormCallback = FormCallback[*models.CarvedOutBottomCurvePlane1Shape]
+
+func saveCarvedOutBottomCurvePlane1ShapeFields(
+	_instance *models.CarvedOutBottomCurvePlane1Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		}
+	}
+}
+
+func __gong__New__CarvedOutTopCurvePlane1ShapeFormCallback(
+	_instance *models.CarvedOutTopCurvePlane1Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (carvedouttopcurveplane1shapeFormCallback *FormCallback[*models.CarvedOutTopCurvePlane1Shape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveCarvedOutTopCurvePlane1ShapeFields,
+	)
+}
+
+type CarvedOutTopCurvePlane1ShapeFormCallback = FormCallback[*models.CarvedOutTopCurvePlane1Shape]
+
+func saveCarvedOutTopCurvePlane1ShapeFields(
+	_instance *models.CarvedOutTopCurvePlane1Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		}
+	}
+}
+
+func __gong__New__CarvedOutVaseTrapezeRingShapeFormCallback(
+	_instance *models.CarvedOutVaseTrapezeRingShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (carvedoutvasetrapezeringshapeFormCallback *FormCallback[*models.CarvedOutVaseTrapezeRingShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveCarvedOutVaseTrapezeRingShapeFields,
+	)
+}
+
+type CarvedOutVaseTrapezeRingShapeFormCallback = FormCallback[*models.CarvedOutVaseTrapezeRingShape]
+
+func saveCarvedOutVaseTrapezeRingShapeFields(
+	_instance *models.CarvedOutVaseTrapezeRingShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		}
+	}
+}
+
 func __gong__New__ChosenP1P2PairShapeFormCallback(
 	_instance *models.ChosenP1P2PairShape,
 	probe *Probe,
@@ -4151,6 +4238,35 @@ func saveStackGrowthCurve2DStartHalfwayArcShapeFields(
 	}
 }
 
+func __gong__New__StackOfCarvedOutVaseTrapezeRingsShapeFormCallback(
+	_instance *models.StackOfCarvedOutVaseTrapezeRingsShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stackofcarvedoutvasetrapezeringsshapeFormCallback *FormCallback[*models.StackOfCarvedOutVaseTrapezeRingsShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveStackOfCarvedOutVaseTrapezeRingsShapeFields,
+	)
+}
+
+type StackOfCarvedOutVaseTrapezeRingsShapeFormCallback = FormCallback[*models.StackOfCarvedOutVaseTrapezeRingsShape]
+
+func saveStackOfCarvedOutVaseTrapezeRingsShapeFields(
+	_instance *models.StackOfCarvedOutVaseTrapezeRingsShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		}
+	}
+}
+
 func __gong__New__StackOfGrowthCurve2DFormCallback(
 	_instance *models.StackOfGrowthCurve2D,
 	probe *Probe,
@@ -4263,6 +4379,35 @@ type StackOfPartiallyRotatedTorusShapeFormCallback = FormCallback[*models.StackO
 
 func saveStackOfPartiallyRotatedTorusShapeFields(
 	_instance *models.StackOfPartiallyRotatedTorusShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		}
+	}
+}
+
+func __gong__New__StackOfRotatedCarvedOutVaseTrapezeRingsShapeFormCallback(
+	_instance *models.StackOfRotatedCarvedOutVaseTrapezeRingsShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stackofrotatedcarvedoutvasetrapezeringsshapeFormCallback *FormCallback[*models.StackOfRotatedCarvedOutVaseTrapezeRingsShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveStackOfRotatedCarvedOutVaseTrapezeRingsShapeFields,
+	)
+}
+
+type StackOfRotatedCarvedOutVaseTrapezeRingsShapeFormCallback = FormCallback[*models.StackOfRotatedCarvedOutVaseTrapezeRingsShape]
+
+func saveStackOfRotatedCarvedOutVaseTrapezeRingsShapeFields(
+	_instance *models.StackOfRotatedCarvedOutVaseTrapezeRingsShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
@@ -5894,12 +6039,22 @@ func saveTubeVase3DDiagramFields(
 			FormDivBasicFieldToField(&(_instance.IsHiddenTopCurvePlane2Shape), formDiv)
 		case "IsHiddenBottomCurvePlane2Shape":
 			FormDivBasicFieldToField(&(_instance.IsHiddenBottomCurvePlane2Shape), formDiv)
+		case "IsHiddenCarvedOutTopCurvePlane1Shape":
+			FormDivBasicFieldToField(&(_instance.IsHiddenCarvedOutTopCurvePlane1Shape), formDiv)
+		case "IsHiddenCarvedOutBottomCurvePlane1Shape":
+			FormDivBasicFieldToField(&(_instance.IsHiddenCarvedOutBottomCurvePlane1Shape), formDiv)
 		case "IsHiddenVaseTrapezeRingShape":
 			FormDivBasicFieldToField(&(_instance.IsHiddenVaseTrapezeRingShape), formDiv)
+		case "IsHiddenCarvedOutVaseTrapezeRingShape":
+			FormDivBasicFieldToField(&(_instance.IsHiddenCarvedOutVaseTrapezeRingShape), formDiv)
 		case "IsHiddenStackOfVaseTrapezeRingsShape":
 			FormDivBasicFieldToField(&(_instance.IsHiddenStackOfVaseTrapezeRingsShape), formDiv)
+		case "IsHiddenStackOfCarvedOutVaseTrapezeRingsShape":
+			FormDivBasicFieldToField(&(_instance.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape), formDiv)
 		case "IsHiddenStackOfRotatedVaseTrapezeRingsShape":
 			FormDivBasicFieldToField(&(_instance.IsHiddenStackOfRotatedVaseTrapezeRingsShape), formDiv)
+		case "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape":
+			FormDivBasicFieldToField(&(_instance.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape), formDiv)
 		case "IsHiddenVaseTrapezeBasePlateShape":
 			FormDivBasicFieldToField(&(_instance.IsHiddenVaseTrapezeBasePlateShape), formDiv)
 		case "Rendered3DShape":
@@ -5938,12 +6093,22 @@ func saveTubeVase3DDiagramFields(
 			FormDivSelectFieldToField(&(_instance.TopCurvePlane2Shape), probe.stageOfInterest, formDiv)
 		case "BottomCurvePlane2Shape":
 			FormDivSelectFieldToField(&(_instance.BottomCurvePlane2Shape), probe.stageOfInterest, formDiv)
+		case "CarvedOutTopCurvePlane1Shape":
+			FormDivSelectFieldToField(&(_instance.CarvedOutTopCurvePlane1Shape), probe.stageOfInterest, formDiv)
+		case "CarvedOutBottomCurvePlane1Shape":
+			FormDivSelectFieldToField(&(_instance.CarvedOutBottomCurvePlane1Shape), probe.stageOfInterest, formDiv)
 		case "VaseTrapezeRingShape":
 			FormDivSelectFieldToField(&(_instance.VaseTrapezeRingShape), probe.stageOfInterest, formDiv)
+		case "CarvedOutVaseTrapezeRingShape":
+			FormDivSelectFieldToField(&(_instance.CarvedOutVaseTrapezeRingShape), probe.stageOfInterest, formDiv)
 		case "StackOfVaseTrapezeRingsShape":
 			FormDivSelectFieldToField(&(_instance.StackOfVaseTrapezeRingsShape), probe.stageOfInterest, formDiv)
+		case "StackOfCarvedOutVaseTrapezeRingsShape":
+			FormDivSelectFieldToField(&(_instance.StackOfCarvedOutVaseTrapezeRingsShape), probe.stageOfInterest, formDiv)
 		case "StackOfRotatedVaseTrapezeRingsShape":
 			FormDivSelectFieldToField(&(_instance.StackOfRotatedVaseTrapezeRingsShape), probe.stageOfInterest, formDiv)
+		case "StackOfRotatedCarvedOutVaseTrapezeRingsShape":
+			FormDivSelectFieldToField(&(_instance.StackOfRotatedCarvedOutVaseTrapezeRingsShape), probe.stageOfInterest, formDiv)
 		case "VaseTrapezeBasePlateShape":
 			FormDivSelectFieldToField(&(_instance.VaseTrapezeBasePlateShape), probe.stageOfInterest, formDiv)
 		case "IsChecked":
@@ -5995,6 +6160,8 @@ func saveTubeVaseAbstractFields(
 			FormDivBasicFieldToField(&(_instance.ProjectionAngle), formDiv)
 		case "BasePlateHeight":
 			FormDivBasicFieldToField(&(_instance.BasePlateHeight), formDiv)
+		case "CarvedOutTopRingsParameter":
+			FormDivBasicFieldToField(&(_instance.CarvedOutTopRingsParameter), formDiv)
 		case "RelativeVerticalThickness":
 			FormDivBasicFieldToField(&(_instance.RelativeVerticalThickness), formDiv)
 		case "RelativeRadialThickness":

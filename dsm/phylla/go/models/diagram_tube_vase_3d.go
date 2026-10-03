@@ -21,9 +21,14 @@ type TubeVase3DDiagram struct {
 	IsHiddenBottomCurvePlane1Shape                     bool
 	IsHiddenTopCurvePlane2Shape                        bool
 	IsHiddenBottomCurvePlane2Shape                     bool
+	IsHiddenCarvedOutTopCurvePlane1Shape               bool
+	IsHiddenCarvedOutBottomCurvePlane1Shape            bool
 	IsHiddenVaseTrapezeRingShape                       bool
+	IsHiddenCarvedOutVaseTrapezeRingShape              bool
 	IsHiddenStackOfVaseTrapezeRingsShape               bool
+	IsHiddenStackOfCarvedOutVaseTrapezeRingsShape      bool
 	IsHiddenStackOfRotatedVaseTrapezeRingsShape        bool
+	IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape bool
 	IsHiddenVaseTrapezeBasePlateShape                  bool
 
 	Rendered3DShape *Rendered3DShape
@@ -45,9 +50,14 @@ type TubeVase3DDiagram struct {
 	BottomCurvePlane1Shape                  *BottomCurvePlane1Shape
 	TopCurvePlane2Shape                     *TopCurvePlane2Shape
 	BottomCurvePlane2Shape                  *BottomCurvePlane2Shape
+	CarvedOutTopCurvePlane1Shape            *CarvedOutTopCurvePlane1Shape
+	CarvedOutBottomCurvePlane1Shape         *CarvedOutBottomCurvePlane1Shape
 	VaseTrapezeRingShape                    *VaseTrapezeRingShape
+	CarvedOutVaseTrapezeRingShape           *CarvedOutVaseTrapezeRingShape
 	StackOfVaseTrapezeRingsShape            *StackOfVaseTrapezeRingsShape
+	StackOfCarvedOutVaseTrapezeRingsShape   *StackOfCarvedOutVaseTrapezeRingsShape
 	StackOfRotatedVaseTrapezeRingsShape     *StackOfRotatedVaseTrapezeRingsShape
+	StackOfRotatedCarvedOutVaseTrapezeRingsShape *StackOfRotatedCarvedOutVaseTrapezeRingsShape
 	VaseTrapezeBasePlateShape               *VaseTrapezeBasePlateShape
 
 	IsChecked bool
@@ -62,7 +72,15 @@ type VaseTrapezeRingShape struct {
 	Name string
 }
 
+type CarvedOutVaseTrapezeRingShape struct {
+	Name string
+}
+
 type StackOfVaseTrapezeRingsShape struct {
+	Name string
+}
+
+type StackOfCarvedOutVaseTrapezeRingsShape struct {
 	Name string
 }
 
@@ -70,7 +88,19 @@ type StackOfRotatedVaseTrapezeRingsShape struct {
 	Name string
 }
 
+type StackOfRotatedCarvedOutVaseTrapezeRingsShape struct {
+	Name string
+}
+
 type TopCurvePlane1Shape struct {
+	Name string
+}
+
+type CarvedOutTopCurvePlane1Shape struct {
+	Name string
+}
+
+type CarvedOutBottomCurvePlane1Shape struct {
 	Name string
 }
 

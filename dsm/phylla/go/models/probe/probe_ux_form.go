@@ -146,6 +146,45 @@ func FillUpFormFromGongstructName(
 		bottomcurveplane2shape := new(models.BottomCurvePlane2Shape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(bottomcurveplane2shape, formGroup, probe)
+	case "CarvedOutBottomCurvePlane1Shape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "CarvedOutBottomCurvePlane1Shape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__CarvedOutBottomCurvePlane1ShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		carvedoutbottomcurveplane1shape := new(models.CarvedOutBottomCurvePlane1Shape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(carvedoutbottomcurveplane1shape, formGroup, probe)
+	case "CarvedOutTopCurvePlane1Shape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "CarvedOutTopCurvePlane1Shape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__CarvedOutTopCurvePlane1ShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		carvedouttopcurveplane1shape := new(models.CarvedOutTopCurvePlane1Shape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(carvedouttopcurveplane1shape, formGroup, probe)
+	case "CarvedOutVaseTrapezeRingShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "CarvedOutVaseTrapezeRingShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__CarvedOutVaseTrapezeRingShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		carvedoutvasetrapezeringshape := new(models.CarvedOutVaseTrapezeRingShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(carvedoutvasetrapezeringshape, formGroup, probe)
 	case "ChosenP1P2PairShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1368,6 +1407,19 @@ func FillUpFormFromGongstructName(
 		stackgrowthcurve2dstarthalfwayarcshape := new(models.StackGrowthCurve2DStartHalfwayArcShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stackgrowthcurve2dstarthalfwayarcshape, formGroup, probe)
+	case "StackOfCarvedOutVaseTrapezeRingsShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StackOfCarvedOutVaseTrapezeRingsShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackOfCarvedOutVaseTrapezeRingsShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stackofcarvedoutvasetrapezeringsshape := new(models.StackOfCarvedOutVaseTrapezeRingsShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stackofcarvedoutvasetrapezeringsshape, formGroup, probe)
 	case "StackOfGrowthCurve2D":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1420,6 +1472,19 @@ func FillUpFormFromGongstructName(
 		stackofpartiallyrotatedtorusshape := new(models.StackOfPartiallyRotatedTorusShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stackofpartiallyrotatedtorusshape, formGroup, probe)
+	case "StackOfRotatedCarvedOutVaseTrapezeRingsShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StackOfRotatedCarvedOutVaseTrapezeRingsShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackOfRotatedCarvedOutVaseTrapezeRingsShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stackofrotatedcarvedoutvasetrapezeringsshape := new(models.StackOfRotatedCarvedOutVaseTrapezeRingsShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stackofrotatedcarvedoutvasetrapezeringsshape, formGroup, probe)
 	case "StackOfRotatedGrowthCurve2D":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

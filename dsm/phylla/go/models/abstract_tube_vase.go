@@ -22,6 +22,11 @@ type TubeVaseAbstract struct {
 	// BasePlateHeight is the height of the plancher (base plate) for the vase wall (for Vase Trapeze).
 	BasePlateHeight float64
 
+	// CarvedOutTopRingsParameter is the depth ratio [0.0, 1.0] for the carved out top curves (for Vase Trapeze).
+	// If 0.0, the carved out top curve is the same as the original top curve.
+	// If 1.0, the carved out top curve reaches the bottom curve at the minimum radius.
+	CarvedOutTopRingsParameter float64
+
 	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
 	// the vertical thickness is RelativeVerticalThickness x RhombusSideLength
 	RelativeVerticalThickness float64

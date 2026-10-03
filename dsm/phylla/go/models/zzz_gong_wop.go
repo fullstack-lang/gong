@@ -117,6 +117,39 @@ func (from *BottomCurvePlane2Shape) GongCopyBasicFields(to *BottomCurvePlane2Sha
 	*to = *from
 }
 
+type CarvedOutBottomCurvePlane1Shape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *CarvedOutBottomCurvePlane1Shape) GongCopyBasicFields(to *CarvedOutBottomCurvePlane1Shape) {
+	// insertion point
+	*to = *from
+}
+
+type CarvedOutTopCurvePlane1Shape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *CarvedOutTopCurvePlane1Shape) GongCopyBasicFields(to *CarvedOutTopCurvePlane1Shape) {
+	// insertion point
+	*to = *from
+}
+
+type CarvedOutVaseTrapezeRingShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *CarvedOutVaseTrapezeRingShape) GongCopyBasicFields(to *CarvedOutVaseTrapezeRingShape) {
+	// insertion point
+	*to = *from
+}
+
 type ChosenP1P2PairShape_WOP struct {
 	// insertion point
 
@@ -2035,6 +2068,17 @@ func (from *StackGrowthCurve2DStartHalfwayArcShape) GongCopyBasicFields(to *Stac
 	*to = *from
 }
 
+type StackOfCarvedOutVaseTrapezeRingsShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *StackOfCarvedOutVaseTrapezeRingsShape) GongCopyBasicFields(to *StackOfCarvedOutVaseTrapezeRingsShape) {
+	// insertion point
+	*to = *from
+}
+
 type StackOfGrowthCurve2D_WOP struct {
 	// insertion point
 
@@ -2075,6 +2119,17 @@ type StackOfPartiallyRotatedTorusShape_WOP struct {
 }
 
 func (from *StackOfPartiallyRotatedTorusShape) GongCopyBasicFields(to *StackOfPartiallyRotatedTorusShape) {
+	// insertion point
+	*to = *from
+}
+
+type StackOfRotatedCarvedOutVaseTrapezeRingsShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *StackOfRotatedCarvedOutVaseTrapezeRingsShape) GongCopyBasicFields(to *StackOfRotatedCarvedOutVaseTrapezeRingsShape) {
 	// insertion point
 	*to = *from
 }
@@ -2909,11 +2964,21 @@ type TubeVase3DDiagram_WOP struct {
 
 	IsHiddenBottomCurvePlane2Shape bool
 
+	IsHiddenCarvedOutTopCurvePlane1Shape bool
+
+	IsHiddenCarvedOutBottomCurvePlane1Shape bool
+
 	IsHiddenVaseTrapezeRingShape bool
+
+	IsHiddenCarvedOutVaseTrapezeRingShape bool
 
 	IsHiddenStackOfVaseTrapezeRingsShape bool
 
+	IsHiddenStackOfCarvedOutVaseTrapezeRingsShape bool
+
 	IsHiddenStackOfRotatedVaseTrapezeRingsShape bool
+
+	IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape bool
 
 	IsHiddenVaseTrapezeBasePlateShape bool
 
@@ -2945,9 +3010,14 @@ func (from *TubeVase3DDiagram) GongCopyBasicFields(to *TubeVase3DDiagram) {
 	to.IsHiddenBottomCurvePlane1Shape = from.IsHiddenBottomCurvePlane1Shape
 	to.IsHiddenTopCurvePlane2Shape = from.IsHiddenTopCurvePlane2Shape
 	to.IsHiddenBottomCurvePlane2Shape = from.IsHiddenBottomCurvePlane2Shape
+	to.IsHiddenCarvedOutTopCurvePlane1Shape = from.IsHiddenCarvedOutTopCurvePlane1Shape
+	to.IsHiddenCarvedOutBottomCurvePlane1Shape = from.IsHiddenCarvedOutBottomCurvePlane1Shape
 	to.IsHiddenVaseTrapezeRingShape = from.IsHiddenVaseTrapezeRingShape
+	to.IsHiddenCarvedOutVaseTrapezeRingShape = from.IsHiddenCarvedOutVaseTrapezeRingShape
 	to.IsHiddenStackOfVaseTrapezeRingsShape = from.IsHiddenStackOfVaseTrapezeRingsShape
+	to.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape = from.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape
 	to.IsHiddenStackOfRotatedVaseTrapezeRingsShape = from.IsHiddenStackOfRotatedVaseTrapezeRingsShape
+	to.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = from.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape
 	to.IsHiddenVaseTrapezeBasePlateShape = from.IsHiddenVaseTrapezeBasePlateShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
@@ -2970,6 +3040,8 @@ type TubeVaseAbstract_WOP struct {
 	ProjectionAngle float64
 
 	BasePlateHeight float64
+
+	CarvedOutTopRingsParameter float64
 
 	RelativeVerticalThickness float64
 
@@ -3019,6 +3091,7 @@ func (from *TubeVaseAbstract) GongCopyBasicFields(to *TubeVaseAbstract) {
 	to.BottomPlaneHeight = from.BottomPlaneHeight
 	to.ProjectionAngle = from.ProjectionAngle
 	to.BasePlateHeight = from.BasePlateHeight
+	to.CarvedOutTopRingsParameter = from.CarvedOutTopRingsParameter
 	to.RelativeVerticalThickness = from.RelativeVerticalThickness
 	to.RelativeRadialThickness = from.RelativeRadialThickness
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight

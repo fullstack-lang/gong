@@ -468,9 +468,14 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongClean(stage *Stage) (modified bo
 	modified = stage.CleanPointer(&tubevase3ddiagram.BottomCurvePlane1Shape) || modified
 	modified = stage.CleanPointer(&tubevase3ddiagram.TopCurvePlane2Shape) || modified
 	modified = stage.CleanPointer(&tubevase3ddiagram.BottomCurvePlane2Shape) || modified
+	modified = stage.CleanPointer(&tubevase3ddiagram.CarvedOutTopCurvePlane1Shape) || modified
+	modified = stage.CleanPointer(&tubevase3ddiagram.CarvedOutBottomCurvePlane1Shape) || modified
 	modified = stage.CleanPointer(&tubevase3ddiagram.VaseTrapezeRingShape) || modified
+	modified = stage.CleanPointer(&tubevase3ddiagram.CarvedOutVaseTrapezeRingShape) || modified
 	modified = stage.CleanPointer(&tubevase3ddiagram.StackOfVaseTrapezeRingsShape) || modified
+	modified = stage.CleanPointer(&tubevase3ddiagram.StackOfCarvedOutVaseTrapezeRingsShape) || modified
 	modified = stage.CleanPointer(&tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape) || modified
+	modified = stage.CleanPointer(&tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape) || modified
 	modified = stage.CleanPointer(&tubevase3ddiagram.VaseTrapezeBasePlateShape) || modified
 	return
 }

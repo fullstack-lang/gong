@@ -648,6 +648,57 @@ func (u *BottomCurvePlane2ShapeUnmarshaller) UnmarshallField(stage *Stage, i Gon
 	return nil
 }
 
+type CarvedOutBottomCurvePlane1ShapeUnmarshaller struct{}
+
+func (u *CarvedOutBottomCurvePlane1ShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(CarvedOutBottomCurvePlane1Shape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *CarvedOutBottomCurvePlane1ShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*CarvedOutBottomCurvePlane1Shape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type CarvedOutTopCurvePlane1ShapeUnmarshaller struct{}
+
+func (u *CarvedOutTopCurvePlane1ShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(CarvedOutTopCurvePlane1Shape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *CarvedOutTopCurvePlane1ShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*CarvedOutTopCurvePlane1Shape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type CarvedOutVaseTrapezeRingShapeUnmarshaller struct{}
+
+func (u *CarvedOutVaseTrapezeRingShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(CarvedOutVaseTrapezeRingShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *CarvedOutVaseTrapezeRingShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*CarvedOutVaseTrapezeRingShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type ChosenP1P2PairShapeUnmarshaller struct{}
 
 func (u *ChosenP1P2PairShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -3240,6 +3291,23 @@ func (u *StackGrowthCurve2DStartHalfwayArcShapeUnmarshaller) UnmarshallField(sta
 	return nil
 }
 
+type StackOfCarvedOutVaseTrapezeRingsShapeUnmarshaller struct{}
+
+func (u *StackOfCarvedOutVaseTrapezeRingsShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(StackOfCarvedOutVaseTrapezeRingsShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *StackOfCarvedOutVaseTrapezeRingsShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StackOfCarvedOutVaseTrapezeRingsShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type StackOfGrowthCurve2DUnmarshaller struct{}
 
 func (u *StackOfGrowthCurve2DUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -3307,6 +3375,23 @@ func (u *StackOfPartiallyRotatedTorusShapeUnmarshaller) Initialize(stage *Stage,
 
 func (u *StackOfPartiallyRotatedTorusShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*StackOfPartiallyRotatedTorusShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type StackOfRotatedCarvedOutVaseTrapezeRingsShapeUnmarshaller struct{}
+
+func (u *StackOfRotatedCarvedOutVaseTrapezeRingsShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(StackOfRotatedCarvedOutVaseTrapezeRingsShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *StackOfRotatedCarvedOutVaseTrapezeRingsShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StackOfRotatedCarvedOutVaseTrapezeRingsShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -4433,12 +4518,22 @@ func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		instance.IsHiddenTopCurvePlane2Shape = GongExtractBool(valueExpr)
 	case "IsHiddenBottomCurvePlane2Shape":
 		instance.IsHiddenBottomCurvePlane2Shape = GongExtractBool(valueExpr)
+	case "IsHiddenCarvedOutTopCurvePlane1Shape":
+		instance.IsHiddenCarvedOutTopCurvePlane1Shape = GongExtractBool(valueExpr)
+	case "IsHiddenCarvedOutBottomCurvePlane1Shape":
+		instance.IsHiddenCarvedOutBottomCurvePlane1Shape = GongExtractBool(valueExpr)
 	case "IsHiddenVaseTrapezeRingShape":
 		instance.IsHiddenVaseTrapezeRingShape = GongExtractBool(valueExpr)
+	case "IsHiddenCarvedOutVaseTrapezeRingShape":
+		instance.IsHiddenCarvedOutVaseTrapezeRingShape = GongExtractBool(valueExpr)
 	case "IsHiddenStackOfVaseTrapezeRingsShape":
 		instance.IsHiddenStackOfVaseTrapezeRingsShape = GongExtractBool(valueExpr)
+	case "IsHiddenStackOfCarvedOutVaseTrapezeRingsShape":
+		instance.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape = GongExtractBool(valueExpr)
 	case "IsHiddenStackOfRotatedVaseTrapezeRingsShape":
 		instance.IsHiddenStackOfRotatedVaseTrapezeRingsShape = GongExtractBool(valueExpr)
+	case "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape":
+		instance.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = GongExtractBool(valueExpr)
 	case "IsHiddenVaseTrapezeBasePlateShape":
 		instance.IsHiddenVaseTrapezeBasePlateShape = GongExtractBool(valueExpr)
 	case "Rendered3DShape":
@@ -4477,12 +4572,22 @@ func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		GongUnmarshallPointer(&instance.TopCurvePlane2Shape, valueExpr, identifierMap)
 	case "BottomCurvePlane2Shape":
 		GongUnmarshallPointer(&instance.BottomCurvePlane2Shape, valueExpr, identifierMap)
+	case "CarvedOutTopCurvePlane1Shape":
+		GongUnmarshallPointer(&instance.CarvedOutTopCurvePlane1Shape, valueExpr, identifierMap)
+	case "CarvedOutBottomCurvePlane1Shape":
+		GongUnmarshallPointer(&instance.CarvedOutBottomCurvePlane1Shape, valueExpr, identifierMap)
 	case "VaseTrapezeRingShape":
 		GongUnmarshallPointer(&instance.VaseTrapezeRingShape, valueExpr, identifierMap)
+	case "CarvedOutVaseTrapezeRingShape":
+		GongUnmarshallPointer(&instance.CarvedOutVaseTrapezeRingShape, valueExpr, identifierMap)
 	case "StackOfVaseTrapezeRingsShape":
 		GongUnmarshallPointer(&instance.StackOfVaseTrapezeRingsShape, valueExpr, identifierMap)
+	case "StackOfCarvedOutVaseTrapezeRingsShape":
+		GongUnmarshallPointer(&instance.StackOfCarvedOutVaseTrapezeRingsShape, valueExpr, identifierMap)
 	case "StackOfRotatedVaseTrapezeRingsShape":
 		GongUnmarshallPointer(&instance.StackOfRotatedVaseTrapezeRingsShape, valueExpr, identifierMap)
+	case "StackOfRotatedCarvedOutVaseTrapezeRingsShape":
+		GongUnmarshallPointer(&instance.StackOfRotatedCarvedOutVaseTrapezeRingsShape, valueExpr, identifierMap)
 	case "VaseTrapezeBasePlateShape":
 		GongUnmarshallPointer(&instance.VaseTrapezeBasePlateShape, valueExpr, identifierMap)
 	case "IsChecked":
@@ -4520,6 +4625,8 @@ func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.ProjectionAngle = GongExtractFloat(valueExpr)
 	case "BasePlateHeight":
 		instance.BasePlateHeight = GongExtractFloat(valueExpr)
+	case "CarvedOutTopRingsParameter":
+		instance.CarvedOutTopRingsParameter = GongExtractFloat(valueExpr)
 	case "RelativeVerticalThickness":
 		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
 	case "RelativeRadialThickness":

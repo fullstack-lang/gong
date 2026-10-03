@@ -64,6 +64,21 @@ func (inst *BottomCurvePlane2Shape) GongGetReverseFieldOwnerName(stage *Stage, r
 	return
 }
 
+func (inst *CarvedOutBottomCurvePlane1Shape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
+func (inst *CarvedOutTopCurvePlane1Shape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
+func (inst *CarvedOutVaseTrapezeRingShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
 func (inst *ChosenP1P2PairShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return
@@ -952,6 +967,11 @@ func (inst *StackGrowthCurve2DStartHalfwayArcShape) GongGetReverseFieldOwnerName
 	return
 }
 
+func (inst *StackOfCarvedOutVaseTrapezeRingsShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
 func (inst *StackOfGrowthCurve2D) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return
@@ -968,6 +988,11 @@ func (inst *StackOfGrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stage *Stag
 }
 
 func (inst *StackOfPartiallyRotatedTorusShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
+func (inst *StackOfRotatedCarvedOutVaseTrapezeRingsShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return
 }

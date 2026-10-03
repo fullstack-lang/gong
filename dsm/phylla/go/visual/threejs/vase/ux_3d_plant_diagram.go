@@ -72,9 +72,14 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		!checkedDiagram.IsHiddenBottomCurvePlane1Shape ||
 		!checkedDiagram.IsHiddenTopCurvePlane2Shape ||
 		!checkedDiagram.IsHiddenBottomCurvePlane2Shape ||
+		!checkedDiagram.IsHiddenCarvedOutTopCurvePlane1Shape ||
+		!checkedDiagram.IsHiddenCarvedOutBottomCurvePlane1Shape ||
 		!checkedDiagram.IsHiddenVaseTrapezeRingShape ||
+		!checkedDiagram.IsHiddenCarvedOutVaseTrapezeRingShape ||
 		!checkedDiagram.IsHiddenStackOfVaseTrapezeRingsShape ||
+		!checkedDiagram.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape ||
 		!checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape ||
+		!checkedDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape ||
 		!checkedDiagram.IsHiddenVaseTrapezeBasePlateShape
 
 	// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
@@ -442,7 +447,83 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			buildRingMesh(cTopP1, cBottomP1, cTopP2, cBottomP2, "Vase Trapeze Ring", 0)
 		}
 
-		if !checkedDiagram.IsHiddenStackOfVaseTrapezeRingsShape && stackHeight > 0 {
+		carvedParam := 0.0
+		if plant.TubeVaseAbstract != nil {
+			carvedParam = plant.TubeVaseAbstract.CarvedOutTopRingsParameter
+			if carvedParam < 0 {
+				carvedParam = 0
+			}
+			if carvedParam > 1 {
+				carvedParam = 1
+			}
+		}
+
+		computeCarvedOutCurve := func(cTop, cBottom *threejs.Curve, param float64, curveName string) *threejs.Curve {
+			carvedCurve := (&threejs.Curve{Name: curveName}).Stage(threejsStage)
+			M := min(len(cTop.Points), len(cBottom.Points))
+			if M == 0 {
+				return carvedCurve
+			}
+
+			rMin := math.MaxFloat64
+			rMax := -math.MaxFloat64
+			for i := 0; i < M; i++ {
+				pt := cTop.Points[i]
+				r := math.Hypot(pt.X, pt.Z)
+				if r < rMin {
+					rMin = r
+				}
+				if r > rMax {
+					rMax = r
+				}
+			}
+
+			rRange := rMax - rMin
+			for i := 0; i < M; i++ {
+				ptTop := cTop.Points[i]
+				ptBottom := cBottom.Points[i]
+				r := math.Hypot(ptTop.X, ptTop.Z)
+
+				coeff := 0.0
+				if rRange > 1e-6 {
+					coeff = param * (rMax - r) / rRange
+				}
+
+				origTheta := math.Atan2(ptTop.Z, ptTop.X)
+				newPt := (&threejs.Vector3{
+					Name: fmt.Sprintf("%s Point %.1f", curveName, origTheta*180.0/math.Pi),
+					X:    (1.0-coeff)*ptTop.X + coeff*ptBottom.X,
+					Y:    (1.0-coeff)*ptTop.Y + coeff*ptBottom.Y,
+					Z:    (1.0-coeff)*ptTop.Z + coeff*ptBottom.Z,
+				}).Stage(threejsStage)
+				carvedCurve.Points = append(carvedCurve.Points, newPt)
+			}
+			return carvedCurve
+		}
+
+		var cCarvedTopP1, cCarvedBottomP1 *threejs.Curve
+		getCarvedCurves := func() (*threejs.Curve, *threejs.Curve) {
+			if cCarvedTopP1 == nil {
+				cCarvedTopP1 = computeCarvedOutCurve(cTopP1, cTopP2, carvedParam, plant.Name+" Carved Out Top Curve Plane 1")
+				cCarvedBottomP1 = computeCarvedOutCurve(cBottomP1, cBottomP2, carvedParam, plant.Name+" Carved Out Bottom Curve Plane 1")
+			}
+			return cCarvedTopP1, cCarvedBottomP1
+		}
+
+		if !checkedDiagram.IsHiddenCarvedOutTopCurvePlane1Shape {
+			cTop, _ := getCarvedCurves()
+			addProjectedMesh(cTop, plant.Name+" Carved Out Top Curve Plane 1", "deepskyblue")
+		}
+		if !checkedDiagram.IsHiddenCarvedOutBottomCurvePlane1Shape {
+			_, cBottom := getCarvedCurves()
+			addProjectedMesh(cBottom, plant.Name+" Carved Out Bottom Curve Plane 1", "coral")
+		}
+		if !checkedDiagram.IsHiddenCarvedOutVaseTrapezeRingShape {
+			cTop, cBottom := getCarvedCurves()
+			buildRingMesh(cTop, cBottom, cTopP2, cBottomP2, "Carved Out Vase Trapeze Ring", 0)
+		}
+
+		if (!checkedDiagram.IsHiddenStackOfVaseTrapezeRingsShape || !checkedDiagram.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape) && stackHeight > 0 {
 			numSteps := stackHeight - 1
 			dys := make([]float64, stackHeight)
 			dys[0] = 0.0
@@ -472,11 +553,18 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Stack Top P2 h%d", plant.Name, h))
 				ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Stack Bottom P2 h%d", plant.Name, h))
 
-				buildRingMesh(ringTopP1, ringBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Vase Trapeze Rings h%d", h), h)
+				if !checkedDiagram.IsHiddenStackOfVaseTrapezeRingsShape {
+					buildRingMesh(ringTopP1, ringBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Vase Trapeze Rings h%d", h), h)
+				}
+				if !checkedDiagram.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape {
+					ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopP2, carvedParam, fmt.Sprintf("%s Stack Carved Top P1 h%d", plant.Name, h))
+					ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomP2, carvedParam, fmt.Sprintf("%s Stack Carved Bottom P1 h%d", plant.Name, h))
+					buildRingMesh(ringCarvedTopP1, ringCarvedBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Carved Out Vase Trapeze Rings h%d", h), h)
+				}
 			}
 		}
 
-		if !checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape && stackHeight > 0 {
+		if (!checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape || !checkedDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape) && stackHeight > 0 {
 			var growthVectorX, growthVectorY float64
 			if plant.GrowthVectorShape != nil {
 				growthVectorX = plant.GrowthVectorShape.X
@@ -517,7 +605,14 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Stack Top P2 h%d", plant.Name, h))
 				ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Stack Bottom P2 h%d", plant.Name, h))
 
-				buildRingMesh(ringTopP1, ringBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Rotated Vase Trapeze Rings h%d", h), h)
+				if !checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape {
+					buildRingMesh(ringTopP1, ringBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Rotated Vase Trapeze Rings h%d", h), h)
+				}
+				if !checkedDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape {
+					ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Top P1 h%d", plant.Name, h))
+					ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Bottom P1 h%d", plant.Name, h))
+					buildRingMesh(ringCarvedTopP1, ringCarvedBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Rotated Carved Out Vase Trapeze Rings h%d", h), h)
+				}
 			}
 		}
 

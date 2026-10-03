@@ -379,6 +379,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	gongMarshallInstances(stage, stage.Angle0Shapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.BottomCurvePlane1Shapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.BottomCurvePlane2Shapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.CarvedOutBottomCurvePlane1Shapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.CarvedOutTopCurvePlane1Shapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.CarvedOutVaseTrapezeRingShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.Circumference3DShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.Clock2DDiagrams, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.Clock3DDiagrams, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
@@ -393,6 +396,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	gongMarshallInstances(stage, stage.PlantAbstracts, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.Rendered3DShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.SampledPoints3DShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.StackOfCarvedOutVaseTrapezeRingsShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.StackOfRotatedVaseTrapezeRingsShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.StackOfVaseTrapezeRingsShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.StemCylinder3DShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
@@ -596,6 +601,45 @@ func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongMarshallField(stage *S
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct BottomCurvePlane2Shape", fieldName)
+	}
+	return
+}
+
+func (carvedoutbottomcurveplane1shape *CarvedOutBottomCurvePlane1Shape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := carvedoutbottomcurveplane1shape.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", carvedoutbottomcurveplane1shape.Name)
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct CarvedOutBottomCurvePlane1Shape", fieldName)
+	}
+	return
+}
+
+func (carvedouttopcurveplane1shape *CarvedOutTopCurvePlane1Shape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := carvedouttopcurveplane1shape.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", carvedouttopcurveplane1shape.Name)
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct CarvedOutTopCurvePlane1Shape", fieldName)
+	}
+	return
+}
+
+func (carvedoutvasetrapezeringshape *CarvedOutVaseTrapezeRingShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := carvedoutvasetrapezeringshape.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", carvedoutvasetrapezeringshape.Name)
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct CarvedOutVaseTrapezeRingShape", fieldName)
 	}
 	return
 }
@@ -2786,6 +2830,19 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	return
 }
 
+func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := stackofcarvedoutvasetrapezeringsshape.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", stackofcarvedoutvasetrapezeringsshape.Name)
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct StackOfCarvedOutVaseTrapezeRingsShape", fieldName)
+	}
+	return
+}
+
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	ident := stackofgrowthcurve2d.GongGetIdentifier(stage)
 	_ = ident
@@ -2834,6 +2891,19 @@ func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) Gong
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StackOfPartiallyRotatedTorusShape", fieldName)
+	}
+	return
+}
+
+func (stackofrotatedcarvedoutvasetrapezeringsshape *StackOfRotatedCarvedOutVaseTrapezeRingsShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := stackofrotatedcarvedoutvasetrapezeringsshape.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", stackofrotatedcarvedoutvasetrapezeringsshape.Name)
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct StackOfRotatedCarvedOutVaseTrapezeRingsShape", fieldName)
 	}
 	return
 }
@@ -3736,12 +3806,22 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallField(stage *Stage, fiel
 		res = __gong__marshallBool(ident, "IsHiddenTopCurvePlane2Shape", tubevase3ddiagram.IsHiddenTopCurvePlane2Shape)
 	case "IsHiddenBottomCurvePlane2Shape":
 		res = __gong__marshallBool(ident, "IsHiddenBottomCurvePlane2Shape", tubevase3ddiagram.IsHiddenBottomCurvePlane2Shape)
+	case "IsHiddenCarvedOutTopCurvePlane1Shape":
+		res = __gong__marshallBool(ident, "IsHiddenCarvedOutTopCurvePlane1Shape", tubevase3ddiagram.IsHiddenCarvedOutTopCurvePlane1Shape)
+	case "IsHiddenCarvedOutBottomCurvePlane1Shape":
+		res = __gong__marshallBool(ident, "IsHiddenCarvedOutBottomCurvePlane1Shape", tubevase3ddiagram.IsHiddenCarvedOutBottomCurvePlane1Shape)
 	case "IsHiddenVaseTrapezeRingShape":
 		res = __gong__marshallBool(ident, "IsHiddenVaseTrapezeRingShape", tubevase3ddiagram.IsHiddenVaseTrapezeRingShape)
+	case "IsHiddenCarvedOutVaseTrapezeRingShape":
+		res = __gong__marshallBool(ident, "IsHiddenCarvedOutVaseTrapezeRingShape", tubevase3ddiagram.IsHiddenCarvedOutVaseTrapezeRingShape)
 	case "IsHiddenStackOfVaseTrapezeRingsShape":
 		res = __gong__marshallBool(ident, "IsHiddenStackOfVaseTrapezeRingsShape", tubevase3ddiagram.IsHiddenStackOfVaseTrapezeRingsShape)
+	case "IsHiddenStackOfCarvedOutVaseTrapezeRingsShape":
+		res = __gong__marshallBool(ident, "IsHiddenStackOfCarvedOutVaseTrapezeRingsShape", tubevase3ddiagram.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape)
 	case "IsHiddenStackOfRotatedVaseTrapezeRingsShape":
 		res = __gong__marshallBool(ident, "IsHiddenStackOfRotatedVaseTrapezeRingsShape", tubevase3ddiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape)
+	case "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape":
+		res = __gong__marshallBool(ident, "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape", tubevase3ddiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape)
 	case "IsHiddenVaseTrapezeBasePlateShape":
 		res = __gong__marshallBool(ident, "IsHiddenVaseTrapezeBasePlateShape", tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape)
 	case "IsChecked":
@@ -3799,11 +3879,29 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallField(stage *Stage, fiel
 		} else {
 			res = __gong__marshallPointer(ident, "BottomCurvePlane2Shape", "nil")
 		}
+	case "CarvedOutTopCurvePlane1Shape":
+		if tubevase3ddiagram.CarvedOutTopCurvePlane1Shape != nil {
+			res = __gong__marshallPointer(ident, "CarvedOutTopCurvePlane1Shape", tubevase3ddiagram.CarvedOutTopCurvePlane1Shape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "CarvedOutTopCurvePlane1Shape", "nil")
+		}
+	case "CarvedOutBottomCurvePlane1Shape":
+		if tubevase3ddiagram.CarvedOutBottomCurvePlane1Shape != nil {
+			res = __gong__marshallPointer(ident, "CarvedOutBottomCurvePlane1Shape", tubevase3ddiagram.CarvedOutBottomCurvePlane1Shape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "CarvedOutBottomCurvePlane1Shape", "nil")
+		}
 	case "VaseTrapezeRingShape":
 		if tubevase3ddiagram.VaseTrapezeRingShape != nil {
 			res = __gong__marshallPointer(ident, "VaseTrapezeRingShape", tubevase3ddiagram.VaseTrapezeRingShape.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "VaseTrapezeRingShape", "nil")
+		}
+	case "CarvedOutVaseTrapezeRingShape":
+		if tubevase3ddiagram.CarvedOutVaseTrapezeRingShape != nil {
+			res = __gong__marshallPointer(ident, "CarvedOutVaseTrapezeRingShape", tubevase3ddiagram.CarvedOutVaseTrapezeRingShape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "CarvedOutVaseTrapezeRingShape", "nil")
 		}
 	case "StackOfVaseTrapezeRingsShape":
 		if tubevase3ddiagram.StackOfVaseTrapezeRingsShape != nil {
@@ -3811,11 +3909,23 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallField(stage *Stage, fiel
 		} else {
 			res = __gong__marshallPointer(ident, "StackOfVaseTrapezeRingsShape", "nil")
 		}
+	case "StackOfCarvedOutVaseTrapezeRingsShape":
+		if tubevase3ddiagram.StackOfCarvedOutVaseTrapezeRingsShape != nil {
+			res = __gong__marshallPointer(ident, "StackOfCarvedOutVaseTrapezeRingsShape", tubevase3ddiagram.StackOfCarvedOutVaseTrapezeRingsShape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "StackOfCarvedOutVaseTrapezeRingsShape", "nil")
+		}
 	case "StackOfRotatedVaseTrapezeRingsShape":
 		if tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape != nil {
 			res = __gong__marshallPointer(ident, "StackOfRotatedVaseTrapezeRingsShape", tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "StackOfRotatedVaseTrapezeRingsShape", "nil")
+		}
+	case "StackOfRotatedCarvedOutVaseTrapezeRingsShape":
+		if tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape != nil {
+			res = __gong__marshallPointer(ident, "StackOfRotatedCarvedOutVaseTrapezeRingsShape", tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "StackOfRotatedCarvedOutVaseTrapezeRingsShape", "nil")
 		}
 	case "VaseTrapezeBasePlateShape":
 		if tubevase3ddiagram.VaseTrapezeBasePlateShape != nil {
@@ -3847,6 +3957,8 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallField(stage *Stage, fieldN
 		res = __gong__marshallFloat(ident, "ProjectionAngle", tubevaseabstract.ProjectionAngle)
 	case "BasePlateHeight":
 		res = __gong__marshallFloat(ident, "BasePlateHeight", tubevaseabstract.BasePlateHeight)
+	case "CarvedOutTopRingsParameter":
+		res = __gong__marshallFloat(ident, "CarvedOutTopRingsParameter", tubevaseabstract.CarvedOutTopRingsParameter)
 	case "RelativeVerticalThickness":
 		res = __gong__marshallFloat(ident, "RelativeVerticalThickness", tubevaseabstract.RelativeVerticalThickness)
 	case "RelativeRadialThickness":
@@ -4128,6 +4240,39 @@ func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongMarshallAllFields(stag
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(bottomcurveplane2shape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (carvedoutbottomcurveplane1shape *CarvedOutBottomCurvePlane1Shape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(carvedoutbottomcurveplane1shape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (carvedouttopcurveplane1shape *CarvedOutTopCurvePlane1Shape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(carvedouttopcurveplane1shape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (carvedoutvasetrapezeringshape *CarvedOutVaseTrapezeRingShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(carvedoutvasetrapezeringshape.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -5609,6 +5754,17 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stackofcarvedoutvasetrapezeringsshape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -5648,6 +5804,17 @@ func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) Gong
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stackofpartiallyrotatedtorusshape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (stackofrotatedcarvedoutvasetrapezeringsshape *StackOfRotatedCarvedOutVaseTrapezeRingsShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stackofrotatedcarvedoutvasetrapezeringsshape.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -6272,9 +6439,14 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallAllFields(stage *Stage) 
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane1Shape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTopCurvePlane2Shape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane2Shape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenCarvedOutTopCurvePlane1Shape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenCarvedOutBottomCurvePlane1Shape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenVaseTrapezeRingShape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenCarvedOutVaseTrapezeRingShape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenStackOfVaseTrapezeRingsShape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenStackOfCarvedOutVaseTrapezeRingsShape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenStackOfRotatedVaseTrapezeRingsShape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenVaseTrapezeBasePlateShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "SampledPoints3DShape"))
@@ -6284,9 +6456,14 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallAllFields(stage *Stage) 
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane1Shape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "TopCurvePlane2Shape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane2Shape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "CarvedOutTopCurvePlane1Shape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "CarvedOutBottomCurvePlane1Shape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "VaseTrapezeRingShape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "CarvedOutVaseTrapezeRingShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "StackOfVaseTrapezeRingsShape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "StackOfCarvedOutVaseTrapezeRingsShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "StackOfRotatedVaseTrapezeRingsShape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "StackOfRotatedCarvedOutVaseTrapezeRingsShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "VaseTrapezeBasePlateShape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "ComputedPrefix"))
@@ -6308,6 +6485,7 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "BottomPlaneHeight"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "ProjectionAngle"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "BasePlateHeight"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "CarvedOutTopRingsParameter"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))

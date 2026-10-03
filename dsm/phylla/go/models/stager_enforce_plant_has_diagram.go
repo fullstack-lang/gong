@@ -84,18 +84,28 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 				vase3DDiagram.IsHiddenBottomCurvePlane1Shape = false
 				vase3DDiagram.IsHiddenTopCurvePlane2Shape = false
 				vase3DDiagram.IsHiddenBottomCurvePlane2Shape = false
+				vase3DDiagram.IsHiddenCarvedOutTopCurvePlane1Shape = false
+				vase3DDiagram.IsHiddenCarvedOutBottomCurvePlane1Shape = false
 				vase3DDiagram.IsHiddenVaseTrapezeRingShape = false
+				vase3DDiagram.IsHiddenCarvedOutVaseTrapezeRingShape = false
 				vase3DDiagram.IsHiddenStackOfVaseTrapezeRingsShape = false
+				vase3DDiagram.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape = false
 				vase3DDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape = false
+				vase3DDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
 				vase3DDiagram.IsHiddenVaseTrapezeBasePlateShape = false
 			} else {
 				vase3DDiagram.IsHiddenTopCurvePlane1Shape = true
 				vase3DDiagram.IsHiddenBottomCurvePlane1Shape = true
 				vase3DDiagram.IsHiddenTopCurvePlane2Shape = true
 				vase3DDiagram.IsHiddenBottomCurvePlane2Shape = true
+				vase3DDiagram.IsHiddenCarvedOutTopCurvePlane1Shape = true
+				vase3DDiagram.IsHiddenCarvedOutBottomCurvePlane1Shape = true
 				vase3DDiagram.IsHiddenVaseTrapezeRingShape = true
+				vase3DDiagram.IsHiddenCarvedOutVaseTrapezeRingShape = true
 				vase3DDiagram.IsHiddenStackOfVaseTrapezeRingsShape = true
+				vase3DDiagram.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape = true
 				vase3DDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape = true
+				vase3DDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = true
 				vase3DDiagram.IsHiddenVaseTrapezeBasePlateShape = true
 			}
 			plant.TubeVase3DDiagrams = append(plant.TubeVase3DDiagrams, vase3DDiagram)

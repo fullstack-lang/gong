@@ -82,6 +82,27 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.CarvedOutBottomCurvePlane1Shapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "CarvedOutBottomCurvePlane1Shape", instances, (*CarvedOutBottomCurvePlane1Shape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CarvedOutTopCurvePlane1Shapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "CarvedOutTopCurvePlane1Shape", instances, (*CarvedOutTopCurvePlane1Shape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CarvedOutVaseTrapezeRingShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "CarvedOutVaseTrapezeRingShape", instances, (*CarvedOutVaseTrapezeRingShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.ChosenP1P2PairShapes {
 				instances = append(instances, instance)
 			}
@@ -740,6 +761,13 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.StackOfCarvedOutVaseTrapezeRingsShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackOfCarvedOutVaseTrapezeRingsShape", instances, (*StackOfCarvedOutVaseTrapezeRingsShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.StackOfGrowthCurve2Ds {
 				instances = append(instances, instance)
 			}
@@ -765,6 +793,13 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "StackOfPartiallyRotatedTorusShape", instances, (*StackOfPartiallyRotatedTorusShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackOfRotatedCarvedOutVaseTrapezeRingsShape", instances, (*StackOfRotatedCarvedOutVaseTrapezeRingsShape)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF

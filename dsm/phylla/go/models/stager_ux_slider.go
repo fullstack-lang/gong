@@ -266,6 +266,14 @@ func (stager *Stager) ux_slider() {
 						1.0,
 						&plant.TubeVaseAbstract.BasePlateHeight,
 					),
+					m.NewSlider(
+						stager,
+						"Carved Out Top Rings Parameter",
+						0.0,
+						1.0,
+						0.01,
+						&plant.TubeVaseAbstract.CarvedOutTopRingsParameter,
+					),
 				)
 			}
 
