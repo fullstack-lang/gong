@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"sort"
@@ -11,35 +10,16 @@ import (
 
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
+	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
 
 	"github.com/fullstack-lang/gong/lib/load/go/models"
 )
 
 // EncodeIntSliceToString encodes a slice of integers into a JSON string.
-// It returns the JSON string and an error if marshalling fails.
-func EncodeIntSliceToString(data []uint) (string, error) {
-	jsonData, err := json.Marshal(data)
-	if err != nil {
-		return "", fmt.Errorf("failed to marshal uint slice to JSON: %w", err)
-	}
-	return string(jsonData), nil
-}
+var EncodeIntSliceToString = gongprobe.EncodeIntSliceToString
 
 // DecodeStringToIntSlice decodes a JSON string into a slice of integers.
-// It returns the slice of integers and an error if unmarshalling fails
-// or if the string is not a valid JSON representation of an int slice.
-func DecodeStringToIntSlice(str string) ([]uint, error) {
-	var decodedData []uint
-	err := json.Unmarshal([]byte(str), &decodedData)
-	if err != nil {
-		return nil, fmt.Errorf("failed to unmarshal JSON string to uint slice: %w", err)
-	}
-	// Note: json.Unmarshal will also return an error if the JSON structure
-	// doesn't match []int (e.g., if it's a JSON object or an array of strings).
-	// So, an explicit type check like in the TypeScript example is less critical here
-	// as Unmarshal handles type mismatches by returning an error.
-	return decodedData, nil
-}
+var DecodeStringToIntSlice = gongprobe.DecodeStringToIntSlice
 
 func GetMap_ID_RowID[FieldType models.PointerToGongstruct](stageOfInterest *models.Stage) (map_ID_rowID map[uint]int) {
 	map_ID_rowID = make(map[uint]int)

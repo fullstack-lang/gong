@@ -23,6 +23,7 @@ import (
 	"time"
 
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
 
 	"{{PkgPathRoot}}/models"
 )
@@ -34,12 +35,8 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 
 var _ = log.Panicf
 
-type FormCallbackIF interface {
-	GetCreationMode() bool
-	GetInstance() any
-	GetGongstructName() string
-	OnSave()
-}
+type FormCallbackIF = gongprobe.FormCallbackIF
+
 
 type FormCallback[T models.PointerToGongstruct] struct {
 	Instance     T

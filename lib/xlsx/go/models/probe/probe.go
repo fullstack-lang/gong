@@ -3,13 +3,9 @@ package probe
 
 import (
 	"embed"
-	"encoding/base64"
-	"fmt"
-	"regexp"
-	"strings"
 	"time"
 
-	"go/parser"
+	"go/ast"
 	"go/token"
 	"net/http"
 
@@ -21,6 +17,7 @@ import (
 	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
+	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
 
 	doc "github.com/fullstack-lang/gong/lib/doc/go/models"
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
@@ -106,8 +103,6 @@ func (probe *Probe) GetProbeLoadStageName() string {
 	return probe.stageOfInterest.GetProbeLoadStageName()
 }
 
-
-
 func NewProbe(
 	r *http.ServeMux,
 	goModelsDir embed.FS,
@@ -178,83 +173,14 @@ func NewProbe(
 		stageOfInterest.Map_GongStructName_InstancesNb,
 	)
 
-	probe.dataEditor = &split.AsSplit{
-		Name:          "Top, sidebar, table & form",
-		Direction:     split.Horizontal,
-		IsSizeInPixel: true,
-		AsSplitAreas: []*split.AsSplitArea{
-			{
-				Name: "sidebar",
-				Size: 525,
-				AsSplit: &split.AsSplit{
-					Direction:              split.Vertical,
-					IsSizeInPixel:          true,
-					IsWithCustomGutterSize: true,
-					GutterSize:             1,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Name: "sidebar tree",
-							Size: 53, // to align on the top of the table
-							Tree: &split.Tree{
-								Name:      "Sidebar",
-								StackName: probe.treeNavigationStage.GetName(),
-							},
-						},
-						{
-							Name:  "sidebar tree",
-							IsAny: true,
-							Tree: &split.Tree{
-								Name:      "Sidebar",
-								StackName: probe.treeStage.GetName(),
-							},
-						},
-						{
-							Name: "load",
-							Size: 70,
-							Load: &split.Load{
-								Name:      "Table",
-								StackName: probe.loadStage.GetName(),
-							},
-						},
-					},
-				},
-			},
-
-			{
-				Name:  "both tables",
-				IsAny: true,
-				AsSplit: &split.AsSplit{
-					Direction: split.Vertical,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Name: "table",
-							Size: 50,
-							Table: &split.Table{
-								Name:      "Table",
-								StackName: probe.tableStage.GetName(),
-							},
-						},
-						{
-							Name: "notification table",
-							Size: 50,
-							Table: &split.Table{
-								Name:      "Table",
-								StackName: probe.notificationTableStage.GetName(),
-							},
-						},
-					},
-				},
-			},
-			{
-				Name: "form",
-				Size: 525,
-				Form: &split.Form{
-					Name:      "Form",
-					StackName: probe.formStage.GetName(),
-				},
-			},
-		},
-	}
+	probe.dataEditor = gongprobe.CreateDataEditorLayout(
+		probe.treeNavigationStage.GetName(),
+		probe.treeStage.GetName(),
+		probe.loadStage.GetName(),
+		probe.tableStage.GetName(),
+		probe.notificationTableStage.GetName(),
+		probe.formStage.GetName(),
+	)
 
 	probe.splitStage.StageBranch(&split.View{
 		Name: "Main view",
@@ -281,58 +207,21 @@ type loadProxy struct {
 }
 
 func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
-	fmt.Println("OnFileUpload: start")
-	proxy.probe.fileName = uploadedFile.GetName()
-
-	decodedBytes, err := base64.StdEncoding.DecodeString(uploadedFile.Base64EncodedContent)
+	fileName, err := gongprobe.ParseUploadedStage(uploadedFile, func(inFile *ast.File, fset *token.FileSet) error {
+		proxy.probe.stageOfInterest.OnInitCommitCallback = nil
+		proxy.probe.stageOfInterest.Reset()
+		return proxy.probe.stageOfInterest.ParseAstFileFromAst(inFile, fset, false)
+	})
 	if err != nil {
-		return fmt.Errorf("base64.StdEncoding.DecodeString failed: %w", err)
+		return err
 	}
-
-	// if the user loads a second file, we don't want the previous file to be committed
-	proxy.probe.stageOfInterest.OnInitCommitCallback = nil
-
-	proxy.probe.stageOfInterest.Reset()
-	fmt.Println("OnFileUpload: after reset")
-
-	fset := token.NewFileSet()
-	inFile, errParser := parser.ParseFile(fset, "", decodedBytes, parser.ParseComments)
-	if errParser != nil {
-		return fmt.Errorf("Unable to parse: %w", errParser)
-	}
-	errParse := proxy.probe.stageOfInterest.ParseAstFileFromAst(inFile, fset, false)
-	if errParse != nil {
-		return errParse
-	}
-
-	fmt.Println("OnFileUpload: after parse")
+	proxy.probe.fileName = fileName
 	proxy.probe.stageOfInterest.Commit()
-	fmt.Println("OnFileUpload: after commit")
-
 	return nil
 }
 
 func (probe *Probe) initLoadStage() {
-	probe.loadStage.Reset()
-
-	fileToUpload := &load.FileToUpload{
-		Name: "Name of file",
-		FileToUploadProxy: &loadProxy{
-			probe: probe,
-		},
-	}
-
-	probe.loadStage.StageBranch(
-		fileToUpload,
-	)
-
-	message := &load.Message{
-		Name: "Drop your stage.go file here or ",
-	}
-
-	message.Stage(probe.loadStage)
-
-	probe.loadStage.Commit()
+	gongprobe.InitLoadStage(probe.loadStage, &loadProxy{probe: probe})
 }
 
 func (probe *Probe) Refresh() {
@@ -342,18 +231,12 @@ func (probe *Probe) Refresh() {
 	probe.docStager.Svg()
 }
 
-const NbNotificationMax = 100
+type Notification = gongprobe.Notification
+
+const NbNotificationMax = gongprobe.NbNotificationMax
 
 func (probe *Probe) AddNotification(date time.Time, message string) {
-	notification := Notification{
-		Date:    date,
-		Message: message,
-	}
-	probe.notification = append(probe.notification, &notification)
-
-	if len(probe.notification) > NbNotificationMax {
-		probe.notification = probe.notification[1:] // Drop the first element (index 0)
-	}
+	gongprobe.AddNotification(&probe.notification, date, message)
 }
 
 func (probe *Probe) CommitNotificationTable() {
@@ -385,90 +268,36 @@ func (probe *Probe) FillUpFormFromGongstruct(instance any, formName string) {
 	FillUpFormFromGongstruct(instance, probe)
 }
 
-type Notification struct {
-	Date    time.Time
-	Message string
-}
-
 func (probe *Probe) DownloadNotificationsCSV() {
-	var csvContent string
-	csvContent += "Date,Message\n"
-	for _, notification := range probe.notification {
-		// Escape quotes in message
-		escapedMessage := strings.ReplaceAll(notification.Message, "\"", "\"\"")
-		csvContent += fmt.Sprintf("\"%s\",\"%s\"\n", notification.Date.Format(time.StampMicro), escapedMessage)
-	}
-
-	probe.loadStage.Reset()
-
-	fileToDownload := new(load.FileToDownload)
-	fileToDownload.Name = "notifications.csv"
-	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(csvContent))
-
-	probe.loadStage.StageBranch(fileToDownload)
-	probe.loadStage.Commit()
-
-	time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.
-	probe.initLoadStage()
+	gongprobe.DownloadNotificationsCSV(probe.notification, probe.loadStage, probe.initLoadStage)
 }
 
 func (probe *Probe) ExportStageExcel() {
-	probe.loadStage.Reset()
-
-	fileToDownload := new(load.FileToDownload)
-
-	if probe.fileName == "" {
-		probe.fileName = "xlsx-" + probe.stageOfInterest.GetName() + ".go"
-	}
-
-	prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
-	cleanFileName := prefixRegex.ReplaceAllString(probe.fileName, "")
-	cleanFileName = strings.TrimSuffix(cleanFileName, ".go") + ".xlsx"
-
-	fileToDownload.Name = time.Now().Format("20060102 1504 ") + cleanFileName
-
 	excelBytes, err := probe.stageOfInterest.SerializeStageAsBytes(false)
-	if err != nil {
-		probe.AddNotification(time.Now(), "Error serializing stage: "+err.Error())
-		probe.CommitNotificationTable()
-		return
-	}
-
-	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString(excelBytes)
-
-	probe.loadStage.StageBranch(fileToDownload)
-	probe.loadStage.Commit()
-
-	time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.
-	probe.initLoadStage()
+	gongprobe.ExportStageExcel(
+		excelBytes,
+		err,
+		probe.fileName,
+		"xlsx",
+		probe.stageOfInterest.GetName(),
+		probe.loadStage,
+		probe.initLoadStage,
+		probe.AddNotification,
+		probe.CommitNotificationTable,
+	)
 }
 
 func (probe *Probe) ExportStage() {
-	probe.loadStage.Reset()
-
-	fileToDownload := new(load.FileToDownload)
-
-	if probe.fileName == "" {
-		probe.fileName = "xlsx-" + probe.stageOfInterest.GetName() + ".go"
-	}
-
-	prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
-	cleanFileName := prefixRegex.ReplaceAllString(probe.fileName, "")
-
-	fileToDownload.Name = time.Now().Format("20060102 1504 ") + cleanFileName
-
 	stageString, err := probe.stageOfInterest.MarshallToString(probe.stageOfInterest.MetaPackageImportPath, "main")
-	if err != nil {
-		probe.AddNotification(time.Now(), "Error serializing stage: "+err.Error())
-		probe.CommitNotificationTable()
-		return
-	}
-
-	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stageString))
-
-	probe.loadStage.StageBranch(fileToDownload)
-	probe.loadStage.Commit()
-
-	time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.
-	probe.initLoadStage()
+	gongprobe.ExportStage(
+		stageString,
+		err,
+		probe.fileName,
+		"xlsx",
+		probe.stageOfInterest.GetName(),
+		probe.loadStage,
+		probe.initLoadStage,
+		probe.AddNotification,
+		probe.CommitNotificationTable,
+	)
 }
