@@ -31,7 +31,7 @@ func main() {
 	stack.Probe.Refresh()
 	stack.Stage.Commit()
 
-	splitlite_models.NewStager(nil, stack.Stage, stack.Probe)
+	// splitlite_models.NewStager(nil, stack.Stage, stack.Probe)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
 	wasmregistry.SetupWasmHooks(nil)

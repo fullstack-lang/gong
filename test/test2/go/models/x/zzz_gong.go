@@ -10,8 +10,9 @@ import (
 	"slices"
 	"sort"
 	"strings"
-	"sync"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 // can be used for
@@ -29,24 +30,31 @@ var (
 	_ = strings.Clone("")
 )
 
-const (
-	GongProbeTreeSidebarSuffix           = ":sidebar of the probe"
-	GongProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
-	GongProbeTableSuffix                 = ":table of the probe"
-	GongProbeNotificationTableSuffix     = ":notification table of the probe"
-	GongProbeFormSuffix                  = ":form of the probe"
-	GongProbeSplitSuffix                 = ":probe of the probe"
-	GongProbeLoadSuffix                  = ":load of the probe"
-)
-
-type GongMarshallingMode string
+type GongMarshallingMode = gong_runtime.GongMarshallingMode
 
 const (
 	// the whole stage is generated at each marshall. This is the default
-	GongMarshallingNormal GongMarshallingMode = "GongMarshallingNormal"
+	GongMarshallingNormal = gong_runtime.GongMarshallingNormal
 
 	// only the last commit is append to the marshall file
-	GongMarshallingAppendCommit GongMarshallingMode = "GongMarshallingAppendCommit"
+	GongMarshallingAppendCommit = gong_runtime.GongMarshallingAppendCommit
+)
+
+type gongStageNavigationMode = gong_runtime.StageNavigationMode
+
+const (
+	GongNavigationModeNormal     = gong_runtime.GongNavigationModeNormal
+	GongNavigationModeNavigating = gong_runtime.GongNavigationModeNavigating
+)
+
+const (
+	GongProbeTreeSidebarSuffix           = gong_runtime.GongProbeTreeSidebarSuffix
+	GongProbeNavigationTreeSidebarSuffix = gong_runtime.GongProbeNavigationTreeSidebarSuffix
+	GongProbeTableSuffix                 = gong_runtime.GongProbeTableSuffix
+	GongProbeNotificationTableSuffix     = gong_runtime.GongProbeNotificationTableSuffix
+	GongProbeFormSuffix                  = gong_runtime.GongProbeFormSuffix
+	GongProbeSplitSuffix                 = gong_runtime.GongProbeSplitSuffix
+	GongProbeLoadSuffix                  = gong_runtime.GongProbeLoadSuffix
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
@@ -106,17 +114,7 @@ type MetaPackageImport struct {
 
 // Stage enables storage of staged instances
 type Stage struct {
-	name string
-
-	// isInDeltaMode is true when the stage is used to compute difference between
-	// succesive commit
-	isInDeltaMode bool
-
-	// gongMarshallingMode set the marshalling mode
-	gongMarshallingMode GongMarshallingMode
-	// some stages have semantic rules that forbids them to be empty
-	// like for git, the commit #0 (genesis commit) cannot be rolled back
-	isWithGenesisCommit bool
+	gong_runtime.StageCore
 
 	// insertion point for definition of arrays registering instances
 	Xs                map[*X]struct{}
@@ -139,10 +137,6 @@ type Stage struct {
 	OnInitCommitCallback          GongOnInitCommitInterface
 	OnInitCommitFromFrontCallback GongOnInitCommitInterface
 	OnInitCommitFromBackCallback  GongOnInitCommitInterface
-
-	// Private slices to hold the registered hooks
-	beforeCommitHooks []func(stage *Stage)
-	afterCommitHooks  []func(stage *Stage)
 
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
@@ -168,173 +162,35 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF GongProbeIF
-
-	forwardCommits  []string
-	backwardCommits []string
-
-	// when navigating the commit history
-	// navigationMode is set to Navigating
-	navigationMode gongStageNavigationMode
-	commitsBehind  int // the number of commits the stage is behind the front of the history
-
-	isApplyingBackwardCommit bool
-	isApplyingForwardCommit  bool
-	isSquashing              bool
-
-	modified bool
-
-	lock sync.RWMutex
 }
 
 type GongStage = Stage
 
-func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
-	s.gongMarshallingMode = mode
-}
-
-func (s *Stage) GetGongMarshallingMode() GongMarshallingMode {
-	return s.gongMarshallingMode
-}
-
-func (s *Stage) SetIsWithGenesisCommit(isWithGenesisCommit bool) {
-	s.isWithGenesisCommit = isWithGenesisCommit
-}
-
-func (s *Stage) GetIsWithGenesisCommit() bool {
-	return s.isWithGenesisCommit
-}
-
 // RegisterBeforeCommit adds a hook that runs before the commit happens
 func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
-	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+	s.StageCore.RegisterBeforeCommitHook(func() { hook(s) })
 }
 
 // RegisterAfterCommit adds a hook that runs after the commit succeeds
 func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
-	s.afterCommitHooks = append(s.afterCommitHooks, hook)
+	s.StageCore.RegisterAfterCommitHook(func() { hook(s) })
 }
-
-type gongStageNavigationMode string
-
-const (
-	GongNavigationModeNormal gongStageNavigationMode = "Normal"
-	// when the mode is navigating, each commit backward and forward
-	// it is possible to go apply the nbCommitsBackward forward commits
-	GongNavigationModeNavigating gongStageNavigationMode = "Navigating"
-)
 
 // ApplyBackwardCommit applies the commit before the current one
 func (stage *Stage) ApplyBackwardCommit() error {
-	if len(stage.backwardCommits) == 0 {
-		return errors.New("no backward commit to apply")
-	}
-
-	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
-		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
-	}
-
-	if stage.navigationMode == GongNavigationModeNormal {
-		stage.navigationMode = GongNavigationModeNavigating
-	}
-
-	if stage.isWithGenesisCommit && stage.commitsBehind >= len(stage.backwardCommits)-1 {
-		return errors.New("cannot rollback genesis commit")
-	}
-
-	if stage.commitsBehind >= len(stage.backwardCommits) {
-		return errors.New("no more backward commit to apply")
-	}
-
-	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.commitsBehind]
-
-	// umarshall the backward commit to the stage
-
-	// the parsing of the commit will call the UX update
-	// therefore, it is important to stage.commitsBehind before because it is used in the
-	// UX
-	stage.commitsBehind++
-	stage.isApplyingBackwardCommit = true
-	err := stage.ParseAstString(commitToApply, true)
-	stage.isApplyingBackwardCommit = false
-	if err != nil {
-		log.Println("error during ApplyBackwardCommit: ", err)
-		return err
-	}
-
-	stage.ComputeReferenceAndOrders()
-
-	return nil
+	return stage.StageCore.ApplyBackwardCommit(stage.ParseAstString, stage.ComputeReferenceAndOrders)
 }
 
-func (stage *Stage) GetForwardCommits() []string {
-	return stage.forwardCommits
-}
-
-func (stage *Stage) GetBackwardCommits() []string {
-	return stage.backwardCommits
-}
-
+// ApplyForwardCommit applies the commit after the current one
 func (stage *Stage) ApplyForwardCommit() error {
-	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
-		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
-	}
-
-	if stage.commitsBehind == 0 {
-		return errors.New("no more forward commit to apply")
-	}
-
-	if stage.navigationMode == GongNavigationModeNormal {
-		stage.navigationMode = GongNavigationModeNavigating
-	}
-
-	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.commitsBehind+1]
-
-	// the parsing of the commit will call the UX update
-	// therefore, it is important to stage.commitsBehind before because it is used in the
-	// UX
-	stage.commitsBehind--
-	stage.isApplyingForwardCommit = true
-	err := stage.ParseAstString(commitToApply, true)
-	stage.isApplyingForwardCommit = false
-	if err != nil {
-		log.Println("error during ApplyForwardCommit: ", err)
-		return err
-	}
-	stage.ComputeReferenceAndOrders()
-
-	return nil
-}
-
-func (stage *Stage) GetCommitsBehind() int {
-	return stage.commitsBehind
-}
-
-func (stage *Stage) Lock() {
-	stage.lock.Lock()
-}
-
-func (stage *Stage) Unlock() {
-	stage.lock.Unlock()
-}
-
-func (stage *Stage) RLock() {
-	stage.lock.RLock()
-}
-
-func (stage *Stage) RUnlock() {
-	stage.lock.RUnlock()
+	return stage.StageCore.ApplyForwardCommit(stage.ParseAstString, stage.ComputeReferenceAndOrders)
 }
 
 // ResetHard removes the more recent
 // commitsBehind forward/backward Commits from the
 // stage
 func (stage *Stage) ResetHard() {
-	newCommitsLen := len(stage.forwardCommits) - stage.GetCommitsBehind()
-
-	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
-	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
-	stage.commitsBehind = 0
-	stage.navigationMode = GongNavigationModeNormal
+	stage.StageCore.ResetHardCore()
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -345,25 +201,15 @@ func (stage *Stage) ResetHard() {
 	}
 
 	// 1. Run all Before Commit hooks
-	for _, hook := range stage.beforeCommitHooks {
-		hook(stage)
-	}
+	stage.StageCore.RunBeforeCommitHooks()
 
 	// 2. Run all After Commit hooks
-	for _, hook := range stage.afterCommitHooks {
-		hook(stage)
-	}
+	stage.StageCore.RunAfterCommitHooks()
 }
 
 // Squash removes all commits and marshals the stage as a single commit
 func (stage *Stage) Squash() {
-	stage.forwardCommits = stage.forwardCommits[:0]
-	stage.backwardCommits = stage.backwardCommits[:0]
-	stage.commitsBehind = 0
-	stage.navigationMode = GongNavigationModeNormal
-
-	stage.modified = true
-	stage.isSquashing = true
+	stage.StageCore.SquashCore()
 
 	// insertion point for clear references
 	__gong__clearReferences(&stage.Xs_reference, &stage.Xs_instance, &stage.Xs_referenceOrder)
@@ -377,16 +223,12 @@ func (stage *Stage) Squash() {
 	}
 
 	// 1. Run all Before Commit hooks
-	for _, hook := range stage.beforeCommitHooks {
-		hook(stage)
-	}
+	stage.StageCore.RunBeforeCommitHooks()
+
+	stage.StageCore.EndSquash()
 
 	// 2. Run all After Commit hooks
-	for _, hook := range stage.afterCommitHooks {
-		hook(stage)
-	}
-
-	stage.isSquashing = false
+	stage.StageCore.RunAfterCommitHooks()
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -398,14 +240,6 @@ func (stage *Stage) recomputeOrders() {
 	stage.XOrder = __gong__recomputeOrder(stage.X_stagedOrder)
 
 	// end of insertion point for max order recomputation
-}
-
-func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
-	stage.isInDeltaMode = inDeltaMode
-}
-
-func (stage *Stage) IsInDeltaMode() bool {
-	return stage.isInDeltaMode
 }
 
 func (stage *Stage) SetProbeIF(probeIF GongProbeIF) {
@@ -609,8 +443,6 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
 
-		name: name,
-
 		// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
 		// the to be removed stops here
@@ -626,9 +458,9 @@ func NewStage(name string) (stage *Stage) {
 
 			// end of insertion point
 		},
-
-		navigationMode: GongNavigationModeNormal,
 	}
+	stage.StageCore.SetName(name)
+	stage.StageCore.SetNavigationMode(GongNavigationModeNormal)
 
 	return
 }
@@ -653,21 +485,17 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 	}
 }
 
-func (stage *Stage) GetName() string {
-	return stage.name
-}
-
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
-	tmp2 := stage.beforeCommitHooks
-	stage.beforeCommitHooks = nil
-	tmp3 := stage.afterCommitHooks
-	stage.afterCommitHooks = nil
+	tmp2 := stage.StageCore.GetBeforeCommitHooks()
+	stage.StageCore.ClearBeforeCommitHooks()
+	tmp3 := stage.StageCore.GetAfterCommitHooks()
+	stage.StageCore.ClearAfterCommitHooks()
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
-	stage.beforeCommitHooks = tmp2
-	stage.afterCommitHooks = tmp3
+	stage.StageCore.SetBeforeCommitHooks(tmp2)
+	stage.StageCore.SetAfterCommitHooks(tmp3)
 }
 
 func (stage *Stage) Commit() {
@@ -681,9 +509,7 @@ func (stage *Stage) Commit() {
 	}
 
 	// 1. Run all Before Commit hooks
-	for _, hook := range stage.beforeCommitHooks {
-		hook(stage)
-	}
+	stage.StageCore.RunBeforeCommitHooks()
 
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
@@ -693,7 +519,7 @@ func (stage *Stage) Commit() {
 	// if a commit is applied when in navigation mode
 	// this will reset the commits behind and swith the
 	// naviagation
-	if stage.isInDeltaMode && stage.navigationMode == GongNavigationModeNavigating && stage.GetCommitsBehind() > 0 {
+	if stage.IsInDeltaMode() && stage.GetNavigationMode() == GongNavigationModeNavigating && stage.GetCommitsBehind() > 0 {
 		stage.ResetHard()
 	}
 
@@ -706,9 +532,7 @@ func (stage *Stage) Commit() {
 	}
 
 	// 2. Run all After Commit hooks
-	for _, hook := range stage.afterCommitHooks {
-		hook(stage)
-	}
+	stage.StageCore.RunAfterCommitHooks()
 }
 
 func (stage *Stage) ComputeInstancesNb() {

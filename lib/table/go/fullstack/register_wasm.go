@@ -7,29 +7,25 @@ package fullstack
 import (
 	"context"
 	"encoding/json"
-	"syscall/js"
 
-	"github.com/fullstack-lang/gong/lib/wasmregistry"
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 	"github.com/fullstack-lang/gong/lib/table/go/orm"
 )
 
 // This function ONLY exists in WASM builds
 func registerWasmSocket(stackPath string, backRepo *orm.BackRepoStruct) {
-
-	// fmt.Println("github.com/fullstack-lang/gong/lib/table/go", "registerWasmSocket", stackPath)
-
-	wasmregistry.Register("github.com/fullstack-lang/gong/lib/table/go", stackPath, func(callback js.Value) {
-		pushState := func() {
+	gong_runtime.RegisterWasmSocket(
+		"github.com/fullstack-lang/gong/lib/table/go",
+		stackPath,
+		func() ([]byte, error) {
 			data := new(orm.BackRepoData)
 			orm.CopyBackRepoToBackRepoData(backRepo, data)
-			b, _ := json.Marshal(data)
-			callback.Invoke(string(b))
-		}	
-		pushState()
-		for range backRepo.SubscribeToCommitNb(context.Background()) {
-			pushState()
-		}
-	})
+			return json.Marshal(data)
+		},
+		func(ctx context.Context) <-chan int {
+			return backRepo.SubscribeToCommitNb(ctx)
+		},
+	)
 }
 
 //

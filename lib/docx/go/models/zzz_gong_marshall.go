@@ -217,7 +217,7 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 
 		content := string(contentBytes)
 
-		if stage.isSquashing {
+		if stage.IsSquashing() {
 			// we squash: we want to clear the current function body
 			// and let the append logic write the squashed commit
 			const fnSig = "func _(stage *models.Stage) {"
@@ -226,18 +226,19 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 			}
 		}
 
-		if stage.isApplyingBackwardCommit {
+		if stage.IsApplyingBackwardCommit() {
 			// we are going backward, we need to remove the last forward commit from the file
 
 			// because commitsBehind has been incremented before the call to this function
 			// the index of the commit to remove is len(forwardCommits) - commitsBehind
-			commitIndexToRemove := len(stage.forwardCommits) - stage.GetCommitsBehind()
+			forwardCommits := stage.GetForwardCommits()
+			commitIndexToRemove := len(forwardCommits) - stage.GetCommitsBehind()
 
-			if commitIndexToRemove < 0 || commitIndexToRemove >= len(stage.forwardCommits) {
+			if commitIndexToRemove < 0 || commitIndexToRemove >= len(forwardCommits) {
 				return // Should not happen if history is consistent
 			}
 
-			commitToRemove := stage.forwardCommits[commitIndexToRemove]
+			commitToRemove := forwardCommits[commitIndexToRemove]
 
 			lastIndex := strings.LastIndex(content, commitToRemove+"\n")
 			if lastIndex != -1 {
@@ -269,9 +270,9 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 			return // we are done for the backward case
 		}
 
-		if stage.isApplyingForwardCommit {
+		if stage.IsApplyingForwardCommit() {
 			// bypass the modified check
-		} else if !stage.modified {
+		} else if !stage.IsModified() {
 			return
 		}
 
@@ -301,7 +302,7 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 
 		contentBeforeBrace := content[:lastBrace]
 		trimmedContentBeforeBrace := strings.TrimSpace(contentBeforeBrace)
-		emptyBody := stage.isSquashing ||
+		emptyBody := stage.IsSquashing() ||
 			strings.HasSuffix(trimmedContentBeforeBrace, "func _(stage *models.Stage) {") ||
 			strings.HasSuffix(trimmedContentBeforeBrace, "// insertion point for setup of pointers")
 

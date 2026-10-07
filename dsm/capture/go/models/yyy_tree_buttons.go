@@ -724,11 +724,11 @@ func createBaseNode[
 		OnClick: func() {
 			// Suspend callbacks to avoid multiple commits to the UI
 			tmp1 := stager.stage.OnInitCommitFromBackCallback
-			tmp2 := stager.stage.beforeCommitHooks
-			tmp3 := stager.stage.afterCommitHooks
+			tmp2 := stager.stage.GetBeforeCommitHooks()
+			tmp3 := stager.stage.GetAfterCommitHooks()
 			stager.stage.OnInitCommitFromBackCallback = nil
-			stager.stage.beforeCommitHooks = nil
-			stager.stage.afterCommitHooks = nil
+			stager.stage.ClearBeforeCommitHooks()
+			stager.stage.ClearAfterCommitHooks()
 
 			var toggleNodeAndChildren func(n *tree.Node, isChecked bool)
 			toggleNodeAndChildren = func(n *tree.Node, isChecked bool) {
@@ -747,8 +747,8 @@ func createBaseNode[
 
 			// Restore callbacks and perform final commit
 			stager.stage.OnInitCommitFromBackCallback = tmp1
-			stager.stage.beforeCommitHooks = tmp2
-			stager.stage.afterCommitHooks = tmp3
+			stager.stage.SetBeforeCommitHooks(tmp2)
+			stager.stage.SetAfterCommitHooks(tmp3)
 			stager.stage.Commit()
 		},
 	}
@@ -762,11 +762,11 @@ func createBaseNode[
 		OnClick: func() {
 			// Suspend callbacks to avoid multiple commits to the UI
 			tmp1 := stager.stage.OnInitCommitFromBackCallback
-			tmp2 := stager.stage.beforeCommitHooks
-			tmp3 := stager.stage.afterCommitHooks
+			tmp2 := stager.stage.GetBeforeCommitHooks()
+			tmp3 := stager.stage.GetAfterCommitHooks()
 			stager.stage.OnInitCommitFromBackCallback = nil
-			stager.stage.beforeCommitHooks = nil
-			stager.stage.afterCommitHooks = nil
+			stager.stage.ClearBeforeCommitHooks()
+			stager.stage.ClearAfterCommitHooks()
 
 			var toggleNodeAndChildren func(n *tree.Node, isChecked bool)
 			toggleNodeAndChildren = func(n *tree.Node, isChecked bool) {
@@ -785,8 +785,8 @@ func createBaseNode[
 
 			// Restore callbacks and perform final commit
 			stager.stage.OnInitCommitFromBackCallback = tmp1
-			stager.stage.beforeCommitHooks = tmp2
-			stager.stage.afterCommitHooks = tmp3
+			stager.stage.SetBeforeCommitHooks(tmp2)
+			stager.stage.SetAfterCommitHooks(tmp3)
 			stager.stage.Commit()
 		},
 	}

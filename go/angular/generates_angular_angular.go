@@ -159,6 +159,11 @@ func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
+		filepath.Join(modelPkg.NgWorkspacePath, "embed_wasm.go"),
+		golang.GoProjectsGoWasm)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
 		filepath.Join(modelPkg.NgWorkspacePath, "../embed_ng_dist_ng.go"),
 		EmebedNgDistNg)
 

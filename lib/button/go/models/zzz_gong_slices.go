@@ -332,15 +332,15 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 		forwardCommit := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		forwardCommit += "\n\tstage.Commit()"
-		stage.forwardCommits = append(stage.forwardCommits, forwardCommit)
+		stage.AppendForwardCommit(forwardCommit)
 
 		backwardCommit := deletedInstancesReverseStmt + fieldsEditReverseStmt + newInstancesReverseStmt
 		backwardCommit += "\n\tstage.Commit()"
 		// append to the end of the backward commits slice
-		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
-		stage.modified = true
+		stage.AppendBackwardCommit(backwardCommit)
+		stage.SetModified(true)
 	} else {
-		stage.modified = false
+		stage.SetModified(false)
 	}
 }
 

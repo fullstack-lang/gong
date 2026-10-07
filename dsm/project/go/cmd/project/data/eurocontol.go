@@ -409,7 +409,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000002_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000002_.ComputedPrefix = `2`
 	__Diagram__00000002_.IsExpanded = false
-	__Diagram__00000002_.IsChecked = true
+	__Diagram__00000002_.IsChecked = false
 	__Diagram__00000002_.IsEditable_ = true
 	__Diagram__00000002_.IsShowPrefix = false
 	__Diagram__00000002_.IsInAutoLayoutMode = true
@@ -456,7 +456,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000003_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000003_.ComputedPrefix = `3`
 	__Diagram__00000003_.IsExpanded = true
-	__Diagram__00000003_.IsChecked = false
+	__Diagram__00000003_.IsChecked = true
 	__Diagram__00000003_.IsEditable_ = true
 	__Diagram__00000003_.IsShowPrefix = false
 	__Diagram__00000003_.IsInAutoLayoutMode = true

@@ -211,7 +211,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					}
 					if sel.Sel.Name == "Commit" {
 						if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "stage" {
-							if stage.IsInDeltaMode() && stage.navigationMode != GongNavigationModeNavigating {
+							if stage.IsInDeltaMode() && stage.GetNavigationMode() != GongNavigationModeNavigating {
 								stage.Commit()
 							} else {
 								stage.ComputeInstancesNb()
@@ -223,14 +223,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 									stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 								}
 								// 1. Run all Before Commit hooks
-								for _, hook := range stage.beforeCommitHooks {
-									hook(stage)
-								}
+								stage.RunBeforeCommitHooks()
 
 								// 2. Run all After Commit hooks
-								for _, hook := range stage.afterCommitHooks {
-									hook(stage)
-								}
+								stage.RunAfterCommitHooks()
 							}
 						}
 					}
