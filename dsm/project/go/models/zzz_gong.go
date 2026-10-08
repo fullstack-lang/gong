@@ -4090,6 +4090,9 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 	var t Type
+	if any(t) == nil {
+		return ""
+	}
 	return t.GongGetGongstructName()
 }
 

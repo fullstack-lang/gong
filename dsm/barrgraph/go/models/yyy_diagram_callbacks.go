@@ -537,7 +537,11 @@ func onSelectRectElement[AT AbstractType](
 ) func() {
 	return func() {
 		stager.stage.CommitWithSuspendedCallbacks()
-		stager.probeForm.FillUpFormFromGongstruct(abstractElement, GetPointerToGongstructName[AT]())
+		formName := ""
+		if any(abstractElement) != nil {
+			formName = abstractElement.GongGetGongstructName()
+		}
+		stager.probeForm.FillUpFormFromGongstruct(abstractElement, formName)
 		// update the tree because it contains the undo/redo calls
 		stager.ux_tree()
 	}
@@ -635,7 +639,11 @@ func svgAssociationLink[AT AbstractType,
 
 	link.OnSelect = func() {
 		stager.stage.CommitWithSuspendedCallbacks()
-		stager.probeForm.FillUpFormFromGongstruct(productOfInterest, GetPointerToGongstructName[AT]())
+		formName := ""
+		if any(productOfInterest) != nil {
+			formName = productOfInterest.GongGetGongstructName()
+		}
+		stager.probeForm.FillUpFormFromGongstruct(productOfInterest, formName)
 	}
 
 	link.OnChange = func(updatedLink *svg.Link) {
@@ -699,7 +707,12 @@ func svgAssociationLinkAsCT[AT AbstractType,
 
 	link.OnSelect = func() {
 		stager.stage.CommitWithSuspendedCallbacks()
-		stager.probeForm.FillUpFormFromGongstruct(shape.GetAbstractElement().(AT), GetPointerToGongstructName[AT]())
+		elem := shape.GetAbstractElement()
+		formName := ""
+		if elem != nil {
+			formName = elem.GongGetGongstructName()
+		}
+		stager.probeForm.FillUpFormFromGongstruct(elem.(AT), formName)
 	}
 
 	link.OnChange = func(updatedLink *svg.Link) {

@@ -32,6 +32,10 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
 
+	__Note__00000000_ := (&models.Note{Name: `Note`}).Stage(stage)
+
+	__NoteShape__00000000_ := (&models.NoteShape{Name: `gantt-Note`}).Stage(stage)
+
 	__Product__00000000_ := (&models.Product{Name: `task 1 output`}).Stage(stage)
 
 	__ProductShape__00000001_ := (&models.ProductShape{Name: `wbs-task 1 output`}).Stage(stage)
@@ -64,7 +68,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000000_.DateFormat = ``
 	__Diagram__00000000_.Width = 1100.000000
-	__Diagram__00000000_.Height = 275.000000
+	__Diagram__00000000_.Height = 522.000000
 	__Diagram__00000000_.IsTimeDiagram = true
 	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-05-15 00:00:00 +0000 UTC")
@@ -102,11 +106,11 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsShowPrefix = false
-	__Diagram__00000000_.IsInAutoLayoutMode = true
+	__Diagram__00000000_.IsInAutoLayoutMode = false
 	__Diagram__00000000_.IsPBSNodeExpanded = false
 	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000000_.IsNotesNodeExpanded = false
+	__Diagram__00000000_.IsNotesNodeExpanded = true
 	__Diagram__00000000_.IsResourcesNodeExpanded = false
 
 	__Diagram__00000001_.Name = `wbs`
@@ -166,6 +170,19 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.IsRootLibrary = true
 
+	__Note__00000000_.Name = `Note`
+	__Note__00000000_.ComputedPrefix = `1`
+	__Note__00000000_.IsExpanded = false
+	__Note__00000000_.LayoutDirection = models.Vertical
+
+	__NoteShape__00000000_.Name = `gantt-Note`
+	__NoteShape__00000000_.IsLayoutDirectionDifferent = false
+	__NoteShape__00000000_.X = 650.174685
+	__NoteShape__00000000_.Y = 352.000000
+	__NoteShape__00000000_.Width = 250.000000
+	__NoteShape__00000000_.Height = 70.000000
+	__NoteShape__00000000_.IsHidden = false
+
 	__Product__00000000_.Name = `task 1 output`
 	__Product__00000000_.Description = ``
 	__Product__00000000_.IsProducersNodeExpanded = false
@@ -187,10 +204,10 @@ func _(stage *models.Stage) {
 	__ProductShape__00000002_.Name = `gantt-task 1 output`
 	__ProductShape__00000002_.IsShowType = false
 	__ProductShape__00000002_.IsLayoutDirectionDifferent = false
-	__ProductShape__00000002_.X = 50.000000
-	__ProductShape__00000002_.Y = 50.000000
-	__ProductShape__00000002_.Width = 250.000000
-	__ProductShape__00000002_.Height = 70.000000
+	__ProductShape__00000002_.X = 352.000000
+	__ProductShape__00000002_.Y = 371.000000
+	__ProductShape__00000002_.Width = 126.000000
+	__ProductShape__00000002_.Height = 43.000000
 	__ProductShape__00000002_.IsHidden = false
 
 	__Task__00000000_.Name = `Task 1 (before task 2)`
@@ -306,11 +323,11 @@ func _(stage *models.Stage) {
 	__TaskGroupShape__00000001_.IsHidden = false
 
 	__TaskOutputShape__00000000_.Name = `gantt-Task 1 (before task 2)-task 1 output`
-	__TaskOutputShape__00000000_.StartRatio = 0.500000
-	__TaskOutputShape__00000000_.EndRatio = 0.500000
+	__TaskOutputShape__00000000_.StartRatio = 0.207251
+	__TaskOutputShape__00000000_.EndRatio = 0.514410
 	__TaskOutputShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000000_.CornerOffsetRatio = 4.362608
+	__TaskOutputShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000000_.CornerOffsetRatio = 0.667161
 	__TaskOutputShape__00000000_.IsHidden = false
 
 	__TaskPredecessorShape__00000000_.Name = `gantt-Task 1 (before task 2)-Task 2`
@@ -391,6 +408,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.TaskGroupsWhoseNodeIsExpanded = append(__Diagram__00000000_.TaskGroupsWhoseNodeIsExpanded, __TaskGroup__00000001_)
 	__Diagram__00000000_.TaskOutputShapes = append(__Diagram__00000000_.TaskOutputShapes, __TaskOutputShape__00000000_)
 	__Diagram__00000000_.TaskPredecessorShapes = append(__Diagram__00000000_.TaskPredecessorShapes, __TaskPredecessorShape__00000000_)
+	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
 	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000001_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000002_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000003_)
@@ -400,8 +418,10 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000002_)
 	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000000_)
 	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000001_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000001_)
+	__NoteShape__00000000_.Note = __Note__00000000_
 	__Product__00000000_.ReferencedProduct = nil
 	__ProductShape__00000001_.Product = __Product__00000000_
 	__ProductShape__00000002_.Product = __Product__00000000_
