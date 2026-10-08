@@ -118,7 +118,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Group_StrokeWidth = 0.000000
 	__Diagram__00000000_.Group_StrokeDashArray = ``
 	__Diagram__00000000_.DateYOffset = 0.000000
-	__Diagram__00000000_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000000_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsChecked = true
@@ -164,7 +164,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.Group_StrokeWidth = 0.000000
 	__Diagram__00000001_.Group_StrokeDashArray = ``
 	__Diagram__00000001_.DateYOffset = 0.000000
-	__Diagram__00000001_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000001_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000001_.ComputedPrefix = `1`
 	__Diagram__00000001_.IsExpanded = false
 	__Diagram__00000001_.IsChecked = false
@@ -210,7 +210,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000002_.Group_StrokeWidth = 0.000000
 	__Diagram__00000002_.Group_StrokeDashArray = ``
 	__Diagram__00000002_.DateYOffset = 0.000000
-	__Diagram__00000002_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000002_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000002_.ComputedPrefix = `1`
 	__Diagram__00000002_.IsExpanded = true
 	__Diagram__00000002_.IsChecked = false

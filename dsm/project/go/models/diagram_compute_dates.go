@@ -44,10 +44,30 @@ func (diagram *Diagram) computeStartAndEndDate() {
 		diagram.ComputedEnd = diagram.ManualEnd
 	}
 
-	// align start on the beginning of the year
-	if diagram.AlignOnStartEndOnYearStart {
-		diagram.ComputedStart = time.Date(diagram.ComputedStart.Year(), time.January, 1, 0, 0, 0, 0, time.UTC)
-		diagram.ComputedEnd = time.Date(diagram.ComputedEnd.Year(), time.December, 31, 0, 0, 0, 0, time.UTC)
+	// align start on the beginning of the first time scale
+	if diagram.AlignOnBeginningOfTimeScale {
+		start := diagram.ComputedStart
+		loc := start.Location()
+		timeStepScale := diagram.TimeStepScale
+		if timeStepScale == "" || timeStepScale == NONE {
+			timeStepScale = MONTHS
+		}
+		switch timeStepScale {
+		case YEARS:
+			diagram.ComputedStart = time.Date(start.Year(), time.January, 1, 0, 0, 0, 0, loc)
+		case MONTHS:
+			diagram.ComputedStart = time.Date(start.Year(), start.Month(), 1, 0, 0, 0, 0, loc)
+		case WEEKS:
+			weekday := int(start.Weekday())
+			if weekday == 0 {
+				weekday = 7
+			}
+			diagram.ComputedStart = time.Date(start.Year(), start.Month(), start.Day()-(weekday-1), 0, 0, 0, 0, loc)
+		case DAYS:
+			diagram.ComputedStart = time.Date(start.Year(), start.Month(), start.Day(), 0, 0, 0, 0, loc)
+		default:
+			diagram.ComputedStart = time.Date(start.Year(), time.January, 1, 0, 0, 0, 0, loc)
+		}
 	}
 
 	diagram.ComputedDuration = diagram.ComputedEnd.Sub(diagram.ComputedStart)

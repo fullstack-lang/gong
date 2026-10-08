@@ -92,7 +92,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Group_StrokeWidth = 1.000000
 	__Diagram__00000000_.Group_StrokeDashArray = `2 2`
 	__Diagram__00000000_.DateYOffset = 15.000000
-	__Diagram__00000000_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000000_.AlignOnBeginningOfTimeScale = false
 
 	__Library__00000000_.Name = `Root`
 	__Library__00000000_.NbPixPerCharacter = 8.000000

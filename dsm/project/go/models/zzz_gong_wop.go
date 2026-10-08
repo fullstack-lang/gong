@@ -84,7 +84,7 @@ type Diagram_WOP struct {
 
 	DateYOffset float64
 
-	AlignOnStartEndOnYearStart bool
+	AlignOnBeginningOfTimeScale bool
 
 	ComputedPrefix string
 
@@ -148,7 +148,7 @@ func (from *Diagram) GongCopyBasicFields(to *Diagram) {
 	to.Group_StrokeWidth = from.Group_StrokeWidth
 	to.Group_StrokeDashArray = from.Group_StrokeDashArray
 	to.DateYOffset = from.DateYOffset
-	to.AlignOnStartEndOnYearStart = from.AlignOnStartEndOnYearStart
+	to.AlignOnBeginningOfTimeScale = from.AlignOnBeginningOfTimeScale
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsChecked = from.IsChecked

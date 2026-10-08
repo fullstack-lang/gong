@@ -265,8 +265,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Group_StrokeDashArray = GongExtractString(valueExpr)
 	case "DateYOffset":
 		instance.DateYOffset = GongExtractFloat(valueExpr)
-	case "AlignOnStartEndOnYearStart":
-		instance.AlignOnStartEndOnYearStart = GongExtractBool(valueExpr)
+	case "AlignOnBeginningOfTimeScale":
+		instance.AlignOnBeginningOfTimeScale = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":

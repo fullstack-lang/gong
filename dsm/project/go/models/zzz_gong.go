@@ -2795,6 +2795,9 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return nil
 	}
 	var t Type
+	if any(t) == nil {
+		return nil
+	}
 	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
@@ -4398,6 +4401,9 @@ func (*TaskShape) GongGetReverseFields() []GongReverseField {
 
 func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 	var t Type
+	if any(t) == nil {
+		return nil
+	}
 	return t.GongGetReverseFields()
 }
 
@@ -4560,7 +4566,7 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "AlignOnStartEndOnYearStart",
+			Name:               "AlignOnBeginningOfTimeScale",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -6053,9 +6059,9 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", diagram.DateYOffset)
 		res.valueFloat = diagram.DateYOffset
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "AlignOnStartEndOnYearStart":
-		res.valueString = fmt.Sprintf("%t", diagram.AlignOnStartEndOnYearStart)
-		res.valueBool = diagram.AlignOnStartEndOnYearStart
+	case "AlignOnBeginningOfTimeScale":
+		res.valueString = fmt.Sprintf("%t", diagram.AlignOnBeginningOfTimeScale)
+		res.valueBool = diagram.AlignOnBeginningOfTimeScale
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
 		res.valueString = diagram.ComputedPrefix

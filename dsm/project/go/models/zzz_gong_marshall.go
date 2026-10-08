@@ -547,8 +547,8 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = __gong__marshallString(ident, "Group_StrokeDashArray", diagram.Group_StrokeDashArray)
 	case "DateYOffset":
 		res = __gong__marshallFloat(ident, "DateYOffset", diagram.DateYOffset)
-	case "AlignOnStartEndOnYearStart":
-		res = __gong__marshallBool(ident, "AlignOnStartEndOnYearStart", diagram.AlignOnStartEndOnYearStart)
+	case "AlignOnBeginningOfTimeScale":
+		res = __gong__marshallBool(ident, "AlignOnBeginningOfTimeScale", diagram.AlignOnBeginningOfTimeScale)
 	case "ComputedPrefix":
 		res = __gong__marshallString(ident, "ComputedPrefix", diagram.ComputedPrefix)
 	case "IsExpanded":
@@ -1625,7 +1625,7 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeWidth"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeDashArray"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateYOffset"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "AlignOnBeginningOfTimeScale"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))

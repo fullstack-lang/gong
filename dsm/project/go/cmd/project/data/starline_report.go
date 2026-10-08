@@ -549,7 +549,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000001_.Group_StrokeWidth = 0.000000
 	__Diagram__00000001_.Group_StrokeDashArray = ``
 	__Diagram__00000001_.DateYOffset = 0.000000
-	__Diagram__00000001_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000001_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000001_.ComputedPrefix = `1`
 	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsChecked = false
@@ -595,7 +595,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000002_.Group_StrokeWidth = 0.000000
 	__Diagram__00000002_.Group_StrokeDashArray = ``
 	__Diagram__00000002_.DateYOffset = 0.000000
-	__Diagram__00000002_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000002_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000002_.ComputedPrefix = `2`
 	__Diagram__00000002_.IsExpanded = false
 	__Diagram__00000002_.IsChecked = false
@@ -641,7 +641,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000003_.Group_StrokeWidth = 0.000000
 	__Diagram__00000003_.Group_StrokeDashArray = ``
 	__Diagram__00000003_.DateYOffset = 0.000000
-	__Diagram__00000003_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000003_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000003_.ComputedPrefix = `3`
 	__Diagram__00000003_.IsExpanded = true
 	__Diagram__00000003_.IsChecked = false
@@ -687,7 +687,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000004_.Group_StrokeWidth = 0.000000
 	__Diagram__00000004_.Group_StrokeDashArray = ``
 	__Diagram__00000004_.DateYOffset = 0.000000
-	__Diagram__00000004_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000004_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000004_.ComputedPrefix = `4`
 	__Diagram__00000004_.IsExpanded = false
 	__Diagram__00000004_.IsChecked = false
@@ -733,7 +733,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000005_.Group_StrokeWidth = 0.000000
 	__Diagram__00000005_.Group_StrokeDashArray = ``
 	__Diagram__00000005_.DateYOffset = 0.000000
-	__Diagram__00000005_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000005_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000005_.ComputedPrefix = `5`
 	__Diagram__00000005_.IsExpanded = true
 	__Diagram__00000005_.IsChecked = true
@@ -779,7 +779,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000006_.Group_StrokeWidth = 0.000000
 	__Diagram__00000006_.Group_StrokeDashArray = ``
 	__Diagram__00000006_.DateYOffset = 0.000000
-	__Diagram__00000006_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000006_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000006_.ComputedPrefix = `6`
 	__Diagram__00000006_.IsExpanded = false
 	__Diagram__00000006_.IsChecked = false

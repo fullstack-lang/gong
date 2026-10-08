@@ -84,7 +84,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Group_StrokeWidth = 0.000000
 	__Diagram__00000000_.Group_StrokeDashArray = ``
 	__Diagram__00000000_.DateYOffset = 0.000000
-	__Diagram__00000000_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000000_.AlignOnBeginningOfTimeScale = false
 
 	__Diagram__00000007_.Name = `Default Diagram copy`
 	__Diagram__00000007_.ComputedPrefix = `2`
@@ -129,7 +129,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000007_.Group_StrokeWidth = 0.000000
 	__Diagram__00000007_.Group_StrokeDashArray = ``
 	__Diagram__00000007_.DateYOffset = 0.000000
-	__Diagram__00000007_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000007_.AlignOnBeginningOfTimeScale = false
 
 	__Library__00000000_.Name = ``
 	__Library__00000000_.NbPixPerCharacter = 8.000000

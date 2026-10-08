@@ -188,7 +188,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Group_StrokeWidth = %f", diagramIdent, diagram.Group_StrokeWidth))
 			values.WriteString(fmt.Sprintf("\n\t%s.Group_StrokeDashArray = %s", diagramIdent, __gong__toRawStringLiteral(diagram.Group_StrokeDashArray)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DateYOffset = %f", diagramIdent, diagram.DateYOffset))
-			values.WriteString(fmt.Sprintf("\n\t%s.AlignOnStartEndOnYearStart = %t", diagramIdent, diagram.AlignOnStartEndOnYearStart))
+			values.WriteString(fmt.Sprintf("\n\t%s.AlignOnBeginningOfTimeScale = %t", diagramIdent, diagram.AlignOnBeginningOfTimeScale))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", diagramIdent, diagram.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", diagramIdent, diagram.IsChecked))
@@ -1747,8 +1747,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Group_StrokeDashArray = GongExtractString(rhs)
 					case "DateYOffset":
 						inst.DateYOffset = GongExtractFloat(rhs)
-					case "AlignOnStartEndOnYearStart":
-						inst.AlignOnStartEndOnYearStart = GongExtractBool(rhs)
+					case "AlignOnBeginningOfTimeScale":
+						inst.AlignOnBeginningOfTimeScale = GongExtractBool(rhs)
 					case "ComputedPrefix":
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":

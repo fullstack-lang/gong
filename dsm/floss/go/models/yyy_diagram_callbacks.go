@@ -512,7 +512,6 @@ func FormatNoteRect[CT interface {
 		if diagram != nil && diagram.GetIsShowPrefix() {
 			content = abstractElement.GetComputedPrefix() + " " + content
 		}
-		content = "📝 " + content
 
 		margin := 20.0
 		wrapWidth := rect.Width - margin
@@ -522,8 +521,6 @@ func FormatNoteRect[CT interface {
 		}
 
 		rect.RectAnchoredTexts[0].Content = content
-		rect.RectAnchoredTexts[0].FontWeight = "normal"
-		rect.RectAnchoredTexts[0].FontStyle = "italic"
 		rect.RectAnchoredTexts[0].TextAnchorType = svg.TEXT_ANCHOR_START
 		rect.RectAnchoredTexts[0].RectAnchorType = svg.RECT_TOP_LEFT
 		rect.RectAnchoredTexts[0].X_Offset = 10

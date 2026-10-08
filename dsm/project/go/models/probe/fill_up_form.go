@@ -96,7 +96,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("DateYOffset", instanceWithInferedType.DateYOffset, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		BasicFieldtoForm("AlignOnStartEndOnYearStart", instanceWithInferedType.AlignOnStartEndOnYearStart, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("AlignOnBeginningOfTimeScale", instanceWithInferedType.AlignOnBeginningOfTimeScale, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
 			Name:       "",

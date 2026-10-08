@@ -2413,8 +2413,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.DateYOffset != diagramOther.DateYOffset {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "DateYOffset"))
 	}
-	if diagram.AlignOnStartEndOnYearStart != diagramOther.AlignOnStartEndOnYearStart {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
+	if diagram.AlignOnBeginningOfTimeScale != diagramOther.AlignOnBeginningOfTimeScale {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "AlignOnBeginningOfTimeScale"))
 	}
 	if diagram.ComputedPrefix != diagramOther.ComputedPrefix {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedPrefix"))

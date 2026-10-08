@@ -32,9 +32,9 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
 
-	__Note__00000000_ := (&models.Note{Name: `Note`}).Stage(stage)
+	__Note__00000000_ := (&models.Note{Name: `Note AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA  AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA`}).Stage(stage)
 
-	__NoteShape__00000000_ := (&models.NoteShape{Name: `gantt-Note`}).Stage(stage)
+	__NoteShape__00000000_ := (&models.NoteShape{Name: `gantt-Note AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA  AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA`}).Stage(stage)
 
 	__Product__00000000_ := (&models.Product{Name: `task 1 output`}).Stage(stage)
 
@@ -68,7 +68,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000000_.DateFormat = ``
 	__Diagram__00000000_.Width = 1100.000000
-	__Diagram__00000000_.Height = 522.000000
+	__Diagram__00000000_.Height = 532.000000
 	__Diagram__00000000_.IsTimeDiagram = true
 	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-05-15 00:00:00 +0000 UTC")
@@ -100,7 +100,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Group_StrokeWidth = 1.000000
 	__Diagram__00000000_.Group_StrokeDashArray = `2 2`
 	__Diagram__00000000_.DateYOffset = 15.000000
-	__Diagram__00000000_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000000_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsChecked = true
@@ -150,7 +150,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.Group_StrokeWidth = 0.000000
 	__Diagram__00000001_.Group_StrokeDashArray = ``
 	__Diagram__00000001_.DateYOffset = 0.000000
-	__Diagram__00000001_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000001_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000001_.ComputedPrefix = `2`
 	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsChecked = false
@@ -164,23 +164,23 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.IsResourcesNodeExpanded = false
 
 	__Library__00000000_.Name = ``
-	__Library__00000000_.NbPixPerCharacter = 8.000000
+	__Library__00000000_.NbPixPerCharacter = 9.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.IsRootLibrary = true
 
-	__Note__00000000_.Name = `Note`
+	__Note__00000000_.Name = `Note AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA  AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA`
 	__Note__00000000_.ComputedPrefix = `1`
 	__Note__00000000_.IsExpanded = false
 	__Note__00000000_.LayoutDirection = models.Vertical
 
-	__NoteShape__00000000_.Name = `gantt-Note`
+	__NoteShape__00000000_.Name = `gantt-Note AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA  AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA`
 	__NoteShape__00000000_.IsLayoutDirectionDifferent = false
 	__NoteShape__00000000_.X = 650.174685
 	__NoteShape__00000000_.Y = 352.000000
-	__NoteShape__00000000_.Width = 250.000000
-	__NoteShape__00000000_.Height = 70.000000
+	__NoteShape__00000000_.Width = 277.000000
+	__NoteShape__00000000_.Height = 80.000000
 	__NoteShape__00000000_.IsHidden = false
 
 	__Product__00000000_.Name = `task 1 output`

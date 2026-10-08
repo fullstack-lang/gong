@@ -76,7 +76,7 @@ type Diagram struct {
 	DateYOffset float64
 
 	//gong:accordion-end
-	AlignOnStartEndOnYearStart bool
+	AlignOnBeginningOfTimeScale bool
 
 	LibraryAbstractFields
 	AbstractTypeFields

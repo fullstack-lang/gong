@@ -329,7 +329,7 @@ func (stager *Stager) svgGenerateNoteRect(
 
 	noteTitleText := new(svg.RectAnchoredText)
 	noteTitleText.Name = note.Name
-	content := "📝 " + note.Name
+	content := note.Name
 
 	margin := 20.0
 	wrapWidth := rect.Width - margin
@@ -344,8 +344,6 @@ func (stager *Stager) svgGenerateNoteRect(
 	noteTitleText.Color = svg.Black.ToString()
 	noteTitleText.FillOpacity = 1
 	noteTitleText.FontSize = "16px"
-	noteTitleText.FontWeight = "normal"
-	noteTitleText.FontStyle = "italic"
 	noteTitleText.RectAnchorType = svg.RECT_TOP_LEFT
 	noteTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
 	noteTitleText.X_Offset = 10

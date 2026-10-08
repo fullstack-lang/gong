@@ -1564,7 +1564,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		title := new(svg.RectAnchoredText)
 		title.Name = noteShape.Note.Name
-		content := "📝 " + noteShape.Note.Name
+		content := noteShape.Note.Name
 		if noteShape.Note.Description != "" {
 			content += "\n" + noteShape.Note.Description
 		}
@@ -1580,8 +1580,6 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		title.StrokeWidth = 0
 		title.StrokeOpacity = 1.0
 		title.FontSize = fontSettings.NoteFontSize
-		title.FontStyle = "italic"
-		title.FontWeight = "normal"
 		title.RectAnchorType = svg.RECT_TOP_LEFT
 		title.TextAnchorType = svg.TEXT_ANCHOR_START
 		title.X_Offset = 10

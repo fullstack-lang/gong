@@ -171,7 +171,7 @@ like what is done in create views )
 	__Diagram__00000000_.Group_StrokeWidth = 0.000000
 	__Diagram__00000000_.Group_StrokeDashArray = ``
 	__Diagram__00000000_.DateYOffset = 0.000000
-	__Diagram__00000000_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000000_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsChecked = false
@@ -217,7 +217,7 @@ like what is done in create views )
 	__Diagram__00000001_.Group_StrokeWidth = 0.000000
 	__Diagram__00000001_.Group_StrokeDashArray = ``
 	__Diagram__00000001_.DateYOffset = 0.000000
-	__Diagram__00000001_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000001_.AlignOnBeginningOfTimeScale = false
 	__Diagram__00000001_.ComputedPrefix = `1`
 	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsChecked = true

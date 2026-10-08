@@ -76,7 +76,7 @@ func _(stageSet *models.StageSet) {
 	__models__Diagram__00000000_.Group_StrokeWidth = 1.000000
 	__models__Diagram__00000000_.Group_StrokeDashArray = `2 2`
 	__models__Diagram__00000000_.DateYOffset = 15.000000
-	__models__Diagram__00000000_.AlignOnStartEndOnYearStart = false
+	__models__Diagram__00000000_.AlignOnBeginningOfTimeScale = false
 	__models__Diagram__00000000_.ComputedPrefix = `1`
 	__models__Diagram__00000000_.IsExpanded = true
 	__models__Diagram__00000000_.IsChecked = true
@@ -121,7 +121,7 @@ func _(stageSet *models.StageSet) {
 	__models__Diagram__00000001_.Group_StrokeWidth = 0.000000
 	__models__Diagram__00000001_.Group_StrokeDashArray = ``
 	__models__Diagram__00000001_.DateYOffset = 0.000000
-	__models__Diagram__00000001_.AlignOnStartEndOnYearStart = false
+	__models__Diagram__00000001_.AlignOnBeginningOfTimeScale = false
 	__models__Diagram__00000001_.ComputedPrefix = `2`
 	__models__Diagram__00000001_.IsExpanded = true
 	__models__Diagram__00000001_.IsChecked = false

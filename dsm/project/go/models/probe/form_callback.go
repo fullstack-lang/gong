@@ -187,8 +187,8 @@ func saveDiagramFields(
 			FormDivBasicFieldToField(&(_instance.Group_StrokeDashArray), formDiv)
 		case "DateYOffset":
 			FormDivBasicFieldToField(&(_instance.DateYOffset), formDiv)
-		case "AlignOnStartEndOnYearStart":
-			FormDivBasicFieldToField(&(_instance.AlignOnStartEndOnYearStart), formDiv)
+		case "AlignOnBeginningOfTimeScale":
+			FormDivBasicFieldToField(&(_instance.AlignOnBeginningOfTimeScale), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
