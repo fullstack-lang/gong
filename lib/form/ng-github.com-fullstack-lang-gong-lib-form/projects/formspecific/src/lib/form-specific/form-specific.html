@@ -184,9 +184,11 @@
 
     @for (chunk of chunks; track chunk) {
       @if (chunk.IsAccordionGroup) {
-        <mat-accordion class="custom-accordion">
-          @for (panel of chunk.Panels; track panel) {
-            <mat-expansion-panel>
+        <mat-accordion class="custom-accordion" [multi]="true">
+          @for (panel of chunk.Panels; track panel.Label) {
+            <mat-expansion-panel
+              [expanded]="panel.IsExpanded"
+              (expandedChange)="onPanelExpandedChange(panel.Label, $event)">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   {{panel.Label}}

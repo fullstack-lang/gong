@@ -112,7 +112,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000000_.DateFormat = ``
 	__Diagram__00000000_.Width = 1614.000000
-	__Diagram__00000000_.Height = 450.000000
+	__Diagram__00000000_.Height = 415.000000
 	__Diagram__00000000_.IsTimeDiagram = true
 	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-06 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-23 00:00:00 +0000 UTC")
@@ -126,7 +126,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.TimeStep = 1
 	__Diagram__00000000_.TimeStepScale = models.DAYS
 	__Diagram__00000000_.SecondaryTimeStep = 1
-	__Diagram__00000000_.SecondaryTimeStepScale = models.WEEKS
+	__Diagram__00000000_.SecondaryTimeStepScale = models.NONE
 	__Diagram__00000000_.LaneHeight = 85.000000
 	__Diagram__00000000_.RatioBarToLaneHeight = 0.700000
 	__Diagram__00000000_.YTopMargin = 40.000000

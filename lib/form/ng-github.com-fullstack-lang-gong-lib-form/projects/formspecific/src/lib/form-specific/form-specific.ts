@@ -41,6 +41,7 @@ export interface FormChunk {
 export interface FormAccordionPanel {
   Label: string;
   Divs: form.FormDiv[];
+  IsExpanded?: boolean;
 }
 
 @Component({
@@ -86,6 +87,31 @@ export class FormSpecific implements OnInit {
   angularFormGroup: FormGroup | undefined
 
   chunks: FormChunk[] = []
+
+  // map from instance key (${TypeLabel}:::${Label}) to set of opened accordion panel labels
+  private expandedPanelsByInstance = new Map<string, Set<string>>()
+
+  private getInstanceKey(): string {
+    if (!this.selectedFormGroup) return ''
+    const typeLabel = this.selectedFormGroup.TypeLabel || 'default'
+    const label = this.selectedFormGroup.Label || this.selectedFormGroup.Name || 'default'
+    return `${typeLabel}:::${label}`
+  }
+
+  onPanelExpandedChange(panelLabel: string, isExpanded: boolean): void {
+    const key = this.getInstanceKey()
+    if (!key) return
+    let set = this.expandedPanelsByInstance.get(key)
+    if (!set) {
+      set = new Set<string>()
+      this.expandedPanelsByInstance.set(key, set)
+    }
+    if (isExpanded) {
+      set.add(panelLabel)
+    } else {
+      set.delete(panelLabel)
+    }
+  }
 
   currentFormEditAssocButton: form.FormEditAssocButton | undefined = undefined
 
@@ -136,6 +162,9 @@ export class FormSpecific implements OnInit {
         }
 
         if (this.selectedFormGroup.FormDivs) {
+          const instanceKey = this.getInstanceKey();
+          const expandedSet = this.expandedPanelsByInstance.get(instanceKey);
+
           let currentChunk: FormChunk | undefined = undefined;
           let currentPanel: FormAccordionPanel | undefined = undefined;
 
@@ -145,7 +174,8 @@ export class FormSpecific implements OnInit {
                 currentChunk = { IsAccordionGroup: true, Panels: [], NormalDivs: [] };
                 this.chunks.push(currentChunk);
               }
-              currentPanel = { Label: div.AccordionGroupName, Divs: [] };
+              const isExpanded = expandedSet ? expandedSet.has(div.AccordionGroupName) : false;
+              currentPanel = { Label: div.AccordionGroupName, Divs: [], IsExpanded: isExpanded };
               currentChunk.Panels.push(currentPanel);
             }
 
