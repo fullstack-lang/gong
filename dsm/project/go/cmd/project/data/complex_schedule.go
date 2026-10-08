@@ -146,8 +146,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.DateYOffset = 15.000000
 	__Diagram__00000000_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000000_.ComputedPrefix = `1`
-	__Diagram__00000000_.IsExpanded = true
-	__Diagram__00000000_.IsChecked = true
+	__Diagram__00000000_.IsExpanded = false
+	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsShowPrefix = false
 	__Diagram__00000000_.IsInAutoLayoutMode = true
@@ -197,7 +197,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000001_.ComputedPrefix = `2`
 	__Diagram__00000001_.IsExpanded = false
-	__Diagram__00000001_.IsChecked = false
+	__Diagram__00000001_.IsChecked = true
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsShowPrefix = false
 	__Diagram__00000001_.IsInAutoLayoutMode = true
@@ -387,7 +387,7 @@ func _(stage *models.Stage) {
 	__Task__00000001_.Name = `Security Review`
 	__Task__00000001_.Description = `Threat modeling and compliance checklist`
 	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-10 00:00:00 +0000 UTC")
-	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-10 00:00:00 +0000 UTC")
+	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-11 00:00:00 +0000 UTC")
 	__Task__00000001_.IsAllDay = true
 	__Task__00000001_.IsMilestone = false
 	__Task__00000001_.DependencyType = models.FINISH_TO_START
@@ -399,7 +399,7 @@ func _(stage *models.Stage) {
 	__Task__00000001_.DurationYears = 0.000000
 	__Task__00000001_.DurationMonths = 0.000000
 	__Task__00000001_.DurationWeeks = 0.000000
-	__Task__00000001_.DurationDays = 1.000000
+	__Task__00000001_.DurationDays = 2.000000
 	__Task__00000001_.DurationHours = 0.000000
 	__Task__00000001_.IsEndDateComputedFromDuration = true
 	__Task__00000001_.IsWithCompletion = false
@@ -417,8 +417,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000002_.Name = `Storage Engine Sprint`
 	__Task__00000002_.Description = `Core persistence engine and distributed WAL implementation`
-	__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-11 00:00:00 +0000 UTC")
-	__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-12 00:00:00 +0000 UTC")
+	__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-12 00:00:00 +0000 UTC")
+	__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-13 00:00:00 +0000 UTC")
 	__Task__00000002_.IsAllDay = true
 	__Task__00000002_.IsMilestone = false
 	__Task__00000002_.DependencyType = models.FINISH_TO_START
@@ -479,8 +479,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000004_.Name = `Frontend Web UI Sprint`
 	__Task__00000004_.Description = `Dashboard, Gantt visualizer, and form editor`
-	__Task__00000004_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-13 00:00:00 +0000 UTC")
-	__Task__00000004_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-15 00:00:00 +0000 UTC")
+	__Task__00000004_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-14 00:00:00 +0000 UTC")
+	__Task__00000004_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-16 00:00:00 +0000 UTC")
 	__Task__00000004_.IsAllDay = true
 	__Task__00000004_.IsMilestone = false
 	__Task__00000004_.DependencyType = models.FINISH_TO_START
@@ -510,8 +510,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000005_.Name = `UI Polish & Theming`
 	__Task__00000005_.Description = `Design system harmonization, dark mode palette, responsive tweaks`
-	__Task__00000005_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-16 00:00:00 +0000 UTC")
-	__Task__00000005_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-16 00:00:00 +0000 UTC")
+	__Task__00000005_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-17 00:00:00 +0000 UTC")
+	__Task__00000005_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-17 00:00:00 +0000 UTC")
 	__Task__00000005_.IsAllDay = true
 	__Task__00000005_.IsMilestone = false
 	__Task__00000005_.DependencyType = models.FINISH_TO_START
@@ -541,8 +541,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000006_.Name = `End-to-End Integration Testing`
 	__Task__00000006_.Description = `Automated regression test suite and performance stress testing`
-	__Task__00000006_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-17 00:00:00 +0000 UTC")
-	__Task__00000006_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-17 00:00:00 +0000 UTC")
+	__Task__00000006_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-18 00:00:00 +0000 UTC")
+	__Task__00000006_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-18 00:00:00 +0000 UTC")
 	__Task__00000006_.IsAllDay = true
 	__Task__00000006_.IsMilestone = false
 	__Task__00000006_.DependencyType = models.FINISH_TO_START
@@ -572,8 +572,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000007_.Name = `Production Deployment`
 	__Task__00000007_.Description = `Blue/green canary rollout to cloud regions`
-	__Task__00000007_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-18 00:00:00 +0000 UTC")
-	__Task__00000007_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-18 00:00:00 +0000 UTC")
+	__Task__00000007_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-19 00:00:00 +0000 UTC")
+	__Task__00000007_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-19 00:00:00 +0000 UTC")
 	__Task__00000007_.IsAllDay = true
 	__Task__00000007_.IsMilestone = false
 	__Task__00000007_.DependencyType = models.FINISH_TO_START
@@ -634,8 +634,8 @@ func _(stage *models.Stage) {
 
 	__Task__00000010_.Name = `Pre Alha`
 	__Task__00000010_.Description = ``
-	__Task__00000010_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-13 00:00:00 +0000 UTC")
-	__Task__00000010_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-13 00:00:00 +0000 UTC")
+	__Task__00000010_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-14 00:00:00 +0000 UTC")
+	__Task__00000010_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-14 00:00:00 +0000 UTC")
 	__Task__00000010_.IsAllDay = true
 	__Task__00000010_.IsMilestone = true
 	__Task__00000010_.DependencyType = models.FINISH_TO_START

@@ -19,6 +19,9 @@ func (p *Diagram_Tree_DiagramProxy) OnAfterUpdate(stage *tree.Stage, staged *tre
 		}
 		p.diagram.IsChecked = true
 		staged.IsChecked = front.IsChecked
+		if p.stager.probeForm != nil {
+			p.stager.probeForm.FillUpFormFromGongstruct(p.diagram, "Diagram")
+		}
 		p.stager.stage.Commit()
 		return
 	}

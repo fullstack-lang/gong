@@ -30,6 +30,9 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 				diagram_.IsChecked = false
 			}
 			diagram.IsChecked = true
+			if stager.probeForm != nil {
+				stager.probeForm.FillUpFormFromGongstruct(diagram, "Diagram")
+			}
 		} else {
 			diagram.IsChecked = false
 			for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
