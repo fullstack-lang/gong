@@ -68,10 +68,6 @@ type Task struct {
 	//gong:accordion-end
 	Completion CompletionEnum
 
-	// DisplayVerticalBar indicates wether the task
-	// has a vertical vertical on the whole gantt when it is a milestone
-	DisplayVerticalBar bool
-
 	// a red diamond a text anchor will be displayed
 	TaskGroupsToDisplay []*TaskGroup
 

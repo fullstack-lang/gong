@@ -1010,8 +1010,6 @@ func saveTaskFields(
 			FormDivBasicFieldToField(&(_instance.IsWithCompletion), formDiv)
 		case "Completion":
 			FormDivEnumStringFieldToField(&(_instance.Completion), formDiv)
-		case "DisplayVerticalBar":
-			FormDivBasicFieldToField(&(_instance.DisplayVerticalBar), formDiv)
 		case "TaskGroupsToDisplay":
 			FormDivSliceOfPointersToField(_instance, "TaskGroupsToDisplay", &(_instance.TaskGroupsToDisplay), formDiv, probe)
 		case "TextPosition":
@@ -1359,6 +1357,8 @@ func saveTaskShapeFields(
 			FormDivBasicFieldToField(&(_instance.IsShowDate), formDiv)
 		case "VerticalOffset":
 			FormDivBasicFieldToField(&(_instance.VerticalOffset), formDiv)
+		case "DisplayVerticalBar":
+			FormDivBasicFieldToField(&(_instance.DisplayVerticalBar), formDiv)
 		case "IsLayoutDirectionDifferent":
 			FormDivBasicFieldToField(&(_instance.IsLayoutDirectionDifferent), formDiv)
 		case "X":

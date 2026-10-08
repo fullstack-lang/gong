@@ -115,6 +115,8 @@ type TaskShape struct {
 
 	VerticalOffset float64
 
+	DisplayVerticalBar bool
+
 	ConcreteTypeFields
 
 	RectShape

@@ -153,7 +153,23 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 					stage.Commit()
 				},
 			}
-			taskNode.Buttons = append(taskNode.Buttons, upButton, downButton)
+			verticalBarButton := &tree.Button{
+				Name:            "Show vertical bar on diagram",
+				Icon:            string(buttons.BUTTON_border_vertical),
+				ToolTipText:     "Show vertical bar on diagram",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					taskShape.DisplayVerticalBar = !taskShape.DisplayVerticalBar
+					stage.Commit()
+				},
+			}
+			if taskShape.DisplayVerticalBar {
+				verticalBarButton.Name = "Hide vertical bar on diagram"
+				verticalBarButton.ToolTipText = "Hide vertical bar on diagram"
+				verticalBarButton.Icon = string(buttons.BUTTON_border_clear)
+			}
+			taskNode.Buttons = append(taskNode.Buttons, upButton, downButton, verticalBarButton)
 
 			if taskShape.VerticalOffset != 0 {
 				resetOffsetButton := &tree.Button{

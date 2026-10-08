@@ -752,8 +752,6 @@ func FillUpForm(
 			Name:       "",
 			IsAEndAccordionGroup:   true,
 		}).Stage(probe.formStage))
-		BasicFieldtoForm("DisplayVerticalBar", instanceWithInferedType.DisplayVerticalBar, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		AssociationSliceToForm("TaskGroupsToDisplay", instanceWithInferedType, &instanceWithInferedType.TaskGroupsToDisplay, formGroup, probe)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
 			Name:       "",
@@ -1080,6 +1078,8 @@ func FillUpForm(
 		BasicFieldtoForm("IsShowDate", instanceWithInferedType.IsShowDate, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("VerticalOffset", instanceWithInferedType.VerticalOffset, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("DisplayVerticalBar", instanceWithInferedType.DisplayVerticalBar, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsLayoutDirectionDifferent", instanceWithInferedType.IsLayoutDirectionDifferent, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)

@@ -1125,7 +1125,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsEndDateComputedFromDuration = %t", taskIdent, task.IsEndDateComputedFromDuration))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsWithCompletion = %t", taskIdent, task.IsWithCompletion))
 			values.WriteString(fmt.Sprintf("\n\t%s.Completion = %s", taskIdent, __gong__toRawStringLiteral(string(task.Completion))))
-			values.WriteString(fmt.Sprintf("\n\t%s.DisplayVerticalBar = %t", taskIdent, task.DisplayVerticalBar))
 			values.WriteString(fmt.Sprintf("\n\t%s.TextPosition = %s", taskIdent, __gong__toRawStringLiteral(string(task.TextPosition))))
 			values.WriteString(fmt.Sprintf("\n\t%s.XOffset = %f", taskIdent, task.XOffset))
 			values.WriteString(fmt.Sprintf("\n\t%s.YOffset = %f", taskIdent, task.YOffset))
@@ -1451,6 +1450,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", taskshapeIdent, __gong__toRawStringLiteral(taskshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsShowDate = %t", taskshapeIdent, taskshape.IsShowDate))
 			values.WriteString(fmt.Sprintf("\n\t%s.VerticalOffset = %f", taskshapeIdent, taskshape.VerticalOffset))
+			values.WriteString(fmt.Sprintf("\n\t%s.DisplayVerticalBar = %t", taskshapeIdent, taskshape.DisplayVerticalBar))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsLayoutDirectionDifferent = %t", taskshapeIdent, taskshape.IsLayoutDirectionDifferent))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", taskshapeIdent, taskshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", taskshapeIdent, taskshape.Y))
@@ -2162,8 +2162,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.IsWithCompletion = GongExtractBool(rhs)
 					case "Completion":
 						inst.Completion = CompletionEnum(GongExtractString(rhs))
-					case "DisplayVerticalBar":
-						inst.DisplayVerticalBar = GongExtractBool(rhs)
 					case "TaskGroupsToDisplay":
 						__gong__assignSliceOfPointers(&inst.TaskGroupsToDisplay, rhs, identifierMap)
 					case "TextPosition":
@@ -2307,6 +2305,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.IsShowDate = GongExtractBool(rhs)
 					case "VerticalOffset":
 						inst.VerticalOffset = GongExtractFloat(rhs)
+					case "DisplayVerticalBar":
+						inst.DisplayVerticalBar = GongExtractBool(rhs)
 					case "IsLayoutDirectionDifferent":
 						inst.IsLayoutDirectionDifferent = GongExtractBool(rhs)
 					case "X":

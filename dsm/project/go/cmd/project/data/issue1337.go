@@ -100,7 +100,6 @@ func _(stage *models.Stage) {
 	__Task__00000000_.IsOutputsNodeExpanded = false
 	__Task__00000000_.IsWithCompletion = false
 	__Task__00000000_.Completion = ""
-	__Task__00000000_.DisplayVerticalBar = false
 	__Task__00000000_.TextPosition = ""
 	__Task__00000000_.XOffset = 0.000000
 	__Task__00000000_.YOffset = 0.000000
@@ -125,7 +124,6 @@ func _(stage *models.Stage) {
 	__Task__00000002_.IsOutputsNodeExpanded = false
 	__Task__00000002_.IsWithCompletion = false
 	__Task__00000002_.Completion = ""
-	__Task__00000002_.DisplayVerticalBar = false
 	__Task__00000002_.TextPosition = ""
 	__Task__00000002_.XOffset = 0.000000
 	__Task__00000002_.YOffset = 0.000000

@@ -2967,7 +2967,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000000_.IsMilestone = false
 	__Task__00000000_.IsWithCompletion = false
 	__Task__00000000_.Completion = ""
-	__Task__00000000_.DisplayVerticalBar = false
 	__Task__00000000_.TextPosition = ""
 	__Task__00000000_.XOffset = 0.000000
 	__Task__00000000_.YOffset = 0.000000
@@ -2992,7 +2991,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000001_.IsMilestone = false
 	__Task__00000001_.IsWithCompletion = false
 	__Task__00000001_.Completion = ""
-	__Task__00000001_.DisplayVerticalBar = false
 	__Task__00000001_.TextPosition = ""
 	__Task__00000001_.XOffset = 0.000000
 	__Task__00000001_.YOffset = 0.000000
@@ -3017,7 +3015,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000002_.IsMilestone = false
 	__Task__00000002_.IsWithCompletion = false
 	__Task__00000002_.Completion = ""
-	__Task__00000002_.DisplayVerticalBar = false
 	__Task__00000002_.TextPosition = ""
 	__Task__00000002_.XOffset = 0.000000
 	__Task__00000002_.YOffset = 0.000000
@@ -3042,7 +3039,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000003_.IsMilestone = false
 	__Task__00000003_.IsWithCompletion = false
 	__Task__00000003_.Completion = ""
-	__Task__00000003_.DisplayVerticalBar = false
 	__Task__00000003_.TextPosition = ""
 	__Task__00000003_.XOffset = 0.000000
 	__Task__00000003_.YOffset = 0.000000
@@ -3067,7 +3063,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000004_.IsMilestone = false
 	__Task__00000004_.IsWithCompletion = false
 	__Task__00000004_.Completion = ""
-	__Task__00000004_.DisplayVerticalBar = false
 	__Task__00000004_.TextPosition = ""
 	__Task__00000004_.XOffset = 0.000000
 	__Task__00000004_.YOffset = 0.000000
@@ -3092,7 +3087,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000005_.IsMilestone = false
 	__Task__00000005_.IsWithCompletion = false
 	__Task__00000005_.Completion = ""
-	__Task__00000005_.DisplayVerticalBar = false
 	__Task__00000005_.TextPosition = ""
 	__Task__00000005_.XOffset = 0.000000
 	__Task__00000005_.YOffset = 0.000000
@@ -3117,7 +3111,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000006_.IsMilestone = false
 	__Task__00000006_.IsWithCompletion = false
 	__Task__00000006_.Completion = ""
-	__Task__00000006_.DisplayVerticalBar = false
 	__Task__00000006_.TextPosition = ""
 	__Task__00000006_.XOffset = 0.000000
 	__Task__00000006_.YOffset = 0.000000
@@ -3142,7 +3135,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000007_.IsMilestone = false
 	__Task__00000007_.IsWithCompletion = false
 	__Task__00000007_.Completion = ""
-	__Task__00000007_.DisplayVerticalBar = false
 	__Task__00000007_.TextPosition = ""
 	__Task__00000007_.XOffset = 0.000000
 	__Task__00000007_.YOffset = 0.000000

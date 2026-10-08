@@ -3088,9 +3088,6 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if task.Completion != taskOther.Completion {
 		diffs = append(diffs, task.GongMarshallField(stage, "Completion"))
 	}
-	if task.DisplayVerticalBar != taskOther.DisplayVerticalBar {
-		diffs = append(diffs, task.GongMarshallField(stage, "DisplayVerticalBar"))
-	}
 	if ops := __gong__diffSliceOfPointers(stage, task, "TaskGroupsToDisplay", taskOther.TaskGroupsToDisplay, task.TaskGroupsToDisplay); ops != "" {
 		diffs = append(diffs, ops)
 	}
@@ -3329,6 +3326,9 @@ func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (d
 	}
 	if taskshape.VerticalOffset != taskshapeOther.VerticalOffset {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "VerticalOffset"))
+	}
+	if taskshape.DisplayVerticalBar != taskshapeOther.DisplayVerticalBar {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "DisplayVerticalBar"))
 	}
 	if taskshape.IsLayoutDirectionDifferent != taskshapeOther.IsLayoutDirectionDifferent {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))

@@ -602,8 +602,6 @@ type Task_WOP struct {
 
 	Completion CompletionEnum
 
-	DisplayVerticalBar bool
-
 	TextPosition TextPositionEnum
 
 	XOffset float64
@@ -645,7 +643,6 @@ func (from *Task) GongCopyBasicFields(to *Task) {
 	to.IsEndDateComputedFromDuration = from.IsEndDateComputedFromDuration
 	to.IsWithCompletion = from.IsWithCompletion
 	to.Completion = from.Completion
-	to.DisplayVerticalBar = from.DisplayVerticalBar
 	to.TextPosition = from.TextPosition
 	to.XOffset = from.XOffset
 	to.YOffset = from.YOffset
@@ -825,6 +822,8 @@ type TaskShape_WOP struct {
 
 	VerticalOffset float64
 
+	DisplayVerticalBar bool
+
 	IsLayoutDirectionDifferent bool
 
 	X float64
@@ -843,6 +842,7 @@ func (from *TaskShape) GongCopyBasicFields(to *TaskShape) {
 	to.Name = from.Name
 	to.IsShowDate = from.IsShowDate
 	to.VerticalOffset = from.VerticalOffset
+	to.DisplayVerticalBar = from.DisplayVerticalBar
 	to.IsLayoutDirectionDifferent = from.IsLayoutDirectionDifferent
 	to.X = from.X
 	to.Y = from.Y

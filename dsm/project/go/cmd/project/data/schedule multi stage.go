@@ -177,7 +177,6 @@ func _(stageSet *models.StageSet) {
 	__models__Task__00000000_.IsMilestone = false
 	__models__Task__00000000_.IsWithCompletion = false
 	__models__Task__00000000_.Completion = ``
-	__models__Task__00000000_.DisplayVerticalBar = false
 	__models__Task__00000000_.TextPosition = ``
 	__models__Task__00000000_.XOffset = 0.000000
 	__models__Task__00000000_.YOffset = 0.000000
@@ -201,7 +200,6 @@ func _(stageSet *models.StageSet) {
 	__models__Task__00000001_.IsMilestone = false
 	__models__Task__00000001_.IsWithCompletion = false
 	__models__Task__00000001_.Completion = ``
-	__models__Task__00000001_.DisplayVerticalBar = false
 	__models__Task__00000001_.TextPosition = ``
 	__models__Task__00000001_.XOffset = 0.000000
 	__models__Task__00000001_.YOffset = 0.000000

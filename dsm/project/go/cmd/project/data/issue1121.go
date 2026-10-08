@@ -461,7 +461,6 @@ func _(stage *models.Stage) {
 	__Task__00000000_.IsMilestone = false
 	__Task__00000000_.IsWithCompletion = false
 	__Task__00000000_.Completion = ""
-	__Task__00000000_.DisplayVerticalBar = false
 	__Task__00000000_.TextPosition = ""
 	__Task__00000000_.XOffset = 0.000000
 	__Task__00000000_.YOffset = 0.000000
@@ -486,7 +485,6 @@ func _(stage *models.Stage) {
 	__Task__00000001_.IsMilestone = false
 	__Task__00000001_.IsWithCompletion = false
 	__Task__00000001_.Completion = ""
-	__Task__00000001_.DisplayVerticalBar = false
 	__Task__00000001_.TextPosition = ""
 	__Task__00000001_.XOffset = 0.000000
 	__Task__00000001_.YOffset = 0.000000
@@ -511,7 +509,6 @@ func _(stage *models.Stage) {
 	__Task__00000002_.IsMilestone = false
 	__Task__00000002_.IsWithCompletion = false
 	__Task__00000002_.Completion = ""
-	__Task__00000002_.DisplayVerticalBar = false
 	__Task__00000002_.TextPosition = ""
 	__Task__00000002_.XOffset = 0.000000
 	__Task__00000002_.YOffset = 0.000000
@@ -536,7 +533,6 @@ func _(stage *models.Stage) {
 	__Task__00000003_.IsMilestone = false
 	__Task__00000003_.IsWithCompletion = false
 	__Task__00000003_.Completion = ""
-	__Task__00000003_.DisplayVerticalBar = false
 	__Task__00000003_.TextPosition = ""
 	__Task__00000003_.XOffset = 0.000000
 	__Task__00000003_.YOffset = 0.000000
@@ -561,7 +557,6 @@ func _(stage *models.Stage) {
 	__Task__00000004_.IsMilestone = false
 	__Task__00000004_.IsWithCompletion = false
 	__Task__00000004_.Completion = ""
-	__Task__00000004_.DisplayVerticalBar = false
 	__Task__00000004_.TextPosition = ""
 	__Task__00000004_.XOffset = 0.000000
 	__Task__00000004_.YOffset = 0.000000
@@ -586,7 +581,6 @@ func _(stage *models.Stage) {
 	__Task__00000005_.IsMilestone = false
 	__Task__00000005_.IsWithCompletion = false
 	__Task__00000005_.Completion = ""
-	__Task__00000005_.DisplayVerticalBar = false
 	__Task__00000005_.TextPosition = ""
 	__Task__00000005_.XOffset = 0.000000
 	__Task__00000005_.YOffset = 0.000000
@@ -611,7 +605,6 @@ func _(stage *models.Stage) {
 	__Task__00000006_.IsMilestone = false
 	__Task__00000006_.IsWithCompletion = false
 	__Task__00000006_.Completion = ""
-	__Task__00000006_.DisplayVerticalBar = false
 	__Task__00000006_.TextPosition = ""
 	__Task__00000006_.XOffset = 15.000000
 	__Task__00000006_.YOffset = 0.000000
@@ -636,7 +629,6 @@ func _(stage *models.Stage) {
 	__Task__00000007_.IsMilestone = false
 	__Task__00000007_.IsWithCompletion = false
 	__Task__00000007_.Completion = ""
-	__Task__00000007_.DisplayVerticalBar = false
 	__Task__00000007_.TextPosition = ""
 	__Task__00000007_.XOffset = 0.000000
 	__Task__00000007_.YOffset = 0.000000
@@ -661,7 +653,6 @@ func _(stage *models.Stage) {
 	__Task__00000008_.IsMilestone = false
 	__Task__00000008_.IsWithCompletion = false
 	__Task__00000008_.Completion = ""
-	__Task__00000008_.DisplayVerticalBar = false
 	__Task__00000008_.TextPosition = ""
 	__Task__00000008_.XOffset = 0.000000
 	__Task__00000008_.YOffset = 0.000000
@@ -686,7 +677,6 @@ func _(stage *models.Stage) {
 	__Task__00000009_.IsMilestone = false
 	__Task__00000009_.IsWithCompletion = false
 	__Task__00000009_.Completion = ""
-	__Task__00000009_.DisplayVerticalBar = false
 	__Task__00000009_.TextPosition = ""
 	__Task__00000009_.XOffset = 0.000000
 	__Task__00000009_.YOffset = 0.000000
@@ -711,7 +701,6 @@ func _(stage *models.Stage) {
 	__Task__00000010_.IsMilestone = false
 	__Task__00000010_.IsWithCompletion = false
 	__Task__00000010_.Completion = ""
-	__Task__00000010_.DisplayVerticalBar = false
 	__Task__00000010_.TextPosition = ""
 	__Task__00000010_.XOffset = 0.000000
 	__Task__00000010_.YOffset = 0.000000
@@ -736,7 +725,6 @@ func _(stage *models.Stage) {
 	__Task__00000011_.IsMilestone = true
 	__Task__00000011_.IsWithCompletion = false
 	__Task__00000011_.Completion = ""
-	__Task__00000011_.DisplayVerticalBar = true
 	__Task__00000011_.TextPosition = models.TEXT_POSITION_TOP
 	__Task__00000011_.XOffset = 20.000000
 	__Task__00000011_.YOffset = -17.000000
@@ -761,7 +749,6 @@ func _(stage *models.Stage) {
 	__Task__00000012_.IsMilestone = false
 	__Task__00000012_.IsWithCompletion = false
 	__Task__00000012_.Completion = ""
-	__Task__00000012_.DisplayVerticalBar = false
 	__Task__00000012_.TextPosition = ""
 	__Task__00000012_.XOffset = 0.000000
 	__Task__00000012_.YOffset = 0.000000
@@ -786,7 +773,6 @@ func _(stage *models.Stage) {
 	__Task__00000013_.IsMilestone = true
 	__Task__00000013_.IsWithCompletion = false
 	__Task__00000013_.Completion = ""
-	__Task__00000013_.DisplayVerticalBar = false
 	__Task__00000013_.TextPosition = models.TEXT_POSITION_LEFT
 	__Task__00000013_.XOffset = -42.000000
 	__Task__00000013_.YOffset = 5.000000
@@ -958,6 +944,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000032_.Name = `Time Diagram-New Year 2027`
 	__TaskShape__00000032_.IsShowDate = false
+	__TaskShape__00000032_.DisplayVerticalBar = true
 	__TaskShape__00000032_.IsLayoutDirectionDifferent = false
 	__TaskShape__00000032_.X = 1334.246143
 	__TaskShape__00000032_.Y = 264.124452

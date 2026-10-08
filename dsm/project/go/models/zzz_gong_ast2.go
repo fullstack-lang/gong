@@ -860,8 +860,6 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsWithCompletion = GongExtractBool(valueExpr)
 	case "Completion":
 		GongUnmarshallEnum(&instance.Completion, valueExpr)
-	case "DisplayVerticalBar":
-		instance.DisplayVerticalBar = GongExtractBool(valueExpr)
 	case "TaskGroupsToDisplay":
 		GongUnmarshallSliceOfPointers(&instance.TaskGroupsToDisplay, valueExpr, identifierMap)
 	case "TextPosition":
@@ -1089,6 +1087,8 @@ func (u *TaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.IsShowDate = GongExtractBool(valueExpr)
 	case "VerticalOffset":
 		instance.VerticalOffset = GongExtractFloat(valueExpr)
+	case "DisplayVerticalBar":
+		instance.DisplayVerticalBar = GongExtractBool(valueExpr)
 	case "IsLayoutDirectionDifferent":
 		instance.IsLayoutDirectionDifferent = GongExtractBool(valueExpr)
 	case "X":

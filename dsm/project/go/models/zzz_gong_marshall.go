@@ -1290,8 +1290,6 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = __gong__marshallBool(ident, "IsWithCompletion", task.IsWithCompletion)
 	case "Completion":
 		res = __gong__marshallEnumString(ident, "Completion", task.Completion.ToCodeString())
-	case "DisplayVerticalBar":
-		res = __gong__marshallBool(ident, "DisplayVerticalBar", task.DisplayVerticalBar)
 	case "TextPosition":
 		res = __gong__marshallEnumString(ident, "TextPosition", task.TextPosition.ToCodeString())
 	case "XOffset":
@@ -1557,6 +1555,8 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = __gong__marshallBool(ident, "IsShowDate", taskshape.IsShowDate)
 	case "VerticalOffset":
 		res = __gong__marshallFloat(ident, "VerticalOffset", taskshape.VerticalOffset)
+	case "DisplayVerticalBar":
+		res = __gong__marshallBool(ident, "DisplayVerticalBar", taskshape.DisplayVerticalBar)
 	case "IsLayoutDirectionDifferent":
 		res = __gong__marshallBool(ident, "IsLayoutDirectionDifferent", taskshape.IsLayoutDirectionDifferent)
 	case "X":
@@ -1960,7 +1960,6 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "SubTasks"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsWithCompletion"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Completion"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DisplayVerticalBar"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "TaskGroupsToDisplay"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "TextPosition"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "XOffset"))
@@ -2092,6 +2091,7 @@ func (taskshape *TaskShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		pointersInitializesStatements.WriteString(taskshape.GongMarshallField(stage, "Task"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsShowDate"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "VerticalOffset"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "DisplayVerticalBar"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Y"))

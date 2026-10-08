@@ -5479,10 +5479,6 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "CompletionEnum",
 		},
 		{
-			Name:               "DisplayVerticalBar",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:                 "TaskGroupsToDisplay",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "TaskGroup",
@@ -5796,6 +5792,10 @@ func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "VerticalOffset",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "DisplayVerticalBar",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsLayoutDirectionDifferent",
@@ -7104,10 +7104,6 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Completion":
 		enum := task.Completion
 		res.valueString = enum.ToCodeString()
-	case "DisplayVerticalBar":
-		res.valueString = fmt.Sprintf("%t", task.DisplayVerticalBar)
-		res.valueBool = task.DisplayVerticalBar
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "TaskGroupsToDisplay":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range task.TaskGroupsToDisplay {
@@ -7405,6 +7401,10 @@ func (taskshape *TaskShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%f", taskshape.VerticalOffset)
 		res.valueFloat = taskshape.VerticalOffset
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DisplayVerticalBar":
+		res.valueString = fmt.Sprintf("%t", taskshape.DisplayVerticalBar)
+		res.valueBool = taskshape.DisplayVerticalBar
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsLayoutDirectionDifferent":
 		res.valueString = fmt.Sprintf("%t", taskshape.IsLayoutDirectionDifferent)
 		res.valueBool = taskshape.IsLayoutDirectionDifferent

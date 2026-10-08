@@ -420,7 +420,7 @@ func (stager *Stager) displayTaskTitle(task *Task, diagram *Diagram, rect4Bar *s
 
 func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *TaskShape, verticalLinesLayer *svg.Layer, yTimeLine float64, taskGroup *TaskGroup, layer *svg.Layer, mapTaskGroup_TextY map[*TaskGroup]float64) {
 	lineX := diagram.dateToX(task.Start)
-	if task.DisplayVerticalBar {
+	if taskShape != nil && taskShape.DisplayVerticalBar {
 		line := new(svg.Line)
 		line.Name = task.Name
 		verticalLinesLayer.Lines = append(verticalLinesLayer.Lines, line)

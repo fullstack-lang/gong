@@ -544,7 +544,6 @@ func _(stage *models.Stage) {
 	__Task__00000000_.IsMilestone = false
 	__Task__00000000_.IsWithCompletion = true
 	__Task__00000000_.Completion = models.PERCENT_050
-	__Task__00000000_.DisplayVerticalBar = false
 	__Task__00000000_.TextPosition = ""
 	__Task__00000000_.XOffset = 0.000000
 	__Task__00000000_.YOffset = 0.000000
@@ -569,7 +568,6 @@ func _(stage *models.Stage) {
 	__Task__00000001_.IsMilestone = false
 	__Task__00000001_.IsWithCompletion = false
 	__Task__00000001_.Completion = ""
-	__Task__00000001_.DisplayVerticalBar = false
 	__Task__00000001_.TextPosition = ""
 	__Task__00000001_.XOffset = 0.000000
 	__Task__00000001_.YOffset = 0.000000

@@ -238,7 +238,6 @@ func _(stage *models.Stage) {
 	__Task__00000000_.IsEndDateComputedFromDuration = false
 	__Task__00000000_.IsWithCompletion = false
 	__Task__00000000_.Completion = ""
-	__Task__00000000_.DisplayVerticalBar = false
 	__Task__00000000_.TextPosition = ""
 	__Task__00000000_.XOffset = 0.000000
 	__Task__00000000_.YOffset = 0.000000
