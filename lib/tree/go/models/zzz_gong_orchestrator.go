@@ -35,7 +35,6 @@ func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 		stage.OnAfterButtonUpdateCallback = new(ButtonOrchestrator)
 	case Node:
 		stage.OnAfterNodeUpdateCallback = new(NodeOrchestrator)
-
 	}
 
 }

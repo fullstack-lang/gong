@@ -414,33 +414,196 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*AttributeShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.AttributeShapes, stage.AttributeShape_stagedOrder)
+}
+
+func (*AttributeShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.AttributeShape_orderStaged[order]
+}
+
+func (*AttributeShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.AttributeShapes_mapString
+}
+
+func (*AttributeShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.AttributeShapes
+}
+
+func (*AttributeShape) GongNewInstance() any {
+	return new(AttributeShape)
+}
+
+func (*Classdiagram) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Classdiagrams, stage.Classdiagram_stagedOrder)
+}
+
+func (*Classdiagram) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Classdiagram_orderStaged[order]
+}
+
+func (*Classdiagram) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Classdiagrams_mapString
+}
+
+func (*Classdiagram) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Classdiagrams
+}
+
+func (*Classdiagram) GongNewInstance() any {
+	return new(Classdiagram)
+}
+
+func (*DiagramPackage) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DiagramPackages, stage.DiagramPackage_stagedOrder)
+}
+
+func (*DiagramPackage) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DiagramPackage_orderStaged[order]
+}
+
+func (*DiagramPackage) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DiagramPackages_mapString
+}
+
+func (*DiagramPackage) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DiagramPackages
+}
+
+func (*DiagramPackage) GongNewInstance() any {
+	return new(DiagramPackage)
+}
+
+func (*GongEnumShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GongEnumShapes, stage.GongEnumShape_stagedOrder)
+}
+
+func (*GongEnumShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GongEnumShape_orderStaged[order]
+}
+
+func (*GongEnumShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GongEnumShapes_mapString
+}
+
+func (*GongEnumShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GongEnumShapes
+}
+
+func (*GongEnumShape) GongNewInstance() any {
+	return new(GongEnumShape)
+}
+
+func (*GongEnumValueShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GongEnumValueShapes, stage.GongEnumValueShape_stagedOrder)
+}
+
+func (*GongEnumValueShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GongEnumValueShape_orderStaged[order]
+}
+
+func (*GongEnumValueShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GongEnumValueShapes_mapString
+}
+
+func (*GongEnumValueShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GongEnumValueShapes
+}
+
+func (*GongEnumValueShape) GongNewInstance() any {
+	return new(GongEnumValueShape)
+}
+
+func (*GongNoteLinkShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GongNoteLinkShapes, stage.GongNoteLinkShape_stagedOrder)
+}
+
+func (*GongNoteLinkShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GongNoteLinkShape_orderStaged[order]
+}
+
+func (*GongNoteLinkShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GongNoteLinkShapes_mapString
+}
+
+func (*GongNoteLinkShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GongNoteLinkShapes
+}
+
+func (*GongNoteLinkShape) GongNewInstance() any {
+	return new(GongNoteLinkShape)
+}
+
+func (*GongNoteShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GongNoteShapes, stage.GongNoteShape_stagedOrder)
+}
+
+func (*GongNoteShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GongNoteShape_orderStaged[order]
+}
+
+func (*GongNoteShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GongNoteShapes_mapString
+}
+
+func (*GongNoteShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GongNoteShapes
+}
+
+func (*GongNoteShape) GongNewInstance() any {
+	return new(GongNoteShape)
+}
+
+func (*GongStructShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GongStructShapes, stage.GongStructShape_stagedOrder)
+}
+
+func (*GongStructShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GongStructShape_orderStaged[order]
+}
+
+func (*GongStructShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GongStructShapes_mapString
+}
+
+func (*GongStructShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GongStructShapes
+}
+
+func (*GongStructShape) GongNewInstance() any {
+	return new(GongStructShape)
+}
+
+func (*LinkShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.LinkShapes, stage.LinkShape_stagedOrder)
+}
+
+func (*LinkShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.LinkShape_orderStaged[order]
+}
+
+func (*LinkShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.LinkShapes_mapString
+}
+
+func (*LinkShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.LinkShapes
+}
+
+func (*LinkShape) GongNewInstance() any {
+	return new(LinkShape)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *AttributeShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.AttributeShapes, stage.AttributeShape_stagedOrder))
-	case *Classdiagram:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Classdiagrams, stage.Classdiagram_stagedOrder))
-	case *DiagramPackage:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DiagramPackages, stage.DiagramPackage_stagedOrder))
-	case *GongEnumShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongEnumShapes, stage.GongEnumShape_stagedOrder))
-	case *GongEnumValueShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongEnumValueShapes, stage.GongEnumValueShape_stagedOrder))
-	case *GongNoteLinkShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongNoteLinkShapes, stage.GongNoteLinkShape_stagedOrder))
-	case *GongNoteShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongNoteShapes, stage.GongNoteShape_stagedOrder))
-	case *GongStructShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongStructShapes, stage.GongStructShape_stagedOrder))
-	case *LinkShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.LinkShapes, stage.LinkShape_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -723,30 +886,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *AttributeShape:
-		return any(stage.AttributeShape_orderStaged[order]).(Type)
-	case *Classdiagram:
-		return any(stage.Classdiagram_orderStaged[order]).(Type)
-	case *DiagramPackage:
-		return any(stage.DiagramPackage_orderStaged[order]).(Type)
-	case *GongEnumShape:
-		return any(stage.GongEnumShape_orderStaged[order]).(Type)
-	case *GongEnumValueShape:
-		return any(stage.GongEnumValueShape_orderStaged[order]).(Type)
-	case *GongNoteLinkShape:
-		return any(stage.GongNoteLinkShape_orderStaged[order]).(Type)
-	case *GongNoteShape:
-		return any(stage.GongNoteShape_orderStaged[order]).(Type)
-	case *GongStructShape:
-		return any(stage.GongStructShape_orderStaged[order]).(Type)
-	case *LinkShape:
-		return any(stage.LinkShape_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -1241,7 +1389,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -1273,6 +1423,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -1304,98 +1461,85 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *AttributeShape:
-		return any(stage.AttributeShapes_mapString).(map[string]Type)
-	case *Classdiagram:
-		return any(stage.Classdiagrams_mapString).(map[string]Type)
-	case *DiagramPackage:
-		return any(stage.DiagramPackages_mapString).(map[string]Type)
-	case *GongEnumShape:
-		return any(stage.GongEnumShapes_mapString).(map[string]Type)
-	case *GongEnumValueShape:
-		return any(stage.GongEnumValueShapes_mapString).(map[string]Type)
-	case *GongNoteLinkShape:
-		return any(stage.GongNoteLinkShapes_mapString).(map[string]Type)
-	case *GongNoteShape:
-		return any(stage.GongNoteShapes_mapString).(map[string]Type)
-	case *GongStructShape:
-		return any(stage.GongStructShapes_mapString).(map[string]Type)
-	case *LinkShape:
-		return any(stage.LinkShapes_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *AttributeShape:
-		return any(&stage.AttributeShapes).(*map[Type]struct{})
-	case *Classdiagram:
-		return any(&stage.Classdiagrams).(*map[Type]struct{})
-	case *DiagramPackage:
-		return any(&stage.DiagramPackages).(*map[Type]struct{})
-	case *GongEnumShape:
-		return any(&stage.GongEnumShapes).(*map[Type]struct{})
-	case *GongEnumValueShape:
-		return any(&stage.GongEnumValueShapes).(*map[Type]struct{})
-	case *GongNoteLinkShape:
-		return any(&stage.GongNoteLinkShapes).(*map[Type]struct{})
-	case *GongNoteShape:
-		return any(&stage.GongNoteShapes).(*map[Type]struct{})
-	case *GongStructShape:
-		return any(&stage.GongStructShapes).(*map[Type]struct{})
-	case *LinkShape:
-		return any(&stage.LinkShapes).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
+
+// insertion point for instance with special fields
+func (AttributeShape) GongGetAssociationName() any {
+	return &AttributeShape{
+	}
+}
+
+func (Classdiagram) GongGetAssociationName() any {
+	return &Classdiagram{
+			GongStructShapes: []*GongStructShape{{Name: "GongStructShapes"}},
+			GongEnumShapes: []*GongEnumShape{{Name: "GongEnumShapes"}},
+			GongNoteShapes: []*GongNoteShape{{Name: "GongNoteShapes"}},
+	}
+}
+
+func (DiagramPackage) GongGetAssociationName() any {
+	return &DiagramPackage{
+			Classdiagrams: []*Classdiagram{{Name: "Classdiagrams"}},
+			SelectedClassdiagram: &Classdiagram{Name: "SelectedClassdiagram"},
+	}
+}
+
+func (GongEnumShape) GongGetAssociationName() any {
+	return &GongEnumShape{
+			GongEnumValueShapes: []*GongEnumValueShape{{Name: "GongEnumValueShapes"}},
+	}
+}
+
+func (GongEnumValueShape) GongGetAssociationName() any {
+	return &GongEnumValueShape{
+	}
+}
+
+func (GongNoteLinkShape) GongGetAssociationName() any {
+	return &GongNoteLinkShape{
+	}
+}
+
+func (GongNoteShape) GongGetAssociationName() any {
+	return &GongNoteShape{
+			GongNoteLinkShapes: []*GongNoteLinkShape{{Name: "GongNoteLinkShapes"}},
+	}
+}
+
+func (GongStructShape) GongGetAssociationName() any {
+	return &GongStructShape{
+			AttributeShapes: []*AttributeShape{{Name: "AttributeShapes"}},
+			LinkShapes: []*LinkShape{{Name: "LinkShapes"}},
+	}
+}
+
+func (LinkShape) GongGetAssociationName() any {
+	return &LinkShape{
+	}
+}
+
 
 // GongGetAssociationName is a generic function that returns an instance of Type
 // where each association is filled with an instance whose name is the name of the association
 //
 // This function can be handy for generating navigation function that are refactorable
 func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case Classdiagram:
-		return any(&Classdiagram{
-			GongStructShapes: []*GongStructShape{{Name: "GongStructShapes"}},
-			GongEnumShapes: []*GongEnumShape{{Name: "GongEnumShapes"}},
-			GongNoteShapes: []*GongNoteShape{{Name: "GongNoteShapes"}},
-		}).(*Type)
-	case DiagramPackage:
-		return any(&DiagramPackage{
-			Classdiagrams: []*Classdiagram{{Name: "Classdiagrams"}},
-			SelectedClassdiagram: &Classdiagram{Name: "SelectedClassdiagram"},
-		}).(*Type)
-	case GongEnumShape:
-		return any(&GongEnumShape{
-			GongEnumValueShapes: []*GongEnumValueShape{{Name: "GongEnumValueShapes"}},
-		}).(*Type)
-	case GongNoteShape:
-		return any(&GongNoteShape{
-			GongNoteLinkShapes: []*GongNoteLinkShape{{Name: "GongNoteLinkShapes"}},
-		}).(*Type)
-	case GongStructShape:
-		return any(&GongStructShape{
-			AttributeShapes: []*AttributeShape{{Name: "AttributeShapes"}},
-			LinkShapes: []*LinkShape{{Name: "LinkShapes"}},
-		}).(*Type)
-	default:
-		return &ret
-	}
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -1598,30 +1742,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *AttributeShape:
-		res = any(new(AttributeShape)).(Type)
-	case *Classdiagram:
-		res = any(new(Classdiagram)).(Type)
-	case *DiagramPackage:
-		res = any(new(DiagramPackage)).(Type)
-	case *GongEnumShape:
-		res = any(new(GongEnumShape)).(Type)
-	case *GongEnumValueShape:
-		res = any(new(GongEnumValueShape)).(Type)
-	case *GongNoteLinkShape:
-		res = any(new(GongNoteLinkShape)).(Type)
-	case *GongNoteShape:
-		res = any(new(GongNoteShape)).(Type)
-	case *GongStructShape:
-		res = any(new(GongStructShape)).(Type)
-	case *LinkShape:
-		res = any(new(LinkShape)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -1644,30 +1766,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *AttributeShape:
-		res = "AttributeShape"
-	case *Classdiagram:
-		res = "Classdiagram"
-	case *DiagramPackage:
-		res = "DiagramPackage"
-	case *GongEnumShape:
-		res = "GongEnumShape"
-	case *GongEnumValueShape:
-		res = "GongEnumValueShape"
-	case *GongNoteLinkShape:
-		res = "GongNoteLinkShape"
-	case *GongNoteShape:
-		res = "GongNoteShape"
-	case *GongStructShape:
-		res = "GongStructShape"
-	case *LinkShape:
-		res = "LinkShape"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -1681,67 +1781,88 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *AttributeShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GongStructShape"
-		rf.Fieldname = "AttributeShapes"
-		res = append(res, rf)
-	case *Classdiagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramPackage"
-		rf.Fieldname = "Classdiagrams"
-		res = append(res, rf)
-	case *DiagramPackage:
-		var rf ReverseField
-		_ = rf
-	case *GongEnumShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Classdiagram"
-		rf.Fieldname = "GongEnumShapes"
-		res = append(res, rf)
-	case *GongEnumValueShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GongEnumShape"
-		rf.Fieldname = "GongEnumValueShapes"
-		res = append(res, rf)
-	case *GongNoteLinkShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GongNoteShape"
-		rf.Fieldname = "GongNoteLinkShapes"
-		res = append(res, rf)
-	case *GongNoteShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Classdiagram"
-		rf.Fieldname = "GongNoteShapes"
-		res = append(res, rf)
-	case *GongStructShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Classdiagram"
-		rf.Fieldname = "GongStructShapes"
-		res = append(res, rf)
-	case *LinkShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GongStructShape"
-		rf.Fieldname = "LinkShapes"
-		res = append(res, rf)
+// insertion point for generic get reverse fields
+func (*AttributeShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GongStructShape",
+			Fieldname: "AttributeShapes",
+		},
 	}
-	return
+}
+
+func (*Classdiagram) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramPackage",
+			Fieldname: "Classdiagrams",
+		},
+	}
+}
+
+func (*DiagramPackage) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*GongEnumShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Classdiagram",
+			Fieldname: "GongEnumShapes",
+		},
+	}
+}
+
+func (*GongEnumValueShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GongEnumShape",
+			Fieldname: "GongEnumValueShapes",
+		},
+	}
+}
+
+func (*GongNoteLinkShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GongNoteShape",
+			Fieldname: "GongNoteLinkShapes",
+		},
+	}
+}
+
+func (*GongNoteShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Classdiagram",
+			Fieldname: "GongNoteShapes",
+		},
+	}
+}
+
+func (*GongStructShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Classdiagram",
+			Fieldname: "GongStructShapes",
+		},
+	}
+}
+
+func (*LinkShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GongStructShape",
+			Fieldname: "LinkShapes",
+		},
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

@@ -540,47 +540,336 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*Body) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Bodys, stage.Body_stagedOrder)
+}
+
+func (*Body) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Body_orderStaged[order]
+}
+
+func (*Body) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Bodys_mapString
+}
+
+func (*Body) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Bodys
+}
+
+func (*Body) GongNewInstance() any {
+	return new(Body)
+}
+
+func (*Document) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Documents, stage.Document_stagedOrder)
+}
+
+func (*Document) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Document_orderStaged[order]
+}
+
+func (*Document) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Documents_mapString
+}
+
+func (*Document) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Documents
+}
+
+func (*Document) GongNewInstance() any {
+	return new(Document)
+}
+
+func (*Docx) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Docxs, stage.Docx_stagedOrder)
+}
+
+func (*Docx) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Docx_orderStaged[order]
+}
+
+func (*Docx) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Docxs_mapString
+}
+
+func (*Docx) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Docxs
+}
+
+func (*Docx) GongNewInstance() any {
+	return new(Docx)
+}
+
+func (*File) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Files, stage.File_stagedOrder)
+}
+
+func (*File) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.File_orderStaged[order]
+}
+
+func (*File) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Files_mapString
+}
+
+func (*File) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Files
+}
+
+func (*File) GongNewInstance() any {
+	return new(File)
+}
+
+func (*Node) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Nodes, stage.Node_stagedOrder)
+}
+
+func (*Node) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Node_orderStaged[order]
+}
+
+func (*Node) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Nodes_mapString
+}
+
+func (*Node) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Nodes
+}
+
+func (*Node) GongNewInstance() any {
+	return new(Node)
+}
+
+func (*Paragraph) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Paragraphs, stage.Paragraph_stagedOrder)
+}
+
+func (*Paragraph) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Paragraph_orderStaged[order]
+}
+
+func (*Paragraph) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Paragraphs_mapString
+}
+
+func (*Paragraph) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Paragraphs
+}
+
+func (*Paragraph) GongNewInstance() any {
+	return new(Paragraph)
+}
+
+func (*ParagraphProperties) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ParagraphPropertiess, stage.ParagraphProperties_stagedOrder)
+}
+
+func (*ParagraphProperties) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ParagraphProperties_orderStaged[order]
+}
+
+func (*ParagraphProperties) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ParagraphPropertiess_mapString
+}
+
+func (*ParagraphProperties) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ParagraphPropertiess
+}
+
+func (*ParagraphProperties) GongNewInstance() any {
+	return new(ParagraphProperties)
+}
+
+func (*ParagraphStyle) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ParagraphStyles, stage.ParagraphStyle_stagedOrder)
+}
+
+func (*ParagraphStyle) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ParagraphStyle_orderStaged[order]
+}
+
+func (*ParagraphStyle) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ParagraphStyles_mapString
+}
+
+func (*ParagraphStyle) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ParagraphStyles
+}
+
+func (*ParagraphStyle) GongNewInstance() any {
+	return new(ParagraphStyle)
+}
+
+func (*Rune) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Runes, stage.Rune_stagedOrder)
+}
+
+func (*Rune) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Rune_orderStaged[order]
+}
+
+func (*Rune) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Runes_mapString
+}
+
+func (*Rune) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Runes
+}
+
+func (*Rune) GongNewInstance() any {
+	return new(Rune)
+}
+
+func (*RuneProperties) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RunePropertiess, stage.RuneProperties_stagedOrder)
+}
+
+func (*RuneProperties) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RuneProperties_orderStaged[order]
+}
+
+func (*RuneProperties) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RunePropertiess_mapString
+}
+
+func (*RuneProperties) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RunePropertiess
+}
+
+func (*RuneProperties) GongNewInstance() any {
+	return new(RuneProperties)
+}
+
+func (*Table) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Tables, stage.Table_stagedOrder)
+}
+
+func (*Table) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Table_orderStaged[order]
+}
+
+func (*Table) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Tables_mapString
+}
+
+func (*Table) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Tables
+}
+
+func (*Table) GongNewInstance() any {
+	return new(Table)
+}
+
+func (*TableColumn) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TableColumns, stage.TableColumn_stagedOrder)
+}
+
+func (*TableColumn) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TableColumn_orderStaged[order]
+}
+
+func (*TableColumn) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TableColumns_mapString
+}
+
+func (*TableColumn) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TableColumns
+}
+
+func (*TableColumn) GongNewInstance() any {
+	return new(TableColumn)
+}
+
+func (*TableProperties) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TablePropertiess, stage.TableProperties_stagedOrder)
+}
+
+func (*TableProperties) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TableProperties_orderStaged[order]
+}
+
+func (*TableProperties) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TablePropertiess_mapString
+}
+
+func (*TableProperties) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TablePropertiess
+}
+
+func (*TableProperties) GongNewInstance() any {
+	return new(TableProperties)
+}
+
+func (*TableRow) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TableRows, stage.TableRow_stagedOrder)
+}
+
+func (*TableRow) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TableRow_orderStaged[order]
+}
+
+func (*TableRow) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TableRows_mapString
+}
+
+func (*TableRow) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TableRows
+}
+
+func (*TableRow) GongNewInstance() any {
+	return new(TableRow)
+}
+
+func (*TableStyle) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TableStyles, stage.TableStyle_stagedOrder)
+}
+
+func (*TableStyle) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TableStyle_orderStaged[order]
+}
+
+func (*TableStyle) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TableStyles_mapString
+}
+
+func (*TableStyle) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TableStyles
+}
+
+func (*TableStyle) GongNewInstance() any {
+	return new(TableStyle)
+}
+
+func (*Text) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Texts, stage.Text_stagedOrder)
+}
+
+func (*Text) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Text_orderStaged[order]
+}
+
+func (*Text) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Texts_mapString
+}
+
+func (*Text) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Texts
+}
+
+func (*Text) GongNewInstance() any {
+	return new(Text)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *Body:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Bodys, stage.Body_stagedOrder))
-	case *Document:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Documents, stage.Document_stagedOrder))
-	case *Docx:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Docxs, stage.Docx_stagedOrder))
-	case *File:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Files, stage.File_stagedOrder))
-	case *Node:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Nodes, stage.Node_stagedOrder))
-	case *Paragraph:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Paragraphs, stage.Paragraph_stagedOrder))
-	case *ParagraphProperties:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ParagraphPropertiess, stage.ParagraphProperties_stagedOrder))
-	case *ParagraphStyle:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ParagraphStyles, stage.ParagraphStyle_stagedOrder))
-	case *Rune:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Runes, stage.Rune_stagedOrder))
-	case *RuneProperties:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RunePropertiess, stage.RuneProperties_stagedOrder))
-	case *Table:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tables, stage.Table_stagedOrder))
-	case *TableColumn:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TableColumns, stage.TableColumn_stagedOrder))
-	case *TableProperties:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TablePropertiess, stage.TableProperties_stagedOrder))
-	case *TableRow:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TableRows, stage.TableRow_stagedOrder))
-	case *TableStyle:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TableStyles, stage.TableStyle_stagedOrder))
-	case *Text:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Texts, stage.Text_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -926,44 +1215,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *Body:
-		return any(stage.Body_orderStaged[order]).(Type)
-	case *Document:
-		return any(stage.Document_orderStaged[order]).(Type)
-	case *Docx:
-		return any(stage.Docx_orderStaged[order]).(Type)
-	case *File:
-		return any(stage.File_orderStaged[order]).(Type)
-	case *Node:
-		return any(stage.Node_orderStaged[order]).(Type)
-	case *Paragraph:
-		return any(stage.Paragraph_orderStaged[order]).(Type)
-	case *ParagraphProperties:
-		return any(stage.ParagraphProperties_orderStaged[order]).(Type)
-	case *ParagraphStyle:
-		return any(stage.ParagraphStyle_orderStaged[order]).(Type)
-	case *Rune:
-		return any(stage.Rune_orderStaged[order]).(Type)
-	case *RuneProperties:
-		return any(stage.RuneProperties_orderStaged[order]).(Type)
-	case *Table:
-		return any(stage.Table_orderStaged[order]).(Type)
-	case *TableColumn:
-		return any(stage.TableColumn_orderStaged[order]).(Type)
-	case *TableProperties:
-		return any(stage.TableProperties_orderStaged[order]).(Type)
-	case *TableRow:
-		return any(stage.TableRow_orderStaged[order]).(Type)
-	case *TableStyle:
-		return any(stage.TableStyle_orderStaged[order]).(Type)
-	case *Text:
-		return any(stage.Text_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -1759,7 +2019,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -1791,6 +2053,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -1822,122 +2091,59 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Body:
-		return any(stage.Bodys_mapString).(map[string]Type)
-	case *Document:
-		return any(stage.Documents_mapString).(map[string]Type)
-	case *Docx:
-		return any(stage.Docxs_mapString).(map[string]Type)
-	case *File:
-		return any(stage.Files_mapString).(map[string]Type)
-	case *Node:
-		return any(stage.Nodes_mapString).(map[string]Type)
-	case *Paragraph:
-		return any(stage.Paragraphs_mapString).(map[string]Type)
-	case *ParagraphProperties:
-		return any(stage.ParagraphPropertiess_mapString).(map[string]Type)
-	case *ParagraphStyle:
-		return any(stage.ParagraphStyles_mapString).(map[string]Type)
-	case *Rune:
-		return any(stage.Runes_mapString).(map[string]Type)
-	case *RuneProperties:
-		return any(stage.RunePropertiess_mapString).(map[string]Type)
-	case *Table:
-		return any(stage.Tables_mapString).(map[string]Type)
-	case *TableColumn:
-		return any(stage.TableColumns_mapString).(map[string]Type)
-	case *TableProperties:
-		return any(stage.TablePropertiess_mapString).(map[string]Type)
-	case *TableRow:
-		return any(stage.TableRows_mapString).(map[string]Type)
-	case *TableStyle:
-		return any(stage.TableStyles_mapString).(map[string]Type)
-	case *Text:
-		return any(stage.Texts_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Body:
-		return any(&stage.Bodys).(*map[Type]struct{})
-	case *Document:
-		return any(&stage.Documents).(*map[Type]struct{})
-	case *Docx:
-		return any(&stage.Docxs).(*map[Type]struct{})
-	case *File:
-		return any(&stage.Files).(*map[Type]struct{})
-	case *Node:
-		return any(&stage.Nodes).(*map[Type]struct{})
-	case *Paragraph:
-		return any(&stage.Paragraphs).(*map[Type]struct{})
-	case *ParagraphProperties:
-		return any(&stage.ParagraphPropertiess).(*map[Type]struct{})
-	case *ParagraphStyle:
-		return any(&stage.ParagraphStyles).(*map[Type]struct{})
-	case *Rune:
-		return any(&stage.Runes).(*map[Type]struct{})
-	case *RuneProperties:
-		return any(&stage.RunePropertiess).(*map[Type]struct{})
-	case *Table:
-		return any(&stage.Tables).(*map[Type]struct{})
-	case *TableColumn:
-		return any(&stage.TableColumns).(*map[Type]struct{})
-	case *TableProperties:
-		return any(&stage.TablePropertiess).(*map[Type]struct{})
-	case *TableRow:
-		return any(&stage.TableRows).(*map[Type]struct{})
-	case *TableStyle:
-		return any(&stage.TableStyles).(*map[Type]struct{})
-	case *Text:
-		return any(&stage.Texts).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case Body:
-		return any(&Body{
+// insertion point for instance with special fields
+func (Body) GongGetAssociationName() any {
+	return &Body{
 			Paragraphs: []*Paragraph{{Name: "Paragraphs"}},
 			Tables: []*Table{{Name: "Tables"}},
 			LastParagraph: &Paragraph{Name: "LastParagraph"},
-		}).(*Type)
-	case Document:
-		return any(&Document{
+	}
+}
+
+func (Document) GongGetAssociationName() any {
+	return &Document{
 			File: &File{Name: "File"},
 			Root: &Node{Name: "Root"},
 			Body: &Body{Name: "Body"},
-		}).(*Type)
-	case Docx:
-		return any(&Docx{
+	}
+}
+
+func (Docx) GongGetAssociationName() any {
+	return &Docx{
 			Files: []*File{{Name: "Files"}},
 			Document: &Document{Name: "Document"},
-		}).(*Type)
-	case Node:
-		return any(&Node{
+	}
+}
+
+func (File) GongGetAssociationName() any {
+	return &File{
+	}
+}
+
+func (Node) GongGetAssociationName() any {
+	return &Node{
 			Nodes: []*Node{{Name: "Nodes"}},
-		}).(*Type)
-	case Paragraph:
-		return any(&Paragraph{
+	}
+}
+
+func (Paragraph) GongGetAssociationName() any {
+	return &Paragraph{
 			Node: &Node{Name: "Node"},
 			ParagraphProperties: &ParagraphProperties{Name: "ParagraphProperties"},
 			Runes: []*Rune{{Name: "Runes"}},
@@ -1945,60 +2151,87 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Previous: &Paragraph{Name: "Previous"},
 			EnclosingBody: &Body{Name: "EnclosingBody"},
 			EnclosingTableColumn: &TableColumn{Name: "EnclosingTableColumn"},
-		}).(*Type)
-	case ParagraphProperties:
-		return any(&ParagraphProperties{
+	}
+}
+
+func (ParagraphProperties) GongGetAssociationName() any {
+	return &ParagraphProperties{
 			ParagraphStyle: &ParagraphStyle{Name: "ParagraphStyle"},
 			Node: &Node{Name: "Node"},
-		}).(*Type)
-	case ParagraphStyle:
-		return any(&ParagraphStyle{
+	}
+}
+
+func (ParagraphStyle) GongGetAssociationName() any {
+	return &ParagraphStyle{
 			Node: &Node{Name: "Node"},
-		}).(*Type)
-	case Rune:
-		return any(&Rune{
+	}
+}
+
+func (Rune) GongGetAssociationName() any {
+	return &Rune{
 			Node: &Node{Name: "Node"},
 			Text: &Text{Name: "Text"},
 			RuneProperties: &RuneProperties{Name: "RuneProperties"},
 			EnclosingParagraph: &Paragraph{Name: "EnclosingParagraph"},
-		}).(*Type)
-	case RuneProperties:
-		return any(&RuneProperties{
+	}
+}
+
+func (RuneProperties) GongGetAssociationName() any {
+	return &RuneProperties{
 			Node: &Node{Name: "Node"},
-		}).(*Type)
-	case Table:
-		return any(&Table{
+	}
+}
+
+func (Table) GongGetAssociationName() any {
+	return &Table{
 			Node: &Node{Name: "Node"},
 			TableProperties: &TableProperties{Name: "TableProperties"},
 			TableRows: []*TableRow{{Name: "TableRows"}},
-		}).(*Type)
-	case TableColumn:
-		return any(&TableColumn{
+	}
+}
+
+func (TableColumn) GongGetAssociationName() any {
+	return &TableColumn{
 			Node: &Node{Name: "Node"},
 			Paragraphs: []*Paragraph{{Name: "Paragraphs"}},
-		}).(*Type)
-	case TableProperties:
-		return any(&TableProperties{
+	}
+}
+
+func (TableProperties) GongGetAssociationName() any {
+	return &TableProperties{
 			Node: &Node{Name: "Node"},
 			TableStyle: &TableStyle{Name: "TableStyle"},
-		}).(*Type)
-	case TableRow:
-		return any(&TableRow{
+	}
+}
+
+func (TableRow) GongGetAssociationName() any {
+	return &TableRow{
 			Node: &Node{Name: "Node"},
 			TableColumns: []*TableColumn{{Name: "TableColumns"}},
-		}).(*Type)
-	case TableStyle:
-		return any(&TableStyle{
+	}
+}
+
+func (TableStyle) GongGetAssociationName() any {
+	return &TableStyle{
 			Node: &Node{Name: "Node"},
-		}).(*Type)
-	case Text:
-		return any(&Text{
+	}
+}
+
+func (Text) GongGetAssociationName() any {
+	return &Text{
 			Node: &Node{Name: "Node"},
 			EnclosingRune: &Rune{Name: "EnclosingRune"},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -2730,44 +2963,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *Body:
-		res = any(new(Body)).(Type)
-	case *Document:
-		res = any(new(Document)).(Type)
-	case *Docx:
-		res = any(new(Docx)).(Type)
-	case *File:
-		res = any(new(File)).(Type)
-	case *Node:
-		res = any(new(Node)).(Type)
-	case *Paragraph:
-		res = any(new(Paragraph)).(Type)
-	case *ParagraphProperties:
-		res = any(new(ParagraphProperties)).(Type)
-	case *ParagraphStyle:
-		res = any(new(ParagraphStyle)).(Type)
-	case *Rune:
-		res = any(new(Rune)).(Type)
-	case *RuneProperties:
-		res = any(new(RuneProperties)).(Type)
-	case *Table:
-		res = any(new(Table)).(Type)
-	case *TableColumn:
-		res = any(new(TableColumn)).(Type)
-	case *TableProperties:
-		res = any(new(TableProperties)).(Type)
-	case *TableRow:
-		res = any(new(TableRow)).(Type)
-	case *TableStyle:
-		res = any(new(TableStyle)).(Type)
-	case *Text:
-		res = any(new(Text)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -2790,44 +2987,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *Body:
-		res = "Body"
-	case *Document:
-		res = "Document"
-	case *Docx:
-		res = "Docx"
-	case *File:
-		res = "File"
-	case *Node:
-		res = "Node"
-	case *Paragraph:
-		res = "Paragraph"
-	case *ParagraphProperties:
-		res = "ParagraphProperties"
-	case *ParagraphStyle:
-		res = "ParagraphStyle"
-	case *Rune:
-		res = "Rune"
-	case *RuneProperties:
-		res = "RuneProperties"
-	case *Table:
-		res = "Table"
-	case *TableColumn:
-		res = "TableColumn"
-	case *TableProperties:
-		res = "TableProperties"
-	case *TableRow:
-		res = "TableRow"
-	case *TableStyle:
-		res = "TableStyle"
-	case *Text:
-		res = "Text"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -2841,88 +3002,123 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *Body:
-		var rf ReverseField
-		_ = rf
-	case *Document:
-		var rf ReverseField
-		_ = rf
-	case *Docx:
-		var rf ReverseField
-		_ = rf
-	case *File:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Docx"
-		rf.Fieldname = "Files"
-		res = append(res, rf)
-	case *Node:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Node"
-		rf.Fieldname = "Nodes"
-		res = append(res, rf)
-	case *Paragraph:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Body"
-		rf.Fieldname = "Paragraphs"
-		res = append(res, rf)
-		rf.GongstructName = "TableColumn"
-		rf.Fieldname = "Paragraphs"
-		res = append(res, rf)
-	case *ParagraphProperties:
-		var rf ReverseField
-		_ = rf
-	case *ParagraphStyle:
-		var rf ReverseField
-		_ = rf
-	case *Rune:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Paragraph"
-		rf.Fieldname = "Runes"
-		res = append(res, rf)
-	case *RuneProperties:
-		var rf ReverseField
-		_ = rf
-	case *Table:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Body"
-		rf.Fieldname = "Tables"
-		res = append(res, rf)
-	case *TableColumn:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "TableRow"
-		rf.Fieldname = "TableColumns"
-		res = append(res, rf)
-	case *TableProperties:
-		var rf ReverseField
-		_ = rf
-	case *TableRow:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Table"
-		rf.Fieldname = "TableRows"
-		res = append(res, rf)
-	case *TableStyle:
-		var rf ReverseField
-		_ = rf
-	case *Text:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*Body) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
 	}
-	return
+}
+
+func (*Document) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Docx) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*File) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Docx",
+			Fieldname: "Files",
+		},
+	}
+}
+
+func (*Node) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Node",
+			Fieldname: "Nodes",
+		},
+	}
+}
+
+func (*Paragraph) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Body",
+			Fieldname: "Paragraphs",
+		},
+		{
+			GongstructName: "TableColumn",
+			Fieldname: "Paragraphs",
+		},
+	}
+}
+
+func (*ParagraphProperties) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ParagraphStyle) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Rune) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Paragraph",
+			Fieldname: "Runes",
+		},
+	}
+}
+
+func (*RuneProperties) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Table) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Body",
+			Fieldname: "Tables",
+		},
+	}
+}
+
+func (*TableColumn) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "TableRow",
+			Fieldname: "TableColumns",
+		},
+	}
+}
+
+func (*TableProperties) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TableRow) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Table",
+			Fieldname: "TableRows",
+		},
+	}
+}
+
+func (*TableStyle) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Text) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

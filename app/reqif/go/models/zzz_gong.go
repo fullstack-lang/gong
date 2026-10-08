@@ -2190,223 +2190,2096 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*ALTERNATIVE_ID) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ALTERNATIVE_IDs, stage.ALTERNATIVE_ID_stagedOrder)
+}
+
+func (*ALTERNATIVE_ID) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ALTERNATIVE_ID_orderStaged[order]
+}
+
+func (*ALTERNATIVE_ID) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ALTERNATIVE_IDs_mapString
+}
+
+func (*ALTERNATIVE_ID) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ALTERNATIVE_IDs
+}
+
+func (*ALTERNATIVE_ID) GongNewInstance() any {
+	return new(ALTERNATIVE_ID)
+}
+
+func (*ATTRIBUTE_DEFINITION_BOOLEAN) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_BOOLEANs, stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_BOOLEAN) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_BOOLEAN_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_BOOLEAN) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_BOOLEANs_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_BOOLEAN) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_BOOLEANs
+}
+
+func (*ATTRIBUTE_DEFINITION_BOOLEAN) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_BOOLEAN)
+}
+
+func (*ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings, stage.ATTRIBUTE_DEFINITION_BOOLEAN_Rendering_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_BOOLEAN_Rendering_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings
+}
+
+func (*ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_BOOLEAN_Rendering)
+}
+
+func (*ATTRIBUTE_DEFINITION_DATE) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_DATEs, stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_DATE) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_DATE_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_DATE) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_DATEs_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_DATE) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_DATEs
+}
+
+func (*ATTRIBUTE_DEFINITION_DATE) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_DATE)
+}
+
+func (*ATTRIBUTE_DEFINITION_DATE_Rendering) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_DATE_Renderings, stage.ATTRIBUTE_DEFINITION_DATE_Rendering_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_DATE_Rendering) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_DATE_Rendering_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_DATE_Rendering) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_DATE_Renderings_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_DATE_Rendering) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_DATE_Renderings
+}
+
+func (*ATTRIBUTE_DEFINITION_DATE_Rendering) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_DATE_Rendering)
+}
+
+func (*ATTRIBUTE_DEFINITION_ENUMERATION) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_ENUMERATIONs, stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_ENUMERATION) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_ENUMERATION_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_ENUMERATION) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_ENUMERATION) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_ENUMERATIONs
+}
+
+func (*ATTRIBUTE_DEFINITION_ENUMERATION) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_ENUMERATION)
+}
+
+func (*ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings, stage.ATTRIBUTE_DEFINITION_ENUMERATION_Rendering_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_ENUMERATION_Rendering_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings
+}
+
+func (*ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_ENUMERATION_Rendering)
+}
+
+func (*ATTRIBUTE_DEFINITION_INTEGER) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_INTEGERs, stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_INTEGER) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_INTEGER_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_INTEGER) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_INTEGERs_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_INTEGER) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_INTEGERs
+}
+
+func (*ATTRIBUTE_DEFINITION_INTEGER) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_INTEGER)
+}
+
+func (*ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings, stage.ATTRIBUTE_DEFINITION_INTEGER_Rendering_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_INTEGER_Rendering_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings
+}
+
+func (*ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_INTEGER_Rendering)
+}
+
+func (*ATTRIBUTE_DEFINITION_REAL) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_REALs, stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_REAL) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_REAL_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_REAL) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_REALs_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_REAL) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_REALs
+}
+
+func (*ATTRIBUTE_DEFINITION_REAL) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_REAL)
+}
+
+func (*ATTRIBUTE_DEFINITION_REAL_Rendering) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_REAL_Renderings, stage.ATTRIBUTE_DEFINITION_REAL_Rendering_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_REAL_Rendering) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_REAL_Rendering_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_REAL_Rendering) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_REAL_Renderings_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_REAL_Rendering) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_REAL_Renderings
+}
+
+func (*ATTRIBUTE_DEFINITION_REAL_Rendering) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_REAL_Rendering)
+}
+
+func (*ATTRIBUTE_DEFINITION_Rendering) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_Renderings, stage.ATTRIBUTE_DEFINITION_Rendering_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_Rendering) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_Rendering_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_Rendering) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_Renderings_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_Rendering) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_Renderings
+}
+
+func (*ATTRIBUTE_DEFINITION_Rendering) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_Rendering)
+}
+
+func (*ATTRIBUTE_DEFINITION_STRING) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_STRINGs, stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_STRING) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_STRING_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_STRING) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_STRINGs_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_STRING) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_STRINGs
+}
+
+func (*ATTRIBUTE_DEFINITION_STRING) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_STRING)
+}
+
+func (*ATTRIBUTE_DEFINITION_STRING_Rendering) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_STRING_Renderings, stage.ATTRIBUTE_DEFINITION_STRING_Rendering_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_STRING_Rendering) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_STRING_Rendering_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_STRING_Rendering) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_STRING_Renderings_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_STRING_Rendering) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_STRING_Renderings
+}
+
+func (*ATTRIBUTE_DEFINITION_STRING_Rendering) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_STRING_Rendering)
+}
+
+func (*ATTRIBUTE_DEFINITION_XHTML) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_XHTMLs, stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_XHTML) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_XHTML_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_XHTML) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_XHTMLs_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_XHTML) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_XHTMLs
+}
+
+func (*ATTRIBUTE_DEFINITION_XHTML) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_XHTML)
+}
+
+func (*ATTRIBUTE_DEFINITION_XHTML_Rendering) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_XHTML_Renderings, stage.ATTRIBUTE_DEFINITION_XHTML_Rendering_stagedOrder)
+}
+
+func (*ATTRIBUTE_DEFINITION_XHTML_Rendering) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_DEFINITION_XHTML_Rendering_orderStaged[order]
+}
+
+func (*ATTRIBUTE_DEFINITION_XHTML_Rendering) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_DEFINITION_XHTML_Renderings_mapString
+}
+
+func (*ATTRIBUTE_DEFINITION_XHTML_Rendering) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_DEFINITION_XHTML_Renderings
+}
+
+func (*ATTRIBUTE_DEFINITION_XHTML_Rendering) GongNewInstance() any {
+	return new(ATTRIBUTE_DEFINITION_XHTML_Rendering)
+}
+
+func (*ATTRIBUTE_VALUE_BOOLEAN) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_BOOLEANs, stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder)
+}
+
+func (*ATTRIBUTE_VALUE_BOOLEAN) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_VALUE_BOOLEAN_orderStaged[order]
+}
+
+func (*ATTRIBUTE_VALUE_BOOLEAN) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_VALUE_BOOLEANs_mapString
+}
+
+func (*ATTRIBUTE_VALUE_BOOLEAN) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_VALUE_BOOLEANs
+}
+
+func (*ATTRIBUTE_VALUE_BOOLEAN) GongNewInstance() any {
+	return new(ATTRIBUTE_VALUE_BOOLEAN)
+}
+
+func (*ATTRIBUTE_VALUE_DATE) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_DATEs, stage.ATTRIBUTE_VALUE_DATE_stagedOrder)
+}
+
+func (*ATTRIBUTE_VALUE_DATE) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_VALUE_DATE_orderStaged[order]
+}
+
+func (*ATTRIBUTE_VALUE_DATE) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_VALUE_DATEs_mapString
+}
+
+func (*ATTRIBUTE_VALUE_DATE) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_VALUE_DATEs
+}
+
+func (*ATTRIBUTE_VALUE_DATE) GongNewInstance() any {
+	return new(ATTRIBUTE_VALUE_DATE)
+}
+
+func (*ATTRIBUTE_VALUE_ENUMERATION) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_ENUMERATIONs, stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder)
+}
+
+func (*ATTRIBUTE_VALUE_ENUMERATION) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_VALUE_ENUMERATION_orderStaged[order]
+}
+
+func (*ATTRIBUTE_VALUE_ENUMERATION) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_VALUE_ENUMERATIONs_mapString
+}
+
+func (*ATTRIBUTE_VALUE_ENUMERATION) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_VALUE_ENUMERATIONs
+}
+
+func (*ATTRIBUTE_VALUE_ENUMERATION) GongNewInstance() any {
+	return new(ATTRIBUTE_VALUE_ENUMERATION)
+}
+
+func (*ATTRIBUTE_VALUE_INTEGER) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_INTEGERs, stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder)
+}
+
+func (*ATTRIBUTE_VALUE_INTEGER) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_VALUE_INTEGER_orderStaged[order]
+}
+
+func (*ATTRIBUTE_VALUE_INTEGER) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_VALUE_INTEGERs_mapString
+}
+
+func (*ATTRIBUTE_VALUE_INTEGER) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_VALUE_INTEGERs
+}
+
+func (*ATTRIBUTE_VALUE_INTEGER) GongNewInstance() any {
+	return new(ATTRIBUTE_VALUE_INTEGER)
+}
+
+func (*ATTRIBUTE_VALUE_REAL) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_REALs, stage.ATTRIBUTE_VALUE_REAL_stagedOrder)
+}
+
+func (*ATTRIBUTE_VALUE_REAL) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_VALUE_REAL_orderStaged[order]
+}
+
+func (*ATTRIBUTE_VALUE_REAL) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_VALUE_REALs_mapString
+}
+
+func (*ATTRIBUTE_VALUE_REAL) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_VALUE_REALs
+}
+
+func (*ATTRIBUTE_VALUE_REAL) GongNewInstance() any {
+	return new(ATTRIBUTE_VALUE_REAL)
+}
+
+func (*ATTRIBUTE_VALUE_STRING) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_STRINGs, stage.ATTRIBUTE_VALUE_STRING_stagedOrder)
+}
+
+func (*ATTRIBUTE_VALUE_STRING) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_VALUE_STRING_orderStaged[order]
+}
+
+func (*ATTRIBUTE_VALUE_STRING) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_VALUE_STRINGs_mapString
+}
+
+func (*ATTRIBUTE_VALUE_STRING) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_VALUE_STRINGs
+}
+
+func (*ATTRIBUTE_VALUE_STRING) GongNewInstance() any {
+	return new(ATTRIBUTE_VALUE_STRING)
+}
+
+func (*ATTRIBUTE_VALUE_XHTML) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_XHTMLs, stage.ATTRIBUTE_VALUE_XHTML_stagedOrder)
+}
+
+func (*ATTRIBUTE_VALUE_XHTML) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ATTRIBUTE_VALUE_XHTML_orderStaged[order]
+}
+
+func (*ATTRIBUTE_VALUE_XHTML) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ATTRIBUTE_VALUE_XHTMLs_mapString
+}
+
+func (*ATTRIBUTE_VALUE_XHTML) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ATTRIBUTE_VALUE_XHTMLs
+}
+
+func (*ATTRIBUTE_VALUE_XHTML) GongNewInstance() any {
+	return new(ATTRIBUTE_VALUE_XHTML)
+}
+
+func (*A_ALTERNATIVE_ID) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ALTERNATIVE_IDs, stage.A_ALTERNATIVE_ID_stagedOrder)
+}
+
+func (*A_ALTERNATIVE_ID) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ALTERNATIVE_ID_orderStaged[order]
+}
+
+func (*A_ALTERNATIVE_ID) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ALTERNATIVE_IDs_mapString
+}
+
+func (*A_ALTERNATIVE_ID) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ALTERNATIVE_IDs
+}
+
+func (*A_ALTERNATIVE_ID) GongNewInstance() any {
+	return new(A_ALTERNATIVE_ID)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs, stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_mapString
+}
+
+func (*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs
+}
+
+func (*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongNewInstance() any {
+	return new(A_ATTRIBUTE_DEFINITION_BOOLEAN_REF)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_DATE_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_DATE_REFs, stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_DATE_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_DEFINITION_DATE_REF_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_DEFINITION_DATE_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_mapString
+}
+
+func (*A_ATTRIBUTE_DEFINITION_DATE_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_DEFINITION_DATE_REFs
+}
+
+func (*A_ATTRIBUTE_DEFINITION_DATE_REF) GongNewInstance() any {
+	return new(A_ATTRIBUTE_DEFINITION_DATE_REF)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs, stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_mapString
+}
+
+func (*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs
+}
+
+func (*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongNewInstance() any {
+	return new(A_ATTRIBUTE_DEFINITION_ENUMERATION_REF)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs, stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_mapString
+}
+
+func (*A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs
+}
+
+func (*A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongNewInstance() any {
+	return new(A_ATTRIBUTE_DEFINITION_INTEGER_REF)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_REAL_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_REAL_REFs, stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_REAL_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_DEFINITION_REAL_REF_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_DEFINITION_REAL_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_mapString
+}
+
+func (*A_ATTRIBUTE_DEFINITION_REAL_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_DEFINITION_REAL_REFs
+}
+
+func (*A_ATTRIBUTE_DEFINITION_REAL_REF) GongNewInstance() any {
+	return new(A_ATTRIBUTE_DEFINITION_REAL_REF)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_STRING_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_STRING_REFs, stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_STRING_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_DEFINITION_STRING_REF_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_DEFINITION_STRING_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_mapString
+}
+
+func (*A_ATTRIBUTE_DEFINITION_STRING_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_DEFINITION_STRING_REFs
+}
+
+func (*A_ATTRIBUTE_DEFINITION_STRING_REF) GongNewInstance() any {
+	return new(A_ATTRIBUTE_DEFINITION_STRING_REF)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_XHTML_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs, stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_DEFINITION_XHTML_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_DEFINITION_XHTML_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_mapString
+}
+
+func (*A_ATTRIBUTE_DEFINITION_XHTML_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs
+}
+
+func (*A_ATTRIBUTE_DEFINITION_XHTML_REF) GongNewInstance() any {
+	return new(A_ATTRIBUTE_DEFINITION_XHTML_REF)
+}
+
+func (*A_ATTRIBUTE_VALUE_BOOLEAN) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_BOOLEANs, stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_VALUE_BOOLEAN) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_VALUE_BOOLEAN_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_VALUE_BOOLEAN) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_VALUE_BOOLEANs_mapString
+}
+
+func (*A_ATTRIBUTE_VALUE_BOOLEAN) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_VALUE_BOOLEANs
+}
+
+func (*A_ATTRIBUTE_VALUE_BOOLEAN) GongNewInstance() any {
+	return new(A_ATTRIBUTE_VALUE_BOOLEAN)
+}
+
+func (*A_ATTRIBUTE_VALUE_DATE) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_DATEs, stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_VALUE_DATE) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_VALUE_DATE_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_VALUE_DATE) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_VALUE_DATEs_mapString
+}
+
+func (*A_ATTRIBUTE_VALUE_DATE) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_VALUE_DATEs
+}
+
+func (*A_ATTRIBUTE_VALUE_DATE) GongNewInstance() any {
+	return new(A_ATTRIBUTE_VALUE_DATE)
+}
+
+func (*A_ATTRIBUTE_VALUE_ENUMERATION) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_ENUMERATIONs, stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_VALUE_ENUMERATION) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_VALUE_ENUMERATION_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_VALUE_ENUMERATION) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_mapString
+}
+
+func (*A_ATTRIBUTE_VALUE_ENUMERATION) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_VALUE_ENUMERATIONs
+}
+
+func (*A_ATTRIBUTE_VALUE_ENUMERATION) GongNewInstance() any {
+	return new(A_ATTRIBUTE_VALUE_ENUMERATION)
+}
+
+func (*A_ATTRIBUTE_VALUE_INTEGER) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_INTEGERs, stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_VALUE_INTEGER) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_VALUE_INTEGER_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_VALUE_INTEGER) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_VALUE_INTEGERs_mapString
+}
+
+func (*A_ATTRIBUTE_VALUE_INTEGER) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_VALUE_INTEGERs
+}
+
+func (*A_ATTRIBUTE_VALUE_INTEGER) GongNewInstance() any {
+	return new(A_ATTRIBUTE_VALUE_INTEGER)
+}
+
+func (*A_ATTRIBUTE_VALUE_REAL) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_REALs, stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_VALUE_REAL) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_VALUE_REAL_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_VALUE_REAL) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_VALUE_REALs_mapString
+}
+
+func (*A_ATTRIBUTE_VALUE_REAL) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_VALUE_REALs
+}
+
+func (*A_ATTRIBUTE_VALUE_REAL) GongNewInstance() any {
+	return new(A_ATTRIBUTE_VALUE_REAL)
+}
+
+func (*A_ATTRIBUTE_VALUE_STRING) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_STRINGs, stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_VALUE_STRING) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_VALUE_STRING_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_VALUE_STRING) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_VALUE_STRINGs_mapString
+}
+
+func (*A_ATTRIBUTE_VALUE_STRING) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_VALUE_STRINGs
+}
+
+func (*A_ATTRIBUTE_VALUE_STRING) GongNewInstance() any {
+	return new(A_ATTRIBUTE_VALUE_STRING)
+}
+
+func (*A_ATTRIBUTE_VALUE_XHTML) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_XHTMLs, stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_VALUE_XHTML) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_VALUE_XHTML_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_VALUE_XHTML) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_VALUE_XHTMLs_mapString
+}
+
+func (*A_ATTRIBUTE_VALUE_XHTML) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_VALUE_XHTMLs
+}
+
+func (*A_ATTRIBUTE_VALUE_XHTML) GongNewInstance() any {
+	return new(A_ATTRIBUTE_VALUE_XHTML)
+}
+
+func (*A_ATTRIBUTE_VALUE_XHTML_1) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_XHTML_1s, stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder)
+}
+
+func (*A_ATTRIBUTE_VALUE_XHTML_1) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ATTRIBUTE_VALUE_XHTML_1_orderStaged[order]
+}
+
+func (*A_ATTRIBUTE_VALUE_XHTML_1) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ATTRIBUTE_VALUE_XHTML_1s_mapString
+}
+
+func (*A_ATTRIBUTE_VALUE_XHTML_1) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ATTRIBUTE_VALUE_XHTML_1s
+}
+
+func (*A_ATTRIBUTE_VALUE_XHTML_1) GongNewInstance() any {
+	return new(A_ATTRIBUTE_VALUE_XHTML_1)
+}
+
+func (*A_CHILDREN) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_CHILDRENs, stage.A_CHILDREN_stagedOrder)
+}
+
+func (*A_CHILDREN) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_CHILDREN_orderStaged[order]
+}
+
+func (*A_CHILDREN) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_CHILDRENs_mapString
+}
+
+func (*A_CHILDREN) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_CHILDRENs
+}
+
+func (*A_CHILDREN) GongNewInstance() any {
+	return new(A_CHILDREN)
+}
+
+func (*A_CORE_CONTENT) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_CORE_CONTENTs, stage.A_CORE_CONTENT_stagedOrder)
+}
+
+func (*A_CORE_CONTENT) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_CORE_CONTENT_orderStaged[order]
+}
+
+func (*A_CORE_CONTENT) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_CORE_CONTENTs_mapString
+}
+
+func (*A_CORE_CONTENT) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_CORE_CONTENTs
+}
+
+func (*A_CORE_CONTENT) GongNewInstance() any {
+	return new(A_CORE_CONTENT)
+}
+
+func (*A_DATATYPES) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_DATATYPESs, stage.A_DATATYPES_stagedOrder)
+}
+
+func (*A_DATATYPES) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_DATATYPES_orderStaged[order]
+}
+
+func (*A_DATATYPES) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_DATATYPESs_mapString
+}
+
+func (*A_DATATYPES) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_DATATYPESs
+}
+
+func (*A_DATATYPES) GongNewInstance() any {
+	return new(A_DATATYPES)
+}
+
+func (*A_DATATYPE_DEFINITION_BOOLEAN_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs, stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder)
+}
+
+func (*A_DATATYPE_DEFINITION_BOOLEAN_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_orderStaged[order]
+}
+
+func (*A_DATATYPE_DEFINITION_BOOLEAN_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_mapString
+}
+
+func (*A_DATATYPE_DEFINITION_BOOLEAN_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs
+}
+
+func (*A_DATATYPE_DEFINITION_BOOLEAN_REF) GongNewInstance() any {
+	return new(A_DATATYPE_DEFINITION_BOOLEAN_REF)
+}
+
+func (*A_DATATYPE_DEFINITION_DATE_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_DATE_REFs, stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder)
+}
+
+func (*A_DATATYPE_DEFINITION_DATE_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_DATATYPE_DEFINITION_DATE_REF_orderStaged[order]
+}
+
+func (*A_DATATYPE_DEFINITION_DATE_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_DATATYPE_DEFINITION_DATE_REFs_mapString
+}
+
+func (*A_DATATYPE_DEFINITION_DATE_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_DATATYPE_DEFINITION_DATE_REFs
+}
+
+func (*A_DATATYPE_DEFINITION_DATE_REF) GongNewInstance() any {
+	return new(A_DATATYPE_DEFINITION_DATE_REF)
+}
+
+func (*A_DATATYPE_DEFINITION_ENUMERATION_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs, stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder)
+}
+
+func (*A_DATATYPE_DEFINITION_ENUMERATION_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_orderStaged[order]
+}
+
+func (*A_DATATYPE_DEFINITION_ENUMERATION_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_mapString
+}
+
+func (*A_DATATYPE_DEFINITION_ENUMERATION_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs
+}
+
+func (*A_DATATYPE_DEFINITION_ENUMERATION_REF) GongNewInstance() any {
+	return new(A_DATATYPE_DEFINITION_ENUMERATION_REF)
+}
+
+func (*A_DATATYPE_DEFINITION_INTEGER_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_INTEGER_REFs, stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder)
+}
+
+func (*A_DATATYPE_DEFINITION_INTEGER_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_DATATYPE_DEFINITION_INTEGER_REF_orderStaged[order]
+}
+
+func (*A_DATATYPE_DEFINITION_INTEGER_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_DATATYPE_DEFINITION_INTEGER_REFs_mapString
+}
+
+func (*A_DATATYPE_DEFINITION_INTEGER_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_DATATYPE_DEFINITION_INTEGER_REFs
+}
+
+func (*A_DATATYPE_DEFINITION_INTEGER_REF) GongNewInstance() any {
+	return new(A_DATATYPE_DEFINITION_INTEGER_REF)
+}
+
+func (*A_DATATYPE_DEFINITION_REAL_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_REAL_REFs, stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder)
+}
+
+func (*A_DATATYPE_DEFINITION_REAL_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_DATATYPE_DEFINITION_REAL_REF_orderStaged[order]
+}
+
+func (*A_DATATYPE_DEFINITION_REAL_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_DATATYPE_DEFINITION_REAL_REFs_mapString
+}
+
+func (*A_DATATYPE_DEFINITION_REAL_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_DATATYPE_DEFINITION_REAL_REFs
+}
+
+func (*A_DATATYPE_DEFINITION_REAL_REF) GongNewInstance() any {
+	return new(A_DATATYPE_DEFINITION_REAL_REF)
+}
+
+func (*A_DATATYPE_DEFINITION_STRING_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_STRING_REFs, stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder)
+}
+
+func (*A_DATATYPE_DEFINITION_STRING_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_DATATYPE_DEFINITION_STRING_REF_orderStaged[order]
+}
+
+func (*A_DATATYPE_DEFINITION_STRING_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_DATATYPE_DEFINITION_STRING_REFs_mapString
+}
+
+func (*A_DATATYPE_DEFINITION_STRING_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_DATATYPE_DEFINITION_STRING_REFs
+}
+
+func (*A_DATATYPE_DEFINITION_STRING_REF) GongNewInstance() any {
+	return new(A_DATATYPE_DEFINITION_STRING_REF)
+}
+
+func (*A_DATATYPE_DEFINITION_XHTML_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_XHTML_REFs, stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder)
+}
+
+func (*A_DATATYPE_DEFINITION_XHTML_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_DATATYPE_DEFINITION_XHTML_REF_orderStaged[order]
+}
+
+func (*A_DATATYPE_DEFINITION_XHTML_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_DATATYPE_DEFINITION_XHTML_REFs_mapString
+}
+
+func (*A_DATATYPE_DEFINITION_XHTML_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_DATATYPE_DEFINITION_XHTML_REFs
+}
+
+func (*A_DATATYPE_DEFINITION_XHTML_REF) GongNewInstance() any {
+	return new(A_DATATYPE_DEFINITION_XHTML_REF)
+}
+
+func (*A_EDITABLE_ATTS) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_EDITABLE_ATTSs, stage.A_EDITABLE_ATTS_stagedOrder)
+}
+
+func (*A_EDITABLE_ATTS) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_EDITABLE_ATTS_orderStaged[order]
+}
+
+func (*A_EDITABLE_ATTS) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_EDITABLE_ATTSs_mapString
+}
+
+func (*A_EDITABLE_ATTS) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_EDITABLE_ATTSs
+}
+
+func (*A_EDITABLE_ATTS) GongNewInstance() any {
+	return new(A_EDITABLE_ATTS)
+}
+
+func (*A_ENUM_VALUE_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_ENUM_VALUE_REFs, stage.A_ENUM_VALUE_REF_stagedOrder)
+}
+
+func (*A_ENUM_VALUE_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_ENUM_VALUE_REF_orderStaged[order]
+}
+
+func (*A_ENUM_VALUE_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_ENUM_VALUE_REFs_mapString
+}
+
+func (*A_ENUM_VALUE_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_ENUM_VALUE_REFs
+}
+
+func (*A_ENUM_VALUE_REF) GongNewInstance() any {
+	return new(A_ENUM_VALUE_REF)
+}
+
+func (*A_OBJECT) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_OBJECTs, stage.A_OBJECT_stagedOrder)
+}
+
+func (*A_OBJECT) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_OBJECT_orderStaged[order]
+}
+
+func (*A_OBJECT) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_OBJECTs_mapString
+}
+
+func (*A_OBJECT) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_OBJECTs
+}
+
+func (*A_OBJECT) GongNewInstance() any {
+	return new(A_OBJECT)
+}
+
+func (*A_PROPERTIES) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_PROPERTIESs, stage.A_PROPERTIES_stagedOrder)
+}
+
+func (*A_PROPERTIES) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_PROPERTIES_orderStaged[order]
+}
+
+func (*A_PROPERTIES) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_PROPERTIESs_mapString
+}
+
+func (*A_PROPERTIES) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_PROPERTIESs
+}
+
+func (*A_PROPERTIES) GongNewInstance() any {
+	return new(A_PROPERTIES)
+}
+
+func (*A_RELATION_GROUP_TYPE_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_RELATION_GROUP_TYPE_REFs, stage.A_RELATION_GROUP_TYPE_REF_stagedOrder)
+}
+
+func (*A_RELATION_GROUP_TYPE_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_RELATION_GROUP_TYPE_REF_orderStaged[order]
+}
+
+func (*A_RELATION_GROUP_TYPE_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_RELATION_GROUP_TYPE_REFs_mapString
+}
+
+func (*A_RELATION_GROUP_TYPE_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_RELATION_GROUP_TYPE_REFs
+}
+
+func (*A_RELATION_GROUP_TYPE_REF) GongNewInstance() any {
+	return new(A_RELATION_GROUP_TYPE_REF)
+}
+
+func (*A_SOURCE_1) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SOURCE_1s, stage.A_SOURCE_1_stagedOrder)
+}
+
+func (*A_SOURCE_1) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SOURCE_1_orderStaged[order]
+}
+
+func (*A_SOURCE_1) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SOURCE_1s_mapString
+}
+
+func (*A_SOURCE_1) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SOURCE_1s
+}
+
+func (*A_SOURCE_1) GongNewInstance() any {
+	return new(A_SOURCE_1)
+}
+
+func (*A_SOURCE_SPECIFICATION_1) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SOURCE_SPECIFICATION_1s, stage.A_SOURCE_SPECIFICATION_1_stagedOrder)
+}
+
+func (*A_SOURCE_SPECIFICATION_1) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SOURCE_SPECIFICATION_1_orderStaged[order]
+}
+
+func (*A_SOURCE_SPECIFICATION_1) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SOURCE_SPECIFICATION_1s_mapString
+}
+
+func (*A_SOURCE_SPECIFICATION_1) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SOURCE_SPECIFICATION_1s
+}
+
+func (*A_SOURCE_SPECIFICATION_1) GongNewInstance() any {
+	return new(A_SOURCE_SPECIFICATION_1)
+}
+
+func (*A_SPECIFICATIONS) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SPECIFICATIONSs, stage.A_SPECIFICATIONS_stagedOrder)
+}
+
+func (*A_SPECIFICATIONS) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SPECIFICATIONS_orderStaged[order]
+}
+
+func (*A_SPECIFICATIONS) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SPECIFICATIONSs_mapString
+}
+
+func (*A_SPECIFICATIONS) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SPECIFICATIONSs
+}
+
+func (*A_SPECIFICATIONS) GongNewInstance() any {
+	return new(A_SPECIFICATIONS)
+}
+
+func (*A_SPECIFICATION_TYPE_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SPECIFICATION_TYPE_REFs, stage.A_SPECIFICATION_TYPE_REF_stagedOrder)
+}
+
+func (*A_SPECIFICATION_TYPE_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SPECIFICATION_TYPE_REF_orderStaged[order]
+}
+
+func (*A_SPECIFICATION_TYPE_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SPECIFICATION_TYPE_REFs_mapString
+}
+
+func (*A_SPECIFICATION_TYPE_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SPECIFICATION_TYPE_REFs
+}
+
+func (*A_SPECIFICATION_TYPE_REF) GongNewInstance() any {
+	return new(A_SPECIFICATION_TYPE_REF)
+}
+
+func (*A_SPECIFIED_VALUES) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SPECIFIED_VALUESs, stage.A_SPECIFIED_VALUES_stagedOrder)
+}
+
+func (*A_SPECIFIED_VALUES) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SPECIFIED_VALUES_orderStaged[order]
+}
+
+func (*A_SPECIFIED_VALUES) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SPECIFIED_VALUESs_mapString
+}
+
+func (*A_SPECIFIED_VALUES) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SPECIFIED_VALUESs
+}
+
+func (*A_SPECIFIED_VALUES) GongNewInstance() any {
+	return new(A_SPECIFIED_VALUES)
+}
+
+func (*A_SPEC_ATTRIBUTES) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SPEC_ATTRIBUTESs, stage.A_SPEC_ATTRIBUTES_stagedOrder)
+}
+
+func (*A_SPEC_ATTRIBUTES) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SPEC_ATTRIBUTES_orderStaged[order]
+}
+
+func (*A_SPEC_ATTRIBUTES) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SPEC_ATTRIBUTESs_mapString
+}
+
+func (*A_SPEC_ATTRIBUTES) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SPEC_ATTRIBUTESs
+}
+
+func (*A_SPEC_ATTRIBUTES) GongNewInstance() any {
+	return new(A_SPEC_ATTRIBUTES)
+}
+
+func (*A_SPEC_OBJECTS) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SPEC_OBJECTSs, stage.A_SPEC_OBJECTS_stagedOrder)
+}
+
+func (*A_SPEC_OBJECTS) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SPEC_OBJECTS_orderStaged[order]
+}
+
+func (*A_SPEC_OBJECTS) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SPEC_OBJECTSs_mapString
+}
+
+func (*A_SPEC_OBJECTS) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SPEC_OBJECTSs
+}
+
+func (*A_SPEC_OBJECTS) GongNewInstance() any {
+	return new(A_SPEC_OBJECTS)
+}
+
+func (*A_SPEC_OBJECT_TYPE_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SPEC_OBJECT_TYPE_REFs, stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder)
+}
+
+func (*A_SPEC_OBJECT_TYPE_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SPEC_OBJECT_TYPE_REF_orderStaged[order]
+}
+
+func (*A_SPEC_OBJECT_TYPE_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SPEC_OBJECT_TYPE_REFs_mapString
+}
+
+func (*A_SPEC_OBJECT_TYPE_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SPEC_OBJECT_TYPE_REFs
+}
+
+func (*A_SPEC_OBJECT_TYPE_REF) GongNewInstance() any {
+	return new(A_SPEC_OBJECT_TYPE_REF)
+}
+
+func (*A_SPEC_RELATIONS) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SPEC_RELATIONSs, stage.A_SPEC_RELATIONS_stagedOrder)
+}
+
+func (*A_SPEC_RELATIONS) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SPEC_RELATIONS_orderStaged[order]
+}
+
+func (*A_SPEC_RELATIONS) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SPEC_RELATIONSs_mapString
+}
+
+func (*A_SPEC_RELATIONS) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SPEC_RELATIONSs
+}
+
+func (*A_SPEC_RELATIONS) GongNewInstance() any {
+	return new(A_SPEC_RELATIONS)
+}
+
+func (*A_SPEC_RELATION_GROUPS) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SPEC_RELATION_GROUPSs, stage.A_SPEC_RELATION_GROUPS_stagedOrder)
+}
+
+func (*A_SPEC_RELATION_GROUPS) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SPEC_RELATION_GROUPS_orderStaged[order]
+}
+
+func (*A_SPEC_RELATION_GROUPS) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SPEC_RELATION_GROUPSs_mapString
+}
+
+func (*A_SPEC_RELATION_GROUPS) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SPEC_RELATION_GROUPSs
+}
+
+func (*A_SPEC_RELATION_GROUPS) GongNewInstance() any {
+	return new(A_SPEC_RELATION_GROUPS)
+}
+
+func (*A_SPEC_RELATION_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SPEC_RELATION_REFs, stage.A_SPEC_RELATION_REF_stagedOrder)
+}
+
+func (*A_SPEC_RELATION_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SPEC_RELATION_REF_orderStaged[order]
+}
+
+func (*A_SPEC_RELATION_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SPEC_RELATION_REFs_mapString
+}
+
+func (*A_SPEC_RELATION_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SPEC_RELATION_REFs
+}
+
+func (*A_SPEC_RELATION_REF) GongNewInstance() any {
+	return new(A_SPEC_RELATION_REF)
+}
+
+func (*A_SPEC_RELATION_TYPE_REF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SPEC_RELATION_TYPE_REFs, stage.A_SPEC_RELATION_TYPE_REF_stagedOrder)
+}
+
+func (*A_SPEC_RELATION_TYPE_REF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SPEC_RELATION_TYPE_REF_orderStaged[order]
+}
+
+func (*A_SPEC_RELATION_TYPE_REF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SPEC_RELATION_TYPE_REFs_mapString
+}
+
+func (*A_SPEC_RELATION_TYPE_REF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SPEC_RELATION_TYPE_REFs
+}
+
+func (*A_SPEC_RELATION_TYPE_REF) GongNewInstance() any {
+	return new(A_SPEC_RELATION_TYPE_REF)
+}
+
+func (*A_SPEC_TYPES) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SPEC_TYPESs, stage.A_SPEC_TYPES_stagedOrder)
+}
+
+func (*A_SPEC_TYPES) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SPEC_TYPES_orderStaged[order]
+}
+
+func (*A_SPEC_TYPES) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SPEC_TYPESs_mapString
+}
+
+func (*A_SPEC_TYPES) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SPEC_TYPESs
+}
+
+func (*A_SPEC_TYPES) GongNewInstance() any {
+	return new(A_SPEC_TYPES)
+}
+
+func (*A_THE_HEADER) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_THE_HEADERs, stage.A_THE_HEADER_stagedOrder)
+}
+
+func (*A_THE_HEADER) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_THE_HEADER_orderStaged[order]
+}
+
+func (*A_THE_HEADER) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_THE_HEADERs_mapString
+}
+
+func (*A_THE_HEADER) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_THE_HEADERs
+}
+
+func (*A_THE_HEADER) GongNewInstance() any {
+	return new(A_THE_HEADER)
+}
+
+func (*A_TOOL_EXTENSIONS) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_TOOL_EXTENSIONSs, stage.A_TOOL_EXTENSIONS_stagedOrder)
+}
+
+func (*A_TOOL_EXTENSIONS) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_TOOL_EXTENSIONS_orderStaged[order]
+}
+
+func (*A_TOOL_EXTENSIONS) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_TOOL_EXTENSIONSs_mapString
+}
+
+func (*A_TOOL_EXTENSIONS) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_TOOL_EXTENSIONSs
+}
+
+func (*A_TOOL_EXTENSIONS) GongNewInstance() any {
+	return new(A_TOOL_EXTENSIONS)
+}
+
+func (*DATATYPE_DEFINITION_BOOLEAN) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_BOOLEANs, stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder)
+}
+
+func (*DATATYPE_DEFINITION_BOOLEAN) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DATATYPE_DEFINITION_BOOLEAN_orderStaged[order]
+}
+
+func (*DATATYPE_DEFINITION_BOOLEAN) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DATATYPE_DEFINITION_BOOLEANs_mapString
+}
+
+func (*DATATYPE_DEFINITION_BOOLEAN) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DATATYPE_DEFINITION_BOOLEANs
+}
+
+func (*DATATYPE_DEFINITION_BOOLEAN) GongNewInstance() any {
+	return new(DATATYPE_DEFINITION_BOOLEAN)
+}
+
+func (*DATATYPE_DEFINITION_DATE) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_DATEs, stage.DATATYPE_DEFINITION_DATE_stagedOrder)
+}
+
+func (*DATATYPE_DEFINITION_DATE) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DATATYPE_DEFINITION_DATE_orderStaged[order]
+}
+
+func (*DATATYPE_DEFINITION_DATE) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DATATYPE_DEFINITION_DATEs_mapString
+}
+
+func (*DATATYPE_DEFINITION_DATE) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DATATYPE_DEFINITION_DATEs
+}
+
+func (*DATATYPE_DEFINITION_DATE) GongNewInstance() any {
+	return new(DATATYPE_DEFINITION_DATE)
+}
+
+func (*DATATYPE_DEFINITION_ENUMERATION) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_ENUMERATIONs, stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder)
+}
+
+func (*DATATYPE_DEFINITION_ENUMERATION) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DATATYPE_DEFINITION_ENUMERATION_orderStaged[order]
+}
+
+func (*DATATYPE_DEFINITION_ENUMERATION) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DATATYPE_DEFINITION_ENUMERATIONs_mapString
+}
+
+func (*DATATYPE_DEFINITION_ENUMERATION) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DATATYPE_DEFINITION_ENUMERATIONs
+}
+
+func (*DATATYPE_DEFINITION_ENUMERATION) GongNewInstance() any {
+	return new(DATATYPE_DEFINITION_ENUMERATION)
+}
+
+func (*DATATYPE_DEFINITION_INTEGER) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_INTEGERs, stage.DATATYPE_DEFINITION_INTEGER_stagedOrder)
+}
+
+func (*DATATYPE_DEFINITION_INTEGER) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DATATYPE_DEFINITION_INTEGER_orderStaged[order]
+}
+
+func (*DATATYPE_DEFINITION_INTEGER) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DATATYPE_DEFINITION_INTEGERs_mapString
+}
+
+func (*DATATYPE_DEFINITION_INTEGER) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DATATYPE_DEFINITION_INTEGERs
+}
+
+func (*DATATYPE_DEFINITION_INTEGER) GongNewInstance() any {
+	return new(DATATYPE_DEFINITION_INTEGER)
+}
+
+func (*DATATYPE_DEFINITION_REAL) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_REALs, stage.DATATYPE_DEFINITION_REAL_stagedOrder)
+}
+
+func (*DATATYPE_DEFINITION_REAL) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DATATYPE_DEFINITION_REAL_orderStaged[order]
+}
+
+func (*DATATYPE_DEFINITION_REAL) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DATATYPE_DEFINITION_REALs_mapString
+}
+
+func (*DATATYPE_DEFINITION_REAL) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DATATYPE_DEFINITION_REALs
+}
+
+func (*DATATYPE_DEFINITION_REAL) GongNewInstance() any {
+	return new(DATATYPE_DEFINITION_REAL)
+}
+
+func (*DATATYPE_DEFINITION_STRING) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_STRINGs, stage.DATATYPE_DEFINITION_STRING_stagedOrder)
+}
+
+func (*DATATYPE_DEFINITION_STRING) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DATATYPE_DEFINITION_STRING_orderStaged[order]
+}
+
+func (*DATATYPE_DEFINITION_STRING) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DATATYPE_DEFINITION_STRINGs_mapString
+}
+
+func (*DATATYPE_DEFINITION_STRING) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DATATYPE_DEFINITION_STRINGs
+}
+
+func (*DATATYPE_DEFINITION_STRING) GongNewInstance() any {
+	return new(DATATYPE_DEFINITION_STRING)
+}
+
+func (*DATATYPE_DEFINITION_XHTML) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_XHTMLs, stage.DATATYPE_DEFINITION_XHTML_stagedOrder)
+}
+
+func (*DATATYPE_DEFINITION_XHTML) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DATATYPE_DEFINITION_XHTML_orderStaged[order]
+}
+
+func (*DATATYPE_DEFINITION_XHTML) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DATATYPE_DEFINITION_XHTMLs_mapString
+}
+
+func (*DATATYPE_DEFINITION_XHTML) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DATATYPE_DEFINITION_XHTMLs
+}
+
+func (*DATATYPE_DEFINITION_XHTML) GongNewInstance() any {
+	return new(DATATYPE_DEFINITION_XHTML)
+}
+
+func (*EMBEDDED_VALUE) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EMBEDDED_VALUEs, stage.EMBEDDED_VALUE_stagedOrder)
+}
+
+func (*EMBEDDED_VALUE) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EMBEDDED_VALUE_orderStaged[order]
+}
+
+func (*EMBEDDED_VALUE) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EMBEDDED_VALUEs_mapString
+}
+
+func (*EMBEDDED_VALUE) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EMBEDDED_VALUEs
+}
+
+func (*EMBEDDED_VALUE) GongNewInstance() any {
+	return new(EMBEDDED_VALUE)
+}
+
+func (*ENUM_VALUE) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ENUM_VALUEs, stage.ENUM_VALUE_stagedOrder)
+}
+
+func (*ENUM_VALUE) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ENUM_VALUE_orderStaged[order]
+}
+
+func (*ENUM_VALUE) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ENUM_VALUEs_mapString
+}
+
+func (*ENUM_VALUE) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ENUM_VALUEs
+}
+
+func (*ENUM_VALUE) GongNewInstance() any {
+	return new(ENUM_VALUE)
+}
+
+func (*EmbeddedJpgImage) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EmbeddedJpgImages, stage.EmbeddedJpgImage_stagedOrder)
+}
+
+func (*EmbeddedJpgImage) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EmbeddedJpgImage_orderStaged[order]
+}
+
+func (*EmbeddedJpgImage) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EmbeddedJpgImages_mapString
+}
+
+func (*EmbeddedJpgImage) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EmbeddedJpgImages
+}
+
+func (*EmbeddedJpgImage) GongNewInstance() any {
+	return new(EmbeddedJpgImage)
+}
+
+func (*EmbeddedPngImage) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EmbeddedPngImages, stage.EmbeddedPngImage_stagedOrder)
+}
+
+func (*EmbeddedPngImage) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EmbeddedPngImage_orderStaged[order]
+}
+
+func (*EmbeddedPngImage) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EmbeddedPngImages_mapString
+}
+
+func (*EmbeddedPngImage) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EmbeddedPngImages
+}
+
+func (*EmbeddedPngImage) GongNewInstance() any {
+	return new(EmbeddedPngImage)
+}
+
+func (*EmbeddedSvgImage) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EmbeddedSvgImages, stage.EmbeddedSvgImage_stagedOrder)
+}
+
+func (*EmbeddedSvgImage) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EmbeddedSvgImage_orderStaged[order]
+}
+
+func (*EmbeddedSvgImage) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EmbeddedSvgImages_mapString
+}
+
+func (*EmbeddedSvgImage) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EmbeddedSvgImages
+}
+
+func (*EmbeddedSvgImage) GongNewInstance() any {
+	return new(EmbeddedSvgImage)
+}
+
+func (*Kill) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Kills, stage.Kill_stagedOrder)
+}
+
+func (*Kill) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Kill_orderStaged[order]
+}
+
+func (*Kill) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Kills_mapString
+}
+
+func (*Kill) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Kills
+}
+
+func (*Kill) GongNewInstance() any {
+	return new(Kill)
+}
+
+func (*Map_identifier_bool) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Map_identifier_bools, stage.Map_identifier_bool_stagedOrder)
+}
+
+func (*Map_identifier_bool) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Map_identifier_bool_orderStaged[order]
+}
+
+func (*Map_identifier_bool) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Map_identifier_bools_mapString
+}
+
+func (*Map_identifier_bool) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Map_identifier_bools
+}
+
+func (*Map_identifier_bool) GongNewInstance() any {
+	return new(Map_identifier_bool)
+}
+
+func (*RELATION_GROUP) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RELATION_GROUPs, stage.RELATION_GROUP_stagedOrder)
+}
+
+func (*RELATION_GROUP) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RELATION_GROUP_orderStaged[order]
+}
+
+func (*RELATION_GROUP) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RELATION_GROUPs_mapString
+}
+
+func (*RELATION_GROUP) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RELATION_GROUPs
+}
+
+func (*RELATION_GROUP) GongNewInstance() any {
+	return new(RELATION_GROUP)
+}
+
+func (*RELATION_GROUP_TYPE) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RELATION_GROUP_TYPEs, stage.RELATION_GROUP_TYPE_stagedOrder)
+}
+
+func (*RELATION_GROUP_TYPE) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RELATION_GROUP_TYPE_orderStaged[order]
+}
+
+func (*RELATION_GROUP_TYPE) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RELATION_GROUP_TYPEs_mapString
+}
+
+func (*RELATION_GROUP_TYPE) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RELATION_GROUP_TYPEs
+}
+
+func (*RELATION_GROUP_TYPE) GongNewInstance() any {
+	return new(RELATION_GROUP_TYPE)
+}
+
+func (*REQ_IF) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.REQ_IFs, stage.REQ_IF_stagedOrder)
+}
+
+func (*REQ_IF) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.REQ_IF_orderStaged[order]
+}
+
+func (*REQ_IF) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.REQ_IFs_mapString
+}
+
+func (*REQ_IF) GongGetInstancesSet(stage *Stage) any {
+	return &stage.REQ_IFs
+}
+
+func (*REQ_IF) GongNewInstance() any {
+	return new(REQ_IF)
+}
+
+func (*REQ_IF_CONTENT) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.REQ_IF_CONTENTs, stage.REQ_IF_CONTENT_stagedOrder)
+}
+
+func (*REQ_IF_CONTENT) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.REQ_IF_CONTENT_orderStaged[order]
+}
+
+func (*REQ_IF_CONTENT) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.REQ_IF_CONTENTs_mapString
+}
+
+func (*REQ_IF_CONTENT) GongGetInstancesSet(stage *Stage) any {
+	return &stage.REQ_IF_CONTENTs
+}
+
+func (*REQ_IF_CONTENT) GongNewInstance() any {
+	return new(REQ_IF_CONTENT)
+}
+
+func (*REQ_IF_HEADER) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.REQ_IF_HEADERs, stage.REQ_IF_HEADER_stagedOrder)
+}
+
+func (*REQ_IF_HEADER) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.REQ_IF_HEADER_orderStaged[order]
+}
+
+func (*REQ_IF_HEADER) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.REQ_IF_HEADERs_mapString
+}
+
+func (*REQ_IF_HEADER) GongGetInstancesSet(stage *Stage) any {
+	return &stage.REQ_IF_HEADERs
+}
+
+func (*REQ_IF_HEADER) GongNewInstance() any {
+	return new(REQ_IF_HEADER)
+}
+
+func (*REQ_IF_TOOL_EXTENSION) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.REQ_IF_TOOL_EXTENSIONs, stage.REQ_IF_TOOL_EXTENSION_stagedOrder)
+}
+
+func (*REQ_IF_TOOL_EXTENSION) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.REQ_IF_TOOL_EXTENSION_orderStaged[order]
+}
+
+func (*REQ_IF_TOOL_EXTENSION) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.REQ_IF_TOOL_EXTENSIONs_mapString
+}
+
+func (*REQ_IF_TOOL_EXTENSION) GongGetInstancesSet(stage *Stage) any {
+	return &stage.REQ_IF_TOOL_EXTENSIONs
+}
+
+func (*REQ_IF_TOOL_EXTENSION) GongNewInstance() any {
+	return new(REQ_IF_TOOL_EXTENSION)
+}
+
+func (*SPECIFICATION) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SPECIFICATIONs, stage.SPECIFICATION_stagedOrder)
+}
+
+func (*SPECIFICATION) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SPECIFICATION_orderStaged[order]
+}
+
+func (*SPECIFICATION) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SPECIFICATIONs_mapString
+}
+
+func (*SPECIFICATION) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SPECIFICATIONs
+}
+
+func (*SPECIFICATION) GongNewInstance() any {
+	return new(SPECIFICATION)
+}
+
+func (*SPECIFICATION_Rendering) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SPECIFICATION_Renderings, stage.SPECIFICATION_Rendering_stagedOrder)
+}
+
+func (*SPECIFICATION_Rendering) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SPECIFICATION_Rendering_orderStaged[order]
+}
+
+func (*SPECIFICATION_Rendering) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SPECIFICATION_Renderings_mapString
+}
+
+func (*SPECIFICATION_Rendering) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SPECIFICATION_Renderings
+}
+
+func (*SPECIFICATION_Rendering) GongNewInstance() any {
+	return new(SPECIFICATION_Rendering)
+}
+
+func (*SPECIFICATION_TYPE) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SPECIFICATION_TYPEs, stage.SPECIFICATION_TYPE_stagedOrder)
+}
+
+func (*SPECIFICATION_TYPE) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SPECIFICATION_TYPE_orderStaged[order]
+}
+
+func (*SPECIFICATION_TYPE) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SPECIFICATION_TYPEs_mapString
+}
+
+func (*SPECIFICATION_TYPE) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SPECIFICATION_TYPEs
+}
+
+func (*SPECIFICATION_TYPE) GongNewInstance() any {
+	return new(SPECIFICATION_TYPE)
+}
+
+func (*SPEC_HIERARCHY) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SPEC_HIERARCHYs, stage.SPEC_HIERARCHY_stagedOrder)
+}
+
+func (*SPEC_HIERARCHY) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SPEC_HIERARCHY_orderStaged[order]
+}
+
+func (*SPEC_HIERARCHY) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SPEC_HIERARCHYs_mapString
+}
+
+func (*SPEC_HIERARCHY) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SPEC_HIERARCHYs
+}
+
+func (*SPEC_HIERARCHY) GongNewInstance() any {
+	return new(SPEC_HIERARCHY)
+}
+
+func (*SPEC_OBJECT) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SPEC_OBJECTs, stage.SPEC_OBJECT_stagedOrder)
+}
+
+func (*SPEC_OBJECT) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SPEC_OBJECT_orderStaged[order]
+}
+
+func (*SPEC_OBJECT) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SPEC_OBJECTs_mapString
+}
+
+func (*SPEC_OBJECT) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SPEC_OBJECTs
+}
+
+func (*SPEC_OBJECT) GongNewInstance() any {
+	return new(SPEC_OBJECT)
+}
+
+func (*SPEC_OBJECT_TYPE) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SPEC_OBJECT_TYPEs, stage.SPEC_OBJECT_TYPE_stagedOrder)
+}
+
+func (*SPEC_OBJECT_TYPE) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SPEC_OBJECT_TYPE_orderStaged[order]
+}
+
+func (*SPEC_OBJECT_TYPE) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SPEC_OBJECT_TYPEs_mapString
+}
+
+func (*SPEC_OBJECT_TYPE) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SPEC_OBJECT_TYPEs
+}
+
+func (*SPEC_OBJECT_TYPE) GongNewInstance() any {
+	return new(SPEC_OBJECT_TYPE)
+}
+
+func (*SPEC_OBJECT_TYPE_Rendering) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SPEC_OBJECT_TYPE_Renderings, stage.SPEC_OBJECT_TYPE_Rendering_stagedOrder)
+}
+
+func (*SPEC_OBJECT_TYPE_Rendering) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SPEC_OBJECT_TYPE_Rendering_orderStaged[order]
+}
+
+func (*SPEC_OBJECT_TYPE_Rendering) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SPEC_OBJECT_TYPE_Renderings_mapString
+}
+
+func (*SPEC_OBJECT_TYPE_Rendering) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SPEC_OBJECT_TYPE_Renderings
+}
+
+func (*SPEC_OBJECT_TYPE_Rendering) GongNewInstance() any {
+	return new(SPEC_OBJECT_TYPE_Rendering)
+}
+
+func (*SPEC_RELATION) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SPEC_RELATIONs, stage.SPEC_RELATION_stagedOrder)
+}
+
+func (*SPEC_RELATION) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SPEC_RELATION_orderStaged[order]
+}
+
+func (*SPEC_RELATION) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SPEC_RELATIONs_mapString
+}
+
+func (*SPEC_RELATION) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SPEC_RELATIONs
+}
+
+func (*SPEC_RELATION) GongNewInstance() any {
+	return new(SPEC_RELATION)
+}
+
+func (*SPEC_RELATION_TYPE) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SPEC_RELATION_TYPEs, stage.SPEC_RELATION_TYPE_stagedOrder)
+}
+
+func (*SPEC_RELATION_TYPE) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SPEC_RELATION_TYPE_orderStaged[order]
+}
+
+func (*SPEC_RELATION_TYPE) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SPEC_RELATION_TYPEs_mapString
+}
+
+func (*SPEC_RELATION_TYPE) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SPEC_RELATION_TYPEs
+}
+
+func (*SPEC_RELATION_TYPE) GongNewInstance() any {
+	return new(SPEC_RELATION_TYPE)
+}
+
+func (*StaticWebSite) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StaticWebSites, stage.StaticWebSite_stagedOrder)
+}
+
+func (*StaticWebSite) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StaticWebSite_orderStaged[order]
+}
+
+func (*StaticWebSite) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StaticWebSites_mapString
+}
+
+func (*StaticWebSite) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StaticWebSites
+}
+
+func (*StaticWebSite) GongNewInstance() any {
+	return new(StaticWebSite)
+}
+
+func (*StaticWebSiteChapter) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StaticWebSiteChapters, stage.StaticWebSiteChapter_stagedOrder)
+}
+
+func (*StaticWebSiteChapter) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StaticWebSiteChapter_orderStaged[order]
+}
+
+func (*StaticWebSiteChapter) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StaticWebSiteChapters_mapString
+}
+
+func (*StaticWebSiteChapter) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StaticWebSiteChapters
+}
+
+func (*StaticWebSiteChapter) GongNewInstance() any {
+	return new(StaticWebSiteChapter)
+}
+
+func (*StaticWebSiteGeneratedImage) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StaticWebSiteGeneratedImages, stage.StaticWebSiteGeneratedImage_stagedOrder)
+}
+
+func (*StaticWebSiteGeneratedImage) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StaticWebSiteGeneratedImage_orderStaged[order]
+}
+
+func (*StaticWebSiteGeneratedImage) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StaticWebSiteGeneratedImages_mapString
+}
+
+func (*StaticWebSiteGeneratedImage) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StaticWebSiteGeneratedImages
+}
+
+func (*StaticWebSiteGeneratedImage) GongNewInstance() any {
+	return new(StaticWebSiteGeneratedImage)
+}
+
+func (*StaticWebSiteImage) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StaticWebSiteImages, stage.StaticWebSiteImage_stagedOrder)
+}
+
+func (*StaticWebSiteImage) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StaticWebSiteImage_orderStaged[order]
+}
+
+func (*StaticWebSiteImage) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StaticWebSiteImages_mapString
+}
+
+func (*StaticWebSiteImage) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StaticWebSiteImages
+}
+
+func (*StaticWebSiteImage) GongNewInstance() any {
+	return new(StaticWebSiteImage)
+}
+
+func (*StaticWebSiteParagraph) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StaticWebSiteParagraphs, stage.StaticWebSiteParagraph_stagedOrder)
+}
+
+func (*StaticWebSiteParagraph) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StaticWebSiteParagraph_orderStaged[order]
+}
+
+func (*StaticWebSiteParagraph) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StaticWebSiteParagraphs_mapString
+}
+
+func (*StaticWebSiteParagraph) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StaticWebSiteParagraphs
+}
+
+func (*StaticWebSiteParagraph) GongNewInstance() any {
+	return new(StaticWebSiteParagraph)
+}
+
+func (*XHTML_CONTENT) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.XHTML_CONTENTs, stage.XHTML_CONTENT_stagedOrder)
+}
+
+func (*XHTML_CONTENT) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.XHTML_CONTENT_orderStaged[order]
+}
+
+func (*XHTML_CONTENT) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.XHTML_CONTENTs_mapString
+}
+
+func (*XHTML_CONTENT) GongGetInstancesSet(stage *Stage) any {
+	return &stage.XHTML_CONTENTs
+}
+
+func (*XHTML_CONTENT) GongNewInstance() any {
+	return new(XHTML_CONTENT)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *ALTERNATIVE_ID:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ALTERNATIVE_IDs, stage.ALTERNATIVE_ID_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_BOOLEANs, stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings, stage.ATTRIBUTE_DEFINITION_BOOLEAN_Rendering_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_DATE:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_DATEs, stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_DATE_Rendering:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_DATE_Renderings, stage.ATTRIBUTE_DEFINITION_DATE_Rendering_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_ENUMERATIONs, stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings, stage.ATTRIBUTE_DEFINITION_ENUMERATION_Rendering_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_INTEGER:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_INTEGERs, stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_INTEGER_Rendering:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings, stage.ATTRIBUTE_DEFINITION_INTEGER_Rendering_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_REAL:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_REALs, stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_REAL_Rendering:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_REAL_Renderings, stage.ATTRIBUTE_DEFINITION_REAL_Rendering_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_Rendering:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_Renderings, stage.ATTRIBUTE_DEFINITION_Rendering_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_STRING:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_STRINGs, stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_STRING_Rendering:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_STRING_Renderings, stage.ATTRIBUTE_DEFINITION_STRING_Rendering_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_XHTML:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_XHTMLs, stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder))
-	case *ATTRIBUTE_DEFINITION_XHTML_Rendering:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_XHTML_Renderings, stage.ATTRIBUTE_DEFINITION_XHTML_Rendering_stagedOrder))
-	case *ATTRIBUTE_VALUE_BOOLEAN:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_BOOLEANs, stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder))
-	case *ATTRIBUTE_VALUE_DATE:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_DATEs, stage.ATTRIBUTE_VALUE_DATE_stagedOrder))
-	case *ATTRIBUTE_VALUE_ENUMERATION:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_ENUMERATIONs, stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder))
-	case *ATTRIBUTE_VALUE_INTEGER:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_INTEGERs, stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder))
-	case *ATTRIBUTE_VALUE_REAL:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_REALs, stage.ATTRIBUTE_VALUE_REAL_stagedOrder))
-	case *ATTRIBUTE_VALUE_STRING:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_STRINGs, stage.ATTRIBUTE_VALUE_STRING_stagedOrder))
-	case *ATTRIBUTE_VALUE_XHTML:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_XHTMLs, stage.ATTRIBUTE_VALUE_XHTML_stagedOrder))
-	case *A_ALTERNATIVE_ID:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ALTERNATIVE_IDs, stage.A_ALTERNATIVE_ID_stagedOrder))
-	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs, stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder))
-	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_DATE_REFs, stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder))
-	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs, stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder))
-	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs, stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder))
-	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_REAL_REFs, stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder))
-	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_STRING_REFs, stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder))
-	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs, stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder))
-	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_BOOLEANs, stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder))
-	case *A_ATTRIBUTE_VALUE_DATE:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_DATEs, stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder))
-	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_ENUMERATIONs, stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder))
-	case *A_ATTRIBUTE_VALUE_INTEGER:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_INTEGERs, stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder))
-	case *A_ATTRIBUTE_VALUE_REAL:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_REALs, stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder))
-	case *A_ATTRIBUTE_VALUE_STRING:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_STRINGs, stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder))
-	case *A_ATTRIBUTE_VALUE_XHTML:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_XHTMLs, stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder))
-	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_XHTML_1s, stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder))
-	case *A_CHILDREN:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_CHILDRENs, stage.A_CHILDREN_stagedOrder))
-	case *A_CORE_CONTENT:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_CORE_CONTENTs, stage.A_CORE_CONTENT_stagedOrder))
-	case *A_DATATYPES:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_DATATYPESs, stage.A_DATATYPES_stagedOrder))
-	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs, stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder))
-	case *A_DATATYPE_DEFINITION_DATE_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_DATE_REFs, stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder))
-	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs, stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder))
-	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_INTEGER_REFs, stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder))
-	case *A_DATATYPE_DEFINITION_REAL_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_REAL_REFs, stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder))
-	case *A_DATATYPE_DEFINITION_STRING_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_STRING_REFs, stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder))
-	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_XHTML_REFs, stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder))
-	case *A_EDITABLE_ATTS:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_EDITABLE_ATTSs, stage.A_EDITABLE_ATTS_stagedOrder))
-	case *A_ENUM_VALUE_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_ENUM_VALUE_REFs, stage.A_ENUM_VALUE_REF_stagedOrder))
-	case *A_OBJECT:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_OBJECTs, stage.A_OBJECT_stagedOrder))
-	case *A_PROPERTIES:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_PROPERTIESs, stage.A_PROPERTIES_stagedOrder))
-	case *A_RELATION_GROUP_TYPE_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_RELATION_GROUP_TYPE_REFs, stage.A_RELATION_GROUP_TYPE_REF_stagedOrder))
-	case *A_SOURCE_1:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SOURCE_1s, stage.A_SOURCE_1_stagedOrder))
-	case *A_SOURCE_SPECIFICATION_1:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SOURCE_SPECIFICATION_1s, stage.A_SOURCE_SPECIFICATION_1_stagedOrder))
-	case *A_SPECIFICATIONS:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SPECIFICATIONSs, stage.A_SPECIFICATIONS_stagedOrder))
-	case *A_SPECIFICATION_TYPE_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SPECIFICATION_TYPE_REFs, stage.A_SPECIFICATION_TYPE_REF_stagedOrder))
-	case *A_SPECIFIED_VALUES:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SPECIFIED_VALUESs, stage.A_SPECIFIED_VALUES_stagedOrder))
-	case *A_SPEC_ATTRIBUTES:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SPEC_ATTRIBUTESs, stage.A_SPEC_ATTRIBUTES_stagedOrder))
-	case *A_SPEC_OBJECTS:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SPEC_OBJECTSs, stage.A_SPEC_OBJECTS_stagedOrder))
-	case *A_SPEC_OBJECT_TYPE_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SPEC_OBJECT_TYPE_REFs, stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder))
-	case *A_SPEC_RELATIONS:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SPEC_RELATIONSs, stage.A_SPEC_RELATIONS_stagedOrder))
-	case *A_SPEC_RELATION_GROUPS:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SPEC_RELATION_GROUPSs, stage.A_SPEC_RELATION_GROUPS_stagedOrder))
-	case *A_SPEC_RELATION_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SPEC_RELATION_REFs, stage.A_SPEC_RELATION_REF_stagedOrder))
-	case *A_SPEC_RELATION_TYPE_REF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SPEC_RELATION_TYPE_REFs, stage.A_SPEC_RELATION_TYPE_REF_stagedOrder))
-	case *A_SPEC_TYPES:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_SPEC_TYPESs, stage.A_SPEC_TYPES_stagedOrder))
-	case *A_THE_HEADER:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_THE_HEADERs, stage.A_THE_HEADER_stagedOrder))
-	case *A_TOOL_EXTENSIONS:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_TOOL_EXTENSIONSs, stage.A_TOOL_EXTENSIONS_stagedOrder))
-	case *DATATYPE_DEFINITION_BOOLEAN:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_BOOLEANs, stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder))
-	case *DATATYPE_DEFINITION_DATE:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_DATEs, stage.DATATYPE_DEFINITION_DATE_stagedOrder))
-	case *DATATYPE_DEFINITION_ENUMERATION:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_ENUMERATIONs, stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder))
-	case *DATATYPE_DEFINITION_INTEGER:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_INTEGERs, stage.DATATYPE_DEFINITION_INTEGER_stagedOrder))
-	case *DATATYPE_DEFINITION_REAL:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_REALs, stage.DATATYPE_DEFINITION_REAL_stagedOrder))
-	case *DATATYPE_DEFINITION_STRING:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_STRINGs, stage.DATATYPE_DEFINITION_STRING_stagedOrder))
-	case *DATATYPE_DEFINITION_XHTML:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_XHTMLs, stage.DATATYPE_DEFINITION_XHTML_stagedOrder))
-	case *EMBEDDED_VALUE:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EMBEDDED_VALUEs, stage.EMBEDDED_VALUE_stagedOrder))
-	case *ENUM_VALUE:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ENUM_VALUEs, stage.ENUM_VALUE_stagedOrder))
-	case *EmbeddedJpgImage:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EmbeddedJpgImages, stage.EmbeddedJpgImage_stagedOrder))
-	case *EmbeddedPngImage:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EmbeddedPngImages, stage.EmbeddedPngImage_stagedOrder))
-	case *EmbeddedSvgImage:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EmbeddedSvgImages, stage.EmbeddedSvgImage_stagedOrder))
-	case *Kill:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Kills, stage.Kill_stagedOrder))
-	case *Map_identifier_bool:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Map_identifier_bools, stage.Map_identifier_bool_stagedOrder))
-	case *RELATION_GROUP:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RELATION_GROUPs, stage.RELATION_GROUP_stagedOrder))
-	case *RELATION_GROUP_TYPE:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RELATION_GROUP_TYPEs, stage.RELATION_GROUP_TYPE_stagedOrder))
-	case *REQ_IF:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.REQ_IFs, stage.REQ_IF_stagedOrder))
-	case *REQ_IF_CONTENT:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.REQ_IF_CONTENTs, stage.REQ_IF_CONTENT_stagedOrder))
-	case *REQ_IF_HEADER:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.REQ_IF_HEADERs, stage.REQ_IF_HEADER_stagedOrder))
-	case *REQ_IF_TOOL_EXTENSION:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.REQ_IF_TOOL_EXTENSIONs, stage.REQ_IF_TOOL_EXTENSION_stagedOrder))
-	case *SPECIFICATION:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SPECIFICATIONs, stage.SPECIFICATION_stagedOrder))
-	case *SPECIFICATION_Rendering:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SPECIFICATION_Renderings, stage.SPECIFICATION_Rendering_stagedOrder))
-	case *SPECIFICATION_TYPE:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SPECIFICATION_TYPEs, stage.SPECIFICATION_TYPE_stagedOrder))
-	case *SPEC_HIERARCHY:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SPEC_HIERARCHYs, stage.SPEC_HIERARCHY_stagedOrder))
-	case *SPEC_OBJECT:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SPEC_OBJECTs, stage.SPEC_OBJECT_stagedOrder))
-	case *SPEC_OBJECT_TYPE:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SPEC_OBJECT_TYPEs, stage.SPEC_OBJECT_TYPE_stagedOrder))
-	case *SPEC_OBJECT_TYPE_Rendering:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SPEC_OBJECT_TYPE_Renderings, stage.SPEC_OBJECT_TYPE_Rendering_stagedOrder))
-	case *SPEC_RELATION:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SPEC_RELATIONs, stage.SPEC_RELATION_stagedOrder))
-	case *SPEC_RELATION_TYPE:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SPEC_RELATION_TYPEs, stage.SPEC_RELATION_TYPE_stagedOrder))
-	case *StaticWebSite:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StaticWebSites, stage.StaticWebSite_stagedOrder))
-	case *StaticWebSiteChapter:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StaticWebSiteChapters, stage.StaticWebSiteChapter_stagedOrder))
-	case *StaticWebSiteGeneratedImage:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StaticWebSiteGeneratedImages, stage.StaticWebSiteGeneratedImage_stagedOrder))
-	case *StaticWebSiteImage:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StaticWebSiteImages, stage.StaticWebSiteImage_stagedOrder))
-	case *StaticWebSiteParagraph:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StaticWebSiteParagraphs, stage.StaticWebSiteParagraph_stagedOrder))
-	case *XHTML_CONTENT:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.XHTML_CONTENTs, stage.XHTML_CONTENT_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -3544,220 +5417,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *ALTERNATIVE_ID:
-		return any(stage.ALTERNATIVE_ID_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		return any(stage.ATTRIBUTE_DEFINITION_BOOLEAN_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_BOOLEAN_Rendering_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_DATE:
-		return any(stage.ATTRIBUTE_DEFINITION_DATE_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_DATE_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_DATE_Rendering_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		return any(stage.ATTRIBUTE_DEFINITION_ENUMERATION_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_ENUMERATION_Rendering_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_INTEGER:
-		return any(stage.ATTRIBUTE_DEFINITION_INTEGER_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_INTEGER_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_INTEGER_Rendering_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_REAL:
-		return any(stage.ATTRIBUTE_DEFINITION_REAL_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_REAL_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_REAL_Rendering_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_Rendering_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_STRING:
-		return any(stage.ATTRIBUTE_DEFINITION_STRING_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_STRING_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_STRING_Rendering_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_XHTML:
-		return any(stage.ATTRIBUTE_DEFINITION_XHTML_orderStaged[order]).(Type)
-	case *ATTRIBUTE_DEFINITION_XHTML_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_XHTML_Rendering_orderStaged[order]).(Type)
-	case *ATTRIBUTE_VALUE_BOOLEAN:
-		return any(stage.ATTRIBUTE_VALUE_BOOLEAN_orderStaged[order]).(Type)
-	case *ATTRIBUTE_VALUE_DATE:
-		return any(stage.ATTRIBUTE_VALUE_DATE_orderStaged[order]).(Type)
-	case *ATTRIBUTE_VALUE_ENUMERATION:
-		return any(stage.ATTRIBUTE_VALUE_ENUMERATION_orderStaged[order]).(Type)
-	case *ATTRIBUTE_VALUE_INTEGER:
-		return any(stage.ATTRIBUTE_VALUE_INTEGER_orderStaged[order]).(Type)
-	case *ATTRIBUTE_VALUE_REAL:
-		return any(stage.ATTRIBUTE_VALUE_REAL_orderStaged[order]).(Type)
-	case *ATTRIBUTE_VALUE_STRING:
-		return any(stage.ATTRIBUTE_VALUE_STRING_orderStaged[order]).(Type)
-	case *ATTRIBUTE_VALUE_XHTML:
-		return any(stage.ATTRIBUTE_VALUE_XHTML_orderStaged[order]).(Type)
-	case *A_ALTERNATIVE_ID:
-		return any(stage.A_ALTERNATIVE_ID_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_DATE_REF_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_REAL_REF_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_STRING_REF_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		return any(stage.A_ATTRIBUTE_VALUE_BOOLEAN_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_VALUE_DATE:
-		return any(stage.A_ATTRIBUTE_VALUE_DATE_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		return any(stage.A_ATTRIBUTE_VALUE_ENUMERATION_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_VALUE_INTEGER:
-		return any(stage.A_ATTRIBUTE_VALUE_INTEGER_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_VALUE_REAL:
-		return any(stage.A_ATTRIBUTE_VALUE_REAL_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_VALUE_STRING:
-		return any(stage.A_ATTRIBUTE_VALUE_STRING_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_VALUE_XHTML:
-		return any(stage.A_ATTRIBUTE_VALUE_XHTML_orderStaged[order]).(Type)
-	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		return any(stage.A_ATTRIBUTE_VALUE_XHTML_1_orderStaged[order]).(Type)
-	case *A_CHILDREN:
-		return any(stage.A_CHILDREN_orderStaged[order]).(Type)
-	case *A_CORE_CONTENT:
-		return any(stage.A_CORE_CONTENT_orderStaged[order]).(Type)
-	case *A_DATATYPES:
-		return any(stage.A_DATATYPES_orderStaged[order]).(Type)
-	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		return any(stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_orderStaged[order]).(Type)
-	case *A_DATATYPE_DEFINITION_DATE_REF:
-		return any(stage.A_DATATYPE_DEFINITION_DATE_REF_orderStaged[order]).(Type)
-	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		return any(stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_orderStaged[order]).(Type)
-	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		return any(stage.A_DATATYPE_DEFINITION_INTEGER_REF_orderStaged[order]).(Type)
-	case *A_DATATYPE_DEFINITION_REAL_REF:
-		return any(stage.A_DATATYPE_DEFINITION_REAL_REF_orderStaged[order]).(Type)
-	case *A_DATATYPE_DEFINITION_STRING_REF:
-		return any(stage.A_DATATYPE_DEFINITION_STRING_REF_orderStaged[order]).(Type)
-	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		return any(stage.A_DATATYPE_DEFINITION_XHTML_REF_orderStaged[order]).(Type)
-	case *A_EDITABLE_ATTS:
-		return any(stage.A_EDITABLE_ATTS_orderStaged[order]).(Type)
-	case *A_ENUM_VALUE_REF:
-		return any(stage.A_ENUM_VALUE_REF_orderStaged[order]).(Type)
-	case *A_OBJECT:
-		return any(stage.A_OBJECT_orderStaged[order]).(Type)
-	case *A_PROPERTIES:
-		return any(stage.A_PROPERTIES_orderStaged[order]).(Type)
-	case *A_RELATION_GROUP_TYPE_REF:
-		return any(stage.A_RELATION_GROUP_TYPE_REF_orderStaged[order]).(Type)
-	case *A_SOURCE_1:
-		return any(stage.A_SOURCE_1_orderStaged[order]).(Type)
-	case *A_SOURCE_SPECIFICATION_1:
-		return any(stage.A_SOURCE_SPECIFICATION_1_orderStaged[order]).(Type)
-	case *A_SPECIFICATIONS:
-		return any(stage.A_SPECIFICATIONS_orderStaged[order]).(Type)
-	case *A_SPECIFICATION_TYPE_REF:
-		return any(stage.A_SPECIFICATION_TYPE_REF_orderStaged[order]).(Type)
-	case *A_SPECIFIED_VALUES:
-		return any(stage.A_SPECIFIED_VALUES_orderStaged[order]).(Type)
-	case *A_SPEC_ATTRIBUTES:
-		return any(stage.A_SPEC_ATTRIBUTES_orderStaged[order]).(Type)
-	case *A_SPEC_OBJECTS:
-		return any(stage.A_SPEC_OBJECTS_orderStaged[order]).(Type)
-	case *A_SPEC_OBJECT_TYPE_REF:
-		return any(stage.A_SPEC_OBJECT_TYPE_REF_orderStaged[order]).(Type)
-	case *A_SPEC_RELATIONS:
-		return any(stage.A_SPEC_RELATIONS_orderStaged[order]).(Type)
-	case *A_SPEC_RELATION_GROUPS:
-		return any(stage.A_SPEC_RELATION_GROUPS_orderStaged[order]).(Type)
-	case *A_SPEC_RELATION_REF:
-		return any(stage.A_SPEC_RELATION_REF_orderStaged[order]).(Type)
-	case *A_SPEC_RELATION_TYPE_REF:
-		return any(stage.A_SPEC_RELATION_TYPE_REF_orderStaged[order]).(Type)
-	case *A_SPEC_TYPES:
-		return any(stage.A_SPEC_TYPES_orderStaged[order]).(Type)
-	case *A_THE_HEADER:
-		return any(stage.A_THE_HEADER_orderStaged[order]).(Type)
-	case *A_TOOL_EXTENSIONS:
-		return any(stage.A_TOOL_EXTENSIONS_orderStaged[order]).(Type)
-	case *DATATYPE_DEFINITION_BOOLEAN:
-		return any(stage.DATATYPE_DEFINITION_BOOLEAN_orderStaged[order]).(Type)
-	case *DATATYPE_DEFINITION_DATE:
-		return any(stage.DATATYPE_DEFINITION_DATE_orderStaged[order]).(Type)
-	case *DATATYPE_DEFINITION_ENUMERATION:
-		return any(stage.DATATYPE_DEFINITION_ENUMERATION_orderStaged[order]).(Type)
-	case *DATATYPE_DEFINITION_INTEGER:
-		return any(stage.DATATYPE_DEFINITION_INTEGER_orderStaged[order]).(Type)
-	case *DATATYPE_DEFINITION_REAL:
-		return any(stage.DATATYPE_DEFINITION_REAL_orderStaged[order]).(Type)
-	case *DATATYPE_DEFINITION_STRING:
-		return any(stage.DATATYPE_DEFINITION_STRING_orderStaged[order]).(Type)
-	case *DATATYPE_DEFINITION_XHTML:
-		return any(stage.DATATYPE_DEFINITION_XHTML_orderStaged[order]).(Type)
-	case *EMBEDDED_VALUE:
-		return any(stage.EMBEDDED_VALUE_orderStaged[order]).(Type)
-	case *ENUM_VALUE:
-		return any(stage.ENUM_VALUE_orderStaged[order]).(Type)
-	case *EmbeddedJpgImage:
-		return any(stage.EmbeddedJpgImage_orderStaged[order]).(Type)
-	case *EmbeddedPngImage:
-		return any(stage.EmbeddedPngImage_orderStaged[order]).(Type)
-	case *EmbeddedSvgImage:
-		return any(stage.EmbeddedSvgImage_orderStaged[order]).(Type)
-	case *Kill:
-		return any(stage.Kill_orderStaged[order]).(Type)
-	case *Map_identifier_bool:
-		return any(stage.Map_identifier_bool_orderStaged[order]).(Type)
-	case *RELATION_GROUP:
-		return any(stage.RELATION_GROUP_orderStaged[order]).(Type)
-	case *RELATION_GROUP_TYPE:
-		return any(stage.RELATION_GROUP_TYPE_orderStaged[order]).(Type)
-	case *REQ_IF:
-		return any(stage.REQ_IF_orderStaged[order]).(Type)
-	case *REQ_IF_CONTENT:
-		return any(stage.REQ_IF_CONTENT_orderStaged[order]).(Type)
-	case *REQ_IF_HEADER:
-		return any(stage.REQ_IF_HEADER_orderStaged[order]).(Type)
-	case *REQ_IF_TOOL_EXTENSION:
-		return any(stage.REQ_IF_TOOL_EXTENSION_orderStaged[order]).(Type)
-	case *SPECIFICATION:
-		return any(stage.SPECIFICATION_orderStaged[order]).(Type)
-	case *SPECIFICATION_Rendering:
-		return any(stage.SPECIFICATION_Rendering_orderStaged[order]).(Type)
-	case *SPECIFICATION_TYPE:
-		return any(stage.SPECIFICATION_TYPE_orderStaged[order]).(Type)
-	case *SPEC_HIERARCHY:
-		return any(stage.SPEC_HIERARCHY_orderStaged[order]).(Type)
-	case *SPEC_OBJECT:
-		return any(stage.SPEC_OBJECT_orderStaged[order]).(Type)
-	case *SPEC_OBJECT_TYPE:
-		return any(stage.SPEC_OBJECT_TYPE_orderStaged[order]).(Type)
-	case *SPEC_OBJECT_TYPE_Rendering:
-		return any(stage.SPEC_OBJECT_TYPE_Rendering_orderStaged[order]).(Type)
-	case *SPEC_RELATION:
-		return any(stage.SPEC_RELATION_orderStaged[order]).(Type)
-	case *SPEC_RELATION_TYPE:
-		return any(stage.SPEC_RELATION_TYPE_orderStaged[order]).(Type)
-	case *StaticWebSite:
-		return any(stage.StaticWebSite_orderStaged[order]).(Type)
-	case *StaticWebSiteChapter:
-		return any(stage.StaticWebSiteChapter_orderStaged[order]).(Type)
-	case *StaticWebSiteGeneratedImage:
-		return any(stage.StaticWebSiteGeneratedImage_orderStaged[order]).(Type)
-	case *StaticWebSiteImage:
-		return any(stage.StaticWebSiteImage_orderStaged[order]).(Type)
-	case *StaticWebSiteParagraph:
-		return any(stage.StaticWebSiteParagraph_orderStaged[order]).(Type)
-	case *XHTML_CONTENT:
-		return any(stage.XHTML_CONTENT_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -8337,7 +10005,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -8369,6 +10039,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -8400,558 +10077,254 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *ALTERNATIVE_ID:
-		return any(stage.ALTERNATIVE_IDs_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		return any(stage.ATTRIBUTE_DEFINITION_BOOLEANs_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_DATE:
-		return any(stage.ATTRIBUTE_DEFINITION_DATEs_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_DATE_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_DATE_Renderings_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		return any(stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_INTEGER:
-		return any(stage.ATTRIBUTE_DEFINITION_INTEGERs_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_INTEGER_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_REAL:
-		return any(stage.ATTRIBUTE_DEFINITION_REALs_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_REAL_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_REAL_Renderings_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_Renderings_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_STRING:
-		return any(stage.ATTRIBUTE_DEFINITION_STRINGs_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_STRING_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_STRING_Renderings_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_XHTML:
-		return any(stage.ATTRIBUTE_DEFINITION_XHTMLs_mapString).(map[string]Type)
-	case *ATTRIBUTE_DEFINITION_XHTML_Rendering:
-		return any(stage.ATTRIBUTE_DEFINITION_XHTML_Renderings_mapString).(map[string]Type)
-	case *ATTRIBUTE_VALUE_BOOLEAN:
-		return any(stage.ATTRIBUTE_VALUE_BOOLEANs_mapString).(map[string]Type)
-	case *ATTRIBUTE_VALUE_DATE:
-		return any(stage.ATTRIBUTE_VALUE_DATEs_mapString).(map[string]Type)
-	case *ATTRIBUTE_VALUE_ENUMERATION:
-		return any(stage.ATTRIBUTE_VALUE_ENUMERATIONs_mapString).(map[string]Type)
-	case *ATTRIBUTE_VALUE_INTEGER:
-		return any(stage.ATTRIBUTE_VALUE_INTEGERs_mapString).(map[string]Type)
-	case *ATTRIBUTE_VALUE_REAL:
-		return any(stage.ATTRIBUTE_VALUE_REALs_mapString).(map[string]Type)
-	case *ATTRIBUTE_VALUE_STRING:
-		return any(stage.ATTRIBUTE_VALUE_STRINGs_mapString).(map[string]Type)
-	case *ATTRIBUTE_VALUE_XHTML:
-		return any(stage.ATTRIBUTE_VALUE_XHTMLs_mapString).(map[string]Type)
-	case *A_ALTERNATIVE_ID:
-		return any(stage.A_ALTERNATIVE_IDs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		return any(stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		return any(stage.A_ATTRIBUTE_VALUE_BOOLEANs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_VALUE_DATE:
-		return any(stage.A_ATTRIBUTE_VALUE_DATEs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		return any(stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_VALUE_INTEGER:
-		return any(stage.A_ATTRIBUTE_VALUE_INTEGERs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_VALUE_REAL:
-		return any(stage.A_ATTRIBUTE_VALUE_REALs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_VALUE_STRING:
-		return any(stage.A_ATTRIBUTE_VALUE_STRINGs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_VALUE_XHTML:
-		return any(stage.A_ATTRIBUTE_VALUE_XHTMLs_mapString).(map[string]Type)
-	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		return any(stage.A_ATTRIBUTE_VALUE_XHTML_1s_mapString).(map[string]Type)
-	case *A_CHILDREN:
-		return any(stage.A_CHILDRENs_mapString).(map[string]Type)
-	case *A_CORE_CONTENT:
-		return any(stage.A_CORE_CONTENTs_mapString).(map[string]Type)
-	case *A_DATATYPES:
-		return any(stage.A_DATATYPESs_mapString).(map[string]Type)
-	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		return any(stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_mapString).(map[string]Type)
-	case *A_DATATYPE_DEFINITION_DATE_REF:
-		return any(stage.A_DATATYPE_DEFINITION_DATE_REFs_mapString).(map[string]Type)
-	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		return any(stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_mapString).(map[string]Type)
-	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		return any(stage.A_DATATYPE_DEFINITION_INTEGER_REFs_mapString).(map[string]Type)
-	case *A_DATATYPE_DEFINITION_REAL_REF:
-		return any(stage.A_DATATYPE_DEFINITION_REAL_REFs_mapString).(map[string]Type)
-	case *A_DATATYPE_DEFINITION_STRING_REF:
-		return any(stage.A_DATATYPE_DEFINITION_STRING_REFs_mapString).(map[string]Type)
-	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		return any(stage.A_DATATYPE_DEFINITION_XHTML_REFs_mapString).(map[string]Type)
-	case *A_EDITABLE_ATTS:
-		return any(stage.A_EDITABLE_ATTSs_mapString).(map[string]Type)
-	case *A_ENUM_VALUE_REF:
-		return any(stage.A_ENUM_VALUE_REFs_mapString).(map[string]Type)
-	case *A_OBJECT:
-		return any(stage.A_OBJECTs_mapString).(map[string]Type)
-	case *A_PROPERTIES:
-		return any(stage.A_PROPERTIESs_mapString).(map[string]Type)
-	case *A_RELATION_GROUP_TYPE_REF:
-		return any(stage.A_RELATION_GROUP_TYPE_REFs_mapString).(map[string]Type)
-	case *A_SOURCE_1:
-		return any(stage.A_SOURCE_1s_mapString).(map[string]Type)
-	case *A_SOURCE_SPECIFICATION_1:
-		return any(stage.A_SOURCE_SPECIFICATION_1s_mapString).(map[string]Type)
-	case *A_SPECIFICATIONS:
-		return any(stage.A_SPECIFICATIONSs_mapString).(map[string]Type)
-	case *A_SPECIFICATION_TYPE_REF:
-		return any(stage.A_SPECIFICATION_TYPE_REFs_mapString).(map[string]Type)
-	case *A_SPECIFIED_VALUES:
-		return any(stage.A_SPECIFIED_VALUESs_mapString).(map[string]Type)
-	case *A_SPEC_ATTRIBUTES:
-		return any(stage.A_SPEC_ATTRIBUTESs_mapString).(map[string]Type)
-	case *A_SPEC_OBJECTS:
-		return any(stage.A_SPEC_OBJECTSs_mapString).(map[string]Type)
-	case *A_SPEC_OBJECT_TYPE_REF:
-		return any(stage.A_SPEC_OBJECT_TYPE_REFs_mapString).(map[string]Type)
-	case *A_SPEC_RELATIONS:
-		return any(stage.A_SPEC_RELATIONSs_mapString).(map[string]Type)
-	case *A_SPEC_RELATION_GROUPS:
-		return any(stage.A_SPEC_RELATION_GROUPSs_mapString).(map[string]Type)
-	case *A_SPEC_RELATION_REF:
-		return any(stage.A_SPEC_RELATION_REFs_mapString).(map[string]Type)
-	case *A_SPEC_RELATION_TYPE_REF:
-		return any(stage.A_SPEC_RELATION_TYPE_REFs_mapString).(map[string]Type)
-	case *A_SPEC_TYPES:
-		return any(stage.A_SPEC_TYPESs_mapString).(map[string]Type)
-	case *A_THE_HEADER:
-		return any(stage.A_THE_HEADERs_mapString).(map[string]Type)
-	case *A_TOOL_EXTENSIONS:
-		return any(stage.A_TOOL_EXTENSIONSs_mapString).(map[string]Type)
-	case *DATATYPE_DEFINITION_BOOLEAN:
-		return any(stage.DATATYPE_DEFINITION_BOOLEANs_mapString).(map[string]Type)
-	case *DATATYPE_DEFINITION_DATE:
-		return any(stage.DATATYPE_DEFINITION_DATEs_mapString).(map[string]Type)
-	case *DATATYPE_DEFINITION_ENUMERATION:
-		return any(stage.DATATYPE_DEFINITION_ENUMERATIONs_mapString).(map[string]Type)
-	case *DATATYPE_DEFINITION_INTEGER:
-		return any(stage.DATATYPE_DEFINITION_INTEGERs_mapString).(map[string]Type)
-	case *DATATYPE_DEFINITION_REAL:
-		return any(stage.DATATYPE_DEFINITION_REALs_mapString).(map[string]Type)
-	case *DATATYPE_DEFINITION_STRING:
-		return any(stage.DATATYPE_DEFINITION_STRINGs_mapString).(map[string]Type)
-	case *DATATYPE_DEFINITION_XHTML:
-		return any(stage.DATATYPE_DEFINITION_XHTMLs_mapString).(map[string]Type)
-	case *EMBEDDED_VALUE:
-		return any(stage.EMBEDDED_VALUEs_mapString).(map[string]Type)
-	case *ENUM_VALUE:
-		return any(stage.ENUM_VALUEs_mapString).(map[string]Type)
-	case *EmbeddedJpgImage:
-		return any(stage.EmbeddedJpgImages_mapString).(map[string]Type)
-	case *EmbeddedPngImage:
-		return any(stage.EmbeddedPngImages_mapString).(map[string]Type)
-	case *EmbeddedSvgImage:
-		return any(stage.EmbeddedSvgImages_mapString).(map[string]Type)
-	case *Kill:
-		return any(stage.Kills_mapString).(map[string]Type)
-	case *Map_identifier_bool:
-		return any(stage.Map_identifier_bools_mapString).(map[string]Type)
-	case *RELATION_GROUP:
-		return any(stage.RELATION_GROUPs_mapString).(map[string]Type)
-	case *RELATION_GROUP_TYPE:
-		return any(stage.RELATION_GROUP_TYPEs_mapString).(map[string]Type)
-	case *REQ_IF:
-		return any(stage.REQ_IFs_mapString).(map[string]Type)
-	case *REQ_IF_CONTENT:
-		return any(stage.REQ_IF_CONTENTs_mapString).(map[string]Type)
-	case *REQ_IF_HEADER:
-		return any(stage.REQ_IF_HEADERs_mapString).(map[string]Type)
-	case *REQ_IF_TOOL_EXTENSION:
-		return any(stage.REQ_IF_TOOL_EXTENSIONs_mapString).(map[string]Type)
-	case *SPECIFICATION:
-		return any(stage.SPECIFICATIONs_mapString).(map[string]Type)
-	case *SPECIFICATION_Rendering:
-		return any(stage.SPECIFICATION_Renderings_mapString).(map[string]Type)
-	case *SPECIFICATION_TYPE:
-		return any(stage.SPECIFICATION_TYPEs_mapString).(map[string]Type)
-	case *SPEC_HIERARCHY:
-		return any(stage.SPEC_HIERARCHYs_mapString).(map[string]Type)
-	case *SPEC_OBJECT:
-		return any(stage.SPEC_OBJECTs_mapString).(map[string]Type)
-	case *SPEC_OBJECT_TYPE:
-		return any(stage.SPEC_OBJECT_TYPEs_mapString).(map[string]Type)
-	case *SPEC_OBJECT_TYPE_Rendering:
-		return any(stage.SPEC_OBJECT_TYPE_Renderings_mapString).(map[string]Type)
-	case *SPEC_RELATION:
-		return any(stage.SPEC_RELATIONs_mapString).(map[string]Type)
-	case *SPEC_RELATION_TYPE:
-		return any(stage.SPEC_RELATION_TYPEs_mapString).(map[string]Type)
-	case *StaticWebSite:
-		return any(stage.StaticWebSites_mapString).(map[string]Type)
-	case *StaticWebSiteChapter:
-		return any(stage.StaticWebSiteChapters_mapString).(map[string]Type)
-	case *StaticWebSiteGeneratedImage:
-		return any(stage.StaticWebSiteGeneratedImages_mapString).(map[string]Type)
-	case *StaticWebSiteImage:
-		return any(stage.StaticWebSiteImages_mapString).(map[string]Type)
-	case *StaticWebSiteParagraph:
-		return any(stage.StaticWebSiteParagraphs_mapString).(map[string]Type)
-	case *XHTML_CONTENT:
-		return any(stage.XHTML_CONTENTs_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *ALTERNATIVE_ID:
-		return any(&stage.ALTERNATIVE_IDs).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		return any(&stage.ATTRIBUTE_DEFINITION_BOOLEANs).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering:
-		return any(&stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_DATE:
-		return any(&stage.ATTRIBUTE_DEFINITION_DATEs).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_DATE_Rendering:
-		return any(&stage.ATTRIBUTE_DEFINITION_DATE_Renderings).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		return any(&stage.ATTRIBUTE_DEFINITION_ENUMERATIONs).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering:
-		return any(&stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_INTEGER:
-		return any(&stage.ATTRIBUTE_DEFINITION_INTEGERs).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_INTEGER_Rendering:
-		return any(&stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_REAL:
-		return any(&stage.ATTRIBUTE_DEFINITION_REALs).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_REAL_Rendering:
-		return any(&stage.ATTRIBUTE_DEFINITION_REAL_Renderings).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_Rendering:
-		return any(&stage.ATTRIBUTE_DEFINITION_Renderings).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_STRING:
-		return any(&stage.ATTRIBUTE_DEFINITION_STRINGs).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_STRING_Rendering:
-		return any(&stage.ATTRIBUTE_DEFINITION_STRING_Renderings).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_XHTML:
-		return any(&stage.ATTRIBUTE_DEFINITION_XHTMLs).(*map[Type]struct{})
-	case *ATTRIBUTE_DEFINITION_XHTML_Rendering:
-		return any(&stage.ATTRIBUTE_DEFINITION_XHTML_Renderings).(*map[Type]struct{})
-	case *ATTRIBUTE_VALUE_BOOLEAN:
-		return any(&stage.ATTRIBUTE_VALUE_BOOLEANs).(*map[Type]struct{})
-	case *ATTRIBUTE_VALUE_DATE:
-		return any(&stage.ATTRIBUTE_VALUE_DATEs).(*map[Type]struct{})
-	case *ATTRIBUTE_VALUE_ENUMERATION:
-		return any(&stage.ATTRIBUTE_VALUE_ENUMERATIONs).(*map[Type]struct{})
-	case *ATTRIBUTE_VALUE_INTEGER:
-		return any(&stage.ATTRIBUTE_VALUE_INTEGERs).(*map[Type]struct{})
-	case *ATTRIBUTE_VALUE_REAL:
-		return any(&stage.ATTRIBUTE_VALUE_REALs).(*map[Type]struct{})
-	case *ATTRIBUTE_VALUE_STRING:
-		return any(&stage.ATTRIBUTE_VALUE_STRINGs).(*map[Type]struct{})
-	case *ATTRIBUTE_VALUE_XHTML:
-		return any(&stage.ATTRIBUTE_VALUE_XHTMLs).(*map[Type]struct{})
-	case *A_ALTERNATIVE_ID:
-		return any(&stage.A_ALTERNATIVE_IDs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_DATE_REFs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_REAL_REFs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_STRING_REFs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		return any(&stage.A_ATTRIBUTE_VALUE_BOOLEANs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_VALUE_DATE:
-		return any(&stage.A_ATTRIBUTE_VALUE_DATEs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		return any(&stage.A_ATTRIBUTE_VALUE_ENUMERATIONs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_VALUE_INTEGER:
-		return any(&stage.A_ATTRIBUTE_VALUE_INTEGERs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_VALUE_REAL:
-		return any(&stage.A_ATTRIBUTE_VALUE_REALs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_VALUE_STRING:
-		return any(&stage.A_ATTRIBUTE_VALUE_STRINGs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_VALUE_XHTML:
-		return any(&stage.A_ATTRIBUTE_VALUE_XHTMLs).(*map[Type]struct{})
-	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		return any(&stage.A_ATTRIBUTE_VALUE_XHTML_1s).(*map[Type]struct{})
-	case *A_CHILDREN:
-		return any(&stage.A_CHILDRENs).(*map[Type]struct{})
-	case *A_CORE_CONTENT:
-		return any(&stage.A_CORE_CONTENTs).(*map[Type]struct{})
-	case *A_DATATYPES:
-		return any(&stage.A_DATATYPESs).(*map[Type]struct{})
-	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs).(*map[Type]struct{})
-	case *A_DATATYPE_DEFINITION_DATE_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_DATE_REFs).(*map[Type]struct{})
-	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs).(*map[Type]struct{})
-	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_INTEGER_REFs).(*map[Type]struct{})
-	case *A_DATATYPE_DEFINITION_REAL_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_REAL_REFs).(*map[Type]struct{})
-	case *A_DATATYPE_DEFINITION_STRING_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_STRING_REFs).(*map[Type]struct{})
-	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_XHTML_REFs).(*map[Type]struct{})
-	case *A_EDITABLE_ATTS:
-		return any(&stage.A_EDITABLE_ATTSs).(*map[Type]struct{})
-	case *A_ENUM_VALUE_REF:
-		return any(&stage.A_ENUM_VALUE_REFs).(*map[Type]struct{})
-	case *A_OBJECT:
-		return any(&stage.A_OBJECTs).(*map[Type]struct{})
-	case *A_PROPERTIES:
-		return any(&stage.A_PROPERTIESs).(*map[Type]struct{})
-	case *A_RELATION_GROUP_TYPE_REF:
-		return any(&stage.A_RELATION_GROUP_TYPE_REFs).(*map[Type]struct{})
-	case *A_SOURCE_1:
-		return any(&stage.A_SOURCE_1s).(*map[Type]struct{})
-	case *A_SOURCE_SPECIFICATION_1:
-		return any(&stage.A_SOURCE_SPECIFICATION_1s).(*map[Type]struct{})
-	case *A_SPECIFICATIONS:
-		return any(&stage.A_SPECIFICATIONSs).(*map[Type]struct{})
-	case *A_SPECIFICATION_TYPE_REF:
-		return any(&stage.A_SPECIFICATION_TYPE_REFs).(*map[Type]struct{})
-	case *A_SPECIFIED_VALUES:
-		return any(&stage.A_SPECIFIED_VALUESs).(*map[Type]struct{})
-	case *A_SPEC_ATTRIBUTES:
-		return any(&stage.A_SPEC_ATTRIBUTESs).(*map[Type]struct{})
-	case *A_SPEC_OBJECTS:
-		return any(&stage.A_SPEC_OBJECTSs).(*map[Type]struct{})
-	case *A_SPEC_OBJECT_TYPE_REF:
-		return any(&stage.A_SPEC_OBJECT_TYPE_REFs).(*map[Type]struct{})
-	case *A_SPEC_RELATIONS:
-		return any(&stage.A_SPEC_RELATIONSs).(*map[Type]struct{})
-	case *A_SPEC_RELATION_GROUPS:
-		return any(&stage.A_SPEC_RELATION_GROUPSs).(*map[Type]struct{})
-	case *A_SPEC_RELATION_REF:
-		return any(&stage.A_SPEC_RELATION_REFs).(*map[Type]struct{})
-	case *A_SPEC_RELATION_TYPE_REF:
-		return any(&stage.A_SPEC_RELATION_TYPE_REFs).(*map[Type]struct{})
-	case *A_SPEC_TYPES:
-		return any(&stage.A_SPEC_TYPESs).(*map[Type]struct{})
-	case *A_THE_HEADER:
-		return any(&stage.A_THE_HEADERs).(*map[Type]struct{})
-	case *A_TOOL_EXTENSIONS:
-		return any(&stage.A_TOOL_EXTENSIONSs).(*map[Type]struct{})
-	case *DATATYPE_DEFINITION_BOOLEAN:
-		return any(&stage.DATATYPE_DEFINITION_BOOLEANs).(*map[Type]struct{})
-	case *DATATYPE_DEFINITION_DATE:
-		return any(&stage.DATATYPE_DEFINITION_DATEs).(*map[Type]struct{})
-	case *DATATYPE_DEFINITION_ENUMERATION:
-		return any(&stage.DATATYPE_DEFINITION_ENUMERATIONs).(*map[Type]struct{})
-	case *DATATYPE_DEFINITION_INTEGER:
-		return any(&stage.DATATYPE_DEFINITION_INTEGERs).(*map[Type]struct{})
-	case *DATATYPE_DEFINITION_REAL:
-		return any(&stage.DATATYPE_DEFINITION_REALs).(*map[Type]struct{})
-	case *DATATYPE_DEFINITION_STRING:
-		return any(&stage.DATATYPE_DEFINITION_STRINGs).(*map[Type]struct{})
-	case *DATATYPE_DEFINITION_XHTML:
-		return any(&stage.DATATYPE_DEFINITION_XHTMLs).(*map[Type]struct{})
-	case *EMBEDDED_VALUE:
-		return any(&stage.EMBEDDED_VALUEs).(*map[Type]struct{})
-	case *ENUM_VALUE:
-		return any(&stage.ENUM_VALUEs).(*map[Type]struct{})
-	case *EmbeddedJpgImage:
-		return any(&stage.EmbeddedJpgImages).(*map[Type]struct{})
-	case *EmbeddedPngImage:
-		return any(&stage.EmbeddedPngImages).(*map[Type]struct{})
-	case *EmbeddedSvgImage:
-		return any(&stage.EmbeddedSvgImages).(*map[Type]struct{})
-	case *Kill:
-		return any(&stage.Kills).(*map[Type]struct{})
-	case *Map_identifier_bool:
-		return any(&stage.Map_identifier_bools).(*map[Type]struct{})
-	case *RELATION_GROUP:
-		return any(&stage.RELATION_GROUPs).(*map[Type]struct{})
-	case *RELATION_GROUP_TYPE:
-		return any(&stage.RELATION_GROUP_TYPEs).(*map[Type]struct{})
-	case *REQ_IF:
-		return any(&stage.REQ_IFs).(*map[Type]struct{})
-	case *REQ_IF_CONTENT:
-		return any(&stage.REQ_IF_CONTENTs).(*map[Type]struct{})
-	case *REQ_IF_HEADER:
-		return any(&stage.REQ_IF_HEADERs).(*map[Type]struct{})
-	case *REQ_IF_TOOL_EXTENSION:
-		return any(&stage.REQ_IF_TOOL_EXTENSIONs).(*map[Type]struct{})
-	case *SPECIFICATION:
-		return any(&stage.SPECIFICATIONs).(*map[Type]struct{})
-	case *SPECIFICATION_Rendering:
-		return any(&stage.SPECIFICATION_Renderings).(*map[Type]struct{})
-	case *SPECIFICATION_TYPE:
-		return any(&stage.SPECIFICATION_TYPEs).(*map[Type]struct{})
-	case *SPEC_HIERARCHY:
-		return any(&stage.SPEC_HIERARCHYs).(*map[Type]struct{})
-	case *SPEC_OBJECT:
-		return any(&stage.SPEC_OBJECTs).(*map[Type]struct{})
-	case *SPEC_OBJECT_TYPE:
-		return any(&stage.SPEC_OBJECT_TYPEs).(*map[Type]struct{})
-	case *SPEC_OBJECT_TYPE_Rendering:
-		return any(&stage.SPEC_OBJECT_TYPE_Renderings).(*map[Type]struct{})
-	case *SPEC_RELATION:
-		return any(&stage.SPEC_RELATIONs).(*map[Type]struct{})
-	case *SPEC_RELATION_TYPE:
-		return any(&stage.SPEC_RELATION_TYPEs).(*map[Type]struct{})
-	case *StaticWebSite:
-		return any(&stage.StaticWebSites).(*map[Type]struct{})
-	case *StaticWebSiteChapter:
-		return any(&stage.StaticWebSiteChapters).(*map[Type]struct{})
-	case *StaticWebSiteGeneratedImage:
-		return any(&stage.StaticWebSiteGeneratedImages).(*map[Type]struct{})
-	case *StaticWebSiteImage:
-		return any(&stage.StaticWebSiteImages).(*map[Type]struct{})
-	case *StaticWebSiteParagraph:
-		return any(&stage.StaticWebSiteParagraphs).(*map[Type]struct{})
-	case *XHTML_CONTENT:
-		return any(&stage.XHTML_CONTENTs).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
+	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
+}
+
+// insertion point for instance with special fields
+func (ALTERNATIVE_ID) GongGetAssociationName() any {
+	return &ALTERNATIVE_ID{
 	}
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case ATTRIBUTE_DEFINITION_BOOLEAN:
-		return any(&ATTRIBUTE_DEFINITION_BOOLEAN{
+func (ATTRIBUTE_DEFINITION_BOOLEAN) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_BOOLEAN{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_BOOLEAN{Name: "DEFAULT_VALUE"},
 			TYPE: &A_DATATYPE_DEFINITION_BOOLEAN_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_DATE:
-		return any(&ATTRIBUTE_DEFINITION_DATE{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_BOOLEAN_Rendering{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_DATE) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_DATE{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_DATE{Name: "DEFAULT_VALUE"},
 			TYPE: &A_DATATYPE_DEFINITION_DATE_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_ENUMERATION:
-		return any(&ATTRIBUTE_DEFINITION_ENUMERATION{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_DATE_Rendering) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_DATE_Rendering{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_ENUMERATION) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_ENUMERATION{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_ENUMERATION{Name: "DEFAULT_VALUE"},
 			TYPE: &A_DATATYPE_DEFINITION_ENUMERATION_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_INTEGER:
-		return any(&ATTRIBUTE_DEFINITION_INTEGER{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_ENUMERATION_Rendering{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_INTEGER) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_INTEGER{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_INTEGER{Name: "DEFAULT_VALUE"},
 			TYPE: &A_DATATYPE_DEFINITION_INTEGER_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_REAL:
-		return any(&ATTRIBUTE_DEFINITION_REAL{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_INTEGER_Rendering{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_REAL) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_REAL{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_REAL{Name: "DEFAULT_VALUE"},
 			TYPE: &A_DATATYPE_DEFINITION_REAL_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_STRING:
-		return any(&ATTRIBUTE_DEFINITION_STRING{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_REAL_Rendering) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_REAL_Rendering{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_Rendering) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_Rendering{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_STRING) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_STRING{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_STRING{Name: "DEFAULT_VALUE"},
 			TYPE: &A_DATATYPE_DEFINITION_STRING_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_DEFINITION_XHTML:
-		return any(&ATTRIBUTE_DEFINITION_XHTML{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_STRING_Rendering) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_STRING_Rendering{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_XHTML) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_XHTML{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_XHTML{Name: "DEFAULT_VALUE"},
 			TYPE: &A_DATATYPE_DEFINITION_XHTML_REF{Name: "TYPE"},
-		}).(*Type)
-	case ATTRIBUTE_VALUE_BOOLEAN:
-		return any(&ATTRIBUTE_VALUE_BOOLEAN{
+	}
+}
+
+func (ATTRIBUTE_DEFINITION_XHTML_Rendering) GongGetAssociationName() any {
+	return &ATTRIBUTE_DEFINITION_XHTML_Rendering{
+	}
+}
+
+func (ATTRIBUTE_VALUE_BOOLEAN) GongGetAssociationName() any {
+	return &ATTRIBUTE_VALUE_BOOLEAN{
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_BOOLEAN_REF{Name: "DEFINITION"},
-		}).(*Type)
-	case ATTRIBUTE_VALUE_DATE:
-		return any(&ATTRIBUTE_VALUE_DATE{
+	}
+}
+
+func (ATTRIBUTE_VALUE_DATE) GongGetAssociationName() any {
+	return &ATTRIBUTE_VALUE_DATE{
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_DATE_REF{Name: "DEFINITION"},
-		}).(*Type)
-	case ATTRIBUTE_VALUE_ENUMERATION:
-		return any(&ATTRIBUTE_VALUE_ENUMERATION{
+	}
+}
+
+func (ATTRIBUTE_VALUE_ENUMERATION) GongGetAssociationName() any {
+	return &ATTRIBUTE_VALUE_ENUMERATION{
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_ENUMERATION_REF{Name: "DEFINITION"},
 			VALUES: &A_ENUM_VALUE_REF{Name: "VALUES"},
-		}).(*Type)
-	case ATTRIBUTE_VALUE_INTEGER:
-		return any(&ATTRIBUTE_VALUE_INTEGER{
+	}
+}
+
+func (ATTRIBUTE_VALUE_INTEGER) GongGetAssociationName() any {
+	return &ATTRIBUTE_VALUE_INTEGER{
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_INTEGER_REF{Name: "DEFINITION"},
-		}).(*Type)
-	case ATTRIBUTE_VALUE_REAL:
-		return any(&ATTRIBUTE_VALUE_REAL{
+	}
+}
+
+func (ATTRIBUTE_VALUE_REAL) GongGetAssociationName() any {
+	return &ATTRIBUTE_VALUE_REAL{
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_REAL_REF{Name: "DEFINITION"},
-		}).(*Type)
-	case ATTRIBUTE_VALUE_STRING:
-		return any(&ATTRIBUTE_VALUE_STRING{
+	}
+}
+
+func (ATTRIBUTE_VALUE_STRING) GongGetAssociationName() any {
+	return &ATTRIBUTE_VALUE_STRING{
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_STRING_REF{Name: "DEFINITION"},
-		}).(*Type)
-	case ATTRIBUTE_VALUE_XHTML:
-		return any(&ATTRIBUTE_VALUE_XHTML{
+	}
+}
+
+func (ATTRIBUTE_VALUE_XHTML) GongGetAssociationName() any {
+	return &ATTRIBUTE_VALUE_XHTML{
 			DEFINITION: &A_ATTRIBUTE_DEFINITION_XHTML_REF{Name: "DEFINITION"},
 			THE_VALUE: &XHTML_CONTENT{Name: "THE_VALUE"},
 			THE_ORIGINAL_VALUE: &XHTML_CONTENT{Name: "THE_ORIGINAL_VALUE"},
-		}).(*Type)
-	case A_ALTERNATIVE_ID:
-		return any(&A_ALTERNATIVE_ID{
+	}
+}
+
+func (A_ALTERNATIVE_ID) GongGetAssociationName() any {
+	return &A_ALTERNATIVE_ID{
 			ALTERNATIVE_ID: &ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-		}).(*Type)
-	case A_ATTRIBUTE_VALUE_BOOLEAN:
-		return any(&A_ATTRIBUTE_VALUE_BOOLEAN{
+	}
+}
+
+func (A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_DEFINITION_BOOLEAN_REF{
+	}
+}
+
+func (A_ATTRIBUTE_DEFINITION_DATE_REF) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_DEFINITION_DATE_REF{
+	}
+}
+
+func (A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_DEFINITION_ENUMERATION_REF{
+	}
+}
+
+func (A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_DEFINITION_INTEGER_REF{
+	}
+}
+
+func (A_ATTRIBUTE_DEFINITION_REAL_REF) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_DEFINITION_REAL_REF{
+	}
+}
+
+func (A_ATTRIBUTE_DEFINITION_STRING_REF) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_DEFINITION_STRING_REF{
+	}
+}
+
+func (A_ATTRIBUTE_DEFINITION_XHTML_REF) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_DEFINITION_XHTML_REF{
+	}
+}
+
+func (A_ATTRIBUTE_VALUE_BOOLEAN) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_VALUE_BOOLEAN{
 			ATTRIBUTE_VALUE_BOOLEAN: []*ATTRIBUTE_VALUE_BOOLEAN{{Name: "ATTRIBUTE_VALUE_BOOLEAN"}},
-		}).(*Type)
-	case A_ATTRIBUTE_VALUE_DATE:
-		return any(&A_ATTRIBUTE_VALUE_DATE{
+	}
+}
+
+func (A_ATTRIBUTE_VALUE_DATE) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_VALUE_DATE{
 			ATTRIBUTE_VALUE_DATE: []*ATTRIBUTE_VALUE_DATE{{Name: "ATTRIBUTE_VALUE_DATE"}},
-		}).(*Type)
-	case A_ATTRIBUTE_VALUE_ENUMERATION:
-		return any(&A_ATTRIBUTE_VALUE_ENUMERATION{
+	}
+}
+
+func (A_ATTRIBUTE_VALUE_ENUMERATION) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_VALUE_ENUMERATION{
 			ATTRIBUTE_VALUE_ENUMERATION: []*ATTRIBUTE_VALUE_ENUMERATION{{Name: "ATTRIBUTE_VALUE_ENUMERATION"}},
-		}).(*Type)
-	case A_ATTRIBUTE_VALUE_INTEGER:
-		return any(&A_ATTRIBUTE_VALUE_INTEGER{
+	}
+}
+
+func (A_ATTRIBUTE_VALUE_INTEGER) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_VALUE_INTEGER{
 			ATTRIBUTE_VALUE_INTEGER: []*ATTRIBUTE_VALUE_INTEGER{{Name: "ATTRIBUTE_VALUE_INTEGER"}},
-		}).(*Type)
-	case A_ATTRIBUTE_VALUE_REAL:
-		return any(&A_ATTRIBUTE_VALUE_REAL{
+	}
+}
+
+func (A_ATTRIBUTE_VALUE_REAL) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_VALUE_REAL{
 			ATTRIBUTE_VALUE_REAL: []*ATTRIBUTE_VALUE_REAL{{Name: "ATTRIBUTE_VALUE_REAL"}},
-		}).(*Type)
-	case A_ATTRIBUTE_VALUE_STRING:
-		return any(&A_ATTRIBUTE_VALUE_STRING{
+	}
+}
+
+func (A_ATTRIBUTE_VALUE_STRING) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_VALUE_STRING{
 			ATTRIBUTE_VALUE_STRING: []*ATTRIBUTE_VALUE_STRING{{Name: "ATTRIBUTE_VALUE_STRING"}},
-		}).(*Type)
-	case A_ATTRIBUTE_VALUE_XHTML:
-		return any(&A_ATTRIBUTE_VALUE_XHTML{
+	}
+}
+
+func (A_ATTRIBUTE_VALUE_XHTML) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_VALUE_XHTML{
 			ATTRIBUTE_VALUE_XHTML: []*ATTRIBUTE_VALUE_XHTML{{Name: "ATTRIBUTE_VALUE_XHTML"}},
-		}).(*Type)
-	case A_ATTRIBUTE_VALUE_XHTML_1:
-		return any(&A_ATTRIBUTE_VALUE_XHTML_1{
+	}
+}
+
+func (A_ATTRIBUTE_VALUE_XHTML_1) GongGetAssociationName() any {
+	return &A_ATTRIBUTE_VALUE_XHTML_1{
 			ATTRIBUTE_VALUE_BOOLEAN: []*ATTRIBUTE_VALUE_BOOLEAN{{Name: "ATTRIBUTE_VALUE_BOOLEAN"}},
 			ATTRIBUTE_VALUE_DATE: []*ATTRIBUTE_VALUE_DATE{{Name: "ATTRIBUTE_VALUE_DATE"}},
 			ATTRIBUTE_VALUE_ENUMERATION: []*ATTRIBUTE_VALUE_ENUMERATION{{Name: "ATTRIBUTE_VALUE_ENUMERATION"}},
@@ -8959,17 +10332,23 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			ATTRIBUTE_VALUE_REAL: []*ATTRIBUTE_VALUE_REAL{{Name: "ATTRIBUTE_VALUE_REAL"}},
 			ATTRIBUTE_VALUE_STRING: []*ATTRIBUTE_VALUE_STRING{{Name: "ATTRIBUTE_VALUE_STRING"}},
 			ATTRIBUTE_VALUE_XHTML: []*ATTRIBUTE_VALUE_XHTML{{Name: "ATTRIBUTE_VALUE_XHTML"}},
-		}).(*Type)
-	case A_CHILDREN:
-		return any(&A_CHILDREN{
+	}
+}
+
+func (A_CHILDREN) GongGetAssociationName() any {
+	return &A_CHILDREN{
 			SPEC_HIERARCHY: []*SPEC_HIERARCHY{{Name: "SPEC_HIERARCHY"}},
-		}).(*Type)
-	case A_CORE_CONTENT:
-		return any(&A_CORE_CONTENT{
+	}
+}
+
+func (A_CORE_CONTENT) GongGetAssociationName() any {
+	return &A_CORE_CONTENT{
 			REQ_IF_CONTENT: &REQ_IF_CONTENT{Name: "REQ_IF_CONTENT"},
-		}).(*Type)
-	case A_DATATYPES:
-		return any(&A_DATATYPES{
+	}
+}
+
+func (A_DATATYPES) GongGetAssociationName() any {
+	return &A_DATATYPES{
 			DATATYPE_DEFINITION_BOOLEAN: []*DATATYPE_DEFINITION_BOOLEAN{{Name: "DATATYPE_DEFINITION_BOOLEAN"}},
 			DATATYPE_DEFINITION_DATE: []*DATATYPE_DEFINITION_DATE{{Name: "DATATYPE_DEFINITION_DATE"}},
 			DATATYPE_DEFINITION_ENUMERATION: []*DATATYPE_DEFINITION_ENUMERATION{{Name: "DATATYPE_DEFINITION_ENUMERATION"}},
@@ -8977,21 +10356,99 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			DATATYPE_DEFINITION_REAL: []*DATATYPE_DEFINITION_REAL{{Name: "DATATYPE_DEFINITION_REAL"}},
 			DATATYPE_DEFINITION_STRING: []*DATATYPE_DEFINITION_STRING{{Name: "DATATYPE_DEFINITION_STRING"}},
 			DATATYPE_DEFINITION_XHTML: []*DATATYPE_DEFINITION_XHTML{{Name: "DATATYPE_DEFINITION_XHTML"}},
-		}).(*Type)
-	case A_PROPERTIES:
-		return any(&A_PROPERTIES{
+	}
+}
+
+func (A_DATATYPE_DEFINITION_BOOLEAN_REF) GongGetAssociationName() any {
+	return &A_DATATYPE_DEFINITION_BOOLEAN_REF{
+	}
+}
+
+func (A_DATATYPE_DEFINITION_DATE_REF) GongGetAssociationName() any {
+	return &A_DATATYPE_DEFINITION_DATE_REF{
+	}
+}
+
+func (A_DATATYPE_DEFINITION_ENUMERATION_REF) GongGetAssociationName() any {
+	return &A_DATATYPE_DEFINITION_ENUMERATION_REF{
+	}
+}
+
+func (A_DATATYPE_DEFINITION_INTEGER_REF) GongGetAssociationName() any {
+	return &A_DATATYPE_DEFINITION_INTEGER_REF{
+	}
+}
+
+func (A_DATATYPE_DEFINITION_REAL_REF) GongGetAssociationName() any {
+	return &A_DATATYPE_DEFINITION_REAL_REF{
+	}
+}
+
+func (A_DATATYPE_DEFINITION_STRING_REF) GongGetAssociationName() any {
+	return &A_DATATYPE_DEFINITION_STRING_REF{
+	}
+}
+
+func (A_DATATYPE_DEFINITION_XHTML_REF) GongGetAssociationName() any {
+	return &A_DATATYPE_DEFINITION_XHTML_REF{
+	}
+}
+
+func (A_EDITABLE_ATTS) GongGetAssociationName() any {
+	return &A_EDITABLE_ATTS{
+	}
+}
+
+func (A_ENUM_VALUE_REF) GongGetAssociationName() any {
+	return &A_ENUM_VALUE_REF{
+	}
+}
+
+func (A_OBJECT) GongGetAssociationName() any {
+	return &A_OBJECT{
+	}
+}
+
+func (A_PROPERTIES) GongGetAssociationName() any {
+	return &A_PROPERTIES{
 			EMBEDDED_VALUE: &EMBEDDED_VALUE{Name: "EMBEDDED_VALUE"},
-		}).(*Type)
-	case A_SPECIFICATIONS:
-		return any(&A_SPECIFICATIONS{
+	}
+}
+
+func (A_RELATION_GROUP_TYPE_REF) GongGetAssociationName() any {
+	return &A_RELATION_GROUP_TYPE_REF{
+	}
+}
+
+func (A_SOURCE_1) GongGetAssociationName() any {
+	return &A_SOURCE_1{
+	}
+}
+
+func (A_SOURCE_SPECIFICATION_1) GongGetAssociationName() any {
+	return &A_SOURCE_SPECIFICATION_1{
+	}
+}
+
+func (A_SPECIFICATIONS) GongGetAssociationName() any {
+	return &A_SPECIFICATIONS{
 			SPECIFICATION: []*SPECIFICATION{{Name: "SPECIFICATION"}},
-		}).(*Type)
-	case A_SPECIFIED_VALUES:
-		return any(&A_SPECIFIED_VALUES{
+	}
+}
+
+func (A_SPECIFICATION_TYPE_REF) GongGetAssociationName() any {
+	return &A_SPECIFICATION_TYPE_REF{
+	}
+}
+
+func (A_SPECIFIED_VALUES) GongGetAssociationName() any {
+	return &A_SPECIFIED_VALUES{
 			ENUM_VALUE: []*ENUM_VALUE{{Name: "ENUM_VALUE"}},
-		}).(*Type)
-	case A_SPEC_ATTRIBUTES:
-		return any(&A_SPEC_ATTRIBUTES{
+	}
+}
+
+func (A_SPEC_ATTRIBUTES) GongGetAssociationName() any {
+	return &A_SPEC_ATTRIBUTES{
 			ATTRIBUTE_DEFINITION_BOOLEAN: []*ATTRIBUTE_DEFINITION_BOOLEAN{{Name: "ATTRIBUTE_DEFINITION_BOOLEAN"}},
 			ATTRIBUTE_DEFINITION_DATE: []*ATTRIBUTE_DEFINITION_DATE{{Name: "ATTRIBUTE_DEFINITION_DATE"}},
 			ATTRIBUTE_DEFINITION_ENUMERATION: []*ATTRIBUTE_DEFINITION_ENUMERATION{{Name: "ATTRIBUTE_DEFINITION_ENUMERATION"}},
@@ -8999,154 +10456,297 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			ATTRIBUTE_DEFINITION_REAL: []*ATTRIBUTE_DEFINITION_REAL{{Name: "ATTRIBUTE_DEFINITION_REAL"}},
 			ATTRIBUTE_DEFINITION_STRING: []*ATTRIBUTE_DEFINITION_STRING{{Name: "ATTRIBUTE_DEFINITION_STRING"}},
 			ATTRIBUTE_DEFINITION_XHTML: []*ATTRIBUTE_DEFINITION_XHTML{{Name: "ATTRIBUTE_DEFINITION_XHTML"}},
-		}).(*Type)
-	case A_SPEC_OBJECTS:
-		return any(&A_SPEC_OBJECTS{
+	}
+}
+
+func (A_SPEC_OBJECTS) GongGetAssociationName() any {
+	return &A_SPEC_OBJECTS{
 			SPEC_OBJECT: []*SPEC_OBJECT{{Name: "SPEC_OBJECT"}},
-		}).(*Type)
-	case A_SPEC_RELATIONS:
-		return any(&A_SPEC_RELATIONS{
+	}
+}
+
+func (A_SPEC_OBJECT_TYPE_REF) GongGetAssociationName() any {
+	return &A_SPEC_OBJECT_TYPE_REF{
+	}
+}
+
+func (A_SPEC_RELATIONS) GongGetAssociationName() any {
+	return &A_SPEC_RELATIONS{
 			SPEC_RELATION: []*SPEC_RELATION{{Name: "SPEC_RELATION"}},
-		}).(*Type)
-	case A_SPEC_RELATION_GROUPS:
-		return any(&A_SPEC_RELATION_GROUPS{
+	}
+}
+
+func (A_SPEC_RELATION_GROUPS) GongGetAssociationName() any {
+	return &A_SPEC_RELATION_GROUPS{
 			RELATION_GROUP: []*RELATION_GROUP{{Name: "RELATION_GROUP"}},
-		}).(*Type)
-	case A_SPEC_TYPES:
-		return any(&A_SPEC_TYPES{
+	}
+}
+
+func (A_SPEC_RELATION_REF) GongGetAssociationName() any {
+	return &A_SPEC_RELATION_REF{
+	}
+}
+
+func (A_SPEC_RELATION_TYPE_REF) GongGetAssociationName() any {
+	return &A_SPEC_RELATION_TYPE_REF{
+	}
+}
+
+func (A_SPEC_TYPES) GongGetAssociationName() any {
+	return &A_SPEC_TYPES{
 			RELATION_GROUP_TYPE: []*RELATION_GROUP_TYPE{{Name: "RELATION_GROUP_TYPE"}},
 			SPEC_OBJECT_TYPE: []*SPEC_OBJECT_TYPE{{Name: "SPEC_OBJECT_TYPE"}},
 			SPEC_RELATION_TYPE: []*SPEC_RELATION_TYPE{{Name: "SPEC_RELATION_TYPE"}},
 			SPECIFICATION_TYPE: []*SPECIFICATION_TYPE{{Name: "SPECIFICATION_TYPE"}},
-		}).(*Type)
-	case A_THE_HEADER:
-		return any(&A_THE_HEADER{
+	}
+}
+
+func (A_THE_HEADER) GongGetAssociationName() any {
+	return &A_THE_HEADER{
 			REQ_IF_HEADER: &REQ_IF_HEADER{Name: "REQ_IF_HEADER"},
-		}).(*Type)
-	case A_TOOL_EXTENSIONS:
-		return any(&A_TOOL_EXTENSIONS{
+	}
+}
+
+func (A_TOOL_EXTENSIONS) GongGetAssociationName() any {
+	return &A_TOOL_EXTENSIONS{
 			REQ_IF_TOOL_EXTENSION: []*REQ_IF_TOOL_EXTENSION{{Name: "REQ_IF_TOOL_EXTENSION"}},
-		}).(*Type)
-	case DATATYPE_DEFINITION_BOOLEAN:
-		return any(&DATATYPE_DEFINITION_BOOLEAN{
+	}
+}
+
+func (DATATYPE_DEFINITION_BOOLEAN) GongGetAssociationName() any {
+	return &DATATYPE_DEFINITION_BOOLEAN{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-		}).(*Type)
-	case DATATYPE_DEFINITION_DATE:
-		return any(&DATATYPE_DEFINITION_DATE{
+	}
+}
+
+func (DATATYPE_DEFINITION_DATE) GongGetAssociationName() any {
+	return &DATATYPE_DEFINITION_DATE{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-		}).(*Type)
-	case DATATYPE_DEFINITION_ENUMERATION:
-		return any(&DATATYPE_DEFINITION_ENUMERATION{
+	}
+}
+
+func (DATATYPE_DEFINITION_ENUMERATION) GongGetAssociationName() any {
+	return &DATATYPE_DEFINITION_ENUMERATION{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			SPECIFIED_VALUES: &A_SPECIFIED_VALUES{Name: "SPECIFIED_VALUES"},
-		}).(*Type)
-	case DATATYPE_DEFINITION_INTEGER:
-		return any(&DATATYPE_DEFINITION_INTEGER{
+	}
+}
+
+func (DATATYPE_DEFINITION_INTEGER) GongGetAssociationName() any {
+	return &DATATYPE_DEFINITION_INTEGER{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-		}).(*Type)
-	case DATATYPE_DEFINITION_REAL:
-		return any(&DATATYPE_DEFINITION_REAL{
+	}
+}
+
+func (DATATYPE_DEFINITION_REAL) GongGetAssociationName() any {
+	return &DATATYPE_DEFINITION_REAL{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-		}).(*Type)
-	case DATATYPE_DEFINITION_STRING:
-		return any(&DATATYPE_DEFINITION_STRING{
+	}
+}
+
+func (DATATYPE_DEFINITION_STRING) GongGetAssociationName() any {
+	return &DATATYPE_DEFINITION_STRING{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-		}).(*Type)
-	case DATATYPE_DEFINITION_XHTML:
-		return any(&DATATYPE_DEFINITION_XHTML{
+	}
+}
+
+func (DATATYPE_DEFINITION_XHTML) GongGetAssociationName() any {
+	return &DATATYPE_DEFINITION_XHTML{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-		}).(*Type)
-	case ENUM_VALUE:
-		return any(&ENUM_VALUE{
+	}
+}
+
+func (EMBEDDED_VALUE) GongGetAssociationName() any {
+	return &EMBEDDED_VALUE{
+	}
+}
+
+func (ENUM_VALUE) GongGetAssociationName() any {
+	return &ENUM_VALUE{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			PROPERTIES: &A_PROPERTIES{Name: "PROPERTIES"},
-		}).(*Type)
-	case RELATION_GROUP:
-		return any(&RELATION_GROUP{
+	}
+}
+
+func (EmbeddedJpgImage) GongGetAssociationName() any {
+	return &EmbeddedJpgImage{
+	}
+}
+
+func (EmbeddedPngImage) GongGetAssociationName() any {
+	return &EmbeddedPngImage{
+	}
+}
+
+func (EmbeddedSvgImage) GongGetAssociationName() any {
+	return &EmbeddedSvgImage{
+	}
+}
+
+func (Kill) GongGetAssociationName() any {
+	return &Kill{
+	}
+}
+
+func (Map_identifier_bool) GongGetAssociationName() any {
+	return &Map_identifier_bool{
+	}
+}
+
+func (RELATION_GROUP) GongGetAssociationName() any {
+	return &RELATION_GROUP{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			SOURCE_SPECIFICATION: &A_SOURCE_SPECIFICATION_1{Name: "SOURCE_SPECIFICATION"},
 			SPEC_RELATIONS: &A_SPEC_RELATION_REF{Name: "SPEC_RELATIONS"},
 			TARGET_SPECIFICATION: &A_SOURCE_SPECIFICATION_1{Name: "TARGET_SPECIFICATION"},
 			TYPE: &A_RELATION_GROUP_TYPE_REF{Name: "TYPE"},
-		}).(*Type)
-	case RELATION_GROUP_TYPE:
-		return any(&RELATION_GROUP_TYPE{
+	}
+}
+
+func (RELATION_GROUP_TYPE) GongGetAssociationName() any {
+	return &RELATION_GROUP_TYPE{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			SPEC_ATTRIBUTES: &A_SPEC_ATTRIBUTES{Name: "SPEC_ATTRIBUTES"},
-		}).(*Type)
-	case REQ_IF:
-		return any(&REQ_IF{
+	}
+}
+
+func (REQ_IF) GongGetAssociationName() any {
+	return &REQ_IF{
 			THE_HEADER: &A_THE_HEADER{Name: "THE_HEADER"},
 			CORE_CONTENT: &A_CORE_CONTENT{Name: "CORE_CONTENT"},
 			TOOL_EXTENSIONS: &A_TOOL_EXTENSIONS{Name: "TOOL_EXTENSIONS"},
-		}).(*Type)
-	case REQ_IF_CONTENT:
-		return any(&REQ_IF_CONTENT{
+	}
+}
+
+func (REQ_IF_CONTENT) GongGetAssociationName() any {
+	return &REQ_IF_CONTENT{
 			DATATYPES: &A_DATATYPES{Name: "DATATYPES"},
 			SPEC_TYPES: &A_SPEC_TYPES{Name: "SPEC_TYPES"},
 			SPEC_OBJECTS: &A_SPEC_OBJECTS{Name: "SPEC_OBJECTS"},
 			SPEC_RELATIONS: &A_SPEC_RELATIONS{Name: "SPEC_RELATIONS"},
 			SPECIFICATIONS: &A_SPECIFICATIONS{Name: "SPECIFICATIONS"},
 			SPEC_RELATION_GROUPS: &A_SPEC_RELATION_GROUPS{Name: "SPEC_RELATION_GROUPS"},
-		}).(*Type)
-	case SPECIFICATION:
-		return any(&SPECIFICATION{
+	}
+}
+
+func (REQ_IF_HEADER) GongGetAssociationName() any {
+	return &REQ_IF_HEADER{
+	}
+}
+
+func (REQ_IF_TOOL_EXTENSION) GongGetAssociationName() any {
+	return &REQ_IF_TOOL_EXTENSION{
+	}
+}
+
+func (SPECIFICATION) GongGetAssociationName() any {
+	return &SPECIFICATION{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			TYPE: &A_SPECIFICATION_TYPE_REF{Name: "TYPE"},
 			CHILDREN: &A_CHILDREN{Name: "CHILDREN"},
 			VALUES: &A_ATTRIBUTE_VALUE_XHTML_1{Name: "VALUES"},
-		}).(*Type)
-	case SPECIFICATION_TYPE:
-		return any(&SPECIFICATION_TYPE{
+	}
+}
+
+func (SPECIFICATION_Rendering) GongGetAssociationName() any {
+	return &SPECIFICATION_Rendering{
+	}
+}
+
+func (SPECIFICATION_TYPE) GongGetAssociationName() any {
+	return &SPECIFICATION_TYPE{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			SPEC_ATTRIBUTES: &A_SPEC_ATTRIBUTES{Name: "SPEC_ATTRIBUTES"},
-		}).(*Type)
-	case SPEC_HIERARCHY:
-		return any(&SPEC_HIERARCHY{
+	}
+}
+
+func (SPEC_HIERARCHY) GongGetAssociationName() any {
+	return &SPEC_HIERARCHY{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			OBJECT: &A_OBJECT{Name: "OBJECT"},
 			CHILDREN: &A_CHILDREN{Name: "CHILDREN"},
 			EDITABLE_ATTS: &A_EDITABLE_ATTS{Name: "EDITABLE_ATTS"},
-		}).(*Type)
-	case SPEC_OBJECT:
-		return any(&SPEC_OBJECT{
+	}
+}
+
+func (SPEC_OBJECT) GongGetAssociationName() any {
+	return &SPEC_OBJECT{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			VALUES: &A_ATTRIBUTE_VALUE_XHTML_1{Name: "VALUES"},
 			TYPE: &A_SPEC_OBJECT_TYPE_REF{Name: "TYPE"},
-		}).(*Type)
-	case SPEC_OBJECT_TYPE:
-		return any(&SPEC_OBJECT_TYPE{
+	}
+}
+
+func (SPEC_OBJECT_TYPE) GongGetAssociationName() any {
+	return &SPEC_OBJECT_TYPE{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			SPEC_ATTRIBUTES: &A_SPEC_ATTRIBUTES{Name: "SPEC_ATTRIBUTES"},
-		}).(*Type)
-	case SPEC_RELATION:
-		return any(&SPEC_RELATION{
+	}
+}
+
+func (SPEC_OBJECT_TYPE_Rendering) GongGetAssociationName() any {
+	return &SPEC_OBJECT_TYPE_Rendering{
+	}
+}
+
+func (SPEC_RELATION) GongGetAssociationName() any {
+	return &SPEC_RELATION{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			VALUES: &A_ATTRIBUTE_VALUE_XHTML_1{Name: "VALUES"},
 			SOURCE: &A_SOURCE_1{Name: "SOURCE"},
 			TARGET: &A_SOURCE_1{Name: "TARGET"},
 			TYPE: &A_SPEC_RELATION_TYPE_REF{Name: "TYPE"},
-		}).(*Type)
-	case SPEC_RELATION_TYPE:
-		return any(&SPEC_RELATION_TYPE{
+	}
+}
+
+func (SPEC_RELATION_TYPE) GongGetAssociationName() any {
+	return &SPEC_RELATION_TYPE{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			SPEC_ATTRIBUTES: &A_SPEC_ATTRIBUTES{Name: "SPEC_ATTRIBUTES"},
-		}).(*Type)
-	case StaticWebSite:
-		return any(&StaticWebSite{
-			Chapters: []*StaticWebSiteChapter{{Name: "Chapters"}},
-		}).(*Type)
-	case StaticWebSiteChapter:
-		return any(&StaticWebSiteChapter{
-			Paragraphs: []*StaticWebSiteParagraph{{Name: "Paragraphs"}},
-		}).(*Type)
-	case StaticWebSiteParagraph:
-		return any(&StaticWebSiteParagraph{
-			Image: &StaticWebSiteImage{Name: "Image"},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+func (StaticWebSite) GongGetAssociationName() any {
+	return &StaticWebSite{
+			Chapters: []*StaticWebSiteChapter{{Name: "Chapters"}},
+	}
+}
+
+func (StaticWebSiteChapter) GongGetAssociationName() any {
+	return &StaticWebSiteChapter{
+			Paragraphs: []*StaticWebSiteParagraph{{Name: "Paragraphs"}},
+	}
+}
+
+func (StaticWebSiteGeneratedImage) GongGetAssociationName() any {
+	return &StaticWebSiteGeneratedImage{
+	}
+}
+
+func (StaticWebSiteImage) GongGetAssociationName() any {
+	return &StaticWebSiteImage{
+	}
+}
+
+func (StaticWebSiteParagraph) GongGetAssociationName() any {
+	return &StaticWebSiteParagraph{
+			Image: &StaticWebSiteImage{Name: "Image"},
+	}
+}
+
+func (XHTML_CONTENT) GongGetAssociationName() any {
+	return &XHTML_CONTENT{
+	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -11974,220 +13574,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *ALTERNATIVE_ID:
-		res = any(new(ALTERNATIVE_ID)).(Type)
-	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		res = any(new(ATTRIBUTE_DEFINITION_BOOLEAN)).(Type)
-	case *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering:
-		res = any(new(ATTRIBUTE_DEFINITION_BOOLEAN_Rendering)).(Type)
-	case *ATTRIBUTE_DEFINITION_DATE:
-		res = any(new(ATTRIBUTE_DEFINITION_DATE)).(Type)
-	case *ATTRIBUTE_DEFINITION_DATE_Rendering:
-		res = any(new(ATTRIBUTE_DEFINITION_DATE_Rendering)).(Type)
-	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		res = any(new(ATTRIBUTE_DEFINITION_ENUMERATION)).(Type)
-	case *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering:
-		res = any(new(ATTRIBUTE_DEFINITION_ENUMERATION_Rendering)).(Type)
-	case *ATTRIBUTE_DEFINITION_INTEGER:
-		res = any(new(ATTRIBUTE_DEFINITION_INTEGER)).(Type)
-	case *ATTRIBUTE_DEFINITION_INTEGER_Rendering:
-		res = any(new(ATTRIBUTE_DEFINITION_INTEGER_Rendering)).(Type)
-	case *ATTRIBUTE_DEFINITION_REAL:
-		res = any(new(ATTRIBUTE_DEFINITION_REAL)).(Type)
-	case *ATTRIBUTE_DEFINITION_REAL_Rendering:
-		res = any(new(ATTRIBUTE_DEFINITION_REAL_Rendering)).(Type)
-	case *ATTRIBUTE_DEFINITION_Rendering:
-		res = any(new(ATTRIBUTE_DEFINITION_Rendering)).(Type)
-	case *ATTRIBUTE_DEFINITION_STRING:
-		res = any(new(ATTRIBUTE_DEFINITION_STRING)).(Type)
-	case *ATTRIBUTE_DEFINITION_STRING_Rendering:
-		res = any(new(ATTRIBUTE_DEFINITION_STRING_Rendering)).(Type)
-	case *ATTRIBUTE_DEFINITION_XHTML:
-		res = any(new(ATTRIBUTE_DEFINITION_XHTML)).(Type)
-	case *ATTRIBUTE_DEFINITION_XHTML_Rendering:
-		res = any(new(ATTRIBUTE_DEFINITION_XHTML_Rendering)).(Type)
-	case *ATTRIBUTE_VALUE_BOOLEAN:
-		res = any(new(ATTRIBUTE_VALUE_BOOLEAN)).(Type)
-	case *ATTRIBUTE_VALUE_DATE:
-		res = any(new(ATTRIBUTE_VALUE_DATE)).(Type)
-	case *ATTRIBUTE_VALUE_ENUMERATION:
-		res = any(new(ATTRIBUTE_VALUE_ENUMERATION)).(Type)
-	case *ATTRIBUTE_VALUE_INTEGER:
-		res = any(new(ATTRIBUTE_VALUE_INTEGER)).(Type)
-	case *ATTRIBUTE_VALUE_REAL:
-		res = any(new(ATTRIBUTE_VALUE_REAL)).(Type)
-	case *ATTRIBUTE_VALUE_STRING:
-		res = any(new(ATTRIBUTE_VALUE_STRING)).(Type)
-	case *ATTRIBUTE_VALUE_XHTML:
-		res = any(new(ATTRIBUTE_VALUE_XHTML)).(Type)
-	case *A_ALTERNATIVE_ID:
-		res = any(new(A_ALTERNATIVE_ID)).(Type)
-	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		res = any(new(A_ATTRIBUTE_DEFINITION_BOOLEAN_REF)).(Type)
-	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		res = any(new(A_ATTRIBUTE_DEFINITION_DATE_REF)).(Type)
-	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		res = any(new(A_ATTRIBUTE_DEFINITION_ENUMERATION_REF)).(Type)
-	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		res = any(new(A_ATTRIBUTE_DEFINITION_INTEGER_REF)).(Type)
-	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		res = any(new(A_ATTRIBUTE_DEFINITION_REAL_REF)).(Type)
-	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		res = any(new(A_ATTRIBUTE_DEFINITION_STRING_REF)).(Type)
-	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		res = any(new(A_ATTRIBUTE_DEFINITION_XHTML_REF)).(Type)
-	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		res = any(new(A_ATTRIBUTE_VALUE_BOOLEAN)).(Type)
-	case *A_ATTRIBUTE_VALUE_DATE:
-		res = any(new(A_ATTRIBUTE_VALUE_DATE)).(Type)
-	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		res = any(new(A_ATTRIBUTE_VALUE_ENUMERATION)).(Type)
-	case *A_ATTRIBUTE_VALUE_INTEGER:
-		res = any(new(A_ATTRIBUTE_VALUE_INTEGER)).(Type)
-	case *A_ATTRIBUTE_VALUE_REAL:
-		res = any(new(A_ATTRIBUTE_VALUE_REAL)).(Type)
-	case *A_ATTRIBUTE_VALUE_STRING:
-		res = any(new(A_ATTRIBUTE_VALUE_STRING)).(Type)
-	case *A_ATTRIBUTE_VALUE_XHTML:
-		res = any(new(A_ATTRIBUTE_VALUE_XHTML)).(Type)
-	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		res = any(new(A_ATTRIBUTE_VALUE_XHTML_1)).(Type)
-	case *A_CHILDREN:
-		res = any(new(A_CHILDREN)).(Type)
-	case *A_CORE_CONTENT:
-		res = any(new(A_CORE_CONTENT)).(Type)
-	case *A_DATATYPES:
-		res = any(new(A_DATATYPES)).(Type)
-	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		res = any(new(A_DATATYPE_DEFINITION_BOOLEAN_REF)).(Type)
-	case *A_DATATYPE_DEFINITION_DATE_REF:
-		res = any(new(A_DATATYPE_DEFINITION_DATE_REF)).(Type)
-	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		res = any(new(A_DATATYPE_DEFINITION_ENUMERATION_REF)).(Type)
-	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		res = any(new(A_DATATYPE_DEFINITION_INTEGER_REF)).(Type)
-	case *A_DATATYPE_DEFINITION_REAL_REF:
-		res = any(new(A_DATATYPE_DEFINITION_REAL_REF)).(Type)
-	case *A_DATATYPE_DEFINITION_STRING_REF:
-		res = any(new(A_DATATYPE_DEFINITION_STRING_REF)).(Type)
-	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		res = any(new(A_DATATYPE_DEFINITION_XHTML_REF)).(Type)
-	case *A_EDITABLE_ATTS:
-		res = any(new(A_EDITABLE_ATTS)).(Type)
-	case *A_ENUM_VALUE_REF:
-		res = any(new(A_ENUM_VALUE_REF)).(Type)
-	case *A_OBJECT:
-		res = any(new(A_OBJECT)).(Type)
-	case *A_PROPERTIES:
-		res = any(new(A_PROPERTIES)).(Type)
-	case *A_RELATION_GROUP_TYPE_REF:
-		res = any(new(A_RELATION_GROUP_TYPE_REF)).(Type)
-	case *A_SOURCE_1:
-		res = any(new(A_SOURCE_1)).(Type)
-	case *A_SOURCE_SPECIFICATION_1:
-		res = any(new(A_SOURCE_SPECIFICATION_1)).(Type)
-	case *A_SPECIFICATIONS:
-		res = any(new(A_SPECIFICATIONS)).(Type)
-	case *A_SPECIFICATION_TYPE_REF:
-		res = any(new(A_SPECIFICATION_TYPE_REF)).(Type)
-	case *A_SPECIFIED_VALUES:
-		res = any(new(A_SPECIFIED_VALUES)).(Type)
-	case *A_SPEC_ATTRIBUTES:
-		res = any(new(A_SPEC_ATTRIBUTES)).(Type)
-	case *A_SPEC_OBJECTS:
-		res = any(new(A_SPEC_OBJECTS)).(Type)
-	case *A_SPEC_OBJECT_TYPE_REF:
-		res = any(new(A_SPEC_OBJECT_TYPE_REF)).(Type)
-	case *A_SPEC_RELATIONS:
-		res = any(new(A_SPEC_RELATIONS)).(Type)
-	case *A_SPEC_RELATION_GROUPS:
-		res = any(new(A_SPEC_RELATION_GROUPS)).(Type)
-	case *A_SPEC_RELATION_REF:
-		res = any(new(A_SPEC_RELATION_REF)).(Type)
-	case *A_SPEC_RELATION_TYPE_REF:
-		res = any(new(A_SPEC_RELATION_TYPE_REF)).(Type)
-	case *A_SPEC_TYPES:
-		res = any(new(A_SPEC_TYPES)).(Type)
-	case *A_THE_HEADER:
-		res = any(new(A_THE_HEADER)).(Type)
-	case *A_TOOL_EXTENSIONS:
-		res = any(new(A_TOOL_EXTENSIONS)).(Type)
-	case *DATATYPE_DEFINITION_BOOLEAN:
-		res = any(new(DATATYPE_DEFINITION_BOOLEAN)).(Type)
-	case *DATATYPE_DEFINITION_DATE:
-		res = any(new(DATATYPE_DEFINITION_DATE)).(Type)
-	case *DATATYPE_DEFINITION_ENUMERATION:
-		res = any(new(DATATYPE_DEFINITION_ENUMERATION)).(Type)
-	case *DATATYPE_DEFINITION_INTEGER:
-		res = any(new(DATATYPE_DEFINITION_INTEGER)).(Type)
-	case *DATATYPE_DEFINITION_REAL:
-		res = any(new(DATATYPE_DEFINITION_REAL)).(Type)
-	case *DATATYPE_DEFINITION_STRING:
-		res = any(new(DATATYPE_DEFINITION_STRING)).(Type)
-	case *DATATYPE_DEFINITION_XHTML:
-		res = any(new(DATATYPE_DEFINITION_XHTML)).(Type)
-	case *EMBEDDED_VALUE:
-		res = any(new(EMBEDDED_VALUE)).(Type)
-	case *ENUM_VALUE:
-		res = any(new(ENUM_VALUE)).(Type)
-	case *EmbeddedJpgImage:
-		res = any(new(EmbeddedJpgImage)).(Type)
-	case *EmbeddedPngImage:
-		res = any(new(EmbeddedPngImage)).(Type)
-	case *EmbeddedSvgImage:
-		res = any(new(EmbeddedSvgImage)).(Type)
-	case *Kill:
-		res = any(new(Kill)).(Type)
-	case *Map_identifier_bool:
-		res = any(new(Map_identifier_bool)).(Type)
-	case *RELATION_GROUP:
-		res = any(new(RELATION_GROUP)).(Type)
-	case *RELATION_GROUP_TYPE:
-		res = any(new(RELATION_GROUP_TYPE)).(Type)
-	case *REQ_IF:
-		res = any(new(REQ_IF)).(Type)
-	case *REQ_IF_CONTENT:
-		res = any(new(REQ_IF_CONTENT)).(Type)
-	case *REQ_IF_HEADER:
-		res = any(new(REQ_IF_HEADER)).(Type)
-	case *REQ_IF_TOOL_EXTENSION:
-		res = any(new(REQ_IF_TOOL_EXTENSION)).(Type)
-	case *SPECIFICATION:
-		res = any(new(SPECIFICATION)).(Type)
-	case *SPECIFICATION_Rendering:
-		res = any(new(SPECIFICATION_Rendering)).(Type)
-	case *SPECIFICATION_TYPE:
-		res = any(new(SPECIFICATION_TYPE)).(Type)
-	case *SPEC_HIERARCHY:
-		res = any(new(SPEC_HIERARCHY)).(Type)
-	case *SPEC_OBJECT:
-		res = any(new(SPEC_OBJECT)).(Type)
-	case *SPEC_OBJECT_TYPE:
-		res = any(new(SPEC_OBJECT_TYPE)).(Type)
-	case *SPEC_OBJECT_TYPE_Rendering:
-		res = any(new(SPEC_OBJECT_TYPE_Rendering)).(Type)
-	case *SPEC_RELATION:
-		res = any(new(SPEC_RELATION)).(Type)
-	case *SPEC_RELATION_TYPE:
-		res = any(new(SPEC_RELATION_TYPE)).(Type)
-	case *StaticWebSite:
-		res = any(new(StaticWebSite)).(Type)
-	case *StaticWebSiteChapter:
-		res = any(new(StaticWebSiteChapter)).(Type)
-	case *StaticWebSiteGeneratedImage:
-		res = any(new(StaticWebSiteGeneratedImage)).(Type)
-	case *StaticWebSiteImage:
-		res = any(new(StaticWebSiteImage)).(Type)
-	case *StaticWebSiteParagraph:
-		res = any(new(StaticWebSiteParagraph)).(Type)
-	case *XHTML_CONTENT:
-		res = any(new(XHTML_CONTENT)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -12210,220 +13598,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *ALTERNATIVE_ID:
-		res = "ALTERNATIVE_ID"
-	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		res = "ATTRIBUTE_DEFINITION_BOOLEAN"
-	case *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering:
-		res = "ATTRIBUTE_DEFINITION_BOOLEAN_Rendering"
-	case *ATTRIBUTE_DEFINITION_DATE:
-		res = "ATTRIBUTE_DEFINITION_DATE"
-	case *ATTRIBUTE_DEFINITION_DATE_Rendering:
-		res = "ATTRIBUTE_DEFINITION_DATE_Rendering"
-	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		res = "ATTRIBUTE_DEFINITION_ENUMERATION"
-	case *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering:
-		res = "ATTRIBUTE_DEFINITION_ENUMERATION_Rendering"
-	case *ATTRIBUTE_DEFINITION_INTEGER:
-		res = "ATTRIBUTE_DEFINITION_INTEGER"
-	case *ATTRIBUTE_DEFINITION_INTEGER_Rendering:
-		res = "ATTRIBUTE_DEFINITION_INTEGER_Rendering"
-	case *ATTRIBUTE_DEFINITION_REAL:
-		res = "ATTRIBUTE_DEFINITION_REAL"
-	case *ATTRIBUTE_DEFINITION_REAL_Rendering:
-		res = "ATTRIBUTE_DEFINITION_REAL_Rendering"
-	case *ATTRIBUTE_DEFINITION_Rendering:
-		res = "ATTRIBUTE_DEFINITION_Rendering"
-	case *ATTRIBUTE_DEFINITION_STRING:
-		res = "ATTRIBUTE_DEFINITION_STRING"
-	case *ATTRIBUTE_DEFINITION_STRING_Rendering:
-		res = "ATTRIBUTE_DEFINITION_STRING_Rendering"
-	case *ATTRIBUTE_DEFINITION_XHTML:
-		res = "ATTRIBUTE_DEFINITION_XHTML"
-	case *ATTRIBUTE_DEFINITION_XHTML_Rendering:
-		res = "ATTRIBUTE_DEFINITION_XHTML_Rendering"
-	case *ATTRIBUTE_VALUE_BOOLEAN:
-		res = "ATTRIBUTE_VALUE_BOOLEAN"
-	case *ATTRIBUTE_VALUE_DATE:
-		res = "ATTRIBUTE_VALUE_DATE"
-	case *ATTRIBUTE_VALUE_ENUMERATION:
-		res = "ATTRIBUTE_VALUE_ENUMERATION"
-	case *ATTRIBUTE_VALUE_INTEGER:
-		res = "ATTRIBUTE_VALUE_INTEGER"
-	case *ATTRIBUTE_VALUE_REAL:
-		res = "ATTRIBUTE_VALUE_REAL"
-	case *ATTRIBUTE_VALUE_STRING:
-		res = "ATTRIBUTE_VALUE_STRING"
-	case *ATTRIBUTE_VALUE_XHTML:
-		res = "ATTRIBUTE_VALUE_XHTML"
-	case *A_ALTERNATIVE_ID:
-		res = "A_ALTERNATIVE_ID"
-	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		res = "A_ATTRIBUTE_DEFINITION_BOOLEAN_REF"
-	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		res = "A_ATTRIBUTE_DEFINITION_DATE_REF"
-	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		res = "A_ATTRIBUTE_DEFINITION_ENUMERATION_REF"
-	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		res = "A_ATTRIBUTE_DEFINITION_INTEGER_REF"
-	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		res = "A_ATTRIBUTE_DEFINITION_REAL_REF"
-	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		res = "A_ATTRIBUTE_DEFINITION_STRING_REF"
-	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		res = "A_ATTRIBUTE_DEFINITION_XHTML_REF"
-	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		res = "A_ATTRIBUTE_VALUE_BOOLEAN"
-	case *A_ATTRIBUTE_VALUE_DATE:
-		res = "A_ATTRIBUTE_VALUE_DATE"
-	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		res = "A_ATTRIBUTE_VALUE_ENUMERATION"
-	case *A_ATTRIBUTE_VALUE_INTEGER:
-		res = "A_ATTRIBUTE_VALUE_INTEGER"
-	case *A_ATTRIBUTE_VALUE_REAL:
-		res = "A_ATTRIBUTE_VALUE_REAL"
-	case *A_ATTRIBUTE_VALUE_STRING:
-		res = "A_ATTRIBUTE_VALUE_STRING"
-	case *A_ATTRIBUTE_VALUE_XHTML:
-		res = "A_ATTRIBUTE_VALUE_XHTML"
-	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		res = "A_ATTRIBUTE_VALUE_XHTML_1"
-	case *A_CHILDREN:
-		res = "A_CHILDREN"
-	case *A_CORE_CONTENT:
-		res = "A_CORE_CONTENT"
-	case *A_DATATYPES:
-		res = "A_DATATYPES"
-	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		res = "A_DATATYPE_DEFINITION_BOOLEAN_REF"
-	case *A_DATATYPE_DEFINITION_DATE_REF:
-		res = "A_DATATYPE_DEFINITION_DATE_REF"
-	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		res = "A_DATATYPE_DEFINITION_ENUMERATION_REF"
-	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		res = "A_DATATYPE_DEFINITION_INTEGER_REF"
-	case *A_DATATYPE_DEFINITION_REAL_REF:
-		res = "A_DATATYPE_DEFINITION_REAL_REF"
-	case *A_DATATYPE_DEFINITION_STRING_REF:
-		res = "A_DATATYPE_DEFINITION_STRING_REF"
-	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		res = "A_DATATYPE_DEFINITION_XHTML_REF"
-	case *A_EDITABLE_ATTS:
-		res = "A_EDITABLE_ATTS"
-	case *A_ENUM_VALUE_REF:
-		res = "A_ENUM_VALUE_REF"
-	case *A_OBJECT:
-		res = "A_OBJECT"
-	case *A_PROPERTIES:
-		res = "A_PROPERTIES"
-	case *A_RELATION_GROUP_TYPE_REF:
-		res = "A_RELATION_GROUP_TYPE_REF"
-	case *A_SOURCE_1:
-		res = "A_SOURCE_1"
-	case *A_SOURCE_SPECIFICATION_1:
-		res = "A_SOURCE_SPECIFICATION_1"
-	case *A_SPECIFICATIONS:
-		res = "A_SPECIFICATIONS"
-	case *A_SPECIFICATION_TYPE_REF:
-		res = "A_SPECIFICATION_TYPE_REF"
-	case *A_SPECIFIED_VALUES:
-		res = "A_SPECIFIED_VALUES"
-	case *A_SPEC_ATTRIBUTES:
-		res = "A_SPEC_ATTRIBUTES"
-	case *A_SPEC_OBJECTS:
-		res = "A_SPEC_OBJECTS"
-	case *A_SPEC_OBJECT_TYPE_REF:
-		res = "A_SPEC_OBJECT_TYPE_REF"
-	case *A_SPEC_RELATIONS:
-		res = "A_SPEC_RELATIONS"
-	case *A_SPEC_RELATION_GROUPS:
-		res = "A_SPEC_RELATION_GROUPS"
-	case *A_SPEC_RELATION_REF:
-		res = "A_SPEC_RELATION_REF"
-	case *A_SPEC_RELATION_TYPE_REF:
-		res = "A_SPEC_RELATION_TYPE_REF"
-	case *A_SPEC_TYPES:
-		res = "A_SPEC_TYPES"
-	case *A_THE_HEADER:
-		res = "A_THE_HEADER"
-	case *A_TOOL_EXTENSIONS:
-		res = "A_TOOL_EXTENSIONS"
-	case *DATATYPE_DEFINITION_BOOLEAN:
-		res = "DATATYPE_DEFINITION_BOOLEAN"
-	case *DATATYPE_DEFINITION_DATE:
-		res = "DATATYPE_DEFINITION_DATE"
-	case *DATATYPE_DEFINITION_ENUMERATION:
-		res = "DATATYPE_DEFINITION_ENUMERATION"
-	case *DATATYPE_DEFINITION_INTEGER:
-		res = "DATATYPE_DEFINITION_INTEGER"
-	case *DATATYPE_DEFINITION_REAL:
-		res = "DATATYPE_DEFINITION_REAL"
-	case *DATATYPE_DEFINITION_STRING:
-		res = "DATATYPE_DEFINITION_STRING"
-	case *DATATYPE_DEFINITION_XHTML:
-		res = "DATATYPE_DEFINITION_XHTML"
-	case *EMBEDDED_VALUE:
-		res = "EMBEDDED_VALUE"
-	case *ENUM_VALUE:
-		res = "ENUM_VALUE"
-	case *EmbeddedJpgImage:
-		res = "EmbeddedJpgImage"
-	case *EmbeddedPngImage:
-		res = "EmbeddedPngImage"
-	case *EmbeddedSvgImage:
-		res = "EmbeddedSvgImage"
-	case *Kill:
-		res = "Kill"
-	case *Map_identifier_bool:
-		res = "Map_identifier_bool"
-	case *RELATION_GROUP:
-		res = "RELATION_GROUP"
-	case *RELATION_GROUP_TYPE:
-		res = "RELATION_GROUP_TYPE"
-	case *REQ_IF:
-		res = "REQ_IF"
-	case *REQ_IF_CONTENT:
-		res = "REQ_IF_CONTENT"
-	case *REQ_IF_HEADER:
-		res = "REQ_IF_HEADER"
-	case *REQ_IF_TOOL_EXTENSION:
-		res = "REQ_IF_TOOL_EXTENSION"
-	case *SPECIFICATION:
-		res = "SPECIFICATION"
-	case *SPECIFICATION_Rendering:
-		res = "SPECIFICATION_Rendering"
-	case *SPECIFICATION_TYPE:
-		res = "SPECIFICATION_TYPE"
-	case *SPEC_HIERARCHY:
-		res = "SPEC_HIERARCHY"
-	case *SPEC_OBJECT:
-		res = "SPEC_OBJECT"
-	case *SPEC_OBJECT_TYPE:
-		res = "SPEC_OBJECT_TYPE"
-	case *SPEC_OBJECT_TYPE_Rendering:
-		res = "SPEC_OBJECT_TYPE_Rendering"
-	case *SPEC_RELATION:
-		res = "SPEC_RELATION"
-	case *SPEC_RELATION_TYPE:
-		res = "SPEC_RELATION_TYPE"
-	case *StaticWebSite:
-		res = "StaticWebSite"
-	case *StaticWebSiteChapter:
-		res = "StaticWebSiteChapter"
-	case *StaticWebSiteGeneratedImage:
-		res = "StaticWebSiteGeneratedImage"
-	case *StaticWebSiteImage:
-		res = "StaticWebSiteImage"
-	case *StaticWebSiteParagraph:
-		res = "StaticWebSiteParagraph"
-	case *XHTML_CONTENT:
-		res = "XHTML_CONTENT"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -12437,451 +13613,695 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *ALTERNATIVE_ID:
-		var rf ReverseField
-		_ = rf
-	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_ATTRIBUTES"
-		rf.Fieldname = "ATTRIBUTE_DEFINITION_BOOLEAN"
-		res = append(res, rf)
-	case *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering:
-		var rf ReverseField
-		_ = rf
-	case *ATTRIBUTE_DEFINITION_DATE:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_ATTRIBUTES"
-		rf.Fieldname = "ATTRIBUTE_DEFINITION_DATE"
-		res = append(res, rf)
-	case *ATTRIBUTE_DEFINITION_DATE_Rendering:
-		var rf ReverseField
-		_ = rf
-	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_ATTRIBUTES"
-		rf.Fieldname = "ATTRIBUTE_DEFINITION_ENUMERATION"
-		res = append(res, rf)
-	case *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering:
-		var rf ReverseField
-		_ = rf
-	case *ATTRIBUTE_DEFINITION_INTEGER:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_ATTRIBUTES"
-		rf.Fieldname = "ATTRIBUTE_DEFINITION_INTEGER"
-		res = append(res, rf)
-	case *ATTRIBUTE_DEFINITION_INTEGER_Rendering:
-		var rf ReverseField
-		_ = rf
-	case *ATTRIBUTE_DEFINITION_REAL:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_ATTRIBUTES"
-		rf.Fieldname = "ATTRIBUTE_DEFINITION_REAL"
-		res = append(res, rf)
-	case *ATTRIBUTE_DEFINITION_REAL_Rendering:
-		var rf ReverseField
-		_ = rf
-	case *ATTRIBUTE_DEFINITION_Rendering:
-		var rf ReverseField
-		_ = rf
-	case *ATTRIBUTE_DEFINITION_STRING:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_ATTRIBUTES"
-		rf.Fieldname = "ATTRIBUTE_DEFINITION_STRING"
-		res = append(res, rf)
-	case *ATTRIBUTE_DEFINITION_STRING_Rendering:
-		var rf ReverseField
-		_ = rf
-	case *ATTRIBUTE_DEFINITION_XHTML:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_ATTRIBUTES"
-		rf.Fieldname = "ATTRIBUTE_DEFINITION_XHTML"
-		res = append(res, rf)
-	case *ATTRIBUTE_DEFINITION_XHTML_Rendering:
-		var rf ReverseField
-		_ = rf
-	case *ATTRIBUTE_VALUE_BOOLEAN:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_BOOLEAN"
-		rf.Fieldname = "ATTRIBUTE_VALUE_BOOLEAN"
-		res = append(res, rf)
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-		rf.Fieldname = "ATTRIBUTE_VALUE_BOOLEAN"
-		res = append(res, rf)
-	case *ATTRIBUTE_VALUE_DATE:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_DATE"
-		rf.Fieldname = "ATTRIBUTE_VALUE_DATE"
-		res = append(res, rf)
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-		rf.Fieldname = "ATTRIBUTE_VALUE_DATE"
-		res = append(res, rf)
-	case *ATTRIBUTE_VALUE_ENUMERATION:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_ENUMERATION"
-		rf.Fieldname = "ATTRIBUTE_VALUE_ENUMERATION"
-		res = append(res, rf)
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-		rf.Fieldname = "ATTRIBUTE_VALUE_ENUMERATION"
-		res = append(res, rf)
-	case *ATTRIBUTE_VALUE_INTEGER:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_INTEGER"
-		rf.Fieldname = "ATTRIBUTE_VALUE_INTEGER"
-		res = append(res, rf)
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-		rf.Fieldname = "ATTRIBUTE_VALUE_INTEGER"
-		res = append(res, rf)
-	case *ATTRIBUTE_VALUE_REAL:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_REAL"
-		rf.Fieldname = "ATTRIBUTE_VALUE_REAL"
-		res = append(res, rf)
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-		rf.Fieldname = "ATTRIBUTE_VALUE_REAL"
-		res = append(res, rf)
-	case *ATTRIBUTE_VALUE_STRING:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_STRING"
-		rf.Fieldname = "ATTRIBUTE_VALUE_STRING"
-		res = append(res, rf)
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-		rf.Fieldname = "ATTRIBUTE_VALUE_STRING"
-		res = append(res, rf)
-	case *ATTRIBUTE_VALUE_XHTML:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML"
-		rf.Fieldname = "ATTRIBUTE_VALUE_XHTML"
-		res = append(res, rf)
-		rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-		rf.Fieldname = "ATTRIBUTE_VALUE_XHTML"
-		res = append(res, rf)
-	case *A_ALTERNATIVE_ID:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_VALUE_DATE:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_VALUE_INTEGER:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_VALUE_REAL:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_VALUE_STRING:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_VALUE_XHTML:
-		var rf ReverseField
-		_ = rf
-	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		var rf ReverseField
-		_ = rf
-	case *A_CHILDREN:
-		var rf ReverseField
-		_ = rf
-	case *A_CORE_CONTENT:
-		var rf ReverseField
-		_ = rf
-	case *A_DATATYPES:
-		var rf ReverseField
-		_ = rf
-	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_DATATYPE_DEFINITION_DATE_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_DATATYPE_DEFINITION_REAL_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_DATATYPE_DEFINITION_STRING_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_EDITABLE_ATTS:
-		var rf ReverseField
-		_ = rf
-	case *A_ENUM_VALUE_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_OBJECT:
-		var rf ReverseField
-		_ = rf
-	case *A_PROPERTIES:
-		var rf ReverseField
-		_ = rf
-	case *A_RELATION_GROUP_TYPE_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_SOURCE_1:
-		var rf ReverseField
-		_ = rf
-	case *A_SOURCE_SPECIFICATION_1:
-		var rf ReverseField
-		_ = rf
-	case *A_SPECIFICATIONS:
-		var rf ReverseField
-		_ = rf
-	case *A_SPECIFICATION_TYPE_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_SPECIFIED_VALUES:
-		var rf ReverseField
-		_ = rf
-	case *A_SPEC_ATTRIBUTES:
-		var rf ReverseField
-		_ = rf
-	case *A_SPEC_OBJECTS:
-		var rf ReverseField
-		_ = rf
-	case *A_SPEC_OBJECT_TYPE_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_SPEC_RELATIONS:
-		var rf ReverseField
-		_ = rf
-	case *A_SPEC_RELATION_GROUPS:
-		var rf ReverseField
-		_ = rf
-	case *A_SPEC_RELATION_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_SPEC_RELATION_TYPE_REF:
-		var rf ReverseField
-		_ = rf
-	case *A_SPEC_TYPES:
-		var rf ReverseField
-		_ = rf
-	case *A_THE_HEADER:
-		var rf ReverseField
-		_ = rf
-	case *A_TOOL_EXTENSIONS:
-		var rf ReverseField
-		_ = rf
-	case *DATATYPE_DEFINITION_BOOLEAN:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_DATATYPES"
-		rf.Fieldname = "DATATYPE_DEFINITION_BOOLEAN"
-		res = append(res, rf)
-	case *DATATYPE_DEFINITION_DATE:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_DATATYPES"
-		rf.Fieldname = "DATATYPE_DEFINITION_DATE"
-		res = append(res, rf)
-	case *DATATYPE_DEFINITION_ENUMERATION:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_DATATYPES"
-		rf.Fieldname = "DATATYPE_DEFINITION_ENUMERATION"
-		res = append(res, rf)
-	case *DATATYPE_DEFINITION_INTEGER:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_DATATYPES"
-		rf.Fieldname = "DATATYPE_DEFINITION_INTEGER"
-		res = append(res, rf)
-	case *DATATYPE_DEFINITION_REAL:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_DATATYPES"
-		rf.Fieldname = "DATATYPE_DEFINITION_REAL"
-		res = append(res, rf)
-	case *DATATYPE_DEFINITION_STRING:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_DATATYPES"
-		rf.Fieldname = "DATATYPE_DEFINITION_STRING"
-		res = append(res, rf)
-	case *DATATYPE_DEFINITION_XHTML:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_DATATYPES"
-		rf.Fieldname = "DATATYPE_DEFINITION_XHTML"
-		res = append(res, rf)
-	case *EMBEDDED_VALUE:
-		var rf ReverseField
-		_ = rf
-	case *ENUM_VALUE:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPECIFIED_VALUES"
-		rf.Fieldname = "ENUM_VALUE"
-		res = append(res, rf)
-	case *EmbeddedJpgImage:
-		var rf ReverseField
-		_ = rf
-	case *EmbeddedPngImage:
-		var rf ReverseField
-		_ = rf
-	case *EmbeddedSvgImage:
-		var rf ReverseField
-		_ = rf
-	case *Kill:
-		var rf ReverseField
-		_ = rf
-	case *Map_identifier_bool:
-		var rf ReverseField
-		_ = rf
-	case *RELATION_GROUP:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_RELATION_GROUPS"
-		rf.Fieldname = "RELATION_GROUP"
-		res = append(res, rf)
-	case *RELATION_GROUP_TYPE:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_TYPES"
-		rf.Fieldname = "RELATION_GROUP_TYPE"
-		res = append(res, rf)
-	case *REQ_IF:
-		var rf ReverseField
-		_ = rf
-	case *REQ_IF_CONTENT:
-		var rf ReverseField
-		_ = rf
-	case *REQ_IF_HEADER:
-		var rf ReverseField
-		_ = rf
-	case *REQ_IF_TOOL_EXTENSION:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_TOOL_EXTENSIONS"
-		rf.Fieldname = "REQ_IF_TOOL_EXTENSION"
-		res = append(res, rf)
-	case *SPECIFICATION:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPECIFICATIONS"
-		rf.Fieldname = "SPECIFICATION"
-		res = append(res, rf)
-	case *SPECIFICATION_Rendering:
-		var rf ReverseField
-		_ = rf
-	case *SPECIFICATION_TYPE:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_TYPES"
-		rf.Fieldname = "SPECIFICATION_TYPE"
-		res = append(res, rf)
-	case *SPEC_HIERARCHY:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_CHILDREN"
-		rf.Fieldname = "SPEC_HIERARCHY"
-		res = append(res, rf)
-	case *SPEC_OBJECT:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_OBJECTS"
-		rf.Fieldname = "SPEC_OBJECT"
-		res = append(res, rf)
-	case *SPEC_OBJECT_TYPE:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_TYPES"
-		rf.Fieldname = "SPEC_OBJECT_TYPE"
-		res = append(res, rf)
-	case *SPEC_OBJECT_TYPE_Rendering:
-		var rf ReverseField
-		_ = rf
-	case *SPEC_RELATION:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_RELATIONS"
-		rf.Fieldname = "SPEC_RELATION"
-		res = append(res, rf)
-	case *SPEC_RELATION_TYPE:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_SPEC_TYPES"
-		rf.Fieldname = "SPEC_RELATION_TYPE"
-		res = append(res, rf)
-	case *StaticWebSite:
-		var rf ReverseField
-		_ = rf
-	case *StaticWebSiteChapter:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StaticWebSite"
-		rf.Fieldname = "Chapters"
-		res = append(res, rf)
-	case *StaticWebSiteGeneratedImage:
-		var rf ReverseField
-		_ = rf
-	case *StaticWebSiteImage:
-		var rf ReverseField
-		_ = rf
-	case *StaticWebSiteParagraph:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StaticWebSiteChapter"
-		rf.Fieldname = "Paragraphs"
-		res = append(res, rf)
-	case *XHTML_CONTENT:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*ALTERNATIVE_ID) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
 	}
-	return
+}
+
+func (*ATTRIBUTE_DEFINITION_BOOLEAN) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_ATTRIBUTES",
+			Fieldname: "ATTRIBUTE_DEFINITION_BOOLEAN",
+		},
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_DATE) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_ATTRIBUTES",
+			Fieldname: "ATTRIBUTE_DEFINITION_DATE",
+		},
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_DATE_Rendering) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_ENUMERATION) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_ATTRIBUTES",
+			Fieldname: "ATTRIBUTE_DEFINITION_ENUMERATION",
+		},
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_INTEGER) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_ATTRIBUTES",
+			Fieldname: "ATTRIBUTE_DEFINITION_INTEGER",
+		},
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_REAL) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_ATTRIBUTES",
+			Fieldname: "ATTRIBUTE_DEFINITION_REAL",
+		},
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_REAL_Rendering) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_Rendering) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_STRING) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_ATTRIBUTES",
+			Fieldname: "ATTRIBUTE_DEFINITION_STRING",
+		},
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_STRING_Rendering) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_XHTML) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_ATTRIBUTES",
+			Fieldname: "ATTRIBUTE_DEFINITION_XHTML",
+		},
+	}
+}
+
+func (*ATTRIBUTE_DEFINITION_XHTML_Rendering) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_BOOLEAN",
+			Fieldname: "ATTRIBUTE_VALUE_BOOLEAN",
+		},
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_XHTML_1",
+			Fieldname: "ATTRIBUTE_VALUE_BOOLEAN",
+		},
+	}
+}
+
+func (*ATTRIBUTE_VALUE_DATE) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_DATE",
+			Fieldname: "ATTRIBUTE_VALUE_DATE",
+		},
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_XHTML_1",
+			Fieldname: "ATTRIBUTE_VALUE_DATE",
+		},
+	}
+}
+
+func (*ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_ENUMERATION",
+			Fieldname: "ATTRIBUTE_VALUE_ENUMERATION",
+		},
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_XHTML_1",
+			Fieldname: "ATTRIBUTE_VALUE_ENUMERATION",
+		},
+	}
+}
+
+func (*ATTRIBUTE_VALUE_INTEGER) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_INTEGER",
+			Fieldname: "ATTRIBUTE_VALUE_INTEGER",
+		},
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_XHTML_1",
+			Fieldname: "ATTRIBUTE_VALUE_INTEGER",
+		},
+	}
+}
+
+func (*ATTRIBUTE_VALUE_REAL) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_REAL",
+			Fieldname: "ATTRIBUTE_VALUE_REAL",
+		},
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_XHTML_1",
+			Fieldname: "ATTRIBUTE_VALUE_REAL",
+		},
+	}
+}
+
+func (*ATTRIBUTE_VALUE_STRING) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_STRING",
+			Fieldname: "ATTRIBUTE_VALUE_STRING",
+		},
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_XHTML_1",
+			Fieldname: "ATTRIBUTE_VALUE_STRING",
+		},
+	}
+}
+
+func (*ATTRIBUTE_VALUE_XHTML) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_XHTML",
+			Fieldname: "ATTRIBUTE_VALUE_XHTML",
+		},
+		{
+			GongstructName: "A_ATTRIBUTE_VALUE_XHTML_1",
+			Fieldname: "ATTRIBUTE_VALUE_XHTML",
+		},
+	}
+}
+
+func (*A_ALTERNATIVE_ID) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_DEFINITION_DATE_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_DEFINITION_REAL_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_DEFINITION_STRING_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_DEFINITION_XHTML_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_VALUE_DATE) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_VALUE_INTEGER) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_VALUE_REAL) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_VALUE_STRING) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_VALUE_XHTML) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ATTRIBUTE_VALUE_XHTML_1) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_CHILDREN) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_CORE_CONTENT) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_DATATYPES) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_DATATYPE_DEFINITION_BOOLEAN_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_DATATYPE_DEFINITION_DATE_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_DATATYPE_DEFINITION_ENUMERATION_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_DATATYPE_DEFINITION_INTEGER_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_DATATYPE_DEFINITION_REAL_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_DATATYPE_DEFINITION_STRING_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_DATATYPE_DEFINITION_XHTML_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_EDITABLE_ATTS) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_ENUM_VALUE_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_OBJECT) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_PROPERTIES) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_RELATION_GROUP_TYPE_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SOURCE_1) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SOURCE_SPECIFICATION_1) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SPECIFICATIONS) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SPECIFICATION_TYPE_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SPECIFIED_VALUES) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SPEC_ATTRIBUTES) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SPEC_OBJECTS) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SPEC_OBJECT_TYPE_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SPEC_RELATIONS) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SPEC_RELATION_GROUPS) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SPEC_RELATION_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SPEC_RELATION_TYPE_REF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_SPEC_TYPES) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_THE_HEADER) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*A_TOOL_EXTENSIONS) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*DATATYPE_DEFINITION_BOOLEAN) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_DATATYPES",
+			Fieldname: "DATATYPE_DEFINITION_BOOLEAN",
+		},
+	}
+}
+
+func (*DATATYPE_DEFINITION_DATE) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_DATATYPES",
+			Fieldname: "DATATYPE_DEFINITION_DATE",
+		},
+	}
+}
+
+func (*DATATYPE_DEFINITION_ENUMERATION) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_DATATYPES",
+			Fieldname: "DATATYPE_DEFINITION_ENUMERATION",
+		},
+	}
+}
+
+func (*DATATYPE_DEFINITION_INTEGER) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_DATATYPES",
+			Fieldname: "DATATYPE_DEFINITION_INTEGER",
+		},
+	}
+}
+
+func (*DATATYPE_DEFINITION_REAL) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_DATATYPES",
+			Fieldname: "DATATYPE_DEFINITION_REAL",
+		},
+	}
+}
+
+func (*DATATYPE_DEFINITION_STRING) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_DATATYPES",
+			Fieldname: "DATATYPE_DEFINITION_STRING",
+		},
+	}
+}
+
+func (*DATATYPE_DEFINITION_XHTML) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_DATATYPES",
+			Fieldname: "DATATYPE_DEFINITION_XHTML",
+		},
+	}
+}
+
+func (*EMBEDDED_VALUE) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ENUM_VALUE) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPECIFIED_VALUES",
+			Fieldname: "ENUM_VALUE",
+		},
+	}
+}
+
+func (*EmbeddedJpgImage) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*EmbeddedPngImage) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*EmbeddedSvgImage) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Kill) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Map_identifier_bool) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*RELATION_GROUP) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_RELATION_GROUPS",
+			Fieldname: "RELATION_GROUP",
+		},
+	}
+}
+
+func (*RELATION_GROUP_TYPE) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_TYPES",
+			Fieldname: "RELATION_GROUP_TYPE",
+		},
+	}
+}
+
+func (*REQ_IF) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*REQ_IF_CONTENT) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*REQ_IF_HEADER) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*REQ_IF_TOOL_EXTENSION) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_TOOL_EXTENSIONS",
+			Fieldname: "REQ_IF_TOOL_EXTENSION",
+		},
+	}
+}
+
+func (*SPECIFICATION) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPECIFICATIONS",
+			Fieldname: "SPECIFICATION",
+		},
+	}
+}
+
+func (*SPECIFICATION_Rendering) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*SPECIFICATION_TYPE) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_TYPES",
+			Fieldname: "SPECIFICATION_TYPE",
+		},
+	}
+}
+
+func (*SPEC_HIERARCHY) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_CHILDREN",
+			Fieldname: "SPEC_HIERARCHY",
+		},
+	}
+}
+
+func (*SPEC_OBJECT) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_OBJECTS",
+			Fieldname: "SPEC_OBJECT",
+		},
+	}
+}
+
+func (*SPEC_OBJECT_TYPE) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_TYPES",
+			Fieldname: "SPEC_OBJECT_TYPE",
+		},
+	}
+}
+
+func (*SPEC_OBJECT_TYPE_Rendering) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*SPEC_RELATION) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_RELATIONS",
+			Fieldname: "SPEC_RELATION",
+		},
+	}
+}
+
+func (*SPEC_RELATION_TYPE) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_SPEC_TYPES",
+			Fieldname: "SPEC_RELATION_TYPE",
+		},
+	}
+}
+
+func (*StaticWebSite) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StaticWebSiteChapter) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StaticWebSite",
+			Fieldname: "Chapters",
+		},
+	}
+}
+
+func (*StaticWebSiteGeneratedImage) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StaticWebSiteImage) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StaticWebSiteParagraph) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StaticWebSiteChapter",
+			Fieldname: "Paragraphs",
+		},
+	}
+}
+
+func (*XHTML_CONTENT) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

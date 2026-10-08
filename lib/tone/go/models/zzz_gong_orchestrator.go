@@ -22,7 +22,6 @@ func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 	// insertion point
 	case Player:
 		stage.OnAfterPlayerUpdateCallback = new(PlayerOrchestrator)
-
 	}
 
 }

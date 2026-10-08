@@ -608,55 +608,416 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*AmbiantLight) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.AmbiantLights, stage.AmbiantLight_stagedOrder)
+}
+
+func (*AmbiantLight) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.AmbiantLight_orderStaged[order]
+}
+
+func (*AmbiantLight) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.AmbiantLights_mapString
+}
+
+func (*AmbiantLight) GongGetInstancesSet(stage *Stage) any {
+	return &stage.AmbiantLights
+}
+
+func (*AmbiantLight) GongNewInstance() any {
+	return new(AmbiantLight)
+}
+
+func (*BoxGeometry) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.BoxGeometrys, stage.BoxGeometry_stagedOrder)
+}
+
+func (*BoxGeometry) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.BoxGeometry_orderStaged[order]
+}
+
+func (*BoxGeometry) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.BoxGeometrys_mapString
+}
+
+func (*BoxGeometry) GongGetInstancesSet(stage *Stage) any {
+	return &stage.BoxGeometrys
+}
+
+func (*BoxGeometry) GongNewInstance() any {
+	return new(BoxGeometry)
+}
+
+func (*BufferGeometry) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.BufferGeometrys, stage.BufferGeometry_stagedOrder)
+}
+
+func (*BufferGeometry) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.BufferGeometry_orderStaged[order]
+}
+
+func (*BufferGeometry) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.BufferGeometrys_mapString
+}
+
+func (*BufferGeometry) GongGetInstancesSet(stage *Stage) any {
+	return &stage.BufferGeometrys
+}
+
+func (*BufferGeometry) GongNewInstance() any {
+	return new(BufferGeometry)
+}
+
+func (*Camera) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Cameras, stage.Camera_stagedOrder)
+}
+
+func (*Camera) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Camera_orderStaged[order]
+}
+
+func (*Camera) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Cameras_mapString
+}
+
+func (*Camera) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Cameras
+}
+
+func (*Camera) GongNewInstance() any {
+	return new(Camera)
+}
+
+func (*Canvas) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Canvass, stage.Canvas_stagedOrder)
+}
+
+func (*Canvas) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Canvas_orderStaged[order]
+}
+
+func (*Canvas) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Canvass_mapString
+}
+
+func (*Canvas) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Canvass
+}
+
+func (*Canvas) GongNewInstance() any {
+	return new(Canvas)
+}
+
+func (*Curve) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Curves, stage.Curve_stagedOrder)
+}
+
+func (*Curve) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Curve_orderStaged[order]
+}
+
+func (*Curve) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Curves_mapString
+}
+
+func (*Curve) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Curves
+}
+
+func (*Curve) GongNewInstance() any {
+	return new(Curve)
+}
+
+func (*CylinderGeometry) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CylinderGeometrys, stage.CylinderGeometry_stagedOrder)
+}
+
+func (*CylinderGeometry) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CylinderGeometry_orderStaged[order]
+}
+
+func (*CylinderGeometry) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CylinderGeometrys_mapString
+}
+
+func (*CylinderGeometry) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CylinderGeometrys
+}
+
+func (*CylinderGeometry) GongNewInstance() any {
+	return new(CylinderGeometry)
+}
+
+func (*DirectionalLight) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DirectionalLights, stage.DirectionalLight_stagedOrder)
+}
+
+func (*DirectionalLight) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DirectionalLight_orderStaged[order]
+}
+
+func (*DirectionalLight) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DirectionalLights_mapString
+}
+
+func (*DirectionalLight) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DirectionalLights
+}
+
+func (*DirectionalLight) GongNewInstance() any {
+	return new(DirectionalLight)
+}
+
+func (*ExtrudeGeometry) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ExtrudeGeometrys, stage.ExtrudeGeometry_stagedOrder)
+}
+
+func (*ExtrudeGeometry) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ExtrudeGeometry_orderStaged[order]
+}
+
+func (*ExtrudeGeometry) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ExtrudeGeometrys_mapString
+}
+
+func (*ExtrudeGeometry) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ExtrudeGeometrys
+}
+
+func (*ExtrudeGeometry) GongNewInstance() any {
+	return new(ExtrudeGeometry)
+}
+
+func (*Mesh) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Meshs, stage.Mesh_stagedOrder)
+}
+
+func (*Mesh) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Mesh_orderStaged[order]
+}
+
+func (*Mesh) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Meshs_mapString
+}
+
+func (*Mesh) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Meshs
+}
+
+func (*Mesh) GongNewInstance() any {
+	return new(Mesh)
+}
+
+func (*MeshMaterialBasic) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MeshMaterialBasics, stage.MeshMaterialBasic_stagedOrder)
+}
+
+func (*MeshMaterialBasic) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MeshMaterialBasic_orderStaged[order]
+}
+
+func (*MeshMaterialBasic) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MeshMaterialBasics_mapString
+}
+
+func (*MeshMaterialBasic) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MeshMaterialBasics
+}
+
+func (*MeshMaterialBasic) GongNewInstance() any {
+	return new(MeshMaterialBasic)
+}
+
+func (*MeshPhysicalMaterial) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MeshPhysicalMaterials, stage.MeshPhysicalMaterial_stagedOrder)
+}
+
+func (*MeshPhysicalMaterial) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MeshPhysicalMaterial_orderStaged[order]
+}
+
+func (*MeshPhysicalMaterial) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MeshPhysicalMaterials_mapString
+}
+
+func (*MeshPhysicalMaterial) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MeshPhysicalMaterials
+}
+
+func (*MeshPhysicalMaterial) GongNewInstance() any {
+	return new(MeshPhysicalMaterial)
+}
+
+func (*PlaneGeometry) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PlaneGeometrys, stage.PlaneGeometry_stagedOrder)
+}
+
+func (*PlaneGeometry) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PlaneGeometry_orderStaged[order]
+}
+
+func (*PlaneGeometry) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PlaneGeometrys_mapString
+}
+
+func (*PlaneGeometry) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PlaneGeometrys
+}
+
+func (*PlaneGeometry) GongNewInstance() any {
+	return new(PlaneGeometry)
+}
+
+func (*Shape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Shapes, stage.Shape_stagedOrder)
+}
+
+func (*Shape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Shape_orderStaged[order]
+}
+
+func (*Shape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Shapes_mapString
+}
+
+func (*Shape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Shapes
+}
+
+func (*Shape) GongNewInstance() any {
+	return new(Shape)
+}
+
+func (*SphereGeometry) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SphereGeometrys, stage.SphereGeometry_stagedOrder)
+}
+
+func (*SphereGeometry) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SphereGeometry_orderStaged[order]
+}
+
+func (*SphereGeometry) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SphereGeometrys_mapString
+}
+
+func (*SphereGeometry) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SphereGeometrys
+}
+
+func (*SphereGeometry) GongNewInstance() any {
+	return new(SphereGeometry)
+}
+
+func (*TorusGeometry) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TorusGeometrys, stage.TorusGeometry_stagedOrder)
+}
+
+func (*TorusGeometry) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TorusGeometry_orderStaged[order]
+}
+
+func (*TorusGeometry) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TorusGeometrys_mapString
+}
+
+func (*TorusGeometry) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TorusGeometrys
+}
+
+func (*TorusGeometry) GongNewInstance() any {
+	return new(TorusGeometry)
+}
+
+func (*Triangle) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Triangles, stage.Triangle_stagedOrder)
+}
+
+func (*Triangle) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Triangle_orderStaged[order]
+}
+
+func (*Triangle) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Triangles_mapString
+}
+
+func (*Triangle) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Triangles
+}
+
+func (*Triangle) GongNewInstance() any {
+	return new(Triangle)
+}
+
+func (*TubeGeometry) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TubeGeometrys, stage.TubeGeometry_stagedOrder)
+}
+
+func (*TubeGeometry) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TubeGeometry_orderStaged[order]
+}
+
+func (*TubeGeometry) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TubeGeometrys_mapString
+}
+
+func (*TubeGeometry) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TubeGeometrys
+}
+
+func (*TubeGeometry) GongNewInstance() any {
+	return new(TubeGeometry)
+}
+
+func (*Vector2) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Vector2s, stage.Vector2_stagedOrder)
+}
+
+func (*Vector2) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Vector2_orderStaged[order]
+}
+
+func (*Vector2) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Vector2s_mapString
+}
+
+func (*Vector2) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Vector2s
+}
+
+func (*Vector2) GongNewInstance() any {
+	return new(Vector2)
+}
+
+func (*Vector3) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Vector3s, stage.Vector3_stagedOrder)
+}
+
+func (*Vector3) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Vector3_orderStaged[order]
+}
+
+func (*Vector3) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Vector3s_mapString
+}
+
+func (*Vector3) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Vector3s
+}
+
+func (*Vector3) GongNewInstance() any {
+	return new(Vector3)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *AmbiantLight:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.AmbiantLights, stage.AmbiantLight_stagedOrder))
-	case *BoxGeometry:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.BoxGeometrys, stage.BoxGeometry_stagedOrder))
-	case *BufferGeometry:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.BufferGeometrys, stage.BufferGeometry_stagedOrder))
-	case *Camera:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Cameras, stage.Camera_stagedOrder))
-	case *Canvas:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Canvass, stage.Canvas_stagedOrder))
-	case *Curve:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Curves, stage.Curve_stagedOrder))
-	case *CylinderGeometry:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CylinderGeometrys, stage.CylinderGeometry_stagedOrder))
-	case *DirectionalLight:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DirectionalLights, stage.DirectionalLight_stagedOrder))
-	case *ExtrudeGeometry:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ExtrudeGeometrys, stage.ExtrudeGeometry_stagedOrder))
-	case *Mesh:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Meshs, stage.Mesh_stagedOrder))
-	case *MeshMaterialBasic:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MeshMaterialBasics, stage.MeshMaterialBasic_stagedOrder))
-	case *MeshPhysicalMaterial:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MeshPhysicalMaterials, stage.MeshPhysicalMaterial_stagedOrder))
-	case *PlaneGeometry:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PlaneGeometrys, stage.PlaneGeometry_stagedOrder))
-	case *Shape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Shapes, stage.Shape_stagedOrder))
-	case *SphereGeometry:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SphereGeometrys, stage.SphereGeometry_stagedOrder))
-	case *TorusGeometry:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TorusGeometrys, stage.TorusGeometry_stagedOrder))
-	case *Triangle:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Triangles, stage.Triangle_stagedOrder))
-	case *TubeGeometry:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TubeGeometrys, stage.TubeGeometry_stagedOrder))
-	case *Vector2:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Vector2s, stage.Vector2_stagedOrder))
-	case *Vector3:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Vector3s, stage.Vector3_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -1038,52 +1399,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *AmbiantLight:
-		return any(stage.AmbiantLight_orderStaged[order]).(Type)
-	case *BoxGeometry:
-		return any(stage.BoxGeometry_orderStaged[order]).(Type)
-	case *BufferGeometry:
-		return any(stage.BufferGeometry_orderStaged[order]).(Type)
-	case *Camera:
-		return any(stage.Camera_orderStaged[order]).(Type)
-	case *Canvas:
-		return any(stage.Canvas_orderStaged[order]).(Type)
-	case *Curve:
-		return any(stage.Curve_orderStaged[order]).(Type)
-	case *CylinderGeometry:
-		return any(stage.CylinderGeometry_orderStaged[order]).(Type)
-	case *DirectionalLight:
-		return any(stage.DirectionalLight_orderStaged[order]).(Type)
-	case *ExtrudeGeometry:
-		return any(stage.ExtrudeGeometry_orderStaged[order]).(Type)
-	case *Mesh:
-		return any(stage.Mesh_orderStaged[order]).(Type)
-	case *MeshMaterialBasic:
-		return any(stage.MeshMaterialBasic_orderStaged[order]).(Type)
-	case *MeshPhysicalMaterial:
-		return any(stage.MeshPhysicalMaterial_orderStaged[order]).(Type)
-	case *PlaneGeometry:
-		return any(stage.PlaneGeometry_orderStaged[order]).(Type)
-	case *Shape:
-		return any(stage.Shape_orderStaged[order]).(Type)
-	case *SphereGeometry:
-		return any(stage.SphereGeometry_orderStaged[order]).(Type)
-	case *TorusGeometry:
-		return any(stage.TorusGeometry_orderStaged[order]).(Type)
-	case *Triangle:
-		return any(stage.Triangle_orderStaged[order]).(Type)
-	case *TubeGeometry:
-		return any(stage.TubeGeometry_orderStaged[order]).(Type)
-	case *Vector2:
-		return any(stage.Vector2_orderStaged[order]).(Type)
-	case *Vector3:
-		return any(stage.Vector3_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -2051,7 +2375,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -2083,6 +2409,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -2114,138 +2447,79 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *AmbiantLight:
-		return any(stage.AmbiantLights_mapString).(map[string]Type)
-	case *BoxGeometry:
-		return any(stage.BoxGeometrys_mapString).(map[string]Type)
-	case *BufferGeometry:
-		return any(stage.BufferGeometrys_mapString).(map[string]Type)
-	case *Camera:
-		return any(stage.Cameras_mapString).(map[string]Type)
-	case *Canvas:
-		return any(stage.Canvass_mapString).(map[string]Type)
-	case *Curve:
-		return any(stage.Curves_mapString).(map[string]Type)
-	case *CylinderGeometry:
-		return any(stage.CylinderGeometrys_mapString).(map[string]Type)
-	case *DirectionalLight:
-		return any(stage.DirectionalLights_mapString).(map[string]Type)
-	case *ExtrudeGeometry:
-		return any(stage.ExtrudeGeometrys_mapString).(map[string]Type)
-	case *Mesh:
-		return any(stage.Meshs_mapString).(map[string]Type)
-	case *MeshMaterialBasic:
-		return any(stage.MeshMaterialBasics_mapString).(map[string]Type)
-	case *MeshPhysicalMaterial:
-		return any(stage.MeshPhysicalMaterials_mapString).(map[string]Type)
-	case *PlaneGeometry:
-		return any(stage.PlaneGeometrys_mapString).(map[string]Type)
-	case *Shape:
-		return any(stage.Shapes_mapString).(map[string]Type)
-	case *SphereGeometry:
-		return any(stage.SphereGeometrys_mapString).(map[string]Type)
-	case *TorusGeometry:
-		return any(stage.TorusGeometrys_mapString).(map[string]Type)
-	case *Triangle:
-		return any(stage.Triangles_mapString).(map[string]Type)
-	case *TubeGeometry:
-		return any(stage.TubeGeometrys_mapString).(map[string]Type)
-	case *Vector2:
-		return any(stage.Vector2s_mapString).(map[string]Type)
-	case *Vector3:
-		return any(stage.Vector3s_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *AmbiantLight:
-		return any(&stage.AmbiantLights).(*map[Type]struct{})
-	case *BoxGeometry:
-		return any(&stage.BoxGeometrys).(*map[Type]struct{})
-	case *BufferGeometry:
-		return any(&stage.BufferGeometrys).(*map[Type]struct{})
-	case *Camera:
-		return any(&stage.Cameras).(*map[Type]struct{})
-	case *Canvas:
-		return any(&stage.Canvass).(*map[Type]struct{})
-	case *Curve:
-		return any(&stage.Curves).(*map[Type]struct{})
-	case *CylinderGeometry:
-		return any(&stage.CylinderGeometrys).(*map[Type]struct{})
-	case *DirectionalLight:
-		return any(&stage.DirectionalLights).(*map[Type]struct{})
-	case *ExtrudeGeometry:
-		return any(&stage.ExtrudeGeometrys).(*map[Type]struct{})
-	case *Mesh:
-		return any(&stage.Meshs).(*map[Type]struct{})
-	case *MeshMaterialBasic:
-		return any(&stage.MeshMaterialBasics).(*map[Type]struct{})
-	case *MeshPhysicalMaterial:
-		return any(&stage.MeshPhysicalMaterials).(*map[Type]struct{})
-	case *PlaneGeometry:
-		return any(&stage.PlaneGeometrys).(*map[Type]struct{})
-	case *Shape:
-		return any(&stage.Shapes).(*map[Type]struct{})
-	case *SphereGeometry:
-		return any(&stage.SphereGeometrys).(*map[Type]struct{})
-	case *TorusGeometry:
-		return any(&stage.TorusGeometrys).(*map[Type]struct{})
-	case *Triangle:
-		return any(&stage.Triangles).(*map[Type]struct{})
-	case *TubeGeometry:
-		return any(&stage.TubeGeometrys).(*map[Type]struct{})
-	case *Vector2:
-		return any(&stage.Vector2s).(*map[Type]struct{})
-	case *Vector3:
-		return any(&stage.Vector3s).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
+	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
+}
+
+// insertion point for instance with special fields
+func (AmbiantLight) GongGetAssociationName() any {
+	return &AmbiantLight{
 	}
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
+func (BoxGeometry) GongGetAssociationName() any {
+	return &BoxGeometry{
+	}
+}
 
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case BufferGeometry:
-		return any(&BufferGeometry{
+func (BufferGeometry) GongGetAssociationName() any {
+	return &BufferGeometry{
 			Vertices: []*Vector3{{Name: "Vertices"}},
 			Faces: []*Triangle{{Name: "Faces"}},
-		}).(*Type)
-	case Canvas:
-		return any(&Canvas{
+	}
+}
+
+func (Camera) GongGetAssociationName() any {
+	return &Camera{
+	}
+}
+
+func (Canvas) GongGetAssociationName() any {
+	return &Canvas{
 			DirectionalLights: []*DirectionalLight{{Name: "DirectionalLights"}},
 			AmbiantLight: &AmbiantLight{Name: "AmbiantLight"},
 			Meshs: []*Mesh{{Name: "Meshs"}},
 			Camera: &Camera{Name: "Camera"},
-		}).(*Type)
-	case Curve:
-		return any(&Curve{
+	}
+}
+
+func (Curve) GongGetAssociationName() any {
+	return &Curve{
 			Points: []*Vector3{{Name: "Points"}},
-		}).(*Type)
-	case ExtrudeGeometry:
-		return any(&ExtrudeGeometry{
+	}
+}
+
+func (CylinderGeometry) GongGetAssociationName() any {
+	return &CylinderGeometry{
+	}
+}
+
+func (DirectionalLight) GongGetAssociationName() any {
+	return &DirectionalLight{
+	}
+}
+
+func (ExtrudeGeometry) GongGetAssociationName() any {
+	return &ExtrudeGeometry{
 			Shape: &Shape{Name: "Shape"},
 			ExtrudePath: &Curve{Name: "ExtrudePath"},
-		}).(*Type)
-	case Mesh:
-		return any(&Mesh{
+	}
+}
+
+func (Mesh) GongGetAssociationName() any {
+	return &Mesh{
 			MeshMaterialBasic: &MeshMaterialBasic{Name: "MeshMaterialBasic"},
 			MeshPhysicalMaterial: &MeshPhysicalMaterial{Name: "MeshPhysicalMaterial"},
 			CylinderGeometry: &CylinderGeometry{Name: "CylinderGeometry"},
@@ -2256,18 +2530,69 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			TubeGeometry: &TubeGeometry{Name: "TubeGeometry"},
 			ExtrudeGeometry: &ExtrudeGeometry{Name: "ExtrudeGeometry"},
 			BufferGeometry: &BufferGeometry{Name: "BufferGeometry"},
-		}).(*Type)
-	case Shape:
-		return any(&Shape{
-			Points: []*Vector2{{Name: "Points"}},
-		}).(*Type)
-	case TubeGeometry:
-		return any(&TubeGeometry{
-			Path: &Curve{Name: "Path"},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+func (MeshMaterialBasic) GongGetAssociationName() any {
+	return &MeshMaterialBasic{
+	}
+}
+
+func (MeshPhysicalMaterial) GongGetAssociationName() any {
+	return &MeshPhysicalMaterial{
+	}
+}
+
+func (PlaneGeometry) GongGetAssociationName() any {
+	return &PlaneGeometry{
+	}
+}
+
+func (Shape) GongGetAssociationName() any {
+	return &Shape{
+			Points: []*Vector2{{Name: "Points"}},
+	}
+}
+
+func (SphereGeometry) GongGetAssociationName() any {
+	return &SphereGeometry{
+	}
+}
+
+func (TorusGeometry) GongGetAssociationName() any {
+	return &TorusGeometry{
+	}
+}
+
+func (Triangle) GongGetAssociationName() any {
+	return &Triangle{
+	}
+}
+
+func (TubeGeometry) GongGetAssociationName() any {
+	return &TubeGeometry{
+			Path: &Curve{Name: "Path"},
+	}
+}
+
+func (Vector2) GongGetAssociationName() any {
+	return &Vector2{
+	}
+}
+
+func (Vector3) GongGetAssociationName() any {
+	return &Vector3{
+	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -2802,52 +3127,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *AmbiantLight:
-		res = any(new(AmbiantLight)).(Type)
-	case *BoxGeometry:
-		res = any(new(BoxGeometry)).(Type)
-	case *BufferGeometry:
-		res = any(new(BufferGeometry)).(Type)
-	case *Camera:
-		res = any(new(Camera)).(Type)
-	case *Canvas:
-		res = any(new(Canvas)).(Type)
-	case *Curve:
-		res = any(new(Curve)).(Type)
-	case *CylinderGeometry:
-		res = any(new(CylinderGeometry)).(Type)
-	case *DirectionalLight:
-		res = any(new(DirectionalLight)).(Type)
-	case *ExtrudeGeometry:
-		res = any(new(ExtrudeGeometry)).(Type)
-	case *Mesh:
-		res = any(new(Mesh)).(Type)
-	case *MeshMaterialBasic:
-		res = any(new(MeshMaterialBasic)).(Type)
-	case *MeshPhysicalMaterial:
-		res = any(new(MeshPhysicalMaterial)).(Type)
-	case *PlaneGeometry:
-		res = any(new(PlaneGeometry)).(Type)
-	case *Shape:
-		res = any(new(Shape)).(Type)
-	case *SphereGeometry:
-		res = any(new(SphereGeometry)).(Type)
-	case *TorusGeometry:
-		res = any(new(TorusGeometry)).(Type)
-	case *Triangle:
-		res = any(new(Triangle)).(Type)
-	case *TubeGeometry:
-		res = any(new(TubeGeometry)).(Type)
-	case *Vector2:
-		res = any(new(Vector2)).(Type)
-	case *Vector3:
-		res = any(new(Vector3)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -2870,52 +3151,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *AmbiantLight:
-		res = "AmbiantLight"
-	case *BoxGeometry:
-		res = "BoxGeometry"
-	case *BufferGeometry:
-		res = "BufferGeometry"
-	case *Camera:
-		res = "Camera"
-	case *Canvas:
-		res = "Canvas"
-	case *Curve:
-		res = "Curve"
-	case *CylinderGeometry:
-		res = "CylinderGeometry"
-	case *DirectionalLight:
-		res = "DirectionalLight"
-	case *ExtrudeGeometry:
-		res = "ExtrudeGeometry"
-	case *Mesh:
-		res = "Mesh"
-	case *MeshMaterialBasic:
-		res = "MeshMaterialBasic"
-	case *MeshPhysicalMaterial:
-		res = "MeshPhysicalMaterial"
-	case *PlaneGeometry:
-		res = "PlaneGeometry"
-	case *Shape:
-		res = "Shape"
-	case *SphereGeometry:
-		res = "SphereGeometry"
-	case *TorusGeometry:
-		res = "TorusGeometry"
-	case *Triangle:
-		res = "Triangle"
-	case *TubeGeometry:
-		res = "TubeGeometry"
-	case *Vector2:
-		res = "Vector2"
-	case *Vector3:
-		res = "Vector3"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -2929,94 +3166,135 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *AmbiantLight:
-		var rf ReverseField
-		_ = rf
-	case *BoxGeometry:
-		var rf ReverseField
-		_ = rf
-	case *BufferGeometry:
-		var rf ReverseField
-		_ = rf
-	case *Camera:
-		var rf ReverseField
-		_ = rf
-	case *Canvas:
-		var rf ReverseField
-		_ = rf
-	case *Curve:
-		var rf ReverseField
-		_ = rf
-	case *CylinderGeometry:
-		var rf ReverseField
-		_ = rf
-	case *DirectionalLight:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Canvas"
-		rf.Fieldname = "DirectionalLights"
-		res = append(res, rf)
-	case *ExtrudeGeometry:
-		var rf ReverseField
-		_ = rf
-	case *Mesh:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Canvas"
-		rf.Fieldname = "Meshs"
-		res = append(res, rf)
-	case *MeshMaterialBasic:
-		var rf ReverseField
-		_ = rf
-	case *MeshPhysicalMaterial:
-		var rf ReverseField
-		_ = rf
-	case *PlaneGeometry:
-		var rf ReverseField
-		_ = rf
-	case *Shape:
-		var rf ReverseField
-		_ = rf
-	case *SphereGeometry:
-		var rf ReverseField
-		_ = rf
-	case *TorusGeometry:
-		var rf ReverseField
-		_ = rf
-	case *Triangle:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "BufferGeometry"
-		rf.Fieldname = "Faces"
-		res = append(res, rf)
-	case *TubeGeometry:
-		var rf ReverseField
-		_ = rf
-	case *Vector2:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Shape"
-		rf.Fieldname = "Points"
-		res = append(res, rf)
-	case *Vector3:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "BufferGeometry"
-		rf.Fieldname = "Vertices"
-		res = append(res, rf)
-		rf.GongstructName = "Curve"
-		rf.Fieldname = "Points"
-		res = append(res, rf)
+// insertion point for generic get reverse fields
+func (*AmbiantLight) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
 	}
-	return
+}
+
+func (*BoxGeometry) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*BufferGeometry) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Camera) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Canvas) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Curve) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*CylinderGeometry) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*DirectionalLight) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Canvas",
+			Fieldname: "DirectionalLights",
+		},
+	}
+}
+
+func (*ExtrudeGeometry) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Mesh) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Canvas",
+			Fieldname: "Meshs",
+		},
+	}
+}
+
+func (*MeshMaterialBasic) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*MeshPhysicalMaterial) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PlaneGeometry) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Shape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*SphereGeometry) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TorusGeometry) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Triangle) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "BufferGeometry",
+			Fieldname: "Faces",
+		},
+	}
+}
+
+func (*TubeGeometry) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Vector2) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Shape",
+			Fieldname: "Points",
+		},
+	}
+}
+
+func (*Vector3) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "BufferGeometry",
+			Fieldname: "Vertices",
+		},
+		{
+			GongstructName: "Curve",
+			Fieldname: "Points",
+		},
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

@@ -11,7 +11,6 @@ func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 
 	switch any(ret).(type) {
 	// insertion point{{` + string(rune(ModelGongOrchestratorSwitch)) + `}}
-
 	}
 
 }

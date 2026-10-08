@@ -862,77 +862,636 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*ActorState) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ActorStates, stage.ActorState_stagedOrder)
+}
+
+func (*ActorState) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ActorState_orderStaged[order]
+}
+
+func (*ActorState) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ActorStates_mapString
+}
+
+func (*ActorState) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ActorStates
+}
+
+func (*ActorState) GongNewInstance() any {
+	return new(ActorState)
+}
+
+func (*ActorStateShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ActorStateShapes, stage.ActorStateShape_stagedOrder)
+}
+
+func (*ActorStateShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ActorStateShape_orderStaged[order]
+}
+
+func (*ActorStateShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ActorStateShapes_mapString
+}
+
+func (*ActorStateShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ActorStateShapes
+}
+
+func (*ActorStateShape) GongNewInstance() any {
+	return new(ActorStateShape)
+}
+
+func (*ActorStateTransition) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ActorStateTransitions, stage.ActorStateTransition_stagedOrder)
+}
+
+func (*ActorStateTransition) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ActorStateTransition_orderStaged[order]
+}
+
+func (*ActorStateTransition) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ActorStateTransitions_mapString
+}
+
+func (*ActorStateTransition) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ActorStateTransitions
+}
+
+func (*ActorStateTransition) GongNewInstance() any {
+	return new(ActorStateTransition)
+}
+
+func (*ActorStateTransitionShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ActorStateTransitionShapes, stage.ActorStateTransitionShape_stagedOrder)
+}
+
+func (*ActorStateTransitionShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ActorStateTransitionShape_orderStaged[order]
+}
+
+func (*ActorStateTransitionShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ActorStateTransitionShapes_mapString
+}
+
+func (*ActorStateTransitionShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ActorStateTransitionShapes
+}
+
+func (*ActorStateTransitionShape) GongNewInstance() any {
+	return new(ActorStateTransitionShape)
+}
+
+func (*Analysis) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Analysiss, stage.Analysis_stagedOrder)
+}
+
+func (*Analysis) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Analysis_orderStaged[order]
+}
+
+func (*Analysis) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Analysiss_mapString
+}
+
+func (*Analysis) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Analysiss
+}
+
+func (*Analysis) GongNewInstance() any {
+	return new(Analysis)
+}
+
+func (*ControlPointShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
+}
+
+func (*ControlPointShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ControlPointShape_orderStaged[order]
+}
+
+func (*ControlPointShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ControlPointShapes_mapString
+}
+
+func (*ControlPointShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ControlPointShapes
+}
+
+func (*ControlPointShape) GongNewInstance() any {
+	return new(ControlPointShape)
+}
+
+func (*Diagram) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
+}
+
+func (*Diagram) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Diagram_orderStaged[order]
+}
+
+func (*Diagram) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Diagrams_mapString
+}
+
+func (*Diagram) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Diagrams
+}
+
+func (*Diagram) GongNewInstance() any {
+	return new(Diagram)
+}
+
+func (*Document) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Documents, stage.Document_stagedOrder)
+}
+
+func (*Document) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Document_orderStaged[order]
+}
+
+func (*Document) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Documents_mapString
+}
+
+func (*Document) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Documents
+}
+
+func (*Document) GongNewInstance() any {
+	return new(Document)
+}
+
+func (*DocumentUse) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DocumentUses, stage.DocumentUse_stagedOrder)
+}
+
+func (*DocumentUse) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DocumentUse_orderStaged[order]
+}
+
+func (*DocumentUse) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DocumentUses_mapString
+}
+
+func (*DocumentUse) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DocumentUses
+}
+
+func (*DocumentUse) GongNewInstance() any {
+	return new(DocumentUse)
+}
+
+func (*EvolutionDirection) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EvolutionDirections, stage.EvolutionDirection_stagedOrder)
+}
+
+func (*EvolutionDirection) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EvolutionDirection_orderStaged[order]
+}
+
+func (*EvolutionDirection) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EvolutionDirections_mapString
+}
+
+func (*EvolutionDirection) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EvolutionDirections
+}
+
+func (*EvolutionDirection) GongNewInstance() any {
+	return new(EvolutionDirection)
+}
+
+func (*EvolutionDirectionShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EvolutionDirectionShapes, stage.EvolutionDirectionShape_stagedOrder)
+}
+
+func (*EvolutionDirectionShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EvolutionDirectionShape_orderStaged[order]
+}
+
+func (*EvolutionDirectionShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EvolutionDirectionShapes_mapString
+}
+
+func (*EvolutionDirectionShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EvolutionDirectionShapes
+}
+
+func (*EvolutionDirectionShape) GongNewInstance() any {
+	return new(EvolutionDirectionShape)
+}
+
+func (*Foo) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Foos, stage.Foo_stagedOrder)
+}
+
+func (*Foo) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Foo_orderStaged[order]
+}
+
+func (*Foo) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Foos_mapString
+}
+
+func (*Foo) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Foos
+}
+
+func (*Foo) GongNewInstance() any {
+	return new(Foo)
+}
+
+func (*GeoObject) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GeoObjects, stage.GeoObject_stagedOrder)
+}
+
+func (*GeoObject) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GeoObject_orderStaged[order]
+}
+
+func (*GeoObject) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GeoObjects_mapString
+}
+
+func (*GeoObject) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GeoObjects
+}
+
+func (*GeoObject) GongNewInstance() any {
+	return new(GeoObject)
+}
+
+func (*GeoObjectUse) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GeoObjectUses, stage.GeoObjectUse_stagedOrder)
+}
+
+func (*GeoObjectUse) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GeoObjectUse_orderStaged[order]
+}
+
+func (*GeoObjectUse) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GeoObjectUses_mapString
+}
+
+func (*GeoObjectUse) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GeoObjectUses
+}
+
+func (*GeoObjectUse) GongNewInstance() any {
+	return new(GeoObjectUse)
+}
+
+func (*Group) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder)
+}
+
+func (*Group) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Group_orderStaged[order]
+}
+
+func (*Group) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Groups_mapString
+}
+
+func (*Group) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Groups
+}
+
+func (*Group) GongNewInstance() any {
+	return new(Group)
+}
+
+func (*GroupUse) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GroupUses, stage.GroupUse_stagedOrder)
+}
+
+func (*GroupUse) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GroupUse_orderStaged[order]
+}
+
+func (*GroupUse) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GroupUses_mapString
+}
+
+func (*GroupUse) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GroupUses
+}
+
+func (*GroupUse) GongNewInstance() any {
+	return new(GroupUse)
+}
+
+func (*Library) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
+}
+
+func (*Library) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Library_orderStaged[order]
+}
+
+func (*Library) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Librarys_mapString
+}
+
+func (*Library) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Librarys
+}
+
+func (*Library) GongNewInstance() any {
+	return new(Library)
+}
+
+func (*MapObject) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MapObjects, stage.MapObject_stagedOrder)
+}
+
+func (*MapObject) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MapObject_orderStaged[order]
+}
+
+func (*MapObject) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MapObjects_mapString
+}
+
+func (*MapObject) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MapObjects
+}
+
+func (*MapObject) GongNewInstance() any {
+	return new(MapObject)
+}
+
+func (*MapObjectUse) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MapObjectUses, stage.MapObjectUse_stagedOrder)
+}
+
+func (*MapObjectUse) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MapObjectUse_orderStaged[order]
+}
+
+func (*MapObjectUse) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MapObjectUses_mapString
+}
+
+func (*MapObjectUse) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MapObjectUses
+}
+
+func (*MapObjectUse) GongNewInstance() any {
+	return new(MapObjectUse)
+}
+
+func (*Parameter) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Parameters, stage.Parameter_stagedOrder)
+}
+
+func (*Parameter) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Parameter_orderStaged[order]
+}
+
+func (*Parameter) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Parameters_mapString
+}
+
+func (*Parameter) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Parameters
+}
+
+func (*Parameter) GongNewInstance() any {
+	return new(Parameter)
+}
+
+func (*ParameterCategory) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ParameterCategorys, stage.ParameterCategory_stagedOrder)
+}
+
+func (*ParameterCategory) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ParameterCategory_orderStaged[order]
+}
+
+func (*ParameterCategory) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ParameterCategorys_mapString
+}
+
+func (*ParameterCategory) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ParameterCategorys
+}
+
+func (*ParameterCategory) GongNewInstance() any {
+	return new(ParameterCategory)
+}
+
+func (*ParameterCategoryUse) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ParameterCategoryUses, stage.ParameterCategoryUse_stagedOrder)
+}
+
+func (*ParameterCategoryUse) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ParameterCategoryUse_orderStaged[order]
+}
+
+func (*ParameterCategoryUse) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ParameterCategoryUses_mapString
+}
+
+func (*ParameterCategoryUse) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ParameterCategoryUses
+}
+
+func (*ParameterCategoryUse) GongNewInstance() any {
+	return new(ParameterCategoryUse)
+}
+
+func (*ParameterShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ParameterShapes, stage.ParameterShape_stagedOrder)
+}
+
+func (*ParameterShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ParameterShape_orderStaged[order]
+}
+
+func (*ParameterShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ParameterShapes_mapString
+}
+
+func (*ParameterShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ParameterShapes
+}
+
+func (*ParameterShape) GongNewInstance() any {
+	return new(ParameterShape)
+}
+
+func (*ParametersAggregate) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ParametersAggregates, stage.ParametersAggregate_stagedOrder)
+}
+
+func (*ParametersAggregate) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ParametersAggregate_orderStaged[order]
+}
+
+func (*ParametersAggregate) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ParametersAggregates_mapString
+}
+
+func (*ParametersAggregate) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ParametersAggregates
+}
+
+func (*ParametersAggregate) GongNewInstance() any {
+	return new(ParametersAggregate)
+}
+
+func (*ParametersAggregateShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ParametersAggregateShapes, stage.ParametersAggregateShape_stagedOrder)
+}
+
+func (*ParametersAggregateShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ParametersAggregateShape_orderStaged[order]
+}
+
+func (*ParametersAggregateShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ParametersAggregateShapes_mapString
+}
+
+func (*ParametersAggregateShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ParametersAggregateShapes
+}
+
+func (*ParametersAggregateShape) GongNewInstance() any {
+	return new(ParametersAggregateShape)
+}
+
+func (*Position) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Positions, stage.Position_stagedOrder)
+}
+
+func (*Position) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Position_orderStaged[order]
+}
+
+func (*Position) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Positions_mapString
+}
+
+func (*Position) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Positions
+}
+
+func (*Position) GongNewInstance() any {
+	return new(Position)
+}
+
+func (*Repository) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Repositorys, stage.Repository_stagedOrder)
+}
+
+func (*Repository) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Repository_orderStaged[order]
+}
+
+func (*Repository) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Repositorys_mapString
+}
+
+func (*Repository) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Repositorys
+}
+
+func (*Repository) GongNewInstance() any {
+	return new(Repository)
+}
+
+func (*Scenario) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Scenarios, stage.Scenario_stagedOrder)
+}
+
+func (*Scenario) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Scenario_orderStaged[order]
+}
+
+func (*Scenario) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Scenarios_mapString
+}
+
+func (*Scenario) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Scenarios
+}
+
+func (*Scenario) GongNewInstance() any {
+	return new(Scenario)
+}
+
+func (*User) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Users, stage.User_stagedOrder)
+}
+
+func (*User) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.User_orderStaged[order]
+}
+
+func (*User) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Users_mapString
+}
+
+func (*User) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Users
+}
+
+func (*User) GongNewInstance() any {
+	return new(User)
+}
+
+func (*UserUse) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.UserUses, stage.UserUse_stagedOrder)
+}
+
+func (*UserUse) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.UserUse_orderStaged[order]
+}
+
+func (*UserUse) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.UserUses_mapString
+}
+
+func (*UserUse) GongGetInstancesSet(stage *Stage) any {
+	return &stage.UserUses
+}
+
+func (*UserUse) GongNewInstance() any {
+	return new(UserUse)
+}
+
+func (*Workspace) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Workspaces, stage.Workspace_stagedOrder)
+}
+
+func (*Workspace) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Workspace_orderStaged[order]
+}
+
+func (*Workspace) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Workspaces_mapString
+}
+
+func (*Workspace) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Workspaces
+}
+
+func (*Workspace) GongNewInstance() any {
+	return new(Workspace)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *ActorState:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ActorStates, stage.ActorState_stagedOrder))
-	case *ActorStateShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ActorStateShapes, stage.ActorStateShape_stagedOrder))
-	case *ActorStateTransition:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ActorStateTransitions, stage.ActorStateTransition_stagedOrder))
-	case *ActorStateTransitionShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ActorStateTransitionShapes, stage.ActorStateTransitionShape_stagedOrder))
-	case *Analysis:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Analysiss, stage.Analysis_stagedOrder))
-	case *ControlPointShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder))
-	case *Diagram:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder))
-	case *Document:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Documents, stage.Document_stagedOrder))
-	case *DocumentUse:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DocumentUses, stage.DocumentUse_stagedOrder))
-	case *EvolutionDirection:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EvolutionDirections, stage.EvolutionDirection_stagedOrder))
-	case *EvolutionDirectionShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EvolutionDirectionShapes, stage.EvolutionDirectionShape_stagedOrder))
-	case *Foo:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Foos, stage.Foo_stagedOrder))
-	case *GeoObject:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GeoObjects, stage.GeoObject_stagedOrder))
-	case *GeoObjectUse:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GeoObjectUses, stage.GeoObjectUse_stagedOrder))
-	case *Group:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder))
-	case *GroupUse:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GroupUses, stage.GroupUse_stagedOrder))
-	case *Library:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder))
-	case *MapObject:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MapObjects, stage.MapObject_stagedOrder))
-	case *MapObjectUse:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MapObjectUses, stage.MapObjectUse_stagedOrder))
-	case *Parameter:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Parameters, stage.Parameter_stagedOrder))
-	case *ParameterCategory:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ParameterCategorys, stage.ParameterCategory_stagedOrder))
-	case *ParameterCategoryUse:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ParameterCategoryUses, stage.ParameterCategoryUse_stagedOrder))
-	case *ParameterShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ParameterShapes, stage.ParameterShape_stagedOrder))
-	case *ParametersAggregate:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ParametersAggregates, stage.ParametersAggregate_stagedOrder))
-	case *ParametersAggregateShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ParametersAggregateShapes, stage.ParametersAggregateShape_stagedOrder))
-	case *Position:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Positions, stage.Position_stagedOrder))
-	case *Repository:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Repositorys, stage.Repository_stagedOrder))
-	case *Scenario:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Scenarios, stage.Scenario_stagedOrder))
-	case *User:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Users, stage.User_stagedOrder))
-	case *UserUse:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.UserUses, stage.UserUse_stagedOrder))
-	case *Workspace:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Workspaces, stage.Workspace_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -1413,74 +1972,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *ActorState:
-		return any(stage.ActorState_orderStaged[order]).(Type)
-	case *ActorStateShape:
-		return any(stage.ActorStateShape_orderStaged[order]).(Type)
-	case *ActorStateTransition:
-		return any(stage.ActorStateTransition_orderStaged[order]).(Type)
-	case *ActorStateTransitionShape:
-		return any(stage.ActorStateTransitionShape_orderStaged[order]).(Type)
-	case *Analysis:
-		return any(stage.Analysis_orderStaged[order]).(Type)
-	case *ControlPointShape:
-		return any(stage.ControlPointShape_orderStaged[order]).(Type)
-	case *Diagram:
-		return any(stage.Diagram_orderStaged[order]).(Type)
-	case *Document:
-		return any(stage.Document_orderStaged[order]).(Type)
-	case *DocumentUse:
-		return any(stage.DocumentUse_orderStaged[order]).(Type)
-	case *EvolutionDirection:
-		return any(stage.EvolutionDirection_orderStaged[order]).(Type)
-	case *EvolutionDirectionShape:
-		return any(stage.EvolutionDirectionShape_orderStaged[order]).(Type)
-	case *Foo:
-		return any(stage.Foo_orderStaged[order]).(Type)
-	case *GeoObject:
-		return any(stage.GeoObject_orderStaged[order]).(Type)
-	case *GeoObjectUse:
-		return any(stage.GeoObjectUse_orderStaged[order]).(Type)
-	case *Group:
-		return any(stage.Group_orderStaged[order]).(Type)
-	case *GroupUse:
-		return any(stage.GroupUse_orderStaged[order]).(Type)
-	case *Library:
-		return any(stage.Library_orderStaged[order]).(Type)
-	case *MapObject:
-		return any(stage.MapObject_orderStaged[order]).(Type)
-	case *MapObjectUse:
-		return any(stage.MapObjectUse_orderStaged[order]).(Type)
-	case *Parameter:
-		return any(stage.Parameter_orderStaged[order]).(Type)
-	case *ParameterCategory:
-		return any(stage.ParameterCategory_orderStaged[order]).(Type)
-	case *ParameterCategoryUse:
-		return any(stage.ParameterCategoryUse_orderStaged[order]).(Type)
-	case *ParameterShape:
-		return any(stage.ParameterShape_orderStaged[order]).(Type)
-	case *ParametersAggregate:
-		return any(stage.ParametersAggregate_orderStaged[order]).(Type)
-	case *ParametersAggregateShape:
-		return any(stage.ParametersAggregateShape_orderStaged[order]).(Type)
-	case *Position:
-		return any(stage.Position_orderStaged[order]).(Type)
-	case *Repository:
-		return any(stage.Repository_orderStaged[order]).(Type)
-	case *Scenario:
-		return any(stage.Scenario_orderStaged[order]).(Type)
-	case *User:
-		return any(stage.User_orderStaged[order]).(Type)
-	case *UserUse:
-		return any(stage.UserUse_orderStaged[order]).(Type)
-	case *Workspace:
-		return any(stage.Workspace_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -2921,7 +3421,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -2953,6 +3455,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -2984,185 +3493,67 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *ActorState:
-		return any(stage.ActorStates_mapString).(map[string]Type)
-	case *ActorStateShape:
-		return any(stage.ActorStateShapes_mapString).(map[string]Type)
-	case *ActorStateTransition:
-		return any(stage.ActorStateTransitions_mapString).(map[string]Type)
-	case *ActorStateTransitionShape:
-		return any(stage.ActorStateTransitionShapes_mapString).(map[string]Type)
-	case *Analysis:
-		return any(stage.Analysiss_mapString).(map[string]Type)
-	case *ControlPointShape:
-		return any(stage.ControlPointShapes_mapString).(map[string]Type)
-	case *Diagram:
-		return any(stage.Diagrams_mapString).(map[string]Type)
-	case *Document:
-		return any(stage.Documents_mapString).(map[string]Type)
-	case *DocumentUse:
-		return any(stage.DocumentUses_mapString).(map[string]Type)
-	case *EvolutionDirection:
-		return any(stage.EvolutionDirections_mapString).(map[string]Type)
-	case *EvolutionDirectionShape:
-		return any(stage.EvolutionDirectionShapes_mapString).(map[string]Type)
-	case *Foo:
-		return any(stage.Foos_mapString).(map[string]Type)
-	case *GeoObject:
-		return any(stage.GeoObjects_mapString).(map[string]Type)
-	case *GeoObjectUse:
-		return any(stage.GeoObjectUses_mapString).(map[string]Type)
-	case *Group:
-		return any(stage.Groups_mapString).(map[string]Type)
-	case *GroupUse:
-		return any(stage.GroupUses_mapString).(map[string]Type)
-	case *Library:
-		return any(stage.Librarys_mapString).(map[string]Type)
-	case *MapObject:
-		return any(stage.MapObjects_mapString).(map[string]Type)
-	case *MapObjectUse:
-		return any(stage.MapObjectUses_mapString).(map[string]Type)
-	case *Parameter:
-		return any(stage.Parameters_mapString).(map[string]Type)
-	case *ParameterCategory:
-		return any(stage.ParameterCategorys_mapString).(map[string]Type)
-	case *ParameterCategoryUse:
-		return any(stage.ParameterCategoryUses_mapString).(map[string]Type)
-	case *ParameterShape:
-		return any(stage.ParameterShapes_mapString).(map[string]Type)
-	case *ParametersAggregate:
-		return any(stage.ParametersAggregates_mapString).(map[string]Type)
-	case *ParametersAggregateShape:
-		return any(stage.ParametersAggregateShapes_mapString).(map[string]Type)
-	case *Position:
-		return any(stage.Positions_mapString).(map[string]Type)
-	case *Repository:
-		return any(stage.Repositorys_mapString).(map[string]Type)
-	case *Scenario:
-		return any(stage.Scenarios_mapString).(map[string]Type)
-	case *User:
-		return any(stage.Users_mapString).(map[string]Type)
-	case *UserUse:
-		return any(stage.UserUses_mapString).(map[string]Type)
-	case *Workspace:
-		return any(stage.Workspaces_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *ActorState:
-		return any(&stage.ActorStates).(*map[Type]struct{})
-	case *ActorStateShape:
-		return any(&stage.ActorStateShapes).(*map[Type]struct{})
-	case *ActorStateTransition:
-		return any(&stage.ActorStateTransitions).(*map[Type]struct{})
-	case *ActorStateTransitionShape:
-		return any(&stage.ActorStateTransitionShapes).(*map[Type]struct{})
-	case *Analysis:
-		return any(&stage.Analysiss).(*map[Type]struct{})
-	case *ControlPointShape:
-		return any(&stage.ControlPointShapes).(*map[Type]struct{})
-	case *Diagram:
-		return any(&stage.Diagrams).(*map[Type]struct{})
-	case *Document:
-		return any(&stage.Documents).(*map[Type]struct{})
-	case *DocumentUse:
-		return any(&stage.DocumentUses).(*map[Type]struct{})
-	case *EvolutionDirection:
-		return any(&stage.EvolutionDirections).(*map[Type]struct{})
-	case *EvolutionDirectionShape:
-		return any(&stage.EvolutionDirectionShapes).(*map[Type]struct{})
-	case *Foo:
-		return any(&stage.Foos).(*map[Type]struct{})
-	case *GeoObject:
-		return any(&stage.GeoObjects).(*map[Type]struct{})
-	case *GeoObjectUse:
-		return any(&stage.GeoObjectUses).(*map[Type]struct{})
-	case *Group:
-		return any(&stage.Groups).(*map[Type]struct{})
-	case *GroupUse:
-		return any(&stage.GroupUses).(*map[Type]struct{})
-	case *Library:
-		return any(&stage.Librarys).(*map[Type]struct{})
-	case *MapObject:
-		return any(&stage.MapObjects).(*map[Type]struct{})
-	case *MapObjectUse:
-		return any(&stage.MapObjectUses).(*map[Type]struct{})
-	case *Parameter:
-		return any(&stage.Parameters).(*map[Type]struct{})
-	case *ParameterCategory:
-		return any(&stage.ParameterCategorys).(*map[Type]struct{})
-	case *ParameterCategoryUse:
-		return any(&stage.ParameterCategoryUses).(*map[Type]struct{})
-	case *ParameterShape:
-		return any(&stage.ParameterShapes).(*map[Type]struct{})
-	case *ParametersAggregate:
-		return any(&stage.ParametersAggregates).(*map[Type]struct{})
-	case *ParametersAggregateShape:
-		return any(&stage.ParametersAggregateShapes).(*map[Type]struct{})
-	case *Position:
-		return any(&stage.Positions).(*map[Type]struct{})
-	case *Repository:
-		return any(&stage.Repositorys).(*map[Type]struct{})
-	case *Scenario:
-		return any(&stage.Scenarios).(*map[Type]struct{})
-	case *User:
-		return any(&stage.Users).(*map[Type]struct{})
-	case *UserUse:
-		return any(&stage.UserUses).(*map[Type]struct{})
-	case *Workspace:
-		return any(&stage.Workspaces).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
+	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
+}
+
+// insertion point for instance with special fields
+func (ActorState) GongGetAssociationName() any {
+	return &ActorState{
 	}
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case ActorStateShape:
-		return any(&ActorStateShape{
+func (ActorStateShape) GongGetAssociationName() any {
+	return &ActorStateShape{
 			ActorState: &ActorState{Name: "ActorState"},
-		}).(*Type)
-	case ActorStateTransition:
-		return any(&ActorStateTransition{
+	}
+}
+
+func (ActorStateTransition) GongGetAssociationName() any {
+	return &ActorStateTransition{
 			StartState: &ActorState{Name: "StartState"},
 			EndState: &ActorState{Name: "EndState"},
 			Justifications: []*Parameter{{Name: "Justifications"}},
-		}).(*Type)
-	case ActorStateTransitionShape:
-		return any(&ActorStateTransitionShape{
+	}
+}
+
+func (ActorStateTransitionShape) GongGetAssociationName() any {
+	return &ActorStateTransitionShape{
 			ActorStateTransition: &ActorStateTransition{Name: "ActorStateTransition"},
 			Start: &ActorStateShape{Name: "Start"},
 			End: &ActorStateShape{Name: "End"},
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
-		}).(*Type)
-	case Analysis:
-		return any(&Analysis{
+	}
+}
+
+func (Analysis) GongGetAssociationName() any {
+	return &Analysis{
 			Scenarios: []*Scenario{{Name: "Scenarios"}},
 			GroupUse: []*GroupUse{{Name: "GroupUse"}},
 			GeoObjectUse: []*GeoObjectUse{{Name: "GeoObjectUse"}},
 			MapUse: []*MapObjectUse{{Name: "MapUse"}},
-		}).(*Type)
-	case Diagram:
-		return any(&Diagram{
+	}
+}
+
+func (ControlPointShape) GongGetAssociationName() any {
+	return &ControlPointShape{
+	}
+}
+
+func (Diagram) GongGetAssociationName() any {
+	return &Diagram{
 			EvolutionDirectionShapes: []*EvolutionDirectionShape{{Name: "EvolutionDirectionShapes"}},
 			EvolutionDirectionsWhoseNodeIsExpanded: []*EvolutionDirection{{Name: "EvolutionDirectionsWhoseNodeIsExpanded"}},
 			ActorStateShapes: []*ActorStateShape{{Name: "ActorStateShapes"}},
@@ -3173,97 +3564,170 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			ParametersAggregatesWhoseNodeIsExpanded: []*ParametersAggregate{{Name: "ParametersAggregatesWhoseNodeIsExpanded"}},
 			ActorStateTransitionShapes: []*ActorStateTransitionShape{{Name: "ActorStateTransitionShapes"}},
 			ActorStateTransitionsWhoseNodeIsExpanded: []*ActorStateTransition{{Name: "ActorStateTransitionsWhoseNodeIsExpanded"}},
-		}).(*Type)
-	case Document:
-		return any(&Document{
+	}
+}
+
+func (Document) GongGetAssociationName() any {
+	return &Document{
 			GeoObjectUse: []*GeoObjectUse{{Name: "GeoObjectUse"}},
-		}).(*Type)
-	case DocumentUse:
-		return any(&DocumentUse{
+	}
+}
+
+func (DocumentUse) GongGetAssociationName() any {
+	return &DocumentUse{
 			Document: &Document{Name: "Document"},
-		}).(*Type)
-	case EvolutionDirectionShape:
-		return any(&EvolutionDirectionShape{
+	}
+}
+
+func (EvolutionDirection) GongGetAssociationName() any {
+	return &EvolutionDirection{
+	}
+}
+
+func (EvolutionDirectionShape) GongGetAssociationName() any {
+	return &EvolutionDirectionShape{
 			EvolutionDirection: &EvolutionDirection{Name: "EvolutionDirection"},
-		}).(*Type)
-	case GeoObjectUse:
-		return any(&GeoObjectUse{
+	}
+}
+
+func (Foo) GongGetAssociationName() any {
+	return &Foo{
+	}
+}
+
+func (GeoObject) GongGetAssociationName() any {
+	return &GeoObject{
+	}
+}
+
+func (GeoObjectUse) GongGetAssociationName() any {
+	return &GeoObjectUse{
 			GeoObject: &GeoObject{Name: "GeoObject"},
-		}).(*Type)
-	case Group:
-		return any(&Group{
+	}
+}
+
+func (Group) GongGetAssociationName() any {
+	return &Group{
 			UserUse: []*UserUse{{Name: "UserUse"}},
-		}).(*Type)
-	case GroupUse:
-		return any(&GroupUse{
+	}
+}
+
+func (GroupUse) GongGetAssociationName() any {
+	return &GroupUse{
 			Group: &Group{Name: "Group"},
-		}).(*Type)
-	case Library:
-		return any(&Library{
+	}
+}
+
+func (Library) GongGetAssociationName() any {
+	return &Library{
 			Analyses: []*Analysis{{Name: "Analyses"}},
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
-		}).(*Type)
-	case MapObjectUse:
-		return any(&MapObjectUse{
+	}
+}
+
+func (MapObject) GongGetAssociationName() any {
+	return &MapObject{
+	}
+}
+
+func (MapObjectUse) GongGetAssociationName() any {
+	return &MapObjectUse{
 			Map: &MapObject{Name: "Map"},
-		}).(*Type)
-	case Parameter:
-		return any(&Parameter{
+	}
+}
+
+func (Parameter) GongGetAssociationName() any {
+	return &Parameter{
 			GroupUse: []*GroupUse{{Name: "GroupUse"}},
 			DocumentUse: []*DocumentUse{{Name: "DocumentUse"}},
 			GeoObjectUse: []*GeoObjectUse{{Name: "GeoObjectUse"}},
-		}).(*Type)
-	case ParameterCategory:
-		return any(&ParameterCategory{
+	}
+}
+
+func (ParameterCategory) GongGetAssociationName() any {
+	return &ParameterCategory{
 			ParameterUse: []*ParameterShape{{Name: "ParameterUse"}},
-		}).(*Type)
-	case ParameterCategoryUse:
-		return any(&ParameterCategoryUse{
+	}
+}
+
+func (ParameterCategoryUse) GongGetAssociationName() any {
+	return &ParameterCategoryUse{
 			ParameterCategory: &ParameterCategory{Name: "ParameterCategory"},
-		}).(*Type)
-	case ParameterShape:
-		return any(&ParameterShape{
+	}
+}
+
+func (ParameterShape) GongGetAssociationName() any {
+	return &ParameterShape{
 			Parameter: &Parameter{Name: "Parameter"},
-		}).(*Type)
-	case ParametersAggregate:
-		return any(&ParametersAggregate{
+	}
+}
+
+func (ParametersAggregate) GongGetAssociationName() any {
+	return &ParametersAggregate{
 			Parameters: []*Parameter{{Name: "Parameters"}},
-		}).(*Type)
-	case ParametersAggregateShape:
-		return any(&ParametersAggregateShape{
+	}
+}
+
+func (ParametersAggregateShape) GongGetAssociationName() any {
+	return &ParametersAggregateShape{
 			ScenarioParameter: &ParametersAggregate{Name: "ScenarioParameter"},
-		}).(*Type)
-	case Repository:
-		return any(&Repository{
+	}
+}
+
+func (Position) GongGetAssociationName() any {
+	return &Position{
+	}
+}
+
+func (Repository) GongGetAssociationName() any {
+	return &Repository{
 			ParameterUse: []*ParameterShape{{Name: "ParameterUse"}},
 			GroupUse: []*GroupUse{{Name: "GroupUse"}},
-		}).(*Type)
-	case Scenario:
-		return any(&Scenario{
+	}
+}
+
+func (Scenario) GongGetAssociationName() any {
+	return &Scenario{
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
 			ActorStates: []*ActorState{{Name: "ActorStates"}},
 			ActorStateTransitions: []*ActorStateTransition{{Name: "ActorStateTransitions"}},
 			EvolutionDirections: []*EvolutionDirection{{Name: "EvolutionDirections"}},
 			Parameters: []*Parameter{{Name: "Parameters"}},
 			ParametersAggretates: []*ParametersAggregate{{Name: "ParametersAggretates"}},
-		}).(*Type)
-	case UserUse:
-		return any(&UserUse{
+	}
+}
+
+func (User) GongGetAssociationName() any {
+	return &User{
+	}
+}
+
+func (UserUse) GongGetAssociationName() any {
+	return &UserUse{
 			User: &User{Name: "User"},
-		}).(*Type)
-	case Workspace:
-		return any(&Workspace{
+	}
+}
+
+func (Workspace) GongGetAssociationName() any {
+	return &Workspace{
 			SelectedDiagram: &Diagram{Name: "SelectedDiagram"},
 			Default_EvolutionDirectionShape: &EvolutionDirectionShape{Name: "Default_EvolutionDirectionShape"},
 			Default_ParameterShape: &ParameterShape{Name: "Default_ParameterShape"},
 			Default_ScenarioParameterShape: &ParametersAggregateShape{Name: "Default_ScenarioParameterShape"},
 			Default_ActorStateShape: &ActorStateShape{Name: "Default_ActorStateShape"},
 			Default_ActorStateTransitionShape: &ActorStateTransitionShape{Name: "Default_ActorStateTransitionShape"},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -4234,74 +4698,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *ActorState:
-		res = any(new(ActorState)).(Type)
-	case *ActorStateShape:
-		res = any(new(ActorStateShape)).(Type)
-	case *ActorStateTransition:
-		res = any(new(ActorStateTransition)).(Type)
-	case *ActorStateTransitionShape:
-		res = any(new(ActorStateTransitionShape)).(Type)
-	case *Analysis:
-		res = any(new(Analysis)).(Type)
-	case *ControlPointShape:
-		res = any(new(ControlPointShape)).(Type)
-	case *Diagram:
-		res = any(new(Diagram)).(Type)
-	case *Document:
-		res = any(new(Document)).(Type)
-	case *DocumentUse:
-		res = any(new(DocumentUse)).(Type)
-	case *EvolutionDirection:
-		res = any(new(EvolutionDirection)).(Type)
-	case *EvolutionDirectionShape:
-		res = any(new(EvolutionDirectionShape)).(Type)
-	case *Foo:
-		res = any(new(Foo)).(Type)
-	case *GeoObject:
-		res = any(new(GeoObject)).(Type)
-	case *GeoObjectUse:
-		res = any(new(GeoObjectUse)).(Type)
-	case *Group:
-		res = any(new(Group)).(Type)
-	case *GroupUse:
-		res = any(new(GroupUse)).(Type)
-	case *Library:
-		res = any(new(Library)).(Type)
-	case *MapObject:
-		res = any(new(MapObject)).(Type)
-	case *MapObjectUse:
-		res = any(new(MapObjectUse)).(Type)
-	case *Parameter:
-		res = any(new(Parameter)).(Type)
-	case *ParameterCategory:
-		res = any(new(ParameterCategory)).(Type)
-	case *ParameterCategoryUse:
-		res = any(new(ParameterCategoryUse)).(Type)
-	case *ParameterShape:
-		res = any(new(ParameterShape)).(Type)
-	case *ParametersAggregate:
-		res = any(new(ParametersAggregate)).(Type)
-	case *ParametersAggregateShape:
-		res = any(new(ParametersAggregateShape)).(Type)
-	case *Position:
-		res = any(new(Position)).(Type)
-	case *Repository:
-		res = any(new(Repository)).(Type)
-	case *Scenario:
-		res = any(new(Scenario)).(Type)
-	case *User:
-		res = any(new(User)).(Type)
-	case *UserUse:
-		res = any(new(UserUse)).(Type)
-	case *Workspace:
-		res = any(new(Workspace)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -4324,74 +4722,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *ActorState:
-		res = "ActorState"
-	case *ActorStateShape:
-		res = "ActorStateShape"
-	case *ActorStateTransition:
-		res = "ActorStateTransition"
-	case *ActorStateTransitionShape:
-		res = "ActorStateTransitionShape"
-	case *Analysis:
-		res = "Analysis"
-	case *ControlPointShape:
-		res = "ControlPointShape"
-	case *Diagram:
-		res = "Diagram"
-	case *Document:
-		res = "Document"
-	case *DocumentUse:
-		res = "DocumentUse"
-	case *EvolutionDirection:
-		res = "EvolutionDirection"
-	case *EvolutionDirectionShape:
-		res = "EvolutionDirectionShape"
-	case *Foo:
-		res = "Foo"
-	case *GeoObject:
-		res = "GeoObject"
-	case *GeoObjectUse:
-		res = "GeoObjectUse"
-	case *Group:
-		res = "Group"
-	case *GroupUse:
-		res = "GroupUse"
-	case *Library:
-		res = "Library"
-	case *MapObject:
-		res = "MapObject"
-	case *MapObjectUse:
-		res = "MapObjectUse"
-	case *Parameter:
-		res = "Parameter"
-	case *ParameterCategory:
-		res = "ParameterCategory"
-	case *ParameterCategoryUse:
-		res = "ParameterCategoryUse"
-	case *ParameterShape:
-		res = "ParameterShape"
-	case *ParametersAggregate:
-		res = "ParametersAggregate"
-	case *ParametersAggregateShape:
-		res = "ParametersAggregateShape"
-	case *Position:
-		res = "Position"
-	case *Repository:
-		res = "Repository"
-	case *Scenario:
-		res = "Scenario"
-	case *User:
-		res = "User"
-	case *UserUse:
-		res = "UserUse"
-	case *Workspace:
-		res = "Workspace"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -4405,211 +4737,302 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *ActorState:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ActorStatesWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Scenario"
-		rf.Fieldname = "ActorStates"
-		res = append(res, rf)
-	case *ActorStateShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ActorStateShapes"
-		res = append(res, rf)
-	case *ActorStateTransition:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ActorStateTransitionsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Scenario"
-		rf.Fieldname = "ActorStateTransitions"
-		res = append(res, rf)
-	case *ActorStateTransitionShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ActorStateTransitionShapes"
-		res = append(res, rf)
-	case *Analysis:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "Analyses"
-		res = append(res, rf)
-	case *ControlPointShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ActorStateTransitionShape"
-		rf.Fieldname = "ControlPointShapes"
-		res = append(res, rf)
-	case *Diagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Scenario"
-		rf.Fieldname = "Diagrams"
-		res = append(res, rf)
-	case *Document:
-		var rf ReverseField
-		_ = rf
-	case *DocumentUse:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Parameter"
-		rf.Fieldname = "DocumentUse"
-		res = append(res, rf)
-	case *EvolutionDirection:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "EvolutionDirectionsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Scenario"
-		rf.Fieldname = "EvolutionDirections"
-		res = append(res, rf)
-	case *EvolutionDirectionShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "EvolutionDirectionShapes"
-		res = append(res, rf)
-	case *Foo:
-		var rf ReverseField
-		_ = rf
-	case *GeoObject:
-		var rf ReverseField
-		_ = rf
-	case *GeoObjectUse:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Analysis"
-		rf.Fieldname = "GeoObjectUse"
-		res = append(res, rf)
-		rf.GongstructName = "Document"
-		rf.Fieldname = "GeoObjectUse"
-		res = append(res, rf)
-		rf.GongstructName = "Parameter"
-		rf.Fieldname = "GeoObjectUse"
-		res = append(res, rf)
-	case *Group:
-		var rf ReverseField
-		_ = rf
-	case *GroupUse:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Analysis"
-		rf.Fieldname = "GroupUse"
-		res = append(res, rf)
-		rf.GongstructName = "Parameter"
-		rf.Fieldname = "GroupUse"
-		res = append(res, rf)
-		rf.GongstructName = "Repository"
-		rf.Fieldname = "GroupUse"
-		res = append(res, rf)
-	case *Library:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "SubLibraries"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "SubLibrariesWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *MapObject:
-		var rf ReverseField
-		_ = rf
-	case *MapObjectUse:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Analysis"
-		rf.Fieldname = "MapUse"
-		res = append(res, rf)
-	case *Parameter:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ActorStateTransition"
-		rf.Fieldname = "Justifications"
-		res = append(res, rf)
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ParametersWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "ParametersAggregate"
-		rf.Fieldname = "Parameters"
-		res = append(res, rf)
-		rf.GongstructName = "Scenario"
-		rf.Fieldname = "Parameters"
-		res = append(res, rf)
-	case *ParameterCategory:
-		var rf ReverseField
-		_ = rf
-	case *ParameterCategoryUse:
-		var rf ReverseField
-		_ = rf
-	case *ParameterShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ParameterShapes"
-		res = append(res, rf)
-		rf.GongstructName = "ParameterCategory"
-		rf.Fieldname = "ParameterUse"
-		res = append(res, rf)
-		rf.GongstructName = "Repository"
-		rf.Fieldname = "ParameterUse"
-		res = append(res, rf)
-	case *ParametersAggregate:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ParametersAggregatesWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Scenario"
-		rf.Fieldname = "ParametersAggretates"
-		res = append(res, rf)
-	case *ParametersAggregateShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ScenarioParameterShapes"
-		res = append(res, rf)
-	case *Position:
-		var rf ReverseField
-		_ = rf
-	case *Repository:
-		var rf ReverseField
-		_ = rf
-	case *Scenario:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Analysis"
-		rf.Fieldname = "Scenarios"
-		res = append(res, rf)
-	case *User:
-		var rf ReverseField
-		_ = rf
-	case *UserUse:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Group"
-		rf.Fieldname = "UserUse"
-		res = append(res, rf)
-	case *Workspace:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*ActorState) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ActorStatesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Scenario",
+			Fieldname: "ActorStates",
+		},
 	}
-	return
+}
+
+func (*ActorStateShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ActorStateShapes",
+		},
+	}
+}
+
+func (*ActorStateTransition) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ActorStateTransitionsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Scenario",
+			Fieldname: "ActorStateTransitions",
+		},
+	}
+}
+
+func (*ActorStateTransitionShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ActorStateTransitionShapes",
+		},
+	}
+}
+
+func (*Analysis) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "Analyses",
+		},
+	}
+}
+
+func (*ControlPointShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ActorStateTransitionShape",
+			Fieldname: "ControlPointShapes",
+		},
+	}
+}
+
+func (*Diagram) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Scenario",
+			Fieldname: "Diagrams",
+		},
+	}
+}
+
+func (*Document) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*DocumentUse) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Parameter",
+			Fieldname: "DocumentUse",
+		},
+	}
+}
+
+func (*EvolutionDirection) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "EvolutionDirectionsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Scenario",
+			Fieldname: "EvolutionDirections",
+		},
+	}
+}
+
+func (*EvolutionDirectionShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "EvolutionDirectionShapes",
+		},
+	}
+}
+
+func (*Foo) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*GeoObject) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*GeoObjectUse) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Analysis",
+			Fieldname: "GeoObjectUse",
+		},
+		{
+			GongstructName: "Document",
+			Fieldname: "GeoObjectUse",
+		},
+		{
+			GongstructName: "Parameter",
+			Fieldname: "GeoObjectUse",
+		},
+	}
+}
+
+func (*Group) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*GroupUse) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Analysis",
+			Fieldname: "GroupUse",
+		},
+		{
+			GongstructName: "Parameter",
+			Fieldname: "GroupUse",
+		},
+		{
+			GongstructName: "Repository",
+			Fieldname: "GroupUse",
+		},
+	}
+}
+
+func (*Library) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "SubLibraries",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "SubLibrariesWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*MapObject) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*MapObjectUse) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Analysis",
+			Fieldname: "MapUse",
+		},
+	}
+}
+
+func (*Parameter) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ActorStateTransition",
+			Fieldname: "Justifications",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ParametersWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "ParametersAggregate",
+			Fieldname: "Parameters",
+		},
+		{
+			GongstructName: "Scenario",
+			Fieldname: "Parameters",
+		},
+	}
+}
+
+func (*ParameterCategory) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ParameterCategoryUse) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ParameterShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ParameterShapes",
+		},
+		{
+			GongstructName: "ParameterCategory",
+			Fieldname: "ParameterUse",
+		},
+		{
+			GongstructName: "Repository",
+			Fieldname: "ParameterUse",
+		},
+	}
+}
+
+func (*ParametersAggregate) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ParametersAggregatesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Scenario",
+			Fieldname: "ParametersAggretates",
+		},
+	}
+}
+
+func (*ParametersAggregateShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ScenarioParameterShapes",
+		},
+	}
+}
+
+func (*Position) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Repository) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Scenario) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Analysis",
+			Fieldname: "Scenarios",
+		},
+	}
+}
+
+func (*User) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*UserUse) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Group",
+			Fieldname: "UserUse",
+		},
+	}
+}
+
+func (*Workspace) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

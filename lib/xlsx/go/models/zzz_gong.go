@@ -334,25 +334,116 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*DisplaySelection) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DisplaySelections, stage.DisplaySelection_stagedOrder)
+}
+
+func (*DisplaySelection) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DisplaySelection_orderStaged[order]
+}
+
+func (*DisplaySelection) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DisplaySelections_mapString
+}
+
+func (*DisplaySelection) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DisplaySelections
+}
+
+func (*DisplaySelection) GongNewInstance() any {
+	return new(DisplaySelection)
+}
+
+func (*XLCell) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.XLCells, stage.XLCell_stagedOrder)
+}
+
+func (*XLCell) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.XLCell_orderStaged[order]
+}
+
+func (*XLCell) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.XLCells_mapString
+}
+
+func (*XLCell) GongGetInstancesSet(stage *Stage) any {
+	return &stage.XLCells
+}
+
+func (*XLCell) GongNewInstance() any {
+	return new(XLCell)
+}
+
+func (*XLFile) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.XLFiles, stage.XLFile_stagedOrder)
+}
+
+func (*XLFile) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.XLFile_orderStaged[order]
+}
+
+func (*XLFile) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.XLFiles_mapString
+}
+
+func (*XLFile) GongGetInstancesSet(stage *Stage) any {
+	return &stage.XLFiles
+}
+
+func (*XLFile) GongNewInstance() any {
+	return new(XLFile)
+}
+
+func (*XLRow) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.XLRows, stage.XLRow_stagedOrder)
+}
+
+func (*XLRow) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.XLRow_orderStaged[order]
+}
+
+func (*XLRow) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.XLRows_mapString
+}
+
+func (*XLRow) GongGetInstancesSet(stage *Stage) any {
+	return &stage.XLRows
+}
+
+func (*XLRow) GongNewInstance() any {
+	return new(XLRow)
+}
+
+func (*XLSheet) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.XLSheets, stage.XLSheet_stagedOrder)
+}
+
+func (*XLSheet) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.XLSheet_orderStaged[order]
+}
+
+func (*XLSheet) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.XLSheets_mapString
+}
+
+func (*XLSheet) GongGetInstancesSet(stage *Stage) any {
+	return &stage.XLSheets
+}
+
+func (*XLSheet) GongNewInstance() any {
+	return new(XLSheet)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *DisplaySelection:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DisplaySelections, stage.DisplaySelection_stagedOrder))
-	case *XLCell:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.XLCells, stage.XLCell_stagedOrder))
-	case *XLFile:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.XLFiles, stage.XLFile_stagedOrder))
-	case *XLRow:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.XLRows, stage.XLRow_stagedOrder))
-	case *XLSheet:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.XLSheets, stage.XLSheet_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -599,22 +690,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *DisplaySelection:
-		return any(stage.DisplaySelection_orderStaged[order]).(Type)
-	case *XLCell:
-		return any(stage.XLCell_orderStaged[order]).(Type)
-	case *XLFile:
-		return any(stage.XLFile_orderStaged[order]).(Type)
-	case *XLRow:
-		return any(stage.XLRow_orderStaged[order]).(Type)
-	case *XLSheet:
-		return any(stage.XLSheet_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -937,7 +1021,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -969,6 +1055,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -1000,76 +1093,62 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *DisplaySelection:
-		return any(stage.DisplaySelections_mapString).(map[string]Type)
-	case *XLCell:
-		return any(stage.XLCells_mapString).(map[string]Type)
-	case *XLFile:
-		return any(stage.XLFiles_mapString).(map[string]Type)
-	case *XLRow:
-		return any(stage.XLRows_mapString).(map[string]Type)
-	case *XLSheet:
-		return any(stage.XLSheets_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *DisplaySelection:
-		return any(&stage.DisplaySelections).(*map[Type]struct{})
-	case *XLCell:
-		return any(&stage.XLCells).(*map[Type]struct{})
-	case *XLFile:
-		return any(&stage.XLFiles).(*map[Type]struct{})
-	case *XLRow:
-		return any(&stage.XLRows).(*map[Type]struct{})
-	case *XLSheet:
-		return any(&stage.XLSheets).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
+
+// insertion point for instance with special fields
+func (DisplaySelection) GongGetAssociationName() any {
+	return &DisplaySelection{
+			XLFile: &XLFile{Name: "XLFile"},
+			XLSheet: &XLSheet{Name: "XLSheet"},
+	}
+}
+
+func (XLCell) GongGetAssociationName() any {
+	return &XLCell{
+	}
+}
+
+func (XLFile) GongGetAssociationName() any {
+	return &XLFile{
+			Sheets: []*XLSheet{{Name: "Sheets"}},
+	}
+}
+
+func (XLRow) GongGetAssociationName() any {
+	return &XLRow{
+			Cells: []*XLCell{{Name: "Cells"}},
+	}
+}
+
+func (XLSheet) GongGetAssociationName() any {
+	return &XLSheet{
+			Rows: []*XLRow{{Name: "Rows"}},
+			SheetCells: []*XLCell{{Name: "SheetCells"}},
+	}
+}
+
 
 // GongGetAssociationName is a generic function that returns an instance of Type
 // where each association is filled with an instance whose name is the name of the association
 //
 // This function can be handy for generating navigation function that are refactorable
 func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case DisplaySelection:
-		return any(&DisplaySelection{
-			XLFile: &XLFile{Name: "XLFile"},
-			XLSheet: &XLSheet{Name: "XLSheet"},
-		}).(*Type)
-	case XLFile:
-		return any(&XLFile{
-			Sheets: []*XLSheet{{Name: "Sheets"}},
-		}).(*Type)
-	case XLRow:
-		return any(&XLRow{
-			Cells: []*XLCell{{Name: "Cells"}},
-		}).(*Type)
-	case XLSheet:
-		return any(&XLSheet{
-			Rows: []*XLRow{{Name: "Rows"}},
-			SheetCells: []*XLCell{{Name: "SheetCells"}},
-		}).(*Type)
-	default:
-		return &ret
-	}
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -1217,22 +1296,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *DisplaySelection:
-		res = any(new(DisplaySelection)).(Type)
-	case *XLCell:
-		res = any(new(XLCell)).(Type)
-	case *XLFile:
-		res = any(new(XLFile)).(Type)
-	case *XLRow:
-		res = any(new(XLRow)).(Type)
-	case *XLSheet:
-		res = any(new(XLSheet)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -1255,22 +1320,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *DisplaySelection:
-		res = "DisplaySelection"
-	case *XLCell:
-		res = "XLCell"
-	case *XLFile:
-		res = "XLFile"
-	case *XLRow:
-		res = "XLRow"
-	case *XLSheet:
-		res = "XLSheet"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -1284,43 +1335,52 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *DisplaySelection:
-		var rf ReverseField
-		_ = rf
-	case *XLCell:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "XLRow"
-		rf.Fieldname = "Cells"
-		res = append(res, rf)
-		rf.GongstructName = "XLSheet"
-		rf.Fieldname = "SheetCells"
-		res = append(res, rf)
-	case *XLFile:
-		var rf ReverseField
-		_ = rf
-	case *XLRow:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "XLSheet"
-		rf.Fieldname = "Rows"
-		res = append(res, rf)
-	case *XLSheet:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "XLFile"
-		rf.Fieldname = "Sheets"
-		res = append(res, rf)
+// insertion point for generic get reverse fields
+func (*DisplaySelection) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
 	}
-	return
+}
+
+func (*XLCell) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "XLRow",
+			Fieldname: "Cells",
+		},
+		{
+			GongstructName: "XLSheet",
+			Fieldname: "SheetCells",
+		},
+	}
+}
+
+func (*XLFile) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*XLRow) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "XLSheet",
+			Fieldname: "Rows",
+		},
+	}
+}
+
+func (*XLSheet) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "XLFile",
+			Fieldname: "Sheets",
+		},
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

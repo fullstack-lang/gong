@@ -484,41 +484,276 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*GongBasicField) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GongBasicFields, stage.GongBasicField_stagedOrder)
+}
+
+func (*GongBasicField) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GongBasicField_orderStaged[order]
+}
+
+func (*GongBasicField) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GongBasicFields_mapString
+}
+
+func (*GongBasicField) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GongBasicFields
+}
+
+func (*GongBasicField) GongNewInstance() any {
+	return new(GongBasicField)
+}
+
+func (*GongEnum) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GongEnums, stage.GongEnum_stagedOrder)
+}
+
+func (*GongEnum) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GongEnum_orderStaged[order]
+}
+
+func (*GongEnum) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GongEnums_mapString
+}
+
+func (*GongEnum) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GongEnums
+}
+
+func (*GongEnum) GongNewInstance() any {
+	return new(GongEnum)
+}
+
+func (*GongEnumValue) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GongEnumValues, stage.GongEnumValue_stagedOrder)
+}
+
+func (*GongEnumValue) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GongEnumValue_orderStaged[order]
+}
+
+func (*GongEnumValue) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GongEnumValues_mapString
+}
+
+func (*GongEnumValue) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GongEnumValues
+}
+
+func (*GongEnumValue) GongNewInstance() any {
+	return new(GongEnumValue)
+}
+
+func (*GongLink) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GongLinks, stage.GongLink_stagedOrder)
+}
+
+func (*GongLink) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GongLink_orderStaged[order]
+}
+
+func (*GongLink) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GongLinks_mapString
+}
+
+func (*GongLink) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GongLinks
+}
+
+func (*GongLink) GongNewInstance() any {
+	return new(GongLink)
+}
+
+func (*GongNote) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GongNotes, stage.GongNote_stagedOrder)
+}
+
+func (*GongNote) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GongNote_orderStaged[order]
+}
+
+func (*GongNote) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GongNotes_mapString
+}
+
+func (*GongNote) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GongNotes
+}
+
+func (*GongNote) GongNewInstance() any {
+	return new(GongNote)
+}
+
+func (*GongStruct) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GongStructs, stage.GongStruct_stagedOrder)
+}
+
+func (*GongStruct) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GongStruct_orderStaged[order]
+}
+
+func (*GongStruct) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GongStructs_mapString
+}
+
+func (*GongStruct) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GongStructs
+}
+
+func (*GongStruct) GongNewInstance() any {
+	return new(GongStruct)
+}
+
+func (*GongTimeField) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GongTimeFields, stage.GongTimeField_stagedOrder)
+}
+
+func (*GongTimeField) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GongTimeField_orderStaged[order]
+}
+
+func (*GongTimeField) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GongTimeFields_mapString
+}
+
+func (*GongTimeField) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GongTimeFields
+}
+
+func (*GongTimeField) GongNewInstance() any {
+	return new(GongTimeField)
+}
+
+func (*MetaReference) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MetaReferences, stage.MetaReference_stagedOrder)
+}
+
+func (*MetaReference) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MetaReference_orderStaged[order]
+}
+
+func (*MetaReference) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MetaReferences_mapString
+}
+
+func (*MetaReference) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MetaReferences
+}
+
+func (*MetaReference) GongNewInstance() any {
+	return new(MetaReference)
+}
+
+func (*ModelPkg) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ModelPkgs, stage.ModelPkg_stagedOrder)
+}
+
+func (*ModelPkg) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ModelPkg_orderStaged[order]
+}
+
+func (*ModelPkg) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ModelPkgs_mapString
+}
+
+func (*ModelPkg) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ModelPkgs
+}
+
+func (*ModelPkg) GongNewInstance() any {
+	return new(ModelPkg)
+}
+
+func (*PointerToGongStructField) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PointerToGongStructFields, stage.PointerToGongStructField_stagedOrder)
+}
+
+func (*PointerToGongStructField) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PointerToGongStructField_orderStaged[order]
+}
+
+func (*PointerToGongStructField) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PointerToGongStructFields_mapString
+}
+
+func (*PointerToGongStructField) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PointerToGongStructFields
+}
+
+func (*PointerToGongStructField) GongNewInstance() any {
+	return new(PointerToGongStructField)
+}
+
+func (*SliceOfPointerToGongStructField) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructField_stagedOrder)
+}
+
+func (*SliceOfPointerToGongStructField) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SliceOfPointerToGongStructField_orderStaged[order]
+}
+
+func (*SliceOfPointerToGongStructField) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SliceOfPointerToGongStructFields_mapString
+}
+
+func (*SliceOfPointerToGongStructField) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SliceOfPointerToGongStructFields
+}
+
+func (*SliceOfPointerToGongStructField) GongNewInstance() any {
+	return new(SliceOfPointerToGongStructField)
+}
+
+func (*StageSetField) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StageSetFields, stage.StageSetField_stagedOrder)
+}
+
+func (*StageSetField) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StageSetField_orderStaged[order]
+}
+
+func (*StageSetField) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StageSetFields_mapString
+}
+
+func (*StageSetField) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StageSetFields
+}
+
+func (*StageSetField) GongNewInstance() any {
+	return new(StageSetField)
+}
+
+func (*StageSetModel) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StageSetModels, stage.StageSetModel_stagedOrder)
+}
+
+func (*StageSetModel) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StageSetModel_orderStaged[order]
+}
+
+func (*StageSetModel) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StageSetModels_mapString
+}
+
+func (*StageSetModel) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StageSetModels
+}
+
+func (*StageSetModel) GongNewInstance() any {
+	return new(StageSetModel)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *GongBasicField:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongBasicFields, stage.GongBasicField_stagedOrder))
-	case *GongEnum:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongEnums, stage.GongEnum_stagedOrder))
-	case *GongEnumValue:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongEnumValues, stage.GongEnumValue_stagedOrder))
-	case *GongLink:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongLinks, stage.GongLink_stagedOrder))
-	case *GongNote:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongNotes, stage.GongNote_stagedOrder))
-	case *GongStruct:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongStructs, stage.GongStruct_stagedOrder))
-	case *GongTimeField:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GongTimeFields, stage.GongTimeField_stagedOrder))
-	case *MetaReference:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MetaReferences, stage.MetaReference_stagedOrder))
-	case *ModelPkg:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ModelPkgs, stage.ModelPkg_stagedOrder))
-	case *PointerToGongStructField:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PointerToGongStructFields, stage.PointerToGongStructField_stagedOrder))
-	case *SliceOfPointerToGongStructField:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructField_stagedOrder))
-	case *StageSetField:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StageSetFields, stage.StageSetField_stagedOrder))
-	case *StageSetModel:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StageSetModels, stage.StageSetModel_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -837,38 +1072,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *GongBasicField:
-		return any(stage.GongBasicField_orderStaged[order]).(Type)
-	case *GongEnum:
-		return any(stage.GongEnum_orderStaged[order]).(Type)
-	case *GongEnumValue:
-		return any(stage.GongEnumValue_orderStaged[order]).(Type)
-	case *GongLink:
-		return any(stage.GongLink_orderStaged[order]).(Type)
-	case *GongNote:
-		return any(stage.GongNote_orderStaged[order]).(Type)
-	case *GongStruct:
-		return any(stage.GongStruct_orderStaged[order]).(Type)
-	case *GongTimeField:
-		return any(stage.GongTimeField_orderStaged[order]).(Type)
-	case *MetaReference:
-		return any(stage.MetaReference_orderStaged[order]).(Type)
-	case *ModelPkg:
-		return any(stage.ModelPkg_orderStaged[order]).(Type)
-	case *PointerToGongStructField:
-		return any(stage.PointerToGongStructField_orderStaged[order]).(Type)
-	case *SliceOfPointerToGongStructField:
-		return any(stage.SliceOfPointerToGongStructField_orderStaged[order]).(Type)
-	case *StageSetField:
-		return any(stage.StageSetField_orderStaged[order]).(Type)
-	case *StageSetModel:
-		return any(stage.StageSetModel_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -1535,7 +1747,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -1567,6 +1781,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -1598,121 +1819,106 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *GongBasicField:
-		return any(stage.GongBasicFields_mapString).(map[string]Type)
-	case *GongEnum:
-		return any(stage.GongEnums_mapString).(map[string]Type)
-	case *GongEnumValue:
-		return any(stage.GongEnumValues_mapString).(map[string]Type)
-	case *GongLink:
-		return any(stage.GongLinks_mapString).(map[string]Type)
-	case *GongNote:
-		return any(stage.GongNotes_mapString).(map[string]Type)
-	case *GongStruct:
-		return any(stage.GongStructs_mapString).(map[string]Type)
-	case *GongTimeField:
-		return any(stage.GongTimeFields_mapString).(map[string]Type)
-	case *MetaReference:
-		return any(stage.MetaReferences_mapString).(map[string]Type)
-	case *ModelPkg:
-		return any(stage.ModelPkgs_mapString).(map[string]Type)
-	case *PointerToGongStructField:
-		return any(stage.PointerToGongStructFields_mapString).(map[string]Type)
-	case *SliceOfPointerToGongStructField:
-		return any(stage.SliceOfPointerToGongStructFields_mapString).(map[string]Type)
-	case *StageSetField:
-		return any(stage.StageSetFields_mapString).(map[string]Type)
-	case *StageSetModel:
-		return any(stage.StageSetModels_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *GongBasicField:
-		return any(&stage.GongBasicFields).(*map[Type]struct{})
-	case *GongEnum:
-		return any(&stage.GongEnums).(*map[Type]struct{})
-	case *GongEnumValue:
-		return any(&stage.GongEnumValues).(*map[Type]struct{})
-	case *GongLink:
-		return any(&stage.GongLinks).(*map[Type]struct{})
-	case *GongNote:
-		return any(&stage.GongNotes).(*map[Type]struct{})
-	case *GongStruct:
-		return any(&stage.GongStructs).(*map[Type]struct{})
-	case *GongTimeField:
-		return any(&stage.GongTimeFields).(*map[Type]struct{})
-	case *MetaReference:
-		return any(&stage.MetaReferences).(*map[Type]struct{})
-	case *ModelPkg:
-		return any(&stage.ModelPkgs).(*map[Type]struct{})
-	case *PointerToGongStructField:
-		return any(&stage.PointerToGongStructFields).(*map[Type]struct{})
-	case *SliceOfPointerToGongStructField:
-		return any(&stage.SliceOfPointerToGongStructFields).(*map[Type]struct{})
-	case *StageSetField:
-		return any(&stage.StageSetFields).(*map[Type]struct{})
-	case *StageSetModel:
-		return any(&stage.StageSetModels).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
+
+// insertion point for instance with special fields
+func (GongBasicField) GongGetAssociationName() any {
+	return &GongBasicField{
+			GongEnum: &GongEnum{Name: "GongEnum"},
+	}
+}
+
+func (GongEnum) GongGetAssociationName() any {
+	return &GongEnum{
+			GongEnumValues: []*GongEnumValue{{Name: "GongEnumValues"}},
+	}
+}
+
+func (GongEnumValue) GongGetAssociationName() any {
+	return &GongEnumValue{
+	}
+}
+
+func (GongLink) GongGetAssociationName() any {
+	return &GongLink{
+	}
+}
+
+func (GongNote) GongGetAssociationName() any {
+	return &GongNote{
+			Links: []*GongLink{{Name: "Links"}},
+	}
+}
+
+func (GongStruct) GongGetAssociationName() any {
+	return &GongStruct{
+			GongBasicFields: []*GongBasicField{{Name: "GongBasicFields"}},
+			GongTimeFields: []*GongTimeField{{Name: "GongTimeFields"}},
+			PointerToGongStructFields: []*PointerToGongStructField{{Name: "PointerToGongStructFields"}},
+			SliceOfPointerToGongStructFields: []*SliceOfPointerToGongStructField{{Name: "SliceOfPointerToGongStructFields"}},
+	}
+}
+
+func (GongTimeField) GongGetAssociationName() any {
+	return &GongTimeField{
+	}
+}
+
+func (MetaReference) GongGetAssociationName() any {
+	return &MetaReference{
+	}
+}
+
+func (ModelPkg) GongGetAssociationName() any {
+	return &ModelPkg{
+	}
+}
+
+func (PointerToGongStructField) GongGetAssociationName() any {
+	return &PointerToGongStructField{
+			GongStruct: &GongStruct{Name: "GongStruct"},
+	}
+}
+
+func (SliceOfPointerToGongStructField) GongGetAssociationName() any {
+	return &SliceOfPointerToGongStructField{
+			GongStruct: &GongStruct{Name: "GongStruct"},
+	}
+}
+
+func (StageSetField) GongGetAssociationName() any {
+	return &StageSetField{
+	}
+}
+
+func (StageSetModel) GongGetAssociationName() any {
+	return &StageSetModel{
+			Fields: []*StageSetField{{Name: "Fields"}},
+	}
+}
+
 
 // GongGetAssociationName is a generic function that returns an instance of Type
 // where each association is filled with an instance whose name is the name of the association
 //
 // This function can be handy for generating navigation function that are refactorable
 func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case GongBasicField:
-		return any(&GongBasicField{
-			GongEnum: &GongEnum{Name: "GongEnum"},
-		}).(*Type)
-	case GongEnum:
-		return any(&GongEnum{
-			GongEnumValues: []*GongEnumValue{{Name: "GongEnumValues"}},
-		}).(*Type)
-	case GongNote:
-		return any(&GongNote{
-			Links: []*GongLink{{Name: "Links"}},
-		}).(*Type)
-	case GongStruct:
-		return any(&GongStruct{
-			GongBasicFields: []*GongBasicField{{Name: "GongBasicFields"}},
-			GongTimeFields: []*GongTimeField{{Name: "GongTimeFields"}},
-			PointerToGongStructFields: []*PointerToGongStructField{{Name: "PointerToGongStructFields"}},
-			SliceOfPointerToGongStructFields: []*SliceOfPointerToGongStructField{{Name: "SliceOfPointerToGongStructFields"}},
-		}).(*Type)
-	case PointerToGongStructField:
-		return any(&PointerToGongStructField{
-			GongStruct: &GongStruct{Name: "GongStruct"},
-		}).(*Type)
-	case SliceOfPointerToGongStructField:
-		return any(&SliceOfPointerToGongStructField{
-			GongStruct: &GongStruct{Name: "GongStruct"},
-		}).(*Type)
-	case StageSetModel:
-		return any(&StageSetModel{
-			Fields: []*StageSetField{{Name: "Fields"}},
-		}).(*Type)
-	default:
-		return &ret
-	}
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -1981,38 +2187,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *GongBasicField:
-		res = any(new(GongBasicField)).(Type)
-	case *GongEnum:
-		res = any(new(GongEnum)).(Type)
-	case *GongEnumValue:
-		res = any(new(GongEnumValue)).(Type)
-	case *GongLink:
-		res = any(new(GongLink)).(Type)
-	case *GongNote:
-		res = any(new(GongNote)).(Type)
-	case *GongStruct:
-		res = any(new(GongStruct)).(Type)
-	case *GongTimeField:
-		res = any(new(GongTimeField)).(Type)
-	case *MetaReference:
-		res = any(new(MetaReference)).(Type)
-	case *ModelPkg:
-		res = any(new(ModelPkg)).(Type)
-	case *PointerToGongStructField:
-		res = any(new(PointerToGongStructField)).(Type)
-	case *SliceOfPointerToGongStructField:
-		res = any(new(SliceOfPointerToGongStructField)).(Type)
-	case *StageSetField:
-		res = any(new(StageSetField)).(Type)
-	case *StageSetModel:
-		res = any(new(StageSetModel)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -2035,38 +2211,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *GongBasicField:
-		res = "GongBasicField"
-	case *GongEnum:
-		res = "GongEnum"
-	case *GongEnumValue:
-		res = "GongEnumValue"
-	case *GongLink:
-		res = "GongLink"
-	case *GongNote:
-		res = "GongNote"
-	case *GongStruct:
-		res = "GongStruct"
-	case *GongTimeField:
-		res = "GongTimeField"
-	case *MetaReference:
-		res = "MetaReference"
-	case *ModelPkg:
-		res = "ModelPkg"
-	case *PointerToGongStructField:
-		res = "PointerToGongStructField"
-	case *SliceOfPointerToGongStructField:
-		res = "SliceOfPointerToGongStructField"
-	case *StageSetField:
-		res = "StageSetField"
-	case *StageSetModel:
-		res = "StageSetModel"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -2080,76 +2226,104 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *GongBasicField:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GongStruct"
-		rf.Fieldname = "GongBasicFields"
-		res = append(res, rf)
-	case *GongEnum:
-		var rf ReverseField
-		_ = rf
-	case *GongEnumValue:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GongEnum"
-		rf.Fieldname = "GongEnumValues"
-		res = append(res, rf)
-	case *GongLink:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GongNote"
-		rf.Fieldname = "Links"
-		res = append(res, rf)
-	case *GongNote:
-		var rf ReverseField
-		_ = rf
-	case *GongStruct:
-		var rf ReverseField
-		_ = rf
-	case *GongTimeField:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GongStruct"
-		rf.Fieldname = "GongTimeFields"
-		res = append(res, rf)
-	case *MetaReference:
-		var rf ReverseField
-		_ = rf
-	case *ModelPkg:
-		var rf ReverseField
-		_ = rf
-	case *PointerToGongStructField:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GongStruct"
-		rf.Fieldname = "PointerToGongStructFields"
-		res = append(res, rf)
-	case *SliceOfPointerToGongStructField:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GongStruct"
-		rf.Fieldname = "SliceOfPointerToGongStructFields"
-		res = append(res, rf)
-	case *StageSetField:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StageSetModel"
-		rf.Fieldname = "Fields"
-		res = append(res, rf)
-	case *StageSetModel:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*GongBasicField) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GongStruct",
+			Fieldname: "GongBasicFields",
+		},
 	}
-	return
+}
+
+func (*GongEnum) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*GongEnumValue) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GongEnum",
+			Fieldname: "GongEnumValues",
+		},
+	}
+}
+
+func (*GongLink) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GongNote",
+			Fieldname: "Links",
+		},
+	}
+}
+
+func (*GongNote) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*GongStruct) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*GongTimeField) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GongStruct",
+			Fieldname: "GongTimeFields",
+		},
+	}
+}
+
+func (*MetaReference) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ModelPkg) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PointerToGongStructField) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GongStruct",
+			Fieldname: "PointerToGongStructFields",
+		},
+	}
+}
+
+func (*SliceOfPointerToGongStructField) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GongStruct",
+			Fieldname: "SliceOfPointerToGongStructFields",
+		},
+	}
+}
+
+func (*StageSetField) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StageSetModel",
+			Fieldname: "Fields",
+		},
+	}
+}
+
+func (*StageSetModel) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

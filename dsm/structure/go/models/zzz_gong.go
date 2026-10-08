@@ -820,67 +820,536 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*AllocatedResourceShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.AllocatedResourceShapes, stage.AllocatedResourceShape_stagedOrder)
+}
+
+func (*AllocatedResourceShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.AllocatedResourceShape_orderStaged[order]
+}
+
+func (*AllocatedResourceShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.AllocatedResourceShapes_mapString
+}
+
+func (*AllocatedResourceShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.AllocatedResourceShapes
+}
+
+func (*AllocatedResourceShape) GongNewInstance() any {
+	return new(AllocatedResourceShape)
+}
+
+func (*AllocatedSystemShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.AllocatedSystemShapes, stage.AllocatedSystemShape_stagedOrder)
+}
+
+func (*AllocatedSystemShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.AllocatedSystemShape_orderStaged[order]
+}
+
+func (*AllocatedSystemShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.AllocatedSystemShapes_mapString
+}
+
+func (*AllocatedSystemShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.AllocatedSystemShapes
+}
+
+func (*AllocatedSystemShape) GongNewInstance() any {
+	return new(AllocatedSystemShape)
+}
+
+func (*ControlFlow) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ControlFlows, stage.ControlFlow_stagedOrder)
+}
+
+func (*ControlFlow) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ControlFlow_orderStaged[order]
+}
+
+func (*ControlFlow) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ControlFlows_mapString
+}
+
+func (*ControlFlow) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ControlFlows
+}
+
+func (*ControlFlow) GongNewInstance() any {
+	return new(ControlFlow)
+}
+
+func (*ControlFlowShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ControlFlowShapes, stage.ControlFlowShape_stagedOrder)
+}
+
+func (*ControlFlowShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ControlFlowShape_orderStaged[order]
+}
+
+func (*ControlFlowShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ControlFlowShapes_mapString
+}
+
+func (*ControlFlowShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ControlFlowShapes
+}
+
+func (*ControlFlowShape) GongNewInstance() any {
+	return new(ControlFlowShape)
+}
+
+func (*Data) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Datas, stage.Data_stagedOrder)
+}
+
+func (*Data) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Data_orderStaged[order]
+}
+
+func (*Data) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Datas_mapString
+}
+
+func (*Data) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Datas
+}
+
+func (*Data) GongNewInstance() any {
+	return new(Data)
+}
+
+func (*DataFlow) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DataFlows, stage.DataFlow_stagedOrder)
+}
+
+func (*DataFlow) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DataFlow_orderStaged[order]
+}
+
+func (*DataFlow) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DataFlows_mapString
+}
+
+func (*DataFlow) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DataFlows
+}
+
+func (*DataFlow) GongNewInstance() any {
+	return new(DataFlow)
+}
+
+func (*DataFlowShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DataFlowShapes, stage.DataFlowShape_stagedOrder)
+}
+
+func (*DataFlowShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DataFlowShape_orderStaged[order]
+}
+
+func (*DataFlowShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DataFlowShapes_mapString
+}
+
+func (*DataFlowShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DataFlowShapes
+}
+
+func (*DataFlowShape) GongNewInstance() any {
+	return new(DataFlowShape)
+}
+
+func (*DataShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DataShapes, stage.DataShape_stagedOrder)
+}
+
+func (*DataShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DataShape_orderStaged[order]
+}
+
+func (*DataShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DataShapes_mapString
+}
+
+func (*DataShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DataShapes
+}
+
+func (*DataShape) GongNewInstance() any {
+	return new(DataShape)
+}
+
+func (*DiagramLayerState) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DiagramLayerStates, stage.DiagramLayerState_stagedOrder)
+}
+
+func (*DiagramLayerState) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DiagramLayerState_orderStaged[order]
+}
+
+func (*DiagramLayerState) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DiagramLayerStates_mapString
+}
+
+func (*DiagramLayerState) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DiagramLayerStates
+}
+
+func (*DiagramLayerState) GongNewInstance() any {
+	return new(DiagramLayerState)
+}
+
+func (*DiagramStructure) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DiagramStructures, stage.DiagramStructure_stagedOrder)
+}
+
+func (*DiagramStructure) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DiagramStructure_orderStaged[order]
+}
+
+func (*DiagramStructure) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DiagramStructures_mapString
+}
+
+func (*DiagramStructure) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DiagramStructures
+}
+
+func (*DiagramStructure) GongNewInstance() any {
+	return new(DiagramStructure)
+}
+
+func (*ExternalPartShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ExternalPartShapes, stage.ExternalPartShape_stagedOrder)
+}
+
+func (*ExternalPartShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ExternalPartShape_orderStaged[order]
+}
+
+func (*ExternalPartShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ExternalPartShapes_mapString
+}
+
+func (*ExternalPartShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ExternalPartShapes
+}
+
+func (*ExternalPartShape) GongNewInstance() any {
+	return new(ExternalPartShape)
+}
+
+func (*LayerDefinition) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.LayerDefinitions, stage.LayerDefinition_stagedOrder)
+}
+
+func (*LayerDefinition) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.LayerDefinition_orderStaged[order]
+}
+
+func (*LayerDefinition) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.LayerDefinitions_mapString
+}
+
+func (*LayerDefinition) GongGetInstancesSet(stage *Stage) any {
+	return &stage.LayerDefinitions
+}
+
+func (*LayerDefinition) GongNewInstance() any {
+	return new(LayerDefinition)
+}
+
+func (*Library) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
+}
+
+func (*Library) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Library_orderStaged[order]
+}
+
+func (*Library) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Librarys_mapString
+}
+
+func (*Library) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Librarys
+}
+
+func (*Library) GongNewInstance() any {
+	return new(Library)
+}
+
+func (*Note) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
+}
+
+func (*Note) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Note_orderStaged[order]
+}
+
+func (*Note) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Notes_mapString
+}
+
+func (*Note) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Notes
+}
+
+func (*Note) GongNewInstance() any {
+	return new(Note)
+}
+
+func (*NotePartShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NotePartShapes, stage.NotePartShape_stagedOrder)
+}
+
+func (*NotePartShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NotePartShape_orderStaged[order]
+}
+
+func (*NotePartShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NotePartShapes_mapString
+}
+
+func (*NotePartShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NotePartShapes
+}
+
+func (*NotePartShape) GongNewInstance() any {
+	return new(NotePartShape)
+}
+
+func (*NotePortShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NotePortShapes, stage.NotePortShape_stagedOrder)
+}
+
+func (*NotePortShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NotePortShape_orderStaged[order]
+}
+
+func (*NotePortShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NotePortShapes_mapString
+}
+
+func (*NotePortShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NotePortShapes
+}
+
+func (*NotePortShape) GongNewInstance() any {
+	return new(NotePortShape)
+}
+
+func (*NoteShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder)
+}
+
+func (*NoteShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NoteShape_orderStaged[order]
+}
+
+func (*NoteShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NoteShapes_mapString
+}
+
+func (*NoteShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NoteShapes
+}
+
+func (*NoteShape) GongNewInstance() any {
+	return new(NoteShape)
+}
+
+func (*Part) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Parts, stage.Part_stagedOrder)
+}
+
+func (*Part) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Part_orderStaged[order]
+}
+
+func (*Part) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Parts_mapString
+}
+
+func (*Part) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Parts
+}
+
+func (*Part) GongNewInstance() any {
+	return new(Part)
+}
+
+func (*PartAnchoredPath) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartAnchoredPaths, stage.PartAnchoredPath_stagedOrder)
+}
+
+func (*PartAnchoredPath) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartAnchoredPath_orderStaged[order]
+}
+
+func (*PartAnchoredPath) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartAnchoredPaths_mapString
+}
+
+func (*PartAnchoredPath) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartAnchoredPaths
+}
+
+func (*PartAnchoredPath) GongNewInstance() any {
+	return new(PartAnchoredPath)
+}
+
+func (*PartShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartShapes, stage.PartShape_stagedOrder)
+}
+
+func (*PartShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartShape_orderStaged[order]
+}
+
+func (*PartShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartShapes_mapString
+}
+
+func (*PartShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartShapes
+}
+
+func (*PartShape) GongNewInstance() any {
+	return new(PartShape)
+}
+
+func (*Port) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Ports, stage.Port_stagedOrder)
+}
+
+func (*Port) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Port_orderStaged[order]
+}
+
+func (*Port) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Ports_mapString
+}
+
+func (*Port) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Ports
+}
+
+func (*Port) GongNewInstance() any {
+	return new(Port)
+}
+
+func (*PortShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PortShapes, stage.PortShape_stagedOrder)
+}
+
+func (*PortShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PortShape_orderStaged[order]
+}
+
+func (*PortShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PortShapes_mapString
+}
+
+func (*PortShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PortShapes
+}
+
+func (*PortShape) GongNewInstance() any {
+	return new(PortShape)
+}
+
+func (*Resource) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Resources, stage.Resource_stagedOrder)
+}
+
+func (*Resource) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Resource_orderStaged[order]
+}
+
+func (*Resource) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Resources_mapString
+}
+
+func (*Resource) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Resources
+}
+
+func (*Resource) GongNewInstance() any {
+	return new(Resource)
+}
+
+func (*SemanticTag) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SemanticTags, stage.SemanticTag_stagedOrder)
+}
+
+func (*SemanticTag) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SemanticTag_orderStaged[order]
+}
+
+func (*SemanticTag) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SemanticTags_mapString
+}
+
+func (*SemanticTag) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SemanticTags
+}
+
+func (*SemanticTag) GongNewInstance() any {
+	return new(SemanticTag)
+}
+
+func (*System) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Systems, stage.System_stagedOrder)
+}
+
+func (*System) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.System_orderStaged[order]
+}
+
+func (*System) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Systems_mapString
+}
+
+func (*System) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Systems
+}
+
+func (*System) GongNewInstance() any {
+	return new(System)
+}
+
+func (*SystemShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SystemShapes, stage.SystemShape_stagedOrder)
+}
+
+func (*SystemShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SystemShape_orderStaged[order]
+}
+
+func (*SystemShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SystemShapes_mapString
+}
+
+func (*SystemShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SystemShapes
+}
+
+func (*SystemShape) GongNewInstance() any {
+	return new(SystemShape)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *AllocatedResourceShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.AllocatedResourceShapes, stage.AllocatedResourceShape_stagedOrder))
-	case *AllocatedSystemShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.AllocatedSystemShapes, stage.AllocatedSystemShape_stagedOrder))
-	case *ControlFlow:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ControlFlows, stage.ControlFlow_stagedOrder))
-	case *ControlFlowShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ControlFlowShapes, stage.ControlFlowShape_stagedOrder))
-	case *Data:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Datas, stage.Data_stagedOrder))
-	case *DataFlow:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DataFlows, stage.DataFlow_stagedOrder))
-	case *DataFlowShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DataFlowShapes, stage.DataFlowShape_stagedOrder))
-	case *DataShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DataShapes, stage.DataShape_stagedOrder))
-	case *DiagramLayerState:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DiagramLayerStates, stage.DiagramLayerState_stagedOrder))
-	case *DiagramStructure:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DiagramStructures, stage.DiagramStructure_stagedOrder))
-	case *ExternalPartShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ExternalPartShapes, stage.ExternalPartShape_stagedOrder))
-	case *LayerDefinition:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.LayerDefinitions, stage.LayerDefinition_stagedOrder))
-	case *Library:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder))
-	case *Note:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder))
-	case *NotePartShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NotePartShapes, stage.NotePartShape_stagedOrder))
-	case *NotePortShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NotePortShapes, stage.NotePortShape_stagedOrder))
-	case *NoteShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder))
-	case *Part:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Parts, stage.Part_stagedOrder))
-	case *PartAnchoredPath:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartAnchoredPaths, stage.PartAnchoredPath_stagedOrder))
-	case *PartShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartShapes, stage.PartShape_stagedOrder))
-	case *Port:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Ports, stage.Port_stagedOrder))
-	case *PortShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PortShapes, stage.PortShape_stagedOrder))
-	case *Resource:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Resources, stage.Resource_stagedOrder))
-	case *SemanticTag:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SemanticTags, stage.SemanticTag_stagedOrder))
-	case *System:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Systems, stage.System_stagedOrder))
-	case *SystemShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SystemShapes, stage.SystemShape_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -1316,64 +1785,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *AllocatedResourceShape:
-		return any(stage.AllocatedResourceShape_orderStaged[order]).(Type)
-	case *AllocatedSystemShape:
-		return any(stage.AllocatedSystemShape_orderStaged[order]).(Type)
-	case *ControlFlow:
-		return any(stage.ControlFlow_orderStaged[order]).(Type)
-	case *ControlFlowShape:
-		return any(stage.ControlFlowShape_orderStaged[order]).(Type)
-	case *Data:
-		return any(stage.Data_orderStaged[order]).(Type)
-	case *DataFlow:
-		return any(stage.DataFlow_orderStaged[order]).(Type)
-	case *DataFlowShape:
-		return any(stage.DataFlowShape_orderStaged[order]).(Type)
-	case *DataShape:
-		return any(stage.DataShape_orderStaged[order]).(Type)
-	case *DiagramLayerState:
-		return any(stage.DiagramLayerState_orderStaged[order]).(Type)
-	case *DiagramStructure:
-		return any(stage.DiagramStructure_orderStaged[order]).(Type)
-	case *ExternalPartShape:
-		return any(stage.ExternalPartShape_orderStaged[order]).(Type)
-	case *LayerDefinition:
-		return any(stage.LayerDefinition_orderStaged[order]).(Type)
-	case *Library:
-		return any(stage.Library_orderStaged[order]).(Type)
-	case *Note:
-		return any(stage.Note_orderStaged[order]).(Type)
-	case *NotePartShape:
-		return any(stage.NotePartShape_orderStaged[order]).(Type)
-	case *NotePortShape:
-		return any(stage.NotePortShape_orderStaged[order]).(Type)
-	case *NoteShape:
-		return any(stage.NoteShape_orderStaged[order]).(Type)
-	case *Part:
-		return any(stage.Part_orderStaged[order]).(Type)
-	case *PartAnchoredPath:
-		return any(stage.PartAnchoredPath_orderStaged[order]).(Type)
-	case *PartShape:
-		return any(stage.PartShape_orderStaged[order]).(Type)
-	case *Port:
-		return any(stage.Port_orderStaged[order]).(Type)
-	case *PortShape:
-		return any(stage.PortShape_orderStaged[order]).(Type)
-	case *Resource:
-		return any(stage.Resource_orderStaged[order]).(Type)
-	case *SemanticTag:
-		return any(stage.SemanticTag_orderStaged[order]).(Type)
-	case *System:
-		return any(stage.System_orderStaged[order]).(Type)
-	case *SystemShape:
-		return any(stage.SystemShape_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -2599,7 +3019,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -2631,6 +3053,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -2662,182 +3091,87 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *AllocatedResourceShape:
-		return any(stage.AllocatedResourceShapes_mapString).(map[string]Type)
-	case *AllocatedSystemShape:
-		return any(stage.AllocatedSystemShapes_mapString).(map[string]Type)
-	case *ControlFlow:
-		return any(stage.ControlFlows_mapString).(map[string]Type)
-	case *ControlFlowShape:
-		return any(stage.ControlFlowShapes_mapString).(map[string]Type)
-	case *Data:
-		return any(stage.Datas_mapString).(map[string]Type)
-	case *DataFlow:
-		return any(stage.DataFlows_mapString).(map[string]Type)
-	case *DataFlowShape:
-		return any(stage.DataFlowShapes_mapString).(map[string]Type)
-	case *DataShape:
-		return any(stage.DataShapes_mapString).(map[string]Type)
-	case *DiagramLayerState:
-		return any(stage.DiagramLayerStates_mapString).(map[string]Type)
-	case *DiagramStructure:
-		return any(stage.DiagramStructures_mapString).(map[string]Type)
-	case *ExternalPartShape:
-		return any(stage.ExternalPartShapes_mapString).(map[string]Type)
-	case *LayerDefinition:
-		return any(stage.LayerDefinitions_mapString).(map[string]Type)
-	case *Library:
-		return any(stage.Librarys_mapString).(map[string]Type)
-	case *Note:
-		return any(stage.Notes_mapString).(map[string]Type)
-	case *NotePartShape:
-		return any(stage.NotePartShapes_mapString).(map[string]Type)
-	case *NotePortShape:
-		return any(stage.NotePortShapes_mapString).(map[string]Type)
-	case *NoteShape:
-		return any(stage.NoteShapes_mapString).(map[string]Type)
-	case *Part:
-		return any(stage.Parts_mapString).(map[string]Type)
-	case *PartAnchoredPath:
-		return any(stage.PartAnchoredPaths_mapString).(map[string]Type)
-	case *PartShape:
-		return any(stage.PartShapes_mapString).(map[string]Type)
-	case *Port:
-		return any(stage.Ports_mapString).(map[string]Type)
-	case *PortShape:
-		return any(stage.PortShapes_mapString).(map[string]Type)
-	case *Resource:
-		return any(stage.Resources_mapString).(map[string]Type)
-	case *SemanticTag:
-		return any(stage.SemanticTags_mapString).(map[string]Type)
-	case *System:
-		return any(stage.Systems_mapString).(map[string]Type)
-	case *SystemShape:
-		return any(stage.SystemShapes_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *AllocatedResourceShape:
-		return any(&stage.AllocatedResourceShapes).(*map[Type]struct{})
-	case *AllocatedSystemShape:
-		return any(&stage.AllocatedSystemShapes).(*map[Type]struct{})
-	case *ControlFlow:
-		return any(&stage.ControlFlows).(*map[Type]struct{})
-	case *ControlFlowShape:
-		return any(&stage.ControlFlowShapes).(*map[Type]struct{})
-	case *Data:
-		return any(&stage.Datas).(*map[Type]struct{})
-	case *DataFlow:
-		return any(&stage.DataFlows).(*map[Type]struct{})
-	case *DataFlowShape:
-		return any(&stage.DataFlowShapes).(*map[Type]struct{})
-	case *DataShape:
-		return any(&stage.DataShapes).(*map[Type]struct{})
-	case *DiagramLayerState:
-		return any(&stage.DiagramLayerStates).(*map[Type]struct{})
-	case *DiagramStructure:
-		return any(&stage.DiagramStructures).(*map[Type]struct{})
-	case *ExternalPartShape:
-		return any(&stage.ExternalPartShapes).(*map[Type]struct{})
-	case *LayerDefinition:
-		return any(&stage.LayerDefinitions).(*map[Type]struct{})
-	case *Library:
-		return any(&stage.Librarys).(*map[Type]struct{})
-	case *Note:
-		return any(&stage.Notes).(*map[Type]struct{})
-	case *NotePartShape:
-		return any(&stage.NotePartShapes).(*map[Type]struct{})
-	case *NotePortShape:
-		return any(&stage.NotePortShapes).(*map[Type]struct{})
-	case *NoteShape:
-		return any(&stage.NoteShapes).(*map[Type]struct{})
-	case *Part:
-		return any(&stage.Parts).(*map[Type]struct{})
-	case *PartAnchoredPath:
-		return any(&stage.PartAnchoredPaths).(*map[Type]struct{})
-	case *PartShape:
-		return any(&stage.PartShapes).(*map[Type]struct{})
-	case *Port:
-		return any(&stage.Ports).(*map[Type]struct{})
-	case *PortShape:
-		return any(&stage.PortShapes).(*map[Type]struct{})
-	case *Resource:
-		return any(&stage.Resources).(*map[Type]struct{})
-	case *SemanticTag:
-		return any(&stage.SemanticTags).(*map[Type]struct{})
-	case *System:
-		return any(&stage.Systems).(*map[Type]struct{})
-	case *SystemShape:
-		return any(&stage.SystemShapes).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
+	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
+}
+
+// insertion point for instance with special fields
+func (AllocatedResourceShape) GongGetAssociationName() any {
+	return &AllocatedResourceShape{
+			Part: &Part{Name: "Part"},
+			Resource: &Resource{Name: "Resource"},
 	}
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case AllocatedResourceShape:
-		return any(&AllocatedResourceShape{
-			Part: &Part{Name: "Part"},
-			Resource: &Resource{Name: "Resource"},
-		}).(*Type)
-	case AllocatedSystemShape:
-		return any(&AllocatedSystemShape{
+func (AllocatedSystemShape) GongGetAssociationName() any {
+	return &AllocatedSystemShape{
 			Part: &Part{Name: "Part"},
 			System: &System{Name: "System"},
-		}).(*Type)
-	case ControlFlow:
-		return any(&ControlFlow{
+	}
+}
+
+func (ControlFlow) GongGetAssociationName() any {
+	return &ControlFlow{
 			Start: &Port{Name: "Start"},
 			End: &Port{Name: "End"},
-		}).(*Type)
-	case ControlFlowShape:
-		return any(&ControlFlowShape{
+	}
+}
+
+func (ControlFlowShape) GongGetAssociationName() any {
+	return &ControlFlowShape{
 			ControlFlow: &ControlFlow{Name: "ControlFlow"},
-		}).(*Type)
-	case DataFlow:
-		return any(&DataFlow{
+	}
+}
+
+func (Data) GongGetAssociationName() any {
+	return &Data{
+	}
+}
+
+func (DataFlow) GongGetAssociationName() any {
+	return &DataFlow{
 			StartPort: &Port{Name: "StartPort"},
 			EndPort: &Port{Name: "EndPort"},
 			StartExternalPart: &Part{Name: "StartExternalPart"},
 			EndExternalPart: &Part{Name: "EndExternalPart"},
 			Datas: []*Data{{Name: "Datas"}},
-		}).(*Type)
-	case DataFlowShape:
-		return any(&DataFlowShape{
+	}
+}
+
+func (DataFlowShape) GongGetAssociationName() any {
+	return &DataFlowShape{
 			DataFlow: &DataFlow{Name: "DataFlow"},
-		}).(*Type)
-	case DataShape:
-		return any(&DataShape{
+	}
+}
+
+func (DataShape) GongGetAssociationName() any {
+	return &DataShape{
 			Data: &Data{Name: "Data"},
 			DataFlow: &DataFlow{Name: "DataFlow"},
-		}).(*Type)
-	case DiagramLayerState:
-		return any(&DiagramLayerState{
+	}
+}
+
+func (DiagramLayerState) GongGetAssociationName() any {
+	return &DiagramLayerState{
 			DiagramStructure: &DiagramStructure{Name: "DiagramStructure"},
 			LayerDefinition: &LayerDefinition{Name: "LayerDefinition"},
-		}).(*Type)
-	case DiagramStructure:
-		return any(&DiagramStructure{
+	}
+}
+
+func (DiagramStructure) GongGetAssociationName() any {
+	return &DiagramStructure{
 			System_Shapes: []*SystemShape{{Name: "System_Shapes"}},
 			SystemsWhoseNodeIsExpanded: []*System{{Name: "SystemsWhoseNodeIsExpanded"}},
 			Part_Shapes: []*PartShape{{Name: "Part_Shapes"}},
@@ -2863,17 +3197,23 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
 			NotePortShapes: []*NotePortShape{{Name: "NotePortShapes"}},
 			NotePartShapes: []*NotePartShape{{Name: "NotePartShapes"}},
-		}).(*Type)
-	case ExternalPartShape:
-		return any(&ExternalPartShape{
+	}
+}
+
+func (ExternalPartShape) GongGetAssociationName() any {
+	return &ExternalPartShape{
 			Part: &Part{Name: "Part"},
-		}).(*Type)
-	case LayerDefinition:
-		return any(&LayerDefinition{
+	}
+}
+
+func (LayerDefinition) GongGetAssociationName() any {
+	return &LayerDefinition{
 			Query: []*SemanticTag{{Name: "Query"}},
-		}).(*Type)
-	case Library:
-		return any(&Library{
+	}
+}
+
+func (Library) GongGetAssociationName() any {
+	return &Library{
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
 			RootSystemes: []*System{{Name: "RootSystemes"}},
@@ -2887,28 +3227,38 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			PartsWhoseNodeIsExpanded: []*Part{{Name: "PartsWhoseNodeIsExpanded"}},
 			RootNotes: []*Note{{Name: "RootNotes"}},
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
-		}).(*Type)
-	case Note:
-		return any(&Note{
+	}
+}
+
+func (Note) GongGetAssociationName() any {
+	return &Note{
 			Parts: []*Part{{Name: "Parts"}},
 			Ports: []*Port{{Name: "Ports"}},
-		}).(*Type)
-	case NotePartShape:
-		return any(&NotePartShape{
+	}
+}
+
+func (NotePartShape) GongGetAssociationName() any {
+	return &NotePartShape{
 			Note: &Note{Name: "Note"},
 			Part: &Part{Name: "Part"},
-		}).(*Type)
-	case NotePortShape:
-		return any(&NotePortShape{
+	}
+}
+
+func (NotePortShape) GongGetAssociationName() any {
+	return &NotePortShape{
 			Note: &Note{Name: "Note"},
 			Port: &Port{Name: "Port"},
-		}).(*Type)
-	case NoteShape:
-		return any(&NoteShape{
+	}
+}
+
+func (NoteShape) GongGetAssociationName() any {
+	return &NoteShape{
 			Note: &Note{Name: "Note"},
-		}).(*Type)
-	case Part:
-		return any(&Part{
+	}
+}
+
+func (Part) GongGetAssociationName() any {
+	return &Part{
 			Ports: []*Port{{Name: "Ports"}},
 			TypeOfPart: &System{Name: "TypeOfPart"},
 			ControlFlows: []*ControlFlow{{Name: "ControlFlows"}},
@@ -2917,21 +3267,44 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			PortWhoseOutDataFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseOutDataFlowsNodeIsExpanded"}},
 			PortWhoseInDataFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseInDataFlowsNodeIsExpanded"}},
 			PartAnchoredPath: []*PartAnchoredPath{{Name: "PartAnchoredPath"}},
-		}).(*Type)
-	case PartShape:
-		return any(&PartShape{
+	}
+}
+
+func (PartAnchoredPath) GongGetAssociationName() any {
+	return &PartAnchoredPath{
+	}
+}
+
+func (PartShape) GongGetAssociationName() any {
+	return &PartShape{
 			Part: &Part{Name: "Part"},
-		}).(*Type)
-	case PortShape:
-		return any(&PortShape{
+	}
+}
+
+func (Port) GongGetAssociationName() any {
+	return &Port{
+	}
+}
+
+func (PortShape) GongGetAssociationName() any {
+	return &PortShape{
 			Port: &Port{Name: "Port"},
-		}).(*Type)
-	case SemanticTag:
-		return any(&SemanticTag{
+	}
+}
+
+func (Resource) GongGetAssociationName() any {
+	return &Resource{
+	}
+}
+
+func (SemanticTag) GongGetAssociationName() any {
+	return &SemanticTag{
 			Parts: []*Part{{Name: "Parts"}},
-		}).(*Type)
-	case System:
-		return any(&System{
+	}
+}
+
+func (System) GongGetAssociationName() any {
+	return &System{
 			DiagramStructures: []*DiagramStructure{{Name: "DiagramStructures"}},
 			DiagramStructureWhoseNodeIsExpanded: []*DiagramStructure{{Name: "DiagramStructureWhoseNodeIsExpanded"}},
 			SubSystemes: []*System{{Name: "SubSystemes"}},
@@ -2940,14 +3313,23 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			DataFlows: []*DataFlow{{Name: "DataFlows"}},
 			ExternalParts: []*Part{{Name: "ExternalParts"}},
 			ExternalPartWhoseNodeIsExpanded: []*Part{{Name: "ExternalPartWhoseNodeIsExpanded"}},
-		}).(*Type)
-	case SystemShape:
-		return any(&SystemShape{
-			System: &System{Name: "System"},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+func (SystemShape) GongGetAssociationName() any {
+	return &SystemShape{
+			System: &System{Name: "System"},
+	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -4145,64 +4527,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *AllocatedResourceShape:
-		res = any(new(AllocatedResourceShape)).(Type)
-	case *AllocatedSystemShape:
-		res = any(new(AllocatedSystemShape)).(Type)
-	case *ControlFlow:
-		res = any(new(ControlFlow)).(Type)
-	case *ControlFlowShape:
-		res = any(new(ControlFlowShape)).(Type)
-	case *Data:
-		res = any(new(Data)).(Type)
-	case *DataFlow:
-		res = any(new(DataFlow)).(Type)
-	case *DataFlowShape:
-		res = any(new(DataFlowShape)).(Type)
-	case *DataShape:
-		res = any(new(DataShape)).(Type)
-	case *DiagramLayerState:
-		res = any(new(DiagramLayerState)).(Type)
-	case *DiagramStructure:
-		res = any(new(DiagramStructure)).(Type)
-	case *ExternalPartShape:
-		res = any(new(ExternalPartShape)).(Type)
-	case *LayerDefinition:
-		res = any(new(LayerDefinition)).(Type)
-	case *Library:
-		res = any(new(Library)).(Type)
-	case *Note:
-		res = any(new(Note)).(Type)
-	case *NotePartShape:
-		res = any(new(NotePartShape)).(Type)
-	case *NotePortShape:
-		res = any(new(NotePortShape)).(Type)
-	case *NoteShape:
-		res = any(new(NoteShape)).(Type)
-	case *Part:
-		res = any(new(Part)).(Type)
-	case *PartAnchoredPath:
-		res = any(new(PartAnchoredPath)).(Type)
-	case *PartShape:
-		res = any(new(PartShape)).(Type)
-	case *Port:
-		res = any(new(Port)).(Type)
-	case *PortShape:
-		res = any(new(PortShape)).(Type)
-	case *Resource:
-		res = any(new(Resource)).(Type)
-	case *SemanticTag:
-		res = any(new(SemanticTag)).(Type)
-	case *System:
-		res = any(new(System)).(Type)
-	case *SystemShape:
-		res = any(new(SystemShape)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -4225,64 +4551,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *AllocatedResourceShape:
-		res = "AllocatedResourceShape"
-	case *AllocatedSystemShape:
-		res = "AllocatedSystemShape"
-	case *ControlFlow:
-		res = "ControlFlow"
-	case *ControlFlowShape:
-		res = "ControlFlowShape"
-	case *Data:
-		res = "Data"
-	case *DataFlow:
-		res = "DataFlow"
-	case *DataFlowShape:
-		res = "DataFlowShape"
-	case *DataShape:
-		res = "DataShape"
-	case *DiagramLayerState:
-		res = "DiagramLayerState"
-	case *DiagramStructure:
-		res = "DiagramStructure"
-	case *ExternalPartShape:
-		res = "ExternalPartShape"
-	case *LayerDefinition:
-		res = "LayerDefinition"
-	case *Library:
-		res = "Library"
-	case *Note:
-		res = "Note"
-	case *NotePartShape:
-		res = "NotePartShape"
-	case *NotePortShape:
-		res = "NotePortShape"
-	case *NoteShape:
-		res = "NoteShape"
-	case *Part:
-		res = "Part"
-	case *PartAnchoredPath:
-		res = "PartAnchoredPath"
-	case *PartShape:
-		res = "PartShape"
-	case *Port:
-		res = "Port"
-	case *PortShape:
-		res = "PortShape"
-	case *Resource:
-		res = "Resource"
-	case *SemanticTag:
-		res = "SemanticTag"
-	case *System:
-		res = "System"
-	case *SystemShape:
-		res = "SystemShape"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -4296,268 +4566,373 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *AllocatedResourceShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "AllocatedResourceShapes"
-		res = append(res, rf)
-	case *AllocatedSystemShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "AllocatedSystemShapes"
-		res = append(res, rf)
-	case *ControlFlow:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "ControlFlowsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Part"
-		rf.Fieldname = "ControlFlows"
-		res = append(res, rf)
-	case *ControlFlowShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "ControlFlow_Shapes"
-		res = append(res, rf)
-	case *Data:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DataFlow"
-		rf.Fieldname = "Datas"
-		res = append(res, rf)
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "DatasWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootDatas"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "DatasWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *DataFlow:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "DataFlowsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "DataFlowsWhoseDataNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootDataFlows"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "DataFlowsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "DataFlows"
-		res = append(res, rf)
-	case *DataFlowShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "DataFlow_Shapes"
-		res = append(res, rf)
-	case *DataShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "Data_Shapes"
-		res = append(res, rf)
-	case *DiagramLayerState:
-		var rf ReverseField
-		_ = rf
-	case *DiagramStructure:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "System"
-		rf.Fieldname = "DiagramStructures"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "DiagramStructureWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *ExternalPartShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "ExternalPart_Shapes"
-		res = append(res, rf)
-	case *LayerDefinition:
-		var rf ReverseField
-		_ = rf
-	case *Library:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "SubLibraries"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "SubLibrariesWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *Note:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "NotesWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootNotes"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "NotesWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *NotePartShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "NotePartShapes"
-		res = append(res, rf)
-	case *NotePortShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "NotePortShapes"
-		res = append(res, rf)
-	case *NoteShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "Note_Shapes"
-		res = append(res, rf)
-	case *Part:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "PartWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "ExternalPartWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "ExternalPartsWhoseOutDataFlowsNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "ExternalPartsWhoseInDataFlowsNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "PartsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Parts"
-		res = append(res, rf)
-		rf.GongstructName = "SemanticTag"
-		rf.Fieldname = "Parts"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "Parts"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "PartWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "ExternalParts"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "ExternalPartWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *PartAnchoredPath:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Part"
-		rf.Fieldname = "PartAnchoredPath"
-		res = append(res, rf)
-	case *PartShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "Part_Shapes"
-		res = append(res, rf)
-	case *Port:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "PortsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Ports"
-		res = append(res, rf)
-		rf.GongstructName = "Part"
-		rf.Fieldname = "Ports"
-		res = append(res, rf)
-		rf.GongstructName = "Part"
-		rf.Fieldname = "PortWhoseOutControlFlowsNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Part"
-		rf.Fieldname = "PortWhoseInControlFlowsNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Part"
-		rf.Fieldname = "PortWhoseOutDataFlowsNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Part"
-		rf.Fieldname = "PortWhoseInDataFlowsNodeIsExpanded"
-		res = append(res, rf)
-	case *PortShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "Port_Shapes"
-		res = append(res, rf)
-	case *Resource:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "AllocatedResourcesWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootResources"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "ResourcesWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *SemanticTag:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "LayerDefinition"
-		rf.Fieldname = "Query"
-		res = append(res, rf)
-	case *System:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "SystemsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "AllocatedSystemesWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootSystemes"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "SystemsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "SubSystemes"
-		res = append(res, rf)
-	case *SystemShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramStructure"
-		rf.Fieldname = "System_Shapes"
-		res = append(res, rf)
+// insertion point for generic get reverse fields
+func (*AllocatedResourceShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "AllocatedResourceShapes",
+		},
 	}
-	return
+}
+
+func (*AllocatedSystemShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "AllocatedSystemShapes",
+		},
+	}
+}
+
+func (*ControlFlow) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "ControlFlowsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Part",
+			Fieldname: "ControlFlows",
+		},
+	}
+}
+
+func (*ControlFlowShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "ControlFlow_Shapes",
+		},
+	}
+}
+
+func (*Data) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DataFlow",
+			Fieldname: "Datas",
+		},
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "DatasWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootDatas",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "DatasWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*DataFlow) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "DataFlowsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "DataFlowsWhoseDataNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootDataFlows",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "DataFlowsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "DataFlows",
+		},
+	}
+}
+
+func (*DataFlowShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "DataFlow_Shapes",
+		},
+	}
+}
+
+func (*DataShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "Data_Shapes",
+		},
+	}
+}
+
+func (*DiagramLayerState) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*DiagramStructure) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "System",
+			Fieldname: "DiagramStructures",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "DiagramStructureWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*ExternalPartShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "ExternalPart_Shapes",
+		},
+	}
+}
+
+func (*LayerDefinition) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Library) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "SubLibraries",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "SubLibrariesWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*Note) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "NotesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootNotes",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "NotesWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*NotePartShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "NotePartShapes",
+		},
+	}
+}
+
+func (*NotePortShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "NotePortShapes",
+		},
+	}
+}
+
+func (*NoteShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "Note_Shapes",
+		},
+	}
+}
+
+func (*Part) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "PartWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "ExternalPartWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "ExternalPartsWhoseOutDataFlowsNodeIsExpanded",
+		},
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "ExternalPartsWhoseInDataFlowsNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "PartsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Note",
+			Fieldname: "Parts",
+		},
+		{
+			GongstructName: "SemanticTag",
+			Fieldname: "Parts",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "Parts",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "PartWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "ExternalParts",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "ExternalPartWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*PartAnchoredPath) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Part",
+			Fieldname: "PartAnchoredPath",
+		},
+	}
+}
+
+func (*PartShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "Part_Shapes",
+		},
+	}
+}
+
+func (*Port) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "PortsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Note",
+			Fieldname: "Ports",
+		},
+		{
+			GongstructName: "Part",
+			Fieldname: "Ports",
+		},
+		{
+			GongstructName: "Part",
+			Fieldname: "PortWhoseOutControlFlowsNodeIsExpanded",
+		},
+		{
+			GongstructName: "Part",
+			Fieldname: "PortWhoseInControlFlowsNodeIsExpanded",
+		},
+		{
+			GongstructName: "Part",
+			Fieldname: "PortWhoseOutDataFlowsNodeIsExpanded",
+		},
+		{
+			GongstructName: "Part",
+			Fieldname: "PortWhoseInDataFlowsNodeIsExpanded",
+		},
+	}
+}
+
+func (*PortShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "Port_Shapes",
+		},
+	}
+}
+
+func (*Resource) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "AllocatedResourcesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootResources",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "ResourcesWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*SemanticTag) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "LayerDefinition",
+			Fieldname: "Query",
+		},
+	}
+}
+
+func (*System) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "SystemsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "AllocatedSystemesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootSystemes",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "SystemsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "SubSystemes",
+		},
+	}
+}
+
+func (*SystemShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "System_Shapes",
+		},
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

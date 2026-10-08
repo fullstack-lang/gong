@@ -35,7 +35,6 @@ func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 		stage.OnAfterCameraUpdateCallback = new(CameraOrchestrator)
 	case Canvas:
 		stage.OnAfterCanvasUpdateCallback = new(CanvasOrchestrator)
-
 	}
 
 }

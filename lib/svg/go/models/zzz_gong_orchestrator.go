@@ -113,7 +113,6 @@ func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 		stage.OnAfterSVGUpdateCallback = new(SVGOrchestrator)
 	case SvgText:
 		stage.OnAfterSvgTextUpdateCallback = new(SvgTextOrchestrator)
-
 	}
 
 }

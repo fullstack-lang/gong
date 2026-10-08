@@ -334,25 +334,116 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*Button) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Buttons, stage.Button_stagedOrder)
+}
+
+func (*Button) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Button_orderStaged[order]
+}
+
+func (*Button) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Buttons_mapString
+}
+
+func (*Button) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Buttons
+}
+
+func (*Button) GongNewInstance() any {
+	return new(Button)
+}
+
+func (*Menu) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Menus, stage.Menu_stagedOrder)
+}
+
+func (*Menu) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Menu_orderStaged[order]
+}
+
+func (*Menu) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Menus_mapString
+}
+
+func (*Menu) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Menus
+}
+
+func (*Menu) GongNewInstance() any {
+	return new(Menu)
+}
+
+func (*Node) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Nodes, stage.Node_stagedOrder)
+}
+
+func (*Node) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Node_orderStaged[order]
+}
+
+func (*Node) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Nodes_mapString
+}
+
+func (*Node) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Nodes
+}
+
+func (*Node) GongNewInstance() any {
+	return new(Node)
+}
+
+func (*SVGIcon) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SVGIcons, stage.SVGIcon_stagedOrder)
+}
+
+func (*SVGIcon) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SVGIcon_orderStaged[order]
+}
+
+func (*SVGIcon) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SVGIcons_mapString
+}
+
+func (*SVGIcon) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SVGIcons
+}
+
+func (*SVGIcon) GongNewInstance() any {
+	return new(SVGIcon)
+}
+
+func (*Tree) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Trees, stage.Tree_stagedOrder)
+}
+
+func (*Tree) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tree_orderStaged[order]
+}
+
+func (*Tree) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Trees_mapString
+}
+
+func (*Tree) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Trees
+}
+
+func (*Tree) GongNewInstance() any {
+	return new(Tree)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *Button:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Buttons, stage.Button_stagedOrder))
-	case *Menu:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Menus, stage.Menu_stagedOrder))
-	case *Node:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Nodes, stage.Node_stagedOrder))
-	case *SVGIcon:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SVGIcons, stage.SVGIcon_stagedOrder))
-	case *Tree:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Trees, stage.Tree_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -599,22 +690,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *Button:
-		return any(stage.Button_orderStaged[order]).(Type)
-	case *Menu:
-		return any(stage.Menu_orderStaged[order]).(Type)
-	case *Node:
-		return any(stage.Node_orderStaged[order]).(Type)
-	case *SVGIcon:
-		return any(stage.SVGIcon_orderStaged[order]).(Type)
-	case *Tree:
-		return any(stage.Tree_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -937,7 +1021,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -969,6 +1055,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -1000,77 +1093,63 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Button:
-		return any(stage.Buttons_mapString).(map[string]Type)
-	case *Menu:
-		return any(stage.Menus_mapString).(map[string]Type)
-	case *Node:
-		return any(stage.Nodes_mapString).(map[string]Type)
-	case *SVGIcon:
-		return any(stage.SVGIcons_mapString).(map[string]Type)
-	case *Tree:
-		return any(stage.Trees_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Button:
-		return any(&stage.Buttons).(*map[Type]struct{})
-	case *Menu:
-		return any(&stage.Menus).(*map[Type]struct{})
-	case *Node:
-		return any(&stage.Nodes).(*map[Type]struct{})
-	case *SVGIcon:
-		return any(&stage.SVGIcons).(*map[Type]struct{})
-	case *Tree:
-		return any(&stage.Trees).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
+
+// insertion point for instance with special fields
+func (Button) GongGetAssociationName() any {
+	return &Button{
+			SVGIcon: &SVGIcon{Name: "SVGIcon"},
+	}
+}
+
+func (Menu) GongGetAssociationName() any {
+	return &Menu{
+			Buttons: []*Button{{Name: "Buttons"}},
+	}
+}
+
+func (Node) GongGetAssociationName() any {
+	return &Node{
+			PreceedingSVGIcon: &SVGIcon{Name: "PreceedingSVGIcon"},
+			Children: []*Node{{Name: "Children"}},
+			Buttons: []*Button{{Name: "Buttons"}},
+			Menu: &Menu{Name: "Menu"},
+	}
+}
+
+func (SVGIcon) GongGetAssociationName() any {
+	return &SVGIcon{
+	}
+}
+
+func (Tree) GongGetAssociationName() any {
+	return &Tree{
+			RootNodes: []*Node{{Name: "RootNodes"}},
+	}
+}
+
 
 // GongGetAssociationName is a generic function that returns an instance of Type
 // where each association is filled with an instance whose name is the name of the association
 //
 // This function can be handy for generating navigation function that are refactorable
 func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case Button:
-		return any(&Button{
-			SVGIcon: &SVGIcon{Name: "SVGIcon"},
-		}).(*Type)
-	case Menu:
-		return any(&Menu{
-			Buttons: []*Button{{Name: "Buttons"}},
-		}).(*Type)
-	case Node:
-		return any(&Node{
-			PreceedingSVGIcon: &SVGIcon{Name: "PreceedingSVGIcon"},
-			Children: []*Node{{Name: "Children"}},
-			Buttons: []*Button{{Name: "Buttons"}},
-			Menu: &Menu{Name: "Menu"},
-		}).(*Type)
-	case Tree:
-		return any(&Tree{
-			RootNodes: []*Node{{Name: "RootNodes"}},
-		}).(*Type)
-	default:
-		return &ret
-	}
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -1235,22 +1314,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *Button:
-		res = any(new(Button)).(Type)
-	case *Menu:
-		res = any(new(Menu)).(Type)
-	case *Node:
-		res = any(new(Node)).(Type)
-	case *SVGIcon:
-		res = any(new(SVGIcon)).(Type)
-	case *Tree:
-		res = any(new(Tree)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -1273,22 +1338,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *Button:
-		res = "Button"
-	case *Menu:
-		res = "Menu"
-	case *Node:
-		res = "Node"
-	case *SVGIcon:
-		res = "SVGIcon"
-	case *Tree:
-		res = "Tree"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -1302,43 +1353,52 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *Button:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Menu"
-		rf.Fieldname = "Buttons"
-		res = append(res, rf)
-		rf.GongstructName = "Node"
-		rf.Fieldname = "Buttons"
-		res = append(res, rf)
-	case *Menu:
-		var rf ReverseField
-		_ = rf
-	case *Node:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Node"
-		rf.Fieldname = "Children"
-		res = append(res, rf)
-		rf.GongstructName = "Tree"
-		rf.Fieldname = "RootNodes"
-		res = append(res, rf)
-	case *SVGIcon:
-		var rf ReverseField
-		_ = rf
-	case *Tree:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*Button) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Menu",
+			Fieldname: "Buttons",
+		},
+		{
+			GongstructName: "Node",
+			Fieldname: "Buttons",
+		},
 	}
-	return
+}
+
+func (*Menu) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Node) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Node",
+			Fieldname: "Children",
+		},
+		{
+			GongstructName: "Tree",
+			Fieldname: "RootNodes",
+		},
+	}
+}
+
+func (*SVGIcon) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Tree) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

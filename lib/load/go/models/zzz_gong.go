@@ -290,21 +290,76 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*FileToDownload) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FileToDownloads, stage.FileToDownload_stagedOrder)
+}
+
+func (*FileToDownload) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FileToDownload_orderStaged[order]
+}
+
+func (*FileToDownload) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FileToDownloads_mapString
+}
+
+func (*FileToDownload) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FileToDownloads
+}
+
+func (*FileToDownload) GongNewInstance() any {
+	return new(FileToDownload)
+}
+
+func (*FileToUpload) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FileToUploads, stage.FileToUpload_stagedOrder)
+}
+
+func (*FileToUpload) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FileToUpload_orderStaged[order]
+}
+
+func (*FileToUpload) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FileToUploads_mapString
+}
+
+func (*FileToUpload) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FileToUploads
+}
+
+func (*FileToUpload) GongNewInstance() any {
+	return new(FileToUpload)
+}
+
+func (*Message) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Messages, stage.Message_stagedOrder)
+}
+
+func (*Message) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Message_orderStaged[order]
+}
+
+func (*Message) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Messages_mapString
+}
+
+func (*Message) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Messages
+}
+
+func (*Message) GongNewInstance() any {
+	return new(Message)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *FileToDownload:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FileToDownloads, stage.FileToDownload_stagedOrder))
-	case *FileToUpload:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FileToUploads, stage.FileToUpload_stagedOrder))
-	case *Message:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Messages, stage.Message_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -533,18 +588,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *FileToDownload:
-		return any(stage.FileToDownload_orderStaged[order]).(Type)
-	case *FileToUpload:
-		return any(stage.FileToUpload_orderStaged[order]).(Type)
-	case *Message:
-		return any(stage.Message_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -781,7 +833,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -813,6 +867,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -844,50 +905,46 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *FileToDownload:
-		return any(stage.FileToDownloads_mapString).(map[string]Type)
-	case *FileToUpload:
-		return any(stage.FileToUploads_mapString).(map[string]Type)
-	case *Message:
-		return any(stage.Messages_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *FileToDownload:
-		return any(&stage.FileToDownloads).(*map[Type]struct{})
-	case *FileToUpload:
-		return any(&stage.FileToUploads).(*map[Type]struct{})
-	case *Message:
-		return any(&stage.Messages).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
+
+// insertion point for instance with special fields
+func (FileToDownload) GongGetAssociationName() any {
+	return &FileToDownload{
+	}
+}
+
+func (FileToUpload) GongGetAssociationName() any {
+	return &FileToUpload{
+	}
+}
+
+func (Message) GongGetAssociationName() any {
+	return &Message{
+	}
+}
+
 
 // GongGetAssociationName is a generic function that returns an instance of Type
 // where each association is filled with an instance whose name is the name of the association
 //
 // This function can be handy for generating navigation function that are refactorable
 func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	default:
-		return &ret
-	}
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -949,18 +1006,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *FileToDownload:
-		res = any(new(FileToDownload)).(Type)
-	case *FileToUpload:
-		res = any(new(FileToUpload)).(Type)
-	case *Message:
-		res = any(new(Message)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -983,18 +1030,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *FileToDownload:
-		res = "FileToDownload"
-	case *FileToUpload:
-		res = "FileToUpload"
-	case *Message:
-		res = "Message"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -1008,25 +1045,26 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *FileToDownload:
-		var rf ReverseField
-		_ = rf
-	case *FileToUpload:
-		var rf ReverseField
-		_ = rf
-	case *Message:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*FileToDownload) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
 	}
-	return
+}
+
+func (*FileToUpload) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Message) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

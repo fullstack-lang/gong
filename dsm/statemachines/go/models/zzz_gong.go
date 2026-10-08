@@ -606,51 +606,376 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*Action) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Actions, stage.Action_stagedOrder)
+}
+
+func (*Action) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Action_orderStaged[order]
+}
+
+func (*Action) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Actions_mapString
+}
+
+func (*Action) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Actions
+}
+
+func (*Action) GongNewInstance() any {
+	return new(Action)
+}
+
+func (*Activities) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Activitiess, stage.Activities_stagedOrder)
+}
+
+func (*Activities) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Activities_orderStaged[order]
+}
+
+func (*Activities) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Activitiess_mapString
+}
+
+func (*Activities) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Activitiess
+}
+
+func (*Activities) GongNewInstance() any {
+	return new(Activities)
+}
+
+func (*Diagram) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
+}
+
+func (*Diagram) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Diagram_orderStaged[order]
+}
+
+func (*Diagram) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Diagrams_mapString
+}
+
+func (*Diagram) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Diagrams
+}
+
+func (*Diagram) GongNewInstance() any {
+	return new(Diagram)
+}
+
+func (*Guard) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Guards, stage.Guard_stagedOrder)
+}
+
+func (*Guard) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Guard_orderStaged[order]
+}
+
+func (*Guard) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Guards_mapString
+}
+
+func (*Guard) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Guards
+}
+
+func (*Guard) GongNewInstance() any {
+	return new(Guard)
+}
+
+func (*Kill) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Kills, stage.Kill_stagedOrder)
+}
+
+func (*Kill) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Kill_orderStaged[order]
+}
+
+func (*Kill) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Kills_mapString
+}
+
+func (*Kill) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Kills
+}
+
+func (*Kill) GongNewInstance() any {
+	return new(Kill)
+}
+
+func (*Library) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
+}
+
+func (*Library) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Library_orderStaged[order]
+}
+
+func (*Library) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Librarys_mapString
+}
+
+func (*Library) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Librarys
+}
+
+func (*Library) GongNewInstance() any {
+	return new(Library)
+}
+
+func (*Message) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Messages, stage.Message_stagedOrder)
+}
+
+func (*Message) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Message_orderStaged[order]
+}
+
+func (*Message) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Messages_mapString
+}
+
+func (*Message) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Messages
+}
+
+func (*Message) GongNewInstance() any {
+	return new(Message)
+}
+
+func (*MessageType) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MessageTypes, stage.MessageType_stagedOrder)
+}
+
+func (*MessageType) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MessageType_orderStaged[order]
+}
+
+func (*MessageType) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MessageTypes_mapString
+}
+
+func (*MessageType) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MessageTypes
+}
+
+func (*MessageType) GongNewInstance() any {
+	return new(MessageType)
+}
+
+func (*Note) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
+}
+
+func (*Note) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Note_orderStaged[order]
+}
+
+func (*Note) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Notes_mapString
+}
+
+func (*Note) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Notes
+}
+
+func (*Note) GongNewInstance() any {
+	return new(Note)
+}
+
+func (*NoteShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder)
+}
+
+func (*NoteShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NoteShape_orderStaged[order]
+}
+
+func (*NoteShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NoteShapes_mapString
+}
+
+func (*NoteShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NoteShapes
+}
+
+func (*NoteShape) GongNewInstance() any {
+	return new(NoteShape)
+}
+
+func (*NoteStateShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NoteStateShapes, stage.NoteStateShape_stagedOrder)
+}
+
+func (*NoteStateShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NoteStateShape_orderStaged[order]
+}
+
+func (*NoteStateShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NoteStateShapes_mapString
+}
+
+func (*NoteStateShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NoteStateShapes
+}
+
+func (*NoteStateShape) GongNewInstance() any {
+	return new(NoteStateShape)
+}
+
+func (*Object) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Objects, stage.Object_stagedOrder)
+}
+
+func (*Object) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Object_orderStaged[order]
+}
+
+func (*Object) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Objects_mapString
+}
+
+func (*Object) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Objects
+}
+
+func (*Object) GongNewInstance() any {
+	return new(Object)
+}
+
+func (*Role) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Roles, stage.Role_stagedOrder)
+}
+
+func (*Role) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Role_orderStaged[order]
+}
+
+func (*Role) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Roles_mapString
+}
+
+func (*Role) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Roles
+}
+
+func (*Role) GongNewInstance() any {
+	return new(Role)
+}
+
+func (*State) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.States, stage.State_stagedOrder)
+}
+
+func (*State) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.State_orderStaged[order]
+}
+
+func (*State) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.States_mapString
+}
+
+func (*State) GongGetInstancesSet(stage *Stage) any {
+	return &stage.States
+}
+
+func (*State) GongNewInstance() any {
+	return new(State)
+}
+
+func (*StateMachine) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StateMachines, stage.StateMachine_stagedOrder)
+}
+
+func (*StateMachine) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StateMachine_orderStaged[order]
+}
+
+func (*StateMachine) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StateMachines_mapString
+}
+
+func (*StateMachine) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StateMachines
+}
+
+func (*StateMachine) GongNewInstance() any {
+	return new(StateMachine)
+}
+
+func (*StateShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StateShapes, stage.StateShape_stagedOrder)
+}
+
+func (*StateShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StateShape_orderStaged[order]
+}
+
+func (*StateShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StateShapes_mapString
+}
+
+func (*StateShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StateShapes
+}
+
+func (*StateShape) GongNewInstance() any {
+	return new(StateShape)
+}
+
+func (*Transition) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Transitions, stage.Transition_stagedOrder)
+}
+
+func (*Transition) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Transition_orderStaged[order]
+}
+
+func (*Transition) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Transitions_mapString
+}
+
+func (*Transition) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Transitions
+}
+
+func (*Transition) GongNewInstance() any {
+	return new(Transition)
+}
+
+func (*Transition_Shape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Transition_Shapes, stage.Transition_Shape_stagedOrder)
+}
+
+func (*Transition_Shape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Transition_Shape_orderStaged[order]
+}
+
+func (*Transition_Shape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Transition_Shapes_mapString
+}
+
+func (*Transition_Shape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Transition_Shapes
+}
+
+func (*Transition_Shape) GongNewInstance() any {
+	return new(Transition_Shape)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *Action:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Actions, stage.Action_stagedOrder))
-	case *Activities:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Activitiess, stage.Activities_stagedOrder))
-	case *Diagram:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder))
-	case *Guard:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Guards, stage.Guard_stagedOrder))
-	case *Kill:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Kills, stage.Kill_stagedOrder))
-	case *Library:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder))
-	case *Message:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Messages, stage.Message_stagedOrder))
-	case *MessageType:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MessageTypes, stage.MessageType_stagedOrder))
-	case *Note:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder))
-	case *NoteShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder))
-	case *NoteStateShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteStateShapes, stage.NoteStateShape_stagedOrder))
-	case *Object:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Objects, stage.Object_stagedOrder))
-	case *Role:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Roles, stage.Role_stagedOrder))
-	case *State:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.States, stage.State_stagedOrder))
-	case *StateMachine:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StateMachines, stage.StateMachine_stagedOrder))
-	case *StateShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StateShapes, stage.StateShape_stagedOrder))
-	case *Transition:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Transitions, stage.Transition_stagedOrder))
-	case *Transition_Shape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Transition_Shapes, stage.Transition_Shape_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -1014,48 +1339,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *Action:
-		return any(stage.Action_orderStaged[order]).(Type)
-	case *Activities:
-		return any(stage.Activities_orderStaged[order]).(Type)
-	case *Diagram:
-		return any(stage.Diagram_orderStaged[order]).(Type)
-	case *Guard:
-		return any(stage.Guard_orderStaged[order]).(Type)
-	case *Kill:
-		return any(stage.Kill_orderStaged[order]).(Type)
-	case *Library:
-		return any(stage.Library_orderStaged[order]).(Type)
-	case *Message:
-		return any(stage.Message_orderStaged[order]).(Type)
-	case *MessageType:
-		return any(stage.MessageType_orderStaged[order]).(Type)
-	case *Note:
-		return any(stage.Note_orderStaged[order]).(Type)
-	case *NoteShape:
-		return any(stage.NoteShape_orderStaged[order]).(Type)
-	case *NoteStateShape:
-		return any(stage.NoteStateShape_orderStaged[order]).(Type)
-	case *Object:
-		return any(stage.Object_orderStaged[order]).(Type)
-	case *Role:
-		return any(stage.Role_orderStaged[order]).(Type)
-	case *State:
-		return any(stage.State_orderStaged[order]).(Type)
-	case *StateMachine:
-		return any(stage.StateMachine_orderStaged[order]).(Type)
-	case *StateShape:
-		return any(stage.StateShape_orderStaged[order]).(Type)
-	case *Transition:
-		return any(stage.Transition_orderStaged[order]).(Type)
-	case *Transition_Shape:
-		return any(stage.Transition_Shape_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -1937,7 +2229,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -1969,6 +2263,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -2000,117 +2301,55 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Action:
-		return any(stage.Actions_mapString).(map[string]Type)
-	case *Activities:
-		return any(stage.Activitiess_mapString).(map[string]Type)
-	case *Diagram:
-		return any(stage.Diagrams_mapString).(map[string]Type)
-	case *Guard:
-		return any(stage.Guards_mapString).(map[string]Type)
-	case *Kill:
-		return any(stage.Kills_mapString).(map[string]Type)
-	case *Library:
-		return any(stage.Librarys_mapString).(map[string]Type)
-	case *Message:
-		return any(stage.Messages_mapString).(map[string]Type)
-	case *MessageType:
-		return any(stage.MessageTypes_mapString).(map[string]Type)
-	case *Note:
-		return any(stage.Notes_mapString).(map[string]Type)
-	case *NoteShape:
-		return any(stage.NoteShapes_mapString).(map[string]Type)
-	case *NoteStateShape:
-		return any(stage.NoteStateShapes_mapString).(map[string]Type)
-	case *Object:
-		return any(stage.Objects_mapString).(map[string]Type)
-	case *Role:
-		return any(stage.Roles_mapString).(map[string]Type)
-	case *State:
-		return any(stage.States_mapString).(map[string]Type)
-	case *StateMachine:
-		return any(stage.StateMachines_mapString).(map[string]Type)
-	case *StateShape:
-		return any(stage.StateShapes_mapString).(map[string]Type)
-	case *Transition:
-		return any(stage.Transitions_mapString).(map[string]Type)
-	case *Transition_Shape:
-		return any(stage.Transition_Shapes_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Action:
-		return any(&stage.Actions).(*map[Type]struct{})
-	case *Activities:
-		return any(&stage.Activitiess).(*map[Type]struct{})
-	case *Diagram:
-		return any(&stage.Diagrams).(*map[Type]struct{})
-	case *Guard:
-		return any(&stage.Guards).(*map[Type]struct{})
-	case *Kill:
-		return any(&stage.Kills).(*map[Type]struct{})
-	case *Library:
-		return any(&stage.Librarys).(*map[Type]struct{})
-	case *Message:
-		return any(&stage.Messages).(*map[Type]struct{})
-	case *MessageType:
-		return any(&stage.MessageTypes).(*map[Type]struct{})
-	case *Note:
-		return any(&stage.Notes).(*map[Type]struct{})
-	case *NoteShape:
-		return any(&stage.NoteShapes).(*map[Type]struct{})
-	case *NoteStateShape:
-		return any(&stage.NoteStateShapes).(*map[Type]struct{})
-	case *Object:
-		return any(&stage.Objects).(*map[Type]struct{})
-	case *Role:
-		return any(&stage.Roles).(*map[Type]struct{})
-	case *State:
-		return any(&stage.States).(*map[Type]struct{})
-	case *StateMachine:
-		return any(&stage.StateMachines).(*map[Type]struct{})
-	case *StateShape:
-		return any(&stage.StateShapes).(*map[Type]struct{})
-	case *Transition:
-		return any(&stage.Transitions).(*map[Type]struct{})
-	case *Transition_Shape:
-		return any(&stage.Transition_Shapes).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
+	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
+}
+
+// insertion point for instance with special fields
+func (Action) GongGetAssociationName() any {
+	return &Action{
 	}
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
+func (Activities) GongGetAssociationName() any {
+	return &Activities{
+	}
+}
 
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case Diagram:
-		return any(&Diagram{
+func (Diagram) GongGetAssociationName() any {
+	return &Diagram{
 			State_Shapes: []*StateShape{{Name: "State_Shapes"}},
 			StatesWhoseNodeIsExpanded: []*State{{Name: "StatesWhoseNodeIsExpanded"}},
 			Transition_Shapes: []*Transition_Shape{{Name: "Transition_Shapes"}},
 			Note_Shapes: []*NoteShape{{Name: "Note_Shapes"}},
 			NoteState_Shapes: []*NoteStateShape{{Name: "NoteState_Shapes"}},
-		}).(*Type)
-	case Library:
-		return any(&Library{
+	}
+}
+
+func (Guard) GongGetAssociationName() any {
+	return &Guard{
+	}
+}
+
+func (Kill) GongGetAssociationName() any {
+	return &Kill{
+	}
+}
+
+func (Library) GongGetAssociationName() any {
+	return &Library{
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
 			RootStateMachines: []*StateMachine{{Name: "RootStateMachines"}},
@@ -2118,36 +2357,55 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
 			Roles: []*Role{{Name: "Roles"}},
 			MessageTypes: []*MessageType{{Name: "MessageTypes"}},
-		}).(*Type)
-	case Message:
-		return any(&Message{
+	}
+}
+
+func (Message) GongGetAssociationName() any {
+	return &Message{
 			MessageType: &MessageType{Name: "MessageType"},
 			OriginTransition: &Transition{Name: "OriginTransition"},
-		}).(*Type)
-	case Note:
-		return any(&Note{
+	}
+}
+
+func (MessageType) GongGetAssociationName() any {
+	return &MessageType{
+	}
+}
+
+func (Note) GongGetAssociationName() any {
+	return &Note{
 			State: &State{Name: "State"},
-		}).(*Type)
-	case NoteShape:
-		return any(&NoteShape{
+	}
+}
+
+func (NoteShape) GongGetAssociationName() any {
+	return &NoteShape{
 			Note: &Note{Name: "Note"},
-		}).(*Type)
-	case NoteStateShape:
-		return any(&NoteStateShape{
+	}
+}
+
+func (NoteStateShape) GongGetAssociationName() any {
+	return &NoteStateShape{
 			Note: &Note{Name: "Note"},
 			State: &State{Name: "State"},
-		}).(*Type)
-	case Object:
-		return any(&Object{
+	}
+}
+
+func (Object) GongGetAssociationName() any {
+	return &Object{
 			State: &State{Name: "State"},
 			Messages: []*Message{{Name: "Messages"}},
-		}).(*Type)
-	case Role:
-		return any(&Role{
+	}
+}
+
+func (Role) GongGetAssociationName() any {
+	return &Role{
 			RolesWithSamePermissions: []*Role{{Name: "RolesWithSamePermissions"}},
-		}).(*Type)
-	case State:
-		return any(&State{
+	}
+}
+
+func (State) GongGetAssociationName() any {
+	return &State{
 			SubStates: []*State{{Name: "SubStates"}},
 			Entry: &Action{Name: "Entry"},
 			Activities: []*Activities{{Name: "Activities"}},
@@ -2155,33 +2413,48 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Parent: &State{Name: "Parent"},
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
 			Notes: []*Note{{Name: "Notes"}},
-		}).(*Type)
-	case StateMachine:
-		return any(&StateMachine{
+	}
+}
+
+func (StateMachine) GongGetAssociationName() any {
+	return &StateMachine{
 			InitialState: &State{Name: "InitialState"},
 			States: []*State{{Name: "States"}},
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
-		}).(*Type)
-	case StateShape:
-		return any(&StateShape{
+	}
+}
+
+func (StateShape) GongGetAssociationName() any {
+	return &StateShape{
 			State: &State{Name: "State"},
-		}).(*Type)
-	case Transition:
-		return any(&Transition{
+	}
+}
+
+func (Transition) GongGetAssociationName() any {
+	return &Transition{
 			Start: &State{Name: "Start"},
 			End: &State{Name: "End"},
 			RolesWithPermissions: []*Role{{Name: "RolesWithPermissions"}},
 			GeneratedMessages: []*MessageType{{Name: "GeneratedMessages"}},
 			Guard: &Guard{Name: "Guard"},
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
-		}).(*Type)
-	case Transition_Shape:
-		return any(&Transition_Shape{
-			Transition: &Transition{Name: "Transition"},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+func (Transition_Shape) GongGetAssociationName() any {
+	return &Transition_Shape{
+			Transition: &Transition{Name: "Transition"},
+	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -2849,48 +3122,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *Action:
-		res = any(new(Action)).(Type)
-	case *Activities:
-		res = any(new(Activities)).(Type)
-	case *Diagram:
-		res = any(new(Diagram)).(Type)
-	case *Guard:
-		res = any(new(Guard)).(Type)
-	case *Kill:
-		res = any(new(Kill)).(Type)
-	case *Library:
-		res = any(new(Library)).(Type)
-	case *Message:
-		res = any(new(Message)).(Type)
-	case *MessageType:
-		res = any(new(MessageType)).(Type)
-	case *Note:
-		res = any(new(Note)).(Type)
-	case *NoteShape:
-		res = any(new(NoteShape)).(Type)
-	case *NoteStateShape:
-		res = any(new(NoteStateShape)).(Type)
-	case *Object:
-		res = any(new(Object)).(Type)
-	case *Role:
-		res = any(new(Role)).(Type)
-	case *State:
-		res = any(new(State)).(Type)
-	case *StateMachine:
-		res = any(new(StateMachine)).(Type)
-	case *StateShape:
-		res = any(new(StateShape)).(Type)
-	case *Transition:
-		res = any(new(Transition)).(Type)
-	case *Transition_Shape:
-		res = any(new(Transition_Shape)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -2913,48 +3146,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *Action:
-		res = "Action"
-	case *Activities:
-		res = "Activities"
-	case *Diagram:
-		res = "Diagram"
-	case *Guard:
-		res = "Guard"
-	case *Kill:
-		res = "Kill"
-	case *Library:
-		res = "Library"
-	case *Message:
-		res = "Message"
-	case *MessageType:
-		res = "MessageType"
-	case *Note:
-		res = "Note"
-	case *NoteShape:
-		res = "NoteShape"
-	case *NoteStateShape:
-		res = "NoteStateShape"
-	case *Object:
-		res = "Object"
-	case *Role:
-		res = "Role"
-	case *State:
-		res = "State"
-	case *StateMachine:
-		res = "StateMachine"
-	case *StateShape:
-		res = "StateShape"
-	case *Transition:
-		res = "Transition"
-	case *Transition_Shape:
-		res = "Transition_Shape"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -2968,139 +3161,193 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *Action:
-		var rf ReverseField
-		_ = rf
-	case *Activities:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "State"
-		rf.Fieldname = "Activities"
-		res = append(res, rf)
-	case *Diagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "Diagrams"
-		res = append(res, rf)
-		rf.GongstructName = "State"
-		rf.Fieldname = "Diagrams"
-		res = append(res, rf)
-		rf.GongstructName = "StateMachine"
-		rf.Fieldname = "Diagrams"
-		res = append(res, rf)
-		rf.GongstructName = "Transition"
-		rf.Fieldname = "Diagrams"
-		res = append(res, rf)
-	case *Guard:
-		var rf ReverseField
-		_ = rf
-	case *Kill:
-		var rf ReverseField
-		_ = rf
-	case *Library:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "SubLibraries"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "SubLibrariesWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *Message:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Object"
-		rf.Fieldname = "Messages"
-		res = append(res, rf)
-	case *MessageType:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "MessageTypes"
-		res = append(res, rf)
-		rf.GongstructName = "Transition"
-		rf.Fieldname = "GeneratedMessages"
-		res = append(res, rf)
-	case *Note:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "State"
-		rf.Fieldname = "Notes"
-		res = append(res, rf)
-	case *NoteShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "Note_Shapes"
-		res = append(res, rf)
-	case *NoteStateShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "NoteState_Shapes"
-		res = append(res, rf)
-	case *Object:
-		var rf ReverseField
-		_ = rf
-	case *Role:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "Roles"
-		res = append(res, rf)
-		rf.GongstructName = "Role"
-		rf.Fieldname = "RolesWithSamePermissions"
-		res = append(res, rf)
-		rf.GongstructName = "Transition"
-		rf.Fieldname = "RolesWithPermissions"
-		res = append(res, rf)
-	case *State:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "StatesWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "State"
-		rf.Fieldname = "SubStates"
-		res = append(res, rf)
-		rf.GongstructName = "StateMachine"
-		rf.Fieldname = "States"
-		res = append(res, rf)
-	case *StateMachine:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootStateMachines"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "StateMachinesWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *StateShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "State_Shapes"
-		res = append(res, rf)
-	case *Transition:
-		var rf ReverseField
-		_ = rf
-	case *Transition_Shape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "Transition_Shapes"
-		res = append(res, rf)
+// insertion point for generic get reverse fields
+func (*Action) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
 	}
-	return
+}
+
+func (*Activities) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "State",
+			Fieldname: "Activities",
+		},
+	}
+}
+
+func (*Diagram) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "Diagrams",
+		},
+		{
+			GongstructName: "State",
+			Fieldname: "Diagrams",
+		},
+		{
+			GongstructName: "StateMachine",
+			Fieldname: "Diagrams",
+		},
+		{
+			GongstructName: "Transition",
+			Fieldname: "Diagrams",
+		},
+	}
+}
+
+func (*Guard) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Kill) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Library) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "SubLibraries",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "SubLibrariesWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*Message) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Object",
+			Fieldname: "Messages",
+		},
+	}
+}
+
+func (*MessageType) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "MessageTypes",
+		},
+		{
+			GongstructName: "Transition",
+			Fieldname: "GeneratedMessages",
+		},
+	}
+}
+
+func (*Note) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "State",
+			Fieldname: "Notes",
+		},
+	}
+}
+
+func (*NoteShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "Note_Shapes",
+		},
+	}
+}
+
+func (*NoteStateShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "NoteState_Shapes",
+		},
+	}
+}
+
+func (*Object) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Role) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "Roles",
+		},
+		{
+			GongstructName: "Role",
+			Fieldname: "RolesWithSamePermissions",
+		},
+		{
+			GongstructName: "Transition",
+			Fieldname: "RolesWithPermissions",
+		},
+	}
+}
+
+func (*State) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "StatesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "State",
+			Fieldname: "SubStates",
+		},
+		{
+			GongstructName: "StateMachine",
+			Fieldname: "States",
+		},
+	}
+}
+
+func (*StateMachine) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "RootStateMachines",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "StateMachinesWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*StateShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "State_Shapes",
+		},
+	}
+}
+
+func (*Transition) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Transition_Shape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "Transition_Shapes",
+		},
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

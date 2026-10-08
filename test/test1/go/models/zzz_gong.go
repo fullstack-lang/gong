@@ -378,29 +378,156 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*Astruct) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Astructs, stage.Astruct_stagedOrder)
+}
+
+func (*Astruct) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Astruct_orderStaged[order]
+}
+
+func (*Astruct) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Astructs_mapString
+}
+
+func (*Astruct) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Astructs
+}
+
+func (*Astruct) GongNewInstance() any {
+	return new(Astruct)
+}
+
+func (*AstructBstruct2Use) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.AstructBstruct2Uses, stage.AstructBstruct2Use_stagedOrder)
+}
+
+func (*AstructBstruct2Use) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.AstructBstruct2Use_orderStaged[order]
+}
+
+func (*AstructBstruct2Use) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.AstructBstruct2Uses_mapString
+}
+
+func (*AstructBstruct2Use) GongGetInstancesSet(stage *Stage) any {
+	return &stage.AstructBstruct2Uses
+}
+
+func (*AstructBstruct2Use) GongNewInstance() any {
+	return new(AstructBstruct2Use)
+}
+
+func (*AstructBstructUse) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.AstructBstructUses, stage.AstructBstructUse_stagedOrder)
+}
+
+func (*AstructBstructUse) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.AstructBstructUse_orderStaged[order]
+}
+
+func (*AstructBstructUse) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.AstructBstructUses_mapString
+}
+
+func (*AstructBstructUse) GongGetInstancesSet(stage *Stage) any {
+	return &stage.AstructBstructUses
+}
+
+func (*AstructBstructUse) GongNewInstance() any {
+	return new(AstructBstructUse)
+}
+
+func (*Bstruct) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Bstructs, stage.Bstruct_stagedOrder)
+}
+
+func (*Bstruct) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Bstruct_orderStaged[order]
+}
+
+func (*Bstruct) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Bstructs_mapString
+}
+
+func (*Bstruct) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Bstructs
+}
+
+func (*Bstruct) GongNewInstance() any {
+	return new(Bstruct)
+}
+
+func (*Dstruct) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Dstructs, stage.Dstruct_stagedOrder)
+}
+
+func (*Dstruct) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Dstruct_orderStaged[order]
+}
+
+func (*Dstruct) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Dstructs_mapString
+}
+
+func (*Dstruct) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Dstructs
+}
+
+func (*Dstruct) GongNewInstance() any {
+	return new(Dstruct)
+}
+
+func (*F0123456789012345678901234567890) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.F0123456789012345678901234567890s, stage.F0123456789012345678901234567890_stagedOrder)
+}
+
+func (*F0123456789012345678901234567890) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.F0123456789012345678901234567890_orderStaged[order]
+}
+
+func (*F0123456789012345678901234567890) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.F0123456789012345678901234567890s_mapString
+}
+
+func (*F0123456789012345678901234567890) GongGetInstancesSet(stage *Stage) any {
+	return &stage.F0123456789012345678901234567890s
+}
+
+func (*F0123456789012345678901234567890) GongNewInstance() any {
+	return new(F0123456789012345678901234567890)
+}
+
+func (*Gstruct) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Gstructs, stage.Gstruct_stagedOrder)
+}
+
+func (*Gstruct) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Gstruct_orderStaged[order]
+}
+
+func (*Gstruct) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Gstructs_mapString
+}
+
+func (*Gstruct) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Gstructs
+}
+
+func (*Gstruct) GongNewInstance() any {
+	return new(Gstruct)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *Astruct:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Astructs, stage.Astruct_stagedOrder))
-	case *AstructBstruct2Use:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.AstructBstruct2Uses, stage.AstructBstruct2Use_stagedOrder))
-	case *AstructBstructUse:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.AstructBstructUses, stage.AstructBstructUse_stagedOrder))
-	case *Bstruct:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Bstructs, stage.Bstruct_stagedOrder))
-	case *Dstruct:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Dstructs, stage.Dstruct_stagedOrder))
-	case *F0123456789012345678901234567890:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.F0123456789012345678901234567890s, stage.F0123456789012345678901234567890_stagedOrder))
-	case *Gstruct:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Gstructs, stage.Gstruct_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -665,26 +792,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *Astruct:
-		return any(stage.Astruct_orderStaged[order]).(Type)
-	case *AstructBstruct2Use:
-		return any(stage.AstructBstruct2Use_orderStaged[order]).(Type)
-	case *AstructBstructUse:
-		return any(stage.AstructBstructUse_orderStaged[order]).(Type)
-	case *Bstruct:
-		return any(stage.Bstruct_orderStaged[order]).(Type)
-	case *Dstruct:
-		return any(stage.Dstruct_orderStaged[order]).(Type)
-	case *F0123456789012345678901234567890:
-		return any(stage.F0123456789012345678901234567890_orderStaged[order]).(Type)
-	case *Gstruct:
-		return any(stage.Gstruct_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -1093,7 +1209,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -1125,6 +1243,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -1156,65 +1281,25 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Astruct:
-		return any(stage.Astructs_mapString).(map[string]Type)
-	case *AstructBstruct2Use:
-		return any(stage.AstructBstruct2Uses_mapString).(map[string]Type)
-	case *AstructBstructUse:
-		return any(stage.AstructBstructUses_mapString).(map[string]Type)
-	case *Bstruct:
-		return any(stage.Bstructs_mapString).(map[string]Type)
-	case *Dstruct:
-		return any(stage.Dstructs_mapString).(map[string]Type)
-	case *F0123456789012345678901234567890:
-		return any(stage.F0123456789012345678901234567890s_mapString).(map[string]Type)
-	case *Gstruct:
-		return any(stage.Gstructs_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Astruct:
-		return any(&stage.Astructs).(*map[Type]struct{})
-	case *AstructBstruct2Use:
-		return any(&stage.AstructBstruct2Uses).(*map[Type]struct{})
-	case *AstructBstructUse:
-		return any(&stage.AstructBstructUses).(*map[Type]struct{})
-	case *Bstruct:
-		return any(&stage.Bstructs).(*map[Type]struct{})
-	case *Dstruct:
-		return any(&stage.Dstructs).(*map[Type]struct{})
-	case *F0123456789012345678901234567890:
-		return any(&stage.F0123456789012345678901234567890s).(*map[Type]struct{})
-	case *Gstruct:
-		return any(&stage.Gstructs).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case Astruct:
-		return any(&Astruct{
+// insertion point for instance with special fields
+func (Astruct) GongGetAssociationName() any {
+	return &Astruct{
 			Associationtob: &Bstruct{Name: "Associationtob"},
 			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
 			Anotherassociationtob_2: &Bstruct{Name: "Anotherassociationtob_2"},
@@ -1230,24 +1315,52 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			AnarrayofbUse: []*AstructBstructUse{{Name: "AnarrayofbUse"}},
 			Anarrayofb2Use: []*AstructBstruct2Use{{Name: "Anarrayofb2Use"}},
 			AnAstruct: &Astruct{Name: "AnAstruct"},
-		}).(*Type)
-	case AstructBstruct2Use:
-		return any(&AstructBstruct2Use{
+	}
+}
+
+func (AstructBstruct2Use) GongGetAssociationName() any {
+	return &AstructBstruct2Use{
 			Bstrcut2: &Bstruct{Name: "Bstrcut2"},
-		}).(*Type)
-	case AstructBstructUse:
-		return any(&AstructBstructUse{
+	}
+}
+
+func (AstructBstructUse) GongGetAssociationName() any {
+	return &AstructBstructUse{
 			Bstruct2: &Bstruct{Name: "Bstruct2"},
-		}).(*Type)
-	case Dstruct:
-		return any(&Dstruct{
+	}
+}
+
+func (Bstruct) GongGetAssociationName() any {
+	return &Bstruct{
+	}
+}
+
+func (Dstruct) GongGetAssociationName() any {
+	return &Dstruct{
 			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
 			Gstruct: &Gstruct{Name: "Gstruct"},
 			Gstructs: []*Gstruct{{Name: "Gstructs"}},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+func (F0123456789012345678901234567890) GongGetAssociationName() any {
+	return &F0123456789012345678901234567890{
+	}
+}
+
+func (Gstruct) GongGetAssociationName() any {
+	return &Gstruct{
+	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -1617,26 +1730,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *Astruct:
-		res = any(new(Astruct)).(Type)
-	case *AstructBstruct2Use:
-		res = any(new(AstructBstruct2Use)).(Type)
-	case *AstructBstructUse:
-		res = any(new(AstructBstructUse)).(Type)
-	case *Bstruct:
-		res = any(new(Bstruct)).(Type)
-	case *Dstruct:
-		res = any(new(Dstruct)).(Type)
-	case *F0123456789012345678901234567890:
-		res = any(new(F0123456789012345678901234567890)).(Type)
-	case *Gstruct:
-		res = any(new(Gstruct)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -1659,26 +1754,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *Astruct:
-		res = "Astruct"
-	case *AstructBstruct2Use:
-		res = "AstructBstruct2Use"
-	case *AstructBstructUse:
-		res = "AstructBstructUse"
-	case *Bstruct:
-		res = "Bstruct"
-	case *Dstruct:
-		res = "Dstruct"
-	case *F0123456789012345678901234567890:
-		res = "F0123456789012345678901234567890"
-	case *Gstruct:
-		res = "Gstruct"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -1692,61 +1769,78 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *Astruct:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Astruct"
-		rf.Fieldname = "Anarrayofa"
-		res = append(res, rf)
-	case *AstructBstruct2Use:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Astruct"
-		rf.Fieldname = "Anarrayofb2Use"
-		res = append(res, rf)
-	case *AstructBstructUse:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Astruct"
-		rf.Fieldname = "AnarrayofbUse"
-		res = append(res, rf)
-	case *Bstruct:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Astruct"
-		rf.Fieldname = "Anarrayofb"
-		res = append(res, rf)
-		rf.GongstructName = "Astruct"
-		rf.Fieldname = "Anotherarrayofb"
-		res = append(res, rf)
-		rf.GongstructName = "Dstruct"
-		rf.Fieldname = "Anarrayofb"
-		res = append(res, rf)
-	case *Dstruct:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Astruct"
-		rf.Fieldname = "Dstruct4s"
-		res = append(res, rf)
-	case *F0123456789012345678901234567890:
-		var rf ReverseField
-		_ = rf
-	case *Gstruct:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Dstruct"
-		rf.Fieldname = "Gstructs"
-		res = append(res, rf)
+// insertion point for generic get reverse fields
+func (*Astruct) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Astruct",
+			Fieldname: "Anarrayofa",
+		},
 	}
-	return
+}
+
+func (*AstructBstruct2Use) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Astruct",
+			Fieldname: "Anarrayofb2Use",
+		},
+	}
+}
+
+func (*AstructBstructUse) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Astruct",
+			Fieldname: "AnarrayofbUse",
+		},
+	}
+}
+
+func (*Bstruct) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Astruct",
+			Fieldname: "Anarrayofb",
+		},
+		{
+			GongstructName: "Astruct",
+			Fieldname: "Anotherarrayofb",
+		},
+		{
+			GongstructName: "Dstruct",
+			Fieldname: "Anarrayofb",
+		},
+	}
+}
+
+func (*Dstruct) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Astruct",
+			Fieldname: "Dstruct4s",
+		},
+	}
+}
+
+func (*F0123456789012345678901234567890) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Gstruct) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Dstruct",
+			Fieldname: "Gstructs",
+		},
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

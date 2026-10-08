@@ -314,23 +314,96 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*Checkbox) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Checkboxs, stage.Checkbox_stagedOrder)
+}
+
+func (*Checkbox) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Checkbox_orderStaged[order]
+}
+
+func (*Checkbox) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Checkboxs_mapString
+}
+
+func (*Checkbox) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Checkboxs
+}
+
+func (*Checkbox) GongNewInstance() any {
+	return new(Checkbox)
+}
+
+func (*Group) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder)
+}
+
+func (*Group) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Group_orderStaged[order]
+}
+
+func (*Group) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Groups_mapString
+}
+
+func (*Group) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Groups
+}
+
+func (*Group) GongNewInstance() any {
+	return new(Group)
+}
+
+func (*Layout) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Layouts, stage.Layout_stagedOrder)
+}
+
+func (*Layout) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Layout_orderStaged[order]
+}
+
+func (*Layout) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Layouts_mapString
+}
+
+func (*Layout) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Layouts
+}
+
+func (*Layout) GongNewInstance() any {
+	return new(Layout)
+}
+
+func (*Slider) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Sliders, stage.Slider_stagedOrder)
+}
+
+func (*Slider) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Slider_orderStaged[order]
+}
+
+func (*Slider) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Sliders_mapString
+}
+
+func (*Slider) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Sliders
+}
+
+func (*Slider) GongNewInstance() any {
+	return new(Slider)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *Checkbox:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Checkboxs, stage.Checkbox_stagedOrder))
-	case *Group:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder))
-	case *Layout:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Layouts, stage.Layout_stagedOrder))
-	case *Slider:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Sliders, stage.Slider_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -568,20 +641,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *Checkbox:
-		return any(stage.Checkbox_orderStaged[order]).(Type)
-	case *Group:
-		return any(stage.Group_orderStaged[order]).(Type)
-	case *Layout:
-		return any(stage.Layout_orderStaged[order]).(Type)
-	case *Slider:
-		return any(stage.Slider_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -861,7 +929,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -893,6 +963,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -924,63 +1001,54 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Checkbox:
-		return any(stage.Checkboxs_mapString).(map[string]Type)
-	case *Group:
-		return any(stage.Groups_mapString).(map[string]Type)
-	case *Layout:
-		return any(stage.Layouts_mapString).(map[string]Type)
-	case *Slider:
-		return any(stage.Sliders_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Checkbox:
-		return any(&stage.Checkboxs).(*map[Type]struct{})
-	case *Group:
-		return any(&stage.Groups).(*map[Type]struct{})
-	case *Layout:
-		return any(&stage.Layouts).(*map[Type]struct{})
-	case *Slider:
-		return any(&stage.Sliders).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
+
+// insertion point for instance with special fields
+func (Checkbox) GongGetAssociationName() any {
+	return &Checkbox{
+	}
+}
+
+func (Group) GongGetAssociationName() any {
+	return &Group{
+			Sliders: []*Slider{{Name: "Sliders"}},
+			Checkboxes: []*Checkbox{{Name: "Checkboxes"}},
+	}
+}
+
+func (Layout) GongGetAssociationName() any {
+	return &Layout{
+			Groups: []*Group{{Name: "Groups"}},
+	}
+}
+
+func (Slider) GongGetAssociationName() any {
+	return &Slider{
+	}
+}
+
 
 // GongGetAssociationName is a generic function that returns an instance of Type
 // where each association is filled with an instance whose name is the name of the association
 //
 // This function can be handy for generating navigation function that are refactorable
 func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case Group:
-		return any(&Group{
-			Sliders: []*Slider{{Name: "Sliders"}},
-			Checkboxes: []*Checkbox{{Name: "Checkboxes"}},
-		}).(*Type)
-	case Layout:
-		return any(&Layout{
-			Groups: []*Group{{Name: "Groups"}},
-		}).(*Type)
-	default:
-		return &ret
-	}
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -1076,20 +1144,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *Checkbox:
-		res = any(new(Checkbox)).(Type)
-	case *Group:
-		res = any(new(Group)).(Type)
-	case *Layout:
-		res = any(new(Layout)).(Type)
-	case *Slider:
-		res = any(new(Slider)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -1112,20 +1168,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *Checkbox:
-		res = "Checkbox"
-	case *Group:
-		res = "Group"
-	case *Layout:
-		res = "Layout"
-	case *Slider:
-		res = "Slider"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -1139,37 +1183,43 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *Checkbox:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Group"
-		rf.Fieldname = "Checkboxes"
-		res = append(res, rf)
-	case *Group:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Layout"
-		rf.Fieldname = "Groups"
-		res = append(res, rf)
-	case *Layout:
-		var rf ReverseField
-		_ = rf
-	case *Slider:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Group"
-		rf.Fieldname = "Sliders"
-		res = append(res, rf)
+// insertion point for generic get reverse fields
+func (*Checkbox) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Group",
+			Fieldname: "Checkboxes",
+		},
 	}
-	return
+}
+
+func (*Group) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Layout",
+			Fieldname: "Groups",
+		},
+	}
+}
+
+func (*Layout) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Slider) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Group",
+			Fieldname: "Sliders",
+		},
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

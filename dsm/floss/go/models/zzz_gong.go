@@ -524,39 +524,256 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*CompareAnalysis) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CompareAnalysiss, stage.CompareAnalysis_stagedOrder)
+}
+
+func (*CompareAnalysis) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CompareAnalysis_orderStaged[order]
+}
+
+func (*CompareAnalysis) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CompareAnalysiss_mapString
+}
+
+func (*CompareAnalysis) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CompareAnalysiss
+}
+
+func (*CompareAnalysis) GongNewInstance() any {
+	return new(CompareAnalysis)
+}
+
+func (*Complexity) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Complexitys, stage.Complexity_stagedOrder)
+}
+
+func (*Complexity) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Complexity_orderStaged[order]
+}
+
+func (*Complexity) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Complexitys_mapString
+}
+
+func (*Complexity) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Complexitys
+}
+
+func (*Complexity) GongNewInstance() any {
+	return new(Complexity)
+}
+
+func (*DiagramFlossEquation) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DiagramFlossEquations, stage.DiagramFlossEquation_stagedOrder)
+}
+
+func (*DiagramFlossEquation) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DiagramFlossEquation_orderStaged[order]
+}
+
+func (*DiagramFlossEquation) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DiagramFlossEquations_mapString
+}
+
+func (*DiagramFlossEquation) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DiagramFlossEquations
+}
+
+func (*DiagramFlossEquation) GongNewInstance() any {
+	return new(DiagramFlossEquation)
+}
+
+func (*Effort) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Efforts, stage.Effort_stagedOrder)
+}
+
+func (*Effort) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Effort_orderStaged[order]
+}
+
+func (*Effort) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Efforts_mapString
+}
+
+func (*Effort) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Efforts
+}
+
+func (*Effort) GongNewInstance() any {
+	return new(Effort)
+}
+
+func (*Library) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
+}
+
+func (*Library) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Library_orderStaged[order]
+}
+
+func (*Library) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Librarys_mapString
+}
+
+func (*Library) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Librarys
+}
+
+func (*Library) GongNewInstance() any {
+	return new(Library)
+}
+
+func (*Note) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
+}
+
+func (*Note) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Note_orderStaged[order]
+}
+
+func (*Note) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Notes_mapString
+}
+
+func (*Note) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Notes
+}
+
+func (*Note) GongNewInstance() any {
+	return new(Note)
+}
+
+func (*NoteComplexityShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NoteComplexityShapes, stage.NoteComplexityShape_stagedOrder)
+}
+
+func (*NoteComplexityShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NoteComplexityShape_orderStaged[order]
+}
+
+func (*NoteComplexityShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NoteComplexityShapes_mapString
+}
+
+func (*NoteComplexityShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NoteComplexityShapes
+}
+
+func (*NoteComplexityShape) GongNewInstance() any {
+	return new(NoteComplexityShape)
+}
+
+func (*NoteEffortShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NoteEffortShapes, stage.NoteEffortShape_stagedOrder)
+}
+
+func (*NoteEffortShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NoteEffortShape_orderStaged[order]
+}
+
+func (*NoteEffortShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NoteEffortShapes_mapString
+}
+
+func (*NoteEffortShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NoteEffortShapes
+}
+
+func (*NoteEffortShape) GongNewInstance() any {
+	return new(NoteEffortShape)
+}
+
+func (*NotePerformanceShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NotePerformanceShapes, stage.NotePerformanceShape_stagedOrder)
+}
+
+func (*NotePerformanceShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NotePerformanceShape_orderStaged[order]
+}
+
+func (*NotePerformanceShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NotePerformanceShapes_mapString
+}
+
+func (*NotePerformanceShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NotePerformanceShapes
+}
+
+func (*NotePerformanceShape) GongNewInstance() any {
+	return new(NotePerformanceShape)
+}
+
+func (*NoteShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder)
+}
+
+func (*NoteShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NoteShape_orderStaged[order]
+}
+
+func (*NoteShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NoteShapes_mapString
+}
+
+func (*NoteShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NoteShapes
+}
+
+func (*NoteShape) GongNewInstance() any {
+	return new(NoteShape)
+}
+
+func (*Performance) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Performances, stage.Performance_stagedOrder)
+}
+
+func (*Performance) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Performance_orderStaged[order]
+}
+
+func (*Performance) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Performances_mapString
+}
+
+func (*Performance) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Performances
+}
+
+func (*Performance) GongNewInstance() any {
+	return new(Performance)
+}
+
+func (*System) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Systems, stage.System_stagedOrder)
+}
+
+func (*System) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.System_orderStaged[order]
+}
+
+func (*System) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Systems_mapString
+}
+
+func (*System) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Systems
+}
+
+func (*System) GongNewInstance() any {
+	return new(System)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *CompareAnalysis:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CompareAnalysiss, stage.CompareAnalysis_stagedOrder))
-	case *Complexity:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Complexitys, stage.Complexity_stagedOrder))
-	case *DiagramFlossEquation:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DiagramFlossEquations, stage.DiagramFlossEquation_stagedOrder))
-	case *Effort:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Efforts, stage.Effort_stagedOrder))
-	case *Library:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder))
-	case *Note:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder))
-	case *NoteComplexityShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteComplexityShapes, stage.NoteComplexityShape_stagedOrder))
-	case *NoteEffortShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteEffortShapes, stage.NoteEffortShape_stagedOrder))
-	case *NotePerformanceShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NotePerformanceShapes, stage.NotePerformanceShape_stagedOrder))
-	case *NoteShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder))
-	case *Performance:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Performances, stage.Performance_stagedOrder))
-	case *System:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Systems, stage.System_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -866,36 +1083,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *CompareAnalysis:
-		return any(stage.CompareAnalysis_orderStaged[order]).(Type)
-	case *Complexity:
-		return any(stage.Complexity_orderStaged[order]).(Type)
-	case *DiagramFlossEquation:
-		return any(stage.DiagramFlossEquation_orderStaged[order]).(Type)
-	case *Effort:
-		return any(stage.Effort_orderStaged[order]).(Type)
-	case *Library:
-		return any(stage.Library_orderStaged[order]).(Type)
-	case *Note:
-		return any(stage.Note_orderStaged[order]).(Type)
-	case *NoteComplexityShape:
-		return any(stage.NoteComplexityShape_orderStaged[order]).(Type)
-	case *NoteEffortShape:
-		return any(stage.NoteEffortShape_orderStaged[order]).(Type)
-	case *NotePerformanceShape:
-		return any(stage.NotePerformanceShape_orderStaged[order]).(Type)
-	case *NoteShape:
-		return any(stage.NoteShape_orderStaged[order]).(Type)
-	case *Performance:
-		return any(stage.Performance_orderStaged[order]).(Type)
-	case *System:
-		return any(stage.System_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -1519,7 +1715,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -1551,6 +1749,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -1582,92 +1787,39 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *CompareAnalysis:
-		return any(stage.CompareAnalysiss_mapString).(map[string]Type)
-	case *Complexity:
-		return any(stage.Complexitys_mapString).(map[string]Type)
-	case *DiagramFlossEquation:
-		return any(stage.DiagramFlossEquations_mapString).(map[string]Type)
-	case *Effort:
-		return any(stage.Efforts_mapString).(map[string]Type)
-	case *Library:
-		return any(stage.Librarys_mapString).(map[string]Type)
-	case *Note:
-		return any(stage.Notes_mapString).(map[string]Type)
-	case *NoteComplexityShape:
-		return any(stage.NoteComplexityShapes_mapString).(map[string]Type)
-	case *NoteEffortShape:
-		return any(stage.NoteEffortShapes_mapString).(map[string]Type)
-	case *NotePerformanceShape:
-		return any(stage.NotePerformanceShapes_mapString).(map[string]Type)
-	case *NoteShape:
-		return any(stage.NoteShapes_mapString).(map[string]Type)
-	case *Performance:
-		return any(stage.Performances_mapString).(map[string]Type)
-	case *System:
-		return any(stage.Systems_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *CompareAnalysis:
-		return any(&stage.CompareAnalysiss).(*map[Type]struct{})
-	case *Complexity:
-		return any(&stage.Complexitys).(*map[Type]struct{})
-	case *DiagramFlossEquation:
-		return any(&stage.DiagramFlossEquations).(*map[Type]struct{})
-	case *Effort:
-		return any(&stage.Efforts).(*map[Type]struct{})
-	case *Library:
-		return any(&stage.Librarys).(*map[Type]struct{})
-	case *Note:
-		return any(&stage.Notes).(*map[Type]struct{})
-	case *NoteComplexityShape:
-		return any(&stage.NoteComplexityShapes).(*map[Type]struct{})
-	case *NoteEffortShape:
-		return any(&stage.NoteEffortShapes).(*map[Type]struct{})
-	case *NotePerformanceShape:
-		return any(&stage.NotePerformanceShapes).(*map[Type]struct{})
-	case *NoteShape:
-		return any(&stage.NoteShapes).(*map[Type]struct{})
-	case *Performance:
-		return any(&stage.Performances).(*map[Type]struct{})
-	case *System:
-		return any(&stage.Systems).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case CompareAnalysis:
-		return any(&CompareAnalysis{
+// insertion point for instance with special fields
+func (CompareAnalysis) GongGetAssociationName() any {
+	return &CompareAnalysis{
 			FromSystem: &System{Name: "FromSystem"},
 			ToSystem: &System{Name: "ToSystem"},
 			DiagramFlossEquations: []*DiagramFlossEquation{{Name: "DiagramFlossEquations"}},
 			DiagramFlossEquationsWhoseNodeIsExpanded: []*DiagramFlossEquation{{Name: "DiagramFlossEquationsWhoseNodeIsExpanded"}},
-		}).(*Type)
-	case DiagramFlossEquation:
-		return any(&DiagramFlossEquation{
+	}
+}
+
+func (Complexity) GongGetAssociationName() any {
+	return &Complexity{
+	}
+}
+
+func (DiagramFlossEquation) GongGetAssociationName() any {
+	return &DiagramFlossEquation{
 			Note_Shapes: []*NoteShape{{Name: "Note_Shapes"}},
 			NoteComplexityShapes: []*NoteComplexityShape{{Name: "NoteComplexityShapes"}},
 			NotePerformanceShapes: []*NotePerformanceShape{{Name: "NotePerformanceShapes"}},
@@ -1676,9 +1828,16 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			ComplexitysWhoseNodeIsExpanded: []*Complexity{{Name: "ComplexitysWhoseNodeIsExpanded"}},
 			PerformancesWhoseNodeIsExpanded: []*Performance{{Name: "PerformancesWhoseNodeIsExpanded"}},
 			EffortsWhoseNodeIsExpanded: []*Effort{{Name: "EffortsWhoseNodeIsExpanded"}},
-		}).(*Type)
-	case Library:
-		return any(&Library{
+	}
+}
+
+func (Effort) GongGetAssociationName() any {
+	return &Effort{
+	}
+}
+
+func (Library) GongGetAssociationName() any {
+	return &Library{
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
 			RootSystems: []*System{{Name: "RootSystems"}},
 			RootComplexitys: []*Complexity{{Name: "RootComplexitys"}},
@@ -1693,34 +1852,51 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			EffortsWhoseNodeIsExpanded: []*Effort{{Name: "EffortsWhoseNodeIsExpanded"}},
 			CompareAnalysisWhoseNodeIsExpanded: []*CompareAnalysis{{Name: "CompareAnalysisWhoseNodeIsExpanded"}},
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
-		}).(*Type)
-	case Note:
-		return any(&Note{
+	}
+}
+
+func (Note) GongGetAssociationName() any {
+	return &Note{
 			Complexities: []*Complexity{{Name: "Complexities"}},
 			Performances: []*Performance{{Name: "Performances"}},
 			Efforts: []*Effort{{Name: "Efforts"}},
-		}).(*Type)
-	case NoteComplexityShape:
-		return any(&NoteComplexityShape{
+	}
+}
+
+func (NoteComplexityShape) GongGetAssociationName() any {
+	return &NoteComplexityShape{
 			Note: &Note{Name: "Note"},
 			Complexity: &Complexity{Name: "Complexity"},
-		}).(*Type)
-	case NoteEffortShape:
-		return any(&NoteEffortShape{
+	}
+}
+
+func (NoteEffortShape) GongGetAssociationName() any {
+	return &NoteEffortShape{
 			Note: &Note{Name: "Note"},
 			Effort: &Effort{Name: "Effort"},
-		}).(*Type)
-	case NotePerformanceShape:
-		return any(&NotePerformanceShape{
+	}
+}
+
+func (NotePerformanceShape) GongGetAssociationName() any {
+	return &NotePerformanceShape{
 			Note: &Note{Name: "Note"},
 			Performance: &Performance{Name: "Performance"},
-		}).(*Type)
-	case NoteShape:
-		return any(&NoteShape{
+	}
+}
+
+func (NoteShape) GongGetAssociationName() any {
+	return &NoteShape{
 			Note: &Note{Name: "Note"},
-		}).(*Type)
-	case System:
-		return any(&System{
+	}
+}
+
+func (Performance) GongGetAssociationName() any {
+	return &Performance{
+	}
+}
+
+func (System) GongGetAssociationName() any {
+	return &System{
 			Complexities: []*Complexity{{Name: "Complexities"}},
 			Performances: []*Performance{{Name: "Performances"}},
 			Efforts: []*Effort{{Name: "Efforts"}},
@@ -1730,10 +1906,17 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			ComplexitysWhoseNodeIsExpanded: []*Complexity{{Name: "ComplexitysWhoseNodeIsExpanded"}},
 			PerformancesWhoseNodeIsExpanded: []*Performance{{Name: "PerformancesWhoseNodeIsExpanded"}},
 			EffortsWhoseNodeIsExpanded: []*Effort{{Name: "EffortsWhoseNodeIsExpanded"}},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -2326,36 +2509,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *CompareAnalysis:
-		res = any(new(CompareAnalysis)).(Type)
-	case *Complexity:
-		res = any(new(Complexity)).(Type)
-	case *DiagramFlossEquation:
-		res = any(new(DiagramFlossEquation)).(Type)
-	case *Effort:
-		res = any(new(Effort)).(Type)
-	case *Library:
-		res = any(new(Library)).(Type)
-	case *Note:
-		res = any(new(Note)).(Type)
-	case *NoteComplexityShape:
-		res = any(new(NoteComplexityShape)).(Type)
-	case *NoteEffortShape:
-		res = any(new(NoteEffortShape)).(Type)
-	case *NotePerformanceShape:
-		res = any(new(NotePerformanceShape)).(Type)
-	case *NoteShape:
-		res = any(new(NoteShape)).(Type)
-	case *Performance:
-		res = any(new(Performance)).(Type)
-	case *System:
-		res = any(new(System)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -2378,36 +2533,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *CompareAnalysis:
-		res = "CompareAnalysis"
-	case *Complexity:
-		res = "Complexity"
-	case *DiagramFlossEquation:
-		res = "DiagramFlossEquation"
-	case *Effort:
-		res = "Effort"
-	case *Library:
-		res = "Library"
-	case *Note:
-		res = "Note"
-	case *NoteComplexityShape:
-		res = "NoteComplexityShape"
-	case *NoteEffortShape:
-		res = "NoteEffortShape"
-	case *NotePerformanceShape:
-		res = "NotePerformanceShape"
-	case *NoteShape:
-		res = "NoteShape"
-	case *Performance:
-		res = "Performance"
-	case *System:
-		res = "System"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -2421,160 +2548,215 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *CompareAnalysis:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootCompareAnalysis"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "CompareAnalysisWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *Complexity:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramFlossEquation"
-		rf.Fieldname = "ComplexitysWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootComplexitys"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "ComplexitysWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Complexities"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "Complexities"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "ComplexitysWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *DiagramFlossEquation:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "CompareAnalysis"
-		rf.Fieldname = "DiagramFlossEquations"
-		res = append(res, rf)
-		rf.GongstructName = "CompareAnalysis"
-		rf.Fieldname = "DiagramFlossEquationsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "DiagramFlossEquations"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "DiagramFlossEquationsWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *Effort:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramFlossEquation"
-		rf.Fieldname = "EffortsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootEfforts"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "EffortsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Efforts"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "Efforts"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "EffortsWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *Library:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "SubLibraries"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "SubLibrariesWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *Note:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramFlossEquation"
-		rf.Fieldname = "NotesWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootNotes"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "NotesWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *NoteComplexityShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramFlossEquation"
-		rf.Fieldname = "NoteComplexityShapes"
-		res = append(res, rf)
-	case *NoteEffortShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramFlossEquation"
-		rf.Fieldname = "NoteEffortShapes"
-		res = append(res, rf)
-	case *NotePerformanceShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramFlossEquation"
-		rf.Fieldname = "NotePerformanceShapes"
-		res = append(res, rf)
-	case *NoteShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramFlossEquation"
-		rf.Fieldname = "Note_Shapes"
-		res = append(res, rf)
-	case *Performance:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramFlossEquation"
-		rf.Fieldname = "PerformancesWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootPerformances"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "PerformancesWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Performances"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "Performances"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "PerformancesWhoseNodeIsExpanded"
-		res = append(res, rf)
-	case *System:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootSystems"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "SystemsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "System"
-		rf.Fieldname = "SubSystems"
-		res = append(res, rf)
+// insertion point for generic get reverse fields
+func (*CompareAnalysis) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "RootCompareAnalysis",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "CompareAnalysisWhoseNodeIsExpanded",
+		},
 	}
-	return
+}
+
+func (*Complexity) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramFlossEquation",
+			Fieldname: "ComplexitysWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootComplexitys",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "ComplexitysWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Note",
+			Fieldname: "Complexities",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "Complexities",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "ComplexitysWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*DiagramFlossEquation) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "CompareAnalysis",
+			Fieldname: "DiagramFlossEquations",
+		},
+		{
+			GongstructName: "CompareAnalysis",
+			Fieldname: "DiagramFlossEquationsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "DiagramFlossEquations",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "DiagramFlossEquationsWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*Effort) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramFlossEquation",
+			Fieldname: "EffortsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootEfforts",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "EffortsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Note",
+			Fieldname: "Efforts",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "Efforts",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "EffortsWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*Library) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "SubLibraries",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "SubLibrariesWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*Note) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramFlossEquation",
+			Fieldname: "NotesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootNotes",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "NotesWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*NoteComplexityShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramFlossEquation",
+			Fieldname: "NoteComplexityShapes",
+		},
+	}
+}
+
+func (*NoteEffortShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramFlossEquation",
+			Fieldname: "NoteEffortShapes",
+		},
+	}
+}
+
+func (*NotePerformanceShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramFlossEquation",
+			Fieldname: "NotePerformanceShapes",
+		},
+	}
+}
+
+func (*NoteShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramFlossEquation",
+			Fieldname: "Note_Shapes",
+		},
+	}
+}
+
+func (*Performance) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramFlossEquation",
+			Fieldname: "PerformancesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootPerformances",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "PerformancesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Note",
+			Fieldname: "Performances",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "Performances",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "PerformancesWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*System) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "RootSystems",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "SystemsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "System",
+			Fieldname: "SubSystems",
+		},
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

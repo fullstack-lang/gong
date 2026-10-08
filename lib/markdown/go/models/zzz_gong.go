@@ -308,23 +308,96 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*Content) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Contents, stage.Content_stagedOrder)
+}
+
+func (*Content) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Content_orderStaged[order]
+}
+
+func (*Content) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Contents_mapString
+}
+
+func (*Content) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Contents
+}
+
+func (*Content) GongNewInstance() any {
+	return new(Content)
+}
+
+func (*JpgImage) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.JpgImages, stage.JpgImage_stagedOrder)
+}
+
+func (*JpgImage) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.JpgImage_orderStaged[order]
+}
+
+func (*JpgImage) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.JpgImages_mapString
+}
+
+func (*JpgImage) GongGetInstancesSet(stage *Stage) any {
+	return &stage.JpgImages
+}
+
+func (*JpgImage) GongNewInstance() any {
+	return new(JpgImage)
+}
+
+func (*PngImage) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PngImages, stage.PngImage_stagedOrder)
+}
+
+func (*PngImage) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PngImage_orderStaged[order]
+}
+
+func (*PngImage) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PngImages_mapString
+}
+
+func (*PngImage) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PngImages
+}
+
+func (*PngImage) GongNewInstance() any {
+	return new(PngImage)
+}
+
+func (*SvgImage) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SvgImages, stage.SvgImage_stagedOrder)
+}
+
+func (*SvgImage) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SvgImage_orderStaged[order]
+}
+
+func (*SvgImage) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SvgImages_mapString
+}
+
+func (*SvgImage) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SvgImages
+}
+
+func (*SvgImage) GongNewInstance() any {
+	return new(SvgImage)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *Content:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Contents, stage.Content_stagedOrder))
-	case *JpgImage:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.JpgImages, stage.JpgImage_stagedOrder))
-	case *PngImage:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PngImages, stage.PngImage_stagedOrder))
-	case *SvgImage:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SvgImages, stage.SvgImage_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -562,20 +635,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *Content:
-		return any(stage.Content_orderStaged[order]).(Type)
-	case *JpgImage:
-		return any(stage.JpgImage_orderStaged[order]).(Type)
-	case *PngImage:
-		return any(stage.PngImage_orderStaged[order]).(Type)
-	case *SvgImage:
-		return any(stage.SvgImage_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -855,7 +923,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -887,6 +957,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -918,54 +995,51 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Content:
-		return any(stage.Contents_mapString).(map[string]Type)
-	case *JpgImage:
-		return any(stage.JpgImages_mapString).(map[string]Type)
-	case *PngImage:
-		return any(stage.PngImages_mapString).(map[string]Type)
-	case *SvgImage:
-		return any(stage.SvgImages_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Content:
-		return any(&stage.Contents).(*map[Type]struct{})
-	case *JpgImage:
-		return any(&stage.JpgImages).(*map[Type]struct{})
-	case *PngImage:
-		return any(&stage.PngImages).(*map[Type]struct{})
-	case *SvgImage:
-		return any(&stage.SvgImages).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
+
+// insertion point for instance with special fields
+func (Content) GongGetAssociationName() any {
+	return &Content{
+	}
+}
+
+func (JpgImage) GongGetAssociationName() any {
+	return &JpgImage{
+	}
+}
+
+func (PngImage) GongGetAssociationName() any {
+	return &PngImage{
+	}
+}
+
+func (SvgImage) GongGetAssociationName() any {
+	return &SvgImage{
+	}
+}
+
 
 // GongGetAssociationName is a generic function that returns an instance of Type
 // where each association is filled with an instance whose name is the name of the association
 //
 // This function can be handy for generating navigation function that are refactorable
 func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	default:
-		return &ret
-	}
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -1037,20 +1111,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *Content:
-		res = any(new(Content)).(Type)
-	case *JpgImage:
-		res = any(new(JpgImage)).(Type)
-	case *PngImage:
-		res = any(new(PngImage)).(Type)
-	case *SvgImage:
-		res = any(new(SvgImage)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -1073,20 +1135,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *Content:
-		res = "Content"
-	case *JpgImage:
-		res = "JpgImage"
-	case *PngImage:
-		res = "PngImage"
-	case *SvgImage:
-		res = "SvgImage"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -1100,28 +1150,31 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *Content:
-		var rf ReverseField
-		_ = rf
-	case *JpgImage:
-		var rf ReverseField
-		_ = rf
-	case *PngImage:
-		var rf ReverseField
-		_ = rf
-	case *SvgImage:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*Content) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
 	}
-	return
+}
+
+func (*JpgImage) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PngImage) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*SvgImage) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

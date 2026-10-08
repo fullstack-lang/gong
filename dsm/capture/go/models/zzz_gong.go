@@ -884,73 +884,596 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*AnalysisNeed) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.AnalysisNeeds, stage.AnalysisNeed_stagedOrder)
+}
+
+func (*AnalysisNeed) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.AnalysisNeed_orderStaged[order]
+}
+
+func (*AnalysisNeed) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.AnalysisNeeds_mapString
+}
+
+func (*AnalysisNeed) GongGetInstancesSet(stage *Stage) any {
+	return &stage.AnalysisNeeds
+}
+
+func (*AnalysisNeed) GongNewInstance() any {
+	return new(AnalysisNeed)
+}
+
+func (*Concept) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Concepts, stage.Concept_stagedOrder)
+}
+
+func (*Concept) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Concept_orderStaged[order]
+}
+
+func (*Concept) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Concepts_mapString
+}
+
+func (*Concept) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Concepts
+}
+
+func (*Concept) GongNewInstance() any {
+	return new(Concept)
+}
+
+func (*ConceptShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ConceptShapes, stage.ConceptShape_stagedOrder)
+}
+
+func (*ConceptShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ConceptShape_orderStaged[order]
+}
+
+func (*ConceptShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ConceptShapes_mapString
+}
+
+func (*ConceptShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ConceptShapes
+}
+
+func (*ConceptShape) GongNewInstance() any {
+	return new(ConceptShape)
+}
+
+func (*Concern) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Concerns, stage.Concern_stagedOrder)
+}
+
+func (*Concern) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Concern_orderStaged[order]
+}
+
+func (*Concern) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Concerns_mapString
+}
+
+func (*Concern) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Concerns
+}
+
+func (*Concern) GongNewInstance() any {
+	return new(Concern)
+}
+
+func (*ConcernCompositionShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ConcernCompositionShapes, stage.ConcernCompositionShape_stagedOrder)
+}
+
+func (*ConcernCompositionShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ConcernCompositionShape_orderStaged[order]
+}
+
+func (*ConcernCompositionShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ConcernCompositionShapes_mapString
+}
+
+func (*ConcernCompositionShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ConcernCompositionShapes
+}
+
+func (*ConcernCompositionShape) GongNewInstance() any {
+	return new(ConcernCompositionShape)
+}
+
+func (*ConcernInputShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ConcernInputShapes, stage.ConcernInputShape_stagedOrder)
+}
+
+func (*ConcernInputShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ConcernInputShape_orderStaged[order]
+}
+
+func (*ConcernInputShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ConcernInputShapes_mapString
+}
+
+func (*ConcernInputShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ConcernInputShapes
+}
+
+func (*ConcernInputShape) GongNewInstance() any {
+	return new(ConcernInputShape)
+}
+
+func (*ConcernOutputShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ConcernOutputShapes, stage.ConcernOutputShape_stagedOrder)
+}
+
+func (*ConcernOutputShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ConcernOutputShape_orderStaged[order]
+}
+
+func (*ConcernOutputShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ConcernOutputShapes_mapString
+}
+
+func (*ConcernOutputShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ConcernOutputShapes
+}
+
+func (*ConcernOutputShape) GongNewInstance() any {
+	return new(ConcernOutputShape)
+}
+
+func (*ConcernShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ConcernShapes, stage.ConcernShape_stagedOrder)
+}
+
+func (*ConcernShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ConcernShape_orderStaged[order]
+}
+
+func (*ConcernShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ConcernShapes_mapString
+}
+
+func (*ConcernShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ConcernShapes
+}
+
+func (*ConcernShape) GongNewInstance() any {
+	return new(ConcernShape)
+}
+
+func (*ControlPointShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
+}
+
+func (*ControlPointShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ControlPointShape_orderStaged[order]
+}
+
+func (*ControlPointShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ControlPointShapes_mapString
+}
+
+func (*ControlPointShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ControlPointShapes
+}
+
+func (*ControlPointShape) GongNewInstance() any {
+	return new(ControlPointShape)
+}
+
+func (*Deliverable) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Deliverables, stage.Deliverable_stagedOrder)
+}
+
+func (*Deliverable) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Deliverable_orderStaged[order]
+}
+
+func (*Deliverable) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Deliverables_mapString
+}
+
+func (*Deliverable) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Deliverables
+}
+
+func (*Deliverable) GongNewInstance() any {
+	return new(Deliverable)
+}
+
+func (*DeliverableCompositionShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DeliverableCompositionShapes, stage.DeliverableCompositionShape_stagedOrder)
+}
+
+func (*DeliverableCompositionShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DeliverableCompositionShape_orderStaged[order]
+}
+
+func (*DeliverableCompositionShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DeliverableCompositionShapes_mapString
+}
+
+func (*DeliverableCompositionShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DeliverableCompositionShapes
+}
+
+func (*DeliverableCompositionShape) GongNewInstance() any {
+	return new(DeliverableCompositionShape)
+}
+
+func (*DeliverableConceptShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DeliverableConceptShapes, stage.DeliverableConceptShape_stagedOrder)
+}
+
+func (*DeliverableConceptShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DeliverableConceptShape_orderStaged[order]
+}
+
+func (*DeliverableConceptShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DeliverableConceptShapes_mapString
+}
+
+func (*DeliverableConceptShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DeliverableConceptShapes
+}
+
+func (*DeliverableConceptShape) GongNewInstance() any {
+	return new(DeliverableConceptShape)
+}
+
+func (*DeliverableShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DeliverableShapes, stage.DeliverableShape_stagedOrder)
+}
+
+func (*DeliverableShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DeliverableShape_orderStaged[order]
+}
+
+func (*DeliverableShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DeliverableShapes_mapString
+}
+
+func (*DeliverableShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DeliverableShapes
+}
+
+func (*DeliverableShape) GongNewInstance() any {
+	return new(DeliverableShape)
+}
+
+func (*Diagram) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
+}
+
+func (*Diagram) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Diagram_orderStaged[order]
+}
+
+func (*Diagram) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Diagrams_mapString
+}
+
+func (*Diagram) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Diagrams
+}
+
+func (*Diagram) GongNewInstance() any {
+	return new(Diagram)
+}
+
+func (*DiagramShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DiagramShapes, stage.DiagramShape_stagedOrder)
+}
+
+func (*DiagramShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DiagramShape_orderStaged[order]
+}
+
+func (*DiagramShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DiagramShapes_mapString
+}
+
+func (*DiagramShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DiagramShapes
+}
+
+func (*DiagramShape) GongNewInstance() any {
+	return new(DiagramShape)
+}
+
+func (*Library) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
+}
+
+func (*Library) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Library_orderStaged[order]
+}
+
+func (*Library) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Librarys_mapString
+}
+
+func (*Library) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Librarys
+}
+
+func (*Library) GongNewInstance() any {
+	return new(Library)
+}
+
+func (*Note) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
+}
+
+func (*Note) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Note_orderStaged[order]
+}
+
+func (*Note) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Notes_mapString
+}
+
+func (*Note) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Notes
+}
+
+func (*Note) GongNewInstance() any {
+	return new(Note)
+}
+
+func (*NoteDeliverableShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NoteDeliverableShapes, stage.NoteDeliverableShape_stagedOrder)
+}
+
+func (*NoteDeliverableShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NoteDeliverableShape_orderStaged[order]
+}
+
+func (*NoteDeliverableShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NoteDeliverableShapes_mapString
+}
+
+func (*NoteDeliverableShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NoteDeliverableShapes
+}
+
+func (*NoteDeliverableShape) GongNewInstance() any {
+	return new(NoteDeliverableShape)
+}
+
+func (*NoteShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder)
+}
+
+func (*NoteShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NoteShape_orderStaged[order]
+}
+
+func (*NoteShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NoteShapes_mapString
+}
+
+func (*NoteShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NoteShapes
+}
+
+func (*NoteShape) GongNewInstance() any {
+	return new(NoteShape)
+}
+
+func (*NoteStakeholderShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NoteStakeholderShapes, stage.NoteStakeholderShape_stagedOrder)
+}
+
+func (*NoteStakeholderShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NoteStakeholderShape_orderStaged[order]
+}
+
+func (*NoteStakeholderShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NoteStakeholderShapes_mapString
+}
+
+func (*NoteStakeholderShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NoteStakeholderShapes
+}
+
+func (*NoteStakeholderShape) GongNewInstance() any {
+	return new(NoteStakeholderShape)
+}
+
+func (*NoteTaskShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NoteTaskShapes, stage.NoteTaskShape_stagedOrder)
+}
+
+func (*NoteTaskShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NoteTaskShape_orderStaged[order]
+}
+
+func (*NoteTaskShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NoteTaskShapes_mapString
+}
+
+func (*NoteTaskShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NoteTaskShapes
+}
+
+func (*NoteTaskShape) GongNewInstance() any {
+	return new(NoteTaskShape)
+}
+
+func (*Requirement) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Requirements, stage.Requirement_stagedOrder)
+}
+
+func (*Requirement) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Requirement_orderStaged[order]
+}
+
+func (*Requirement) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Requirements_mapString
+}
+
+func (*Requirement) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Requirements
+}
+
+func (*Requirement) GongNewInstance() any {
+	return new(Requirement)
+}
+
+func (*RequirementShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RequirementShapes, stage.RequirementShape_stagedOrder)
+}
+
+func (*RequirementShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RequirementShape_orderStaged[order]
+}
+
+func (*RequirementShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RequirementShapes_mapString
+}
+
+func (*RequirementShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RequirementShapes
+}
+
+func (*RequirementShape) GongNewInstance() any {
+	return new(RequirementShape)
+}
+
+func (*Stakeholder) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Stakeholders, stage.Stakeholder_stagedOrder)
+}
+
+func (*Stakeholder) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Stakeholder_orderStaged[order]
+}
+
+func (*Stakeholder) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Stakeholders_mapString
+}
+
+func (*Stakeholder) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Stakeholders
+}
+
+func (*Stakeholder) GongNewInstance() any {
+	return new(Stakeholder)
+}
+
+func (*StakeholderCompositionShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StakeholderCompositionShapes, stage.StakeholderCompositionShape_stagedOrder)
+}
+
+func (*StakeholderCompositionShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StakeholderCompositionShape_orderStaged[order]
+}
+
+func (*StakeholderCompositionShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StakeholderCompositionShapes_mapString
+}
+
+func (*StakeholderCompositionShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StakeholderCompositionShapes
+}
+
+func (*StakeholderCompositionShape) GongNewInstance() any {
+	return new(StakeholderCompositionShape)
+}
+
+func (*StakeholderConcernShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StakeholderConcernShapes, stage.StakeholderConcernShape_stagedOrder)
+}
+
+func (*StakeholderConcernShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StakeholderConcernShape_orderStaged[order]
+}
+
+func (*StakeholderConcernShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StakeholderConcernShapes_mapString
+}
+
+func (*StakeholderConcernShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StakeholderConcernShapes
+}
+
+func (*StakeholderConcernShape) GongNewInstance() any {
+	return new(StakeholderConcernShape)
+}
+
+func (*StakeholderShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StakeholderShapes, stage.StakeholderShape_stagedOrder)
+}
+
+func (*StakeholderShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StakeholderShape_orderStaged[order]
+}
+
+func (*StakeholderShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StakeholderShapes_mapString
+}
+
+func (*StakeholderShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StakeholderShapes
+}
+
+func (*StakeholderShape) GongNewInstance() any {
+	return new(StakeholderShape)
+}
+
+func (*SupportLevel) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SupportLevels, stage.SupportLevel_stagedOrder)
+}
+
+func (*SupportLevel) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SupportLevel_orderStaged[order]
+}
+
+func (*SupportLevel) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SupportLevels_mapString
+}
+
+func (*SupportLevel) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SupportLevels
+}
+
+func (*SupportLevel) GongNewInstance() any {
+	return new(SupportLevel)
+}
+
+func (*Tool) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Tools, stage.Tool_stagedOrder)
+}
+
+func (*Tool) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tool_orderStaged[order]
+}
+
+func (*Tool) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Tools_mapString
+}
+
+func (*Tool) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Tools
+}
+
+func (*Tool) GongNewInstance() any {
+	return new(Tool)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *AnalysisNeed:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.AnalysisNeeds, stage.AnalysisNeed_stagedOrder))
-	case *Concept:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Concepts, stage.Concept_stagedOrder))
-	case *ConceptShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ConceptShapes, stage.ConceptShape_stagedOrder))
-	case *Concern:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Concerns, stage.Concern_stagedOrder))
-	case *ConcernCompositionShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ConcernCompositionShapes, stage.ConcernCompositionShape_stagedOrder))
-	case *ConcernInputShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ConcernInputShapes, stage.ConcernInputShape_stagedOrder))
-	case *ConcernOutputShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ConcernOutputShapes, stage.ConcernOutputShape_stagedOrder))
-	case *ConcernShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ConcernShapes, stage.ConcernShape_stagedOrder))
-	case *ControlPointShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder))
-	case *Deliverable:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Deliverables, stage.Deliverable_stagedOrder))
-	case *DeliverableCompositionShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DeliverableCompositionShapes, stage.DeliverableCompositionShape_stagedOrder))
-	case *DeliverableConceptShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DeliverableConceptShapes, stage.DeliverableConceptShape_stagedOrder))
-	case *DeliverableShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DeliverableShapes, stage.DeliverableShape_stagedOrder))
-	case *Diagram:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder))
-	case *DiagramShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DiagramShapes, stage.DiagramShape_stagedOrder))
-	case *Library:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder))
-	case *Note:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder))
-	case *NoteDeliverableShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteDeliverableShapes, stage.NoteDeliverableShape_stagedOrder))
-	case *NoteShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder))
-	case *NoteStakeholderShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteStakeholderShapes, stage.NoteStakeholderShape_stagedOrder))
-	case *NoteTaskShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.NoteTaskShapes, stage.NoteTaskShape_stagedOrder))
-	case *Requirement:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Requirements, stage.Requirement_stagedOrder))
-	case *RequirementShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RequirementShapes, stage.RequirementShape_stagedOrder))
-	case *Stakeholder:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Stakeholders, stage.Stakeholder_stagedOrder))
-	case *StakeholderCompositionShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StakeholderCompositionShapes, stage.StakeholderCompositionShape_stagedOrder))
-	case *StakeholderConcernShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StakeholderConcernShapes, stage.StakeholderConcernShape_stagedOrder))
-	case *StakeholderShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StakeholderShapes, stage.StakeholderShape_stagedOrder))
-	case *SupportLevel:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SupportLevels, stage.SupportLevel_stagedOrder))
-	case *Tool:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tools, stage.Tool_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -1413,70 +1936,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *AnalysisNeed:
-		return any(stage.AnalysisNeed_orderStaged[order]).(Type)
-	case *Concept:
-		return any(stage.Concept_orderStaged[order]).(Type)
-	case *ConceptShape:
-		return any(stage.ConceptShape_orderStaged[order]).(Type)
-	case *Concern:
-		return any(stage.Concern_orderStaged[order]).(Type)
-	case *ConcernCompositionShape:
-		return any(stage.ConcernCompositionShape_orderStaged[order]).(Type)
-	case *ConcernInputShape:
-		return any(stage.ConcernInputShape_orderStaged[order]).(Type)
-	case *ConcernOutputShape:
-		return any(stage.ConcernOutputShape_orderStaged[order]).(Type)
-	case *ConcernShape:
-		return any(stage.ConcernShape_orderStaged[order]).(Type)
-	case *ControlPointShape:
-		return any(stage.ControlPointShape_orderStaged[order]).(Type)
-	case *Deliverable:
-		return any(stage.Deliverable_orderStaged[order]).(Type)
-	case *DeliverableCompositionShape:
-		return any(stage.DeliverableCompositionShape_orderStaged[order]).(Type)
-	case *DeliverableConceptShape:
-		return any(stage.DeliverableConceptShape_orderStaged[order]).(Type)
-	case *DeliverableShape:
-		return any(stage.DeliverableShape_orderStaged[order]).(Type)
-	case *Diagram:
-		return any(stage.Diagram_orderStaged[order]).(Type)
-	case *DiagramShape:
-		return any(stage.DiagramShape_orderStaged[order]).(Type)
-	case *Library:
-		return any(stage.Library_orderStaged[order]).(Type)
-	case *Note:
-		return any(stage.Note_orderStaged[order]).(Type)
-	case *NoteDeliverableShape:
-		return any(stage.NoteDeliverableShape_orderStaged[order]).(Type)
-	case *NoteShape:
-		return any(stage.NoteShape_orderStaged[order]).(Type)
-	case *NoteStakeholderShape:
-		return any(stage.NoteStakeholderShape_orderStaged[order]).(Type)
-	case *NoteTaskShape:
-		return any(stage.NoteTaskShape_orderStaged[order]).(Type)
-	case *Requirement:
-		return any(stage.Requirement_orderStaged[order]).(Type)
-	case *RequirementShape:
-		return any(stage.RequirementShape_orderStaged[order]).(Type)
-	case *Stakeholder:
-		return any(stage.Stakeholder_orderStaged[order]).(Type)
-	case *StakeholderCompositionShape:
-		return any(stage.StakeholderCompositionShape_orderStaged[order]).(Type)
-	case *StakeholderConcernShape:
-		return any(stage.StakeholderConcernShape_orderStaged[order]).(Type)
-	case *StakeholderShape:
-		return any(stage.StakeholderShape_orderStaged[order]).(Type)
-	case *SupportLevel:
-		return any(stage.SupportLevel_orderStaged[order]).(Type)
-	case *Tool:
-		return any(stage.Tool_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -2831,7 +3299,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -2863,6 +3333,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -2894,209 +3371,113 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *AnalysisNeed:
-		return any(stage.AnalysisNeeds_mapString).(map[string]Type)
-	case *Concept:
-		return any(stage.Concepts_mapString).(map[string]Type)
-	case *ConceptShape:
-		return any(stage.ConceptShapes_mapString).(map[string]Type)
-	case *Concern:
-		return any(stage.Concerns_mapString).(map[string]Type)
-	case *ConcernCompositionShape:
-		return any(stage.ConcernCompositionShapes_mapString).(map[string]Type)
-	case *ConcernInputShape:
-		return any(stage.ConcernInputShapes_mapString).(map[string]Type)
-	case *ConcernOutputShape:
-		return any(stage.ConcernOutputShapes_mapString).(map[string]Type)
-	case *ConcernShape:
-		return any(stage.ConcernShapes_mapString).(map[string]Type)
-	case *ControlPointShape:
-		return any(stage.ControlPointShapes_mapString).(map[string]Type)
-	case *Deliverable:
-		return any(stage.Deliverables_mapString).(map[string]Type)
-	case *DeliverableCompositionShape:
-		return any(stage.DeliverableCompositionShapes_mapString).(map[string]Type)
-	case *DeliverableConceptShape:
-		return any(stage.DeliverableConceptShapes_mapString).(map[string]Type)
-	case *DeliverableShape:
-		return any(stage.DeliverableShapes_mapString).(map[string]Type)
-	case *Diagram:
-		return any(stage.Diagrams_mapString).(map[string]Type)
-	case *DiagramShape:
-		return any(stage.DiagramShapes_mapString).(map[string]Type)
-	case *Library:
-		return any(stage.Librarys_mapString).(map[string]Type)
-	case *Note:
-		return any(stage.Notes_mapString).(map[string]Type)
-	case *NoteDeliverableShape:
-		return any(stage.NoteDeliverableShapes_mapString).(map[string]Type)
-	case *NoteShape:
-		return any(stage.NoteShapes_mapString).(map[string]Type)
-	case *NoteStakeholderShape:
-		return any(stage.NoteStakeholderShapes_mapString).(map[string]Type)
-	case *NoteTaskShape:
-		return any(stage.NoteTaskShapes_mapString).(map[string]Type)
-	case *Requirement:
-		return any(stage.Requirements_mapString).(map[string]Type)
-	case *RequirementShape:
-		return any(stage.RequirementShapes_mapString).(map[string]Type)
-	case *Stakeholder:
-		return any(stage.Stakeholders_mapString).(map[string]Type)
-	case *StakeholderCompositionShape:
-		return any(stage.StakeholderCompositionShapes_mapString).(map[string]Type)
-	case *StakeholderConcernShape:
-		return any(stage.StakeholderConcernShapes_mapString).(map[string]Type)
-	case *StakeholderShape:
-		return any(stage.StakeholderShapes_mapString).(map[string]Type)
-	case *SupportLevel:
-		return any(stage.SupportLevels_mapString).(map[string]Type)
-	case *Tool:
-		return any(stage.Tools_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *AnalysisNeed:
-		return any(&stage.AnalysisNeeds).(*map[Type]struct{})
-	case *Concept:
-		return any(&stage.Concepts).(*map[Type]struct{})
-	case *ConceptShape:
-		return any(&stage.ConceptShapes).(*map[Type]struct{})
-	case *Concern:
-		return any(&stage.Concerns).(*map[Type]struct{})
-	case *ConcernCompositionShape:
-		return any(&stage.ConcernCompositionShapes).(*map[Type]struct{})
-	case *ConcernInputShape:
-		return any(&stage.ConcernInputShapes).(*map[Type]struct{})
-	case *ConcernOutputShape:
-		return any(&stage.ConcernOutputShapes).(*map[Type]struct{})
-	case *ConcernShape:
-		return any(&stage.ConcernShapes).(*map[Type]struct{})
-	case *ControlPointShape:
-		return any(&stage.ControlPointShapes).(*map[Type]struct{})
-	case *Deliverable:
-		return any(&stage.Deliverables).(*map[Type]struct{})
-	case *DeliverableCompositionShape:
-		return any(&stage.DeliverableCompositionShapes).(*map[Type]struct{})
-	case *DeliverableConceptShape:
-		return any(&stage.DeliverableConceptShapes).(*map[Type]struct{})
-	case *DeliverableShape:
-		return any(&stage.DeliverableShapes).(*map[Type]struct{})
-	case *Diagram:
-		return any(&stage.Diagrams).(*map[Type]struct{})
-	case *DiagramShape:
-		return any(&stage.DiagramShapes).(*map[Type]struct{})
-	case *Library:
-		return any(&stage.Librarys).(*map[Type]struct{})
-	case *Note:
-		return any(&stage.Notes).(*map[Type]struct{})
-	case *NoteDeliverableShape:
-		return any(&stage.NoteDeliverableShapes).(*map[Type]struct{})
-	case *NoteShape:
-		return any(&stage.NoteShapes).(*map[Type]struct{})
-	case *NoteStakeholderShape:
-		return any(&stage.NoteStakeholderShapes).(*map[Type]struct{})
-	case *NoteTaskShape:
-		return any(&stage.NoteTaskShapes).(*map[Type]struct{})
-	case *Requirement:
-		return any(&stage.Requirements).(*map[Type]struct{})
-	case *RequirementShape:
-		return any(&stage.RequirementShapes).(*map[Type]struct{})
-	case *Stakeholder:
-		return any(&stage.Stakeholders).(*map[Type]struct{})
-	case *StakeholderCompositionShape:
-		return any(&stage.StakeholderCompositionShapes).(*map[Type]struct{})
-	case *StakeholderConcernShape:
-		return any(&stage.StakeholderConcernShapes).(*map[Type]struct{})
-	case *StakeholderShape:
-		return any(&stage.StakeholderShapes).(*map[Type]struct{})
-	case *SupportLevel:
-		return any(&stage.SupportLevels).(*map[Type]struct{})
-	case *Tool:
-		return any(&stage.Tools).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
+	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
+}
+
+// insertion point for instance with special fields
+func (AnalysisNeed) GongGetAssociationName() any {
+	return &AnalysisNeed{
 	}
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case Concept:
-		return any(&Concept{
+func (Concept) GongGetAssociationName() any {
+	return &Concept{
 			Tools: []*Tool{{Name: "Tools"}},
-		}).(*Type)
-	case ConceptShape:
-		return any(&ConceptShape{
+	}
+}
+
+func (ConceptShape) GongGetAssociationName() any {
+	return &ConceptShape{
 			Concept: &Concept{Name: "Concept"},
-		}).(*Type)
-	case Concern:
-		return any(&Concern{
+	}
+}
+
+func (Concern) GongGetAssociationName() any {
+	return &Concern{
 			SubConcerns: []*Concern{{Name: "SubConcerns"}},
 			Inputs: []*Deliverable{{Name: "Inputs"}},
 			Outputs: []*Deliverable{{Name: "Outputs"}},
 			Requirements: []*Requirement{{Name: "Requirements"}},
-		}).(*Type)
-	case ConcernCompositionShape:
-		return any(&ConcernCompositionShape{
+	}
+}
+
+func (ConcernCompositionShape) GongGetAssociationName() any {
+	return &ConcernCompositionShape{
 			Concern: &Concern{Name: "Concern"},
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
-		}).(*Type)
-	case ConcernInputShape:
-		return any(&ConcernInputShape{
+	}
+}
+
+func (ConcernInputShape) GongGetAssociationName() any {
+	return &ConcernInputShape{
 			Deliverable: &Deliverable{Name: "Deliverable"},
 			Concern: &Concern{Name: "Concern"},
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
-		}).(*Type)
-	case ConcernOutputShape:
-		return any(&ConcernOutputShape{
+	}
+}
+
+func (ConcernOutputShape) GongGetAssociationName() any {
+	return &ConcernOutputShape{
 			Concern: &Concern{Name: "Concern"},
 			Deliverable: &Deliverable{Name: "Deliverable"},
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
-		}).(*Type)
-	case ConcernShape:
-		return any(&ConcernShape{
+	}
+}
+
+func (ConcernShape) GongGetAssociationName() any {
+	return &ConcernShape{
 			Concern: &Concern{Name: "Concern"},
-		}).(*Type)
-	case Deliverable:
-		return any(&Deliverable{
+	}
+}
+
+func (ControlPointShape) GongGetAssociationName() any {
+	return &ControlPointShape{
+	}
+}
+
+func (Deliverable) GongGetAssociationName() any {
+	return &Deliverable{
 			SubDeliverables: []*Deliverable{{Name: "SubDeliverables"}},
 			Concepts: []*Concept{{Name: "Concepts"}},
-		}).(*Type)
-	case DeliverableCompositionShape:
-		return any(&DeliverableCompositionShape{
+	}
+}
+
+func (DeliverableCompositionShape) GongGetAssociationName() any {
+	return &DeliverableCompositionShape{
 			Deliverable: &Deliverable{Name: "Deliverable"},
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
-		}).(*Type)
-	case DeliverableConceptShape:
-		return any(&DeliverableConceptShape{
+	}
+}
+
+func (DeliverableConceptShape) GongGetAssociationName() any {
+	return &DeliverableConceptShape{
 			Deliverable: &Deliverable{Name: "Deliverable"},
 			Concept: &Concept{Name: "Concept"},
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
-		}).(*Type)
-	case DeliverableShape:
-		return any(&DeliverableShape{
+	}
+}
+
+func (DeliverableShape) GongGetAssociationName() any {
+	return &DeliverableShape{
 			Deliverable: &Deliverable{Name: "Deliverable"},
-		}).(*Type)
-	case Diagram:
-		return any(&Diagram{
+	}
+}
+
+func (Diagram) GongGetAssociationName() any {
+	return &Diagram{
 			ConcernsWhoseRequirementsNodeIsExpanded: []*Concern{{Name: "ConcernsWhoseRequirementsNodeIsExpanded"}},
 			Deliverable_Shapes: []*DeliverableShape{{Name: "Deliverable_Shapes"}},
 			DeliverablesWhoseNodeIsExpanded: []*Deliverable{{Name: "DeliverablesWhoseNodeIsExpanded"}},
@@ -3127,13 +3508,17 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			DeliverableConceptShapes: []*DeliverableConceptShape{{Name: "DeliverableConceptShapes"}},
 			Diagram_Shapes: []*DiagramShape{{Name: "Diagram_Shapes"}},
 			DiagramsWhoseNodeIsExpanded: []*Diagram{{Name: "DiagramsWhoseNodeIsExpanded"}},
-		}).(*Type)
-	case DiagramShape:
-		return any(&DiagramShape{
+	}
+}
+
+func (DiagramShape) GongGetAssociationName() any {
+	return &DiagramShape{
 			Diagram: &Diagram{Name: "Diagram"},
-		}).(*Type)
-	case Library:
-		return any(&Library{
+	}
+}
+
+func (Library) GongGetAssociationName() any {
+	return &Library{
 			RootDeliverables: []*Deliverable{{Name: "RootDeliverables"}},
 			RootConcerns: []*Concern{{Name: "RootConcerns"}},
 			RootStakeholders: []*Stakeholder{{Name: "RootStakeholders"}},
@@ -3143,71 +3528,107 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Notes: []*Note{{Name: "Notes"}},
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
-		}).(*Type)
-	case Note:
-		return any(&Note{
+	}
+}
+
+func (Note) GongGetAssociationName() any {
+	return &Note{
 			Deliverables: []*Deliverable{{Name: "Deliverables"}},
 			Tasks: []*Concern{{Name: "Tasks"}},
 			Resources: []*Stakeholder{{Name: "Resources"}},
-		}).(*Type)
-	case NoteDeliverableShape:
-		return any(&NoteDeliverableShape{
+	}
+}
+
+func (NoteDeliverableShape) GongGetAssociationName() any {
+	return &NoteDeliverableShape{
 			Note: &Note{Name: "Note"},
 			Deliverable: &Deliverable{Name: "Deliverable"},
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
-		}).(*Type)
-	case NoteShape:
-		return any(&NoteShape{
+	}
+}
+
+func (NoteShape) GongGetAssociationName() any {
+	return &NoteShape{
 			Note: &Note{Name: "Note"},
-		}).(*Type)
-	case NoteStakeholderShape:
-		return any(&NoteStakeholderShape{
+	}
+}
+
+func (NoteStakeholderShape) GongGetAssociationName() any {
+	return &NoteStakeholderShape{
 			Note: &Note{Name: "Note"},
 			Stakeholder: &Stakeholder{Name: "Stakeholder"},
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
-		}).(*Type)
-	case NoteTaskShape:
-		return any(&NoteTaskShape{
+	}
+}
+
+func (NoteTaskShape) GongGetAssociationName() any {
+	return &NoteTaskShape{
 			Note: &Note{Name: "Note"},
 			Task: &Concern{Name: "Task"},
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
-		}).(*Type)
-	case Requirement:
-		return any(&Requirement{
+	}
+}
+
+func (Requirement) GongGetAssociationName() any {
+	return &Requirement{
 			SupportLevels: []*SupportLevel{{Name: "SupportLevels"}},
 			Concepts: []*Concept{{Name: "Concepts"}},
-		}).(*Type)
-	case RequirementShape:
-		return any(&RequirementShape{
+	}
+}
+
+func (RequirementShape) GongGetAssociationName() any {
+	return &RequirementShape{
 			Requirement: &Requirement{Name: "Requirement"},
-		}).(*Type)
-	case Stakeholder:
-		return any(&Stakeholder{
+	}
+}
+
+func (Stakeholder) GongGetAssociationName() any {
+	return &Stakeholder{
 			Concerns: []*Concern{{Name: "Concerns"}},
 			SubStakeholders: []*Stakeholder{{Name: "SubStakeholders"}},
-		}).(*Type)
-	case StakeholderCompositionShape:
-		return any(&StakeholderCompositionShape{
+	}
+}
+
+func (StakeholderCompositionShape) GongGetAssociationName() any {
+	return &StakeholderCompositionShape{
 			Stakeholder: &Stakeholder{Name: "Stakeholder"},
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
-		}).(*Type)
-	case StakeholderConcernShape:
-		return any(&StakeholderConcernShape{
+	}
+}
+
+func (StakeholderConcernShape) GongGetAssociationName() any {
+	return &StakeholderConcernShape{
 			Stakeholder: &Stakeholder{Name: "Stakeholder"},
 			Concern: &Concern{Name: "Concern"},
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
-		}).(*Type)
-	case StakeholderShape:
-		return any(&StakeholderShape{
-			Stakeholder: &Stakeholder{Name: "Stakeholder"},
-		}).(*Type)
-	case SupportLevel:
-		return any(&SupportLevel{
-			Tool: &Tool{Name: "Tool"},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+func (StakeholderShape) GongGetAssociationName() any {
+	return &StakeholderShape{
+			Stakeholder: &Stakeholder{Name: "Stakeholder"},
+	}
+}
+
+func (SupportLevel) GongGetAssociationName() any {
+	return &SupportLevel{
+			Tool: &Tool{Name: "Tool"},
+	}
+}
+
+func (Tool) GongGetAssociationName() any {
+	return &Tool{
+	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -4458,70 +4879,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *AnalysisNeed:
-		res = any(new(AnalysisNeed)).(Type)
-	case *Concept:
-		res = any(new(Concept)).(Type)
-	case *ConceptShape:
-		res = any(new(ConceptShape)).(Type)
-	case *Concern:
-		res = any(new(Concern)).(Type)
-	case *ConcernCompositionShape:
-		res = any(new(ConcernCompositionShape)).(Type)
-	case *ConcernInputShape:
-		res = any(new(ConcernInputShape)).(Type)
-	case *ConcernOutputShape:
-		res = any(new(ConcernOutputShape)).(Type)
-	case *ConcernShape:
-		res = any(new(ConcernShape)).(Type)
-	case *ControlPointShape:
-		res = any(new(ControlPointShape)).(Type)
-	case *Deliverable:
-		res = any(new(Deliverable)).(Type)
-	case *DeliverableCompositionShape:
-		res = any(new(DeliverableCompositionShape)).(Type)
-	case *DeliverableConceptShape:
-		res = any(new(DeliverableConceptShape)).(Type)
-	case *DeliverableShape:
-		res = any(new(DeliverableShape)).(Type)
-	case *Diagram:
-		res = any(new(Diagram)).(Type)
-	case *DiagramShape:
-		res = any(new(DiagramShape)).(Type)
-	case *Library:
-		res = any(new(Library)).(Type)
-	case *Note:
-		res = any(new(Note)).(Type)
-	case *NoteDeliverableShape:
-		res = any(new(NoteDeliverableShape)).(Type)
-	case *NoteShape:
-		res = any(new(NoteShape)).(Type)
-	case *NoteStakeholderShape:
-		res = any(new(NoteStakeholderShape)).(Type)
-	case *NoteTaskShape:
-		res = any(new(NoteTaskShape)).(Type)
-	case *Requirement:
-		res = any(new(Requirement)).(Type)
-	case *RequirementShape:
-		res = any(new(RequirementShape)).(Type)
-	case *Stakeholder:
-		res = any(new(Stakeholder)).(Type)
-	case *StakeholderCompositionShape:
-		res = any(new(StakeholderCompositionShape)).(Type)
-	case *StakeholderConcernShape:
-		res = any(new(StakeholderConcernShape)).(Type)
-	case *StakeholderShape:
-		res = any(new(StakeholderShape)).(Type)
-	case *SupportLevel:
-		res = any(new(SupportLevel)).(Type)
-	case *Tool:
-		res = any(new(Tool)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -4544,70 +4903,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *AnalysisNeed:
-		res = "AnalysisNeed"
-	case *Concept:
-		res = "Concept"
-	case *ConceptShape:
-		res = "ConceptShape"
-	case *Concern:
-		res = "Concern"
-	case *ConcernCompositionShape:
-		res = "ConcernCompositionShape"
-	case *ConcernInputShape:
-		res = "ConcernInputShape"
-	case *ConcernOutputShape:
-		res = "ConcernOutputShape"
-	case *ConcernShape:
-		res = "ConcernShape"
-	case *ControlPointShape:
-		res = "ControlPointShape"
-	case *Deliverable:
-		res = "Deliverable"
-	case *DeliverableCompositionShape:
-		res = "DeliverableCompositionShape"
-	case *DeliverableConceptShape:
-		res = "DeliverableConceptShape"
-	case *DeliverableShape:
-		res = "DeliverableShape"
-	case *Diagram:
-		res = "Diagram"
-	case *DiagramShape:
-		res = "DiagramShape"
-	case *Library:
-		res = "Library"
-	case *Note:
-		res = "Note"
-	case *NoteDeliverableShape:
-		res = "NoteDeliverableShape"
-	case *NoteShape:
-		res = "NoteShape"
-	case *NoteStakeholderShape:
-		res = "NoteStakeholderShape"
-	case *NoteTaskShape:
-		res = "NoteTaskShape"
-	case *Requirement:
-		res = "Requirement"
-	case *RequirementShape:
-		res = "RequirementShape"
-	case *Stakeholder:
-		res = "Stakeholder"
-	case *StakeholderCompositionShape:
-		res = "StakeholderCompositionShape"
-	case *StakeholderConcernShape:
-		res = "StakeholderConcernShape"
-	case *StakeholderShape:
-		res = "StakeholderShape"
-	case *SupportLevel:
-		res = "SupportLevel"
-	case *Tool:
-		res = "Tool"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -4621,292 +4918,408 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *AnalysisNeed:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "AnalysisNeeds"
-		res = append(res, rf)
-	case *Concept:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Deliverable"
-		rf.Fieldname = "Concepts"
-		res = append(res, rf)
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ConceptsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ConceptsWhoseDeliverablesNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootConcepts"
-		res = append(res, rf)
-		rf.GongstructName = "Requirement"
-		rf.Fieldname = "Concepts"
-		res = append(res, rf)
-	case *ConceptShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "Concept_Shapes"
-		res = append(res, rf)
-	case *Concern:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Concern"
-		rf.Fieldname = "SubConcerns"
-		res = append(res, rf)
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ConcernsWhoseRequirementsNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ConcernsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ConcernsWhoseInputNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ConcernsWhoseStakeholderNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ConcernssWhoseOutputNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootConcerns"
-		res = append(res, rf)
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Tasks"
-		res = append(res, rf)
-		rf.GongstructName = "Stakeholder"
-		rf.Fieldname = "Concerns"
-		res = append(res, rf)
-	case *ConcernCompositionShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ConcernComposition_Shapes"
-		res = append(res, rf)
-	case *ConcernInputShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ConcernInputShapes"
-		res = append(res, rf)
-	case *ConcernOutputShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ConcernOutputShapes"
-		res = append(res, rf)
-	case *ConcernShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "Concern_Shapes"
-		res = append(res, rf)
-	case *ControlPointShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ConcernCompositionShape"
-		rf.Fieldname = "ControlPointShapes"
-		res = append(res, rf)
-		rf.GongstructName = "ConcernInputShape"
-		rf.Fieldname = "ControlPointShapes"
-		res = append(res, rf)
-		rf.GongstructName = "ConcernOutputShape"
-		rf.Fieldname = "ControlPointShapes"
-		res = append(res, rf)
-		rf.GongstructName = "DeliverableCompositionShape"
-		rf.Fieldname = "ControlPointShapes"
-		res = append(res, rf)
-		rf.GongstructName = "DeliverableConceptShape"
-		rf.Fieldname = "ControlPointShapes"
-		res = append(res, rf)
-		rf.GongstructName = "NoteDeliverableShape"
-		rf.Fieldname = "ControlPointShapes"
-		res = append(res, rf)
-		rf.GongstructName = "NoteStakeholderShape"
-		rf.Fieldname = "ControlPointShapes"
-		res = append(res, rf)
-		rf.GongstructName = "NoteTaskShape"
-		rf.Fieldname = "ControlPointShapes"
-		res = append(res, rf)
-		rf.GongstructName = "StakeholderCompositionShape"
-		rf.Fieldname = "ControlPointShapes"
-		res = append(res, rf)
-		rf.GongstructName = "StakeholderConcernShape"
-		rf.Fieldname = "ControlPointShapes"
-		res = append(res, rf)
-	case *Deliverable:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Concern"
-		rf.Fieldname = "Inputs"
-		res = append(res, rf)
-		rf.GongstructName = "Concern"
-		rf.Fieldname = "Outputs"
-		res = append(res, rf)
-		rf.GongstructName = "Deliverable"
-		rf.Fieldname = "SubDeliverables"
-		res = append(res, rf)
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "DeliverablesWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "DeliverablesWhoseConceptsNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootDeliverables"
-		res = append(res, rf)
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Deliverables"
-		res = append(res, rf)
-	case *DeliverableCompositionShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "DeliverableComposition_Shapes"
-		res = append(res, rf)
-	case *DeliverableConceptShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "DeliverableConceptShapes"
-		res = append(res, rf)
-	case *DeliverableShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "Deliverable_Shapes"
-		res = append(res, rf)
-	case *Diagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "DiagramsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "Diagrams"
-		res = append(res, rf)
-	case *DiagramShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "Diagram_Shapes"
-		res = append(res, rf)
-	case *Library:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "SubLibraries"
-		res = append(res, rf)
-	case *Note:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "NotesWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "Notes"
-		res = append(res, rf)
-	case *NoteDeliverableShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "NoteDeliverableShapes"
-		res = append(res, rf)
-	case *NoteShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "Note_Shapes"
-		res = append(res, rf)
-	case *NoteStakeholderShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "NoteResourceShapes"
-		res = append(res, rf)
-	case *NoteTaskShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "NoteTaskShapes"
-		res = append(res, rf)
-	case *Requirement:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Concern"
-		rf.Fieldname = "Requirements"
-		res = append(res, rf)
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "RequirementsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootRequirements"
-		res = append(res, rf)
-	case *RequirementShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "Requirement_Shapes"
-		res = append(res, rf)
-	case *Stakeholder:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ResourcesWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootStakeholders"
-		res = append(res, rf)
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Resources"
-		res = append(res, rf)
-		rf.GongstructName = "Stakeholder"
-		rf.Fieldname = "SubStakeholders"
-		res = append(res, rf)
-	case *StakeholderCompositionShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "ResourceComposition_Shapes"
-		res = append(res, rf)
-	case *StakeholderConcernShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "StakeholderConcernShapes"
-		res = append(res, rf)
-	case *StakeholderShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "Stakeholder_Shapes"
-		res = append(res, rf)
-	case *SupportLevel:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Requirement"
-		rf.Fieldname = "SupportLevels"
-		res = append(res, rf)
-	case *Tool:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Concept"
-		rf.Fieldname = "Tools"
-		res = append(res, rf)
+// insertion point for generic get reverse fields
+func (*AnalysisNeed) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "AnalysisNeeds",
+		},
 	}
-	return
+}
+
+func (*Concept) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Deliverable",
+			Fieldname: "Concepts",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ConceptsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ConceptsWhoseDeliverablesNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootConcepts",
+		},
+		{
+			GongstructName: "Requirement",
+			Fieldname: "Concepts",
+		},
+	}
+}
+
+func (*ConceptShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "Concept_Shapes",
+		},
+	}
+}
+
+func (*Concern) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Concern",
+			Fieldname: "SubConcerns",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ConcernsWhoseRequirementsNodeIsExpanded",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ConcernsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ConcernsWhoseInputNodeIsExpanded",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ConcernsWhoseStakeholderNodeIsExpanded",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ConcernssWhoseOutputNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootConcerns",
+		},
+		{
+			GongstructName: "Note",
+			Fieldname: "Tasks",
+		},
+		{
+			GongstructName: "Stakeholder",
+			Fieldname: "Concerns",
+		},
+	}
+}
+
+func (*ConcernCompositionShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ConcernComposition_Shapes",
+		},
+	}
+}
+
+func (*ConcernInputShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ConcernInputShapes",
+		},
+	}
+}
+
+func (*ConcernOutputShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ConcernOutputShapes",
+		},
+	}
+}
+
+func (*ConcernShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "Concern_Shapes",
+		},
+	}
+}
+
+func (*ControlPointShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ConcernCompositionShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "ConcernInputShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "ConcernOutputShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "DeliverableCompositionShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "DeliverableConceptShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "NoteDeliverableShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "NoteStakeholderShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "NoteTaskShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "StakeholderCompositionShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "StakeholderConcernShape",
+			Fieldname: "ControlPointShapes",
+		},
+	}
+}
+
+func (*Deliverable) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Concern",
+			Fieldname: "Inputs",
+		},
+		{
+			GongstructName: "Concern",
+			Fieldname: "Outputs",
+		},
+		{
+			GongstructName: "Deliverable",
+			Fieldname: "SubDeliverables",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "DeliverablesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "DeliverablesWhoseConceptsNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootDeliverables",
+		},
+		{
+			GongstructName: "Note",
+			Fieldname: "Deliverables",
+		},
+	}
+}
+
+func (*DeliverableCompositionShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "DeliverableComposition_Shapes",
+		},
+	}
+}
+
+func (*DeliverableConceptShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "DeliverableConceptShapes",
+		},
+	}
+}
+
+func (*DeliverableShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "Deliverable_Shapes",
+		},
+	}
+}
+
+func (*Diagram) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "DiagramsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "Diagrams",
+		},
+	}
+}
+
+func (*DiagramShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "Diagram_Shapes",
+		},
+	}
+}
+
+func (*Library) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "SubLibraries",
+		},
+	}
+}
+
+func (*Note) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "NotesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "Notes",
+		},
+	}
+}
+
+func (*NoteDeliverableShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "NoteDeliverableShapes",
+		},
+	}
+}
+
+func (*NoteShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "Note_Shapes",
+		},
+	}
+}
+
+func (*NoteStakeholderShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "NoteResourceShapes",
+		},
+	}
+}
+
+func (*NoteTaskShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "NoteTaskShapes",
+		},
+	}
+}
+
+func (*Requirement) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Concern",
+			Fieldname: "Requirements",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "RequirementsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootRequirements",
+		},
+	}
+}
+
+func (*RequirementShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "Requirement_Shapes",
+		},
+	}
+}
+
+func (*Stakeholder) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ResourcesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootStakeholders",
+		},
+		{
+			GongstructName: "Note",
+			Fieldname: "Resources",
+		},
+		{
+			GongstructName: "Stakeholder",
+			Fieldname: "SubStakeholders",
+		},
+	}
+}
+
+func (*StakeholderCompositionShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ResourceComposition_Shapes",
+		},
+	}
+}
+
+func (*StakeholderConcernShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "StakeholderConcernShapes",
+		},
+	}
+}
+
+func (*StakeholderShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "Stakeholder_Shapes",
+		},
+	}
+}
+
+func (*SupportLevel) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Requirement",
+			Fieldname: "SupportLevels",
+		},
+	}
+}
+
+func (*Tool) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Concept",
+			Fieldname: "Tools",
+		},
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

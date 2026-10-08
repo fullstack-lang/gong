@@ -600,55 +600,416 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*AsSplit) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.AsSplits, stage.AsSplit_stagedOrder)
+}
+
+func (*AsSplit) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.AsSplit_orderStaged[order]
+}
+
+func (*AsSplit) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.AsSplits_mapString
+}
+
+func (*AsSplit) GongGetInstancesSet(stage *Stage) any {
+	return &stage.AsSplits
+}
+
+func (*AsSplit) GongNewInstance() any {
+	return new(AsSplit)
+}
+
+func (*AsSplitArea) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.AsSplitAreas, stage.AsSplitArea_stagedOrder)
+}
+
+func (*AsSplitArea) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.AsSplitArea_orderStaged[order]
+}
+
+func (*AsSplitArea) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.AsSplitAreas_mapString
+}
+
+func (*AsSplitArea) GongGetInstancesSet(stage *Stage) any {
+	return &stage.AsSplitAreas
+}
+
+func (*AsSplitArea) GongNewInstance() any {
+	return new(AsSplitArea)
+}
+
+func (*Button) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Buttons, stage.Button_stagedOrder)
+}
+
+func (*Button) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Button_orderStaged[order]
+}
+
+func (*Button) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Buttons_mapString
+}
+
+func (*Button) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Buttons
+}
+
+func (*Button) GongNewInstance() any {
+	return new(Button)
+}
+
+func (*Cursor) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Cursors, stage.Cursor_stagedOrder)
+}
+
+func (*Cursor) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Cursor_orderStaged[order]
+}
+
+func (*Cursor) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Cursors_mapString
+}
+
+func (*Cursor) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Cursors
+}
+
+func (*Cursor) GongNewInstance() any {
+	return new(Cursor)
+}
+
+func (*FavIcon) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FavIcons, stage.FavIcon_stagedOrder)
+}
+
+func (*FavIcon) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FavIcon_orderStaged[order]
+}
+
+func (*FavIcon) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FavIcons_mapString
+}
+
+func (*FavIcon) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FavIcons
+}
+
+func (*FavIcon) GongNewInstance() any {
+	return new(FavIcon)
+}
+
+func (*Form) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Forms, stage.Form_stagedOrder)
+}
+
+func (*Form) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Form_orderStaged[order]
+}
+
+func (*Form) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Forms_mapString
+}
+
+func (*Form) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Forms
+}
+
+func (*Form) GongNewInstance() any {
+	return new(Form)
+}
+
+func (*Load) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Loads, stage.Load_stagedOrder)
+}
+
+func (*Load) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Load_orderStaged[order]
+}
+
+func (*Load) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Loads_mapString
+}
+
+func (*Load) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Loads
+}
+
+func (*Load) GongNewInstance() any {
+	return new(Load)
+}
+
+func (*LogoOnTheLeft) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.LogoOnTheLefts, stage.LogoOnTheLeft_stagedOrder)
+}
+
+func (*LogoOnTheLeft) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.LogoOnTheLeft_orderStaged[order]
+}
+
+func (*LogoOnTheLeft) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.LogoOnTheLefts_mapString
+}
+
+func (*LogoOnTheLeft) GongGetInstancesSet(stage *Stage) any {
+	return &stage.LogoOnTheLefts
+}
+
+func (*LogoOnTheLeft) GongNewInstance() any {
+	return new(LogoOnTheLeft)
+}
+
+func (*LogoOnTheRight) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.LogoOnTheRights, stage.LogoOnTheRight_stagedOrder)
+}
+
+func (*LogoOnTheRight) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.LogoOnTheRight_orderStaged[order]
+}
+
+func (*LogoOnTheRight) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.LogoOnTheRights_mapString
+}
+
+func (*LogoOnTheRight) GongGetInstancesSet(stage *Stage) any {
+	return &stage.LogoOnTheRights
+}
+
+func (*LogoOnTheRight) GongNewInstance() any {
+	return new(LogoOnTheRight)
+}
+
+func (*Markdown) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Markdowns, stage.Markdown_stagedOrder)
+}
+
+func (*Markdown) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Markdown_orderStaged[order]
+}
+
+func (*Markdown) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Markdowns_mapString
+}
+
+func (*Markdown) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Markdowns
+}
+
+func (*Markdown) GongNewInstance() any {
+	return new(Markdown)
+}
+
+func (*Slider) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Sliders, stage.Slider_stagedOrder)
+}
+
+func (*Slider) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Slider_orderStaged[order]
+}
+
+func (*Slider) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Sliders_mapString
+}
+
+func (*Slider) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Sliders
+}
+
+func (*Slider) GongNewInstance() any {
+	return new(Slider)
+}
+
+func (*Split) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Splits, stage.Split_stagedOrder)
+}
+
+func (*Split) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Split_orderStaged[order]
+}
+
+func (*Split) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Splits_mapString
+}
+
+func (*Split) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Splits
+}
+
+func (*Split) GongNewInstance() any {
+	return new(Split)
+}
+
+func (*Svg) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Svgs, stage.Svg_stagedOrder)
+}
+
+func (*Svg) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Svg_orderStaged[order]
+}
+
+func (*Svg) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Svgs_mapString
+}
+
+func (*Svg) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Svgs
+}
+
+func (*Svg) GongNewInstance() any {
+	return new(Svg)
+}
+
+func (*Table) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Tables, stage.Table_stagedOrder)
+}
+
+func (*Table) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Table_orderStaged[order]
+}
+
+func (*Table) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Tables_mapString
+}
+
+func (*Table) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Tables
+}
+
+func (*Table) GongNewInstance() any {
+	return new(Table)
+}
+
+func (*Threejs) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Threejss, stage.Threejs_stagedOrder)
+}
+
+func (*Threejs) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Threejs_orderStaged[order]
+}
+
+func (*Threejs) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Threejss_mapString
+}
+
+func (*Threejs) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Threejss
+}
+
+func (*Threejs) GongNewInstance() any {
+	return new(Threejs)
+}
+
+func (*Title) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Titles, stage.Title_stagedOrder)
+}
+
+func (*Title) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Title_orderStaged[order]
+}
+
+func (*Title) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Titles_mapString
+}
+
+func (*Title) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Titles
+}
+
+func (*Title) GongNewInstance() any {
+	return new(Title)
+}
+
+func (*Tone) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Tones, stage.Tone_stagedOrder)
+}
+
+func (*Tone) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tone_orderStaged[order]
+}
+
+func (*Tone) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Tones_mapString
+}
+
+func (*Tone) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Tones
+}
+
+func (*Tone) GongNewInstance() any {
+	return new(Tone)
+}
+
+func (*Tree) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Trees, stage.Tree_stagedOrder)
+}
+
+func (*Tree) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tree_orderStaged[order]
+}
+
+func (*Tree) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Trees_mapString
+}
+
+func (*Tree) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Trees
+}
+
+func (*Tree) GongNewInstance() any {
+	return new(Tree)
+}
+
+func (*View) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Views, stage.View_stagedOrder)
+}
+
+func (*View) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.View_orderStaged[order]
+}
+
+func (*View) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Views_mapString
+}
+
+func (*View) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Views
+}
+
+func (*View) GongNewInstance() any {
+	return new(View)
+}
+
+func (*Xlsx) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Xlsxs, stage.Xlsx_stagedOrder)
+}
+
+func (*Xlsx) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Xlsx_orderStaged[order]
+}
+
+func (*Xlsx) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Xlsxs_mapString
+}
+
+func (*Xlsx) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Xlsxs
+}
+
+func (*Xlsx) GongNewInstance() any {
+	return new(Xlsx)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *AsSplit:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.AsSplits, stage.AsSplit_stagedOrder))
-	case *AsSplitArea:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.AsSplitAreas, stage.AsSplitArea_stagedOrder))
-	case *Button:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Buttons, stage.Button_stagedOrder))
-	case *Cursor:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Cursors, stage.Cursor_stagedOrder))
-	case *FavIcon:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FavIcons, stage.FavIcon_stagedOrder))
-	case *Form:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Forms, stage.Form_stagedOrder))
-	case *Load:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Loads, stage.Load_stagedOrder))
-	case *LogoOnTheLeft:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.LogoOnTheLefts, stage.LogoOnTheLeft_stagedOrder))
-	case *LogoOnTheRight:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.LogoOnTheRights, stage.LogoOnTheRight_stagedOrder))
-	case *Markdown:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Markdowns, stage.Markdown_stagedOrder))
-	case *Slider:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Sliders, stage.Slider_stagedOrder))
-	case *Split:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Splits, stage.Split_stagedOrder))
-	case *Svg:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Svgs, stage.Svg_stagedOrder))
-	case *Table:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tables, stage.Table_stagedOrder))
-	case *Threejs:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Threejss, stage.Threejs_stagedOrder))
-	case *Title:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Titles, stage.Title_stagedOrder))
-	case *Tone:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tones, stage.Tone_stagedOrder))
-	case *Tree:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Trees, stage.Tree_stagedOrder))
-	case *View:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Views, stage.View_stagedOrder))
-	case *Xlsx:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Xlsxs, stage.Xlsx_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -1030,52 +1391,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *AsSplit:
-		return any(stage.AsSplit_orderStaged[order]).(Type)
-	case *AsSplitArea:
-		return any(stage.AsSplitArea_orderStaged[order]).(Type)
-	case *Button:
-		return any(stage.Button_orderStaged[order]).(Type)
-	case *Cursor:
-		return any(stage.Cursor_orderStaged[order]).(Type)
-	case *FavIcon:
-		return any(stage.FavIcon_orderStaged[order]).(Type)
-	case *Form:
-		return any(stage.Form_orderStaged[order]).(Type)
-	case *Load:
-		return any(stage.Load_orderStaged[order]).(Type)
-	case *LogoOnTheLeft:
-		return any(stage.LogoOnTheLeft_orderStaged[order]).(Type)
-	case *LogoOnTheRight:
-		return any(stage.LogoOnTheRight_orderStaged[order]).(Type)
-	case *Markdown:
-		return any(stage.Markdown_orderStaged[order]).(Type)
-	case *Slider:
-		return any(stage.Slider_orderStaged[order]).(Type)
-	case *Split:
-		return any(stage.Split_orderStaged[order]).(Type)
-	case *Svg:
-		return any(stage.Svg_orderStaged[order]).(Type)
-	case *Table:
-		return any(stage.Table_orderStaged[order]).(Type)
-	case *Threejs:
-		return any(stage.Threejs_orderStaged[order]).(Type)
-	case *Title:
-		return any(stage.Title_orderStaged[order]).(Type)
-	case *Tone:
-		return any(stage.Tone_orderStaged[order]).(Type)
-	case *Tree:
-		return any(stage.Tree_orderStaged[order]).(Type)
-	case *View:
-		return any(stage.View_orderStaged[order]).(Type)
-	case *Xlsx:
-		return any(stage.Xlsx_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -2043,7 +2367,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -2075,6 +2401,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -2106,121 +2439,31 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *AsSplit:
-		return any(stage.AsSplits_mapString).(map[string]Type)
-	case *AsSplitArea:
-		return any(stage.AsSplitAreas_mapString).(map[string]Type)
-	case *Button:
-		return any(stage.Buttons_mapString).(map[string]Type)
-	case *Cursor:
-		return any(stage.Cursors_mapString).(map[string]Type)
-	case *FavIcon:
-		return any(stage.FavIcons_mapString).(map[string]Type)
-	case *Form:
-		return any(stage.Forms_mapString).(map[string]Type)
-	case *Load:
-		return any(stage.Loads_mapString).(map[string]Type)
-	case *LogoOnTheLeft:
-		return any(stage.LogoOnTheLefts_mapString).(map[string]Type)
-	case *LogoOnTheRight:
-		return any(stage.LogoOnTheRights_mapString).(map[string]Type)
-	case *Markdown:
-		return any(stage.Markdowns_mapString).(map[string]Type)
-	case *Slider:
-		return any(stage.Sliders_mapString).(map[string]Type)
-	case *Split:
-		return any(stage.Splits_mapString).(map[string]Type)
-	case *Svg:
-		return any(stage.Svgs_mapString).(map[string]Type)
-	case *Table:
-		return any(stage.Tables_mapString).(map[string]Type)
-	case *Threejs:
-		return any(stage.Threejss_mapString).(map[string]Type)
-	case *Title:
-		return any(stage.Titles_mapString).(map[string]Type)
-	case *Tone:
-		return any(stage.Tones_mapString).(map[string]Type)
-	case *Tree:
-		return any(stage.Trees_mapString).(map[string]Type)
-	case *View:
-		return any(stage.Views_mapString).(map[string]Type)
-	case *Xlsx:
-		return any(stage.Xlsxs_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *AsSplit:
-		return any(&stage.AsSplits).(*map[Type]struct{})
-	case *AsSplitArea:
-		return any(&stage.AsSplitAreas).(*map[Type]struct{})
-	case *Button:
-		return any(&stage.Buttons).(*map[Type]struct{})
-	case *Cursor:
-		return any(&stage.Cursors).(*map[Type]struct{})
-	case *FavIcon:
-		return any(&stage.FavIcons).(*map[Type]struct{})
-	case *Form:
-		return any(&stage.Forms).(*map[Type]struct{})
-	case *Load:
-		return any(&stage.Loads).(*map[Type]struct{})
-	case *LogoOnTheLeft:
-		return any(&stage.LogoOnTheLefts).(*map[Type]struct{})
-	case *LogoOnTheRight:
-		return any(&stage.LogoOnTheRights).(*map[Type]struct{})
-	case *Markdown:
-		return any(&stage.Markdowns).(*map[Type]struct{})
-	case *Slider:
-		return any(&stage.Sliders).(*map[Type]struct{})
-	case *Split:
-		return any(&stage.Splits).(*map[Type]struct{})
-	case *Svg:
-		return any(&stage.Svgs).(*map[Type]struct{})
-	case *Table:
-		return any(&stage.Tables).(*map[Type]struct{})
-	case *Threejs:
-		return any(&stage.Threejss).(*map[Type]struct{})
-	case *Title:
-		return any(&stage.Titles).(*map[Type]struct{})
-	case *Tone:
-		return any(&stage.Tones).(*map[Type]struct{})
-	case *Tree:
-		return any(&stage.Trees).(*map[Type]struct{})
-	case *View:
-		return any(&stage.Views).(*map[Type]struct{})
-	case *Xlsx:
-		return any(&stage.Xlsxs).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
+	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
+}
+
+// insertion point for instance with special fields
+func (AsSplit) GongGetAssociationName() any {
+	return &AsSplit{
+			AsSplitAreas: []*AsSplitArea{{Name: "AsSplitAreas"}},
 	}
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case AsSplit:
-		return any(&AsSplit{
-			AsSplitAreas: []*AsSplitArea{{Name: "AsSplitAreas"}},
-		}).(*Type)
-	case AsSplitArea:
-		return any(&AsSplitArea{
+func (AsSplitArea) GongGetAssociationName() any {
+	return &AsSplitArea{
 			AsSplit: &AsSplit{Name: "AsSplit"},
 			Button: &Button{Name: "Button"},
 			Cursor: &Cursor{Name: "Cursor"},
@@ -2235,14 +2478,108 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Tree: &Tree{Name: "Tree"},
 			Threejs: &Threejs{Name: "Threejs"},
 			Xlsx: &Xlsx{Name: "Xlsx"},
-		}).(*Type)
-	case View:
-		return any(&View{
-			RootAsSplitAreas: []*AsSplitArea{{Name: "RootAsSplitAreas"}},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+func (Button) GongGetAssociationName() any {
+	return &Button{
+	}
+}
+
+func (Cursor) GongGetAssociationName() any {
+	return &Cursor{
+	}
+}
+
+func (FavIcon) GongGetAssociationName() any {
+	return &FavIcon{
+	}
+}
+
+func (Form) GongGetAssociationName() any {
+	return &Form{
+	}
+}
+
+func (Load) GongGetAssociationName() any {
+	return &Load{
+	}
+}
+
+func (LogoOnTheLeft) GongGetAssociationName() any {
+	return &LogoOnTheLeft{
+	}
+}
+
+func (LogoOnTheRight) GongGetAssociationName() any {
+	return &LogoOnTheRight{
+	}
+}
+
+func (Markdown) GongGetAssociationName() any {
+	return &Markdown{
+	}
+}
+
+func (Slider) GongGetAssociationName() any {
+	return &Slider{
+	}
+}
+
+func (Split) GongGetAssociationName() any {
+	return &Split{
+	}
+}
+
+func (Svg) GongGetAssociationName() any {
+	return &Svg{
+	}
+}
+
+func (Table) GongGetAssociationName() any {
+	return &Table{
+	}
+}
+
+func (Threejs) GongGetAssociationName() any {
+	return &Threejs{
+	}
+}
+
+func (Title) GongGetAssociationName() any {
+	return &Title{
+	}
+}
+
+func (Tone) GongGetAssociationName() any {
+	return &Tone{
+	}
+}
+
+func (Tree) GongGetAssociationName() any {
+	return &Tree{
+	}
+}
+
+func (View) GongGetAssociationName() any {
+	return &View{
+			RootAsSplitAreas: []*AsSplitArea{{Name: "RootAsSplitAreas"}},
+	}
+}
+
+func (Xlsx) GongGetAssociationName() any {
+	return &Xlsx{
+	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -2728,52 +3065,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *AsSplit:
-		res = any(new(AsSplit)).(Type)
-	case *AsSplitArea:
-		res = any(new(AsSplitArea)).(Type)
-	case *Button:
-		res = any(new(Button)).(Type)
-	case *Cursor:
-		res = any(new(Cursor)).(Type)
-	case *FavIcon:
-		res = any(new(FavIcon)).(Type)
-	case *Form:
-		res = any(new(Form)).(Type)
-	case *Load:
-		res = any(new(Load)).(Type)
-	case *LogoOnTheLeft:
-		res = any(new(LogoOnTheLeft)).(Type)
-	case *LogoOnTheRight:
-		res = any(new(LogoOnTheRight)).(Type)
-	case *Markdown:
-		res = any(new(Markdown)).(Type)
-	case *Slider:
-		res = any(new(Slider)).(Type)
-	case *Split:
-		res = any(new(Split)).(Type)
-	case *Svg:
-		res = any(new(Svg)).(Type)
-	case *Table:
-		res = any(new(Table)).(Type)
-	case *Threejs:
-		res = any(new(Threejs)).(Type)
-	case *Title:
-		res = any(new(Title)).(Type)
-	case *Tone:
-		res = any(new(Tone)).(Type)
-	case *Tree:
-		res = any(new(Tree)).(Type)
-	case *View:
-		res = any(new(View)).(Type)
-	case *Xlsx:
-		res = any(new(Xlsx)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -2796,52 +3089,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *AsSplit:
-		res = "AsSplit"
-	case *AsSplitArea:
-		res = "AsSplitArea"
-	case *Button:
-		res = "Button"
-	case *Cursor:
-		res = "Cursor"
-	case *FavIcon:
-		res = "FavIcon"
-	case *Form:
-		res = "Form"
-	case *Load:
-		res = "Load"
-	case *LogoOnTheLeft:
-		res = "LogoOnTheLeft"
-	case *LogoOnTheRight:
-		res = "LogoOnTheRight"
-	case *Markdown:
-		res = "Markdown"
-	case *Slider:
-		res = "Slider"
-	case *Split:
-		res = "Split"
-	case *Svg:
-		res = "Svg"
-	case *Table:
-		res = "Table"
-	case *Threejs:
-		res = "Threejs"
-	case *Title:
-		res = "Title"
-	case *Tone:
-		res = "Tone"
-	case *Tree:
-		res = "Tree"
-	case *View:
-		res = "View"
-	case *Xlsx:
-		res = "Xlsx"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -2855,82 +3104,119 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *AsSplit:
-		var rf ReverseField
-		_ = rf
-	case *AsSplitArea:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "AsSplit"
-		rf.Fieldname = "AsSplitAreas"
-		res = append(res, rf)
-		rf.GongstructName = "View"
-		rf.Fieldname = "RootAsSplitAreas"
-		res = append(res, rf)
-	case *Button:
-		var rf ReverseField
-		_ = rf
-	case *Cursor:
-		var rf ReverseField
-		_ = rf
-	case *FavIcon:
-		var rf ReverseField
-		_ = rf
-	case *Form:
-		var rf ReverseField
-		_ = rf
-	case *Load:
-		var rf ReverseField
-		_ = rf
-	case *LogoOnTheLeft:
-		var rf ReverseField
-		_ = rf
-	case *LogoOnTheRight:
-		var rf ReverseField
-		_ = rf
-	case *Markdown:
-		var rf ReverseField
-		_ = rf
-	case *Slider:
-		var rf ReverseField
-		_ = rf
-	case *Split:
-		var rf ReverseField
-		_ = rf
-	case *Svg:
-		var rf ReverseField
-		_ = rf
-	case *Table:
-		var rf ReverseField
-		_ = rf
-	case *Threejs:
-		var rf ReverseField
-		_ = rf
-	case *Title:
-		var rf ReverseField
-		_ = rf
-	case *Tone:
-		var rf ReverseField
-		_ = rf
-	case *Tree:
-		var rf ReverseField
-		_ = rf
-	case *View:
-		var rf ReverseField
-		_ = rf
-	case *Xlsx:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*AsSplit) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
 	}
-	return
+}
+
+func (*AsSplitArea) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "AsSplit",
+			Fieldname: "AsSplitAreas",
+		},
+		{
+			GongstructName: "View",
+			Fieldname: "RootAsSplitAreas",
+		},
+	}
+}
+
+func (*Button) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Cursor) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*FavIcon) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Form) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Load) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*LogoOnTheLeft) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*LogoOnTheRight) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Markdown) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Slider) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Split) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Svg) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Table) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Threejs) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Title) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Tone) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Tree) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*View) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Xlsx) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

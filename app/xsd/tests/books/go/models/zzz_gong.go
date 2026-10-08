@@ -314,23 +314,96 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*BookType) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.BookTypes, stage.BookType_stagedOrder)
+}
+
+func (*BookType) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.BookType_orderStaged[order]
+}
+
+func (*BookType) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.BookTypes_mapString
+}
+
+func (*BookType) GongGetInstancesSet(stage *Stage) any {
+	return &stage.BookTypes
+}
+
+func (*BookType) GongNewInstance() any {
+	return new(BookType)
+}
+
+func (*Books) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Bookss, stage.Books_stagedOrder)
+}
+
+func (*Books) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Books_orderStaged[order]
+}
+
+func (*Books) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Bookss_mapString
+}
+
+func (*Books) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Bookss
+}
+
+func (*Books) GongNewInstance() any {
+	return new(Books)
+}
+
+func (*Credit) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Credits, stage.Credit_stagedOrder)
+}
+
+func (*Credit) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Credit_orderStaged[order]
+}
+
+func (*Credit) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Credits_mapString
+}
+
+func (*Credit) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Credits
+}
+
+func (*Credit) GongNewInstance() any {
+	return new(Credit)
+}
+
+func (*Link) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Links, stage.Link_stagedOrder)
+}
+
+func (*Link) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Link_orderStaged[order]
+}
+
+func (*Link) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Links_mapString
+}
+
+func (*Link) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Links
+}
+
+func (*Link) GongNewInstance() any {
+	return new(Link)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *BookType:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.BookTypes, stage.BookType_stagedOrder))
-	case *Books:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Bookss, stage.Books_stagedOrder))
-	case *Credit:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Credits, stage.Credit_stagedOrder))
-	case *Link:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Links, stage.Link_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -568,20 +641,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *BookType:
-		return any(stage.BookType_orderStaged[order]).(Type)
-	case *Books:
-		return any(stage.Books_orderStaged[order]).(Type)
-	case *Credit:
-		return any(stage.Credit_orderStaged[order]).(Type)
-	case *Link:
-		return any(stage.Link_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -861,7 +929,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -893,6 +963,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -924,66 +1001,54 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *BookType:
-		return any(stage.BookTypes_mapString).(map[string]Type)
-	case *Books:
-		return any(stage.Bookss_mapString).(map[string]Type)
-	case *Credit:
-		return any(stage.Credits_mapString).(map[string]Type)
-	case *Link:
-		return any(stage.Links_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *BookType:
-		return any(&stage.BookTypes).(*map[Type]struct{})
-	case *Books:
-		return any(&stage.Bookss).(*map[Type]struct{})
-	case *Credit:
-		return any(&stage.Credits).(*map[Type]struct{})
-	case *Link:
-		return any(&stage.Links).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
+
+// insertion point for instance with special fields
+func (BookType) GongGetAssociationName() any {
+	return &BookType{
+			Credit: []*Credit{{Name: "Credit"}},
+	}
+}
+
+func (Books) GongGetAssociationName() any {
+	return &Books{
+			Book: []*BookType{{Name: "Book"}},
+	}
+}
+
+func (Credit) GongGetAssociationName() any {
+	return &Credit{
+			Link: []*Link{{Name: "Link"}},
+	}
+}
+
+func (Link) GongGetAssociationName() any {
+	return &Link{
+	}
+}
+
 
 // GongGetAssociationName is a generic function that returns an instance of Type
 // where each association is filled with an instance whose name is the name of the association
 //
 // This function can be handy for generating navigation function that are refactorable
 func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case BookType:
-		return any(&BookType{
-			Credit: []*Credit{{Name: "Credit"}},
-		}).(*Type)
-	case Books:
-		return any(&Books{
-			Book: []*BookType{{Name: "Book"}},
-		}).(*Type)
-	case Credit:
-		return any(&Credit{
-			Link: []*Link{{Name: "Link"}},
-		}).(*Type)
-	default:
-		return &ret
-	}
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -1079,20 +1144,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *BookType:
-		res = any(new(BookType)).(Type)
-	case *Books:
-		res = any(new(Books)).(Type)
-	case *Credit:
-		res = any(new(Credit)).(Type)
-	case *Link:
-		res = any(new(Link)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -1115,20 +1168,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *BookType:
-		res = "BookType"
-	case *Books:
-		res = "Books"
-	case *Credit:
-		res = "Credit"
-	case *Link:
-		res = "Link"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -1142,37 +1183,43 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *BookType:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Books"
-		rf.Fieldname = "Book"
-		res = append(res, rf)
-	case *Books:
-		var rf ReverseField
-		_ = rf
-	case *Credit:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "BookType"
-		rf.Fieldname = "Credit"
-		res = append(res, rf)
-	case *Link:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Credit"
-		rf.Fieldname = "Link"
-		res = append(res, rf)
+// insertion point for generic get reverse fields
+func (*BookType) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Books",
+			Fieldname: "Book",
+		},
 	}
-	return
+}
+
+func (*Books) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Credit) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "BookType",
+			Fieldname: "Credit",
+		},
+	}
+}
+
+func (*Link) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Credit",
+			Fieldname: "Link",
+		},
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

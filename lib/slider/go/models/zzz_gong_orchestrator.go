@@ -35,7 +35,6 @@ func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 		stage.OnAfterCheckboxUpdateCallback = new(CheckboxOrchestrator)
 	case Slider:
 		stage.OnAfterSliderUpdateCallback = new(SliderOrchestrator)
-
 	}
 
 }

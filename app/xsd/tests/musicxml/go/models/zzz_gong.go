@@ -4768,477 +4768,4636 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*A_directive) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_directives, stage.A_directive_stagedOrder)
+}
+
+func (*A_directive) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_directive_orderStaged[order]
+}
+
+func (*A_directive) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_directives_mapString
+}
+
+func (*A_directive) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_directives
+}
+
+func (*A_directive) GongNewInstance() any {
+	return new(A_directive)
+}
+
+func (*A_measure) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_measures, stage.A_measure_stagedOrder)
+}
+
+func (*A_measure) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_measure_orderStaged[order]
+}
+
+func (*A_measure) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_measures_mapString
+}
+
+func (*A_measure) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_measures
+}
+
+func (*A_measure) GongNewInstance() any {
+	return new(A_measure)
+}
+
+func (*A_measure_1) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_measure_1s, stage.A_measure_1_stagedOrder)
+}
+
+func (*A_measure_1) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_measure_1_orderStaged[order]
+}
+
+func (*A_measure_1) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_measure_1s_mapString
+}
+
+func (*A_measure_1) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_measure_1s
+}
+
+func (*A_measure_1) GongNewInstance() any {
+	return new(A_measure_1)
+}
+
+func (*A_part) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_parts, stage.A_part_stagedOrder)
+}
+
+func (*A_part) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_part_orderStaged[order]
+}
+
+func (*A_part) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_parts_mapString
+}
+
+func (*A_part) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_parts
+}
+
+func (*A_part) GongNewInstance() any {
+	return new(A_part)
+}
+
+func (*A_part_1) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_part_1s, stage.A_part_1_stagedOrder)
+}
+
+func (*A_part_1) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_part_1_orderStaged[order]
+}
+
+func (*A_part_1) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_part_1s_mapString
+}
+
+func (*A_part_1) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_part_1s
+}
+
+func (*A_part_1) GongNewInstance() any {
+	return new(A_part_1)
+}
+
+func (*Accidental) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Accidentals, stage.Accidental_stagedOrder)
+}
+
+func (*Accidental) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Accidental_orderStaged[order]
+}
+
+func (*Accidental) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Accidentals_mapString
+}
+
+func (*Accidental) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Accidentals
+}
+
+func (*Accidental) GongNewInstance() any {
+	return new(Accidental)
+}
+
+func (*Accidental_mark) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Accidental_marks, stage.Accidental_mark_stagedOrder)
+}
+
+func (*Accidental_mark) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Accidental_mark_orderStaged[order]
+}
+
+func (*Accidental_mark) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Accidental_marks_mapString
+}
+
+func (*Accidental_mark) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Accidental_marks
+}
+
+func (*Accidental_mark) GongNewInstance() any {
+	return new(Accidental_mark)
+}
+
+func (*Accidental_text) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Accidental_texts, stage.Accidental_text_stagedOrder)
+}
+
+func (*Accidental_text) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Accidental_text_orderStaged[order]
+}
+
+func (*Accidental_text) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Accidental_texts_mapString
+}
+
+func (*Accidental_text) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Accidental_texts
+}
+
+func (*Accidental_text) GongNewInstance() any {
+	return new(Accidental_text)
+}
+
+func (*Accord) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Accords, stage.Accord_stagedOrder)
+}
+
+func (*Accord) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Accord_orderStaged[order]
+}
+
+func (*Accord) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Accords_mapString
+}
+
+func (*Accord) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Accords
+}
+
+func (*Accord) GongNewInstance() any {
+	return new(Accord)
+}
+
+func (*Accordion_registration) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Accordion_registrations, stage.Accordion_registration_stagedOrder)
+}
+
+func (*Accordion_registration) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Accordion_registration_orderStaged[order]
+}
+
+func (*Accordion_registration) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Accordion_registrations_mapString
+}
+
+func (*Accordion_registration) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Accordion_registrations
+}
+
+func (*Accordion_registration) GongNewInstance() any {
+	return new(Accordion_registration)
+}
+
+func (*Appearance) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Appearances, stage.Appearance_stagedOrder)
+}
+
+func (*Appearance) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Appearance_orderStaged[order]
+}
+
+func (*Appearance) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Appearances_mapString
+}
+
+func (*Appearance) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Appearances
+}
+
+func (*Appearance) GongNewInstance() any {
+	return new(Appearance)
+}
+
+func (*Arpeggiate) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Arpeggiates, stage.Arpeggiate_stagedOrder)
+}
+
+func (*Arpeggiate) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Arpeggiate_orderStaged[order]
+}
+
+func (*Arpeggiate) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Arpeggiates_mapString
+}
+
+func (*Arpeggiate) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Arpeggiates
+}
+
+func (*Arpeggiate) GongNewInstance() any {
+	return new(Arpeggiate)
+}
+
+func (*Arrow) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Arrows, stage.Arrow_stagedOrder)
+}
+
+func (*Arrow) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Arrow_orderStaged[order]
+}
+
+func (*Arrow) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Arrows_mapString
+}
+
+func (*Arrow) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Arrows
+}
+
+func (*Arrow) GongNewInstance() any {
+	return new(Arrow)
+}
+
+func (*Articulations) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Articulationss, stage.Articulations_stagedOrder)
+}
+
+func (*Articulations) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Articulations_orderStaged[order]
+}
+
+func (*Articulations) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Articulationss_mapString
+}
+
+func (*Articulations) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Articulationss
+}
+
+func (*Articulations) GongNewInstance() any {
+	return new(Articulations)
+}
+
+func (*Assess) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Assesss, stage.Assess_stagedOrder)
+}
+
+func (*Assess) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Assess_orderStaged[order]
+}
+
+func (*Assess) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Assesss_mapString
+}
+
+func (*Assess) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Assesss
+}
+
+func (*Assess) GongNewInstance() any {
+	return new(Assess)
+}
+
+func (*Attributes) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Attributess, stage.Attributes_stagedOrder)
+}
+
+func (*Attributes) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Attributes_orderStaged[order]
+}
+
+func (*Attributes) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Attributess_mapString
+}
+
+func (*Attributes) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Attributess
+}
+
+func (*Attributes) GongNewInstance() any {
+	return new(Attributes)
+}
+
+func (*Backup) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Backups, stage.Backup_stagedOrder)
+}
+
+func (*Backup) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Backup_orderStaged[order]
+}
+
+func (*Backup) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Backups_mapString
+}
+
+func (*Backup) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Backups
+}
+
+func (*Backup) GongNewInstance() any {
+	return new(Backup)
+}
+
+func (*Bar_style_color) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Bar_style_colors, stage.Bar_style_color_stagedOrder)
+}
+
+func (*Bar_style_color) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Bar_style_color_orderStaged[order]
+}
+
+func (*Bar_style_color) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Bar_style_colors_mapString
+}
+
+func (*Bar_style_color) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Bar_style_colors
+}
+
+func (*Bar_style_color) GongNewInstance() any {
+	return new(Bar_style_color)
+}
+
+func (*Barline) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Barlines, stage.Barline_stagedOrder)
+}
+
+func (*Barline) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Barline_orderStaged[order]
+}
+
+func (*Barline) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Barlines_mapString
+}
+
+func (*Barline) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Barlines
+}
+
+func (*Barline) GongNewInstance() any {
+	return new(Barline)
+}
+
+func (*Barre) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Barres, stage.Barre_stagedOrder)
+}
+
+func (*Barre) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Barre_orderStaged[order]
+}
+
+func (*Barre) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Barres_mapString
+}
+
+func (*Barre) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Barres
+}
+
+func (*Barre) GongNewInstance() any {
+	return new(Barre)
+}
+
+func (*Bass) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Basss, stage.Bass_stagedOrder)
+}
+
+func (*Bass) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Bass_orderStaged[order]
+}
+
+func (*Bass) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Basss_mapString
+}
+
+func (*Bass) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Basss
+}
+
+func (*Bass) GongNewInstance() any {
+	return new(Bass)
+}
+
+func (*Bass_step) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Bass_steps, stage.Bass_step_stagedOrder)
+}
+
+func (*Bass_step) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Bass_step_orderStaged[order]
+}
+
+func (*Bass_step) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Bass_steps_mapString
+}
+
+func (*Bass_step) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Bass_steps
+}
+
+func (*Bass_step) GongNewInstance() any {
+	return new(Bass_step)
+}
+
+func (*Beam) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Beams, stage.Beam_stagedOrder)
+}
+
+func (*Beam) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Beam_orderStaged[order]
+}
+
+func (*Beam) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Beams_mapString
+}
+
+func (*Beam) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Beams
+}
+
+func (*Beam) GongNewInstance() any {
+	return new(Beam)
+}
+
+func (*Beat_repeat) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Beat_repeats, stage.Beat_repeat_stagedOrder)
+}
+
+func (*Beat_repeat) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Beat_repeat_orderStaged[order]
+}
+
+func (*Beat_repeat) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Beat_repeats_mapString
+}
+
+func (*Beat_repeat) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Beat_repeats
+}
+
+func (*Beat_repeat) GongNewInstance() any {
+	return new(Beat_repeat)
+}
+
+func (*Beat_unit_tied) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Beat_unit_tieds, stage.Beat_unit_tied_stagedOrder)
+}
+
+func (*Beat_unit_tied) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Beat_unit_tied_orderStaged[order]
+}
+
+func (*Beat_unit_tied) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Beat_unit_tieds_mapString
+}
+
+func (*Beat_unit_tied) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Beat_unit_tieds
+}
+
+func (*Beat_unit_tied) GongNewInstance() any {
+	return new(Beat_unit_tied)
+}
+
+func (*Beater) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Beaters, stage.Beater_stagedOrder)
+}
+
+func (*Beater) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Beater_orderStaged[order]
+}
+
+func (*Beater) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Beaters_mapString
+}
+
+func (*Beater) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Beaters
+}
+
+func (*Beater) GongNewInstance() any {
+	return new(Beater)
+}
+
+func (*Bend) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Bends, stage.Bend_stagedOrder)
+}
+
+func (*Bend) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Bend_orderStaged[order]
+}
+
+func (*Bend) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Bends_mapString
+}
+
+func (*Bend) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Bends
+}
+
+func (*Bend) GongNewInstance() any {
+	return new(Bend)
+}
+
+func (*Bookmark) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Bookmarks, stage.Bookmark_stagedOrder)
+}
+
+func (*Bookmark) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Bookmark_orderStaged[order]
+}
+
+func (*Bookmark) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Bookmarks_mapString
+}
+
+func (*Bookmark) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Bookmarks
+}
+
+func (*Bookmark) GongNewInstance() any {
+	return new(Bookmark)
+}
+
+func (*Bracket) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Brackets, stage.Bracket_stagedOrder)
+}
+
+func (*Bracket) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Bracket_orderStaged[order]
+}
+
+func (*Bracket) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Brackets_mapString
+}
+
+func (*Bracket) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Brackets
+}
+
+func (*Bracket) GongNewInstance() any {
+	return new(Bracket)
+}
+
+func (*Breath_mark) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Breath_marks, stage.Breath_mark_stagedOrder)
+}
+
+func (*Breath_mark) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Breath_mark_orderStaged[order]
+}
+
+func (*Breath_mark) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Breath_marks_mapString
+}
+
+func (*Breath_mark) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Breath_marks
+}
+
+func (*Breath_mark) GongNewInstance() any {
+	return new(Breath_mark)
+}
+
+func (*Caesura) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Caesuras, stage.Caesura_stagedOrder)
+}
+
+func (*Caesura) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Caesura_orderStaged[order]
+}
+
+func (*Caesura) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Caesuras_mapString
+}
+
+func (*Caesura) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Caesuras
+}
+
+func (*Caesura) GongNewInstance() any {
+	return new(Caesura)
+}
+
+func (*Cancel) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Cancels, stage.Cancel_stagedOrder)
+}
+
+func (*Cancel) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Cancel_orderStaged[order]
+}
+
+func (*Cancel) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Cancels_mapString
+}
+
+func (*Cancel) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Cancels
+}
+
+func (*Cancel) GongNewInstance() any {
+	return new(Cancel)
+}
+
+func (*Clef) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Clefs, stage.Clef_stagedOrder)
+}
+
+func (*Clef) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Clef_orderStaged[order]
+}
+
+func (*Clef) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Clefs_mapString
+}
+
+func (*Clef) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Clefs
+}
+
+func (*Clef) GongNewInstance() any {
+	return new(Clef)
+}
+
+func (*Coda) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Codas, stage.Coda_stagedOrder)
+}
+
+func (*Coda) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Coda_orderStaged[order]
+}
+
+func (*Coda) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Codas_mapString
+}
+
+func (*Coda) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Codas
+}
+
+func (*Coda) GongNewInstance() any {
+	return new(Coda)
+}
+
+func (*Credit) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Credits, stage.Credit_stagedOrder)
+}
+
+func (*Credit) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Credit_orderStaged[order]
+}
+
+func (*Credit) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Credits_mapString
+}
+
+func (*Credit) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Credits
+}
+
+func (*Credit) GongNewInstance() any {
+	return new(Credit)
+}
+
+func (*Dashes) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Dashess, stage.Dashes_stagedOrder)
+}
+
+func (*Dashes) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Dashes_orderStaged[order]
+}
+
+func (*Dashes) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Dashess_mapString
+}
+
+func (*Dashes) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Dashess
+}
+
+func (*Dashes) GongNewInstance() any {
+	return new(Dashes)
+}
+
+func (*Defaults) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Defaultss, stage.Defaults_stagedOrder)
+}
+
+func (*Defaults) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Defaults_orderStaged[order]
+}
+
+func (*Defaults) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Defaultss_mapString
+}
+
+func (*Defaults) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Defaultss
+}
+
+func (*Defaults) GongNewInstance() any {
+	return new(Defaults)
+}
+
+func (*Degree) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Degrees, stage.Degree_stagedOrder)
+}
+
+func (*Degree) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Degree_orderStaged[order]
+}
+
+func (*Degree) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Degrees_mapString
+}
+
+func (*Degree) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Degrees
+}
+
+func (*Degree) GongNewInstance() any {
+	return new(Degree)
+}
+
+func (*Degree_alter) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Degree_alters, stage.Degree_alter_stagedOrder)
+}
+
+func (*Degree_alter) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Degree_alter_orderStaged[order]
+}
+
+func (*Degree_alter) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Degree_alters_mapString
+}
+
+func (*Degree_alter) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Degree_alters
+}
+
+func (*Degree_alter) GongNewInstance() any {
+	return new(Degree_alter)
+}
+
+func (*Degree_type) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Degree_types, stage.Degree_type_stagedOrder)
+}
+
+func (*Degree_type) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Degree_type_orderStaged[order]
+}
+
+func (*Degree_type) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Degree_types_mapString
+}
+
+func (*Degree_type) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Degree_types
+}
+
+func (*Degree_type) GongNewInstance() any {
+	return new(Degree_type)
+}
+
+func (*Degree_value) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Degree_values, stage.Degree_value_stagedOrder)
+}
+
+func (*Degree_value) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Degree_value_orderStaged[order]
+}
+
+func (*Degree_value) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Degree_values_mapString
+}
+
+func (*Degree_value) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Degree_values
+}
+
+func (*Degree_value) GongNewInstance() any {
+	return new(Degree_value)
+}
+
+func (*Direction) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Directions, stage.Direction_stagedOrder)
+}
+
+func (*Direction) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Direction_orderStaged[order]
+}
+
+func (*Direction) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Directions_mapString
+}
+
+func (*Direction) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Directions
+}
+
+func (*Direction) GongNewInstance() any {
+	return new(Direction)
+}
+
+func (*Direction_type) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Direction_types, stage.Direction_type_stagedOrder)
+}
+
+func (*Direction_type) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Direction_type_orderStaged[order]
+}
+
+func (*Direction_type) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Direction_types_mapString
+}
+
+func (*Direction_type) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Direction_types
+}
+
+func (*Direction_type) GongNewInstance() any {
+	return new(Direction_type)
+}
+
+func (*Distance) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Distances, stage.Distance_stagedOrder)
+}
+
+func (*Distance) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Distance_orderStaged[order]
+}
+
+func (*Distance) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Distances_mapString
+}
+
+func (*Distance) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Distances
+}
+
+func (*Distance) GongNewInstance() any {
+	return new(Distance)
+}
+
+func (*Double) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Doubles, stage.Double_stagedOrder)
+}
+
+func (*Double) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Double_orderStaged[order]
+}
+
+func (*Double) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Doubles_mapString
+}
+
+func (*Double) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Doubles
+}
+
+func (*Double) GongNewInstance() any {
+	return new(Double)
+}
+
+func (*Dynamics) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Dynamicss, stage.Dynamics_stagedOrder)
+}
+
+func (*Dynamics) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Dynamics_orderStaged[order]
+}
+
+func (*Dynamics) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Dynamicss_mapString
+}
+
+func (*Dynamics) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Dynamicss
+}
+
+func (*Dynamics) GongNewInstance() any {
+	return new(Dynamics)
+}
+
+func (*Effect) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Effects, stage.Effect_stagedOrder)
+}
+
+func (*Effect) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Effect_orderStaged[order]
+}
+
+func (*Effect) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Effects_mapString
+}
+
+func (*Effect) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Effects
+}
+
+func (*Effect) GongNewInstance() any {
+	return new(Effect)
+}
+
+func (*Elision) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Elisions, stage.Elision_stagedOrder)
+}
+
+func (*Elision) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Elision_orderStaged[order]
+}
+
+func (*Elision) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Elisions_mapString
+}
+
+func (*Elision) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Elisions
+}
+
+func (*Elision) GongNewInstance() any {
+	return new(Elision)
+}
+
+func (*Empty) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Emptys, stage.Empty_stagedOrder)
+}
+
+func (*Empty) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Empty_orderStaged[order]
+}
+
+func (*Empty) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Emptys_mapString
+}
+
+func (*Empty) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Emptys
+}
+
+func (*Empty) GongNewInstance() any {
+	return new(Empty)
+}
+
+func (*Empty_font) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Empty_fonts, stage.Empty_font_stagedOrder)
+}
+
+func (*Empty_font) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Empty_font_orderStaged[order]
+}
+
+func (*Empty_font) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Empty_fonts_mapString
+}
+
+func (*Empty_font) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Empty_fonts
+}
+
+func (*Empty_font) GongNewInstance() any {
+	return new(Empty_font)
+}
+
+func (*Empty_line) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Empty_lines, stage.Empty_line_stagedOrder)
+}
+
+func (*Empty_line) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Empty_line_orderStaged[order]
+}
+
+func (*Empty_line) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Empty_lines_mapString
+}
+
+func (*Empty_line) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Empty_lines
+}
+
+func (*Empty_line) GongNewInstance() any {
+	return new(Empty_line)
+}
+
+func (*Empty_placement) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Empty_placements, stage.Empty_placement_stagedOrder)
+}
+
+func (*Empty_placement) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Empty_placement_orderStaged[order]
+}
+
+func (*Empty_placement) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Empty_placements_mapString
+}
+
+func (*Empty_placement) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Empty_placements
+}
+
+func (*Empty_placement) GongNewInstance() any {
+	return new(Empty_placement)
+}
+
+func (*Empty_placement_smufl) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Empty_placement_smufls, stage.Empty_placement_smufl_stagedOrder)
+}
+
+func (*Empty_placement_smufl) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Empty_placement_smufl_orderStaged[order]
+}
+
+func (*Empty_placement_smufl) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Empty_placement_smufls_mapString
+}
+
+func (*Empty_placement_smufl) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Empty_placement_smufls
+}
+
+func (*Empty_placement_smufl) GongNewInstance() any {
+	return new(Empty_placement_smufl)
+}
+
+func (*Empty_print_object_style_align) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Empty_print_object_style_aligns, stage.Empty_print_object_style_align_stagedOrder)
+}
+
+func (*Empty_print_object_style_align) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Empty_print_object_style_align_orderStaged[order]
+}
+
+func (*Empty_print_object_style_align) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Empty_print_object_style_aligns_mapString
+}
+
+func (*Empty_print_object_style_align) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Empty_print_object_style_aligns
+}
+
+func (*Empty_print_object_style_align) GongNewInstance() any {
+	return new(Empty_print_object_style_align)
+}
+
+func (*Empty_print_style) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Empty_print_styles, stage.Empty_print_style_stagedOrder)
+}
+
+func (*Empty_print_style) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Empty_print_style_orderStaged[order]
+}
+
+func (*Empty_print_style) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Empty_print_styles_mapString
+}
+
+func (*Empty_print_style) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Empty_print_styles
+}
+
+func (*Empty_print_style) GongNewInstance() any {
+	return new(Empty_print_style)
+}
+
+func (*Empty_print_style_align) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Empty_print_style_aligns, stage.Empty_print_style_align_stagedOrder)
+}
+
+func (*Empty_print_style_align) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Empty_print_style_align_orderStaged[order]
+}
+
+func (*Empty_print_style_align) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Empty_print_style_aligns_mapString
+}
+
+func (*Empty_print_style_align) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Empty_print_style_aligns
+}
+
+func (*Empty_print_style_align) GongNewInstance() any {
+	return new(Empty_print_style_align)
+}
+
+func (*Empty_print_style_align_id) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Empty_print_style_align_ids, stage.Empty_print_style_align_id_stagedOrder)
+}
+
+func (*Empty_print_style_align_id) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Empty_print_style_align_id_orderStaged[order]
+}
+
+func (*Empty_print_style_align_id) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Empty_print_style_align_ids_mapString
+}
+
+func (*Empty_print_style_align_id) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Empty_print_style_align_ids
+}
+
+func (*Empty_print_style_align_id) GongNewInstance() any {
+	return new(Empty_print_style_align_id)
+}
+
+func (*Empty_trill_sound) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Empty_trill_sounds, stage.Empty_trill_sound_stagedOrder)
+}
+
+func (*Empty_trill_sound) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Empty_trill_sound_orderStaged[order]
+}
+
+func (*Empty_trill_sound) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Empty_trill_sounds_mapString
+}
+
+func (*Empty_trill_sound) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Empty_trill_sounds
+}
+
+func (*Empty_trill_sound) GongNewInstance() any {
+	return new(Empty_trill_sound)
+}
+
+func (*Encoding) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Encodings, stage.Encoding_stagedOrder)
+}
+
+func (*Encoding) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Encoding_orderStaged[order]
+}
+
+func (*Encoding) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Encodings_mapString
+}
+
+func (*Encoding) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Encodings
+}
+
+func (*Encoding) GongNewInstance() any {
+	return new(Encoding)
+}
+
+func (*Ending) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Endings, stage.Ending_stagedOrder)
+}
+
+func (*Ending) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Ending_orderStaged[order]
+}
+
+func (*Ending) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Endings_mapString
+}
+
+func (*Ending) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Endings
+}
+
+func (*Ending) GongNewInstance() any {
+	return new(Ending)
+}
+
+func (*Extend) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Extends, stage.Extend_stagedOrder)
+}
+
+func (*Extend) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Extend_orderStaged[order]
+}
+
+func (*Extend) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Extends_mapString
+}
+
+func (*Extend) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Extends
+}
+
+func (*Extend) GongNewInstance() any {
+	return new(Extend)
+}
+
+func (*Feature) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Features, stage.Feature_stagedOrder)
+}
+
+func (*Feature) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Feature_orderStaged[order]
+}
+
+func (*Feature) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Features_mapString
+}
+
+func (*Feature) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Features
+}
+
+func (*Feature) GongNewInstance() any {
+	return new(Feature)
+}
+
+func (*Fermata) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Fermatas, stage.Fermata_stagedOrder)
+}
+
+func (*Fermata) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Fermata_orderStaged[order]
+}
+
+func (*Fermata) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Fermatas_mapString
+}
+
+func (*Fermata) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Fermatas
+}
+
+func (*Fermata) GongNewInstance() any {
+	return new(Fermata)
+}
+
+func (*Figure) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Figures, stage.Figure_stagedOrder)
+}
+
+func (*Figure) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Figure_orderStaged[order]
+}
+
+func (*Figure) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Figures_mapString
+}
+
+func (*Figure) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Figures
+}
+
+func (*Figure) GongNewInstance() any {
+	return new(Figure)
+}
+
+func (*Figured_bass) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Figured_basss, stage.Figured_bass_stagedOrder)
+}
+
+func (*Figured_bass) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Figured_bass_orderStaged[order]
+}
+
+func (*Figured_bass) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Figured_basss_mapString
+}
+
+func (*Figured_bass) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Figured_basss
+}
+
+func (*Figured_bass) GongNewInstance() any {
+	return new(Figured_bass)
+}
+
+func (*Fingering) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Fingerings, stage.Fingering_stagedOrder)
+}
+
+func (*Fingering) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Fingering_orderStaged[order]
+}
+
+func (*Fingering) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Fingerings_mapString
+}
+
+func (*Fingering) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Fingerings
+}
+
+func (*Fingering) GongNewInstance() any {
+	return new(Fingering)
+}
+
+func (*First_fret) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.First_frets, stage.First_fret_stagedOrder)
+}
+
+func (*First_fret) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.First_fret_orderStaged[order]
+}
+
+func (*First_fret) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.First_frets_mapString
+}
+
+func (*First_fret) GongGetInstancesSet(stage *Stage) any {
+	return &stage.First_frets
+}
+
+func (*First_fret) GongNewInstance() any {
+	return new(First_fret)
+}
+
+func (*For_part) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.For_parts, stage.For_part_stagedOrder)
+}
+
+func (*For_part) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.For_part_orderStaged[order]
+}
+
+func (*For_part) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.For_parts_mapString
+}
+
+func (*For_part) GongGetInstancesSet(stage *Stage) any {
+	return &stage.For_parts
+}
+
+func (*For_part) GongNewInstance() any {
+	return new(For_part)
+}
+
+func (*Formatted_symbol) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Formatted_symbols, stage.Formatted_symbol_stagedOrder)
+}
+
+func (*Formatted_symbol) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Formatted_symbol_orderStaged[order]
+}
+
+func (*Formatted_symbol) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Formatted_symbols_mapString
+}
+
+func (*Formatted_symbol) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Formatted_symbols
+}
+
+func (*Formatted_symbol) GongNewInstance() any {
+	return new(Formatted_symbol)
+}
+
+func (*Formatted_symbol_id) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Formatted_symbol_ids, stage.Formatted_symbol_id_stagedOrder)
+}
+
+func (*Formatted_symbol_id) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Formatted_symbol_id_orderStaged[order]
+}
+
+func (*Formatted_symbol_id) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Formatted_symbol_ids_mapString
+}
+
+func (*Formatted_symbol_id) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Formatted_symbol_ids
+}
+
+func (*Formatted_symbol_id) GongNewInstance() any {
+	return new(Formatted_symbol_id)
+}
+
+func (*Formatted_text) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Formatted_texts, stage.Formatted_text_stagedOrder)
+}
+
+func (*Formatted_text) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Formatted_text_orderStaged[order]
+}
+
+func (*Formatted_text) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Formatted_texts_mapString
+}
+
+func (*Formatted_text) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Formatted_texts
+}
+
+func (*Formatted_text) GongNewInstance() any {
+	return new(Formatted_text)
+}
+
+func (*Formatted_text_id) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Formatted_text_ids, stage.Formatted_text_id_stagedOrder)
+}
+
+func (*Formatted_text_id) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Formatted_text_id_orderStaged[order]
+}
+
+func (*Formatted_text_id) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Formatted_text_ids_mapString
+}
+
+func (*Formatted_text_id) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Formatted_text_ids
+}
+
+func (*Formatted_text_id) GongNewInstance() any {
+	return new(Formatted_text_id)
+}
+
+func (*Forward) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Forwards, stage.Forward_stagedOrder)
+}
+
+func (*Forward) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Forward_orderStaged[order]
+}
+
+func (*Forward) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Forwards_mapString
+}
+
+func (*Forward) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Forwards
+}
+
+func (*Forward) GongNewInstance() any {
+	return new(Forward)
+}
+
+func (*Frame) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Frames, stage.Frame_stagedOrder)
+}
+
+func (*Frame) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Frame_orderStaged[order]
+}
+
+func (*Frame) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Frames_mapString
+}
+
+func (*Frame) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Frames
+}
+
+func (*Frame) GongNewInstance() any {
+	return new(Frame)
+}
+
+func (*Frame_note) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Frame_notes, stage.Frame_note_stagedOrder)
+}
+
+func (*Frame_note) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Frame_note_orderStaged[order]
+}
+
+func (*Frame_note) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Frame_notes_mapString
+}
+
+func (*Frame_note) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Frame_notes
+}
+
+func (*Frame_note) GongNewInstance() any {
+	return new(Frame_note)
+}
+
+func (*Fret) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Frets, stage.Fret_stagedOrder)
+}
+
+func (*Fret) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Fret_orderStaged[order]
+}
+
+func (*Fret) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Frets_mapString
+}
+
+func (*Fret) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Frets
+}
+
+func (*Fret) GongNewInstance() any {
+	return new(Fret)
+}
+
+func (*Glass) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Glasss, stage.Glass_stagedOrder)
+}
+
+func (*Glass) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Glass_orderStaged[order]
+}
+
+func (*Glass) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Glasss_mapString
+}
+
+func (*Glass) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Glasss
+}
+
+func (*Glass) GongNewInstance() any {
+	return new(Glass)
+}
+
+func (*Glissando) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Glissandos, stage.Glissando_stagedOrder)
+}
+
+func (*Glissando) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Glissando_orderStaged[order]
+}
+
+func (*Glissando) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Glissandos_mapString
+}
+
+func (*Glissando) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Glissandos
+}
+
+func (*Glissando) GongNewInstance() any {
+	return new(Glissando)
+}
+
+func (*Glyph) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Glyphs, stage.Glyph_stagedOrder)
+}
+
+func (*Glyph) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Glyph_orderStaged[order]
+}
+
+func (*Glyph) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Glyphs_mapString
+}
+
+func (*Glyph) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Glyphs
+}
+
+func (*Glyph) GongNewInstance() any {
+	return new(Glyph)
+}
+
+func (*Grace) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Graces, stage.Grace_stagedOrder)
+}
+
+func (*Grace) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Grace_orderStaged[order]
+}
+
+func (*Grace) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Graces_mapString
+}
+
+func (*Grace) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Graces
+}
+
+func (*Grace) GongNewInstance() any {
+	return new(Grace)
+}
+
+func (*Group_barline) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Group_barlines, stage.Group_barline_stagedOrder)
+}
+
+func (*Group_barline) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Group_barline_orderStaged[order]
+}
+
+func (*Group_barline) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Group_barlines_mapString
+}
+
+func (*Group_barline) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Group_barlines
+}
+
+func (*Group_barline) GongNewInstance() any {
+	return new(Group_barline)
+}
+
+func (*Group_name) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Group_names, stage.Group_name_stagedOrder)
+}
+
+func (*Group_name) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Group_name_orderStaged[order]
+}
+
+func (*Group_name) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Group_names_mapString
+}
+
+func (*Group_name) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Group_names
+}
+
+func (*Group_name) GongNewInstance() any {
+	return new(Group_name)
+}
+
+func (*Group_symbol) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Group_symbols, stage.Group_symbol_stagedOrder)
+}
+
+func (*Group_symbol) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Group_symbol_orderStaged[order]
+}
+
+func (*Group_symbol) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Group_symbols_mapString
+}
+
+func (*Group_symbol) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Group_symbols
+}
+
+func (*Group_symbol) GongNewInstance() any {
+	return new(Group_symbol)
+}
+
+func (*Grouping) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Groupings, stage.Grouping_stagedOrder)
+}
+
+func (*Grouping) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Grouping_orderStaged[order]
+}
+
+func (*Grouping) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Groupings_mapString
+}
+
+func (*Grouping) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Groupings
+}
+
+func (*Grouping) GongNewInstance() any {
+	return new(Grouping)
+}
+
+func (*Hammer_on_pull_off) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Hammer_on_pull_offs, stage.Hammer_on_pull_off_stagedOrder)
+}
+
+func (*Hammer_on_pull_off) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Hammer_on_pull_off_orderStaged[order]
+}
+
+func (*Hammer_on_pull_off) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Hammer_on_pull_offs_mapString
+}
+
+func (*Hammer_on_pull_off) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Hammer_on_pull_offs
+}
+
+func (*Hammer_on_pull_off) GongNewInstance() any {
+	return new(Hammer_on_pull_off)
+}
+
+func (*Handbell) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Handbells, stage.Handbell_stagedOrder)
+}
+
+func (*Handbell) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Handbell_orderStaged[order]
+}
+
+func (*Handbell) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Handbells_mapString
+}
+
+func (*Handbell) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Handbells
+}
+
+func (*Handbell) GongNewInstance() any {
+	return new(Handbell)
+}
+
+func (*Harmon_closed) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Harmon_closeds, stage.Harmon_closed_stagedOrder)
+}
+
+func (*Harmon_closed) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Harmon_closed_orderStaged[order]
+}
+
+func (*Harmon_closed) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Harmon_closeds_mapString
+}
+
+func (*Harmon_closed) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Harmon_closeds
+}
+
+func (*Harmon_closed) GongNewInstance() any {
+	return new(Harmon_closed)
+}
+
+func (*Harmon_mute) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Harmon_mutes, stage.Harmon_mute_stagedOrder)
+}
+
+func (*Harmon_mute) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Harmon_mute_orderStaged[order]
+}
+
+func (*Harmon_mute) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Harmon_mutes_mapString
+}
+
+func (*Harmon_mute) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Harmon_mutes
+}
+
+func (*Harmon_mute) GongNewInstance() any {
+	return new(Harmon_mute)
+}
+
+func (*Harmonic) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Harmonics, stage.Harmonic_stagedOrder)
+}
+
+func (*Harmonic) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Harmonic_orderStaged[order]
+}
+
+func (*Harmonic) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Harmonics_mapString
+}
+
+func (*Harmonic) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Harmonics
+}
+
+func (*Harmonic) GongNewInstance() any {
+	return new(Harmonic)
+}
+
+func (*Harmony) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Harmonys, stage.Harmony_stagedOrder)
+}
+
+func (*Harmony) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Harmony_orderStaged[order]
+}
+
+func (*Harmony) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Harmonys_mapString
+}
+
+func (*Harmony) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Harmonys
+}
+
+func (*Harmony) GongNewInstance() any {
+	return new(Harmony)
+}
+
+func (*Harmony_alter) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Harmony_alters, stage.Harmony_alter_stagedOrder)
+}
+
+func (*Harmony_alter) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Harmony_alter_orderStaged[order]
+}
+
+func (*Harmony_alter) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Harmony_alters_mapString
+}
+
+func (*Harmony_alter) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Harmony_alters
+}
+
+func (*Harmony_alter) GongNewInstance() any {
+	return new(Harmony_alter)
+}
+
+func (*Harp_pedals) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Harp_pedalss, stage.Harp_pedals_stagedOrder)
+}
+
+func (*Harp_pedals) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Harp_pedals_orderStaged[order]
+}
+
+func (*Harp_pedals) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Harp_pedalss_mapString
+}
+
+func (*Harp_pedals) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Harp_pedalss
+}
+
+func (*Harp_pedals) GongNewInstance() any {
+	return new(Harp_pedals)
+}
+
+func (*Heel_toe) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Heel_toes, stage.Heel_toe_stagedOrder)
+}
+
+func (*Heel_toe) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Heel_toe_orderStaged[order]
+}
+
+func (*Heel_toe) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Heel_toes_mapString
+}
+
+func (*Heel_toe) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Heel_toes
+}
+
+func (*Heel_toe) GongNewInstance() any {
+	return new(Heel_toe)
+}
+
+func (*Hole) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Holes, stage.Hole_stagedOrder)
+}
+
+func (*Hole) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Hole_orderStaged[order]
+}
+
+func (*Hole) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Holes_mapString
+}
+
+func (*Hole) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Holes
+}
+
+func (*Hole) GongNewInstance() any {
+	return new(Hole)
+}
+
+func (*Hole_closed) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Hole_closeds, stage.Hole_closed_stagedOrder)
+}
+
+func (*Hole_closed) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Hole_closed_orderStaged[order]
+}
+
+func (*Hole_closed) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Hole_closeds_mapString
+}
+
+func (*Hole_closed) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Hole_closeds
+}
+
+func (*Hole_closed) GongNewInstance() any {
+	return new(Hole_closed)
+}
+
+func (*Horizontal_turn) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Horizontal_turns, stage.Horizontal_turn_stagedOrder)
+}
+
+func (*Horizontal_turn) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Horizontal_turn_orderStaged[order]
+}
+
+func (*Horizontal_turn) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Horizontal_turns_mapString
+}
+
+func (*Horizontal_turn) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Horizontal_turns
+}
+
+func (*Horizontal_turn) GongNewInstance() any {
+	return new(Horizontal_turn)
+}
+
+func (*Identification) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Identifications, stage.Identification_stagedOrder)
+}
+
+func (*Identification) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Identification_orderStaged[order]
+}
+
+func (*Identification) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Identifications_mapString
+}
+
+func (*Identification) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Identifications
+}
+
+func (*Identification) GongNewInstance() any {
+	return new(Identification)
+}
+
+func (*Image) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Images, stage.Image_stagedOrder)
+}
+
+func (*Image) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Image_orderStaged[order]
+}
+
+func (*Image) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Images_mapString
+}
+
+func (*Image) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Images
+}
+
+func (*Image) GongNewInstance() any {
+	return new(Image)
+}
+
+func (*Instrument) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Instruments, stage.Instrument_stagedOrder)
+}
+
+func (*Instrument) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Instrument_orderStaged[order]
+}
+
+func (*Instrument) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Instruments_mapString
+}
+
+func (*Instrument) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Instruments
+}
+
+func (*Instrument) GongNewInstance() any {
+	return new(Instrument)
+}
+
+func (*Instrument_change) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Instrument_changes, stage.Instrument_change_stagedOrder)
+}
+
+func (*Instrument_change) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Instrument_change_orderStaged[order]
+}
+
+func (*Instrument_change) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Instrument_changes_mapString
+}
+
+func (*Instrument_change) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Instrument_changes
+}
+
+func (*Instrument_change) GongNewInstance() any {
+	return new(Instrument_change)
+}
+
+func (*Instrument_link) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Instrument_links, stage.Instrument_link_stagedOrder)
+}
+
+func (*Instrument_link) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Instrument_link_orderStaged[order]
+}
+
+func (*Instrument_link) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Instrument_links_mapString
+}
+
+func (*Instrument_link) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Instrument_links
+}
+
+func (*Instrument_link) GongNewInstance() any {
+	return new(Instrument_link)
+}
+
+func (*Interchangeable) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Interchangeables, stage.Interchangeable_stagedOrder)
+}
+
+func (*Interchangeable) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Interchangeable_orderStaged[order]
+}
+
+func (*Interchangeable) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Interchangeables_mapString
+}
+
+func (*Interchangeable) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Interchangeables
+}
+
+func (*Interchangeable) GongNewInstance() any {
+	return new(Interchangeable)
+}
+
+func (*Inversion) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Inversions, stage.Inversion_stagedOrder)
+}
+
+func (*Inversion) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Inversion_orderStaged[order]
+}
+
+func (*Inversion) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Inversions_mapString
+}
+
+func (*Inversion) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Inversions
+}
+
+func (*Inversion) GongNewInstance() any {
+	return new(Inversion)
+}
+
+func (*Key) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Keys, stage.Key_stagedOrder)
+}
+
+func (*Key) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Key_orderStaged[order]
+}
+
+func (*Key) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Keys_mapString
+}
+
+func (*Key) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Keys
+}
+
+func (*Key) GongNewInstance() any {
+	return new(Key)
+}
+
+func (*Key_accidental) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Key_accidentals, stage.Key_accidental_stagedOrder)
+}
+
+func (*Key_accidental) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Key_accidental_orderStaged[order]
+}
+
+func (*Key_accidental) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Key_accidentals_mapString
+}
+
+func (*Key_accidental) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Key_accidentals
+}
+
+func (*Key_accidental) GongNewInstance() any {
+	return new(Key_accidental)
+}
+
+func (*Key_octave) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Key_octaves, stage.Key_octave_stagedOrder)
+}
+
+func (*Key_octave) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Key_octave_orderStaged[order]
+}
+
+func (*Key_octave) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Key_octaves_mapString
+}
+
+func (*Key_octave) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Key_octaves
+}
+
+func (*Key_octave) GongNewInstance() any {
+	return new(Key_octave)
+}
+
+func (*Kind) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Kinds, stage.Kind_stagedOrder)
+}
+
+func (*Kind) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Kind_orderStaged[order]
+}
+
+func (*Kind) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Kinds_mapString
+}
+
+func (*Kind) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Kinds
+}
+
+func (*Kind) GongNewInstance() any {
+	return new(Kind)
+}
+
+func (*Level) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Levels, stage.Level_stagedOrder)
+}
+
+func (*Level) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Level_orderStaged[order]
+}
+
+func (*Level) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Levels_mapString
+}
+
+func (*Level) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Levels
+}
+
+func (*Level) GongNewInstance() any {
+	return new(Level)
+}
+
+func (*Line_detail) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Line_details, stage.Line_detail_stagedOrder)
+}
+
+func (*Line_detail) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Line_detail_orderStaged[order]
+}
+
+func (*Line_detail) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Line_details_mapString
+}
+
+func (*Line_detail) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Line_details
+}
+
+func (*Line_detail) GongNewInstance() any {
+	return new(Line_detail)
+}
+
+func (*Line_width) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Line_widths, stage.Line_width_stagedOrder)
+}
+
+func (*Line_width) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Line_width_orderStaged[order]
+}
+
+func (*Line_width) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Line_widths_mapString
+}
+
+func (*Line_width) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Line_widths
+}
+
+func (*Line_width) GongNewInstance() any {
+	return new(Line_width)
+}
+
+func (*Link) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Links, stage.Link_stagedOrder)
+}
+
+func (*Link) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Link_orderStaged[order]
+}
+
+func (*Link) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Links_mapString
+}
+
+func (*Link) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Links
+}
+
+func (*Link) GongNewInstance() any {
+	return new(Link)
+}
+
+func (*Listen) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Listens, stage.Listen_stagedOrder)
+}
+
+func (*Listen) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Listen_orderStaged[order]
+}
+
+func (*Listen) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Listens_mapString
+}
+
+func (*Listen) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Listens
+}
+
+func (*Listen) GongNewInstance() any {
+	return new(Listen)
+}
+
+func (*Listening) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Listenings, stage.Listening_stagedOrder)
+}
+
+func (*Listening) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Listening_orderStaged[order]
+}
+
+func (*Listening) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Listenings_mapString
+}
+
+func (*Listening) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Listenings
+}
+
+func (*Listening) GongNewInstance() any {
+	return new(Listening)
+}
+
+func (*Lyric) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Lyrics, stage.Lyric_stagedOrder)
+}
+
+func (*Lyric) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Lyric_orderStaged[order]
+}
+
+func (*Lyric) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Lyrics_mapString
+}
+
+func (*Lyric) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Lyrics
+}
+
+func (*Lyric) GongNewInstance() any {
+	return new(Lyric)
+}
+
+func (*Lyric_font) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Lyric_fonts, stage.Lyric_font_stagedOrder)
+}
+
+func (*Lyric_font) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Lyric_font_orderStaged[order]
+}
+
+func (*Lyric_font) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Lyric_fonts_mapString
+}
+
+func (*Lyric_font) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Lyric_fonts
+}
+
+func (*Lyric_font) GongNewInstance() any {
+	return new(Lyric_font)
+}
+
+func (*Lyric_language) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Lyric_languages, stage.Lyric_language_stagedOrder)
+}
+
+func (*Lyric_language) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Lyric_language_orderStaged[order]
+}
+
+func (*Lyric_language) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Lyric_languages_mapString
+}
+
+func (*Lyric_language) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Lyric_languages
+}
+
+func (*Lyric_language) GongNewInstance() any {
+	return new(Lyric_language)
+}
+
+func (*Measure_layout) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Measure_layouts, stage.Measure_layout_stagedOrder)
+}
+
+func (*Measure_layout) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Measure_layout_orderStaged[order]
+}
+
+func (*Measure_layout) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Measure_layouts_mapString
+}
+
+func (*Measure_layout) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Measure_layouts
+}
+
+func (*Measure_layout) GongNewInstance() any {
+	return new(Measure_layout)
+}
+
+func (*Measure_numbering) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Measure_numberings, stage.Measure_numbering_stagedOrder)
+}
+
+func (*Measure_numbering) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Measure_numbering_orderStaged[order]
+}
+
+func (*Measure_numbering) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Measure_numberings_mapString
+}
+
+func (*Measure_numbering) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Measure_numberings
+}
+
+func (*Measure_numbering) GongNewInstance() any {
+	return new(Measure_numbering)
+}
+
+func (*Measure_repeat) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Measure_repeats, stage.Measure_repeat_stagedOrder)
+}
+
+func (*Measure_repeat) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Measure_repeat_orderStaged[order]
+}
+
+func (*Measure_repeat) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Measure_repeats_mapString
+}
+
+func (*Measure_repeat) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Measure_repeats
+}
+
+func (*Measure_repeat) GongNewInstance() any {
+	return new(Measure_repeat)
+}
+
+func (*Measure_style) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Measure_styles, stage.Measure_style_stagedOrder)
+}
+
+func (*Measure_style) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Measure_style_orderStaged[order]
+}
+
+func (*Measure_style) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Measure_styles_mapString
+}
+
+func (*Measure_style) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Measure_styles
+}
+
+func (*Measure_style) GongNewInstance() any {
+	return new(Measure_style)
+}
+
+func (*Membrane) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Membranes, stage.Membrane_stagedOrder)
+}
+
+func (*Membrane) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Membrane_orderStaged[order]
+}
+
+func (*Membrane) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Membranes_mapString
+}
+
+func (*Membrane) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Membranes
+}
+
+func (*Membrane) GongNewInstance() any {
+	return new(Membrane)
+}
+
+func (*Metal) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Metals, stage.Metal_stagedOrder)
+}
+
+func (*Metal) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Metal_orderStaged[order]
+}
+
+func (*Metal) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Metals_mapString
+}
+
+func (*Metal) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Metals
+}
+
+func (*Metal) GongNewInstance() any {
+	return new(Metal)
+}
+
+func (*Metronome) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Metronomes, stage.Metronome_stagedOrder)
+}
+
+func (*Metronome) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Metronome_orderStaged[order]
+}
+
+func (*Metronome) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Metronomes_mapString
+}
+
+func (*Metronome) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Metronomes
+}
+
+func (*Metronome) GongNewInstance() any {
+	return new(Metronome)
+}
+
+func (*Metronome_beam) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Metronome_beams, stage.Metronome_beam_stagedOrder)
+}
+
+func (*Metronome_beam) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Metronome_beam_orderStaged[order]
+}
+
+func (*Metronome_beam) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Metronome_beams_mapString
+}
+
+func (*Metronome_beam) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Metronome_beams
+}
+
+func (*Metronome_beam) GongNewInstance() any {
+	return new(Metronome_beam)
+}
+
+func (*Metronome_note) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Metronome_notes, stage.Metronome_note_stagedOrder)
+}
+
+func (*Metronome_note) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Metronome_note_orderStaged[order]
+}
+
+func (*Metronome_note) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Metronome_notes_mapString
+}
+
+func (*Metronome_note) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Metronome_notes
+}
+
+func (*Metronome_note) GongNewInstance() any {
+	return new(Metronome_note)
+}
+
+func (*Metronome_tied) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Metronome_tieds, stage.Metronome_tied_stagedOrder)
+}
+
+func (*Metronome_tied) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Metronome_tied_orderStaged[order]
+}
+
+func (*Metronome_tied) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Metronome_tieds_mapString
+}
+
+func (*Metronome_tied) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Metronome_tieds
+}
+
+func (*Metronome_tied) GongNewInstance() any {
+	return new(Metronome_tied)
+}
+
+func (*Metronome_tuplet) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Metronome_tuplets, stage.Metronome_tuplet_stagedOrder)
+}
+
+func (*Metronome_tuplet) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Metronome_tuplet_orderStaged[order]
+}
+
+func (*Metronome_tuplet) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Metronome_tuplets_mapString
+}
+
+func (*Metronome_tuplet) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Metronome_tuplets
+}
+
+func (*Metronome_tuplet) GongNewInstance() any {
+	return new(Metronome_tuplet)
+}
+
+func (*Midi_device) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Midi_devices, stage.Midi_device_stagedOrder)
+}
+
+func (*Midi_device) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Midi_device_orderStaged[order]
+}
+
+func (*Midi_device) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Midi_devices_mapString
+}
+
+func (*Midi_device) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Midi_devices
+}
+
+func (*Midi_device) GongNewInstance() any {
+	return new(Midi_device)
+}
+
+func (*Midi_instrument) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Midi_instruments, stage.Midi_instrument_stagedOrder)
+}
+
+func (*Midi_instrument) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Midi_instrument_orderStaged[order]
+}
+
+func (*Midi_instrument) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Midi_instruments_mapString
+}
+
+func (*Midi_instrument) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Midi_instruments
+}
+
+func (*Midi_instrument) GongNewInstance() any {
+	return new(Midi_instrument)
+}
+
+func (*Miscellaneous) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Miscellaneouss, stage.Miscellaneous_stagedOrder)
+}
+
+func (*Miscellaneous) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Miscellaneous_orderStaged[order]
+}
+
+func (*Miscellaneous) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Miscellaneouss_mapString
+}
+
+func (*Miscellaneous) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Miscellaneouss
+}
+
+func (*Miscellaneous) GongNewInstance() any {
+	return new(Miscellaneous)
+}
+
+func (*Miscellaneous_field) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Miscellaneous_fields, stage.Miscellaneous_field_stagedOrder)
+}
+
+func (*Miscellaneous_field) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Miscellaneous_field_orderStaged[order]
+}
+
+func (*Miscellaneous_field) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Miscellaneous_fields_mapString
+}
+
+func (*Miscellaneous_field) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Miscellaneous_fields
+}
+
+func (*Miscellaneous_field) GongNewInstance() any {
+	return new(Miscellaneous_field)
+}
+
+func (*Mordent) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Mordents, stage.Mordent_stagedOrder)
+}
+
+func (*Mordent) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Mordent_orderStaged[order]
+}
+
+func (*Mordent) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Mordents_mapString
+}
+
+func (*Mordent) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Mordents
+}
+
+func (*Mordent) GongNewInstance() any {
+	return new(Mordent)
+}
+
+func (*Multiple_rest) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Multiple_rests, stage.Multiple_rest_stagedOrder)
+}
+
+func (*Multiple_rest) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Multiple_rest_orderStaged[order]
+}
+
+func (*Multiple_rest) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Multiple_rests_mapString
+}
+
+func (*Multiple_rest) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Multiple_rests
+}
+
+func (*Multiple_rest) GongNewInstance() any {
+	return new(Multiple_rest)
+}
+
+func (*Name_display) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Name_displays, stage.Name_display_stagedOrder)
+}
+
+func (*Name_display) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Name_display_orderStaged[order]
+}
+
+func (*Name_display) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Name_displays_mapString
+}
+
+func (*Name_display) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Name_displays
+}
+
+func (*Name_display) GongNewInstance() any {
+	return new(Name_display)
+}
+
+func (*Non_arpeggiate) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Non_arpeggiates, stage.Non_arpeggiate_stagedOrder)
+}
+
+func (*Non_arpeggiate) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Non_arpeggiate_orderStaged[order]
+}
+
+func (*Non_arpeggiate) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Non_arpeggiates_mapString
+}
+
+func (*Non_arpeggiate) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Non_arpeggiates
+}
+
+func (*Non_arpeggiate) GongNewInstance() any {
+	return new(Non_arpeggiate)
+}
+
+func (*Notations) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Notationss, stage.Notations_stagedOrder)
+}
+
+func (*Notations) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Notations_orderStaged[order]
+}
+
+func (*Notations) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Notationss_mapString
+}
+
+func (*Notations) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Notationss
+}
+
+func (*Notations) GongNewInstance() any {
+	return new(Notations)
+}
+
+func (*Note) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
+}
+
+func (*Note) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Note_orderStaged[order]
+}
+
+func (*Note) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Notes_mapString
+}
+
+func (*Note) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Notes
+}
+
+func (*Note) GongNewInstance() any {
+	return new(Note)
+}
+
+func (*Note_size) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Note_sizes, stage.Note_size_stagedOrder)
+}
+
+func (*Note_size) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Note_size_orderStaged[order]
+}
+
+func (*Note_size) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Note_sizes_mapString
+}
+
+func (*Note_size) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Note_sizes
+}
+
+func (*Note_size) GongNewInstance() any {
+	return new(Note_size)
+}
+
+func (*Note_type) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Note_types, stage.Note_type_stagedOrder)
+}
+
+func (*Note_type) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Note_type_orderStaged[order]
+}
+
+func (*Note_type) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Note_types_mapString
+}
+
+func (*Note_type) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Note_types
+}
+
+func (*Note_type) GongNewInstance() any {
+	return new(Note_type)
+}
+
+func (*Notehead) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Noteheads, stage.Notehead_stagedOrder)
+}
+
+func (*Notehead) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Notehead_orderStaged[order]
+}
+
+func (*Notehead) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Noteheads_mapString
+}
+
+func (*Notehead) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Noteheads
+}
+
+func (*Notehead) GongNewInstance() any {
+	return new(Notehead)
+}
+
+func (*Notehead_text) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Notehead_texts, stage.Notehead_text_stagedOrder)
+}
+
+func (*Notehead_text) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Notehead_text_orderStaged[order]
+}
+
+func (*Notehead_text) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Notehead_texts_mapString
+}
+
+func (*Notehead_text) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Notehead_texts
+}
+
+func (*Notehead_text) GongNewInstance() any {
+	return new(Notehead_text)
+}
+
+func (*Numeral) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Numerals, stage.Numeral_stagedOrder)
+}
+
+func (*Numeral) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Numeral_orderStaged[order]
+}
+
+func (*Numeral) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Numerals_mapString
+}
+
+func (*Numeral) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Numerals
+}
+
+func (*Numeral) GongNewInstance() any {
+	return new(Numeral)
+}
+
+func (*Numeral_key) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Numeral_keys, stage.Numeral_key_stagedOrder)
+}
+
+func (*Numeral_key) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Numeral_key_orderStaged[order]
+}
+
+func (*Numeral_key) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Numeral_keys_mapString
+}
+
+func (*Numeral_key) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Numeral_keys
+}
+
+func (*Numeral_key) GongNewInstance() any {
+	return new(Numeral_key)
+}
+
+func (*Numeral_root) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Numeral_roots, stage.Numeral_root_stagedOrder)
+}
+
+func (*Numeral_root) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Numeral_root_orderStaged[order]
+}
+
+func (*Numeral_root) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Numeral_roots_mapString
+}
+
+func (*Numeral_root) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Numeral_roots
+}
+
+func (*Numeral_root) GongNewInstance() any {
+	return new(Numeral_root)
+}
+
+func (*Octave_shift) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Octave_shifts, stage.Octave_shift_stagedOrder)
+}
+
+func (*Octave_shift) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Octave_shift_orderStaged[order]
+}
+
+func (*Octave_shift) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Octave_shifts_mapString
+}
+
+func (*Octave_shift) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Octave_shifts
+}
+
+func (*Octave_shift) GongNewInstance() any {
+	return new(Octave_shift)
+}
+
+func (*Offset) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Offsets, stage.Offset_stagedOrder)
+}
+
+func (*Offset) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Offset_orderStaged[order]
+}
+
+func (*Offset) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Offsets_mapString
+}
+
+func (*Offset) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Offsets
+}
+
+func (*Offset) GongNewInstance() any {
+	return new(Offset)
+}
+
+func (*Opus) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Opuss, stage.Opus_stagedOrder)
+}
+
+func (*Opus) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Opus_orderStaged[order]
+}
+
+func (*Opus) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Opuss_mapString
+}
+
+func (*Opus) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Opuss
+}
+
+func (*Opus) GongNewInstance() any {
+	return new(Opus)
+}
+
+func (*Ornaments) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Ornamentss, stage.Ornaments_stagedOrder)
+}
+
+func (*Ornaments) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Ornaments_orderStaged[order]
+}
+
+func (*Ornaments) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Ornamentss_mapString
+}
+
+func (*Ornaments) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Ornamentss
+}
+
+func (*Ornaments) GongNewInstance() any {
+	return new(Ornaments)
+}
+
+func (*Other_appearance) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Other_appearances, stage.Other_appearance_stagedOrder)
+}
+
+func (*Other_appearance) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Other_appearance_orderStaged[order]
+}
+
+func (*Other_appearance) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Other_appearances_mapString
+}
+
+func (*Other_appearance) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Other_appearances
+}
+
+func (*Other_appearance) GongNewInstance() any {
+	return new(Other_appearance)
+}
+
+func (*Other_direction) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Other_directions, stage.Other_direction_stagedOrder)
+}
+
+func (*Other_direction) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Other_direction_orderStaged[order]
+}
+
+func (*Other_direction) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Other_directions_mapString
+}
+
+func (*Other_direction) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Other_directions
+}
+
+func (*Other_direction) GongNewInstance() any {
+	return new(Other_direction)
+}
+
+func (*Other_listening) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Other_listenings, stage.Other_listening_stagedOrder)
+}
+
+func (*Other_listening) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Other_listening_orderStaged[order]
+}
+
+func (*Other_listening) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Other_listenings_mapString
+}
+
+func (*Other_listening) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Other_listenings
+}
+
+func (*Other_listening) GongNewInstance() any {
+	return new(Other_listening)
+}
+
+func (*Other_notation) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Other_notations, stage.Other_notation_stagedOrder)
+}
+
+func (*Other_notation) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Other_notation_orderStaged[order]
+}
+
+func (*Other_notation) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Other_notations_mapString
+}
+
+func (*Other_notation) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Other_notations
+}
+
+func (*Other_notation) GongNewInstance() any {
+	return new(Other_notation)
+}
+
+func (*Other_placement_text) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Other_placement_texts, stage.Other_placement_text_stagedOrder)
+}
+
+func (*Other_placement_text) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Other_placement_text_orderStaged[order]
+}
+
+func (*Other_placement_text) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Other_placement_texts_mapString
+}
+
+func (*Other_placement_text) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Other_placement_texts
+}
+
+func (*Other_placement_text) GongNewInstance() any {
+	return new(Other_placement_text)
+}
+
+func (*Other_play) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Other_plays, stage.Other_play_stagedOrder)
+}
+
+func (*Other_play) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Other_play_orderStaged[order]
+}
+
+func (*Other_play) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Other_plays_mapString
+}
+
+func (*Other_play) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Other_plays
+}
+
+func (*Other_play) GongNewInstance() any {
+	return new(Other_play)
+}
+
+func (*Other_text) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Other_texts, stage.Other_text_stagedOrder)
+}
+
+func (*Other_text) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Other_text_orderStaged[order]
+}
+
+func (*Other_text) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Other_texts_mapString
+}
+
+func (*Other_text) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Other_texts
+}
+
+func (*Other_text) GongNewInstance() any {
+	return new(Other_text)
+}
+
+func (*Page_layout) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Page_layouts, stage.Page_layout_stagedOrder)
+}
+
+func (*Page_layout) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Page_layout_orderStaged[order]
+}
+
+func (*Page_layout) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Page_layouts_mapString
+}
+
+func (*Page_layout) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Page_layouts
+}
+
+func (*Page_layout) GongNewInstance() any {
+	return new(Page_layout)
+}
+
+func (*Page_margins) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Page_marginss, stage.Page_margins_stagedOrder)
+}
+
+func (*Page_margins) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Page_margins_orderStaged[order]
+}
+
+func (*Page_margins) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Page_marginss_mapString
+}
+
+func (*Page_margins) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Page_marginss
+}
+
+func (*Page_margins) GongNewInstance() any {
+	return new(Page_margins)
+}
+
+func (*Part_clef) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Part_clefs, stage.Part_clef_stagedOrder)
+}
+
+func (*Part_clef) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Part_clef_orderStaged[order]
+}
+
+func (*Part_clef) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Part_clefs_mapString
+}
+
+func (*Part_clef) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Part_clefs
+}
+
+func (*Part_clef) GongNewInstance() any {
+	return new(Part_clef)
+}
+
+func (*Part_group) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Part_groups, stage.Part_group_stagedOrder)
+}
+
+func (*Part_group) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Part_group_orderStaged[order]
+}
+
+func (*Part_group) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Part_groups_mapString
+}
+
+func (*Part_group) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Part_groups
+}
+
+func (*Part_group) GongNewInstance() any {
+	return new(Part_group)
+}
+
+func (*Part_link) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Part_links, stage.Part_link_stagedOrder)
+}
+
+func (*Part_link) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Part_link_orderStaged[order]
+}
+
+func (*Part_link) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Part_links_mapString
+}
+
+func (*Part_link) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Part_links
+}
+
+func (*Part_link) GongNewInstance() any {
+	return new(Part_link)
+}
+
+func (*Part_list) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Part_lists, stage.Part_list_stagedOrder)
+}
+
+func (*Part_list) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Part_list_orderStaged[order]
+}
+
+func (*Part_list) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Part_lists_mapString
+}
+
+func (*Part_list) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Part_lists
+}
+
+func (*Part_list) GongNewInstance() any {
+	return new(Part_list)
+}
+
+func (*Part_name) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Part_names, stage.Part_name_stagedOrder)
+}
+
+func (*Part_name) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Part_name_orderStaged[order]
+}
+
+func (*Part_name) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Part_names_mapString
+}
+
+func (*Part_name) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Part_names
+}
+
+func (*Part_name) GongNewInstance() any {
+	return new(Part_name)
+}
+
+func (*Part_symbol) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Part_symbols, stage.Part_symbol_stagedOrder)
+}
+
+func (*Part_symbol) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Part_symbol_orderStaged[order]
+}
+
+func (*Part_symbol) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Part_symbols_mapString
+}
+
+func (*Part_symbol) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Part_symbols
+}
+
+func (*Part_symbol) GongNewInstance() any {
+	return new(Part_symbol)
+}
+
+func (*Part_transpose) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Part_transposes, stage.Part_transpose_stagedOrder)
+}
+
+func (*Part_transpose) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Part_transpose_orderStaged[order]
+}
+
+func (*Part_transpose) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Part_transposes_mapString
+}
+
+func (*Part_transpose) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Part_transposes
+}
+
+func (*Part_transpose) GongNewInstance() any {
+	return new(Part_transpose)
+}
+
+func (*Pedal) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Pedals, stage.Pedal_stagedOrder)
+}
+
+func (*Pedal) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Pedal_orderStaged[order]
+}
+
+func (*Pedal) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Pedals_mapString
+}
+
+func (*Pedal) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Pedals
+}
+
+func (*Pedal) GongNewInstance() any {
+	return new(Pedal)
+}
+
+func (*Pedal_tuning) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Pedal_tunings, stage.Pedal_tuning_stagedOrder)
+}
+
+func (*Pedal_tuning) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Pedal_tuning_orderStaged[order]
+}
+
+func (*Pedal_tuning) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Pedal_tunings_mapString
+}
+
+func (*Pedal_tuning) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Pedal_tunings
+}
+
+func (*Pedal_tuning) GongNewInstance() any {
+	return new(Pedal_tuning)
+}
+
+func (*Per_minute) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Per_minutes, stage.Per_minute_stagedOrder)
+}
+
+func (*Per_minute) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Per_minute_orderStaged[order]
+}
+
+func (*Per_minute) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Per_minutes_mapString
+}
+
+func (*Per_minute) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Per_minutes
+}
+
+func (*Per_minute) GongNewInstance() any {
+	return new(Per_minute)
+}
+
+func (*Percussion) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Percussions, stage.Percussion_stagedOrder)
+}
+
+func (*Percussion) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Percussion_orderStaged[order]
+}
+
+func (*Percussion) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Percussions_mapString
+}
+
+func (*Percussion) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Percussions
+}
+
+func (*Percussion) GongNewInstance() any {
+	return new(Percussion)
+}
+
+func (*Pitch) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Pitchs, stage.Pitch_stagedOrder)
+}
+
+func (*Pitch) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Pitch_orderStaged[order]
+}
+
+func (*Pitch) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Pitchs_mapString
+}
+
+func (*Pitch) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Pitchs
+}
+
+func (*Pitch) GongNewInstance() any {
+	return new(Pitch)
+}
+
+func (*Pitched) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Pitcheds, stage.Pitched_stagedOrder)
+}
+
+func (*Pitched) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Pitched_orderStaged[order]
+}
+
+func (*Pitched) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Pitcheds_mapString
+}
+
+func (*Pitched) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Pitcheds
+}
+
+func (*Pitched) GongNewInstance() any {
+	return new(Pitched)
+}
+
+func (*Placement_text) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Placement_texts, stage.Placement_text_stagedOrder)
+}
+
+func (*Placement_text) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Placement_text_orderStaged[order]
+}
+
+func (*Placement_text) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Placement_texts_mapString
+}
+
+func (*Placement_text) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Placement_texts
+}
+
+func (*Placement_text) GongNewInstance() any {
+	return new(Placement_text)
+}
+
+func (*Play) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Plays, stage.Play_stagedOrder)
+}
+
+func (*Play) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Play_orderStaged[order]
+}
+
+func (*Play) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Plays_mapString
+}
+
+func (*Play) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Plays
+}
+
+func (*Play) GongNewInstance() any {
+	return new(Play)
+}
+
+func (*Player) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Players, stage.Player_stagedOrder)
+}
+
+func (*Player) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Player_orderStaged[order]
+}
+
+func (*Player) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Players_mapString
+}
+
+func (*Player) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Players
+}
+
+func (*Player) GongNewInstance() any {
+	return new(Player)
+}
+
+func (*Principal_voice) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Principal_voices, stage.Principal_voice_stagedOrder)
+}
+
+func (*Principal_voice) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Principal_voice_orderStaged[order]
+}
+
+func (*Principal_voice) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Principal_voices_mapString
+}
+
+func (*Principal_voice) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Principal_voices
+}
+
+func (*Principal_voice) GongNewInstance() any {
+	return new(Principal_voice)
+}
+
+func (*Print) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Prints, stage.Print_stagedOrder)
+}
+
+func (*Print) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Print_orderStaged[order]
+}
+
+func (*Print) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Prints_mapString
+}
+
+func (*Print) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Prints
+}
+
+func (*Print) GongNewInstance() any {
+	return new(Print)
+}
+
+func (*Release) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Releases, stage.Release_stagedOrder)
+}
+
+func (*Release) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Release_orderStaged[order]
+}
+
+func (*Release) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Releases_mapString
+}
+
+func (*Release) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Releases
+}
+
+func (*Release) GongNewInstance() any {
+	return new(Release)
+}
+
+func (*Repeat) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Repeats, stage.Repeat_stagedOrder)
+}
+
+func (*Repeat) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Repeat_orderStaged[order]
+}
+
+func (*Repeat) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Repeats_mapString
+}
+
+func (*Repeat) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Repeats
+}
+
+func (*Repeat) GongNewInstance() any {
+	return new(Repeat)
+}
+
+func (*Rest) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Rests, stage.Rest_stagedOrder)
+}
+
+func (*Rest) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Rest_orderStaged[order]
+}
+
+func (*Rest) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Rests_mapString
+}
+
+func (*Rest) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Rests
+}
+
+func (*Rest) GongNewInstance() any {
+	return new(Rest)
+}
+
+func (*Root) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Roots, stage.Root_stagedOrder)
+}
+
+func (*Root) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Root_orderStaged[order]
+}
+
+func (*Root) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Roots_mapString
+}
+
+func (*Root) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Roots
+}
+
+func (*Root) GongNewInstance() any {
+	return new(Root)
+}
+
+func (*Root_step) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Root_steps, stage.Root_step_stagedOrder)
+}
+
+func (*Root_step) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Root_step_orderStaged[order]
+}
+
+func (*Root_step) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Root_steps_mapString
+}
+
+func (*Root_step) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Root_steps
+}
+
+func (*Root_step) GongNewInstance() any {
+	return new(Root_step)
+}
+
+func (*Scaling) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Scalings, stage.Scaling_stagedOrder)
+}
+
+func (*Scaling) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Scaling_orderStaged[order]
+}
+
+func (*Scaling) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Scalings_mapString
+}
+
+func (*Scaling) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Scalings
+}
+
+func (*Scaling) GongNewInstance() any {
+	return new(Scaling)
+}
+
+func (*Scordatura) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Scordaturas, stage.Scordatura_stagedOrder)
+}
+
+func (*Scordatura) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Scordatura_orderStaged[order]
+}
+
+func (*Scordatura) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Scordaturas_mapString
+}
+
+func (*Scordatura) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Scordaturas
+}
+
+func (*Scordatura) GongNewInstance() any {
+	return new(Scordatura)
+}
+
+func (*Score_instrument) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Score_instruments, stage.Score_instrument_stagedOrder)
+}
+
+func (*Score_instrument) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Score_instrument_orderStaged[order]
+}
+
+func (*Score_instrument) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Score_instruments_mapString
+}
+
+func (*Score_instrument) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Score_instruments
+}
+
+func (*Score_instrument) GongNewInstance() any {
+	return new(Score_instrument)
+}
+
+func (*Score_part) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Score_parts, stage.Score_part_stagedOrder)
+}
+
+func (*Score_part) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Score_part_orderStaged[order]
+}
+
+func (*Score_part) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Score_parts_mapString
+}
+
+func (*Score_part) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Score_parts
+}
+
+func (*Score_part) GongNewInstance() any {
+	return new(Score_part)
+}
+
+func (*Score_partwise) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Score_partwises, stage.Score_partwise_stagedOrder)
+}
+
+func (*Score_partwise) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Score_partwise_orderStaged[order]
+}
+
+func (*Score_partwise) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Score_partwises_mapString
+}
+
+func (*Score_partwise) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Score_partwises
+}
+
+func (*Score_partwise) GongNewInstance() any {
+	return new(Score_partwise)
+}
+
+func (*Score_timewise) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Score_timewises, stage.Score_timewise_stagedOrder)
+}
+
+func (*Score_timewise) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Score_timewise_orderStaged[order]
+}
+
+func (*Score_timewise) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Score_timewises_mapString
+}
+
+func (*Score_timewise) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Score_timewises
+}
+
+func (*Score_timewise) GongNewInstance() any {
+	return new(Score_timewise)
+}
+
+func (*Segno) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Segnos, stage.Segno_stagedOrder)
+}
+
+func (*Segno) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Segno_orderStaged[order]
+}
+
+func (*Segno) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Segnos_mapString
+}
+
+func (*Segno) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Segnos
+}
+
+func (*Segno) GongNewInstance() any {
+	return new(Segno)
+}
+
+func (*Slash) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Slashs, stage.Slash_stagedOrder)
+}
+
+func (*Slash) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Slash_orderStaged[order]
+}
+
+func (*Slash) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Slashs_mapString
+}
+
+func (*Slash) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Slashs
+}
+
+func (*Slash) GongNewInstance() any {
+	return new(Slash)
+}
+
+func (*Slide) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Slides, stage.Slide_stagedOrder)
+}
+
+func (*Slide) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Slide_orderStaged[order]
+}
+
+func (*Slide) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Slides_mapString
+}
+
+func (*Slide) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Slides
+}
+
+func (*Slide) GongNewInstance() any {
+	return new(Slide)
+}
+
+func (*Slur) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Slurs, stage.Slur_stagedOrder)
+}
+
+func (*Slur) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Slur_orderStaged[order]
+}
+
+func (*Slur) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Slurs_mapString
+}
+
+func (*Slur) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Slurs
+}
+
+func (*Slur) GongNewInstance() any {
+	return new(Slur)
+}
+
+func (*Sound) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Sounds, stage.Sound_stagedOrder)
+}
+
+func (*Sound) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Sound_orderStaged[order]
+}
+
+func (*Sound) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Sounds_mapString
+}
+
+func (*Sound) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Sounds
+}
+
+func (*Sound) GongNewInstance() any {
+	return new(Sound)
+}
+
+func (*Staff_details) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Staff_detailss, stage.Staff_details_stagedOrder)
+}
+
+func (*Staff_details) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Staff_details_orderStaged[order]
+}
+
+func (*Staff_details) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Staff_detailss_mapString
+}
+
+func (*Staff_details) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Staff_detailss
+}
+
+func (*Staff_details) GongNewInstance() any {
+	return new(Staff_details)
+}
+
+func (*Staff_divide) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Staff_divides, stage.Staff_divide_stagedOrder)
+}
+
+func (*Staff_divide) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Staff_divide_orderStaged[order]
+}
+
+func (*Staff_divide) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Staff_divides_mapString
+}
+
+func (*Staff_divide) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Staff_divides
+}
+
+func (*Staff_divide) GongNewInstance() any {
+	return new(Staff_divide)
+}
+
+func (*Staff_layout) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Staff_layouts, stage.Staff_layout_stagedOrder)
+}
+
+func (*Staff_layout) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Staff_layout_orderStaged[order]
+}
+
+func (*Staff_layout) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Staff_layouts_mapString
+}
+
+func (*Staff_layout) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Staff_layouts
+}
+
+func (*Staff_layout) GongNewInstance() any {
+	return new(Staff_layout)
+}
+
+func (*Staff_size) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Staff_sizes, stage.Staff_size_stagedOrder)
+}
+
+func (*Staff_size) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Staff_size_orderStaged[order]
+}
+
+func (*Staff_size) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Staff_sizes_mapString
+}
+
+func (*Staff_size) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Staff_sizes
+}
+
+func (*Staff_size) GongNewInstance() any {
+	return new(Staff_size)
+}
+
+func (*Staff_tuning) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Staff_tunings, stage.Staff_tuning_stagedOrder)
+}
+
+func (*Staff_tuning) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Staff_tuning_orderStaged[order]
+}
+
+func (*Staff_tuning) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Staff_tunings_mapString
+}
+
+func (*Staff_tuning) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Staff_tunings
+}
+
+func (*Staff_tuning) GongNewInstance() any {
+	return new(Staff_tuning)
+}
+
+func (*Stem) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Stems, stage.Stem_stagedOrder)
+}
+
+func (*Stem) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Stem_orderStaged[order]
+}
+
+func (*Stem) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Stems_mapString
+}
+
+func (*Stem) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Stems
+}
+
+func (*Stem) GongNewInstance() any {
+	return new(Stem)
+}
+
+func (*Stick) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Sticks, stage.Stick_stagedOrder)
+}
+
+func (*Stick) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Stick_orderStaged[order]
+}
+
+func (*Stick) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Sticks_mapString
+}
+
+func (*Stick) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Sticks
+}
+
+func (*Stick) GongNewInstance() any {
+	return new(Stick)
+}
+
+func (*String_mute) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.String_mutes, stage.String_mute_stagedOrder)
+}
+
+func (*String_mute) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.String_mute_orderStaged[order]
+}
+
+func (*String_mute) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.String_mutes_mapString
+}
+
+func (*String_mute) GongGetInstancesSet(stage *Stage) any {
+	return &stage.String_mutes
+}
+
+func (*String_mute) GongNewInstance() any {
+	return new(String_mute)
+}
+
+func (*String_type) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.String_types, stage.String_type_stagedOrder)
+}
+
+func (*String_type) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.String_type_orderStaged[order]
+}
+
+func (*String_type) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.String_types_mapString
+}
+
+func (*String_type) GongGetInstancesSet(stage *Stage) any {
+	return &stage.String_types
+}
+
+func (*String_type) GongNewInstance() any {
+	return new(String_type)
+}
+
+func (*Strong_accent) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Strong_accents, stage.Strong_accent_stagedOrder)
+}
+
+func (*Strong_accent) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Strong_accent_orderStaged[order]
+}
+
+func (*Strong_accent) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Strong_accents_mapString
+}
+
+func (*Strong_accent) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Strong_accents
+}
+
+func (*Strong_accent) GongNewInstance() any {
+	return new(Strong_accent)
+}
+
+func (*Style_text) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Style_texts, stage.Style_text_stagedOrder)
+}
+
+func (*Style_text) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Style_text_orderStaged[order]
+}
+
+func (*Style_text) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Style_texts_mapString
+}
+
+func (*Style_text) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Style_texts
+}
+
+func (*Style_text) GongNewInstance() any {
+	return new(Style_text)
+}
+
+func (*Supports) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Supportss, stage.Supports_stagedOrder)
+}
+
+func (*Supports) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Supports_orderStaged[order]
+}
+
+func (*Supports) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Supportss_mapString
+}
+
+func (*Supports) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Supportss
+}
+
+func (*Supports) GongNewInstance() any {
+	return new(Supports)
+}
+
+func (*Swing) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Swings, stage.Swing_stagedOrder)
+}
+
+func (*Swing) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Swing_orderStaged[order]
+}
+
+func (*Swing) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Swings_mapString
+}
+
+func (*Swing) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Swings
+}
+
+func (*Swing) GongNewInstance() any {
+	return new(Swing)
+}
+
+func (*Sync) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Syncs, stage.Sync_stagedOrder)
+}
+
+func (*Sync) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Sync_orderStaged[order]
+}
+
+func (*Sync) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Syncs_mapString
+}
+
+func (*Sync) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Syncs
+}
+
+func (*Sync) GongNewInstance() any {
+	return new(Sync)
+}
+
+func (*System_dividers) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.System_dividerss, stage.System_dividers_stagedOrder)
+}
+
+func (*System_dividers) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.System_dividers_orderStaged[order]
+}
+
+func (*System_dividers) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.System_dividerss_mapString
+}
+
+func (*System_dividers) GongGetInstancesSet(stage *Stage) any {
+	return &stage.System_dividerss
+}
+
+func (*System_dividers) GongNewInstance() any {
+	return new(System_dividers)
+}
+
+func (*System_layout) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.System_layouts, stage.System_layout_stagedOrder)
+}
+
+func (*System_layout) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.System_layout_orderStaged[order]
+}
+
+func (*System_layout) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.System_layouts_mapString
+}
+
+func (*System_layout) GongGetInstancesSet(stage *Stage) any {
+	return &stage.System_layouts
+}
+
+func (*System_layout) GongNewInstance() any {
+	return new(System_layout)
+}
+
+func (*System_margins) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.System_marginss, stage.System_margins_stagedOrder)
+}
+
+func (*System_margins) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.System_margins_orderStaged[order]
+}
+
+func (*System_margins) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.System_marginss_mapString
+}
+
+func (*System_margins) GongGetInstancesSet(stage *Stage) any {
+	return &stage.System_marginss
+}
+
+func (*System_margins) GongNewInstance() any {
+	return new(System_margins)
+}
+
+func (*Tap) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Taps, stage.Tap_stagedOrder)
+}
+
+func (*Tap) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tap_orderStaged[order]
+}
+
+func (*Tap) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Taps_mapString
+}
+
+func (*Tap) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Taps
+}
+
+func (*Tap) GongNewInstance() any {
+	return new(Tap)
+}
+
+func (*Technical) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Technicals, stage.Technical_stagedOrder)
+}
+
+func (*Technical) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Technical_orderStaged[order]
+}
+
+func (*Technical) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Technicals_mapString
+}
+
+func (*Technical) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Technicals
+}
+
+func (*Technical) GongNewInstance() any {
+	return new(Technical)
+}
+
+func (*Text_element_data) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Text_element_datas, stage.Text_element_data_stagedOrder)
+}
+
+func (*Text_element_data) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Text_element_data_orderStaged[order]
+}
+
+func (*Text_element_data) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Text_element_datas_mapString
+}
+
+func (*Text_element_data) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Text_element_datas
+}
+
+func (*Text_element_data) GongNewInstance() any {
+	return new(Text_element_data)
+}
+
+func (*Tie) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Ties, stage.Tie_stagedOrder)
+}
+
+func (*Tie) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tie_orderStaged[order]
+}
+
+func (*Tie) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Ties_mapString
+}
+
+func (*Tie) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Ties
+}
+
+func (*Tie) GongNewInstance() any {
+	return new(Tie)
+}
+
+func (*Tied) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Tieds, stage.Tied_stagedOrder)
+}
+
+func (*Tied) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tied_orderStaged[order]
+}
+
+func (*Tied) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Tieds_mapString
+}
+
+func (*Tied) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Tieds
+}
+
+func (*Tied) GongNewInstance() any {
+	return new(Tied)
+}
+
+func (*Time) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Times, stage.Time_stagedOrder)
+}
+
+func (*Time) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Time_orderStaged[order]
+}
+
+func (*Time) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Times_mapString
+}
+
+func (*Time) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Times
+}
+
+func (*Time) GongNewInstance() any {
+	return new(Time)
+}
+
+func (*Time_modification) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Time_modifications, stage.Time_modification_stagedOrder)
+}
+
+func (*Time_modification) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Time_modification_orderStaged[order]
+}
+
+func (*Time_modification) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Time_modifications_mapString
+}
+
+func (*Time_modification) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Time_modifications
+}
+
+func (*Time_modification) GongNewInstance() any {
+	return new(Time_modification)
+}
+
+func (*Timpani) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Timpanis, stage.Timpani_stagedOrder)
+}
+
+func (*Timpani) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Timpani_orderStaged[order]
+}
+
+func (*Timpani) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Timpanis_mapString
+}
+
+func (*Timpani) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Timpanis
+}
+
+func (*Timpani) GongNewInstance() any {
+	return new(Timpani)
+}
+
+func (*Transpose) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Transposes, stage.Transpose_stagedOrder)
+}
+
+func (*Transpose) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Transpose_orderStaged[order]
+}
+
+func (*Transpose) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Transposes_mapString
+}
+
+func (*Transpose) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Transposes
+}
+
+func (*Transpose) GongNewInstance() any {
+	return new(Transpose)
+}
+
+func (*Tremolo) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Tremolos, stage.Tremolo_stagedOrder)
+}
+
+func (*Tremolo) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tremolo_orderStaged[order]
+}
+
+func (*Tremolo) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Tremolos_mapString
+}
+
+func (*Tremolo) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Tremolos
+}
+
+func (*Tremolo) GongNewInstance() any {
+	return new(Tremolo)
+}
+
+func (*Tuplet) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Tuplets, stage.Tuplet_stagedOrder)
+}
+
+func (*Tuplet) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tuplet_orderStaged[order]
+}
+
+func (*Tuplet) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Tuplets_mapString
+}
+
+func (*Tuplet) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Tuplets
+}
+
+func (*Tuplet) GongNewInstance() any {
+	return new(Tuplet)
+}
+
+func (*Tuplet_dot) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Tuplet_dots, stage.Tuplet_dot_stagedOrder)
+}
+
+func (*Tuplet_dot) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tuplet_dot_orderStaged[order]
+}
+
+func (*Tuplet_dot) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Tuplet_dots_mapString
+}
+
+func (*Tuplet_dot) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Tuplet_dots
+}
+
+func (*Tuplet_dot) GongNewInstance() any {
+	return new(Tuplet_dot)
+}
+
+func (*Tuplet_number) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Tuplet_numbers, stage.Tuplet_number_stagedOrder)
+}
+
+func (*Tuplet_number) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tuplet_number_orderStaged[order]
+}
+
+func (*Tuplet_number) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Tuplet_numbers_mapString
+}
+
+func (*Tuplet_number) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Tuplet_numbers
+}
+
+func (*Tuplet_number) GongNewInstance() any {
+	return new(Tuplet_number)
+}
+
+func (*Tuplet_portion) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Tuplet_portions, stage.Tuplet_portion_stagedOrder)
+}
+
+func (*Tuplet_portion) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tuplet_portion_orderStaged[order]
+}
+
+func (*Tuplet_portion) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Tuplet_portions_mapString
+}
+
+func (*Tuplet_portion) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Tuplet_portions
+}
+
+func (*Tuplet_portion) GongNewInstance() any {
+	return new(Tuplet_portion)
+}
+
+func (*Tuplet_type) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Tuplet_types, stage.Tuplet_type_stagedOrder)
+}
+
+func (*Tuplet_type) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Tuplet_type_orderStaged[order]
+}
+
+func (*Tuplet_type) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Tuplet_types_mapString
+}
+
+func (*Tuplet_type) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Tuplet_types
+}
+
+func (*Tuplet_type) GongNewInstance() any {
+	return new(Tuplet_type)
+}
+
+func (*Typed_text) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Typed_texts, stage.Typed_text_stagedOrder)
+}
+
+func (*Typed_text) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Typed_text_orderStaged[order]
+}
+
+func (*Typed_text) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Typed_texts_mapString
+}
+
+func (*Typed_text) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Typed_texts
+}
+
+func (*Typed_text) GongNewInstance() any {
+	return new(Typed_text)
+}
+
+func (*Unpitched) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Unpitcheds, stage.Unpitched_stagedOrder)
+}
+
+func (*Unpitched) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Unpitched_orderStaged[order]
+}
+
+func (*Unpitched) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Unpitcheds_mapString
+}
+
+func (*Unpitched) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Unpitcheds
+}
+
+func (*Unpitched) GongNewInstance() any {
+	return new(Unpitched)
+}
+
+func (*Virtual_instrument) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Virtual_instruments, stage.Virtual_instrument_stagedOrder)
+}
+
+func (*Virtual_instrument) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Virtual_instrument_orderStaged[order]
+}
+
+func (*Virtual_instrument) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Virtual_instruments_mapString
+}
+
+func (*Virtual_instrument) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Virtual_instruments
+}
+
+func (*Virtual_instrument) GongNewInstance() any {
+	return new(Virtual_instrument)
+}
+
+func (*Wait) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Waits, stage.Wait_stagedOrder)
+}
+
+func (*Wait) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Wait_orderStaged[order]
+}
+
+func (*Wait) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Waits_mapString
+}
+
+func (*Wait) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Waits
+}
+
+func (*Wait) GongNewInstance() any {
+	return new(Wait)
+}
+
+func (*Wavy_line) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Wavy_lines, stage.Wavy_line_stagedOrder)
+}
+
+func (*Wavy_line) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Wavy_line_orderStaged[order]
+}
+
+func (*Wavy_line) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Wavy_lines_mapString
+}
+
+func (*Wavy_line) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Wavy_lines
+}
+
+func (*Wavy_line) GongNewInstance() any {
+	return new(Wavy_line)
+}
+
+func (*Wedge) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Wedges, stage.Wedge_stagedOrder)
+}
+
+func (*Wedge) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Wedge_orderStaged[order]
+}
+
+func (*Wedge) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Wedges_mapString
+}
+
+func (*Wedge) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Wedges
+}
+
+func (*Wedge) GongNewInstance() any {
+	return new(Wedge)
+}
+
+func (*Wood) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Woods, stage.Wood_stagedOrder)
+}
+
+func (*Wood) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Wood_orderStaged[order]
+}
+
+func (*Wood) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Woods_mapString
+}
+
+func (*Wood) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Woods
+}
+
+func (*Wood) GongNewInstance() any {
+	return new(Wood)
+}
+
+func (*Work) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Works, stage.Work_stagedOrder)
+}
+
+func (*Work) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Work_orderStaged[order]
+}
+
+func (*Work) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Works_mapString
+}
+
+func (*Work) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Works
+}
+
+func (*Work) GongNewInstance() any {
+	return new(Work)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *A_directive:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_directives, stage.A_directive_stagedOrder))
-	case *A_measure:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_measures, stage.A_measure_stagedOrder))
-	case *A_measure_1:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_measure_1s, stage.A_measure_1_stagedOrder))
-	case *A_part:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_parts, stage.A_part_stagedOrder))
-	case *A_part_1:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.A_part_1s, stage.A_part_1_stagedOrder))
-	case *Accidental:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Accidentals, stage.Accidental_stagedOrder))
-	case *Accidental_mark:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Accidental_marks, stage.Accidental_mark_stagedOrder))
-	case *Accidental_text:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Accidental_texts, stage.Accidental_text_stagedOrder))
-	case *Accord:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Accords, stage.Accord_stagedOrder))
-	case *Accordion_registration:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Accordion_registrations, stage.Accordion_registration_stagedOrder))
-	case *Appearance:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Appearances, stage.Appearance_stagedOrder))
-	case *Arpeggiate:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Arpeggiates, stage.Arpeggiate_stagedOrder))
-	case *Arrow:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Arrows, stage.Arrow_stagedOrder))
-	case *Articulations:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Articulationss, stage.Articulations_stagedOrder))
-	case *Assess:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Assesss, stage.Assess_stagedOrder))
-	case *Attributes:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Attributess, stage.Attributes_stagedOrder))
-	case *Backup:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Backups, stage.Backup_stagedOrder))
-	case *Bar_style_color:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Bar_style_colors, stage.Bar_style_color_stagedOrder))
-	case *Barline:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Barlines, stage.Barline_stagedOrder))
-	case *Barre:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Barres, stage.Barre_stagedOrder))
-	case *Bass:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Basss, stage.Bass_stagedOrder))
-	case *Bass_step:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Bass_steps, stage.Bass_step_stagedOrder))
-	case *Beam:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Beams, stage.Beam_stagedOrder))
-	case *Beat_repeat:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Beat_repeats, stage.Beat_repeat_stagedOrder))
-	case *Beat_unit_tied:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Beat_unit_tieds, stage.Beat_unit_tied_stagedOrder))
-	case *Beater:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Beaters, stage.Beater_stagedOrder))
-	case *Bend:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Bends, stage.Bend_stagedOrder))
-	case *Bookmark:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Bookmarks, stage.Bookmark_stagedOrder))
-	case *Bracket:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Brackets, stage.Bracket_stagedOrder))
-	case *Breath_mark:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Breath_marks, stage.Breath_mark_stagedOrder))
-	case *Caesura:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Caesuras, stage.Caesura_stagedOrder))
-	case *Cancel:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Cancels, stage.Cancel_stagedOrder))
-	case *Clef:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Clefs, stage.Clef_stagedOrder))
-	case *Coda:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Codas, stage.Coda_stagedOrder))
-	case *Credit:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Credits, stage.Credit_stagedOrder))
-	case *Dashes:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Dashess, stage.Dashes_stagedOrder))
-	case *Defaults:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Defaultss, stage.Defaults_stagedOrder))
-	case *Degree:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Degrees, stage.Degree_stagedOrder))
-	case *Degree_alter:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Degree_alters, stage.Degree_alter_stagedOrder))
-	case *Degree_type:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Degree_types, stage.Degree_type_stagedOrder))
-	case *Degree_value:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Degree_values, stage.Degree_value_stagedOrder))
-	case *Direction:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Directions, stage.Direction_stagedOrder))
-	case *Direction_type:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Direction_types, stage.Direction_type_stagedOrder))
-	case *Distance:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Distances, stage.Distance_stagedOrder))
-	case *Double:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Doubles, stage.Double_stagedOrder))
-	case *Dynamics:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Dynamicss, stage.Dynamics_stagedOrder))
-	case *Effect:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Effects, stage.Effect_stagedOrder))
-	case *Elision:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Elisions, stage.Elision_stagedOrder))
-	case *Empty:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Emptys, stage.Empty_stagedOrder))
-	case *Empty_font:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Empty_fonts, stage.Empty_font_stagedOrder))
-	case *Empty_line:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Empty_lines, stage.Empty_line_stagedOrder))
-	case *Empty_placement:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Empty_placements, stage.Empty_placement_stagedOrder))
-	case *Empty_placement_smufl:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Empty_placement_smufls, stage.Empty_placement_smufl_stagedOrder))
-	case *Empty_print_object_style_align:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Empty_print_object_style_aligns, stage.Empty_print_object_style_align_stagedOrder))
-	case *Empty_print_style:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Empty_print_styles, stage.Empty_print_style_stagedOrder))
-	case *Empty_print_style_align:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Empty_print_style_aligns, stage.Empty_print_style_align_stagedOrder))
-	case *Empty_print_style_align_id:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Empty_print_style_align_ids, stage.Empty_print_style_align_id_stagedOrder))
-	case *Empty_trill_sound:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Empty_trill_sounds, stage.Empty_trill_sound_stagedOrder))
-	case *Encoding:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Encodings, stage.Encoding_stagedOrder))
-	case *Ending:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Endings, stage.Ending_stagedOrder))
-	case *Extend:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Extends, stage.Extend_stagedOrder))
-	case *Feature:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Features, stage.Feature_stagedOrder))
-	case *Fermata:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Fermatas, stage.Fermata_stagedOrder))
-	case *Figure:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Figures, stage.Figure_stagedOrder))
-	case *Figured_bass:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Figured_basss, stage.Figured_bass_stagedOrder))
-	case *Fingering:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Fingerings, stage.Fingering_stagedOrder))
-	case *First_fret:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.First_frets, stage.First_fret_stagedOrder))
-	case *For_part:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.For_parts, stage.For_part_stagedOrder))
-	case *Formatted_symbol:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Formatted_symbols, stage.Formatted_symbol_stagedOrder))
-	case *Formatted_symbol_id:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Formatted_symbol_ids, stage.Formatted_symbol_id_stagedOrder))
-	case *Formatted_text:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Formatted_texts, stage.Formatted_text_stagedOrder))
-	case *Formatted_text_id:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Formatted_text_ids, stage.Formatted_text_id_stagedOrder))
-	case *Forward:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Forwards, stage.Forward_stagedOrder))
-	case *Frame:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Frames, stage.Frame_stagedOrder))
-	case *Frame_note:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Frame_notes, stage.Frame_note_stagedOrder))
-	case *Fret:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Frets, stage.Fret_stagedOrder))
-	case *Glass:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Glasss, stage.Glass_stagedOrder))
-	case *Glissando:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Glissandos, stage.Glissando_stagedOrder))
-	case *Glyph:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Glyphs, stage.Glyph_stagedOrder))
-	case *Grace:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Graces, stage.Grace_stagedOrder))
-	case *Group_barline:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Group_barlines, stage.Group_barline_stagedOrder))
-	case *Group_name:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Group_names, stage.Group_name_stagedOrder))
-	case *Group_symbol:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Group_symbols, stage.Group_symbol_stagedOrder))
-	case *Grouping:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Groupings, stage.Grouping_stagedOrder))
-	case *Hammer_on_pull_off:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Hammer_on_pull_offs, stage.Hammer_on_pull_off_stagedOrder))
-	case *Handbell:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Handbells, stage.Handbell_stagedOrder))
-	case *Harmon_closed:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Harmon_closeds, stage.Harmon_closed_stagedOrder))
-	case *Harmon_mute:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Harmon_mutes, stage.Harmon_mute_stagedOrder))
-	case *Harmonic:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Harmonics, stage.Harmonic_stagedOrder))
-	case *Harmony:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Harmonys, stage.Harmony_stagedOrder))
-	case *Harmony_alter:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Harmony_alters, stage.Harmony_alter_stagedOrder))
-	case *Harp_pedals:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Harp_pedalss, stage.Harp_pedals_stagedOrder))
-	case *Heel_toe:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Heel_toes, stage.Heel_toe_stagedOrder))
-	case *Hole:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Holes, stage.Hole_stagedOrder))
-	case *Hole_closed:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Hole_closeds, stage.Hole_closed_stagedOrder))
-	case *Horizontal_turn:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Horizontal_turns, stage.Horizontal_turn_stagedOrder))
-	case *Identification:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Identifications, stage.Identification_stagedOrder))
-	case *Image:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Images, stage.Image_stagedOrder))
-	case *Instrument:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Instruments, stage.Instrument_stagedOrder))
-	case *Instrument_change:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Instrument_changes, stage.Instrument_change_stagedOrder))
-	case *Instrument_link:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Instrument_links, stage.Instrument_link_stagedOrder))
-	case *Interchangeable:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Interchangeables, stage.Interchangeable_stagedOrder))
-	case *Inversion:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Inversions, stage.Inversion_stagedOrder))
-	case *Key:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Keys, stage.Key_stagedOrder))
-	case *Key_accidental:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Key_accidentals, stage.Key_accidental_stagedOrder))
-	case *Key_octave:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Key_octaves, stage.Key_octave_stagedOrder))
-	case *Kind:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Kinds, stage.Kind_stagedOrder))
-	case *Level:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Levels, stage.Level_stagedOrder))
-	case *Line_detail:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Line_details, stage.Line_detail_stagedOrder))
-	case *Line_width:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Line_widths, stage.Line_width_stagedOrder))
-	case *Link:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Links, stage.Link_stagedOrder))
-	case *Listen:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Listens, stage.Listen_stagedOrder))
-	case *Listening:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Listenings, stage.Listening_stagedOrder))
-	case *Lyric:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Lyrics, stage.Lyric_stagedOrder))
-	case *Lyric_font:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Lyric_fonts, stage.Lyric_font_stagedOrder))
-	case *Lyric_language:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Lyric_languages, stage.Lyric_language_stagedOrder))
-	case *Measure_layout:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Measure_layouts, stage.Measure_layout_stagedOrder))
-	case *Measure_numbering:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Measure_numberings, stage.Measure_numbering_stagedOrder))
-	case *Measure_repeat:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Measure_repeats, stage.Measure_repeat_stagedOrder))
-	case *Measure_style:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Measure_styles, stage.Measure_style_stagedOrder))
-	case *Membrane:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Membranes, stage.Membrane_stagedOrder))
-	case *Metal:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Metals, stage.Metal_stagedOrder))
-	case *Metronome:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Metronomes, stage.Metronome_stagedOrder))
-	case *Metronome_beam:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Metronome_beams, stage.Metronome_beam_stagedOrder))
-	case *Metronome_note:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Metronome_notes, stage.Metronome_note_stagedOrder))
-	case *Metronome_tied:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Metronome_tieds, stage.Metronome_tied_stagedOrder))
-	case *Metronome_tuplet:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Metronome_tuplets, stage.Metronome_tuplet_stagedOrder))
-	case *Midi_device:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Midi_devices, stage.Midi_device_stagedOrder))
-	case *Midi_instrument:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Midi_instruments, stage.Midi_instrument_stagedOrder))
-	case *Miscellaneous:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Miscellaneouss, stage.Miscellaneous_stagedOrder))
-	case *Miscellaneous_field:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Miscellaneous_fields, stage.Miscellaneous_field_stagedOrder))
-	case *Mordent:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Mordents, stage.Mordent_stagedOrder))
-	case *Multiple_rest:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Multiple_rests, stage.Multiple_rest_stagedOrder))
-	case *Name_display:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Name_displays, stage.Name_display_stagedOrder))
-	case *Non_arpeggiate:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Non_arpeggiates, stage.Non_arpeggiate_stagedOrder))
-	case *Notations:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Notationss, stage.Notations_stagedOrder))
-	case *Note:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder))
-	case *Note_size:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Note_sizes, stage.Note_size_stagedOrder))
-	case *Note_type:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Note_types, stage.Note_type_stagedOrder))
-	case *Notehead:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Noteheads, stage.Notehead_stagedOrder))
-	case *Notehead_text:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Notehead_texts, stage.Notehead_text_stagedOrder))
-	case *Numeral:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Numerals, stage.Numeral_stagedOrder))
-	case *Numeral_key:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Numeral_keys, stage.Numeral_key_stagedOrder))
-	case *Numeral_root:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Numeral_roots, stage.Numeral_root_stagedOrder))
-	case *Octave_shift:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Octave_shifts, stage.Octave_shift_stagedOrder))
-	case *Offset:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Offsets, stage.Offset_stagedOrder))
-	case *Opus:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Opuss, stage.Opus_stagedOrder))
-	case *Ornaments:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Ornamentss, stage.Ornaments_stagedOrder))
-	case *Other_appearance:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Other_appearances, stage.Other_appearance_stagedOrder))
-	case *Other_direction:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Other_directions, stage.Other_direction_stagedOrder))
-	case *Other_listening:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Other_listenings, stage.Other_listening_stagedOrder))
-	case *Other_notation:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Other_notations, stage.Other_notation_stagedOrder))
-	case *Other_placement_text:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Other_placement_texts, stage.Other_placement_text_stagedOrder))
-	case *Other_play:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Other_plays, stage.Other_play_stagedOrder))
-	case *Other_text:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Other_texts, stage.Other_text_stagedOrder))
-	case *Page_layout:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Page_layouts, stage.Page_layout_stagedOrder))
-	case *Page_margins:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Page_marginss, stage.Page_margins_stagedOrder))
-	case *Part_clef:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Part_clefs, stage.Part_clef_stagedOrder))
-	case *Part_group:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Part_groups, stage.Part_group_stagedOrder))
-	case *Part_link:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Part_links, stage.Part_link_stagedOrder))
-	case *Part_list:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Part_lists, stage.Part_list_stagedOrder))
-	case *Part_name:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Part_names, stage.Part_name_stagedOrder))
-	case *Part_symbol:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Part_symbols, stage.Part_symbol_stagedOrder))
-	case *Part_transpose:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Part_transposes, stage.Part_transpose_stagedOrder))
-	case *Pedal:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Pedals, stage.Pedal_stagedOrder))
-	case *Pedal_tuning:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Pedal_tunings, stage.Pedal_tuning_stagedOrder))
-	case *Per_minute:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Per_minutes, stage.Per_minute_stagedOrder))
-	case *Percussion:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Percussions, stage.Percussion_stagedOrder))
-	case *Pitch:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Pitchs, stage.Pitch_stagedOrder))
-	case *Pitched:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Pitcheds, stage.Pitched_stagedOrder))
-	case *Placement_text:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Placement_texts, stage.Placement_text_stagedOrder))
-	case *Play:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Plays, stage.Play_stagedOrder))
-	case *Player:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Players, stage.Player_stagedOrder))
-	case *Principal_voice:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Principal_voices, stage.Principal_voice_stagedOrder))
-	case *Print:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Prints, stage.Print_stagedOrder))
-	case *Release:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Releases, stage.Release_stagedOrder))
-	case *Repeat:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Repeats, stage.Repeat_stagedOrder))
-	case *Rest:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Rests, stage.Rest_stagedOrder))
-	case *Root:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Roots, stage.Root_stagedOrder))
-	case *Root_step:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Root_steps, stage.Root_step_stagedOrder))
-	case *Scaling:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Scalings, stage.Scaling_stagedOrder))
-	case *Scordatura:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Scordaturas, stage.Scordatura_stagedOrder))
-	case *Score_instrument:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Score_instruments, stage.Score_instrument_stagedOrder))
-	case *Score_part:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Score_parts, stage.Score_part_stagedOrder))
-	case *Score_partwise:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Score_partwises, stage.Score_partwise_stagedOrder))
-	case *Score_timewise:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Score_timewises, stage.Score_timewise_stagedOrder))
-	case *Segno:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Segnos, stage.Segno_stagedOrder))
-	case *Slash:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Slashs, stage.Slash_stagedOrder))
-	case *Slide:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Slides, stage.Slide_stagedOrder))
-	case *Slur:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Slurs, stage.Slur_stagedOrder))
-	case *Sound:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Sounds, stage.Sound_stagedOrder))
-	case *Staff_details:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Staff_detailss, stage.Staff_details_stagedOrder))
-	case *Staff_divide:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Staff_divides, stage.Staff_divide_stagedOrder))
-	case *Staff_layout:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Staff_layouts, stage.Staff_layout_stagedOrder))
-	case *Staff_size:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Staff_sizes, stage.Staff_size_stagedOrder))
-	case *Staff_tuning:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Staff_tunings, stage.Staff_tuning_stagedOrder))
-	case *Stem:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Stems, stage.Stem_stagedOrder))
-	case *Stick:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Sticks, stage.Stick_stagedOrder))
-	case *String_mute:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.String_mutes, stage.String_mute_stagedOrder))
-	case *String_type:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.String_types, stage.String_type_stagedOrder))
-	case *Strong_accent:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Strong_accents, stage.Strong_accent_stagedOrder))
-	case *Style_text:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Style_texts, stage.Style_text_stagedOrder))
-	case *Supports:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Supportss, stage.Supports_stagedOrder))
-	case *Swing:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Swings, stage.Swing_stagedOrder))
-	case *Sync:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Syncs, stage.Sync_stagedOrder))
-	case *System_dividers:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.System_dividerss, stage.System_dividers_stagedOrder))
-	case *System_layout:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.System_layouts, stage.System_layout_stagedOrder))
-	case *System_margins:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.System_marginss, stage.System_margins_stagedOrder))
-	case *Tap:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Taps, stage.Tap_stagedOrder))
-	case *Technical:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Technicals, stage.Technical_stagedOrder))
-	case *Text_element_data:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Text_element_datas, stage.Text_element_data_stagedOrder))
-	case *Tie:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Ties, stage.Tie_stagedOrder))
-	case *Tied:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tieds, stage.Tied_stagedOrder))
-	case *Time:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Times, stage.Time_stagedOrder))
-	case *Time_modification:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Time_modifications, stage.Time_modification_stagedOrder))
-	case *Timpani:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Timpanis, stage.Timpani_stagedOrder))
-	case *Transpose:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Transposes, stage.Transpose_stagedOrder))
-	case *Tremolo:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tremolos, stage.Tremolo_stagedOrder))
-	case *Tuplet:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tuplets, stage.Tuplet_stagedOrder))
-	case *Tuplet_dot:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tuplet_dots, stage.Tuplet_dot_stagedOrder))
-	case *Tuplet_number:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tuplet_numbers, stage.Tuplet_number_stagedOrder))
-	case *Tuplet_portion:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tuplet_portions, stage.Tuplet_portion_stagedOrder))
-	case *Tuplet_type:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tuplet_types, stage.Tuplet_type_stagedOrder))
-	case *Typed_text:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Typed_texts, stage.Typed_text_stagedOrder))
-	case *Unpitched:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Unpitcheds, stage.Unpitched_stagedOrder))
-	case *Virtual_instrument:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Virtual_instruments, stage.Virtual_instrument_stagedOrder))
-	case *Wait:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Waits, stage.Wait_stagedOrder))
-	case *Wavy_line:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Wavy_lines, stage.Wavy_line_stagedOrder))
-	case *Wedge:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Wedges, stage.Wedge_stagedOrder))
-	case *Wood:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Woods, stage.Wood_stagedOrder))
-	case *Work:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Works, stage.Work_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -7519,474 +11678,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *A_directive:
-		return any(stage.A_directive_orderStaged[order]).(Type)
-	case *A_measure:
-		return any(stage.A_measure_orderStaged[order]).(Type)
-	case *A_measure_1:
-		return any(stage.A_measure_1_orderStaged[order]).(Type)
-	case *A_part:
-		return any(stage.A_part_orderStaged[order]).(Type)
-	case *A_part_1:
-		return any(stage.A_part_1_orderStaged[order]).(Type)
-	case *Accidental:
-		return any(stage.Accidental_orderStaged[order]).(Type)
-	case *Accidental_mark:
-		return any(stage.Accidental_mark_orderStaged[order]).(Type)
-	case *Accidental_text:
-		return any(stage.Accidental_text_orderStaged[order]).(Type)
-	case *Accord:
-		return any(stage.Accord_orderStaged[order]).(Type)
-	case *Accordion_registration:
-		return any(stage.Accordion_registration_orderStaged[order]).(Type)
-	case *Appearance:
-		return any(stage.Appearance_orderStaged[order]).(Type)
-	case *Arpeggiate:
-		return any(stage.Arpeggiate_orderStaged[order]).(Type)
-	case *Arrow:
-		return any(stage.Arrow_orderStaged[order]).(Type)
-	case *Articulations:
-		return any(stage.Articulations_orderStaged[order]).(Type)
-	case *Assess:
-		return any(stage.Assess_orderStaged[order]).(Type)
-	case *Attributes:
-		return any(stage.Attributes_orderStaged[order]).(Type)
-	case *Backup:
-		return any(stage.Backup_orderStaged[order]).(Type)
-	case *Bar_style_color:
-		return any(stage.Bar_style_color_orderStaged[order]).(Type)
-	case *Barline:
-		return any(stage.Barline_orderStaged[order]).(Type)
-	case *Barre:
-		return any(stage.Barre_orderStaged[order]).(Type)
-	case *Bass:
-		return any(stage.Bass_orderStaged[order]).(Type)
-	case *Bass_step:
-		return any(stage.Bass_step_orderStaged[order]).(Type)
-	case *Beam:
-		return any(stage.Beam_orderStaged[order]).(Type)
-	case *Beat_repeat:
-		return any(stage.Beat_repeat_orderStaged[order]).(Type)
-	case *Beat_unit_tied:
-		return any(stage.Beat_unit_tied_orderStaged[order]).(Type)
-	case *Beater:
-		return any(stage.Beater_orderStaged[order]).(Type)
-	case *Bend:
-		return any(stage.Bend_orderStaged[order]).(Type)
-	case *Bookmark:
-		return any(stage.Bookmark_orderStaged[order]).(Type)
-	case *Bracket:
-		return any(stage.Bracket_orderStaged[order]).(Type)
-	case *Breath_mark:
-		return any(stage.Breath_mark_orderStaged[order]).(Type)
-	case *Caesura:
-		return any(stage.Caesura_orderStaged[order]).(Type)
-	case *Cancel:
-		return any(stage.Cancel_orderStaged[order]).(Type)
-	case *Clef:
-		return any(stage.Clef_orderStaged[order]).(Type)
-	case *Coda:
-		return any(stage.Coda_orderStaged[order]).(Type)
-	case *Credit:
-		return any(stage.Credit_orderStaged[order]).(Type)
-	case *Dashes:
-		return any(stage.Dashes_orderStaged[order]).(Type)
-	case *Defaults:
-		return any(stage.Defaults_orderStaged[order]).(Type)
-	case *Degree:
-		return any(stage.Degree_orderStaged[order]).(Type)
-	case *Degree_alter:
-		return any(stage.Degree_alter_orderStaged[order]).(Type)
-	case *Degree_type:
-		return any(stage.Degree_type_orderStaged[order]).(Type)
-	case *Degree_value:
-		return any(stage.Degree_value_orderStaged[order]).(Type)
-	case *Direction:
-		return any(stage.Direction_orderStaged[order]).(Type)
-	case *Direction_type:
-		return any(stage.Direction_type_orderStaged[order]).(Type)
-	case *Distance:
-		return any(stage.Distance_orderStaged[order]).(Type)
-	case *Double:
-		return any(stage.Double_orderStaged[order]).(Type)
-	case *Dynamics:
-		return any(stage.Dynamics_orderStaged[order]).(Type)
-	case *Effect:
-		return any(stage.Effect_orderStaged[order]).(Type)
-	case *Elision:
-		return any(stage.Elision_orderStaged[order]).(Type)
-	case *Empty:
-		return any(stage.Empty_orderStaged[order]).(Type)
-	case *Empty_font:
-		return any(stage.Empty_font_orderStaged[order]).(Type)
-	case *Empty_line:
-		return any(stage.Empty_line_orderStaged[order]).(Type)
-	case *Empty_placement:
-		return any(stage.Empty_placement_orderStaged[order]).(Type)
-	case *Empty_placement_smufl:
-		return any(stage.Empty_placement_smufl_orderStaged[order]).(Type)
-	case *Empty_print_object_style_align:
-		return any(stage.Empty_print_object_style_align_orderStaged[order]).(Type)
-	case *Empty_print_style:
-		return any(stage.Empty_print_style_orderStaged[order]).(Type)
-	case *Empty_print_style_align:
-		return any(stage.Empty_print_style_align_orderStaged[order]).(Type)
-	case *Empty_print_style_align_id:
-		return any(stage.Empty_print_style_align_id_orderStaged[order]).(Type)
-	case *Empty_trill_sound:
-		return any(stage.Empty_trill_sound_orderStaged[order]).(Type)
-	case *Encoding:
-		return any(stage.Encoding_orderStaged[order]).(Type)
-	case *Ending:
-		return any(stage.Ending_orderStaged[order]).(Type)
-	case *Extend:
-		return any(stage.Extend_orderStaged[order]).(Type)
-	case *Feature:
-		return any(stage.Feature_orderStaged[order]).(Type)
-	case *Fermata:
-		return any(stage.Fermata_orderStaged[order]).(Type)
-	case *Figure:
-		return any(stage.Figure_orderStaged[order]).(Type)
-	case *Figured_bass:
-		return any(stage.Figured_bass_orderStaged[order]).(Type)
-	case *Fingering:
-		return any(stage.Fingering_orderStaged[order]).(Type)
-	case *First_fret:
-		return any(stage.First_fret_orderStaged[order]).(Type)
-	case *For_part:
-		return any(stage.For_part_orderStaged[order]).(Type)
-	case *Formatted_symbol:
-		return any(stage.Formatted_symbol_orderStaged[order]).(Type)
-	case *Formatted_symbol_id:
-		return any(stage.Formatted_symbol_id_orderStaged[order]).(Type)
-	case *Formatted_text:
-		return any(stage.Formatted_text_orderStaged[order]).(Type)
-	case *Formatted_text_id:
-		return any(stage.Formatted_text_id_orderStaged[order]).(Type)
-	case *Forward:
-		return any(stage.Forward_orderStaged[order]).(Type)
-	case *Frame:
-		return any(stage.Frame_orderStaged[order]).(Type)
-	case *Frame_note:
-		return any(stage.Frame_note_orderStaged[order]).(Type)
-	case *Fret:
-		return any(stage.Fret_orderStaged[order]).(Type)
-	case *Glass:
-		return any(stage.Glass_orderStaged[order]).(Type)
-	case *Glissando:
-		return any(stage.Glissando_orderStaged[order]).(Type)
-	case *Glyph:
-		return any(stage.Glyph_orderStaged[order]).(Type)
-	case *Grace:
-		return any(stage.Grace_orderStaged[order]).(Type)
-	case *Group_barline:
-		return any(stage.Group_barline_orderStaged[order]).(Type)
-	case *Group_name:
-		return any(stage.Group_name_orderStaged[order]).(Type)
-	case *Group_symbol:
-		return any(stage.Group_symbol_orderStaged[order]).(Type)
-	case *Grouping:
-		return any(stage.Grouping_orderStaged[order]).(Type)
-	case *Hammer_on_pull_off:
-		return any(stage.Hammer_on_pull_off_orderStaged[order]).(Type)
-	case *Handbell:
-		return any(stage.Handbell_orderStaged[order]).(Type)
-	case *Harmon_closed:
-		return any(stage.Harmon_closed_orderStaged[order]).(Type)
-	case *Harmon_mute:
-		return any(stage.Harmon_mute_orderStaged[order]).(Type)
-	case *Harmonic:
-		return any(stage.Harmonic_orderStaged[order]).(Type)
-	case *Harmony:
-		return any(stage.Harmony_orderStaged[order]).(Type)
-	case *Harmony_alter:
-		return any(stage.Harmony_alter_orderStaged[order]).(Type)
-	case *Harp_pedals:
-		return any(stage.Harp_pedals_orderStaged[order]).(Type)
-	case *Heel_toe:
-		return any(stage.Heel_toe_orderStaged[order]).(Type)
-	case *Hole:
-		return any(stage.Hole_orderStaged[order]).(Type)
-	case *Hole_closed:
-		return any(stage.Hole_closed_orderStaged[order]).(Type)
-	case *Horizontal_turn:
-		return any(stage.Horizontal_turn_orderStaged[order]).(Type)
-	case *Identification:
-		return any(stage.Identification_orderStaged[order]).(Type)
-	case *Image:
-		return any(stage.Image_orderStaged[order]).(Type)
-	case *Instrument:
-		return any(stage.Instrument_orderStaged[order]).(Type)
-	case *Instrument_change:
-		return any(stage.Instrument_change_orderStaged[order]).(Type)
-	case *Instrument_link:
-		return any(stage.Instrument_link_orderStaged[order]).(Type)
-	case *Interchangeable:
-		return any(stage.Interchangeable_orderStaged[order]).(Type)
-	case *Inversion:
-		return any(stage.Inversion_orderStaged[order]).(Type)
-	case *Key:
-		return any(stage.Key_orderStaged[order]).(Type)
-	case *Key_accidental:
-		return any(stage.Key_accidental_orderStaged[order]).(Type)
-	case *Key_octave:
-		return any(stage.Key_octave_orderStaged[order]).(Type)
-	case *Kind:
-		return any(stage.Kind_orderStaged[order]).(Type)
-	case *Level:
-		return any(stage.Level_orderStaged[order]).(Type)
-	case *Line_detail:
-		return any(stage.Line_detail_orderStaged[order]).(Type)
-	case *Line_width:
-		return any(stage.Line_width_orderStaged[order]).(Type)
-	case *Link:
-		return any(stage.Link_orderStaged[order]).(Type)
-	case *Listen:
-		return any(stage.Listen_orderStaged[order]).(Type)
-	case *Listening:
-		return any(stage.Listening_orderStaged[order]).(Type)
-	case *Lyric:
-		return any(stage.Lyric_orderStaged[order]).(Type)
-	case *Lyric_font:
-		return any(stage.Lyric_font_orderStaged[order]).(Type)
-	case *Lyric_language:
-		return any(stage.Lyric_language_orderStaged[order]).(Type)
-	case *Measure_layout:
-		return any(stage.Measure_layout_orderStaged[order]).(Type)
-	case *Measure_numbering:
-		return any(stage.Measure_numbering_orderStaged[order]).(Type)
-	case *Measure_repeat:
-		return any(stage.Measure_repeat_orderStaged[order]).(Type)
-	case *Measure_style:
-		return any(stage.Measure_style_orderStaged[order]).(Type)
-	case *Membrane:
-		return any(stage.Membrane_orderStaged[order]).(Type)
-	case *Metal:
-		return any(stage.Metal_orderStaged[order]).(Type)
-	case *Metronome:
-		return any(stage.Metronome_orderStaged[order]).(Type)
-	case *Metronome_beam:
-		return any(stage.Metronome_beam_orderStaged[order]).(Type)
-	case *Metronome_note:
-		return any(stage.Metronome_note_orderStaged[order]).(Type)
-	case *Metronome_tied:
-		return any(stage.Metronome_tied_orderStaged[order]).(Type)
-	case *Metronome_tuplet:
-		return any(stage.Metronome_tuplet_orderStaged[order]).(Type)
-	case *Midi_device:
-		return any(stage.Midi_device_orderStaged[order]).(Type)
-	case *Midi_instrument:
-		return any(stage.Midi_instrument_orderStaged[order]).(Type)
-	case *Miscellaneous:
-		return any(stage.Miscellaneous_orderStaged[order]).(Type)
-	case *Miscellaneous_field:
-		return any(stage.Miscellaneous_field_orderStaged[order]).(Type)
-	case *Mordent:
-		return any(stage.Mordent_orderStaged[order]).(Type)
-	case *Multiple_rest:
-		return any(stage.Multiple_rest_orderStaged[order]).(Type)
-	case *Name_display:
-		return any(stage.Name_display_orderStaged[order]).(Type)
-	case *Non_arpeggiate:
-		return any(stage.Non_arpeggiate_orderStaged[order]).(Type)
-	case *Notations:
-		return any(stage.Notations_orderStaged[order]).(Type)
-	case *Note:
-		return any(stage.Note_orderStaged[order]).(Type)
-	case *Note_size:
-		return any(stage.Note_size_orderStaged[order]).(Type)
-	case *Note_type:
-		return any(stage.Note_type_orderStaged[order]).(Type)
-	case *Notehead:
-		return any(stage.Notehead_orderStaged[order]).(Type)
-	case *Notehead_text:
-		return any(stage.Notehead_text_orderStaged[order]).(Type)
-	case *Numeral:
-		return any(stage.Numeral_orderStaged[order]).(Type)
-	case *Numeral_key:
-		return any(stage.Numeral_key_orderStaged[order]).(Type)
-	case *Numeral_root:
-		return any(stage.Numeral_root_orderStaged[order]).(Type)
-	case *Octave_shift:
-		return any(stage.Octave_shift_orderStaged[order]).(Type)
-	case *Offset:
-		return any(stage.Offset_orderStaged[order]).(Type)
-	case *Opus:
-		return any(stage.Opus_orderStaged[order]).(Type)
-	case *Ornaments:
-		return any(stage.Ornaments_orderStaged[order]).(Type)
-	case *Other_appearance:
-		return any(stage.Other_appearance_orderStaged[order]).(Type)
-	case *Other_direction:
-		return any(stage.Other_direction_orderStaged[order]).(Type)
-	case *Other_listening:
-		return any(stage.Other_listening_orderStaged[order]).(Type)
-	case *Other_notation:
-		return any(stage.Other_notation_orderStaged[order]).(Type)
-	case *Other_placement_text:
-		return any(stage.Other_placement_text_orderStaged[order]).(Type)
-	case *Other_play:
-		return any(stage.Other_play_orderStaged[order]).(Type)
-	case *Other_text:
-		return any(stage.Other_text_orderStaged[order]).(Type)
-	case *Page_layout:
-		return any(stage.Page_layout_orderStaged[order]).(Type)
-	case *Page_margins:
-		return any(stage.Page_margins_orderStaged[order]).(Type)
-	case *Part_clef:
-		return any(stage.Part_clef_orderStaged[order]).(Type)
-	case *Part_group:
-		return any(stage.Part_group_orderStaged[order]).(Type)
-	case *Part_link:
-		return any(stage.Part_link_orderStaged[order]).(Type)
-	case *Part_list:
-		return any(stage.Part_list_orderStaged[order]).(Type)
-	case *Part_name:
-		return any(stage.Part_name_orderStaged[order]).(Type)
-	case *Part_symbol:
-		return any(stage.Part_symbol_orderStaged[order]).(Type)
-	case *Part_transpose:
-		return any(stage.Part_transpose_orderStaged[order]).(Type)
-	case *Pedal:
-		return any(stage.Pedal_orderStaged[order]).(Type)
-	case *Pedal_tuning:
-		return any(stage.Pedal_tuning_orderStaged[order]).(Type)
-	case *Per_minute:
-		return any(stage.Per_minute_orderStaged[order]).(Type)
-	case *Percussion:
-		return any(stage.Percussion_orderStaged[order]).(Type)
-	case *Pitch:
-		return any(stage.Pitch_orderStaged[order]).(Type)
-	case *Pitched:
-		return any(stage.Pitched_orderStaged[order]).(Type)
-	case *Placement_text:
-		return any(stage.Placement_text_orderStaged[order]).(Type)
-	case *Play:
-		return any(stage.Play_orderStaged[order]).(Type)
-	case *Player:
-		return any(stage.Player_orderStaged[order]).(Type)
-	case *Principal_voice:
-		return any(stage.Principal_voice_orderStaged[order]).(Type)
-	case *Print:
-		return any(stage.Print_orderStaged[order]).(Type)
-	case *Release:
-		return any(stage.Release_orderStaged[order]).(Type)
-	case *Repeat:
-		return any(stage.Repeat_orderStaged[order]).(Type)
-	case *Rest:
-		return any(stage.Rest_orderStaged[order]).(Type)
-	case *Root:
-		return any(stage.Root_orderStaged[order]).(Type)
-	case *Root_step:
-		return any(stage.Root_step_orderStaged[order]).(Type)
-	case *Scaling:
-		return any(stage.Scaling_orderStaged[order]).(Type)
-	case *Scordatura:
-		return any(stage.Scordatura_orderStaged[order]).(Type)
-	case *Score_instrument:
-		return any(stage.Score_instrument_orderStaged[order]).(Type)
-	case *Score_part:
-		return any(stage.Score_part_orderStaged[order]).(Type)
-	case *Score_partwise:
-		return any(stage.Score_partwise_orderStaged[order]).(Type)
-	case *Score_timewise:
-		return any(stage.Score_timewise_orderStaged[order]).(Type)
-	case *Segno:
-		return any(stage.Segno_orderStaged[order]).(Type)
-	case *Slash:
-		return any(stage.Slash_orderStaged[order]).(Type)
-	case *Slide:
-		return any(stage.Slide_orderStaged[order]).(Type)
-	case *Slur:
-		return any(stage.Slur_orderStaged[order]).(Type)
-	case *Sound:
-		return any(stage.Sound_orderStaged[order]).(Type)
-	case *Staff_details:
-		return any(stage.Staff_details_orderStaged[order]).(Type)
-	case *Staff_divide:
-		return any(stage.Staff_divide_orderStaged[order]).(Type)
-	case *Staff_layout:
-		return any(stage.Staff_layout_orderStaged[order]).(Type)
-	case *Staff_size:
-		return any(stage.Staff_size_orderStaged[order]).(Type)
-	case *Staff_tuning:
-		return any(stage.Staff_tuning_orderStaged[order]).(Type)
-	case *Stem:
-		return any(stage.Stem_orderStaged[order]).(Type)
-	case *Stick:
-		return any(stage.Stick_orderStaged[order]).(Type)
-	case *String_mute:
-		return any(stage.String_mute_orderStaged[order]).(Type)
-	case *String_type:
-		return any(stage.String_type_orderStaged[order]).(Type)
-	case *Strong_accent:
-		return any(stage.Strong_accent_orderStaged[order]).(Type)
-	case *Style_text:
-		return any(stage.Style_text_orderStaged[order]).(Type)
-	case *Supports:
-		return any(stage.Supports_orderStaged[order]).(Type)
-	case *Swing:
-		return any(stage.Swing_orderStaged[order]).(Type)
-	case *Sync:
-		return any(stage.Sync_orderStaged[order]).(Type)
-	case *System_dividers:
-		return any(stage.System_dividers_orderStaged[order]).(Type)
-	case *System_layout:
-		return any(stage.System_layout_orderStaged[order]).(Type)
-	case *System_margins:
-		return any(stage.System_margins_orderStaged[order]).(Type)
-	case *Tap:
-		return any(stage.Tap_orderStaged[order]).(Type)
-	case *Technical:
-		return any(stage.Technical_orderStaged[order]).(Type)
-	case *Text_element_data:
-		return any(stage.Text_element_data_orderStaged[order]).(Type)
-	case *Tie:
-		return any(stage.Tie_orderStaged[order]).(Type)
-	case *Tied:
-		return any(stage.Tied_orderStaged[order]).(Type)
-	case *Time:
-		return any(stage.Time_orderStaged[order]).(Type)
-	case *Time_modification:
-		return any(stage.Time_modification_orderStaged[order]).(Type)
-	case *Timpani:
-		return any(stage.Timpani_orderStaged[order]).(Type)
-	case *Transpose:
-		return any(stage.Transpose_orderStaged[order]).(Type)
-	case *Tremolo:
-		return any(stage.Tremolo_orderStaged[order]).(Type)
-	case *Tuplet:
-		return any(stage.Tuplet_orderStaged[order]).(Type)
-	case *Tuplet_dot:
-		return any(stage.Tuplet_dot_orderStaged[order]).(Type)
-	case *Tuplet_number:
-		return any(stage.Tuplet_number_orderStaged[order]).(Type)
-	case *Tuplet_portion:
-		return any(stage.Tuplet_portion_orderStaged[order]).(Type)
-	case *Tuplet_type:
-		return any(stage.Tuplet_type_orderStaged[order]).(Type)
-	case *Typed_text:
-		return any(stage.Typed_text_orderStaged[order]).(Type)
-	case *Unpitched:
-		return any(stage.Unpitched_orderStaged[order]).(Type)
-	case *Virtual_instrument:
-		return any(stage.Virtual_instrument_orderStaged[order]).(Type)
-	case *Wait:
-		return any(stage.Wait_orderStaged[order]).(Type)
-	case *Wavy_line:
-		return any(stage.Wavy_line_orderStaged[order]).(Type)
-	case *Wedge:
-		return any(stage.Wedge_orderStaged[order]).(Type)
-	case *Wood:
-		return any(stage.Wood_orderStaged[order]).(Type)
-	case *Work:
-		return any(stage.Work_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -18027,7 +21727,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -18059,6 +21761,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -18090,986 +21799,61 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *A_directive:
-		return any(stage.A_directives_mapString).(map[string]Type)
-	case *A_measure:
-		return any(stage.A_measures_mapString).(map[string]Type)
-	case *A_measure_1:
-		return any(stage.A_measure_1s_mapString).(map[string]Type)
-	case *A_part:
-		return any(stage.A_parts_mapString).(map[string]Type)
-	case *A_part_1:
-		return any(stage.A_part_1s_mapString).(map[string]Type)
-	case *Accidental:
-		return any(stage.Accidentals_mapString).(map[string]Type)
-	case *Accidental_mark:
-		return any(stage.Accidental_marks_mapString).(map[string]Type)
-	case *Accidental_text:
-		return any(stage.Accidental_texts_mapString).(map[string]Type)
-	case *Accord:
-		return any(stage.Accords_mapString).(map[string]Type)
-	case *Accordion_registration:
-		return any(stage.Accordion_registrations_mapString).(map[string]Type)
-	case *Appearance:
-		return any(stage.Appearances_mapString).(map[string]Type)
-	case *Arpeggiate:
-		return any(stage.Arpeggiates_mapString).(map[string]Type)
-	case *Arrow:
-		return any(stage.Arrows_mapString).(map[string]Type)
-	case *Articulations:
-		return any(stage.Articulationss_mapString).(map[string]Type)
-	case *Assess:
-		return any(stage.Assesss_mapString).(map[string]Type)
-	case *Attributes:
-		return any(stage.Attributess_mapString).(map[string]Type)
-	case *Backup:
-		return any(stage.Backups_mapString).(map[string]Type)
-	case *Bar_style_color:
-		return any(stage.Bar_style_colors_mapString).(map[string]Type)
-	case *Barline:
-		return any(stage.Barlines_mapString).(map[string]Type)
-	case *Barre:
-		return any(stage.Barres_mapString).(map[string]Type)
-	case *Bass:
-		return any(stage.Basss_mapString).(map[string]Type)
-	case *Bass_step:
-		return any(stage.Bass_steps_mapString).(map[string]Type)
-	case *Beam:
-		return any(stage.Beams_mapString).(map[string]Type)
-	case *Beat_repeat:
-		return any(stage.Beat_repeats_mapString).(map[string]Type)
-	case *Beat_unit_tied:
-		return any(stage.Beat_unit_tieds_mapString).(map[string]Type)
-	case *Beater:
-		return any(stage.Beaters_mapString).(map[string]Type)
-	case *Bend:
-		return any(stage.Bends_mapString).(map[string]Type)
-	case *Bookmark:
-		return any(stage.Bookmarks_mapString).(map[string]Type)
-	case *Bracket:
-		return any(stage.Brackets_mapString).(map[string]Type)
-	case *Breath_mark:
-		return any(stage.Breath_marks_mapString).(map[string]Type)
-	case *Caesura:
-		return any(stage.Caesuras_mapString).(map[string]Type)
-	case *Cancel:
-		return any(stage.Cancels_mapString).(map[string]Type)
-	case *Clef:
-		return any(stage.Clefs_mapString).(map[string]Type)
-	case *Coda:
-		return any(stage.Codas_mapString).(map[string]Type)
-	case *Credit:
-		return any(stage.Credits_mapString).(map[string]Type)
-	case *Dashes:
-		return any(stage.Dashess_mapString).(map[string]Type)
-	case *Defaults:
-		return any(stage.Defaultss_mapString).(map[string]Type)
-	case *Degree:
-		return any(stage.Degrees_mapString).(map[string]Type)
-	case *Degree_alter:
-		return any(stage.Degree_alters_mapString).(map[string]Type)
-	case *Degree_type:
-		return any(stage.Degree_types_mapString).(map[string]Type)
-	case *Degree_value:
-		return any(stage.Degree_values_mapString).(map[string]Type)
-	case *Direction:
-		return any(stage.Directions_mapString).(map[string]Type)
-	case *Direction_type:
-		return any(stage.Direction_types_mapString).(map[string]Type)
-	case *Distance:
-		return any(stage.Distances_mapString).(map[string]Type)
-	case *Double:
-		return any(stage.Doubles_mapString).(map[string]Type)
-	case *Dynamics:
-		return any(stage.Dynamicss_mapString).(map[string]Type)
-	case *Effect:
-		return any(stage.Effects_mapString).(map[string]Type)
-	case *Elision:
-		return any(stage.Elisions_mapString).(map[string]Type)
-	case *Empty:
-		return any(stage.Emptys_mapString).(map[string]Type)
-	case *Empty_font:
-		return any(stage.Empty_fonts_mapString).(map[string]Type)
-	case *Empty_line:
-		return any(stage.Empty_lines_mapString).(map[string]Type)
-	case *Empty_placement:
-		return any(stage.Empty_placements_mapString).(map[string]Type)
-	case *Empty_placement_smufl:
-		return any(stage.Empty_placement_smufls_mapString).(map[string]Type)
-	case *Empty_print_object_style_align:
-		return any(stage.Empty_print_object_style_aligns_mapString).(map[string]Type)
-	case *Empty_print_style:
-		return any(stage.Empty_print_styles_mapString).(map[string]Type)
-	case *Empty_print_style_align:
-		return any(stage.Empty_print_style_aligns_mapString).(map[string]Type)
-	case *Empty_print_style_align_id:
-		return any(stage.Empty_print_style_align_ids_mapString).(map[string]Type)
-	case *Empty_trill_sound:
-		return any(stage.Empty_trill_sounds_mapString).(map[string]Type)
-	case *Encoding:
-		return any(stage.Encodings_mapString).(map[string]Type)
-	case *Ending:
-		return any(stage.Endings_mapString).(map[string]Type)
-	case *Extend:
-		return any(stage.Extends_mapString).(map[string]Type)
-	case *Feature:
-		return any(stage.Features_mapString).(map[string]Type)
-	case *Fermata:
-		return any(stage.Fermatas_mapString).(map[string]Type)
-	case *Figure:
-		return any(stage.Figures_mapString).(map[string]Type)
-	case *Figured_bass:
-		return any(stage.Figured_basss_mapString).(map[string]Type)
-	case *Fingering:
-		return any(stage.Fingerings_mapString).(map[string]Type)
-	case *First_fret:
-		return any(stage.First_frets_mapString).(map[string]Type)
-	case *For_part:
-		return any(stage.For_parts_mapString).(map[string]Type)
-	case *Formatted_symbol:
-		return any(stage.Formatted_symbols_mapString).(map[string]Type)
-	case *Formatted_symbol_id:
-		return any(stage.Formatted_symbol_ids_mapString).(map[string]Type)
-	case *Formatted_text:
-		return any(stage.Formatted_texts_mapString).(map[string]Type)
-	case *Formatted_text_id:
-		return any(stage.Formatted_text_ids_mapString).(map[string]Type)
-	case *Forward:
-		return any(stage.Forwards_mapString).(map[string]Type)
-	case *Frame:
-		return any(stage.Frames_mapString).(map[string]Type)
-	case *Frame_note:
-		return any(stage.Frame_notes_mapString).(map[string]Type)
-	case *Fret:
-		return any(stage.Frets_mapString).(map[string]Type)
-	case *Glass:
-		return any(stage.Glasss_mapString).(map[string]Type)
-	case *Glissando:
-		return any(stage.Glissandos_mapString).(map[string]Type)
-	case *Glyph:
-		return any(stage.Glyphs_mapString).(map[string]Type)
-	case *Grace:
-		return any(stage.Graces_mapString).(map[string]Type)
-	case *Group_barline:
-		return any(stage.Group_barlines_mapString).(map[string]Type)
-	case *Group_name:
-		return any(stage.Group_names_mapString).(map[string]Type)
-	case *Group_symbol:
-		return any(stage.Group_symbols_mapString).(map[string]Type)
-	case *Grouping:
-		return any(stage.Groupings_mapString).(map[string]Type)
-	case *Hammer_on_pull_off:
-		return any(stage.Hammer_on_pull_offs_mapString).(map[string]Type)
-	case *Handbell:
-		return any(stage.Handbells_mapString).(map[string]Type)
-	case *Harmon_closed:
-		return any(stage.Harmon_closeds_mapString).(map[string]Type)
-	case *Harmon_mute:
-		return any(stage.Harmon_mutes_mapString).(map[string]Type)
-	case *Harmonic:
-		return any(stage.Harmonics_mapString).(map[string]Type)
-	case *Harmony:
-		return any(stage.Harmonys_mapString).(map[string]Type)
-	case *Harmony_alter:
-		return any(stage.Harmony_alters_mapString).(map[string]Type)
-	case *Harp_pedals:
-		return any(stage.Harp_pedalss_mapString).(map[string]Type)
-	case *Heel_toe:
-		return any(stage.Heel_toes_mapString).(map[string]Type)
-	case *Hole:
-		return any(stage.Holes_mapString).(map[string]Type)
-	case *Hole_closed:
-		return any(stage.Hole_closeds_mapString).(map[string]Type)
-	case *Horizontal_turn:
-		return any(stage.Horizontal_turns_mapString).(map[string]Type)
-	case *Identification:
-		return any(stage.Identifications_mapString).(map[string]Type)
-	case *Image:
-		return any(stage.Images_mapString).(map[string]Type)
-	case *Instrument:
-		return any(stage.Instruments_mapString).(map[string]Type)
-	case *Instrument_change:
-		return any(stage.Instrument_changes_mapString).(map[string]Type)
-	case *Instrument_link:
-		return any(stage.Instrument_links_mapString).(map[string]Type)
-	case *Interchangeable:
-		return any(stage.Interchangeables_mapString).(map[string]Type)
-	case *Inversion:
-		return any(stage.Inversions_mapString).(map[string]Type)
-	case *Key:
-		return any(stage.Keys_mapString).(map[string]Type)
-	case *Key_accidental:
-		return any(stage.Key_accidentals_mapString).(map[string]Type)
-	case *Key_octave:
-		return any(stage.Key_octaves_mapString).(map[string]Type)
-	case *Kind:
-		return any(stage.Kinds_mapString).(map[string]Type)
-	case *Level:
-		return any(stage.Levels_mapString).(map[string]Type)
-	case *Line_detail:
-		return any(stage.Line_details_mapString).(map[string]Type)
-	case *Line_width:
-		return any(stage.Line_widths_mapString).(map[string]Type)
-	case *Link:
-		return any(stage.Links_mapString).(map[string]Type)
-	case *Listen:
-		return any(stage.Listens_mapString).(map[string]Type)
-	case *Listening:
-		return any(stage.Listenings_mapString).(map[string]Type)
-	case *Lyric:
-		return any(stage.Lyrics_mapString).(map[string]Type)
-	case *Lyric_font:
-		return any(stage.Lyric_fonts_mapString).(map[string]Type)
-	case *Lyric_language:
-		return any(stage.Lyric_languages_mapString).(map[string]Type)
-	case *Measure_layout:
-		return any(stage.Measure_layouts_mapString).(map[string]Type)
-	case *Measure_numbering:
-		return any(stage.Measure_numberings_mapString).(map[string]Type)
-	case *Measure_repeat:
-		return any(stage.Measure_repeats_mapString).(map[string]Type)
-	case *Measure_style:
-		return any(stage.Measure_styles_mapString).(map[string]Type)
-	case *Membrane:
-		return any(stage.Membranes_mapString).(map[string]Type)
-	case *Metal:
-		return any(stage.Metals_mapString).(map[string]Type)
-	case *Metronome:
-		return any(stage.Metronomes_mapString).(map[string]Type)
-	case *Metronome_beam:
-		return any(stage.Metronome_beams_mapString).(map[string]Type)
-	case *Metronome_note:
-		return any(stage.Metronome_notes_mapString).(map[string]Type)
-	case *Metronome_tied:
-		return any(stage.Metronome_tieds_mapString).(map[string]Type)
-	case *Metronome_tuplet:
-		return any(stage.Metronome_tuplets_mapString).(map[string]Type)
-	case *Midi_device:
-		return any(stage.Midi_devices_mapString).(map[string]Type)
-	case *Midi_instrument:
-		return any(stage.Midi_instruments_mapString).(map[string]Type)
-	case *Miscellaneous:
-		return any(stage.Miscellaneouss_mapString).(map[string]Type)
-	case *Miscellaneous_field:
-		return any(stage.Miscellaneous_fields_mapString).(map[string]Type)
-	case *Mordent:
-		return any(stage.Mordents_mapString).(map[string]Type)
-	case *Multiple_rest:
-		return any(stage.Multiple_rests_mapString).(map[string]Type)
-	case *Name_display:
-		return any(stage.Name_displays_mapString).(map[string]Type)
-	case *Non_arpeggiate:
-		return any(stage.Non_arpeggiates_mapString).(map[string]Type)
-	case *Notations:
-		return any(stage.Notationss_mapString).(map[string]Type)
-	case *Note:
-		return any(stage.Notes_mapString).(map[string]Type)
-	case *Note_size:
-		return any(stage.Note_sizes_mapString).(map[string]Type)
-	case *Note_type:
-		return any(stage.Note_types_mapString).(map[string]Type)
-	case *Notehead:
-		return any(stage.Noteheads_mapString).(map[string]Type)
-	case *Notehead_text:
-		return any(stage.Notehead_texts_mapString).(map[string]Type)
-	case *Numeral:
-		return any(stage.Numerals_mapString).(map[string]Type)
-	case *Numeral_key:
-		return any(stage.Numeral_keys_mapString).(map[string]Type)
-	case *Numeral_root:
-		return any(stage.Numeral_roots_mapString).(map[string]Type)
-	case *Octave_shift:
-		return any(stage.Octave_shifts_mapString).(map[string]Type)
-	case *Offset:
-		return any(stage.Offsets_mapString).(map[string]Type)
-	case *Opus:
-		return any(stage.Opuss_mapString).(map[string]Type)
-	case *Ornaments:
-		return any(stage.Ornamentss_mapString).(map[string]Type)
-	case *Other_appearance:
-		return any(stage.Other_appearances_mapString).(map[string]Type)
-	case *Other_direction:
-		return any(stage.Other_directions_mapString).(map[string]Type)
-	case *Other_listening:
-		return any(stage.Other_listenings_mapString).(map[string]Type)
-	case *Other_notation:
-		return any(stage.Other_notations_mapString).(map[string]Type)
-	case *Other_placement_text:
-		return any(stage.Other_placement_texts_mapString).(map[string]Type)
-	case *Other_play:
-		return any(stage.Other_plays_mapString).(map[string]Type)
-	case *Other_text:
-		return any(stage.Other_texts_mapString).(map[string]Type)
-	case *Page_layout:
-		return any(stage.Page_layouts_mapString).(map[string]Type)
-	case *Page_margins:
-		return any(stage.Page_marginss_mapString).(map[string]Type)
-	case *Part_clef:
-		return any(stage.Part_clefs_mapString).(map[string]Type)
-	case *Part_group:
-		return any(stage.Part_groups_mapString).(map[string]Type)
-	case *Part_link:
-		return any(stage.Part_links_mapString).(map[string]Type)
-	case *Part_list:
-		return any(stage.Part_lists_mapString).(map[string]Type)
-	case *Part_name:
-		return any(stage.Part_names_mapString).(map[string]Type)
-	case *Part_symbol:
-		return any(stage.Part_symbols_mapString).(map[string]Type)
-	case *Part_transpose:
-		return any(stage.Part_transposes_mapString).(map[string]Type)
-	case *Pedal:
-		return any(stage.Pedals_mapString).(map[string]Type)
-	case *Pedal_tuning:
-		return any(stage.Pedal_tunings_mapString).(map[string]Type)
-	case *Per_minute:
-		return any(stage.Per_minutes_mapString).(map[string]Type)
-	case *Percussion:
-		return any(stage.Percussions_mapString).(map[string]Type)
-	case *Pitch:
-		return any(stage.Pitchs_mapString).(map[string]Type)
-	case *Pitched:
-		return any(stage.Pitcheds_mapString).(map[string]Type)
-	case *Placement_text:
-		return any(stage.Placement_texts_mapString).(map[string]Type)
-	case *Play:
-		return any(stage.Plays_mapString).(map[string]Type)
-	case *Player:
-		return any(stage.Players_mapString).(map[string]Type)
-	case *Principal_voice:
-		return any(stage.Principal_voices_mapString).(map[string]Type)
-	case *Print:
-		return any(stage.Prints_mapString).(map[string]Type)
-	case *Release:
-		return any(stage.Releases_mapString).(map[string]Type)
-	case *Repeat:
-		return any(stage.Repeats_mapString).(map[string]Type)
-	case *Rest:
-		return any(stage.Rests_mapString).(map[string]Type)
-	case *Root:
-		return any(stage.Roots_mapString).(map[string]Type)
-	case *Root_step:
-		return any(stage.Root_steps_mapString).(map[string]Type)
-	case *Scaling:
-		return any(stage.Scalings_mapString).(map[string]Type)
-	case *Scordatura:
-		return any(stage.Scordaturas_mapString).(map[string]Type)
-	case *Score_instrument:
-		return any(stage.Score_instruments_mapString).(map[string]Type)
-	case *Score_part:
-		return any(stage.Score_parts_mapString).(map[string]Type)
-	case *Score_partwise:
-		return any(stage.Score_partwises_mapString).(map[string]Type)
-	case *Score_timewise:
-		return any(stage.Score_timewises_mapString).(map[string]Type)
-	case *Segno:
-		return any(stage.Segnos_mapString).(map[string]Type)
-	case *Slash:
-		return any(stage.Slashs_mapString).(map[string]Type)
-	case *Slide:
-		return any(stage.Slides_mapString).(map[string]Type)
-	case *Slur:
-		return any(stage.Slurs_mapString).(map[string]Type)
-	case *Sound:
-		return any(stage.Sounds_mapString).(map[string]Type)
-	case *Staff_details:
-		return any(stage.Staff_detailss_mapString).(map[string]Type)
-	case *Staff_divide:
-		return any(stage.Staff_divides_mapString).(map[string]Type)
-	case *Staff_layout:
-		return any(stage.Staff_layouts_mapString).(map[string]Type)
-	case *Staff_size:
-		return any(stage.Staff_sizes_mapString).(map[string]Type)
-	case *Staff_tuning:
-		return any(stage.Staff_tunings_mapString).(map[string]Type)
-	case *Stem:
-		return any(stage.Stems_mapString).(map[string]Type)
-	case *Stick:
-		return any(stage.Sticks_mapString).(map[string]Type)
-	case *String_mute:
-		return any(stage.String_mutes_mapString).(map[string]Type)
-	case *String_type:
-		return any(stage.String_types_mapString).(map[string]Type)
-	case *Strong_accent:
-		return any(stage.Strong_accents_mapString).(map[string]Type)
-	case *Style_text:
-		return any(stage.Style_texts_mapString).(map[string]Type)
-	case *Supports:
-		return any(stage.Supportss_mapString).(map[string]Type)
-	case *Swing:
-		return any(stage.Swings_mapString).(map[string]Type)
-	case *Sync:
-		return any(stage.Syncs_mapString).(map[string]Type)
-	case *System_dividers:
-		return any(stage.System_dividerss_mapString).(map[string]Type)
-	case *System_layout:
-		return any(stage.System_layouts_mapString).(map[string]Type)
-	case *System_margins:
-		return any(stage.System_marginss_mapString).(map[string]Type)
-	case *Tap:
-		return any(stage.Taps_mapString).(map[string]Type)
-	case *Technical:
-		return any(stage.Technicals_mapString).(map[string]Type)
-	case *Text_element_data:
-		return any(stage.Text_element_datas_mapString).(map[string]Type)
-	case *Tie:
-		return any(stage.Ties_mapString).(map[string]Type)
-	case *Tied:
-		return any(stage.Tieds_mapString).(map[string]Type)
-	case *Time:
-		return any(stage.Times_mapString).(map[string]Type)
-	case *Time_modification:
-		return any(stage.Time_modifications_mapString).(map[string]Type)
-	case *Timpani:
-		return any(stage.Timpanis_mapString).(map[string]Type)
-	case *Transpose:
-		return any(stage.Transposes_mapString).(map[string]Type)
-	case *Tremolo:
-		return any(stage.Tremolos_mapString).(map[string]Type)
-	case *Tuplet:
-		return any(stage.Tuplets_mapString).(map[string]Type)
-	case *Tuplet_dot:
-		return any(stage.Tuplet_dots_mapString).(map[string]Type)
-	case *Tuplet_number:
-		return any(stage.Tuplet_numbers_mapString).(map[string]Type)
-	case *Tuplet_portion:
-		return any(stage.Tuplet_portions_mapString).(map[string]Type)
-	case *Tuplet_type:
-		return any(stage.Tuplet_types_mapString).(map[string]Type)
-	case *Typed_text:
-		return any(stage.Typed_texts_mapString).(map[string]Type)
-	case *Unpitched:
-		return any(stage.Unpitcheds_mapString).(map[string]Type)
-	case *Virtual_instrument:
-		return any(stage.Virtual_instruments_mapString).(map[string]Type)
-	case *Wait:
-		return any(stage.Waits_mapString).(map[string]Type)
-	case *Wavy_line:
-		return any(stage.Wavy_lines_mapString).(map[string]Type)
-	case *Wedge:
-		return any(stage.Wedges_mapString).(map[string]Type)
-	case *Wood:
-		return any(stage.Woods_mapString).(map[string]Type)
-	case *Work:
-		return any(stage.Works_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *A_directive:
-		return any(&stage.A_directives).(*map[Type]struct{})
-	case *A_measure:
-		return any(&stage.A_measures).(*map[Type]struct{})
-	case *A_measure_1:
-		return any(&stage.A_measure_1s).(*map[Type]struct{})
-	case *A_part:
-		return any(&stage.A_parts).(*map[Type]struct{})
-	case *A_part_1:
-		return any(&stage.A_part_1s).(*map[Type]struct{})
-	case *Accidental:
-		return any(&stage.Accidentals).(*map[Type]struct{})
-	case *Accidental_mark:
-		return any(&stage.Accidental_marks).(*map[Type]struct{})
-	case *Accidental_text:
-		return any(&stage.Accidental_texts).(*map[Type]struct{})
-	case *Accord:
-		return any(&stage.Accords).(*map[Type]struct{})
-	case *Accordion_registration:
-		return any(&stage.Accordion_registrations).(*map[Type]struct{})
-	case *Appearance:
-		return any(&stage.Appearances).(*map[Type]struct{})
-	case *Arpeggiate:
-		return any(&stage.Arpeggiates).(*map[Type]struct{})
-	case *Arrow:
-		return any(&stage.Arrows).(*map[Type]struct{})
-	case *Articulations:
-		return any(&stage.Articulationss).(*map[Type]struct{})
-	case *Assess:
-		return any(&stage.Assesss).(*map[Type]struct{})
-	case *Attributes:
-		return any(&stage.Attributess).(*map[Type]struct{})
-	case *Backup:
-		return any(&stage.Backups).(*map[Type]struct{})
-	case *Bar_style_color:
-		return any(&stage.Bar_style_colors).(*map[Type]struct{})
-	case *Barline:
-		return any(&stage.Barlines).(*map[Type]struct{})
-	case *Barre:
-		return any(&stage.Barres).(*map[Type]struct{})
-	case *Bass:
-		return any(&stage.Basss).(*map[Type]struct{})
-	case *Bass_step:
-		return any(&stage.Bass_steps).(*map[Type]struct{})
-	case *Beam:
-		return any(&stage.Beams).(*map[Type]struct{})
-	case *Beat_repeat:
-		return any(&stage.Beat_repeats).(*map[Type]struct{})
-	case *Beat_unit_tied:
-		return any(&stage.Beat_unit_tieds).(*map[Type]struct{})
-	case *Beater:
-		return any(&stage.Beaters).(*map[Type]struct{})
-	case *Bend:
-		return any(&stage.Bends).(*map[Type]struct{})
-	case *Bookmark:
-		return any(&stage.Bookmarks).(*map[Type]struct{})
-	case *Bracket:
-		return any(&stage.Brackets).(*map[Type]struct{})
-	case *Breath_mark:
-		return any(&stage.Breath_marks).(*map[Type]struct{})
-	case *Caesura:
-		return any(&stage.Caesuras).(*map[Type]struct{})
-	case *Cancel:
-		return any(&stage.Cancels).(*map[Type]struct{})
-	case *Clef:
-		return any(&stage.Clefs).(*map[Type]struct{})
-	case *Coda:
-		return any(&stage.Codas).(*map[Type]struct{})
-	case *Credit:
-		return any(&stage.Credits).(*map[Type]struct{})
-	case *Dashes:
-		return any(&stage.Dashess).(*map[Type]struct{})
-	case *Defaults:
-		return any(&stage.Defaultss).(*map[Type]struct{})
-	case *Degree:
-		return any(&stage.Degrees).(*map[Type]struct{})
-	case *Degree_alter:
-		return any(&stage.Degree_alters).(*map[Type]struct{})
-	case *Degree_type:
-		return any(&stage.Degree_types).(*map[Type]struct{})
-	case *Degree_value:
-		return any(&stage.Degree_values).(*map[Type]struct{})
-	case *Direction:
-		return any(&stage.Directions).(*map[Type]struct{})
-	case *Direction_type:
-		return any(&stage.Direction_types).(*map[Type]struct{})
-	case *Distance:
-		return any(&stage.Distances).(*map[Type]struct{})
-	case *Double:
-		return any(&stage.Doubles).(*map[Type]struct{})
-	case *Dynamics:
-		return any(&stage.Dynamicss).(*map[Type]struct{})
-	case *Effect:
-		return any(&stage.Effects).(*map[Type]struct{})
-	case *Elision:
-		return any(&stage.Elisions).(*map[Type]struct{})
-	case *Empty:
-		return any(&stage.Emptys).(*map[Type]struct{})
-	case *Empty_font:
-		return any(&stage.Empty_fonts).(*map[Type]struct{})
-	case *Empty_line:
-		return any(&stage.Empty_lines).(*map[Type]struct{})
-	case *Empty_placement:
-		return any(&stage.Empty_placements).(*map[Type]struct{})
-	case *Empty_placement_smufl:
-		return any(&stage.Empty_placement_smufls).(*map[Type]struct{})
-	case *Empty_print_object_style_align:
-		return any(&stage.Empty_print_object_style_aligns).(*map[Type]struct{})
-	case *Empty_print_style:
-		return any(&stage.Empty_print_styles).(*map[Type]struct{})
-	case *Empty_print_style_align:
-		return any(&stage.Empty_print_style_aligns).(*map[Type]struct{})
-	case *Empty_print_style_align_id:
-		return any(&stage.Empty_print_style_align_ids).(*map[Type]struct{})
-	case *Empty_trill_sound:
-		return any(&stage.Empty_trill_sounds).(*map[Type]struct{})
-	case *Encoding:
-		return any(&stage.Encodings).(*map[Type]struct{})
-	case *Ending:
-		return any(&stage.Endings).(*map[Type]struct{})
-	case *Extend:
-		return any(&stage.Extends).(*map[Type]struct{})
-	case *Feature:
-		return any(&stage.Features).(*map[Type]struct{})
-	case *Fermata:
-		return any(&stage.Fermatas).(*map[Type]struct{})
-	case *Figure:
-		return any(&stage.Figures).(*map[Type]struct{})
-	case *Figured_bass:
-		return any(&stage.Figured_basss).(*map[Type]struct{})
-	case *Fingering:
-		return any(&stage.Fingerings).(*map[Type]struct{})
-	case *First_fret:
-		return any(&stage.First_frets).(*map[Type]struct{})
-	case *For_part:
-		return any(&stage.For_parts).(*map[Type]struct{})
-	case *Formatted_symbol:
-		return any(&stage.Formatted_symbols).(*map[Type]struct{})
-	case *Formatted_symbol_id:
-		return any(&stage.Formatted_symbol_ids).(*map[Type]struct{})
-	case *Formatted_text:
-		return any(&stage.Formatted_texts).(*map[Type]struct{})
-	case *Formatted_text_id:
-		return any(&stage.Formatted_text_ids).(*map[Type]struct{})
-	case *Forward:
-		return any(&stage.Forwards).(*map[Type]struct{})
-	case *Frame:
-		return any(&stage.Frames).(*map[Type]struct{})
-	case *Frame_note:
-		return any(&stage.Frame_notes).(*map[Type]struct{})
-	case *Fret:
-		return any(&stage.Frets).(*map[Type]struct{})
-	case *Glass:
-		return any(&stage.Glasss).(*map[Type]struct{})
-	case *Glissando:
-		return any(&stage.Glissandos).(*map[Type]struct{})
-	case *Glyph:
-		return any(&stage.Glyphs).(*map[Type]struct{})
-	case *Grace:
-		return any(&stage.Graces).(*map[Type]struct{})
-	case *Group_barline:
-		return any(&stage.Group_barlines).(*map[Type]struct{})
-	case *Group_name:
-		return any(&stage.Group_names).(*map[Type]struct{})
-	case *Group_symbol:
-		return any(&stage.Group_symbols).(*map[Type]struct{})
-	case *Grouping:
-		return any(&stage.Groupings).(*map[Type]struct{})
-	case *Hammer_on_pull_off:
-		return any(&stage.Hammer_on_pull_offs).(*map[Type]struct{})
-	case *Handbell:
-		return any(&stage.Handbells).(*map[Type]struct{})
-	case *Harmon_closed:
-		return any(&stage.Harmon_closeds).(*map[Type]struct{})
-	case *Harmon_mute:
-		return any(&stage.Harmon_mutes).(*map[Type]struct{})
-	case *Harmonic:
-		return any(&stage.Harmonics).(*map[Type]struct{})
-	case *Harmony:
-		return any(&stage.Harmonys).(*map[Type]struct{})
-	case *Harmony_alter:
-		return any(&stage.Harmony_alters).(*map[Type]struct{})
-	case *Harp_pedals:
-		return any(&stage.Harp_pedalss).(*map[Type]struct{})
-	case *Heel_toe:
-		return any(&stage.Heel_toes).(*map[Type]struct{})
-	case *Hole:
-		return any(&stage.Holes).(*map[Type]struct{})
-	case *Hole_closed:
-		return any(&stage.Hole_closeds).(*map[Type]struct{})
-	case *Horizontal_turn:
-		return any(&stage.Horizontal_turns).(*map[Type]struct{})
-	case *Identification:
-		return any(&stage.Identifications).(*map[Type]struct{})
-	case *Image:
-		return any(&stage.Images).(*map[Type]struct{})
-	case *Instrument:
-		return any(&stage.Instruments).(*map[Type]struct{})
-	case *Instrument_change:
-		return any(&stage.Instrument_changes).(*map[Type]struct{})
-	case *Instrument_link:
-		return any(&stage.Instrument_links).(*map[Type]struct{})
-	case *Interchangeable:
-		return any(&stage.Interchangeables).(*map[Type]struct{})
-	case *Inversion:
-		return any(&stage.Inversions).(*map[Type]struct{})
-	case *Key:
-		return any(&stage.Keys).(*map[Type]struct{})
-	case *Key_accidental:
-		return any(&stage.Key_accidentals).(*map[Type]struct{})
-	case *Key_octave:
-		return any(&stage.Key_octaves).(*map[Type]struct{})
-	case *Kind:
-		return any(&stage.Kinds).(*map[Type]struct{})
-	case *Level:
-		return any(&stage.Levels).(*map[Type]struct{})
-	case *Line_detail:
-		return any(&stage.Line_details).(*map[Type]struct{})
-	case *Line_width:
-		return any(&stage.Line_widths).(*map[Type]struct{})
-	case *Link:
-		return any(&stage.Links).(*map[Type]struct{})
-	case *Listen:
-		return any(&stage.Listens).(*map[Type]struct{})
-	case *Listening:
-		return any(&stage.Listenings).(*map[Type]struct{})
-	case *Lyric:
-		return any(&stage.Lyrics).(*map[Type]struct{})
-	case *Lyric_font:
-		return any(&stage.Lyric_fonts).(*map[Type]struct{})
-	case *Lyric_language:
-		return any(&stage.Lyric_languages).(*map[Type]struct{})
-	case *Measure_layout:
-		return any(&stage.Measure_layouts).(*map[Type]struct{})
-	case *Measure_numbering:
-		return any(&stage.Measure_numberings).(*map[Type]struct{})
-	case *Measure_repeat:
-		return any(&stage.Measure_repeats).(*map[Type]struct{})
-	case *Measure_style:
-		return any(&stage.Measure_styles).(*map[Type]struct{})
-	case *Membrane:
-		return any(&stage.Membranes).(*map[Type]struct{})
-	case *Metal:
-		return any(&stage.Metals).(*map[Type]struct{})
-	case *Metronome:
-		return any(&stage.Metronomes).(*map[Type]struct{})
-	case *Metronome_beam:
-		return any(&stage.Metronome_beams).(*map[Type]struct{})
-	case *Metronome_note:
-		return any(&stage.Metronome_notes).(*map[Type]struct{})
-	case *Metronome_tied:
-		return any(&stage.Metronome_tieds).(*map[Type]struct{})
-	case *Metronome_tuplet:
-		return any(&stage.Metronome_tuplets).(*map[Type]struct{})
-	case *Midi_device:
-		return any(&stage.Midi_devices).(*map[Type]struct{})
-	case *Midi_instrument:
-		return any(&stage.Midi_instruments).(*map[Type]struct{})
-	case *Miscellaneous:
-		return any(&stage.Miscellaneouss).(*map[Type]struct{})
-	case *Miscellaneous_field:
-		return any(&stage.Miscellaneous_fields).(*map[Type]struct{})
-	case *Mordent:
-		return any(&stage.Mordents).(*map[Type]struct{})
-	case *Multiple_rest:
-		return any(&stage.Multiple_rests).(*map[Type]struct{})
-	case *Name_display:
-		return any(&stage.Name_displays).(*map[Type]struct{})
-	case *Non_arpeggiate:
-		return any(&stage.Non_arpeggiates).(*map[Type]struct{})
-	case *Notations:
-		return any(&stage.Notationss).(*map[Type]struct{})
-	case *Note:
-		return any(&stage.Notes).(*map[Type]struct{})
-	case *Note_size:
-		return any(&stage.Note_sizes).(*map[Type]struct{})
-	case *Note_type:
-		return any(&stage.Note_types).(*map[Type]struct{})
-	case *Notehead:
-		return any(&stage.Noteheads).(*map[Type]struct{})
-	case *Notehead_text:
-		return any(&stage.Notehead_texts).(*map[Type]struct{})
-	case *Numeral:
-		return any(&stage.Numerals).(*map[Type]struct{})
-	case *Numeral_key:
-		return any(&stage.Numeral_keys).(*map[Type]struct{})
-	case *Numeral_root:
-		return any(&stage.Numeral_roots).(*map[Type]struct{})
-	case *Octave_shift:
-		return any(&stage.Octave_shifts).(*map[Type]struct{})
-	case *Offset:
-		return any(&stage.Offsets).(*map[Type]struct{})
-	case *Opus:
-		return any(&stage.Opuss).(*map[Type]struct{})
-	case *Ornaments:
-		return any(&stage.Ornamentss).(*map[Type]struct{})
-	case *Other_appearance:
-		return any(&stage.Other_appearances).(*map[Type]struct{})
-	case *Other_direction:
-		return any(&stage.Other_directions).(*map[Type]struct{})
-	case *Other_listening:
-		return any(&stage.Other_listenings).(*map[Type]struct{})
-	case *Other_notation:
-		return any(&stage.Other_notations).(*map[Type]struct{})
-	case *Other_placement_text:
-		return any(&stage.Other_placement_texts).(*map[Type]struct{})
-	case *Other_play:
-		return any(&stage.Other_plays).(*map[Type]struct{})
-	case *Other_text:
-		return any(&stage.Other_texts).(*map[Type]struct{})
-	case *Page_layout:
-		return any(&stage.Page_layouts).(*map[Type]struct{})
-	case *Page_margins:
-		return any(&stage.Page_marginss).(*map[Type]struct{})
-	case *Part_clef:
-		return any(&stage.Part_clefs).(*map[Type]struct{})
-	case *Part_group:
-		return any(&stage.Part_groups).(*map[Type]struct{})
-	case *Part_link:
-		return any(&stage.Part_links).(*map[Type]struct{})
-	case *Part_list:
-		return any(&stage.Part_lists).(*map[Type]struct{})
-	case *Part_name:
-		return any(&stage.Part_names).(*map[Type]struct{})
-	case *Part_symbol:
-		return any(&stage.Part_symbols).(*map[Type]struct{})
-	case *Part_transpose:
-		return any(&stage.Part_transposes).(*map[Type]struct{})
-	case *Pedal:
-		return any(&stage.Pedals).(*map[Type]struct{})
-	case *Pedal_tuning:
-		return any(&stage.Pedal_tunings).(*map[Type]struct{})
-	case *Per_minute:
-		return any(&stage.Per_minutes).(*map[Type]struct{})
-	case *Percussion:
-		return any(&stage.Percussions).(*map[Type]struct{})
-	case *Pitch:
-		return any(&stage.Pitchs).(*map[Type]struct{})
-	case *Pitched:
-		return any(&stage.Pitcheds).(*map[Type]struct{})
-	case *Placement_text:
-		return any(&stage.Placement_texts).(*map[Type]struct{})
-	case *Play:
-		return any(&stage.Plays).(*map[Type]struct{})
-	case *Player:
-		return any(&stage.Players).(*map[Type]struct{})
-	case *Principal_voice:
-		return any(&stage.Principal_voices).(*map[Type]struct{})
-	case *Print:
-		return any(&stage.Prints).(*map[Type]struct{})
-	case *Release:
-		return any(&stage.Releases).(*map[Type]struct{})
-	case *Repeat:
-		return any(&stage.Repeats).(*map[Type]struct{})
-	case *Rest:
-		return any(&stage.Rests).(*map[Type]struct{})
-	case *Root:
-		return any(&stage.Roots).(*map[Type]struct{})
-	case *Root_step:
-		return any(&stage.Root_steps).(*map[Type]struct{})
-	case *Scaling:
-		return any(&stage.Scalings).(*map[Type]struct{})
-	case *Scordatura:
-		return any(&stage.Scordaturas).(*map[Type]struct{})
-	case *Score_instrument:
-		return any(&stage.Score_instruments).(*map[Type]struct{})
-	case *Score_part:
-		return any(&stage.Score_parts).(*map[Type]struct{})
-	case *Score_partwise:
-		return any(&stage.Score_partwises).(*map[Type]struct{})
-	case *Score_timewise:
-		return any(&stage.Score_timewises).(*map[Type]struct{})
-	case *Segno:
-		return any(&stage.Segnos).(*map[Type]struct{})
-	case *Slash:
-		return any(&stage.Slashs).(*map[Type]struct{})
-	case *Slide:
-		return any(&stage.Slides).(*map[Type]struct{})
-	case *Slur:
-		return any(&stage.Slurs).(*map[Type]struct{})
-	case *Sound:
-		return any(&stage.Sounds).(*map[Type]struct{})
-	case *Staff_details:
-		return any(&stage.Staff_detailss).(*map[Type]struct{})
-	case *Staff_divide:
-		return any(&stage.Staff_divides).(*map[Type]struct{})
-	case *Staff_layout:
-		return any(&stage.Staff_layouts).(*map[Type]struct{})
-	case *Staff_size:
-		return any(&stage.Staff_sizes).(*map[Type]struct{})
-	case *Staff_tuning:
-		return any(&stage.Staff_tunings).(*map[Type]struct{})
-	case *Stem:
-		return any(&stage.Stems).(*map[Type]struct{})
-	case *Stick:
-		return any(&stage.Sticks).(*map[Type]struct{})
-	case *String_mute:
-		return any(&stage.String_mutes).(*map[Type]struct{})
-	case *String_type:
-		return any(&stage.String_types).(*map[Type]struct{})
-	case *Strong_accent:
-		return any(&stage.Strong_accents).(*map[Type]struct{})
-	case *Style_text:
-		return any(&stage.Style_texts).(*map[Type]struct{})
-	case *Supports:
-		return any(&stage.Supportss).(*map[Type]struct{})
-	case *Swing:
-		return any(&stage.Swings).(*map[Type]struct{})
-	case *Sync:
-		return any(&stage.Syncs).(*map[Type]struct{})
-	case *System_dividers:
-		return any(&stage.System_dividerss).(*map[Type]struct{})
-	case *System_layout:
-		return any(&stage.System_layouts).(*map[Type]struct{})
-	case *System_margins:
-		return any(&stage.System_marginss).(*map[Type]struct{})
-	case *Tap:
-		return any(&stage.Taps).(*map[Type]struct{})
-	case *Technical:
-		return any(&stage.Technicals).(*map[Type]struct{})
-	case *Text_element_data:
-		return any(&stage.Text_element_datas).(*map[Type]struct{})
-	case *Tie:
-		return any(&stage.Ties).(*map[Type]struct{})
-	case *Tied:
-		return any(&stage.Tieds).(*map[Type]struct{})
-	case *Time:
-		return any(&stage.Times).(*map[Type]struct{})
-	case *Time_modification:
-		return any(&stage.Time_modifications).(*map[Type]struct{})
-	case *Timpani:
-		return any(&stage.Timpanis).(*map[Type]struct{})
-	case *Transpose:
-		return any(&stage.Transposes).(*map[Type]struct{})
-	case *Tremolo:
-		return any(&stage.Tremolos).(*map[Type]struct{})
-	case *Tuplet:
-		return any(&stage.Tuplets).(*map[Type]struct{})
-	case *Tuplet_dot:
-		return any(&stage.Tuplet_dots).(*map[Type]struct{})
-	case *Tuplet_number:
-		return any(&stage.Tuplet_numbers).(*map[Type]struct{})
-	case *Tuplet_portion:
-		return any(&stage.Tuplet_portions).(*map[Type]struct{})
-	case *Tuplet_type:
-		return any(&stage.Tuplet_types).(*map[Type]struct{})
-	case *Typed_text:
-		return any(&stage.Typed_texts).(*map[Type]struct{})
-	case *Unpitched:
-		return any(&stage.Unpitcheds).(*map[Type]struct{})
-	case *Virtual_instrument:
-		return any(&stage.Virtual_instruments).(*map[Type]struct{})
-	case *Wait:
-		return any(&stage.Waits).(*map[Type]struct{})
-	case *Wavy_line:
-		return any(&stage.Wavy_lines).(*map[Type]struct{})
-	case *Wedge:
-		return any(&stage.Wedges).(*map[Type]struct{})
-	case *Wood:
-		return any(&stage.Woods).(*map[Type]struct{})
-	case *Work:
-		return any(&stage.Works).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
+	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
+}
+
+// insertion point for instance with special fields
+func (A_directive) GongGetAssociationName() any {
+	return &A_directive{
 	}
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
+func (A_measure) GongGetAssociationName() any {
+	return &A_measure{
+			Note: []*Note{{Name: "Note"}},
+			Backup: []*Backup{{Name: "Backup"}},
+			Forward: []*Forward{{Name: "Forward"}},
+			Direction: []*Direction{{Name: "Direction"}},
+			Attributes: []*Attributes{{Name: "Attributes"}},
+			Harmony: []*Harmony{{Name: "Harmony"}},
+			Figured_bass: []*Figured_bass{{Name: "Figured_bass"}},
+			Print: []*Print{{Name: "Print"}},
+			Sound: []*Sound{{Name: "Sound"}},
+			Listening: []*Listening{{Name: "Listening"}},
+			Barline: []*Barline{{Name: "Barline"}},
+			Grouping: []*Grouping{{Name: "Grouping"}},
+			Link: []*Link{{Name: "Link"}},
+			Bookmark: []*Bookmark{{Name: "Bookmark"}},
+	}
+}
 
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case A_measure:
-		return any(&A_measure{
-			Note: []*Note{{Name: "Note"}},
-			Backup: []*Backup{{Name: "Backup"}},
-			Forward: []*Forward{{Name: "Forward"}},
-			Direction: []*Direction{{Name: "Direction"}},
-			Attributes: []*Attributes{{Name: "Attributes"}},
-			Harmony: []*Harmony{{Name: "Harmony"}},
-			Figured_bass: []*Figured_bass{{Name: "Figured_bass"}},
-			Print: []*Print{{Name: "Print"}},
-			Sound: []*Sound{{Name: "Sound"}},
-			Listening: []*Listening{{Name: "Listening"}},
-			Barline: []*Barline{{Name: "Barline"}},
-			Grouping: []*Grouping{{Name: "Grouping"}},
-			Link: []*Link{{Name: "Link"}},
-			Bookmark: []*Bookmark{{Name: "Bookmark"}},
-		}).(*Type)
-	case A_measure_1:
-		return any(&A_measure_1{
+func (A_measure_1) GongGetAssociationName() any {
+	return &A_measure_1{
 			Part: []*A_part_1{{Name: "Part"}},
-		}).(*Type)
-	case A_part:
-		return any(&A_part{
+	}
+}
+
+func (A_part) GongGetAssociationName() any {
+	return &A_part{
 			Measure: []*A_measure{{Name: "Measure"}},
-		}).(*Type)
-	case A_part_1:
-		return any(&A_part_1{
+	}
+}
+
+func (A_part_1) GongGetAssociationName() any {
+	return &A_part_1{
 			Note: []*Note{{Name: "Note"}},
 			Backup: []*Backup{{Name: "Backup"}},
 			Forward: []*Forward{{Name: "Forward"}},
@@ -19084,17 +21868,56 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Grouping: []*Grouping{{Name: "Grouping"}},
 			Link: []*Link{{Name: "Link"}},
 			Bookmark: []*Bookmark{{Name: "Bookmark"}},
-		}).(*Type)
-	case Appearance:
-		return any(&Appearance{
+	}
+}
+
+func (Accidental) GongGetAssociationName() any {
+	return &Accidental{
+	}
+}
+
+func (Accidental_mark) GongGetAssociationName() any {
+	return &Accidental_mark{
+	}
+}
+
+func (Accidental_text) GongGetAssociationName() any {
+	return &Accidental_text{
+	}
+}
+
+func (Accord) GongGetAssociationName() any {
+	return &Accord{
+	}
+}
+
+func (Accordion_registration) GongGetAssociationName() any {
+	return &Accordion_registration{
+	}
+}
+
+func (Appearance) GongGetAssociationName() any {
+	return &Appearance{
 			Line_width: []*Line_width{{Name: "Line_width"}},
 			Note_size: []*Note_size{{Name: "Note_size"}},
 			Distance: []*Distance{{Name: "Distance"}},
 			Glyph: []*Glyph{{Name: "Glyph"}},
 			Other_appearance: []*Other_appearance{{Name: "Other_appearance"}},
-		}).(*Type)
-	case Articulations:
-		return any(&Articulations{
+	}
+}
+
+func (Arpeggiate) GongGetAssociationName() any {
+	return &Arpeggiate{
+	}
+}
+
+func (Arrow) GongGetAssociationName() any {
+	return &Arrow{
+	}
+}
+
+func (Articulations) GongGetAssociationName() any {
+	return &Articulations{
 			Accent: []*Empty_placement{{Name: "Accent"}},
 			Strong_accent: []*Strong_accent{{Name: "Strong_accent"}},
 			Staccato: []*Empty_placement{{Name: "Staccato"}},
@@ -19112,9 +21935,16 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Unstress: []*Empty_placement{{Name: "Unstress"}},
 			Soft_accent: []*Empty_placement{{Name: "Soft_accent"}},
 			Other_articulation: []*Other_placement_text{{Name: "Other_articulation"}},
-		}).(*Type)
-	case Attributes:
-		return any(&Attributes{
+	}
+}
+
+func (Assess) GongGetAssociationName() any {
+	return &Assess{
+	}
+}
+
+func (Attributes) GongGetAssociationName() any {
+	return &Attributes{
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
 			Key: []*Key{{Name: "Key"}},
@@ -19126,14 +21956,23 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			For_part: []*For_part{{Name: "For_part"}},
 			Directive: []*A_directive{{Name: "Directive"}},
 			Measure_style: []*Measure_style{{Name: "Measure_style"}},
-		}).(*Type)
-	case Backup:
-		return any(&Backup{
+	}
+}
+
+func (Backup) GongGetAssociationName() any {
+	return &Backup{
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
-		}).(*Type)
-	case Barline:
-		return any(&Barline{
+	}
+}
+
+func (Bar_style_color) GongGetAssociationName() any {
+	return &Bar_style_color{
+	}
+}
+
+func (Barline) GongGetAssociationName() any {
+	return &Barline{
 			Bar_style: &Bar_style_color{Name: "Bar_style"},
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
@@ -19143,28 +21982,106 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Fermata: &Fermata{Name: "Fermata"},
 			Ending: &Ending{Name: "Ending"},
 			Repeat: &Repeat{Name: "Repeat"},
-		}).(*Type)
-	case Bass:
-		return any(&Bass{
+	}
+}
+
+func (Barre) GongGetAssociationName() any {
+	return &Barre{
+	}
+}
+
+func (Bass) GongGetAssociationName() any {
+	return &Bass{
 			Bass_separator: &Style_text{Name: "Bass_separator"},
 			Bass_step: &Bass_step{Name: "Bass_step"},
 			Bass_alter: &Harmony_alter{Name: "Bass_alter"},
-		}).(*Type)
-	case Bend:
-		return any(&Bend{
+	}
+}
+
+func (Bass_step) GongGetAssociationName() any {
+	return &Bass_step{
+	}
+}
+
+func (Beam) GongGetAssociationName() any {
+	return &Beam{
+	}
+}
+
+func (Beat_repeat) GongGetAssociationName() any {
+	return &Beat_repeat{
+	}
+}
+
+func (Beat_unit_tied) GongGetAssociationName() any {
+	return &Beat_unit_tied{
+	}
+}
+
+func (Beater) GongGetAssociationName() any {
+	return &Beater{
+	}
+}
+
+func (Bend) GongGetAssociationName() any {
+	return &Bend{
 			Release: &Release{Name: "Release"},
 			With_bar: &Placement_text{Name: "With_bar"},
-		}).(*Type)
-	case Credit:
-		return any(&Credit{
+	}
+}
+
+func (Bookmark) GongGetAssociationName() any {
+	return &Bookmark{
+	}
+}
+
+func (Bracket) GongGetAssociationName() any {
+	return &Bracket{
+	}
+}
+
+func (Breath_mark) GongGetAssociationName() any {
+	return &Breath_mark{
+	}
+}
+
+func (Caesura) GongGetAssociationName() any {
+	return &Caesura{
+	}
+}
+
+func (Cancel) GongGetAssociationName() any {
+	return &Cancel{
+	}
+}
+
+func (Clef) GongGetAssociationName() any {
+	return &Clef{
+	}
+}
+
+func (Coda) GongGetAssociationName() any {
+	return &Coda{
+	}
+}
+
+func (Credit) GongGetAssociationName() any {
+	return &Credit{
 			Credit_image: &Image{Name: "Credit_image"},
 			Link: []*Link{{Name: "Link"}},
 			Bookmark: []*Bookmark{{Name: "Bookmark"}},
 			Credit_words: []*Formatted_text_id{{Name: "Credit_words"}},
 			Credit_symbol: []*Formatted_symbol_id{{Name: "Credit_symbol"}},
-		}).(*Type)
-	case Defaults:
-		return any(&Defaults{
+	}
+}
+
+func (Dashes) GongGetAssociationName() any {
+	return &Dashes{
+	}
+}
+
+func (Defaults) GongGetAssociationName() any {
+	return &Defaults{
 			Scaling: &Scaling{Name: "Scaling"},
 			Page_layout: &Page_layout{Name: "Page_layout"},
 			System_layout: &System_layout{Name: "System_layout"},
@@ -19174,24 +22091,45 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Word_font: &Empty_font{Name: "Word_font"},
 			Lyric_font: []*Lyric_font{{Name: "Lyric_font"}},
 			Lyric_language: []*Lyric_language{{Name: "Lyric_language"}},
-		}).(*Type)
-	case Degree:
-		return any(&Degree{
+	}
+}
+
+func (Degree) GongGetAssociationName() any {
+	return &Degree{
 			Degree_value: &Degree_value{Name: "Degree_value"},
 			Degree_alter: &Degree_alter{Name: "Degree_alter"},
 			Degree_type: &Degree_type{Name: "Degree_type"},
-		}).(*Type)
-	case Direction:
-		return any(&Direction{
+	}
+}
+
+func (Degree_alter) GongGetAssociationName() any {
+	return &Degree_alter{
+	}
+}
+
+func (Degree_type) GongGetAssociationName() any {
+	return &Degree_type{
+	}
+}
+
+func (Degree_value) GongGetAssociationName() any {
+	return &Degree_value{
+	}
+}
+
+func (Direction) GongGetAssociationName() any {
+	return &Direction{
 			Direction_type: []*Direction_type{{Name: "Direction_type"}},
 			Offset: &Offset{Name: "Offset"},
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
 			Sound: &Sound{Name: "Sound"},
 			Listening: &Listening{Name: "Listening"},
-		}).(*Type)
-	case Direction_type:
-		return any(&Direction_type{
+	}
+}
+
+func (Direction_type) GongGetAssociationName() any {
+	return &Direction_type{
 			Rehearsal: []*Formatted_text_id{{Name: "Rehearsal"}},
 			Segno: []*Segno{{Name: "Segno"}},
 			Coda: []*Coda{{Name: "Coda"}},
@@ -19216,63 +22154,265 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Accordion_registration: &Accordion_registration{Name: "Accordion_registration"},
 			Staff_divide: &Staff_divide{Name: "Staff_divide"},
 			Other_direction: &Other_direction{Name: "Other_direction"},
-		}).(*Type)
-	case Dynamics:
-		return any(&Dynamics{
+	}
+}
+
+func (Distance) GongGetAssociationName() any {
+	return &Distance{
+	}
+}
+
+func (Double) GongGetAssociationName() any {
+	return &Double{
+	}
+}
+
+func (Dynamics) GongGetAssociationName() any {
+	return &Dynamics{
 			Other_dynamics: []*Other_text{{Name: "Other_dynamics"}},
-		}).(*Type)
-	case Encoding:
-		return any(&Encoding{
+	}
+}
+
+func (Effect) GongGetAssociationName() any {
+	return &Effect{
+	}
+}
+
+func (Elision) GongGetAssociationName() any {
+	return &Elision{
+	}
+}
+
+func (Empty) GongGetAssociationName() any {
+	return &Empty{
+	}
+}
+
+func (Empty_font) GongGetAssociationName() any {
+	return &Empty_font{
+	}
+}
+
+func (Empty_line) GongGetAssociationName() any {
+	return &Empty_line{
+	}
+}
+
+func (Empty_placement) GongGetAssociationName() any {
+	return &Empty_placement{
+	}
+}
+
+func (Empty_placement_smufl) GongGetAssociationName() any {
+	return &Empty_placement_smufl{
+	}
+}
+
+func (Empty_print_object_style_align) GongGetAssociationName() any {
+	return &Empty_print_object_style_align{
+	}
+}
+
+func (Empty_print_style) GongGetAssociationName() any {
+	return &Empty_print_style{
+	}
+}
+
+func (Empty_print_style_align) GongGetAssociationName() any {
+	return &Empty_print_style_align{
+	}
+}
+
+func (Empty_print_style_align_id) GongGetAssociationName() any {
+	return &Empty_print_style_align_id{
+	}
+}
+
+func (Empty_trill_sound) GongGetAssociationName() any {
+	return &Empty_trill_sound{
+	}
+}
+
+func (Encoding) GongGetAssociationName() any {
+	return &Encoding{
 			Encoder: []*Typed_text{{Name: "Encoder"}},
 			Supports: []*Supports{{Name: "Supports"}},
-		}).(*Type)
-	case Figure:
-		return any(&Figure{
+	}
+}
+
+func (Ending) GongGetAssociationName() any {
+	return &Ending{
+	}
+}
+
+func (Extend) GongGetAssociationName() any {
+	return &Extend{
+	}
+}
+
+func (Feature) GongGetAssociationName() any {
+	return &Feature{
+	}
+}
+
+func (Fermata) GongGetAssociationName() any {
+	return &Fermata{
+	}
+}
+
+func (Figure) GongGetAssociationName() any {
+	return &Figure{
 			Prefix: &Style_text{Name: "Prefix"},
 			Figure_number: &Style_text{Name: "Figure_number"},
 			Suffix: &Style_text{Name: "Suffix"},
 			Extend: &Extend{Name: "Extend"},
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
-		}).(*Type)
-	case Figured_bass:
-		return any(&Figured_bass{
+	}
+}
+
+func (Figured_bass) GongGetAssociationName() any {
+	return &Figured_bass{
 			Figure: []*Figure{{Name: "Figure"}},
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
-		}).(*Type)
-	case For_part:
-		return any(&For_part{
+	}
+}
+
+func (Fingering) GongGetAssociationName() any {
+	return &Fingering{
+	}
+}
+
+func (First_fret) GongGetAssociationName() any {
+	return &First_fret{
+	}
+}
+
+func (For_part) GongGetAssociationName() any {
+	return &For_part{
 			Part_clef: &Part_clef{Name: "Part_clef"},
 			Part_transpose: &Part_transpose{Name: "Part_transpose"},
-		}).(*Type)
-	case Forward:
-		return any(&Forward{
+	}
+}
+
+func (Formatted_symbol) GongGetAssociationName() any {
+	return &Formatted_symbol{
+	}
+}
+
+func (Formatted_symbol_id) GongGetAssociationName() any {
+	return &Formatted_symbol_id{
+	}
+}
+
+func (Formatted_text) GongGetAssociationName() any {
+	return &Formatted_text{
+	}
+}
+
+func (Formatted_text_id) GongGetAssociationName() any {
+	return &Formatted_text_id{
+	}
+}
+
+func (Forward) GongGetAssociationName() any {
+	return &Forward{
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
-		}).(*Type)
-	case Frame:
-		return any(&Frame{
+	}
+}
+
+func (Frame) GongGetAssociationName() any {
+	return &Frame{
 			First_fret: &First_fret{Name: "First_fret"},
 			Frame_note: []*Frame_note{{Name: "Frame_note"}},
-		}).(*Type)
-	case Frame_note:
-		return any(&Frame_note{
+	}
+}
+
+func (Frame_note) GongGetAssociationName() any {
+	return &Frame_note{
 			String: &String_type{Name: "String"},
 			Fret: &Fret{Name: "Fret"},
 			Fingering: &Fingering{Name: "Fingering"},
 			Barre: &Barre{Name: "Barre"},
-		}).(*Type)
-	case Grouping:
-		return any(&Grouping{
+	}
+}
+
+func (Fret) GongGetAssociationName() any {
+	return &Fret{
+	}
+}
+
+func (Glass) GongGetAssociationName() any {
+	return &Glass{
+	}
+}
+
+func (Glissando) GongGetAssociationName() any {
+	return &Glissando{
+	}
+}
+
+func (Glyph) GongGetAssociationName() any {
+	return &Glyph{
+	}
+}
+
+func (Grace) GongGetAssociationName() any {
+	return &Grace{
+	}
+}
+
+func (Group_barline) GongGetAssociationName() any {
+	return &Group_barline{
+	}
+}
+
+func (Group_name) GongGetAssociationName() any {
+	return &Group_name{
+	}
+}
+
+func (Group_symbol) GongGetAssociationName() any {
+	return &Group_symbol{
+	}
+}
+
+func (Grouping) GongGetAssociationName() any {
+	return &Grouping{
 			Feature: []*Feature{{Name: "Feature"}},
-		}).(*Type)
-	case Harmon_mute:
-		return any(&Harmon_mute{
+	}
+}
+
+func (Hammer_on_pull_off) GongGetAssociationName() any {
+	return &Hammer_on_pull_off{
+	}
+}
+
+func (Handbell) GongGetAssociationName() any {
+	return &Handbell{
+	}
+}
+
+func (Harmon_closed) GongGetAssociationName() any {
+	return &Harmon_closed{
+	}
+}
+
+func (Harmon_mute) GongGetAssociationName() any {
+	return &Harmon_mute{
 			Harmon_closed: &Harmon_closed{Name: "Harmon_closed"},
-		}).(*Type)
-	case Harmony:
-		return any(&Harmony{
+	}
+}
+
+func (Harmonic) GongGetAssociationName() any {
+	return &Harmonic{
+	}
+}
+
+func (Harmony) GongGetAssociationName() any {
+	return &Harmony{
 			Root: &Root{Name: "Root"},
 			Numeral: &Numeral{Name: "Numeral"},
 			Function: &Style_text{Name: "Function"},
@@ -19284,83 +22424,271 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Offset: &Offset{Name: "Offset"},
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
-		}).(*Type)
-	case Harp_pedals:
-		return any(&Harp_pedals{
+	}
+}
+
+func (Harmony_alter) GongGetAssociationName() any {
+	return &Harmony_alter{
+	}
+}
+
+func (Harp_pedals) GongGetAssociationName() any {
+	return &Harp_pedals{
 			Pedal_tuning: []*Pedal_tuning{{Name: "Pedal_tuning"}},
-		}).(*Type)
-	case Hole:
-		return any(&Hole{
+	}
+}
+
+func (Heel_toe) GongGetAssociationName() any {
+	return &Heel_toe{
+	}
+}
+
+func (Hole) GongGetAssociationName() any {
+	return &Hole{
 			Hole_closed: &Hole_closed{Name: "Hole_closed"},
-		}).(*Type)
-	case Identification:
-		return any(&Identification{
+	}
+}
+
+func (Hole_closed) GongGetAssociationName() any {
+	return &Hole_closed{
+	}
+}
+
+func (Horizontal_turn) GongGetAssociationName() any {
+	return &Horizontal_turn{
+	}
+}
+
+func (Identification) GongGetAssociationName() any {
+	return &Identification{
 			Creator: []*Typed_text{{Name: "Creator"}},
 			Rights: []*Typed_text{{Name: "Rights"}},
 			Encoding: &Encoding{Name: "Encoding"},
 			Relation: []*Typed_text{{Name: "Relation"}},
 			Miscellaneous: &Miscellaneous{Name: "Miscellaneous"},
-		}).(*Type)
-	case Instrument_change:
-		return any(&Instrument_change{
+	}
+}
+
+func (Image) GongGetAssociationName() any {
+	return &Image{
+	}
+}
+
+func (Instrument) GongGetAssociationName() any {
+	return &Instrument{
+	}
+}
+
+func (Instrument_change) GongGetAssociationName() any {
+	return &Instrument_change{
 			Virtual_instrument: &Virtual_instrument{Name: "Virtual_instrument"},
-		}).(*Type)
-	case Key:
-		return any(&Key{
+	}
+}
+
+func (Instrument_link) GongGetAssociationName() any {
+	return &Instrument_link{
+	}
+}
+
+func (Interchangeable) GongGetAssociationName() any {
+	return &Interchangeable{
+	}
+}
+
+func (Inversion) GongGetAssociationName() any {
+	return &Inversion{
+	}
+}
+
+func (Key) GongGetAssociationName() any {
+	return &Key{
 			Cancel: &Cancel{Name: "Cancel"},
 			Key_accidental: &Key_accidental{Name: "Key_accidental"},
 			Key_octave: []*Key_octave{{Name: "Key_octave"}},
-		}).(*Type)
-	case Listen:
-		return any(&Listen{
+	}
+}
+
+func (Key_accidental) GongGetAssociationName() any {
+	return &Key_accidental{
+	}
+}
+
+func (Key_octave) GongGetAssociationName() any {
+	return &Key_octave{
+	}
+}
+
+func (Kind) GongGetAssociationName() any {
+	return &Kind{
+	}
+}
+
+func (Level) GongGetAssociationName() any {
+	return &Level{
+	}
+}
+
+func (Line_detail) GongGetAssociationName() any {
+	return &Line_detail{
+	}
+}
+
+func (Line_width) GongGetAssociationName() any {
+	return &Line_width{
+	}
+}
+
+func (Link) GongGetAssociationName() any {
+	return &Link{
+	}
+}
+
+func (Listen) GongGetAssociationName() any {
+	return &Listen{
 			Assess: []*Assess{{Name: "Assess"}},
 			Wait: []*Wait{{Name: "Wait"}},
 			Other_listen: []*Other_listening{{Name: "Other_listen"}},
-		}).(*Type)
-	case Listening:
-		return any(&Listening{
+	}
+}
+
+func (Listening) GongGetAssociationName() any {
+	return &Listening{
 			Sync: []*Sync{{Name: "Sync"}},
 			Other_listening: []*Other_listening{{Name: "Other_listening"}},
 			Offset: &Offset{Name: "Offset"},
-		}).(*Type)
-	case Lyric:
-		return any(&Lyric{
+	}
+}
+
+func (Lyric) GongGetAssociationName() any {
+	return &Lyric{
 			Elision: []*Elision{{Name: "Elision"}},
 			Text: []*Text_element_data{{Name: "Text"}},
 			Extend: &Extend{Name: "Extend"},
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
-		}).(*Type)
-	case Measure_style:
-		return any(&Measure_style{
+	}
+}
+
+func (Lyric_font) GongGetAssociationName() any {
+	return &Lyric_font{
+	}
+}
+
+func (Lyric_language) GongGetAssociationName() any {
+	return &Lyric_language{
+	}
+}
+
+func (Measure_layout) GongGetAssociationName() any {
+	return &Measure_layout{
+	}
+}
+
+func (Measure_numbering) GongGetAssociationName() any {
+	return &Measure_numbering{
+	}
+}
+
+func (Measure_repeat) GongGetAssociationName() any {
+	return &Measure_repeat{
+	}
+}
+
+func (Measure_style) GongGetAssociationName() any {
+	return &Measure_style{
 			Multiple_rest: &Multiple_rest{Name: "Multiple_rest"},
 			Measure_repeat: &Measure_repeat{Name: "Measure_repeat"},
 			Beat_repeat: &Beat_repeat{Name: "Beat_repeat"},
 			Slash: &Slash{Name: "Slash"},
-		}).(*Type)
-	case Metronome:
-		return any(&Metronome{
+	}
+}
+
+func (Membrane) GongGetAssociationName() any {
+	return &Membrane{
+	}
+}
+
+func (Metal) GongGetAssociationName() any {
+	return &Metal{
+	}
+}
+
+func (Metronome) GongGetAssociationName() any {
+	return &Metronome{
 			Per_minute: &Per_minute{Name: "Per_minute"},
 			Beat_unit_tied: []*Beat_unit_tied{{Name: "Beat_unit_tied"}},
 			Metronome_note: []*Metronome_note{{Name: "Metronome_note"}},
-		}).(*Type)
-	case Metronome_note:
-		return any(&Metronome_note{
+	}
+}
+
+func (Metronome_beam) GongGetAssociationName() any {
+	return &Metronome_beam{
+	}
+}
+
+func (Metronome_note) GongGetAssociationName() any {
+	return &Metronome_note{
 			Metronome_beam: []*Metronome_beam{{Name: "Metronome_beam"}},
 			Metronome_tied: &Metronome_tied{Name: "Metronome_tied"},
 			Metronome_tuplet: &Metronome_tuplet{Name: "Metronome_tuplet"},
-		}).(*Type)
-	case Miscellaneous:
-		return any(&Miscellaneous{
+	}
+}
+
+func (Metronome_tied) GongGetAssociationName() any {
+	return &Metronome_tied{
+	}
+}
+
+func (Metronome_tuplet) GongGetAssociationName() any {
+	return &Metronome_tuplet{
+	}
+}
+
+func (Midi_device) GongGetAssociationName() any {
+	return &Midi_device{
+	}
+}
+
+func (Midi_instrument) GongGetAssociationName() any {
+	return &Midi_instrument{
+	}
+}
+
+func (Miscellaneous) GongGetAssociationName() any {
+	return &Miscellaneous{
 			Miscellaneous_field: []*Miscellaneous_field{{Name: "Miscellaneous_field"}},
-		}).(*Type)
-	case Name_display:
-		return any(&Name_display{
+	}
+}
+
+func (Miscellaneous_field) GongGetAssociationName() any {
+	return &Miscellaneous_field{
+	}
+}
+
+func (Mordent) GongGetAssociationName() any {
+	return &Mordent{
+	}
+}
+
+func (Multiple_rest) GongGetAssociationName() any {
+	return &Multiple_rest{
+	}
+}
+
+func (Name_display) GongGetAssociationName() any {
+	return &Name_display{
 			Display_text: []*Formatted_text{{Name: "Display_text"}},
 			Accidental_text: []*Accidental_text{{Name: "Accidental_text"}},
-		}).(*Type)
-	case Notations:
-		return any(&Notations{
+	}
+}
+
+func (Non_arpeggiate) GongGetAssociationName() any {
+	return &Non_arpeggiate{
+	}
+}
+
+func (Notations) GongGetAssociationName() any {
+	return &Notations{
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
 			Tied: []*Tied{{Name: "Tied"}},
@@ -19377,9 +22705,11 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Non_arpeggiate: []*Non_arpeggiate{{Name: "Non_arpeggiate"}},
 			Accidental_mark: []*Accidental_mark{{Name: "Accidental_mark"}},
 			Other_notation: []*Other_notation{{Name: "Other_notation"}},
-		}).(*Type)
-	case Note:
-		return any(&Note{
+	}
+}
+
+func (Note) GongGetAssociationName() any {
+	return &Note{
 			Grace: &Grace{Name: "Grace"},
 			Pitch: &Pitch{Name: "Pitch"},
 			Unpitched: &Unpitched{Name: "Unpitched"},
@@ -19400,20 +22730,66 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Lyric: []*Lyric{{Name: "Lyric"}},
 			Play: &Play{Name: "Play"},
 			Listen: &Listen{Name: "Listen"},
-		}).(*Type)
-	case Notehead_text:
-		return any(&Notehead_text{
+	}
+}
+
+func (Note_size) GongGetAssociationName() any {
+	return &Note_size{
+	}
+}
+
+func (Note_type) GongGetAssociationName() any {
+	return &Note_type{
+	}
+}
+
+func (Notehead) GongGetAssociationName() any {
+	return &Notehead{
+	}
+}
+
+func (Notehead_text) GongGetAssociationName() any {
+	return &Notehead_text{
 			Display_text: []*Formatted_text{{Name: "Display_text"}},
 			Accidental_text: []*Accidental_text{{Name: "Accidental_text"}},
-		}).(*Type)
-	case Numeral:
-		return any(&Numeral{
+	}
+}
+
+func (Numeral) GongGetAssociationName() any {
+	return &Numeral{
 			Numeral_root: &Numeral_root{Name: "Numeral_root"},
 			Numeral_alter: &Harmony_alter{Name: "Numeral_alter"},
 			Numeral_key: &Numeral_key{Name: "Numeral_key"},
-		}).(*Type)
-	case Ornaments:
-		return any(&Ornaments{
+	}
+}
+
+func (Numeral_key) GongGetAssociationName() any {
+	return &Numeral_key{
+	}
+}
+
+func (Numeral_root) GongGetAssociationName() any {
+	return &Numeral_root{
+	}
+}
+
+func (Octave_shift) GongGetAssociationName() any {
+	return &Octave_shift{
+	}
+}
+
+func (Offset) GongGetAssociationName() any {
+	return &Offset{
+	}
+}
+
+func (Opus) GongGetAssociationName() any {
+	return &Opus{
+	}
+}
+
+func (Ornaments) GongGetAssociationName() any {
+	return &Ornaments{
 			Trill_mark: []*Empty_trill_sound{{Name: "Trill_mark"}},
 			Turn: []*Horizontal_turn{{Name: "Turn"}},
 			Delayed_turn: []*Horizontal_turn{{Name: "Delayed_turn"}},
@@ -19430,13 +22806,62 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Haydn: []*Empty_trill_sound{{Name: "Haydn"}},
 			Other_ornament: []*Other_placement_text{{Name: "Other_ornament"}},
 			Accidental_mark: []*Accidental_mark{{Name: "Accidental_mark"}},
-		}).(*Type)
-	case Page_layout:
-		return any(&Page_layout{
+	}
+}
+
+func (Other_appearance) GongGetAssociationName() any {
+	return &Other_appearance{
+	}
+}
+
+func (Other_direction) GongGetAssociationName() any {
+	return &Other_direction{
+	}
+}
+
+func (Other_listening) GongGetAssociationName() any {
+	return &Other_listening{
+	}
+}
+
+func (Other_notation) GongGetAssociationName() any {
+	return &Other_notation{
+	}
+}
+
+func (Other_placement_text) GongGetAssociationName() any {
+	return &Other_placement_text{
+	}
+}
+
+func (Other_play) GongGetAssociationName() any {
+	return &Other_play{
+	}
+}
+
+func (Other_text) GongGetAssociationName() any {
+	return &Other_text{
+	}
+}
+
+func (Page_layout) GongGetAssociationName() any {
+	return &Page_layout{
 			Page_margins: &Page_margins{Name: "Page_margins"},
-		}).(*Type)
-	case Part_group:
-		return any(&Part_group{
+	}
+}
+
+func (Page_margins) GongGetAssociationName() any {
+	return &Page_margins{
+	}
+}
+
+func (Part_clef) GongGetAssociationName() any {
+	return &Part_clef{
+	}
+}
+
+func (Part_group) GongGetAssociationName() any {
+	return &Part_group{
 			Group_name: &Group_name{Name: "Group_name"},
 			Group_name_display: &Name_display{Name: "Group_name_display"},
 			Group_abbreviation: &Group_name{Name: "Group_abbreviation"},
@@ -19445,18 +22870,54 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Group_barline: &Group_barline{Name: "Group_barline"},
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
-		}).(*Type)
-	case Part_link:
-		return any(&Part_link{
+	}
+}
+
+func (Part_link) GongGetAssociationName() any {
+	return &Part_link{
 			Instrument_link: []*Instrument_link{{Name: "Instrument_link"}},
-		}).(*Type)
-	case Part_list:
-		return any(&Part_list{
+	}
+}
+
+func (Part_list) GongGetAssociationName() any {
+	return &Part_list{
 			Part_group: &Part_group{Name: "Part_group"},
 			Score_part: &Score_part{Name: "Score_part"},
-		}).(*Type)
-	case Percussion:
-		return any(&Percussion{
+	}
+}
+
+func (Part_name) GongGetAssociationName() any {
+	return &Part_name{
+	}
+}
+
+func (Part_symbol) GongGetAssociationName() any {
+	return &Part_symbol{
+	}
+}
+
+func (Part_transpose) GongGetAssociationName() any {
+	return &Part_transpose{
+	}
+}
+
+func (Pedal) GongGetAssociationName() any {
+	return &Pedal{
+	}
+}
+
+func (Pedal_tuning) GongGetAssociationName() any {
+	return &Pedal_tuning{
+	}
+}
+
+func (Per_minute) GongGetAssociationName() any {
+	return &Per_minute{
+	}
+}
+
+func (Percussion) GongGetAssociationName() any {
+	return &Percussion{
 			Glass: &Glass{Name: "Glass"},
 			Metal: &Metal{Name: "Metal"},
 			Wood: &Wood{Name: "Wood"},
@@ -19467,13 +22928,42 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Beater: &Beater{Name: "Beater"},
 			Stick: &Stick{Name: "Stick"},
 			Other_percussion: &Other_text{Name: "Other_percussion"},
-		}).(*Type)
-	case Play:
-		return any(&Play{
+	}
+}
+
+func (Pitch) GongGetAssociationName() any {
+	return &Pitch{
+	}
+}
+
+func (Pitched) GongGetAssociationName() any {
+	return &Pitched{
+	}
+}
+
+func (Placement_text) GongGetAssociationName() any {
+	return &Placement_text{
+	}
+}
+
+func (Play) GongGetAssociationName() any {
+	return &Play{
 			Other_play: []*Other_play{{Name: "Other_play"}},
-		}).(*Type)
-	case Print:
-		return any(&Print{
+	}
+}
+
+func (Player) GongGetAssociationName() any {
+	return &Player{
+	}
+}
+
+func (Principal_voice) GongGetAssociationName() any {
+	return &Principal_voice{
+	}
+}
+
+func (Print) GongGetAssociationName() any {
+	return &Print{
 			Page_layout: &Page_layout{Name: "Page_layout"},
 			System_layout: &System_layout{Name: "System_layout"},
 			Staff_layout: []*Staff_layout{{Name: "Staff_layout"}},
@@ -19481,22 +22971,55 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Measure_numbering: &Measure_numbering{Name: "Measure_numbering"},
 			Part_name_display: &Name_display{Name: "Part_name_display"},
 			Part_abbreviation_display: &Name_display{Name: "Part_abbreviation_display"},
-		}).(*Type)
-	case Root:
-		return any(&Root{
+	}
+}
+
+func (Release) GongGetAssociationName() any {
+	return &Release{
+	}
+}
+
+func (Repeat) GongGetAssociationName() any {
+	return &Repeat{
+	}
+}
+
+func (Rest) GongGetAssociationName() any {
+	return &Rest{
+	}
+}
+
+func (Root) GongGetAssociationName() any {
+	return &Root{
 			Root_step: &Root_step{Name: "Root_step"},
 			Root_alter: &Harmony_alter{Name: "Root_alter"},
-		}).(*Type)
-	case Scordatura:
-		return any(&Scordatura{
+	}
+}
+
+func (Root_step) GongGetAssociationName() any {
+	return &Root_step{
+	}
+}
+
+func (Scaling) GongGetAssociationName() any {
+	return &Scaling{
+	}
+}
+
+func (Scordatura) GongGetAssociationName() any {
+	return &Scordatura{
 			Accord: []*Accord{{Name: "Accord"}},
-		}).(*Type)
-	case Score_instrument:
-		return any(&Score_instrument{
+	}
+}
+
+func (Score_instrument) GongGetAssociationName() any {
+	return &Score_instrument{
 			Virtual_instrument: &Virtual_instrument{Name: "Virtual_instrument"},
-		}).(*Type)
-	case Score_part:
-		return any(&Score_part{
+	}
+}
+
+func (Score_part) GongGetAssociationName() any {
+	return &Score_part{
 			Identification: &Identification{Name: "Identification"},
 			Part_link: []*Part_link{{Name: "Part_link"}},
 			Part_name: &Part_name{Name: "Part_name"},
@@ -19507,52 +23030,161 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Player: []*Player{{Name: "Player"}},
 			Midi_device: []*Midi_device{{Name: "Midi_device"}},
 			Midi_instrument: []*Midi_instrument{{Name: "Midi_instrument"}},
-		}).(*Type)
-	case Score_partwise:
-		return any(&Score_partwise{
+	}
+}
+
+func (Score_partwise) GongGetAssociationName() any {
+	return &Score_partwise{
 			Work: &Work{Name: "Work"},
 			Identification: &Identification{Name: "Identification"},
 			Defaults: &Defaults{Name: "Defaults"},
 			Credit: []*Credit{{Name: "Credit"}},
 			Part_list: &Part_list{Name: "Part_list"},
 			Part: []*A_part{{Name: "Part"}},
-		}).(*Type)
-	case Score_timewise:
-		return any(&Score_timewise{
+	}
+}
+
+func (Score_timewise) GongGetAssociationName() any {
+	return &Score_timewise{
 			Work: &Work{Name: "Work"},
 			Identification: &Identification{Name: "Identification"},
 			Defaults: &Defaults{Name: "Defaults"},
 			Credit: []*Credit{{Name: "Credit"}},
 			Part_list: &Part_list{Name: "Part_list"},
 			Measure: []*A_measure_1{{Name: "Measure"}},
-		}).(*Type)
-	case Sound:
-		return any(&Sound{
+	}
+}
+
+func (Segno) GongGetAssociationName() any {
+	return &Segno{
+	}
+}
+
+func (Slash) GongGetAssociationName() any {
+	return &Slash{
+	}
+}
+
+func (Slide) GongGetAssociationName() any {
+	return &Slide{
+	}
+}
+
+func (Slur) GongGetAssociationName() any {
+	return &Slur{
+	}
+}
+
+func (Sound) GongGetAssociationName() any {
+	return &Sound{
 			Instrument_change: []*Instrument_change{{Name: "Instrument_change"}},
 			Midi_device: []*Midi_device{{Name: "Midi_device"}},
 			Midi_instrument: []*Midi_instrument{{Name: "Midi_instrument"}},
 			Play: []*Play{{Name: "Play"}},
 			Swing: &Swing{Name: "Swing"},
 			Offset: &Offset{Name: "Offset"},
-		}).(*Type)
-	case Staff_details:
-		return any(&Staff_details{
+	}
+}
+
+func (Staff_details) GongGetAssociationName() any {
+	return &Staff_details{
 			Line_detail: []*Line_detail{{Name: "Line_detail"}},
 			Staff_tuning: []*Staff_tuning{{Name: "Staff_tuning"}},
 			Staff_size: &Staff_size{Name: "Staff_size"},
-		}).(*Type)
-	case System_dividers:
-		return any(&System_dividers{
+	}
+}
+
+func (Staff_divide) GongGetAssociationName() any {
+	return &Staff_divide{
+	}
+}
+
+func (Staff_layout) GongGetAssociationName() any {
+	return &Staff_layout{
+	}
+}
+
+func (Staff_size) GongGetAssociationName() any {
+	return &Staff_size{
+	}
+}
+
+func (Staff_tuning) GongGetAssociationName() any {
+	return &Staff_tuning{
+	}
+}
+
+func (Stem) GongGetAssociationName() any {
+	return &Stem{
+	}
+}
+
+func (Stick) GongGetAssociationName() any {
+	return &Stick{
+	}
+}
+
+func (String_mute) GongGetAssociationName() any {
+	return &String_mute{
+	}
+}
+
+func (String_type) GongGetAssociationName() any {
+	return &String_type{
+	}
+}
+
+func (Strong_accent) GongGetAssociationName() any {
+	return &Strong_accent{
+	}
+}
+
+func (Style_text) GongGetAssociationName() any {
+	return &Style_text{
+	}
+}
+
+func (Supports) GongGetAssociationName() any {
+	return &Supports{
+	}
+}
+
+func (Swing) GongGetAssociationName() any {
+	return &Swing{
+	}
+}
+
+func (Sync) GongGetAssociationName() any {
+	return &Sync{
+	}
+}
+
+func (System_dividers) GongGetAssociationName() any {
+	return &System_dividers{
 			Left_divider: &Empty_print_object_style_align{Name: "Left_divider"},
 			Right_divider: &Empty_print_object_style_align{Name: "Right_divider"},
-		}).(*Type)
-	case System_layout:
-		return any(&System_layout{
+	}
+}
+
+func (System_layout) GongGetAssociationName() any {
+	return &System_layout{
 			System_margins: &System_margins{Name: "System_margins"},
 			System_dividers: &System_dividers{Name: "System_dividers"},
-		}).(*Type)
-	case Technical:
-		return any(&Technical{
+	}
+}
+
+func (System_margins) GongGetAssociationName() any {
+	return &System_margins{
+	}
+}
+
+func (Tap) GongGetAssociationName() any {
+	return &Tap{
+	}
+}
+
+func (Technical) GongGetAssociationName() any {
+	return &Technical{
 			Up_bow: []*Empty_placement{{Name: "Up_bow"}},
 			Down_bow: []*Empty_placement{{Name: "Down_bow"}},
 			Harmonic: []*Harmonic{{Name: "Harmonic"}},
@@ -19584,29 +23216,129 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Harmon_mute: []*Harmon_mute{{Name: "Harmon_mute"}},
 			Golpe: []*Empty_placement{{Name: "Golpe"}},
 			Other_technical: []*Other_placement_text{{Name: "Other_technical"}},
-		}).(*Type)
-	case Time:
-		return any(&Time{
+	}
+}
+
+func (Text_element_data) GongGetAssociationName() any {
+	return &Text_element_data{
+	}
+}
+
+func (Tie) GongGetAssociationName() any {
+	return &Tie{
+	}
+}
+
+func (Tied) GongGetAssociationName() any {
+	return &Tied{
+	}
+}
+
+func (Time) GongGetAssociationName() any {
+	return &Time{
 			Interchangeable: &Interchangeable{Name: "Interchangeable"},
-		}).(*Type)
-	case Tuplet:
-		return any(&Tuplet{
+	}
+}
+
+func (Time_modification) GongGetAssociationName() any {
+	return &Time_modification{
+	}
+}
+
+func (Timpani) GongGetAssociationName() any {
+	return &Timpani{
+	}
+}
+
+func (Transpose) GongGetAssociationName() any {
+	return &Transpose{
+	}
+}
+
+func (Tremolo) GongGetAssociationName() any {
+	return &Tremolo{
+	}
+}
+
+func (Tuplet) GongGetAssociationName() any {
+	return &Tuplet{
 			Tuplet_actual: &Tuplet_portion{Name: "Tuplet_actual"},
 			Tuplet_normal: &Tuplet_portion{Name: "Tuplet_normal"},
-		}).(*Type)
-	case Tuplet_portion:
-		return any(&Tuplet_portion{
+	}
+}
+
+func (Tuplet_dot) GongGetAssociationName() any {
+	return &Tuplet_dot{
+	}
+}
+
+func (Tuplet_number) GongGetAssociationName() any {
+	return &Tuplet_number{
+	}
+}
+
+func (Tuplet_portion) GongGetAssociationName() any {
+	return &Tuplet_portion{
 			Tuplet_number: &Tuplet_number{Name: "Tuplet_number"},
 			Tuplet_type: &Tuplet_type{Name: "Tuplet_type"},
 			Tuplet_dot: []*Tuplet_dot{{Name: "Tuplet_dot"}},
-		}).(*Type)
-	case Work:
-		return any(&Work{
-			Opus: &Opus{Name: "Opus"},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+func (Tuplet_type) GongGetAssociationName() any {
+	return &Tuplet_type{
+	}
+}
+
+func (Typed_text) GongGetAssociationName() any {
+	return &Typed_text{
+	}
+}
+
+func (Unpitched) GongGetAssociationName() any {
+	return &Unpitched{
+	}
+}
+
+func (Virtual_instrument) GongGetAssociationName() any {
+	return &Virtual_instrument{
+	}
+}
+
+func (Wait) GongGetAssociationName() any {
+	return &Wait{
+	}
+}
+
+func (Wavy_line) GongGetAssociationName() any {
+	return &Wavy_line{
+	}
+}
+
+func (Wedge) GongGetAssociationName() any {
+	return &Wedge{
+	}
+}
+
+func (Wood) GongGetAssociationName() any {
+	return &Wood{
+	}
+}
+
+func (Work) GongGetAssociationName() any {
+	return &Work{
+			Opus: &Opus{Name: "Opus"},
+	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -26385,474 +30117,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *A_directive:
-		res = any(new(A_directive)).(Type)
-	case *A_measure:
-		res = any(new(A_measure)).(Type)
-	case *A_measure_1:
-		res = any(new(A_measure_1)).(Type)
-	case *A_part:
-		res = any(new(A_part)).(Type)
-	case *A_part_1:
-		res = any(new(A_part_1)).(Type)
-	case *Accidental:
-		res = any(new(Accidental)).(Type)
-	case *Accidental_mark:
-		res = any(new(Accidental_mark)).(Type)
-	case *Accidental_text:
-		res = any(new(Accidental_text)).(Type)
-	case *Accord:
-		res = any(new(Accord)).(Type)
-	case *Accordion_registration:
-		res = any(new(Accordion_registration)).(Type)
-	case *Appearance:
-		res = any(new(Appearance)).(Type)
-	case *Arpeggiate:
-		res = any(new(Arpeggiate)).(Type)
-	case *Arrow:
-		res = any(new(Arrow)).(Type)
-	case *Articulations:
-		res = any(new(Articulations)).(Type)
-	case *Assess:
-		res = any(new(Assess)).(Type)
-	case *Attributes:
-		res = any(new(Attributes)).(Type)
-	case *Backup:
-		res = any(new(Backup)).(Type)
-	case *Bar_style_color:
-		res = any(new(Bar_style_color)).(Type)
-	case *Barline:
-		res = any(new(Barline)).(Type)
-	case *Barre:
-		res = any(new(Barre)).(Type)
-	case *Bass:
-		res = any(new(Bass)).(Type)
-	case *Bass_step:
-		res = any(new(Bass_step)).(Type)
-	case *Beam:
-		res = any(new(Beam)).(Type)
-	case *Beat_repeat:
-		res = any(new(Beat_repeat)).(Type)
-	case *Beat_unit_tied:
-		res = any(new(Beat_unit_tied)).(Type)
-	case *Beater:
-		res = any(new(Beater)).(Type)
-	case *Bend:
-		res = any(new(Bend)).(Type)
-	case *Bookmark:
-		res = any(new(Bookmark)).(Type)
-	case *Bracket:
-		res = any(new(Bracket)).(Type)
-	case *Breath_mark:
-		res = any(new(Breath_mark)).(Type)
-	case *Caesura:
-		res = any(new(Caesura)).(Type)
-	case *Cancel:
-		res = any(new(Cancel)).(Type)
-	case *Clef:
-		res = any(new(Clef)).(Type)
-	case *Coda:
-		res = any(new(Coda)).(Type)
-	case *Credit:
-		res = any(new(Credit)).(Type)
-	case *Dashes:
-		res = any(new(Dashes)).(Type)
-	case *Defaults:
-		res = any(new(Defaults)).(Type)
-	case *Degree:
-		res = any(new(Degree)).(Type)
-	case *Degree_alter:
-		res = any(new(Degree_alter)).(Type)
-	case *Degree_type:
-		res = any(new(Degree_type)).(Type)
-	case *Degree_value:
-		res = any(new(Degree_value)).(Type)
-	case *Direction:
-		res = any(new(Direction)).(Type)
-	case *Direction_type:
-		res = any(new(Direction_type)).(Type)
-	case *Distance:
-		res = any(new(Distance)).(Type)
-	case *Double:
-		res = any(new(Double)).(Type)
-	case *Dynamics:
-		res = any(new(Dynamics)).(Type)
-	case *Effect:
-		res = any(new(Effect)).(Type)
-	case *Elision:
-		res = any(new(Elision)).(Type)
-	case *Empty:
-		res = any(new(Empty)).(Type)
-	case *Empty_font:
-		res = any(new(Empty_font)).(Type)
-	case *Empty_line:
-		res = any(new(Empty_line)).(Type)
-	case *Empty_placement:
-		res = any(new(Empty_placement)).(Type)
-	case *Empty_placement_smufl:
-		res = any(new(Empty_placement_smufl)).(Type)
-	case *Empty_print_object_style_align:
-		res = any(new(Empty_print_object_style_align)).(Type)
-	case *Empty_print_style:
-		res = any(new(Empty_print_style)).(Type)
-	case *Empty_print_style_align:
-		res = any(new(Empty_print_style_align)).(Type)
-	case *Empty_print_style_align_id:
-		res = any(new(Empty_print_style_align_id)).(Type)
-	case *Empty_trill_sound:
-		res = any(new(Empty_trill_sound)).(Type)
-	case *Encoding:
-		res = any(new(Encoding)).(Type)
-	case *Ending:
-		res = any(new(Ending)).(Type)
-	case *Extend:
-		res = any(new(Extend)).(Type)
-	case *Feature:
-		res = any(new(Feature)).(Type)
-	case *Fermata:
-		res = any(new(Fermata)).(Type)
-	case *Figure:
-		res = any(new(Figure)).(Type)
-	case *Figured_bass:
-		res = any(new(Figured_bass)).(Type)
-	case *Fingering:
-		res = any(new(Fingering)).(Type)
-	case *First_fret:
-		res = any(new(First_fret)).(Type)
-	case *For_part:
-		res = any(new(For_part)).(Type)
-	case *Formatted_symbol:
-		res = any(new(Formatted_symbol)).(Type)
-	case *Formatted_symbol_id:
-		res = any(new(Formatted_symbol_id)).(Type)
-	case *Formatted_text:
-		res = any(new(Formatted_text)).(Type)
-	case *Formatted_text_id:
-		res = any(new(Formatted_text_id)).(Type)
-	case *Forward:
-		res = any(new(Forward)).(Type)
-	case *Frame:
-		res = any(new(Frame)).(Type)
-	case *Frame_note:
-		res = any(new(Frame_note)).(Type)
-	case *Fret:
-		res = any(new(Fret)).(Type)
-	case *Glass:
-		res = any(new(Glass)).(Type)
-	case *Glissando:
-		res = any(new(Glissando)).(Type)
-	case *Glyph:
-		res = any(new(Glyph)).(Type)
-	case *Grace:
-		res = any(new(Grace)).(Type)
-	case *Group_barline:
-		res = any(new(Group_barline)).(Type)
-	case *Group_name:
-		res = any(new(Group_name)).(Type)
-	case *Group_symbol:
-		res = any(new(Group_symbol)).(Type)
-	case *Grouping:
-		res = any(new(Grouping)).(Type)
-	case *Hammer_on_pull_off:
-		res = any(new(Hammer_on_pull_off)).(Type)
-	case *Handbell:
-		res = any(new(Handbell)).(Type)
-	case *Harmon_closed:
-		res = any(new(Harmon_closed)).(Type)
-	case *Harmon_mute:
-		res = any(new(Harmon_mute)).(Type)
-	case *Harmonic:
-		res = any(new(Harmonic)).(Type)
-	case *Harmony:
-		res = any(new(Harmony)).(Type)
-	case *Harmony_alter:
-		res = any(new(Harmony_alter)).(Type)
-	case *Harp_pedals:
-		res = any(new(Harp_pedals)).(Type)
-	case *Heel_toe:
-		res = any(new(Heel_toe)).(Type)
-	case *Hole:
-		res = any(new(Hole)).(Type)
-	case *Hole_closed:
-		res = any(new(Hole_closed)).(Type)
-	case *Horizontal_turn:
-		res = any(new(Horizontal_turn)).(Type)
-	case *Identification:
-		res = any(new(Identification)).(Type)
-	case *Image:
-		res = any(new(Image)).(Type)
-	case *Instrument:
-		res = any(new(Instrument)).(Type)
-	case *Instrument_change:
-		res = any(new(Instrument_change)).(Type)
-	case *Instrument_link:
-		res = any(new(Instrument_link)).(Type)
-	case *Interchangeable:
-		res = any(new(Interchangeable)).(Type)
-	case *Inversion:
-		res = any(new(Inversion)).(Type)
-	case *Key:
-		res = any(new(Key)).(Type)
-	case *Key_accidental:
-		res = any(new(Key_accidental)).(Type)
-	case *Key_octave:
-		res = any(new(Key_octave)).(Type)
-	case *Kind:
-		res = any(new(Kind)).(Type)
-	case *Level:
-		res = any(new(Level)).(Type)
-	case *Line_detail:
-		res = any(new(Line_detail)).(Type)
-	case *Line_width:
-		res = any(new(Line_width)).(Type)
-	case *Link:
-		res = any(new(Link)).(Type)
-	case *Listen:
-		res = any(new(Listen)).(Type)
-	case *Listening:
-		res = any(new(Listening)).(Type)
-	case *Lyric:
-		res = any(new(Lyric)).(Type)
-	case *Lyric_font:
-		res = any(new(Lyric_font)).(Type)
-	case *Lyric_language:
-		res = any(new(Lyric_language)).(Type)
-	case *Measure_layout:
-		res = any(new(Measure_layout)).(Type)
-	case *Measure_numbering:
-		res = any(new(Measure_numbering)).(Type)
-	case *Measure_repeat:
-		res = any(new(Measure_repeat)).(Type)
-	case *Measure_style:
-		res = any(new(Measure_style)).(Type)
-	case *Membrane:
-		res = any(new(Membrane)).(Type)
-	case *Metal:
-		res = any(new(Metal)).(Type)
-	case *Metronome:
-		res = any(new(Metronome)).(Type)
-	case *Metronome_beam:
-		res = any(new(Metronome_beam)).(Type)
-	case *Metronome_note:
-		res = any(new(Metronome_note)).(Type)
-	case *Metronome_tied:
-		res = any(new(Metronome_tied)).(Type)
-	case *Metronome_tuplet:
-		res = any(new(Metronome_tuplet)).(Type)
-	case *Midi_device:
-		res = any(new(Midi_device)).(Type)
-	case *Midi_instrument:
-		res = any(new(Midi_instrument)).(Type)
-	case *Miscellaneous:
-		res = any(new(Miscellaneous)).(Type)
-	case *Miscellaneous_field:
-		res = any(new(Miscellaneous_field)).(Type)
-	case *Mordent:
-		res = any(new(Mordent)).(Type)
-	case *Multiple_rest:
-		res = any(new(Multiple_rest)).(Type)
-	case *Name_display:
-		res = any(new(Name_display)).(Type)
-	case *Non_arpeggiate:
-		res = any(new(Non_arpeggiate)).(Type)
-	case *Notations:
-		res = any(new(Notations)).(Type)
-	case *Note:
-		res = any(new(Note)).(Type)
-	case *Note_size:
-		res = any(new(Note_size)).(Type)
-	case *Note_type:
-		res = any(new(Note_type)).(Type)
-	case *Notehead:
-		res = any(new(Notehead)).(Type)
-	case *Notehead_text:
-		res = any(new(Notehead_text)).(Type)
-	case *Numeral:
-		res = any(new(Numeral)).(Type)
-	case *Numeral_key:
-		res = any(new(Numeral_key)).(Type)
-	case *Numeral_root:
-		res = any(new(Numeral_root)).(Type)
-	case *Octave_shift:
-		res = any(new(Octave_shift)).(Type)
-	case *Offset:
-		res = any(new(Offset)).(Type)
-	case *Opus:
-		res = any(new(Opus)).(Type)
-	case *Ornaments:
-		res = any(new(Ornaments)).(Type)
-	case *Other_appearance:
-		res = any(new(Other_appearance)).(Type)
-	case *Other_direction:
-		res = any(new(Other_direction)).(Type)
-	case *Other_listening:
-		res = any(new(Other_listening)).(Type)
-	case *Other_notation:
-		res = any(new(Other_notation)).(Type)
-	case *Other_placement_text:
-		res = any(new(Other_placement_text)).(Type)
-	case *Other_play:
-		res = any(new(Other_play)).(Type)
-	case *Other_text:
-		res = any(new(Other_text)).(Type)
-	case *Page_layout:
-		res = any(new(Page_layout)).(Type)
-	case *Page_margins:
-		res = any(new(Page_margins)).(Type)
-	case *Part_clef:
-		res = any(new(Part_clef)).(Type)
-	case *Part_group:
-		res = any(new(Part_group)).(Type)
-	case *Part_link:
-		res = any(new(Part_link)).(Type)
-	case *Part_list:
-		res = any(new(Part_list)).(Type)
-	case *Part_name:
-		res = any(new(Part_name)).(Type)
-	case *Part_symbol:
-		res = any(new(Part_symbol)).(Type)
-	case *Part_transpose:
-		res = any(new(Part_transpose)).(Type)
-	case *Pedal:
-		res = any(new(Pedal)).(Type)
-	case *Pedal_tuning:
-		res = any(new(Pedal_tuning)).(Type)
-	case *Per_minute:
-		res = any(new(Per_minute)).(Type)
-	case *Percussion:
-		res = any(new(Percussion)).(Type)
-	case *Pitch:
-		res = any(new(Pitch)).(Type)
-	case *Pitched:
-		res = any(new(Pitched)).(Type)
-	case *Placement_text:
-		res = any(new(Placement_text)).(Type)
-	case *Play:
-		res = any(new(Play)).(Type)
-	case *Player:
-		res = any(new(Player)).(Type)
-	case *Principal_voice:
-		res = any(new(Principal_voice)).(Type)
-	case *Print:
-		res = any(new(Print)).(Type)
-	case *Release:
-		res = any(new(Release)).(Type)
-	case *Repeat:
-		res = any(new(Repeat)).(Type)
-	case *Rest:
-		res = any(new(Rest)).(Type)
-	case *Root:
-		res = any(new(Root)).(Type)
-	case *Root_step:
-		res = any(new(Root_step)).(Type)
-	case *Scaling:
-		res = any(new(Scaling)).(Type)
-	case *Scordatura:
-		res = any(new(Scordatura)).(Type)
-	case *Score_instrument:
-		res = any(new(Score_instrument)).(Type)
-	case *Score_part:
-		res = any(new(Score_part)).(Type)
-	case *Score_partwise:
-		res = any(new(Score_partwise)).(Type)
-	case *Score_timewise:
-		res = any(new(Score_timewise)).(Type)
-	case *Segno:
-		res = any(new(Segno)).(Type)
-	case *Slash:
-		res = any(new(Slash)).(Type)
-	case *Slide:
-		res = any(new(Slide)).(Type)
-	case *Slur:
-		res = any(new(Slur)).(Type)
-	case *Sound:
-		res = any(new(Sound)).(Type)
-	case *Staff_details:
-		res = any(new(Staff_details)).(Type)
-	case *Staff_divide:
-		res = any(new(Staff_divide)).(Type)
-	case *Staff_layout:
-		res = any(new(Staff_layout)).(Type)
-	case *Staff_size:
-		res = any(new(Staff_size)).(Type)
-	case *Staff_tuning:
-		res = any(new(Staff_tuning)).(Type)
-	case *Stem:
-		res = any(new(Stem)).(Type)
-	case *Stick:
-		res = any(new(Stick)).(Type)
-	case *String_mute:
-		res = any(new(String_mute)).(Type)
-	case *String_type:
-		res = any(new(String_type)).(Type)
-	case *Strong_accent:
-		res = any(new(Strong_accent)).(Type)
-	case *Style_text:
-		res = any(new(Style_text)).(Type)
-	case *Supports:
-		res = any(new(Supports)).(Type)
-	case *Swing:
-		res = any(new(Swing)).(Type)
-	case *Sync:
-		res = any(new(Sync)).(Type)
-	case *System_dividers:
-		res = any(new(System_dividers)).(Type)
-	case *System_layout:
-		res = any(new(System_layout)).(Type)
-	case *System_margins:
-		res = any(new(System_margins)).(Type)
-	case *Tap:
-		res = any(new(Tap)).(Type)
-	case *Technical:
-		res = any(new(Technical)).(Type)
-	case *Text_element_data:
-		res = any(new(Text_element_data)).(Type)
-	case *Tie:
-		res = any(new(Tie)).(Type)
-	case *Tied:
-		res = any(new(Tied)).(Type)
-	case *Time:
-		res = any(new(Time)).(Type)
-	case *Time_modification:
-		res = any(new(Time_modification)).(Type)
-	case *Timpani:
-		res = any(new(Timpani)).(Type)
-	case *Transpose:
-		res = any(new(Transpose)).(Type)
-	case *Tremolo:
-		res = any(new(Tremolo)).(Type)
-	case *Tuplet:
-		res = any(new(Tuplet)).(Type)
-	case *Tuplet_dot:
-		res = any(new(Tuplet_dot)).(Type)
-	case *Tuplet_number:
-		res = any(new(Tuplet_number)).(Type)
-	case *Tuplet_portion:
-		res = any(new(Tuplet_portion)).(Type)
-	case *Tuplet_type:
-		res = any(new(Tuplet_type)).(Type)
-	case *Typed_text:
-		res = any(new(Typed_text)).(Type)
-	case *Unpitched:
-		res = any(new(Unpitched)).(Type)
-	case *Virtual_instrument:
-		res = any(new(Virtual_instrument)).(Type)
-	case *Wait:
-		res = any(new(Wait)).(Type)
-	case *Wavy_line:
-		res = any(new(Wavy_line)).(Type)
-	case *Wedge:
-		res = any(new(Wedge)).(Type)
-	case *Wood:
-		res = any(new(Wood)).(Type)
-	case *Work:
-		res = any(new(Work)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -26875,474 +30141,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *A_directive:
-		res = "A_directive"
-	case *A_measure:
-		res = "A_measure"
-	case *A_measure_1:
-		res = "A_measure_1"
-	case *A_part:
-		res = "A_part"
-	case *A_part_1:
-		res = "A_part_1"
-	case *Accidental:
-		res = "Accidental"
-	case *Accidental_mark:
-		res = "Accidental_mark"
-	case *Accidental_text:
-		res = "Accidental_text"
-	case *Accord:
-		res = "Accord"
-	case *Accordion_registration:
-		res = "Accordion_registration"
-	case *Appearance:
-		res = "Appearance"
-	case *Arpeggiate:
-		res = "Arpeggiate"
-	case *Arrow:
-		res = "Arrow"
-	case *Articulations:
-		res = "Articulations"
-	case *Assess:
-		res = "Assess"
-	case *Attributes:
-		res = "Attributes"
-	case *Backup:
-		res = "Backup"
-	case *Bar_style_color:
-		res = "Bar_style_color"
-	case *Barline:
-		res = "Barline"
-	case *Barre:
-		res = "Barre"
-	case *Bass:
-		res = "Bass"
-	case *Bass_step:
-		res = "Bass_step"
-	case *Beam:
-		res = "Beam"
-	case *Beat_repeat:
-		res = "Beat_repeat"
-	case *Beat_unit_tied:
-		res = "Beat_unit_tied"
-	case *Beater:
-		res = "Beater"
-	case *Bend:
-		res = "Bend"
-	case *Bookmark:
-		res = "Bookmark"
-	case *Bracket:
-		res = "Bracket"
-	case *Breath_mark:
-		res = "Breath_mark"
-	case *Caesura:
-		res = "Caesura"
-	case *Cancel:
-		res = "Cancel"
-	case *Clef:
-		res = "Clef"
-	case *Coda:
-		res = "Coda"
-	case *Credit:
-		res = "Credit"
-	case *Dashes:
-		res = "Dashes"
-	case *Defaults:
-		res = "Defaults"
-	case *Degree:
-		res = "Degree"
-	case *Degree_alter:
-		res = "Degree_alter"
-	case *Degree_type:
-		res = "Degree_type"
-	case *Degree_value:
-		res = "Degree_value"
-	case *Direction:
-		res = "Direction"
-	case *Direction_type:
-		res = "Direction_type"
-	case *Distance:
-		res = "Distance"
-	case *Double:
-		res = "Double"
-	case *Dynamics:
-		res = "Dynamics"
-	case *Effect:
-		res = "Effect"
-	case *Elision:
-		res = "Elision"
-	case *Empty:
-		res = "Empty"
-	case *Empty_font:
-		res = "Empty_font"
-	case *Empty_line:
-		res = "Empty_line"
-	case *Empty_placement:
-		res = "Empty_placement"
-	case *Empty_placement_smufl:
-		res = "Empty_placement_smufl"
-	case *Empty_print_object_style_align:
-		res = "Empty_print_object_style_align"
-	case *Empty_print_style:
-		res = "Empty_print_style"
-	case *Empty_print_style_align:
-		res = "Empty_print_style_align"
-	case *Empty_print_style_align_id:
-		res = "Empty_print_style_align_id"
-	case *Empty_trill_sound:
-		res = "Empty_trill_sound"
-	case *Encoding:
-		res = "Encoding"
-	case *Ending:
-		res = "Ending"
-	case *Extend:
-		res = "Extend"
-	case *Feature:
-		res = "Feature"
-	case *Fermata:
-		res = "Fermata"
-	case *Figure:
-		res = "Figure"
-	case *Figured_bass:
-		res = "Figured_bass"
-	case *Fingering:
-		res = "Fingering"
-	case *First_fret:
-		res = "First_fret"
-	case *For_part:
-		res = "For_part"
-	case *Formatted_symbol:
-		res = "Formatted_symbol"
-	case *Formatted_symbol_id:
-		res = "Formatted_symbol_id"
-	case *Formatted_text:
-		res = "Formatted_text"
-	case *Formatted_text_id:
-		res = "Formatted_text_id"
-	case *Forward:
-		res = "Forward"
-	case *Frame:
-		res = "Frame"
-	case *Frame_note:
-		res = "Frame_note"
-	case *Fret:
-		res = "Fret"
-	case *Glass:
-		res = "Glass"
-	case *Glissando:
-		res = "Glissando"
-	case *Glyph:
-		res = "Glyph"
-	case *Grace:
-		res = "Grace"
-	case *Group_barline:
-		res = "Group_barline"
-	case *Group_name:
-		res = "Group_name"
-	case *Group_symbol:
-		res = "Group_symbol"
-	case *Grouping:
-		res = "Grouping"
-	case *Hammer_on_pull_off:
-		res = "Hammer_on_pull_off"
-	case *Handbell:
-		res = "Handbell"
-	case *Harmon_closed:
-		res = "Harmon_closed"
-	case *Harmon_mute:
-		res = "Harmon_mute"
-	case *Harmonic:
-		res = "Harmonic"
-	case *Harmony:
-		res = "Harmony"
-	case *Harmony_alter:
-		res = "Harmony_alter"
-	case *Harp_pedals:
-		res = "Harp_pedals"
-	case *Heel_toe:
-		res = "Heel_toe"
-	case *Hole:
-		res = "Hole"
-	case *Hole_closed:
-		res = "Hole_closed"
-	case *Horizontal_turn:
-		res = "Horizontal_turn"
-	case *Identification:
-		res = "Identification"
-	case *Image:
-		res = "Image"
-	case *Instrument:
-		res = "Instrument"
-	case *Instrument_change:
-		res = "Instrument_change"
-	case *Instrument_link:
-		res = "Instrument_link"
-	case *Interchangeable:
-		res = "Interchangeable"
-	case *Inversion:
-		res = "Inversion"
-	case *Key:
-		res = "Key"
-	case *Key_accidental:
-		res = "Key_accidental"
-	case *Key_octave:
-		res = "Key_octave"
-	case *Kind:
-		res = "Kind"
-	case *Level:
-		res = "Level"
-	case *Line_detail:
-		res = "Line_detail"
-	case *Line_width:
-		res = "Line_width"
-	case *Link:
-		res = "Link"
-	case *Listen:
-		res = "Listen"
-	case *Listening:
-		res = "Listening"
-	case *Lyric:
-		res = "Lyric"
-	case *Lyric_font:
-		res = "Lyric_font"
-	case *Lyric_language:
-		res = "Lyric_language"
-	case *Measure_layout:
-		res = "Measure_layout"
-	case *Measure_numbering:
-		res = "Measure_numbering"
-	case *Measure_repeat:
-		res = "Measure_repeat"
-	case *Measure_style:
-		res = "Measure_style"
-	case *Membrane:
-		res = "Membrane"
-	case *Metal:
-		res = "Metal"
-	case *Metronome:
-		res = "Metronome"
-	case *Metronome_beam:
-		res = "Metronome_beam"
-	case *Metronome_note:
-		res = "Metronome_note"
-	case *Metronome_tied:
-		res = "Metronome_tied"
-	case *Metronome_tuplet:
-		res = "Metronome_tuplet"
-	case *Midi_device:
-		res = "Midi_device"
-	case *Midi_instrument:
-		res = "Midi_instrument"
-	case *Miscellaneous:
-		res = "Miscellaneous"
-	case *Miscellaneous_field:
-		res = "Miscellaneous_field"
-	case *Mordent:
-		res = "Mordent"
-	case *Multiple_rest:
-		res = "Multiple_rest"
-	case *Name_display:
-		res = "Name_display"
-	case *Non_arpeggiate:
-		res = "Non_arpeggiate"
-	case *Notations:
-		res = "Notations"
-	case *Note:
-		res = "Note"
-	case *Note_size:
-		res = "Note_size"
-	case *Note_type:
-		res = "Note_type"
-	case *Notehead:
-		res = "Notehead"
-	case *Notehead_text:
-		res = "Notehead_text"
-	case *Numeral:
-		res = "Numeral"
-	case *Numeral_key:
-		res = "Numeral_key"
-	case *Numeral_root:
-		res = "Numeral_root"
-	case *Octave_shift:
-		res = "Octave_shift"
-	case *Offset:
-		res = "Offset"
-	case *Opus:
-		res = "Opus"
-	case *Ornaments:
-		res = "Ornaments"
-	case *Other_appearance:
-		res = "Other_appearance"
-	case *Other_direction:
-		res = "Other_direction"
-	case *Other_listening:
-		res = "Other_listening"
-	case *Other_notation:
-		res = "Other_notation"
-	case *Other_placement_text:
-		res = "Other_placement_text"
-	case *Other_play:
-		res = "Other_play"
-	case *Other_text:
-		res = "Other_text"
-	case *Page_layout:
-		res = "Page_layout"
-	case *Page_margins:
-		res = "Page_margins"
-	case *Part_clef:
-		res = "Part_clef"
-	case *Part_group:
-		res = "Part_group"
-	case *Part_link:
-		res = "Part_link"
-	case *Part_list:
-		res = "Part_list"
-	case *Part_name:
-		res = "Part_name"
-	case *Part_symbol:
-		res = "Part_symbol"
-	case *Part_transpose:
-		res = "Part_transpose"
-	case *Pedal:
-		res = "Pedal"
-	case *Pedal_tuning:
-		res = "Pedal_tuning"
-	case *Per_minute:
-		res = "Per_minute"
-	case *Percussion:
-		res = "Percussion"
-	case *Pitch:
-		res = "Pitch"
-	case *Pitched:
-		res = "Pitched"
-	case *Placement_text:
-		res = "Placement_text"
-	case *Play:
-		res = "Play"
-	case *Player:
-		res = "Player"
-	case *Principal_voice:
-		res = "Principal_voice"
-	case *Print:
-		res = "Print"
-	case *Release:
-		res = "Release"
-	case *Repeat:
-		res = "Repeat"
-	case *Rest:
-		res = "Rest"
-	case *Root:
-		res = "Root"
-	case *Root_step:
-		res = "Root_step"
-	case *Scaling:
-		res = "Scaling"
-	case *Scordatura:
-		res = "Scordatura"
-	case *Score_instrument:
-		res = "Score_instrument"
-	case *Score_part:
-		res = "Score_part"
-	case *Score_partwise:
-		res = "Score_partwise"
-	case *Score_timewise:
-		res = "Score_timewise"
-	case *Segno:
-		res = "Segno"
-	case *Slash:
-		res = "Slash"
-	case *Slide:
-		res = "Slide"
-	case *Slur:
-		res = "Slur"
-	case *Sound:
-		res = "Sound"
-	case *Staff_details:
-		res = "Staff_details"
-	case *Staff_divide:
-		res = "Staff_divide"
-	case *Staff_layout:
-		res = "Staff_layout"
-	case *Staff_size:
-		res = "Staff_size"
-	case *Staff_tuning:
-		res = "Staff_tuning"
-	case *Stem:
-		res = "Stem"
-	case *Stick:
-		res = "Stick"
-	case *String_mute:
-		res = "String_mute"
-	case *String_type:
-		res = "String_type"
-	case *Strong_accent:
-		res = "Strong_accent"
-	case *Style_text:
-		res = "Style_text"
-	case *Supports:
-		res = "Supports"
-	case *Swing:
-		res = "Swing"
-	case *Sync:
-		res = "Sync"
-	case *System_dividers:
-		res = "System_dividers"
-	case *System_layout:
-		res = "System_layout"
-	case *System_margins:
-		res = "System_margins"
-	case *Tap:
-		res = "Tap"
-	case *Technical:
-		res = "Technical"
-	case *Text_element_data:
-		res = "Text_element_data"
-	case *Tie:
-		res = "Tie"
-	case *Tied:
-		res = "Tied"
-	case *Time:
-		res = "Time"
-	case *Time_modification:
-		res = "Time_modification"
-	case *Timpani:
-		res = "Timpani"
-	case *Transpose:
-		res = "Transpose"
-	case *Tremolo:
-		res = "Tremolo"
-	case *Tuplet:
-		res = "Tuplet"
-	case *Tuplet_dot:
-		res = "Tuplet_dot"
-	case *Tuplet_number:
-		res = "Tuplet_number"
-	case *Tuplet_portion:
-		res = "Tuplet_portion"
-	case *Tuplet_type:
-		res = "Tuplet_type"
-	case *Typed_text:
-		res = "Typed_text"
-	case *Unpitched:
-		res = "Unpitched"
-	case *Virtual_instrument:
-		res = "Virtual_instrument"
-	case *Wait:
-		res = "Wait"
-	case *Wavy_line:
-		res = "Wavy_line"
-	case *Wedge:
-		res = "Wedge"
-	case *Wood:
-		res = "Wood"
-	case *Work:
-		res = "Work"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -27356,1270 +30156,1914 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *A_directive:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Attributes"
-		rf.Fieldname = "Directive"
-		res = append(res, rf)
-	case *A_measure:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_part"
-		rf.Fieldname = "Measure"
-		res = append(res, rf)
-	case *A_measure_1:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Score_timewise"
-		rf.Fieldname = "Measure"
-		res = append(res, rf)
-	case *A_part:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Score_partwise"
-		rf.Fieldname = "Part"
-		res = append(res, rf)
-	case *A_part_1:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure_1"
-		rf.Fieldname = "Part"
-		res = append(res, rf)
-	case *Accidental:
-		var rf ReverseField
-		_ = rf
-	case *Accidental_mark:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Accidental_mark"
-		res = append(res, rf)
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Accidental_mark"
-		res = append(res, rf)
-	case *Accidental_text:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Name_display"
-		rf.Fieldname = "Accidental_text"
-		res = append(res, rf)
-		rf.GongstructName = "Notehead_text"
-		rf.Fieldname = "Accidental_text"
-		res = append(res, rf)
-	case *Accord:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Scordatura"
-		rf.Fieldname = "Accord"
-		res = append(res, rf)
-	case *Accordion_registration:
-		var rf ReverseField
-		_ = rf
-	case *Appearance:
-		var rf ReverseField
-		_ = rf
-	case *Arpeggiate:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Arpeggiate"
-		res = append(res, rf)
-	case *Arrow:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Arrow"
-		res = append(res, rf)
-	case *Articulations:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Articulations"
-		res = append(res, rf)
-	case *Assess:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Listen"
-		rf.Fieldname = "Assess"
-		res = append(res, rf)
-	case *Attributes:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Attributes"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Attributes"
-		res = append(res, rf)
-	case *Backup:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Backup"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Backup"
-		res = append(res, rf)
-	case *Bar_style_color:
-		var rf ReverseField
-		_ = rf
-	case *Barline:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Barline"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Barline"
-		res = append(res, rf)
-	case *Barre:
-		var rf ReverseField
-		_ = rf
-	case *Bass:
-		var rf ReverseField
-		_ = rf
-	case *Bass_step:
-		var rf ReverseField
-		_ = rf
-	case *Beam:
-		var rf ReverseField
-		_ = rf
-	case *Beat_repeat:
-		var rf ReverseField
-		_ = rf
-	case *Beat_unit_tied:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Metronome"
-		rf.Fieldname = "Beat_unit_tied"
-		res = append(res, rf)
-	case *Beater:
-		var rf ReverseField
-		_ = rf
-	case *Bend:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Bend"
-		res = append(res, rf)
-	case *Bookmark:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Bookmark"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Bookmark"
-		res = append(res, rf)
-		rf.GongstructName = "Credit"
-		rf.Fieldname = "Bookmark"
-		res = append(res, rf)
-	case *Bracket:
-		var rf ReverseField
-		_ = rf
-	case *Breath_mark:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Breath_mark"
-		res = append(res, rf)
-	case *Caesura:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Caesura"
-		res = append(res, rf)
-	case *Cancel:
-		var rf ReverseField
-		_ = rf
-	case *Clef:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Attributes"
-		rf.Fieldname = "Clef"
-		res = append(res, rf)
-	case *Coda:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Direction_type"
-		rf.Fieldname = "Coda"
-		res = append(res, rf)
-	case *Credit:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Score_partwise"
-		rf.Fieldname = "Credit"
-		res = append(res, rf)
-		rf.GongstructName = "Score_timewise"
-		rf.Fieldname = "Credit"
-		res = append(res, rf)
-	case *Dashes:
-		var rf ReverseField
-		_ = rf
-	case *Defaults:
-		var rf ReverseField
-		_ = rf
-	case *Degree:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Harmony"
-		rf.Fieldname = "Degree"
-		res = append(res, rf)
-	case *Degree_alter:
-		var rf ReverseField
-		_ = rf
-	case *Degree_type:
-		var rf ReverseField
-		_ = rf
-	case *Degree_value:
-		var rf ReverseField
-		_ = rf
-	case *Direction:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Direction"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Direction"
-		res = append(res, rf)
-	case *Direction_type:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Direction"
-		rf.Fieldname = "Direction_type"
-		res = append(res, rf)
-	case *Distance:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Appearance"
-		rf.Fieldname = "Distance"
-		res = append(res, rf)
-	case *Double:
-		var rf ReverseField
-		_ = rf
-	case *Dynamics:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Direction_type"
-		rf.Fieldname = "Dynamics"
-		res = append(res, rf)
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Dynamics"
-		res = append(res, rf)
-	case *Effect:
-		var rf ReverseField
-		_ = rf
-	case *Elision:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Lyric"
-		rf.Fieldname = "Elision"
-		res = append(res, rf)
-	case *Empty:
-		var rf ReverseField
-		_ = rf
-	case *Empty_font:
-		var rf ReverseField
-		_ = rf
-	case *Empty_line:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Scoop"
-		res = append(res, rf)
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Plop"
-		res = append(res, rf)
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Doit"
-		res = append(res, rf)
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Falloff"
-		res = append(res, rf)
-	case *Empty_placement:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Accent"
-		res = append(res, rf)
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Staccato"
-		res = append(res, rf)
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Tenuto"
-		res = append(res, rf)
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Detached_legato"
-		res = append(res, rf)
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Staccatissimo"
-		res = append(res, rf)
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Spiccato"
-		res = append(res, rf)
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Stress"
-		res = append(res, rf)
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Unstress"
-		res = append(res, rf)
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Soft_accent"
-		res = append(res, rf)
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Dot"
-		res = append(res, rf)
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Schleifer"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Up_bow"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Down_bow"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Open_string"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Thumb_position"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Double_tongue"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Triple_tongue"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Snap_pizzicato"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Fingernails"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Brass_bend"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Flip"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Smear"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Golpe"
-		res = append(res, rf)
-	case *Empty_placement_smufl:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Stopped"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Open"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Half_muted"
-		res = append(res, rf)
-	case *Empty_print_object_style_align:
-		var rf ReverseField
-		_ = rf
-	case *Empty_print_style:
-		var rf ReverseField
-		_ = rf
-	case *Empty_print_style_align:
-		var rf ReverseField
-		_ = rf
-	case *Empty_print_style_align_id:
-		var rf ReverseField
-		_ = rf
-	case *Empty_trill_sound:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Trill_mark"
-		res = append(res, rf)
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Vertical_turn"
-		res = append(res, rf)
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Inverted_vertical_turn"
-		res = append(res, rf)
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Shake"
-		res = append(res, rf)
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Haydn"
-		res = append(res, rf)
-	case *Encoding:
-		var rf ReverseField
-		_ = rf
-	case *Ending:
-		var rf ReverseField
-		_ = rf
-	case *Extend:
-		var rf ReverseField
-		_ = rf
-	case *Feature:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Grouping"
-		rf.Fieldname = "Feature"
-		res = append(res, rf)
-	case *Fermata:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Fermata"
-		res = append(res, rf)
-	case *Figure:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Figured_bass"
-		rf.Fieldname = "Figure"
-		res = append(res, rf)
-	case *Figured_bass:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Figured_bass"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Figured_bass"
-		res = append(res, rf)
-	case *Fingering:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Fingering"
-		res = append(res, rf)
-	case *First_fret:
-		var rf ReverseField
-		_ = rf
-	case *For_part:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Attributes"
-		rf.Fieldname = "For_part"
-		res = append(res, rf)
-	case *Formatted_symbol:
-		var rf ReverseField
-		_ = rf
-	case *Formatted_symbol_id:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Credit"
-		rf.Fieldname = "Credit_symbol"
-		res = append(res, rf)
-		rf.GongstructName = "Direction_type"
-		rf.Fieldname = "Symbol"
-		res = append(res, rf)
-	case *Formatted_text:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Name_display"
-		rf.Fieldname = "Display_text"
-		res = append(res, rf)
-		rf.GongstructName = "Notehead_text"
-		rf.Fieldname = "Display_text"
-		res = append(res, rf)
-	case *Formatted_text_id:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Credit"
-		rf.Fieldname = "Credit_words"
-		res = append(res, rf)
-		rf.GongstructName = "Direction_type"
-		rf.Fieldname = "Rehearsal"
-		res = append(res, rf)
-		rf.GongstructName = "Direction_type"
-		rf.Fieldname = "Words"
-		res = append(res, rf)
-	case *Forward:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Forward"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Forward"
-		res = append(res, rf)
-	case *Frame:
-		var rf ReverseField
-		_ = rf
-	case *Frame_note:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Frame"
-		rf.Fieldname = "Frame_note"
-		res = append(res, rf)
-	case *Fret:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Fret"
-		res = append(res, rf)
-	case *Glass:
-		var rf ReverseField
-		_ = rf
-	case *Glissando:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Glissando"
-		res = append(res, rf)
-	case *Glyph:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Appearance"
-		rf.Fieldname = "Glyph"
-		res = append(res, rf)
-	case *Grace:
-		var rf ReverseField
-		_ = rf
-	case *Group_barline:
-		var rf ReverseField
-		_ = rf
-	case *Group_name:
-		var rf ReverseField
-		_ = rf
-	case *Group_symbol:
-		var rf ReverseField
-		_ = rf
-	case *Grouping:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Grouping"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Grouping"
-		res = append(res, rf)
-	case *Hammer_on_pull_off:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Hammer_on"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Pull_off"
-		res = append(res, rf)
-	case *Handbell:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Handbell"
-		res = append(res, rf)
-	case *Harmon_closed:
-		var rf ReverseField
-		_ = rf
-	case *Harmon_mute:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Harmon_mute"
-		res = append(res, rf)
-	case *Harmonic:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Harmonic"
-		res = append(res, rf)
-	case *Harmony:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Harmony"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Harmony"
-		res = append(res, rf)
-	case *Harmony_alter:
-		var rf ReverseField
-		_ = rf
-	case *Harp_pedals:
-		var rf ReverseField
-		_ = rf
-	case *Heel_toe:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Heel"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Toe"
-		res = append(res, rf)
-	case *Hole:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Hole"
-		res = append(res, rf)
-	case *Hole_closed:
-		var rf ReverseField
-		_ = rf
-	case *Horizontal_turn:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Turn"
-		res = append(res, rf)
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Delayed_turn"
-		res = append(res, rf)
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Inverted_turn"
-		res = append(res, rf)
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Delayed_inverted_turn"
-		res = append(res, rf)
-	case *Identification:
-		var rf ReverseField
-		_ = rf
-	case *Image:
-		var rf ReverseField
-		_ = rf
-	case *Instrument:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Instrument"
-		res = append(res, rf)
-	case *Instrument_change:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Sound"
-		rf.Fieldname = "Instrument_change"
-		res = append(res, rf)
-	case *Instrument_link:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Part_link"
-		rf.Fieldname = "Instrument_link"
-		res = append(res, rf)
-	case *Interchangeable:
-		var rf ReverseField
-		_ = rf
-	case *Inversion:
-		var rf ReverseField
-		_ = rf
-	case *Key:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Attributes"
-		rf.Fieldname = "Key"
-		res = append(res, rf)
-	case *Key_accidental:
-		var rf ReverseField
-		_ = rf
-	case *Key_octave:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Key"
-		rf.Fieldname = "Key_octave"
-		res = append(res, rf)
-	case *Kind:
-		var rf ReverseField
-		_ = rf
-	case *Level:
-		var rf ReverseField
-		_ = rf
-	case *Line_detail:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Staff_details"
-		rf.Fieldname = "Line_detail"
-		res = append(res, rf)
-	case *Line_width:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Appearance"
-		rf.Fieldname = "Line_width"
-		res = append(res, rf)
-	case *Link:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Link"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Link"
-		res = append(res, rf)
-		rf.GongstructName = "Credit"
-		rf.Fieldname = "Link"
-		res = append(res, rf)
-	case *Listen:
-		var rf ReverseField
-		_ = rf
-	case *Listening:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Listening"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Listening"
-		res = append(res, rf)
-	case *Lyric:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Lyric"
-		res = append(res, rf)
-	case *Lyric_font:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Defaults"
-		rf.Fieldname = "Lyric_font"
-		res = append(res, rf)
-	case *Lyric_language:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Defaults"
-		rf.Fieldname = "Lyric_language"
-		res = append(res, rf)
-	case *Measure_layout:
-		var rf ReverseField
-		_ = rf
-	case *Measure_numbering:
-		var rf ReverseField
-		_ = rf
-	case *Measure_repeat:
-		var rf ReverseField
-		_ = rf
-	case *Measure_style:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Attributes"
-		rf.Fieldname = "Measure_style"
-		res = append(res, rf)
-	case *Membrane:
-		var rf ReverseField
-		_ = rf
-	case *Metal:
-		var rf ReverseField
-		_ = rf
-	case *Metronome:
-		var rf ReverseField
-		_ = rf
-	case *Metronome_beam:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Metronome_note"
-		rf.Fieldname = "Metronome_beam"
-		res = append(res, rf)
-	case *Metronome_note:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Metronome"
-		rf.Fieldname = "Metronome_note"
-		res = append(res, rf)
-	case *Metronome_tied:
-		var rf ReverseField
-		_ = rf
-	case *Metronome_tuplet:
-		var rf ReverseField
-		_ = rf
-	case *Midi_device:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Score_part"
-		rf.Fieldname = "Midi_device"
-		res = append(res, rf)
-		rf.GongstructName = "Sound"
-		rf.Fieldname = "Midi_device"
-		res = append(res, rf)
-	case *Midi_instrument:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Score_part"
-		rf.Fieldname = "Midi_instrument"
-		res = append(res, rf)
-		rf.GongstructName = "Sound"
-		rf.Fieldname = "Midi_instrument"
-		res = append(res, rf)
-	case *Miscellaneous:
-		var rf ReverseField
-		_ = rf
-	case *Miscellaneous_field:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Miscellaneous"
-		rf.Fieldname = "Miscellaneous_field"
-		res = append(res, rf)
-	case *Mordent:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Mordent"
-		res = append(res, rf)
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Inverted_mordent"
-		res = append(res, rf)
-	case *Multiple_rest:
-		var rf ReverseField
-		_ = rf
-	case *Name_display:
-		var rf ReverseField
-		_ = rf
-	case *Non_arpeggiate:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Non_arpeggiate"
-		res = append(res, rf)
-	case *Notations:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Notations"
-		res = append(res, rf)
-	case *Note:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Note"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Note"
-		res = append(res, rf)
-	case *Note_size:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Appearance"
-		rf.Fieldname = "Note_size"
-		res = append(res, rf)
-	case *Note_type:
-		var rf ReverseField
-		_ = rf
-	case *Notehead:
-		var rf ReverseField
-		_ = rf
-	case *Notehead_text:
-		var rf ReverseField
-		_ = rf
-	case *Numeral:
-		var rf ReverseField
-		_ = rf
-	case *Numeral_key:
-		var rf ReverseField
-		_ = rf
-	case *Numeral_root:
-		var rf ReverseField
-		_ = rf
-	case *Octave_shift:
-		var rf ReverseField
-		_ = rf
-	case *Offset:
-		var rf ReverseField
-		_ = rf
-	case *Opus:
-		var rf ReverseField
-		_ = rf
-	case *Ornaments:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Ornaments"
-		res = append(res, rf)
-	case *Other_appearance:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Appearance"
-		rf.Fieldname = "Other_appearance"
-		res = append(res, rf)
-	case *Other_direction:
-		var rf ReverseField
-		_ = rf
-	case *Other_listening:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Listen"
-		rf.Fieldname = "Other_listen"
-		res = append(res, rf)
-		rf.GongstructName = "Listening"
-		rf.Fieldname = "Other_listening"
-		res = append(res, rf)
-	case *Other_notation:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Other_notation"
-		res = append(res, rf)
-	case *Other_placement_text:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Other_articulation"
-		res = append(res, rf)
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Other_ornament"
-		res = append(res, rf)
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Other_technical"
-		res = append(res, rf)
-	case *Other_play:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Play"
-		rf.Fieldname = "Other_play"
-		res = append(res, rf)
-	case *Other_text:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Dynamics"
-		rf.Fieldname = "Other_dynamics"
-		res = append(res, rf)
-	case *Page_layout:
-		var rf ReverseField
-		_ = rf
-	case *Page_margins:
-		var rf ReverseField
-		_ = rf
-	case *Part_clef:
-		var rf ReverseField
-		_ = rf
-	case *Part_group:
-		var rf ReverseField
-		_ = rf
-	case *Part_link:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Score_part"
-		rf.Fieldname = "Part_link"
-		res = append(res, rf)
-	case *Part_list:
-		var rf ReverseField
-		_ = rf
-	case *Part_name:
-		var rf ReverseField
-		_ = rf
-	case *Part_symbol:
-		var rf ReverseField
-		_ = rf
-	case *Part_transpose:
-		var rf ReverseField
-		_ = rf
-	case *Pedal:
-		var rf ReverseField
-		_ = rf
-	case *Pedal_tuning:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Harp_pedals"
-		rf.Fieldname = "Pedal_tuning"
-		res = append(res, rf)
-	case *Per_minute:
-		var rf ReverseField
-		_ = rf
-	case *Percussion:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Direction_type"
-		rf.Fieldname = "Percussion"
-		res = append(res, rf)
-	case *Pitch:
-		var rf ReverseField
-		_ = rf
-	case *Pitched:
-		var rf ReverseField
-		_ = rf
-	case *Placement_text:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Pluck"
-		res = append(res, rf)
-	case *Play:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Sound"
-		rf.Fieldname = "Play"
-		res = append(res, rf)
-	case *Player:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Score_part"
-		rf.Fieldname = "Player"
-		res = append(res, rf)
-	case *Principal_voice:
-		var rf ReverseField
-		_ = rf
-	case *Print:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Print"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Print"
-		res = append(res, rf)
-	case *Release:
-		var rf ReverseField
-		_ = rf
-	case *Repeat:
-		var rf ReverseField
-		_ = rf
-	case *Rest:
-		var rf ReverseField
-		_ = rf
-	case *Root:
-		var rf ReverseField
-		_ = rf
-	case *Root_step:
-		var rf ReverseField
-		_ = rf
-	case *Scaling:
-		var rf ReverseField
-		_ = rf
-	case *Scordatura:
-		var rf ReverseField
-		_ = rf
-	case *Score_instrument:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Score_part"
-		rf.Fieldname = "Score_instrument"
-		res = append(res, rf)
-	case *Score_part:
-		var rf ReverseField
-		_ = rf
-	case *Score_partwise:
-		var rf ReverseField
-		_ = rf
-	case *Score_timewise:
-		var rf ReverseField
-		_ = rf
-	case *Segno:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Direction_type"
-		rf.Fieldname = "Segno"
-		res = append(res, rf)
-	case *Slash:
-		var rf ReverseField
-		_ = rf
-	case *Slide:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Slide"
-		res = append(res, rf)
-	case *Slur:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Slur"
-		res = append(res, rf)
-	case *Sound:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "A_measure"
-		rf.Fieldname = "Sound"
-		res = append(res, rf)
-		rf.GongstructName = "A_part_1"
-		rf.Fieldname = "Sound"
-		res = append(res, rf)
-	case *Staff_details:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Attributes"
-		rf.Fieldname = "Staff_details"
-		res = append(res, rf)
-	case *Staff_divide:
-		var rf ReverseField
-		_ = rf
-	case *Staff_layout:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Defaults"
-		rf.Fieldname = "Staff_layout"
-		res = append(res, rf)
-		rf.GongstructName = "Print"
-		rf.Fieldname = "Staff_layout"
-		res = append(res, rf)
-	case *Staff_size:
-		var rf ReverseField
-		_ = rf
-	case *Staff_tuning:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Staff_details"
-		rf.Fieldname = "Staff_tuning"
-		res = append(res, rf)
-	case *Stem:
-		var rf ReverseField
-		_ = rf
-	case *Stick:
-		var rf ReverseField
-		_ = rf
-	case *String_mute:
-		var rf ReverseField
-		_ = rf
-	case *String_type:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "String"
-		res = append(res, rf)
-	case *Strong_accent:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Articulations"
-		rf.Fieldname = "Strong_accent"
-		res = append(res, rf)
-	case *Style_text:
-		var rf ReverseField
-		_ = rf
-	case *Supports:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Encoding"
-		rf.Fieldname = "Supports"
-		res = append(res, rf)
-	case *Swing:
-		var rf ReverseField
-		_ = rf
-	case *Sync:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Listening"
-		rf.Fieldname = "Sync"
-		res = append(res, rf)
-	case *System_dividers:
-		var rf ReverseField
-		_ = rf
-	case *System_layout:
-		var rf ReverseField
-		_ = rf
-	case *System_margins:
-		var rf ReverseField
-		_ = rf
-	case *Tap:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Technical"
-		rf.Fieldname = "Tap"
-		res = append(res, rf)
-	case *Technical:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Technical"
-		res = append(res, rf)
-	case *Text_element_data:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Lyric"
-		rf.Fieldname = "Text"
-		res = append(res, rf)
-	case *Tie:
-		var rf ReverseField
-		_ = rf
-	case *Tied:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Tied"
-		res = append(res, rf)
-	case *Time:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Attributes"
-		rf.Fieldname = "Time"
-		res = append(res, rf)
-	case *Time_modification:
-		var rf ReverseField
-		_ = rf
-	case *Timpani:
-		var rf ReverseField
-		_ = rf
-	case *Transpose:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Attributes"
-		rf.Fieldname = "Transpose"
-		res = append(res, rf)
-	case *Tremolo:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Tremolo"
-		res = append(res, rf)
-	case *Tuplet:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Notations"
-		rf.Fieldname = "Tuplet"
-		res = append(res, rf)
-	case *Tuplet_dot:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Tuplet_portion"
-		rf.Fieldname = "Tuplet_dot"
-		res = append(res, rf)
-	case *Tuplet_number:
-		var rf ReverseField
-		_ = rf
-	case *Tuplet_portion:
-		var rf ReverseField
-		_ = rf
-	case *Tuplet_type:
-		var rf ReverseField
-		_ = rf
-	case *Typed_text:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Encoding"
-		rf.Fieldname = "Encoder"
-		res = append(res, rf)
-		rf.GongstructName = "Identification"
-		rf.Fieldname = "Creator"
-		res = append(res, rf)
-		rf.GongstructName = "Identification"
-		rf.Fieldname = "Rights"
-		res = append(res, rf)
-		rf.GongstructName = "Identification"
-		rf.Fieldname = "Relation"
-		res = append(res, rf)
-	case *Unpitched:
-		var rf ReverseField
-		_ = rf
-	case *Virtual_instrument:
-		var rf ReverseField
-		_ = rf
-	case *Wait:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Listen"
-		rf.Fieldname = "Wait"
-		res = append(res, rf)
-	case *Wavy_line:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Ornaments"
-		rf.Fieldname = "Wavy_line"
-		res = append(res, rf)
-	case *Wedge:
-		var rf ReverseField
-		_ = rf
-	case *Wood:
-		var rf ReverseField
-		_ = rf
-	case *Work:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*A_directive) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Attributes",
+			Fieldname: "Directive",
+		},
 	}
-	return
+}
+
+func (*A_measure) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_part",
+			Fieldname: "Measure",
+		},
+	}
+}
+
+func (*A_measure_1) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Score_timewise",
+			Fieldname: "Measure",
+		},
+	}
+}
+
+func (*A_part) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Score_partwise",
+			Fieldname: "Part",
+		},
+	}
+}
+
+func (*A_part_1) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure_1",
+			Fieldname: "Part",
+		},
+	}
+}
+
+func (*Accidental) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Accidental_mark) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Accidental_mark",
+		},
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Accidental_mark",
+		},
+	}
+}
+
+func (*Accidental_text) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Name_display",
+			Fieldname: "Accidental_text",
+		},
+		{
+			GongstructName: "Notehead_text",
+			Fieldname: "Accidental_text",
+		},
+	}
+}
+
+func (*Accord) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Scordatura",
+			Fieldname: "Accord",
+		},
+	}
+}
+
+func (*Accordion_registration) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Appearance) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Arpeggiate) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Arpeggiate",
+		},
+	}
+}
+
+func (*Arrow) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Arrow",
+		},
+	}
+}
+
+func (*Articulations) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Articulations",
+		},
+	}
+}
+
+func (*Assess) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Listen",
+			Fieldname: "Assess",
+		},
+	}
+}
+
+func (*Attributes) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Attributes",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Attributes",
+		},
+	}
+}
+
+func (*Backup) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Backup",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Backup",
+		},
+	}
+}
+
+func (*Bar_style_color) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Barline) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Barline",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Barline",
+		},
+	}
+}
+
+func (*Barre) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Bass) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Bass_step) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Beam) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Beat_repeat) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Beat_unit_tied) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Metronome",
+			Fieldname: "Beat_unit_tied",
+		},
+	}
+}
+
+func (*Beater) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Bend) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Bend",
+		},
+	}
+}
+
+func (*Bookmark) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Bookmark",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Bookmark",
+		},
+		{
+			GongstructName: "Credit",
+			Fieldname: "Bookmark",
+		},
+	}
+}
+
+func (*Bracket) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Breath_mark) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Breath_mark",
+		},
+	}
+}
+
+func (*Caesura) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Caesura",
+		},
+	}
+}
+
+func (*Cancel) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Clef) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Attributes",
+			Fieldname: "Clef",
+		},
+	}
+}
+
+func (*Coda) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Direction_type",
+			Fieldname: "Coda",
+		},
+	}
+}
+
+func (*Credit) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Score_partwise",
+			Fieldname: "Credit",
+		},
+		{
+			GongstructName: "Score_timewise",
+			Fieldname: "Credit",
+		},
+	}
+}
+
+func (*Dashes) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Defaults) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Degree) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Harmony",
+			Fieldname: "Degree",
+		},
+	}
+}
+
+func (*Degree_alter) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Degree_type) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Degree_value) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Direction) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Direction",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Direction",
+		},
+	}
+}
+
+func (*Direction_type) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Direction",
+			Fieldname: "Direction_type",
+		},
+	}
+}
+
+func (*Distance) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Appearance",
+			Fieldname: "Distance",
+		},
+	}
+}
+
+func (*Double) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Dynamics) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Direction_type",
+			Fieldname: "Dynamics",
+		},
+		{
+			GongstructName: "Notations",
+			Fieldname: "Dynamics",
+		},
+	}
+}
+
+func (*Effect) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Elision) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Lyric",
+			Fieldname: "Elision",
+		},
+	}
+}
+
+func (*Empty) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Empty_font) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Empty_line) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Scoop",
+		},
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Plop",
+		},
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Doit",
+		},
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Falloff",
+		},
+	}
+}
+
+func (*Empty_placement) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Accent",
+		},
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Staccato",
+		},
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Tenuto",
+		},
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Detached_legato",
+		},
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Staccatissimo",
+		},
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Spiccato",
+		},
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Stress",
+		},
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Unstress",
+		},
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Soft_accent",
+		},
+		{
+			GongstructName: "Note",
+			Fieldname: "Dot",
+		},
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Schleifer",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Up_bow",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Down_bow",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Open_string",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Thumb_position",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Double_tongue",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Triple_tongue",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Snap_pizzicato",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Fingernails",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Brass_bend",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Flip",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Smear",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Golpe",
+		},
+	}
+}
+
+func (*Empty_placement_smufl) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Stopped",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Open",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Half_muted",
+		},
+	}
+}
+
+func (*Empty_print_object_style_align) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Empty_print_style) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Empty_print_style_align) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Empty_print_style_align_id) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Empty_trill_sound) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Trill_mark",
+		},
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Vertical_turn",
+		},
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Inverted_vertical_turn",
+		},
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Shake",
+		},
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Haydn",
+		},
+	}
+}
+
+func (*Encoding) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Ending) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Extend) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Feature) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Grouping",
+			Fieldname: "Feature",
+		},
+	}
+}
+
+func (*Fermata) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Fermata",
+		},
+	}
+}
+
+func (*Figure) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Figured_bass",
+			Fieldname: "Figure",
+		},
+	}
+}
+
+func (*Figured_bass) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Figured_bass",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Figured_bass",
+		},
+	}
+}
+
+func (*Fingering) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Fingering",
+		},
+	}
+}
+
+func (*First_fret) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*For_part) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Attributes",
+			Fieldname: "For_part",
+		},
+	}
+}
+
+func (*Formatted_symbol) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Formatted_symbol_id) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Credit",
+			Fieldname: "Credit_symbol",
+		},
+		{
+			GongstructName: "Direction_type",
+			Fieldname: "Symbol",
+		},
+	}
+}
+
+func (*Formatted_text) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Name_display",
+			Fieldname: "Display_text",
+		},
+		{
+			GongstructName: "Notehead_text",
+			Fieldname: "Display_text",
+		},
+	}
+}
+
+func (*Formatted_text_id) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Credit",
+			Fieldname: "Credit_words",
+		},
+		{
+			GongstructName: "Direction_type",
+			Fieldname: "Rehearsal",
+		},
+		{
+			GongstructName: "Direction_type",
+			Fieldname: "Words",
+		},
+	}
+}
+
+func (*Forward) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Forward",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Forward",
+		},
+	}
+}
+
+func (*Frame) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Frame_note) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Frame",
+			Fieldname: "Frame_note",
+		},
+	}
+}
+
+func (*Fret) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Fret",
+		},
+	}
+}
+
+func (*Glass) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Glissando) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Glissando",
+		},
+	}
+}
+
+func (*Glyph) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Appearance",
+			Fieldname: "Glyph",
+		},
+	}
+}
+
+func (*Grace) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Group_barline) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Group_name) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Group_symbol) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Grouping) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Grouping",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Grouping",
+		},
+	}
+}
+
+func (*Hammer_on_pull_off) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Hammer_on",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Pull_off",
+		},
+	}
+}
+
+func (*Handbell) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Handbell",
+		},
+	}
+}
+
+func (*Harmon_closed) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Harmon_mute) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Harmon_mute",
+		},
+	}
+}
+
+func (*Harmonic) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Harmonic",
+		},
+	}
+}
+
+func (*Harmony) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Harmony",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Harmony",
+		},
+	}
+}
+
+func (*Harmony_alter) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Harp_pedals) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Heel_toe) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Heel",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Toe",
+		},
+	}
+}
+
+func (*Hole) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Hole",
+		},
+	}
+}
+
+func (*Hole_closed) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Horizontal_turn) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Turn",
+		},
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Delayed_turn",
+		},
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Inverted_turn",
+		},
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Delayed_inverted_turn",
+		},
+	}
+}
+
+func (*Identification) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Image) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Instrument) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Note",
+			Fieldname: "Instrument",
+		},
+	}
+}
+
+func (*Instrument_change) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Sound",
+			Fieldname: "Instrument_change",
+		},
+	}
+}
+
+func (*Instrument_link) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Part_link",
+			Fieldname: "Instrument_link",
+		},
+	}
+}
+
+func (*Interchangeable) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Inversion) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Key) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Attributes",
+			Fieldname: "Key",
+		},
+	}
+}
+
+func (*Key_accidental) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Key_octave) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Key",
+			Fieldname: "Key_octave",
+		},
+	}
+}
+
+func (*Kind) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Level) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Line_detail) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Staff_details",
+			Fieldname: "Line_detail",
+		},
+	}
+}
+
+func (*Line_width) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Appearance",
+			Fieldname: "Line_width",
+		},
+	}
+}
+
+func (*Link) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Link",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Link",
+		},
+		{
+			GongstructName: "Credit",
+			Fieldname: "Link",
+		},
+	}
+}
+
+func (*Listen) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Listening) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Listening",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Listening",
+		},
+	}
+}
+
+func (*Lyric) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Note",
+			Fieldname: "Lyric",
+		},
+	}
+}
+
+func (*Lyric_font) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Defaults",
+			Fieldname: "Lyric_font",
+		},
+	}
+}
+
+func (*Lyric_language) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Defaults",
+			Fieldname: "Lyric_language",
+		},
+	}
+}
+
+func (*Measure_layout) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Measure_numbering) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Measure_repeat) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Measure_style) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Attributes",
+			Fieldname: "Measure_style",
+		},
+	}
+}
+
+func (*Membrane) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Metal) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Metronome) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Metronome_beam) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Metronome_note",
+			Fieldname: "Metronome_beam",
+		},
+	}
+}
+
+func (*Metronome_note) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Metronome",
+			Fieldname: "Metronome_note",
+		},
+	}
+}
+
+func (*Metronome_tied) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Metronome_tuplet) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Midi_device) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Score_part",
+			Fieldname: "Midi_device",
+		},
+		{
+			GongstructName: "Sound",
+			Fieldname: "Midi_device",
+		},
+	}
+}
+
+func (*Midi_instrument) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Score_part",
+			Fieldname: "Midi_instrument",
+		},
+		{
+			GongstructName: "Sound",
+			Fieldname: "Midi_instrument",
+		},
+	}
+}
+
+func (*Miscellaneous) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Miscellaneous_field) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Miscellaneous",
+			Fieldname: "Miscellaneous_field",
+		},
+	}
+}
+
+func (*Mordent) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Mordent",
+		},
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Inverted_mordent",
+		},
+	}
+}
+
+func (*Multiple_rest) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Name_display) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Non_arpeggiate) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Non_arpeggiate",
+		},
+	}
+}
+
+func (*Notations) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Note",
+			Fieldname: "Notations",
+		},
+	}
+}
+
+func (*Note) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Note",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Note",
+		},
+	}
+}
+
+func (*Note_size) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Appearance",
+			Fieldname: "Note_size",
+		},
+	}
+}
+
+func (*Note_type) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Notehead) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Notehead_text) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Numeral) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Numeral_key) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Numeral_root) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Octave_shift) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Offset) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Opus) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Ornaments) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Ornaments",
+		},
+	}
+}
+
+func (*Other_appearance) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Appearance",
+			Fieldname: "Other_appearance",
+		},
+	}
+}
+
+func (*Other_direction) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Other_listening) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Listen",
+			Fieldname: "Other_listen",
+		},
+		{
+			GongstructName: "Listening",
+			Fieldname: "Other_listening",
+		},
+	}
+}
+
+func (*Other_notation) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Other_notation",
+		},
+	}
+}
+
+func (*Other_placement_text) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Other_articulation",
+		},
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Other_ornament",
+		},
+		{
+			GongstructName: "Technical",
+			Fieldname: "Other_technical",
+		},
+	}
+}
+
+func (*Other_play) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Play",
+			Fieldname: "Other_play",
+		},
+	}
+}
+
+func (*Other_text) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Dynamics",
+			Fieldname: "Other_dynamics",
+		},
+	}
+}
+
+func (*Page_layout) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Page_margins) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Part_clef) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Part_group) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Part_link) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Score_part",
+			Fieldname: "Part_link",
+		},
+	}
+}
+
+func (*Part_list) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Part_name) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Part_symbol) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Part_transpose) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Pedal) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Pedal_tuning) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Harp_pedals",
+			Fieldname: "Pedal_tuning",
+		},
+	}
+}
+
+func (*Per_minute) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Percussion) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Direction_type",
+			Fieldname: "Percussion",
+		},
+	}
+}
+
+func (*Pitch) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Pitched) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Placement_text) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Pluck",
+		},
+	}
+}
+
+func (*Play) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Sound",
+			Fieldname: "Play",
+		},
+	}
+}
+
+func (*Player) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Score_part",
+			Fieldname: "Player",
+		},
+	}
+}
+
+func (*Principal_voice) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Print) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Print",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Print",
+		},
+	}
+}
+
+func (*Release) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Repeat) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Rest) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Root) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Root_step) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Scaling) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Scordatura) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Score_instrument) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Score_part",
+			Fieldname: "Score_instrument",
+		},
+	}
+}
+
+func (*Score_part) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Score_partwise) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Score_timewise) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Segno) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Direction_type",
+			Fieldname: "Segno",
+		},
+	}
+}
+
+func (*Slash) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Slide) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Slide",
+		},
+	}
+}
+
+func (*Slur) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Slur",
+		},
+	}
+}
+
+func (*Sound) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "A_measure",
+			Fieldname: "Sound",
+		},
+		{
+			GongstructName: "A_part_1",
+			Fieldname: "Sound",
+		},
+	}
+}
+
+func (*Staff_details) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Attributes",
+			Fieldname: "Staff_details",
+		},
+	}
+}
+
+func (*Staff_divide) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Staff_layout) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Defaults",
+			Fieldname: "Staff_layout",
+		},
+		{
+			GongstructName: "Print",
+			Fieldname: "Staff_layout",
+		},
+	}
+}
+
+func (*Staff_size) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Staff_tuning) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Staff_details",
+			Fieldname: "Staff_tuning",
+		},
+	}
+}
+
+func (*Stem) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Stick) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*String_mute) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*String_type) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "String",
+		},
+	}
+}
+
+func (*Strong_accent) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Articulations",
+			Fieldname: "Strong_accent",
+		},
+	}
+}
+
+func (*Style_text) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Supports) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Encoding",
+			Fieldname: "Supports",
+		},
+	}
+}
+
+func (*Swing) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Sync) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Listening",
+			Fieldname: "Sync",
+		},
+	}
+}
+
+func (*System_dividers) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*System_layout) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*System_margins) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Tap) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Technical",
+			Fieldname: "Tap",
+		},
+	}
+}
+
+func (*Technical) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Technical",
+		},
+	}
+}
+
+func (*Text_element_data) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Lyric",
+			Fieldname: "Text",
+		},
+	}
+}
+
+func (*Tie) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Tied) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Tied",
+		},
+	}
+}
+
+func (*Time) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Attributes",
+			Fieldname: "Time",
+		},
+	}
+}
+
+func (*Time_modification) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Timpani) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Transpose) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Attributes",
+			Fieldname: "Transpose",
+		},
+	}
+}
+
+func (*Tremolo) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Tremolo",
+		},
+	}
+}
+
+func (*Tuplet) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Notations",
+			Fieldname: "Tuplet",
+		},
+	}
+}
+
+func (*Tuplet_dot) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Tuplet_portion",
+			Fieldname: "Tuplet_dot",
+		},
+	}
+}
+
+func (*Tuplet_number) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Tuplet_portion) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Tuplet_type) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Typed_text) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Encoding",
+			Fieldname: "Encoder",
+		},
+		{
+			GongstructName: "Identification",
+			Fieldname: "Creator",
+		},
+		{
+			GongstructName: "Identification",
+			Fieldname: "Rights",
+		},
+		{
+			GongstructName: "Identification",
+			Fieldname: "Relation",
+		},
+	}
+}
+
+func (*Unpitched) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Virtual_instrument) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Wait) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Listen",
+			Fieldname: "Wait",
+		},
+	}
+}
+
+func (*Wavy_line) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Ornaments",
+			Fieldname: "Wavy_line",
+		},
+	}
+}
+
+func (*Wedge) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Wood) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Work) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

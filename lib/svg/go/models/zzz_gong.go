@@ -740,63 +740,496 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*Animate) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Animates, stage.Animate_stagedOrder)
+}
+
+func (*Animate) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Animate_orderStaged[order]
+}
+
+func (*Animate) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Animates_mapString
+}
+
+func (*Animate) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Animates
+}
+
+func (*Animate) GongNewInstance() any {
+	return new(Animate)
+}
+
+func (*Circle) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Circles, stage.Circle_stagedOrder)
+}
+
+func (*Circle) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Circle_orderStaged[order]
+}
+
+func (*Circle) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Circles_mapString
+}
+
+func (*Circle) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Circles
+}
+
+func (*Circle) GongNewInstance() any {
+	return new(Circle)
+}
+
+func (*Condition) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Conditions, stage.Condition_stagedOrder)
+}
+
+func (*Condition) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Condition_orderStaged[order]
+}
+
+func (*Condition) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Conditions_mapString
+}
+
+func (*Condition) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Conditions
+}
+
+func (*Condition) GongNewInstance() any {
+	return new(Condition)
+}
+
+func (*ControlPoint) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ControlPoints, stage.ControlPoint_stagedOrder)
+}
+
+func (*ControlPoint) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ControlPoint_orderStaged[order]
+}
+
+func (*ControlPoint) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ControlPoints_mapString
+}
+
+func (*ControlPoint) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ControlPoints
+}
+
+func (*ControlPoint) GongNewInstance() any {
+	return new(ControlPoint)
+}
+
+func (*Ellipse) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Ellipses, stage.Ellipse_stagedOrder)
+}
+
+func (*Ellipse) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Ellipse_orderStaged[order]
+}
+
+func (*Ellipse) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Ellipses_mapString
+}
+
+func (*Ellipse) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Ellipses
+}
+
+func (*Ellipse) GongNewInstance() any {
+	return new(Ellipse)
+}
+
+func (*FileToDownload) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FileToDownloads, stage.FileToDownload_stagedOrder)
+}
+
+func (*FileToDownload) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FileToDownload_orderStaged[order]
+}
+
+func (*FileToDownload) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FileToDownloads_mapString
+}
+
+func (*FileToDownload) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FileToDownloads
+}
+
+func (*FileToDownload) GongNewInstance() any {
+	return new(FileToDownload)
+}
+
+func (*Layer) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Layers, stage.Layer_stagedOrder)
+}
+
+func (*Layer) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Layer_orderStaged[order]
+}
+
+func (*Layer) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Layers_mapString
+}
+
+func (*Layer) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Layers
+}
+
+func (*Layer) GongNewInstance() any {
+	return new(Layer)
+}
+
+func (*Line) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Lines, stage.Line_stagedOrder)
+}
+
+func (*Line) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Line_orderStaged[order]
+}
+
+func (*Line) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Lines_mapString
+}
+
+func (*Line) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Lines
+}
+
+func (*Line) GongNewInstance() any {
+	return new(Line)
+}
+
+func (*Link) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Links, stage.Link_stagedOrder)
+}
+
+func (*Link) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Link_orderStaged[order]
+}
+
+func (*Link) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Links_mapString
+}
+
+func (*Link) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Links
+}
+
+func (*Link) GongNewInstance() any {
+	return new(Link)
+}
+
+func (*LinkAnchoredPath) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.LinkAnchoredPaths, stage.LinkAnchoredPath_stagedOrder)
+}
+
+func (*LinkAnchoredPath) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.LinkAnchoredPath_orderStaged[order]
+}
+
+func (*LinkAnchoredPath) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.LinkAnchoredPaths_mapString
+}
+
+func (*LinkAnchoredPath) GongGetInstancesSet(stage *Stage) any {
+	return &stage.LinkAnchoredPaths
+}
+
+func (*LinkAnchoredPath) GongNewInstance() any {
+	return new(LinkAnchoredPath)
+}
+
+func (*LinkAnchoredText) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.LinkAnchoredTexts, stage.LinkAnchoredText_stagedOrder)
+}
+
+func (*LinkAnchoredText) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.LinkAnchoredText_orderStaged[order]
+}
+
+func (*LinkAnchoredText) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.LinkAnchoredTexts_mapString
+}
+
+func (*LinkAnchoredText) GongGetInstancesSet(stage *Stage) any {
+	return &stage.LinkAnchoredTexts
+}
+
+func (*LinkAnchoredText) GongNewInstance() any {
+	return new(LinkAnchoredText)
+}
+
+func (*Path) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Paths, stage.Path_stagedOrder)
+}
+
+func (*Path) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Path_orderStaged[order]
+}
+
+func (*Path) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Paths_mapString
+}
+
+func (*Path) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Paths
+}
+
+func (*Path) GongNewInstance() any {
+	return new(Path)
+}
+
+func (*Point) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Points, stage.Point_stagedOrder)
+}
+
+func (*Point) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Point_orderStaged[order]
+}
+
+func (*Point) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Points_mapString
+}
+
+func (*Point) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Points
+}
+
+func (*Point) GongNewInstance() any {
+	return new(Point)
+}
+
+func (*Polygone) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Polygones, stage.Polygone_stagedOrder)
+}
+
+func (*Polygone) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Polygone_orderStaged[order]
+}
+
+func (*Polygone) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Polygones_mapString
+}
+
+func (*Polygone) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Polygones
+}
+
+func (*Polygone) GongNewInstance() any {
+	return new(Polygone)
+}
+
+func (*Polyline) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Polylines, stage.Polyline_stagedOrder)
+}
+
+func (*Polyline) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Polyline_orderStaged[order]
+}
+
+func (*Polyline) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Polylines_mapString
+}
+
+func (*Polyline) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Polylines
+}
+
+func (*Polyline) GongNewInstance() any {
+	return new(Polyline)
+}
+
+func (*Rect) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Rects, stage.Rect_stagedOrder)
+}
+
+func (*Rect) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Rect_orderStaged[order]
+}
+
+func (*Rect) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Rects_mapString
+}
+
+func (*Rect) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Rects
+}
+
+func (*Rect) GongNewInstance() any {
+	return new(Rect)
+}
+
+func (*RectAnchoredPath) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RectAnchoredPaths, stage.RectAnchoredPath_stagedOrder)
+}
+
+func (*RectAnchoredPath) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RectAnchoredPath_orderStaged[order]
+}
+
+func (*RectAnchoredPath) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RectAnchoredPaths_mapString
+}
+
+func (*RectAnchoredPath) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RectAnchoredPaths
+}
+
+func (*RectAnchoredPath) GongNewInstance() any {
+	return new(RectAnchoredPath)
+}
+
+func (*RectAnchoredPngImage) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RectAnchoredPngImages, stage.RectAnchoredPngImage_stagedOrder)
+}
+
+func (*RectAnchoredPngImage) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RectAnchoredPngImage_orderStaged[order]
+}
+
+func (*RectAnchoredPngImage) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RectAnchoredPngImages_mapString
+}
+
+func (*RectAnchoredPngImage) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RectAnchoredPngImages
+}
+
+func (*RectAnchoredPngImage) GongNewInstance() any {
+	return new(RectAnchoredPngImage)
+}
+
+func (*RectAnchoredRect) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RectAnchoredRects, stage.RectAnchoredRect_stagedOrder)
+}
+
+func (*RectAnchoredRect) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RectAnchoredRect_orderStaged[order]
+}
+
+func (*RectAnchoredRect) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RectAnchoredRects_mapString
+}
+
+func (*RectAnchoredRect) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RectAnchoredRects
+}
+
+func (*RectAnchoredRect) GongNewInstance() any {
+	return new(RectAnchoredRect)
+}
+
+func (*RectAnchoredText) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RectAnchoredTexts, stage.RectAnchoredText_stagedOrder)
+}
+
+func (*RectAnchoredText) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RectAnchoredText_orderStaged[order]
+}
+
+func (*RectAnchoredText) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RectAnchoredTexts_mapString
+}
+
+func (*RectAnchoredText) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RectAnchoredTexts
+}
+
+func (*RectAnchoredText) GongNewInstance() any {
+	return new(RectAnchoredText)
+}
+
+func (*RectLinkLink) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RectLinkLinks, stage.RectLinkLink_stagedOrder)
+}
+
+func (*RectLinkLink) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RectLinkLink_orderStaged[order]
+}
+
+func (*RectLinkLink) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RectLinkLinks_mapString
+}
+
+func (*RectLinkLink) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RectLinkLinks
+}
+
+func (*RectLinkLink) GongNewInstance() any {
+	return new(RectLinkLink)
+}
+
+func (*SVG) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SVGs, stage.SVG_stagedOrder)
+}
+
+func (*SVG) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SVG_orderStaged[order]
+}
+
+func (*SVG) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SVGs_mapString
+}
+
+func (*SVG) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SVGs
+}
+
+func (*SVG) GongNewInstance() any {
+	return new(SVG)
+}
+
+func (*SvgText) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SvgTexts, stage.SvgText_stagedOrder)
+}
+
+func (*SvgText) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SvgText_orderStaged[order]
+}
+
+func (*SvgText) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SvgTexts_mapString
+}
+
+func (*SvgText) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SvgTexts
+}
+
+func (*SvgText) GongNewInstance() any {
+	return new(SvgText)
+}
+
+func (*Text) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Texts, stage.Text_stagedOrder)
+}
+
+func (*Text) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Text_orderStaged[order]
+}
+
+func (*Text) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Texts_mapString
+}
+
+func (*Text) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Texts
+}
+
+func (*Text) GongNewInstance() any {
+	return new(Text)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *Animate:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Animates, stage.Animate_stagedOrder))
-	case *Circle:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Circles, stage.Circle_stagedOrder))
-	case *Condition:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Conditions, stage.Condition_stagedOrder))
-	case *ControlPoint:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ControlPoints, stage.ControlPoint_stagedOrder))
-	case *Ellipse:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Ellipses, stage.Ellipse_stagedOrder))
-	case *FileToDownload:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FileToDownloads, stage.FileToDownload_stagedOrder))
-	case *Layer:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Layers, stage.Layer_stagedOrder))
-	case *Line:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Lines, stage.Line_stagedOrder))
-	case *Link:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Links, stage.Link_stagedOrder))
-	case *LinkAnchoredPath:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.LinkAnchoredPaths, stage.LinkAnchoredPath_stagedOrder))
-	case *LinkAnchoredText:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.LinkAnchoredTexts, stage.LinkAnchoredText_stagedOrder))
-	case *Path:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Paths, stage.Path_stagedOrder))
-	case *Point:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Points, stage.Point_stagedOrder))
-	case *Polygone:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Polygones, stage.Polygone_stagedOrder))
-	case *Polyline:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Polylines, stage.Polyline_stagedOrder))
-	case *Rect:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Rects, stage.Rect_stagedOrder))
-	case *RectAnchoredPath:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RectAnchoredPaths, stage.RectAnchoredPath_stagedOrder))
-	case *RectAnchoredPngImage:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RectAnchoredPngImages, stage.RectAnchoredPngImage_stagedOrder))
-	case *RectAnchoredRect:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RectAnchoredRects, stage.RectAnchoredRect_stagedOrder))
-	case *RectAnchoredText:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RectAnchoredTexts, stage.RectAnchoredText_stagedOrder))
-	case *RectLinkLink:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RectLinkLinks, stage.RectLinkLink_stagedOrder))
-	case *SVG:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SVGs, stage.SVG_stagedOrder))
-	case *SvgText:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SvgTexts, stage.SvgText_stagedOrder))
-	case *Text:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Texts, stage.Text_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -1214,60 +1647,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *Animate:
-		return any(stage.Animate_orderStaged[order]).(Type)
-	case *Circle:
-		return any(stage.Circle_orderStaged[order]).(Type)
-	case *Condition:
-		return any(stage.Condition_orderStaged[order]).(Type)
-	case *ControlPoint:
-		return any(stage.ControlPoint_orderStaged[order]).(Type)
-	case *Ellipse:
-		return any(stage.Ellipse_orderStaged[order]).(Type)
-	case *FileToDownload:
-		return any(stage.FileToDownload_orderStaged[order]).(Type)
-	case *Layer:
-		return any(stage.Layer_orderStaged[order]).(Type)
-	case *Line:
-		return any(stage.Line_orderStaged[order]).(Type)
-	case *Link:
-		return any(stage.Link_orderStaged[order]).(Type)
-	case *LinkAnchoredPath:
-		return any(stage.LinkAnchoredPath_orderStaged[order]).(Type)
-	case *LinkAnchoredText:
-		return any(stage.LinkAnchoredText_orderStaged[order]).(Type)
-	case *Path:
-		return any(stage.Path_orderStaged[order]).(Type)
-	case *Point:
-		return any(stage.Point_orderStaged[order]).(Type)
-	case *Polygone:
-		return any(stage.Polygone_orderStaged[order]).(Type)
-	case *Polyline:
-		return any(stage.Polyline_orderStaged[order]).(Type)
-	case *Rect:
-		return any(stage.Rect_orderStaged[order]).(Type)
-	case *RectAnchoredPath:
-		return any(stage.RectAnchoredPath_orderStaged[order]).(Type)
-	case *RectAnchoredPngImage:
-		return any(stage.RectAnchoredPngImage_orderStaged[order]).(Type)
-	case *RectAnchoredRect:
-		return any(stage.RectAnchoredRect_orderStaged[order]).(Type)
-	case *RectAnchoredText:
-		return any(stage.RectAnchoredText_orderStaged[order]).(Type)
-	case *RectLinkLink:
-		return any(stage.RectLinkLink_orderStaged[order]).(Type)
-	case *SVG:
-		return any(stage.SVG_orderStaged[order]).(Type)
-	case *SvgText:
-		return any(stage.SvgText_orderStaged[order]).(Type)
-	case *Text:
-		return any(stage.Text_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -2407,7 +2795,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -2439,6 +2829,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -2470,145 +2867,58 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Animate:
-		return any(stage.Animates_mapString).(map[string]Type)
-	case *Circle:
-		return any(stage.Circles_mapString).(map[string]Type)
-	case *Condition:
-		return any(stage.Conditions_mapString).(map[string]Type)
-	case *ControlPoint:
-		return any(stage.ControlPoints_mapString).(map[string]Type)
-	case *Ellipse:
-		return any(stage.Ellipses_mapString).(map[string]Type)
-	case *FileToDownload:
-		return any(stage.FileToDownloads_mapString).(map[string]Type)
-	case *Layer:
-		return any(stage.Layers_mapString).(map[string]Type)
-	case *Line:
-		return any(stage.Lines_mapString).(map[string]Type)
-	case *Link:
-		return any(stage.Links_mapString).(map[string]Type)
-	case *LinkAnchoredPath:
-		return any(stage.LinkAnchoredPaths_mapString).(map[string]Type)
-	case *LinkAnchoredText:
-		return any(stage.LinkAnchoredTexts_mapString).(map[string]Type)
-	case *Path:
-		return any(stage.Paths_mapString).(map[string]Type)
-	case *Point:
-		return any(stage.Points_mapString).(map[string]Type)
-	case *Polygone:
-		return any(stage.Polygones_mapString).(map[string]Type)
-	case *Polyline:
-		return any(stage.Polylines_mapString).(map[string]Type)
-	case *Rect:
-		return any(stage.Rects_mapString).(map[string]Type)
-	case *RectAnchoredPath:
-		return any(stage.RectAnchoredPaths_mapString).(map[string]Type)
-	case *RectAnchoredPngImage:
-		return any(stage.RectAnchoredPngImages_mapString).(map[string]Type)
-	case *RectAnchoredRect:
-		return any(stage.RectAnchoredRects_mapString).(map[string]Type)
-	case *RectAnchoredText:
-		return any(stage.RectAnchoredTexts_mapString).(map[string]Type)
-	case *RectLinkLink:
-		return any(stage.RectLinkLinks_mapString).(map[string]Type)
-	case *SVG:
-		return any(stage.SVGs_mapString).(map[string]Type)
-	case *SvgText:
-		return any(stage.SvgTexts_mapString).(map[string]Type)
-	case *Text:
-		return any(stage.Texts_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Animate:
-		return any(&stage.Animates).(*map[Type]struct{})
-	case *Circle:
-		return any(&stage.Circles).(*map[Type]struct{})
-	case *Condition:
-		return any(&stage.Conditions).(*map[Type]struct{})
-	case *ControlPoint:
-		return any(&stage.ControlPoints).(*map[Type]struct{})
-	case *Ellipse:
-		return any(&stage.Ellipses).(*map[Type]struct{})
-	case *FileToDownload:
-		return any(&stage.FileToDownloads).(*map[Type]struct{})
-	case *Layer:
-		return any(&stage.Layers).(*map[Type]struct{})
-	case *Line:
-		return any(&stage.Lines).(*map[Type]struct{})
-	case *Link:
-		return any(&stage.Links).(*map[Type]struct{})
-	case *LinkAnchoredPath:
-		return any(&stage.LinkAnchoredPaths).(*map[Type]struct{})
-	case *LinkAnchoredText:
-		return any(&stage.LinkAnchoredTexts).(*map[Type]struct{})
-	case *Path:
-		return any(&stage.Paths).(*map[Type]struct{})
-	case *Point:
-		return any(&stage.Points).(*map[Type]struct{})
-	case *Polygone:
-		return any(&stage.Polygones).(*map[Type]struct{})
-	case *Polyline:
-		return any(&stage.Polylines).(*map[Type]struct{})
-	case *Rect:
-		return any(&stage.Rects).(*map[Type]struct{})
-	case *RectAnchoredPath:
-		return any(&stage.RectAnchoredPaths).(*map[Type]struct{})
-	case *RectAnchoredPngImage:
-		return any(&stage.RectAnchoredPngImages).(*map[Type]struct{})
-	case *RectAnchoredRect:
-		return any(&stage.RectAnchoredRects).(*map[Type]struct{})
-	case *RectAnchoredText:
-		return any(&stage.RectAnchoredTexts).(*map[Type]struct{})
-	case *RectLinkLink:
-		return any(&stage.RectLinkLinks).(*map[Type]struct{})
-	case *SVG:
-		return any(&stage.SVGs).(*map[Type]struct{})
-	case *SvgText:
-		return any(&stage.SvgTexts).(*map[Type]struct{})
-	case *Text:
-		return any(&stage.Texts).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
+	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
+}
+
+// insertion point for instance with special fields
+func (Animate) GongGetAssociationName() any {
+	return &Animate{
 	}
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case Circle:
-		return any(&Circle{
+func (Circle) GongGetAssociationName() any {
+	return &Circle{
 			Animations: []*Animate{{Name: "Animations"}},
-		}).(*Type)
-	case ControlPoint:
-		return any(&ControlPoint{
+	}
+}
+
+func (Condition) GongGetAssociationName() any {
+	return &Condition{
+	}
+}
+
+func (ControlPoint) GongGetAssociationName() any {
+	return &ControlPoint{
 			ClosestRect: &Rect{Name: "ClosestRect"},
-		}).(*Type)
-	case Ellipse:
-		return any(&Ellipse{
+	}
+}
+
+func (Ellipse) GongGetAssociationName() any {
+	return &Ellipse{
 			Animates: []*Animate{{Name: "Animates"}},
-		}).(*Type)
-	case Layer:
-		return any(&Layer{
+	}
+}
+
+func (FileToDownload) GongGetAssociationName() any {
+	return &FileToDownload{
+	}
+}
+
+func (Layer) GongGetAssociationName() any {
+	return &Layer{
 			Rects: []*Rect{{Name: "Rects"}},
 			Texts: []*Text{{Name: "Texts"}},
 			Circles: []*Circle{{Name: "Circles"}},
@@ -2619,13 +2929,17 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Paths: []*Path{{Name: "Paths"}},
 			Links: []*Link{{Name: "Links"}},
 			RectLinkLinks: []*RectLinkLink{{Name: "RectLinkLinks"}},
-		}).(*Type)
-	case Line:
-		return any(&Line{
+	}
+}
+
+func (Line) GongGetAssociationName() any {
+	return &Line{
 			Animates: []*Animate{{Name: "Animates"}},
-		}).(*Type)
-	case Link:
-		return any(&Link{
+	}
+}
+
+func (Link) GongGetAssociationName() any {
+	return &Link{
 			Start: &Rect{Name: "Start"},
 			End: &Rect{Name: "End"},
 			TextAtArrowStart: []*LinkAnchoredText{{Name: "TextAtArrowStart"}},
@@ -2635,25 +2949,45 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			PathAtArrowEnd: []*LinkAnchoredPath{{Name: "PathAtArrowEnd"}},
 			PathAtCorner: []*LinkAnchoredPath{{Name: "PathAtCorner"}},
 			ControlPoints: []*ControlPoint{{Name: "ControlPoints"}},
-		}).(*Type)
-	case LinkAnchoredText:
-		return any(&LinkAnchoredText{
+	}
+}
+
+func (LinkAnchoredPath) GongGetAssociationName() any {
+	return &LinkAnchoredPath{
+	}
+}
+
+func (LinkAnchoredText) GongGetAssociationName() any {
+	return &LinkAnchoredText{
 			Animates: []*Animate{{Name: "Animates"}},
-		}).(*Type)
-	case Path:
-		return any(&Path{
+	}
+}
+
+func (Path) GongGetAssociationName() any {
+	return &Path{
 			Animates: []*Animate{{Name: "Animates"}},
-		}).(*Type)
-	case Polygone:
-		return any(&Polygone{
+	}
+}
+
+func (Point) GongGetAssociationName() any {
+	return &Point{
+	}
+}
+
+func (Polygone) GongGetAssociationName() any {
+	return &Polygone{
 			Animates: []*Animate{{Name: "Animates"}},
-		}).(*Type)
-	case Polyline:
-		return any(&Polyline{
+	}
+}
+
+func (Polyline) GongGetAssociationName() any {
+	return &Polyline{
 			Animates: []*Animate{{Name: "Animates"}},
-		}).(*Type)
-	case Rect:
-		return any(&Rect{
+	}
+}
+
+func (Rect) GongGetAssociationName() any {
+	return &Rect{
 			Peers: []*Rect{{Name: "Peers"}},
 			EnclosingRect: &Rect{Name: "EnclosingRect"},
 			Obstacles: []*Rect{{Name: "Obstacles"}},
@@ -2665,29 +2999,64 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			RectAnchoredRects: []*RectAnchoredRect{{Name: "RectAnchoredRects"}},
 			RectAnchoredPaths: []*RectAnchoredPath{{Name: "RectAnchoredPaths"}},
 			RectAnchoredPngImages: []*RectAnchoredPngImage{{Name: "RectAnchoredPngImages"}},
-		}).(*Type)
-	case RectAnchoredText:
-		return any(&RectAnchoredText{
+	}
+}
+
+func (RectAnchoredPath) GongGetAssociationName() any {
+	return &RectAnchoredPath{
+	}
+}
+
+func (RectAnchoredPngImage) GongGetAssociationName() any {
+	return &RectAnchoredPngImage{
+	}
+}
+
+func (RectAnchoredRect) GongGetAssociationName() any {
+	return &RectAnchoredRect{
+	}
+}
+
+func (RectAnchoredText) GongGetAssociationName() any {
+	return &RectAnchoredText{
 			Animates: []*Animate{{Name: "Animates"}},
-		}).(*Type)
-	case RectLinkLink:
-		return any(&RectLinkLink{
+	}
+}
+
+func (RectLinkLink) GongGetAssociationName() any {
+	return &RectLinkLink{
 			Start: &Rect{Name: "Start"},
 			End: &Link{Name: "End"},
-		}).(*Type)
-	case SVG:
-		return any(&SVG{
+	}
+}
+
+func (SVG) GongGetAssociationName() any {
+	return &SVG{
 			Layers: []*Layer{{Name: "Layers"}},
 			StartRect: &Rect{Name: "StartRect"},
 			EndRect: &Rect{Name: "EndRect"},
-		}).(*Type)
-	case Text:
-		return any(&Text{
-			Animates: []*Animate{{Name: "Animates"}},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+func (SvgText) GongGetAssociationName() any {
+	return &SvgText{
+	}
+}
+
+func (Text) GongGetAssociationName() any {
+	return &Text{
+			Animates: []*Animate{{Name: "Animates"}},
+	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -3400,60 +3769,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *Animate:
-		res = any(new(Animate)).(Type)
-	case *Circle:
-		res = any(new(Circle)).(Type)
-	case *Condition:
-		res = any(new(Condition)).(Type)
-	case *ControlPoint:
-		res = any(new(ControlPoint)).(Type)
-	case *Ellipse:
-		res = any(new(Ellipse)).(Type)
-	case *FileToDownload:
-		res = any(new(FileToDownload)).(Type)
-	case *Layer:
-		res = any(new(Layer)).(Type)
-	case *Line:
-		res = any(new(Line)).(Type)
-	case *Link:
-		res = any(new(Link)).(Type)
-	case *LinkAnchoredPath:
-		res = any(new(LinkAnchoredPath)).(Type)
-	case *LinkAnchoredText:
-		res = any(new(LinkAnchoredText)).(Type)
-	case *Path:
-		res = any(new(Path)).(Type)
-	case *Point:
-		res = any(new(Point)).(Type)
-	case *Polygone:
-		res = any(new(Polygone)).(Type)
-	case *Polyline:
-		res = any(new(Polyline)).(Type)
-	case *Rect:
-		res = any(new(Rect)).(Type)
-	case *RectAnchoredPath:
-		res = any(new(RectAnchoredPath)).(Type)
-	case *RectAnchoredPngImage:
-		res = any(new(RectAnchoredPngImage)).(Type)
-	case *RectAnchoredRect:
-		res = any(new(RectAnchoredRect)).(Type)
-	case *RectAnchoredText:
-		res = any(new(RectAnchoredText)).(Type)
-	case *RectLinkLink:
-		res = any(new(RectLinkLink)).(Type)
-	case *SVG:
-		res = any(new(SVG)).(Type)
-	case *SvgText:
-		res = any(new(SvgText)).(Type)
-	case *Text:
-		res = any(new(Text)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -3476,60 +3793,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *Animate:
-		res = "Animate"
-	case *Circle:
-		res = "Circle"
-	case *Condition:
-		res = "Condition"
-	case *ControlPoint:
-		res = "ControlPoint"
-	case *Ellipse:
-		res = "Ellipse"
-	case *FileToDownload:
-		res = "FileToDownload"
-	case *Layer:
-		res = "Layer"
-	case *Line:
-		res = "Line"
-	case *Link:
-		res = "Link"
-	case *LinkAnchoredPath:
-		res = "LinkAnchoredPath"
-	case *LinkAnchoredText:
-		res = "LinkAnchoredText"
-	case *Path:
-		res = "Path"
-	case *Point:
-		res = "Point"
-	case *Polygone:
-		res = "Polygone"
-	case *Polyline:
-		res = "Polyline"
-	case *Rect:
-		res = "Rect"
-	case *RectAnchoredPath:
-		res = "RectAnchoredPath"
-	case *RectAnchoredPngImage:
-		res = "RectAnchoredPngImage"
-	case *RectAnchoredRect:
-		res = "RectAnchoredRect"
-	case *RectAnchoredText:
-		res = "RectAnchoredText"
-	case *RectLinkLink:
-		res = "RectLinkLink"
-	case *SVG:
-		res = "SVG"
-	case *SvgText:
-		res = "SvgText"
-	case *Text:
-		res = "Text"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -3543,196 +3808,275 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *Animate:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Circle"
-		rf.Fieldname = "Animations"
-		res = append(res, rf)
-		rf.GongstructName = "Ellipse"
-		rf.Fieldname = "Animates"
-		res = append(res, rf)
-		rf.GongstructName = "Line"
-		rf.Fieldname = "Animates"
-		res = append(res, rf)
-		rf.GongstructName = "LinkAnchoredText"
-		rf.Fieldname = "Animates"
-		res = append(res, rf)
-		rf.GongstructName = "Path"
-		rf.Fieldname = "Animates"
-		res = append(res, rf)
-		rf.GongstructName = "Polygone"
-		rf.Fieldname = "Animates"
-		res = append(res, rf)
-		rf.GongstructName = "Polyline"
-		rf.Fieldname = "Animates"
-		res = append(res, rf)
-		rf.GongstructName = "Rect"
-		rf.Fieldname = "Animations"
-		res = append(res, rf)
-		rf.GongstructName = "RectAnchoredText"
-		rf.Fieldname = "Animates"
-		res = append(res, rf)
-		rf.GongstructName = "Text"
-		rf.Fieldname = "Animates"
-		res = append(res, rf)
-	case *Circle:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Layer"
-		rf.Fieldname = "Circles"
-		res = append(res, rf)
-	case *Condition:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Rect"
-		rf.Fieldname = "HoveringTrigger"
-		res = append(res, rf)
-		rf.GongstructName = "Rect"
-		rf.Fieldname = "DisplayConditions"
-		res = append(res, rf)
-	case *ControlPoint:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Link"
-		rf.Fieldname = "ControlPoints"
-		res = append(res, rf)
-	case *Ellipse:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Layer"
-		rf.Fieldname = "Ellipses"
-		res = append(res, rf)
-	case *FileToDownload:
-		var rf ReverseField
-		_ = rf
-	case *Layer:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "SVG"
-		rf.Fieldname = "Layers"
-		res = append(res, rf)
-	case *Line:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Layer"
-		rf.Fieldname = "Lines"
-		res = append(res, rf)
-	case *Link:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Layer"
-		rf.Fieldname = "Links"
-		res = append(res, rf)
-	case *LinkAnchoredPath:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Link"
-		rf.Fieldname = "PathAtArrowStart"
-		res = append(res, rf)
-		rf.GongstructName = "Link"
-		rf.Fieldname = "PathAtArrowEnd"
-		res = append(res, rf)
-		rf.GongstructName = "Link"
-		rf.Fieldname = "PathAtCorner"
-		res = append(res, rf)
-	case *LinkAnchoredText:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Link"
-		rf.Fieldname = "TextAtArrowStart"
-		res = append(res, rf)
-		rf.GongstructName = "Link"
-		rf.Fieldname = "TextAtArrowEnd"
-		res = append(res, rf)
-		rf.GongstructName = "Link"
-		rf.Fieldname = "TextAtCorner"
-		res = append(res, rf)
-	case *Path:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Layer"
-		rf.Fieldname = "Paths"
-		res = append(res, rf)
-	case *Point:
-		var rf ReverseField
-		_ = rf
-	case *Polygone:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Layer"
-		rf.Fieldname = "Polygones"
-		res = append(res, rf)
-	case *Polyline:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Layer"
-		rf.Fieldname = "Polylines"
-		res = append(res, rf)
-	case *Rect:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Layer"
-		rf.Fieldname = "Rects"
-		res = append(res, rf)
-		rf.GongstructName = "Rect"
-		rf.Fieldname = "Peers"
-		res = append(res, rf)
-		rf.GongstructName = "Rect"
-		rf.Fieldname = "Obstacles"
-		res = append(res, rf)
-	case *RectAnchoredPath:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Rect"
-		rf.Fieldname = "RectAnchoredPaths"
-		res = append(res, rf)
-	case *RectAnchoredPngImage:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Rect"
-		rf.Fieldname = "RectAnchoredPngImages"
-		res = append(res, rf)
-	case *RectAnchoredRect:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Rect"
-		rf.Fieldname = "RectAnchoredRects"
-		res = append(res, rf)
-	case *RectAnchoredText:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Rect"
-		rf.Fieldname = "RectAnchoredTexts"
-		res = append(res, rf)
-	case *RectLinkLink:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Layer"
-		rf.Fieldname = "RectLinkLinks"
-		res = append(res, rf)
-	case *SVG:
-		var rf ReverseField
-		_ = rf
-	case *SvgText:
-		var rf ReverseField
-		_ = rf
-	case *Text:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Layer"
-		rf.Fieldname = "Texts"
-		res = append(res, rf)
+// insertion point for generic get reverse fields
+func (*Animate) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Circle",
+			Fieldname: "Animations",
+		},
+		{
+			GongstructName: "Ellipse",
+			Fieldname: "Animates",
+		},
+		{
+			GongstructName: "Line",
+			Fieldname: "Animates",
+		},
+		{
+			GongstructName: "LinkAnchoredText",
+			Fieldname: "Animates",
+		},
+		{
+			GongstructName: "Path",
+			Fieldname: "Animates",
+		},
+		{
+			GongstructName: "Polygone",
+			Fieldname: "Animates",
+		},
+		{
+			GongstructName: "Polyline",
+			Fieldname: "Animates",
+		},
+		{
+			GongstructName: "Rect",
+			Fieldname: "Animations",
+		},
+		{
+			GongstructName: "RectAnchoredText",
+			Fieldname: "Animates",
+		},
+		{
+			GongstructName: "Text",
+			Fieldname: "Animates",
+		},
 	}
-	return
+}
+
+func (*Circle) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Layer",
+			Fieldname: "Circles",
+		},
+	}
+}
+
+func (*Condition) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Rect",
+			Fieldname: "HoveringTrigger",
+		},
+		{
+			GongstructName: "Rect",
+			Fieldname: "DisplayConditions",
+		},
+	}
+}
+
+func (*ControlPoint) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Link",
+			Fieldname: "ControlPoints",
+		},
+	}
+}
+
+func (*Ellipse) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Layer",
+			Fieldname: "Ellipses",
+		},
+	}
+}
+
+func (*FileToDownload) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Layer) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "SVG",
+			Fieldname: "Layers",
+		},
+	}
+}
+
+func (*Line) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Layer",
+			Fieldname: "Lines",
+		},
+	}
+}
+
+func (*Link) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Layer",
+			Fieldname: "Links",
+		},
+	}
+}
+
+func (*LinkAnchoredPath) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Link",
+			Fieldname: "PathAtArrowStart",
+		},
+		{
+			GongstructName: "Link",
+			Fieldname: "PathAtArrowEnd",
+		},
+		{
+			GongstructName: "Link",
+			Fieldname: "PathAtCorner",
+		},
+	}
+}
+
+func (*LinkAnchoredText) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Link",
+			Fieldname: "TextAtArrowStart",
+		},
+		{
+			GongstructName: "Link",
+			Fieldname: "TextAtArrowEnd",
+		},
+		{
+			GongstructName: "Link",
+			Fieldname: "TextAtCorner",
+		},
+	}
+}
+
+func (*Path) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Layer",
+			Fieldname: "Paths",
+		},
+	}
+}
+
+func (*Point) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Polygone) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Layer",
+			Fieldname: "Polygones",
+		},
+	}
+}
+
+func (*Polyline) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Layer",
+			Fieldname: "Polylines",
+		},
+	}
+}
+
+func (*Rect) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Layer",
+			Fieldname: "Rects",
+		},
+		{
+			GongstructName: "Rect",
+			Fieldname: "Peers",
+		},
+		{
+			GongstructName: "Rect",
+			Fieldname: "Obstacles",
+		},
+	}
+}
+
+func (*RectAnchoredPath) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Rect",
+			Fieldname: "RectAnchoredPaths",
+		},
+	}
+}
+
+func (*RectAnchoredPngImage) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Rect",
+			Fieldname: "RectAnchoredPngImages",
+		},
+	}
+}
+
+func (*RectAnchoredRect) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Rect",
+			Fieldname: "RectAnchoredRects",
+		},
+	}
+}
+
+func (*RectAnchoredText) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Rect",
+			Fieldname: "RectAnchoredTexts",
+		},
+	}
+}
+
+func (*RectLinkLink) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Layer",
+			Fieldname: "RectLinkLinks",
+		},
+	}
+}
+
+func (*SVG) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*SvgText) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Text) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Layer",
+			Fieldname: "Texts",
+		},
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

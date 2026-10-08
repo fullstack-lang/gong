@@ -3162,327 +3162,3136 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*Angle0Shape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Angle0Shapes, stage.Angle0Shape_stagedOrder)
+}
+
+func (*Angle0Shape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Angle0Shape_orderStaged[order]
+}
+
+func (*Angle0Shape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Angle0Shapes_mapString
+}
+
+func (*Angle0Shape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Angle0Shapes
+}
+
+func (*Angle0Shape) GongNewInstance() any {
+	return new(Angle0Shape)
+}
+
+func (*ArcNormalVectorShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ArcNormalVectorShapes, stage.ArcNormalVectorShape_stagedOrder)
+}
+
+func (*ArcNormalVectorShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ArcNormalVectorShape_orderStaged[order]
+}
+
+func (*ArcNormalVectorShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ArcNormalVectorShapes_mapString
+}
+
+func (*ArcNormalVectorShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ArcNormalVectorShapes
+}
+
+func (*ArcNormalVectorShape) GongNewInstance() any {
+	return new(ArcNormalVectorShape)
+}
+
+func (*ArcNormalVectorShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ArcNormalVectorShapeGrids, stage.ArcNormalVectorShapeGrid_stagedOrder)
+}
+
+func (*ArcNormalVectorShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ArcNormalVectorShapeGrid_orderStaged[order]
+}
+
+func (*ArcNormalVectorShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ArcNormalVectorShapeGrids_mapString
+}
+
+func (*ArcNormalVectorShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ArcNormalVectorShapeGrids
+}
+
+func (*ArcNormalVectorShapeGrid) GongNewInstance() any {
+	return new(ArcNormalVectorShapeGrid)
+}
+
+func (*AxesShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.AxesShapes, stage.AxesShape_stagedOrder)
+}
+
+func (*AxesShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.AxesShape_orderStaged[order]
+}
+
+func (*AxesShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.AxesShapes_mapString
+}
+
+func (*AxesShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.AxesShapes
+}
+
+func (*AxesShape) GongNewInstance() any {
+	return new(AxesShape)
+}
+
+func (*BaseVectorShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.BaseVectorShapes, stage.BaseVectorShape_stagedOrder)
+}
+
+func (*BaseVectorShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.BaseVectorShape_orderStaged[order]
+}
+
+func (*BaseVectorShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.BaseVectorShapes_mapString
+}
+
+func (*BaseVectorShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.BaseVectorShapes
+}
+
+func (*BaseVectorShape) GongNewInstance() any {
+	return new(BaseVectorShape)
+}
+
+func (*BaseVectorShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.BaseVectorShapeGrids, stage.BaseVectorShapeGrid_stagedOrder)
+}
+
+func (*BaseVectorShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.BaseVectorShapeGrid_orderStaged[order]
+}
+
+func (*BaseVectorShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.BaseVectorShapeGrids_mapString
+}
+
+func (*BaseVectorShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.BaseVectorShapeGrids
+}
+
+func (*BaseVectorShapeGrid) GongNewInstance() any {
+	return new(BaseVectorShapeGrid)
+}
+
+func (*BottomCurvePlane1Shape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.BottomCurvePlane1Shapes, stage.BottomCurvePlane1Shape_stagedOrder)
+}
+
+func (*BottomCurvePlane1Shape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.BottomCurvePlane1Shape_orderStaged[order]
+}
+
+func (*BottomCurvePlane1Shape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.BottomCurvePlane1Shapes_mapString
+}
+
+func (*BottomCurvePlane1Shape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.BottomCurvePlane1Shapes
+}
+
+func (*BottomCurvePlane1Shape) GongNewInstance() any {
+	return new(BottomCurvePlane1Shape)
+}
+
+func (*BottomCurvePlane2Shape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.BottomCurvePlane2Shapes, stage.BottomCurvePlane2Shape_stagedOrder)
+}
+
+func (*BottomCurvePlane2Shape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.BottomCurvePlane2Shape_orderStaged[order]
+}
+
+func (*BottomCurvePlane2Shape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.BottomCurvePlane2Shapes_mapString
+}
+
+func (*BottomCurvePlane2Shape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.BottomCurvePlane2Shapes
+}
+
+func (*BottomCurvePlane2Shape) GongNewInstance() any {
+	return new(BottomCurvePlane2Shape)
+}
+
+func (*CarvedOutBottomCurvePlane1Shape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CarvedOutBottomCurvePlane1Shapes, stage.CarvedOutBottomCurvePlane1Shape_stagedOrder)
+}
+
+func (*CarvedOutBottomCurvePlane1Shape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CarvedOutBottomCurvePlane1Shape_orderStaged[order]
+}
+
+func (*CarvedOutBottomCurvePlane1Shape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CarvedOutBottomCurvePlane1Shapes_mapString
+}
+
+func (*CarvedOutBottomCurvePlane1Shape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CarvedOutBottomCurvePlane1Shapes
+}
+
+func (*CarvedOutBottomCurvePlane1Shape) GongNewInstance() any {
+	return new(CarvedOutBottomCurvePlane1Shape)
+}
+
+func (*CarvedOutTopCurvePlane1Shape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CarvedOutTopCurvePlane1Shapes, stage.CarvedOutTopCurvePlane1Shape_stagedOrder)
+}
+
+func (*CarvedOutTopCurvePlane1Shape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CarvedOutTopCurvePlane1Shape_orderStaged[order]
+}
+
+func (*CarvedOutTopCurvePlane1Shape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CarvedOutTopCurvePlane1Shapes_mapString
+}
+
+func (*CarvedOutTopCurvePlane1Shape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CarvedOutTopCurvePlane1Shapes
+}
+
+func (*CarvedOutTopCurvePlane1Shape) GongNewInstance() any {
+	return new(CarvedOutTopCurvePlane1Shape)
+}
+
+func (*CarvedOutVaseTrapezeRingShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CarvedOutVaseTrapezeRingShapes, stage.CarvedOutVaseTrapezeRingShape_stagedOrder)
+}
+
+func (*CarvedOutVaseTrapezeRingShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CarvedOutVaseTrapezeRingShape_orderStaged[order]
+}
+
+func (*CarvedOutVaseTrapezeRingShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CarvedOutVaseTrapezeRingShapes_mapString
+}
+
+func (*CarvedOutVaseTrapezeRingShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CarvedOutVaseTrapezeRingShapes
+}
+
+func (*CarvedOutVaseTrapezeRingShape) GongNewInstance() any {
+	return new(CarvedOutVaseTrapezeRingShape)
+}
+
+func (*ChosenP1P2PairShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ChosenP1P2PairShapes, stage.ChosenP1P2PairShape_stagedOrder)
+}
+
+func (*ChosenP1P2PairShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ChosenP1P2PairShape_orderStaged[order]
+}
+
+func (*ChosenP1P2PairShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ChosenP1P2PairShapes_mapString
+}
+
+func (*ChosenP1P2PairShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ChosenP1P2PairShapes
+}
+
+func (*ChosenP1P2PairShape) GongNewInstance() any {
+	return new(ChosenP1P2PairShape)
+}
+
+func (*CircleGridShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
+}
+
+func (*CircleGridShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CircleGridShape_orderStaged[order]
+}
+
+func (*CircleGridShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CircleGridShapes_mapString
+}
+
+func (*CircleGridShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CircleGridShapes
+}
+
+func (*CircleGridShape) GongNewInstance() any {
+	return new(CircleGridShape)
+}
+
+func (*Circumference3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Circumference3DShapes, stage.Circumference3DShape_stagedOrder)
+}
+
+func (*Circumference3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Circumference3DShape_orderStaged[order]
+}
+
+func (*Circumference3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Circumference3DShapes_mapString
+}
+
+func (*Circumference3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Circumference3DShapes
+}
+
+func (*Circumference3DShape) GongNewInstance() any {
+	return new(Circumference3DShape)
+}
+
+func (*Clock2DDiagram) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Clock2DDiagrams, stage.Clock2DDiagram_stagedOrder)
+}
+
+func (*Clock2DDiagram) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Clock2DDiagram_orderStaged[order]
+}
+
+func (*Clock2DDiagram) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Clock2DDiagrams_mapString
+}
+
+func (*Clock2DDiagram) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Clock2DDiagrams
+}
+
+func (*Clock2DDiagram) GongNewInstance() any {
+	return new(Clock2DDiagram)
+}
+
+func (*Clock3DDiagram) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Clock3DDiagrams, stage.Clock3DDiagram_stagedOrder)
+}
+
+func (*Clock3DDiagram) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Clock3DDiagram_orderStaged[order]
+}
+
+func (*Clock3DDiagram) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Clock3DDiagrams_mapString
+}
+
+func (*Clock3DDiagram) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Clock3DDiagrams
+}
+
+func (*Clock3DDiagram) GongNewInstance() any {
+	return new(Clock3DDiagram)
+}
+
+func (*ClockTopCurveShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ClockTopCurveShapes, stage.ClockTopCurveShape_stagedOrder)
+}
+
+func (*ClockTopCurveShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ClockTopCurveShape_orderStaged[order]
+}
+
+func (*ClockTopCurveShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ClockTopCurveShapes_mapString
+}
+
+func (*ClockTopCurveShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ClockTopCurveShapes
+}
+
+func (*ClockTopCurveShape) GongNewInstance() any {
+	return new(ClockTopCurveShape)
+}
+
+func (*CutLine3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CutLine3DShapes, stage.CutLine3DShape_stagedOrder)
+}
+
+func (*CutLine3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CutLine3DShape_orderStaged[order]
+}
+
+func (*CutLine3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CutLine3DShapes_mapString
+}
+
+func (*CutLine3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CutLine3DShapes
+}
+
+func (*CutLine3DShape) GongNewInstance() any {
+	return new(CutLine3DShape)
+}
+
+func (*EndArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EndArcShapes, stage.EndArcShape_stagedOrder)
+}
+
+func (*EndArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EndArcShape_orderStaged[order]
+}
+
+func (*EndArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EndArcShapes_mapString
+}
+
+func (*EndArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EndArcShapes
+}
+
+func (*EndArcShape) GongNewInstance() any {
+	return new(EndArcShape)
+}
+
+func (*EndArcShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EndArcShapeGrids, stage.EndArcShapeGrid_stagedOrder)
+}
+
+func (*EndArcShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EndArcShapeGrid_orderStaged[order]
+}
+
+func (*EndArcShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EndArcShapeGrids_mapString
+}
+
+func (*EndArcShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EndArcShapeGrids
+}
+
+func (*EndArcShapeGrid) GongNewInstance() any {
+	return new(EndArcShapeGrid)
+}
+
+func (*EndHalfwayArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EndHalfwayArcShapes, stage.EndHalfwayArcShape_stagedOrder)
+}
+
+func (*EndHalfwayArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EndHalfwayArcShape_orderStaged[order]
+}
+
+func (*EndHalfwayArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EndHalfwayArcShapes_mapString
+}
+
+func (*EndHalfwayArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EndHalfwayArcShapes
+}
+
+func (*EndHalfwayArcShape) GongNewInstance() any {
+	return new(EndHalfwayArcShape)
+}
+
+func (*EndHalfwayArcShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EndHalfwayArcShapeGrids, stage.EndHalfwayArcShapeGrid_stagedOrder)
+}
+
+func (*EndHalfwayArcShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EndHalfwayArcShapeGrid_orderStaged[order]
+}
+
+func (*EndHalfwayArcShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EndHalfwayArcShapeGrids_mapString
+}
+
+func (*EndHalfwayArcShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EndHalfwayArcShapeGrids
+}
+
+func (*EndHalfwayArcShapeGrid) GongNewInstance() any {
+	return new(EndHalfwayArcShapeGrid)
+}
+
+func (*ExplanationTextShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ExplanationTextShapes, stage.ExplanationTextShape_stagedOrder)
+}
+
+func (*ExplanationTextShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ExplanationTextShape_orderStaged[order]
+}
+
+func (*ExplanationTextShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ExplanationTextShapes_mapString
+}
+
+func (*ExplanationTextShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ExplanationTextShapes
+}
+
+func (*ExplanationTextShape) GongNewInstance() any {
+	return new(ExplanationTextShape)
+}
+
+func (*Eye3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Eye3DShapes, stage.Eye3DShape_stagedOrder)
+}
+
+func (*Eye3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Eye3DShape_orderStaged[order]
+}
+
+func (*Eye3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Eye3DShapes_mapString
+}
+
+func (*Eye3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Eye3DShapes
+}
+
+func (*Eye3DShape) GongNewInstance() any {
+	return new(Eye3DShape)
+}
+
+func (*EyeCornersSampledPoints3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EyeCornersSampledPoints3DShapes, stage.EyeCornersSampledPoints3DShape_stagedOrder)
+}
+
+func (*EyeCornersSampledPoints3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EyeCornersSampledPoints3DShape_orderStaged[order]
+}
+
+func (*EyeCornersSampledPoints3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EyeCornersSampledPoints3DShapes_mapString
+}
+
+func (*EyeCornersSampledPoints3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EyeCornersSampledPoints3DShapes
+}
+
+func (*EyeCornersSampledPoints3DShape) GongNewInstance() any {
+	return new(EyeCornersSampledPoints3DShape)
+}
+
+func (*EyeSampledPoints3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EyeSampledPoints3DShapes, stage.EyeSampledPoints3DShape_stagedOrder)
+}
+
+func (*EyeSampledPoints3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EyeSampledPoints3DShape_orderStaged[order]
+}
+
+func (*EyeSampledPoints3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EyeSampledPoints3DShapes_mapString
+}
+
+func (*EyeSampledPoints3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EyeSampledPoints3DShapes
+}
+
+func (*EyeSampledPoints3DShape) GongNewInstance() any {
+	return new(EyeSampledPoints3DShape)
+}
+
+func (*EyeSeatBottomCurveShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EyeSeatBottomCurveShapes, stage.EyeSeatBottomCurveShape_stagedOrder)
+}
+
+func (*EyeSeatBottomCurveShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EyeSeatBottomCurveShape_orderStaged[order]
+}
+
+func (*EyeSeatBottomCurveShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EyeSeatBottomCurveShapes_mapString
+}
+
+func (*EyeSeatBottomCurveShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EyeSeatBottomCurveShapes
+}
+
+func (*EyeSeatBottomCurveShape) GongNewInstance() any {
+	return new(EyeSeatBottomCurveShape)
+}
+
+func (*EyeStoolBottomCurveShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EyeStoolBottomCurveShapes, stage.EyeStoolBottomCurveShape_stagedOrder)
+}
+
+func (*EyeStoolBottomCurveShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EyeStoolBottomCurveShape_orderStaged[order]
+}
+
+func (*EyeStoolBottomCurveShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EyeStoolBottomCurveShapes_mapString
+}
+
+func (*EyeStoolBottomCurveShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EyeStoolBottomCurveShapes
+}
+
+func (*EyeStoolBottomCurveShape) GongNewInstance() any {
+	return new(EyeStoolBottomCurveShape)
+}
+
+func (*EyeVolume3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.EyeVolume3DShapes, stage.EyeVolume3DShape_stagedOrder)
+}
+
+func (*EyeVolume3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.EyeVolume3DShape_orderStaged[order]
+}
+
+func (*EyeVolume3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.EyeVolume3DShapes_mapString
+}
+
+func (*EyeVolume3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.EyeVolume3DShapes
+}
+
+func (*EyeVolume3DShape) GongNewInstance() any {
+	return new(EyeVolume3DShape)
+}
+
+func (*GridPathShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GridPathShapes, stage.GridPathShape_stagedOrder)
+}
+
+func (*GridPathShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GridPathShape_orderStaged[order]
+}
+
+func (*GridPathShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GridPathShapes_mapString
+}
+
+func (*GridPathShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GridPathShapes
+}
+
+func (*GridPathShape) GongNewInstance() any {
+	return new(GridPathShape)
+}
+
+func (*GrowthCurve2D) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GrowthCurve2Ds, stage.GrowthCurve2D_stagedOrder)
+}
+
+func (*GrowthCurve2D) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GrowthCurve2D_orderStaged[order]
+}
+
+func (*GrowthCurve2D) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GrowthCurve2Ds_mapString
+}
+
+func (*GrowthCurve2D) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GrowthCurve2Ds
+}
+
+func (*GrowthCurve2D) GongNewInstance() any {
+	return new(GrowthCurve2D)
+}
+
+func (*GrowthCurve2DRibbon) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GrowthCurve2DRibbons, stage.GrowthCurve2DRibbon_stagedOrder)
+}
+
+func (*GrowthCurve2DRibbon) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GrowthCurve2DRibbon_orderStaged[order]
+}
+
+func (*GrowthCurve2DRibbon) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GrowthCurve2DRibbons_mapString
+}
+
+func (*GrowthCurve2DRibbon) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GrowthCurve2DRibbons
+}
+
+func (*GrowthCurve2DRibbon) GongNewInstance() any {
+	return new(GrowthCurve2DRibbon)
+}
+
+func (*GrowthCurve2DRibbonEndShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GrowthCurve2DRibbonEndShapes, stage.GrowthCurve2DRibbonEndShape_stagedOrder)
+}
+
+func (*GrowthCurve2DRibbonEndShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GrowthCurve2DRibbonEndShape_orderStaged[order]
+}
+
+func (*GrowthCurve2DRibbonEndShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GrowthCurve2DRibbonEndShapes_mapString
+}
+
+func (*GrowthCurve2DRibbonEndShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GrowthCurve2DRibbonEndShapes
+}
+
+func (*GrowthCurve2DRibbonEndShape) GongNewInstance() any {
+	return new(GrowthCurve2DRibbonEndShape)
+}
+
+func (*GrowthCurve2DRibbonStartShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GrowthCurve2DRibbonStartShapes, stage.GrowthCurve2DRibbonStartShape_stagedOrder)
+}
+
+func (*GrowthCurve2DRibbonStartShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GrowthCurve2DRibbonStartShape_orderStaged[order]
+}
+
+func (*GrowthCurve2DRibbonStartShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GrowthCurve2DRibbonStartShapes_mapString
+}
+
+func (*GrowthCurve2DRibbonStartShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GrowthCurve2DRibbonStartShapes
+}
+
+func (*GrowthCurve2DRibbonStartShape) GongNewInstance() any {
+	return new(GrowthCurve2DRibbonStartShape)
+}
+
+func (*GrowthCurveRhombusGridShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GrowthCurveRhombusGridShapes, stage.GrowthCurveRhombusGridShape_stagedOrder)
+}
+
+func (*GrowthCurveRhombusGridShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GrowthCurveRhombusGridShape_orderStaged[order]
+}
+
+func (*GrowthCurveRhombusGridShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GrowthCurveRhombusGridShapes_mapString
+}
+
+func (*GrowthCurveRhombusGridShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GrowthCurveRhombusGridShapes
+}
+
+func (*GrowthCurveRhombusGridShape) GongNewInstance() any {
+	return new(GrowthCurveRhombusGridShape)
+}
+
+func (*GrowthCurveRhombusShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GrowthCurveRhombusShapes, stage.GrowthCurveRhombusShape_stagedOrder)
+}
+
+func (*GrowthCurveRhombusShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GrowthCurveRhombusShape_orderStaged[order]
+}
+
+func (*GrowthCurveRhombusShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GrowthCurveRhombusShapes_mapString
+}
+
+func (*GrowthCurveRhombusShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GrowthCurveRhombusShapes
+}
+
+func (*GrowthCurveRhombusShape) GongNewInstance() any {
+	return new(GrowthCurveRhombusShape)
+}
+
+func (*GrowthVectorShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.GrowthVectorShapes, stage.GrowthVectorShape_stagedOrder)
+}
+
+func (*GrowthVectorShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.GrowthVectorShape_orderStaged[order]
+}
+
+func (*GrowthVectorShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.GrowthVectorShapes_mapString
+}
+
+func (*GrowthVectorShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.GrowthVectorShapes
+}
+
+func (*GrowthVectorShape) GongNewInstance() any {
+	return new(GrowthVectorShape)
+}
+
+func (*InitialRhombusGridShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.InitialRhombusGridShapes, stage.InitialRhombusGridShape_stagedOrder)
+}
+
+func (*InitialRhombusGridShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.InitialRhombusGridShape_orderStaged[order]
+}
+
+func (*InitialRhombusGridShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.InitialRhombusGridShapes_mapString
+}
+
+func (*InitialRhombusGridShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.InitialRhombusGridShapes
+}
+
+func (*InitialRhombusGridShape) GongNewInstance() any {
+	return new(InitialRhombusGridShape)
+}
+
+func (*InitialRhombusShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.InitialRhombusShapes, stage.InitialRhombusShape_stagedOrder)
+}
+
+func (*InitialRhombusShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.InitialRhombusShape_orderStaged[order]
+}
+
+func (*InitialRhombusShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.InitialRhombusShapes_mapString
+}
+
+func (*InitialRhombusShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.InitialRhombusShapes
+}
+
+func (*InitialRhombusShape) GongNewInstance() any {
+	return new(InitialRhombusShape)
+}
+
+func (*Key3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Key3DShapes, stage.Key3DShape_stagedOrder)
+}
+
+func (*Key3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Key3DShape_orderStaged[order]
+}
+
+func (*Key3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Key3DShapes_mapString
+}
+
+func (*Key3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Key3DShapes
+}
+
+func (*Key3DShape) GongNewInstance() any {
+	return new(Key3DShape)
+}
+
+func (*KeyHole3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.KeyHole3DShapes, stage.KeyHole3DShape_stagedOrder)
+}
+
+func (*KeyHole3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.KeyHole3DShape_orderStaged[order]
+}
+
+func (*KeyHole3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.KeyHole3DShapes_mapString
+}
+
+func (*KeyHole3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.KeyHole3DShapes
+}
+
+func (*KeyHole3DShape) GongNewInstance() any {
+	return new(KeyHole3DShape)
+}
+
+func (*KeyHoleShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.KeyHoleShapes, stage.KeyHoleShape_stagedOrder)
+}
+
+func (*KeyHoleShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.KeyHoleShape_orderStaged[order]
+}
+
+func (*KeyHoleShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.KeyHoleShapes_mapString
+}
+
+func (*KeyHoleShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.KeyHoleShapes
+}
+
+func (*KeyHoleShape) GongNewInstance() any {
+	return new(KeyHoleShape)
+}
+
+func (*Leaves3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Leaves3DShapes, stage.Leaves3DShape_stagedOrder)
+}
+
+func (*Leaves3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Leaves3DShape_orderStaged[order]
+}
+
+func (*Leaves3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Leaves3DShapes_mapString
+}
+
+func (*Leaves3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Leaves3DShapes
+}
+
+func (*Leaves3DShape) GongNewInstance() any {
+	return new(Leaves3DShape)
+}
+
+func (*Library) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
+}
+
+func (*Library) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Library_orderStaged[order]
+}
+
+func (*Library) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Librarys_mapString
+}
+
+func (*Library) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Librarys
+}
+
+func (*Library) GongNewInstance() any {
+	return new(Library)
+}
+
+func (*MidArcVectorShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MidArcVectorShapes, stage.MidArcVectorShape_stagedOrder)
+}
+
+func (*MidArcVectorShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MidArcVectorShape_orderStaged[order]
+}
+
+func (*MidArcVectorShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MidArcVectorShapes_mapString
+}
+
+func (*MidArcVectorShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MidArcVectorShapes
+}
+
+func (*MidArcVectorShape) GongNewInstance() any {
+	return new(MidArcVectorShape)
+}
+
+func (*MidArcVectorShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MidArcVectorShapeGrids, stage.MidArcVectorShapeGrid_stagedOrder)
+}
+
+func (*MidArcVectorShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MidArcVectorShapeGrid_orderStaged[order]
+}
+
+func (*MidArcVectorShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MidArcVectorShapeGrids_mapString
+}
+
+func (*MidArcVectorShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MidArcVectorShapeGrids
+}
+
+func (*MidArcVectorShapeGrid) GongNewInstance() any {
+	return new(MidArcVectorShapeGrid)
+}
+
+func (*OriginalPoints3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.OriginalPoints3DShapes, stage.OriginalPoints3DShape_stagedOrder)
+}
+
+func (*OriginalPoints3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.OriginalPoints3DShape_orderStaged[order]
+}
+
+func (*OriginalPoints3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.OriginalPoints3DShapes_mapString
+}
+
+func (*OriginalPoints3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.OriginalPoints3DShapes
+}
+
+func (*OriginalPoints3DShape) GongNewInstance() any {
+	return new(OriginalPoints3DShape)
+}
+
+func (*ParastichyMCurves3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ParastichyMCurves3DShapes, stage.ParastichyMCurves3DShape_stagedOrder)
+}
+
+func (*ParastichyMCurves3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ParastichyMCurves3DShape_orderStaged[order]
+}
+
+func (*ParastichyMCurves3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ParastichyMCurves3DShapes_mapString
+}
+
+func (*ParastichyMCurves3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ParastichyMCurves3DShapes
+}
+
+func (*ParastichyMCurves3DShape) GongNewInstance() any {
+	return new(ParastichyMCurves3DShape)
+}
+
+func (*ParastichyNCurves3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ParastichyNCurves3DShapes, stage.ParastichyNCurves3DShape_stagedOrder)
+}
+
+func (*ParastichyNCurves3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ParastichyNCurves3DShape_orderStaged[order]
+}
+
+func (*ParastichyNCurves3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ParastichyNCurves3DShapes_mapString
+}
+
+func (*ParastichyNCurves3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ParastichyNCurves3DShapes
+}
+
+func (*ParastichyNCurves3DShape) GongNewInstance() any {
+	return new(ParastichyNCurves3DShape)
+}
+
+func (*PartiallyGrowthCurve2DRibbon) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbons, stage.PartiallyGrowthCurve2DRibbon_stagedOrder)
+}
+
+func (*PartiallyGrowthCurve2DRibbon) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyGrowthCurve2DRibbon_orderStaged[order]
+}
+
+func (*PartiallyGrowthCurve2DRibbon) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyGrowthCurve2DRibbons_mapString
+}
+
+func (*PartiallyGrowthCurve2DRibbon) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyGrowthCurve2DRibbons
+}
+
+func (*PartiallyGrowthCurve2DRibbon) GongNewInstance() any {
+	return new(PartiallyGrowthCurve2DRibbon)
+}
+
+func (*PartiallyGrowthCurve2DRibbonEndShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbonEndShapes, stage.PartiallyGrowthCurve2DRibbonEndShape_stagedOrder)
+}
+
+func (*PartiallyGrowthCurve2DRibbonEndShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyGrowthCurve2DRibbonEndShape_orderStaged[order]
+}
+
+func (*PartiallyGrowthCurve2DRibbonEndShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyGrowthCurve2DRibbonEndShapes_mapString
+}
+
+func (*PartiallyGrowthCurve2DRibbonEndShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyGrowthCurve2DRibbonEndShapes
+}
+
+func (*PartiallyGrowthCurve2DRibbonEndShape) GongNewInstance() any {
+	return new(PartiallyGrowthCurve2DRibbonEndShape)
+}
+
+func (*PartiallyGrowthCurve2DRibbonStartShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbonStartShapes, stage.PartiallyGrowthCurve2DRibbonStartShape_stagedOrder)
+}
+
+func (*PartiallyGrowthCurve2DRibbonStartShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyGrowthCurve2DRibbonStartShape_orderStaged[order]
+}
+
+func (*PartiallyGrowthCurve2DRibbonStartShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyGrowthCurve2DRibbonStartShapes_mapString
+}
+
+func (*PartiallyGrowthCurve2DRibbonStartShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyGrowthCurve2DRibbonStartShapes
+}
+
+func (*PartiallyGrowthCurve2DRibbonStartShape) GongNewInstance() any {
+	return new(PartiallyGrowthCurve2DRibbonStartShape)
+}
+
+func (*PartiallyGrowthCurve2DTrajectory) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectorys, stage.PartiallyGrowthCurve2DTrajectory_stagedOrder)
+}
+
+func (*PartiallyGrowthCurve2DTrajectory) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyGrowthCurve2DTrajectory_orderStaged[order]
+}
+
+func (*PartiallyGrowthCurve2DTrajectory) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyGrowthCurve2DTrajectorys_mapString
+}
+
+func (*PartiallyGrowthCurve2DTrajectory) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyGrowthCurve2DTrajectorys
+}
+
+func (*PartiallyGrowthCurve2DTrajectory) GongNewInstance() any {
+	return new(PartiallyGrowthCurve2DTrajectory)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes, stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_orderStaged[order]
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongNewInstance() any {
+	return new(PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1P2) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1P2s, stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1P2) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryP1P2_orderStaged[order]
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1P2) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1P2) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyGrowthCurve2DTrajectoryP1P2s
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1P2) GongNewInstance() any {
+	return new(PartiallyGrowthCurve2DTrajectoryP1P2)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes, stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_orderStaged[order]
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongNewInstance() any {
+	return new(PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1PointShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1PointShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_orderStaged[order]
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1PointShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1PointShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1PointShape) GongNewInstance() any {
+	return new(PartiallyGrowthCurve2DTrajectoryP1PointShape)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes, stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_orderStaged[order]
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongNewInstance() any {
+	return new(PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP2PointShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP2PointShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_orderStaged[order]
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP2PointShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP2PointShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP2PointShape) GongNewInstance() any {
+	return new(PartiallyGrowthCurve2DTrajectoryP2PointShape)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryShapes, stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder)
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryShape_orderStaged[order]
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyGrowthCurve2DTrajectoryShapes
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryShape) GongNewInstance() any {
+	return new(PartiallyGrowthCurve2DTrajectoryShape)
+}
+
+func (*PartiallyRotatedSeatBottomCurveShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyRotatedSeatBottomCurveShapes, stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder)
+}
+
+func (*PartiallyRotatedSeatBottomCurveShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyRotatedSeatBottomCurveShape_orderStaged[order]
+}
+
+func (*PartiallyRotatedSeatBottomCurveShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyRotatedSeatBottomCurveShapes_mapString
+}
+
+func (*PartiallyRotatedSeatBottomCurveShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyRotatedSeatBottomCurveShapes
+}
+
+func (*PartiallyRotatedSeatBottomCurveShape) GongNewInstance() any {
+	return new(PartiallyRotatedSeatBottomCurveShape)
+}
+
+func (*PartiallyRotatedSeatTopCurveShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyRotatedSeatTopCurveShapes, stage.PartiallyRotatedSeatTopCurveShape_stagedOrder)
+}
+
+func (*PartiallyRotatedSeatTopCurveShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyRotatedSeatTopCurveShape_orderStaged[order]
+}
+
+func (*PartiallyRotatedSeatTopCurveShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyRotatedSeatTopCurveShapes_mapString
+}
+
+func (*PartiallyRotatedSeatTopCurveShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyRotatedSeatTopCurveShapes
+}
+
+func (*PartiallyRotatedSeatTopCurveShape) GongNewInstance() any {
+	return new(PartiallyRotatedSeatTopCurveShape)
+}
+
+func (*PartiallyRotatedTorusShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PartiallyRotatedTorusShapes, stage.PartiallyRotatedTorusShape_stagedOrder)
+}
+
+func (*PartiallyRotatedTorusShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PartiallyRotatedTorusShape_orderStaged[order]
+}
+
+func (*PartiallyRotatedTorusShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PartiallyRotatedTorusShapes_mapString
+}
+
+func (*PartiallyRotatedTorusShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PartiallyRotatedTorusShapes
+}
+
+func (*PartiallyRotatedTorusShape) GongNewInstance() any {
+	return new(PartiallyRotatedTorusShape)
+}
+
+func (*PerpendicularVector) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PerpendicularVectors, stage.PerpendicularVector_stagedOrder)
+}
+
+func (*PerpendicularVector) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PerpendicularVector_orderStaged[order]
+}
+
+func (*PerpendicularVector) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PerpendicularVectors_mapString
+}
+
+func (*PerpendicularVector) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PerpendicularVectors
+}
+
+func (*PerpendicularVector) GongNewInstance() any {
+	return new(PerpendicularVector)
+}
+
+func (*PerpendicularVectorGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PerpendicularVectorGrids, stage.PerpendicularVectorGrid_stagedOrder)
+}
+
+func (*PerpendicularVectorGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PerpendicularVectorGrid_orderStaged[order]
+}
+
+func (*PerpendicularVectorGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PerpendicularVectorGrids_mapString
+}
+
+func (*PerpendicularVectorGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PerpendicularVectorGrids
+}
+
+func (*PerpendicularVectorGrid) GongNewInstance() any {
+	return new(PerpendicularVectorGrid)
+}
+
+func (*PerpendicularVectorGridHalfway) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PerpendicularVectorGridHalfways, stage.PerpendicularVectorGridHalfway_stagedOrder)
+}
+
+func (*PerpendicularVectorGridHalfway) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PerpendicularVectorGridHalfway_orderStaged[order]
+}
+
+func (*PerpendicularVectorGridHalfway) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PerpendicularVectorGridHalfways_mapString
+}
+
+func (*PerpendicularVectorGridHalfway) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PerpendicularVectorGridHalfways
+}
+
+func (*PerpendicularVectorGridHalfway) GongNewInstance() any {
+	return new(PerpendicularVectorGridHalfway)
+}
+
+func (*PerpendicularVectorHalfway) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PerpendicularVectorHalfways, stage.PerpendicularVectorHalfway_stagedOrder)
+}
+
+func (*PerpendicularVectorHalfway) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PerpendicularVectorHalfway_orderStaged[order]
+}
+
+func (*PerpendicularVectorHalfway) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PerpendicularVectorHalfways_mapString
+}
+
+func (*PerpendicularVectorHalfway) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PerpendicularVectorHalfways
+}
+
+func (*PerpendicularVectorHalfway) GongNewInstance() any {
+	return new(PerpendicularVectorHalfway)
+}
+
+func (*Plant2DDiagram) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Plant2DDiagrams, stage.Plant2DDiagram_stagedOrder)
+}
+
+func (*Plant2DDiagram) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Plant2DDiagram_orderStaged[order]
+}
+
+func (*Plant2DDiagram) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Plant2DDiagrams_mapString
+}
+
+func (*Plant2DDiagram) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Plant2DDiagrams
+}
+
+func (*Plant2DDiagram) GongNewInstance() any {
+	return new(Plant2DDiagram)
+}
+
+func (*Plant3DDiagram) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Plant3DDiagrams, stage.Plant3DDiagram_stagedOrder)
+}
+
+func (*Plant3DDiagram) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Plant3DDiagram_orderStaged[order]
+}
+
+func (*Plant3DDiagram) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Plant3DDiagrams_mapString
+}
+
+func (*Plant3DDiagram) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Plant3DDiagrams
+}
+
+func (*Plant3DDiagram) GongNewInstance() any {
+	return new(Plant3DDiagram)
+}
+
+func (*PlantAbstract) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PlantAbstracts, stage.PlantAbstract_stagedOrder)
+}
+
+func (*PlantAbstract) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PlantAbstract_orderStaged[order]
+}
+
+func (*PlantAbstract) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PlantAbstracts_mapString
+}
+
+func (*PlantAbstract) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PlantAbstracts
+}
+
+func (*PlantAbstract) GongNewInstance() any {
+	return new(PlantAbstract)
+}
+
+func (*PlantCircumferenceShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PlantCircumferenceShapes, stage.PlantCircumferenceShape_stagedOrder)
+}
+
+func (*PlantCircumferenceShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PlantCircumferenceShape_orderStaged[order]
+}
+
+func (*PlantCircumferenceShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PlantCircumferenceShapes_mapString
+}
+
+func (*PlantCircumferenceShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PlantCircumferenceShapes
+}
+
+func (*PlantCircumferenceShape) GongNewInstance() any {
+	return new(PlantCircumferenceShape)
+}
+
+func (*PointsAndLines3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PointsAndLines3DShapes, stage.PointsAndLines3DShape_stagedOrder)
+}
+
+func (*PointsAndLines3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PointsAndLines3DShape_orderStaged[order]
+}
+
+func (*PointsAndLines3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PointsAndLines3DShapes_mapString
+}
+
+func (*PointsAndLines3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PointsAndLines3DShapes
+}
+
+func (*PointsAndLines3DShape) GongNewInstance() any {
+	return new(PointsAndLines3DShape)
+}
+
+func (*PxShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.PxShapes, stage.PxShape_stagedOrder)
+}
+
+func (*PxShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.PxShape_orderStaged[order]
+}
+
+func (*PxShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.PxShapes_mapString
+}
+
+func (*PxShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.PxShapes
+}
+
+func (*PxShape) GongNewInstance() any {
+	return new(PxShape)
+}
+
+func (*Rendered3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Rendered3DShapes, stage.Rendered3DShape_stagedOrder)
+}
+
+func (*Rendered3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Rendered3DShape_orderStaged[order]
+}
+
+func (*Rendered3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Rendered3DShapes_mapString
+}
+
+func (*Rendered3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Rendered3DShapes
+}
+
+func (*Rendered3DShape) GongNewInstance() any {
+	return new(Rendered3DShape)
+}
+
+func (*RhombusShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RhombusShapes, stage.RhombusShape_stagedOrder)
+}
+
+func (*RhombusShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RhombusShape_orderStaged[order]
+}
+
+func (*RhombusShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RhombusShapes_mapString
+}
+
+func (*RhombusShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RhombusShapes
+}
+
+func (*RhombusShape) GongNewInstance() any {
+	return new(RhombusShape)
+}
+
+func (*RhombusStuff) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RhombusStuffs, stage.RhombusStuff_stagedOrder)
+}
+
+func (*RhombusStuff) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RhombusStuff_orderStaged[order]
+}
+
+func (*RhombusStuff) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RhombusStuffs_mapString
+}
+
+func (*RhombusStuff) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RhombusStuffs
+}
+
+func (*RhombusStuff) GongNewInstance() any {
+	return new(RhombusStuff)
+}
+
+func (*RotatedRhombusGridShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RotatedRhombusGridShapes, stage.RotatedRhombusGridShape_stagedOrder)
+}
+
+func (*RotatedRhombusGridShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RotatedRhombusGridShape_orderStaged[order]
+}
+
+func (*RotatedRhombusGridShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RotatedRhombusGridShapes_mapString
+}
+
+func (*RotatedRhombusGridShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RotatedRhombusGridShapes
+}
+
+func (*RotatedRhombusGridShape) GongNewInstance() any {
+	return new(RotatedRhombusGridShape)
+}
+
+func (*RotatedRhombusShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RotatedRhombusShapes, stage.RotatedRhombusShape_stagedOrder)
+}
+
+func (*RotatedRhombusShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RotatedRhombusShape_orderStaged[order]
+}
+
+func (*RotatedRhombusShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RotatedRhombusShapes_mapString
+}
+
+func (*RotatedRhombusShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RotatedRhombusShapes
+}
+
+func (*RotatedRhombusShape) GongNewInstance() any {
+	return new(RotatedRhombusShape)
+}
+
+func (*RotatedSampledPoints3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RotatedSampledPoints3DShapes, stage.RotatedSampledPoints3DShape_stagedOrder)
+}
+
+func (*RotatedSampledPoints3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RotatedSampledPoints3DShape_orderStaged[order]
+}
+
+func (*RotatedSampledPoints3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RotatedSampledPoints3DShapes_mapString
+}
+
+func (*RotatedSampledPoints3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RotatedSampledPoints3DShapes
+}
+
+func (*RotatedSampledPoints3DShape) GongNewInstance() any {
+	return new(RotatedSampledPoints3DShape)
+}
+
+func (*RotatedSeatAndLegs3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RotatedSeatAndLegs3DShapes, stage.RotatedSeatAndLegs3DShape_stagedOrder)
+}
+
+func (*RotatedSeatAndLegs3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RotatedSeatAndLegs3DShape_orderStaged[order]
+}
+
+func (*RotatedSeatAndLegs3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RotatedSeatAndLegs3DShapes_mapString
+}
+
+func (*RotatedSeatAndLegs3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RotatedSeatAndLegs3DShapes
+}
+
+func (*RotatedSeatAndLegs3DShape) GongNewInstance() any {
+	return new(RotatedSeatAndLegs3DShape)
+}
+
+func (*SampledPoints3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SampledPoints3DShapes, stage.SampledPoints3DShape_stagedOrder)
+}
+
+func (*SampledPoints3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SampledPoints3DShape_orderStaged[order]
+}
+
+func (*SampledPoints3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SampledPoints3DShapes_mapString
+}
+
+func (*SampledPoints3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SampledPoints3DShapes
+}
+
+func (*SampledPoints3DShape) GongNewInstance() any {
+	return new(SampledPoints3DShape)
+}
+
+func (*Seat3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Seat3DShapes, stage.Seat3DShape_stagedOrder)
+}
+
+func (*Seat3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Seat3DShape_orderStaged[order]
+}
+
+func (*Seat3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Seat3DShapes_mapString
+}
+
+func (*Seat3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Seat3DShapes
+}
+
+func (*Seat3DShape) GongNewInstance() any {
+	return new(Seat3DShape)
+}
+
+func (*SeatAndLegs3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SeatAndLegs3DShapes, stage.SeatAndLegs3DShape_stagedOrder)
+}
+
+func (*SeatAndLegs3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SeatAndLegs3DShape_orderStaged[order]
+}
+
+func (*SeatAndLegs3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SeatAndLegs3DShapes_mapString
+}
+
+func (*SeatAndLegs3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SeatAndLegs3DShapes
+}
+
+func (*SeatAndLegs3DShape) GongNewInstance() any {
+	return new(SeatAndLegs3DShape)
+}
+
+func (*SeatBottomCurveShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SeatBottomCurveShapes, stage.SeatBottomCurveShape_stagedOrder)
+}
+
+func (*SeatBottomCurveShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SeatBottomCurveShape_orderStaged[order]
+}
+
+func (*SeatBottomCurveShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SeatBottomCurveShapes_mapString
+}
+
+func (*SeatBottomCurveShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SeatBottomCurveShapes
+}
+
+func (*SeatBottomCurveShape) GongNewInstance() any {
+	return new(SeatBottomCurveShape)
+}
+
+func (*SeatTopCurveShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SeatTopCurveShapes, stage.SeatTopCurveShape_stagedOrder)
+}
+
+func (*SeatTopCurveShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SeatTopCurveShape_orderStaged[order]
+}
+
+func (*SeatTopCurveShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SeatTopCurveShapes_mapString
+}
+
+func (*SeatTopCurveShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SeatTopCurveShapes
+}
+
+func (*SeatTopCurveShape) GongNewInstance() any {
+	return new(SeatTopCurveShape)
+}
+
+func (*ShiftedBottomTopStartArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedBottomTopStartArcShapes, stage.ShiftedBottomTopStartArcShape_stagedOrder)
+}
+
+func (*ShiftedBottomTopStartArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedBottomTopStartArcShape_orderStaged[order]
+}
+
+func (*ShiftedBottomTopStartArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedBottomTopStartArcShapes_mapString
+}
+
+func (*ShiftedBottomTopStartArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedBottomTopStartArcShapes
+}
+
+func (*ShiftedBottomTopStartArcShape) GongNewInstance() any {
+	return new(ShiftedBottomTopStartArcShape)
+}
+
+func (*ShiftedBottomTopStartArcShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedBottomTopStartArcShapeGrids, stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder)
+}
+
+func (*ShiftedBottomTopStartArcShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedBottomTopStartArcShapeGrid_orderStaged[order]
+}
+
+func (*ShiftedBottomTopStartArcShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedBottomTopStartArcShapeGrids_mapString
+}
+
+func (*ShiftedBottomTopStartArcShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedBottomTopStartArcShapeGrids
+}
+
+func (*ShiftedBottomTopStartArcShapeGrid) GongNewInstance() any {
+	return new(ShiftedBottomTopStartArcShapeGrid)
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbon) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedLeftGrowthCurve2DRibbons, stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder)
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbon) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedLeftGrowthCurve2DRibbon_orderStaged[order]
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbon) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedLeftGrowthCurve2DRibbons_mapString
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbon) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedLeftGrowthCurve2DRibbons
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbon) GongNewInstance() any {
+	return new(ShiftedLeftGrowthCurve2DRibbon)
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbonEndShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedLeftGrowthCurve2DRibbonEndShapes, stage.ShiftedLeftGrowthCurve2DRibbonEndShape_stagedOrder)
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbonEndShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedLeftGrowthCurve2DRibbonEndShape_orderStaged[order]
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbonEndShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedLeftGrowthCurve2DRibbonEndShapes_mapString
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbonEndShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedLeftGrowthCurve2DRibbonEndShapes
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbonEndShape) GongNewInstance() any {
+	return new(ShiftedLeftGrowthCurve2DRibbonEndShape)
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbonStartShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedLeftGrowthCurve2DRibbonStartShapes, stage.ShiftedLeftGrowthCurve2DRibbonStartShape_stagedOrder)
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbonStartShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedLeftGrowthCurve2DRibbonStartShape_orderStaged[order]
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbonStartShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedLeftGrowthCurve2DRibbonStartShapes_mapString
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbonStartShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedLeftGrowthCurve2DRibbonStartShapes
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbonStartShape) GongNewInstance() any {
+	return new(ShiftedLeftGrowthCurve2DRibbonStartShape)
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbon) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedLeftPartiallyGrowthCurve2DRibbons, stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder)
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbon) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_orderStaged[order]
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbon) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedLeftPartiallyGrowthCurve2DRibbons_mapString
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbon) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedLeftPartiallyGrowthCurve2DRibbons
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbon) GongNewInstance() any {
+	return new(ShiftedLeftPartiallyGrowthCurve2DRibbon)
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes, stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape_stagedOrder)
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape_orderStaged[order]
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes_mapString
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongNewInstance() any {
+	return new(ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape)
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes, stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape_stagedOrder)
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape_orderStaged[order]
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes_mapString
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongNewInstance() any {
+	return new(ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape)
+}
+
+func (*ShiftedLeftStackGrowthCurveEndArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedLeftStackGrowthCurveEndArcShapes, stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder)
+}
+
+func (*ShiftedLeftStackGrowthCurveEndArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedLeftStackGrowthCurveEndArcShape_orderStaged[order]
+}
+
+func (*ShiftedLeftStackGrowthCurveEndArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedLeftStackGrowthCurveEndArcShapes_mapString
+}
+
+func (*ShiftedLeftStackGrowthCurveEndArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedLeftStackGrowthCurveEndArcShapes
+}
+
+func (*ShiftedLeftStackGrowthCurveEndArcShape) GongNewInstance() any {
+	return new(ShiftedLeftStackGrowthCurveEndArcShape)
+}
+
+func (*ShiftedLeftStackGrowthCurveStartArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedLeftStackGrowthCurveStartArcShapes, stage.ShiftedLeftStackGrowthCurveStartArcShape_stagedOrder)
+}
+
+func (*ShiftedLeftStackGrowthCurveStartArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedLeftStackGrowthCurveStartArcShape_orderStaged[order]
+}
+
+func (*ShiftedLeftStackGrowthCurveStartArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedLeftStackGrowthCurveStartArcShapes_mapString
+}
+
+func (*ShiftedLeftStackGrowthCurveStartArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedLeftStackGrowthCurveStartArcShapes
+}
+
+func (*ShiftedLeftStackGrowthCurveStartArcShape) GongNewInstance() any {
+	return new(ShiftedLeftStackGrowthCurveStartArcShape)
+}
+
+func (*ShiftedLeftStackNormalVector) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedLeftStackNormalVectors, stage.ShiftedLeftStackNormalVector_stagedOrder)
+}
+
+func (*ShiftedLeftStackNormalVector) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedLeftStackNormalVector_orderStaged[order]
+}
+
+func (*ShiftedLeftStackNormalVector) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedLeftStackNormalVectors_mapString
+}
+
+func (*ShiftedLeftStackNormalVector) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedLeftStackNormalVectors
+}
+
+func (*ShiftedLeftStackNormalVector) GongNewInstance() any {
+	return new(ShiftedLeftStackNormalVector)
+}
+
+func (*ShiftedLeftStackOfGrowthCurve) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedLeftStackOfGrowthCurves, stage.ShiftedLeftStackOfGrowthCurve_stagedOrder)
+}
+
+func (*ShiftedLeftStackOfGrowthCurve) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedLeftStackOfGrowthCurve_orderStaged[order]
+}
+
+func (*ShiftedLeftStackOfGrowthCurve) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedLeftStackOfGrowthCurves_mapString
+}
+
+func (*ShiftedLeftStackOfGrowthCurve) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedLeftStackOfGrowthCurves
+}
+
+func (*ShiftedLeftStackOfGrowthCurve) GongNewInstance() any {
+	return new(ShiftedLeftStackOfGrowthCurve)
+}
+
+func (*ShiftedLeftStackOfNormalVector) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedLeftStackOfNormalVectors, stage.ShiftedLeftStackOfNormalVector_stagedOrder)
+}
+
+func (*ShiftedLeftStackOfNormalVector) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedLeftStackOfNormalVector_orderStaged[order]
+}
+
+func (*ShiftedLeftStackOfNormalVector) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedLeftStackOfNormalVectors_mapString
+}
+
+func (*ShiftedLeftStackOfNormalVector) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedLeftStackOfNormalVectors
+}
+
+func (*ShiftedLeftStackOfNormalVector) GongNewInstance() any {
+	return new(ShiftedLeftStackOfNormalVector)
+}
+
+func (*ShiftedRightGrowthCurve2DRibbon) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedRightGrowthCurve2DRibbons, stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder)
+}
+
+func (*ShiftedRightGrowthCurve2DRibbon) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedRightGrowthCurve2DRibbon_orderStaged[order]
+}
+
+func (*ShiftedRightGrowthCurve2DRibbon) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedRightGrowthCurve2DRibbons_mapString
+}
+
+func (*ShiftedRightGrowthCurve2DRibbon) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedRightGrowthCurve2DRibbons
+}
+
+func (*ShiftedRightGrowthCurve2DRibbon) GongNewInstance() any {
+	return new(ShiftedRightGrowthCurve2DRibbon)
+}
+
+func (*ShiftedRightGrowthCurve2DRibbonEndShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedRightGrowthCurve2DRibbonEndShapes, stage.ShiftedRightGrowthCurve2DRibbonEndShape_stagedOrder)
+}
+
+func (*ShiftedRightGrowthCurve2DRibbonEndShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedRightGrowthCurve2DRibbonEndShape_orderStaged[order]
+}
+
+func (*ShiftedRightGrowthCurve2DRibbonEndShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedRightGrowthCurve2DRibbonEndShapes_mapString
+}
+
+func (*ShiftedRightGrowthCurve2DRibbonEndShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedRightGrowthCurve2DRibbonEndShapes
+}
+
+func (*ShiftedRightGrowthCurve2DRibbonEndShape) GongNewInstance() any {
+	return new(ShiftedRightGrowthCurve2DRibbonEndShape)
+}
+
+func (*ShiftedRightGrowthCurve2DRibbonStartShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ShiftedRightGrowthCurve2DRibbonStartShapes, stage.ShiftedRightGrowthCurve2DRibbonStartShape_stagedOrder)
+}
+
+func (*ShiftedRightGrowthCurve2DRibbonStartShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ShiftedRightGrowthCurve2DRibbonStartShape_orderStaged[order]
+}
+
+func (*ShiftedRightGrowthCurve2DRibbonStartShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ShiftedRightGrowthCurve2DRibbonStartShapes_mapString
+}
+
+func (*ShiftedRightGrowthCurve2DRibbonStartShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ShiftedRightGrowthCurve2DRibbonStartShapes
+}
+
+func (*ShiftedRightGrowthCurve2DRibbonStartShape) GongNewInstance() any {
+	return new(ShiftedRightGrowthCurve2DRibbonStartShape)
+}
+
+func (*StackGrowthCurve2DEndHalfwayArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackGrowthCurve2DEndHalfwayArcShapes, stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder)
+}
+
+func (*StackGrowthCurve2DEndHalfwayArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackGrowthCurve2DEndHalfwayArcShape_orderStaged[order]
+}
+
+func (*StackGrowthCurve2DEndHalfwayArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackGrowthCurve2DEndHalfwayArcShapes_mapString
+}
+
+func (*StackGrowthCurve2DEndHalfwayArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackGrowthCurve2DEndHalfwayArcShapes
+}
+
+func (*StackGrowthCurve2DEndHalfwayArcShape) GongNewInstance() any {
+	return new(StackGrowthCurve2DEndHalfwayArcShape)
+}
+
+func (*StackGrowthCurve2DRibbonEndShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackGrowthCurve2DRibbonEndShapes, stage.StackGrowthCurve2DRibbonEndShape_stagedOrder)
+}
+
+func (*StackGrowthCurve2DRibbonEndShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackGrowthCurve2DRibbonEndShape_orderStaged[order]
+}
+
+func (*StackGrowthCurve2DRibbonEndShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackGrowthCurve2DRibbonEndShapes_mapString
+}
+
+func (*StackGrowthCurve2DRibbonEndShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackGrowthCurve2DRibbonEndShapes
+}
+
+func (*StackGrowthCurve2DRibbonEndShape) GongNewInstance() any {
+	return new(StackGrowthCurve2DRibbonEndShape)
+}
+
+func (*StackGrowthCurve2DRibbonStartShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackGrowthCurve2DRibbonStartShapes, stage.StackGrowthCurve2DRibbonStartShape_stagedOrder)
+}
+
+func (*StackGrowthCurve2DRibbonStartShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackGrowthCurve2DRibbonStartShape_orderStaged[order]
+}
+
+func (*StackGrowthCurve2DRibbonStartShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackGrowthCurve2DRibbonStartShapes_mapString
+}
+
+func (*StackGrowthCurve2DRibbonStartShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackGrowthCurve2DRibbonStartShapes
+}
+
+func (*StackGrowthCurve2DRibbonStartShape) GongNewInstance() any {
+	return new(StackGrowthCurve2DRibbonStartShape)
+}
+
+func (*StackGrowthCurve2DStartHalfwayArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackGrowthCurve2DStartHalfwayArcShapes, stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder)
+}
+
+func (*StackGrowthCurve2DStartHalfwayArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackGrowthCurve2DStartHalfwayArcShape_orderStaged[order]
+}
+
+func (*StackGrowthCurve2DStartHalfwayArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackGrowthCurve2DStartHalfwayArcShapes_mapString
+}
+
+func (*StackGrowthCurve2DStartHalfwayArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackGrowthCurve2DStartHalfwayArcShapes
+}
+
+func (*StackGrowthCurve2DStartHalfwayArcShape) GongNewInstance() any {
+	return new(StackGrowthCurve2DStartHalfwayArcShape)
+}
+
+func (*StackOfCarvedOutVaseTrapezeRingsShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackOfCarvedOutVaseTrapezeRingsShapes, stage.StackOfCarvedOutVaseTrapezeRingsShape_stagedOrder)
+}
+
+func (*StackOfCarvedOutVaseTrapezeRingsShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackOfCarvedOutVaseTrapezeRingsShape_orderStaged[order]
+}
+
+func (*StackOfCarvedOutVaseTrapezeRingsShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackOfCarvedOutVaseTrapezeRingsShapes_mapString
+}
+
+func (*StackOfCarvedOutVaseTrapezeRingsShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackOfCarvedOutVaseTrapezeRingsShapes
+}
+
+func (*StackOfCarvedOutVaseTrapezeRingsShape) GongNewInstance() any {
+	return new(StackOfCarvedOutVaseTrapezeRingsShape)
+}
+
+func (*StackOfGrowthCurve2D) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackOfGrowthCurve2Ds, stage.StackOfGrowthCurve2D_stagedOrder)
+}
+
+func (*StackOfGrowthCurve2D) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackOfGrowthCurve2D_orderStaged[order]
+}
+
+func (*StackOfGrowthCurve2D) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackOfGrowthCurve2Ds_mapString
+}
+
+func (*StackOfGrowthCurve2D) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackOfGrowthCurve2Ds
+}
+
+func (*StackOfGrowthCurve2D) GongNewInstance() any {
+	return new(StackOfGrowthCurve2D)
+}
+
+func (*StackOfGrowthCurve2DByGrowthVector) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackOfGrowthCurve2DByGrowthVectors, stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder)
+}
+
+func (*StackOfGrowthCurve2DByGrowthVector) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackOfGrowthCurve2DByGrowthVector_orderStaged[order]
+}
+
+func (*StackOfGrowthCurve2DByGrowthVector) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackOfGrowthCurve2DByGrowthVectors_mapString
+}
+
+func (*StackOfGrowthCurve2DByGrowthVector) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackOfGrowthCurve2DByGrowthVectors
+}
+
+func (*StackOfGrowthCurve2DByGrowthVector) GongNewInstance() any {
+	return new(StackOfGrowthCurve2DByGrowthVector)
+}
+
+func (*StackOfGrowthCurve2DRibbon) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackOfGrowthCurve2DRibbons, stage.StackOfGrowthCurve2DRibbon_stagedOrder)
+}
+
+func (*StackOfGrowthCurve2DRibbon) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackOfGrowthCurve2DRibbon_orderStaged[order]
+}
+
+func (*StackOfGrowthCurve2DRibbon) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackOfGrowthCurve2DRibbons_mapString
+}
+
+func (*StackOfGrowthCurve2DRibbon) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackOfGrowthCurve2DRibbons
+}
+
+func (*StackOfGrowthCurve2DRibbon) GongNewInstance() any {
+	return new(StackOfGrowthCurve2DRibbon)
+}
+
+func (*StackOfPartiallyRotatedTorusShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackOfPartiallyRotatedTorusShapes, stage.StackOfPartiallyRotatedTorusShape_stagedOrder)
+}
+
+func (*StackOfPartiallyRotatedTorusShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackOfPartiallyRotatedTorusShape_orderStaged[order]
+}
+
+func (*StackOfPartiallyRotatedTorusShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackOfPartiallyRotatedTorusShapes_mapString
+}
+
+func (*StackOfPartiallyRotatedTorusShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackOfPartiallyRotatedTorusShapes
+}
+
+func (*StackOfPartiallyRotatedTorusShape) GongNewInstance() any {
+	return new(StackOfPartiallyRotatedTorusShape)
+}
+
+func (*StackOfRotatedCarvedOutVaseTrapezeRingsShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes, stage.StackOfRotatedCarvedOutVaseTrapezeRingsShape_stagedOrder)
+}
+
+func (*StackOfRotatedCarvedOutVaseTrapezeRingsShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackOfRotatedCarvedOutVaseTrapezeRingsShape_orderStaged[order]
+}
+
+func (*StackOfRotatedCarvedOutVaseTrapezeRingsShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes_mapString
+}
+
+func (*StackOfRotatedCarvedOutVaseTrapezeRingsShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes
+}
+
+func (*StackOfRotatedCarvedOutVaseTrapezeRingsShape) GongNewInstance() any {
+	return new(StackOfRotatedCarvedOutVaseTrapezeRingsShape)
+}
+
+func (*StackOfRotatedGrowthCurve2D) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackOfRotatedGrowthCurve2Ds, stage.StackOfRotatedGrowthCurve2D_stagedOrder)
+}
+
+func (*StackOfRotatedGrowthCurve2D) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackOfRotatedGrowthCurve2D_orderStaged[order]
+}
+
+func (*StackOfRotatedGrowthCurve2D) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackOfRotatedGrowthCurve2Ds_mapString
+}
+
+func (*StackOfRotatedGrowthCurve2D) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackOfRotatedGrowthCurve2Ds
+}
+
+func (*StackOfRotatedGrowthCurve2D) GongNewInstance() any {
+	return new(StackOfRotatedGrowthCurve2D)
+}
+
+func (*StackOfRotatedGrowthCurve2DRibbon) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackOfRotatedGrowthCurve2DRibbons, stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder)
+}
+
+func (*StackOfRotatedGrowthCurve2DRibbon) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackOfRotatedGrowthCurve2DRibbon_orderStaged[order]
+}
+
+func (*StackOfRotatedGrowthCurve2DRibbon) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackOfRotatedGrowthCurve2DRibbons_mapString
+}
+
+func (*StackOfRotatedGrowthCurve2DRibbon) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackOfRotatedGrowthCurve2DRibbons
+}
+
+func (*StackOfRotatedGrowthCurve2DRibbon) GongNewInstance() any {
+	return new(StackOfRotatedGrowthCurve2DRibbon)
+}
+
+func (*StackOfRotatedVaseTrapezeRingsShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackOfRotatedVaseTrapezeRingsShapes, stage.StackOfRotatedVaseTrapezeRingsShape_stagedOrder)
+}
+
+func (*StackOfRotatedVaseTrapezeRingsShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackOfRotatedVaseTrapezeRingsShape_orderStaged[order]
+}
+
+func (*StackOfRotatedVaseTrapezeRingsShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackOfRotatedVaseTrapezeRingsShapes_mapString
+}
+
+func (*StackOfRotatedVaseTrapezeRingsShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackOfRotatedVaseTrapezeRingsShapes
+}
+
+func (*StackOfRotatedVaseTrapezeRingsShape) GongNewInstance() any {
+	return new(StackOfRotatedVaseTrapezeRingsShape)
+}
+
+func (*StackOfVaseTrapezeRingsShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackOfVaseTrapezeRingsShapes, stage.StackOfVaseTrapezeRingsShape_stagedOrder)
+}
+
+func (*StackOfVaseTrapezeRingsShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackOfVaseTrapezeRingsShape_orderStaged[order]
+}
+
+func (*StackOfVaseTrapezeRingsShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackOfVaseTrapezeRingsShapes_mapString
+}
+
+func (*StackOfVaseTrapezeRingsShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackOfVaseTrapezeRingsShapes
+}
+
+func (*StackOfVaseTrapezeRingsShape) GongNewInstance() any {
+	return new(StackOfVaseTrapezeRingsShape)
+}
+
+func (*StackRotatedGrowthCurve2DEndArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackRotatedGrowthCurve2DEndArcShapes, stage.StackRotatedGrowthCurve2DEndArcShape_stagedOrder)
+}
+
+func (*StackRotatedGrowthCurve2DEndArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackRotatedGrowthCurve2DEndArcShape_orderStaged[order]
+}
+
+func (*StackRotatedGrowthCurve2DEndArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackRotatedGrowthCurve2DEndArcShapes_mapString
+}
+
+func (*StackRotatedGrowthCurve2DEndArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackRotatedGrowthCurve2DEndArcShapes
+}
+
+func (*StackRotatedGrowthCurve2DEndArcShape) GongNewInstance() any {
+	return new(StackRotatedGrowthCurve2DEndArcShape)
+}
+
+func (*StackRotatedGrowthCurve2DRibbonEndShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackRotatedGrowthCurve2DRibbonEndShapes, stage.StackRotatedGrowthCurve2DRibbonEndShape_stagedOrder)
+}
+
+func (*StackRotatedGrowthCurve2DRibbonEndShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackRotatedGrowthCurve2DRibbonEndShape_orderStaged[order]
+}
+
+func (*StackRotatedGrowthCurve2DRibbonEndShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackRotatedGrowthCurve2DRibbonEndShapes_mapString
+}
+
+func (*StackRotatedGrowthCurve2DRibbonEndShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackRotatedGrowthCurve2DRibbonEndShapes
+}
+
+func (*StackRotatedGrowthCurve2DRibbonEndShape) GongNewInstance() any {
+	return new(StackRotatedGrowthCurve2DRibbonEndShape)
+}
+
+func (*StackRotatedGrowthCurve2DRibbonStartShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackRotatedGrowthCurve2DRibbonStartShapes, stage.StackRotatedGrowthCurve2DRibbonStartShape_stagedOrder)
+}
+
+func (*StackRotatedGrowthCurve2DRibbonStartShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackRotatedGrowthCurve2DRibbonStartShape_orderStaged[order]
+}
+
+func (*StackRotatedGrowthCurve2DRibbonStartShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackRotatedGrowthCurve2DRibbonStartShapes_mapString
+}
+
+func (*StackRotatedGrowthCurve2DRibbonStartShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackRotatedGrowthCurve2DRibbonStartShapes
+}
+
+func (*StackRotatedGrowthCurve2DRibbonStartShape) GongNewInstance() any {
+	return new(StackRotatedGrowthCurve2DRibbonStartShape)
+}
+
+func (*StackRotatedGrowthCurve2DStartArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StackRotatedGrowthCurve2DStartArcShapes, stage.StackRotatedGrowthCurve2DStartArcShape_stagedOrder)
+}
+
+func (*StackRotatedGrowthCurve2DStartArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StackRotatedGrowthCurve2DStartArcShape_orderStaged[order]
+}
+
+func (*StackRotatedGrowthCurve2DStartArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StackRotatedGrowthCurve2DStartArcShapes_mapString
+}
+
+func (*StackRotatedGrowthCurve2DStartArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StackRotatedGrowthCurve2DStartArcShapes
+}
+
+func (*StackRotatedGrowthCurve2DStartArcShape) GongNewInstance() any {
+	return new(StackRotatedGrowthCurve2DStartArcShape)
+}
+
+func (*StartArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StartArcShapes, stage.StartArcShape_stagedOrder)
+}
+
+func (*StartArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StartArcShape_orderStaged[order]
+}
+
+func (*StartArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StartArcShapes_mapString
+}
+
+func (*StartArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StartArcShapes
+}
+
+func (*StartArcShape) GongNewInstance() any {
+	return new(StartArcShape)
+}
+
+func (*StartArcShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StartArcShapeGrids, stage.StartArcShapeGrid_stagedOrder)
+}
+
+func (*StartArcShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StartArcShapeGrid_orderStaged[order]
+}
+
+func (*StartArcShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StartArcShapeGrids_mapString
+}
+
+func (*StartArcShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StartArcShapeGrids
+}
+
+func (*StartArcShapeGrid) GongNewInstance() any {
+	return new(StartArcShapeGrid)
+}
+
+func (*StartHalfwayArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StartHalfwayArcShapes, stage.StartHalfwayArcShape_stagedOrder)
+}
+
+func (*StartHalfwayArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StartHalfwayArcShape_orderStaged[order]
+}
+
+func (*StartHalfwayArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StartHalfwayArcShapes_mapString
+}
+
+func (*StartHalfwayArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StartHalfwayArcShapes
+}
+
+func (*StartHalfwayArcShape) GongNewInstance() any {
+	return new(StartHalfwayArcShape)
+}
+
+func (*StartHalfwayArcShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StartHalfwayArcShapeGrids, stage.StartHalfwayArcShapeGrid_stagedOrder)
+}
+
+func (*StartHalfwayArcShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StartHalfwayArcShapeGrid_orderStaged[order]
+}
+
+func (*StartHalfwayArcShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StartHalfwayArcShapeGrids_mapString
+}
+
+func (*StartHalfwayArcShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StartHalfwayArcShapeGrids
+}
+
+func (*StartHalfwayArcShapeGrid) GongNewInstance() any {
+	return new(StartHalfwayArcShapeGrid)
+}
+
+func (*StemCylinder3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.StemCylinder3DShapes, stage.StemCylinder3DShape_stagedOrder)
+}
+
+func (*StemCylinder3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.StemCylinder3DShape_orderStaged[order]
+}
+
+func (*StemCylinder3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.StemCylinder3DShapes_mapString
+}
+
+func (*StemCylinder3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.StemCylinder3DShapes
+}
+
+func (*StemCylinder3DShape) GongNewInstance() any {
+	return new(StemCylinder3DShape)
+}
+
+func (*Stool2DDiagram) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Stool2DDiagrams, stage.Stool2DDiagram_stagedOrder)
+}
+
+func (*Stool2DDiagram) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Stool2DDiagram_orderStaged[order]
+}
+
+func (*Stool2DDiagram) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Stool2DDiagrams_mapString
+}
+
+func (*Stool2DDiagram) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Stool2DDiagrams
+}
+
+func (*Stool2DDiagram) GongNewInstance() any {
+	return new(Stool2DDiagram)
+}
+
+func (*Stool3DDiagram) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Stool3DDiagrams, stage.Stool3DDiagram_stagedOrder)
+}
+
+func (*Stool3DDiagram) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Stool3DDiagram_orderStaged[order]
+}
+
+func (*Stool3DDiagram) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Stool3DDiagrams_mapString
+}
+
+func (*Stool3DDiagram) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Stool3DDiagrams
+}
+
+func (*Stool3DDiagram) GongNewInstance() any {
+	return new(Stool3DDiagram)
+}
+
+func (*TiledFloor3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TiledFloor3DShapes, stage.TiledFloor3DShape_stagedOrder)
+}
+
+func (*TiledFloor3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TiledFloor3DShape_orderStaged[order]
+}
+
+func (*TiledFloor3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TiledFloor3DShapes_mapString
+}
+
+func (*TiledFloor3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TiledFloor3DShapes
+}
+
+func (*TiledFloor3DShape) GongNewInstance() any {
+	return new(TiledFloor3DShape)
+}
+
+func (*TopCurvePlane1Shape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopCurvePlane1Shapes, stage.TopCurvePlane1Shape_stagedOrder)
+}
+
+func (*TopCurvePlane1Shape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopCurvePlane1Shape_orderStaged[order]
+}
+
+func (*TopCurvePlane1Shape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopCurvePlane1Shapes_mapString
+}
+
+func (*TopCurvePlane1Shape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopCurvePlane1Shapes
+}
+
+func (*TopCurvePlane1Shape) GongNewInstance() any {
+	return new(TopCurvePlane1Shape)
+}
+
+func (*TopCurvePlane2Shape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopCurvePlane2Shapes, stage.TopCurvePlane2Shape_stagedOrder)
+}
+
+func (*TopCurvePlane2Shape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopCurvePlane2Shape_orderStaged[order]
+}
+
+func (*TopCurvePlane2Shape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopCurvePlane2Shapes_mapString
+}
+
+func (*TopCurvePlane2Shape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopCurvePlane2Shapes
+}
+
+func (*TopCurvePlane2Shape) GongNewInstance() any {
+	return new(TopCurvePlane2Shape)
+}
+
+func (*TopEndArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopEndArcShapes, stage.TopEndArcShape_stagedOrder)
+}
+
+func (*TopEndArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopEndArcShape_orderStaged[order]
+}
+
+func (*TopEndArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopEndArcShapes_mapString
+}
+
+func (*TopEndArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopEndArcShapes
+}
+
+func (*TopEndArcShape) GongNewInstance() any {
+	return new(TopEndArcShape)
+}
+
+func (*TopEndArcShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopEndArcShapeGrids, stage.TopEndArcShapeGrid_stagedOrder)
+}
+
+func (*TopEndArcShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopEndArcShapeGrid_orderStaged[order]
+}
+
+func (*TopEndArcShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopEndArcShapeGrids_mapString
+}
+
+func (*TopEndArcShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopEndArcShapeGrids
+}
+
+func (*TopEndArcShapeGrid) GongNewInstance() any {
+	return new(TopEndArcShapeGrid)
+}
+
+func (*TopEndHalfwayArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopEndHalfwayArcShapes, stage.TopEndHalfwayArcShape_stagedOrder)
+}
+
+func (*TopEndHalfwayArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopEndHalfwayArcShape_orderStaged[order]
+}
+
+func (*TopEndHalfwayArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopEndHalfwayArcShapes_mapString
+}
+
+func (*TopEndHalfwayArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopEndHalfwayArcShapes
+}
+
+func (*TopEndHalfwayArcShape) GongNewInstance() any {
+	return new(TopEndHalfwayArcShape)
+}
+
+func (*TopEndHalfwayArcShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopEndHalfwayArcShapeGrids, stage.TopEndHalfwayArcShapeGrid_stagedOrder)
+}
+
+func (*TopEndHalfwayArcShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopEndHalfwayArcShapeGrid_orderStaged[order]
+}
+
+func (*TopEndHalfwayArcShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopEndHalfwayArcShapeGrids_mapString
+}
+
+func (*TopEndHalfwayArcShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopEndHalfwayArcShapeGrids
+}
+
+func (*TopEndHalfwayArcShapeGrid) GongNewInstance() any {
+	return new(TopEndHalfwayArcShapeGrid)
+}
+
+func (*TopGrowthCurve2D) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopGrowthCurve2Ds, stage.TopGrowthCurve2D_stagedOrder)
+}
+
+func (*TopGrowthCurve2D) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopGrowthCurve2D_orderStaged[order]
+}
+
+func (*TopGrowthCurve2D) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopGrowthCurve2Ds_mapString
+}
+
+func (*TopGrowthCurve2D) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopGrowthCurve2Ds
+}
+
+func (*TopGrowthCurve2D) GongNewInstance() any {
+	return new(TopGrowthCurve2D)
+}
+
+func (*TopMidArcVectorShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopMidArcVectorShapes, stage.TopMidArcVectorShape_stagedOrder)
+}
+
+func (*TopMidArcVectorShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopMidArcVectorShape_orderStaged[order]
+}
+
+func (*TopMidArcVectorShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopMidArcVectorShapes_mapString
+}
+
+func (*TopMidArcVectorShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopMidArcVectorShapes
+}
+
+func (*TopMidArcVectorShape) GongNewInstance() any {
+	return new(TopMidArcVectorShape)
+}
+
+func (*TopMidArcVectorShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopMidArcVectorShapeGrids, stage.TopMidArcVectorShapeGrid_stagedOrder)
+}
+
+func (*TopMidArcVectorShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopMidArcVectorShapeGrid_orderStaged[order]
+}
+
+func (*TopMidArcVectorShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopMidArcVectorShapeGrids_mapString
+}
+
+func (*TopMidArcVectorShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopMidArcVectorShapeGrids
+}
+
+func (*TopMidArcVectorShapeGrid) GongNewInstance() any {
+	return new(TopMidArcVectorShapeGrid)
+}
+
+func (*TopStackGrowthCurve2DEndHalfwayArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopStackGrowthCurve2DEndHalfwayArcShapes, stage.TopStackGrowthCurve2DEndHalfwayArcShape_stagedOrder)
+}
+
+func (*TopStackGrowthCurve2DEndHalfwayArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopStackGrowthCurve2DEndHalfwayArcShape_orderStaged[order]
+}
+
+func (*TopStackGrowthCurve2DEndHalfwayArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopStackGrowthCurve2DEndHalfwayArcShapes_mapString
+}
+
+func (*TopStackGrowthCurve2DEndHalfwayArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopStackGrowthCurve2DEndHalfwayArcShapes
+}
+
+func (*TopStackGrowthCurve2DEndHalfwayArcShape) GongNewInstance() any {
+	return new(TopStackGrowthCurve2DEndHalfwayArcShape)
+}
+
+func (*TopStackGrowthCurve2DStartHalfwayArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopStackGrowthCurve2DStartHalfwayArcShapes, stage.TopStackGrowthCurve2DStartHalfwayArcShape_stagedOrder)
+}
+
+func (*TopStackGrowthCurve2DStartHalfwayArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopStackGrowthCurve2DStartHalfwayArcShape_orderStaged[order]
+}
+
+func (*TopStackGrowthCurve2DStartHalfwayArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopStackGrowthCurve2DStartHalfwayArcShapes_mapString
+}
+
+func (*TopStackGrowthCurve2DStartHalfwayArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopStackGrowthCurve2DStartHalfwayArcShapes
+}
+
+func (*TopStackGrowthCurve2DStartHalfwayArcShape) GongNewInstance() any {
+	return new(TopStackGrowthCurve2DStartHalfwayArcShape)
+}
+
+func (*TopStackOfGrowthCurve2D) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopStackOfGrowthCurve2Ds, stage.TopStackOfGrowthCurve2D_stagedOrder)
+}
+
+func (*TopStackOfGrowthCurve2D) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopStackOfGrowthCurve2D_orderStaged[order]
+}
+
+func (*TopStackOfGrowthCurve2D) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopStackOfGrowthCurve2Ds_mapString
+}
+
+func (*TopStackOfGrowthCurve2D) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopStackOfGrowthCurve2Ds
+}
+
+func (*TopStackOfGrowthCurve2D) GongNewInstance() any {
+	return new(TopStackOfGrowthCurve2D)
+}
+
+func (*TopStackOfRotatedGrowthCurve2D) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopStackOfRotatedGrowthCurve2Ds, stage.TopStackOfRotatedGrowthCurve2D_stagedOrder)
+}
+
+func (*TopStackOfRotatedGrowthCurve2D) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopStackOfRotatedGrowthCurve2D_orderStaged[order]
+}
+
+func (*TopStackOfRotatedGrowthCurve2D) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopStackOfRotatedGrowthCurve2Ds_mapString
+}
+
+func (*TopStackOfRotatedGrowthCurve2D) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopStackOfRotatedGrowthCurve2Ds
+}
+
+func (*TopStackOfRotatedGrowthCurve2D) GongNewInstance() any {
+	return new(TopStackOfRotatedGrowthCurve2D)
+}
+
+func (*TopStackOfRotatedGrowthCurve2DEndArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopStackOfRotatedGrowthCurve2DEndArcShapes, stage.TopStackOfRotatedGrowthCurve2DEndArcShape_stagedOrder)
+}
+
+func (*TopStackOfRotatedGrowthCurve2DEndArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopStackOfRotatedGrowthCurve2DEndArcShape_orderStaged[order]
+}
+
+func (*TopStackOfRotatedGrowthCurve2DEndArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopStackOfRotatedGrowthCurve2DEndArcShapes_mapString
+}
+
+func (*TopStackOfRotatedGrowthCurve2DEndArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopStackOfRotatedGrowthCurve2DEndArcShapes
+}
+
+func (*TopStackOfRotatedGrowthCurve2DEndArcShape) GongNewInstance() any {
+	return new(TopStackOfRotatedGrowthCurve2DEndArcShape)
+}
+
+func (*TopStackOfRotatedGrowthCurve2DStartArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopStackOfRotatedGrowthCurve2DStartArcShapes, stage.TopStackOfRotatedGrowthCurve2DStartArcShape_stagedOrder)
+}
+
+func (*TopStackOfRotatedGrowthCurve2DStartArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopStackOfRotatedGrowthCurve2DStartArcShape_orderStaged[order]
+}
+
+func (*TopStackOfRotatedGrowthCurve2DStartArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopStackOfRotatedGrowthCurve2DStartArcShapes_mapString
+}
+
+func (*TopStackOfRotatedGrowthCurve2DStartArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopStackOfRotatedGrowthCurve2DStartArcShapes
+}
+
+func (*TopStackOfRotatedGrowthCurve2DStartArcShape) GongNewInstance() any {
+	return new(TopStackOfRotatedGrowthCurve2DStartArcShape)
+}
+
+func (*TopStartArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopStartArcShapes, stage.TopStartArcShape_stagedOrder)
+}
+
+func (*TopStartArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopStartArcShape_orderStaged[order]
+}
+
+func (*TopStartArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopStartArcShapes_mapString
+}
+
+func (*TopStartArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopStartArcShapes
+}
+
+func (*TopStartArcShape) GongNewInstance() any {
+	return new(TopStartArcShape)
+}
+
+func (*TopStartArcShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopStartArcShapeGrids, stage.TopStartArcShapeGrid_stagedOrder)
+}
+
+func (*TopStartArcShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopStartArcShapeGrid_orderStaged[order]
+}
+
+func (*TopStartArcShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopStartArcShapeGrids_mapString
+}
+
+func (*TopStartArcShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopStartArcShapeGrids
+}
+
+func (*TopStartArcShapeGrid) GongNewInstance() any {
+	return new(TopStartArcShapeGrid)
+}
+
+func (*TopStartHalfwayArcShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopStartHalfwayArcShapes, stage.TopStartHalfwayArcShape_stagedOrder)
+}
+
+func (*TopStartHalfwayArcShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopStartHalfwayArcShape_orderStaged[order]
+}
+
+func (*TopStartHalfwayArcShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopStartHalfwayArcShapes_mapString
+}
+
+func (*TopStartHalfwayArcShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopStartHalfwayArcShapes
+}
+
+func (*TopStartHalfwayArcShape) GongNewInstance() any {
+	return new(TopStartHalfwayArcShape)
+}
+
+func (*TopStartHalfwayArcShapeGrid) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TopStartHalfwayArcShapeGrids, stage.TopStartHalfwayArcShapeGrid_stagedOrder)
+}
+
+func (*TopStartHalfwayArcShapeGrid) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TopStartHalfwayArcShapeGrid_orderStaged[order]
+}
+
+func (*TopStartHalfwayArcShapeGrid) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TopStartHalfwayArcShapeGrids_mapString
+}
+
+func (*TopStartHalfwayArcShapeGrid) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TopStartHalfwayArcShapeGrids
+}
+
+func (*TopStartHalfwayArcShapeGrid) GongNewInstance() any {
+	return new(TopStartHalfwayArcShapeGrid)
+}
+
+func (*Torus3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Torus3DShapes, stage.Torus3DShape_stagedOrder)
+}
+
+func (*Torus3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Torus3DShape_orderStaged[order]
+}
+
+func (*Torus3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Torus3DShapes_mapString
+}
+
+func (*Torus3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Torus3DShapes
+}
+
+func (*Torus3DShape) GongNewInstance() any {
+	return new(Torus3DShape)
+}
+
+func (*TorusEdge3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TorusEdge3DShapes, stage.TorusEdge3DShape_stagedOrder)
+}
+
+func (*TorusEdge3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TorusEdge3DShape_orderStaged[order]
+}
+
+func (*TorusEdge3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TorusEdge3DShapes_mapString
+}
+
+func (*TorusEdge3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TorusEdge3DShapes
+}
+
+func (*TorusEdge3DShape) GongNewInstance() any {
+	return new(TorusEdge3DShape)
+}
+
+func (*TorusStackShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TorusStackShapes, stage.TorusStackShape_stagedOrder)
+}
+
+func (*TorusStackShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TorusStackShape_orderStaged[order]
+}
+
+func (*TorusStackShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TorusStackShapes_mapString
+}
+
+func (*TorusStackShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TorusStackShapes
+}
+
+func (*TorusStackShape) GongNewInstance() any {
+	return new(TorusStackShape)
+}
+
+func (*TubeVase3DDiagram) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TubeVase3DDiagrams, stage.TubeVase3DDiagram_stagedOrder)
+}
+
+func (*TubeVase3DDiagram) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TubeVase3DDiagram_orderStaged[order]
+}
+
+func (*TubeVase3DDiagram) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TubeVase3DDiagrams_mapString
+}
+
+func (*TubeVase3DDiagram) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TubeVase3DDiagrams
+}
+
+func (*TubeVase3DDiagram) GongNewInstance() any {
+	return new(TubeVase3DDiagram)
+}
+
+func (*TubeVaseAbstract) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TubeVaseAbstracts, stage.TubeVaseAbstract_stagedOrder)
+}
+
+func (*TubeVaseAbstract) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TubeVaseAbstract_orderStaged[order]
+}
+
+func (*TubeVaseAbstract) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TubeVaseAbstracts_mapString
+}
+
+func (*TubeVaseAbstract) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TubeVaseAbstracts
+}
+
+func (*TubeVaseAbstract) GongNewInstance() any {
+	return new(TubeVaseAbstract)
+}
+
+func (*Vase2DDiagram) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Vase2DDiagrams, stage.Vase2DDiagram_stagedOrder)
+}
+
+func (*Vase2DDiagram) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Vase2DDiagram_orderStaged[order]
+}
+
+func (*Vase2DDiagram) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Vase2DDiagrams_mapString
+}
+
+func (*Vase2DDiagram) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Vase2DDiagrams
+}
+
+func (*Vase2DDiagram) GongNewInstance() any {
+	return new(Vase2DDiagram)
+}
+
+func (*VaseTrapezeBasePlateShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.VaseTrapezeBasePlateShapes, stage.VaseTrapezeBasePlateShape_stagedOrder)
+}
+
+func (*VaseTrapezeBasePlateShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.VaseTrapezeBasePlateShape_orderStaged[order]
+}
+
+func (*VaseTrapezeBasePlateShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.VaseTrapezeBasePlateShapes_mapString
+}
+
+func (*VaseTrapezeBasePlateShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.VaseTrapezeBasePlateShapes
+}
+
+func (*VaseTrapezeBasePlateShape) GongNewInstance() any {
+	return new(VaseTrapezeBasePlateShape)
+}
+
+func (*VaseTrapezeRingShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.VaseTrapezeRingShapes, stage.VaseTrapezeRingShape_stagedOrder)
+}
+
+func (*VaseTrapezeRingShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.VaseTrapezeRingShape_orderStaged[order]
+}
+
+func (*VaseTrapezeRingShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.VaseTrapezeRingShapes_mapString
+}
+
+func (*VaseTrapezeRingShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.VaseTrapezeRingShapes
+}
+
+func (*VaseTrapezeRingShape) GongNewInstance() any {
+	return new(VaseTrapezeRingShape)
+}
+
+func (*VerticalTorusStackShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.VerticalTorusStackShapes, stage.VerticalTorusStackShape_stagedOrder)
+}
+
+func (*VerticalTorusStackShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.VerticalTorusStackShape_orderStaged[order]
+}
+
+func (*VerticalTorusStackShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.VerticalTorusStackShapes_mapString
+}
+
+func (*VerticalTorusStackShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.VerticalTorusStackShapes
+}
+
+func (*VerticalTorusStackShape) GongNewInstance() any {
+	return new(VerticalTorusStackShape)
+}
+
+func (*VolumeKey3DShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.VolumeKey3DShapes, stage.VolumeKey3DShape_stagedOrder)
+}
+
+func (*VolumeKey3DShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.VolumeKey3DShape_orderStaged[order]
+}
+
+func (*VolumeKey3DShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.VolumeKey3DShapes_mapString
+}
+
+func (*VolumeKey3DShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.VolumeKey3DShapes
+}
+
+func (*VolumeKey3DShape) GongNewInstance() any {
+	return new(VolumeKey3DShape)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *Angle0Shape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Angle0Shapes, stage.Angle0Shape_stagedOrder))
-	case *ArcNormalVectorShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ArcNormalVectorShapes, stage.ArcNormalVectorShape_stagedOrder))
-	case *ArcNormalVectorShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ArcNormalVectorShapeGrids, stage.ArcNormalVectorShapeGrid_stagedOrder))
-	case *AxesShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.AxesShapes, stage.AxesShape_stagedOrder))
-	case *BaseVectorShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.BaseVectorShapes, stage.BaseVectorShape_stagedOrder))
-	case *BaseVectorShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.BaseVectorShapeGrids, stage.BaseVectorShapeGrid_stagedOrder))
-	case *BottomCurvePlane1Shape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.BottomCurvePlane1Shapes, stage.BottomCurvePlane1Shape_stagedOrder))
-	case *BottomCurvePlane2Shape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.BottomCurvePlane2Shapes, stage.BottomCurvePlane2Shape_stagedOrder))
-	case *CarvedOutBottomCurvePlane1Shape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CarvedOutBottomCurvePlane1Shapes, stage.CarvedOutBottomCurvePlane1Shape_stagedOrder))
-	case *CarvedOutTopCurvePlane1Shape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CarvedOutTopCurvePlane1Shapes, stage.CarvedOutTopCurvePlane1Shape_stagedOrder))
-	case *CarvedOutVaseTrapezeRingShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CarvedOutVaseTrapezeRingShapes, stage.CarvedOutVaseTrapezeRingShape_stagedOrder))
-	case *ChosenP1P2PairShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ChosenP1P2PairShapes, stage.ChosenP1P2PairShape_stagedOrder))
-	case *CircleGridShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder))
-	case *Circumference3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Circumference3DShapes, stage.Circumference3DShape_stagedOrder))
-	case *Clock2DDiagram:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Clock2DDiagrams, stage.Clock2DDiagram_stagedOrder))
-	case *Clock3DDiagram:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Clock3DDiagrams, stage.Clock3DDiagram_stagedOrder))
-	case *ClockTopCurveShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ClockTopCurveShapes, stage.ClockTopCurveShape_stagedOrder))
-	case *CutLine3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CutLine3DShapes, stage.CutLine3DShape_stagedOrder))
-	case *EndArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EndArcShapes, stage.EndArcShape_stagedOrder))
-	case *EndArcShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EndArcShapeGrids, stage.EndArcShapeGrid_stagedOrder))
-	case *EndHalfwayArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EndHalfwayArcShapes, stage.EndHalfwayArcShape_stagedOrder))
-	case *EndHalfwayArcShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EndHalfwayArcShapeGrids, stage.EndHalfwayArcShapeGrid_stagedOrder))
-	case *ExplanationTextShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ExplanationTextShapes, stage.ExplanationTextShape_stagedOrder))
-	case *Eye3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Eye3DShapes, stage.Eye3DShape_stagedOrder))
-	case *EyeCornersSampledPoints3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EyeCornersSampledPoints3DShapes, stage.EyeCornersSampledPoints3DShape_stagedOrder))
-	case *EyeSampledPoints3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EyeSampledPoints3DShapes, stage.EyeSampledPoints3DShape_stagedOrder))
-	case *EyeSeatBottomCurveShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EyeSeatBottomCurveShapes, stage.EyeSeatBottomCurveShape_stagedOrder))
-	case *EyeStoolBottomCurveShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EyeStoolBottomCurveShapes, stage.EyeStoolBottomCurveShape_stagedOrder))
-	case *EyeVolume3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.EyeVolume3DShapes, stage.EyeVolume3DShape_stagedOrder))
-	case *GridPathShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GridPathShapes, stage.GridPathShape_stagedOrder))
-	case *GrowthCurve2D:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GrowthCurve2Ds, stage.GrowthCurve2D_stagedOrder))
-	case *GrowthCurve2DRibbon:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GrowthCurve2DRibbons, stage.GrowthCurve2DRibbon_stagedOrder))
-	case *GrowthCurve2DRibbonEndShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GrowthCurve2DRibbonEndShapes, stage.GrowthCurve2DRibbonEndShape_stagedOrder))
-	case *GrowthCurve2DRibbonStartShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GrowthCurve2DRibbonStartShapes, stage.GrowthCurve2DRibbonStartShape_stagedOrder))
-	case *GrowthCurveRhombusGridShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GrowthCurveRhombusGridShapes, stage.GrowthCurveRhombusGridShape_stagedOrder))
-	case *GrowthCurveRhombusShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GrowthCurveRhombusShapes, stage.GrowthCurveRhombusShape_stagedOrder))
-	case *GrowthVectorShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.GrowthVectorShapes, stage.GrowthVectorShape_stagedOrder))
-	case *InitialRhombusGridShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.InitialRhombusGridShapes, stage.InitialRhombusGridShape_stagedOrder))
-	case *InitialRhombusShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.InitialRhombusShapes, stage.InitialRhombusShape_stagedOrder))
-	case *Key3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Key3DShapes, stage.Key3DShape_stagedOrder))
-	case *KeyHole3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.KeyHole3DShapes, stage.KeyHole3DShape_stagedOrder))
-	case *KeyHoleShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.KeyHoleShapes, stage.KeyHoleShape_stagedOrder))
-	case *Leaves3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Leaves3DShapes, stage.Leaves3DShape_stagedOrder))
-	case *Library:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder))
-	case *MidArcVectorShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MidArcVectorShapes, stage.MidArcVectorShape_stagedOrder))
-	case *MidArcVectorShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MidArcVectorShapeGrids, stage.MidArcVectorShapeGrid_stagedOrder))
-	case *OriginalPoints3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.OriginalPoints3DShapes, stage.OriginalPoints3DShape_stagedOrder))
-	case *ParastichyMCurves3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ParastichyMCurves3DShapes, stage.ParastichyMCurves3DShape_stagedOrder))
-	case *ParastichyNCurves3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ParastichyNCurves3DShapes, stage.ParastichyNCurves3DShape_stagedOrder))
-	case *PartiallyGrowthCurve2DRibbon:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbons, stage.PartiallyGrowthCurve2DRibbon_stagedOrder))
-	case *PartiallyGrowthCurve2DRibbonEndShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbonEndShapes, stage.PartiallyGrowthCurve2DRibbonEndShape_stagedOrder))
-	case *PartiallyGrowthCurve2DRibbonStartShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbonStartShapes, stage.PartiallyGrowthCurve2DRibbonStartShape_stagedOrder))
-	case *PartiallyGrowthCurve2DTrajectory:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectorys, stage.PartiallyGrowthCurve2DTrajectory_stagedOrder))
-	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes, stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder))
-	case *PartiallyGrowthCurve2DTrajectoryP1P2:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1P2s, stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder))
-	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes, stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder))
-	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder))
-	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes, stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder))
-	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder))
-	case *PartiallyGrowthCurve2DTrajectoryShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryShapes, stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder))
-	case *PartiallyRotatedSeatBottomCurveShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyRotatedSeatBottomCurveShapes, stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder))
-	case *PartiallyRotatedSeatTopCurveShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyRotatedSeatTopCurveShapes, stage.PartiallyRotatedSeatTopCurveShape_stagedOrder))
-	case *PartiallyRotatedTorusShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PartiallyRotatedTorusShapes, stage.PartiallyRotatedTorusShape_stagedOrder))
-	case *PerpendicularVector:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PerpendicularVectors, stage.PerpendicularVector_stagedOrder))
-	case *PerpendicularVectorGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PerpendicularVectorGrids, stage.PerpendicularVectorGrid_stagedOrder))
-	case *PerpendicularVectorGridHalfway:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PerpendicularVectorGridHalfways, stage.PerpendicularVectorGridHalfway_stagedOrder))
-	case *PerpendicularVectorHalfway:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PerpendicularVectorHalfways, stage.PerpendicularVectorHalfway_stagedOrder))
-	case *Plant2DDiagram:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Plant2DDiagrams, stage.Plant2DDiagram_stagedOrder))
-	case *Plant3DDiagram:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Plant3DDiagrams, stage.Plant3DDiagram_stagedOrder))
-	case *PlantAbstract:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PlantAbstracts, stage.PlantAbstract_stagedOrder))
-	case *PlantCircumferenceShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PlantCircumferenceShapes, stage.PlantCircumferenceShape_stagedOrder))
-	case *PointsAndLines3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PointsAndLines3DShapes, stage.PointsAndLines3DShape_stagedOrder))
-	case *PxShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.PxShapes, stage.PxShape_stagedOrder))
-	case *Rendered3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Rendered3DShapes, stage.Rendered3DShape_stagedOrder))
-	case *RhombusShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RhombusShapes, stage.RhombusShape_stagedOrder))
-	case *RhombusStuff:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RhombusStuffs, stage.RhombusStuff_stagedOrder))
-	case *RotatedRhombusGridShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RotatedRhombusGridShapes, stage.RotatedRhombusGridShape_stagedOrder))
-	case *RotatedRhombusShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RotatedRhombusShapes, stage.RotatedRhombusShape_stagedOrder))
-	case *RotatedSampledPoints3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RotatedSampledPoints3DShapes, stage.RotatedSampledPoints3DShape_stagedOrder))
-	case *RotatedSeatAndLegs3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.RotatedSeatAndLegs3DShapes, stage.RotatedSeatAndLegs3DShape_stagedOrder))
-	case *SampledPoints3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SampledPoints3DShapes, stage.SampledPoints3DShape_stagedOrder))
-	case *Seat3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Seat3DShapes, stage.Seat3DShape_stagedOrder))
-	case *SeatAndLegs3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SeatAndLegs3DShapes, stage.SeatAndLegs3DShape_stagedOrder))
-	case *SeatBottomCurveShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SeatBottomCurveShapes, stage.SeatBottomCurveShape_stagedOrder))
-	case *SeatTopCurveShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SeatTopCurveShapes, stage.SeatTopCurveShape_stagedOrder))
-	case *ShiftedBottomTopStartArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedBottomTopStartArcShapes, stage.ShiftedBottomTopStartArcShape_stagedOrder))
-	case *ShiftedBottomTopStartArcShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedBottomTopStartArcShapeGrids, stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder))
-	case *ShiftedLeftGrowthCurve2DRibbon:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedLeftGrowthCurve2DRibbons, stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder))
-	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedLeftGrowthCurve2DRibbonEndShapes, stage.ShiftedLeftGrowthCurve2DRibbonEndShape_stagedOrder))
-	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedLeftGrowthCurve2DRibbonStartShapes, stage.ShiftedLeftGrowthCurve2DRibbonStartShape_stagedOrder))
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedLeftPartiallyGrowthCurve2DRibbons, stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder))
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes, stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape_stagedOrder))
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes, stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape_stagedOrder))
-	case *ShiftedLeftStackGrowthCurveEndArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedLeftStackGrowthCurveEndArcShapes, stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder))
-	case *ShiftedLeftStackGrowthCurveStartArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedLeftStackGrowthCurveStartArcShapes, stage.ShiftedLeftStackGrowthCurveStartArcShape_stagedOrder))
-	case *ShiftedLeftStackNormalVector:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedLeftStackNormalVectors, stage.ShiftedLeftStackNormalVector_stagedOrder))
-	case *ShiftedLeftStackOfGrowthCurve:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedLeftStackOfGrowthCurves, stage.ShiftedLeftStackOfGrowthCurve_stagedOrder))
-	case *ShiftedLeftStackOfNormalVector:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedLeftStackOfNormalVectors, stage.ShiftedLeftStackOfNormalVector_stagedOrder))
-	case *ShiftedRightGrowthCurve2DRibbon:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedRightGrowthCurve2DRibbons, stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder))
-	case *ShiftedRightGrowthCurve2DRibbonEndShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedRightGrowthCurve2DRibbonEndShapes, stage.ShiftedRightGrowthCurve2DRibbonEndShape_stagedOrder))
-	case *ShiftedRightGrowthCurve2DRibbonStartShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ShiftedRightGrowthCurve2DRibbonStartShapes, stage.ShiftedRightGrowthCurve2DRibbonStartShape_stagedOrder))
-	case *StackGrowthCurve2DEndHalfwayArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackGrowthCurve2DEndHalfwayArcShapes, stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder))
-	case *StackGrowthCurve2DRibbonEndShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackGrowthCurve2DRibbonEndShapes, stage.StackGrowthCurve2DRibbonEndShape_stagedOrder))
-	case *StackGrowthCurve2DRibbonStartShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackGrowthCurve2DRibbonStartShapes, stage.StackGrowthCurve2DRibbonStartShape_stagedOrder))
-	case *StackGrowthCurve2DStartHalfwayArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackGrowthCurve2DStartHalfwayArcShapes, stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder))
-	case *StackOfCarvedOutVaseTrapezeRingsShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackOfCarvedOutVaseTrapezeRingsShapes, stage.StackOfCarvedOutVaseTrapezeRingsShape_stagedOrder))
-	case *StackOfGrowthCurve2D:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackOfGrowthCurve2Ds, stage.StackOfGrowthCurve2D_stagedOrder))
-	case *StackOfGrowthCurve2DByGrowthVector:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackOfGrowthCurve2DByGrowthVectors, stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder))
-	case *StackOfGrowthCurve2DRibbon:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackOfGrowthCurve2DRibbons, stage.StackOfGrowthCurve2DRibbon_stagedOrder))
-	case *StackOfPartiallyRotatedTorusShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackOfPartiallyRotatedTorusShapes, stage.StackOfPartiallyRotatedTorusShape_stagedOrder))
-	case *StackOfRotatedCarvedOutVaseTrapezeRingsShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes, stage.StackOfRotatedCarvedOutVaseTrapezeRingsShape_stagedOrder))
-	case *StackOfRotatedGrowthCurve2D:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackOfRotatedGrowthCurve2Ds, stage.StackOfRotatedGrowthCurve2D_stagedOrder))
-	case *StackOfRotatedGrowthCurve2DRibbon:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackOfRotatedGrowthCurve2DRibbons, stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder))
-	case *StackOfRotatedVaseTrapezeRingsShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackOfRotatedVaseTrapezeRingsShapes, stage.StackOfRotatedVaseTrapezeRingsShape_stagedOrder))
-	case *StackOfVaseTrapezeRingsShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackOfVaseTrapezeRingsShapes, stage.StackOfVaseTrapezeRingsShape_stagedOrder))
-	case *StackRotatedGrowthCurve2DEndArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackRotatedGrowthCurve2DEndArcShapes, stage.StackRotatedGrowthCurve2DEndArcShape_stagedOrder))
-	case *StackRotatedGrowthCurve2DRibbonEndShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackRotatedGrowthCurve2DRibbonEndShapes, stage.StackRotatedGrowthCurve2DRibbonEndShape_stagedOrder))
-	case *StackRotatedGrowthCurve2DRibbonStartShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackRotatedGrowthCurve2DRibbonStartShapes, stage.StackRotatedGrowthCurve2DRibbonStartShape_stagedOrder))
-	case *StackRotatedGrowthCurve2DStartArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StackRotatedGrowthCurve2DStartArcShapes, stage.StackRotatedGrowthCurve2DStartArcShape_stagedOrder))
-	case *StartArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StartArcShapes, stage.StartArcShape_stagedOrder))
-	case *StartArcShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StartArcShapeGrids, stage.StartArcShapeGrid_stagedOrder))
-	case *StartHalfwayArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StartHalfwayArcShapes, stage.StartHalfwayArcShape_stagedOrder))
-	case *StartHalfwayArcShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StartHalfwayArcShapeGrids, stage.StartHalfwayArcShapeGrid_stagedOrder))
-	case *StemCylinder3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.StemCylinder3DShapes, stage.StemCylinder3DShape_stagedOrder))
-	case *Stool2DDiagram:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Stool2DDiagrams, stage.Stool2DDiagram_stagedOrder))
-	case *Stool3DDiagram:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Stool3DDiagrams, stage.Stool3DDiagram_stagedOrder))
-	case *TiledFloor3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TiledFloor3DShapes, stage.TiledFloor3DShape_stagedOrder))
-	case *TopCurvePlane1Shape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopCurvePlane1Shapes, stage.TopCurvePlane1Shape_stagedOrder))
-	case *TopCurvePlane2Shape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopCurvePlane2Shapes, stage.TopCurvePlane2Shape_stagedOrder))
-	case *TopEndArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopEndArcShapes, stage.TopEndArcShape_stagedOrder))
-	case *TopEndArcShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopEndArcShapeGrids, stage.TopEndArcShapeGrid_stagedOrder))
-	case *TopEndHalfwayArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopEndHalfwayArcShapes, stage.TopEndHalfwayArcShape_stagedOrder))
-	case *TopEndHalfwayArcShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopEndHalfwayArcShapeGrids, stage.TopEndHalfwayArcShapeGrid_stagedOrder))
-	case *TopGrowthCurve2D:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopGrowthCurve2Ds, stage.TopGrowthCurve2D_stagedOrder))
-	case *TopMidArcVectorShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopMidArcVectorShapes, stage.TopMidArcVectorShape_stagedOrder))
-	case *TopMidArcVectorShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopMidArcVectorShapeGrids, stage.TopMidArcVectorShapeGrid_stagedOrder))
-	case *TopStackGrowthCurve2DEndHalfwayArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopStackGrowthCurve2DEndHalfwayArcShapes, stage.TopStackGrowthCurve2DEndHalfwayArcShape_stagedOrder))
-	case *TopStackGrowthCurve2DStartHalfwayArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopStackGrowthCurve2DStartHalfwayArcShapes, stage.TopStackGrowthCurve2DStartHalfwayArcShape_stagedOrder))
-	case *TopStackOfGrowthCurve2D:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopStackOfGrowthCurve2Ds, stage.TopStackOfGrowthCurve2D_stagedOrder))
-	case *TopStackOfRotatedGrowthCurve2D:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopStackOfRotatedGrowthCurve2Ds, stage.TopStackOfRotatedGrowthCurve2D_stagedOrder))
-	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopStackOfRotatedGrowthCurve2DEndArcShapes, stage.TopStackOfRotatedGrowthCurve2DEndArcShape_stagedOrder))
-	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopStackOfRotatedGrowthCurve2DStartArcShapes, stage.TopStackOfRotatedGrowthCurve2DStartArcShape_stagedOrder))
-	case *TopStartArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopStartArcShapes, stage.TopStartArcShape_stagedOrder))
-	case *TopStartArcShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopStartArcShapeGrids, stage.TopStartArcShapeGrid_stagedOrder))
-	case *TopStartHalfwayArcShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopStartHalfwayArcShapes, stage.TopStartHalfwayArcShape_stagedOrder))
-	case *TopStartHalfwayArcShapeGrid:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TopStartHalfwayArcShapeGrids, stage.TopStartHalfwayArcShapeGrid_stagedOrder))
-	case *Torus3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Torus3DShapes, stage.Torus3DShape_stagedOrder))
-	case *TorusEdge3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TorusEdge3DShapes, stage.TorusEdge3DShape_stagedOrder))
-	case *TorusStackShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TorusStackShapes, stage.TorusStackShape_stagedOrder))
-	case *TubeVase3DDiagram:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TubeVase3DDiagrams, stage.TubeVase3DDiagram_stagedOrder))
-	case *TubeVaseAbstract:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TubeVaseAbstracts, stage.TubeVaseAbstract_stagedOrder))
-	case *Vase2DDiagram:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Vase2DDiagrams, stage.Vase2DDiagram_stagedOrder))
-	case *VaseTrapezeBasePlateShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.VaseTrapezeBasePlateShapes, stage.VaseTrapezeBasePlateShape_stagedOrder))
-	case *VaseTrapezeRingShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.VaseTrapezeRingShapes, stage.VaseTrapezeRingShape_stagedOrder))
-	case *VerticalTorusStackShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.VerticalTorusStackShapes, stage.VerticalTorusStackShape_stagedOrder))
-	case *VolumeKey3DShape:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.VolumeKey3DShapes, stage.VolumeKey3DShape_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -5088,324 +7897,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *Angle0Shape:
-		return any(stage.Angle0Shape_orderStaged[order]).(Type)
-	case *ArcNormalVectorShape:
-		return any(stage.ArcNormalVectorShape_orderStaged[order]).(Type)
-	case *ArcNormalVectorShapeGrid:
-		return any(stage.ArcNormalVectorShapeGrid_orderStaged[order]).(Type)
-	case *AxesShape:
-		return any(stage.AxesShape_orderStaged[order]).(Type)
-	case *BaseVectorShape:
-		return any(stage.BaseVectorShape_orderStaged[order]).(Type)
-	case *BaseVectorShapeGrid:
-		return any(stage.BaseVectorShapeGrid_orderStaged[order]).(Type)
-	case *BottomCurvePlane1Shape:
-		return any(stage.BottomCurvePlane1Shape_orderStaged[order]).(Type)
-	case *BottomCurvePlane2Shape:
-		return any(stage.BottomCurvePlane2Shape_orderStaged[order]).(Type)
-	case *CarvedOutBottomCurvePlane1Shape:
-		return any(stage.CarvedOutBottomCurvePlane1Shape_orderStaged[order]).(Type)
-	case *CarvedOutTopCurvePlane1Shape:
-		return any(stage.CarvedOutTopCurvePlane1Shape_orderStaged[order]).(Type)
-	case *CarvedOutVaseTrapezeRingShape:
-		return any(stage.CarvedOutVaseTrapezeRingShape_orderStaged[order]).(Type)
-	case *ChosenP1P2PairShape:
-		return any(stage.ChosenP1P2PairShape_orderStaged[order]).(Type)
-	case *CircleGridShape:
-		return any(stage.CircleGridShape_orderStaged[order]).(Type)
-	case *Circumference3DShape:
-		return any(stage.Circumference3DShape_orderStaged[order]).(Type)
-	case *Clock2DDiagram:
-		return any(stage.Clock2DDiagram_orderStaged[order]).(Type)
-	case *Clock3DDiagram:
-		return any(stage.Clock3DDiagram_orderStaged[order]).(Type)
-	case *ClockTopCurveShape:
-		return any(stage.ClockTopCurveShape_orderStaged[order]).(Type)
-	case *CutLine3DShape:
-		return any(stage.CutLine3DShape_orderStaged[order]).(Type)
-	case *EndArcShape:
-		return any(stage.EndArcShape_orderStaged[order]).(Type)
-	case *EndArcShapeGrid:
-		return any(stage.EndArcShapeGrid_orderStaged[order]).(Type)
-	case *EndHalfwayArcShape:
-		return any(stage.EndHalfwayArcShape_orderStaged[order]).(Type)
-	case *EndHalfwayArcShapeGrid:
-		return any(stage.EndHalfwayArcShapeGrid_orderStaged[order]).(Type)
-	case *ExplanationTextShape:
-		return any(stage.ExplanationTextShape_orderStaged[order]).(Type)
-	case *Eye3DShape:
-		return any(stage.Eye3DShape_orderStaged[order]).(Type)
-	case *EyeCornersSampledPoints3DShape:
-		return any(stage.EyeCornersSampledPoints3DShape_orderStaged[order]).(Type)
-	case *EyeSampledPoints3DShape:
-		return any(stage.EyeSampledPoints3DShape_orderStaged[order]).(Type)
-	case *EyeSeatBottomCurveShape:
-		return any(stage.EyeSeatBottomCurveShape_orderStaged[order]).(Type)
-	case *EyeStoolBottomCurveShape:
-		return any(stage.EyeStoolBottomCurveShape_orderStaged[order]).(Type)
-	case *EyeVolume3DShape:
-		return any(stage.EyeVolume3DShape_orderStaged[order]).(Type)
-	case *GridPathShape:
-		return any(stage.GridPathShape_orderStaged[order]).(Type)
-	case *GrowthCurve2D:
-		return any(stage.GrowthCurve2D_orderStaged[order]).(Type)
-	case *GrowthCurve2DRibbon:
-		return any(stage.GrowthCurve2DRibbon_orderStaged[order]).(Type)
-	case *GrowthCurve2DRibbonEndShape:
-		return any(stage.GrowthCurve2DRibbonEndShape_orderStaged[order]).(Type)
-	case *GrowthCurve2DRibbonStartShape:
-		return any(stage.GrowthCurve2DRibbonStartShape_orderStaged[order]).(Type)
-	case *GrowthCurveRhombusGridShape:
-		return any(stage.GrowthCurveRhombusGridShape_orderStaged[order]).(Type)
-	case *GrowthCurveRhombusShape:
-		return any(stage.GrowthCurveRhombusShape_orderStaged[order]).(Type)
-	case *GrowthVectorShape:
-		return any(stage.GrowthVectorShape_orderStaged[order]).(Type)
-	case *InitialRhombusGridShape:
-		return any(stage.InitialRhombusGridShape_orderStaged[order]).(Type)
-	case *InitialRhombusShape:
-		return any(stage.InitialRhombusShape_orderStaged[order]).(Type)
-	case *Key3DShape:
-		return any(stage.Key3DShape_orderStaged[order]).(Type)
-	case *KeyHole3DShape:
-		return any(stage.KeyHole3DShape_orderStaged[order]).(Type)
-	case *KeyHoleShape:
-		return any(stage.KeyHoleShape_orderStaged[order]).(Type)
-	case *Leaves3DShape:
-		return any(stage.Leaves3DShape_orderStaged[order]).(Type)
-	case *Library:
-		return any(stage.Library_orderStaged[order]).(Type)
-	case *MidArcVectorShape:
-		return any(stage.MidArcVectorShape_orderStaged[order]).(Type)
-	case *MidArcVectorShapeGrid:
-		return any(stage.MidArcVectorShapeGrid_orderStaged[order]).(Type)
-	case *OriginalPoints3DShape:
-		return any(stage.OriginalPoints3DShape_orderStaged[order]).(Type)
-	case *ParastichyMCurves3DShape:
-		return any(stage.ParastichyMCurves3DShape_orderStaged[order]).(Type)
-	case *ParastichyNCurves3DShape:
-		return any(stage.ParastichyNCurves3DShape_orderStaged[order]).(Type)
-	case *PartiallyGrowthCurve2DRibbon:
-		return any(stage.PartiallyGrowthCurve2DRibbon_orderStaged[order]).(Type)
-	case *PartiallyGrowthCurve2DRibbonEndShape:
-		return any(stage.PartiallyGrowthCurve2DRibbonEndShape_orderStaged[order]).(Type)
-	case *PartiallyGrowthCurve2DRibbonStartShape:
-		return any(stage.PartiallyGrowthCurve2DRibbonStartShape_orderStaged[order]).(Type)
-	case *PartiallyGrowthCurve2DTrajectory:
-		return any(stage.PartiallyGrowthCurve2DTrajectory_orderStaged[order]).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_orderStaged[order]).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryP1P2:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryP1P2_orderStaged[order]).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_orderStaged[order]).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_orderStaged[order]).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_orderStaged[order]).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_orderStaged[order]).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryShape:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryShape_orderStaged[order]).(Type)
-	case *PartiallyRotatedSeatBottomCurveShape:
-		return any(stage.PartiallyRotatedSeatBottomCurveShape_orderStaged[order]).(Type)
-	case *PartiallyRotatedSeatTopCurveShape:
-		return any(stage.PartiallyRotatedSeatTopCurveShape_orderStaged[order]).(Type)
-	case *PartiallyRotatedTorusShape:
-		return any(stage.PartiallyRotatedTorusShape_orderStaged[order]).(Type)
-	case *PerpendicularVector:
-		return any(stage.PerpendicularVector_orderStaged[order]).(Type)
-	case *PerpendicularVectorGrid:
-		return any(stage.PerpendicularVectorGrid_orderStaged[order]).(Type)
-	case *PerpendicularVectorGridHalfway:
-		return any(stage.PerpendicularVectorGridHalfway_orderStaged[order]).(Type)
-	case *PerpendicularVectorHalfway:
-		return any(stage.PerpendicularVectorHalfway_orderStaged[order]).(Type)
-	case *Plant2DDiagram:
-		return any(stage.Plant2DDiagram_orderStaged[order]).(Type)
-	case *Plant3DDiagram:
-		return any(stage.Plant3DDiagram_orderStaged[order]).(Type)
-	case *PlantAbstract:
-		return any(stage.PlantAbstract_orderStaged[order]).(Type)
-	case *PlantCircumferenceShape:
-		return any(stage.PlantCircumferenceShape_orderStaged[order]).(Type)
-	case *PointsAndLines3DShape:
-		return any(stage.PointsAndLines3DShape_orderStaged[order]).(Type)
-	case *PxShape:
-		return any(stage.PxShape_orderStaged[order]).(Type)
-	case *Rendered3DShape:
-		return any(stage.Rendered3DShape_orderStaged[order]).(Type)
-	case *RhombusShape:
-		return any(stage.RhombusShape_orderStaged[order]).(Type)
-	case *RhombusStuff:
-		return any(stage.RhombusStuff_orderStaged[order]).(Type)
-	case *RotatedRhombusGridShape:
-		return any(stage.RotatedRhombusGridShape_orderStaged[order]).(Type)
-	case *RotatedRhombusShape:
-		return any(stage.RotatedRhombusShape_orderStaged[order]).(Type)
-	case *RotatedSampledPoints3DShape:
-		return any(stage.RotatedSampledPoints3DShape_orderStaged[order]).(Type)
-	case *RotatedSeatAndLegs3DShape:
-		return any(stage.RotatedSeatAndLegs3DShape_orderStaged[order]).(Type)
-	case *SampledPoints3DShape:
-		return any(stage.SampledPoints3DShape_orderStaged[order]).(Type)
-	case *Seat3DShape:
-		return any(stage.Seat3DShape_orderStaged[order]).(Type)
-	case *SeatAndLegs3DShape:
-		return any(stage.SeatAndLegs3DShape_orderStaged[order]).(Type)
-	case *SeatBottomCurveShape:
-		return any(stage.SeatBottomCurveShape_orderStaged[order]).(Type)
-	case *SeatTopCurveShape:
-		return any(stage.SeatTopCurveShape_orderStaged[order]).(Type)
-	case *ShiftedBottomTopStartArcShape:
-		return any(stage.ShiftedBottomTopStartArcShape_orderStaged[order]).(Type)
-	case *ShiftedBottomTopStartArcShapeGrid:
-		return any(stage.ShiftedBottomTopStartArcShapeGrid_orderStaged[order]).(Type)
-	case *ShiftedLeftGrowthCurve2DRibbon:
-		return any(stage.ShiftedLeftGrowthCurve2DRibbon_orderStaged[order]).(Type)
-	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
-		return any(stage.ShiftedLeftGrowthCurve2DRibbonEndShape_orderStaged[order]).(Type)
-	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
-		return any(stage.ShiftedLeftGrowthCurve2DRibbonStartShape_orderStaged[order]).(Type)
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		return any(stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_orderStaged[order]).(Type)
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		return any(stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape_orderStaged[order]).(Type)
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		return any(stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape_orderStaged[order]).(Type)
-	case *ShiftedLeftStackGrowthCurveEndArcShape:
-		return any(stage.ShiftedLeftStackGrowthCurveEndArcShape_orderStaged[order]).(Type)
-	case *ShiftedLeftStackGrowthCurveStartArcShape:
-		return any(stage.ShiftedLeftStackGrowthCurveStartArcShape_orderStaged[order]).(Type)
-	case *ShiftedLeftStackNormalVector:
-		return any(stage.ShiftedLeftStackNormalVector_orderStaged[order]).(Type)
-	case *ShiftedLeftStackOfGrowthCurve:
-		return any(stage.ShiftedLeftStackOfGrowthCurve_orderStaged[order]).(Type)
-	case *ShiftedLeftStackOfNormalVector:
-		return any(stage.ShiftedLeftStackOfNormalVector_orderStaged[order]).(Type)
-	case *ShiftedRightGrowthCurve2DRibbon:
-		return any(stage.ShiftedRightGrowthCurve2DRibbon_orderStaged[order]).(Type)
-	case *ShiftedRightGrowthCurve2DRibbonEndShape:
-		return any(stage.ShiftedRightGrowthCurve2DRibbonEndShape_orderStaged[order]).(Type)
-	case *ShiftedRightGrowthCurve2DRibbonStartShape:
-		return any(stage.ShiftedRightGrowthCurve2DRibbonStartShape_orderStaged[order]).(Type)
-	case *StackGrowthCurve2DEndHalfwayArcShape:
-		return any(stage.StackGrowthCurve2DEndHalfwayArcShape_orderStaged[order]).(Type)
-	case *StackGrowthCurve2DRibbonEndShape:
-		return any(stage.StackGrowthCurve2DRibbonEndShape_orderStaged[order]).(Type)
-	case *StackGrowthCurve2DRibbonStartShape:
-		return any(stage.StackGrowthCurve2DRibbonStartShape_orderStaged[order]).(Type)
-	case *StackGrowthCurve2DStartHalfwayArcShape:
-		return any(stage.StackGrowthCurve2DStartHalfwayArcShape_orderStaged[order]).(Type)
-	case *StackOfCarvedOutVaseTrapezeRingsShape:
-		return any(stage.StackOfCarvedOutVaseTrapezeRingsShape_orderStaged[order]).(Type)
-	case *StackOfGrowthCurve2D:
-		return any(stage.StackOfGrowthCurve2D_orderStaged[order]).(Type)
-	case *StackOfGrowthCurve2DByGrowthVector:
-		return any(stage.StackOfGrowthCurve2DByGrowthVector_orderStaged[order]).(Type)
-	case *StackOfGrowthCurve2DRibbon:
-		return any(stage.StackOfGrowthCurve2DRibbon_orderStaged[order]).(Type)
-	case *StackOfPartiallyRotatedTorusShape:
-		return any(stage.StackOfPartiallyRotatedTorusShape_orderStaged[order]).(Type)
-	case *StackOfRotatedCarvedOutVaseTrapezeRingsShape:
-		return any(stage.StackOfRotatedCarvedOutVaseTrapezeRingsShape_orderStaged[order]).(Type)
-	case *StackOfRotatedGrowthCurve2D:
-		return any(stage.StackOfRotatedGrowthCurve2D_orderStaged[order]).(Type)
-	case *StackOfRotatedGrowthCurve2DRibbon:
-		return any(stage.StackOfRotatedGrowthCurve2DRibbon_orderStaged[order]).(Type)
-	case *StackOfRotatedVaseTrapezeRingsShape:
-		return any(stage.StackOfRotatedVaseTrapezeRingsShape_orderStaged[order]).(Type)
-	case *StackOfVaseTrapezeRingsShape:
-		return any(stage.StackOfVaseTrapezeRingsShape_orderStaged[order]).(Type)
-	case *StackRotatedGrowthCurve2DEndArcShape:
-		return any(stage.StackRotatedGrowthCurve2DEndArcShape_orderStaged[order]).(Type)
-	case *StackRotatedGrowthCurve2DRibbonEndShape:
-		return any(stage.StackRotatedGrowthCurve2DRibbonEndShape_orderStaged[order]).(Type)
-	case *StackRotatedGrowthCurve2DRibbonStartShape:
-		return any(stage.StackRotatedGrowthCurve2DRibbonStartShape_orderStaged[order]).(Type)
-	case *StackRotatedGrowthCurve2DStartArcShape:
-		return any(stage.StackRotatedGrowthCurve2DStartArcShape_orderStaged[order]).(Type)
-	case *StartArcShape:
-		return any(stage.StartArcShape_orderStaged[order]).(Type)
-	case *StartArcShapeGrid:
-		return any(stage.StartArcShapeGrid_orderStaged[order]).(Type)
-	case *StartHalfwayArcShape:
-		return any(stage.StartHalfwayArcShape_orderStaged[order]).(Type)
-	case *StartHalfwayArcShapeGrid:
-		return any(stage.StartHalfwayArcShapeGrid_orderStaged[order]).(Type)
-	case *StemCylinder3DShape:
-		return any(stage.StemCylinder3DShape_orderStaged[order]).(Type)
-	case *Stool2DDiagram:
-		return any(stage.Stool2DDiagram_orderStaged[order]).(Type)
-	case *Stool3DDiagram:
-		return any(stage.Stool3DDiagram_orderStaged[order]).(Type)
-	case *TiledFloor3DShape:
-		return any(stage.TiledFloor3DShape_orderStaged[order]).(Type)
-	case *TopCurvePlane1Shape:
-		return any(stage.TopCurvePlane1Shape_orderStaged[order]).(Type)
-	case *TopCurvePlane2Shape:
-		return any(stage.TopCurvePlane2Shape_orderStaged[order]).(Type)
-	case *TopEndArcShape:
-		return any(stage.TopEndArcShape_orderStaged[order]).(Type)
-	case *TopEndArcShapeGrid:
-		return any(stage.TopEndArcShapeGrid_orderStaged[order]).(Type)
-	case *TopEndHalfwayArcShape:
-		return any(stage.TopEndHalfwayArcShape_orderStaged[order]).(Type)
-	case *TopEndHalfwayArcShapeGrid:
-		return any(stage.TopEndHalfwayArcShapeGrid_orderStaged[order]).(Type)
-	case *TopGrowthCurve2D:
-		return any(stage.TopGrowthCurve2D_orderStaged[order]).(Type)
-	case *TopMidArcVectorShape:
-		return any(stage.TopMidArcVectorShape_orderStaged[order]).(Type)
-	case *TopMidArcVectorShapeGrid:
-		return any(stage.TopMidArcVectorShapeGrid_orderStaged[order]).(Type)
-	case *TopStackGrowthCurve2DEndHalfwayArcShape:
-		return any(stage.TopStackGrowthCurve2DEndHalfwayArcShape_orderStaged[order]).(Type)
-	case *TopStackGrowthCurve2DStartHalfwayArcShape:
-		return any(stage.TopStackGrowthCurve2DStartHalfwayArcShape_orderStaged[order]).(Type)
-	case *TopStackOfGrowthCurve2D:
-		return any(stage.TopStackOfGrowthCurve2D_orderStaged[order]).(Type)
-	case *TopStackOfRotatedGrowthCurve2D:
-		return any(stage.TopStackOfRotatedGrowthCurve2D_orderStaged[order]).(Type)
-	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
-		return any(stage.TopStackOfRotatedGrowthCurve2DEndArcShape_orderStaged[order]).(Type)
-	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
-		return any(stage.TopStackOfRotatedGrowthCurve2DStartArcShape_orderStaged[order]).(Type)
-	case *TopStartArcShape:
-		return any(stage.TopStartArcShape_orderStaged[order]).(Type)
-	case *TopStartArcShapeGrid:
-		return any(stage.TopStartArcShapeGrid_orderStaged[order]).(Type)
-	case *TopStartHalfwayArcShape:
-		return any(stage.TopStartHalfwayArcShape_orderStaged[order]).(Type)
-	case *TopStartHalfwayArcShapeGrid:
-		return any(stage.TopStartHalfwayArcShapeGrid_orderStaged[order]).(Type)
-	case *Torus3DShape:
-		return any(stage.Torus3DShape_orderStaged[order]).(Type)
-	case *TorusEdge3DShape:
-		return any(stage.TorusEdge3DShape_orderStaged[order]).(Type)
-	case *TorusStackShape:
-		return any(stage.TorusStackShape_orderStaged[order]).(Type)
-	case *TubeVase3DDiagram:
-		return any(stage.TubeVase3DDiagram_orderStaged[order]).(Type)
-	case *TubeVaseAbstract:
-		return any(stage.TubeVaseAbstract_orderStaged[order]).(Type)
-	case *Vase2DDiagram:
-		return any(stage.Vase2DDiagram_orderStaged[order]).(Type)
-	case *VaseTrapezeBasePlateShape:
-		return any(stage.VaseTrapezeBasePlateShape_orderStaged[order]).(Type)
-	case *VaseTrapezeRingShape:
-		return any(stage.VaseTrapezeRingShape_orderStaged[order]).(Type)
-	case *VerticalTorusStackShape:
-		return any(stage.VerticalTorusStackShape_orderStaged[order]).(Type)
-	case *VolumeKey3DShape:
-		return any(stage.VolumeKey3DShape_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -12221,7 +14721,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -12253,6 +14755,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -12284,737 +14793,393 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Angle0Shape:
-		return any(stage.Angle0Shapes_mapString).(map[string]Type)
-	case *ArcNormalVectorShape:
-		return any(stage.ArcNormalVectorShapes_mapString).(map[string]Type)
-	case *ArcNormalVectorShapeGrid:
-		return any(stage.ArcNormalVectorShapeGrids_mapString).(map[string]Type)
-	case *AxesShape:
-		return any(stage.AxesShapes_mapString).(map[string]Type)
-	case *BaseVectorShape:
-		return any(stage.BaseVectorShapes_mapString).(map[string]Type)
-	case *BaseVectorShapeGrid:
-		return any(stage.BaseVectorShapeGrids_mapString).(map[string]Type)
-	case *BottomCurvePlane1Shape:
-		return any(stage.BottomCurvePlane1Shapes_mapString).(map[string]Type)
-	case *BottomCurvePlane2Shape:
-		return any(stage.BottomCurvePlane2Shapes_mapString).(map[string]Type)
-	case *CarvedOutBottomCurvePlane1Shape:
-		return any(stage.CarvedOutBottomCurvePlane1Shapes_mapString).(map[string]Type)
-	case *CarvedOutTopCurvePlane1Shape:
-		return any(stage.CarvedOutTopCurvePlane1Shapes_mapString).(map[string]Type)
-	case *CarvedOutVaseTrapezeRingShape:
-		return any(stage.CarvedOutVaseTrapezeRingShapes_mapString).(map[string]Type)
-	case *ChosenP1P2PairShape:
-		return any(stage.ChosenP1P2PairShapes_mapString).(map[string]Type)
-	case *CircleGridShape:
-		return any(stage.CircleGridShapes_mapString).(map[string]Type)
-	case *Circumference3DShape:
-		return any(stage.Circumference3DShapes_mapString).(map[string]Type)
-	case *Clock2DDiagram:
-		return any(stage.Clock2DDiagrams_mapString).(map[string]Type)
-	case *Clock3DDiagram:
-		return any(stage.Clock3DDiagrams_mapString).(map[string]Type)
-	case *ClockTopCurveShape:
-		return any(stage.ClockTopCurveShapes_mapString).(map[string]Type)
-	case *CutLine3DShape:
-		return any(stage.CutLine3DShapes_mapString).(map[string]Type)
-	case *EndArcShape:
-		return any(stage.EndArcShapes_mapString).(map[string]Type)
-	case *EndArcShapeGrid:
-		return any(stage.EndArcShapeGrids_mapString).(map[string]Type)
-	case *EndHalfwayArcShape:
-		return any(stage.EndHalfwayArcShapes_mapString).(map[string]Type)
-	case *EndHalfwayArcShapeGrid:
-		return any(stage.EndHalfwayArcShapeGrids_mapString).(map[string]Type)
-	case *ExplanationTextShape:
-		return any(stage.ExplanationTextShapes_mapString).(map[string]Type)
-	case *Eye3DShape:
-		return any(stage.Eye3DShapes_mapString).(map[string]Type)
-	case *EyeCornersSampledPoints3DShape:
-		return any(stage.EyeCornersSampledPoints3DShapes_mapString).(map[string]Type)
-	case *EyeSampledPoints3DShape:
-		return any(stage.EyeSampledPoints3DShapes_mapString).(map[string]Type)
-	case *EyeSeatBottomCurveShape:
-		return any(stage.EyeSeatBottomCurveShapes_mapString).(map[string]Type)
-	case *EyeStoolBottomCurveShape:
-		return any(stage.EyeStoolBottomCurveShapes_mapString).(map[string]Type)
-	case *EyeVolume3DShape:
-		return any(stage.EyeVolume3DShapes_mapString).(map[string]Type)
-	case *GridPathShape:
-		return any(stage.GridPathShapes_mapString).(map[string]Type)
-	case *GrowthCurve2D:
-		return any(stage.GrowthCurve2Ds_mapString).(map[string]Type)
-	case *GrowthCurve2DRibbon:
-		return any(stage.GrowthCurve2DRibbons_mapString).(map[string]Type)
-	case *GrowthCurve2DRibbonEndShape:
-		return any(stage.GrowthCurve2DRibbonEndShapes_mapString).(map[string]Type)
-	case *GrowthCurve2DRibbonStartShape:
-		return any(stage.GrowthCurve2DRibbonStartShapes_mapString).(map[string]Type)
-	case *GrowthCurveRhombusGridShape:
-		return any(stage.GrowthCurveRhombusGridShapes_mapString).(map[string]Type)
-	case *GrowthCurveRhombusShape:
-		return any(stage.GrowthCurveRhombusShapes_mapString).(map[string]Type)
-	case *GrowthVectorShape:
-		return any(stage.GrowthVectorShapes_mapString).(map[string]Type)
-	case *InitialRhombusGridShape:
-		return any(stage.InitialRhombusGridShapes_mapString).(map[string]Type)
-	case *InitialRhombusShape:
-		return any(stage.InitialRhombusShapes_mapString).(map[string]Type)
-	case *Key3DShape:
-		return any(stage.Key3DShapes_mapString).(map[string]Type)
-	case *KeyHole3DShape:
-		return any(stage.KeyHole3DShapes_mapString).(map[string]Type)
-	case *KeyHoleShape:
-		return any(stage.KeyHoleShapes_mapString).(map[string]Type)
-	case *Leaves3DShape:
-		return any(stage.Leaves3DShapes_mapString).(map[string]Type)
-	case *Library:
-		return any(stage.Librarys_mapString).(map[string]Type)
-	case *MidArcVectorShape:
-		return any(stage.MidArcVectorShapes_mapString).(map[string]Type)
-	case *MidArcVectorShapeGrid:
-		return any(stage.MidArcVectorShapeGrids_mapString).(map[string]Type)
-	case *OriginalPoints3DShape:
-		return any(stage.OriginalPoints3DShapes_mapString).(map[string]Type)
-	case *ParastichyMCurves3DShape:
-		return any(stage.ParastichyMCurves3DShapes_mapString).(map[string]Type)
-	case *ParastichyNCurves3DShape:
-		return any(stage.ParastichyNCurves3DShapes_mapString).(map[string]Type)
-	case *PartiallyGrowthCurve2DRibbon:
-		return any(stage.PartiallyGrowthCurve2DRibbons_mapString).(map[string]Type)
-	case *PartiallyGrowthCurve2DRibbonEndShape:
-		return any(stage.PartiallyGrowthCurve2DRibbonEndShapes_mapString).(map[string]Type)
-	case *PartiallyGrowthCurve2DRibbonStartShape:
-		return any(stage.PartiallyGrowthCurve2DRibbonStartShapes_mapString).(map[string]Type)
-	case *PartiallyGrowthCurve2DTrajectory:
-		return any(stage.PartiallyGrowthCurve2DTrajectorys_mapString).(map[string]Type)
-	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString).(map[string]Type)
-	case *PartiallyGrowthCurve2DTrajectoryP1P2:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString).(map[string]Type)
-	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString).(map[string]Type)
-	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString).(map[string]Type)
-	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString).(map[string]Type)
-	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString).(map[string]Type)
-	case *PartiallyGrowthCurve2DTrajectoryShape:
-		return any(stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString).(map[string]Type)
-	case *PartiallyRotatedSeatBottomCurveShape:
-		return any(stage.PartiallyRotatedSeatBottomCurveShapes_mapString).(map[string]Type)
-	case *PartiallyRotatedSeatTopCurveShape:
-		return any(stage.PartiallyRotatedSeatTopCurveShapes_mapString).(map[string]Type)
-	case *PartiallyRotatedTorusShape:
-		return any(stage.PartiallyRotatedTorusShapes_mapString).(map[string]Type)
-	case *PerpendicularVector:
-		return any(stage.PerpendicularVectors_mapString).(map[string]Type)
-	case *PerpendicularVectorGrid:
-		return any(stage.PerpendicularVectorGrids_mapString).(map[string]Type)
-	case *PerpendicularVectorGridHalfway:
-		return any(stage.PerpendicularVectorGridHalfways_mapString).(map[string]Type)
-	case *PerpendicularVectorHalfway:
-		return any(stage.PerpendicularVectorHalfways_mapString).(map[string]Type)
-	case *Plant2DDiagram:
-		return any(stage.Plant2DDiagrams_mapString).(map[string]Type)
-	case *Plant3DDiagram:
-		return any(stage.Plant3DDiagrams_mapString).(map[string]Type)
-	case *PlantAbstract:
-		return any(stage.PlantAbstracts_mapString).(map[string]Type)
-	case *PlantCircumferenceShape:
-		return any(stage.PlantCircumferenceShapes_mapString).(map[string]Type)
-	case *PointsAndLines3DShape:
-		return any(stage.PointsAndLines3DShapes_mapString).(map[string]Type)
-	case *PxShape:
-		return any(stage.PxShapes_mapString).(map[string]Type)
-	case *Rendered3DShape:
-		return any(stage.Rendered3DShapes_mapString).(map[string]Type)
-	case *RhombusShape:
-		return any(stage.RhombusShapes_mapString).(map[string]Type)
-	case *RhombusStuff:
-		return any(stage.RhombusStuffs_mapString).(map[string]Type)
-	case *RotatedRhombusGridShape:
-		return any(stage.RotatedRhombusGridShapes_mapString).(map[string]Type)
-	case *RotatedRhombusShape:
-		return any(stage.RotatedRhombusShapes_mapString).(map[string]Type)
-	case *RotatedSampledPoints3DShape:
-		return any(stage.RotatedSampledPoints3DShapes_mapString).(map[string]Type)
-	case *RotatedSeatAndLegs3DShape:
-		return any(stage.RotatedSeatAndLegs3DShapes_mapString).(map[string]Type)
-	case *SampledPoints3DShape:
-		return any(stage.SampledPoints3DShapes_mapString).(map[string]Type)
-	case *Seat3DShape:
-		return any(stage.Seat3DShapes_mapString).(map[string]Type)
-	case *SeatAndLegs3DShape:
-		return any(stage.SeatAndLegs3DShapes_mapString).(map[string]Type)
-	case *SeatBottomCurveShape:
-		return any(stage.SeatBottomCurveShapes_mapString).(map[string]Type)
-	case *SeatTopCurveShape:
-		return any(stage.SeatTopCurveShapes_mapString).(map[string]Type)
-	case *ShiftedBottomTopStartArcShape:
-		return any(stage.ShiftedBottomTopStartArcShapes_mapString).(map[string]Type)
-	case *ShiftedBottomTopStartArcShapeGrid:
-		return any(stage.ShiftedBottomTopStartArcShapeGrids_mapString).(map[string]Type)
-	case *ShiftedLeftGrowthCurve2DRibbon:
-		return any(stage.ShiftedLeftGrowthCurve2DRibbons_mapString).(map[string]Type)
-	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
-		return any(stage.ShiftedLeftGrowthCurve2DRibbonEndShapes_mapString).(map[string]Type)
-	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
-		return any(stage.ShiftedLeftGrowthCurve2DRibbonStartShapes_mapString).(map[string]Type)
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		return any(stage.ShiftedLeftPartiallyGrowthCurve2DRibbons_mapString).(map[string]Type)
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		return any(stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes_mapString).(map[string]Type)
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		return any(stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes_mapString).(map[string]Type)
-	case *ShiftedLeftStackGrowthCurveEndArcShape:
-		return any(stage.ShiftedLeftStackGrowthCurveEndArcShapes_mapString).(map[string]Type)
-	case *ShiftedLeftStackGrowthCurveStartArcShape:
-		return any(stage.ShiftedLeftStackGrowthCurveStartArcShapes_mapString).(map[string]Type)
-	case *ShiftedLeftStackNormalVector:
-		return any(stage.ShiftedLeftStackNormalVectors_mapString).(map[string]Type)
-	case *ShiftedLeftStackOfGrowthCurve:
-		return any(stage.ShiftedLeftStackOfGrowthCurves_mapString).(map[string]Type)
-	case *ShiftedLeftStackOfNormalVector:
-		return any(stage.ShiftedLeftStackOfNormalVectors_mapString).(map[string]Type)
-	case *ShiftedRightGrowthCurve2DRibbon:
-		return any(stage.ShiftedRightGrowthCurve2DRibbons_mapString).(map[string]Type)
-	case *ShiftedRightGrowthCurve2DRibbonEndShape:
-		return any(stage.ShiftedRightGrowthCurve2DRibbonEndShapes_mapString).(map[string]Type)
-	case *ShiftedRightGrowthCurve2DRibbonStartShape:
-		return any(stage.ShiftedRightGrowthCurve2DRibbonStartShapes_mapString).(map[string]Type)
-	case *StackGrowthCurve2DEndHalfwayArcShape:
-		return any(stage.StackGrowthCurve2DEndHalfwayArcShapes_mapString).(map[string]Type)
-	case *StackGrowthCurve2DRibbonEndShape:
-		return any(stage.StackGrowthCurve2DRibbonEndShapes_mapString).(map[string]Type)
-	case *StackGrowthCurve2DRibbonStartShape:
-		return any(stage.StackGrowthCurve2DRibbonStartShapes_mapString).(map[string]Type)
-	case *StackGrowthCurve2DStartHalfwayArcShape:
-		return any(stage.StackGrowthCurve2DStartHalfwayArcShapes_mapString).(map[string]Type)
-	case *StackOfCarvedOutVaseTrapezeRingsShape:
-		return any(stage.StackOfCarvedOutVaseTrapezeRingsShapes_mapString).(map[string]Type)
-	case *StackOfGrowthCurve2D:
-		return any(stage.StackOfGrowthCurve2Ds_mapString).(map[string]Type)
-	case *StackOfGrowthCurve2DByGrowthVector:
-		return any(stage.StackOfGrowthCurve2DByGrowthVectors_mapString).(map[string]Type)
-	case *StackOfGrowthCurve2DRibbon:
-		return any(stage.StackOfGrowthCurve2DRibbons_mapString).(map[string]Type)
-	case *StackOfPartiallyRotatedTorusShape:
-		return any(stage.StackOfPartiallyRotatedTorusShapes_mapString).(map[string]Type)
-	case *StackOfRotatedCarvedOutVaseTrapezeRingsShape:
-		return any(stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes_mapString).(map[string]Type)
-	case *StackOfRotatedGrowthCurve2D:
-		return any(stage.StackOfRotatedGrowthCurve2Ds_mapString).(map[string]Type)
-	case *StackOfRotatedGrowthCurve2DRibbon:
-		return any(stage.StackOfRotatedGrowthCurve2DRibbons_mapString).(map[string]Type)
-	case *StackOfRotatedVaseTrapezeRingsShape:
-		return any(stage.StackOfRotatedVaseTrapezeRingsShapes_mapString).(map[string]Type)
-	case *StackOfVaseTrapezeRingsShape:
-		return any(stage.StackOfVaseTrapezeRingsShapes_mapString).(map[string]Type)
-	case *StackRotatedGrowthCurve2DEndArcShape:
-		return any(stage.StackRotatedGrowthCurve2DEndArcShapes_mapString).(map[string]Type)
-	case *StackRotatedGrowthCurve2DRibbonEndShape:
-		return any(stage.StackRotatedGrowthCurve2DRibbonEndShapes_mapString).(map[string]Type)
-	case *StackRotatedGrowthCurve2DRibbonStartShape:
-		return any(stage.StackRotatedGrowthCurve2DRibbonStartShapes_mapString).(map[string]Type)
-	case *StackRotatedGrowthCurve2DStartArcShape:
-		return any(stage.StackRotatedGrowthCurve2DStartArcShapes_mapString).(map[string]Type)
-	case *StartArcShape:
-		return any(stage.StartArcShapes_mapString).(map[string]Type)
-	case *StartArcShapeGrid:
-		return any(stage.StartArcShapeGrids_mapString).(map[string]Type)
-	case *StartHalfwayArcShape:
-		return any(stage.StartHalfwayArcShapes_mapString).(map[string]Type)
-	case *StartHalfwayArcShapeGrid:
-		return any(stage.StartHalfwayArcShapeGrids_mapString).(map[string]Type)
-	case *StemCylinder3DShape:
-		return any(stage.StemCylinder3DShapes_mapString).(map[string]Type)
-	case *Stool2DDiagram:
-		return any(stage.Stool2DDiagrams_mapString).(map[string]Type)
-	case *Stool3DDiagram:
-		return any(stage.Stool3DDiagrams_mapString).(map[string]Type)
-	case *TiledFloor3DShape:
-		return any(stage.TiledFloor3DShapes_mapString).(map[string]Type)
-	case *TopCurvePlane1Shape:
-		return any(stage.TopCurvePlane1Shapes_mapString).(map[string]Type)
-	case *TopCurvePlane2Shape:
-		return any(stage.TopCurvePlane2Shapes_mapString).(map[string]Type)
-	case *TopEndArcShape:
-		return any(stage.TopEndArcShapes_mapString).(map[string]Type)
-	case *TopEndArcShapeGrid:
-		return any(stage.TopEndArcShapeGrids_mapString).(map[string]Type)
-	case *TopEndHalfwayArcShape:
-		return any(stage.TopEndHalfwayArcShapes_mapString).(map[string]Type)
-	case *TopEndHalfwayArcShapeGrid:
-		return any(stage.TopEndHalfwayArcShapeGrids_mapString).(map[string]Type)
-	case *TopGrowthCurve2D:
-		return any(stage.TopGrowthCurve2Ds_mapString).(map[string]Type)
-	case *TopMidArcVectorShape:
-		return any(stage.TopMidArcVectorShapes_mapString).(map[string]Type)
-	case *TopMidArcVectorShapeGrid:
-		return any(stage.TopMidArcVectorShapeGrids_mapString).(map[string]Type)
-	case *TopStackGrowthCurve2DEndHalfwayArcShape:
-		return any(stage.TopStackGrowthCurve2DEndHalfwayArcShapes_mapString).(map[string]Type)
-	case *TopStackGrowthCurve2DStartHalfwayArcShape:
-		return any(stage.TopStackGrowthCurve2DStartHalfwayArcShapes_mapString).(map[string]Type)
-	case *TopStackOfGrowthCurve2D:
-		return any(stage.TopStackOfGrowthCurve2Ds_mapString).(map[string]Type)
-	case *TopStackOfRotatedGrowthCurve2D:
-		return any(stage.TopStackOfRotatedGrowthCurve2Ds_mapString).(map[string]Type)
-	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
-		return any(stage.TopStackOfRotatedGrowthCurve2DEndArcShapes_mapString).(map[string]Type)
-	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
-		return any(stage.TopStackOfRotatedGrowthCurve2DStartArcShapes_mapString).(map[string]Type)
-	case *TopStartArcShape:
-		return any(stage.TopStartArcShapes_mapString).(map[string]Type)
-	case *TopStartArcShapeGrid:
-		return any(stage.TopStartArcShapeGrids_mapString).(map[string]Type)
-	case *TopStartHalfwayArcShape:
-		return any(stage.TopStartHalfwayArcShapes_mapString).(map[string]Type)
-	case *TopStartHalfwayArcShapeGrid:
-		return any(stage.TopStartHalfwayArcShapeGrids_mapString).(map[string]Type)
-	case *Torus3DShape:
-		return any(stage.Torus3DShapes_mapString).(map[string]Type)
-	case *TorusEdge3DShape:
-		return any(stage.TorusEdge3DShapes_mapString).(map[string]Type)
-	case *TorusStackShape:
-		return any(stage.TorusStackShapes_mapString).(map[string]Type)
-	case *TubeVase3DDiagram:
-		return any(stage.TubeVase3DDiagrams_mapString).(map[string]Type)
-	case *TubeVaseAbstract:
-		return any(stage.TubeVaseAbstracts_mapString).(map[string]Type)
-	case *Vase2DDiagram:
-		return any(stage.Vase2DDiagrams_mapString).(map[string]Type)
-	case *VaseTrapezeBasePlateShape:
-		return any(stage.VaseTrapezeBasePlateShapes_mapString).(map[string]Type)
-	case *VaseTrapezeRingShape:
-		return any(stage.VaseTrapezeRingShapes_mapString).(map[string]Type)
-	case *VerticalTorusStackShape:
-		return any(stage.VerticalTorusStackShapes_mapString).(map[string]Type)
-	case *VolumeKey3DShape:
-		return any(stage.VolumeKey3DShapes_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Angle0Shape:
-		return any(&stage.Angle0Shapes).(*map[Type]struct{})
-	case *ArcNormalVectorShape:
-		return any(&stage.ArcNormalVectorShapes).(*map[Type]struct{})
-	case *ArcNormalVectorShapeGrid:
-		return any(&stage.ArcNormalVectorShapeGrids).(*map[Type]struct{})
-	case *AxesShape:
-		return any(&stage.AxesShapes).(*map[Type]struct{})
-	case *BaseVectorShape:
-		return any(&stage.BaseVectorShapes).(*map[Type]struct{})
-	case *BaseVectorShapeGrid:
-		return any(&stage.BaseVectorShapeGrids).(*map[Type]struct{})
-	case *BottomCurvePlane1Shape:
-		return any(&stage.BottomCurvePlane1Shapes).(*map[Type]struct{})
-	case *BottomCurvePlane2Shape:
-		return any(&stage.BottomCurvePlane2Shapes).(*map[Type]struct{})
-	case *CarvedOutBottomCurvePlane1Shape:
-		return any(&stage.CarvedOutBottomCurvePlane1Shapes).(*map[Type]struct{})
-	case *CarvedOutTopCurvePlane1Shape:
-		return any(&stage.CarvedOutTopCurvePlane1Shapes).(*map[Type]struct{})
-	case *CarvedOutVaseTrapezeRingShape:
-		return any(&stage.CarvedOutVaseTrapezeRingShapes).(*map[Type]struct{})
-	case *ChosenP1P2PairShape:
-		return any(&stage.ChosenP1P2PairShapes).(*map[Type]struct{})
-	case *CircleGridShape:
-		return any(&stage.CircleGridShapes).(*map[Type]struct{})
-	case *Circumference3DShape:
-		return any(&stage.Circumference3DShapes).(*map[Type]struct{})
-	case *Clock2DDiagram:
-		return any(&stage.Clock2DDiagrams).(*map[Type]struct{})
-	case *Clock3DDiagram:
-		return any(&stage.Clock3DDiagrams).(*map[Type]struct{})
-	case *ClockTopCurveShape:
-		return any(&stage.ClockTopCurveShapes).(*map[Type]struct{})
-	case *CutLine3DShape:
-		return any(&stage.CutLine3DShapes).(*map[Type]struct{})
-	case *EndArcShape:
-		return any(&stage.EndArcShapes).(*map[Type]struct{})
-	case *EndArcShapeGrid:
-		return any(&stage.EndArcShapeGrids).(*map[Type]struct{})
-	case *EndHalfwayArcShape:
-		return any(&stage.EndHalfwayArcShapes).(*map[Type]struct{})
-	case *EndHalfwayArcShapeGrid:
-		return any(&stage.EndHalfwayArcShapeGrids).(*map[Type]struct{})
-	case *ExplanationTextShape:
-		return any(&stage.ExplanationTextShapes).(*map[Type]struct{})
-	case *Eye3DShape:
-		return any(&stage.Eye3DShapes).(*map[Type]struct{})
-	case *EyeCornersSampledPoints3DShape:
-		return any(&stage.EyeCornersSampledPoints3DShapes).(*map[Type]struct{})
-	case *EyeSampledPoints3DShape:
-		return any(&stage.EyeSampledPoints3DShapes).(*map[Type]struct{})
-	case *EyeSeatBottomCurveShape:
-		return any(&stage.EyeSeatBottomCurveShapes).(*map[Type]struct{})
-	case *EyeStoolBottomCurveShape:
-		return any(&stage.EyeStoolBottomCurveShapes).(*map[Type]struct{})
-	case *EyeVolume3DShape:
-		return any(&stage.EyeVolume3DShapes).(*map[Type]struct{})
-	case *GridPathShape:
-		return any(&stage.GridPathShapes).(*map[Type]struct{})
-	case *GrowthCurve2D:
-		return any(&stage.GrowthCurve2Ds).(*map[Type]struct{})
-	case *GrowthCurve2DRibbon:
-		return any(&stage.GrowthCurve2DRibbons).(*map[Type]struct{})
-	case *GrowthCurve2DRibbonEndShape:
-		return any(&stage.GrowthCurve2DRibbonEndShapes).(*map[Type]struct{})
-	case *GrowthCurve2DRibbonStartShape:
-		return any(&stage.GrowthCurve2DRibbonStartShapes).(*map[Type]struct{})
-	case *GrowthCurveRhombusGridShape:
-		return any(&stage.GrowthCurveRhombusGridShapes).(*map[Type]struct{})
-	case *GrowthCurveRhombusShape:
-		return any(&stage.GrowthCurveRhombusShapes).(*map[Type]struct{})
-	case *GrowthVectorShape:
-		return any(&stage.GrowthVectorShapes).(*map[Type]struct{})
-	case *InitialRhombusGridShape:
-		return any(&stage.InitialRhombusGridShapes).(*map[Type]struct{})
-	case *InitialRhombusShape:
-		return any(&stage.InitialRhombusShapes).(*map[Type]struct{})
-	case *Key3DShape:
-		return any(&stage.Key3DShapes).(*map[Type]struct{})
-	case *KeyHole3DShape:
-		return any(&stage.KeyHole3DShapes).(*map[Type]struct{})
-	case *KeyHoleShape:
-		return any(&stage.KeyHoleShapes).(*map[Type]struct{})
-	case *Leaves3DShape:
-		return any(&stage.Leaves3DShapes).(*map[Type]struct{})
-	case *Library:
-		return any(&stage.Librarys).(*map[Type]struct{})
-	case *MidArcVectorShape:
-		return any(&stage.MidArcVectorShapes).(*map[Type]struct{})
-	case *MidArcVectorShapeGrid:
-		return any(&stage.MidArcVectorShapeGrids).(*map[Type]struct{})
-	case *OriginalPoints3DShape:
-		return any(&stage.OriginalPoints3DShapes).(*map[Type]struct{})
-	case *ParastichyMCurves3DShape:
-		return any(&stage.ParastichyMCurves3DShapes).(*map[Type]struct{})
-	case *ParastichyNCurves3DShape:
-		return any(&stage.ParastichyNCurves3DShapes).(*map[Type]struct{})
-	case *PartiallyGrowthCurve2DRibbon:
-		return any(&stage.PartiallyGrowthCurve2DRibbons).(*map[Type]struct{})
-	case *PartiallyGrowthCurve2DRibbonEndShape:
-		return any(&stage.PartiallyGrowthCurve2DRibbonEndShapes).(*map[Type]struct{})
-	case *PartiallyGrowthCurve2DRibbonStartShape:
-		return any(&stage.PartiallyGrowthCurve2DRibbonStartShapes).(*map[Type]struct{})
-	case *PartiallyGrowthCurve2DTrajectory:
-		return any(&stage.PartiallyGrowthCurve2DTrajectorys).(*map[Type]struct{})
-	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes).(*map[Type]struct{})
-	case *PartiallyGrowthCurve2DTrajectoryP1P2:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2s).(*map[Type]struct{})
-	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes).(*map[Type]struct{})
-	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes).(*map[Type]struct{})
-	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes).(*map[Type]struct{})
-	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes).(*map[Type]struct{})
-	case *PartiallyGrowthCurve2DTrajectoryShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes).(*map[Type]struct{})
-	case *PartiallyRotatedSeatBottomCurveShape:
-		return any(&stage.PartiallyRotatedSeatBottomCurveShapes).(*map[Type]struct{})
-	case *PartiallyRotatedSeatTopCurveShape:
-		return any(&stage.PartiallyRotatedSeatTopCurveShapes).(*map[Type]struct{})
-	case *PartiallyRotatedTorusShape:
-		return any(&stage.PartiallyRotatedTorusShapes).(*map[Type]struct{})
-	case *PerpendicularVector:
-		return any(&stage.PerpendicularVectors).(*map[Type]struct{})
-	case *PerpendicularVectorGrid:
-		return any(&stage.PerpendicularVectorGrids).(*map[Type]struct{})
-	case *PerpendicularVectorGridHalfway:
-		return any(&stage.PerpendicularVectorGridHalfways).(*map[Type]struct{})
-	case *PerpendicularVectorHalfway:
-		return any(&stage.PerpendicularVectorHalfways).(*map[Type]struct{})
-	case *Plant2DDiagram:
-		return any(&stage.Plant2DDiagrams).(*map[Type]struct{})
-	case *Plant3DDiagram:
-		return any(&stage.Plant3DDiagrams).(*map[Type]struct{})
-	case *PlantAbstract:
-		return any(&stage.PlantAbstracts).(*map[Type]struct{})
-	case *PlantCircumferenceShape:
-		return any(&stage.PlantCircumferenceShapes).(*map[Type]struct{})
-	case *PointsAndLines3DShape:
-		return any(&stage.PointsAndLines3DShapes).(*map[Type]struct{})
-	case *PxShape:
-		return any(&stage.PxShapes).(*map[Type]struct{})
-	case *Rendered3DShape:
-		return any(&stage.Rendered3DShapes).(*map[Type]struct{})
-	case *RhombusShape:
-		return any(&stage.RhombusShapes).(*map[Type]struct{})
-	case *RhombusStuff:
-		return any(&stage.RhombusStuffs).(*map[Type]struct{})
-	case *RotatedRhombusGridShape:
-		return any(&stage.RotatedRhombusGridShapes).(*map[Type]struct{})
-	case *RotatedRhombusShape:
-		return any(&stage.RotatedRhombusShapes).(*map[Type]struct{})
-	case *RotatedSampledPoints3DShape:
-		return any(&stage.RotatedSampledPoints3DShapes).(*map[Type]struct{})
-	case *RotatedSeatAndLegs3DShape:
-		return any(&stage.RotatedSeatAndLegs3DShapes).(*map[Type]struct{})
-	case *SampledPoints3DShape:
-		return any(&stage.SampledPoints3DShapes).(*map[Type]struct{})
-	case *Seat3DShape:
-		return any(&stage.Seat3DShapes).(*map[Type]struct{})
-	case *SeatAndLegs3DShape:
-		return any(&stage.SeatAndLegs3DShapes).(*map[Type]struct{})
-	case *SeatBottomCurveShape:
-		return any(&stage.SeatBottomCurveShapes).(*map[Type]struct{})
-	case *SeatTopCurveShape:
-		return any(&stage.SeatTopCurveShapes).(*map[Type]struct{})
-	case *ShiftedBottomTopStartArcShape:
-		return any(&stage.ShiftedBottomTopStartArcShapes).(*map[Type]struct{})
-	case *ShiftedBottomTopStartArcShapeGrid:
-		return any(&stage.ShiftedBottomTopStartArcShapeGrids).(*map[Type]struct{})
-	case *ShiftedLeftGrowthCurve2DRibbon:
-		return any(&stage.ShiftedLeftGrowthCurve2DRibbons).(*map[Type]struct{})
-	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
-		return any(&stage.ShiftedLeftGrowthCurve2DRibbonEndShapes).(*map[Type]struct{})
-	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
-		return any(&stage.ShiftedLeftGrowthCurve2DRibbonStartShapes).(*map[Type]struct{})
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		return any(&stage.ShiftedLeftPartiallyGrowthCurve2DRibbons).(*map[Type]struct{})
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		return any(&stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes).(*map[Type]struct{})
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		return any(&stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes).(*map[Type]struct{})
-	case *ShiftedLeftStackGrowthCurveEndArcShape:
-		return any(&stage.ShiftedLeftStackGrowthCurveEndArcShapes).(*map[Type]struct{})
-	case *ShiftedLeftStackGrowthCurveStartArcShape:
-		return any(&stage.ShiftedLeftStackGrowthCurveStartArcShapes).(*map[Type]struct{})
-	case *ShiftedLeftStackNormalVector:
-		return any(&stage.ShiftedLeftStackNormalVectors).(*map[Type]struct{})
-	case *ShiftedLeftStackOfGrowthCurve:
-		return any(&stage.ShiftedLeftStackOfGrowthCurves).(*map[Type]struct{})
-	case *ShiftedLeftStackOfNormalVector:
-		return any(&stage.ShiftedLeftStackOfNormalVectors).(*map[Type]struct{})
-	case *ShiftedRightGrowthCurve2DRibbon:
-		return any(&stage.ShiftedRightGrowthCurve2DRibbons).(*map[Type]struct{})
-	case *ShiftedRightGrowthCurve2DRibbonEndShape:
-		return any(&stage.ShiftedRightGrowthCurve2DRibbonEndShapes).(*map[Type]struct{})
-	case *ShiftedRightGrowthCurve2DRibbonStartShape:
-		return any(&stage.ShiftedRightGrowthCurve2DRibbonStartShapes).(*map[Type]struct{})
-	case *StackGrowthCurve2DEndHalfwayArcShape:
-		return any(&stage.StackGrowthCurve2DEndHalfwayArcShapes).(*map[Type]struct{})
-	case *StackGrowthCurve2DRibbonEndShape:
-		return any(&stage.StackGrowthCurve2DRibbonEndShapes).(*map[Type]struct{})
-	case *StackGrowthCurve2DRibbonStartShape:
-		return any(&stage.StackGrowthCurve2DRibbonStartShapes).(*map[Type]struct{})
-	case *StackGrowthCurve2DStartHalfwayArcShape:
-		return any(&stage.StackGrowthCurve2DStartHalfwayArcShapes).(*map[Type]struct{})
-	case *StackOfCarvedOutVaseTrapezeRingsShape:
-		return any(&stage.StackOfCarvedOutVaseTrapezeRingsShapes).(*map[Type]struct{})
-	case *StackOfGrowthCurve2D:
-		return any(&stage.StackOfGrowthCurve2Ds).(*map[Type]struct{})
-	case *StackOfGrowthCurve2DByGrowthVector:
-		return any(&stage.StackOfGrowthCurve2DByGrowthVectors).(*map[Type]struct{})
-	case *StackOfGrowthCurve2DRibbon:
-		return any(&stage.StackOfGrowthCurve2DRibbons).(*map[Type]struct{})
-	case *StackOfPartiallyRotatedTorusShape:
-		return any(&stage.StackOfPartiallyRotatedTorusShapes).(*map[Type]struct{})
-	case *StackOfRotatedCarvedOutVaseTrapezeRingsShape:
-		return any(&stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes).(*map[Type]struct{})
-	case *StackOfRotatedGrowthCurve2D:
-		return any(&stage.StackOfRotatedGrowthCurve2Ds).(*map[Type]struct{})
-	case *StackOfRotatedGrowthCurve2DRibbon:
-		return any(&stage.StackOfRotatedGrowthCurve2DRibbons).(*map[Type]struct{})
-	case *StackOfRotatedVaseTrapezeRingsShape:
-		return any(&stage.StackOfRotatedVaseTrapezeRingsShapes).(*map[Type]struct{})
-	case *StackOfVaseTrapezeRingsShape:
-		return any(&stage.StackOfVaseTrapezeRingsShapes).(*map[Type]struct{})
-	case *StackRotatedGrowthCurve2DEndArcShape:
-		return any(&stage.StackRotatedGrowthCurve2DEndArcShapes).(*map[Type]struct{})
-	case *StackRotatedGrowthCurve2DRibbonEndShape:
-		return any(&stage.StackRotatedGrowthCurve2DRibbonEndShapes).(*map[Type]struct{})
-	case *StackRotatedGrowthCurve2DRibbonStartShape:
-		return any(&stage.StackRotatedGrowthCurve2DRibbonStartShapes).(*map[Type]struct{})
-	case *StackRotatedGrowthCurve2DStartArcShape:
-		return any(&stage.StackRotatedGrowthCurve2DStartArcShapes).(*map[Type]struct{})
-	case *StartArcShape:
-		return any(&stage.StartArcShapes).(*map[Type]struct{})
-	case *StartArcShapeGrid:
-		return any(&stage.StartArcShapeGrids).(*map[Type]struct{})
-	case *StartHalfwayArcShape:
-		return any(&stage.StartHalfwayArcShapes).(*map[Type]struct{})
-	case *StartHalfwayArcShapeGrid:
-		return any(&stage.StartHalfwayArcShapeGrids).(*map[Type]struct{})
-	case *StemCylinder3DShape:
-		return any(&stage.StemCylinder3DShapes).(*map[Type]struct{})
-	case *Stool2DDiagram:
-		return any(&stage.Stool2DDiagrams).(*map[Type]struct{})
-	case *Stool3DDiagram:
-		return any(&stage.Stool3DDiagrams).(*map[Type]struct{})
-	case *TiledFloor3DShape:
-		return any(&stage.TiledFloor3DShapes).(*map[Type]struct{})
-	case *TopCurvePlane1Shape:
-		return any(&stage.TopCurvePlane1Shapes).(*map[Type]struct{})
-	case *TopCurvePlane2Shape:
-		return any(&stage.TopCurvePlane2Shapes).(*map[Type]struct{})
-	case *TopEndArcShape:
-		return any(&stage.TopEndArcShapes).(*map[Type]struct{})
-	case *TopEndArcShapeGrid:
-		return any(&stage.TopEndArcShapeGrids).(*map[Type]struct{})
-	case *TopEndHalfwayArcShape:
-		return any(&stage.TopEndHalfwayArcShapes).(*map[Type]struct{})
-	case *TopEndHalfwayArcShapeGrid:
-		return any(&stage.TopEndHalfwayArcShapeGrids).(*map[Type]struct{})
-	case *TopGrowthCurve2D:
-		return any(&stage.TopGrowthCurve2Ds).(*map[Type]struct{})
-	case *TopMidArcVectorShape:
-		return any(&stage.TopMidArcVectorShapes).(*map[Type]struct{})
-	case *TopMidArcVectorShapeGrid:
-		return any(&stage.TopMidArcVectorShapeGrids).(*map[Type]struct{})
-	case *TopStackGrowthCurve2DEndHalfwayArcShape:
-		return any(&stage.TopStackGrowthCurve2DEndHalfwayArcShapes).(*map[Type]struct{})
-	case *TopStackGrowthCurve2DStartHalfwayArcShape:
-		return any(&stage.TopStackGrowthCurve2DStartHalfwayArcShapes).(*map[Type]struct{})
-	case *TopStackOfGrowthCurve2D:
-		return any(&stage.TopStackOfGrowthCurve2Ds).(*map[Type]struct{})
-	case *TopStackOfRotatedGrowthCurve2D:
-		return any(&stage.TopStackOfRotatedGrowthCurve2Ds).(*map[Type]struct{})
-	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
-		return any(&stage.TopStackOfRotatedGrowthCurve2DEndArcShapes).(*map[Type]struct{})
-	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
-		return any(&stage.TopStackOfRotatedGrowthCurve2DStartArcShapes).(*map[Type]struct{})
-	case *TopStartArcShape:
-		return any(&stage.TopStartArcShapes).(*map[Type]struct{})
-	case *TopStartArcShapeGrid:
-		return any(&stage.TopStartArcShapeGrids).(*map[Type]struct{})
-	case *TopStartHalfwayArcShape:
-		return any(&stage.TopStartHalfwayArcShapes).(*map[Type]struct{})
-	case *TopStartHalfwayArcShapeGrid:
-		return any(&stage.TopStartHalfwayArcShapeGrids).(*map[Type]struct{})
-	case *Torus3DShape:
-		return any(&stage.Torus3DShapes).(*map[Type]struct{})
-	case *TorusEdge3DShape:
-		return any(&stage.TorusEdge3DShapes).(*map[Type]struct{})
-	case *TorusStackShape:
-		return any(&stage.TorusStackShapes).(*map[Type]struct{})
-	case *TubeVase3DDiagram:
-		return any(&stage.TubeVase3DDiagrams).(*map[Type]struct{})
-	case *TubeVaseAbstract:
-		return any(&stage.TubeVaseAbstracts).(*map[Type]struct{})
-	case *Vase2DDiagram:
-		return any(&stage.Vase2DDiagrams).(*map[Type]struct{})
-	case *VaseTrapezeBasePlateShape:
-		return any(&stage.VaseTrapezeBasePlateShapes).(*map[Type]struct{})
-	case *VaseTrapezeRingShape:
-		return any(&stage.VaseTrapezeRingShapes).(*map[Type]struct{})
-	case *VerticalTorusStackShape:
-		return any(&stage.VerticalTorusStackShapes).(*map[Type]struct{})
-	case *VolumeKey3DShape:
-		return any(&stage.VolumeKey3DShapes).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
+	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
+}
+
+// insertion point for instance with special fields
+func (Angle0Shape) GongGetAssociationName() any {
+	return &Angle0Shape{
 	}
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
+func (ArcNormalVectorShape) GongGetAssociationName() any {
+	return &ArcNormalVectorShape{
+	}
+}
 
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case ArcNormalVectorShapeGrid:
-		return any(&ArcNormalVectorShapeGrid{
+func (ArcNormalVectorShapeGrid) GongGetAssociationName() any {
+	return &ArcNormalVectorShapeGrid{
 			ArcNormalVectorShapes: []*ArcNormalVectorShape{{Name: "ArcNormalVectorShapes"}},
-		}).(*Type)
-	case BaseVectorShapeGrid:
-		return any(&BaseVectorShapeGrid{
+	}
+}
+
+func (AxesShape) GongGetAssociationName() any {
+	return &AxesShape{
+	}
+}
+
+func (BaseVectorShape) GongGetAssociationName() any {
+	return &BaseVectorShape{
+	}
+}
+
+func (BaseVectorShapeGrid) GongGetAssociationName() any {
+	return &BaseVectorShapeGrid{
 			BaseVectorShapes: []*BaseVectorShape{{Name: "BaseVectorShapes"}},
-		}).(*Type)
-	case Clock3DDiagram:
-		return any(&Clock3DDiagram{
+	}
+}
+
+func (BottomCurvePlane1Shape) GongGetAssociationName() any {
+	return &BottomCurvePlane1Shape{
+	}
+}
+
+func (BottomCurvePlane2Shape) GongGetAssociationName() any {
+	return &BottomCurvePlane2Shape{
+	}
+}
+
+func (CarvedOutBottomCurvePlane1Shape) GongGetAssociationName() any {
+	return &CarvedOutBottomCurvePlane1Shape{
+	}
+}
+
+func (CarvedOutTopCurvePlane1Shape) GongGetAssociationName() any {
+	return &CarvedOutTopCurvePlane1Shape{
+	}
+}
+
+func (CarvedOutVaseTrapezeRingShape) GongGetAssociationName() any {
+	return &CarvedOutVaseTrapezeRingShape{
+	}
+}
+
+func (ChosenP1P2PairShape) GongGetAssociationName() any {
+	return &ChosenP1P2PairShape{
+	}
+}
+
+func (CircleGridShape) GongGetAssociationName() any {
+	return &CircleGridShape{
+	}
+}
+
+func (Circumference3DShape) GongGetAssociationName() any {
+	return &Circumference3DShape{
+	}
+}
+
+func (Clock2DDiagram) GongGetAssociationName() any {
+	return &Clock2DDiagram{
+	}
+}
+
+func (Clock3DDiagram) GongGetAssociationName() any {
+	return &Clock3DDiagram{
 			ClockTopCurveShape: &ClockTopCurveShape{Name: "ClockTopCurveShape"},
 			Torus3DShape: &Torus3DShape{Name: "Torus3DShape"},
 			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
 			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
-		}).(*Type)
-	case EndArcShapeGrid:
-		return any(&EndArcShapeGrid{
+	}
+}
+
+func (ClockTopCurveShape) GongGetAssociationName() any {
+	return &ClockTopCurveShape{
+	}
+}
+
+func (CutLine3DShape) GongGetAssociationName() any {
+	return &CutLine3DShape{
+	}
+}
+
+func (EndArcShape) GongGetAssociationName() any {
+	return &EndArcShape{
+	}
+}
+
+func (EndArcShapeGrid) GongGetAssociationName() any {
+	return &EndArcShapeGrid{
 			EndArcShapes: []*EndArcShape{{Name: "EndArcShapes"}},
-		}).(*Type)
-	case EndHalfwayArcShapeGrid:
-		return any(&EndHalfwayArcShapeGrid{
+	}
+}
+
+func (EndHalfwayArcShape) GongGetAssociationName() any {
+	return &EndHalfwayArcShape{
+	}
+}
+
+func (EndHalfwayArcShapeGrid) GongGetAssociationName() any {
+	return &EndHalfwayArcShapeGrid{
 			EndHalfwayArcShapes: []*EndHalfwayArcShape{{Name: "EndHalfwayArcShapes"}},
-		}).(*Type)
-	case GrowthCurve2D:
-		return any(&GrowthCurve2D{
+	}
+}
+
+func (ExplanationTextShape) GongGetAssociationName() any {
+	return &ExplanationTextShape{
+	}
+}
+
+func (Eye3DShape) GongGetAssociationName() any {
+	return &Eye3DShape{
+	}
+}
+
+func (EyeCornersSampledPoints3DShape) GongGetAssociationName() any {
+	return &EyeCornersSampledPoints3DShape{
+	}
+}
+
+func (EyeSampledPoints3DShape) GongGetAssociationName() any {
+	return &EyeSampledPoints3DShape{
+	}
+}
+
+func (EyeSeatBottomCurveShape) GongGetAssociationName() any {
+	return &EyeSeatBottomCurveShape{
+	}
+}
+
+func (EyeStoolBottomCurveShape) GongGetAssociationName() any {
+	return &EyeStoolBottomCurveShape{
+	}
+}
+
+func (EyeVolume3DShape) GongGetAssociationName() any {
+	return &EyeVolume3DShape{
+	}
+}
+
+func (GridPathShape) GongGetAssociationName() any {
+	return &GridPathShape{
+	}
+}
+
+func (GrowthCurve2D) GongGetAssociationName() any {
+	return &GrowthCurve2D{
 			StartHalfwayArcShapeGrid: &StartHalfwayArcShapeGrid{Name: "StartHalfwayArcShapeGrid"},
 			EndHalfwayArcShapeGrid: &EndHalfwayArcShapeGrid{Name: "EndHalfwayArcShapeGrid"},
-		}).(*Type)
-	case GrowthCurve2DRibbon:
-		return any(&GrowthCurve2DRibbon{
+	}
+}
+
+func (GrowthCurve2DRibbon) GongGetAssociationName() any {
+	return &GrowthCurve2DRibbon{
 			GrowthCurve2DRibbonStartShapes: []*GrowthCurve2DRibbonStartShape{{Name: "GrowthCurve2DRibbonStartShapes"}},
 			GrowthCurve2DRibbonEndShapes: []*GrowthCurve2DRibbonEndShape{{Name: "GrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case GrowthCurveRhombusGridShape:
-		return any(&GrowthCurveRhombusGridShape{
+	}
+}
+
+func (GrowthCurve2DRibbonEndShape) GongGetAssociationName() any {
+	return &GrowthCurve2DRibbonEndShape{
+	}
+}
+
+func (GrowthCurve2DRibbonStartShape) GongGetAssociationName() any {
+	return &GrowthCurve2DRibbonStartShape{
+	}
+}
+
+func (GrowthCurveRhombusGridShape) GongGetAssociationName() any {
+	return &GrowthCurveRhombusGridShape{
 			GrowthCurveRhombusShapes: []*GrowthCurveRhombusShape{{Name: "GrowthCurveRhombusShapes"}},
-		}).(*Type)
-	case InitialRhombusGridShape:
-		return any(&InitialRhombusGridShape{
+	}
+}
+
+func (GrowthCurveRhombusShape) GongGetAssociationName() any {
+	return &GrowthCurveRhombusShape{
+	}
+}
+
+func (GrowthVectorShape) GongGetAssociationName() any {
+	return &GrowthVectorShape{
+	}
+}
+
+func (InitialRhombusGridShape) GongGetAssociationName() any {
+	return &InitialRhombusGridShape{
 			InitialRhombusShapes: []*InitialRhombusShape{{Name: "InitialRhombusShapes"}},
-		}).(*Type)
-	case Library:
-		return any(&Library{
+	}
+}
+
+func (InitialRhombusShape) GongGetAssociationName() any {
+	return &InitialRhombusShape{
+	}
+}
+
+func (Key3DShape) GongGetAssociationName() any {
+	return &Key3DShape{
+	}
+}
+
+func (KeyHole3DShape) GongGetAssociationName() any {
+	return &KeyHole3DShape{
+	}
+}
+
+func (KeyHoleShape) GongGetAssociationName() any {
+	return &KeyHoleShape{
+	}
+}
+
+func (Leaves3DShape) GongGetAssociationName() any {
+	return &Leaves3DShape{
+	}
+}
+
+func (Library) GongGetAssociationName() any {
+	return &Library{
 			Plants: []*PlantAbstract{{Name: "Plants"}},
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
-		}).(*Type)
-	case MidArcVectorShapeGrid:
-		return any(&MidArcVectorShapeGrid{
+	}
+}
+
+func (MidArcVectorShape) GongGetAssociationName() any {
+	return &MidArcVectorShape{
+	}
+}
+
+func (MidArcVectorShapeGrid) GongGetAssociationName() any {
+	return &MidArcVectorShapeGrid{
 			MidArcVectorShapes: []*MidArcVectorShape{{Name: "MidArcVectorShapes"}},
-		}).(*Type)
-	case PartiallyGrowthCurve2DRibbon:
-		return any(&PartiallyGrowthCurve2DRibbon{
+	}
+}
+
+func (OriginalPoints3DShape) GongGetAssociationName() any {
+	return &OriginalPoints3DShape{
+	}
+}
+
+func (ParastichyMCurves3DShape) GongGetAssociationName() any {
+	return &ParastichyMCurves3DShape{
+	}
+}
+
+func (ParastichyNCurves3DShape) GongGetAssociationName() any {
+	return &ParastichyNCurves3DShape{
+	}
+}
+
+func (PartiallyGrowthCurve2DRibbon) GongGetAssociationName() any {
+	return &PartiallyGrowthCurve2DRibbon{
 			PartiallyGrowthCurve2DRibbonStartShapes: []*PartiallyGrowthCurve2DRibbonStartShape{{Name: "PartiallyGrowthCurve2DRibbonStartShapes"}},
 			PartiallyGrowthCurve2DRibbonEndShapes: []*PartiallyGrowthCurve2DRibbonEndShape{{Name: "PartiallyGrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case PartiallyGrowthCurve2DTrajectory:
-		return any(&PartiallyGrowthCurve2DTrajectory{
+	}
+}
+
+func (PartiallyGrowthCurve2DRibbonEndShape) GongGetAssociationName() any {
+	return &PartiallyGrowthCurve2DRibbonEndShape{
+	}
+}
+
+func (PartiallyGrowthCurve2DRibbonStartShape) GongGetAssociationName() any {
+	return &PartiallyGrowthCurve2DRibbonStartShape{
+	}
+}
+
+func (PartiallyGrowthCurve2DTrajectory) GongGetAssociationName() any {
+	return &PartiallyGrowthCurve2DTrajectory{
 			PartiallyGrowthCurve2DTrajectoryShapes: []*PartiallyGrowthCurve2DTrajectoryShape{{Name: "PartiallyGrowthCurve2DTrajectoryShapes"}},
-		}).(*Type)
-	case PartiallyGrowthCurve2DTrajectoryP1P2:
-		return any(&PartiallyGrowthCurve2DTrajectoryP1P2{
+	}
+}
+
+func (PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongGetAssociationName() any {
+	return &PartiallyGrowthCurve2DTrajectoryP1CurveShape{
+	}
+}
+
+func (PartiallyGrowthCurve2DTrajectoryP1P2) GongGetAssociationName() any {
+	return &PartiallyGrowthCurve2DTrajectoryP1P2{
 			P1PointShapes: []*PartiallyGrowthCurve2DTrajectoryP1PointShape{{Name: "P1PointShapes"}},
 			P2PointShapes: []*PartiallyGrowthCurve2DTrajectoryP2PointShape{{Name: "P2PointShapes"}},
 			P1CurveShapes: []*PartiallyGrowthCurve2DTrajectoryP1CurveShape{{Name: "P1CurveShapes"}},
 			P2CurveShapes: []*PartiallyGrowthCurve2DTrajectoryP2CurveShape{{Name: "P2CurveShapes"}},
 			P1P2PairLineShapes: []*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape{{Name: "P1P2PairLineShapes"}},
-		}).(*Type)
-	case PerpendicularVectorGrid:
-		return any(&PerpendicularVectorGrid{
+	}
+}
+
+func (PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongGetAssociationName() any {
+	return &PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape{
+	}
+}
+
+func (PartiallyGrowthCurve2DTrajectoryP1PointShape) GongGetAssociationName() any {
+	return &PartiallyGrowthCurve2DTrajectoryP1PointShape{
+	}
+}
+
+func (PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongGetAssociationName() any {
+	return &PartiallyGrowthCurve2DTrajectoryP2CurveShape{
+	}
+}
+
+func (PartiallyGrowthCurve2DTrajectoryP2PointShape) GongGetAssociationName() any {
+	return &PartiallyGrowthCurve2DTrajectoryP2PointShape{
+	}
+}
+
+func (PartiallyGrowthCurve2DTrajectoryShape) GongGetAssociationName() any {
+	return &PartiallyGrowthCurve2DTrajectoryShape{
+	}
+}
+
+func (PartiallyRotatedSeatBottomCurveShape) GongGetAssociationName() any {
+	return &PartiallyRotatedSeatBottomCurveShape{
+	}
+}
+
+func (PartiallyRotatedSeatTopCurveShape) GongGetAssociationName() any {
+	return &PartiallyRotatedSeatTopCurveShape{
+	}
+}
+
+func (PartiallyRotatedTorusShape) GongGetAssociationName() any {
+	return &PartiallyRotatedTorusShape{
+	}
+}
+
+func (PerpendicularVector) GongGetAssociationName() any {
+	return &PerpendicularVector{
+	}
+}
+
+func (PerpendicularVectorGrid) GongGetAssociationName() any {
+	return &PerpendicularVectorGrid{
 			PerpendicularVectors: []*PerpendicularVector{{Name: "PerpendicularVectors"}},
-		}).(*Type)
-	case PerpendicularVectorGridHalfway:
-		return any(&PerpendicularVectorGridHalfway{
+	}
+}
+
+func (PerpendicularVectorGridHalfway) GongGetAssociationName() any {
+	return &PerpendicularVectorGridHalfway{
 			PerpendicularVectorHalfways: []*PerpendicularVectorHalfway{{Name: "PerpendicularVectorHalfways"}},
-		}).(*Type)
-	case Plant3DDiagram:
-		return any(&Plant3DDiagram{
+	}
+}
+
+func (PerpendicularVectorHalfway) GongGetAssociationName() any {
+	return &PerpendicularVectorHalfway{
+	}
+}
+
+func (Plant2DDiagram) GongGetAssociationName() any {
+	return &Plant2DDiagram{
+	}
+}
+
+func (Plant3DDiagram) GongGetAssociationName() any {
+	return &Plant3DDiagram{
 			StemCylinder3DShape: &StemCylinder3DShape{Name: "StemCylinder3DShape"},
 			ParastichyNCurves3DShape: &ParastichyNCurves3DShape{Name: "ParastichyNCurves3DShape"},
 			ParastichyMCurves3DShape: &ParastichyMCurves3DShape{Name: "ParastichyMCurves3DShape"},
@@ -13023,9 +15188,11 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
 			Leaves3DShape: &Leaves3DShape{Name: "Leaves3DShape"},
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
-		}).(*Type)
-	case PlantAbstract:
-		return any(&PlantAbstract{
+	}
+}
+
+func (PlantAbstract) GongGetAssociationName() any {
+	return &PlantAbstract{
 			TubeVaseAbstract: &TubeVaseAbstract{Name: "TubeVaseAbstract"},
 			Plant2DDiagrams: []*Plant2DDiagram{{Name: "Plant2DDiagrams"}},
 			Plant3DDiagrams: []*Plant3DDiagram{{Name: "Plant3DDiagrams"}},
@@ -13046,9 +15213,36 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
 			GrowthCurve2D: &GrowthCurve2D{Name: "GrowthCurve2D"},
 			StackOfGrowthCurve2DByGrowthVector: &StackOfGrowthCurve2DByGrowthVector{Name: "StackOfGrowthCurve2DByGrowthVector"},
-		}).(*Type)
-	case RhombusStuff:
-		return any(&RhombusStuff{
+	}
+}
+
+func (PlantCircumferenceShape) GongGetAssociationName() any {
+	return &PlantCircumferenceShape{
+	}
+}
+
+func (PointsAndLines3DShape) GongGetAssociationName() any {
+	return &PointsAndLines3DShape{
+	}
+}
+
+func (PxShape) GongGetAssociationName() any {
+	return &PxShape{
+	}
+}
+
+func (Rendered3DShape) GongGetAssociationName() any {
+	return &Rendered3DShape{
+	}
+}
+
+func (RhombusShape) GongGetAssociationName() any {
+	return &RhombusShape{
+	}
+}
+
+func (RhombusStuff) GongGetAssociationName() any {
+	return &RhombusStuff{
 			ReferenceRhombus: &RhombusShape{Name: "ReferenceRhombus"},
 			PlantCircumferenceShape: &PlantCircumferenceShape{Name: "PlantCircumferenceShape"},
 			GridPathShape: &GridPathShape{Name: "GridPathShape"},
@@ -13059,69 +15253,277 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			RotatedGridPathShape: &GridPathShape{Name: "RotatedGridPathShape"},
 			RotatedRhombusGridShape2: &RotatedRhombusGridShape{Name: "RotatedRhombusGridShape2"},
 			GrowthCurveRhombusGridShape: &GrowthCurveRhombusGridShape{Name: "GrowthCurveRhombusGridShape"},
-		}).(*Type)
-	case RotatedRhombusGridShape:
-		return any(&RotatedRhombusGridShape{
+	}
+}
+
+func (RotatedRhombusGridShape) GongGetAssociationName() any {
+	return &RotatedRhombusGridShape{
 			RotatedRhombusShapes: []*RotatedRhombusShape{{Name: "RotatedRhombusShapes"}},
-		}).(*Type)
-	case ShiftedBottomTopStartArcShapeGrid:
-		return any(&ShiftedBottomTopStartArcShapeGrid{
+	}
+}
+
+func (RotatedRhombusShape) GongGetAssociationName() any {
+	return &RotatedRhombusShape{
+	}
+}
+
+func (RotatedSampledPoints3DShape) GongGetAssociationName() any {
+	return &RotatedSampledPoints3DShape{
+	}
+}
+
+func (RotatedSeatAndLegs3DShape) GongGetAssociationName() any {
+	return &RotatedSeatAndLegs3DShape{
+	}
+}
+
+func (SampledPoints3DShape) GongGetAssociationName() any {
+	return &SampledPoints3DShape{
+	}
+}
+
+func (Seat3DShape) GongGetAssociationName() any {
+	return &Seat3DShape{
+	}
+}
+
+func (SeatAndLegs3DShape) GongGetAssociationName() any {
+	return &SeatAndLegs3DShape{
+	}
+}
+
+func (SeatBottomCurveShape) GongGetAssociationName() any {
+	return &SeatBottomCurveShape{
+	}
+}
+
+func (SeatTopCurveShape) GongGetAssociationName() any {
+	return &SeatTopCurveShape{
+	}
+}
+
+func (ShiftedBottomTopStartArcShape) GongGetAssociationName() any {
+	return &ShiftedBottomTopStartArcShape{
+	}
+}
+
+func (ShiftedBottomTopStartArcShapeGrid) GongGetAssociationName() any {
+	return &ShiftedBottomTopStartArcShapeGrid{
 			ShiftedBottomTopStartArcShapes: []*ShiftedBottomTopStartArcShape{{Name: "ShiftedBottomTopStartArcShapes"}},
-		}).(*Type)
-	case ShiftedLeftGrowthCurve2DRibbon:
-		return any(&ShiftedLeftGrowthCurve2DRibbon{
+	}
+}
+
+func (ShiftedLeftGrowthCurve2DRibbon) GongGetAssociationName() any {
+	return &ShiftedLeftGrowthCurve2DRibbon{
 			ShiftedLeftGrowthCurve2DRibbonStartShapes: []*ShiftedLeftGrowthCurve2DRibbonStartShape{{Name: "ShiftedLeftGrowthCurve2DRibbonStartShapes"}},
 			ShiftedLeftGrowthCurve2DRibbonEndShapes: []*ShiftedLeftGrowthCurve2DRibbonEndShape{{Name: "ShiftedLeftGrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		return any(&ShiftedLeftPartiallyGrowthCurve2DRibbon{
+	}
+}
+
+func (ShiftedLeftGrowthCurve2DRibbonEndShape) GongGetAssociationName() any {
+	return &ShiftedLeftGrowthCurve2DRibbonEndShape{
+	}
+}
+
+func (ShiftedLeftGrowthCurve2DRibbonStartShape) GongGetAssociationName() any {
+	return &ShiftedLeftGrowthCurve2DRibbonStartShape{
+	}
+}
+
+func (ShiftedLeftPartiallyGrowthCurve2DRibbon) GongGetAssociationName() any {
+	return &ShiftedLeftPartiallyGrowthCurve2DRibbon{
 			ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes: []*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape{{Name: "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes"}},
 			ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes: []*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape{{Name: "ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case ShiftedLeftStackOfGrowthCurve:
-		return any(&ShiftedLeftStackOfGrowthCurve{
+	}
+}
+
+func (ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongGetAssociationName() any {
+	return &ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape{
+	}
+}
+
+func (ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongGetAssociationName() any {
+	return &ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape{
+	}
+}
+
+func (ShiftedLeftStackGrowthCurveEndArcShape) GongGetAssociationName() any {
+	return &ShiftedLeftStackGrowthCurveEndArcShape{
+	}
+}
+
+func (ShiftedLeftStackGrowthCurveStartArcShape) GongGetAssociationName() any {
+	return &ShiftedLeftStackGrowthCurveStartArcShape{
+	}
+}
+
+func (ShiftedLeftStackNormalVector) GongGetAssociationName() any {
+	return &ShiftedLeftStackNormalVector{
+	}
+}
+
+func (ShiftedLeftStackOfGrowthCurve) GongGetAssociationName() any {
+	return &ShiftedLeftStackOfGrowthCurve{
 			ShiftedLeftStackGrowthCurveStartArcShapes: []*ShiftedLeftStackGrowthCurveStartArcShape{{Name: "ShiftedLeftStackGrowthCurveStartArcShapes"}},
 			ShiftedLeftStackGrowthCurveEndArcShapes: []*ShiftedLeftStackGrowthCurveEndArcShape{{Name: "ShiftedLeftStackGrowthCurveEndArcShapes"}},
-		}).(*Type)
-	case ShiftedLeftStackOfNormalVector:
-		return any(&ShiftedLeftStackOfNormalVector{
+	}
+}
+
+func (ShiftedLeftStackOfNormalVector) GongGetAssociationName() any {
+	return &ShiftedLeftStackOfNormalVector{
 			ShiftedLeftStackNormalVectors: []*ShiftedLeftStackNormalVector{{Name: "ShiftedLeftStackNormalVectors"}},
-		}).(*Type)
-	case ShiftedRightGrowthCurve2DRibbon:
-		return any(&ShiftedRightGrowthCurve2DRibbon{
+	}
+}
+
+func (ShiftedRightGrowthCurve2DRibbon) GongGetAssociationName() any {
+	return &ShiftedRightGrowthCurve2DRibbon{
 			ShiftedRightGrowthCurve2DRibbonStartShapes: []*ShiftedRightGrowthCurve2DRibbonStartShape{{Name: "ShiftedRightGrowthCurve2DRibbonStartShapes"}},
 			ShiftedRightGrowthCurve2DRibbonEndShapes: []*ShiftedRightGrowthCurve2DRibbonEndShape{{Name: "ShiftedRightGrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case StackOfGrowthCurve2D:
-		return any(&StackOfGrowthCurve2D{
+	}
+}
+
+func (ShiftedRightGrowthCurve2DRibbonEndShape) GongGetAssociationName() any {
+	return &ShiftedRightGrowthCurve2DRibbonEndShape{
+	}
+}
+
+func (ShiftedRightGrowthCurve2DRibbonStartShape) GongGetAssociationName() any {
+	return &ShiftedRightGrowthCurve2DRibbonStartShape{
+	}
+}
+
+func (StackGrowthCurve2DEndHalfwayArcShape) GongGetAssociationName() any {
+	return &StackGrowthCurve2DEndHalfwayArcShape{
+	}
+}
+
+func (StackGrowthCurve2DRibbonEndShape) GongGetAssociationName() any {
+	return &StackGrowthCurve2DRibbonEndShape{
+	}
+}
+
+func (StackGrowthCurve2DRibbonStartShape) GongGetAssociationName() any {
+	return &StackGrowthCurve2DRibbonStartShape{
+	}
+}
+
+func (StackGrowthCurve2DStartHalfwayArcShape) GongGetAssociationName() any {
+	return &StackGrowthCurve2DStartHalfwayArcShape{
+	}
+}
+
+func (StackOfCarvedOutVaseTrapezeRingsShape) GongGetAssociationName() any {
+	return &StackOfCarvedOutVaseTrapezeRingsShape{
+	}
+}
+
+func (StackOfGrowthCurve2D) GongGetAssociationName() any {
+	return &StackOfGrowthCurve2D{
 			StackGrowthCurve2DStartHalfwayArcShapes: []*StackGrowthCurve2DStartHalfwayArcShape{{Name: "StackGrowthCurve2DStartHalfwayArcShapes"}},
 			StackGrowthCurve2DEndHalfwayArcShapes: []*StackGrowthCurve2DEndHalfwayArcShape{{Name: "StackGrowthCurve2DEndHalfwayArcShapes"}},
-		}).(*Type)
-	case StackOfGrowthCurve2DRibbon:
-		return any(&StackOfGrowthCurve2DRibbon{
+	}
+}
+
+func (StackOfGrowthCurve2DByGrowthVector) GongGetAssociationName() any {
+	return &StackOfGrowthCurve2DByGrowthVector{
+	}
+}
+
+func (StackOfGrowthCurve2DRibbon) GongGetAssociationName() any {
+	return &StackOfGrowthCurve2DRibbon{
 			StackGrowthCurve2DRibbonStartShapes: []*StackGrowthCurve2DRibbonStartShape{{Name: "StackGrowthCurve2DRibbonStartShapes"}},
 			StackGrowthCurve2DRibbonEndShapes: []*StackGrowthCurve2DRibbonEndShape{{Name: "StackGrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case StackOfRotatedGrowthCurve2D:
-		return any(&StackOfRotatedGrowthCurve2D{
+	}
+}
+
+func (StackOfPartiallyRotatedTorusShape) GongGetAssociationName() any {
+	return &StackOfPartiallyRotatedTorusShape{
+	}
+}
+
+func (StackOfRotatedCarvedOutVaseTrapezeRingsShape) GongGetAssociationName() any {
+	return &StackOfRotatedCarvedOutVaseTrapezeRingsShape{
+	}
+}
+
+func (StackOfRotatedGrowthCurve2D) GongGetAssociationName() any {
+	return &StackOfRotatedGrowthCurve2D{
 			StackRotatedGrowthCurve2DStartArcShapes: []*StackRotatedGrowthCurve2DStartArcShape{{Name: "StackRotatedGrowthCurve2DStartArcShapes"}},
 			StackRotatedGrowthCurve2DEndArcShapes: []*StackRotatedGrowthCurve2DEndArcShape{{Name: "StackRotatedGrowthCurve2DEndArcShapes"}},
-		}).(*Type)
-	case StackOfRotatedGrowthCurve2DRibbon:
-		return any(&StackOfRotatedGrowthCurve2DRibbon{
+	}
+}
+
+func (StackOfRotatedGrowthCurve2DRibbon) GongGetAssociationName() any {
+	return &StackOfRotatedGrowthCurve2DRibbon{
 			StackRotatedGrowthCurve2DRibbonStartShapes: []*StackRotatedGrowthCurve2DRibbonStartShape{{Name: "StackRotatedGrowthCurve2DRibbonStartShapes"}},
 			StackRotatedGrowthCurve2DRibbonEndShapes: []*StackRotatedGrowthCurve2DRibbonEndShape{{Name: "StackRotatedGrowthCurve2DRibbonEndShapes"}},
-		}).(*Type)
-	case StartArcShapeGrid:
-		return any(&StartArcShapeGrid{
+	}
+}
+
+func (StackOfRotatedVaseTrapezeRingsShape) GongGetAssociationName() any {
+	return &StackOfRotatedVaseTrapezeRingsShape{
+	}
+}
+
+func (StackOfVaseTrapezeRingsShape) GongGetAssociationName() any {
+	return &StackOfVaseTrapezeRingsShape{
+	}
+}
+
+func (StackRotatedGrowthCurve2DEndArcShape) GongGetAssociationName() any {
+	return &StackRotatedGrowthCurve2DEndArcShape{
+	}
+}
+
+func (StackRotatedGrowthCurve2DRibbonEndShape) GongGetAssociationName() any {
+	return &StackRotatedGrowthCurve2DRibbonEndShape{
+	}
+}
+
+func (StackRotatedGrowthCurve2DRibbonStartShape) GongGetAssociationName() any {
+	return &StackRotatedGrowthCurve2DRibbonStartShape{
+	}
+}
+
+func (StackRotatedGrowthCurve2DStartArcShape) GongGetAssociationName() any {
+	return &StackRotatedGrowthCurve2DStartArcShape{
+	}
+}
+
+func (StartArcShape) GongGetAssociationName() any {
+	return &StartArcShape{
+	}
+}
+
+func (StartArcShapeGrid) GongGetAssociationName() any {
+	return &StartArcShapeGrid{
 			StartArcShapes: []*StartArcShape{{Name: "StartArcShapes"}},
-		}).(*Type)
-	case StartHalfwayArcShapeGrid:
-		return any(&StartHalfwayArcShapeGrid{
+	}
+}
+
+func (StartHalfwayArcShape) GongGetAssociationName() any {
+	return &StartHalfwayArcShape{
+	}
+}
+
+func (StartHalfwayArcShapeGrid) GongGetAssociationName() any {
+	return &StartHalfwayArcShapeGrid{
 			StartHalfwayArcShapes: []*StartHalfwayArcShape{{Name: "StartHalfwayArcShapes"}},
-		}).(*Type)
-	case Stool3DDiagram:
-		return any(&Stool3DDiagram{
+	}
+}
+
+func (StemCylinder3DShape) GongGetAssociationName() any {
+	return &StemCylinder3DShape{
+	}
+}
+
+func (Stool2DDiagram) GongGetAssociationName() any {
+	return &Stool2DDiagram{
+	}
+}
+
+func (Stool3DDiagram) GongGetAssociationName() any {
+	return &Stool3DDiagram{
 			SeatTopCurveShape: &SeatTopCurveShape{Name: "SeatTopCurveShape"},
 			RotatedSeatTopCurveShape: &PartiallyRotatedSeatTopCurveShape{Name: "RotatedSeatTopCurveShape"},
 			SeatBottomCurveShape: &SeatBottomCurveShape{Name: "SeatBottomCurveShape"},
@@ -13141,44 +15543,137 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			RotatedSeatAndLegs3DShape: &RotatedSeatAndLegs3DShape{Name: "RotatedSeatAndLegs3DShape"},
 			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
-		}).(*Type)
-	case TopEndArcShapeGrid:
-		return any(&TopEndArcShapeGrid{
+	}
+}
+
+func (TiledFloor3DShape) GongGetAssociationName() any {
+	return &TiledFloor3DShape{
+	}
+}
+
+func (TopCurvePlane1Shape) GongGetAssociationName() any {
+	return &TopCurvePlane1Shape{
+	}
+}
+
+func (TopCurvePlane2Shape) GongGetAssociationName() any {
+	return &TopCurvePlane2Shape{
+	}
+}
+
+func (TopEndArcShape) GongGetAssociationName() any {
+	return &TopEndArcShape{
+	}
+}
+
+func (TopEndArcShapeGrid) GongGetAssociationName() any {
+	return &TopEndArcShapeGrid{
 			TopEndArcShapes: []*TopEndArcShape{{Name: "TopEndArcShapes"}},
-		}).(*Type)
-	case TopEndHalfwayArcShapeGrid:
-		return any(&TopEndHalfwayArcShapeGrid{
+	}
+}
+
+func (TopEndHalfwayArcShape) GongGetAssociationName() any {
+	return &TopEndHalfwayArcShape{
+	}
+}
+
+func (TopEndHalfwayArcShapeGrid) GongGetAssociationName() any {
+	return &TopEndHalfwayArcShapeGrid{
 			TopEndHalfwayArcShapes: []*TopEndHalfwayArcShape{{Name: "TopEndHalfwayArcShapes"}},
-		}).(*Type)
-	case TopGrowthCurve2D:
-		return any(&TopGrowthCurve2D{
+	}
+}
+
+func (TopGrowthCurve2D) GongGetAssociationName() any {
+	return &TopGrowthCurve2D{
 			TopStartHalfwayArcShapeGrid: &TopStartHalfwayArcShapeGrid{Name: "TopStartHalfwayArcShapeGrid"},
 			TopEndHalfwayArcShapeGrid: &TopEndHalfwayArcShapeGrid{Name: "TopEndHalfwayArcShapeGrid"},
-		}).(*Type)
-	case TopMidArcVectorShapeGrid:
-		return any(&TopMidArcVectorShapeGrid{
+	}
+}
+
+func (TopMidArcVectorShape) GongGetAssociationName() any {
+	return &TopMidArcVectorShape{
+	}
+}
+
+func (TopMidArcVectorShapeGrid) GongGetAssociationName() any {
+	return &TopMidArcVectorShapeGrid{
 			TopMidArcVectorShapes: []*TopMidArcVectorShape{{Name: "TopMidArcVectorShapes"}},
-		}).(*Type)
-	case TopStackOfGrowthCurve2D:
-		return any(&TopStackOfGrowthCurve2D{
+	}
+}
+
+func (TopStackGrowthCurve2DEndHalfwayArcShape) GongGetAssociationName() any {
+	return &TopStackGrowthCurve2DEndHalfwayArcShape{
+	}
+}
+
+func (TopStackGrowthCurve2DStartHalfwayArcShape) GongGetAssociationName() any {
+	return &TopStackGrowthCurve2DStartHalfwayArcShape{
+	}
+}
+
+func (TopStackOfGrowthCurve2D) GongGetAssociationName() any {
+	return &TopStackOfGrowthCurve2D{
 			TopStackGrowthCurve2DStartHalfwayArcShapes: []*TopStackGrowthCurve2DStartHalfwayArcShape{{Name: "TopStackGrowthCurve2DStartHalfwayArcShapes"}},
 			TopStackGrowthCurve2DEndHalfwayArcShapes: []*TopStackGrowthCurve2DEndHalfwayArcShape{{Name: "TopStackGrowthCurve2DEndHalfwayArcShapes"}},
-		}).(*Type)
-	case TopStackOfRotatedGrowthCurve2D:
-		return any(&TopStackOfRotatedGrowthCurve2D{
+	}
+}
+
+func (TopStackOfRotatedGrowthCurve2D) GongGetAssociationName() any {
+	return &TopStackOfRotatedGrowthCurve2D{
 			TopStackOfRotatedGrowthCurve2DStartArcShapes: []*TopStackOfRotatedGrowthCurve2DStartArcShape{{Name: "TopStackOfRotatedGrowthCurve2DStartArcShapes"}},
 			TopStackOfRotatedGrowthCurve2DEndArcShapes: []*TopStackOfRotatedGrowthCurve2DEndArcShape{{Name: "TopStackOfRotatedGrowthCurve2DEndArcShapes"}},
-		}).(*Type)
-	case TopStartArcShapeGrid:
-		return any(&TopStartArcShapeGrid{
+	}
+}
+
+func (TopStackOfRotatedGrowthCurve2DEndArcShape) GongGetAssociationName() any {
+	return &TopStackOfRotatedGrowthCurve2DEndArcShape{
+	}
+}
+
+func (TopStackOfRotatedGrowthCurve2DStartArcShape) GongGetAssociationName() any {
+	return &TopStackOfRotatedGrowthCurve2DStartArcShape{
+	}
+}
+
+func (TopStartArcShape) GongGetAssociationName() any {
+	return &TopStartArcShape{
+	}
+}
+
+func (TopStartArcShapeGrid) GongGetAssociationName() any {
+	return &TopStartArcShapeGrid{
 			TopStartArcShapes: []*TopStartArcShape{{Name: "TopStartArcShapes"}},
-		}).(*Type)
-	case TopStartHalfwayArcShapeGrid:
-		return any(&TopStartHalfwayArcShapeGrid{
+	}
+}
+
+func (TopStartHalfwayArcShape) GongGetAssociationName() any {
+	return &TopStartHalfwayArcShape{
+	}
+}
+
+func (TopStartHalfwayArcShapeGrid) GongGetAssociationName() any {
+	return &TopStartHalfwayArcShapeGrid{
 			TopStartHalfwayArcShapes: []*TopStartHalfwayArcShape{{Name: "TopStartHalfwayArcShapes"}},
-		}).(*Type)
-	case TubeVase3DDiagram:
-		return any(&TubeVase3DDiagram{
+	}
+}
+
+func (Torus3DShape) GongGetAssociationName() any {
+	return &Torus3DShape{
+	}
+}
+
+func (TorusEdge3DShape) GongGetAssociationName() any {
+	return &TorusEdge3DShape{
+	}
+}
+
+func (TorusStackShape) GongGetAssociationName() any {
+	return &TorusStackShape{
+	}
+}
+
+func (TubeVase3DDiagram) GongGetAssociationName() any {
+	return &TubeVase3DDiagram{
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
 			TorusStackShape: &TorusStackShape{Name: "TorusStackShape"},
 			VerticalTorusStackShape: &VerticalTorusStackShape{Name: "VerticalTorusStackShape"},
@@ -13206,9 +15701,11 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			StackOfRotatedVaseTrapezeRingsShape: &StackOfRotatedVaseTrapezeRingsShape{Name: "StackOfRotatedVaseTrapezeRingsShape"},
 			StackOfRotatedCarvedOutVaseTrapezeRingsShape: &StackOfRotatedCarvedOutVaseTrapezeRingsShape{Name: "StackOfRotatedCarvedOutVaseTrapezeRingsShape"},
 			VaseTrapezeBasePlateShape: &VaseTrapezeBasePlateShape{Name: "VaseTrapezeBasePlateShape"},
-		}).(*Type)
-	case TubeVaseAbstract:
-		return any(&TubeVaseAbstract{
+	}
+}
+
+func (TubeVaseAbstract) GongGetAssociationName() any {
+	return &TubeVaseAbstract{
 			PerpendicularVectorGridHalfway: &PerpendicularVectorGridHalfway{Name: "PerpendicularVectorGridHalfway"},
 			TopStartArcShapeGrid: &TopStartArcShapeGrid{Name: "TopStartArcShapeGrid"},
 			TopEndArcShapeGrid: &TopEndArcShapeGrid{Name: "TopEndArcShapeGrid"},
@@ -13235,10 +15732,42 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			PxShape: &PxShape{Name: "PxShape"},
 			ChosenP1P2PairShape: &ChosenP1P2PairShape{Name: "ChosenP1P2PairShape"},
 			KeyHoleShape: &KeyHoleShape{Name: "KeyHoleShape"},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+func (Vase2DDiagram) GongGetAssociationName() any {
+	return &Vase2DDiagram{
+	}
+}
+
+func (VaseTrapezeBasePlateShape) GongGetAssociationName() any {
+	return &VaseTrapezeBasePlateShape{
+	}
+}
+
+func (VaseTrapezeRingShape) GongGetAssociationName() any {
+	return &VaseTrapezeRingShape{
+	}
+}
+
+func (VerticalTorusStackShape) GongGetAssociationName() any {
+	return &VerticalTorusStackShape{
+	}
+}
+
+func (VolumeKey3DShape) GongGetAssociationName() any {
+	return &VolumeKey3DShape{
+	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -17189,324 +19718,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *Angle0Shape:
-		res = any(new(Angle0Shape)).(Type)
-	case *ArcNormalVectorShape:
-		res = any(new(ArcNormalVectorShape)).(Type)
-	case *ArcNormalVectorShapeGrid:
-		res = any(new(ArcNormalVectorShapeGrid)).(Type)
-	case *AxesShape:
-		res = any(new(AxesShape)).(Type)
-	case *BaseVectorShape:
-		res = any(new(BaseVectorShape)).(Type)
-	case *BaseVectorShapeGrid:
-		res = any(new(BaseVectorShapeGrid)).(Type)
-	case *BottomCurvePlane1Shape:
-		res = any(new(BottomCurvePlane1Shape)).(Type)
-	case *BottomCurvePlane2Shape:
-		res = any(new(BottomCurvePlane2Shape)).(Type)
-	case *CarvedOutBottomCurvePlane1Shape:
-		res = any(new(CarvedOutBottomCurvePlane1Shape)).(Type)
-	case *CarvedOutTopCurvePlane1Shape:
-		res = any(new(CarvedOutTopCurvePlane1Shape)).(Type)
-	case *CarvedOutVaseTrapezeRingShape:
-		res = any(new(CarvedOutVaseTrapezeRingShape)).(Type)
-	case *ChosenP1P2PairShape:
-		res = any(new(ChosenP1P2PairShape)).(Type)
-	case *CircleGridShape:
-		res = any(new(CircleGridShape)).(Type)
-	case *Circumference3DShape:
-		res = any(new(Circumference3DShape)).(Type)
-	case *Clock2DDiagram:
-		res = any(new(Clock2DDiagram)).(Type)
-	case *Clock3DDiagram:
-		res = any(new(Clock3DDiagram)).(Type)
-	case *ClockTopCurveShape:
-		res = any(new(ClockTopCurveShape)).(Type)
-	case *CutLine3DShape:
-		res = any(new(CutLine3DShape)).(Type)
-	case *EndArcShape:
-		res = any(new(EndArcShape)).(Type)
-	case *EndArcShapeGrid:
-		res = any(new(EndArcShapeGrid)).(Type)
-	case *EndHalfwayArcShape:
-		res = any(new(EndHalfwayArcShape)).(Type)
-	case *EndHalfwayArcShapeGrid:
-		res = any(new(EndHalfwayArcShapeGrid)).(Type)
-	case *ExplanationTextShape:
-		res = any(new(ExplanationTextShape)).(Type)
-	case *Eye3DShape:
-		res = any(new(Eye3DShape)).(Type)
-	case *EyeCornersSampledPoints3DShape:
-		res = any(new(EyeCornersSampledPoints3DShape)).(Type)
-	case *EyeSampledPoints3DShape:
-		res = any(new(EyeSampledPoints3DShape)).(Type)
-	case *EyeSeatBottomCurveShape:
-		res = any(new(EyeSeatBottomCurveShape)).(Type)
-	case *EyeStoolBottomCurveShape:
-		res = any(new(EyeStoolBottomCurveShape)).(Type)
-	case *EyeVolume3DShape:
-		res = any(new(EyeVolume3DShape)).(Type)
-	case *GridPathShape:
-		res = any(new(GridPathShape)).(Type)
-	case *GrowthCurve2D:
-		res = any(new(GrowthCurve2D)).(Type)
-	case *GrowthCurve2DRibbon:
-		res = any(new(GrowthCurve2DRibbon)).(Type)
-	case *GrowthCurve2DRibbonEndShape:
-		res = any(new(GrowthCurve2DRibbonEndShape)).(Type)
-	case *GrowthCurve2DRibbonStartShape:
-		res = any(new(GrowthCurve2DRibbonStartShape)).(Type)
-	case *GrowthCurveRhombusGridShape:
-		res = any(new(GrowthCurveRhombusGridShape)).(Type)
-	case *GrowthCurveRhombusShape:
-		res = any(new(GrowthCurveRhombusShape)).(Type)
-	case *GrowthVectorShape:
-		res = any(new(GrowthVectorShape)).(Type)
-	case *InitialRhombusGridShape:
-		res = any(new(InitialRhombusGridShape)).(Type)
-	case *InitialRhombusShape:
-		res = any(new(InitialRhombusShape)).(Type)
-	case *Key3DShape:
-		res = any(new(Key3DShape)).(Type)
-	case *KeyHole3DShape:
-		res = any(new(KeyHole3DShape)).(Type)
-	case *KeyHoleShape:
-		res = any(new(KeyHoleShape)).(Type)
-	case *Leaves3DShape:
-		res = any(new(Leaves3DShape)).(Type)
-	case *Library:
-		res = any(new(Library)).(Type)
-	case *MidArcVectorShape:
-		res = any(new(MidArcVectorShape)).(Type)
-	case *MidArcVectorShapeGrid:
-		res = any(new(MidArcVectorShapeGrid)).(Type)
-	case *OriginalPoints3DShape:
-		res = any(new(OriginalPoints3DShape)).(Type)
-	case *ParastichyMCurves3DShape:
-		res = any(new(ParastichyMCurves3DShape)).(Type)
-	case *ParastichyNCurves3DShape:
-		res = any(new(ParastichyNCurves3DShape)).(Type)
-	case *PartiallyGrowthCurve2DRibbon:
-		res = any(new(PartiallyGrowthCurve2DRibbon)).(Type)
-	case *PartiallyGrowthCurve2DRibbonEndShape:
-		res = any(new(PartiallyGrowthCurve2DRibbonEndShape)).(Type)
-	case *PartiallyGrowthCurve2DRibbonStartShape:
-		res = any(new(PartiallyGrowthCurve2DRibbonStartShape)).(Type)
-	case *PartiallyGrowthCurve2DTrajectory:
-		res = any(new(PartiallyGrowthCurve2DTrajectory)).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		res = any(new(PartiallyGrowthCurve2DTrajectoryP1CurveShape)).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryP1P2:
-		res = any(new(PartiallyGrowthCurve2DTrajectoryP1P2)).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		res = any(new(PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		res = any(new(PartiallyGrowthCurve2DTrajectoryP1PointShape)).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		res = any(new(PartiallyGrowthCurve2DTrajectoryP2CurveShape)).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		res = any(new(PartiallyGrowthCurve2DTrajectoryP2PointShape)).(Type)
-	case *PartiallyGrowthCurve2DTrajectoryShape:
-		res = any(new(PartiallyGrowthCurve2DTrajectoryShape)).(Type)
-	case *PartiallyRotatedSeatBottomCurveShape:
-		res = any(new(PartiallyRotatedSeatBottomCurveShape)).(Type)
-	case *PartiallyRotatedSeatTopCurveShape:
-		res = any(new(PartiallyRotatedSeatTopCurveShape)).(Type)
-	case *PartiallyRotatedTorusShape:
-		res = any(new(PartiallyRotatedTorusShape)).(Type)
-	case *PerpendicularVector:
-		res = any(new(PerpendicularVector)).(Type)
-	case *PerpendicularVectorGrid:
-		res = any(new(PerpendicularVectorGrid)).(Type)
-	case *PerpendicularVectorGridHalfway:
-		res = any(new(PerpendicularVectorGridHalfway)).(Type)
-	case *PerpendicularVectorHalfway:
-		res = any(new(PerpendicularVectorHalfway)).(Type)
-	case *Plant2DDiagram:
-		res = any(new(Plant2DDiagram)).(Type)
-	case *Plant3DDiagram:
-		res = any(new(Plant3DDiagram)).(Type)
-	case *PlantAbstract:
-		res = any(new(PlantAbstract)).(Type)
-	case *PlantCircumferenceShape:
-		res = any(new(PlantCircumferenceShape)).(Type)
-	case *PointsAndLines3DShape:
-		res = any(new(PointsAndLines3DShape)).(Type)
-	case *PxShape:
-		res = any(new(PxShape)).(Type)
-	case *Rendered3DShape:
-		res = any(new(Rendered3DShape)).(Type)
-	case *RhombusShape:
-		res = any(new(RhombusShape)).(Type)
-	case *RhombusStuff:
-		res = any(new(RhombusStuff)).(Type)
-	case *RotatedRhombusGridShape:
-		res = any(new(RotatedRhombusGridShape)).(Type)
-	case *RotatedRhombusShape:
-		res = any(new(RotatedRhombusShape)).(Type)
-	case *RotatedSampledPoints3DShape:
-		res = any(new(RotatedSampledPoints3DShape)).(Type)
-	case *RotatedSeatAndLegs3DShape:
-		res = any(new(RotatedSeatAndLegs3DShape)).(Type)
-	case *SampledPoints3DShape:
-		res = any(new(SampledPoints3DShape)).(Type)
-	case *Seat3DShape:
-		res = any(new(Seat3DShape)).(Type)
-	case *SeatAndLegs3DShape:
-		res = any(new(SeatAndLegs3DShape)).(Type)
-	case *SeatBottomCurveShape:
-		res = any(new(SeatBottomCurveShape)).(Type)
-	case *SeatTopCurveShape:
-		res = any(new(SeatTopCurveShape)).(Type)
-	case *ShiftedBottomTopStartArcShape:
-		res = any(new(ShiftedBottomTopStartArcShape)).(Type)
-	case *ShiftedBottomTopStartArcShapeGrid:
-		res = any(new(ShiftedBottomTopStartArcShapeGrid)).(Type)
-	case *ShiftedLeftGrowthCurve2DRibbon:
-		res = any(new(ShiftedLeftGrowthCurve2DRibbon)).(Type)
-	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
-		res = any(new(ShiftedLeftGrowthCurve2DRibbonEndShape)).(Type)
-	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
-		res = any(new(ShiftedLeftGrowthCurve2DRibbonStartShape)).(Type)
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		res = any(new(ShiftedLeftPartiallyGrowthCurve2DRibbon)).(Type)
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		res = any(new(ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape)).(Type)
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		res = any(new(ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape)).(Type)
-	case *ShiftedLeftStackGrowthCurveEndArcShape:
-		res = any(new(ShiftedLeftStackGrowthCurveEndArcShape)).(Type)
-	case *ShiftedLeftStackGrowthCurveStartArcShape:
-		res = any(new(ShiftedLeftStackGrowthCurveStartArcShape)).(Type)
-	case *ShiftedLeftStackNormalVector:
-		res = any(new(ShiftedLeftStackNormalVector)).(Type)
-	case *ShiftedLeftStackOfGrowthCurve:
-		res = any(new(ShiftedLeftStackOfGrowthCurve)).(Type)
-	case *ShiftedLeftStackOfNormalVector:
-		res = any(new(ShiftedLeftStackOfNormalVector)).(Type)
-	case *ShiftedRightGrowthCurve2DRibbon:
-		res = any(new(ShiftedRightGrowthCurve2DRibbon)).(Type)
-	case *ShiftedRightGrowthCurve2DRibbonEndShape:
-		res = any(new(ShiftedRightGrowthCurve2DRibbonEndShape)).(Type)
-	case *ShiftedRightGrowthCurve2DRibbonStartShape:
-		res = any(new(ShiftedRightGrowthCurve2DRibbonStartShape)).(Type)
-	case *StackGrowthCurve2DEndHalfwayArcShape:
-		res = any(new(StackGrowthCurve2DEndHalfwayArcShape)).(Type)
-	case *StackGrowthCurve2DRibbonEndShape:
-		res = any(new(StackGrowthCurve2DRibbonEndShape)).(Type)
-	case *StackGrowthCurve2DRibbonStartShape:
-		res = any(new(StackGrowthCurve2DRibbonStartShape)).(Type)
-	case *StackGrowthCurve2DStartHalfwayArcShape:
-		res = any(new(StackGrowthCurve2DStartHalfwayArcShape)).(Type)
-	case *StackOfCarvedOutVaseTrapezeRingsShape:
-		res = any(new(StackOfCarvedOutVaseTrapezeRingsShape)).(Type)
-	case *StackOfGrowthCurve2D:
-		res = any(new(StackOfGrowthCurve2D)).(Type)
-	case *StackOfGrowthCurve2DByGrowthVector:
-		res = any(new(StackOfGrowthCurve2DByGrowthVector)).(Type)
-	case *StackOfGrowthCurve2DRibbon:
-		res = any(new(StackOfGrowthCurve2DRibbon)).(Type)
-	case *StackOfPartiallyRotatedTorusShape:
-		res = any(new(StackOfPartiallyRotatedTorusShape)).(Type)
-	case *StackOfRotatedCarvedOutVaseTrapezeRingsShape:
-		res = any(new(StackOfRotatedCarvedOutVaseTrapezeRingsShape)).(Type)
-	case *StackOfRotatedGrowthCurve2D:
-		res = any(new(StackOfRotatedGrowthCurve2D)).(Type)
-	case *StackOfRotatedGrowthCurve2DRibbon:
-		res = any(new(StackOfRotatedGrowthCurve2DRibbon)).(Type)
-	case *StackOfRotatedVaseTrapezeRingsShape:
-		res = any(new(StackOfRotatedVaseTrapezeRingsShape)).(Type)
-	case *StackOfVaseTrapezeRingsShape:
-		res = any(new(StackOfVaseTrapezeRingsShape)).(Type)
-	case *StackRotatedGrowthCurve2DEndArcShape:
-		res = any(new(StackRotatedGrowthCurve2DEndArcShape)).(Type)
-	case *StackRotatedGrowthCurve2DRibbonEndShape:
-		res = any(new(StackRotatedGrowthCurve2DRibbonEndShape)).(Type)
-	case *StackRotatedGrowthCurve2DRibbonStartShape:
-		res = any(new(StackRotatedGrowthCurve2DRibbonStartShape)).(Type)
-	case *StackRotatedGrowthCurve2DStartArcShape:
-		res = any(new(StackRotatedGrowthCurve2DStartArcShape)).(Type)
-	case *StartArcShape:
-		res = any(new(StartArcShape)).(Type)
-	case *StartArcShapeGrid:
-		res = any(new(StartArcShapeGrid)).(Type)
-	case *StartHalfwayArcShape:
-		res = any(new(StartHalfwayArcShape)).(Type)
-	case *StartHalfwayArcShapeGrid:
-		res = any(new(StartHalfwayArcShapeGrid)).(Type)
-	case *StemCylinder3DShape:
-		res = any(new(StemCylinder3DShape)).(Type)
-	case *Stool2DDiagram:
-		res = any(new(Stool2DDiagram)).(Type)
-	case *Stool3DDiagram:
-		res = any(new(Stool3DDiagram)).(Type)
-	case *TiledFloor3DShape:
-		res = any(new(TiledFloor3DShape)).(Type)
-	case *TopCurvePlane1Shape:
-		res = any(new(TopCurvePlane1Shape)).(Type)
-	case *TopCurvePlane2Shape:
-		res = any(new(TopCurvePlane2Shape)).(Type)
-	case *TopEndArcShape:
-		res = any(new(TopEndArcShape)).(Type)
-	case *TopEndArcShapeGrid:
-		res = any(new(TopEndArcShapeGrid)).(Type)
-	case *TopEndHalfwayArcShape:
-		res = any(new(TopEndHalfwayArcShape)).(Type)
-	case *TopEndHalfwayArcShapeGrid:
-		res = any(new(TopEndHalfwayArcShapeGrid)).(Type)
-	case *TopGrowthCurve2D:
-		res = any(new(TopGrowthCurve2D)).(Type)
-	case *TopMidArcVectorShape:
-		res = any(new(TopMidArcVectorShape)).(Type)
-	case *TopMidArcVectorShapeGrid:
-		res = any(new(TopMidArcVectorShapeGrid)).(Type)
-	case *TopStackGrowthCurve2DEndHalfwayArcShape:
-		res = any(new(TopStackGrowthCurve2DEndHalfwayArcShape)).(Type)
-	case *TopStackGrowthCurve2DStartHalfwayArcShape:
-		res = any(new(TopStackGrowthCurve2DStartHalfwayArcShape)).(Type)
-	case *TopStackOfGrowthCurve2D:
-		res = any(new(TopStackOfGrowthCurve2D)).(Type)
-	case *TopStackOfRotatedGrowthCurve2D:
-		res = any(new(TopStackOfRotatedGrowthCurve2D)).(Type)
-	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
-		res = any(new(TopStackOfRotatedGrowthCurve2DEndArcShape)).(Type)
-	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
-		res = any(new(TopStackOfRotatedGrowthCurve2DStartArcShape)).(Type)
-	case *TopStartArcShape:
-		res = any(new(TopStartArcShape)).(Type)
-	case *TopStartArcShapeGrid:
-		res = any(new(TopStartArcShapeGrid)).(Type)
-	case *TopStartHalfwayArcShape:
-		res = any(new(TopStartHalfwayArcShape)).(Type)
-	case *TopStartHalfwayArcShapeGrid:
-		res = any(new(TopStartHalfwayArcShapeGrid)).(Type)
-	case *Torus3DShape:
-		res = any(new(Torus3DShape)).(Type)
-	case *TorusEdge3DShape:
-		res = any(new(TorusEdge3DShape)).(Type)
-	case *TorusStackShape:
-		res = any(new(TorusStackShape)).(Type)
-	case *TubeVase3DDiagram:
-		res = any(new(TubeVase3DDiagram)).(Type)
-	case *TubeVaseAbstract:
-		res = any(new(TubeVaseAbstract)).(Type)
-	case *Vase2DDiagram:
-		res = any(new(Vase2DDiagram)).(Type)
-	case *VaseTrapezeBasePlateShape:
-		res = any(new(VaseTrapezeBasePlateShape)).(Type)
-	case *VaseTrapezeRingShape:
-		res = any(new(VaseTrapezeRingShape)).(Type)
-	case *VerticalTorusStackShape:
-		res = any(new(VerticalTorusStackShape)).(Type)
-	case *VolumeKey3DShape:
-		res = any(new(VolumeKey3DShape)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -17529,324 +19742,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *Angle0Shape:
-		res = "Angle0Shape"
-	case *ArcNormalVectorShape:
-		res = "ArcNormalVectorShape"
-	case *ArcNormalVectorShapeGrid:
-		res = "ArcNormalVectorShapeGrid"
-	case *AxesShape:
-		res = "AxesShape"
-	case *BaseVectorShape:
-		res = "BaseVectorShape"
-	case *BaseVectorShapeGrid:
-		res = "BaseVectorShapeGrid"
-	case *BottomCurvePlane1Shape:
-		res = "BottomCurvePlane1Shape"
-	case *BottomCurvePlane2Shape:
-		res = "BottomCurvePlane2Shape"
-	case *CarvedOutBottomCurvePlane1Shape:
-		res = "CarvedOutBottomCurvePlane1Shape"
-	case *CarvedOutTopCurvePlane1Shape:
-		res = "CarvedOutTopCurvePlane1Shape"
-	case *CarvedOutVaseTrapezeRingShape:
-		res = "CarvedOutVaseTrapezeRingShape"
-	case *ChosenP1P2PairShape:
-		res = "ChosenP1P2PairShape"
-	case *CircleGridShape:
-		res = "CircleGridShape"
-	case *Circumference3DShape:
-		res = "Circumference3DShape"
-	case *Clock2DDiagram:
-		res = "Clock2DDiagram"
-	case *Clock3DDiagram:
-		res = "Clock3DDiagram"
-	case *ClockTopCurveShape:
-		res = "ClockTopCurveShape"
-	case *CutLine3DShape:
-		res = "CutLine3DShape"
-	case *EndArcShape:
-		res = "EndArcShape"
-	case *EndArcShapeGrid:
-		res = "EndArcShapeGrid"
-	case *EndHalfwayArcShape:
-		res = "EndHalfwayArcShape"
-	case *EndHalfwayArcShapeGrid:
-		res = "EndHalfwayArcShapeGrid"
-	case *ExplanationTextShape:
-		res = "ExplanationTextShape"
-	case *Eye3DShape:
-		res = "Eye3DShape"
-	case *EyeCornersSampledPoints3DShape:
-		res = "EyeCornersSampledPoints3DShape"
-	case *EyeSampledPoints3DShape:
-		res = "EyeSampledPoints3DShape"
-	case *EyeSeatBottomCurveShape:
-		res = "EyeSeatBottomCurveShape"
-	case *EyeStoolBottomCurveShape:
-		res = "EyeStoolBottomCurveShape"
-	case *EyeVolume3DShape:
-		res = "EyeVolume3DShape"
-	case *GridPathShape:
-		res = "GridPathShape"
-	case *GrowthCurve2D:
-		res = "GrowthCurve2D"
-	case *GrowthCurve2DRibbon:
-		res = "GrowthCurve2DRibbon"
-	case *GrowthCurve2DRibbonEndShape:
-		res = "GrowthCurve2DRibbonEndShape"
-	case *GrowthCurve2DRibbonStartShape:
-		res = "GrowthCurve2DRibbonStartShape"
-	case *GrowthCurveRhombusGridShape:
-		res = "GrowthCurveRhombusGridShape"
-	case *GrowthCurveRhombusShape:
-		res = "GrowthCurveRhombusShape"
-	case *GrowthVectorShape:
-		res = "GrowthVectorShape"
-	case *InitialRhombusGridShape:
-		res = "InitialRhombusGridShape"
-	case *InitialRhombusShape:
-		res = "InitialRhombusShape"
-	case *Key3DShape:
-		res = "Key3DShape"
-	case *KeyHole3DShape:
-		res = "KeyHole3DShape"
-	case *KeyHoleShape:
-		res = "KeyHoleShape"
-	case *Leaves3DShape:
-		res = "Leaves3DShape"
-	case *Library:
-		res = "Library"
-	case *MidArcVectorShape:
-		res = "MidArcVectorShape"
-	case *MidArcVectorShapeGrid:
-		res = "MidArcVectorShapeGrid"
-	case *OriginalPoints3DShape:
-		res = "OriginalPoints3DShape"
-	case *ParastichyMCurves3DShape:
-		res = "ParastichyMCurves3DShape"
-	case *ParastichyNCurves3DShape:
-		res = "ParastichyNCurves3DShape"
-	case *PartiallyGrowthCurve2DRibbon:
-		res = "PartiallyGrowthCurve2DRibbon"
-	case *PartiallyGrowthCurve2DRibbonEndShape:
-		res = "PartiallyGrowthCurve2DRibbonEndShape"
-	case *PartiallyGrowthCurve2DRibbonStartShape:
-		res = "PartiallyGrowthCurve2DRibbonStartShape"
-	case *PartiallyGrowthCurve2DTrajectory:
-		res = "PartiallyGrowthCurve2DTrajectory"
-	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		res = "PartiallyGrowthCurve2DTrajectoryP1CurveShape"
-	case *PartiallyGrowthCurve2DTrajectoryP1P2:
-		res = "PartiallyGrowthCurve2DTrajectoryP1P2"
-	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		res = "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape"
-	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		res = "PartiallyGrowthCurve2DTrajectoryP1PointShape"
-	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		res = "PartiallyGrowthCurve2DTrajectoryP2CurveShape"
-	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		res = "PartiallyGrowthCurve2DTrajectoryP2PointShape"
-	case *PartiallyGrowthCurve2DTrajectoryShape:
-		res = "PartiallyGrowthCurve2DTrajectoryShape"
-	case *PartiallyRotatedSeatBottomCurveShape:
-		res = "PartiallyRotatedSeatBottomCurveShape"
-	case *PartiallyRotatedSeatTopCurveShape:
-		res = "PartiallyRotatedSeatTopCurveShape"
-	case *PartiallyRotatedTorusShape:
-		res = "PartiallyRotatedTorusShape"
-	case *PerpendicularVector:
-		res = "PerpendicularVector"
-	case *PerpendicularVectorGrid:
-		res = "PerpendicularVectorGrid"
-	case *PerpendicularVectorGridHalfway:
-		res = "PerpendicularVectorGridHalfway"
-	case *PerpendicularVectorHalfway:
-		res = "PerpendicularVectorHalfway"
-	case *Plant2DDiagram:
-		res = "Plant2DDiagram"
-	case *Plant3DDiagram:
-		res = "Plant3DDiagram"
-	case *PlantAbstract:
-		res = "PlantAbstract"
-	case *PlantCircumferenceShape:
-		res = "PlantCircumferenceShape"
-	case *PointsAndLines3DShape:
-		res = "PointsAndLines3DShape"
-	case *PxShape:
-		res = "PxShape"
-	case *Rendered3DShape:
-		res = "Rendered3DShape"
-	case *RhombusShape:
-		res = "RhombusShape"
-	case *RhombusStuff:
-		res = "RhombusStuff"
-	case *RotatedRhombusGridShape:
-		res = "RotatedRhombusGridShape"
-	case *RotatedRhombusShape:
-		res = "RotatedRhombusShape"
-	case *RotatedSampledPoints3DShape:
-		res = "RotatedSampledPoints3DShape"
-	case *RotatedSeatAndLegs3DShape:
-		res = "RotatedSeatAndLegs3DShape"
-	case *SampledPoints3DShape:
-		res = "SampledPoints3DShape"
-	case *Seat3DShape:
-		res = "Seat3DShape"
-	case *SeatAndLegs3DShape:
-		res = "SeatAndLegs3DShape"
-	case *SeatBottomCurveShape:
-		res = "SeatBottomCurveShape"
-	case *SeatTopCurveShape:
-		res = "SeatTopCurveShape"
-	case *ShiftedBottomTopStartArcShape:
-		res = "ShiftedBottomTopStartArcShape"
-	case *ShiftedBottomTopStartArcShapeGrid:
-		res = "ShiftedBottomTopStartArcShapeGrid"
-	case *ShiftedLeftGrowthCurve2DRibbon:
-		res = "ShiftedLeftGrowthCurve2DRibbon"
-	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
-		res = "ShiftedLeftGrowthCurve2DRibbonEndShape"
-	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
-		res = "ShiftedLeftGrowthCurve2DRibbonStartShape"
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		res = "ShiftedLeftPartiallyGrowthCurve2DRibbon"
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		res = "ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape"
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		res = "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape"
-	case *ShiftedLeftStackGrowthCurveEndArcShape:
-		res = "ShiftedLeftStackGrowthCurveEndArcShape"
-	case *ShiftedLeftStackGrowthCurveStartArcShape:
-		res = "ShiftedLeftStackGrowthCurveStartArcShape"
-	case *ShiftedLeftStackNormalVector:
-		res = "ShiftedLeftStackNormalVector"
-	case *ShiftedLeftStackOfGrowthCurve:
-		res = "ShiftedLeftStackOfGrowthCurve"
-	case *ShiftedLeftStackOfNormalVector:
-		res = "ShiftedLeftStackOfNormalVector"
-	case *ShiftedRightGrowthCurve2DRibbon:
-		res = "ShiftedRightGrowthCurve2DRibbon"
-	case *ShiftedRightGrowthCurve2DRibbonEndShape:
-		res = "ShiftedRightGrowthCurve2DRibbonEndShape"
-	case *ShiftedRightGrowthCurve2DRibbonStartShape:
-		res = "ShiftedRightGrowthCurve2DRibbonStartShape"
-	case *StackGrowthCurve2DEndHalfwayArcShape:
-		res = "StackGrowthCurve2DEndHalfwayArcShape"
-	case *StackGrowthCurve2DRibbonEndShape:
-		res = "StackGrowthCurve2DRibbonEndShape"
-	case *StackGrowthCurve2DRibbonStartShape:
-		res = "StackGrowthCurve2DRibbonStartShape"
-	case *StackGrowthCurve2DStartHalfwayArcShape:
-		res = "StackGrowthCurve2DStartHalfwayArcShape"
-	case *StackOfCarvedOutVaseTrapezeRingsShape:
-		res = "StackOfCarvedOutVaseTrapezeRingsShape"
-	case *StackOfGrowthCurve2D:
-		res = "StackOfGrowthCurve2D"
-	case *StackOfGrowthCurve2DByGrowthVector:
-		res = "StackOfGrowthCurve2DByGrowthVector"
-	case *StackOfGrowthCurve2DRibbon:
-		res = "StackOfGrowthCurve2DRibbon"
-	case *StackOfPartiallyRotatedTorusShape:
-		res = "StackOfPartiallyRotatedTorusShape"
-	case *StackOfRotatedCarvedOutVaseTrapezeRingsShape:
-		res = "StackOfRotatedCarvedOutVaseTrapezeRingsShape"
-	case *StackOfRotatedGrowthCurve2D:
-		res = "StackOfRotatedGrowthCurve2D"
-	case *StackOfRotatedGrowthCurve2DRibbon:
-		res = "StackOfRotatedGrowthCurve2DRibbon"
-	case *StackOfRotatedVaseTrapezeRingsShape:
-		res = "StackOfRotatedVaseTrapezeRingsShape"
-	case *StackOfVaseTrapezeRingsShape:
-		res = "StackOfVaseTrapezeRingsShape"
-	case *StackRotatedGrowthCurve2DEndArcShape:
-		res = "StackRotatedGrowthCurve2DEndArcShape"
-	case *StackRotatedGrowthCurve2DRibbonEndShape:
-		res = "StackRotatedGrowthCurve2DRibbonEndShape"
-	case *StackRotatedGrowthCurve2DRibbonStartShape:
-		res = "StackRotatedGrowthCurve2DRibbonStartShape"
-	case *StackRotatedGrowthCurve2DStartArcShape:
-		res = "StackRotatedGrowthCurve2DStartArcShape"
-	case *StartArcShape:
-		res = "StartArcShape"
-	case *StartArcShapeGrid:
-		res = "StartArcShapeGrid"
-	case *StartHalfwayArcShape:
-		res = "StartHalfwayArcShape"
-	case *StartHalfwayArcShapeGrid:
-		res = "StartHalfwayArcShapeGrid"
-	case *StemCylinder3DShape:
-		res = "StemCylinder3DShape"
-	case *Stool2DDiagram:
-		res = "Stool2DDiagram"
-	case *Stool3DDiagram:
-		res = "Stool3DDiagram"
-	case *TiledFloor3DShape:
-		res = "TiledFloor3DShape"
-	case *TopCurvePlane1Shape:
-		res = "TopCurvePlane1Shape"
-	case *TopCurvePlane2Shape:
-		res = "TopCurvePlane2Shape"
-	case *TopEndArcShape:
-		res = "TopEndArcShape"
-	case *TopEndArcShapeGrid:
-		res = "TopEndArcShapeGrid"
-	case *TopEndHalfwayArcShape:
-		res = "TopEndHalfwayArcShape"
-	case *TopEndHalfwayArcShapeGrid:
-		res = "TopEndHalfwayArcShapeGrid"
-	case *TopGrowthCurve2D:
-		res = "TopGrowthCurve2D"
-	case *TopMidArcVectorShape:
-		res = "TopMidArcVectorShape"
-	case *TopMidArcVectorShapeGrid:
-		res = "TopMidArcVectorShapeGrid"
-	case *TopStackGrowthCurve2DEndHalfwayArcShape:
-		res = "TopStackGrowthCurve2DEndHalfwayArcShape"
-	case *TopStackGrowthCurve2DStartHalfwayArcShape:
-		res = "TopStackGrowthCurve2DStartHalfwayArcShape"
-	case *TopStackOfGrowthCurve2D:
-		res = "TopStackOfGrowthCurve2D"
-	case *TopStackOfRotatedGrowthCurve2D:
-		res = "TopStackOfRotatedGrowthCurve2D"
-	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
-		res = "TopStackOfRotatedGrowthCurve2DEndArcShape"
-	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
-		res = "TopStackOfRotatedGrowthCurve2DStartArcShape"
-	case *TopStartArcShape:
-		res = "TopStartArcShape"
-	case *TopStartArcShapeGrid:
-		res = "TopStartArcShapeGrid"
-	case *TopStartHalfwayArcShape:
-		res = "TopStartHalfwayArcShape"
-	case *TopStartHalfwayArcShapeGrid:
-		res = "TopStartHalfwayArcShapeGrid"
-	case *Torus3DShape:
-		res = "Torus3DShape"
-	case *TorusEdge3DShape:
-		res = "TorusEdge3DShape"
-	case *TorusStackShape:
-		res = "TorusStackShape"
-	case *TubeVase3DDiagram:
-		res = "TubeVase3DDiagram"
-	case *TubeVaseAbstract:
-		res = "TubeVaseAbstract"
-	case *Vase2DDiagram:
-		res = "Vase2DDiagram"
-	case *VaseTrapezeBasePlateShape:
-		res = "VaseTrapezeBasePlateShape"
-	case *VaseTrapezeRingShape:
-		res = "VaseTrapezeRingShape"
-	case *VerticalTorusStackShape:
-		res = "VerticalTorusStackShape"
-	case *VolumeKey3DShape:
-		res = "VolumeKey3DShape"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -17860,661 +19757,1027 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *Angle0Shape:
-		var rf ReverseField
-		_ = rf
-	case *ArcNormalVectorShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ArcNormalVectorShapeGrid"
-		rf.Fieldname = "ArcNormalVectorShapes"
-		res = append(res, rf)
-	case *ArcNormalVectorShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *AxesShape:
-		var rf ReverseField
-		_ = rf
-	case *BaseVectorShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "BaseVectorShapeGrid"
-		rf.Fieldname = "BaseVectorShapes"
-		res = append(res, rf)
-	case *BaseVectorShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *BottomCurvePlane1Shape:
-		var rf ReverseField
-		_ = rf
-	case *BottomCurvePlane2Shape:
-		var rf ReverseField
-		_ = rf
-	case *CarvedOutBottomCurvePlane1Shape:
-		var rf ReverseField
-		_ = rf
-	case *CarvedOutTopCurvePlane1Shape:
-		var rf ReverseField
-		_ = rf
-	case *CarvedOutVaseTrapezeRingShape:
-		var rf ReverseField
-		_ = rf
-	case *ChosenP1P2PairShape:
-		var rf ReverseField
-		_ = rf
-	case *CircleGridShape:
-		var rf ReverseField
-		_ = rf
-	case *Circumference3DShape:
-		var rf ReverseField
-		_ = rf
-	case *Clock2DDiagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PlantAbstract"
-		rf.Fieldname = "Clock2DDiagrams"
-		res = append(res, rf)
-	case *Clock3DDiagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PlantAbstract"
-		rf.Fieldname = "Clock3DDiagrams"
-		res = append(res, rf)
-	case *ClockTopCurveShape:
-		var rf ReverseField
-		_ = rf
-	case *CutLine3DShape:
-		var rf ReverseField
-		_ = rf
-	case *EndArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "EndArcShapeGrid"
-		rf.Fieldname = "EndArcShapes"
-		res = append(res, rf)
-	case *EndArcShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *EndHalfwayArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "EndHalfwayArcShapeGrid"
-		rf.Fieldname = "EndHalfwayArcShapes"
-		res = append(res, rf)
-	case *EndHalfwayArcShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *ExplanationTextShape:
-		var rf ReverseField
-		_ = rf
-	case *Eye3DShape:
-		var rf ReverseField
-		_ = rf
-	case *EyeCornersSampledPoints3DShape:
-		var rf ReverseField
-		_ = rf
-	case *EyeSampledPoints3DShape:
-		var rf ReverseField
-		_ = rf
-	case *EyeSeatBottomCurveShape:
-		var rf ReverseField
-		_ = rf
-	case *EyeStoolBottomCurveShape:
-		var rf ReverseField
-		_ = rf
-	case *EyeVolume3DShape:
-		var rf ReverseField
-		_ = rf
-	case *GridPathShape:
-		var rf ReverseField
-		_ = rf
-	case *GrowthCurve2D:
-		var rf ReverseField
-		_ = rf
-	case *GrowthCurve2DRibbon:
-		var rf ReverseField
-		_ = rf
-	case *GrowthCurve2DRibbonEndShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GrowthCurve2DRibbon"
-		rf.Fieldname = "GrowthCurve2DRibbonEndShapes"
-		res = append(res, rf)
-	case *GrowthCurve2DRibbonStartShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GrowthCurve2DRibbon"
-		rf.Fieldname = "GrowthCurve2DRibbonStartShapes"
-		res = append(res, rf)
-	case *GrowthCurveRhombusGridShape:
-		var rf ReverseField
-		_ = rf
-	case *GrowthCurveRhombusShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "GrowthCurveRhombusGridShape"
-		rf.Fieldname = "GrowthCurveRhombusShapes"
-		res = append(res, rf)
-	case *GrowthVectorShape:
-		var rf ReverseField
-		_ = rf
-	case *InitialRhombusGridShape:
-		var rf ReverseField
-		_ = rf
-	case *InitialRhombusShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "InitialRhombusGridShape"
-		rf.Fieldname = "InitialRhombusShapes"
-		res = append(res, rf)
-	case *Key3DShape:
-		var rf ReverseField
-		_ = rf
-	case *KeyHole3DShape:
-		var rf ReverseField
-		_ = rf
-	case *KeyHoleShape:
-		var rf ReverseField
-		_ = rf
-	case *Leaves3DShape:
-		var rf ReverseField
-		_ = rf
-	case *Library:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "SubLibraries"
-		res = append(res, rf)
-	case *MidArcVectorShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "MidArcVectorShapeGrid"
-		rf.Fieldname = "MidArcVectorShapes"
-		res = append(res, rf)
-	case *MidArcVectorShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *OriginalPoints3DShape:
-		var rf ReverseField
-		_ = rf
-	case *ParastichyMCurves3DShape:
-		var rf ReverseField
-		_ = rf
-	case *ParastichyNCurves3DShape:
-		var rf ReverseField
-		_ = rf
-	case *PartiallyGrowthCurve2DRibbon:
-		var rf ReverseField
-		_ = rf
-	case *PartiallyGrowthCurve2DRibbonEndShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PartiallyGrowthCurve2DRibbon"
-		rf.Fieldname = "PartiallyGrowthCurve2DRibbonEndShapes"
-		res = append(res, rf)
-	case *PartiallyGrowthCurve2DRibbonStartShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PartiallyGrowthCurve2DRibbon"
-		rf.Fieldname = "PartiallyGrowthCurve2DRibbonStartShapes"
-		res = append(res, rf)
-	case *PartiallyGrowthCurve2DTrajectory:
-		var rf ReverseField
-		_ = rf
-	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PartiallyGrowthCurve2DTrajectoryP1P2"
-		rf.Fieldname = "P1CurveShapes"
-		res = append(res, rf)
-	case *PartiallyGrowthCurve2DTrajectoryP1P2:
-		var rf ReverseField
-		_ = rf
-	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PartiallyGrowthCurve2DTrajectoryP1P2"
-		rf.Fieldname = "P1P2PairLineShapes"
-		res = append(res, rf)
-	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PartiallyGrowthCurve2DTrajectoryP1P2"
-		rf.Fieldname = "P1PointShapes"
-		res = append(res, rf)
-	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PartiallyGrowthCurve2DTrajectoryP1P2"
-		rf.Fieldname = "P2CurveShapes"
-		res = append(res, rf)
-	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PartiallyGrowthCurve2DTrajectoryP1P2"
-		rf.Fieldname = "P2PointShapes"
-		res = append(res, rf)
-	case *PartiallyGrowthCurve2DTrajectoryShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PartiallyGrowthCurve2DTrajectory"
-		rf.Fieldname = "PartiallyGrowthCurve2DTrajectoryShapes"
-		res = append(res, rf)
-	case *PartiallyRotatedSeatBottomCurveShape:
-		var rf ReverseField
-		_ = rf
-	case *PartiallyRotatedSeatTopCurveShape:
-		var rf ReverseField
-		_ = rf
-	case *PartiallyRotatedTorusShape:
-		var rf ReverseField
-		_ = rf
-	case *PerpendicularVector:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PerpendicularVectorGrid"
-		rf.Fieldname = "PerpendicularVectors"
-		res = append(res, rf)
-	case *PerpendicularVectorGrid:
-		var rf ReverseField
-		_ = rf
-	case *PerpendicularVectorGridHalfway:
-		var rf ReverseField
-		_ = rf
-	case *PerpendicularVectorHalfway:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PerpendicularVectorGridHalfway"
-		rf.Fieldname = "PerpendicularVectorHalfways"
-		res = append(res, rf)
-	case *Plant2DDiagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PlantAbstract"
-		rf.Fieldname = "Plant2DDiagrams"
-		res = append(res, rf)
-	case *Plant3DDiagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PlantAbstract"
-		rf.Fieldname = "Plant3DDiagrams"
-		res = append(res, rf)
-	case *PlantAbstract:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Library"
-		rf.Fieldname = "Plants"
-		res = append(res, rf)
-	case *PlantCircumferenceShape:
-		var rf ReverseField
-		_ = rf
-	case *PointsAndLines3DShape:
-		var rf ReverseField
-		_ = rf
-	case *PxShape:
-		var rf ReverseField
-		_ = rf
-	case *Rendered3DShape:
-		var rf ReverseField
-		_ = rf
-	case *RhombusShape:
-		var rf ReverseField
-		_ = rf
-	case *RhombusStuff:
-		var rf ReverseField
-		_ = rf
-	case *RotatedRhombusGridShape:
-		var rf ReverseField
-		_ = rf
-	case *RotatedRhombusShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "RotatedRhombusGridShape"
-		rf.Fieldname = "RotatedRhombusShapes"
-		res = append(res, rf)
-	case *RotatedSampledPoints3DShape:
-		var rf ReverseField
-		_ = rf
-	case *RotatedSeatAndLegs3DShape:
-		var rf ReverseField
-		_ = rf
-	case *SampledPoints3DShape:
-		var rf ReverseField
-		_ = rf
-	case *Seat3DShape:
-		var rf ReverseField
-		_ = rf
-	case *SeatAndLegs3DShape:
-		var rf ReverseField
-		_ = rf
-	case *SeatBottomCurveShape:
-		var rf ReverseField
-		_ = rf
-	case *SeatTopCurveShape:
-		var rf ReverseField
-		_ = rf
-	case *ShiftedBottomTopStartArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ShiftedBottomTopStartArcShapeGrid"
-		rf.Fieldname = "ShiftedBottomTopStartArcShapes"
-		res = append(res, rf)
-	case *ShiftedBottomTopStartArcShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *ShiftedLeftGrowthCurve2DRibbon:
-		var rf ReverseField
-		_ = rf
-	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ShiftedLeftGrowthCurve2DRibbon"
-		rf.Fieldname = "ShiftedLeftGrowthCurve2DRibbonEndShapes"
-		res = append(res, rf)
-	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ShiftedLeftGrowthCurve2DRibbon"
-		rf.Fieldname = "ShiftedLeftGrowthCurve2DRibbonStartShapes"
-		res = append(res, rf)
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		var rf ReverseField
-		_ = rf
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ShiftedLeftPartiallyGrowthCurve2DRibbon"
-		rf.Fieldname = "ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes"
-		res = append(res, rf)
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ShiftedLeftPartiallyGrowthCurve2DRibbon"
-		rf.Fieldname = "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes"
-		res = append(res, rf)
-	case *ShiftedLeftStackGrowthCurveEndArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ShiftedLeftStackOfGrowthCurve"
-		rf.Fieldname = "ShiftedLeftStackGrowthCurveEndArcShapes"
-		res = append(res, rf)
-	case *ShiftedLeftStackGrowthCurveStartArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ShiftedLeftStackOfGrowthCurve"
-		rf.Fieldname = "ShiftedLeftStackGrowthCurveStartArcShapes"
-		res = append(res, rf)
-	case *ShiftedLeftStackNormalVector:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ShiftedLeftStackOfNormalVector"
-		rf.Fieldname = "ShiftedLeftStackNormalVectors"
-		res = append(res, rf)
-	case *ShiftedLeftStackOfGrowthCurve:
-		var rf ReverseField
-		_ = rf
-	case *ShiftedLeftStackOfNormalVector:
-		var rf ReverseField
-		_ = rf
-	case *ShiftedRightGrowthCurve2DRibbon:
-		var rf ReverseField
-		_ = rf
-	case *ShiftedRightGrowthCurve2DRibbonEndShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ShiftedRightGrowthCurve2DRibbon"
-		rf.Fieldname = "ShiftedRightGrowthCurve2DRibbonEndShapes"
-		res = append(res, rf)
-	case *ShiftedRightGrowthCurve2DRibbonStartShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "ShiftedRightGrowthCurve2DRibbon"
-		rf.Fieldname = "ShiftedRightGrowthCurve2DRibbonStartShapes"
-		res = append(res, rf)
-	case *StackGrowthCurve2DEndHalfwayArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StackOfGrowthCurve2D"
-		rf.Fieldname = "StackGrowthCurve2DEndHalfwayArcShapes"
-		res = append(res, rf)
-	case *StackGrowthCurve2DRibbonEndShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StackOfGrowthCurve2DRibbon"
-		rf.Fieldname = "StackGrowthCurve2DRibbonEndShapes"
-		res = append(res, rf)
-	case *StackGrowthCurve2DRibbonStartShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StackOfGrowthCurve2DRibbon"
-		rf.Fieldname = "StackGrowthCurve2DRibbonStartShapes"
-		res = append(res, rf)
-	case *StackGrowthCurve2DStartHalfwayArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StackOfGrowthCurve2D"
-		rf.Fieldname = "StackGrowthCurve2DStartHalfwayArcShapes"
-		res = append(res, rf)
-	case *StackOfCarvedOutVaseTrapezeRingsShape:
-		var rf ReverseField
-		_ = rf
-	case *StackOfGrowthCurve2D:
-		var rf ReverseField
-		_ = rf
-	case *StackOfGrowthCurve2DByGrowthVector:
-		var rf ReverseField
-		_ = rf
-	case *StackOfGrowthCurve2DRibbon:
-		var rf ReverseField
-		_ = rf
-	case *StackOfPartiallyRotatedTorusShape:
-		var rf ReverseField
-		_ = rf
-	case *StackOfRotatedCarvedOutVaseTrapezeRingsShape:
-		var rf ReverseField
-		_ = rf
-	case *StackOfRotatedGrowthCurve2D:
-		var rf ReverseField
-		_ = rf
-	case *StackOfRotatedGrowthCurve2DRibbon:
-		var rf ReverseField
-		_ = rf
-	case *StackOfRotatedVaseTrapezeRingsShape:
-		var rf ReverseField
-		_ = rf
-	case *StackOfVaseTrapezeRingsShape:
-		var rf ReverseField
-		_ = rf
-	case *StackRotatedGrowthCurve2DEndArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StackOfRotatedGrowthCurve2D"
-		rf.Fieldname = "StackRotatedGrowthCurve2DEndArcShapes"
-		res = append(res, rf)
-	case *StackRotatedGrowthCurve2DRibbonEndShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StackOfRotatedGrowthCurve2DRibbon"
-		rf.Fieldname = "StackRotatedGrowthCurve2DRibbonEndShapes"
-		res = append(res, rf)
-	case *StackRotatedGrowthCurve2DRibbonStartShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StackOfRotatedGrowthCurve2DRibbon"
-		rf.Fieldname = "StackRotatedGrowthCurve2DRibbonStartShapes"
-		res = append(res, rf)
-	case *StackRotatedGrowthCurve2DStartArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StackOfRotatedGrowthCurve2D"
-		rf.Fieldname = "StackRotatedGrowthCurve2DStartArcShapes"
-		res = append(res, rf)
-	case *StartArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StartArcShapeGrid"
-		rf.Fieldname = "StartArcShapes"
-		res = append(res, rf)
-	case *StartArcShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *StartHalfwayArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "StartHalfwayArcShapeGrid"
-		rf.Fieldname = "StartHalfwayArcShapes"
-		res = append(res, rf)
-	case *StartHalfwayArcShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *StemCylinder3DShape:
-		var rf ReverseField
-		_ = rf
-	case *Stool2DDiagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PlantAbstract"
-		rf.Fieldname = "Stool2DDiagrams"
-		res = append(res, rf)
-	case *Stool3DDiagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PlantAbstract"
-		rf.Fieldname = "Stool3DDiagrams"
-		res = append(res, rf)
-	case *TiledFloor3DShape:
-		var rf ReverseField
-		_ = rf
-	case *TopCurvePlane1Shape:
-		var rf ReverseField
-		_ = rf
-	case *TopCurvePlane2Shape:
-		var rf ReverseField
-		_ = rf
-	case *TopEndArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "TopEndArcShapeGrid"
-		rf.Fieldname = "TopEndArcShapes"
-		res = append(res, rf)
-	case *TopEndArcShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *TopEndHalfwayArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "TopEndHalfwayArcShapeGrid"
-		rf.Fieldname = "TopEndHalfwayArcShapes"
-		res = append(res, rf)
-	case *TopEndHalfwayArcShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *TopGrowthCurve2D:
-		var rf ReverseField
-		_ = rf
-	case *TopMidArcVectorShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "TopMidArcVectorShapeGrid"
-		rf.Fieldname = "TopMidArcVectorShapes"
-		res = append(res, rf)
-	case *TopMidArcVectorShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *TopStackGrowthCurve2DEndHalfwayArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "TopStackOfGrowthCurve2D"
-		rf.Fieldname = "TopStackGrowthCurve2DEndHalfwayArcShapes"
-		res = append(res, rf)
-	case *TopStackGrowthCurve2DStartHalfwayArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "TopStackOfGrowthCurve2D"
-		rf.Fieldname = "TopStackGrowthCurve2DStartHalfwayArcShapes"
-		res = append(res, rf)
-	case *TopStackOfGrowthCurve2D:
-		var rf ReverseField
-		_ = rf
-	case *TopStackOfRotatedGrowthCurve2D:
-		var rf ReverseField
-		_ = rf
-	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "TopStackOfRotatedGrowthCurve2D"
-		rf.Fieldname = "TopStackOfRotatedGrowthCurve2DEndArcShapes"
-		res = append(res, rf)
-	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "TopStackOfRotatedGrowthCurve2D"
-		rf.Fieldname = "TopStackOfRotatedGrowthCurve2DStartArcShapes"
-		res = append(res, rf)
-	case *TopStartArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "TopStartArcShapeGrid"
-		rf.Fieldname = "TopStartArcShapes"
-		res = append(res, rf)
-	case *TopStartArcShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *TopStartHalfwayArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "TopStartHalfwayArcShapeGrid"
-		rf.Fieldname = "TopStartHalfwayArcShapes"
-		res = append(res, rf)
-	case *TopStartHalfwayArcShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *Torus3DShape:
-		var rf ReverseField
-		_ = rf
-	case *TorusEdge3DShape:
-		var rf ReverseField
-		_ = rf
-	case *TorusStackShape:
-		var rf ReverseField
-		_ = rf
-	case *TubeVase3DDiagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PlantAbstract"
-		rf.Fieldname = "TubeVase3DDiagrams"
-		res = append(res, rf)
-	case *TubeVaseAbstract:
-		var rf ReverseField
-		_ = rf
-	case *Vase2DDiagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PlantAbstract"
-		rf.Fieldname = "Vase2DDiagrams"
-		res = append(res, rf)
-	case *VaseTrapezeBasePlateShape:
-		var rf ReverseField
-		_ = rf
-	case *VaseTrapezeRingShape:
-		var rf ReverseField
-		_ = rf
-	case *VerticalTorusStackShape:
-		var rf ReverseField
-		_ = rf
-	case *VolumeKey3DShape:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*Angle0Shape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
 	}
-	return
+}
+
+func (*ArcNormalVectorShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ArcNormalVectorShapeGrid",
+			Fieldname: "ArcNormalVectorShapes",
+		},
+	}
+}
+
+func (*ArcNormalVectorShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*AxesShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*BaseVectorShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "BaseVectorShapeGrid",
+			Fieldname: "BaseVectorShapes",
+		},
+	}
+}
+
+func (*BaseVectorShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*BottomCurvePlane1Shape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*BottomCurvePlane2Shape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*CarvedOutBottomCurvePlane1Shape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*CarvedOutTopCurvePlane1Shape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*CarvedOutVaseTrapezeRingShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ChosenP1P2PairShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*CircleGridShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Circumference3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Clock2DDiagram) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PlantAbstract",
+			Fieldname: "Clock2DDiagrams",
+		},
+	}
+}
+
+func (*Clock3DDiagram) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PlantAbstract",
+			Fieldname: "Clock3DDiagrams",
+		},
+	}
+}
+
+func (*ClockTopCurveShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*CutLine3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*EndArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "EndArcShapeGrid",
+			Fieldname: "EndArcShapes",
+		},
+	}
+}
+
+func (*EndArcShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*EndHalfwayArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "EndHalfwayArcShapeGrid",
+			Fieldname: "EndHalfwayArcShapes",
+		},
+	}
+}
+
+func (*EndHalfwayArcShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ExplanationTextShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Eye3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*EyeCornersSampledPoints3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*EyeSampledPoints3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*EyeSeatBottomCurveShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*EyeStoolBottomCurveShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*EyeVolume3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*GridPathShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*GrowthCurve2D) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*GrowthCurve2DRibbon) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*GrowthCurve2DRibbonEndShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GrowthCurve2DRibbon",
+			Fieldname: "GrowthCurve2DRibbonEndShapes",
+		},
+	}
+}
+
+func (*GrowthCurve2DRibbonStartShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GrowthCurve2DRibbon",
+			Fieldname: "GrowthCurve2DRibbonStartShapes",
+		},
+	}
+}
+
+func (*GrowthCurveRhombusGridShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*GrowthCurveRhombusShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "GrowthCurveRhombusGridShape",
+			Fieldname: "GrowthCurveRhombusShapes",
+		},
+	}
+}
+
+func (*GrowthVectorShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*InitialRhombusGridShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*InitialRhombusShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "InitialRhombusGridShape",
+			Fieldname: "InitialRhombusShapes",
+		},
+	}
+}
+
+func (*Key3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*KeyHole3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*KeyHoleShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Leaves3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Library) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "SubLibraries",
+		},
+	}
+}
+
+func (*MidArcVectorShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "MidArcVectorShapeGrid",
+			Fieldname: "MidArcVectorShapes",
+		},
+	}
+}
+
+func (*MidArcVectorShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*OriginalPoints3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ParastichyMCurves3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ParastichyNCurves3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PartiallyGrowthCurve2DRibbon) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PartiallyGrowthCurve2DRibbonEndShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PartiallyGrowthCurve2DRibbon",
+			Fieldname: "PartiallyGrowthCurve2DRibbonEndShapes",
+		},
+	}
+}
+
+func (*PartiallyGrowthCurve2DRibbonStartShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PartiallyGrowthCurve2DRibbon",
+			Fieldname: "PartiallyGrowthCurve2DRibbonStartShapes",
+		},
+	}
+}
+
+func (*PartiallyGrowthCurve2DTrajectory) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PartiallyGrowthCurve2DTrajectoryP1P2",
+			Fieldname: "P1CurveShapes",
+		},
+	}
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1P2) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PartiallyGrowthCurve2DTrajectoryP1P2",
+			Fieldname: "P1P2PairLineShapes",
+		},
+	}
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP1PointShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PartiallyGrowthCurve2DTrajectoryP1P2",
+			Fieldname: "P1PointShapes",
+		},
+	}
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PartiallyGrowthCurve2DTrajectoryP1P2",
+			Fieldname: "P2CurveShapes",
+		},
+	}
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryP2PointShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PartiallyGrowthCurve2DTrajectoryP1P2",
+			Fieldname: "P2PointShapes",
+		},
+	}
+}
+
+func (*PartiallyGrowthCurve2DTrajectoryShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PartiallyGrowthCurve2DTrajectory",
+			Fieldname: "PartiallyGrowthCurve2DTrajectoryShapes",
+		},
+	}
+}
+
+func (*PartiallyRotatedSeatBottomCurveShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PartiallyRotatedSeatTopCurveShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PartiallyRotatedTorusShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PerpendicularVector) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PerpendicularVectorGrid",
+			Fieldname: "PerpendicularVectors",
+		},
+	}
+}
+
+func (*PerpendicularVectorGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PerpendicularVectorGridHalfway) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PerpendicularVectorHalfway) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PerpendicularVectorGridHalfway",
+			Fieldname: "PerpendicularVectorHalfways",
+		},
+	}
+}
+
+func (*Plant2DDiagram) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PlantAbstract",
+			Fieldname: "Plant2DDiagrams",
+		},
+	}
+}
+
+func (*Plant3DDiagram) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PlantAbstract",
+			Fieldname: "Plant3DDiagrams",
+		},
+	}
+}
+
+func (*PlantAbstract) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "Plants",
+		},
+	}
+}
+
+func (*PlantCircumferenceShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PointsAndLines3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*PxShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Rendered3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*RhombusShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*RhombusStuff) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*RotatedRhombusGridShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*RotatedRhombusShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "RotatedRhombusGridShape",
+			Fieldname: "RotatedRhombusShapes",
+		},
+	}
+}
+
+func (*RotatedSampledPoints3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*RotatedSeatAndLegs3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*SampledPoints3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Seat3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*SeatAndLegs3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*SeatBottomCurveShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*SeatTopCurveShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ShiftedBottomTopStartArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ShiftedBottomTopStartArcShapeGrid",
+			Fieldname: "ShiftedBottomTopStartArcShapes",
+		},
+	}
+}
+
+func (*ShiftedBottomTopStartArcShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbon) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbonEndShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ShiftedLeftGrowthCurve2DRibbon",
+			Fieldname: "ShiftedLeftGrowthCurve2DRibbonEndShapes",
+		},
+	}
+}
+
+func (*ShiftedLeftGrowthCurve2DRibbonStartShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ShiftedLeftGrowthCurve2DRibbon",
+			Fieldname: "ShiftedLeftGrowthCurve2DRibbonStartShapes",
+		},
+	}
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbon) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ShiftedLeftPartiallyGrowthCurve2DRibbon",
+			Fieldname: "ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes",
+		},
+	}
+}
+
+func (*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ShiftedLeftPartiallyGrowthCurve2DRibbon",
+			Fieldname: "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes",
+		},
+	}
+}
+
+func (*ShiftedLeftStackGrowthCurveEndArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ShiftedLeftStackOfGrowthCurve",
+			Fieldname: "ShiftedLeftStackGrowthCurveEndArcShapes",
+		},
+	}
+}
+
+func (*ShiftedLeftStackGrowthCurveStartArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ShiftedLeftStackOfGrowthCurve",
+			Fieldname: "ShiftedLeftStackGrowthCurveStartArcShapes",
+		},
+	}
+}
+
+func (*ShiftedLeftStackNormalVector) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ShiftedLeftStackOfNormalVector",
+			Fieldname: "ShiftedLeftStackNormalVectors",
+		},
+	}
+}
+
+func (*ShiftedLeftStackOfGrowthCurve) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ShiftedLeftStackOfNormalVector) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ShiftedRightGrowthCurve2DRibbon) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ShiftedRightGrowthCurve2DRibbonEndShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ShiftedRightGrowthCurve2DRibbon",
+			Fieldname: "ShiftedRightGrowthCurve2DRibbonEndShapes",
+		},
+	}
+}
+
+func (*ShiftedRightGrowthCurve2DRibbonStartShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "ShiftedRightGrowthCurve2DRibbon",
+			Fieldname: "ShiftedRightGrowthCurve2DRibbonStartShapes",
+		},
+	}
+}
+
+func (*StackGrowthCurve2DEndHalfwayArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StackOfGrowthCurve2D",
+			Fieldname: "StackGrowthCurve2DEndHalfwayArcShapes",
+		},
+	}
+}
+
+func (*StackGrowthCurve2DRibbonEndShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StackOfGrowthCurve2DRibbon",
+			Fieldname: "StackGrowthCurve2DRibbonEndShapes",
+		},
+	}
+}
+
+func (*StackGrowthCurve2DRibbonStartShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StackOfGrowthCurve2DRibbon",
+			Fieldname: "StackGrowthCurve2DRibbonStartShapes",
+		},
+	}
+}
+
+func (*StackGrowthCurve2DStartHalfwayArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StackOfGrowthCurve2D",
+			Fieldname: "StackGrowthCurve2DStartHalfwayArcShapes",
+		},
+	}
+}
+
+func (*StackOfCarvedOutVaseTrapezeRingsShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StackOfGrowthCurve2D) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StackOfGrowthCurve2DByGrowthVector) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StackOfGrowthCurve2DRibbon) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StackOfPartiallyRotatedTorusShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StackOfRotatedCarvedOutVaseTrapezeRingsShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StackOfRotatedGrowthCurve2D) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StackOfRotatedGrowthCurve2DRibbon) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StackOfRotatedVaseTrapezeRingsShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StackOfVaseTrapezeRingsShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StackRotatedGrowthCurve2DEndArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StackOfRotatedGrowthCurve2D",
+			Fieldname: "StackRotatedGrowthCurve2DEndArcShapes",
+		},
+	}
+}
+
+func (*StackRotatedGrowthCurve2DRibbonEndShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StackOfRotatedGrowthCurve2DRibbon",
+			Fieldname: "StackRotatedGrowthCurve2DRibbonEndShapes",
+		},
+	}
+}
+
+func (*StackRotatedGrowthCurve2DRibbonStartShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StackOfRotatedGrowthCurve2DRibbon",
+			Fieldname: "StackRotatedGrowthCurve2DRibbonStartShapes",
+		},
+	}
+}
+
+func (*StackRotatedGrowthCurve2DStartArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StackOfRotatedGrowthCurve2D",
+			Fieldname: "StackRotatedGrowthCurve2DStartArcShapes",
+		},
+	}
+}
+
+func (*StartArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StartArcShapeGrid",
+			Fieldname: "StartArcShapes",
+		},
+	}
+}
+
+func (*StartArcShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StartHalfwayArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "StartHalfwayArcShapeGrid",
+			Fieldname: "StartHalfwayArcShapes",
+		},
+	}
+}
+
+func (*StartHalfwayArcShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*StemCylinder3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Stool2DDiagram) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PlantAbstract",
+			Fieldname: "Stool2DDiagrams",
+		},
+	}
+}
+
+func (*Stool3DDiagram) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PlantAbstract",
+			Fieldname: "Stool3DDiagrams",
+		},
+	}
+}
+
+func (*TiledFloor3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TopCurvePlane1Shape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TopCurvePlane2Shape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TopEndArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "TopEndArcShapeGrid",
+			Fieldname: "TopEndArcShapes",
+		},
+	}
+}
+
+func (*TopEndArcShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TopEndHalfwayArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "TopEndHalfwayArcShapeGrid",
+			Fieldname: "TopEndHalfwayArcShapes",
+		},
+	}
+}
+
+func (*TopEndHalfwayArcShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TopGrowthCurve2D) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TopMidArcVectorShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "TopMidArcVectorShapeGrid",
+			Fieldname: "TopMidArcVectorShapes",
+		},
+	}
+}
+
+func (*TopMidArcVectorShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TopStackGrowthCurve2DEndHalfwayArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "TopStackOfGrowthCurve2D",
+			Fieldname: "TopStackGrowthCurve2DEndHalfwayArcShapes",
+		},
+	}
+}
+
+func (*TopStackGrowthCurve2DStartHalfwayArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "TopStackOfGrowthCurve2D",
+			Fieldname: "TopStackGrowthCurve2DStartHalfwayArcShapes",
+		},
+	}
+}
+
+func (*TopStackOfGrowthCurve2D) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TopStackOfRotatedGrowthCurve2D) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TopStackOfRotatedGrowthCurve2DEndArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "TopStackOfRotatedGrowthCurve2D",
+			Fieldname: "TopStackOfRotatedGrowthCurve2DEndArcShapes",
+		},
+	}
+}
+
+func (*TopStackOfRotatedGrowthCurve2DStartArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "TopStackOfRotatedGrowthCurve2D",
+			Fieldname: "TopStackOfRotatedGrowthCurve2DStartArcShapes",
+		},
+	}
+}
+
+func (*TopStartArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "TopStartArcShapeGrid",
+			Fieldname: "TopStartArcShapes",
+		},
+	}
+}
+
+func (*TopStartArcShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TopStartHalfwayArcShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "TopStartHalfwayArcShapeGrid",
+			Fieldname: "TopStartHalfwayArcShapes",
+		},
+	}
+}
+
+func (*TopStartHalfwayArcShapeGrid) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Torus3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TorusEdge3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TorusStackShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*TubeVase3DDiagram) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PlantAbstract",
+			Fieldname: "TubeVase3DDiagrams",
+		},
+	}
+}
+
+func (*TubeVaseAbstract) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Vase2DDiagram) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "PlantAbstract",
+			Fieldname: "Vase2DDiagrams",
+		},
+	}
+}
+
+func (*VaseTrapezeBasePlateShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*VaseTrapezeRingShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*VerticalTorusStackShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*VolumeKey3DShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

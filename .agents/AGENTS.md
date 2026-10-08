@@ -204,3 +204,11 @@ When proposing a fix to a problem, provide a confidence level, based on the foll
 - 40 % : problem poorly understood, no fix
 - 20 % : hunch on the problem, fix to explore the problem space
 - 0% : should not happen
+
+### Go Architecture Constraints
+- STRICTLY FORBIDDEN: Do not import or use the `reflect` package under any circumstances.
+- All struct introspection, serialization, diffing, and staging must rely on:
+  1. Go code generation / AST parsing
+  2. Generics (Go 1.18+)
+  3. Interfaces and static type switches
+- Prioritize compile-time safety and explicit code over runtime introspection.

@@ -496,43 +496,296 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*CheckBox) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CheckBoxs, stage.CheckBox_stagedOrder)
+}
+
+func (*CheckBox) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CheckBox_orderStaged[order]
+}
+
+func (*CheckBox) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CheckBoxs_mapString
+}
+
+func (*CheckBox) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CheckBoxs
+}
+
+func (*CheckBox) GongNewInstance() any {
+	return new(CheckBox)
+}
+
+func (*FormDiv) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FormDivs, stage.FormDiv_stagedOrder)
+}
+
+func (*FormDiv) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FormDiv_orderStaged[order]
+}
+
+func (*FormDiv) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FormDivs_mapString
+}
+
+func (*FormDiv) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FormDivs
+}
+
+func (*FormDiv) GongNewInstance() any {
+	return new(FormDiv)
+}
+
+func (*FormEditAssocButton) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FormEditAssocButtons, stage.FormEditAssocButton_stagedOrder)
+}
+
+func (*FormEditAssocButton) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FormEditAssocButton_orderStaged[order]
+}
+
+func (*FormEditAssocButton) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FormEditAssocButtons_mapString
+}
+
+func (*FormEditAssocButton) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FormEditAssocButtons
+}
+
+func (*FormEditAssocButton) GongNewInstance() any {
+	return new(FormEditAssocButton)
+}
+
+func (*FormField) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FormFields, stage.FormField_stagedOrder)
+}
+
+func (*FormField) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FormField_orderStaged[order]
+}
+
+func (*FormField) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FormFields_mapString
+}
+
+func (*FormField) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FormFields
+}
+
+func (*FormField) GongNewInstance() any {
+	return new(FormField)
+}
+
+func (*FormFieldDate) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FormFieldDates, stage.FormFieldDate_stagedOrder)
+}
+
+func (*FormFieldDate) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FormFieldDate_orderStaged[order]
+}
+
+func (*FormFieldDate) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FormFieldDates_mapString
+}
+
+func (*FormFieldDate) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FormFieldDates
+}
+
+func (*FormFieldDate) GongNewInstance() any {
+	return new(FormFieldDate)
+}
+
+func (*FormFieldDateTime) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FormFieldDateTimes, stage.FormFieldDateTime_stagedOrder)
+}
+
+func (*FormFieldDateTime) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FormFieldDateTime_orderStaged[order]
+}
+
+func (*FormFieldDateTime) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FormFieldDateTimes_mapString
+}
+
+func (*FormFieldDateTime) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FormFieldDateTimes
+}
+
+func (*FormFieldDateTime) GongNewInstance() any {
+	return new(FormFieldDateTime)
+}
+
+func (*FormFieldFloat64) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FormFieldFloat64s, stage.FormFieldFloat64_stagedOrder)
+}
+
+func (*FormFieldFloat64) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FormFieldFloat64_orderStaged[order]
+}
+
+func (*FormFieldFloat64) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FormFieldFloat64s_mapString
+}
+
+func (*FormFieldFloat64) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FormFieldFloat64s
+}
+
+func (*FormFieldFloat64) GongNewInstance() any {
+	return new(FormFieldFloat64)
+}
+
+func (*FormFieldInt) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FormFieldInts, stage.FormFieldInt_stagedOrder)
+}
+
+func (*FormFieldInt) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FormFieldInt_orderStaged[order]
+}
+
+func (*FormFieldInt) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FormFieldInts_mapString
+}
+
+func (*FormFieldInt) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FormFieldInts
+}
+
+func (*FormFieldInt) GongNewInstance() any {
+	return new(FormFieldInt)
+}
+
+func (*FormFieldSelect) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FormFieldSelects, stage.FormFieldSelect_stagedOrder)
+}
+
+func (*FormFieldSelect) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FormFieldSelect_orderStaged[order]
+}
+
+func (*FormFieldSelect) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FormFieldSelects_mapString
+}
+
+func (*FormFieldSelect) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FormFieldSelects
+}
+
+func (*FormFieldSelect) GongNewInstance() any {
+	return new(FormFieldSelect)
+}
+
+func (*FormFieldString) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FormFieldStrings, stage.FormFieldString_stagedOrder)
+}
+
+func (*FormFieldString) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FormFieldString_orderStaged[order]
+}
+
+func (*FormFieldString) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FormFieldStrings_mapString
+}
+
+func (*FormFieldString) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FormFieldStrings
+}
+
+func (*FormFieldString) GongNewInstance() any {
+	return new(FormFieldString)
+}
+
+func (*FormFieldTime) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FormFieldTimes, stage.FormFieldTime_stagedOrder)
+}
+
+func (*FormFieldTime) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FormFieldTime_orderStaged[order]
+}
+
+func (*FormFieldTime) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FormFieldTimes_mapString
+}
+
+func (*FormFieldTime) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FormFieldTimes
+}
+
+func (*FormFieldTime) GongNewInstance() any {
+	return new(FormFieldTime)
+}
+
+func (*FormGroup) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FormGroups, stage.FormGroup_stagedOrder)
+}
+
+func (*FormGroup) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FormGroup_orderStaged[order]
+}
+
+func (*FormGroup) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FormGroups_mapString
+}
+
+func (*FormGroup) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FormGroups
+}
+
+func (*FormGroup) GongNewInstance() any {
+	return new(FormGroup)
+}
+
+func (*FormSortAssocButton) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FormSortAssocButtons, stage.FormSortAssocButton_stagedOrder)
+}
+
+func (*FormSortAssocButton) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FormSortAssocButton_orderStaged[order]
+}
+
+func (*FormSortAssocButton) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FormSortAssocButtons_mapString
+}
+
+func (*FormSortAssocButton) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FormSortAssocButtons
+}
+
+func (*FormSortAssocButton) GongNewInstance() any {
+	return new(FormSortAssocButton)
+}
+
+func (*Option) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Options, stage.Option_stagedOrder)
+}
+
+func (*Option) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Option_orderStaged[order]
+}
+
+func (*Option) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Options_mapString
+}
+
+func (*Option) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Options
+}
+
+func (*Option) GongNewInstance() any {
+	return new(Option)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *CheckBox:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CheckBoxs, stage.CheckBox_stagedOrder))
-	case *FormDiv:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormDivs, stage.FormDiv_stagedOrder))
-	case *FormEditAssocButton:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormEditAssocButtons, stage.FormEditAssocButton_stagedOrder))
-	case *FormField:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFields, stage.FormField_stagedOrder))
-	case *FormFieldDate:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldDates, stage.FormFieldDate_stagedOrder))
-	case *FormFieldDateTime:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldDateTimes, stage.FormFieldDateTime_stagedOrder))
-	case *FormFieldFloat64:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldFloat64s, stage.FormFieldFloat64_stagedOrder))
-	case *FormFieldInt:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldInts, stage.FormFieldInt_stagedOrder))
-	case *FormFieldSelect:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldSelects, stage.FormFieldSelect_stagedOrder))
-	case *FormFieldString:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldStrings, stage.FormFieldString_stagedOrder))
-	case *FormFieldTime:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormFieldTimes, stage.FormFieldTime_stagedOrder))
-	case *FormGroup:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormGroups, stage.FormGroup_stagedOrder))
-	case *FormSortAssocButton:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.FormSortAssocButtons, stage.FormSortAssocButton_stagedOrder))
-	case *Option:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Options, stage.Option_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -860,40 +1113,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *CheckBox:
-		return any(stage.CheckBox_orderStaged[order]).(Type)
-	case *FormDiv:
-		return any(stage.FormDiv_orderStaged[order]).(Type)
-	case *FormEditAssocButton:
-		return any(stage.FormEditAssocButton_orderStaged[order]).(Type)
-	case *FormField:
-		return any(stage.FormField_orderStaged[order]).(Type)
-	case *FormFieldDate:
-		return any(stage.FormFieldDate_orderStaged[order]).(Type)
-	case *FormFieldDateTime:
-		return any(stage.FormFieldDateTime_orderStaged[order]).(Type)
-	case *FormFieldFloat64:
-		return any(stage.FormFieldFloat64_orderStaged[order]).(Type)
-	case *FormFieldInt:
-		return any(stage.FormFieldInt_orderStaged[order]).(Type)
-	case *FormFieldSelect:
-		return any(stage.FormFieldSelect_orderStaged[order]).(Type)
-	case *FormFieldString:
-		return any(stage.FormFieldString_orderStaged[order]).(Type)
-	case *FormFieldTime:
-		return any(stage.FormFieldTime_orderStaged[order]).(Type)
-	case *FormGroup:
-		return any(stage.FormGroup_orderStaged[order]).(Type)
-	case *FormSortAssocButton:
-		return any(stage.FormSortAssocButton_orderStaged[order]).(Type)
-	case *Option:
-		return any(stage.Option_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -1603,7 +1831,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -1635,6 +1865,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -1666,100 +1903,44 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *CheckBox:
-		return any(stage.CheckBoxs_mapString).(map[string]Type)
-	case *FormDiv:
-		return any(stage.FormDivs_mapString).(map[string]Type)
-	case *FormEditAssocButton:
-		return any(stage.FormEditAssocButtons_mapString).(map[string]Type)
-	case *FormField:
-		return any(stage.FormFields_mapString).(map[string]Type)
-	case *FormFieldDate:
-		return any(stage.FormFieldDates_mapString).(map[string]Type)
-	case *FormFieldDateTime:
-		return any(stage.FormFieldDateTimes_mapString).(map[string]Type)
-	case *FormFieldFloat64:
-		return any(stage.FormFieldFloat64s_mapString).(map[string]Type)
-	case *FormFieldInt:
-		return any(stage.FormFieldInts_mapString).(map[string]Type)
-	case *FormFieldSelect:
-		return any(stage.FormFieldSelects_mapString).(map[string]Type)
-	case *FormFieldString:
-		return any(stage.FormFieldStrings_mapString).(map[string]Type)
-	case *FormFieldTime:
-		return any(stage.FormFieldTimes_mapString).(map[string]Type)
-	case *FormGroup:
-		return any(stage.FormGroups_mapString).(map[string]Type)
-	case *FormSortAssocButton:
-		return any(stage.FormSortAssocButtons_mapString).(map[string]Type)
-	case *Option:
-		return any(stage.Options_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *CheckBox:
-		return any(&stage.CheckBoxs).(*map[Type]struct{})
-	case *FormDiv:
-		return any(&stage.FormDivs).(*map[Type]struct{})
-	case *FormEditAssocButton:
-		return any(&stage.FormEditAssocButtons).(*map[Type]struct{})
-	case *FormField:
-		return any(&stage.FormFields).(*map[Type]struct{})
-	case *FormFieldDate:
-		return any(&stage.FormFieldDates).(*map[Type]struct{})
-	case *FormFieldDateTime:
-		return any(&stage.FormFieldDateTimes).(*map[Type]struct{})
-	case *FormFieldFloat64:
-		return any(&stage.FormFieldFloat64s).(*map[Type]struct{})
-	case *FormFieldInt:
-		return any(&stage.FormFieldInts).(*map[Type]struct{})
-	case *FormFieldSelect:
-		return any(&stage.FormFieldSelects).(*map[Type]struct{})
-	case *FormFieldString:
-		return any(&stage.FormFieldStrings).(*map[Type]struct{})
-	case *FormFieldTime:
-		return any(&stage.FormFieldTimes).(*map[Type]struct{})
-	case *FormGroup:
-		return any(&stage.FormGroups).(*map[Type]struct{})
-	case *FormSortAssocButton:
-		return any(&stage.FormSortAssocButtons).(*map[Type]struct{})
-	case *Option:
-		return any(&stage.Options).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
+	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
+}
+
+// insertion point for instance with special fields
+func (CheckBox) GongGetAssociationName() any {
+	return &CheckBox{
 	}
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case FormDiv:
-		return any(&FormDiv{
+func (FormDiv) GongGetAssociationName() any {
+	return &FormDiv{
 			FormFields: []*FormField{{Name: "FormFields"}},
 			CheckBoxs: []*CheckBox{{Name: "CheckBoxs"}},
 			FormEditAssocButton: &FormEditAssocButton{Name: "FormEditAssocButton"},
 			FormSortAssocButton: &FormSortAssocButton{Name: "FormSortAssocButton"},
-		}).(*Type)
-	case FormField:
-		return any(&FormField{
+	}
+}
+
+func (FormEditAssocButton) GongGetAssociationName() any {
+	return &FormEditAssocButton{
+	}
+}
+
+func (FormField) GongGetAssociationName() any {
+	return &FormField{
 			FormFieldString: &FormFieldString{Name: "FormFieldString"},
 			FormFieldFloat64: &FormFieldFloat64{Name: "FormFieldFloat64"},
 			FormFieldInt: &FormFieldInt{Name: "FormFieldInt"},
@@ -1767,23 +1948,71 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			FormFieldTime: &FormFieldTime{Name: "FormFieldTime"},
 			FormFieldDateTime: &FormFieldDateTime{Name: "FormFieldDateTime"},
 			FormFieldSelect: &FormFieldSelect{Name: "FormFieldSelect"},
-		}).(*Type)
-	case FormFieldSelect:
-		return any(&FormFieldSelect{
+	}
+}
+
+func (FormFieldDate) GongGetAssociationName() any {
+	return &FormFieldDate{
+	}
+}
+
+func (FormFieldDateTime) GongGetAssociationName() any {
+	return &FormFieldDateTime{
+	}
+}
+
+func (FormFieldFloat64) GongGetAssociationName() any {
+	return &FormFieldFloat64{
+	}
+}
+
+func (FormFieldInt) GongGetAssociationName() any {
+	return &FormFieldInt{
+	}
+}
+
+func (FormFieldSelect) GongGetAssociationName() any {
+	return &FormFieldSelect{
 			Value: &Option{Name: "Value"},
 			Options: []*Option{{Name: "Options"}},
-		}).(*Type)
-	case FormGroup:
-		return any(&FormGroup{
-			FormDivs: []*FormDiv{{Name: "FormDivs"}},
-		}).(*Type)
-	case FormSortAssocButton:
-		return any(&FormSortAssocButton{
-			FormEditAssocButton: &FormEditAssocButton{Name: "FormEditAssocButton"},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+func (FormFieldString) GongGetAssociationName() any {
+	return &FormFieldString{
+	}
+}
+
+func (FormFieldTime) GongGetAssociationName() any {
+	return &FormFieldTime{
+	}
+}
+
+func (FormGroup) GongGetAssociationName() any {
+	return &FormGroup{
+			FormDivs: []*FormDiv{{Name: "FormDivs"}},
+	}
+}
+
+func (FormSortAssocButton) GongGetAssociationName() any {
+	return &FormSortAssocButton{
+			FormEditAssocButton: &FormEditAssocButton{Name: "FormEditAssocButton"},
+	}
+}
+
+func (Option) GongGetAssociationName() any {
+	return &Option{
+	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -2174,40 +2403,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *CheckBox:
-		res = any(new(CheckBox)).(Type)
-	case *FormDiv:
-		res = any(new(FormDiv)).(Type)
-	case *FormEditAssocButton:
-		res = any(new(FormEditAssocButton)).(Type)
-	case *FormField:
-		res = any(new(FormField)).(Type)
-	case *FormFieldDate:
-		res = any(new(FormFieldDate)).(Type)
-	case *FormFieldDateTime:
-		res = any(new(FormFieldDateTime)).(Type)
-	case *FormFieldFloat64:
-		res = any(new(FormFieldFloat64)).(Type)
-	case *FormFieldInt:
-		res = any(new(FormFieldInt)).(Type)
-	case *FormFieldSelect:
-		res = any(new(FormFieldSelect)).(Type)
-	case *FormFieldString:
-		res = any(new(FormFieldString)).(Type)
-	case *FormFieldTime:
-		res = any(new(FormFieldTime)).(Type)
-	case *FormGroup:
-		res = any(new(FormGroup)).(Type)
-	case *FormSortAssocButton:
-		res = any(new(FormSortAssocButton)).(Type)
-	case *Option:
-		res = any(new(Option)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -2230,40 +2427,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *CheckBox:
-		res = "CheckBox"
-	case *FormDiv:
-		res = "FormDiv"
-	case *FormEditAssocButton:
-		res = "FormEditAssocButton"
-	case *FormField:
-		res = "FormField"
-	case *FormFieldDate:
-		res = "FormFieldDate"
-	case *FormFieldDateTime:
-		res = "FormFieldDateTime"
-	case *FormFieldFloat64:
-		res = "FormFieldFloat64"
-	case *FormFieldInt:
-		res = "FormFieldInt"
-	case *FormFieldSelect:
-		res = "FormFieldSelect"
-	case *FormFieldString:
-		res = "FormFieldString"
-	case *FormFieldTime:
-		res = "FormFieldTime"
-	case *FormGroup:
-		res = "FormGroup"
-	case *FormSortAssocButton:
-		res = "FormSortAssocButton"
-	case *Option:
-		res = "Option"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -2277,70 +2442,97 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *CheckBox:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "FormDiv"
-		rf.Fieldname = "CheckBoxs"
-		res = append(res, rf)
-	case *FormDiv:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "FormGroup"
-		rf.Fieldname = "FormDivs"
-		res = append(res, rf)
-	case *FormEditAssocButton:
-		var rf ReverseField
-		_ = rf
-	case *FormField:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "FormDiv"
-		rf.Fieldname = "FormFields"
-		res = append(res, rf)
-	case *FormFieldDate:
-		var rf ReverseField
-		_ = rf
-	case *FormFieldDateTime:
-		var rf ReverseField
-		_ = rf
-	case *FormFieldFloat64:
-		var rf ReverseField
-		_ = rf
-	case *FormFieldInt:
-		var rf ReverseField
-		_ = rf
-	case *FormFieldSelect:
-		var rf ReverseField
-		_ = rf
-	case *FormFieldString:
-		var rf ReverseField
-		_ = rf
-	case *FormFieldTime:
-		var rf ReverseField
-		_ = rf
-	case *FormGroup:
-		var rf ReverseField
-		_ = rf
-	case *FormSortAssocButton:
-		var rf ReverseField
-		_ = rf
-	case *Option:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "FormFieldSelect"
-		rf.Fieldname = "Options"
-		res = append(res, rf)
+// insertion point for generic get reverse fields
+func (*CheckBox) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "FormDiv",
+			Fieldname: "CheckBoxs",
+		},
 	}
-	return
+}
+
+func (*FormDiv) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "FormGroup",
+			Fieldname: "FormDivs",
+		},
+	}
+}
+
+func (*FormEditAssocButton) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*FormField) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "FormDiv",
+			Fieldname: "FormFields",
+		},
+	}
+}
+
+func (*FormFieldDate) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*FormFieldDateTime) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*FormFieldFloat64) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*FormFieldInt) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*FormFieldSelect) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*FormFieldString) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*FormFieldTime) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*FormGroup) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*FormSortAssocButton) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Option) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "FormFieldSelect",
+			Fieldname: "Options",
+		},
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

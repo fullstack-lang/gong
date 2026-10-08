@@ -444,37 +444,236 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*Button) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Buttons, stage.Button_stagedOrder)
+}
+
+func (*Button) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Button_orderStaged[order]
+}
+
+func (*Button) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Buttons_mapString
+}
+
+func (*Button) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Buttons
+}
+
+func (*Button) GongNewInstance() any {
+	return new(Button)
+}
+
+func (*Cell) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Cells, stage.Cell_stagedOrder)
+}
+
+func (*Cell) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Cell_orderStaged[order]
+}
+
+func (*Cell) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Cells_mapString
+}
+
+func (*Cell) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Cells
+}
+
+func (*Cell) GongNewInstance() any {
+	return new(Cell)
+}
+
+func (*CellBoolean) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CellBooleans, stage.CellBoolean_stagedOrder)
+}
+
+func (*CellBoolean) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CellBoolean_orderStaged[order]
+}
+
+func (*CellBoolean) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CellBooleans_mapString
+}
+
+func (*CellBoolean) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CellBooleans
+}
+
+func (*CellBoolean) GongNewInstance() any {
+	return new(CellBoolean)
+}
+
+func (*CellFloat64) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CellFloat64s, stage.CellFloat64_stagedOrder)
+}
+
+func (*CellFloat64) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CellFloat64_orderStaged[order]
+}
+
+func (*CellFloat64) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CellFloat64s_mapString
+}
+
+func (*CellFloat64) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CellFloat64s
+}
+
+func (*CellFloat64) GongNewInstance() any {
+	return new(CellFloat64)
+}
+
+func (*CellIcon) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CellIcons, stage.CellIcon_stagedOrder)
+}
+
+func (*CellIcon) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CellIcon_orderStaged[order]
+}
+
+func (*CellIcon) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CellIcons_mapString
+}
+
+func (*CellIcon) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CellIcons
+}
+
+func (*CellIcon) GongNewInstance() any {
+	return new(CellIcon)
+}
+
+func (*CellInt) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CellInts, stage.CellInt_stagedOrder)
+}
+
+func (*CellInt) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CellInt_orderStaged[order]
+}
+
+func (*CellInt) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CellInts_mapString
+}
+
+func (*CellInt) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CellInts
+}
+
+func (*CellInt) GongNewInstance() any {
+	return new(CellInt)
+}
+
+func (*CellString) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.CellStrings, stage.CellString_stagedOrder)
+}
+
+func (*CellString) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.CellString_orderStaged[order]
+}
+
+func (*CellString) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.CellStrings_mapString
+}
+
+func (*CellString) GongGetInstancesSet(stage *Stage) any {
+	return &stage.CellStrings
+}
+
+func (*CellString) GongNewInstance() any {
+	return new(CellString)
+}
+
+func (*DisplayedColumn) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DisplayedColumns, stage.DisplayedColumn_stagedOrder)
+}
+
+func (*DisplayedColumn) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DisplayedColumn_orderStaged[order]
+}
+
+func (*DisplayedColumn) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DisplayedColumns_mapString
+}
+
+func (*DisplayedColumn) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DisplayedColumns
+}
+
+func (*DisplayedColumn) GongNewInstance() any {
+	return new(DisplayedColumn)
+}
+
+func (*Row) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Rows, stage.Row_stagedOrder)
+}
+
+func (*Row) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Row_orderStaged[order]
+}
+
+func (*Row) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Rows_mapString
+}
+
+func (*Row) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Rows
+}
+
+func (*Row) GongNewInstance() any {
+	return new(Row)
+}
+
+func (*SVGIcon) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SVGIcons, stage.SVGIcon_stagedOrder)
+}
+
+func (*SVGIcon) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SVGIcon_orderStaged[order]
+}
+
+func (*SVGIcon) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SVGIcons_mapString
+}
+
+func (*SVGIcon) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SVGIcons
+}
+
+func (*SVGIcon) GongNewInstance() any {
+	return new(SVGIcon)
+}
+
+func (*Table) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Tables, stage.Table_stagedOrder)
+}
+
+func (*Table) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Table_orderStaged[order]
+}
+
+func (*Table) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Tables_mapString
+}
+
+func (*Table) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Tables
+}
+
+func (*Table) GongNewInstance() any {
+	return new(Table)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *Button:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Buttons, stage.Button_stagedOrder))
-	case *Cell:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Cells, stage.Cell_stagedOrder))
-	case *CellBoolean:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CellBooleans, stage.CellBoolean_stagedOrder))
-	case *CellFloat64:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CellFloat64s, stage.CellFloat64_stagedOrder))
-	case *CellIcon:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CellIcons, stage.CellIcon_stagedOrder))
-	case *CellInt:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CellInts, stage.CellInt_stagedOrder))
-	case *CellString:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.CellStrings, stage.CellString_stagedOrder))
-	case *DisplayedColumn:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DisplayedColumns, stage.DisplayedColumn_stagedOrder))
-	case *Row:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Rows, stage.Row_stagedOrder))
-	case *SVGIcon:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SVGIcons, stage.SVGIcon_stagedOrder))
-	case *Table:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Tables, stage.Table_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -775,34 +974,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *Button:
-		return any(stage.Button_orderStaged[order]).(Type)
-	case *Cell:
-		return any(stage.Cell_orderStaged[order]).(Type)
-	case *CellBoolean:
-		return any(stage.CellBoolean_orderStaged[order]).(Type)
-	case *CellFloat64:
-		return any(stage.CellFloat64_orderStaged[order]).(Type)
-	case *CellIcon:
-		return any(stage.CellIcon_orderStaged[order]).(Type)
-	case *CellInt:
-		return any(stage.CellInt_orderStaged[order]).(Type)
-	case *CellString:
-		return any(stage.CellString_orderStaged[order]).(Type)
-	case *DisplayedColumn:
-		return any(stage.DisplayedColumn_orderStaged[order]).(Type)
-	case *Row:
-		return any(stage.Row_orderStaged[order]).(Type)
-	case *SVGIcon:
-		return any(stage.SVGIcon_orderStaged[order]).(Type)
-	case *Table:
-		return any(stage.Table_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -1383,7 +1563,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -1415,6 +1597,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -1446,105 +1635,97 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Button:
-		return any(stage.Buttons_mapString).(map[string]Type)
-	case *Cell:
-		return any(stage.Cells_mapString).(map[string]Type)
-	case *CellBoolean:
-		return any(stage.CellBooleans_mapString).(map[string]Type)
-	case *CellFloat64:
-		return any(stage.CellFloat64s_mapString).(map[string]Type)
-	case *CellIcon:
-		return any(stage.CellIcons_mapString).(map[string]Type)
-	case *CellInt:
-		return any(stage.CellInts_mapString).(map[string]Type)
-	case *CellString:
-		return any(stage.CellStrings_mapString).(map[string]Type)
-	case *DisplayedColumn:
-		return any(stage.DisplayedColumns_mapString).(map[string]Type)
-	case *Row:
-		return any(stage.Rows_mapString).(map[string]Type)
-	case *SVGIcon:
-		return any(stage.SVGIcons_mapString).(map[string]Type)
-	case *Table:
-		return any(stage.Tables_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Button:
-		return any(&stage.Buttons).(*map[Type]struct{})
-	case *Cell:
-		return any(&stage.Cells).(*map[Type]struct{})
-	case *CellBoolean:
-		return any(&stage.CellBooleans).(*map[Type]struct{})
-	case *CellFloat64:
-		return any(&stage.CellFloat64s).(*map[Type]struct{})
-	case *CellIcon:
-		return any(&stage.CellIcons).(*map[Type]struct{})
-	case *CellInt:
-		return any(&stage.CellInts).(*map[Type]struct{})
-	case *CellString:
-		return any(&stage.CellStrings).(*map[Type]struct{})
-	case *DisplayedColumn:
-		return any(&stage.DisplayedColumns).(*map[Type]struct{})
-	case *Row:
-		return any(&stage.Rows).(*map[Type]struct{})
-	case *SVGIcon:
-		return any(&stage.SVGIcons).(*map[Type]struct{})
-	case *Table:
-		return any(&stage.Tables).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
+
+// insertion point for instance with special fields
+func (Button) GongGetAssociationName() any {
+	return &Button{
+			SVGIcon: &SVGIcon{Name: "SVGIcon"},
+	}
+}
+
+func (Cell) GongGetAssociationName() any {
+	return &Cell{
+			CellString: &CellString{Name: "CellString"},
+			CellFloat64: &CellFloat64{Name: "CellFloat64"},
+			CellInt: &CellInt{Name: "CellInt"},
+			CellBool: &CellBoolean{Name: "CellBool"},
+			CellIcon: &CellIcon{Name: "CellIcon"},
+	}
+}
+
+func (CellBoolean) GongGetAssociationName() any {
+	return &CellBoolean{
+	}
+}
+
+func (CellFloat64) GongGetAssociationName() any {
+	return &CellFloat64{
+	}
+}
+
+func (CellIcon) GongGetAssociationName() any {
+	return &CellIcon{
+	}
+}
+
+func (CellInt) GongGetAssociationName() any {
+	return &CellInt{
+	}
+}
+
+func (CellString) GongGetAssociationName() any {
+	return &CellString{
+	}
+}
+
+func (DisplayedColumn) GongGetAssociationName() any {
+	return &DisplayedColumn{
+	}
+}
+
+func (Row) GongGetAssociationName() any {
+	return &Row{
+			Cells: []*Cell{{Name: "Cells"}},
+	}
+}
+
+func (SVGIcon) GongGetAssociationName() any {
+	return &SVGIcon{
+	}
+}
+
+func (Table) GongGetAssociationName() any {
+	return &Table{
+			DisplayedColumns: []*DisplayedColumn{{Name: "DisplayedColumns"}},
+			Rows: []*Row{{Name: "Rows"}},
+			RowsSelectedForBulkDelete: []*Row{{Name: "RowsSelectedForBulkDelete"}},
+			Buttons: []*Button{{Name: "Buttons"}},
+	}
+}
+
 
 // GongGetAssociationName is a generic function that returns an instance of Type
 // where each association is filled with an instance whose name is the name of the association
 //
 // This function can be handy for generating navigation function that are refactorable
 func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case Button:
-		return any(&Button{
-			SVGIcon: &SVGIcon{Name: "SVGIcon"},
-		}).(*Type)
-	case Cell:
-		return any(&Cell{
-			CellString: &CellString{Name: "CellString"},
-			CellFloat64: &CellFloat64{Name: "CellFloat64"},
-			CellInt: &CellInt{Name: "CellInt"},
-			CellBool: &CellBoolean{Name: "CellBool"},
-			CellIcon: &CellIcon{Name: "CellIcon"},
-		}).(*Type)
-	case Row:
-		return any(&Row{
-			Cells: []*Cell{{Name: "Cells"}},
-		}).(*Type)
-	case Table:
-		return any(&Table{
-			DisplayedColumns: []*DisplayedColumn{{Name: "DisplayedColumns"}},
-			Rows: []*Row{{Name: "Rows"}},
-			RowsSelectedForBulkDelete: []*Row{{Name: "RowsSelectedForBulkDelete"}},
-			Buttons: []*Button{{Name: "Buttons"}},
-		}).(*Type)
-	default:
-		return &ret
-	}
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -1828,34 +2009,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *Button:
-		res = any(new(Button)).(Type)
-	case *Cell:
-		res = any(new(Cell)).(Type)
-	case *CellBoolean:
-		res = any(new(CellBoolean)).(Type)
-	case *CellFloat64:
-		res = any(new(CellFloat64)).(Type)
-	case *CellIcon:
-		res = any(new(CellIcon)).(Type)
-	case *CellInt:
-		res = any(new(CellInt)).(Type)
-	case *CellString:
-		res = any(new(CellString)).(Type)
-	case *DisplayedColumn:
-		res = any(new(DisplayedColumn)).(Type)
-	case *Row:
-		res = any(new(Row)).(Type)
-	case *SVGIcon:
-		res = any(new(SVGIcon)).(Type)
-	case *Table:
-		res = any(new(Table)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -1878,34 +2033,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *Button:
-		res = "Button"
-	case *Cell:
-		res = "Cell"
-	case *CellBoolean:
-		res = "CellBoolean"
-	case *CellFloat64:
-		res = "CellFloat64"
-	case *CellIcon:
-		res = "CellIcon"
-	case *CellInt:
-		res = "CellInt"
-	case *CellString:
-		res = "CellString"
-	case *DisplayedColumn:
-		res = "DisplayedColumn"
-	case *Row:
-		res = "Row"
-	case *SVGIcon:
-		res = "SVGIcon"
-	case *Table:
-		res = "Table"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -1919,64 +2048,86 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *Button:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Table"
-		rf.Fieldname = "Buttons"
-		res = append(res, rf)
-	case *Cell:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Row"
-		rf.Fieldname = "Cells"
-		res = append(res, rf)
-	case *CellBoolean:
-		var rf ReverseField
-		_ = rf
-	case *CellFloat64:
-		var rf ReverseField
-		_ = rf
-	case *CellIcon:
-		var rf ReverseField
-		_ = rf
-	case *CellInt:
-		var rf ReverseField
-		_ = rf
-	case *CellString:
-		var rf ReverseField
-		_ = rf
-	case *DisplayedColumn:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Table"
-		rf.Fieldname = "DisplayedColumns"
-		res = append(res, rf)
-	case *Row:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Table"
-		rf.Fieldname = "Rows"
-		res = append(res, rf)
-		rf.GongstructName = "Table"
-		rf.Fieldname = "RowsSelectedForBulkDelete"
-		res = append(res, rf)
-	case *SVGIcon:
-		var rf ReverseField
-		_ = rf
-	case *Table:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*Button) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Table",
+			Fieldname: "Buttons",
+		},
 	}
-	return
+}
+
+func (*Cell) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Row",
+			Fieldname: "Cells",
+		},
+	}
+}
+
+func (*CellBoolean) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*CellFloat64) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*CellIcon) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*CellInt) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*CellString) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*DisplayedColumn) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Table",
+			Fieldname: "DisplayedColumns",
+		},
+	}
+}
+
+func (*Row) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Table",
+			Fieldname: "Rows",
+		},
+		{
+			GongstructName: "Table",
+			Fieldname: "RowsSelectedForBulkDelete",
+		},
+	}
+}
+
+func (*SVGIcon) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Table) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

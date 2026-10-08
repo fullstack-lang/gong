@@ -792,67 +792,536 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*All) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Alls, stage.All_stagedOrder)
+}
+
+func (*All) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.All_orderStaged[order]
+}
+
+func (*All) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Alls_mapString
+}
+
+func (*All) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Alls
+}
+
+func (*All) GongNewInstance() any {
+	return new(All)
+}
+
+func (*Annotation) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Annotations, stage.Annotation_stagedOrder)
+}
+
+func (*Annotation) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Annotation_orderStaged[order]
+}
+
+func (*Annotation) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Annotations_mapString
+}
+
+func (*Annotation) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Annotations
+}
+
+func (*Annotation) GongNewInstance() any {
+	return new(Annotation)
+}
+
+func (*Attribute) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Attributes, stage.Attribute_stagedOrder)
+}
+
+func (*Attribute) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Attribute_orderStaged[order]
+}
+
+func (*Attribute) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Attributes_mapString
+}
+
+func (*Attribute) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Attributes
+}
+
+func (*Attribute) GongNewInstance() any {
+	return new(Attribute)
+}
+
+func (*AttributeGroup) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.AttributeGroups, stage.AttributeGroup_stagedOrder)
+}
+
+func (*AttributeGroup) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.AttributeGroup_orderStaged[order]
+}
+
+func (*AttributeGroup) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.AttributeGroups_mapString
+}
+
+func (*AttributeGroup) GongGetInstancesSet(stage *Stage) any {
+	return &stage.AttributeGroups
+}
+
+func (*AttributeGroup) GongNewInstance() any {
+	return new(AttributeGroup)
+}
+
+func (*Choice) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Choices, stage.Choice_stagedOrder)
+}
+
+func (*Choice) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Choice_orderStaged[order]
+}
+
+func (*Choice) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Choices_mapString
+}
+
+func (*Choice) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Choices
+}
+
+func (*Choice) GongNewInstance() any {
+	return new(Choice)
+}
+
+func (*ComplexContent) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ComplexContents, stage.ComplexContent_stagedOrder)
+}
+
+func (*ComplexContent) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ComplexContent_orderStaged[order]
+}
+
+func (*ComplexContent) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ComplexContents_mapString
+}
+
+func (*ComplexContent) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ComplexContents
+}
+
+func (*ComplexContent) GongNewInstance() any {
+	return new(ComplexContent)
+}
+
+func (*ComplexType) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ComplexTypes, stage.ComplexType_stagedOrder)
+}
+
+func (*ComplexType) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ComplexType_orderStaged[order]
+}
+
+func (*ComplexType) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ComplexTypes_mapString
+}
+
+func (*ComplexType) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ComplexTypes
+}
+
+func (*ComplexType) GongNewInstance() any {
+	return new(ComplexType)
+}
+
+func (*Documentation) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Documentations, stage.Documentation_stagedOrder)
+}
+
+func (*Documentation) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Documentation_orderStaged[order]
+}
+
+func (*Documentation) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Documentations_mapString
+}
+
+func (*Documentation) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Documentations
+}
+
+func (*Documentation) GongNewInstance() any {
+	return new(Documentation)
+}
+
+func (*Element) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Elements, stage.Element_stagedOrder)
+}
+
+func (*Element) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Element_orderStaged[order]
+}
+
+func (*Element) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Elements_mapString
+}
+
+func (*Element) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Elements
+}
+
+func (*Element) GongNewInstance() any {
+	return new(Element)
+}
+
+func (*Enumeration) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Enumerations, stage.Enumeration_stagedOrder)
+}
+
+func (*Enumeration) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Enumeration_orderStaged[order]
+}
+
+func (*Enumeration) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Enumerations_mapString
+}
+
+func (*Enumeration) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Enumerations
+}
+
+func (*Enumeration) GongNewInstance() any {
+	return new(Enumeration)
+}
+
+func (*Extension) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Extensions, stage.Extension_stagedOrder)
+}
+
+func (*Extension) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Extension_orderStaged[order]
+}
+
+func (*Extension) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Extensions_mapString
+}
+
+func (*Extension) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Extensions
+}
+
+func (*Extension) GongNewInstance() any {
+	return new(Extension)
+}
+
+func (*Group) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder)
+}
+
+func (*Group) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Group_orderStaged[order]
+}
+
+func (*Group) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Groups_mapString
+}
+
+func (*Group) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Groups
+}
+
+func (*Group) GongNewInstance() any {
+	return new(Group)
+}
+
+func (*Length) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Lengths, stage.Length_stagedOrder)
+}
+
+func (*Length) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Length_orderStaged[order]
+}
+
+func (*Length) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Lengths_mapString
+}
+
+func (*Length) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Lengths
+}
+
+func (*Length) GongNewInstance() any {
+	return new(Length)
+}
+
+func (*MaxInclusive) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MaxInclusives, stage.MaxInclusive_stagedOrder)
+}
+
+func (*MaxInclusive) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MaxInclusive_orderStaged[order]
+}
+
+func (*MaxInclusive) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MaxInclusives_mapString
+}
+
+func (*MaxInclusive) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MaxInclusives
+}
+
+func (*MaxInclusive) GongNewInstance() any {
+	return new(MaxInclusive)
+}
+
+func (*MaxLength) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MaxLengths, stage.MaxLength_stagedOrder)
+}
+
+func (*MaxLength) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MaxLength_orderStaged[order]
+}
+
+func (*MaxLength) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MaxLengths_mapString
+}
+
+func (*MaxLength) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MaxLengths
+}
+
+func (*MaxLength) GongNewInstance() any {
+	return new(MaxLength)
+}
+
+func (*MinInclusive) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MinInclusives, stage.MinInclusive_stagedOrder)
+}
+
+func (*MinInclusive) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MinInclusive_orderStaged[order]
+}
+
+func (*MinInclusive) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MinInclusives_mapString
+}
+
+func (*MinInclusive) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MinInclusives
+}
+
+func (*MinInclusive) GongNewInstance() any {
+	return new(MinInclusive)
+}
+
+func (*MinLength) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MinLengths, stage.MinLength_stagedOrder)
+}
+
+func (*MinLength) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MinLength_orderStaged[order]
+}
+
+func (*MinLength) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MinLengths_mapString
+}
+
+func (*MinLength) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MinLengths
+}
+
+func (*MinLength) GongNewInstance() any {
+	return new(MinLength)
+}
+
+func (*Pattern) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Patterns, stage.Pattern_stagedOrder)
+}
+
+func (*Pattern) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Pattern_orderStaged[order]
+}
+
+func (*Pattern) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Patterns_mapString
+}
+
+func (*Pattern) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Patterns
+}
+
+func (*Pattern) GongNewInstance() any {
+	return new(Pattern)
+}
+
+func (*Restriction) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Restrictions, stage.Restriction_stagedOrder)
+}
+
+func (*Restriction) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Restriction_orderStaged[order]
+}
+
+func (*Restriction) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Restrictions_mapString
+}
+
+func (*Restriction) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Restrictions
+}
+
+func (*Restriction) GongNewInstance() any {
+	return new(Restriction)
+}
+
+func (*Schema) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Schemas, stage.Schema_stagedOrder)
+}
+
+func (*Schema) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Schema_orderStaged[order]
+}
+
+func (*Schema) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Schemas_mapString
+}
+
+func (*Schema) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Schemas
+}
+
+func (*Schema) GongNewInstance() any {
+	return new(Schema)
+}
+
+func (*Sequence) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Sequences, stage.Sequence_stagedOrder)
+}
+
+func (*Sequence) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Sequence_orderStaged[order]
+}
+
+func (*Sequence) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Sequences_mapString
+}
+
+func (*Sequence) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Sequences
+}
+
+func (*Sequence) GongNewInstance() any {
+	return new(Sequence)
+}
+
+func (*SimpleContent) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SimpleContents, stage.SimpleContent_stagedOrder)
+}
+
+func (*SimpleContent) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SimpleContent_orderStaged[order]
+}
+
+func (*SimpleContent) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SimpleContents_mapString
+}
+
+func (*SimpleContent) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SimpleContents
+}
+
+func (*SimpleContent) GongNewInstance() any {
+	return new(SimpleContent)
+}
+
+func (*SimpleType) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.SimpleTypes, stage.SimpleType_stagedOrder)
+}
+
+func (*SimpleType) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.SimpleType_orderStaged[order]
+}
+
+func (*SimpleType) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.SimpleTypes_mapString
+}
+
+func (*SimpleType) GongGetInstancesSet(stage *Stage) any {
+	return &stage.SimpleTypes
+}
+
+func (*SimpleType) GongNewInstance() any {
+	return new(SimpleType)
+}
+
+func (*TotalDigit) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.TotalDigits, stage.TotalDigit_stagedOrder)
+}
+
+func (*TotalDigit) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.TotalDigit_orderStaged[order]
+}
+
+func (*TotalDigit) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.TotalDigits_mapString
+}
+
+func (*TotalDigit) GongGetInstancesSet(stage *Stage) any {
+	return &stage.TotalDigits
+}
+
+func (*TotalDigit) GongNewInstance() any {
+	return new(TotalDigit)
+}
+
+func (*Union) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Unions, stage.Union_stagedOrder)
+}
+
+func (*Union) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Union_orderStaged[order]
+}
+
+func (*Union) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Unions_mapString
+}
+
+func (*Union) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Unions
+}
+
+func (*Union) GongNewInstance() any {
+	return new(Union)
+}
+
+func (*WhiteSpace) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.WhiteSpaces, stage.WhiteSpace_stagedOrder)
+}
+
+func (*WhiteSpace) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.WhiteSpace_orderStaged[order]
+}
+
+func (*WhiteSpace) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.WhiteSpaces_mapString
+}
+
+func (*WhiteSpace) GongGetInstancesSet(stage *Stage) any {
+	return &stage.WhiteSpaces
+}
+
+func (*WhiteSpace) GongNewInstance() any {
+	return new(WhiteSpace)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *All:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Alls, stage.All_stagedOrder))
-	case *Annotation:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Annotations, stage.Annotation_stagedOrder))
-	case *Attribute:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Attributes, stage.Attribute_stagedOrder))
-	case *AttributeGroup:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.AttributeGroups, stage.AttributeGroup_stagedOrder))
-	case *Choice:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Choices, stage.Choice_stagedOrder))
-	case *ComplexContent:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ComplexContents, stage.ComplexContent_stagedOrder))
-	case *ComplexType:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.ComplexTypes, stage.ComplexType_stagedOrder))
-	case *Documentation:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Documentations, stage.Documentation_stagedOrder))
-	case *Element:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Elements, stage.Element_stagedOrder))
-	case *Enumeration:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Enumerations, stage.Enumeration_stagedOrder))
-	case *Extension:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Extensions, stage.Extension_stagedOrder))
-	case *Group:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder))
-	case *Length:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Lengths, stage.Length_stagedOrder))
-	case *MaxInclusive:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MaxInclusives, stage.MaxInclusive_stagedOrder))
-	case *MaxLength:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MaxLengths, stage.MaxLength_stagedOrder))
-	case *MinInclusive:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MinInclusives, stage.MinInclusive_stagedOrder))
-	case *MinLength:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.MinLengths, stage.MinLength_stagedOrder))
-	case *Pattern:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Patterns, stage.Pattern_stagedOrder))
-	case *Restriction:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Restrictions, stage.Restriction_stagedOrder))
-	case *Schema:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Schemas, stage.Schema_stagedOrder))
-	case *Sequence:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Sequences, stage.Sequence_stagedOrder))
-	case *SimpleContent:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SimpleContents, stage.SimpleContent_stagedOrder))
-	case *SimpleType:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.SimpleTypes, stage.SimpleType_stagedOrder))
-	case *TotalDigit:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.TotalDigits, stage.TotalDigit_stagedOrder))
-	case *Union:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Unions, stage.Union_stagedOrder))
-	case *WhiteSpace:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.WhiteSpaces, stage.WhiteSpace_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -1288,64 +1757,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *All:
-		return any(stage.All_orderStaged[order]).(Type)
-	case *Annotation:
-		return any(stage.Annotation_orderStaged[order]).(Type)
-	case *Attribute:
-		return any(stage.Attribute_orderStaged[order]).(Type)
-	case *AttributeGroup:
-		return any(stage.AttributeGroup_orderStaged[order]).(Type)
-	case *Choice:
-		return any(stage.Choice_orderStaged[order]).(Type)
-	case *ComplexContent:
-		return any(stage.ComplexContent_orderStaged[order]).(Type)
-	case *ComplexType:
-		return any(stage.ComplexType_orderStaged[order]).(Type)
-	case *Documentation:
-		return any(stage.Documentation_orderStaged[order]).(Type)
-	case *Element:
-		return any(stage.Element_orderStaged[order]).(Type)
-	case *Enumeration:
-		return any(stage.Enumeration_orderStaged[order]).(Type)
-	case *Extension:
-		return any(stage.Extension_orderStaged[order]).(Type)
-	case *Group:
-		return any(stage.Group_orderStaged[order]).(Type)
-	case *Length:
-		return any(stage.Length_orderStaged[order]).(Type)
-	case *MaxInclusive:
-		return any(stage.MaxInclusive_orderStaged[order]).(Type)
-	case *MaxLength:
-		return any(stage.MaxLength_orderStaged[order]).(Type)
-	case *MinInclusive:
-		return any(stage.MinInclusive_orderStaged[order]).(Type)
-	case *MinLength:
-		return any(stage.MinLength_orderStaged[order]).(Type)
-	case *Pattern:
-		return any(stage.Pattern_orderStaged[order]).(Type)
-	case *Restriction:
-		return any(stage.Restriction_orderStaged[order]).(Type)
-	case *Schema:
-		return any(stage.Schema_orderStaged[order]).(Type)
-	case *Sequence:
-		return any(stage.Sequence_orderStaged[order]).(Type)
-	case *SimpleContent:
-		return any(stage.SimpleContent_orderStaged[order]).(Type)
-	case *SimpleType:
-		return any(stage.SimpleType_orderStaged[order]).(Type)
-	case *TotalDigit:
-		return any(stage.TotalDigit_orderStaged[order]).(Type)
-	case *Union:
-		return any(stage.Union_orderStaged[order]).(Type)
-	case *WhiteSpace:
-		return any(stage.WhiteSpace_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -2571,7 +2991,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -2603,6 +3025,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -2634,173 +3063,72 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *All:
-		return any(stage.Alls_mapString).(map[string]Type)
-	case *Annotation:
-		return any(stage.Annotations_mapString).(map[string]Type)
-	case *Attribute:
-		return any(stage.Attributes_mapString).(map[string]Type)
-	case *AttributeGroup:
-		return any(stage.AttributeGroups_mapString).(map[string]Type)
-	case *Choice:
-		return any(stage.Choices_mapString).(map[string]Type)
-	case *ComplexContent:
-		return any(stage.ComplexContents_mapString).(map[string]Type)
-	case *ComplexType:
-		return any(stage.ComplexTypes_mapString).(map[string]Type)
-	case *Documentation:
-		return any(stage.Documentations_mapString).(map[string]Type)
-	case *Element:
-		return any(stage.Elements_mapString).(map[string]Type)
-	case *Enumeration:
-		return any(stage.Enumerations_mapString).(map[string]Type)
-	case *Extension:
-		return any(stage.Extensions_mapString).(map[string]Type)
-	case *Group:
-		return any(stage.Groups_mapString).(map[string]Type)
-	case *Length:
-		return any(stage.Lengths_mapString).(map[string]Type)
-	case *MaxInclusive:
-		return any(stage.MaxInclusives_mapString).(map[string]Type)
-	case *MaxLength:
-		return any(stage.MaxLengths_mapString).(map[string]Type)
-	case *MinInclusive:
-		return any(stage.MinInclusives_mapString).(map[string]Type)
-	case *MinLength:
-		return any(stage.MinLengths_mapString).(map[string]Type)
-	case *Pattern:
-		return any(stage.Patterns_mapString).(map[string]Type)
-	case *Restriction:
-		return any(stage.Restrictions_mapString).(map[string]Type)
-	case *Schema:
-		return any(stage.Schemas_mapString).(map[string]Type)
-	case *Sequence:
-		return any(stage.Sequences_mapString).(map[string]Type)
-	case *SimpleContent:
-		return any(stage.SimpleContents_mapString).(map[string]Type)
-	case *SimpleType:
-		return any(stage.SimpleTypes_mapString).(map[string]Type)
-	case *TotalDigit:
-		return any(stage.TotalDigits_mapString).(map[string]Type)
-	case *Union:
-		return any(stage.Unions_mapString).(map[string]Type)
-	case *WhiteSpace:
-		return any(stage.WhiteSpaces_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *All:
-		return any(&stage.Alls).(*map[Type]struct{})
-	case *Annotation:
-		return any(&stage.Annotations).(*map[Type]struct{})
-	case *Attribute:
-		return any(&stage.Attributes).(*map[Type]struct{})
-	case *AttributeGroup:
-		return any(&stage.AttributeGroups).(*map[Type]struct{})
-	case *Choice:
-		return any(&stage.Choices).(*map[Type]struct{})
-	case *ComplexContent:
-		return any(&stage.ComplexContents).(*map[Type]struct{})
-	case *ComplexType:
-		return any(&stage.ComplexTypes).(*map[Type]struct{})
-	case *Documentation:
-		return any(&stage.Documentations).(*map[Type]struct{})
-	case *Element:
-		return any(&stage.Elements).(*map[Type]struct{})
-	case *Enumeration:
-		return any(&stage.Enumerations).(*map[Type]struct{})
-	case *Extension:
-		return any(&stage.Extensions).(*map[Type]struct{})
-	case *Group:
-		return any(&stage.Groups).(*map[Type]struct{})
-	case *Length:
-		return any(&stage.Lengths).(*map[Type]struct{})
-	case *MaxInclusive:
-		return any(&stage.MaxInclusives).(*map[Type]struct{})
-	case *MaxLength:
-		return any(&stage.MaxLengths).(*map[Type]struct{})
-	case *MinInclusive:
-		return any(&stage.MinInclusives).(*map[Type]struct{})
-	case *MinLength:
-		return any(&stage.MinLengths).(*map[Type]struct{})
-	case *Pattern:
-		return any(&stage.Patterns).(*map[Type]struct{})
-	case *Restriction:
-		return any(&stage.Restrictions).(*map[Type]struct{})
-	case *Schema:
-		return any(&stage.Schemas).(*map[Type]struct{})
-	case *Sequence:
-		return any(&stage.Sequences).(*map[Type]struct{})
-	case *SimpleContent:
-		return any(&stage.SimpleContents).(*map[Type]struct{})
-	case *SimpleType:
-		return any(&stage.SimpleTypes).(*map[Type]struct{})
-	case *TotalDigit:
-		return any(&stage.TotalDigits).(*map[Type]struct{})
-	case *Union:
-		return any(&stage.Unions).(*map[Type]struct{})
-	case *WhiteSpace:
-		return any(&stage.WhiteSpaces).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
+	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
+}
+
+// insertion point for instance with special fields
+func (All) GongGetAssociationName() any {
+	return &All{
+			Annotation: &Annotation{Name: "Annotation"},
+			Sequences: []*Sequence{{Name: "Sequences"}},
+			Alls: []*All{{Name: "Alls"}},
+			Choices: []*Choice{{Name: "Choices"}},
+			Groups: []*Group{{Name: "Groups"}},
+			Elements: []*Element{{Name: "Elements"}},
 	}
 }
 
-// GongGetAssociationName is a generic function that returns an instance of Type
-// where each association is filled with an instance whose name is the name of the association
-//
-// This function can be handy for generating navigation function that are refactorable
-func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case All:
-		return any(&All{
-			Annotation: &Annotation{Name: "Annotation"},
-			Sequences: []*Sequence{{Name: "Sequences"}},
-			Alls: []*All{{Name: "Alls"}},
-			Choices: []*Choice{{Name: "Choices"}},
-			Groups: []*Group{{Name: "Groups"}},
-			Elements: []*Element{{Name: "Elements"}},
-		}).(*Type)
-	case Annotation:
-		return any(&Annotation{
+func (Annotation) GongGetAssociationName() any {
+	return &Annotation{
 			Documentations: []*Documentation{{Name: "Documentations"}},
-		}).(*Type)
-	case Attribute:
-		return any(&Attribute{
+	}
+}
+
+func (Attribute) GongGetAssociationName() any {
+	return &Attribute{
 			Annotation: &Annotation{Name: "Annotation"},
-		}).(*Type)
-	case AttributeGroup:
-		return any(&AttributeGroup{
+	}
+}
+
+func (AttributeGroup) GongGetAssociationName() any {
+	return &AttributeGroup{
 			Annotation: &Annotation{Name: "Annotation"},
 			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
 			Attributes: []*Attribute{{Name: "Attributes"}},
-		}).(*Type)
-	case Choice:
-		return any(&Choice{
+	}
+}
+
+func (Choice) GongGetAssociationName() any {
+	return &Choice{
 			Annotation: &Annotation{Name: "Annotation"},
 			Sequences: []*Sequence{{Name: "Sequences"}},
 			Alls: []*All{{Name: "Alls"}},
 			Choices: []*Choice{{Name: "Choices"}},
 			Groups: []*Group{{Name: "Groups"}},
 			Elements: []*Element{{Name: "Elements"}},
-		}).(*Type)
-	case ComplexType:
-		return any(&ComplexType{
+	}
+}
+
+func (ComplexContent) GongGetAssociationName() any {
+	return &ComplexContent{
+	}
+}
+
+func (ComplexType) GongGetAssociationName() any {
+	return &ComplexType{
 			OuterElement: &Element{Name: "OuterElement"},
 			Annotation: &Annotation{Name: "Annotation"},
 			Sequences: []*Sequence{{Name: "Sequences"}},
@@ -2813,20 +3141,31 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			ComplexContent: &ComplexContent{Name: "ComplexContent"},
 			Attributes: []*Attribute{{Name: "Attributes"}},
 			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
-		}).(*Type)
-	case Element:
-		return any(&Element{
+	}
+}
+
+func (Documentation) GongGetAssociationName() any {
+	return &Documentation{
+	}
+}
+
+func (Element) GongGetAssociationName() any {
+	return &Element{
 			Annotation: &Annotation{Name: "Annotation"},
 			SimpleType: &SimpleType{Name: "SimpleType"},
 			ComplexType: &ComplexType{Name: "ComplexType"},
 			Groups: []*Group{{Name: "Groups"}},
-		}).(*Type)
-	case Enumeration:
-		return any(&Enumeration{
+	}
+}
+
+func (Enumeration) GongGetAssociationName() any {
+	return &Enumeration{
 			Annotation: &Annotation{Name: "Annotation"},
-		}).(*Type)
-	case Extension:
-		return any(&Extension{
+	}
+}
+
+func (Extension) GongGetAssociationName() any {
+	return &Extension{
 			Sequences: []*Sequence{{Name: "Sequences"}},
 			Alls: []*All{{Name: "Alls"}},
 			Choices: []*Choice{{Name: "Choices"}},
@@ -2834,9 +3173,11 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Elements: []*Element{{Name: "Elements"}},
 			Attributes: []*Attribute{{Name: "Attributes"}},
 			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
-		}).(*Type)
-	case Group:
-		return any(&Group{
+	}
+}
+
+func (Group) GongGetAssociationName() any {
+	return &Group{
 			Annotation: &Annotation{Name: "Annotation"},
 			OuterElement: &Element{Name: "OuterElement"},
 			Sequences: []*Sequence{{Name: "Sequences"}},
@@ -2844,33 +3185,47 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			Choices: []*Choice{{Name: "Choices"}},
 			Groups: []*Group{{Name: "Groups"}},
 			Elements: []*Element{{Name: "Elements"}},
-		}).(*Type)
-	case Length:
-		return any(&Length{
+	}
+}
+
+func (Length) GongGetAssociationName() any {
+	return &Length{
 			Annotation: &Annotation{Name: "Annotation"},
-		}).(*Type)
-	case MaxInclusive:
-		return any(&MaxInclusive{
+	}
+}
+
+func (MaxInclusive) GongGetAssociationName() any {
+	return &MaxInclusive{
 			Annotation: &Annotation{Name: "Annotation"},
-		}).(*Type)
-	case MaxLength:
-		return any(&MaxLength{
+	}
+}
+
+func (MaxLength) GongGetAssociationName() any {
+	return &MaxLength{
 			Annotation: &Annotation{Name: "Annotation"},
-		}).(*Type)
-	case MinInclusive:
-		return any(&MinInclusive{
+	}
+}
+
+func (MinInclusive) GongGetAssociationName() any {
+	return &MinInclusive{
 			Annotation: &Annotation{Name: "Annotation"},
-		}).(*Type)
-	case MinLength:
-		return any(&MinLength{
+	}
+}
+
+func (MinLength) GongGetAssociationName() any {
+	return &MinLength{
 			Annotation: &Annotation{Name: "Annotation"},
-		}).(*Type)
-	case Pattern:
-		return any(&Pattern{
+	}
+}
+
+func (Pattern) GongGetAssociationName() any {
+	return &Pattern{
 			Annotation: &Annotation{Name: "Annotation"},
-		}).(*Type)
-	case Restriction:
-		return any(&Restriction{
+	}
+}
+
+func (Restriction) GongGetAssociationName() any {
+	return &Restriction{
 			Annotation: &Annotation{Name: "Annotation"},
 			Enumerations: []*Enumeration{{Name: "Enumerations"}},
 			MinInclusive: &MinInclusive{Name: "MinInclusive"},
@@ -2881,51 +3236,72 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			MaxLength: &MaxLength{Name: "MaxLength"},
 			Length: &Length{Name: "Length"},
 			TotalDigit: &TotalDigit{Name: "TotalDigit"},
-		}).(*Type)
-	case Schema:
-		return any(&Schema{
+	}
+}
+
+func (Schema) GongGetAssociationName() any {
+	return &Schema{
 			Annotation: &Annotation{Name: "Annotation"},
 			Elements: []*Element{{Name: "Elements"}},
 			SimpleTypes: []*SimpleType{{Name: "SimpleTypes"}},
 			ComplexTypes: []*ComplexType{{Name: "ComplexTypes"}},
 			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
 			Groups: []*Group{{Name: "Groups"}},
-		}).(*Type)
-	case Sequence:
-		return any(&Sequence{
+	}
+}
+
+func (Sequence) GongGetAssociationName() any {
+	return &Sequence{
 			Annotation: &Annotation{Name: "Annotation"},
 			Sequences: []*Sequence{{Name: "Sequences"}},
 			Alls: []*All{{Name: "Alls"}},
 			Choices: []*Choice{{Name: "Choices"}},
 			Groups: []*Group{{Name: "Groups"}},
 			Elements: []*Element{{Name: "Elements"}},
-		}).(*Type)
-	case SimpleContent:
-		return any(&SimpleContent{
+	}
+}
+
+func (SimpleContent) GongGetAssociationName() any {
+	return &SimpleContent{
 			Extension: &Extension{Name: "Extension"},
 			Restriction: &Restriction{Name: "Restriction"},
-		}).(*Type)
-	case SimpleType:
-		return any(&SimpleType{
+	}
+}
+
+func (SimpleType) GongGetAssociationName() any {
+	return &SimpleType{
 			Annotation: &Annotation{Name: "Annotation"},
 			Restriction: &Restriction{Name: "Restriction"},
 			Union: &Union{Name: "Union"},
-		}).(*Type)
-	case TotalDigit:
-		return any(&TotalDigit{
-			Annotation: &Annotation{Name: "Annotation"},
-		}).(*Type)
-	case Union:
-		return any(&Union{
-			Annotation: &Annotation{Name: "Annotation"},
-		}).(*Type)
-	case WhiteSpace:
-		return any(&WhiteSpace{
-			Annotation: &Annotation{Name: "Annotation"},
-		}).(*Type)
-	default:
-		return &ret
 	}
+}
+
+func (TotalDigit) GongGetAssociationName() any {
+	return &TotalDigit{
+			Annotation: &Annotation{Name: "Annotation"},
+	}
+}
+
+func (Union) GongGetAssociationName() any {
+	return &Union{
+			Annotation: &Annotation{Name: "Annotation"},
+	}
+}
+
+func (WhiteSpace) GongGetAssociationName() any {
+	return &WhiteSpace{
+			Annotation: &Annotation{Name: "Annotation"},
+	}
+}
+
+
+// GongGetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GongGetAssociationName[Type Gongstruct]() *Type {
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -4249,64 +4625,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *All:
-		res = any(new(All)).(Type)
-	case *Annotation:
-		res = any(new(Annotation)).(Type)
-	case *Attribute:
-		res = any(new(Attribute)).(Type)
-	case *AttributeGroup:
-		res = any(new(AttributeGroup)).(Type)
-	case *Choice:
-		res = any(new(Choice)).(Type)
-	case *ComplexContent:
-		res = any(new(ComplexContent)).(Type)
-	case *ComplexType:
-		res = any(new(ComplexType)).(Type)
-	case *Documentation:
-		res = any(new(Documentation)).(Type)
-	case *Element:
-		res = any(new(Element)).(Type)
-	case *Enumeration:
-		res = any(new(Enumeration)).(Type)
-	case *Extension:
-		res = any(new(Extension)).(Type)
-	case *Group:
-		res = any(new(Group)).(Type)
-	case *Length:
-		res = any(new(Length)).(Type)
-	case *MaxInclusive:
-		res = any(new(MaxInclusive)).(Type)
-	case *MaxLength:
-		res = any(new(MaxLength)).(Type)
-	case *MinInclusive:
-		res = any(new(MinInclusive)).(Type)
-	case *MinLength:
-		res = any(new(MinLength)).(Type)
-	case *Pattern:
-		res = any(new(Pattern)).(Type)
-	case *Restriction:
-		res = any(new(Restriction)).(Type)
-	case *Schema:
-		res = any(new(Schema)).(Type)
-	case *Sequence:
-		res = any(new(Sequence)).(Type)
-	case *SimpleContent:
-		res = any(new(SimpleContent)).(Type)
-	case *SimpleType:
-		res = any(new(SimpleType)).(Type)
-	case *TotalDigit:
-		res = any(new(TotalDigit)).(Type)
-	case *Union:
-		res = any(new(Union)).(Type)
-	case *WhiteSpace:
-		res = any(new(WhiteSpace)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -4329,64 +4649,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *All:
-		res = "All"
-	case *Annotation:
-		res = "Annotation"
-	case *Attribute:
-		res = "Attribute"
-	case *AttributeGroup:
-		res = "AttributeGroup"
-	case *Choice:
-		res = "Choice"
-	case *ComplexContent:
-		res = "ComplexContent"
-	case *ComplexType:
-		res = "ComplexType"
-	case *Documentation:
-		res = "Documentation"
-	case *Element:
-		res = "Element"
-	case *Enumeration:
-		res = "Enumeration"
-	case *Extension:
-		res = "Extension"
-	case *Group:
-		res = "Group"
-	case *Length:
-		res = "Length"
-	case *MaxInclusive:
-		res = "MaxInclusive"
-	case *MaxLength:
-		res = "MaxLength"
-	case *MinInclusive:
-		res = "MinInclusive"
-	case *MinLength:
-		res = "MinLength"
-	case *Pattern:
-		res = "Pattern"
-	case *Restriction:
-		res = "Restriction"
-	case *Schema:
-		res = "Schema"
-	case *Sequence:
-		res = "Sequence"
-	case *SimpleContent:
-		res = "SimpleContent"
-	case *SimpleType:
-		res = "SimpleType"
-	case *TotalDigit:
-		res = "TotalDigit"
-	case *Union:
-		res = "Union"
-	case *WhiteSpace:
-		res = "WhiteSpace"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -4400,226 +4664,317 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *All:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "All"
-		rf.Fieldname = "Alls"
-		res = append(res, rf)
-		rf.GongstructName = "Choice"
-		rf.Fieldname = "Alls"
-		res = append(res, rf)
-		rf.GongstructName = "ComplexType"
-		rf.Fieldname = "Alls"
-		res = append(res, rf)
-		rf.GongstructName = "Extension"
-		rf.Fieldname = "Alls"
-		res = append(res, rf)
-		rf.GongstructName = "Group"
-		rf.Fieldname = "Alls"
-		res = append(res, rf)
-		rf.GongstructName = "Sequence"
-		rf.Fieldname = "Alls"
-		res = append(res, rf)
-	case *Annotation:
-		var rf ReverseField
-		_ = rf
-	case *Attribute:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "AttributeGroup"
-		rf.Fieldname = "Attributes"
-		res = append(res, rf)
-		rf.GongstructName = "ComplexType"
-		rf.Fieldname = "Attributes"
-		res = append(res, rf)
-		rf.GongstructName = "Extension"
-		rf.Fieldname = "Attributes"
-		res = append(res, rf)
-	case *AttributeGroup:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "AttributeGroup"
-		rf.Fieldname = "AttributeGroups"
-		res = append(res, rf)
-		rf.GongstructName = "ComplexType"
-		rf.Fieldname = "AttributeGroups"
-		res = append(res, rf)
-		rf.GongstructName = "Extension"
-		rf.Fieldname = "AttributeGroups"
-		res = append(res, rf)
-		rf.GongstructName = "Schema"
-		rf.Fieldname = "AttributeGroups"
-		res = append(res, rf)
-	case *Choice:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "All"
-		rf.Fieldname = "Choices"
-		res = append(res, rf)
-		rf.GongstructName = "Choice"
-		rf.Fieldname = "Choices"
-		res = append(res, rf)
-		rf.GongstructName = "ComplexType"
-		rf.Fieldname = "Choices"
-		res = append(res, rf)
-		rf.GongstructName = "Extension"
-		rf.Fieldname = "Choices"
-		res = append(res, rf)
-		rf.GongstructName = "Group"
-		rf.Fieldname = "Choices"
-		res = append(res, rf)
-		rf.GongstructName = "Sequence"
-		rf.Fieldname = "Choices"
-		res = append(res, rf)
-	case *ComplexContent:
-		var rf ReverseField
-		_ = rf
-	case *ComplexType:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Schema"
-		rf.Fieldname = "ComplexTypes"
-		res = append(res, rf)
-	case *Documentation:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Annotation"
-		rf.Fieldname = "Documentations"
-		res = append(res, rf)
-	case *Element:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "All"
-		rf.Fieldname = "Elements"
-		res = append(res, rf)
-		rf.GongstructName = "Choice"
-		rf.Fieldname = "Elements"
-		res = append(res, rf)
-		rf.GongstructName = "ComplexType"
-		rf.Fieldname = "Elements"
-		res = append(res, rf)
-		rf.GongstructName = "Extension"
-		rf.Fieldname = "Elements"
-		res = append(res, rf)
-		rf.GongstructName = "Group"
-		rf.Fieldname = "Elements"
-		res = append(res, rf)
-		rf.GongstructName = "Schema"
-		rf.Fieldname = "Elements"
-		res = append(res, rf)
-		rf.GongstructName = "Sequence"
-		rf.Fieldname = "Elements"
-		res = append(res, rf)
-	case *Enumeration:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Restriction"
-		rf.Fieldname = "Enumerations"
-		res = append(res, rf)
-	case *Extension:
-		var rf ReverseField
-		_ = rf
-	case *Group:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "All"
-		rf.Fieldname = "Groups"
-		res = append(res, rf)
-		rf.GongstructName = "Choice"
-		rf.Fieldname = "Groups"
-		res = append(res, rf)
-		rf.GongstructName = "ComplexType"
-		rf.Fieldname = "Groups"
-		res = append(res, rf)
-		rf.GongstructName = "Element"
-		rf.Fieldname = "Groups"
-		res = append(res, rf)
-		rf.GongstructName = "Extension"
-		rf.Fieldname = "Groups"
-		res = append(res, rf)
-		rf.GongstructName = "Group"
-		rf.Fieldname = "Groups"
-		res = append(res, rf)
-		rf.GongstructName = "Schema"
-		rf.Fieldname = "Groups"
-		res = append(res, rf)
-		rf.GongstructName = "Sequence"
-		rf.Fieldname = "Groups"
-		res = append(res, rf)
-	case *Length:
-		var rf ReverseField
-		_ = rf
-	case *MaxInclusive:
-		var rf ReverseField
-		_ = rf
-	case *MaxLength:
-		var rf ReverseField
-		_ = rf
-	case *MinInclusive:
-		var rf ReverseField
-		_ = rf
-	case *MinLength:
-		var rf ReverseField
-		_ = rf
-	case *Pattern:
-		var rf ReverseField
-		_ = rf
-	case *Restriction:
-		var rf ReverseField
-		_ = rf
-	case *Schema:
-		var rf ReverseField
-		_ = rf
-	case *Sequence:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "All"
-		rf.Fieldname = "Sequences"
-		res = append(res, rf)
-		rf.GongstructName = "Choice"
-		rf.Fieldname = "Sequences"
-		res = append(res, rf)
-		rf.GongstructName = "ComplexType"
-		rf.Fieldname = "Sequences"
-		res = append(res, rf)
-		rf.GongstructName = "Extension"
-		rf.Fieldname = "Sequences"
-		res = append(res, rf)
-		rf.GongstructName = "Group"
-		rf.Fieldname = "Sequences"
-		res = append(res, rf)
-		rf.GongstructName = "Sequence"
-		rf.Fieldname = "Sequences"
-		res = append(res, rf)
-	case *SimpleContent:
-		var rf ReverseField
-		_ = rf
-	case *SimpleType:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Schema"
-		rf.Fieldname = "SimpleTypes"
-		res = append(res, rf)
-	case *TotalDigit:
-		var rf ReverseField
-		_ = rf
-	case *Union:
-		var rf ReverseField
-		_ = rf
-	case *WhiteSpace:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*All) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "All",
+			Fieldname: "Alls",
+		},
+		{
+			GongstructName: "Choice",
+			Fieldname: "Alls",
+		},
+		{
+			GongstructName: "ComplexType",
+			Fieldname: "Alls",
+		},
+		{
+			GongstructName: "Extension",
+			Fieldname: "Alls",
+		},
+		{
+			GongstructName: "Group",
+			Fieldname: "Alls",
+		},
+		{
+			GongstructName: "Sequence",
+			Fieldname: "Alls",
+		},
 	}
-	return
+}
+
+func (*Annotation) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Attribute) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "AttributeGroup",
+			Fieldname: "Attributes",
+		},
+		{
+			GongstructName: "ComplexType",
+			Fieldname: "Attributes",
+		},
+		{
+			GongstructName: "Extension",
+			Fieldname: "Attributes",
+		},
+	}
+}
+
+func (*AttributeGroup) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "AttributeGroup",
+			Fieldname: "AttributeGroups",
+		},
+		{
+			GongstructName: "ComplexType",
+			Fieldname: "AttributeGroups",
+		},
+		{
+			GongstructName: "Extension",
+			Fieldname: "AttributeGroups",
+		},
+		{
+			GongstructName: "Schema",
+			Fieldname: "AttributeGroups",
+		},
+	}
+}
+
+func (*Choice) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "All",
+			Fieldname: "Choices",
+		},
+		{
+			GongstructName: "Choice",
+			Fieldname: "Choices",
+		},
+		{
+			GongstructName: "ComplexType",
+			Fieldname: "Choices",
+		},
+		{
+			GongstructName: "Extension",
+			Fieldname: "Choices",
+		},
+		{
+			GongstructName: "Group",
+			Fieldname: "Choices",
+		},
+		{
+			GongstructName: "Sequence",
+			Fieldname: "Choices",
+		},
+	}
+}
+
+func (*ComplexContent) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*ComplexType) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Schema",
+			Fieldname: "ComplexTypes",
+		},
+	}
+}
+
+func (*Documentation) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Annotation",
+			Fieldname: "Documentations",
+		},
+	}
+}
+
+func (*Element) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "All",
+			Fieldname: "Elements",
+		},
+		{
+			GongstructName: "Choice",
+			Fieldname: "Elements",
+		},
+		{
+			GongstructName: "ComplexType",
+			Fieldname: "Elements",
+		},
+		{
+			GongstructName: "Extension",
+			Fieldname: "Elements",
+		},
+		{
+			GongstructName: "Group",
+			Fieldname: "Elements",
+		},
+		{
+			GongstructName: "Schema",
+			Fieldname: "Elements",
+		},
+		{
+			GongstructName: "Sequence",
+			Fieldname: "Elements",
+		},
+	}
+}
+
+func (*Enumeration) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Restriction",
+			Fieldname: "Enumerations",
+		},
+	}
+}
+
+func (*Extension) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Group) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "All",
+			Fieldname: "Groups",
+		},
+		{
+			GongstructName: "Choice",
+			Fieldname: "Groups",
+		},
+		{
+			GongstructName: "ComplexType",
+			Fieldname: "Groups",
+		},
+		{
+			GongstructName: "Element",
+			Fieldname: "Groups",
+		},
+		{
+			GongstructName: "Extension",
+			Fieldname: "Groups",
+		},
+		{
+			GongstructName: "Group",
+			Fieldname: "Groups",
+		},
+		{
+			GongstructName: "Schema",
+			Fieldname: "Groups",
+		},
+		{
+			GongstructName: "Sequence",
+			Fieldname: "Groups",
+		},
+	}
+}
+
+func (*Length) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*MaxInclusive) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*MaxLength) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*MinInclusive) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*MinLength) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Pattern) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Restriction) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Schema) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Sequence) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "All",
+			Fieldname: "Sequences",
+		},
+		{
+			GongstructName: "Choice",
+			Fieldname: "Sequences",
+		},
+		{
+			GongstructName: "ComplexType",
+			Fieldname: "Sequences",
+		},
+		{
+			GongstructName: "Extension",
+			Fieldname: "Sequences",
+		},
+		{
+			GongstructName: "Group",
+			Fieldname: "Sequences",
+		},
+		{
+			GongstructName: "Sequence",
+			Fieldname: "Sequences",
+		},
+	}
+}
+
+func (*SimpleContent) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*SimpleType) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Schema",
+			Fieldname: "SimpleTypes",
+		},
+	}
+}
+
+func (*TotalDigit) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Union) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*WhiteSpace) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

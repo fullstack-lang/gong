@@ -61,7 +61,6 @@ func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 		stage.OnAfterRowUpdateCallback = new(RowOrchestrator)
 	case Table:
 		stage.OnAfterTableUpdateCallback = new(TableOrchestrator)
-
 	}
 
 }

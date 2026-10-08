@@ -48,7 +48,6 @@ func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 		stage.OnAfterFormGroupUpdateCallback = new(FormGroupOrchestrator)
 	case FormSortAssocButton:
 		stage.OnAfterFormSortAssocButtonUpdateCallback = new(FormSortAssocButtonOrchestrator)
-
 	}
 
 }

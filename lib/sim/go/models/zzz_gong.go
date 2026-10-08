@@ -344,27 +344,136 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
+// insertion point for stage ops
+func (*Command) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Commands, stage.Command_stagedOrder)
+}
+
+func (*Command) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Command_orderStaged[order]
+}
+
+func (*Command) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Commands_mapString
+}
+
+func (*Command) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Commands
+}
+
+func (*Command) GongNewInstance() any {
+	return new(Command)
+}
+
+func (*DummyAgent) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DummyAgents, stage.DummyAgent_stagedOrder)
+}
+
+func (*DummyAgent) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DummyAgent_orderStaged[order]
+}
+
+func (*DummyAgent) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DummyAgents_mapString
+}
+
+func (*DummyAgent) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DummyAgents
+}
+
+func (*DummyAgent) GongNewInstance() any {
+	return new(DummyAgent)
+}
+
+func (*Engine) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Engines, stage.Engine_stagedOrder)
+}
+
+func (*Engine) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Engine_orderStaged[order]
+}
+
+func (*Engine) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Engines_mapString
+}
+
+func (*Engine) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Engines
+}
+
+func (*Engine) GongNewInstance() any {
+	return new(Engine)
+}
+
+func (*Event) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Events, stage.Event_stagedOrder)
+}
+
+func (*Event) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Event_orderStaged[order]
+}
+
+func (*Event) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Events_mapString
+}
+
+func (*Event) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Events
+}
+
+func (*Event) GongNewInstance() any {
+	return new(Event)
+}
+
+func (*Status) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Statuss, stage.Status_stagedOrder)
+}
+
+func (*Status) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Status_orderStaged[order]
+}
+
+func (*Status) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Statuss_mapString
+}
+
+func (*Status) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Statuss
+}
+
+func (*Status) GongNewInstance() any {
+	return new(Status)
+}
+
+func (*UpdateState) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.UpdateStates, stage.UpdateState_stagedOrder)
+}
+
+func (*UpdateState) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.UpdateState_orderStaged[order]
+}
+
+func (*UpdateState) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.UpdateStates_mapString
+}
+
+func (*UpdateState) GongGetInstancesSet(stage *Stage) any {
+	return &stage.UpdateStates
+}
+
+func (*UpdateState) GongNewInstance() any {
+	return new(UpdateState)
+}
+
+
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
-	var t T
-	switch any(t).(type) {
-	// insertion point for case
-	case *Command:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Commands, stage.Command_stagedOrder))
-	case *DummyAgent:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.DummyAgents, stage.DummyAgent_stagedOrder))
-	case *Engine:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Engines, stage.Engine_stagedOrder))
-	case *Event:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Events, stage.Event_stagedOrder))
-	case *Status:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.Statuss, stage.Status_stagedOrder))
-	case *UpdateState:
-		return __gong__castSlice[T](__gong__getStructInstancesByOrder(stage.UpdateStates, stage.UpdateState_stagedOrder))
-
+	if stage == nil {
+		return nil
 	}
-	return
+	var t T
+	return t.GongGetInstancesByOrder(stage).([]T)
 }
 
 func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -620,24 +729,15 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
 func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
-	var t Type
-	switch any(t).(type) {
-	// insertion point for order map initialisations
-	case *Command:
-		return any(stage.Command_orderStaged[order]).(Type)
-	case *DummyAgent:
-		return any(stage.DummyAgent_orderStaged[order]).(Type)
-	case *Engine:
-		return any(stage.Engine_orderStaged[order]).(Type)
-	case *Event:
-		return any(stage.Event_orderStaged[order]).(Type)
-	case *Status:
-		return any(stage.Status_orderStaged[order]).(Type)
-	case *UpdateState:
-		return any(stage.UpdateState_orderStaged[order]).(Type)
-	default:
-		return // should not happen
+	if stage == nil {
+		return
 	}
+	var t Type
+	val := t.GongGetInstanceFromOrder(stage, order)
+	if val != nil {
+		res = val.(Type)
+	}
+	return
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
@@ -1003,7 +1103,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct any
+type Gongstruct interface {
+	GongGetAssociationName() any
+}
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -1035,6 +1137,13 @@ type GongstructIF interface {
 	GongIsStaged(stage *Stage) bool
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
+
+	GongGetInstancesByOrder(stage *Stage) any
+	GongGetInstanceFromOrder(stage *Stage, order uint) any
+	GongGetInstancesMapByName(stage *Stage) any
+	GongGetInstancesSet(stage *Stage) any
+	GongNewInstance() any
+	GongGetReverseFields() []GongReverseField
 }
 type GongstructPtr interface {
 	GongstructIF
@@ -1066,66 +1175,62 @@ func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Command:
-		return any(stage.Commands_mapString).(map[string]Type)
-	case *DummyAgent:
-		return any(stage.DummyAgents_mapString).(map[string]Type)
-	case *Engine:
-		return any(stage.Engines_mapString).(map[string]Type)
-	case *Event:
-		return any(stage.Events_mapString).(map[string]Type)
-	case *Status:
-		return any(stage.Statuss_mapString).(map[string]Type)
-	case *UpdateState:
-		return any(stage.UpdateStates_mapString).(map[string]Type)
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case *Command:
-		return any(&stage.Commands).(*map[Type]struct{})
-	case *DummyAgent:
-		return any(&stage.DummyAgents).(*map[Type]struct{})
-	case *Engine:
-		return any(&stage.Engines).(*map[Type]struct{})
-	case *Event:
-		return any(&stage.Events).(*map[Type]struct{})
-	case *Status:
-		return any(&stage.Statuss).(*map[Type]struct{})
-	case *UpdateState:
-		return any(&stage.UpdateStates).(*map[Type]struct{})
-	default:
+	if stage == nil {
 		return nil
 	}
+	var t Type
+	return t.GongGetInstancesSet(stage).(*map[Type]struct{})
 }
+
+// insertion point for instance with special fields
+func (Command) GongGetAssociationName() any {
+	return &Command{
+			Engine: &Engine{Name: "Engine"},
+	}
+}
+
+func (DummyAgent) GongGetAssociationName() any {
+	return &DummyAgent{
+	}
+}
+
+func (Engine) GongGetAssociationName() any {
+	return &Engine{
+	}
+}
+
+func (Event) GongGetAssociationName() any {
+	return &Event{
+	}
+}
+
+func (Status) GongGetAssociationName() any {
+	return &Status{
+	}
+}
+
+func (UpdateState) GongGetAssociationName() any {
+	return &UpdateState{
+	}
+}
+
 
 // GongGetAssociationName is a generic function that returns an instance of Type
 // where each association is filled with an instance whose name is the name of the association
 //
 // This function can be handy for generating navigation function that are refactorable
 func GongGetAssociationName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for instance with special fields
-	case Command:
-		return any(&Command{
-			Engine: &Engine{Name: "Engine"},
-		}).(*Type)
-	default:
-		return &ret
-	}
+	var t Type
+	return t.GongGetAssociationName().(*Type)
 }
 
 // GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
@@ -1234,24 +1339,8 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 
 // GongNewInstance creates a new instance of the Gongstruct
 func GongNewInstance[Type GongstructPtr]() (res Type) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic new instance
-	case *Command:
-		res = any(new(Command)).(Type)
-	case *DummyAgent:
-		res = any(new(DummyAgent)).(Type)
-	case *Engine:
-		res = any(new(Engine)).(Type)
-	case *Event:
-		res = any(new(Event)).(Type)
-	case *Status:
-		res = any(new(Status)).(Type)
-	case *UpdateState:
-		res = any(new(UpdateState)).(Type)
-	}
-	return res
+	var t Type
+	return t.GongNewInstance().(Type)
 }
 
 func NewInstance[Type GongstructPtr]() (res Type) {
@@ -1274,24 +1363,8 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *Command:
-		res = "Command"
-	case *DummyAgent:
-		res = "DummyAgent"
-	case *Engine:
-		res = "Engine"
-	case *Event:
-		res = "Event"
-	case *Status:
-		res = "Status"
-	case *UpdateState:
-		res = "UpdateState"
-	}
-	return res
+	var t Type
+	return t.GongGetGongstructName()
 }
 
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
@@ -1305,34 +1378,41 @@ type GongReverseField struct {
 
 type ReverseField = GongReverseField
 
-func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
-	res = make([]GongReverseField, 0)
-
-	var ret Type
-
-	switch any(ret).(type) {
-
-	// insertion point for generic get gongstruct name
-	case *Command:
-		var rf ReverseField
-		_ = rf
-	case *DummyAgent:
-		var rf ReverseField
-		_ = rf
-	case *Engine:
-		var rf ReverseField
-		_ = rf
-	case *Event:
-		var rf ReverseField
-		_ = rf
-	case *Status:
-		var rf ReverseField
-		_ = rf
-	case *UpdateState:
-		var rf ReverseField
-		_ = rf
+// insertion point for generic get reverse fields
+func (*Command) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
 	}
-	return
+}
+
+func (*DummyAgent) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Engine) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Event) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*Status) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*UpdateState) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	var t Type
+	return t.GongGetReverseFields()
 }
 
 func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {

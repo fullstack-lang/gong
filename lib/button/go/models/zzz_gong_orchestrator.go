@@ -35,7 +35,6 @@ func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 		stage.OnAfterButtonUpdateCallback = new(ButtonOrchestrator)
 	case ButtonToggle:
 		stage.OnAfterButtonToggleUpdateCallback = new(ButtonToggleOrchestrator)
-
 	}
 
 }
