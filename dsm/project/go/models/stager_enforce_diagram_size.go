@@ -191,6 +191,9 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 			dateMargin := dateYOffset + textHeight + 5.0
 			yTimeLine := diagram.YTopMargin + diagram.LaneHeight*float64(nbVisibleTaskGroups)
 			timeDiagramHeight := yTimeLine + dateMargin
+			if diagram.HasSecondaryTimeScale() {
+				timeDiagramHeight += dateMargin
+			}
 			height = timeDiagramHeight
 
 			// If any visible shape extends below timeDiagramHeight, expand diagram height to fit it

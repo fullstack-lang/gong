@@ -40,6 +40,9 @@ func TestMilestoneVerticalOffset(t *testing.T) {
 	}).Stage(stage)
 	taskGroup.Tasks = []*models.Task{milestoneTask}
 	lib.RootTasks = []*models.Task{milestoneTask}
+	for _, d := range stage.GetInstancesSorted[*models.Diagram]() {
+		d.IsChecked = false
+	}
 
 	diag := (&models.Diagram{
 		Name:                      "Gantt",

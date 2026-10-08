@@ -46,6 +46,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("DrawVerticalTimeLines", instanceWithInferedType.DrawVerticalTimeLines, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("DrawSecondaryVerticalTimeLines", instanceWithInferedType.DrawSecondaryVerticalTimeLines, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("HideWeekendsPeriod", instanceWithInferedType.HideWeekendsPeriod, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("UseManualStartAndEndDates", instanceWithInferedType.UseManualStartAndEndDates, instanceWithInferedType, probe.formStage, formGroup,
@@ -57,6 +59,9 @@ func FillUpForm(
 		BasicFieldtoForm("TimeStep", instanceWithInferedType.TimeStep, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		EnumTypeStringToForm("TimeStepScale", instanceWithInferedType.TimeStepScale, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("SecondaryTimeStep", instanceWithInferedType.SecondaryTimeStep, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		EnumTypeStringToForm("SecondaryTimeStepScale", instanceWithInferedType.SecondaryTimeStepScale, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("LaneHeight", instanceWithInferedType.LaneHeight, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RatioBarToLaneHeight", instanceWithInferedType.RatioBarToLaneHeight, instanceWithInferedType, probe.formStage, formGroup,

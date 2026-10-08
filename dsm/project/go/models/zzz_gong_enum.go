@@ -504,6 +504,8 @@ func (timestepscaleenum TimeStepScaleEnum) ToString() (res string) {
 	// migration of former implementation of enum
 	switch timestepscaleenum {
 	// insertion code per enum code
+	case NONE:
+		res = "NONE"
 	case YEARS:
 		res = "YEARS"
 	case MONTHS:
@@ -520,6 +522,9 @@ func (timestepscaleenum *TimeStepScaleEnum) FromString(input string) (err error)
 
 	switch input {
 	// insertion code per enum code
+	case "NONE":
+		*timestepscaleenum = NONE
+		return
 	case "YEARS":
 		*timestepscaleenum = YEARS
 		return
@@ -541,6 +546,8 @@ func (timestepscaleenum *TimeStepScaleEnum) FromCodeString(input string) (err er
 
 	switch input {
 	// insertion code per enum code
+	case "NONE":
+		*timestepscaleenum = NONE
 	case "YEARS":
 		*timestepscaleenum = YEARS
 	case "MONTHS":
@@ -559,6 +566,8 @@ func (timestepscaleenum *TimeStepScaleEnum) ToCodeString() (res string) {
 
 	switch *timestepscaleenum {
 	// insertion code per enum code
+	case NONE:
+		res = "NONE"
 	case YEARS:
 		res = "YEARS"
 	case MONTHS:
@@ -576,6 +585,7 @@ func (timestepscaleenum TimeStepScaleEnum) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
+	res = append(res, "NONE")
 	res = append(res, "YEARS")
 	res = append(res, "MONTHS")
 	res = append(res, "WEEKS")
@@ -589,6 +599,7 @@ func (timestepscaleenum TimeStepScaleEnum) CodeValues() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
+	res = append(res, "NONE")
 	res = append(res, "YEARS")
 	res = append(res, "MONTHS")
 	res = append(res, "WEEKS")

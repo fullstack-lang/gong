@@ -495,6 +495,8 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = __gong__marshallInt(ident, "ComputedDuration", diagram.ComputedDuration)
 	case "DrawVerticalTimeLines":
 		res = __gong__marshallBool(ident, "DrawVerticalTimeLines", diagram.DrawVerticalTimeLines)
+	case "DrawSecondaryVerticalTimeLines":
+		res = __gong__marshallBool(ident, "DrawSecondaryVerticalTimeLines", diagram.DrawSecondaryVerticalTimeLines)
 	case "HideWeekendsPeriod":
 		res = __gong__marshallBool(ident, "HideWeekendsPeriod", diagram.HideWeekendsPeriod)
 	case "UseManualStartAndEndDates":
@@ -507,6 +509,10 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = __gong__marshallInt(ident, "TimeStep", diagram.TimeStep)
 	case "TimeStepScale":
 		res = __gong__marshallEnumString(ident, "TimeStepScale", diagram.TimeStepScale.ToCodeString())
+	case "SecondaryTimeStep":
+		res = __gong__marshallInt(ident, "SecondaryTimeStep", diagram.SecondaryTimeStep)
+	case "SecondaryTimeStepScale":
+		res = __gong__marshallEnumString(ident, "SecondaryTimeStepScale", diagram.SecondaryTimeStepScale.ToCodeString())
 	case "LaneHeight":
 		res = __gong__marshallFloat(ident, "LaneHeight", diagram.LaneHeight)
 	case "RatioBarToLaneHeight":
@@ -1593,12 +1599,15 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedEnd"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedDuration"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DrawSecondaryVerticalTimeLines"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "HideWeekendsPeriod"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualStart"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualEnd"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeStep"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeStepScale"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "SecondaryTimeStep"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "SecondaryTimeStepScale"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "LaneHeight"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YTopMargin"))

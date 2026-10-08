@@ -135,6 +135,7 @@ const (
 type TimeStepScaleEnum string
 
 const (
+	NONE   TimeStepScaleEnum = "NONE"
 	YEARS  TimeStepScaleEnum = "YEARS"
 	MONTHS TimeStepScaleEnum = "MONTHS"
 	WEEKS  TimeStepScaleEnum = "WEEKS"

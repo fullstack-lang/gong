@@ -135,6 +135,8 @@ func saveDiagramFields(
 			FormDivBasicFieldToField(&(_instance.ComputedDuration), formDiv)
 		case "DrawVerticalTimeLines":
 			FormDivBasicFieldToField(&(_instance.DrawVerticalTimeLines), formDiv)
+		case "DrawSecondaryVerticalTimeLines":
+			FormDivBasicFieldToField(&(_instance.DrawSecondaryVerticalTimeLines), formDiv)
 		case "HideWeekendsPeriod":
 			FormDivBasicFieldToField(&(_instance.HideWeekendsPeriod), formDiv)
 		case "UseManualStartAndEndDates":
@@ -147,6 +149,10 @@ func saveDiagramFields(
 			FormDivBasicFieldToField(&(_instance.TimeStep), formDiv)
 		case "TimeStepScale":
 			FormDivEnumStringFieldToField(&(_instance.TimeStepScale), formDiv)
+		case "SecondaryTimeStep":
+			FormDivBasicFieldToField(&(_instance.SecondaryTimeStep), formDiv)
+		case "SecondaryTimeStepScale":
+			FormDivEnumStringFieldToField(&(_instance.SecondaryTimeStepScale), formDiv)
 		case "LaneHeight":
 			FormDivBasicFieldToField(&(_instance.LaneHeight), formDiv)
 		case "RatioBarToLaneHeight":

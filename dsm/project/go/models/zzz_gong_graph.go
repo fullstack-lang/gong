@@ -2335,6 +2335,9 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.DrawVerticalTimeLines != diagramOther.DrawVerticalTimeLines {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
 	}
+	if diagram.DrawSecondaryVerticalTimeLines != diagramOther.DrawSecondaryVerticalTimeLines {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "DrawSecondaryVerticalTimeLines"))
+	}
 	if diagram.HideWeekendsPeriod != diagramOther.HideWeekendsPeriod {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "HideWeekendsPeriod"))
 	}
@@ -2352,6 +2355,12 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	}
 	if diagram.TimeStepScale != diagramOther.TimeStepScale {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeStepScale"))
+	}
+	if diagram.SecondaryTimeStep != diagramOther.SecondaryTimeStep {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "SecondaryTimeStep"))
+	}
+	if diagram.SecondaryTimeStepScale != diagramOther.SecondaryTimeStepScale {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "SecondaryTimeStepScale"))
 	}
 	if diagram.LaneHeight != diagramOther.LaneHeight {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "LaneHeight"))

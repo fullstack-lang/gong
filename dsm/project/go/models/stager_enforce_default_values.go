@@ -46,8 +46,12 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				diagram.TimeStep = 1
 				needCommit = true
 			}
-			if diagram.TimeStepScale == "" {
+			if diagram.TimeStepScale == "" || diagram.TimeStepScale == NONE {
 				diagram.TimeStepScale = MONTHS
+				needCommit = true
+			}
+			if diagram.HasSecondaryTimeScale() && diagram.SecondaryTimeStep <= 0 {
+				diagram.SecondaryTimeStep = 1
 				needCommit = true
 			}
 			if diagram.LaneHeight == 0 {

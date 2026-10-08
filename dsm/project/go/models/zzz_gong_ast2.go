@@ -213,6 +213,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.ComputedDuration = time.Duration(GongExtractInt(valueExpr))
 	case "DrawVerticalTimeLines":
 		instance.DrawVerticalTimeLines = GongExtractBool(valueExpr)
+	case "DrawSecondaryVerticalTimeLines":
+		instance.DrawSecondaryVerticalTimeLines = GongExtractBool(valueExpr)
 	case "HideWeekendsPeriod":
 		instance.HideWeekendsPeriod = GongExtractBool(valueExpr)
 	case "UseManualStartAndEndDates":
@@ -225,6 +227,10 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.TimeStep = GongExtractInt(valueExpr)
 	case "TimeStepScale":
 		GongUnmarshallEnum(&instance.TimeStepScale, valueExpr)
+	case "SecondaryTimeStep":
+		instance.SecondaryTimeStep = GongExtractInt(valueExpr)
+	case "SecondaryTimeStepScale":
+		GongUnmarshallEnum(&instance.SecondaryTimeStepScale, valueExpr)
 	case "LaneHeight":
 		instance.LaneHeight = GongExtractFloat(valueExpr)
 	case "RatioBarToLaneHeight":

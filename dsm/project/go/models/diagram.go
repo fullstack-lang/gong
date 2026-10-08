@@ -29,7 +29,8 @@ type Diagram struct {
 	ComputedEnd      time.Time
 	ComputedDuration time.Duration
 
-	DrawVerticalTimeLines bool
+	DrawVerticalTimeLines          bool
+	DrawSecondaryVerticalTimeLines bool
 
 	HideWeekendsPeriod bool
 
@@ -43,6 +44,12 @@ type Diagram struct {
 
 	// TimeStepScale is the scale of the time step
 	TimeStepScale TimeStepScaleEnum
+
+	// SecondaryTimeStep is the step between ticks for the secondary time scale
+	SecondaryTimeStep int
+
+	// SecondaryTimeStepScale is the scale of the secondary time step (optional)
+	SecondaryTimeStepScale TimeStepScaleEnum
 
 	LaneHeight           float64
 	RatioBarToLaneHeight float64
@@ -211,4 +218,9 @@ func (d *Diagram) GetIsInAutoLayoutMode() bool {
 
 func (d *Diagram) SetIsInAutoLayoutMode(v bool) {
 	d.IsInAutoLayoutMode = v
+}
+
+func (d *Diagram) HasSecondaryTimeScale() bool {
+	return d.SecondaryTimeStepScale != "" &&
+		d.SecondaryTimeStepScale != NONE
 }

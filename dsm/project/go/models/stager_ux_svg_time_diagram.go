@@ -60,6 +60,35 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, svgObject *svg.SVG) 
 	// put a date for every tick according to scale
 	stager.drawTimeLine(diagram, diagram.XLeftLanes, diagram.XRightMargin, yTimeLine, DateYOffset, layer, verticalLinesLayer, diagram.YTopMargin)
 
+	if diagram.HasSecondaryTimeScale() {
+		dateYOffset := diagram.DateYOffset
+		if dateYOffset <= 0 {
+			dateYOffset = 15.0
+		}
+		textHeight := diagram.TextHeight
+		if textHeight <= 0 {
+			textHeight = 15.0
+		}
+		dateMargin := dateYOffset + textHeight + 5.0
+		ySecondaryTimeLine := yTimeLine + dateMargin
+
+		secondaryTimeLine := new(svg.Line)
+		secondaryTimeLine.Name = "Secondary Time Line"
+		secondaryTimeLine.X1 = diagram.XLeftLanes
+		secondaryTimeLine.Y1 = ySecondaryTimeLine
+		secondaryTimeLine.X2 = diagram.XRightMargin
+		secondaryTimeLine.Y2 = ySecondaryTimeLine
+
+		secondaryTimeLine.Color = diagram.TimeLine_Color
+		secondaryTimeLine.FillOpacity = diagram.TimeLine_FillOpacity
+		secondaryTimeLine.Stroke = diagram.TimeLine_Stroke
+		secondaryTimeLine.StrokeWidth = diagram.TimeLine_StrokeWidth
+
+		layer.Lines = append(layer.Lines, secondaryTimeLine)
+
+		stager.drawSecondaryTimeLine(diagram, diagram.XLeftLanes, diagram.XRightMargin, ySecondaryTimeLine, DateYOffset, layer, verticalLinesLayer, diagram.YTopMargin, yTimeLine)
+	}
+
 	// Lanes
 	currentY := diagram.YTopMargin
 	laneIndex := 0
@@ -492,21 +521,16 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 	}
 }
 
-func (stager *Stager) drawTimeLine(diagram *Diagram, XLeftLanes float64, XRightMargin float64, yTimeLine float64, DateYOffset float64, layer *svg.Layer, verticalLinesLayer *svg.Layer, YTopMargin float64) {
-	timeStep := diagram.TimeStep
-	if timeStep <= 0 {
-		timeStep = 1
+// computeTicks returns a slice of tick dates for the given scale and step within diagram.ComputedStart and diagram.ComputedEnd.
+func (diagram *Diagram) computeTicks(scale TimeStepScaleEnum, step int) []time.Time {
+	if step <= 0 {
+		step = 1
 	}
-	timeStepScale := diagram.TimeStepScale
-	if timeStepScale == "" {
-		timeStepScale = MONTHS
-	}
-
 	var ticks []time.Time
 	start := diagram.ComputedStart
 	var currentTick time.Time
 
-	switch timeStepScale {
+	switch scale {
 	case YEARS:
 		currentTick = time.Date(start.Year(), time.January, 1, 0, 0, 0, 0, start.Location())
 	case MONTHS:
@@ -524,26 +548,39 @@ func (stager *Stager) drawTimeLine(diagram *Diagram, XLeftLanes float64, XRightM
 	}
 
 	for currentTick.Before(diagram.ComputedEnd) || currentTick.Equal(diagram.ComputedEnd) {
-		if diagram.HideWeekendsPeriod && timeStepScale == DAYS && (currentTick.Weekday() == time.Saturday || currentTick.Weekday() == time.Sunday) {
+		if diagram.HideWeekendsPeriod && scale == DAYS && (currentTick.Weekday() == time.Saturday || currentTick.Weekday() == time.Sunday) {
 			// skip weekend ticks when weekends are hidden in day view
 		} else {
 			ticks = append(ticks, currentTick)
 		}
 
-		switch timeStepScale {
+		switch scale {
 		case YEARS:
-			currentTick = currentTick.AddDate(timeStep, 0, 0)
+			currentTick = currentTick.AddDate(step, 0, 0)
 		case MONTHS:
-			currentTick = currentTick.AddDate(0, timeStep, 0)
+			currentTick = currentTick.AddDate(0, step, 0)
 		case WEEKS:
-			currentTick = currentTick.AddDate(0, 0, 7*timeStep)
+			currentTick = currentTick.AddDate(0, 0, 7*step)
 		case DAYS:
-			currentTick = currentTick.AddDate(0, 0, timeStep)
+			currentTick = currentTick.AddDate(0, 0, step)
 		default:
-			currentTick = currentTick.AddDate(timeStep, 0, 0)
+			currentTick = currentTick.AddDate(step, 0, 0)
 		}
 	}
-	// Move tick drawing to the end so they are drawn over the lanes
+	return ticks
+}
+
+func (stager *Stager) drawTimeLine(diagram *Diagram, XLeftLanes float64, XRightMargin float64, yTimeLine float64, DateYOffset float64, layer *svg.Layer, verticalLinesLayer *svg.Layer, YTopMargin float64) {
+	timeStep := diagram.TimeStep
+	if timeStep <= 0 {
+		timeStep = 1
+	}
+	timeStepScale := diagram.TimeStepScale
+	if timeStepScale == "" || timeStepScale == NONE {
+		timeStepScale = MONTHS
+	}
+
+	ticks := diagram.computeTicks(timeStepScale, timeStep)
 	ticksToDraw := ticks
 
 	// Ticks text only at this point
@@ -628,6 +665,111 @@ func (stager *Stager) drawTimeLine(diagram *Diagram, XLeftLanes float64, XRightM
 				gridLine.StrokeOpacity = 1.0
 				gridLine.StrokeWidth = 1.0
 				gridLine.StrokeDashArray = "5 5"
+			}
+		}
+	}
+}
+
+func (stager *Stager) drawSecondaryTimeLine(diagram *Diagram, XLeftLanes float64, XRightMargin float64, ySecondaryTimeLine float64, DateYOffset float64, layer *svg.Layer, verticalLinesLayer *svg.Layer, YTopMargin float64, yTimeLine float64) {
+	timeStep := diagram.SecondaryTimeStep
+	if timeStep <= 0 {
+		timeStep = 1
+	}
+	timeStepScale := diagram.SecondaryTimeStepScale
+	if timeStepScale == "" || timeStepScale == NONE {
+		return
+	}
+
+	ticks := diagram.computeTicks(timeStepScale, timeStep)
+
+	for i := 0; i < len(ticks); i++ {
+		tick := ticks[i]
+
+		xOriginal := diagram.dateToX(tick)
+
+		xVisible := xOriginal
+		if xVisible < XLeftLanes {
+			xVisible = XLeftLanes
+		}
+		if xVisible > XRightMargin {
+			xVisible = XRightMargin
+		}
+
+		if i < len(ticks)-1 {
+			nextTick := ticks[i+1]
+			xNextOriginal := diagram.dateToX(nextTick)
+
+			xNextVisible := xNextOriginal
+			if xNextVisible < XLeftLanes {
+				xNextVisible = XLeftLanes
+			}
+			if xNextVisible > XRightMargin {
+				xNextVisible = XRightMargin
+			}
+
+			if xVisible == xNextVisible {
+				continue
+			}
+		} else {
+			if xOriginal < XLeftLanes {
+				continue
+			}
+		}
+
+		tickText := new(svg.Text)
+
+		var tickLabel string
+		switch timeStepScale {
+		case YEARS:
+			tickLabel = fmt.Sprintf("%d", tick.Year())
+		case MONTHS:
+			if diagram.TimeStepScale == YEARS {
+				tickLabel = tick.Format("Jan")
+			} else {
+				tickLabel = tick.Format("Jan '06")
+			}
+		case WEEKS:
+			_, week := tick.ISOWeek()
+			tickLabel = fmt.Sprintf("W%02d", week)
+		case DAYS:
+			if diagram.TimeStepScale == MONTHS {
+				tickLabel = tick.Format("02")
+			} else {
+				tickLabel = tick.Format("02 Jan")
+			}
+		default:
+			tickLabel = fmt.Sprintf("%d", tick.Year())
+		}
+
+		tickText.Name = tickLabel
+		tickText.X = xVisible - float64(len(tickLabel))*4.0
+		tickText.Content = tickText.Name
+		tickText.Y = ySecondaryTimeLine + DateYOffset
+		tickText.Color = "black"
+		tickText.FillOpacity = 1.0
+		layer.Texts = append(layer.Texts, tickText)
+	}
+
+	// Draw the secondary vertical grid lines if enabled
+	if diagram.DrawSecondaryVerticalTimeLines {
+		for i := range ticks {
+			tick := ticks[i]
+
+			xOriginal := diagram.dateToX(tick)
+
+			if xOriginal >= XLeftLanes && xOriginal <= XRightMargin {
+				gridLine := new(svg.Line)
+				gridLine.Name = fmt.Sprintf("secondary grid line for %s", tick.Format("2006-01-02"))
+				verticalLinesLayer.Lines = append(verticalLinesLayer.Lines, gridLine)
+				gridLine.X1 = xOriginal
+				gridLine.Y1 = YTopMargin
+				gridLine.X2 = xOriginal
+				gridLine.Y2 = yTimeLine
+
+				gridLine.Stroke = "lightgrey"
+				gridLine.StrokeOpacity = 1.0
+				gridLine.StrokeWidth = 0.5
+				gridLine.StrokeDashArray = "2 2"
 			}
 		}
 	}

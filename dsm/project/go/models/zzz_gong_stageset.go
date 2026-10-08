@@ -162,12 +162,15 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedEnd, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", diagramIdent, diagram.ComputedEnd.String()))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedDuration = time.Duration(%d)", diagramIdent, int64(diagram.ComputedDuration)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DrawVerticalTimeLines = %t", diagramIdent, diagram.DrawVerticalTimeLines))
+			values.WriteString(fmt.Sprintf("\n\t%s.DrawSecondaryVerticalTimeLines = %t", diagramIdent, diagram.DrawSecondaryVerticalTimeLines))
 			values.WriteString(fmt.Sprintf("\n\t%s.HideWeekendsPeriod = %t", diagramIdent, diagram.HideWeekendsPeriod))
 			values.WriteString(fmt.Sprintf("\n\t%s.UseManualStartAndEndDates = %t", diagramIdent, diagram.UseManualStartAndEndDates))
 			values.WriteString(fmt.Sprintf("\n\t%s.ManualStart, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", diagramIdent, diagram.ManualStart.String()))
 			values.WriteString(fmt.Sprintf("\n\t%s.ManualEnd, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", diagramIdent, diagram.ManualEnd.String()))
 			values.WriteString(fmt.Sprintf("\n\t%s.TimeStep = %d", diagramIdent, diagram.TimeStep))
 			values.WriteString(fmt.Sprintf("\n\t%s.TimeStepScale = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.TimeStepScale))))
+			values.WriteString(fmt.Sprintf("\n\t%s.SecondaryTimeStep = %d", diagramIdent, diagram.SecondaryTimeStep))
+			values.WriteString(fmt.Sprintf("\n\t%s.SecondaryTimeStepScale = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.SecondaryTimeStepScale))))
 			values.WriteString(fmt.Sprintf("\n\t%s.LaneHeight = %f", diagramIdent, diagram.LaneHeight))
 			values.WriteString(fmt.Sprintf("\n\t%s.RatioBarToLaneHeight = %f", diagramIdent, diagram.RatioBarToLaneHeight))
 			values.WriteString(fmt.Sprintf("\n\t%s.YTopMargin = %f", diagramIdent, diagram.YTopMargin))
@@ -1692,6 +1695,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.ComputedDuration = time.Duration(GongExtractInt(rhs))
 					case "DrawVerticalTimeLines":
 						inst.DrawVerticalTimeLines = GongExtractBool(rhs)
+					case "DrawSecondaryVerticalTimeLines":
+						inst.DrawSecondaryVerticalTimeLines = GongExtractBool(rhs)
 					case "HideWeekendsPeriod":
 						inst.HideWeekendsPeriod = GongExtractBool(rhs)
 					case "UseManualStartAndEndDates":
@@ -1704,6 +1709,10 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.TimeStep = GongExtractInt(rhs)
 					case "TimeStepScale":
 						inst.TimeStepScale = TimeStepScaleEnum(GongExtractString(rhs))
+					case "SecondaryTimeStep":
+						inst.SecondaryTimeStep = GongExtractInt(rhs)
+					case "SecondaryTimeStepScale":
+						inst.SecondaryTimeStepScale = TimeStepScaleEnum(GongExtractString(rhs))
 					case "LaneHeight":
 						inst.LaneHeight = GongExtractFloat(rhs)
 					case "RatioBarToLaneHeight":

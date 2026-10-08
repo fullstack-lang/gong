@@ -32,6 +32,8 @@ type Diagram_WOP struct {
 
 	DrawVerticalTimeLines bool
 
+	DrawSecondaryVerticalTimeLines bool
+
 	HideWeekendsPeriod bool
 
 	UseManualStartAndEndDates bool
@@ -43,6 +45,10 @@ type Diagram_WOP struct {
 	TimeStep int
 
 	TimeStepScale TimeStepScaleEnum
+
+	SecondaryTimeStep int
+
+	SecondaryTimeStepScale TimeStepScaleEnum
 
 	LaneHeight float64
 
@@ -116,12 +122,15 @@ func (from *Diagram) GongCopyBasicFields(to *Diagram) {
 	to.ComputedEnd = from.ComputedEnd
 	to.ComputedDuration = from.ComputedDuration
 	to.DrawVerticalTimeLines = from.DrawVerticalTimeLines
+	to.DrawSecondaryVerticalTimeLines = from.DrawSecondaryVerticalTimeLines
 	to.HideWeekendsPeriod = from.HideWeekendsPeriod
 	to.UseManualStartAndEndDates = from.UseManualStartAndEndDates
 	to.ManualStart = from.ManualStart
 	to.ManualEnd = from.ManualEnd
 	to.TimeStep = from.TimeStep
 	to.TimeStepScale = from.TimeStepScale
+	to.SecondaryTimeStep = from.SecondaryTimeStep
+	to.SecondaryTimeStepScale = from.SecondaryTimeStepScale
 	to.LaneHeight = from.LaneHeight
 	to.RatioBarToLaneHeight = from.RatioBarToLaneHeight
 	to.YTopMargin = from.YTopMargin
