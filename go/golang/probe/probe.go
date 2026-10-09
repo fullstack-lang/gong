@@ -9,8 +9,6 @@ import (
 	"embed"
 	"time"
 
-	"go/ast"
-	"go/token"
 	"net/http"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
@@ -206,26 +204,9 @@ func NewProbe(
 	return
 }
 
-type loadProxy struct {
-	probe *Probe
-}
-
-func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
-	fileName, err := gongprobe.ParseUploadedStage(uploadedFile, func(inFile *ast.File, fset *token.FileSet) error {
-		proxy.probe.stageOfInterest.OnInitCommitCallback = nil
-		proxy.probe.stageOfInterest.Reset()
-		return proxy.probe.stageOfInterest.ParseAstFileFromAst(inFile, fset, false)
-	})
-	if err != nil {
-		return err
-	}
-	proxy.probe.fileName = fileName
-	proxy.probe.stageOfInterest.Commit()
-	return nil
-}
-
 func (probe *Probe) initLoadStage() {
-	gongprobe.InitLoadStage(probe.loadStage, &loadProxy{probe: probe})
+	probe.loadStage.Reset()
+	probe.loadStage.Commit()
 }
 
 func (probe *Probe) Refresh() {
@@ -280,21 +261,6 @@ func (probe *Probe) ExportStageExcel() {
 	excelBytes, err := probe.stageOfInterest.SerializeStageAsBytes(false)
 	gongprobe.ExportStageExcel(
 		excelBytes,
-		err,
-		probe.fileName,
-		"{{pkgname}}",
-		probe.stageOfInterest.GetName(),
-		probe.loadStage,
-		probe.initLoadStage,
-		probe.AddNotification,
-		probe.CommitNotificationTable,
-	)
-}
-
-func (probe *Probe) ExportStage() {
-	stageString, err := probe.stageOfInterest.MarshallToString(probe.stageOfInterest.MetaPackageImportPath, "main")
-	gongprobe.ExportStage(
-		stageString,
 		err,
 		probe.fileName,
 		"{{pkgname}}",

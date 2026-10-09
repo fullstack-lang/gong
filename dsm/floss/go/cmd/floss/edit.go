@@ -9,9 +9,10 @@ import (
 var editOut string
 
 var editCmd = &cobra.Command{
-	Use:   "edit [file]",
-	Short: "Edit a stage file",
-	Args:  cobra.MinimumNArgs(0),
+	Use:     "edit [file]",
+	Aliases: []string{"edit-stageset", "stageset", "edit-multistage"},
+	Short:   "Edit a stage file",
+	Args:    cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
 			unmarshallFromCode = args[0]

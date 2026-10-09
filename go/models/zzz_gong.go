@@ -1823,6 +1823,9 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return nil
 	}
 	var t Type
+	if any(t) == nil {
+		return nil
+	}
 	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
@@ -2326,6 +2329,9 @@ func (*StageSetModel) GongGetReverseFields() []GongReverseField {
 
 func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 	var t Type
+	if any(t) == nil {
+		return nil
+	}
 	return t.GongGetReverseFields()
 }
 

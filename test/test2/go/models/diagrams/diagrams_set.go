@@ -13,8 +13,8 @@ import (
 	// injection point for ident package import declaration
 	ref_models "github.com/fullstack-lang/gong/test/test2/go/models"
 	ref_x "github.com/fullstack-lang/gong/test/test2/go/models/x"
-	ref_y "github.com/fullstack-lang/gong/test/test2/go/models/y"
 	ref_model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"
+	ref_y "github.com/fullstack-lang/gong/test/test2/go/models/y"
 )
 
 // generated in order to avoid error in the package import

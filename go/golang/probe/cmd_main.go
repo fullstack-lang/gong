@@ -2,7 +2,7 @@ package probe
 
 import "fmt"
 
-func GetProbeCmdMainTemplate(useSplitlite bool, hasStageSet bool) string {
+func GetProbeCmdMainTemplate(useSplitlite bool) string {
 	splitImport := `split "github.com/fullstack-lang/gong/lib/split/go/models"`
 	splitStackImport := `split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"`
 	splitStaticImport := `split_static "github.com/fullstack-lang/gong/lib/split/go/static"`
@@ -14,34 +14,65 @@ func GetProbeCmdMainTemplate(useSplitlite bool, hasStageSet bool) string {
 		splitPkg = "splitlite"
 	}
 
-	stageSetCmd := ""
-	addStageSetCmd := ""
-	modelsImport := ""
-	if hasStageSet {
-		modelsImport = "\n\t\"{{PkgPathRoot}}/models\""
-		stageSetCmd = fmt.Sprintf(`
-var editStageSetCmd = &cobra.Command{
-	Use:     "edit-stageset [data/stage.go]",
-	Aliases: []string{"stageset", "edit-multistage"},
-	Short:   "Edit a multi-stage StageSet file (temporary command)",
+	return fmt.Sprintf(`//go:build !js
+
+// generated code - do not edit
+package main
+
+import (
+	"log"
+	"os"
+	"strconv"
+
+	"github.com/spf13/cobra"
+
+	"{{PkgPathRoot}}/level1stack"
+	"{{PkgPathRoot}}/models"
+
+	%s
+	%s
+	%s
+)
+
+var (
+	embeddedDiagrams   bool
+	port               int
+	unmarshallFromCode string
+	marshallOnCommit   string
+)
+
+var editOut string
+
+var editCmd = &cobra.Command{
+	Use:     "edit [data/stage.go]",
+	Aliases: []string{"edit-stageset", "stageset", "edit-multistage"},
+	Short:   "Edit a stage file",
 	Args:    cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
 			unmarshallFromCode = args[0]
 			marshallOnCommit = args[0]
 		}
-		executeServerStageSet()
+		if editOut != "" {
+			marshallOnCommit = editOut
+		}
+		executeServer()
 	},
 }
 
-func executeServerStageSet() {
-	stack := level1stack.NewLevel1StackStageSet("{{PkgName}}", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams)
+func executeServer() {
+	// setup
+	// - model level1 stack with its probe
+	// - unmarshall/marshall go file with stage data
+	stack := level1stack.NewLevel1Stack("{{PkgName}}", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams)
 
+	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
 	if stack.StageSetProbe != nil {
 		stack.StageSetProbe.Refresh()
 	}
 
+	// Create root split stage for the probe
 	rootSplitStage := %s_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
 
 	if stack.StageSet != nil {
@@ -101,80 +132,7 @@ var migrateCmd = &cobra.Command{
 		log.Printf("Successfully migrated %%s to %%s", inputFile, outputFile)
 	},
 }
-`, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg)
-		addStageSetCmd = "\n\trootCmd.AddCommand(editStageSetCmd)\n\tmigrateCmd.Flags().StringVar(&migrateOut, \"out\", \"\", \"output file path (default: data/stageset.go)\")\n\trootCmd.AddCommand(migrateCmd)"
-	}
 
-	return fmt.Sprintf(`//go:build !js
-
-// generated code - do not edit
-package main
-
-import (
-	"log"
-	"os"
-	"strconv"
-
-	"github.com/spf13/cobra"
-
-	"{{PkgPathRoot}}/level1stack"%s
-
-	%s
-	%s
-	%s
-)
-
-var (
-	embeddedDiagrams   bool
-	port               int
-	unmarshallFromCode string
-	marshallOnCommit   string
-)
-
-var editCmd = &cobra.Command{
-	Use:   "edit [data/stage.go]",
-	Short: "Edit a stage file",
-	Args:  cobra.MaximumNArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) > 0 {
-			unmarshallFromCode = args[0]
-			marshallOnCommit = args[0]
-		}
-		executeServer()
-	},
-}
-
-func executeServer() {
-	// setup
-	// - model level1 stack with its probe
-	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1Stack("{{PkgName}}", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams)
-
-	// refresh the probe, therefore we can see what has been unmarshalled
-	stack.Probe.Refresh()
-
-	// Create root split stage for the probe
-	rootSplitStage := %s_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
-
-	rootSplitStage.StageBranch(&%s.View{
-		Name: "Data Probe & Data Model",
-		RootAsSplitAreas: []*%s.AsSplitArea{
-			{
-				Split: &%s.Split{
-					StackName: stack.Stage.GetProbeSplitStageName(),
-				},
-			},
-		},
-	})
-	rootSplitStage.Commit()
-
-	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
-	err := %s_static.RunServer(stack.R, ":" + strconv.Itoa(port))
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
-}
-%s
 var rootCmd = &cobra.Command{
 	Use:   "{{ProbeCmdName}}",
 	Short: "probe CLI for {{PkgName}}",
@@ -189,7 +147,10 @@ var rootCmd = &cobra.Command{
 }
 
 func main() {
-	rootCmd.AddCommand(editCmd)%s
+	editCmd.Flags().StringVar(&editOut, "out", "", "specify a different file to save commits to")
+	rootCmd.AddCommand(editCmd)
+	migrateCmd.Flags().StringVar(&migrateOut, "out", "", "output file path (default: data/stageset.go)")
+	rootCmd.AddCommand(migrateCmd)
 	rootCmd.PersistentFlags().BoolVar(&embeddedDiagrams, "embedded-diagrams", true, "parse/analysis go/models and go/embeddedDiagrams")
 	rootCmd.PersistentFlags().IntVar(&port, "port", 8080, "port server")
 
@@ -199,7 +160,6 @@ func main() {
 	}
 }
 `,
-		modelsImport,
 		splitImport,
 		splitStackImport,
 		splitStaticImport,
@@ -208,13 +168,14 @@ func main() {
 		splitPkg,
 		splitPkg,
 		splitPkg,
-		stageSetCmd,
-		addStageSetCmd,
+		splitPkg,
+		splitPkg,
+		splitPkg,
 	)
 }
 
-var ProbeCmdMainTemplate = GetProbeCmdMainTemplate(false, false)
-var ProbeCmdMainSplitliteTemplate = GetProbeCmdMainTemplate(true, false)
+var ProbeCmdMainTemplate = GetProbeCmdMainTemplate(false)
+var ProbeCmdMainSplitliteTemplate = GetProbeCmdMainTemplate(true)
 
 const ProbeCmdMainTemplateFullStack = `//go:build !js
 
@@ -240,16 +201,21 @@ var (
 	port               int
 	unmarshallFromCode string
 	marshallOnCommit   string
+	editOut            string
 )
 
 var editCmd = &cobra.Command{
-	Use:   "edit [data/stage.go]",
-	Short: "Edit a stage file",
-	Args:  cobra.MaximumNArgs(1),
+	Use:     "edit [data/stage.go]",
+	Aliases: []string{"edit-stageset", "stageset", "edit-multistage"},
+	Short:   "Edit a stage file",
+	Args:    cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
 			unmarshallFromCode = args[0]
 			marshallOnCommit = args[0]
+		}
+		if editOut != "" {
+			marshallOnCommit = editOut
 		}
 		executeServer()
 	},
@@ -301,6 +267,7 @@ var rootCmd = &cobra.Command{
 }
 
 func main() {
+	editCmd.Flags().StringVar(&editOut, "out", "", "specify a different file to save commits to")
 	rootCmd.AddCommand(editCmd)
 	rootCmd.PersistentFlags().BoolVar(&embeddedDiagrams, "embedded-diagrams", true, "parse/analysis go/models and go/embeddedDiagrams")
 	rootCmd.PersistentFlags().IntVar(&port, "port", 8080, "port server")

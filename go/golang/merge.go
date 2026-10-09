@@ -152,12 +152,12 @@ func extractParsedStageFile(inFile *ast.File, fset *token.FileSet, path string) 
 		return nil, fmt.Errorf("file %s does not contain a stage initialization function", path)
 	}
 
-	// Check if file contains stage.Commit()
+	// Check if file contains stage.Commit() or stageSet.Commit()
 	ast.Inspect(parsed.FuncDecl.Body, func(n ast.Node) bool {
 		if call, ok := n.(*ast.CallExpr); ok {
 			if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
 				if sel.Sel.Name == "Commit" {
-					if id, ok := sel.X.(*ast.Ident); ok && id.Name == "stage" {
+					if id, ok := sel.X.(*ast.Ident); ok && (id.Name == "stage" || id.Name == "stageSet") {
 						parsed.HasCommit = true
 						return false
 					}
@@ -175,15 +175,15 @@ func isStagingFunction(fn *ast.FuncDecl) bool {
 		return false
 	}
 	for _, field := range fn.Type.Params.List {
-		// Look for type *models.Stage or *Stage
+		// Look for type *models.Stage or *Stage or *StageSet
 		if starExpr, ok := field.Type.(*ast.StarExpr); ok {
 			switch t := starExpr.X.(type) {
 			case *ast.SelectorExpr:
-				if t.Sel.Name == "Stage" {
+				if t.Sel.Name == "Stage" || t.Sel.Name == "StageSet" {
 					return true
 				}
 			case *ast.Ident:
-				if t.Name == "Stage" {
+				if t.Name == "Stage" || t.Name == "StageSet" {
 					return true
 				}
 			}
@@ -363,8 +363,45 @@ func mergeParsedStageFiles(parsedFiles []*ParsedStageFile, pkgOverride string) (
 	sb.WriteString("\t_ time.Time\n")
 	sb.WriteString("\t_ = slices.Index[[]int, int]\n")
 	sb.WriteString(")\n\n")
-	sb.WriteString("// function will stage objects\n")
-	sb.WriteString("func _(stage *models.Stage) {\n\n")
+	isStageSet := false
+	stageSetParamName := "stageSet"
+	stageSetTypeString := "*models.StageSet"
+	for _, pf := range parsedFiles {
+		if pf.FuncDecl != nil && pf.FuncDecl.Type != nil && pf.FuncDecl.Type.Params != nil {
+			for _, field := range pf.FuncDecl.Type.Params.List {
+				if starExpr, ok := field.Type.(*ast.StarExpr); ok {
+					switch t := starExpr.X.(type) {
+					case *ast.SelectorExpr:
+						if t.Sel.Name == "StageSet" {
+							isStageSet = true
+							if len(field.Names) > 0 {
+								stageSetParamName = field.Names[0].Name
+							}
+							if id, ok := t.X.(*ast.Ident); ok {
+								stageSetTypeString = fmt.Sprintf("*%s.StageSet", id.Name)
+							}
+						}
+					case *ast.Ident:
+						if t.Name == "StageSet" {
+							isStageSet = true
+							if len(field.Names) > 0 {
+								stageSetParamName = field.Names[0].Name
+							}
+							stageSetTypeString = "*StageSet"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if isStageSet {
+		sb.WriteString("// function will stage objects across all coordinated stages\n")
+		sb.WriteString(fmt.Sprintf("func _(%s %s) {\n\n", stageSetParamName, stageSetTypeString))
+	} else {
+		sb.WriteString("// function will stage objects\n")
+		sb.WriteString("func _(stage *models.Stage) {\n\n")
+	}
 
 	if anyHasCommit {
 		for _, stmtCode := range allSequentialStmts {

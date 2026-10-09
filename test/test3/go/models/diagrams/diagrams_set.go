@@ -21,6 +21,9 @@ var (
 	_ = slices.Index[[]int, int]
 )
 
+// injection point for meta package dummy declaration
+var _ ref_models.Stage
+
 // function will stage objects
 func _(stage *models.Stage) {
 

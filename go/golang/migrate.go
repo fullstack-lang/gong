@@ -102,7 +102,7 @@ func MigrateStageSource(src []byte, pkgOverride string, filePath string) (string
 	}
 
 	// 4. Identify models import path
-	modelsImportPath, otherImports := extractModelsImport(inFile, stagingFunc, filePath)
+	modelsImportPath, modelsAlias, otherImports := extractModelsImport(inFile, stagingFunc, filePath)
 	if modelsImportPath == "" {
 		return "", fmt.Errorf("unable to determine models package path for %s", filePath)
 	}
@@ -136,6 +136,7 @@ func MigrateStageSource(src []byte, pkgOverride string, filePath string) (string
 	// - Identifiers in renameMap
 	// - (&models.Struct{...}).Stage(stage) -> (&__stage_0__.Struct{...}).Stage(stageSet.Stage)
 	// - stage.Commit() -> stageSet.Commit()
+	// - models.EnumConstant -> __stage_0__.EnumConstant
 	for _, stmt := range stagingFunc.Body.List {
 		if assignStmt, ok := stmt.(*ast.AssignStmt); ok && assignStmt.Tok == token.DEFINE {
 			// Rewrite LHS identifier
@@ -165,6 +166,12 @@ func MigrateStageSource(src []byte, pkgOverride string, filePath string) (string
 					if id, ok := sel.X.(*ast.Ident); ok && id.Name == "stage" {
 						id.Name = "stageSet"
 					}
+				}
+			}
+			// Rewrite models.<Ident> -> __stage_0__.<Ident>
+			if sel, ok := n.(*ast.SelectorExpr); ok {
+				if id, ok := sel.X.(*ast.Ident); ok && (id.Name == "models" || id.Name == modelsAlias) {
+					id.Name = "__stage_0__"
 				}
 			}
 			return true
@@ -308,8 +315,9 @@ func isStageSetFunction(fn *ast.FuncDecl) bool {
 	return false
 }
 
-func extractModelsImport(inFile *ast.File, fn *ast.FuncDecl, filePath string) (string, []string) {
+func extractModelsImport(inFile *ast.File, fn *ast.FuncDecl, filePath string) (string, string, []string) {
 	var modelsPath string
+	var modelsAlias string = "models"
 	var otherImports []string
 
 	// Check function param selector name if present, e.g. `stage *models.Stage`
@@ -324,6 +332,9 @@ func extractModelsImport(inFile *ast.File, fn *ast.FuncDecl, filePath string) (s
 				}
 			}
 		}
+	}
+	if paramPkgAlias != "" {
+		modelsAlias = paramPkgAlias
 	}
 
 	for _, imp := range inFile.Imports {
@@ -344,6 +355,9 @@ func extractModelsImport(inFile *ast.File, fn *ast.FuncDecl, filePath string) (s
 
 		if isModels && modelsPath == "" {
 			modelsPath = rawPath
+			if alias != "" {
+				modelsAlias = alias
+			}
 		} else {
 			if alias != "" {
 				otherImports = append(otherImports, fmt.Sprintf("%s \"%s\"", alias, rawPath))
@@ -358,7 +372,7 @@ func extractModelsImport(inFile *ast.File, fn *ast.FuncDecl, filePath string) (s
 		modelsPath = inferModelsPathFromDir(filePath)
 	}
 
-	return modelsPath, otherImports
+	return modelsPath, modelsAlias, otherImports
 }
 
 func inferModelsPathFromDir(filePath string) string {

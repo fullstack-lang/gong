@@ -68,6 +68,10 @@ func ExtractStructFields(mPkg *models.ModelPkg, structName string, pkgPathToFiel
 							if _, ok := mPkg.GongStructs[mPkg.PkgPath+"."+targetName]; !ok {
 								continue
 							}
+						} else {
+							if p2f == nil || p2f[targetPkg.Path()] == nil {
+								continue
+							}
 						}
 						result = append(result, StageSetStructField{
 							Name:              fld.Name(),
@@ -87,6 +91,10 @@ func ExtractStructFields(mPkg *models.ModelPkg, structName string, pkgPathToFiel
 							targetName := targetNamed.Obj().Name()
 							if targetPkg.Path() == mPkg.PkgPath {
 								if _, ok := mPkg.GongStructs[mPkg.PkgPath+"."+targetName]; !ok {
+									continue
+								}
+							} else {
+								if p2f == nil || p2f[targetPkg.Path()] == nil {
 									continue
 								}
 							}

@@ -17,7 +17,9 @@ var dataFS embed.FS
 func executeServer(args []string) {
 	if len(args) > 0 {
 		argument := args[0]
-		marshallOnCommit = argument
+		if marshallOnCommit == "" {
+			marshallOnCommit = argument
+		}
 		unmarshallFromCode = argument
 	}
 

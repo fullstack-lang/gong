@@ -56,78 +56,6 @@ func (beforeCommitImplementation *beforeCommitImplementation) BeforeCommit(stage
 	stage.Marshall(file, "github.com/fullstack-lang/gong/lib/doc/go/models", packageName)
 }
 
-func prepareStages(
-	r *http.ServeMux,
-	embeddedDiagrams bool,
-	docStackName string,
-	goModelsDir embed.FS,
-	goDiagramsDir embed.FS,
-) (
-	stage *models.Stage,
-	treeStage *tree.Stage,
-	svgStage *svg.Stage,
-	gongStage *gong.Stage,
-	formStage *form.Stage,
-	treeNavigationStage *tree.Stage,
-) {
-	stage = models.NewStage(docStackName)
-
-	stage.MetaPackageImportAlias = "ref_models"
-
-	splits := strings.Split(docStackName, ":")
-	stage.MetaPackageImportPath = `"` + splits[0] + `/models"`
-
-	if !embeddedDiagrams {
-		diagramsPath := "../../models/diagrams/diagrams.go"
-		if _, err := os.Stat(diagramsPath); os.IsNotExist(err) {
-			if _, errOld := os.Stat("../../diagrams/diagrams.go"); errOld == nil {
-				diagramsPath = "../../diagrams/diagrams.go"
-			}
-		}
-
-		err := stage.ParseAstFile(diagramsPath, true)
-
-		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
-		// xxx.go might be absent the first time. However, this shall not be a show stopper.
-		if err != nil {
-			log.Println("no file to read " + err.Error())
-		}
-
-		BeforeCommitImplementation := &beforeCommitImplementation{
-			marshallOnCommit: diagramsPath,
-			packageName:      "diagrams", // necessity because the diagram file is in a diagrams package
-		}
-		stage.OnInitCommitCallback = BeforeCommitImplementation
-
-		// use delta mode
-		stage.SetDeltaMode(true)
-		stage.ComputeReferenceAndOrders() // from which the delta are computed
-
-	} else {
-		err := stage.ParseAstEmbeddedFile(goDiagramsDir, "models/diagrams/diagrams.go")
-		if err != nil {
-			err = stage.ParseAstEmbeddedFile(goDiagramsDir, "diagrams/diagrams.go")
-		}
-
-		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
-		// xxx.go might be absent the first time. However, this shall not be a show stopper.
-		if err != nil {
-			log.Println("no file to read " + err.Error())
-		}
-	}
-
-	treeStage, _ = tree_fullstack.NewStackInstance(r, docStackName+":doc-sidebar", "", "")
-	svgStage, _ = svg_fullstack.NewStackInstance(r, docStackName+":doc-svg", "", "", "")
-	gongStage = gong.NewStage(docStackName + ":doc-gong")
-	formStage, _ = form_fullstack.NewStackInstance(r, docStackName+":doc-diagramForm", "", "")
-	treeNavigationStage, _ = tree_fullstack.NewStackInstance(r, docStackName+":doc-sidebar-navigation", "", "")
-
-	// load the code of the model of interest into the gongStage
-	gong.LoadEmbedded(gongStage, goModelsDir)
-
-	return
-}
-
 func Prepare(
 	r *http.ServeMux,
 	embeddedDiagrams bool,
@@ -137,7 +65,7 @@ func Prepare(
 	receivingAsSplitArea *split.AsSplitArea, // split area that will receive the doc areas
 	map_GongStructName_InstancesNb map[string]int,
 ) (stager *models.Stager) {
-	stage, treeStage, svgStage, gongStage, formStage, treeNavigationStage := prepareStages(r, embeddedDiagrams, docStackName, goModelsDir, goDiagramsDir)
+	stage, treeStage, svgStage, gongStage, formStage, treeNavigationStage := prepareStagesSet(r, embeddedDiagrams, docStackName, nil, goModelsDir, goDiagramsDir)
 
 	return models.NewStager(
 		r,
@@ -161,7 +89,7 @@ func PrepareSplitlite(
 	receivingAsSplitArea *splitlite.AsSplitArea, // split area that will receive the doc areas
 	map_GongStructName_InstancesNb map[string]int,
 ) (stager *models.Stager) {
-	stage, treeStage, svgStage, gongStage, formStage, treeNavigationStage := prepareStages(r, embeddedDiagrams, docStackName, goModelsDir, goDiagramsDir)
+	stage, treeStage, svgStage, gongStage, formStage, treeNavigationStage := prepareStagesSet(r, embeddedDiagrams, docStackName, nil, goModelsDir, goDiagramsDir)
 
 	return models.NewStagerSplitlite(
 		r,
@@ -362,6 +290,14 @@ func prepareStagesSet(
 	treeNavigationStage *tree.Stage,
 ) {
 	stage = models.NewStage(docStackName)
+	if len(metaPackageImports) == 0 {
+		splits := strings.Split(docStackName, ":")
+		stage.MetaPackageImportAlias = "ref_models"
+		stage.MetaPackageImportPath = `"` + splits[0] + `/models"`
+		metaPackageImports = []*models.MetaPackageImport{
+			{Alias: "ref_models", Path: `"` + splits[0] + `/models"`},
+		}
+	}
 	stage.MetaPackageImports = metaPackageImports
 
 	if !embeddedDiagrams {

@@ -1,6 +1,9 @@
 package main
 
 import (
+	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -208,6 +211,160 @@ func TestEnforceTaskDependencyDuration(t *testing.T) {
 	}
 	if !milestoneLag.End.Equal(expectedMilestoneDate) {
 		t.Errorf("milestoneLag.End = %v, expected %v", milestoneLag.End, expectedMilestoneDate)
+	}
+}
+
+func TestDependencyArrowsLayerInTimeDiagram(t *testing.T) {
+	stack := level1stack.NewLevel1StackDelta("test_arrows_layer", "", "", true, false, false)
+	stager := models.NewStager(
+		stack.R,
+		stack.Stage,
+		stack.Probe,
+		"",
+	)
+	stage := stack.Stage
+
+	lib := (&models.Library{
+		Name:          "RootLib",
+		IsRootLibrary: true,
+	}).Stage(stage)
+
+	tg1 := (&models.TaskGroup{Name: "TG1"}).Stage(stage)
+	lib.RootTaskGroups = []*models.TaskGroup{tg1}
+
+	for d := range *stage.GetInstancesSet[*models.Diagram]() {
+		d.IsChecked = false
+	}
+
+	diag := (&models.Diagram{
+		Name:                      "Gantt",
+		IsTimeDiagram:             true,
+		IsChecked:                 true,
+		IsEditable_:               true,
+		TextHeight:                15.0,
+		LaneHeight:                85.0,
+		YTopMargin:                40.0,
+		DateYOffset:               15.0,
+		XLeftLanes:                240.0,
+		XRightMargin:              1250.0,
+		UseManualStartAndEndDates: true,
+		ManualStart:               time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC),
+		ManualEnd:                 time.Date(2026, 3, 31, 0, 0, 0, 0, time.UTC),
+	}).Stage(stage)
+	lib.Diagrams = []*models.Diagram{diag}
+
+	tgs1 := (&models.TaskGroupShape{Name: "Gantt-TG1", TaskGroup: tg1}).Stage(stage)
+	diag.TaskGroupShapes = []*models.TaskGroupShape{tgs1}
+
+	t1 := (&models.Task{
+		Name:  "T1",
+		Start: time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC),
+		End:   time.Date(2026, 1, 15, 0, 0, 0, 0, time.UTC),
+	}).Stage(stage)
+
+	t2 := (&models.Task{
+		Name:         "T2",
+		Start:        time.Date(2026, 1, 20, 0, 0, 0, 0, time.UTC),
+		End:          time.Date(2026, 2, 5, 0, 0, 0, 0, time.UTC),
+		Predecessors: []*models.Task{t1},
+	}).Stage(stage)
+	tg1.Tasks = []*models.Task{t1, t2}
+	lib.RootTasks = []*models.Task{t1, t2}
+
+	ts1 := (&models.TaskShape{Name: "Gantt-T1", Task: t1}).Stage(stage)
+	ts2 := (&models.TaskShape{Name: "Gantt-T2", Task: t2}).Stage(stage)
+	diag.Task_Shapes = []*models.TaskShape{ts1, ts2}
+
+	predShape := (&models.TaskPredecessorShape{
+		Name:        "Gantt-T1-T2",
+		Task:        t2,
+		Predecessor: t1,
+	}).Stage(stage)
+	diag.TaskPredecessorShapes = []*models.TaskPredecessorShape{predShape}
+
+	stage.Commit()
+
+	svgObj := stager.GetSvgObject()
+	if svgObj == nil {
+		t.Fatal("expected svgObject to be generated, got nil")
+	}
+
+	// Verify layer structure
+	if len(svgObj.Layers) != 3 {
+		t.Fatalf("expected 3 layers in time diagram, got %d", len(svgObj.Layers))
+	}
+
+	baseLayer := svgObj.Layers[0]
+	if baseLayer.Name != "Layer 1" {
+		t.Errorf("expected layer 0 to be 'Layer 1', got %s", baseLayer.Name)
+	}
+
+	verticalLinesLayer := svgObj.Layers[1]
+	if verticalLinesLayer.Name != "Vertical Line Layers" {
+		t.Errorf("expected layer 1 to be 'Vertical Line Layers', got %s", verticalLinesLayer.Name)
+	}
+
+	arrowsLayer := svgObj.Layers[2]
+	if arrowsLayer.Name != "Dependency Arrows Layer" {
+		t.Errorf("expected layer 2 to be 'Dependency Arrows Layer', got %s", arrowsLayer.Name)
+	}
+
+	// Base layer must contain the task rectangles
+	if len(baseLayer.Rects) == 0 {
+		t.Error("expected baseLayer.Rects to contain task rectangles, got 0")
+	}
+
+	// Base layer must NOT contain the dependency arrow
+	for _, l := range baseLayer.Links {
+		if l.Name == "T1 to T2" {
+			t.Error("dependency arrow found in baseLayer instead of arrowsLayer")
+		}
+	}
+
+	// Arrows layer must contain the dependency arrow
+	if len(arrowsLayer.Links) != 1 {
+		t.Fatalf("expected 1 link in arrowsLayer, got %d", len(arrowsLayer.Links))
+	}
+	if arrowsLayer.Links[0].Name != "T1 to T2" {
+		t.Errorf("expected link name 'T1 to T2', got '%s'", arrowsLayer.Links[0].Name)
+	}
+
+	// Now switch diagram to non-time diagram: arrows must be on baseLayer, no separate arrowsLayer
+	diag.IsTimeDiagram = false
+	stage.Commit()
+
+	svgObjNonTime := stager.GetSvgObject()
+	if len(svgObjNonTime.Layers) != 1 {
+		t.Fatalf("expected 1 layer in non-time diagram, got %d", len(svgObjNonTime.Layers))
+	}
+	if len(svgObjNonTime.Layers[0].Links) != 1 {
+		t.Fatalf("expected 1 link in base layer for non-time diagram, got %d", len(svgObjNonTime.Layers[0].Links))
+	}
+}
+
+func TestEditMultiStageIssue1337(t *testing.T) {
+	outPath := filepath.Join(t.TempDir(), "issue1337_out.go")
+	stack := level1stack.NewLevel1StackDelta("test_issue1337", "data/issue1337.go", outPath, false, false, false)
+	if stack == nil {
+		t.Fatal("expected non-nil stack")
+	}
+	tasks := stack.Stage.GetInstancesMapByName[*models.Task]()
+	if _, ok := tasks["winter 26"]; !ok {
+		t.Errorf("expected task 'winter 26' to be loaded, got %d tasks", len(tasks))
+	}
+	if _, ok := tasks["spring 26"]; !ok {
+		t.Errorf("expected task 'spring 26' to be loaded")
+	}
+
+	// Trigger commit to verify multi-stage output marshalling
+	stack.Stage.Commit()
+
+	content, err := os.ReadFile(outPath)
+	if err != nil {
+		t.Fatalf("failed to read output file: %v", err)
+	}
+	if !strings.Contains(string(content), "stageSet *models.StageSet") && !strings.Contains(string(content), "stageSet *") {
+		t.Errorf("expected multi-stage format in output file, got:\n%s", string(content))
 	}
 }
 

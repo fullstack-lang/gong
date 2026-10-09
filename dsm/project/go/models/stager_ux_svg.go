@@ -69,8 +69,11 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	layer := (&svg.Layer{Name: "Layer 1"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
+	var dependencyArrowsLayer *svg.Layer
 	if diagram.IsTimeDiagram {
 		stager.generateTimeDiagram(diagram, svgObject)
+		dependencyArrowsLayer = (&svg.Layer{Name: "Dependency Arrows Layer"})
+		svgObject.Layers = append(svgObject.Layers, dependencyArrowsLayer)
 	}
 
 	for _, productShape := range diagram.Product_Shapes {
@@ -340,12 +343,17 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			continue
 		}
 
+		targetLayer := layer
+		if diagram.IsTimeDiagram && dependencyArrowsLayer != nil {
+			targetLayer = dependencyArrowsLayer
+		}
+
 		svgAssociationLink(
 			stager,
 			startRect, endRect,
 			taskPredecessorShape,
 			task,
-			layer,
+			targetLayer,
 			true,
 		)
 	}

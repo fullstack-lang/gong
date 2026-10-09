@@ -18,7 +18,9 @@ func executeServer(args []string) {
 	// args contains all arguments remaining after flags are parsed
 	if len(args) > 0 {
 		argument := args[0] // This will correctly pick 'foo.go'
-		marshallOnCommit = argument
+		if marshallOnCommit == "" {
+			marshallOnCommit = argument
+		}
 		unmarshallFromCode = argument
 	}
 
