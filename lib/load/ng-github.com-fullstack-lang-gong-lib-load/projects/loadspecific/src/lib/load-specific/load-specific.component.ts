@@ -9,7 +9,6 @@ const DB_NAME = 'gong_fs_store';
 const STORE_NAME = 'handles';
 const KEY_LAST_SAVE = 'last_save_handle';
 
-let cachedSaveHandle: any = null;
 
 function getStoredHandle(key: string): Promise<any> {
   return new Promise((resolve) => {
@@ -77,6 +76,39 @@ function storeHandle(key: string, handle: any): Promise<void> {
   });
 }
 
+function deleteStoredHandle(key: string): Promise<void> {
+  return new Promise((resolve) => {
+    if (typeof indexedDB === 'undefined') {
+      resolve();
+      return;
+    }
+    try {
+      const request = indexedDB.open(DB_NAME, 1);
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          db.createObjectStore(STORE_NAME);
+        }
+      };
+      request.onsuccess = () => {
+        const db = request.result;
+        try {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          const store = tx.objectStore(STORE_NAME);
+          store.delete(key);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => resolve();
+        } catch {
+          resolve();
+        }
+      };
+      request.onerror = () => resolve();
+    } catch {
+      resolve();
+    }
+  });
+}
+
 @Component({
   selector: 'lib-load-specific',
   imports: [MatIconModule],
@@ -96,6 +128,11 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
 
   // 1. Create a subject to notify when the component is destroyed.
   private readonly destroy$ = new Subject<void>();
+  private cachedSaveHandle: any = null;
+
+  private getStorageKey(): string {
+    return `${KEY_LAST_SAVE}_${this.Name || 'default'}`;
+  }
 
   constructor(
     private frontRepoService: load.FrontRepoService,
@@ -106,10 +143,10 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log("ngOnInit");
 
-    if (!cachedSaveHandle) {
-      getStoredHandle(KEY_LAST_SAVE).then((h) => {
-        if (h && !cachedSaveHandle) {
-          cachedSaveHandle = h;
+    if (!this.cachedSaveHandle) {
+      getStoredHandle(this.getStorageKey()).then((h) => {
+        if (h && !this.cachedSaveHandle) {
+          this.cachedSaveHandle = h;
         }
       });
     }
@@ -213,18 +250,18 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
         throw new Error("Your browser does not support the File System Access API. Downloading file directly instead.");
       }
 
-      if (!cachedSaveHandle) {
-        cachedSaveHandle = await getStoredHandle(KEY_LAST_SAVE);
+      if (!this.cachedSaveHandle) {
+        this.cachedSaveHandle = await getStoredHandle(this.getStorageKey());
       }
 
-      console.log("Calling showSaveFilePicker with name:", this.saveAsName, "startIn:", cachedSaveHandle);
+      console.log("Calling showSaveFilePicker with name:", this.saveAsName, "startIn:", this.cachedSaveHandle);
       const pickerOptions: any = {
         suggestedName: this.saveAsName,
         id: 'gong-save-file-picker',
       };
 
-      if (cachedSaveHandle) {
-        pickerOptions.startIn = cachedSaveHandle;
+      if (this.cachedSaveHandle) {
+        pickerOptions.startIn = this.cachedSaveHandle;
       }
 
       if (this.saveAsName.endsWith('.go')) {
@@ -266,8 +303,8 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
         }
       }
 
-      cachedSaveHandle = handle;
-      storeHandle(KEY_LAST_SAVE, handle).catch(() => {});
+      this.cachedSaveHandle = handle;
+      storeHandle(this.getStorageKey(), handle).catch(() => {});
 
       const writable = await handle.createWritable();
       await writable.write(this.saveAsBlob);
@@ -330,6 +367,7 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
     if (fileList && fileList.length > 0) {
       this.handleFile(fileList[0]);
     }
+    element.value = '';
   }
 
   private handleFile(file: File): void {
@@ -337,6 +375,11 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
       this.uploadStatus.set("No file selected.");
       return;
     }
+
+    // Unmemorize previous save location when a new file is dropped/selected
+    this.cachedSaveHandle = null;
+    deleteStoredHandle(this.getStorageKey()).catch(() => {});
+    deleteStoredHandle(KEY_LAST_SAVE).catch(() => {});
 
     this.isUploading.set(true);
     this.uploadStatus.set(`Preparing to upload ${file.name}...`);

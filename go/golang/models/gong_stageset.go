@@ -278,6 +278,21 @@ func CodeGeneratorModelGongStageSet(
 		mainPkgImportAlias = stageSet.Fields[0].ImportAlias
 	}
 
+	var mainPkgPath string
+	for _, f := range stageSet.Fields {
+		if f.IsLocal {
+			mainPkgPath = f.PackagePath
+			break
+		}
+	}
+	if mainPkgPath == "" && len(stageSet.Fields) > 0 {
+		mainPkgPath = stageSet.Fields[0].PackagePath
+	}
+	if mainPkgPath == "" {
+		mainPkgPath = modelPkg.PkgPath
+	}
+	probePackageName := mainPkgPath + "/probe/cmd/probe"
+
 	// Build code inside MarshallToString
 	var marshallBody strings.Builder
 	marshallBody.WriteString("\tvar declarations strings.Builder\n")
@@ -625,6 +640,7 @@ type StageSet struct {
 	codeGO = strings.ReplaceAll(codeGO, "{{SyntheticImports}}", syntheticImports.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{DummyDeclarations}}", dummyDeclarations.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{MainPkgImportAlias}}", mainPkgImportAlias)
+	codeGO = strings.ReplaceAll(codeGO, "{{ProbePackageName}}", probePackageName)
 	codeGO = strings.ReplaceAll(codeGO, "{{MarshallBody}}", marshallBody.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{ImportPathCases}}", importPathCases.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{DefineCases}}", defineCases.String())
