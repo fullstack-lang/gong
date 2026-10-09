@@ -30,12 +30,13 @@ func TestTaskTaskGroupLink(t *testing.T) {
 	tg2 := (&models.TaskGroup{Name: "Frontend"}).Stage(stage)
 	lib.RootTaskGroups = []*models.TaskGroup{tg1, tg2}
 
-	// Task 1: linked via tg1.Tasks
+	// Task 1: linked via task1.TaskGroups and ordered in tg1.Tasks
 	task1 := (&models.Task{
-		Name:     "DB Migration",
-		Start:    time.Date(2026, 4, 1, 0, 0, 0, 0, time.UTC),
-		End:      time.Date(2026, 4, 5, 0, 0, 0, 0, time.UTC),
-		IsAllDay: true,
+		Name:       "DB Migration",
+		Start:      time.Date(2026, 4, 1, 0, 0, 0, 0, time.UTC),
+		End:        time.Date(2026, 4, 5, 0, 0, 0, 0, time.UTC),
+		IsAllDay:   true,
+		TaskGroups: []*models.TaskGroup{tg1},
 	}).Stage(stage)
 	tg1.Tasks = []*models.Task{task1}
 
@@ -105,6 +106,30 @@ func TestTaskTaskGroupLink(t *testing.T) {
 	if !slices.Contains(tg2Tasks, task2) {
 		t.Errorf("tg2Tasks should contain task2, got %v", tg2Tasks)
 	}
+
+	// Verify semantic rule populated tg2.Tasks matching task2.TaskGroups
+	if len(tg2.Tasks) != 1 || tg2.Tasks[0] != task2 {
+		t.Errorf("expected tg2.Tasks to be populated with task2 by semantic rule, got %v", tg2.Tasks)
+	}
+
+	// Verify display order preservation when reordered in tg1.Tasks
+	tg1.Tasks = []*models.Task{task3, task1}
+	stage.Commit()
+	if len(tg1.Tasks) != 2 || tg1.Tasks[0] != task3 || tg1.Tasks[1] != task1 {
+		t.Errorf("expected tg1.Tasks order [task3, task1] to be preserved, got %v", tg1.Tasks)
+	}
+
+	// Verify removal from TaskGroups cleans up TaskGroup.Tasks
+	task3.TaskGroups = []*models.TaskGroup{}
+	stage.Commit()
+	if len(tg1.Tasks) != 1 || tg1.Tasks[0] != task1 {
+		t.Errorf("expected task3 to be removed from tg1.Tasks after removal from TaskGroups, got %v", tg1.Tasks)
+	}
+
+	// Restore task3 for subsequent SVG / diagram tests
+	task3.TaskGroups = []*models.TaskGroup{tg1}
+	tg1.Tasks = []*models.Task{task1, task3}
+	stage.Commit()
 
 	// 2. Verify Diagram dates include task2 (which ends April 10 + 1 day = April 11)
 	expectedEnd := time.Date(2026, 4, 11, 0, 0, 0, 0, time.UTC)

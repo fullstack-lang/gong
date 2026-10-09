@@ -67,6 +67,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce trees and DAG", stager.enforceTreesAndDAG},
 		{"Enforce task input output library consistency", stager.enforceTaskInputOutputLibraryConsistency},
 		{"Enforce duplicate remove", stager.enforceDuplicateRemove},
+		{"Enforce task group tasks", stager.enforceTaskGroupTasks},
 		{"Enforce library has at least one diagram", stager.enforceLibraryHasAtLeastOneDiagram},
 		{"Enforce task predecessor dates", stager.enforceTaskPredecessorDates},
 		{"Enforce task duration dates", stager.enforceTaskDurationDates},

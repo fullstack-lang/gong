@@ -258,8 +258,8 @@ func _(stageSet *models.StageSet) {
 	__models__Task__00000001_.LayoutDirection = 0
 	__models__Task__00000002_.Name = `Milestone`
 	__models__Task__00000002_.Description = ``
-	__models__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-05-09 00:00:00 +0000 UTC")
-	__models__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-05-09 00:00:00 +0000 UTC")
+	__models__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-16 00:00:00 +0000 UTC")
+	__models__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-16 00:00:00 +0000 UTC")
 	__models__Task__00000002_.IsAllDay = true
 	__models__Task__00000002_.IsMilestone = true
 	__models__Task__00000002_.DependencyType = `FINISH_TO_START`
@@ -407,7 +407,10 @@ func _(stageSet *models.StageSet) {
 	__models__ProductShape__00000002_.Product = __models__Product__00000000_
 	__models__Task__00000000_.TaskGroups = append(__models__Task__00000000_.TaskGroups, __models__TaskGroup__00000000_)
 	__models__Task__00000000_.Outputs = append(__models__Task__00000000_.Outputs, __models__Product__00000000_)
+	__models__Task__00000001_.TaskGroups = append(__models__Task__00000001_.TaskGroups, __models__TaskGroup__00000001_)
 	__models__Task__00000001_.Predecessors = append(__models__Task__00000001_.Predecessors, __models__Task__00000000_)
+	__models__Task__00000002_.TaskGroups = append(__models__Task__00000002_.TaskGroups, __models__TaskGroup__00000000_)
+	__models__TaskGroup__00000000_.Tasks = append(__models__TaskGroup__00000000_.Tasks, __models__Task__00000000_)
 	__models__TaskGroup__00000000_.Tasks = append(__models__TaskGroup__00000000_.Tasks, __models__Task__00000002_)
 	__models__TaskGroup__00000001_.Tasks = append(__models__TaskGroup__00000001_.Tasks, __models__Task__00000001_)
 	__models__TaskGroupShape__00000000_.TaskGroup = __models__TaskGroup__00000000_
