@@ -4321,6 +4321,12 @@ func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.BasePlateHeight = GongExtractFloat(valueExpr)
 	case "CarvedOutTopRingsParameter":
 		instance.CarvedOutTopRingsParameter = GongExtractFloat(valueExpr)
+	case "BulbousStartTangentMagnitude":
+		instance.BulbousStartTangentMagnitude = GongExtractFloat(valueExpr)
+	case "BulbousEndAngle":
+		instance.BulbousEndAngle = GongExtractFloat(valueExpr)
+	case "BulbousEndTangentMagnitude":
+		instance.BulbousEndTangentMagnitude = GongExtractFloat(valueExpr)
 	case "RelativeVerticalThickness":
 		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
 	case "RelativeRadialThickness":

@@ -6159,6 +6159,12 @@ func saveTubeVaseAbstractFields(
 			FormDivBasicFieldToField(&(_instance.BasePlateHeight), formDiv)
 		case "CarvedOutTopRingsParameter":
 			FormDivBasicFieldToField(&(_instance.CarvedOutTopRingsParameter), formDiv)
+		case "BulbousStartTangentMagnitude":
+			FormDivBasicFieldToField(&(_instance.BulbousStartTangentMagnitude), formDiv)
+		case "BulbousEndAngle":
+			FormDivBasicFieldToField(&(_instance.BulbousEndAngle), formDiv)
+		case "BulbousEndTangentMagnitude":
+			FormDivBasicFieldToField(&(_instance.BulbousEndTangentMagnitude), formDiv)
 		case "RelativeVerticalThickness":
 			FormDivBasicFieldToField(&(_instance.RelativeVerticalThickness), formDiv)
 		case "RelativeRadialThickness":

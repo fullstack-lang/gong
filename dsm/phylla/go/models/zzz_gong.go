@@ -25754,6 +25754,18 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "BulbousStartTangentMagnitude",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BulbousEndAngle",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BulbousEndTangentMagnitude",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "RelativeVerticalThickness",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -31241,6 +31253,18 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldValue(fieldName string, st
 	case "CarvedOutTopRingsParameter":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.CarvedOutTopRingsParameter)
 		res.valueFloat = tubevaseabstract.CarvedOutTopRingsParameter
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BulbousStartTangentMagnitude":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.BulbousStartTangentMagnitude)
+		res.valueFloat = tubevaseabstract.BulbousStartTangentMagnitude
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BulbousEndAngle":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.BulbousEndAngle)
+		res.valueFloat = tubevaseabstract.BulbousEndAngle
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BulbousEndTangentMagnitude":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.BulbousEndTangentMagnitude)
+		res.valueFloat = tubevaseabstract.BulbousEndTangentMagnitude
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RelativeVerticalThickness":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeVerticalThickness)

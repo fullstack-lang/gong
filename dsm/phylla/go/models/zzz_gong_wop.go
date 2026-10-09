@@ -3043,6 +3043,12 @@ type TubeVaseAbstract_WOP struct {
 
 	CarvedOutTopRingsParameter float64
 
+	BulbousStartTangentMagnitude float64
+
+	BulbousEndAngle float64
+
+	BulbousEndTangentMagnitude float64
+
 	RelativeVerticalThickness float64
 
 	RelativeRadialThickness float64
@@ -3092,6 +3098,9 @@ func (from *TubeVaseAbstract) GongCopyBasicFields(to *TubeVaseAbstract) {
 	to.ProjectionAngle = from.ProjectionAngle
 	to.BasePlateHeight = from.BasePlateHeight
 	to.CarvedOutTopRingsParameter = from.CarvedOutTopRingsParameter
+	to.BulbousStartTangentMagnitude = from.BulbousStartTangentMagnitude
+	to.BulbousEndAngle = from.BulbousEndAngle
+	to.BulbousEndTangentMagnitude = from.BulbousEndTangentMagnitude
 	to.RelativeVerticalThickness = from.RelativeVerticalThickness
 	to.RelativeRadialThickness = from.RelativeRadialThickness
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight

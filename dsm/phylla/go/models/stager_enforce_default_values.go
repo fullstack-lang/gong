@@ -92,6 +92,11 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				vase.MovieNbFrames = 1000
 				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default MovieNbFrames set to 1000", plant.Name))
 			}
+			if vase.BulbousEndAngle == 0.0 {
+				needCommit = true
+				vase.BulbousEndAngle = 30.0
+				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default BulbousEndAngle set to 30.0", plant.Name))
+			}
 		}
 		if stool := plant.StoolAbstract; stool != nil {
 			if stool.RadialRepetitions < 1 {

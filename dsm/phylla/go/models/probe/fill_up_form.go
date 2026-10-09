@@ -3475,6 +3475,12 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("CarvedOutTopRingsParameter", instanceWithInferedType.CarvedOutTopRingsParameter, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BulbousStartTangentMagnitude", instanceWithInferedType.BulbousStartTangentMagnitude, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BulbousEndAngle", instanceWithInferedType.BulbousEndAngle, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BulbousEndTangentMagnitude", instanceWithInferedType.BulbousEndTangentMagnitude, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeVerticalThickness", instanceWithInferedType.RelativeVerticalThickness, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeRadialThickness", instanceWithInferedType.RelativeRadialThickness, instanceWithInferedType, probe.formStage, formGroup,

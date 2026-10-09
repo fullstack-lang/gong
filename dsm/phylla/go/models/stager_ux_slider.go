@@ -274,6 +274,30 @@ func (stager *Stager) ux_slider() {
 						0.01,
 						&plant.TubeVaseAbstract.CarvedOutTopRingsParameter,
 					),
+					m.NewSlider(
+						stager,
+						"Bulbous Start Tangent Magnitude",
+						0.0,
+						500.0,
+						1.0,
+						&plant.TubeVaseAbstract.BulbousStartTangentMagnitude,
+					),
+					m.NewSlider(
+						stager,
+						"Bulbous End Angle",
+						-89.0,
+						89.0,
+						1.0,
+						&plant.TubeVaseAbstract.BulbousEndAngle,
+					),
+					m.NewSlider(
+						stager,
+						"Bulbous End Tangent Magnitude",
+						0.0,
+						500.0,
+						1.0,
+						&plant.TubeVaseAbstract.BulbousEndTangentMagnitude,
+					),
 				)
 			}
 

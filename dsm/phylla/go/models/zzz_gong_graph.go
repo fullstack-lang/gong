@@ -14178,6 +14178,15 @@ func (tubevaseabstract *TubeVaseAbstract) GongDiff(stage *Stage, tubevaseabstrac
 	if tubevaseabstract.CarvedOutTopRingsParameter != tubevaseabstractOther.CarvedOutTopRingsParameter {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "CarvedOutTopRingsParameter"))
 	}
+	if tubevaseabstract.BulbousStartTangentMagnitude != tubevaseabstractOther.BulbousStartTangentMagnitude {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "BulbousStartTangentMagnitude"))
+	}
+	if tubevaseabstract.BulbousEndAngle != tubevaseabstractOther.BulbousEndAngle {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "BulbousEndAngle"))
+	}
+	if tubevaseabstract.BulbousEndTangentMagnitude != tubevaseabstractOther.BulbousEndTangentMagnitude {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "BulbousEndTangentMagnitude"))
+	}
 	if tubevaseabstract.RelativeVerticalThickness != tubevaseabstractOther.RelativeVerticalThickness {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 	}

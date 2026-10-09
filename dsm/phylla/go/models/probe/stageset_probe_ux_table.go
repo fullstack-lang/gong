@@ -5921,6 +5921,21 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "BulbousStartTangentMagnitude"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "BulbousEndAngle"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "BulbousEndTangentMagnitude"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "RelativeVerticalThickness"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -6236,6 +6251,24 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "CarvedOutTopRingsParameter"}
 			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.CarvedOutTopRingsParameter)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "BulbousStartTangentMagnitude"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.BulbousStartTangentMagnitude)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "BulbousEndAngle"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.BulbousEndAngle)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "BulbousEndTangentMagnitude"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.BulbousEndTangentMagnitude)}
 			row.Cells = append(row.Cells, cell)
 		}
 

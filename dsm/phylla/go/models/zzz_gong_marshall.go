@@ -3960,6 +3960,12 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallField(stage *Stage, fieldN
 		res = __gong__marshallFloat(ident, "BasePlateHeight", tubevaseabstract.BasePlateHeight)
 	case "CarvedOutTopRingsParameter":
 		res = __gong__marshallFloat(ident, "CarvedOutTopRingsParameter", tubevaseabstract.CarvedOutTopRingsParameter)
+	case "BulbousStartTangentMagnitude":
+		res = __gong__marshallFloat(ident, "BulbousStartTangentMagnitude", tubevaseabstract.BulbousStartTangentMagnitude)
+	case "BulbousEndAngle":
+		res = __gong__marshallFloat(ident, "BulbousEndAngle", tubevaseabstract.BulbousEndAngle)
+	case "BulbousEndTangentMagnitude":
+		res = __gong__marshallFloat(ident, "BulbousEndTangentMagnitude", tubevaseabstract.BulbousEndTangentMagnitude)
 	case "RelativeVerticalThickness":
 		res = __gong__marshallFloat(ident, "RelativeVerticalThickness", tubevaseabstract.RelativeVerticalThickness)
 	case "RelativeRadialThickness":
@@ -6487,6 +6493,9 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "ProjectionAngle"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "BasePlateHeight"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "CarvedOutTopRingsParameter"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "BulbousStartTangentMagnitude"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "BulbousEndAngle"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "BulbousEndTangentMagnitude"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))

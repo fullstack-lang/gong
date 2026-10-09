@@ -101,6 +101,17 @@ func TestStageSetUnmarshallStageFile(t *testing.T) {
 		t.Errorf("expected at least one TubeVaseAbstract with CarvedOutTopRingsParameter > 0")
 	}
 
+	foundBulbousParam := false
+	for vase := range stageSet2.Stage.TubeVaseAbstracts {
+		if vase.BulbousEndAngle > 0 && vase.BulbousStartTangentMagnitude > 0 {
+			foundBulbousParam = true
+			break
+		}
+	}
+	if !foundBulbousParam {
+		t.Errorf("expected at least one TubeVaseAbstract with BulbousEndAngle > 0 and BulbousStartTangentMagnitude > 0")
+	}
+
 	for diagram := range stageSet2.Stage.TubeVase3DDiagrams {
 		if diagram.Name == "Vase Trapeze-TubeVase3DDiagram" {
 			if diagram.VaseTrapezeBasePlateShape == nil {

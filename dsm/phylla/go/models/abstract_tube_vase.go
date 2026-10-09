@@ -27,6 +27,16 @@ type TubeVaseAbstract struct {
 	// If 1.0, the carved out top curve reaches the bottom curve at the minimum radius.
 	CarvedOutTopRingsParameter float64
 
+	// BulbousStartTangentMagnitude is the magnitude of the tangent vector to the bulbous base curve at the start (extending from the ring).
+	BulbousStartTangentMagnitude float64
+
+	// BulbousEndAngle is the angle in degrees relative to the vertical of the tangent vector at the bottom of the bulbous base curve.
+	// Default value: 30 degrees.
+	BulbousEndAngle float64
+
+	// BulbousEndTangentMagnitude is the magnitude of the tangent vector to the bulbous base curve at the end (at the floor).
+	BulbousEndTangentMagnitude float64
+
 	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
 	// the vertical thickness is RelativeVerticalThickness x RhombusSideLength
 	RelativeVerticalThickness float64

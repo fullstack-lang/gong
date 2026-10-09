@@ -316,6 +316,10 @@ func NewStagerForTest(stage *Stage) *Stager {
 	return stager
 }
 
+func (stager *Stager) EnforceSemanticForTest() {
+	stager.enforceSemantic()
+}
+
 func (stager *Stager) StartMovieRecordingTubeVase3D(plant *PlantAbstract, tubeVase3DDiagram *TubeVase3DDiagram) {
 	if stager.threeJSUpdater != nil {
 		stager.threeJSUpdater.StartMovieRecordingTubeVase3D(stager, plant, tubeVase3DDiagram)
@@ -362,12 +366,20 @@ func (stager *Stager) GetCurrentPlant() *PlantAbstract {
 	return stager.selectedPlant
 }
 
+func (stager *Stager) SetCurrentPlant(plant *PlantAbstract) {
+	stager.selectedPlant = plant
+}
+
 func (stager *Stager) GetSliderStage() *slider.Stage {
 	return stager.sliderStage
 }
 
 func (stager *Stager) GetThreejsStage() *threejs.Stage {
 	return stager.threejsStage
+}
+
+func (stager *Stager) SetThreejsStage(stage *threejs.Stage) {
+	stager.threejsStage = stage
 }
 
 func (stager *Stager) GetStool3dStage() *threejs.Stage {
