@@ -240,22 +240,8 @@ func (stager *Stager) createViews() {
 									},
 									{
 										Size: 10,
-										AsSplit: &split.AsSplit{
-											Direction: split.Horizontal,
-											AsSplitAreas: []*split.AsSplitArea{
-												{
-													Size: 50,
-													Load: &split.Load{
-														StackName: stager.loadStage.GetName(),
-													},
-												},
-												{
-													Size: 50,
-													Load: &split.Load{
-														StackName: stager.loadStageMultistage.GetName(),
-													},
-												},
-											},
+										Load: &split.Load{
+											StackName: stager.loadStage.GetName(),
 										},
 									},
 									{

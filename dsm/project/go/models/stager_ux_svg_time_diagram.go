@@ -153,12 +153,11 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, svgObject *svg.SVG) 
 				continue
 			}
 
-			rect4Bar := stager.displayTask(diagram, task, taskShape, layer, currentY, LaneHeight, barHeigth) // rounded corners
-
 			if task.IsMilestone {
 				// milestone rendering
 				stager.displayMilestone(diagram, task, taskShape, verticalLinesLayer, yTimeLine, taskGroup, layer, mapTaskGroup_TextY)
 			} else {
+				rect4Bar := stager.displayTask(diagram, task, taskShape, layer, currentY, LaneHeight, barHeigth) // rounded corners
 				stager.displayTaskCompletion(task, rect4Bar, barHeigth)
 				// bar text using RectAnchoredText to ensure it renders on top of the bar
 				stager.displayTaskTitle(task, diagram, rect4Bar)
@@ -453,6 +452,9 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 
 		layer.Rects = append(layer.Rects, diamond)
 		diamond.Name = task.Name
+		diamond.IsSelectable = true
+		diamond.CanHaveRightHandle = true
+		diamond.CanMoveHorizontaly = true
 
 		diamond.OnSelect = func() {
 			stager.stage.CommitWithSuspendedCallbacks()
@@ -460,10 +462,79 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 			stager.ux_tree()
 		}
 		diamond.OnMove = func(x, y float64) {
-			stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
+			origStartX := diamond.X
+			newStartX := x
+
+			if math.Abs(newStartX-origStartX) <= 0.001 {
+				stager.stage.CommitWithSuspendedCallbacks()
+				return
+			}
+
+			rawDate := diagram.XToDate(newStartX + diamondWidth/2.0)
+			newDate := diagram.SnapStartDate(rawDate, task.IsAllDay)
+
+			if diagram.UseManualStartAndEndDates {
+				if newDate.Before(diagram.ManualStart) {
+					newDate = diagram.ManualStart
+				}
+				if newDate.After(diagram.ManualEnd) {
+					newDate = diagram.ManualEnd
+				}
+			}
+
+			if newDate.Equal(task.Start) && newDate.Equal(task.End) {
+				stager.stage.CommitWithSuspendedCallbacks()
+				return
+			}
+
+			updateTaskDurationAndPredecessors(task, true, true, newDate, newDate)
+			if stager.probeForm != nil {
+				stager.probeForm.FillUpFormFromGongstruct(task, "Task")
+			}
+			stager.stage.Commit()
 		}
 		diamond.OnResize = func(x, y, width, height float64) {
-			stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
+			origStartX := diamond.X
+			origEndX := diamond.X + diamond.Width
+			newStartX := x
+			newEndX := x + width
+
+			startMoved := math.Abs(newStartX-origStartX) > 0.001
+			endMoved := math.Abs(newEndX-origEndX) > 0.001
+
+			if !startMoved && !endMoved {
+				stager.stage.CommitWithSuspendedCallbacks()
+				return
+			}
+
+			var newDate time.Time
+			if startMoved {
+				rawDate := diagram.XToDate(newStartX + diamondWidth/2.0)
+				newDate = diagram.SnapStartDate(rawDate, task.IsAllDay)
+			} else if endMoved {
+				rawDate := diagram.XToDate(newEndX - diamondWidth/2.0)
+				newDate = diagram.SnapStartDate(rawDate, task.IsAllDay)
+			}
+
+			if diagram.UseManualStartAndEndDates {
+				if newDate.Before(diagram.ManualStart) {
+					newDate = diagram.ManualStart
+				}
+				if newDate.After(diagram.ManualEnd) {
+					newDate = diagram.ManualEnd
+				}
+			}
+
+			if newDate.Equal(task.Start) && newDate.Equal(task.End) {
+				stager.stage.CommitWithSuspendedCallbacks()
+				return
+			}
+
+			updateTaskDurationAndPredecessors(task, true, true, newDate, newDate)
+			if stager.probeForm != nil {
+				stager.probeForm.FillUpFormFromGongstruct(task, "Task")
+			}
+			stager.stage.Commit()
 		}
 
 		diamond.X = lineX - diamondWidth/2.0
@@ -475,6 +546,10 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 		diamond.Stroke = "darkred"
 		diamond.StrokeWidth = 1.0
 		diamond.Transform = fmt.Sprintf("rotate(%d %d %d)", 45, int64(diamond.X+diamondWidth/2.0), int64(diamond.Y+diamondWidth/2.0))
+
+		if taskGroupToDisplay == taskGroup || diagram.map_Task_Rect[task] == nil {
+			diagram.map_Task_Rect[task] = diamond
+		}
 
 		// dummy rect to hold the text so it renders on top of everything
 		dummyRect := new(svg.Rect)
