@@ -131,15 +131,79 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, svgObject *svg.SVG) 
 		laneIndex = laneIndex + 1
 		laneSVG.StrokeWidth = 1.5
 
-		laneText := new(svg.Text)
+		if taskGroup == nil {
+			continue
+		}
+
+		onSelectTaskGroup := func() {
+			if stager.stage != nil {
+				stager.stage.CommitWithSuspendedCallbacks()
+			}
+			if stager.probeForm != nil {
+				stager.probeForm.FillUpFormFromGongstruct(taskGroup, "TaskGroup")
+			}
+			if stager.treeStage != nil {
+				stager.ux_tree()
+			}
+		}
+
+		laneSVG.IsSelectable = true
+		laneSVG.OnSelect = onSelectTaskGroup
+
+		laneHeaderRect := new(svg.Rect)
+		laneHeaderRect.Name = taskGroup.Name + " Header"
+		laneHeaderRect.X = 0
+		laneHeaderRect.Y = currentY
+		laneHeaderRect.Width = diagram.XLeftLanes
+		laneHeaderRect.Height = LaneHeight
+		laneHeaderRect.Color = "white"
+		laneHeaderRect.FillOpacity = 0.0001
+		laneHeaderRect.Stroke = "none"
+		laneHeaderRect.StrokeWidth = 0.0
+		laneHeaderRect.StrokeOpacity = 0.0
+		laneHeaderRect.IsSelectable = true
+		laneHeaderRect.OnSelect = onSelectTaskGroup
+		layer.Rects = append(layer.Rects, laneHeaderRect)
+
+		content := taskGroup.Name
+		if diagram != nil && diagram.GetIsShowPrefix() && taskGroup.ComputedPrefix != "" {
+			content = taskGroup.ComputedPrefix + " " + content
+		}
+
+		margin := 2 * diagram.XLeftText
+		if margin <= 0 {
+			margin = 20.0
+		}
+		availableWidth := diagram.XLeftLanes - margin
+		if availableWidth <= 0 && diagram.XLeftLanes > diagram.XLeftText {
+			availableWidth = diagram.XLeftLanes - diagram.XLeftText
+		}
+
+		root := stager.getRootLibrary()
+		nbPixPerChar := 8.0
+		if root != nil && root.NbPixPerCharacter > 0 {
+			nbPixPerChar = root.NbPixPerCharacter
+		}
+		if availableWidth > 0 && nbPixPerChar > 0 {
+			cutoff := int(availableWidth / nbPixPerChar)
+			if cutoff > 0 {
+				content = strutils.WrapStringPreservingNewlines(content, cutoff)
+			}
+		}
+
+		laneText := new(svg.RectAnchoredText)
 		laneText.Name = taskGroup.Name
-		laneText.Content = laneText.Name
-		laneText.X = diagram.XLeftText
-		laneText.Y = currentY + LaneHeight/2.0 + diagram.TextHeight/2.0
-		mapTaskGroup_TextY[taskGroup] = laneText.Y
+		laneText.Content = content
+		laneText.RectAnchorType = svg.RECT_LEFT_MIDDLE
+		laneText.TextAnchorType = svg.TEXT_ANCHOR_START
+		laneText.DominantBaseline = svg.DominantBaselineCentral
+		laneText.X_Offset = diagram.XLeftText - diagram.XLeftLanes
+		laneText.Y_Offset = 0
 		laneText.Color = "black"
 		laneText.FillOpacity = 1.0
-		layer.Texts = append(layer.Texts, laneText)
+		laneSVG.RectAnchoredTexts = append(laneSVG.RectAnchoredTexts, laneText)
+
+		mapTaskGroup_TextY[taskGroup] = currentY + LaneHeight/2.0 + diagram.TextHeight/2.0
 
 		// Tasks
 		for _, task := range stager.getTasksOfTaskGroup(taskGroup) {
