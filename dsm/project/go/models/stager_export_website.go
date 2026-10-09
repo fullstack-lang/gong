@@ -258,6 +258,13 @@ func taskToMD(t *Task, depth int) string {
 		}
 		md += fmt.Sprintf("%s  - Outputs: %s\n", indent, strings.Join(outputs, ", "))
 	}
+	if len(t.TaskGroups) > 0 {
+		var groups []string
+		for _, g := range t.TaskGroups {
+			groups = append(groups, g.Name)
+		}
+		md += fmt.Sprintf("%s  - TaskGroups: %s\n", indent, strings.Join(groups, ", "))
+	}
 	if len(t.SubTasks) > 0 {
 		md += fmt.Sprintf("%s  - SubTasks:\n", indent)
 		for _, sub := range t.SubTasks {

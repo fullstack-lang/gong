@@ -142,7 +142,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, svgObject *svg.SVG) 
 		layer.Texts = append(layer.Texts, laneText)
 
 		// Tasks
-		for _, task := range taskGroup.Tasks {
+		for _, task := range stager.getTasksOfTaskGroup(taskGroup) {
 			taskShape, ok := diagram.map_Task_TaskShape[task]
 			if !ok {
 				log.Println("task has no shape", task.Name)

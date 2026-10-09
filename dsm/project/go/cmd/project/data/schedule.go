@@ -405,9 +405,9 @@ func _(stageSet *models.StageSet) {
 	__models__NoteTaskShape__00000000_.Task = __models__Task__00000002_
 	__models__ProductShape__00000001_.Product = __models__Product__00000000_
 	__models__ProductShape__00000002_.Product = __models__Product__00000000_
+	__models__Task__00000000_.TaskGroups = append(__models__Task__00000000_.TaskGroups, __models__TaskGroup__00000000_)
 	__models__Task__00000000_.Outputs = append(__models__Task__00000000_.Outputs, __models__Product__00000000_)
 	__models__Task__00000001_.Predecessors = append(__models__Task__00000001_.Predecessors, __models__Task__00000000_)
-	__models__TaskGroup__00000000_.Tasks = append(__models__TaskGroup__00000000_.Tasks, __models__Task__00000000_)
 	__models__TaskGroup__00000000_.Tasks = append(__models__TaskGroup__00000000_.Tasks, __models__Task__00000002_)
 	__models__TaskGroup__00000001_.Tasks = append(__models__TaskGroup__00000001_.Tasks, __models__Task__00000001_)
 	__models__TaskGroupShape__00000000_.TaskGroup = __models__TaskGroup__00000000_

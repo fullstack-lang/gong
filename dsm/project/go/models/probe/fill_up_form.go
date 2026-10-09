@@ -699,6 +699,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsMilestone", instanceWithInferedType.IsMilestone, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		AssociationSliceToForm("TaskGroups", instanceWithInferedType, &instanceWithInferedType.TaskGroups, formGroup, probe)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
 			Name:       "",
 			IsAStartAccordionGroup: true,
@@ -936,6 +937,15 @@ func FillUpForm(
 			probe,
 			func(owner *models.Library) []*models.TaskGroup {
 				return owner.RootTaskGroups
+			})
+		AssociationReverseSliceToForm(
+			"Task",
+			"TaskGroups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Task) []*models.TaskGroup {
+				return owner.TaskGroups
 			})
 		AssociationReverseSliceToForm(
 			"Task",

@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func (diagram *Diagram) computeStartAndEndDate() {
+func (diagram *Diagram) computeStartAndEndDate(stage *Stage) {
 	firstTask := true
 	for _, taskGroupShape := range diagram.TaskGroupShapes {
 		taskGroup := taskGroupShape.TaskGroup
@@ -13,7 +13,7 @@ func (diagram *Diagram) computeStartAndEndDate() {
 			log.Panic("TaskGroupShape has a no TaskGroup", taskGroupShape.Name)
 			continue
 		}
-		for _, task := range taskGroup.Tasks {
+		for _, task := range taskGroup.GetTasks(stage) {
 			_, ok := diagram.map_Task_TaskShape[task]
 			if !ok {
 				continue

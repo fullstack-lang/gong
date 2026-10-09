@@ -1469,6 +1469,26 @@ func StageSetFillUpForm(
 		StageSetBasicFieldtoForm("IsMilestone", inst.IsMilestone, probe.formStage, formGroup)
 
 		{
+			// Slice of pointers: TaskGroups
+			div := (&form.FormDiv{Name: "TaskGroups"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.TaskGroups {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "TaskGroups",
+				Label: "TaskGroups",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
 			// Slice of pointers: Predecessors
 			div := (&form.FormDiv{Name: "Predecessors"}).Stage(probe.formStage)
 			formGroup.FormDivs = append(formGroup.FormDivs, div)
@@ -1904,6 +1924,20 @@ func StageSetFillUpForm(
 			}
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("models.Library", "RootTaskGroups", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.Tasks {
+				for _, target := range src.TaskGroups {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Task", "TaskGroups", refNames, formGroup, probe.formStage)
 		}
 
 		{

@@ -421,7 +421,7 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 				taskGroupNode.IsWithPreceedingIcon = true
 				taskGroupNode.PreceedingIcon = string(buttons.BUTTON_folder_open)
 
-				for _, task := range taskGroup.Tasks {
+				for _, task := range stager.getTasksOfTaskGroup(taskGroup) {
 					stager.treeTask(diagram, task, taskGroupNode)
 				}
 			}

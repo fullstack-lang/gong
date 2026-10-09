@@ -540,6 +540,9 @@ func (task *Task) GongStageBranch(stage *Stage) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _taskgroup := range task.TaskGroups {
+		stage.StageBranch(_taskgroup)
+	}
 	for _, _task := range task.Predecessors {
 		stage.StageBranch(_task)
 	}
@@ -1204,6 +1207,9 @@ func GongCopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) 
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _taskgroup := range taskFrom.TaskGroups {
+		taskTo.TaskGroups = append(taskTo.TaskGroups, GongCopyBranchTaskGroup(mapOrigCopy, _taskgroup))
+	}
 	for _, _task := range taskFrom.Predecessors {
 		taskTo.Predecessors = append(taskTo.Predecessors, GongCopyBranchTask(mapOrigCopy, _task))
 	}
@@ -1772,6 +1778,9 @@ func (task *Task) GongUnstageBranch(stage *Stage) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _taskgroup := range task.TaskGroups {
+		stage.UnstageBranch(_taskgroup)
+	}
 	for _, _task := range task.Predecessors {
 		stage.UnstageBranch(_task)
 	}
@@ -2059,6 +2068,7 @@ func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, insta
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ReferencedTask, stage.Tasks_reference, instance.ReferencedTask)
 	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.TaskGroups, stage.TaskGroups_reference, instance.TaskGroups)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Predecessors, stage.Tasks_reference, instance.Predecessors)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Inputs, stage.Products_reference, instance.Inputs)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Outputs, stage.Products_reference, instance.Outputs)
@@ -2245,6 +2255,7 @@ func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ReferencedTask, stage.Tasks_instance)
 	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.TaskGroups, stage.TaskGroups_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Predecessors, stage.Tasks_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Inputs, stage.Products_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Outputs, stage.Products_instance)
@@ -3033,6 +3044,9 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.IsMilestone != taskOther.IsMilestone {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsMilestone"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, task, "TaskGroups", taskOther.TaskGroups, task.TaskGroups); ops != "" {
+		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, task, "Predecessors", taskOther.Predecessors, task.Predecessors); ops != "" {
 		diffs = append(diffs, ops)

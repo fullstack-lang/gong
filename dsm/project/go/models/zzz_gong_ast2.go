@@ -824,6 +824,8 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsAllDay = GongExtractBool(valueExpr)
 	case "IsMilestone":
 		instance.IsMilestone = GongExtractBool(valueExpr)
+	case "TaskGroups":
+		GongUnmarshallSliceOfPointers(&instance.TaskGroups, valueExpr, identifierMap)
 	case "Predecessors":
 		GongUnmarshallSliceOfPointers(&instance.Predecessors, valueExpr, identifierMap)
 	case "DependencyType":

@@ -1135,6 +1135,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", taskIdent, __gong__toRawStringLiteral(task.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", taskIdent, task.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.LayoutDirection = %d", taskIdent, int(task.LayoutDirection)))
+			for _, elem := range task.TaskGroups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskGroups = append(%s.TaskGroups, %s)", taskIdent, taskIdent, targetIdent))
+			}
 			for _, elem := range task.Predecessors {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -2141,6 +2151,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.IsAllDay = GongExtractBool(rhs)
 					case "IsMilestone":
 						inst.IsMilestone = GongExtractBool(rhs)
+					case "TaskGroups":
+						__gong__assignSliceOfPointers(&inst.TaskGroups, rhs, identifierMap)
 					case "Predecessors":
 						__gong__assignSliceOfPointers(&inst.Predecessors, rhs, identifierMap)
 					case "DependencyType":

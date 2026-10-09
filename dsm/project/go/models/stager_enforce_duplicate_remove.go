@@ -46,6 +46,11 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 		needCommit = removeDuplicatesSlice(stager, &task.Inputs) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &task.Outputs) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &task.Predecessors) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &task.TaskGroups) || needCommit
+	}
+
+	for taskGroup := range *stage.GetInstancesSet[*TaskGroup]() {
+		needCommit = removeDuplicatesSlice(stager, &taskGroup.Tasks) || needCommit
 	}
 
 	for note := range *stage.GetInstancesSet[*Note]() {

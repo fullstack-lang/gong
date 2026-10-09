@@ -204,6 +204,7 @@ func (resourcetaskshape *ResourceTaskShape) GongClean(stage *Stage) (modified bo
 // Clean garbage collect unstaged instances that are referenced by Task
 func (task *Task) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = stage.CleanSlice(&task.TaskGroups) || modified
 	modified = stage.CleanSlice(&task.Predecessors) || modified
 	modified = stage.CleanSlice(&task.Inputs) || modified
 	modified = stage.CleanSlice(&task.Outputs) || modified

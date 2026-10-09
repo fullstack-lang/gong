@@ -35,6 +35,8 @@ type Task struct {
 
 	IsMilestone bool
 
+	TaskGroups []*TaskGroup
+
 	//gong:accordion-start "Predecessors"
 	Predecessors []*Task
 

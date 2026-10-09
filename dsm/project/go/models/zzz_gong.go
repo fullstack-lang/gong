@@ -411,6 +411,8 @@ type Stage struct {
 	Tasks_referenceOrder map[*Task]uint
 
 	// insertion point for slice of pointers maps
+	Task_TaskGroups_reverseMap map[*TaskGroup]*Task
+
 	Task_Predecessors_reverseMap map[*Task]*Task
 
 	Task_Inputs_reverseMap map[*Product]*Task
@@ -2942,6 +2944,7 @@ func (ResourceTaskShape) GongGetAssociationName() any {
 
 func (Task) GongGetAssociationName() any {
 	return &Task{
+			TaskGroups: []*TaskGroup{{Name: "TaskGroups"}},
 			Predecessors: []*Task{{Name: "Predecessors"}},
 			Inputs: []*Product{{Name: "Inputs"}},
 			Outputs: []*Product{{Name: "Outputs"}},
@@ -3978,6 +3981,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	case Task:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "TaskGroups":
+			res := make(map[*TaskGroup][]*Task)
+			for task := range stage.Tasks {
+				for _, taskgroup_ := range task.TaskGroups {
+					res[taskgroup_] = append(res[taskgroup_], task)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Predecessors":
 			res := make(map[*Task][]*Task)
 			for task := range stage.Tasks {
@@ -4345,6 +4356,10 @@ func (*TaskGroup) GongGetReverseFields() []GongReverseField {
 		{
 			GongstructName: "Library",
 			Fieldname: "RootTaskGroups",
+		},
+		{
+			GongstructName: "Task",
+			Fieldname: "TaskGroups",
 		},
 		{
 			GongstructName: "Task",
@@ -5408,6 +5423,11 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsMilestone",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "TaskGroups",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TaskGroup",
 		},
 		{
 			Name:                 "Predecessors",
@@ -7019,6 +7039,16 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", task.IsMilestone)
 		res.valueBool = task.IsMilestone
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TaskGroups":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range task.TaskGroups {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Predecessors":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range task.Predecessors {

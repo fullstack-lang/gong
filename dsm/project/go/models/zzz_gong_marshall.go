@@ -1309,6 +1309,12 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "LayoutDirection":
 		res = __gong__marshallEnumInt(ident, "LayoutDirection", task.LayoutDirection.ToCodeString())
 
+	case "TaskGroups":
+		var sb strings.Builder
+		for _, _taskgroup := range task.TaskGroups {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TaskGroups", _taskgroup.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	case "Predecessors":
 		var sb strings.Builder
 		for _, _task := range task.Predecessors {
@@ -1942,6 +1948,7 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(task.GongMarshallField(stage, "End"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsAllDay"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsMilestone"))
+		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "TaskGroups"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Predecessors"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyType"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationYears"))

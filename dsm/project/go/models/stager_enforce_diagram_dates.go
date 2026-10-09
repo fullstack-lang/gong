@@ -11,7 +11,7 @@ func (stager *Stager) enforceDiagramDates() (needCommit bool) {
 		oldEnd := diagram.ComputedEnd
 		oldDuration := diagram.ComputedDuration
 
-		diagram.computeStartAndEndDate()
+		diagram.computeStartAndEndDate(stager.stage)
 
 		if diagram.ComputedStart != oldStart || diagram.ComputedEnd != oldEnd || diagram.ComputedDuration != oldDuration {
 			needCommit = true

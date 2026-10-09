@@ -406,6 +406,10 @@ func (inst *TaskGroup) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 		}
 	case "Task":
 		switch reverseField.Fieldname {
+		case "TaskGroups":
+			if _task, ok := stage.Task_TaskGroups_reverseMap[inst]; ok {
+				res = _task.Name
+			}
 		case "TaskGroupsToDisplay":
 			if _task, ok := stage.Task_TaskGroupsToDisplay_reverseMap[inst]; ok {
 				res = _task.Name

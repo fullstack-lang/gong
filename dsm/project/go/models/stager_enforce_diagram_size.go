@@ -82,7 +82,7 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 					}
 					taskGroup := taskGroupShape.TaskGroup
 
-					for _, task := range taskGroup.Tasks {
+					for _, task := range stager.getTasksOfTaskGroup(taskGroup) {
 						taskShape, ok := diagram.map_Task_TaskShape[task]
 						if !ok || taskShape.IsHidden {
 							continue

@@ -4394,6 +4394,11 @@ func updateStageSetTable_Task_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "TaskGroups"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "Predecessors"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -4707,6 +4712,18 @@ func updateStageSetTable_Task_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "IsMilestone"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsMilestone}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "TaskGroups"}
+			var names []string
+			for _, elem := range structInstance.TaskGroups {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
 			row.Cells = append(row.Cells, cell)
 		}
 
@@ -5430,6 +5447,11 @@ func updateStageSetTable_TaskGroup_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Task) -> TaskGroups"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.Task) -> TaskGroupsToDisplay"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -5531,6 +5553,22 @@ func updateStageSetTable_TaskGroup_Stage(probe *StageSetProbe) {
 			var refNames []string
 			for src := range probe.stageSet.Stage.Librarys {
 				for _, target := range src.RootTaskGroups {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Task) -> TaskGroups"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Tasks {
+				for _, target := range src.TaskGroups {
 					if target == structInstance {
 						refNames = append(refNames, src.GetName())
 						break

@@ -974,6 +974,8 @@ func saveTaskFields(
 			FormDivBasicFieldToField(&(_instance.IsAllDay), formDiv)
 		case "IsMilestone":
 			FormDivBasicFieldToField(&(_instance.IsMilestone), formDiv)
+		case "TaskGroups":
+			FormDivSliceOfPointersToField(_instance, "TaskGroups", &(_instance.TaskGroups), formDiv, probe)
 		case "Predecessors":
 			FormDivSliceOfPointersToField(_instance, "Predecessors", &(_instance.Predecessors), formDiv, probe)
 		case "DependencyType":
@@ -1136,6 +1138,8 @@ func saveTaskGroupFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "TaskGroupsWhoseNodeIsExpanded", func(owner *models.Diagram) *[]*models.TaskGroup { return &owner.TaskGroupsWhoseNodeIsExpanded })
 		case "Library:RootTaskGroups":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "RootTaskGroups", func(owner *models.Library) *[]*models.TaskGroup { return &owner.RootTaskGroups })
+		case "Task:TaskGroups":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "TaskGroups", func(owner *models.Task) *[]*models.TaskGroup { return &owner.TaskGroups })
 		case "Task:TaskGroupsToDisplay":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "TaskGroupsToDisplay", func(owner *models.Task) *[]*models.TaskGroup { return &owner.TaskGroupsToDisplay })
 		}
