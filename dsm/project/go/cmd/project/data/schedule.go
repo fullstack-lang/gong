@@ -71,7 +71,7 @@ func _(stageSet *models.StageSet) {
 	__models__Diagram__00000000_.TimeStep = 1
 	__models__Diagram__00000000_.TimeStepScale = `MONTHS`
 	__models__Diagram__00000000_.SecondaryTimeStep = 1
-	__models__Diagram__00000000_.SecondaryTimeStepScale = `WEEKS`
+	__models__Diagram__00000000_.SecondaryTimeStepScale = `YEARS`
 	__models__Diagram__00000000_.LaneHeight = 100.000000
 	__models__Diagram__00000000_.RatioBarToLaneHeight = 0.800000
 	__models__Diagram__00000000_.YTopMargin = 100.000000

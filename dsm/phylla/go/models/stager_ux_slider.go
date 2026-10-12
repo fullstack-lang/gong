@@ -278,7 +278,7 @@ func (stager *Stager) ux_slider() {
 						stager,
 						"Bulbous Start Tangent Magnitude",
 						0.0,
-						500.0,
+						1000.0,
 						1.0,
 						&plant.TubeVaseAbstract.BulbousStartTangentMagnitude,
 					),
