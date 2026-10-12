@@ -170,6 +170,28 @@ func saveActorStateShapeFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "Diagram:ActorStateShapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ActorStateShapes", func(owner *models.Diagram) *[]*models.ActorStateShape { return &owner.ActorStateShapes })
 		}
@@ -260,6 +282,28 @@ func saveActorStateTransitionShapeFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "ControlPointShapes":
 			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "Diagram:ActorStateTransitionShapes":
@@ -591,6 +635,28 @@ func saveEvolutionDirectionShapeFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "Diagram:EvolutionDirectionShapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "EvolutionDirectionShapes", func(owner *models.Diagram) *[]*models.EvolutionDirectionShape { return &owner.EvolutionDirectionShapes })
 		}
@@ -1057,6 +1123,28 @@ func saveParameterShapeFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "Diagram:ParameterShapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ParameterShapes", func(owner *models.Diagram) *[]*models.ParameterShape { return &owner.ParameterShapes })
 		case "ParameterCategory:ParameterUse":
@@ -1149,6 +1237,28 @@ func saveParametersAggregateShapeFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "Diagram:ScenarioParameterShapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ScenarioParameterShapes", func(owner *models.Diagram) *[]*models.ParametersAggregateShape { return &owner.ScenarioParameterShapes })
 		}

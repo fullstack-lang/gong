@@ -22,6 +22,9 @@ import (
 
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
+
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	form_stack "github.com/fullstack-lang/gong/lib/form/go/stack"
 )
 
 type Stager struct {
@@ -35,6 +38,7 @@ type Stager struct {
 	ssgStage    *ssg.Stage
 	svgStage    *svg.Stage
 	treeStage   *tree.Stage // "treeStage" is the DSM mandatory name (to be changed)
+	shapeFormStage *form.Stage
 
 	productToLibrary map[*Product]*Library
 	taskToLibrary    map[*Task]*Library
@@ -81,6 +85,7 @@ func NewStager(
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
 	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.shapeFormStage = form_stack.NewStack(r, "shapeFormStage", "", "", "", true, true).Stage
 
 	stager.createViews()
 
@@ -117,4 +122,8 @@ func (stager *Stager) GetTreeStage() *tree.Stage {
 
 func (stager *Stager) GetSvgStage() *svg.Stage {
 	return stager.svgStage
+}
+
+func (stager *Stager) GetShapeFormStage() *form.Stage {
+	return stager.shapeFormStage
 }

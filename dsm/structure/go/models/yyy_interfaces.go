@@ -105,6 +105,19 @@ type RectShape struct {
 	X, Y, Width, Height float64
 	receiver            GongstructIF // the pointer to the owning object
 	IsHidden            bool
+
+	IsPresentationOverridden bool
+	Color                    string
+	FillOpacity              float64
+	Stroke                   string
+	StrokeWidth              float64
+	StrokeOpacity            float64
+	StrokeDashArray          string
+	RX                       float64
+
+	FontSize   string
+	FontWeight string
+	FontColor  string
 }
 
 func (s *RectShape) Stage(stage *Stage) {
@@ -163,9 +176,97 @@ func (s *RectShape) GetIsHidden() bool {
 	return s.IsHidden
 }
 
+func (s *RectShape) GetIsPresentationOverridden() bool {
+	return s.IsPresentationOverridden
+}
+
+func (s *RectShape) SetIsPresentationOverridden(b bool) {
+	s.IsPresentationOverridden = b
+}
+
+func (s *RectShape) GetColor() string {
+	return s.Color
+}
+
+func (s *RectShape) SetColor(c string) {
+	s.Color = c
+}
+
+func (s *RectShape) GetFillOpacity() float64 {
+	return s.FillOpacity
+}
+
+func (s *RectShape) SetFillOpacity(fo float64) {
+	s.FillOpacity = fo
+}
+
+func (s *RectShape) GetStroke() string {
+	return s.Stroke
+}
+
+func (s *RectShape) SetStroke(st string) {
+	s.Stroke = st
+}
+
+func (s *RectShape) GetStrokeWidth() float64 {
+	return s.StrokeWidth
+}
+
+func (s *RectShape) SetStrokeWidth(w float64) {
+	s.StrokeWidth = w
+}
+
+func (s *RectShape) GetStrokeOpacity() float64 {
+	return s.StrokeOpacity
+}
+
+func (s *RectShape) SetStrokeOpacity(so float64) {
+	s.StrokeOpacity = so
+}
+
+func (s *RectShape) GetStrokeDashArray() string {
+	return s.StrokeDashArray
+}
+
+func (s *RectShape) SetStrokeDashArray(sda string) {
+	s.StrokeDashArray = sda
+}
+
+func (s *RectShape) GetRX() float64 {
+	return s.RX
+}
+
+func (s *RectShape) SetRX(rx float64) {
+	s.RX = rx
+}
+
+func (s *RectShape) GetFontSize() string {
+	return s.FontSize
+}
+
+func (s *RectShape) SetFontSize(fs string) {
+	s.FontSize = fs
+}
+
+func (s *RectShape) GetFontWeight() string {
+	return s.FontWeight
+}
+
+func (s *RectShape) SetFontWeight(fw string) {
+	s.FontWeight = fw
+}
+
+func (s *RectShape) GetFontColor() string {
+	return s.FontColor
+}
+
+func (s *RectShape) SetFontColor(fc string) {
+	s.FontColor = fc
+}
+
 type RectShapeInterface interface {
 	SetX(x float64)
-	SetY(x float64)
+	SetY(y float64)
 	SetWidth(width float64)
 	SetHeight(height float64)
 
@@ -181,6 +282,39 @@ type RectShapeInterface interface {
 
 	SetIsHidden(isHidden bool)
 	GetIsHidden() bool
+
+	GetIsPresentationOverridden() bool
+	SetIsPresentationOverridden(bool)
+
+	GetColor() string
+	SetColor(string)
+
+	GetFillOpacity() float64
+	SetFillOpacity(float64)
+
+	GetStroke() string
+	SetStroke(string)
+
+	GetStrokeWidth() float64
+	SetStrokeWidth(float64)
+
+	GetStrokeOpacity() float64
+	SetStrokeOpacity(float64)
+
+	GetStrokeDashArray() string
+	SetStrokeDashArray(string)
+
+	GetRX() float64
+	SetRX(float64)
+
+	GetFontSize() string
+	SetFontSize(string)
+
+	GetFontWeight() string
+	SetFontWeight(string)
+
+	GetFontColor() string
+	SetFontColor(string)
 }
 
 type OrientationType string
@@ -201,6 +335,15 @@ type LinkShape struct {
 	CornerOffsetRatio float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+	Stroke                   string
+	StrokeWidth              float64
+	StrokeOpacity            float64
+	StrokeDashArray          string
+
+	FontSize  string
+	FontColor string
 }
 
 // Setter functions for StateTransitionShape
@@ -252,6 +395,62 @@ func (s *LinkShape) GetIsHidden() bool {
 	return s.IsHidden
 }
 
+func (s *LinkShape) GetIsPresentationOverridden() bool {
+	return s.IsPresentationOverridden
+}
+
+func (s *LinkShape) SetIsPresentationOverridden(b bool) {
+	s.IsPresentationOverridden = b
+}
+
+func (s *LinkShape) GetStroke() string {
+	return s.Stroke
+}
+
+func (s *LinkShape) SetStroke(st string) {
+	s.Stroke = st
+}
+
+func (s *LinkShape) GetStrokeWidth() float64 {
+	return s.StrokeWidth
+}
+
+func (s *LinkShape) SetStrokeWidth(w float64) {
+	s.StrokeWidth = w
+}
+
+func (s *LinkShape) GetStrokeOpacity() float64 {
+	return s.StrokeOpacity
+}
+
+func (s *LinkShape) SetStrokeOpacity(so float64) {
+	s.StrokeOpacity = so
+}
+
+func (s *LinkShape) GetStrokeDashArray() string {
+	return s.StrokeDashArray
+}
+
+func (s *LinkShape) SetStrokeDashArray(sda string) {
+	s.StrokeDashArray = sda
+}
+
+func (s *LinkShape) GetFontSize() string {
+	return s.FontSize
+}
+
+func (s *LinkShape) SetFontSize(fs string) {
+	s.FontSize = fs
+}
+
+func (s *LinkShape) GetFontColor() string {
+	return s.FontColor
+}
+
+func (s *LinkShape) SetFontColor(fc string) {
+	s.FontColor = fc
+}
+
 // Interface for StateTransitionShape
 type LinkShapeInterface interface {
 	SetStartRatio(ratio float64)
@@ -268,6 +467,27 @@ type LinkShapeInterface interface {
 
 	SetIsHidden(isHidden bool)
 	GetIsHidden() bool
+
+	GetIsPresentationOverridden() bool
+	SetIsPresentationOverridden(bool)
+
+	GetStroke() string
+	SetStroke(string)
+
+	GetStrokeWidth() float64
+	SetStrokeWidth(float64)
+
+	GetStrokeOpacity() float64
+	SetStrokeOpacity(float64)
+
+	GetStrokeDashArray() string
+	SetStrokeDashArray(string)
+
+	GetFontSize() string
+	SetFontSize(string)
+
+	GetFontColor() string
+	SetFontColor(string)
 }
 
 type ConcreteType interface {

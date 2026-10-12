@@ -86,7 +86,9 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			diagram,
 			productShape,
 			layer)
-		rect.RX = 3
+		if !productShape.GetIsPresentationOverridden() {
+			rect.RX = 3
+		}
 		diagram.map_Product_Rect[productShape.Product] = rect
 		diagram.map_SvgRect_ProductShape[rect] = productShape
 
@@ -287,12 +289,17 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			continue
 		}
 
+		targetLayer := layer
+		if diagram.IsTimeDiagram && dependencyArrowsLayer != nil {
+			targetLayer = dependencyArrowsLayer
+		}
+
 		svgAssociationLink(
 			stager,
 			startRect, endRect,
 			taskInputShape,
 			task,
-			layer,
+			targetLayer,
 			true,
 		)
 	}
@@ -315,12 +322,17 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			continue
 		}
 
+		targetLayer := layer
+		if diagram.IsTimeDiagram && dependencyArrowsLayer != nil {
+			targetLayer = dependencyArrowsLayer
+		}
+
 		svgAssociationLink(
 			stager,
 			startRect, endRect,
 			taskOutputShape,
 			task,
-			layer,
+			targetLayer,
 			true,
 		)
 	}

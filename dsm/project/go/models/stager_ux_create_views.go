@@ -73,8 +73,23 @@ func (stager *Stager) createViews() {
 			},
 			{
 				Size: 525,
-				Form: &split.Form{
-					StackName: stager.probeForm.GetFormStage().GetName(),
+				AsSplit: &split.AsSplit{
+					Name:      "as split forms",
+					Direction: split.Vertical,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Size: 75,
+							Form: &split.Form{
+								StackName: stager.probeForm.GetFormStage().GetName(),
+							},
+						},
+						{
+							Size: 25,
+							Form: &split.Form{
+								StackName: stager.shapeFormStage.GetName(),
+							},
+						},
+					},
 				},
 			},
 		},
@@ -110,8 +125,23 @@ func (stager *Stager) createViews() {
 						},
 						{
 							Size: 62,
-							Form: &split.Form{
-								StackName: stager.probeForm.GetFormStage().GetName(),
+							AsSplit: &split.AsSplit{
+								Name:      "as split forms probe view",
+								Direction: split.Vertical,
+								AsSplitAreas: []*split.AsSplitArea{
+									{
+										Size: 75,
+										Form: &split.Form{
+											StackName: stager.probeForm.GetFormStage().GetName(),
+										},
+									},
+									{
+										Size: 25,
+										Form: &split.Form{
+											StackName: stager.shapeFormStage.GetName(),
+										},
+									},
+								},
 							},
 						},
 					},

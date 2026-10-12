@@ -209,6 +209,28 @@ func saveConceptShapeFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "Diagram:Concept_Shapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Concept_Shapes", func(owner *models.Diagram) *[]*models.ConceptShape { return &owner.Concept_Shapes })
 		}
@@ -327,6 +349,20 @@ func saveConcernCompositionShapeFields(
 			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "ControlPointShapes":
 			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "Diagram:ConcernComposition_Shapes":
@@ -376,6 +412,20 @@ func saveConcernInputShapeFields(
 			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "ControlPointShapes":
 			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "Diagram:ConcernInputShapes":
@@ -425,6 +475,20 @@ func saveConcernOutputShapeFields(
 			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "ControlPointShapes":
 			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "Diagram:ConcernOutputShapes":
@@ -472,6 +536,28 @@ func saveConcernShapeFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "Diagram:Concern_Shapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Concern_Shapes", func(owner *models.Diagram) *[]*models.ConcernShape { return &owner.Concern_Shapes })
 		}
@@ -629,6 +715,20 @@ func saveDeliverableCompositionShapeFields(
 			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "ControlPointShapes":
 			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "Diagram:DeliverableComposition_Shapes":
@@ -678,6 +778,20 @@ func saveDeliverableConceptShapeFields(
 			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "ControlPointShapes":
 			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "Diagram:DeliverableConceptShapes":
@@ -725,6 +839,28 @@ func saveDeliverableShapeFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "Diagram:Deliverable_Shapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Deliverable_Shapes", func(owner *models.Diagram) *[]*models.DeliverableShape { return &owner.Deliverable_Shapes })
 		}
@@ -895,6 +1031,28 @@ func saveDiagramShapeFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "Diagram:Diagram_Shapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Diagram_Shapes", func(owner *models.Diagram) *[]*models.DiagramShape { return &owner.Diagram_Shapes })
 		}
@@ -1042,6 +1200,20 @@ func saveNoteDeliverableShapeFields(
 			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "ControlPointShapes":
 			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "Diagram:NoteDeliverableShapes":
@@ -1089,6 +1261,28 @@ func saveNoteShapeFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "Diagram:Note_Shapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Note_Shapes", func(owner *models.Diagram) *[]*models.NoteShape { return &owner.Note_Shapes })
 		}
@@ -1136,6 +1330,20 @@ func saveNoteStakeholderShapeFields(
 			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "ControlPointShapes":
 			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "Diagram:NoteResourceShapes":
@@ -1185,6 +1393,20 @@ func saveNoteTaskShapeFields(
 			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "ControlPointShapes":
 			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "Diagram:NoteTaskShapes":
@@ -1275,6 +1497,28 @@ func saveRequirementShapeFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "Diagram:Requirement_Shapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Requirement_Shapes", func(owner *models.Diagram) *[]*models.RequirementShape { return &owner.Requirement_Shapes })
 		}
@@ -1369,6 +1613,20 @@ func saveStakeholderCompositionShapeFields(
 			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "ControlPointShapes":
 			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "Diagram:ResourceComposition_Shapes":
@@ -1418,6 +1676,20 @@ func saveStakeholderConcernShapeFields(
 			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "ControlPointShapes":
 			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "Diagram:StakeholderConcernShapes":
@@ -1465,6 +1737,28 @@ func saveStakeholderShapeFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
 		case "Diagram:Stakeholder_Shapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Stakeholder_Shapes", func(owner *models.Diagram) *[]*models.StakeholderShape { return &owner.Stakeholder_Shapes })
 		}

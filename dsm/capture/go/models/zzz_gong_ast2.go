@@ -251,6 +251,28 @@ func (u *ConceptShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -325,6 +347,20 @@ func (u *ConcernCompositionShapeUnmarshaller) UnmarshallField(stage *Stage, i Go
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
@@ -360,6 +396,20 @@ func (u *ConcernInputShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
@@ -395,6 +445,20 @@ func (u *ConcernOutputShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstr
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
@@ -428,6 +492,28 @@ func (u *ConcernShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -513,6 +599,20 @@ func (u *DeliverableCompositionShapeUnmarshaller) UnmarshallField(stage *Stage, 
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
@@ -548,6 +648,20 @@ func (u *DeliverableConceptShapeUnmarshaller) UnmarshallField(stage *Stage, i Go
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
@@ -581,6 +695,28 @@ func (u *DeliverableShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -721,6 +857,28 @@ func (u *DiagramShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -824,6 +982,20 @@ func (u *NoteDeliverableShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
@@ -857,6 +1029,28 @@ func (u *NoteShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -890,6 +1084,20 @@ func (u *NoteStakeholderShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
@@ -925,6 +1133,20 @@ func (u *NoteTaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
@@ -983,6 +1205,28 @@ func (u *RequirementShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -1043,6 +1287,20 @@ func (u *StakeholderCompositionShapeUnmarshaller) UnmarshallField(stage *Stage, 
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
@@ -1078,6 +1336,20 @@ func (u *StakeholderConcernShapeUnmarshaller) UnmarshallField(stage *Stage, i Go
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
@@ -1111,6 +1383,28 @@ func (u *StakeholderShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }

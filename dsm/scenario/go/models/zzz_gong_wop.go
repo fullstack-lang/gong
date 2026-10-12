@@ -42,6 +42,28 @@ type ActorStateShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	RX float64
+
+	FontSize string
+
+	FontWeight string
+
+	FontColor string
 }
 
 func (from *ActorStateShape) GongCopyBasicFields(to *ActorStateShape) {
@@ -52,6 +74,17 @@ func (from *ActorStateShape) GongCopyBasicFields(to *ActorStateShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.RX = from.RX
+	to.FontSize = from.FontSize
+	to.FontWeight = from.FontWeight
+	to.FontColor = from.FontColor
 }
 
 type ActorStateTransition_WOP struct {
@@ -85,6 +118,28 @@ type ActorStateTransitionShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	RX float64
+
+	FontSize string
+
+	FontWeight string
+
+	FontColor string
 }
 
 func (from *ActorStateTransitionShape) GongCopyBasicFields(to *ActorStateTransitionShape) {
@@ -95,6 +150,17 @@ func (from *ActorStateTransitionShape) GongCopyBasicFields(to *ActorStateTransit
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.RX = from.RX
+	to.FontSize = from.FontSize
+	to.FontWeight = from.FontWeight
+	to.FontColor = from.FontColor
 }
 
 type Analysis_WOP struct {
@@ -273,6 +339,28 @@ type EvolutionDirectionShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	RX float64
+
+	FontSize string
+
+	FontWeight string
+
+	FontColor string
 }
 
 func (from *EvolutionDirectionShape) GongCopyBasicFields(to *EvolutionDirectionShape) {
@@ -283,6 +371,17 @@ func (from *EvolutionDirectionShape) GongCopyBasicFields(to *EvolutionDirectionS
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.RX = from.RX
+	to.FontSize = from.FontSize
+	to.FontWeight = from.FontWeight
+	to.FontColor = from.FontColor
 }
 
 type Foo_WOP struct {
@@ -495,6 +594,28 @@ type ParameterShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	RX float64
+
+	FontSize string
+
+	FontWeight string
+
+	FontColor string
 }
 
 func (from *ParameterShape) GongCopyBasicFields(to *ParameterShape) {
@@ -507,6 +628,17 @@ func (from *ParameterShape) GongCopyBasicFields(to *ParameterShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.RX = from.RX
+	to.FontSize = from.FontSize
+	to.FontWeight = from.FontWeight
+	to.FontColor = from.FontColor
 }
 
 type ParametersAggregate_WOP struct {
@@ -548,6 +680,28 @@ type ParametersAggregateShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	RX float64
+
+	FontSize string
+
+	FontWeight string
+
+	FontColor string
 }
 
 func (from *ParametersAggregateShape) GongCopyBasicFields(to *ParametersAggregateShape) {
@@ -559,6 +713,17 @@ func (from *ParametersAggregateShape) GongCopyBasicFields(to *ParametersAggregat
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.RX = from.RX
+	to.FontSize = from.FontSize
+	to.FontWeight = from.FontWeight
+	to.FontColor = from.FontColor
 }
 
 type Position_WOP struct {

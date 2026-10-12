@@ -671,6 +671,28 @@ func saveStageSet_ConceptShape_Stage(
 			FormDivBasicFieldToField(&inst.Height, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&inst.Color, formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&inst.FillOpacity, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&inst.RX, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&inst.FontWeight, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -729,6 +751,20 @@ func saveStageSet_ConcernCompositionShape_Stage(
 			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -758,6 +794,20 @@ func saveStageSet_ConcernInputShape_Stage(
 			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -787,6 +837,20 @@ func saveStageSet_ConcernOutputShape_Stage(
 			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -814,6 +878,28 @@ func saveStageSet_ConcernShape_Stage(
 			FormDivBasicFieldToField(&inst.Height, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&inst.Color, formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&inst.FillOpacity, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&inst.RX, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&inst.FontWeight, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -883,6 +969,20 @@ func saveStageSet_DeliverableCompositionShape_Stage(
 			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -912,6 +1012,20 @@ func saveStageSet_DeliverableConceptShape_Stage(
 			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -939,6 +1053,28 @@ func saveStageSet_DeliverableShape_Stage(
 			FormDivBasicFieldToField(&inst.Height, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&inst.Color, formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&inst.FillOpacity, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&inst.RX, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&inst.FontWeight, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -1011,6 +1147,28 @@ func saveStageSet_DiagramShape_Stage(
 			FormDivBasicFieldToField(&inst.Height, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&inst.Color, formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&inst.FillOpacity, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&inst.RX, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&inst.FontWeight, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -1078,6 +1236,20 @@ func saveStageSet_NoteDeliverableShape_Stage(
 			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -1105,6 +1277,28 @@ func saveStageSet_NoteShape_Stage(
 			FormDivBasicFieldToField(&inst.Height, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&inst.Color, formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&inst.FillOpacity, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&inst.RX, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&inst.FontWeight, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -1134,6 +1328,20 @@ func saveStageSet_NoteStakeholderShape_Stage(
 			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -1163,6 +1371,20 @@ func saveStageSet_NoteTaskShape_Stage(
 			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -1207,6 +1429,28 @@ func saveStageSet_RequirementShape_Stage(
 			FormDivBasicFieldToField(&inst.Height, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&inst.Color, formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&inst.FillOpacity, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&inst.RX, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&inst.FontWeight, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -1255,6 +1499,20 @@ func saveStageSet_StakeholderCompositionShape_Stage(
 			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -1284,6 +1542,20 @@ func saveStageSet_StakeholderConcernShape_Stage(
 			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }
@@ -1311,6 +1583,28 @@ func saveStageSet_StakeholderShape_Stage(
 			FormDivBasicFieldToField(&inst.Height, formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&inst.Color, formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&inst.FillOpacity, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&inst.RX, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&inst.FontWeight, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
 	}
 }

@@ -5062,6 +5062,34 @@ func (controlflowshape *ControlFlowShape) GongGetFieldHeaders() (res []GongField
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
 	}
 	return
 }
@@ -5200,6 +5228,34 @@ func (dataflowshape *DataFlowShape) GongGetFieldHeaders() (res []GongFieldHeader
 		{
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -5480,6 +5536,50 @@ func (externalpartshape *ExternalPartShape) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FillOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontWeight",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "TailHeigth",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -5715,6 +5815,34 @@ func (notepartshape *NotePartShape) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
 	}
 	return
 }
@@ -5762,6 +5890,34 @@ func (noteportshape *NotePortShape) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
 	}
 	return
 }
@@ -5797,6 +5953,50 @@ func (noteshape *NoteShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FillOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontWeight",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -5985,6 +6185,50 @@ func (partshape *PartShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FillOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontWeight",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
 	}
 	return
 }
@@ -6047,6 +6291,50 @@ func (portshape *PortShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FillOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontWeight",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -6218,6 +6506,50 @@ func (systemshape *SystemShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FillOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontWeight",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
 	}
 	return
 }
@@ -6385,6 +6717,26 @@ func (controlflowshape *ControlFlowShape) GongGetFieldValue(fieldName string, st
 		res.valueString = fmt.Sprintf("%t", controlflowshape.IsHidden)
 		res.valueBool = controlflowshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", controlflowshape.IsPresentationOverridden)
+		res.valueBool = controlflowshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Stroke":
+		res.valueString = controlflowshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", controlflowshape.StrokeWidth)
+		res.valueFloat = controlflowshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", controlflowshape.StrokeOpacity)
+		res.valueFloat = controlflowshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = controlflowshape.StrokeDashArray
+	case "FontSize":
+		res.valueString = controlflowshape.FontSize
+	case "FontColor":
+		res.valueString = controlflowshape.FontColor
 	}
 	return
 }
@@ -6508,6 +6860,26 @@ func (dataflowshape *DataFlowShape) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%t", dataflowshape.IsHidden)
 		res.valueBool = dataflowshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", dataflowshape.IsPresentationOverridden)
+		res.valueBool = dataflowshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Stroke":
+		res.valueString = dataflowshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", dataflowshape.StrokeWidth)
+		res.valueFloat = dataflowshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", dataflowshape.StrokeOpacity)
+		res.valueFloat = dataflowshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = dataflowshape.StrokeDashArray
+	case "FontSize":
+		res.valueString = dataflowshape.FontSize
+	case "FontColor":
+		res.valueString = dataflowshape.FontColor
 	}
 	return
 }
@@ -6904,6 +7276,38 @@ func (externalpartshape *ExternalPartShape) GongGetFieldValue(fieldName string, 
 		res.valueString = fmt.Sprintf("%t", externalpartshape.IsHidden)
 		res.valueBool = externalpartshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", externalpartshape.IsPresentationOverridden)
+		res.valueBool = externalpartshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Color":
+		res.valueString = externalpartshape.Color
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", externalpartshape.FillOpacity)
+		res.valueFloat = externalpartshape.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Stroke":
+		res.valueString = externalpartshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", externalpartshape.StrokeWidth)
+		res.valueFloat = externalpartshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", externalpartshape.StrokeOpacity)
+		res.valueFloat = externalpartshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = externalpartshape.StrokeDashArray
+	case "RX":
+		res.valueString = fmt.Sprintf("%f", externalpartshape.RX)
+		res.valueFloat = externalpartshape.RX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FontSize":
+		res.valueString = externalpartshape.FontSize
+	case "FontWeight":
+		res.valueString = externalpartshape.FontWeight
+	case "FontColor":
+		res.valueString = externalpartshape.FontColor
 	case "TailHeigth":
 		res.valueString = fmt.Sprintf("%f", externalpartshape.TailHeigth)
 		res.valueFloat = externalpartshape.TailHeigth
@@ -7200,6 +7604,26 @@ func (notepartshape *NotePartShape) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%t", notepartshape.IsHidden)
 		res.valueBool = notepartshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", notepartshape.IsPresentationOverridden)
+		res.valueBool = notepartshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Stroke":
+		res.valueString = notepartshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", notepartshape.StrokeWidth)
+		res.valueFloat = notepartshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", notepartshape.StrokeOpacity)
+		res.valueFloat = notepartshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = notepartshape.StrokeDashArray
+	case "FontSize":
+		res.valueString = notepartshape.FontSize
+	case "FontColor":
+		res.valueString = notepartshape.FontColor
 	}
 	return
 }
@@ -7243,6 +7667,26 @@ func (noteportshape *NotePortShape) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%t", noteportshape.IsHidden)
 		res.valueBool = noteportshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", noteportshape.IsPresentationOverridden)
+		res.valueBool = noteportshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Stroke":
+		res.valueString = noteportshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", noteportshape.StrokeWidth)
+		res.valueFloat = noteportshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", noteportshape.StrokeOpacity)
+		res.valueFloat = noteportshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = noteportshape.StrokeDashArray
+	case "FontSize":
+		res.valueString = noteportshape.FontSize
+	case "FontColor":
+		res.valueString = noteportshape.FontColor
 	}
 	return
 }
@@ -7278,6 +7722,38 @@ func (noteshape *NoteShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", noteshape.IsHidden)
 		res.valueBool = noteshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", noteshape.IsPresentationOverridden)
+		res.valueBool = noteshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Color":
+		res.valueString = noteshape.Color
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", noteshape.FillOpacity)
+		res.valueFloat = noteshape.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Stroke":
+		res.valueString = noteshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", noteshape.StrokeWidth)
+		res.valueFloat = noteshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", noteshape.StrokeOpacity)
+		res.valueFloat = noteshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = noteshape.StrokeDashArray
+	case "RX":
+		res.valueString = fmt.Sprintf("%f", noteshape.RX)
+		res.valueFloat = noteshape.RX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FontSize":
+		res.valueString = noteshape.FontSize
+	case "FontWeight":
+		res.valueString = noteshape.FontWeight
+	case "FontColor":
+		res.valueString = noteshape.FontColor
 	}
 	return
 }
@@ -7478,6 +7954,38 @@ func (partshape *PartShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", partshape.IsHidden)
 		res.valueBool = partshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", partshape.IsPresentationOverridden)
+		res.valueBool = partshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Color":
+		res.valueString = partshape.Color
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", partshape.FillOpacity)
+		res.valueFloat = partshape.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Stroke":
+		res.valueString = partshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", partshape.StrokeWidth)
+		res.valueFloat = partshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", partshape.StrokeOpacity)
+		res.valueFloat = partshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = partshape.StrokeDashArray
+	case "RX":
+		res.valueString = fmt.Sprintf("%f", partshape.RX)
+		res.valueFloat = partshape.RX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FontSize":
+		res.valueString = partshape.FontSize
+	case "FontWeight":
+		res.valueString = partshape.FontWeight
+	case "FontColor":
+		res.valueString = partshape.FontColor
 	}
 	return
 }
@@ -7534,6 +8042,38 @@ func (portshape *PortShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", portshape.IsHidden)
 		res.valueBool = portshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", portshape.IsPresentationOverridden)
+		res.valueBool = portshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Color":
+		res.valueString = portshape.Color
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", portshape.FillOpacity)
+		res.valueFloat = portshape.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Stroke":
+		res.valueString = portshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", portshape.StrokeWidth)
+		res.valueFloat = portshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", portshape.StrokeOpacity)
+		res.valueFloat = portshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = portshape.StrokeDashArray
+	case "RX":
+		res.valueString = fmt.Sprintf("%f", portshape.RX)
+		res.valueFloat = portshape.RX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FontSize":
+		res.valueString = portshape.FontSize
+	case "FontWeight":
+		res.valueString = portshape.FontWeight
+	case "FontColor":
+		res.valueString = portshape.FontColor
 	}
 	return
 }
@@ -7728,6 +8268,38 @@ func (systemshape *SystemShape) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%t", systemshape.IsHidden)
 		res.valueBool = systemshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", systemshape.IsPresentationOverridden)
+		res.valueBool = systemshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Color":
+		res.valueString = systemshape.Color
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", systemshape.FillOpacity)
+		res.valueFloat = systemshape.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Stroke":
+		res.valueString = systemshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", systemshape.StrokeWidth)
+		res.valueFloat = systemshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", systemshape.StrokeOpacity)
+		res.valueFloat = systemshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = systemshape.StrokeDashArray
+	case "RX":
+		res.valueString = fmt.Sprintf("%f", systemshape.RX)
+		res.valueFloat = systemshape.RX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FontSize":
+		res.valueString = systemshape.FontSize
+	case "FontWeight":
+		res.valueString = systemshape.FontWeight
+	case "FontColor":
+		res.valueString = systemshape.FontColor
 	}
 	return
 }

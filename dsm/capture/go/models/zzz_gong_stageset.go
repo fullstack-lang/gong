@@ -11,6 +11,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"slices"
 	"sort"
 	"strconv"
@@ -210,6 +211,17 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", conceptshapeIdent, conceptshape.Width))
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", conceptshapeIdent, conceptshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", conceptshapeIdent, conceptshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", conceptshapeIdent, conceptshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", conceptshapeIdent, __gong__toRawStringLiteral(conceptshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", conceptshapeIdent, conceptshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", conceptshapeIdent, __gong__toRawStringLiteral(conceptshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", conceptshapeIdent, conceptshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", conceptshapeIdent, conceptshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", conceptshapeIdent, __gong__toRawStringLiteral(conceptshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", conceptshapeIdent, conceptshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", conceptshapeIdent, __gong__toRawStringLiteral(conceptshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", conceptshapeIdent, __gong__toRawStringLiteral(conceptshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", conceptshapeIdent, __gong__toRawStringLiteral(conceptshape.FontColor)))
 			if conceptshape.Concept != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -313,6 +325,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", concerncompositionshapeIdent, __gong__toRawStringLiteral(string(concerncompositionshape.EndOrientation))))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", concerncompositionshapeIdent, concerncompositionshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", concerncompositionshapeIdent, concerncompositionshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", concerncompositionshapeIdent, concerncompositionshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", concerncompositionshapeIdent, __gong__toRawStringLiteral(concerncompositionshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", concerncompositionshapeIdent, concerncompositionshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", concerncompositionshapeIdent, concerncompositionshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", concerncompositionshapeIdent, __gong__toRawStringLiteral(concerncompositionshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", concerncompositionshapeIdent, __gong__toRawStringLiteral(concerncompositionshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", concerncompositionshapeIdent, __gong__toRawStringLiteral(concerncompositionshape.FontColor)))
 			if concerncompositionshape.Concern != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -358,6 +377,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", concerninputshapeIdent, __gong__toRawStringLiteral(string(concerninputshape.EndOrientation))))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", concerninputshapeIdent, concerninputshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", concerninputshapeIdent, concerninputshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", concerninputshapeIdent, concerninputshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", concerninputshapeIdent, __gong__toRawStringLiteral(concerninputshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", concerninputshapeIdent, concerninputshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", concerninputshapeIdent, concerninputshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", concerninputshapeIdent, __gong__toRawStringLiteral(concerninputshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", concerninputshapeIdent, __gong__toRawStringLiteral(concerninputshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", concerninputshapeIdent, __gong__toRawStringLiteral(concerninputshape.FontColor)))
 			if concerninputshape.Deliverable != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -413,6 +439,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", concernoutputshapeIdent, __gong__toRawStringLiteral(string(concernoutputshape.EndOrientation))))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", concernoutputshapeIdent, concernoutputshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", concernoutputshapeIdent, concernoutputshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", concernoutputshapeIdent, concernoutputshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", concernoutputshapeIdent, __gong__toRawStringLiteral(concernoutputshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", concernoutputshapeIdent, concernoutputshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", concernoutputshapeIdent, concernoutputshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", concernoutputshapeIdent, __gong__toRawStringLiteral(concernoutputshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", concernoutputshapeIdent, __gong__toRawStringLiteral(concernoutputshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", concernoutputshapeIdent, __gong__toRawStringLiteral(concernoutputshape.FontColor)))
 			if concernoutputshape.Concern != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -468,6 +501,17 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", concernshapeIdent, concernshape.Width))
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", concernshapeIdent, concernshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", concernshapeIdent, concernshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", concernshapeIdent, concernshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", concernshapeIdent, __gong__toRawStringLiteral(concernshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", concernshapeIdent, concernshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", concernshapeIdent, __gong__toRawStringLiteral(concernshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", concernshapeIdent, concernshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", concernshapeIdent, concernshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", concernshapeIdent, __gong__toRawStringLiteral(concernshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", concernshapeIdent, concernshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", concernshapeIdent, __gong__toRawStringLiteral(concernshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", concernshapeIdent, __gong__toRawStringLiteral(concernshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", concernshapeIdent, __gong__toRawStringLiteral(concernshape.FontColor)))
 			if concernshape.Concern != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -569,6 +613,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", deliverablecompositionshapeIdent, __gong__toRawStringLiteral(string(deliverablecompositionshape.EndOrientation))))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", deliverablecompositionshapeIdent, deliverablecompositionshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", deliverablecompositionshapeIdent, deliverablecompositionshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", deliverablecompositionshapeIdent, deliverablecompositionshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", deliverablecompositionshapeIdent, __gong__toRawStringLiteral(deliverablecompositionshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", deliverablecompositionshapeIdent, deliverablecompositionshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", deliverablecompositionshapeIdent, deliverablecompositionshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", deliverablecompositionshapeIdent, __gong__toRawStringLiteral(deliverablecompositionshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", deliverablecompositionshapeIdent, __gong__toRawStringLiteral(deliverablecompositionshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", deliverablecompositionshapeIdent, __gong__toRawStringLiteral(deliverablecompositionshape.FontColor)))
 			if deliverablecompositionshape.Deliverable != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -614,6 +665,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", deliverableconceptshapeIdent, __gong__toRawStringLiteral(string(deliverableconceptshape.EndOrientation))))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", deliverableconceptshapeIdent, deliverableconceptshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", deliverableconceptshapeIdent, deliverableconceptshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", deliverableconceptshapeIdent, deliverableconceptshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", deliverableconceptshapeIdent, __gong__toRawStringLiteral(deliverableconceptshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", deliverableconceptshapeIdent, deliverableconceptshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", deliverableconceptshapeIdent, deliverableconceptshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", deliverableconceptshapeIdent, __gong__toRawStringLiteral(deliverableconceptshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", deliverableconceptshapeIdent, __gong__toRawStringLiteral(deliverableconceptshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", deliverableconceptshapeIdent, __gong__toRawStringLiteral(deliverableconceptshape.FontColor)))
 			if deliverableconceptshape.Deliverable != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -669,6 +727,17 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", deliverableshapeIdent, deliverableshape.Width))
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", deliverableshapeIdent, deliverableshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", deliverableshapeIdent, deliverableshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", deliverableshapeIdent, deliverableshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", deliverableshapeIdent, __gong__toRawStringLiteral(deliverableshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", deliverableshapeIdent, deliverableshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", deliverableshapeIdent, __gong__toRawStringLiteral(deliverableshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", deliverableshapeIdent, deliverableshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", deliverableshapeIdent, deliverableshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", deliverableshapeIdent, __gong__toRawStringLiteral(deliverableshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", deliverableshapeIdent, deliverableshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", deliverableshapeIdent, __gong__toRawStringLiteral(deliverableshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", deliverableshapeIdent, __gong__toRawStringLiteral(deliverableshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", deliverableshapeIdent, __gong__toRawStringLiteral(deliverableshape.FontColor)))
 			if deliverableshape.Deliverable != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1039,6 +1108,17 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", diagramshapeIdent, diagramshape.Width))
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", diagramshapeIdent, diagramshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", diagramshapeIdent, diagramshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", diagramshapeIdent, diagramshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", diagramshapeIdent, diagramshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", diagramshapeIdent, diagramshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", diagramshapeIdent, diagramshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", diagramshapeIdent, diagramshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.FontColor)))
 			if diagramshape.Diagram != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1238,6 +1318,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", notedeliverableshapeIdent, __gong__toRawStringLiteral(string(notedeliverableshape.EndOrientation))))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", notedeliverableshapeIdent, notedeliverableshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", notedeliverableshapeIdent, notedeliverableshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", notedeliverableshapeIdent, notedeliverableshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", notedeliverableshapeIdent, __gong__toRawStringLiteral(notedeliverableshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", notedeliverableshapeIdent, notedeliverableshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", notedeliverableshapeIdent, notedeliverableshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", notedeliverableshapeIdent, __gong__toRawStringLiteral(notedeliverableshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", notedeliverableshapeIdent, __gong__toRawStringLiteral(notedeliverableshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", notedeliverableshapeIdent, __gong__toRawStringLiteral(notedeliverableshape.FontColor)))
 			if notedeliverableshape.Note != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1293,6 +1380,17 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", noteshapeIdent, noteshape.Width))
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", noteshapeIdent, noteshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", noteshapeIdent, noteshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", noteshapeIdent, noteshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", noteshapeIdent, noteshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", noteshapeIdent, noteshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", noteshapeIdent, noteshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", noteshapeIdent, noteshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.FontColor)))
 			if noteshape.Note != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1328,6 +1426,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", notestakeholdershapeIdent, __gong__toRawStringLiteral(string(notestakeholdershape.EndOrientation))))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", notestakeholdershapeIdent, notestakeholdershape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", notestakeholdershapeIdent, notestakeholdershape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", notestakeholdershapeIdent, notestakeholdershape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", notestakeholdershapeIdent, __gong__toRawStringLiteral(notestakeholdershape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", notestakeholdershapeIdent, notestakeholdershape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", notestakeholdershapeIdent, notestakeholdershape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", notestakeholdershapeIdent, __gong__toRawStringLiteral(notestakeholdershape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", notestakeholdershapeIdent, __gong__toRawStringLiteral(notestakeholdershape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", notestakeholdershapeIdent, __gong__toRawStringLiteral(notestakeholdershape.FontColor)))
 			if notestakeholdershape.Note != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1383,6 +1488,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", notetaskshapeIdent, __gong__toRawStringLiteral(string(notetaskshape.EndOrientation))))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", notetaskshapeIdent, notetaskshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", notetaskshapeIdent, notetaskshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", notetaskshapeIdent, notetaskshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", notetaskshapeIdent, __gong__toRawStringLiteral(notetaskshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", notetaskshapeIdent, notetaskshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", notetaskshapeIdent, notetaskshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", notetaskshapeIdent, __gong__toRawStringLiteral(notetaskshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", notetaskshapeIdent, __gong__toRawStringLiteral(notetaskshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", notetaskshapeIdent, __gong__toRawStringLiteral(notetaskshape.FontColor)))
 			if notetaskshape.Note != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1479,6 +1591,17 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", requirementshapeIdent, requirementshape.Width))
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", requirementshapeIdent, requirementshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", requirementshapeIdent, requirementshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", requirementshapeIdent, requirementshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", requirementshapeIdent, __gong__toRawStringLiteral(requirementshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", requirementshapeIdent, requirementshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", requirementshapeIdent, __gong__toRawStringLiteral(requirementshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", requirementshapeIdent, requirementshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", requirementshapeIdent, requirementshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", requirementshapeIdent, __gong__toRawStringLiteral(requirementshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", requirementshapeIdent, requirementshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", requirementshapeIdent, __gong__toRawStringLiteral(requirementshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", requirementshapeIdent, __gong__toRawStringLiteral(requirementshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", requirementshapeIdent, __gong__toRawStringLiteral(requirementshape.FontColor)))
 			if requirementshape.Requirement != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1557,6 +1680,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", stakeholdercompositionshapeIdent, __gong__toRawStringLiteral(string(stakeholdercompositionshape.EndOrientation))))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", stakeholdercompositionshapeIdent, stakeholdercompositionshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", stakeholdercompositionshapeIdent, stakeholdercompositionshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", stakeholdercompositionshapeIdent, stakeholdercompositionshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", stakeholdercompositionshapeIdent, __gong__toRawStringLiteral(stakeholdercompositionshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", stakeholdercompositionshapeIdent, stakeholdercompositionshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", stakeholdercompositionshapeIdent, stakeholdercompositionshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", stakeholdercompositionshapeIdent, __gong__toRawStringLiteral(stakeholdercompositionshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", stakeholdercompositionshapeIdent, __gong__toRawStringLiteral(stakeholdercompositionshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", stakeholdercompositionshapeIdent, __gong__toRawStringLiteral(stakeholdercompositionshape.FontColor)))
 			if stakeholdercompositionshape.Stakeholder != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1602,6 +1732,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", stakeholderconcernshapeIdent, __gong__toRawStringLiteral(string(stakeholderconcernshape.EndOrientation))))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", stakeholderconcernshapeIdent, stakeholderconcernshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", stakeholderconcernshapeIdent, stakeholderconcernshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", stakeholderconcernshapeIdent, stakeholderconcernshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", stakeholderconcernshapeIdent, __gong__toRawStringLiteral(stakeholderconcernshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", stakeholderconcernshapeIdent, stakeholderconcernshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", stakeholderconcernshapeIdent, stakeholderconcernshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", stakeholderconcernshapeIdent, __gong__toRawStringLiteral(stakeholderconcernshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", stakeholderconcernshapeIdent, __gong__toRawStringLiteral(stakeholderconcernshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", stakeholderconcernshapeIdent, __gong__toRawStringLiteral(stakeholderconcernshape.FontColor)))
 			if stakeholderconcernshape.Stakeholder != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1657,6 +1794,17 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", stakeholdershapeIdent, stakeholdershape.Width))
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", stakeholdershapeIdent, stakeholdershape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", stakeholdershapeIdent, stakeholdershape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", stakeholdershapeIdent, stakeholdershape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", stakeholdershapeIdent, __gong__toRawStringLiteral(stakeholdershape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", stakeholdershapeIdent, stakeholdershape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", stakeholdershapeIdent, __gong__toRawStringLiteral(stakeholdershape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", stakeholdershapeIdent, stakeholdershape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", stakeholdershapeIdent, stakeholdershape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", stakeholdershapeIdent, __gong__toRawStringLiteral(stakeholdershape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", stakeholdershapeIdent, stakeholdershape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", stakeholdershapeIdent, __gong__toRawStringLiteral(stakeholdershape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", stakeholdershapeIdent, __gong__toRawStringLiteral(stakeholdershape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", stakeholdershapeIdent, __gong__toRawStringLiteral(stakeholdershape.FontColor)))
 			if stakeholdershape.Stakeholder != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1719,7 +1867,21 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	}
 
 
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	goModuleVersionWithoutDirty := strings.ReplaceAll(goModuleVersion, "+dirty", "")
+	if goModuleVersionWithoutDirty == "" || goModuleVersionWithoutDirty == "(devel)" {
+		goModuleVersionWithoutDirty = "latest"
+	}
+
 	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+/* to edit this file with the default probe, use the command
+go run github.com/fullstack-lang/gong/dsm/capture/go/models/probe/cmd/probe@%s stage.go
+*/
 package %s
 
 import (
@@ -1751,7 +1913,7 @@ func _(stageSet *models.StageSet) {
 	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
 	// ------------------------------------------------------------------------%s
 }
-`, packageName, declarations.String(), values.String(), pointers.String())
+`, goModuleVersion, goModuleVersionWithoutDirty, packageName, declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }
@@ -1969,6 +2131,28 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Height = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					}
 				case *Concern:
 					switch fieldName {
@@ -2019,6 +2203,20 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					case "ControlPointShapes":
 						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
@@ -2042,6 +2240,20 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					case "ControlPointShapes":
 						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
@@ -2065,6 +2277,20 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					case "ControlPointShapes":
 						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
@@ -2086,6 +2312,28 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Height = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					}
 				case *ControlPointShape:
 					switch fieldName {
@@ -2135,6 +2383,20 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					case "ControlPointShapes":
 						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
@@ -2158,6 +2420,20 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					case "ControlPointShapes":
 						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
@@ -2179,6 +2455,28 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Height = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					}
 				case *Diagram:
 					switch fieldName {
@@ -2295,6 +2593,28 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Height = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					}
 				case *Library:
 					switch fieldName {
@@ -2362,6 +2682,20 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					case "ControlPointShapes":
 						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
@@ -2383,6 +2717,28 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Height = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					}
 				case *NoteStakeholderShape:
 					switch fieldName {
@@ -2404,6 +2760,20 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					case "ControlPointShapes":
 						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
@@ -2427,6 +2797,20 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					case "ControlPointShapes":
 						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
@@ -2461,6 +2845,28 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Height = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					}
 				case *Stakeholder:
 					switch fieldName {
@@ -2497,6 +2903,20 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					case "ControlPointShapes":
 						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
@@ -2520,6 +2940,20 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					case "ControlPointShapes":
 						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
@@ -2541,6 +2975,28 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Height = GongExtractFloat(rhs)
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					}
 				case *SupportLevel:
 					switch fieldName {

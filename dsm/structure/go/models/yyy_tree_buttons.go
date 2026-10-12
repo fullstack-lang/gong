@@ -1450,6 +1450,7 @@ func (stager *Stager) onNameChange(element AbstractType) func(newName string) {
 func onNodeClicked[T AbstractType](stager *Stager, element T) func(frontNode *tree.Node) {
 	return func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[T]())
+		clearShapeAppearanceForm(stager)
 		stager.stage.CommitWithSuspendedCallbacks()
 	}
 }

@@ -834,6 +834,20 @@ func (notecomplexityshape *NoteComplexityShape) GongMarshallField(stage *Stage, 
 		res = __gong__marshallFloat(ident, "CornerOffsetRatio", notecomplexityshape.CornerOffsetRatio)
 	case "IsHidden":
 		res = __gong__marshallBool(ident, "IsHidden", notecomplexityshape.IsHidden)
+	case "IsPresentationOverridden":
+		res = __gong__marshallBool(ident, "IsPresentationOverridden", notecomplexityshape.IsPresentationOverridden)
+	case "Stroke":
+		res = __gong__marshallString(ident, "Stroke", notecomplexityshape.Stroke)
+	case "StrokeWidth":
+		res = __gong__marshallFloat(ident, "StrokeWidth", notecomplexityshape.StrokeWidth)
+	case "StrokeOpacity":
+		res = __gong__marshallFloat(ident, "StrokeOpacity", notecomplexityshape.StrokeOpacity)
+	case "StrokeDashArray":
+		res = __gong__marshallString(ident, "StrokeDashArray", notecomplexityshape.StrokeDashArray)
+	case "FontSize":
+		res = __gong__marshallString(ident, "FontSize", notecomplexityshape.FontSize)
+	case "FontColor":
+		res = __gong__marshallString(ident, "FontColor", notecomplexityshape.FontColor)
 
 	case "Note":
 		if notecomplexityshape.Note != nil {
@@ -871,6 +885,20 @@ func (noteeffortshape *NoteEffortShape) GongMarshallField(stage *Stage, fieldNam
 		res = __gong__marshallFloat(ident, "CornerOffsetRatio", noteeffortshape.CornerOffsetRatio)
 	case "IsHidden":
 		res = __gong__marshallBool(ident, "IsHidden", noteeffortshape.IsHidden)
+	case "IsPresentationOverridden":
+		res = __gong__marshallBool(ident, "IsPresentationOverridden", noteeffortshape.IsPresentationOverridden)
+	case "Stroke":
+		res = __gong__marshallString(ident, "Stroke", noteeffortshape.Stroke)
+	case "StrokeWidth":
+		res = __gong__marshallFloat(ident, "StrokeWidth", noteeffortshape.StrokeWidth)
+	case "StrokeOpacity":
+		res = __gong__marshallFloat(ident, "StrokeOpacity", noteeffortshape.StrokeOpacity)
+	case "StrokeDashArray":
+		res = __gong__marshallString(ident, "StrokeDashArray", noteeffortshape.StrokeDashArray)
+	case "FontSize":
+		res = __gong__marshallString(ident, "FontSize", noteeffortshape.FontSize)
+	case "FontColor":
+		res = __gong__marshallString(ident, "FontColor", noteeffortshape.FontColor)
 
 	case "Note":
 		if noteeffortshape.Note != nil {
@@ -908,6 +936,20 @@ func (noteperformanceshape *NotePerformanceShape) GongMarshallField(stage *Stage
 		res = __gong__marshallFloat(ident, "CornerOffsetRatio", noteperformanceshape.CornerOffsetRatio)
 	case "IsHidden":
 		res = __gong__marshallBool(ident, "IsHidden", noteperformanceshape.IsHidden)
+	case "IsPresentationOverridden":
+		res = __gong__marshallBool(ident, "IsPresentationOverridden", noteperformanceshape.IsPresentationOverridden)
+	case "Stroke":
+		res = __gong__marshallString(ident, "Stroke", noteperformanceshape.Stroke)
+	case "StrokeWidth":
+		res = __gong__marshallFloat(ident, "StrokeWidth", noteperformanceshape.StrokeWidth)
+	case "StrokeOpacity":
+		res = __gong__marshallFloat(ident, "StrokeOpacity", noteperformanceshape.StrokeOpacity)
+	case "StrokeDashArray":
+		res = __gong__marshallString(ident, "StrokeDashArray", noteperformanceshape.StrokeDashArray)
+	case "FontSize":
+		res = __gong__marshallString(ident, "FontSize", noteperformanceshape.FontSize)
+	case "FontColor":
+		res = __gong__marshallString(ident, "FontColor", noteperformanceshape.FontColor)
 
 	case "Note":
 		if noteperformanceshape.Note != nil {
@@ -943,6 +985,28 @@ func (noteshape *NoteShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = __gong__marshallFloat(ident, "Height", noteshape.Height)
 	case "IsHidden":
 		res = __gong__marshallBool(ident, "IsHidden", noteshape.IsHidden)
+	case "IsPresentationOverridden":
+		res = __gong__marshallBool(ident, "IsPresentationOverridden", noteshape.IsPresentationOverridden)
+	case "Color":
+		res = __gong__marshallString(ident, "Color", noteshape.Color)
+	case "FillOpacity":
+		res = __gong__marshallFloat(ident, "FillOpacity", noteshape.FillOpacity)
+	case "Stroke":
+		res = __gong__marshallString(ident, "Stroke", noteshape.Stroke)
+	case "StrokeWidth":
+		res = __gong__marshallFloat(ident, "StrokeWidth", noteshape.StrokeWidth)
+	case "StrokeOpacity":
+		res = __gong__marshallFloat(ident, "StrokeOpacity", noteshape.StrokeOpacity)
+	case "StrokeDashArray":
+		res = __gong__marshallString(ident, "StrokeDashArray", noteshape.StrokeDashArray)
+	case "RX":
+		res = __gong__marshallFloat(ident, "RX", noteshape.RX)
+	case "FontSize":
+		res = __gong__marshallString(ident, "FontSize", noteshape.FontSize)
+	case "FontWeight":
+		res = __gong__marshallString(ident, "FontWeight", noteshape.FontWeight)
+	case "FontColor":
+		res = __gong__marshallString(ident, "FontColor", noteshape.FontColor)
 
 	case "Note":
 		if noteshape.Note != nil {
@@ -1227,6 +1291,13 @@ func (notecomplexityshape *NoteComplexityShape) GongMarshallAllFields(stage *Sta
 		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "IsPresentationOverridden"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "FontSize"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "FontColor"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1246,6 +1317,13 @@ func (noteeffortshape *NoteEffortShape) GongMarshallAllFields(stage *Stage) (ini
 		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "IsPresentationOverridden"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "FontSize"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "FontColor"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1265,6 +1343,13 @@ func (noteperformanceshape *NotePerformanceShape) GongMarshallAllFields(stage *S
 		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "IsPresentationOverridden"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "FontSize"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "FontColor"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1282,6 +1367,17 @@ func (noteshape *NoteShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "IsPresentationOverridden"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "FillOpacity"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "RX"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "FontSize"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "FontWeight"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "FontColor"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

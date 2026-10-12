@@ -33,11 +33,13 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 			if stager.probeForm != nil {
 				stager.probeForm.FillUpFormFromGongstruct(diagram, "Diagram")
 			}
+			clearShapeAppearanceForm(stager)
 		} else {
 			diagram.IsChecked = false
 			for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 				diagram_.IsChecked = false
 			}
+			clearShapeAppearanceForm(stager)
 		}
 		stager.stage.Commit()
 	}

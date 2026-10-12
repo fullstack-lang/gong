@@ -232,6 +232,28 @@ func (u *ActorStateShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -292,6 +314,28 @@ func (u *ActorStateTransitionShapeUnmarshaller) UnmarshallField(stage *Stage, i 
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
@@ -525,6 +569,28 @@ func (u *EvolutionDirectionShapeUnmarshaller) UnmarshallField(stage *Stage, i Go
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -819,6 +885,28 @@ func (u *ParameterShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -877,6 +965,28 @@ func (u *ParametersAggregateShapeUnmarshaller) UnmarshallField(stage *Stage, i G
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }

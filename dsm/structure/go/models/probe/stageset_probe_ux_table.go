@@ -598,6 +598,41 @@ func updateStageSetTable_ControlFlowShape_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.DiagramStructure) -> ControlFlow_Shapes"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -692,6 +727,48 @@ func updateStageSetTable_ControlFlowShape_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "IsHidden"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
 			row.Cells = append(row.Cells, cell)
 		}
 
@@ -1383,6 +1460,41 @@ func updateStageSetTable_DataFlowShape_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.DiagramStructure) -> DataFlow_Shapes"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -1477,6 +1589,48 @@ func updateStageSetTable_DataFlowShape_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "IsHidden"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
 			row.Cells = append(row.Cells, cell)
 		}
 
@@ -2524,6 +2678,61 @@ func updateStageSetTable_ExternalPartShape_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Color"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FillOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RX"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontWeight"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "TailHeigth"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -2623,6 +2832,72 @@ func updateStageSetTable_ExternalPartShape_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "IsHidden"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Color"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Color)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FillOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.FillOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RX"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RX)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontWeight"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontWeight)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
 			row.Cells = append(row.Cells, cell)
 		}
 
@@ -3597,6 +3872,41 @@ func updateStageSetTable_NotePartShape_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.DiagramStructure) -> NotePartShapes"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -3705,6 +4015,48 @@ func updateStageSetTable_NotePartShape_Stage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "(models.DiagramStructure) -> NotePartShapes"}
 			var refNames []string
 			for src := range probe.stageSet.Stage.DiagramStructures {
@@ -3787,6 +4139,41 @@ func updateStageSetTable_NotePortShape_Stage(probe *StageSetProbe) {
 	{
 		col := new(table_models.DisplayedColumn)
 		col.Name = "IsHidden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -3899,6 +4286,48 @@ func updateStageSetTable_NotePortShape_Stage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "(models.DiagramStructure) -> NotePortShapes"}
 			var refNames []string
 			for src := range probe.stageSet.Stage.DiagramStructures {
@@ -3971,6 +4400,61 @@ func updateStageSetTable_NoteShape_Stage(probe *StageSetProbe) {
 	{
 		col := new(table_models.DisplayedColumn)
 		col.Name = "IsHidden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Color"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FillOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RX"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontWeight"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -4063,6 +4547,72 @@ func updateStageSetTable_NoteShape_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "IsHidden"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Color"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Color)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FillOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.FillOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RX"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RX)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontWeight"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontWeight)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
 			row.Cells = append(row.Cells, cell)
 		}
 
@@ -5045,6 +5595,61 @@ func updateStageSetTable_PartShape_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Color"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FillOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RX"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontWeight"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.DiagramStructure) -> Part_Shapes"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -5139,6 +5744,72 @@ func updateStageSetTable_PartShape_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "IsHidden"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Color"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Color)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FillOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.FillOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RX"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RX)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontWeight"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontWeight)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
 			row.Cells = append(row.Cells, cell)
 		}
 
@@ -5589,6 +6260,61 @@ func updateStageSetTable_PortShape_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Color"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FillOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RX"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontWeight"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.DiagramStructure) -> Port_Shapes"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -5683,6 +6409,72 @@ func updateStageSetTable_PortShape_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "IsHidden"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Color"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Color)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FillOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.FillOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RX"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RX)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontWeight"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontWeight)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
 			row.Cells = append(row.Cells, cell)
 		}
 
@@ -6556,6 +7348,61 @@ func updateStageSetTable_SystemShape_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Color"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FillOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RX"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontWeight"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.DiagramStructure) -> System_Shapes"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -6650,6 +7497,72 @@ func updateStageSetTable_SystemShape_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "IsHidden"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Color"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Color)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FillOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.FillOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RX"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RX)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontWeight"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontWeight)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
 			row.Cells = append(row.Cells, cell)
 		}
 

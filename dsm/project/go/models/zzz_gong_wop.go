@@ -224,6 +224,20 @@ type NoteProductShape_WOP struct {
 	CornerOffsetRatio float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
 }
 
 func (from *NoteProductShape) GongCopyBasicFields(to *NoteProductShape) {
@@ -235,6 +249,13 @@ func (from *NoteProductShape) GongCopyBasicFields(to *NoteProductShape) {
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
 }
 
 type NoteResourceShape_WOP struct {
@@ -253,6 +274,20 @@ type NoteResourceShape_WOP struct {
 	CornerOffsetRatio float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
 }
 
 func (from *NoteResourceShape) GongCopyBasicFields(to *NoteResourceShape) {
@@ -264,6 +299,13 @@ func (from *NoteResourceShape) GongCopyBasicFields(to *NoteResourceShape) {
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
 }
 
 type NoteShape_WOP struct {
@@ -282,6 +324,28 @@ type NoteShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	RX float64
+
+	FontSize string
+
+	FontWeight string
+
+	FontColor string
 }
 
 func (from *NoteShape) GongCopyBasicFields(to *NoteShape) {
@@ -293,6 +357,17 @@ func (from *NoteShape) GongCopyBasicFields(to *NoteShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.RX = from.RX
+	to.FontSize = from.FontSize
+	to.FontWeight = from.FontWeight
+	to.FontColor = from.FontColor
 }
 
 type NoteTaskShape_WOP struct {
@@ -311,6 +386,20 @@ type NoteTaskShape_WOP struct {
 	CornerOffsetRatio float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
 }
 
 func (from *NoteTaskShape) GongCopyBasicFields(to *NoteTaskShape) {
@@ -322,6 +411,13 @@ func (from *NoteTaskShape) GongCopyBasicFields(to *NoteTaskShape) {
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
 }
 
 type Product_WOP struct {
@@ -372,6 +468,20 @@ type ProductCompositionShape_WOP struct {
 	CornerOffsetRatio float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
 }
 
 func (from *ProductCompositionShape) GongCopyBasicFields(to *ProductCompositionShape) {
@@ -383,6 +493,13 @@ func (from *ProductCompositionShape) GongCopyBasicFields(to *ProductCompositionS
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
 }
 
 type ProductReferenceShape_WOP struct {
@@ -401,6 +518,20 @@ type ProductReferenceShape_WOP struct {
 	CornerOffsetRatio float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
 }
 
 func (from *ProductReferenceShape) GongCopyBasicFields(to *ProductReferenceShape) {
@@ -412,6 +543,13 @@ func (from *ProductReferenceShape) GongCopyBasicFields(to *ProductReferenceShape
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
 }
 
 type ProductShape_WOP struct {
@@ -432,6 +570,28 @@ type ProductShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	RX float64
+
+	FontSize string
+
+	FontWeight string
+
+	FontColor string
 }
 
 func (from *ProductShape) GongCopyBasicFields(to *ProductShape) {
@@ -444,6 +604,17 @@ func (from *ProductShape) GongCopyBasicFields(to *ProductShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.RX = from.RX
+	to.FontSize = from.FontSize
+	to.FontWeight = from.FontWeight
+	to.FontColor = from.FontColor
 }
 
 type Resource_WOP struct {
@@ -488,6 +659,20 @@ type ResourceCompositionShape_WOP struct {
 	CornerOffsetRatio float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
 }
 
 func (from *ResourceCompositionShape) GongCopyBasicFields(to *ResourceCompositionShape) {
@@ -499,6 +684,13 @@ func (from *ResourceCompositionShape) GongCopyBasicFields(to *ResourceCompositio
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
 }
 
 type ResourceShape_WOP struct {
@@ -517,6 +709,28 @@ type ResourceShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	RX float64
+
+	FontSize string
+
+	FontWeight string
+
+	FontColor string
 }
 
 func (from *ResourceShape) GongCopyBasicFields(to *ResourceShape) {
@@ -528,6 +742,17 @@ func (from *ResourceShape) GongCopyBasicFields(to *ResourceShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.RX = from.RX
+	to.FontSize = from.FontSize
+	to.FontWeight = from.FontWeight
+	to.FontColor = from.FontColor
 }
 
 type ResourceTaskShape_WOP struct {
@@ -546,6 +771,20 @@ type ResourceTaskShape_WOP struct {
 	CornerOffsetRatio float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
 }
 
 func (from *ResourceTaskShape) GongCopyBasicFields(to *ResourceTaskShape) {
@@ -557,6 +796,13 @@ func (from *ResourceTaskShape) GongCopyBasicFields(to *ResourceTaskShape) {
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
 }
 
 type Task_WOP struct {
@@ -670,6 +916,20 @@ type TaskCompositionShape_WOP struct {
 	CornerOffsetRatio float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
 }
 
 func (from *TaskCompositionShape) GongCopyBasicFields(to *TaskCompositionShape) {
@@ -681,6 +941,13 @@ func (from *TaskCompositionShape) GongCopyBasicFields(to *TaskCompositionShape) 
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
 }
 
 type TaskGroup_WOP struct {
@@ -714,6 +981,28 @@ type TaskGroupShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	RX float64
+
+	FontSize string
+
+	FontWeight string
+
+	FontColor string
 }
 
 func (from *TaskGroupShape) GongCopyBasicFields(to *TaskGroupShape) {
@@ -724,6 +1013,17 @@ func (from *TaskGroupShape) GongCopyBasicFields(to *TaskGroupShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.RX = from.RX
+	to.FontSize = from.FontSize
+	to.FontWeight = from.FontWeight
+	to.FontColor = from.FontColor
 }
 
 type TaskInputShape_WOP struct {
@@ -742,6 +1042,20 @@ type TaskInputShape_WOP struct {
 	CornerOffsetRatio float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
 }
 
 func (from *TaskInputShape) GongCopyBasicFields(to *TaskInputShape) {
@@ -753,6 +1067,13 @@ func (from *TaskInputShape) GongCopyBasicFields(to *TaskInputShape) {
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
 }
 
 type TaskOutputShape_WOP struct {
@@ -771,6 +1092,20 @@ type TaskOutputShape_WOP struct {
 	CornerOffsetRatio float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
 }
 
 func (from *TaskOutputShape) GongCopyBasicFields(to *TaskOutputShape) {
@@ -782,6 +1117,13 @@ func (from *TaskOutputShape) GongCopyBasicFields(to *TaskOutputShape) {
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
 }
 
 type TaskPredecessorShape_WOP struct {
@@ -800,6 +1142,20 @@ type TaskPredecessorShape_WOP struct {
 	CornerOffsetRatio float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
 }
 
 func (from *TaskPredecessorShape) GongCopyBasicFields(to *TaskPredecessorShape) {
@@ -811,6 +1167,13 @@ func (from *TaskPredecessorShape) GongCopyBasicFields(to *TaskPredecessorShape) 
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
 }
 
 type TaskShape_WOP struct {
@@ -835,6 +1198,28 @@ type TaskShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	RX float64
+
+	FontSize string
+
+	FontWeight string
+
+	FontColor string
 }
 
 func (from *TaskShape) GongCopyBasicFields(to *TaskShape) {
@@ -849,6 +1234,17 @@ func (from *TaskShape) GongCopyBasicFields(to *TaskShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.RX = from.RX
+	to.FontSize = from.FontSize
+	to.FontWeight = from.FontWeight
+	to.FontColor = from.FontColor
 }
 
 // end of insertion point

@@ -224,6 +224,8 @@ func setCallbacksElementInDiagram[
 
 	node.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
+		shape := shapesMap[element]
+		fillUpShapeAppearanceForm(stager, shape)
 		stager.stage.CommitWithSuspendedCallbacks()
 	}
 }
@@ -333,6 +335,7 @@ func setCallbacksExpandableNode[
 
 	node.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
+		clearShapeAppearanceForm(stager)
 		stager.stage.CommitWithSuspendedCallbacks()
 	}
 }
@@ -398,7 +401,7 @@ func svgRect[CT interface {
 	rect.RX = 15
 
 	// rect is editable if diagram is not null
-	rect.OnSelect = onSelectRectElement(stager, abstractElement)
+	rect.OnSelect = onSelectRectShape(stager, abstractElement, shape)
 
 	if diagram.IsEditable() {
 		rect.CanHaveBottomHandle = true
@@ -432,6 +435,38 @@ func svgRect[CT interface {
 
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		FormatRectTitle(stager, diagram, shape, rect, 0, 0)
+	}
+
+	if shape.GetIsPresentationOverridden() {
+		if shape.GetColor() != "" {
+			rect.Color = shape.GetColor()
+		}
+		if shape.GetFillOpacity() != 0 {
+			rect.FillOpacity = shape.GetFillOpacity()
+		}
+		if shape.GetStroke() != "" {
+			rect.Stroke = shape.GetStroke()
+		}
+		if shape.GetStrokeWidth() != 0 {
+			rect.StrokeWidth = shape.GetStrokeWidth()
+		}
+		if shape.GetStrokeOpacity() != 0 {
+			rect.StrokeOpacity = shape.GetStrokeOpacity()
+		}
+		if shape.GetStrokeDashArray() != "" {
+			rect.StrokeDashArray = shape.GetStrokeDashArray()
+		}
+		rect.RX = shape.GetRX()
+		if shape.GetFontSize() != "" {
+			title.FontSize = shape.GetFontSize()
+		}
+		if shape.GetFontWeight() != "" {
+			title.FontWeight = shape.GetFontWeight()
+		}
+		if shape.GetFontColor() != "" {
+			title.Color = shape.GetFontColor()
+			title.Stroke = shape.GetFontColor()
+		}
 	}
 
 	layer.Rects = append(layer.Rects, rect)
@@ -506,6 +541,28 @@ func FormatNoteRect[CT interface {
 	rect.Stroke = "#FBC02D"
 	rect.StrokeWidth = 1.0
 
+	if shape.GetIsPresentationOverridden() {
+		if shape.GetColor() != "" {
+			rect.Color = shape.GetColor()
+		}
+		if shape.GetFillOpacity() != 0 {
+			rect.FillOpacity = shape.GetFillOpacity()
+		}
+		if shape.GetStroke() != "" {
+			rect.Stroke = shape.GetStroke()
+		}
+		if shape.GetStrokeWidth() != 0 {
+			rect.StrokeWidth = shape.GetStrokeWidth()
+		}
+		if shape.GetStrokeOpacity() != 0 {
+			rect.StrokeOpacity = shape.GetStrokeOpacity()
+		}
+		if shape.GetStrokeDashArray() != "" {
+			rect.StrokeDashArray = shape.GetStrokeDashArray()
+		}
+		rect.RX = shape.GetRX()
+	}
+
 	if len(rect.RectAnchoredTexts) > 0 {
 		abstractElement := shape.GetAbstractElement()
 		content := abstractElement.GetName()
@@ -520,11 +577,25 @@ func FormatNoteRect[CT interface {
 			content = strutils.WrapStringPreservingNewlines(content, int(wrapWidth/root.NbPixPerCharacter))
 		}
 
-		rect.RectAnchoredTexts[0].Content = content
-		rect.RectAnchoredTexts[0].TextAnchorType = svg.TEXT_ANCHOR_START
-		rect.RectAnchoredTexts[0].RectAnchorType = svg.RECT_TOP_LEFT
-		rect.RectAnchoredTexts[0].X_Offset = 10
-		rect.RectAnchoredTexts[0].Y_Offset = 20
+		title := rect.RectAnchoredTexts[0]
+		title.Content = content
+		title.TextAnchorType = svg.TEXT_ANCHOR_START
+		title.RectAnchorType = svg.RECT_TOP_LEFT
+		title.X_Offset = 10
+		title.Y_Offset = 20
+
+		if shape.GetIsPresentationOverridden() {
+			if shape.GetFontSize() != "" {
+				title.FontSize = shape.GetFontSize()
+			}
+			if shape.GetFontWeight() != "" {
+				title.FontWeight = shape.GetFontWeight()
+			}
+			if shape.GetFontColor() != "" {
+				title.Color = shape.GetFontColor()
+				title.Stroke = shape.GetFontColor()
+			}
+		}
 	}
 }
 
@@ -539,6 +610,29 @@ func onSelectRectElement[AT AbstractType](
 			formName = abstractElement.GongGetGongstructName()
 		}
 		stager.probeForm.FillUpFormFromGongstruct(abstractElement, formName)
+		clearShapeAppearanceForm(stager)
+		// update the tree because it contains the undo/redo calls
+		stager.ux_tree()
+	}
+}
+
+func onSelectRectShape[AT AbstractType, CT interface {
+	*CT_
+	RectShapeInterface
+	ConcreteType
+}, CT_ Gongstruct](
+	stager *Stager,
+	abstractElement AT,
+	shape CT,
+) func() {
+	return func() {
+		stager.stage.CommitWithSuspendedCallbacks()
+		formName := ""
+		if any(abstractElement) != nil {
+			formName = abstractElement.GongGetGongstructName()
+		}
+		stager.probeForm.FillUpFormFromGongstruct(abstractElement, formName)
+		fillUpShapeAppearanceForm(stager, shape)
 		// update the tree because it contains the undo/redo calls
 		stager.ux_tree()
 	}
@@ -634,6 +728,21 @@ func svgAssociationLink[AT AbstractType,
 		link.StrokeDashArray = "5 5"
 	}
 
+	if shape.GetIsPresentationOverridden() {
+		if shape.GetStroke() != "" {
+			link.Stroke = shape.GetStroke()
+		}
+		if shape.GetStrokeWidth() != 0 {
+			link.StrokeWidth = shape.GetStrokeWidth()
+		}
+		if shape.GetStrokeOpacity() != 0 {
+			link.StrokeOpacity = shape.GetStrokeOpacity()
+		}
+		if shape.GetStrokeDashArray() != "" {
+			link.StrokeDashArray = shape.GetStrokeDashArray()
+		}
+	}
+
 	link.OnSelect = func() {
 		stager.stage.CommitWithSuspendedCallbacks()
 		formName := ""
@@ -641,6 +750,7 @@ func svgAssociationLink[AT AbstractType,
 			formName = productOfInterest.GongGetGongstructName()
 		}
 		stager.probeForm.FillUpFormFromGongstruct(productOfInterest, formName)
+		fillUpShapeAppearanceForm(stager, shape)
 	}
 
 	link.OnChange = func(updatedLink *svg.Link) {
@@ -702,6 +812,21 @@ func svgAssociationLinkAsCT[AT AbstractType,
 		link.StrokeDashArray = "5 5"
 	}
 
+	if shape.GetIsPresentationOverridden() {
+		if shape.GetStroke() != "" {
+			link.Stroke = shape.GetStroke()
+		}
+		if shape.GetStrokeWidth() != 0 {
+			link.StrokeWidth = shape.GetStrokeWidth()
+		}
+		if shape.GetStrokeOpacity() != 0 {
+			link.StrokeOpacity = shape.GetStrokeOpacity()
+		}
+		if shape.GetStrokeDashArray() != "" {
+			link.StrokeDashArray = shape.GetStrokeDashArray()
+		}
+	}
+
 	link.OnSelect = func() {
 		stager.stage.CommitWithSuspendedCallbacks()
 		elem := shape.GetAbstractElement()
@@ -710,6 +835,7 @@ func svgAssociationLinkAsCT[AT AbstractType,
 			formName = elem.GongGetGongstructName()
 		}
 		stager.probeForm.FillUpFormFromGongstruct(elem.(AT), formName)
+		fillUpShapeAppearanceForm(stager, shape)
 	}
 
 	link.OnChange = func(updatedLink *svg.Link) {

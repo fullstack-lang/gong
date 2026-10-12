@@ -2732,6 +2732,27 @@ func (controlflowshape *ControlFlowShape) GongDiff(stage *Stage, controlflowshap
 	if controlflowshape.IsHidden != controlflowshapeOther.IsHidden {
 		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "IsHidden"))
 	}
+	if controlflowshape.IsPresentationOverridden != controlflowshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if controlflowshape.Stroke != controlflowshapeOther.Stroke {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "Stroke"))
+	}
+	if controlflowshape.StrokeWidth != controlflowshapeOther.StrokeWidth {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if controlflowshape.StrokeOpacity != controlflowshapeOther.StrokeOpacity {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if controlflowshape.StrokeDashArray != controlflowshapeOther.StrokeDashArray {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if controlflowshape.FontSize != controlflowshapeOther.FontSize {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "FontSize"))
+	}
+	if controlflowshape.FontColor != controlflowshapeOther.FontColor {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "FontColor"))
+	}
 
 	return
 }
@@ -2836,6 +2857,27 @@ func (dataflowshape *DataFlowShape) GongDiff(stage *Stage, dataflowshapeOther *D
 	}
 	if dataflowshape.IsHidden != dataflowshapeOther.IsHidden {
 		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if dataflowshape.IsPresentationOverridden != dataflowshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if dataflowshape.Stroke != dataflowshapeOther.Stroke {
+		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "Stroke"))
+	}
+	if dataflowshape.StrokeWidth != dataflowshapeOther.StrokeWidth {
+		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if dataflowshape.StrokeOpacity != dataflowshapeOther.StrokeOpacity {
+		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if dataflowshape.StrokeDashArray != dataflowshapeOther.StrokeDashArray {
+		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if dataflowshape.FontSize != dataflowshapeOther.FontSize {
+		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "FontSize"))
+	}
+	if dataflowshape.FontColor != dataflowshapeOther.FontColor {
+		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "FontColor"))
 	}
 
 	return
@@ -3034,6 +3076,39 @@ func (externalpartshape *ExternalPartShape) GongDiff(stage *Stage, externalparts
 	if externalpartshape.IsHidden != externalpartshapeOther.IsHidden {
 		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "IsHidden"))
 	}
+	if externalpartshape.IsPresentationOverridden != externalpartshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if externalpartshape.Color != externalpartshapeOther.Color {
+		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "Color"))
+	}
+	if externalpartshape.FillOpacity != externalpartshapeOther.FillOpacity {
+		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "FillOpacity"))
+	}
+	if externalpartshape.Stroke != externalpartshapeOther.Stroke {
+		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "Stroke"))
+	}
+	if externalpartshape.StrokeWidth != externalpartshapeOther.StrokeWidth {
+		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if externalpartshape.StrokeOpacity != externalpartshapeOther.StrokeOpacity {
+		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if externalpartshape.StrokeDashArray != externalpartshapeOther.StrokeDashArray {
+		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if externalpartshape.RX != externalpartshapeOther.RX {
+		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "RX"))
+	}
+	if externalpartshape.FontSize != externalpartshapeOther.FontSize {
+		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "FontSize"))
+	}
+	if externalpartshape.FontWeight != externalpartshapeOther.FontWeight {
+		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "FontWeight"))
+	}
+	if externalpartshape.FontColor != externalpartshapeOther.FontColor {
+		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "FontColor"))
+	}
 	if externalpartshape.TailHeigth != externalpartshapeOther.TailHeigth {
 		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "TailHeigth"))
 	}
@@ -3207,6 +3282,27 @@ func (notepartshape *NotePartShape) GongDiff(stage *Stage, notepartshapeOther *N
 	if notepartshape.IsHidden != notepartshapeOther.IsHidden {
 		diffs = append(diffs, notepartshape.GongMarshallField(stage, "IsHidden"))
 	}
+	if notepartshape.IsPresentationOverridden != notepartshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if notepartshape.Stroke != notepartshapeOther.Stroke {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "Stroke"))
+	}
+	if notepartshape.StrokeWidth != notepartshapeOther.StrokeWidth {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if notepartshape.StrokeOpacity != notepartshapeOther.StrokeOpacity {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if notepartshape.StrokeDashArray != notepartshapeOther.StrokeDashArray {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if notepartshape.FontSize != notepartshapeOther.FontSize {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "FontSize"))
+	}
+	if notepartshape.FontColor != notepartshapeOther.FontColor {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "FontColor"))
+	}
 
 	return
 }
@@ -3242,6 +3338,27 @@ func (noteportshape *NotePortShape) GongDiff(stage *Stage, noteportshapeOther *N
 	if noteportshape.IsHidden != noteportshapeOther.IsHidden {
 		diffs = append(diffs, noteportshape.GongMarshallField(stage, "IsHidden"))
 	}
+	if noteportshape.IsPresentationOverridden != noteportshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, noteportshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if noteportshape.Stroke != noteportshapeOther.Stroke {
+		diffs = append(diffs, noteportshape.GongMarshallField(stage, "Stroke"))
+	}
+	if noteportshape.StrokeWidth != noteportshapeOther.StrokeWidth {
+		diffs = append(diffs, noteportshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if noteportshape.StrokeOpacity != noteportshapeOther.StrokeOpacity {
+		diffs = append(diffs, noteportshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if noteportshape.StrokeDashArray != noteportshapeOther.StrokeDashArray {
+		diffs = append(diffs, noteportshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if noteportshape.FontSize != noteportshapeOther.FontSize {
+		diffs = append(diffs, noteportshape.GongMarshallField(stage, "FontSize"))
+	}
+	if noteportshape.FontColor != noteportshapeOther.FontColor {
+		diffs = append(diffs, noteportshape.GongMarshallField(stage, "FontColor"))
+	}
 
 	return
 }
@@ -3270,6 +3387,39 @@ func (noteshape *NoteShape) GongDiff(stage *Stage, noteshapeOther *NoteShape) (d
 	}
 	if noteshape.IsHidden != noteshapeOther.IsHidden {
 		diffs = append(diffs, noteshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if noteshape.IsPresentationOverridden != noteshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if noteshape.Color != noteshapeOther.Color {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Color"))
+	}
+	if noteshape.FillOpacity != noteshapeOther.FillOpacity {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "FillOpacity"))
+	}
+	if noteshape.Stroke != noteshapeOther.Stroke {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Stroke"))
+	}
+	if noteshape.StrokeWidth != noteshapeOther.StrokeWidth {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if noteshape.StrokeOpacity != noteshapeOther.StrokeOpacity {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if noteshape.StrokeDashArray != noteshapeOther.StrokeDashArray {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if noteshape.RX != noteshapeOther.RX {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "RX"))
+	}
+	if noteshape.FontSize != noteshapeOther.FontSize {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "FontSize"))
+	}
+	if noteshape.FontWeight != noteshapeOther.FontWeight {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "FontWeight"))
+	}
+	if noteshape.FontColor != noteshapeOther.FontColor {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "FontColor"))
 	}
 
 	return
@@ -3412,6 +3562,39 @@ func (partshape *PartShape) GongDiff(stage *Stage, partshapeOther *PartShape) (d
 	if partshape.IsHidden != partshapeOther.IsHidden {
 		diffs = append(diffs, partshape.GongMarshallField(stage, "IsHidden"))
 	}
+	if partshape.IsPresentationOverridden != partshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if partshape.Color != partshapeOther.Color {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "Color"))
+	}
+	if partshape.FillOpacity != partshapeOther.FillOpacity {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "FillOpacity"))
+	}
+	if partshape.Stroke != partshapeOther.Stroke {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "Stroke"))
+	}
+	if partshape.StrokeWidth != partshapeOther.StrokeWidth {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if partshape.StrokeOpacity != partshapeOther.StrokeOpacity {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if partshape.StrokeDashArray != partshapeOther.StrokeDashArray {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if partshape.RX != partshapeOther.RX {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "RX"))
+	}
+	if partshape.FontSize != partshapeOther.FontSize {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "FontSize"))
+	}
+	if partshape.FontWeight != partshapeOther.FontWeight {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "FontWeight"))
+	}
+	if partshape.FontColor != partshapeOther.FontColor {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "FontColor"))
+	}
 
 	return
 }
@@ -3463,6 +3646,39 @@ func (portshape *PortShape) GongDiff(stage *Stage, portshapeOther *PortShape) (d
 	}
 	if portshape.IsHidden != portshapeOther.IsHidden {
 		diffs = append(diffs, portshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if portshape.IsPresentationOverridden != portshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, portshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if portshape.Color != portshapeOther.Color {
+		diffs = append(diffs, portshape.GongMarshallField(stage, "Color"))
+	}
+	if portshape.FillOpacity != portshapeOther.FillOpacity {
+		diffs = append(diffs, portshape.GongMarshallField(stage, "FillOpacity"))
+	}
+	if portshape.Stroke != portshapeOther.Stroke {
+		diffs = append(diffs, portshape.GongMarshallField(stage, "Stroke"))
+	}
+	if portshape.StrokeWidth != portshapeOther.StrokeWidth {
+		diffs = append(diffs, portshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if portshape.StrokeOpacity != portshapeOther.StrokeOpacity {
+		diffs = append(diffs, portshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if portshape.StrokeDashArray != portshapeOther.StrokeDashArray {
+		diffs = append(diffs, portshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if portshape.RX != portshapeOther.RX {
+		diffs = append(diffs, portshape.GongMarshallField(stage, "RX"))
+	}
+	if portshape.FontSize != portshapeOther.FontSize {
+		diffs = append(diffs, portshape.GongMarshallField(stage, "FontSize"))
+	}
+	if portshape.FontWeight != portshapeOther.FontWeight {
+		diffs = append(diffs, portshape.GongMarshallField(stage, "FontWeight"))
+	}
+	if portshape.FontColor != portshapeOther.FontColor {
+		diffs = append(diffs, portshape.GongMarshallField(stage, "FontColor"))
 	}
 
 	return
@@ -3594,6 +3810,39 @@ func (systemshape *SystemShape) GongDiff(stage *Stage, systemshapeOther *SystemS
 	}
 	if systemshape.IsHidden != systemshapeOther.IsHidden {
 		diffs = append(diffs, systemshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if systemshape.IsPresentationOverridden != systemshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if systemshape.Color != systemshapeOther.Color {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "Color"))
+	}
+	if systemshape.FillOpacity != systemshapeOther.FillOpacity {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "FillOpacity"))
+	}
+	if systemshape.Stroke != systemshapeOther.Stroke {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "Stroke"))
+	}
+	if systemshape.StrokeWidth != systemshapeOther.StrokeWidth {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if systemshape.StrokeOpacity != systemshapeOther.StrokeOpacity {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if systemshape.StrokeDashArray != systemshapeOther.StrokeDashArray {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if systemshape.RX != systemshapeOther.RX {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "RX"))
+	}
+	if systemshape.FontSize != systemshapeOther.FontSize {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "FontSize"))
+	}
+	if systemshape.FontWeight != systemshapeOther.FontWeight {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "FontWeight"))
+	}
+	if systemshape.FontColor != systemshapeOther.FontColor {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "FontColor"))
 	}
 
 	return

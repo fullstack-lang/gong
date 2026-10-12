@@ -1662,6 +1662,27 @@ func (notecomplexityshape *NoteComplexityShape) GongDiff(stage *Stage, notecompl
 	if notecomplexityshape.IsHidden != notecomplexityshapeOther.IsHidden {
 		diffs = append(diffs, notecomplexityshape.GongMarshallField(stage, "IsHidden"))
 	}
+	if notecomplexityshape.IsPresentationOverridden != notecomplexityshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, notecomplexityshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if notecomplexityshape.Stroke != notecomplexityshapeOther.Stroke {
+		diffs = append(diffs, notecomplexityshape.GongMarshallField(stage, "Stroke"))
+	}
+	if notecomplexityshape.StrokeWidth != notecomplexityshapeOther.StrokeWidth {
+		diffs = append(diffs, notecomplexityshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if notecomplexityshape.StrokeOpacity != notecomplexityshapeOther.StrokeOpacity {
+		diffs = append(diffs, notecomplexityshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if notecomplexityshape.StrokeDashArray != notecomplexityshapeOther.StrokeDashArray {
+		diffs = append(diffs, notecomplexityshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if notecomplexityshape.FontSize != notecomplexityshapeOther.FontSize {
+		diffs = append(diffs, notecomplexityshape.GongMarshallField(stage, "FontSize"))
+	}
+	if notecomplexityshape.FontColor != notecomplexityshapeOther.FontColor {
+		diffs = append(diffs, notecomplexityshape.GongMarshallField(stage, "FontColor"))
+	}
 
 	return
 }
@@ -1696,6 +1717,27 @@ func (noteeffortshape *NoteEffortShape) GongDiff(stage *Stage, noteeffortshapeOt
 	}
 	if noteeffortshape.IsHidden != noteeffortshapeOther.IsHidden {
 		diffs = append(diffs, noteeffortshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if noteeffortshape.IsPresentationOverridden != noteeffortshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, noteeffortshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if noteeffortshape.Stroke != noteeffortshapeOther.Stroke {
+		diffs = append(diffs, noteeffortshape.GongMarshallField(stage, "Stroke"))
+	}
+	if noteeffortshape.StrokeWidth != noteeffortshapeOther.StrokeWidth {
+		diffs = append(diffs, noteeffortshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if noteeffortshape.StrokeOpacity != noteeffortshapeOther.StrokeOpacity {
+		diffs = append(diffs, noteeffortshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if noteeffortshape.StrokeDashArray != noteeffortshapeOther.StrokeDashArray {
+		diffs = append(diffs, noteeffortshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if noteeffortshape.FontSize != noteeffortshapeOther.FontSize {
+		diffs = append(diffs, noteeffortshape.GongMarshallField(stage, "FontSize"))
+	}
+	if noteeffortshape.FontColor != noteeffortshapeOther.FontColor {
+		diffs = append(diffs, noteeffortshape.GongMarshallField(stage, "FontColor"))
 	}
 
 	return
@@ -1732,6 +1774,27 @@ func (noteperformanceshape *NotePerformanceShape) GongDiff(stage *Stage, noteper
 	if noteperformanceshape.IsHidden != noteperformanceshapeOther.IsHidden {
 		diffs = append(diffs, noteperformanceshape.GongMarshallField(stage, "IsHidden"))
 	}
+	if noteperformanceshape.IsPresentationOverridden != noteperformanceshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, noteperformanceshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if noteperformanceshape.Stroke != noteperformanceshapeOther.Stroke {
+		diffs = append(diffs, noteperformanceshape.GongMarshallField(stage, "Stroke"))
+	}
+	if noteperformanceshape.StrokeWidth != noteperformanceshapeOther.StrokeWidth {
+		diffs = append(diffs, noteperformanceshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if noteperformanceshape.StrokeOpacity != noteperformanceshapeOther.StrokeOpacity {
+		diffs = append(diffs, noteperformanceshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if noteperformanceshape.StrokeDashArray != noteperformanceshapeOther.StrokeDashArray {
+		diffs = append(diffs, noteperformanceshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if noteperformanceshape.FontSize != noteperformanceshapeOther.FontSize {
+		diffs = append(diffs, noteperformanceshape.GongMarshallField(stage, "FontSize"))
+	}
+	if noteperformanceshape.FontColor != noteperformanceshapeOther.FontColor {
+		diffs = append(diffs, noteperformanceshape.GongMarshallField(stage, "FontColor"))
+	}
 
 	return
 }
@@ -1760,6 +1823,39 @@ func (noteshape *NoteShape) GongDiff(stage *Stage, noteshapeOther *NoteShape) (d
 	}
 	if noteshape.IsHidden != noteshapeOther.IsHidden {
 		diffs = append(diffs, noteshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if noteshape.IsPresentationOverridden != noteshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if noteshape.Color != noteshapeOther.Color {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Color"))
+	}
+	if noteshape.FillOpacity != noteshapeOther.FillOpacity {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "FillOpacity"))
+	}
+	if noteshape.Stroke != noteshapeOther.Stroke {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Stroke"))
+	}
+	if noteshape.StrokeWidth != noteshapeOther.StrokeWidth {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if noteshape.StrokeOpacity != noteshapeOther.StrokeOpacity {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if noteshape.StrokeDashArray != noteshapeOther.StrokeDashArray {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if noteshape.RX != noteshapeOther.RX {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "RX"))
+	}
+	if noteshape.FontSize != noteshapeOther.FontSize {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "FontSize"))
+	}
+	if noteshape.FontWeight != noteshapeOther.FontWeight {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "FontWeight"))
+	}
+	if noteshape.FontColor != noteshapeOther.FontColor {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "FontColor"))
 	}
 
 	return

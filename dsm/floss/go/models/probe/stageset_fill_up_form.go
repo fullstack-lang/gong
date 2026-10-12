@@ -1026,6 +1026,13 @@ func StageSetFillUpForm(
 		StageSetEnumStringFieldToForm("EndOrientation", inst.EndOrientation, formGroup, probe.formStage)
 		StageSetBasicFieldtoForm("CornerOffsetRatio", inst.CornerOffsetRatio, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsHidden", inst.IsHidden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsPresentationOverridden", inst.IsPresentationOverridden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Stroke", inst.Stroke, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeWidth", inst.StrokeWidth, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeOpacity", inst.StrokeOpacity, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeDashArray", inst.StrokeDashArray, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontSize", inst.FontSize, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontColor", inst.FontColor, probe.formStage, formGroup)
 
 		{
 			var refNames []string
@@ -1050,6 +1057,13 @@ func StageSetFillUpForm(
 		StageSetEnumStringFieldToForm("EndOrientation", inst.EndOrientation, formGroup, probe.formStage)
 		StageSetBasicFieldtoForm("CornerOffsetRatio", inst.CornerOffsetRatio, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsHidden", inst.IsHidden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsPresentationOverridden", inst.IsPresentationOverridden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Stroke", inst.Stroke, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeWidth", inst.StrokeWidth, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeOpacity", inst.StrokeOpacity, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeDashArray", inst.StrokeDashArray, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontSize", inst.FontSize, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontColor", inst.FontColor, probe.formStage, formGroup)
 
 		{
 			var refNames []string
@@ -1074,6 +1088,13 @@ func StageSetFillUpForm(
 		StageSetEnumStringFieldToForm("EndOrientation", inst.EndOrientation, formGroup, probe.formStage)
 		StageSetBasicFieldtoForm("CornerOffsetRatio", inst.CornerOffsetRatio, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsHidden", inst.IsHidden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsPresentationOverridden", inst.IsPresentationOverridden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Stroke", inst.Stroke, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeWidth", inst.StrokeWidth, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeOpacity", inst.StrokeOpacity, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeDashArray", inst.StrokeDashArray, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontSize", inst.FontSize, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontColor", inst.FontColor, probe.formStage, formGroup)
 
 		{
 			var refNames []string
@@ -1096,6 +1117,17 @@ func StageSetFillUpForm(
 		StageSetBasicFieldtoForm("Width", inst.Width, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("Height", inst.Height, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsHidden", inst.IsHidden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsPresentationOverridden", inst.IsPresentationOverridden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FillOpacity", inst.FillOpacity, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Stroke", inst.Stroke, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeWidth", inst.StrokeWidth, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeOpacity", inst.StrokeOpacity, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeDashArray", inst.StrokeDashArray, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("RX", inst.RX, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontSize", inst.FontSize, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontWeight", inst.FontWeight, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontColor", inst.FontColor, probe.formStage, formGroup)
 
 		{
 			var refNames []string

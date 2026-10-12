@@ -135,12 +135,19 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, svgObject *svg.SVG) 
 			continue
 		}
 
+		taskGroupShape := diagram.map_TaskGroup_TaskGroupShape[taskGroup]
+
 		onSelectTaskGroup := func() {
 			if stager.stage != nil {
 				stager.stage.CommitWithSuspendedCallbacks()
 			}
 			if stager.probeForm != nil {
 				stager.probeForm.FillUpFormFromGongstruct(taskGroup, "TaskGroup")
+			}
+			if taskGroupShape != nil {
+				fillUpShapeAppearanceForm(stager, taskGroupShape)
+			} else {
+				clearShapeAppearanceForm(stager)
 			}
 			if stager.treeStage != nil {
 				stager.ux_tree()
@@ -224,7 +231,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, svgObject *svg.SVG) 
 				rect4Bar := stager.displayTask(diagram, task, taskShape, layer, currentY, LaneHeight, barHeigth) // rounded corners
 				stager.displayTaskCompletion(task, rect4Bar, barHeigth)
 				// bar text using RectAnchoredText to ensure it renders on top of the bar
-				stager.displayTaskTitle(task, diagram, rect4Bar)
+				stager.displayTaskTitle(task, taskShape, diagram, rect4Bar)
 			}
 		}
 
@@ -272,9 +279,38 @@ func (stager *Stager) displayTask(diagram *Diagram, task *Task, taskShape *TaskS
 	rect4Bar.StrokeWidth = 1.0
 	rect4Bar.RX = 4.0
 
+	if taskShape != nil && taskShape.GetIsPresentationOverridden() {
+		if taskShape.GetColor() != "" {
+			rect4Bar.Color = taskShape.GetColor()
+		}
+		if taskShape.GetFillOpacity() != 0 {
+			rect4Bar.FillOpacity = taskShape.GetFillOpacity()
+		}
+		if taskShape.GetStroke() != "" {
+			rect4Bar.Stroke = taskShape.GetStroke()
+		}
+		if taskShape.GetStrokeWidth() != 0 {
+			rect4Bar.StrokeWidth = taskShape.GetStrokeWidth()
+		}
+		if taskShape.GetStrokeOpacity() != 0 {
+			rect4Bar.StrokeOpacity = taskShape.GetStrokeOpacity()
+		}
+		if taskShape.GetStrokeDashArray() != "" && taskShape.GetStrokeDashArray() != "none" {
+			rect4Bar.StrokeDashArray = taskShape.GetStrokeDashArray()
+		}
+		if taskShape.GetRX() != 0 {
+			rect4Bar.RX = taskShape.GetRX()
+		}
+	}
+
 	rect4Bar.OnSelect = func() {
 		stager.stage.CommitWithSuspendedCallbacks()
 		stager.probeForm.FillUpFormFromGongstruct(task, "Task")
+		if taskShape != nil {
+			fillUpShapeAppearanceForm(stager, taskShape)
+		} else {
+			clearShapeAppearanceForm(stager)
+		}
 		stager.ux_tree()
 	}
 
@@ -392,7 +428,7 @@ func (stager *Stager) displayTaskCompletion(task *Task, rect *svg.Rect, barHeigh
 	}
 }
 
-func (stager *Stager) displayTaskTitle(task *Task, diagram *Diagram, rect4Bar *svg.Rect) {
+func (stager *Stager) displayTaskTitle(task *Task, taskShape *TaskShape, diagram *Diagram, rect4Bar *svg.Rect) {
 	barText := new(svg.RectAnchoredText)
 	barText.Name = task.Name
 
@@ -478,6 +514,20 @@ func (stager *Stager) displayTaskTitle(task *Task, diagram *Diagram, rect4Bar *s
 	barText.Content = content
 	barText.Color = "black"
 	barText.FillOpacity = 1.0
+
+	if taskShape != nil && taskShape.GetIsPresentationOverridden() {
+		if taskShape.GetFontSize() != "" {
+			barText.FontSize = taskShape.GetFontSize()
+		}
+		if taskShape.GetFontWeight() != "" {
+			barText.FontWeight = taskShape.GetFontWeight()
+		}
+		if taskShape.GetFontColor() != "" {
+			barText.Color = taskShape.GetFontColor()
+			barText.Stroke = taskShape.GetFontColor()
+		}
+	}
+
 	rect4Bar.RectAnchoredTexts = append(rect4Bar.RectAnchoredTexts, barText)
 }
 
@@ -523,6 +573,11 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 		diamond.OnSelect = func() {
 			stager.stage.CommitWithSuspendedCallbacks()
 			stager.probeForm.FillUpFormFromGongstruct(task, "Task")
+			if taskShape != nil {
+				fillUpShapeAppearanceForm(stager, taskShape)
+			} else {
+				clearShapeAppearanceForm(stager)
+			}
 			stager.ux_tree()
 		}
 		diamond.OnMove = func(x, y float64) {
@@ -609,6 +664,27 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 		diamond.FillOpacity = 1.0
 		diamond.Stroke = "darkred"
 		diamond.StrokeWidth = 1.0
+
+		if taskShape != nil && taskShape.GetIsPresentationOverridden() {
+			if taskShape.GetColor() != "" {
+				diamond.Color = taskShape.GetColor()
+			}
+			if taskShape.GetFillOpacity() != 0 {
+				diamond.FillOpacity = taskShape.GetFillOpacity()
+			}
+			if taskShape.GetStroke() != "" {
+				diamond.Stroke = taskShape.GetStroke()
+			}
+			if taskShape.GetStrokeWidth() != 0 {
+				diamond.StrokeWidth = taskShape.GetStrokeWidth()
+			}
+			if taskShape.GetStrokeOpacity() != 0 {
+				diamond.StrokeOpacity = taskShape.GetStrokeOpacity()
+			}
+			if taskShape.GetStrokeDashArray() != "" && taskShape.GetStrokeDashArray() != "none" {
+				diamond.StrokeDashArray = taskShape.GetStrokeDashArray()
+			}
+		}
 		diamond.Transform = fmt.Sprintf("rotate(%d %d %d)", 45, int64(diamond.X+diamondWidth/2.0), int64(diamond.Y+diamondWidth/2.0))
 
 		if taskGroupToDisplay == taskGroup || diagram.map_Task_Rect[task] == nil {
@@ -655,6 +731,19 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 
 		milestoneText.Color = "black"
 		milestoneText.FillOpacity = 1.0
+
+		if taskShape != nil && taskShape.GetIsPresentationOverridden() {
+			if taskShape.GetFontSize() != "" {
+				milestoneText.FontSize = taskShape.GetFontSize()
+			}
+			if taskShape.GetFontWeight() != "" {
+				milestoneText.FontWeight = taskShape.GetFontWeight()
+			}
+			if taskShape.GetFontColor() != "" {
+				milestoneText.Color = taskShape.GetFontColor()
+				milestoneText.Stroke = taskShape.GetFontColor()
+			}
+		}
 
 		dummyRect.RectAnchoredTexts = append(dummyRect.RectAnchoredTexts, milestoneText)
 	}
