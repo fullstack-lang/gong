@@ -227,7 +227,7 @@ func _(stageSet *models.StageSet) {
 	__models__ProductShape__00000002_.Width = 126.000000
 	__models__ProductShape__00000002_.Height = 43.000000
 	__models__ProductShape__00000002_.IsHidden = false
-	__models__ProductShape__00000002_.IsPresentationOverridden = true
+	__models__ProductShape__00000002_.IsPresentationOverridden = false
 	__models__ProductShape__00000002_.Color = `whitesmoke`
 	__models__ProductShape__00000002_.FillOpacity = 1.000000
 	__models__ProductShape__00000002_.Stroke = `blue`
@@ -424,7 +424,7 @@ func _(stageSet *models.StageSet) {
 	__models__TaskShape__00000001_.Width = 250.000000
 	__models__TaskShape__00000001_.Height = 70.000000
 	__models__TaskShape__00000001_.IsHidden = false
-	__models__TaskShape__00000001_.IsPresentationOverridden = true
+	__models__TaskShape__00000001_.IsPresentationOverridden = false
 	__models__TaskShape__00000001_.Color = `green`
 	__models__TaskShape__00000001_.FillOpacity = 0.500000
 	__models__TaskShape__00000001_.Stroke = `black`
@@ -556,4 +556,3 @@ func _(stageSet *models.StageSet) {
 	__models__TaskShape__00000003_.Task = __models__Task__00000001_
 	__models__TaskShape__00000004_.Task = __models__Task__00000002_
 }
-

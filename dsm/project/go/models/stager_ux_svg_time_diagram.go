@@ -137,6 +137,38 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, svgObject *svg.SVG) 
 
 		taskGroupShape := diagram.map_TaskGroup_TaskGroupShape[taskGroup]
 
+		if taskGroupShape != nil {
+			if taskGroupShape.GetIsPresentationOverridden() {
+				if taskGroupShape.GetColor() != "" {
+					laneSVG.Color = taskGroupShape.GetColor()
+				}
+				if taskGroupShape.GetFillOpacity() != 0 {
+					laneSVG.FillOpacity = taskGroupShape.GetFillOpacity()
+				}
+				if taskGroupShape.GetStroke() != "" {
+					laneSVG.Stroke = taskGroupShape.GetStroke()
+				}
+				if taskGroupShape.GetStrokeWidth() != 0 {
+					laneSVG.StrokeWidth = taskGroupShape.GetStrokeWidth()
+				}
+				if taskGroupShape.GetStrokeOpacity() != 0 {
+					laneSVG.StrokeOpacity = taskGroupShape.GetStrokeOpacity()
+				}
+				if taskGroupShape.GetStrokeDashArray() != "" && taskGroupShape.GetStrokeDashArray() != "none" {
+					laneSVG.StrokeDashArray = taskGroupShape.GetStrokeDashArray()
+				}
+				laneSVG.RX = taskGroupShape.GetRX()
+			} else {
+				taskGroupShape.SetColor(laneSVG.Color)
+				taskGroupShape.SetFillOpacity(laneSVG.FillOpacity)
+				taskGroupShape.SetStroke(laneSVG.Stroke)
+				taskGroupShape.SetStrokeWidth(laneSVG.StrokeWidth)
+				taskGroupShape.SetStrokeOpacity(laneSVG.StrokeOpacity)
+				taskGroupShape.SetStrokeDashArray(laneSVG.StrokeDashArray)
+				taskGroupShape.SetRX(laneSVG.RX)
+			}
+		}
+
 		onSelectTaskGroup := func() {
 			if stager.stage != nil {
 				stager.stage.CommitWithSuspendedCallbacks()
@@ -208,6 +240,24 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, svgObject *svg.SVG) 
 		laneText.Y_Offset = 0
 		laneText.Color = "black"
 		laneText.FillOpacity = 1.0
+		if taskGroupShape != nil {
+			if taskGroupShape.GetIsPresentationOverridden() {
+				if taskGroupShape.GetFontSize() != "" {
+					laneText.FontSize = taskGroupShape.GetFontSize()
+				}
+				if taskGroupShape.GetFontWeight() != "" {
+					laneText.FontWeight = taskGroupShape.GetFontWeight()
+				}
+				if taskGroupShape.GetFontColor() != "" {
+					laneText.Color = taskGroupShape.GetFontColor()
+					laneText.Stroke = taskGroupShape.GetFontColor()
+				}
+			} else {
+				taskGroupShape.SetFontSize(laneText.FontSize)
+				taskGroupShape.SetFontWeight(laneText.FontWeight)
+				taskGroupShape.SetFontColor(laneText.Color)
+			}
+		}
 		laneSVG.RectAnchoredTexts = append(laneSVG.RectAnchoredTexts, laneText)
 
 		mapTaskGroup_TextY[taskGroup] = currentY + LaneHeight/2.0 + diagram.TextHeight/2.0
@@ -279,27 +329,35 @@ func (stager *Stager) displayTask(diagram *Diagram, task *Task, taskShape *TaskS
 	rect4Bar.StrokeWidth = 1.0
 	rect4Bar.RX = 4.0
 
-	if taskShape != nil && taskShape.GetIsPresentationOverridden() {
-		if taskShape.GetColor() != "" {
-			rect4Bar.Color = taskShape.GetColor()
-		}
-		if taskShape.GetFillOpacity() != 0 {
-			rect4Bar.FillOpacity = taskShape.GetFillOpacity()
-		}
-		if taskShape.GetStroke() != "" {
-			rect4Bar.Stroke = taskShape.GetStroke()
-		}
-		if taskShape.GetStrokeWidth() != 0 {
-			rect4Bar.StrokeWidth = taskShape.GetStrokeWidth()
-		}
-		if taskShape.GetStrokeOpacity() != 0 {
-			rect4Bar.StrokeOpacity = taskShape.GetStrokeOpacity()
-		}
-		if taskShape.GetStrokeDashArray() != "" && taskShape.GetStrokeDashArray() != "none" {
-			rect4Bar.StrokeDashArray = taskShape.GetStrokeDashArray()
-		}
-		if taskShape.GetRX() != 0 {
+	if taskShape != nil {
+		if taskShape.GetIsPresentationOverridden() {
+			if taskShape.GetColor() != "" {
+				rect4Bar.Color = taskShape.GetColor()
+			}
+			if taskShape.GetFillOpacity() != 0 {
+				rect4Bar.FillOpacity = taskShape.GetFillOpacity()
+			}
+			if taskShape.GetStroke() != "" {
+				rect4Bar.Stroke = taskShape.GetStroke()
+			}
+			if taskShape.GetStrokeWidth() != 0 {
+				rect4Bar.StrokeWidth = taskShape.GetStrokeWidth()
+			}
+			if taskShape.GetStrokeOpacity() != 0 {
+				rect4Bar.StrokeOpacity = taskShape.GetStrokeOpacity()
+			}
+			if taskShape.GetStrokeDashArray() != "" && taskShape.GetStrokeDashArray() != "none" {
+				rect4Bar.StrokeDashArray = taskShape.GetStrokeDashArray()
+			}
 			rect4Bar.RX = taskShape.GetRX()
+		} else {
+			taskShape.SetColor(rect4Bar.Color)
+			taskShape.SetFillOpacity(rect4Bar.FillOpacity)
+			taskShape.SetStroke(rect4Bar.Stroke)
+			taskShape.SetStrokeWidth(rect4Bar.StrokeWidth)
+			taskShape.SetStrokeOpacity(rect4Bar.StrokeOpacity)
+			taskShape.SetStrokeDashArray(rect4Bar.StrokeDashArray)
+			taskShape.SetRX(rect4Bar.RX)
 		}
 	}
 
@@ -515,16 +573,22 @@ func (stager *Stager) displayTaskTitle(task *Task, taskShape *TaskShape, diagram
 	barText.Color = "black"
 	barText.FillOpacity = 1.0
 
-	if taskShape != nil && taskShape.GetIsPresentationOverridden() {
-		if taskShape.GetFontSize() != "" {
-			barText.FontSize = taskShape.GetFontSize()
-		}
-		if taskShape.GetFontWeight() != "" {
-			barText.FontWeight = taskShape.GetFontWeight()
-		}
-		if taskShape.GetFontColor() != "" {
-			barText.Color = taskShape.GetFontColor()
-			barText.Stroke = taskShape.GetFontColor()
+	if taskShape != nil {
+		if taskShape.GetIsPresentationOverridden() {
+			if taskShape.GetFontSize() != "" {
+				barText.FontSize = taskShape.GetFontSize()
+			}
+			if taskShape.GetFontWeight() != "" {
+				barText.FontWeight = taskShape.GetFontWeight()
+			}
+			if taskShape.GetFontColor() != "" {
+				barText.Color = taskShape.GetFontColor()
+				barText.Stroke = taskShape.GetFontColor()
+			}
+		} else {
+			taskShape.SetFontSize(barText.FontSize)
+			taskShape.SetFontWeight(barText.FontWeight)
+			taskShape.SetFontColor(barText.Color)
 		}
 	}
 
@@ -665,24 +729,34 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 		diamond.Stroke = "darkred"
 		diamond.StrokeWidth = 1.0
 
-		if taskShape != nil && taskShape.GetIsPresentationOverridden() {
-			if taskShape.GetColor() != "" {
-				diamond.Color = taskShape.GetColor()
-			}
-			if taskShape.GetFillOpacity() != 0 {
-				diamond.FillOpacity = taskShape.GetFillOpacity()
-			}
-			if taskShape.GetStroke() != "" {
-				diamond.Stroke = taskShape.GetStroke()
-			}
-			if taskShape.GetStrokeWidth() != 0 {
-				diamond.StrokeWidth = taskShape.GetStrokeWidth()
-			}
-			if taskShape.GetStrokeOpacity() != 0 {
-				diamond.StrokeOpacity = taskShape.GetStrokeOpacity()
-			}
-			if taskShape.GetStrokeDashArray() != "" && taskShape.GetStrokeDashArray() != "none" {
-				diamond.StrokeDashArray = taskShape.GetStrokeDashArray()
+		if taskShape != nil {
+			if taskShape.GetIsPresentationOverridden() {
+				if taskShape.GetColor() != "" {
+					diamond.Color = taskShape.GetColor()
+				}
+				if taskShape.GetFillOpacity() != 0 {
+					diamond.FillOpacity = taskShape.GetFillOpacity()
+				}
+				if taskShape.GetStroke() != "" {
+					diamond.Stroke = taskShape.GetStroke()
+				}
+				if taskShape.GetStrokeWidth() != 0 {
+					diamond.StrokeWidth = taskShape.GetStrokeWidth()
+				}
+				if taskShape.GetStrokeOpacity() != 0 {
+					diamond.StrokeOpacity = taskShape.GetStrokeOpacity()
+				}
+				if taskShape.GetStrokeDashArray() != "" && taskShape.GetStrokeDashArray() != "none" {
+					diamond.StrokeDashArray = taskShape.GetStrokeDashArray()
+				}
+			} else {
+				taskShape.SetColor(diamond.Color)
+				taskShape.SetFillOpacity(diamond.FillOpacity)
+				taskShape.SetStroke(diamond.Stroke)
+				taskShape.SetStrokeWidth(diamond.StrokeWidth)
+				taskShape.SetStrokeOpacity(diamond.StrokeOpacity)
+				taskShape.SetStrokeDashArray(diamond.StrokeDashArray)
+				taskShape.SetRX(diamond.RX)
 			}
 		}
 		diamond.Transform = fmt.Sprintf("rotate(%d %d %d)", 45, int64(diamond.X+diamondWidth/2.0), int64(diamond.Y+diamondWidth/2.0))
@@ -732,16 +806,22 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 		milestoneText.Color = "black"
 		milestoneText.FillOpacity = 1.0
 
-		if taskShape != nil && taskShape.GetIsPresentationOverridden() {
-			if taskShape.GetFontSize() != "" {
-				milestoneText.FontSize = taskShape.GetFontSize()
-			}
-			if taskShape.GetFontWeight() != "" {
-				milestoneText.FontWeight = taskShape.GetFontWeight()
-			}
-			if taskShape.GetFontColor() != "" {
-				milestoneText.Color = taskShape.GetFontColor()
-				milestoneText.Stroke = taskShape.GetFontColor()
+		if taskShape != nil {
+			if taskShape.GetIsPresentationOverridden() {
+				if taskShape.GetFontSize() != "" {
+					milestoneText.FontSize = taskShape.GetFontSize()
+				}
+				if taskShape.GetFontWeight() != "" {
+					milestoneText.FontWeight = taskShape.GetFontWeight()
+				}
+				if taskShape.GetFontColor() != "" {
+					milestoneText.Color = taskShape.GetFontColor()
+					milestoneText.Stroke = taskShape.GetFontColor()
+				}
+			} else {
+				taskShape.SetFontSize(milestoneText.FontSize)
+				taskShape.SetFontWeight(milestoneText.FontWeight)
+				taskShape.SetFontColor(milestoneText.Color)
 			}
 		}
 

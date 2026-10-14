@@ -88,6 +88,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			layer)
 		if !productShape.GetIsPresentationOverridden() {
 			rect.RX = 3
+			productShape.SetRX(rect.RX)
 		}
 		diagram.map_Product_Rect[productShape.Product] = rect
 		diagram.map_SvgRect_ProductShape[rect] = productShape
@@ -418,9 +419,14 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.EndAnchorType = svg.ANCHOR_CENTER
 		link.HasEndArrow = false
 
-		link.Presentation.StrokeDashArray = "5,5"
-		link.Stroke = "#9E9E9E"
-		link.StrokeWidth = 1.5
+		if !noteProductShape.GetIsPresentationOverridden() {
+			link.Presentation.StrokeDashArray = "5,5"
+			link.Stroke = "#9E9E9E"
+			link.StrokeWidth = 1.5
+			noteProductShape.SetStroke(link.Stroke)
+			noteProductShape.SetStrokeWidth(link.StrokeWidth)
+			noteProductShape.SetStrokeDashArray(link.Presentation.StrokeDashArray)
+		}
 	}
 
 	for _, noteTaskShape := range diagram.NoteTaskShapes {
@@ -446,9 +452,14 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.EndAnchorType = svg.ANCHOR_CENTER
 		link.HasEndArrow = false
 
-		link.Presentation.StrokeDashArray = "5,5"
-		link.Stroke = "#9E9E9E"
-		link.StrokeWidth = 1.5
+		if !noteTaskShape.GetIsPresentationOverridden() {
+			link.Presentation.StrokeDashArray = "5,5"
+			link.Stroke = "#9E9E9E"
+			link.StrokeWidth = 1.5
+			noteTaskShape.SetStroke(link.Stroke)
+			noteTaskShape.SetStrokeWidth(link.StrokeWidth)
+			noteTaskShape.SetStrokeDashArray(link.Presentation.StrokeDashArray)
+		}
 	}
 
 	for _, resourceShape := range diagram.Resource_Shapes {
@@ -522,9 +533,14 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.EndAnchorType = svg.ANCHOR_CENTER
 		link.HasEndArrow = false
 
-		link.Presentation.StrokeDashArray = "5,5"
-		link.Stroke = "#9E9E9E"
-		link.StrokeWidth = 1.5
+		if !noteResourceShape.GetIsPresentationOverridden() {
+			link.Presentation.StrokeDashArray = "5,5"
+			link.Stroke = "#9E9E9E"
+			link.StrokeWidth = 1.5
+			noteResourceShape.SetStroke(link.Stroke)
+			noteResourceShape.SetStrokeWidth(link.StrokeWidth)
+			noteResourceShape.SetStrokeDashArray(link.Presentation.StrokeDashArray)
+		}
 	}
 
 	for _, resourceCompositionShape := range diagram.ResourceComposition_Shapes {

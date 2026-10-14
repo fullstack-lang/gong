@@ -156,60 +156,17 @@ func fillUpShapeAppearanceForm(stager *Stager, shape GongstructIF) {
 			shape:     rectShape,
 		}
 
-		color := rectShape.GetColor()
-		fillOpacity := rectShape.GetFillOpacity()
-		stroke := rectShape.GetStroke()
-		strokeWidth := rectShape.GetStrokeWidth()
-		strokeOpacity := rectShape.GetStrokeOpacity()
-		strokeDashArray := rectShape.GetStrokeDashArray()
-		rx := rectShape.GetRX()
-		fontSize := rectShape.GetFontSize()
-		fontWeight := rectShape.GetFontWeight()
-		fontColor := rectShape.GetFontColor()
-
-		if color == "" {
-			color = "whitesmoke"
-		}
-		if stroke == "" {
-			stroke = "black"
-		}
-		if strokeWidth == 0 {
-			strokeWidth = 1.0
-		}
-		if strokeOpacity == 0 {
-			strokeOpacity = 1.0
-		}
-		if fillOpacity == 0 {
-			fillOpacity = 1.0
-		}
-		if strokeDashArray == "" {
-			strokeDashArray = "none"
-		}
-		if fontSize == "" {
-			fontSize = "14px"
-		}
-		if fontWeight == "" {
-			fontWeight = "normal"
-		}
-		if fontColor == "" {
-			fontColor = "black"
-		}
-
-		isOverridden := rectShape.GetIsPresentationOverridden()
-		if !isOverridden {
-			isOverridden = true
-		}
-		gongprobe.BasicFieldtoForm("IsPresentationOverridden", isOverridden, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("Color", color, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("FillOpacity", fillOpacity, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("Stroke", stroke, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("StrokeWidth", strokeWidth, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("StrokeOpacity", strokeOpacity, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("StrokeDashArray", strokeDashArray, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("RX", rx, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("FontSize", fontSize, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("FontWeight", fontWeight, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("FontColor", fontColor, formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("IsPresentationOverridden", rectShape.GetIsPresentationOverridden(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("Color", rectShape.GetColor(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("FillOpacity", rectShape.GetFillOpacity(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("Stroke", rectShape.GetStroke(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("StrokeWidth", rectShape.GetStrokeWidth(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("StrokeOpacity", rectShape.GetStrokeOpacity(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("StrokeDashArray", rectShape.GetStrokeDashArray(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("RX", rectShape.GetRX(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("FontSize", rectShape.GetFontSize(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("FontWeight", rectShape.GetFontWeight(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("FontColor", rectShape.GetFontColor(), formStage, formGroup, false, false, 0, false, 0, false)
 
 		formStage.Commit()
 		return
@@ -233,43 +190,13 @@ func fillUpShapeAppearanceForm(stager *Stager, shape GongstructIF) {
 			shape:     linkShape,
 		}
 
-		stroke := linkShape.GetStroke()
-		strokeWidth := linkShape.GetStrokeWidth()
-		strokeOpacity := linkShape.GetStrokeOpacity()
-		strokeDashArray := linkShape.GetStrokeDashArray()
-		fontSize := linkShape.GetFontSize()
-		fontColor := linkShape.GetFontColor()
-
-		if stroke == "" {
-			stroke = "black"
-		}
-		if strokeWidth == 0 {
-			strokeWidth = 1.5
-		}
-		if strokeOpacity == 0 {
-			strokeOpacity = 1.0
-		}
-		if strokeDashArray == "" {
-			strokeDashArray = "none"
-		}
-		if fontSize == "" {
-			fontSize = "12px"
-		}
-		if fontColor == "" {
-			fontColor = "black"
-		}
-
-		isOverridden := linkShape.GetIsPresentationOverridden()
-		if !isOverridden {
-			isOverridden = true
-		}
-		gongprobe.BasicFieldtoForm("IsPresentationOverridden", isOverridden, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("Stroke", stroke, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("StrokeWidth", strokeWidth, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("StrokeOpacity", strokeOpacity, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("StrokeDashArray", strokeDashArray, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("FontSize", fontSize, formStage, formGroup, false, false, 0, false, 0, false)
-		gongprobe.BasicFieldtoForm("FontColor", fontColor, formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("IsPresentationOverridden", linkShape.GetIsPresentationOverridden(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("Stroke", linkShape.GetStroke(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("StrokeWidth", linkShape.GetStrokeWidth(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("StrokeOpacity", linkShape.GetStrokeOpacity(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("StrokeDashArray", linkShape.GetStrokeDashArray(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("FontSize", linkShape.GetFontSize(), formStage, formGroup, false, false, 0, false, 0, false)
+		gongprobe.BasicFieldtoForm("FontColor", linkShape.GetFontColor(), formStage, formGroup, false, false, 0, false, 0, false)
 
 		formStage.Commit()
 		return

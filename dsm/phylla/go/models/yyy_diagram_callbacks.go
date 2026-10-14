@@ -304,6 +304,8 @@ func setCallbacksElementInDiagramWithoutLink[
 
 	node.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
+		shape := shapesMap[element]
+		fillUpShapeAppearanceForm(stager, shape)
 		stager.stage.CommitWithSuspendedCallbacks()
 	}
 }
@@ -467,6 +469,17 @@ func svgRect[CT interface {
 			title.Color = shape.GetFontColor()
 			title.Stroke = shape.GetFontColor()
 		}
+	} else {
+		shape.SetColor(rect.Color)
+		shape.SetFillOpacity(rect.FillOpacity)
+		shape.SetStroke(rect.Stroke)
+		shape.SetStrokeWidth(rect.StrokeWidth)
+		shape.SetStrokeOpacity(rect.StrokeOpacity)
+		shape.SetStrokeDashArray(rect.StrokeDashArray)
+		shape.SetRX(rect.RX)
+		shape.SetFontSize(title.FontSize)
+		shape.SetFontWeight(title.FontWeight)
+		shape.SetFontColor(title.Color)
 	}
 
 	layer.Rects = append(layer.Rects, rect)
@@ -538,6 +551,7 @@ func FormatNoteRect[CT interface {
 ) {
 	rect.RX = 0
 	rect.Color = "#FFF9C4"
+	rect.FillOpacity = 1.0
 	rect.Stroke = "#FBC02D"
 	rect.StrokeWidth = 1.0
 
@@ -561,6 +575,14 @@ func FormatNoteRect[CT interface {
 			rect.StrokeDashArray = shape.GetStrokeDashArray()
 		}
 		rect.RX = shape.GetRX()
+	} else {
+		shape.SetColor(rect.Color)
+		shape.SetFillOpacity(rect.FillOpacity)
+		shape.SetStroke(rect.Stroke)
+		shape.SetStrokeWidth(rect.StrokeWidth)
+		shape.SetStrokeOpacity(rect.StrokeOpacity)
+		shape.SetStrokeDashArray(rect.StrokeDashArray)
+		shape.SetRX(rect.RX)
 	}
 
 	if len(rect.RectAnchoredTexts) > 0 {
@@ -579,6 +601,10 @@ func FormatNoteRect[CT interface {
 
 		title := rect.RectAnchoredTexts[0]
 		title.Content = content
+		title.Stroke = ""
+		title.StrokeWidth = 0
+		title.StrokeOpacity = 0
+		title.FontSize = ""
 		title.TextAnchorType = svg.TEXT_ANCHOR_START
 		title.RectAnchorType = svg.RECT_TOP_LEFT
 		title.X_Offset = 10
@@ -593,8 +619,11 @@ func FormatNoteRect[CT interface {
 			}
 			if shape.GetFontColor() != "" {
 				title.Color = shape.GetFontColor()
-				title.Stroke = shape.GetFontColor()
 			}
+		} else {
+			shape.SetFontSize(title.FontSize)
+			shape.SetFontWeight(title.FontWeight)
+			shape.SetFontColor(title.Color)
 		}
 	}
 }
@@ -741,6 +770,11 @@ func svgAssociationLink[AT AbstractType,
 		if shape.GetStrokeDashArray() != "" {
 			link.StrokeDashArray = shape.GetStrokeDashArray()
 		}
+	} else {
+		shape.SetStroke(link.Stroke)
+		shape.SetStrokeWidth(link.StrokeWidth)
+		shape.SetStrokeOpacity(link.StrokeOpacity)
+		shape.SetStrokeDashArray(link.StrokeDashArray)
 	}
 
 	link.OnSelect = func() {
@@ -825,6 +859,11 @@ func svgAssociationLinkAsCT[AT AbstractType,
 		if shape.GetStrokeDashArray() != "" {
 			link.StrokeDashArray = shape.GetStrokeDashArray()
 		}
+	} else {
+		shape.SetStroke(link.Stroke)
+		shape.SetStrokeWidth(link.StrokeWidth)
+		shape.SetStrokeOpacity(link.StrokeOpacity)
+		shape.SetStrokeDashArray(link.StrokeDashArray)
 	}
 
 	link.OnSelect = func() {
