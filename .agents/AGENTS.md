@@ -212,3 +212,8 @@ When proposing a fix to a problem, provide a confidence level, based on the foll
   2. Generics (Go 1.18+)
   3. Interfaces and static type switches
 - Prioritize compile-time safety and explicit code over runtime introspection.
+
+# Others
+
+- `/Users/thomaspeugeot/go/bin` and `GOCACHE` are writable inside the standard terminal sandbox. 
+Always run `go install`, `go build`, and `gong` inside the sandbox (`BypassSandbox: false`).
