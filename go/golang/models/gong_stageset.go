@@ -135,19 +135,24 @@ func ExtractStructFields(mPkg *models.ModelPkg, structName string, pkgPathToFiel
 				}
 				if basic, ok := namedType.Underlying().(*types.Basic); ok {
 					qual := namedType.Obj().Name()
-					if namedType.Obj().Pkg() != nil && namedType.Obj().Pkg().Path() != mPkg.PkgPath {
+					var enumPkgPath string
+					if namedType.Obj().Pkg() != nil {
 						pkgPath := namedType.Obj().Pkg().Path()
 						if p2f != nil && p2f[pkgPath] != nil {
-							qual = p2f[pkgPath].ImportAlias + "." + qual
-						} else {
+							if !p2f[pkgPath].IsLocal {
+								qual = p2f[pkgPath].ImportAlias + "." + qual
+							}
+						} else if pkgPath != mPkg.PkgPath {
+							enumPkgPath = pkgPath
 							qual = namedType.Obj().Pkg().Name() + "." + qual
 						}
 					}
 					result = append(result, StageSetStructField{
-						Name:         fld.Name(),
-						IsEnum:       true,
-						BasicKind:    basic.Kind(),
-						EnumTypeQual: qual,
+						Name:              fld.Name(),
+						IsEnum:            true,
+						BasicKind:         basic.Kind(),
+						EnumTypeQual:      qual,
+						TargetPackagePath: enumPkgPath,
 					})
 					continue
 				}
@@ -442,6 +447,7 @@ func CodeGeneratorModelGongStageSet(
 	// Build AST Parsing (ParseAstFileFromAst)
 	var defineCases strings.Builder
 	var assignCases strings.Builder
+	extraEnumImports := make(map[string]bool)
 
 	for _, f := range orderedFields {
 		mPkg := fieldToModelPkg[f]
@@ -478,6 +484,12 @@ func CodeGeneratorModelGongStageSet(
 			assignCases.WriteString(fmt.Sprintf("\t\t\t\tcase *%s:\n", typeQual))
 			assignCases.WriteString("\t\t\t\t\tswitch fieldName {\n")
 			for _, fld := range fields {
+				if fld.IsEnum && fld.TargetPackagePath != "" && pkgPathToField[fld.TargetPackagePath] == nil {
+					if !extraEnumImports[fld.TargetPackagePath] {
+						extraEnumImports[fld.TargetPackagePath] = true
+						externalImports.WriteString(fmt.Sprintf("\n\t\"%s\"", fld.TargetPackagePath))
+					}
+				}
 				if fld.IsPointer {
 					targetSSF := pkgPathToField[fld.TargetPackagePath]
 					if targetSSF != nil {
