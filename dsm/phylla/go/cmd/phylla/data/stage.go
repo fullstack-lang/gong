@@ -720,9 +720,9 @@ func _(stageSet *models.StageSet) {
 	__models__Rendered3DShape__00000009_.TargetZ = 0.000000
 	__models__Rendered3DShape__00000009_.Fov = 50.000000
 	__models__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__models__Rendered3DShape__00000010_.ViewX = 470.557293
-	__models__Rendered3DShape__00000010_.ViewY = 1821.962365
-	__models__Rendered3DShape__00000010_.ViewZ = -3101.674309
+	__models__Rendered3DShape__00000010_.ViewX = -2794.804551
+	__models__Rendered3DShape__00000010_.ViewY = 2543.964692
+	__models__Rendered3DShape__00000010_.ViewZ = -1295.544400
 	__models__Rendered3DShape__00000010_.TargetX = -36.176252
 	__models__Rendered3DShape__00000010_.TargetY = 1252.835796
 	__models__Rendered3DShape__00000010_.TargetZ = 208.847589
@@ -876,10 +876,10 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVaseAbstract__00000000_.RelativeKeySize = 0.200000
 	__models__TubeVaseAbstract__00000000_.MovieNbFrames = 1000
 	__models__TubeVaseAbstract__00000001_.Name = `Vase Trapeze-TubeVaseAbstract`
-	__models__TubeVaseAbstract__00000001_.Z_Ribbon = 624.000000
+	__models__TubeVaseAbstract__00000001_.Z_Ribbon = 679.000000
 	__models__TubeVaseAbstract__00000001_.RibbonVerticalScale = 6.330000
 	__models__TubeVaseAbstract__00000001_.TopPlaneHeight = 87.000000
-	__models__TubeVaseAbstract__00000001_.BottomPlaneHeight = -2.000000
+	__models__TubeVaseAbstract__00000001_.BottomPlaneHeight = 17.000000
 	__models__TubeVaseAbstract__00000001_.ProjectionAngle = -14.900000
 	__models__TubeVaseAbstract__00000001_.BasePlateHeight = 44.000000
 	__models__TubeVaseAbstract__00000001_.CarvedOutTopRingsParameter = 0.200000
@@ -890,7 +890,7 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
 	__models__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000
 	__models__TubeVaseAbstract__00000001_.RelativeRotatedTorusSeparation = 0.000000
-	__models__TubeVaseAbstract__00000001_.RotationRatio = 0.000000
+	__models__TubeVaseAbstract__00000001_.RotationRatio = 0.405000
 	__models__TubeVaseAbstract__00000001_.RadialRepetitions = 3
 	__models__TubeVaseAbstract__00000001_.Transparency = 0.100000
 	__models__TubeVaseAbstract__00000001_.HasAlternatingRingColors = true

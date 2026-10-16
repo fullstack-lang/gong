@@ -587,28 +587,76 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			verticalThickness := relativeVerticalThickness * sideLength
 			rotatedSeparation := relativeRotatedTorusSeparation * sideLength
 
-			for h := range stackHeight {
-				dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
-				dy := (float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation) * scaleY
-				thetaOffset := dx / globalR
+			if !checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape {
+				for h := range stackHeight {
+					dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
+					dy := (float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation) * scaleY
+					thetaOffset := dx / globalR
 
-				var curBottomCurve, curTopCurve *threejs.Curve
-				if h == 0 {
-					curBottomCurve = trapezeBottomCurve
-					curTopCurve = trapezeTopCurve
-				} else {
-					curBottomCurve, curTopCurve = u.computeMassiveCurves(stager, thetaOffset, fmt.Sprintf("Trapeze Rotated Stack h%d", h), plant, resampledBaseBottom, resampledBaseTop)
-				}
+					var curBottomCurve, curTopCurve *threejs.Curve
+					if h == 0 {
+						curBottomCurve = trapezeBottomCurve
+						curTopCurve = trapezeTopCurve
+					} else {
+						curBottomCurve, curTopCurve = u.computeMassiveCurves(stager, thetaOffset, fmt.Sprintf("Trapeze Rotated Stack h%d", h), plant, resampledBaseBottom, resampledBaseTop)
+					}
 
-				ringTopP1 := projectCurve(curTopCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Stack Top P1 h%d", plant.Name, h))
-				ringBottomP1 := projectCurve(curBottomCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Stack Bottom P1 h%d", plant.Name, h))
-				ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Stack Top P2 h%d", plant.Name, h))
-				ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Stack Bottom P2 h%d", plant.Name, h))
+					ringTopP1 := projectCurve(curTopCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Stack Top P1 h%d", plant.Name, h))
+					ringBottomP1 := projectCurve(curBottomCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Stack Bottom P1 h%d", plant.Name, h))
+					ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Stack Top P2 h%d", plant.Name, h))
+					ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Stack Bottom P2 h%d", plant.Name, h))
 
-				if !checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape {
 					buildRingMesh(ringTopP1, ringBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Rotated Vase Trapeze Rings h%d", h), h)
 				}
-				if !checkedDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape {
+			}
+
+			if !checkedDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape {
+				numSteps := stackHeight - 1
+				dxs := make([]float64, stackHeight)
+				dys := make([]float64, stackHeight)
+				dxs[0] = 0.0
+				dys[0] = 0.0
+
+				if numSteps > 0 {
+					_, unrotatedStepDY, _ := models.ComputePartiallyGrowthCurveDYForRatio(plant, 0.0)
+					unrotatedStepDY *= scaleY
+
+					rotatedStepDX := growthVectorX + verticalThickness*vx
+					rotatedStepDY := (growthVectorY + verticalThickness*vy + rotatedSeparation) * scaleY
+
+					var cumDX, cumDY float64
+					for k := 1; k <= numSteps; k++ {
+						stepOrder := numSteps - k + 1
+						threshold := float64(stepOrder) / float64(stackHeight)
+						if rotRatio+1e-9 >= threshold {
+							cumDX += rotatedStepDX
+							cumDY += rotatedStepDY
+						} else {
+							cumDY += unrotatedStepDY
+						}
+						dxs[k] = cumDX
+						dys[k] = cumDY
+					}
+				}
+
+				for h := range stackHeight {
+					dx := dxs[h]
+					dy := dys[h]
+					thetaOffset := dx / globalR
+
+					var curBottomCurve, curTopCurve *threejs.Curve
+					if h == 0 {
+						curBottomCurve = trapezeBottomCurve
+						curTopCurve = trapezeTopCurve
+					} else {
+						curBottomCurve, curTopCurve = u.computeMassiveCurves(stager, thetaOffset, fmt.Sprintf("Trapeze Rotated Carved Stack h%d", h), plant, resampledBaseBottom, resampledBaseTop)
+					}
+
+					ringTopP1 := projectCurve(curTopCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P1 h%d", plant.Name, h))
+					ringBottomP1 := projectCurve(curBottomCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P1 h%d", plant.Name, h))
+					ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P2 h%d", plant.Name, h))
+					ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P2 h%d", plant.Name, h))
+
 					ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Top P1 h%d", plant.Name, h))
 					ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Bottom P1 h%d", plant.Name, h))
 					buildRingMesh(ringCarvedTopP1, ringCarvedBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Rotated Carved Out Vase Trapeze Rings h%d", h), h)
