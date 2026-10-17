@@ -88,9 +88,6 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 				vase3DDiagram.IsHiddenCarvedOutBottomCurvePlane1Shape = false
 				vase3DDiagram.IsHiddenVaseTrapezeRingShape = false
 				vase3DDiagram.IsHiddenCarvedOutVaseTrapezeRingShape = false
-				vase3DDiagram.IsHiddenStackOfVaseTrapezeRingsShape = false
-				vase3DDiagram.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape = false
-				vase3DDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape = false
 				vase3DDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
 				vase3DDiagram.IsHiddenVaseTrapezeBasePlateShape = false
 			} else {
@@ -102,9 +99,6 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 				vase3DDiagram.IsHiddenCarvedOutBottomCurvePlane1Shape = true
 				vase3DDiagram.IsHiddenVaseTrapezeRingShape = true
 				vase3DDiagram.IsHiddenCarvedOutVaseTrapezeRingShape = true
-				vase3DDiagram.IsHiddenStackOfVaseTrapezeRingsShape = true
-				vase3DDiagram.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape = true
-				vase3DDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape = true
 				vase3DDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = true
 				vase3DDiagram.IsHiddenVaseTrapezeBasePlateShape = true
 			}

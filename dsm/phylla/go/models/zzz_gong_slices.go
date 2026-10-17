@@ -311,8 +311,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.StackGrowthCurve2DStartHalfwayArcShapes)
 
-	res = __gong__appendInstances(res, stage.StackOfCarvedOutVaseTrapezeRingsShapes)
-
 	res = __gong__appendInstances(res, stage.StackOfGrowthCurve2Ds)
 
 	res = __gong__appendInstances(res, stage.StackOfGrowthCurve2DByGrowthVectors)
@@ -326,10 +324,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	res = __gong__appendInstances(res, stage.StackOfRotatedGrowthCurve2Ds)
 
 	res = __gong__appendInstances(res, stage.StackOfRotatedGrowthCurve2DRibbons)
-
-	res = __gong__appendInstances(res, stage.StackOfRotatedVaseTrapezeRingsShapes)
-
-	res = __gong__appendInstances(res, stage.StackOfVaseTrapezeRingsShapes)
 
 	res = __gong__appendInstances(res, stage.StackRotatedGrowthCurve2DEndArcShapes)
 
@@ -1047,12 +1041,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	return newInstance
 }
 
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongCopy() GongstructIF {
-	newInstance := new(StackOfCarvedOutVaseTrapezeRingsShape)
-	stackofcarvedoutvasetrapezeringsshape.GongCopyBasicFields(newInstance)
-	return newInstance
-}
-
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongCopy() GongstructIF {
 	newInstance := new(StackOfGrowthCurve2D)
 	stackofgrowthcurve2d.GongCopyBasicFields(newInstance)
@@ -1092,18 +1080,6 @@ func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongCopy() Gongs
 func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongCopy() GongstructIF {
 	newInstance := new(StackOfRotatedGrowthCurve2DRibbon)
 	stackofrotatedgrowthcurve2dribbon.GongCopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongCopy() GongstructIF {
-	newInstance := new(StackOfRotatedVaseTrapezeRingsShape)
-	stackofrotatedvasetrapezeringsshape.GongCopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongCopy() GongstructIF {
-	newInstance := new(StackOfVaseTrapezeRingsShape)
-	stackofvasetrapezeringsshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1774,10 +1750,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	return __gong__getUUID(stage, stackgrowthcurve2dstarthalfwayarcshape)
 }
 
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongGetUUID(stage *Stage) string {
-	return __gong__getUUID(stage, stackofcarvedoutvasetrapezeringsshape)
-}
-
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, stackofgrowthcurve2d)
 }
@@ -1804,14 +1776,6 @@ func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongGetUUID(stag
 
 func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, stackofrotatedgrowthcurve2dribbon)
-}
-
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongGetUUID(stage *Stage) string {
-	return __gong__getUUID(stage, stackofrotatedvasetrapezeringsshape)
-}
-
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongGetUUID(stage *Stage) string {
-	return __gong__getUUID(stage, stackofvasetrapezeringsshape)
 }
 
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongGetUUID(stage *Stage) string {
@@ -2420,62 +2384,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
-		stage.StackOfCarvedOutVaseTrapezeRingsShapes,
-		stage.StackOfCarvedOutVaseTrapezeRingsShape_stagedOrder,
-		stage.StackOfCarvedOutVaseTrapezeRingsShapes_reference,
-		&stage.StackOfCarvedOutVaseTrapezeRingsShapes_referenceOrder,
-		stage.StackOfCarvedOutVaseTrapezeRingsShapes_instance,
-		&newInstancesSlice,
-		&fieldsEditSlice,
-		&deletedInstancesSlice,
-		&newInstancesReverseSlice,
-		&fieldsEditReverseSlice,
-		&deletedInstancesReverseSlice,
-		&lenNewInstances,
-		&lenDeletedInstances,
-		&lenModifiedInstances,
-	)
-	computeCommitsForType(
-		stage,
 		stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes,
 		stage.StackOfRotatedCarvedOutVaseTrapezeRingsShape_stagedOrder,
 		stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes_reference,
 		&stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes_referenceOrder,
 		stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes_instance,
-		&newInstancesSlice,
-		&fieldsEditSlice,
-		&deletedInstancesSlice,
-		&newInstancesReverseSlice,
-		&fieldsEditReverseSlice,
-		&deletedInstancesReverseSlice,
-		&lenNewInstances,
-		&lenDeletedInstances,
-		&lenModifiedInstances,
-	)
-	computeCommitsForType(
-		stage,
-		stage.StackOfRotatedVaseTrapezeRingsShapes,
-		stage.StackOfRotatedVaseTrapezeRingsShape_stagedOrder,
-		stage.StackOfRotatedVaseTrapezeRingsShapes_reference,
-		&stage.StackOfRotatedVaseTrapezeRingsShapes_referenceOrder,
-		stage.StackOfRotatedVaseTrapezeRingsShapes_instance,
-		&newInstancesSlice,
-		&fieldsEditSlice,
-		&deletedInstancesSlice,
-		&newInstancesReverseSlice,
-		&fieldsEditReverseSlice,
-		&deletedInstancesReverseSlice,
-		&lenNewInstances,
-		&lenDeletedInstances,
-		&lenModifiedInstances,
-	)
-	computeCommitsForType(
-		stage,
-		stage.StackOfVaseTrapezeRingsShapes,
-		stage.StackOfVaseTrapezeRingsShape_stagedOrder,
-		stage.StackOfVaseTrapezeRingsShapes_reference,
-		&stage.StackOfVaseTrapezeRingsShapes_referenceOrder,
-		stage.StackOfVaseTrapezeRingsShapes_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -2901,8 +2814,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.StackGrowthCurve2DStartHalfwayArcShapes, &stage.StackGrowthCurve2DStartHalfwayArcShapes_reference, &stage.StackGrowthCurve2DStartHalfwayArcShapes_referenceOrder, &stage.StackGrowthCurve2DStartHalfwayArcShapes_instance)
 
-	__gong__computeReferencePass1(stage, stage.StackOfCarvedOutVaseTrapezeRingsShapes, &stage.StackOfCarvedOutVaseTrapezeRingsShapes_reference, &stage.StackOfCarvedOutVaseTrapezeRingsShapes_referenceOrder, &stage.StackOfCarvedOutVaseTrapezeRingsShapes_instance)
-
 	__gong__computeReferencePass1(stage, stage.StackOfGrowthCurve2Ds, &stage.StackOfGrowthCurve2Ds_reference, &stage.StackOfGrowthCurve2Ds_referenceOrder, &stage.StackOfGrowthCurve2Ds_instance)
 
 	__gong__computeReferencePass1(stage, stage.StackOfGrowthCurve2DByGrowthVectors, &stage.StackOfGrowthCurve2DByGrowthVectors_reference, &stage.StackOfGrowthCurve2DByGrowthVectors_referenceOrder, &stage.StackOfGrowthCurve2DByGrowthVectors_instance)
@@ -2916,10 +2827,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass1(stage, stage.StackOfRotatedGrowthCurve2Ds, &stage.StackOfRotatedGrowthCurve2Ds_reference, &stage.StackOfRotatedGrowthCurve2Ds_referenceOrder, &stage.StackOfRotatedGrowthCurve2Ds_instance)
 
 	__gong__computeReferencePass1(stage, stage.StackOfRotatedGrowthCurve2DRibbons, &stage.StackOfRotatedGrowthCurve2DRibbons_reference, &stage.StackOfRotatedGrowthCurve2DRibbons_referenceOrder, &stage.StackOfRotatedGrowthCurve2DRibbons_instance)
-
-	__gong__computeReferencePass1(stage, stage.StackOfRotatedVaseTrapezeRingsShapes, &stage.StackOfRotatedVaseTrapezeRingsShapes_reference, &stage.StackOfRotatedVaseTrapezeRingsShapes_referenceOrder, &stage.StackOfRotatedVaseTrapezeRingsShapes_instance)
-
-	__gong__computeReferencePass1(stage, stage.StackOfVaseTrapezeRingsShapes, &stage.StackOfVaseTrapezeRingsShapes_reference, &stage.StackOfVaseTrapezeRingsShapes_referenceOrder, &stage.StackOfVaseTrapezeRingsShapes_instance)
 
 	__gong__computeReferencePass1(stage, stage.StackRotatedGrowthCurve2DEndArcShapes, &stage.StackRotatedGrowthCurve2DEndArcShapes_reference, &stage.StackRotatedGrowthCurve2DEndArcShapes_referenceOrder, &stage.StackRotatedGrowthCurve2DEndArcShapes_instance)
 
@@ -3214,8 +3121,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass2(stage.StackGrowthCurve2DStartHalfwayArcShapes, stage.StackGrowthCurve2DStartHalfwayArcShapes_reference, stage)
 
-	__gong__computeReferencePass2(stage.StackOfCarvedOutVaseTrapezeRingsShapes, stage.StackOfCarvedOutVaseTrapezeRingsShapes_reference, stage)
-
 	__gong__computeReferencePass2(stage.StackOfGrowthCurve2Ds, stage.StackOfGrowthCurve2Ds_reference, stage)
 
 	__gong__computeReferencePass2(stage.StackOfGrowthCurve2DByGrowthVectors, stage.StackOfGrowthCurve2DByGrowthVectors_reference, stage)
@@ -3229,10 +3134,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.StackOfRotatedGrowthCurve2Ds, stage.StackOfRotatedGrowthCurve2Ds_reference, stage)
 
 	__gong__computeReferencePass2(stage.StackOfRotatedGrowthCurve2DRibbons, stage.StackOfRotatedGrowthCurve2DRibbons_reference, stage)
-
-	__gong__computeReferencePass2(stage.StackOfRotatedVaseTrapezeRingsShapes, stage.StackOfRotatedVaseTrapezeRingsShapes_reference, stage)
-
-	__gong__computeReferencePass2(stage.StackOfVaseTrapezeRingsShapes, stage.StackOfVaseTrapezeRingsShapes_reference, stage)
 
 	__gong__computeReferencePass2(stage.StackRotatedGrowthCurve2DEndArcShapes, stage.StackRotatedGrowthCurve2DEndArcShapes_reference, stage)
 
@@ -3746,10 +3647,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	return __gong__getOrder(stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder, stage.StackGrowthCurve2DStartHalfwayArcShapes_referenceOrder, stackgrowthcurve2dstarthalfwayarcshape, "StackGrowthCurve2DStartHalfwayArcShape")
 }
 
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongGetOrder(stage *Stage) uint {
-	return __gong__getOrder(stage.StackOfCarvedOutVaseTrapezeRingsShape_stagedOrder, stage.StackOfCarvedOutVaseTrapezeRingsShapes_referenceOrder, stackofcarvedoutvasetrapezeringsshape, "StackOfCarvedOutVaseTrapezeRingsShape")
-}
-
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.StackOfGrowthCurve2D_stagedOrder, stage.StackOfGrowthCurve2Ds_referenceOrder, stackofgrowthcurve2d, "StackOfGrowthCurve2D")
 }
@@ -3776,14 +3673,6 @@ func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongGetOrder(sta
 
 func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder, stage.StackOfRotatedGrowthCurve2DRibbons_referenceOrder, stackofrotatedgrowthcurve2dribbon, "StackOfRotatedGrowthCurve2DRibbon")
-}
-
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongGetOrder(stage *Stage) uint {
-	return __gong__getOrder(stage.StackOfRotatedVaseTrapezeRingsShape_stagedOrder, stage.StackOfRotatedVaseTrapezeRingsShapes_referenceOrder, stackofrotatedvasetrapezeringsshape, "StackOfRotatedVaseTrapezeRingsShape")
-}
-
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongGetOrder(stage *Stage) uint {
-	return __gong__getOrder(stage.StackOfVaseTrapezeRingsShape_stagedOrder, stage.StackOfVaseTrapezeRingsShapes_referenceOrder, stackofvasetrapezeringsshape, "StackOfVaseTrapezeRingsShape")
 }
 
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongGetOrder(stage *Stage) uint {
@@ -4900,15 +4789,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	return stackgrowthcurve2dstarthalfwayarcshape.GongGetIdentifier(stage)
 }
 
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongGetIdentifier(stage *Stage) string {
-	return __gong__formatIdentifier(stackofcarvedoutvasetrapezeringsshape, stackofcarvedoutvasetrapezeringsshape.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return stackofcarvedoutvasetrapezeringsshape.GongGetIdentifier(stage)
-}
-
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetIdentifier(stage *Stage) string {
 	return __gong__formatIdentifier(stackofgrowthcurve2d, stackofgrowthcurve2d.GongGetOrder(stage))
 }
@@ -4970,24 +4850,6 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongGetReferenceIdentifier(stage *Stage) string {
 	return stackofrotatedgrowthcurve2dribbon.GongGetIdentifier(stage)
-}
-
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongGetIdentifier(stage *Stage) string {
-	return __gong__formatIdentifier(stackofrotatedvasetrapezeringsshape, stackofrotatedvasetrapezeringsshape.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return stackofrotatedvasetrapezeringsshape.GongGetIdentifier(stage)
-}
-
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongGetIdentifier(stage *Stage) string {
-	return __gong__formatIdentifier(stackofvasetrapezeringsshape, stackofvasetrapezeringsshape.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return stackofvasetrapezeringsshape.GongGetIdentifier(stage)
 }
 
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongGetIdentifier(stage *Stage) string {
@@ -5782,10 +5644,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	return __gong__marshallIdentifier(stackgrowthcurve2dstarthalfwayarcshape.GongGetIdentifier(stage), "StackGrowthCurve2DStartHalfwayArcShape", stackgrowthcurve2dstarthalfwayarcshape.Name)
 }
 
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongMarshallIdentifier(stage *Stage) string {
-	return __gong__marshallIdentifier(stackofcarvedoutvasetrapezeringsshape.GongGetIdentifier(stage), "StackOfCarvedOutVaseTrapezeRingsShape", stackofcarvedoutvasetrapezeringsshape.Name)
-}
-
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(stackofgrowthcurve2d.GongGetIdentifier(stage), "StackOfGrowthCurve2D", stackofgrowthcurve2d.Name)
 }
@@ -5812,14 +5670,6 @@ func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongMarshallIden
 
 func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(stackofrotatedgrowthcurve2dribbon.GongGetIdentifier(stage), "StackOfRotatedGrowthCurve2DRibbon", stackofrotatedgrowthcurve2dribbon.Name)
-}
-
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongMarshallIdentifier(stage *Stage) string {
-	return __gong__marshallIdentifier(stackofrotatedvasetrapezeringsshape.GongGetIdentifier(stage), "StackOfRotatedVaseTrapezeRingsShape", stackofrotatedvasetrapezeringsshape.Name)
-}
-
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongMarshallIdentifier(stage *Stage) string {
-	return __gong__marshallIdentifier(stackofvasetrapezeringsshape.GongGetIdentifier(stage), "StackOfVaseTrapezeRingsShape", stackofvasetrapezeringsshape.Name)
 }
 
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongMarshallIdentifier(stage *Stage) string {
@@ -6407,10 +6257,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	return __gong__marshallUnstaging(stackgrowthcurve2dstarthalfwayarcshape.GongGetReferenceIdentifier(stage))
 }
 
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongMarshallUnstaging(stage *Stage) string {
-	return __gong__marshallUnstaging(stackofcarvedoutvasetrapezeringsshape.GongGetReferenceIdentifier(stage))
-}
-
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(stackofgrowthcurve2d.GongGetReferenceIdentifier(stage))
 }
@@ -6437,14 +6283,6 @@ func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongMarshallUnst
 
 func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(stackofrotatedgrowthcurve2dribbon.GongGetReferenceIdentifier(stage))
-}
-
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongMarshallUnstaging(stage *Stage) string {
-	return __gong__marshallUnstaging(stackofrotatedvasetrapezeringsshape.GongGetReferenceIdentifier(stage))
-}
-
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongMarshallUnstaging(stage *Stage) string {
-	return __gong__marshallUnstaging(stackofvasetrapezeringsshape.GongGetReferenceIdentifier(stage))
 }
 
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongMarshallUnstaging(stage *Stage) string {

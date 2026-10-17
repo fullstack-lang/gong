@@ -42,9 +42,6 @@ func (stager *Stager) enforceDiagramShapes() bool {
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.CarvedOutBottomCurvePlane1Shape, "CarvedOutBottomCurvePlane1Shape", func() *CarvedOutBottomCurvePlane1Shape { return new(CarvedOutBottomCurvePlane1Shape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.VaseTrapezeRingShape, "VaseTrapezeRingShape", func() *VaseTrapezeRingShape { return new(VaseTrapezeRingShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.CarvedOutVaseTrapezeRingShape, "CarvedOutVaseTrapezeRingShape", func() *CarvedOutVaseTrapezeRingShape { return new(CarvedOutVaseTrapezeRingShape) }) || modified
-		modified = ensureDiagramShape(stager, diagram.Name, &diagram.StackOfVaseTrapezeRingsShape, "StackOfVaseTrapezeRingsShape", func() *StackOfVaseTrapezeRingsShape { return new(StackOfVaseTrapezeRingsShape) }) || modified
-		modified = ensureDiagramShape(stager, diagram.Name, &diagram.StackOfCarvedOutVaseTrapezeRingsShape, "StackOfCarvedOutVaseTrapezeRingsShape", func() *StackOfCarvedOutVaseTrapezeRingsShape { return new(StackOfCarvedOutVaseTrapezeRingsShape) }) || modified
-		modified = ensureDiagramShape(stager, diagram.Name, &diagram.StackOfRotatedVaseTrapezeRingsShape, "StackOfRotatedVaseTrapezeRingsShape", func() *StackOfRotatedVaseTrapezeRingsShape { return new(StackOfRotatedVaseTrapezeRingsShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape, "StackOfRotatedCarvedOutVaseTrapezeRingsShape", func() *StackOfRotatedCarvedOutVaseTrapezeRingsShape { return new(StackOfRotatedCarvedOutVaseTrapezeRingsShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.VaseTrapezeBasePlateShape, "VaseTrapezeBasePlateShape", func() *VaseTrapezeBasePlateShape { return new(VaseTrapezeBasePlateShape) }) || modified
 	}

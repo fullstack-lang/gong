@@ -430,26 +430,6 @@ func StageSetFillUpFormFromGongstruct(
 			},
 		}
 		StageSetFillUpForm(inst, formGroup, probe)
-	case *models.StackOfCarvedOutVaseTrapezeRingsShape:
-		formGroup.OnSave = &functionalStageSetFormCallback{
-			onSave: func() {
-				probe.stageSet.Stage.Lock()
-				defer probe.stageSet.Stage.Unlock()
-				probe.formStage.Checkout()
-				saveStageSet_StackOfCarvedOutVaseTrapezeRingsShape_Stage(inst, probe, formGroup)
-				if formGroup.HasSuppressButtonBeenPressed {
-					inst.UnstageVoid(probe.stageSet.Stage)
-				}
-				probe.stageSet.Stage.Commit()
-				updateStageSetTable_StackOfCarvedOutVaseTrapezeRingsShape_Stage(probe)
-				probe.ux_tree()
-				if probe.docStager != nil {
-					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
-					probe.docStager.Svg()
-				}
-			},
-		}
-		StageSetFillUpForm(inst, formGroup, probe)
 	case *models.StackOfRotatedCarvedOutVaseTrapezeRingsShape:
 		formGroup.OnSave = &functionalStageSetFormCallback{
 			onSave: func() {
@@ -462,46 +442,6 @@ func StageSetFillUpFormFromGongstruct(
 				}
 				probe.stageSet.Stage.Commit()
 				updateStageSetTable_StackOfRotatedCarvedOutVaseTrapezeRingsShape_Stage(probe)
-				probe.ux_tree()
-				if probe.docStager != nil {
-					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
-					probe.docStager.Svg()
-				}
-			},
-		}
-		StageSetFillUpForm(inst, formGroup, probe)
-	case *models.StackOfRotatedVaseTrapezeRingsShape:
-		formGroup.OnSave = &functionalStageSetFormCallback{
-			onSave: func() {
-				probe.stageSet.Stage.Lock()
-				defer probe.stageSet.Stage.Unlock()
-				probe.formStage.Checkout()
-				saveStageSet_StackOfRotatedVaseTrapezeRingsShape_Stage(inst, probe, formGroup)
-				if formGroup.HasSuppressButtonBeenPressed {
-					inst.UnstageVoid(probe.stageSet.Stage)
-				}
-				probe.stageSet.Stage.Commit()
-				updateStageSetTable_StackOfRotatedVaseTrapezeRingsShape_Stage(probe)
-				probe.ux_tree()
-				if probe.docStager != nil {
-					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
-					probe.docStager.Svg()
-				}
-			},
-		}
-		StageSetFillUpForm(inst, formGroup, probe)
-	case *models.StackOfVaseTrapezeRingsShape:
-		formGroup.OnSave = &functionalStageSetFormCallback{
-			onSave: func() {
-				probe.stageSet.Stage.Lock()
-				defer probe.stageSet.Stage.Unlock()
-				probe.formStage.Checkout()
-				saveStageSet_StackOfVaseTrapezeRingsShape_Stage(inst, probe, formGroup)
-				if formGroup.HasSuppressButtonBeenPressed {
-					inst.UnstageVoid(probe.stageSet.Stage)
-				}
-				probe.stageSet.Stage.Commit()
-				updateStageSetTable_StackOfVaseTrapezeRingsShape_Stage(probe)
 				probe.ux_tree()
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
@@ -1253,47 +1193,8 @@ func saveStageSet_SampledPoints3DShape_Stage(
 	}
 }
 
-func saveStageSet_StackOfCarvedOutVaseTrapezeRingsShape_Stage(
-	inst *models.StackOfCarvedOutVaseTrapezeRingsShape,
-	probe *StageSetProbe,
-	formGroup *form.FormGroup,
-) {
-	for _, formDiv := range formGroup.FormDivs {
-		switch formDiv.Name {
-		case "Name":
-			FormDivBasicFieldToField(&inst.Name, formDiv)
-		}
-	}
-}
-
 func saveStageSet_StackOfRotatedCarvedOutVaseTrapezeRingsShape_Stage(
 	inst *models.StackOfRotatedCarvedOutVaseTrapezeRingsShape,
-	probe *StageSetProbe,
-	formGroup *form.FormGroup,
-) {
-	for _, formDiv := range formGroup.FormDivs {
-		switch formDiv.Name {
-		case "Name":
-			FormDivBasicFieldToField(&inst.Name, formDiv)
-		}
-	}
-}
-
-func saveStageSet_StackOfRotatedVaseTrapezeRingsShape_Stage(
-	inst *models.StackOfRotatedVaseTrapezeRingsShape,
-	probe *StageSetProbe,
-	formGroup *form.FormGroup,
-) {
-	for _, formDiv := range formGroup.FormDivs {
-		switch formDiv.Name {
-		case "Name":
-			FormDivBasicFieldToField(&inst.Name, formDiv)
-		}
-	}
-}
-
-func saveStageSet_StackOfVaseTrapezeRingsShape_Stage(
-	inst *models.StackOfVaseTrapezeRingsShape,
 	probe *StageSetProbe,
 	formGroup *form.FormGroup,
 ) {
@@ -1515,12 +1416,6 @@ func saveStageSet_TubeVase3DDiagram_Stage(
 			FormDivBasicFieldToField(&inst.IsHiddenVaseTrapezeRingShape, formDiv)
 		case "IsHiddenCarvedOutVaseTrapezeRingShape":
 			FormDivBasicFieldToField(&inst.IsHiddenCarvedOutVaseTrapezeRingShape, formDiv)
-		case "IsHiddenStackOfVaseTrapezeRingsShape":
-			FormDivBasicFieldToField(&inst.IsHiddenStackOfVaseTrapezeRingsShape, formDiv)
-		case "IsHiddenStackOfCarvedOutVaseTrapezeRingsShape":
-			FormDivBasicFieldToField(&inst.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape, formDiv)
-		case "IsHiddenStackOfRotatedVaseTrapezeRingsShape":
-			FormDivBasicFieldToField(&inst.IsHiddenStackOfRotatedVaseTrapezeRingsShape, formDiv)
 		case "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape":
 			FormDivBasicFieldToField(&inst.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape, formDiv)
 		case "IsHiddenVaseTrapezeBasePlateShape":
@@ -1569,12 +1464,6 @@ func saveStageSet_TubeVase3DDiagram_Stage(
 			StageSetFormDivSelectFieldToField(&inst.VaseTrapezeRingShape, probe.stageSet.Stage.GetInstancesSet[*models.VaseTrapezeRingShape](), formDiv)
 		case "CarvedOutVaseTrapezeRingShape":
 			StageSetFormDivSelectFieldToField(&inst.CarvedOutVaseTrapezeRingShape, probe.stageSet.Stage.GetInstancesSet[*models.CarvedOutVaseTrapezeRingShape](), formDiv)
-		case "StackOfVaseTrapezeRingsShape":
-			StageSetFormDivSelectFieldToField(&inst.StackOfVaseTrapezeRingsShape, probe.stageSet.Stage.GetInstancesSet[*models.StackOfVaseTrapezeRingsShape](), formDiv)
-		case "StackOfCarvedOutVaseTrapezeRingsShape":
-			StageSetFormDivSelectFieldToField(&inst.StackOfCarvedOutVaseTrapezeRingsShape, probe.stageSet.Stage.GetInstancesSet[*models.StackOfCarvedOutVaseTrapezeRingsShape](), formDiv)
-		case "StackOfRotatedVaseTrapezeRingsShape":
-			StageSetFormDivSelectFieldToField(&inst.StackOfRotatedVaseTrapezeRingsShape, probe.stageSet.Stage.GetInstancesSet[*models.StackOfRotatedVaseTrapezeRingsShape](), formDiv)
 		case "StackOfRotatedCarvedOutVaseTrapezeRingsShape":
 			StageSetFormDivSelectFieldToField(&inst.StackOfRotatedCarvedOutVaseTrapezeRingsShape, probe.stageSet.Stage.GetInstancesSet[*models.StackOfRotatedCarvedOutVaseTrapezeRingsShape](), formDiv)
 		case "VaseTrapezeBasePlateShape":
@@ -2533,35 +2422,6 @@ func StageSetNewInstance_SampledPoints3DShape_Stage(probe *StageSetProbe) {
 	probe.formStage.Commit()
 }
 
-func StageSetNewInstance_StackOfCarvedOutVaseTrapezeRingsShape_Stage(probe *StageSetProbe) {
-	probe.formStage.Reset()
-	formGroup := (&form.FormGroup{
-		Name:  "Form",
-		Label: "New StackOfCarvedOutVaseTrapezeRingsShape",
-	}).Stage(probe.formStage)
-	inst := new(models.StackOfCarvedOutVaseTrapezeRingsShape)
-	formGroup.HasSuppressButton = false
-	formGroup.OnSave = &functionalStageSetFormCallback{
-		onSave: func() {
-			probe.stageSet.Stage.Lock()
-			defer probe.stageSet.Stage.Unlock()
-			probe.formStage.Checkout()
-			inst.Stage(probe.stageSet.Stage)
-			saveStageSet_StackOfCarvedOutVaseTrapezeRingsShape_Stage(inst, probe, formGroup)
-			probe.stageSet.Stage.Commit()
-			updateStageSetTable_StackOfCarvedOutVaseTrapezeRingsShape_Stage(probe)
-			probe.ux_tree()
-			if probe.docStager != nil {
-				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
-				probe.docStager.Svg()
-			}
-			StageSetFillUpFormFromGongstruct(inst, probe)
-		},
-	}
-	StageSetFillUpForm(inst, formGroup, probe)
-	probe.formStage.Commit()
-}
-
 func StageSetNewInstance_StackOfRotatedCarvedOutVaseTrapezeRingsShape_Stage(probe *StageSetProbe) {
 	probe.formStage.Reset()
 	formGroup := (&form.FormGroup{
@@ -2579,64 +2439,6 @@ func StageSetNewInstance_StackOfRotatedCarvedOutVaseTrapezeRingsShape_Stage(prob
 			saveStageSet_StackOfRotatedCarvedOutVaseTrapezeRingsShape_Stage(inst, probe, formGroup)
 			probe.stageSet.Stage.Commit()
 			updateStageSetTable_StackOfRotatedCarvedOutVaseTrapezeRingsShape_Stage(probe)
-			probe.ux_tree()
-			if probe.docStager != nil {
-				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
-				probe.docStager.Svg()
-			}
-			StageSetFillUpFormFromGongstruct(inst, probe)
-		},
-	}
-	StageSetFillUpForm(inst, formGroup, probe)
-	probe.formStage.Commit()
-}
-
-func StageSetNewInstance_StackOfRotatedVaseTrapezeRingsShape_Stage(probe *StageSetProbe) {
-	probe.formStage.Reset()
-	formGroup := (&form.FormGroup{
-		Name:  "Form",
-		Label: "New StackOfRotatedVaseTrapezeRingsShape",
-	}).Stage(probe.formStage)
-	inst := new(models.StackOfRotatedVaseTrapezeRingsShape)
-	formGroup.HasSuppressButton = false
-	formGroup.OnSave = &functionalStageSetFormCallback{
-		onSave: func() {
-			probe.stageSet.Stage.Lock()
-			defer probe.stageSet.Stage.Unlock()
-			probe.formStage.Checkout()
-			inst.Stage(probe.stageSet.Stage)
-			saveStageSet_StackOfRotatedVaseTrapezeRingsShape_Stage(inst, probe, formGroup)
-			probe.stageSet.Stage.Commit()
-			updateStageSetTable_StackOfRotatedVaseTrapezeRingsShape_Stage(probe)
-			probe.ux_tree()
-			if probe.docStager != nil {
-				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
-				probe.docStager.Svg()
-			}
-			StageSetFillUpFormFromGongstruct(inst, probe)
-		},
-	}
-	StageSetFillUpForm(inst, formGroup, probe)
-	probe.formStage.Commit()
-}
-
-func StageSetNewInstance_StackOfVaseTrapezeRingsShape_Stage(probe *StageSetProbe) {
-	probe.formStage.Reset()
-	formGroup := (&form.FormGroup{
-		Name:  "Form",
-		Label: "New StackOfVaseTrapezeRingsShape",
-	}).Stage(probe.formStage)
-	inst := new(models.StackOfVaseTrapezeRingsShape)
-	formGroup.HasSuppressButton = false
-	formGroup.OnSave = &functionalStageSetFormCallback{
-		onSave: func() {
-			probe.stageSet.Stage.Lock()
-			defer probe.stageSet.Stage.Unlock()
-			probe.formStage.Checkout()
-			inst.Stage(probe.stageSet.Stage)
-			saveStageSet_StackOfVaseTrapezeRingsShape_Stage(inst, probe, formGroup)
-			probe.stageSet.Stage.Commit()
-			updateStageSetTable_StackOfVaseTrapezeRingsShape_Stage(probe)
 			probe.ux_tree()
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())

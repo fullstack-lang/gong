@@ -540,11 +540,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	return ok
 }
 
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongIsStaged(stage *Stage) bool {
-	_, ok := stage.StackOfCarvedOutVaseTrapezeRingsShapes[stackofcarvedoutvasetrapezeringsshape]
-	return ok
-}
-
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.StackOfGrowthCurve2Ds[stackofgrowthcurve2d]
 	return ok
@@ -577,16 +572,6 @@ func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongIsStaged(sta
 
 func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.StackOfRotatedGrowthCurve2DRibbons[stackofrotatedgrowthcurve2dribbon]
-	return ok
-}
-
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongIsStaged(stage *Stage) bool {
-	_, ok := stage.StackOfRotatedVaseTrapezeRingsShapes[stackofrotatedvasetrapezeringsshape]
-	return ok
-}
-
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongIsStaged(stage *Stage) bool {
-	_, ok := stage.StackOfVaseTrapezeRingsShapes[stackofvasetrapezeringsshape]
 	return ok
 }
 
@@ -2438,21 +2423,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 
 }
 
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongStageBranch(stage *Stage) {
-
-	// check if instance is already staged
-	if stage.IsStaged(stackofcarvedoutvasetrapezeringsshape) {
-		return
-	}
-
-	stackofcarvedoutvasetrapezeringsshape.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongStageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -2551,36 +2521,6 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 	}
 
 	stackofrotatedgrowthcurve2dribbon.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongStageBranch(stage *Stage) {
-
-	// check if instance is already staged
-	if stage.IsStaged(stackofrotatedvasetrapezeringsshape) {
-		return
-	}
-
-	stackofrotatedvasetrapezeringsshape.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongStageBranch(stage *Stage) {
-
-	// check if instance is already staged
-	if stage.IsStaged(stackofvasetrapezeringsshape) {
-		return
-	}
-
-	stackofvasetrapezeringsshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -3150,15 +3090,6 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongStageBranch(stage *Stage) {
 	if tubevase3ddiagram.CarvedOutVaseTrapezeRingShape != nil {
 		stage.StageBranch(tubevase3ddiagram.CarvedOutVaseTrapezeRingShape)
 	}
-	if tubevase3ddiagram.StackOfVaseTrapezeRingsShape != nil {
-		stage.StageBranch(tubevase3ddiagram.StackOfVaseTrapezeRingsShape)
-	}
-	if tubevase3ddiagram.StackOfCarvedOutVaseTrapezeRingsShape != nil {
-		stage.StageBranch(tubevase3ddiagram.StackOfCarvedOutVaseTrapezeRingsShape)
-	}
-	if tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape != nil {
-		stage.StageBranch(tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape)
-	}
 	if tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape != nil {
 		stage.StageBranch(tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape)
 	}
@@ -3691,10 +3622,6 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchStackGrowthCurve2DStartHalfwayArcShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *StackOfCarvedOutVaseTrapezeRingsShape:
-		toT := GongCopyBranchStackOfCarvedOutVaseTrapezeRingsShape(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *StackOfGrowthCurve2D:
 		toT := GongCopyBranchStackOfGrowthCurve2D(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -3721,14 +3648,6 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *StackOfRotatedGrowthCurve2DRibbon:
 		toT := GongCopyBranchStackOfRotatedGrowthCurve2DRibbon(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *StackOfRotatedVaseTrapezeRingsShape:
-		toT := GongCopyBranchStackOfRotatedVaseTrapezeRingsShape(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *StackOfVaseTrapezeRingsShape:
-		toT := GongCopyBranchStackOfVaseTrapezeRingsShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *StackRotatedGrowthCurve2DEndArcShape:
@@ -5537,21 +5456,6 @@ func GongCopyBranchStackGrowthCurve2DStartHalfwayArcShape(mapOrigCopy map[any]an
 	return
 }
 
-func GongCopyBranchStackOfCarvedOutVaseTrapezeRingsShape(mapOrigCopy map[any]any, stackofcarvedoutvasetrapezeringsshapeFrom *StackOfCarvedOutVaseTrapezeRingsShape) (stackofcarvedoutvasetrapezeringsshapeTo *StackOfCarvedOutVaseTrapezeRingsShape) {
-	var alreadyCopied bool
-	stackofcarvedoutvasetrapezeringsshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, stackofcarvedoutvasetrapezeringsshapeFrom)
-	if alreadyCopied {
-		return
-	}
-	stackofcarvedoutvasetrapezeringsshapeFrom.GongCopyBasicFields(stackofcarvedoutvasetrapezeringsshapeTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
 func GongCopyBranchStackOfGrowthCurve2D(mapOrigCopy map[any]any, stackofgrowthcurve2dFrom *StackOfGrowthCurve2D) (stackofgrowthcurve2dTo *StackOfGrowthCurve2D) {
 	var alreadyCopied bool
 	stackofgrowthcurve2dTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, stackofgrowthcurve2dFrom)
@@ -5649,36 +5553,6 @@ func GongCopyBranchStackOfRotatedGrowthCurve2DRibbon(mapOrigCopy map[any]any, st
 		return
 	}
 	stackofrotatedgrowthcurve2dribbonFrom.GongCopyBasicFields(stackofrotatedgrowthcurve2dribbonTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
-func GongCopyBranchStackOfRotatedVaseTrapezeRingsShape(mapOrigCopy map[any]any, stackofrotatedvasetrapezeringsshapeFrom *StackOfRotatedVaseTrapezeRingsShape) (stackofrotatedvasetrapezeringsshapeTo *StackOfRotatedVaseTrapezeRingsShape) {
-	var alreadyCopied bool
-	stackofrotatedvasetrapezeringsshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, stackofrotatedvasetrapezeringsshapeFrom)
-	if alreadyCopied {
-		return
-	}
-	stackofrotatedvasetrapezeringsshapeFrom.GongCopyBasicFields(stackofrotatedvasetrapezeringsshapeTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
-func GongCopyBranchStackOfVaseTrapezeRingsShape(mapOrigCopy map[any]any, stackofvasetrapezeringsshapeFrom *StackOfVaseTrapezeRingsShape) (stackofvasetrapezeringsshapeTo *StackOfVaseTrapezeRingsShape) {
-	var alreadyCopied bool
-	stackofvasetrapezeringsshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, stackofvasetrapezeringsshapeFrom)
-	if alreadyCopied {
-		return
-	}
-	stackofvasetrapezeringsshapeFrom.GongCopyBasicFields(stackofvasetrapezeringsshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -6247,15 +6121,6 @@ func GongCopyBranchTubeVase3DDiagram(mapOrigCopy map[any]any, tubevase3ddiagramF
 	}
 	if tubevase3ddiagramFrom.CarvedOutVaseTrapezeRingShape != nil {
 		tubevase3ddiagramTo.CarvedOutVaseTrapezeRingShape = GongCopyBranchCarvedOutVaseTrapezeRingShape(mapOrigCopy, tubevase3ddiagramFrom.CarvedOutVaseTrapezeRingShape)
-	}
-	if tubevase3ddiagramFrom.StackOfVaseTrapezeRingsShape != nil {
-		tubevase3ddiagramTo.StackOfVaseTrapezeRingsShape = GongCopyBranchStackOfVaseTrapezeRingsShape(mapOrigCopy, tubevase3ddiagramFrom.StackOfVaseTrapezeRingsShape)
-	}
-	if tubevase3ddiagramFrom.StackOfCarvedOutVaseTrapezeRingsShape != nil {
-		tubevase3ddiagramTo.StackOfCarvedOutVaseTrapezeRingsShape = GongCopyBranchStackOfCarvedOutVaseTrapezeRingsShape(mapOrigCopy, tubevase3ddiagramFrom.StackOfCarvedOutVaseTrapezeRingsShape)
-	}
-	if tubevase3ddiagramFrom.StackOfRotatedVaseTrapezeRingsShape != nil {
-		tubevase3ddiagramTo.StackOfRotatedVaseTrapezeRingsShape = GongCopyBranchStackOfRotatedVaseTrapezeRingsShape(mapOrigCopy, tubevase3ddiagramFrom.StackOfRotatedVaseTrapezeRingsShape)
 	}
 	if tubevase3ddiagramFrom.StackOfRotatedCarvedOutVaseTrapezeRingsShape != nil {
 		tubevase3ddiagramTo.StackOfRotatedCarvedOutVaseTrapezeRingsShape = GongCopyBranchStackOfRotatedCarvedOutVaseTrapezeRingsShape(mapOrigCopy, tubevase3ddiagramFrom.StackOfRotatedCarvedOutVaseTrapezeRingsShape)
@@ -8006,21 +7871,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 
 }
 
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongUnstageBranch(stage *Stage) {
-
-	// check if instance is already staged
-	if !stage.IsStaged(stackofcarvedoutvasetrapezeringsshape) {
-		return
-	}
-
-	stackofcarvedoutvasetrapezeringsshape.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongUnstageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -8119,36 +7969,6 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 	}
 
 	stackofrotatedgrowthcurve2dribbon.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongUnstageBranch(stage *Stage) {
-
-	// check if instance is already staged
-	if !stage.IsStaged(stackofrotatedvasetrapezeringsshape) {
-		return
-	}
-
-	stackofrotatedvasetrapezeringsshape.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongUnstageBranch(stage *Stage) {
-
-	// check if instance is already staged
-	if !stage.IsStaged(stackofvasetrapezeringsshape) {
-		return
-	}
-
-	stackofvasetrapezeringsshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -8717,15 +8537,6 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongUnstageBranch(stage *Stage) {
 	}
 	if tubevase3ddiagram.CarvedOutVaseTrapezeRingShape != nil {
 		stage.UnstageBranch(tubevase3ddiagram.CarvedOutVaseTrapezeRingShape)
-	}
-	if tubevase3ddiagram.StackOfVaseTrapezeRingsShape != nil {
-		stage.UnstageBranch(tubevase3ddiagram.StackOfVaseTrapezeRingsShape)
-	}
-	if tubevase3ddiagram.StackOfCarvedOutVaseTrapezeRingsShape != nil {
-		stage.UnstageBranch(tubevase3ddiagram.StackOfCarvedOutVaseTrapezeRingsShape)
-	}
-	if tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape != nil {
-		stage.UnstageBranch(tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape)
 	}
 	if tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape != nil {
 		stage.UnstageBranch(tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape)
@@ -9374,11 +9185,6 @@ func (reference *StackGrowthCurve2DStartHalfwayArcShape) GongReconstructPointers
 	// insertion point for slice of pointers field
 }
 
-func (reference *StackOfCarvedOutVaseTrapezeRingsShape) GongReconstructPointersFromReferences(stage *Stage, instance *StackOfCarvedOutVaseTrapezeRingsShape) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-}
-
 func (reference *StackOfGrowthCurve2D) GongReconstructPointersFromReferences(stage *Stage, instance *StackOfGrowthCurve2D) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -9410,16 +9216,6 @@ func (reference *StackOfRotatedGrowthCurve2D) GongReconstructPointersFromReferen
 }
 
 func (reference *StackOfRotatedGrowthCurve2DRibbon) GongReconstructPointersFromReferences(stage *Stage, instance *StackOfRotatedGrowthCurve2DRibbon) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-}
-
-func (reference *StackOfRotatedVaseTrapezeRingsShape) GongReconstructPointersFromReferences(stage *Stage, instance *StackOfRotatedVaseTrapezeRingsShape) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-}
-
-func (reference *StackOfVaseTrapezeRingsShape) GongReconstructPointersFromReferences(stage *Stage, instance *StackOfVaseTrapezeRingsShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -9610,9 +9406,6 @@ func (reference *TubeVase3DDiagram) GongReconstructPointersFromReferences(stage 
 	__gong__reconstructPointer(&reference.CarvedOutBottomCurvePlane1Shape, stage.CarvedOutBottomCurvePlane1Shapes_reference, instance.CarvedOutBottomCurvePlane1Shape)
 	__gong__reconstructPointer(&reference.VaseTrapezeRingShape, stage.VaseTrapezeRingShapes_reference, instance.VaseTrapezeRingShape)
 	__gong__reconstructPointer(&reference.CarvedOutVaseTrapezeRingShape, stage.CarvedOutVaseTrapezeRingShapes_reference, instance.CarvedOutVaseTrapezeRingShape)
-	__gong__reconstructPointer(&reference.StackOfVaseTrapezeRingsShape, stage.StackOfVaseTrapezeRingsShapes_reference, instance.StackOfVaseTrapezeRingsShape)
-	__gong__reconstructPointer(&reference.StackOfCarvedOutVaseTrapezeRingsShape, stage.StackOfCarvedOutVaseTrapezeRingsShapes_reference, instance.StackOfCarvedOutVaseTrapezeRingsShape)
-	__gong__reconstructPointer(&reference.StackOfRotatedVaseTrapezeRingsShape, stage.StackOfRotatedVaseTrapezeRingsShapes_reference, instance.StackOfRotatedVaseTrapezeRingsShape)
 	__gong__reconstructPointer(&reference.StackOfRotatedCarvedOutVaseTrapezeRingsShape, stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes_reference, instance.StackOfRotatedCarvedOutVaseTrapezeRingsShape)
 	__gong__reconstructPointer(&reference.VaseTrapezeBasePlateShape, stage.VaseTrapezeBasePlateShapes_reference, instance.VaseTrapezeBasePlateShape)
 	// insertion point for slice of pointers field
@@ -10194,11 +9987,6 @@ func (reference *StackGrowthCurve2DStartHalfwayArcShape) GongReconstructPointers
 	// insertion point for slice of pointers fields
 }
 
-func (reference *StackOfCarvedOutVaseTrapezeRingsShape) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-}
-
 func (reference *StackOfGrowthCurve2D) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -10230,16 +10018,6 @@ func (reference *StackOfRotatedGrowthCurve2D) GongReconstructPointersFromInstanc
 }
 
 func (reference *StackOfRotatedGrowthCurve2DRibbon) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-}
-
-func (reference *StackOfRotatedVaseTrapezeRingsShape) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-}
-
-func (reference *StackOfVaseTrapezeRingsShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -10430,9 +10208,6 @@ func (reference *TubeVase3DDiagram) GongReconstructPointersFromInstances(stage *
 	__gong__reconstructPointerFromInstance(&reference.CarvedOutBottomCurvePlane1Shape, stage.CarvedOutBottomCurvePlane1Shapes_instance)
 	__gong__reconstructPointerFromInstance(&reference.VaseTrapezeRingShape, stage.VaseTrapezeRingShapes_instance)
 	__gong__reconstructPointerFromInstance(&reference.CarvedOutVaseTrapezeRingShape, stage.CarvedOutVaseTrapezeRingShapes_instance)
-	__gong__reconstructPointerFromInstance(&reference.StackOfVaseTrapezeRingsShape, stage.StackOfVaseTrapezeRingsShapes_instance)
-	__gong__reconstructPointerFromInstance(&reference.StackOfCarvedOutVaseTrapezeRingsShape, stage.StackOfCarvedOutVaseTrapezeRingsShapes_instance)
-	__gong__reconstructPointerFromInstance(&reference.StackOfRotatedVaseTrapezeRingsShape, stage.StackOfRotatedVaseTrapezeRingsShapes_instance)
 	__gong__reconstructPointerFromInstance(&reference.StackOfRotatedCarvedOutVaseTrapezeRingsShape, stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes_instance)
 	__gong__reconstructPointerFromInstance(&reference.VaseTrapezeBasePlateShape, stage.VaseTrapezeBasePlateShapes_instance)
 	// insertion point for slice of pointers fields
@@ -12985,17 +12760,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongDiff(stage *Stage, stackofcarvedoutvasetrapezeringsshapeOther *StackOfCarvedOutVaseTrapezeRingsShape) (diffs []string) {
-	// insertion point for field diffs
-	if stackofcarvedoutvasetrapezeringsshape.Name != stackofcarvedoutvasetrapezeringsshapeOther.Name {
-		diffs = append(diffs, stackofcarvedoutvasetrapezeringsshape.GongMarshallField(stage, "Name"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongDiff(stage *Stage, stackofgrowthcurve2dOther *StackOfGrowthCurve2D) (diffs []string) {
 	// insertion point for field diffs
 	if stackofgrowthcurve2d.Name != stackofgrowthcurve2dOther.Name {
@@ -13066,28 +12830,6 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 	// insertion point for field diffs
 	if stackofrotatedgrowthcurve2dribbon.Name != stackofrotatedgrowthcurve2dribbonOther.Name {
 		diffs = append(diffs, stackofrotatedgrowthcurve2dribbon.GongMarshallField(stage, "Name"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongDiff(stage *Stage, stackofrotatedvasetrapezeringsshapeOther *StackOfRotatedVaseTrapezeRingsShape) (diffs []string) {
-	// insertion point for field diffs
-	if stackofrotatedvasetrapezeringsshape.Name != stackofrotatedvasetrapezeringsshapeOther.Name {
-		diffs = append(diffs, stackofrotatedvasetrapezeringsshape.GongMarshallField(stage, "Name"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongDiff(stage *Stage, stackofvasetrapezeringsshapeOther *StackOfVaseTrapezeRingsShape) (diffs []string) {
-	// insertion point for field diffs
-	if stackofvasetrapezeringsshape.Name != stackofvasetrapezeringsshapeOther.Name {
-		diffs = append(diffs, stackofvasetrapezeringsshape.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -14071,15 +13813,6 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongDiff(stage *Stage, tubevase3ddia
 	if tubevase3ddiagram.IsHiddenCarvedOutVaseTrapezeRingShape != tubevase3ddiagramOther.IsHiddenCarvedOutVaseTrapezeRingShape {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenCarvedOutVaseTrapezeRingShape"))
 	}
-	if tubevase3ddiagram.IsHiddenStackOfVaseTrapezeRingsShape != tubevase3ddiagramOther.IsHiddenStackOfVaseTrapezeRingsShape {
-		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenStackOfVaseTrapezeRingsShape"))
-	}
-	if tubevase3ddiagram.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape != tubevase3ddiagramOther.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape {
-		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenStackOfCarvedOutVaseTrapezeRingsShape"))
-	}
-	if tubevase3ddiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape != tubevase3ddiagramOther.IsHiddenStackOfRotatedVaseTrapezeRingsShape {
-		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenStackOfRotatedVaseTrapezeRingsShape"))
-	}
 	if tubevase3ddiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape != tubevase3ddiagramOther.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape"))
 	}
@@ -14121,15 +13854,6 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongDiff(stage *Stage, tubevase3ddia
 	}
 	if tubevase3ddiagram.CarvedOutVaseTrapezeRingShape != tubevase3ddiagramOther.CarvedOutVaseTrapezeRingShape {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "CarvedOutVaseTrapezeRingShape"))
-	}
-	if tubevase3ddiagram.StackOfVaseTrapezeRingsShape != tubevase3ddiagramOther.StackOfVaseTrapezeRingsShape {
-		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "StackOfVaseTrapezeRingsShape"))
-	}
-	if tubevase3ddiagram.StackOfCarvedOutVaseTrapezeRingsShape != tubevase3ddiagramOther.StackOfCarvedOutVaseTrapezeRingsShape {
-		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "StackOfCarvedOutVaseTrapezeRingsShape"))
-	}
-	if tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape != tubevase3ddiagramOther.StackOfRotatedVaseTrapezeRingsShape {
-		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "StackOfRotatedVaseTrapezeRingsShape"))
 	}
 	if tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape != tubevase3ddiagramOther.StackOfRotatedCarvedOutVaseTrapezeRingsShape {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "StackOfRotatedCarvedOutVaseTrapezeRingsShape"))

@@ -129,9 +129,6 @@ func TestStageSetUnmarshallStageFile(t *testing.T) {
 			if diagram.CarvedOutBottomCurvePlane1Shape == nil {
 				t.Errorf("expected VaseTrapeze-TubeVase3DDiagram to have CarvedOutBottomCurvePlane1Shape")
 			}
-			if diagram.StackOfCarvedOutVaseTrapezeRingsShape == nil {
-				t.Errorf("expected VaseTrapeze-TubeVase3DDiagram to have StackOfCarvedOutVaseTrapezeRingsShape")
-			}
 			if diagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape == nil {
 				t.Errorf("expected VaseTrapeze-TubeVase3DDiagram to have StackOfRotatedCarvedOutVaseTrapezeRingsShape")
 			}

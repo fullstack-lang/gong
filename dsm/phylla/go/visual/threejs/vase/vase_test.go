@@ -38,7 +38,7 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 		if d.Name == "Vase Trapeze-TubeVase3DDiagram" {
 			d.IsChecked = true
 			d.IsHiddenTiledFloor3DShape = true
-			d.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape = false
+			d.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
 			d.IsHiddenVaseTrapezeBasePlateShape = false
 		}
 	}
@@ -89,7 +89,7 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 	// Print comparison at the junction between ring and base plate
 	var ringMesh, basePlateMesh *threejs.Mesh
 	for mesh := range threejsStage.Meshs {
-		if mesh.Name == "Vase Trapeze Stack Of Carved Out Vase Trapeze Rings h0 Mesh" {
+		if mesh.Name == "Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h0 Mesh" {
 			ringMesh = mesh
 		}
 		if mesh.Name == "Vase Trapeze Vase Trapeze Base Plate Mesh" {
@@ -205,11 +205,13 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 	}
 
 		// Assert materials are opaque when transparency is 0
-		if ringMesh.MeshPhysicalMaterial.Transparent {
-			t.Errorf("expected ringMesh to not be transparent when transparency is 0")
-		}
-		if basePlateMesh.MeshPhysicalMaterial.Transparent {
-			t.Errorf("expected basePlateMesh to not be transparent when transparency is 0")
+		if targetPlant.TubeVaseAbstract != nil && targetPlant.TubeVaseAbstract.Transparency == 0 {
+			if ringMesh.MeshPhysicalMaterial.Transparent {
+				t.Errorf("expected ringMesh to not be transparent when transparency is 0")
+			}
+			if basePlateMesh.MeshPhysicalMaterial.Transparent {
+				t.Errorf("expected basePlateMesh to not be transparent when transparency is 0")
+			}
 		}
 
 		// Verify that all M boundary vertices at Plane 2 between Ring outer wall and BasePlate outer top match exactly
@@ -237,4 +239,16 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 			t.Errorf("expected Ring and BasePlate to share exact same curve at Plane 2, but max diff is %f", maxDiff)
 		}
 	}
+
+	// Verify STL exports for Vase Trapeze (one ring & base+first ring)
+	oneRingSTL := models.GenerateVaseTrapezeOneRingSTL(targetPlant)
+	if len(oneRingSTL) == 0 {
+		t.Fatalf("expected non-empty one ring STL")
+	}
+	baseFirstRingSTL := models.GenerateVaseTrapezeBaseAndFirstRingSTL(targetPlant)
+	if len(baseFirstRingSTL) == 0 {
+		t.Fatalf("expected non-empty base+first ring STL")
+	}
+	t.Logf("Generated Vase Trapeze One Ring STL (%d bytes) and Base+First Ring STL (%d bytes)", len(oneRingSTL), len(baseFirstRingSTL))
 }
+

@@ -2068,17 +2068,6 @@ func (from *StackGrowthCurve2DStartHalfwayArcShape) GongCopyBasicFields(to *Stac
 	*to = *from
 }
 
-type StackOfCarvedOutVaseTrapezeRingsShape_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *StackOfCarvedOutVaseTrapezeRingsShape) GongCopyBasicFields(to *StackOfCarvedOutVaseTrapezeRingsShape) {
-	// insertion point
-	*to = *from
-}
-
 type StackOfGrowthCurve2D_WOP struct {
 	// insertion point
 
@@ -2154,28 +2143,6 @@ type StackOfRotatedGrowthCurve2DRibbon_WOP struct {
 func (from *StackOfRotatedGrowthCurve2DRibbon) GongCopyBasicFields(to *StackOfRotatedGrowthCurve2DRibbon) {
 	// insertion point
 	to.Name = from.Name
-}
-
-type StackOfRotatedVaseTrapezeRingsShape_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *StackOfRotatedVaseTrapezeRingsShape) GongCopyBasicFields(to *StackOfRotatedVaseTrapezeRingsShape) {
-	// insertion point
-	*to = *from
-}
-
-type StackOfVaseTrapezeRingsShape_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *StackOfVaseTrapezeRingsShape) GongCopyBasicFields(to *StackOfVaseTrapezeRingsShape) {
-	// insertion point
-	*to = *from
 }
 
 type StackRotatedGrowthCurve2DEndArcShape_WOP struct {
@@ -2972,12 +2939,6 @@ type TubeVase3DDiagram_WOP struct {
 
 	IsHiddenCarvedOutVaseTrapezeRingShape bool
 
-	IsHiddenStackOfVaseTrapezeRingsShape bool
-
-	IsHiddenStackOfCarvedOutVaseTrapezeRingsShape bool
-
-	IsHiddenStackOfRotatedVaseTrapezeRingsShape bool
-
 	IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape bool
 
 	IsHiddenVaseTrapezeBasePlateShape bool
@@ -3014,9 +2975,6 @@ func (from *TubeVase3DDiagram) GongCopyBasicFields(to *TubeVase3DDiagram) {
 	to.IsHiddenCarvedOutBottomCurvePlane1Shape = from.IsHiddenCarvedOutBottomCurvePlane1Shape
 	to.IsHiddenVaseTrapezeRingShape = from.IsHiddenVaseTrapezeRingShape
 	to.IsHiddenCarvedOutVaseTrapezeRingShape = from.IsHiddenCarvedOutVaseTrapezeRingShape
-	to.IsHiddenStackOfVaseTrapezeRingsShape = from.IsHiddenStackOfVaseTrapezeRingsShape
-	to.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape = from.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape
-	to.IsHiddenStackOfRotatedVaseTrapezeRingsShape = from.IsHiddenStackOfRotatedVaseTrapezeRingsShape
 	to.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = from.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape
 	to.IsHiddenVaseTrapezeBasePlateShape = from.IsHiddenVaseTrapezeBasePlateShape
 	to.IsChecked = from.IsChecked

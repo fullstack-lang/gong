@@ -2757,32 +2757,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	}
 }
 
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongAfterCreateFromFront(stage *Stage) {
-	if stage.OnAfterStackOfCarvedOutVaseTrapezeRingsShapeCreateCallback != nil {
-		stage.OnAfterStackOfCarvedOutVaseTrapezeRingsShapeCreateCallback.OnAfterCreate(stage, stackofcarvedoutvasetrapezeringsshape)
-	}
-}
-
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterStackOfCarvedOutVaseTrapezeRingsShapeUpdateCallback != nil {
-		var frontStackOfCarvedOutVaseTrapezeRingsShape *StackOfCarvedOutVaseTrapezeRingsShape
-		if front != nil {
-			frontStackOfCarvedOutVaseTrapezeRingsShape, _ = front.(*StackOfCarvedOutVaseTrapezeRingsShape)
-		}
-		stage.OnAfterStackOfCarvedOutVaseTrapezeRingsShapeUpdateCallback.OnAfterUpdate(stage, stackofcarvedoutvasetrapezeringsshape, frontStackOfCarvedOutVaseTrapezeRingsShape)
-	}
-}
-
-func (stackofcarvedoutvasetrapezeringsshape *StackOfCarvedOutVaseTrapezeRingsShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterStackOfCarvedOutVaseTrapezeRingsShapeDeleteCallback != nil {
-		var frontStackOfCarvedOutVaseTrapezeRingsShape *StackOfCarvedOutVaseTrapezeRingsShape
-		if front != nil {
-			frontStackOfCarvedOutVaseTrapezeRingsShape, _ = front.(*StackOfCarvedOutVaseTrapezeRingsShape)
-		}
-		stage.OnAfterStackOfCarvedOutVaseTrapezeRingsShapeDeleteCallback.OnAfterDelete(stage, stackofcarvedoutvasetrapezeringsshape, frontStackOfCarvedOutVaseTrapezeRingsShape)
-	}
-}
-
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterStackOfGrowthCurve2DCreateCallback != nil {
 		stage.OnAfterStackOfGrowthCurve2DCreateCallback.OnAfterCreate(stage, stackofgrowthcurve2d)
@@ -2962,58 +2936,6 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 			frontStackOfRotatedGrowthCurve2DRibbon, _ = front.(*StackOfRotatedGrowthCurve2DRibbon)
 		}
 		stage.OnAfterStackOfRotatedGrowthCurve2DRibbonDeleteCallback.OnAfterDelete(stage, stackofrotatedgrowthcurve2dribbon, frontStackOfRotatedGrowthCurve2DRibbon)
-	}
-}
-
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongAfterCreateFromFront(stage *Stage) {
-	if stage.OnAfterStackOfRotatedVaseTrapezeRingsShapeCreateCallback != nil {
-		stage.OnAfterStackOfRotatedVaseTrapezeRingsShapeCreateCallback.OnAfterCreate(stage, stackofrotatedvasetrapezeringsshape)
-	}
-}
-
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterStackOfRotatedVaseTrapezeRingsShapeUpdateCallback != nil {
-		var frontStackOfRotatedVaseTrapezeRingsShape *StackOfRotatedVaseTrapezeRingsShape
-		if front != nil {
-			frontStackOfRotatedVaseTrapezeRingsShape, _ = front.(*StackOfRotatedVaseTrapezeRingsShape)
-		}
-		stage.OnAfterStackOfRotatedVaseTrapezeRingsShapeUpdateCallback.OnAfterUpdate(stage, stackofrotatedvasetrapezeringsshape, frontStackOfRotatedVaseTrapezeRingsShape)
-	}
-}
-
-func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterStackOfRotatedVaseTrapezeRingsShapeDeleteCallback != nil {
-		var frontStackOfRotatedVaseTrapezeRingsShape *StackOfRotatedVaseTrapezeRingsShape
-		if front != nil {
-			frontStackOfRotatedVaseTrapezeRingsShape, _ = front.(*StackOfRotatedVaseTrapezeRingsShape)
-		}
-		stage.OnAfterStackOfRotatedVaseTrapezeRingsShapeDeleteCallback.OnAfterDelete(stage, stackofrotatedvasetrapezeringsshape, frontStackOfRotatedVaseTrapezeRingsShape)
-	}
-}
-
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongAfterCreateFromFront(stage *Stage) {
-	if stage.OnAfterStackOfVaseTrapezeRingsShapeCreateCallback != nil {
-		stage.OnAfterStackOfVaseTrapezeRingsShapeCreateCallback.OnAfterCreate(stage, stackofvasetrapezeringsshape)
-	}
-}
-
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterStackOfVaseTrapezeRingsShapeUpdateCallback != nil {
-		var frontStackOfVaseTrapezeRingsShape *StackOfVaseTrapezeRingsShape
-		if front != nil {
-			frontStackOfVaseTrapezeRingsShape, _ = front.(*StackOfVaseTrapezeRingsShape)
-		}
-		stage.OnAfterStackOfVaseTrapezeRingsShapeUpdateCallback.OnAfterUpdate(stage, stackofvasetrapezeringsshape, frontStackOfVaseTrapezeRingsShape)
-	}
-}
-
-func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterStackOfVaseTrapezeRingsShapeDeleteCallback != nil {
-		var frontStackOfVaseTrapezeRingsShape *StackOfVaseTrapezeRingsShape
-		if front != nil {
-			frontStackOfVaseTrapezeRingsShape, _ = front.(*StackOfVaseTrapezeRingsShape)
-		}
-		stage.OnAfterStackOfVaseTrapezeRingsShapeDeleteCallback.OnAfterDelete(stage, stackofvasetrapezeringsshape, frontStackOfVaseTrapezeRingsShape)
 	}
 }
 

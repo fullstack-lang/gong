@@ -319,6 +319,7 @@ const (
 	STLExportTopRing
 	STLExportOneRing
 	STLExportBottomRing
+	STLExportVaseTrapezeBaseAndFirstRing
 )
 
 func buildBaseRingSTL(resampledBaseBottom, resampledBaseTop []vector3, radialRepetitions int, thetaOffset float64) (massiveBottom, massiveTop []vector3) {
@@ -354,6 +355,14 @@ func GenerateBottomRingSTL(plant *PlantAbstract) string {
 	return GenerateSTLWithPart(plant, STLExportBottomRing)
 }
 
+func GenerateVaseTrapezeBaseAndFirstRingSTL(plant *PlantAbstract) string {
+	return GenerateSTLWithPart(plant, STLExportVaseTrapezeBaseAndFirstRing)
+}
+
+func GenerateVaseTrapezeOneRingSTL(plant *PlantAbstract) string {
+	return GenerateSTLWithPart(plant, STLExportOneRing)
+}
+
 func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 	if plant == nil {
 		return ""
@@ -367,6 +376,8 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 		solidName = plant.Name + "_one_ring"
 	case STLExportBottomRing:
 		solidName = plant.Name + "_bottom_ring"
+	case STLExportVaseTrapezeBaseAndFirstRing:
+		solidName = plant.Name + "_base_first_ring"
 	}
 
 	var sb strings.Builder
@@ -382,7 +393,7 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 	radialRepetitions := 1
 	thickness := 5.0
 
-	if plant.PlantType == TubeVase {
+	if (plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze) && plant.TubeVaseAbstract != nil {
 		vase := plant.TubeVaseAbstract
 		radialRepetitions = max(vase.RadialRepetitions, 1)
 		sideLength = plant.RhombusSideLength
@@ -510,6 +521,23 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 			}
 		}
 
+		if plant.PlantType == VaseTrapeze && plant.TubeVaseAbstract != nil {
+			zStart := plant.TubeVaseAbstract.Z_Ribbon
+			scaleY := plant.TubeVaseAbstract.RibbonVerticalScale
+			if scaleY == 0 {
+				scaleY = 1.0
+			}
+			if len(curvePoints) > 0 {
+				y0 := curvePoints[0].Y
+				for i := range curvePoints {
+					curvePoints[i].Y = zStart + scaleY*(curvePoints[i].Y-y0)
+				}
+				for i := range topCurvePoints {
+					topCurvePoints[i].Y = zStart + scaleY*(topCurvePoints[i].Y-y0)
+				}
+			}
+		}
+
 		if len(curvePoints) > 1 && len(topCurvePoints) > 1 {
 			targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := getTargetAnglesSTL(curvePoints, topCurvePoints, 0.5, radialRepetitions)
 
@@ -523,7 +551,9 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 
 			h_horiz := relativeHorizontalRingsHeight * sideLength
 
-			if part == STLExportBottomRing {
+			if plant.PlantType == VaseTrapeze && plant.TubeVaseAbstract != nil {
+				writeVaseTrapezeSTL(&sb, plant, resampledBaseBottom, resampledBaseTop, radialRepetitions, part)
+			} else if part == STLExportBottomRing {
 				massiveBottom, massiveTop := buildBaseRingSTL(resampledBaseBottom, resampledBaseTop, radialRepetitions, 0.0)
 				writeRibbonLayerSTL(&sb, massiveBottom, massiveTop, 0.0, thickness, radialRepetitions)
 
@@ -729,3 +759,333 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 
 	return sb.String()
 }
+
+func writeQuadStripSTL(sb *strings.Builder, curveA, curveB []vector3) {
+	M := min(len(curveA), len(curveB))
+	if M < 3 {
+		return
+	}
+	for i := range M {
+		nextI := (i + 1) % M
+		a0 := curveA[i]
+		a1 := curveA[nextI]
+		b0 := curveB[i]
+		b1 := curveB[nextI]
+
+		writeFacet(sb, a0, b0, b1)
+		writeFacet(sb, a0, b1, a1)
+	}
+}
+
+func writeVaseTrapezeSTL(
+	sb *strings.Builder,
+	plant *PlantAbstract,
+	resampledBaseBottom, resampledBaseTop []vector3,
+	radialRepetitions int,
+	part STLExportPart,
+) {
+	if plant.TubeVaseAbstract == nil {
+		return
+	}
+	vase := plant.TubeVaseAbstract
+
+	trapezeBottomCurve, trapezeTopCurve := buildBaseRingSTL(resampledBaseBottom, resampledBaseTop, radialRepetitions, 0.0)
+	if len(trapezeBottomCurve) < 3 || len(trapezeTopCurve) < 3 {
+		return
+	}
+
+	scaleY := vase.RibbonVerticalScale
+	if scaleY == 0 {
+		scaleY = 1.0
+	}
+
+	p1H := vase.Z_Ribbon + vase.TopPlaneHeight*scaleY
+	p2H := vase.Z_Ribbon + vase.BottomPlaneHeight*scaleY
+	projAngleRad := -vase.ProjectionAngle * math.Pi / 180.0
+
+	projectCurve := func(srcCurve []vector3, planeHeight float64, dy float64) []vector3 {
+		var projCurve []vector3
+		for _, pt := range srcCurve {
+			origTheta := math.Atan2(pt.Z, pt.X)
+			r := math.Hypot(pt.X, pt.Z)
+			deltaY := (planeHeight - dy) - pt.Y
+			rProj := r + deltaY*math.Tan(projAngleRad)
+			newPt := vector3{
+				X: rProj * math.Cos(origTheta),
+				Y: planeHeight,
+				Z: rProj * math.Sin(origTheta),
+			}
+			if len(projCurve) > 0 {
+				prev := projCurve[len(projCurve)-1]
+				if math.Hypot(newPt.X-prev.X, newPt.Z-prev.Z) < 1e-3 {
+					continue
+				}
+			}
+			projCurve = append(projCurve, newPt)
+		}
+		if len(projCurve) > 2 {
+			first := projCurve[0]
+			last := projCurve[len(projCurve)-1]
+			if math.Hypot(last.X-first.X, last.Z-first.Z) < 1e-3 {
+				projCurve = projCurve[:len(projCurve)-1]
+			}
+		}
+		return projCurve
+	}
+
+	cTopP1 := projectCurve(trapezeTopCurve, p1H, 0)
+	cBottomP1 := projectCurve(trapezeBottomCurve, p1H, 0)
+	cTopP2 := projectCurve(trapezeTopCurve, p2H, 0)
+	cBottomP2 := projectCurve(trapezeBottomCurve, p2H, 0)
+
+	carvedParam := vase.CarvedOutTopRingsParameter
+	if carvedParam < 0 {
+		carvedParam = 0
+	}
+	if carvedParam > 1 {
+		carvedParam = 1
+	}
+
+	computeCarvedOutCurve := func(cTop, cBottom []vector3, param float64) []vector3 {
+		M := min(len(cTop), len(cBottom))
+		if M == 0 {
+			return nil
+		}
+
+		rMin := math.MaxFloat64
+		rMax := -math.MaxFloat64
+		for i := range M {
+			pt := cTop[i]
+			r := math.Hypot(pt.X, pt.Z)
+			if r < rMin {
+				rMin = r
+			}
+			if r > rMax {
+				rMax = r
+			}
+		}
+
+		rRange := rMax - rMin
+		carvedCurve := make([]vector3, 0, M)
+		for i := range M {
+			ptTop := cTop[i]
+			ptBottom := cBottom[i]
+			r := math.Hypot(ptTop.X, ptTop.Z)
+
+			coeff := 0.0
+			if rRange > 1e-6 {
+				coeff = param * (rMax - r) / rRange
+			}
+
+			carvedCurve = append(carvedCurve, vector3{
+				X: (1.0-coeff)*ptTop.X + coeff*ptBottom.X,
+				Y: (1.0-coeff)*ptTop.Y + coeff*ptBottom.Y,
+				Z: (1.0-coeff)*ptTop.Z + coeff*ptBottom.Z,
+			})
+		}
+		return carvedCurve
+	}
+
+	cCarvedTopP1 := computeCarvedOutCurve(cTopP1, cTopP2, carvedParam)
+	cCarvedBottomP1 := computeCarvedOutCurve(cBottomP1, cBottomP2, carvedParam)
+
+	M := min(len(cCarvedTopP1), len(cCarvedBottomP1), len(cTopP2), len(cBottomP2))
+	if M < 3 {
+		return
+	}
+	cCarvedTopP1 = cCarvedTopP1[:M]
+	cCarvedBottomP1 = cCarvedBottomP1[:M]
+	cTopP1 = cTopP1[:M]
+	cBottomP1 = cBottomP1[:M]
+	cTopP2 = cTopP2[:M]
+	cBottomP2 = cBottomP2[:M]
+
+	var sumRTop, sumRBottom float64
+	for i := range M {
+		sumRTop += math.Hypot(cTopP2[i].X, cTopP2[i].Z)
+		sumRBottom += math.Hypot(cBottomP2[i].X, cBottomP2[i].Z)
+	}
+
+	cOuterP1 := cCarvedTopP1
+	cInnerP1 := cCarvedBottomP1
+	cOuterP2 := cTopP2
+	cInnerP2 := cBottomP2
+	cOuterUncarvedP1 := cTopP1
+	if sumRBottom > sumRTop {
+		cOuterP1 = cCarvedBottomP1
+		cInnerP1 = cCarvedTopP1
+		cOuterP2 = cBottomP2
+		cInnerP2 = cTopP2
+		cOuterUncarvedP1 = cBottomP1
+	}
+
+	pBottomH := p2H
+	floorY := 0.0
+
+	includeBasePlate := (part == STLExportVaseTrapezeBaseAndFirstRing || part == STLExportAll) && pBottomH > floorY
+
+	// 1. Plane 1 annular face (top of ring, normal +Y)
+	writeQuadStripSTL(sb, cOuterP1, cInnerP1)
+	// 2. Outer wall of ring (normal +r)
+	writeQuadStripSTL(sb, cOuterP2, cOuterP1)
+	// 3. Inner wall of ring (normal -r)
+	writeQuadStripSTL(sb, cInnerP1, cInnerP2)
+
+	if !includeBasePlate {
+		// Close Plane 2 annular face (bottom of ring, normal -Y)
+		writeQuadStripSTL(sb, cInnerP2, cOuterP2)
+		return
+	}
+
+	// Base plate connected seamlessly at Plane 2 (cOuterP2 and cInnerP2)
+	hPlancher := vase.BasePlateHeight
+	if hPlancher < 0 {
+		hPlancher = 0
+	}
+	if hPlancher > (pBottomH - floorY) {
+		hPlancher = pBottomH - floorY
+	}
+
+	startMag := vase.BulbousStartTangentMagnitude
+	endAngleDeg := 30.0
+	if vase.BulbousEndAngle != 0.0 {
+		endAngleDeg = vase.BulbousEndAngle
+	}
+	endMag := vase.BulbousEndTangentMagnitude
+
+	S := 24
+	if startMag == 0 && endMag == 0 {
+		S = 1
+	}
+
+	outerPts := make([][]vector3, S+1)
+	innerPts := make([][]vector3, S+1)
+	for s := range S + 1 {
+		outerPts[s] = make([]vector3, M)
+		innerPts[s] = make([]vector3, M)
+	}
+
+	var sumOuterX, sumOuterZ float64
+	var sumInnerX, sumInnerZ float64
+
+	plancherY := floorY + hPlancher
+	verticalScale := 0.0
+	if pBottomH > floorY {
+		verticalScale = (pBottomH - plancherY) / (pBottomH - floorY)
+	}
+
+	beta := endAngleDeg * math.Pi / 180.0
+	tEndR := -math.Sin(beta)
+	tEndY := -math.Cos(beta)
+	v1R := endMag * tEndR
+	v1Y := endMag * tEndY
+
+	for i := range M {
+		ptOut := cOuterP2[i]
+		ptOutP1 := cOuterUncarvedP1[i]
+		ptIn := cInnerP2[i]
+
+		sumOuterX += ptOut.X
+		sumOuterZ += ptOut.Z
+		sumInnerX += ptIn.X
+		sumInnerZ += ptIn.Z
+
+		r0 := math.Hypot(ptOut.X, ptOut.Z)
+		rTop := math.Hypot(ptOutP1.X, ptOutP1.Z)
+		theta := math.Atan2(ptOut.Z, ptOut.X)
+		cosTheta := math.Cos(theta)
+		sinTheta := math.Sin(theta)
+
+		rIn0 := math.Hypot(ptIn.X, ptIn.Z)
+		thetaIn := math.Atan2(ptIn.Z, ptIn.X)
+		cosThetaIn := math.Cos(thetaIn)
+		sinThetaIn := math.Sin(thetaIn)
+		radialScale := 1.0
+		if r0 > 1e-6 {
+			radialScale = rIn0 / r0
+		}
+
+		// Vector from Plane 1 to Plane 2 in (r, y)
+		deltaR := r0 - rTop
+		deltaY := pBottomH - p1H
+		lRing := math.Hypot(deltaR, deltaY)
+		t0R := 0.0
+		t0Y := -1.0
+		if lRing > 1e-6 {
+			t0R = deltaR / lRing
+			t0Y = deltaY / lRing
+		}
+
+		v0R := startMag * t0R
+		v0Y := startMag * t0Y
+
+		// Cubic Bezier control points in (r, y)
+		p0R, p0Y := r0, pBottomH
+		p1R, p1Y := r0+v0R/3.0, pBottomH+v0Y/3.0
+		p2R, p2Y := r0-v1R/3.0, floorY-v1Y/3.0
+		p3R, p3Y := r0, floorY
+
+		for s := 0; s <= S; s++ {
+			t := float64(s) / float64(S)
+			omt := 1.0 - t
+			b0 := omt * omt * omt
+			b1 := 3.0 * omt * omt * t
+			b2 := 3.0 * omt * t * t
+			b3 := t * t * t
+
+			rs := b0*p0R + b1*p1R + b2*p2R + b3*p3R
+			ys := b0*p0Y + b1*p1Y + b2*p2Y + b3*p3R*0 + b3*p3Y
+
+			if s == 0 {
+				rs = r0
+				ys = pBottomH
+				outerPts[s][i] = ptOut
+			} else if s == S {
+				rs = r0
+				ys = floorY
+				outerPts[s][i] = vector3{X: r0 * cosTheta, Y: floorY, Z: r0 * sinTheta}
+			} else {
+				outerPts[s][i] = vector3{X: rs * cosTheta, Y: ys, Z: rs * sinTheta}
+			}
+
+			rsIn := rs * radialScale
+			ysIn := plancherY + (ys-floorY)*verticalScale
+
+			if s == 0 {
+				innerPts[s][i] = vector3{X: ptIn.X, Y: pBottomH, Z: ptIn.Z}
+			} else if s == S {
+				innerPts[s][i] = vector3{X: ptIn.X, Y: plancherY, Z: ptIn.Z}
+			} else {
+				innerPts[s][i] = vector3{X: rsIn * cosThetaIn, Y: ysIn, Z: rsIn * sinThetaIn}
+			}
+		}
+	}
+
+	plancherCenter := vector3{X: sumInnerX / float64(M), Y: plancherY, Z: sumInnerZ / float64(M)}
+	floorCenter := vector3{X: sumOuterX / float64(M), Y: floorY, Z: sumOuterZ / float64(M)}
+
+	for s := range S {
+		for i := range M {
+			nextI := (i + 1) % M
+			// 1. Outer bulbous wall of base plate (normal +r)
+			writeFacet(sb, outerPts[s][i], outerPts[s][nextI], outerPts[s+1][nextI])
+			writeFacet(sb, outerPts[s][i], outerPts[s+1][nextI], outerPts[s+1][i])
+
+			// 2. Inner curved wall of base plate (normal -r)
+			writeFacet(sb, innerPts[s][i], innerPts[s+1][nextI], innerPts[s][nextI])
+			writeFacet(sb, innerPts[s][i], innerPts[s+1][i], innerPts[s+1][nextI])
+		}
+	}
+
+	for i := range M {
+		nextI := (i + 1) % M
+
+		// 3. Plancher top disk (normal +Y)
+		writeFacet(sb, plancherCenter, innerPts[S][nextI], innerPts[S][i])
+
+		// 4. Floor bottom disk (normal -Y)
+		writeFacet(sb, floorCenter, outerPts[S][i], outerPts[S][nextI])
+	}
+}
+
+

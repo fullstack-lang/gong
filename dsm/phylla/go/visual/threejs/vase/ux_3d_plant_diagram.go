@@ -76,9 +76,6 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		!checkedDiagram.IsHiddenCarvedOutBottomCurvePlane1Shape ||
 		!checkedDiagram.IsHiddenVaseTrapezeRingShape ||
 		!checkedDiagram.IsHiddenCarvedOutVaseTrapezeRingShape ||
-		!checkedDiagram.IsHiddenStackOfVaseTrapezeRingsShape ||
-		!checkedDiagram.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape ||
-		!checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape ||
 		!checkedDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape ||
 		!checkedDiagram.IsHiddenVaseTrapezeBasePlateShape
 
@@ -523,48 +520,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			buildRingMesh(cTop, cBottom, cTopP2, cBottomP2, "Carved Out Vase Trapeze Ring", 0)
 		}
 
-		if (!checkedDiagram.IsHiddenStackOfVaseTrapezeRingsShape || !checkedDiagram.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape) && stackHeight > 0 {
-			numSteps := stackHeight - 1
-			dys := make([]float64, stackHeight)
-			dys[0] = 0.0
-
-			if numSteps > 0 {
-				var cumDY float64
-				for k := 1; k <= numSteps; k++ {
-					_, stepDY, _ := models.ComputePartiallyGrowthCurveDYForRatio(plant, 0.0)
-					cumDY += stepDY * scaleY
-					dys[k] = cumDY
-				}
-			}
-
-			for h := range stackHeight {
-				dy := dys[h]
-
-				var curBottomCurve, curTopCurve *threejs.Curve
-				if h == 0 {
-					curBottomCurve = trapezeBottomCurve
-					curTopCurve = trapezeTopCurve
-				} else {
-					curBottomCurve, curTopCurve = u.computeMassiveCurves(stager, 0, fmt.Sprintf("Trapeze Stack h%d", h), plant, resampledBaseBottom, resampledBaseTop)
-				}
-
-				ringTopP1 := projectCurve(curTopCurve, p1H+dy, dy, fmt.Sprintf("%s Stack Top P1 h%d", plant.Name, h))
-				ringBottomP1 := projectCurve(curBottomCurve, p1H+dy, dy, fmt.Sprintf("%s Stack Bottom P1 h%d", plant.Name, h))
-				ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Stack Top P2 h%d", plant.Name, h))
-				ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Stack Bottom P2 h%d", plant.Name, h))
-
-				if !checkedDiagram.IsHiddenStackOfVaseTrapezeRingsShape {
-					buildRingMesh(ringTopP1, ringBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Vase Trapeze Rings h%d", h), h)
-				}
-				if !checkedDiagram.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape {
-					ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopP2, carvedParam, fmt.Sprintf("%s Stack Carved Top P1 h%d", plant.Name, h))
-					ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomP2, carvedParam, fmt.Sprintf("%s Stack Carved Bottom P1 h%d", plant.Name, h))
-					buildRingMesh(ringCarvedTopP1, ringCarvedBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Carved Out Vase Trapeze Rings h%d", h), h)
-				}
-			}
-		}
-
-		if (!checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape || !checkedDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape) && stackHeight > 0 {
+		if !checkedDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape && stackHeight > 0 {
 			var growthVectorX, growthVectorY float64
 			if plant.GrowthVectorShape != nil {
 				growthVectorX = plant.GrowthVectorShape.X
@@ -587,80 +543,55 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			verticalThickness := relativeVerticalThickness * sideLength
 			rotatedSeparation := relativeRotatedTorusSeparation * sideLength
 
-			if !checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape {
-				for h := range stackHeight {
-					dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
-					dy := (float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation) * scaleY
-					thetaOffset := dx / globalR
+			numSteps := stackHeight - 1
+			dxs := make([]float64, stackHeight)
+			dys := make([]float64, stackHeight)
+			dxs[0] = 0.0
+			dys[0] = 0.0
 
-					var curBottomCurve, curTopCurve *threejs.Curve
-					if h == 0 {
-						curBottomCurve = trapezeBottomCurve
-						curTopCurve = trapezeTopCurve
+			if numSteps > 0 {
+				_, unrotatedStepDY, _ := models.ComputePartiallyGrowthCurveDYForRatio(plant, 0.0)
+				unrotatedStepDY *= scaleY
+
+				rotatedStepDX := growthVectorX + verticalThickness*vx
+				rotatedStepDY := (growthVectorY + verticalThickness*vy + rotatedSeparation) * scaleY
+
+				var cumDX, cumDY float64
+				for k := 1; k <= numSteps; k++ {
+					stepOrder := numSteps - k + 1
+					threshold := float64(stepOrder) / float64(stackHeight)
+					if rotRatio+1e-9 >= threshold {
+						cumDX += rotatedStepDX
+						cumDY += rotatedStepDY
 					} else {
-						curBottomCurve, curTopCurve = u.computeMassiveCurves(stager, thetaOffset, fmt.Sprintf("Trapeze Rotated Stack h%d", h), plant, resampledBaseBottom, resampledBaseTop)
+						cumDY += unrotatedStepDY
 					}
-
-					ringTopP1 := projectCurve(curTopCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Stack Top P1 h%d", plant.Name, h))
-					ringBottomP1 := projectCurve(curBottomCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Stack Bottom P1 h%d", plant.Name, h))
-					ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Stack Top P2 h%d", plant.Name, h))
-					ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Stack Bottom P2 h%d", plant.Name, h))
-
-					buildRingMesh(ringTopP1, ringBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Rotated Vase Trapeze Rings h%d", h), h)
+					dxs[k] = cumDX
+					dys[k] = cumDY
 				}
 			}
 
-			if !checkedDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape {
-				numSteps := stackHeight - 1
-				dxs := make([]float64, stackHeight)
-				dys := make([]float64, stackHeight)
-				dxs[0] = 0.0
-				dys[0] = 0.0
+			for h := range stackHeight {
+				dx := dxs[h]
+				dy := dys[h]
+				thetaOffset := dx / globalR
 
-				if numSteps > 0 {
-					_, unrotatedStepDY, _ := models.ComputePartiallyGrowthCurveDYForRatio(plant, 0.0)
-					unrotatedStepDY *= scaleY
-
-					rotatedStepDX := growthVectorX + verticalThickness*vx
-					rotatedStepDY := (growthVectorY + verticalThickness*vy + rotatedSeparation) * scaleY
-
-					var cumDX, cumDY float64
-					for k := 1; k <= numSteps; k++ {
-						stepOrder := numSteps - k + 1
-						threshold := float64(stepOrder) / float64(stackHeight)
-						if rotRatio+1e-9 >= threshold {
-							cumDX += rotatedStepDX
-							cumDY += rotatedStepDY
-						} else {
-							cumDY += unrotatedStepDY
-						}
-						dxs[k] = cumDX
-						dys[k] = cumDY
-					}
+				var curBottomCurve, curTopCurve *threejs.Curve
+				if h == 0 {
+					curBottomCurve = trapezeBottomCurve
+					curTopCurve = trapezeTopCurve
+				} else {
+					curBottomCurve, curTopCurve = u.computeMassiveCurves(stager, thetaOffset, fmt.Sprintf("Trapeze Rotated Carved Stack h%d", h), plant, resampledBaseBottom, resampledBaseTop)
 				}
 
-				for h := range stackHeight {
-					dx := dxs[h]
-					dy := dys[h]
-					thetaOffset := dx / globalR
+				ringTopP1 := projectCurve(curTopCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P1 h%d", plant.Name, h))
+				ringBottomP1 := projectCurve(curBottomCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P1 h%d", plant.Name, h))
+				ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P2 h%d", plant.Name, h))
+				ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P2 h%d", plant.Name, h))
 
-					var curBottomCurve, curTopCurve *threejs.Curve
-					if h == 0 {
-						curBottomCurve = trapezeBottomCurve
-						curTopCurve = trapezeTopCurve
-					} else {
-						curBottomCurve, curTopCurve = u.computeMassiveCurves(stager, thetaOffset, fmt.Sprintf("Trapeze Rotated Carved Stack h%d", h), plant, resampledBaseBottom, resampledBaseTop)
-					}
-
-					ringTopP1 := projectCurve(curTopCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P1 h%d", plant.Name, h))
-					ringBottomP1 := projectCurve(curBottomCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P1 h%d", plant.Name, h))
-					ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P2 h%d", plant.Name, h))
-					ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P2 h%d", plant.Name, h))
-
-					ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Top P1 h%d", plant.Name, h))
-					ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Bottom P1 h%d", plant.Name, h))
-					buildRingMesh(ringCarvedTopP1, ringCarvedBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Rotated Carved Out Vase Trapeze Rings h%d", h), h)
-				}
+				ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Top P1 h%d", plant.Name, h))
+				ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Bottom P1 h%d", plant.Name, h))
+				buildRingMesh(ringCarvedTopP1, ringCarvedBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Rotated Carved Out Vase Trapeze Rings h%d", h), h)
 			}
 		}
 
@@ -723,14 +654,20 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			}).Stage(threejsStage)
 
 			idxOuter := make([][]int, S+1)
-			for s := range idxOuter {
+			idxInner := make([][]int, S+1)
+			for s := range S + 1 {
 				idxOuter[s] = make([]int, M)
+				idxInner[s] = make([]int, M)
 			}
-			idxInnerTop := make([]int, M)
-			idxInnerPlancher := make([]int, M)
 
 			var sumOuterX, sumOuterZ float64
 			var sumInnerX, sumInnerZ float64
+
+			plancherY := floorY + hPlancher
+			verticalScale := 0.0
+			if pBottomH > floorY {
+				verticalScale = (pBottomH - plancherY) / (pBottomH - floorY)
+			}
 
 			beta := endAngleDeg * math.Pi / 180.0
 			tEndR := -math.Sin(beta)
@@ -753,6 +690,15 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				theta := math.Atan2(ptOut.Z, ptOut.X)
 				cosTheta := math.Cos(theta)
 				sinTheta := math.Sin(theta)
+
+				rIn0 := math.Hypot(ptIn.X, ptIn.Z)
+				thetaIn := math.Atan2(ptIn.Z, ptIn.X)
+				cosThetaIn := math.Cos(thetaIn)
+				sinThetaIn := math.Sin(thetaIn)
+				radialScale := 1.0
+				if r0 > 1e-6 {
+					radialScale = rIn0 / r0
+				}
 
 				// Vector from Plane 1 to Plane 2 in (r, y)
 				deltaR := r0 - rTop
@@ -810,27 +756,37 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 						Y:    ys,
 						Z:    rs * sinTheta,
 					}).Stage(threejsStage))
+
+					rsIn := rs * radialScale
+					ysIn := plancherY + (ys-floorY)*verticalScale
+
+					var vInName string
+					var inX, inY, inZ float64
+					if s == 0 {
+						vInName = fmt.Sprintf("%s %s Inner Top %d", plant.Name, shapeName, i)
+						inX, inY, inZ = ptIn.X, pBottomH, ptIn.Z
+					} else if s == S {
+						vInName = fmt.Sprintf("%s %s Inner Plancher %d", plant.Name, shapeName, i)
+						inX, inY, inZ = ptIn.X, plancherY, ptIn.Z
+					} else {
+						vInName = fmt.Sprintf("%s %s Inner s%d %d", plant.Name, shapeName, s, i)
+						inX, inY, inZ = rsIn*cosThetaIn, ysIn, rsIn*sinThetaIn
+					}
+
+					idxInner[s][i] = len(basePlateGeom.Vertices)
+					basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+						Name: vInName,
+						X:    inX,
+						Y:    inY,
+						Z:    inZ,
+					}).Stage(threejsStage))
 				}
-
-				// Inner Top (at bottom plane)
-				idxInnerTop[i] = len(basePlateGeom.Vertices)
-				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
-					Name: fmt.Sprintf("%s %s Inner Top %d", plant.Name, shapeName, i),
-					X:    ptIn.X, Y: pBottomH, Z: ptIn.Z,
-				}).Stage(threejsStage))
-
-				// Inner Plancher (at floor + hPlancher)
-				idxInnerPlancher[i] = len(basePlateGeom.Vertices)
-				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
-					Name: fmt.Sprintf("%s %s Inner Plancher %d", plant.Name, shapeName, i),
-					X:    ptIn.X, Y: floorY + hPlancher, Z: ptIn.Z,
-				}).Stage(threejsStage))
 			}
 
 			idxPlancherCenter := len(basePlateGeom.Vertices)
 			basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
 				Name: fmt.Sprintf("%s %s Plancher Center", plant.Name, shapeName),
-				X:    sumInnerX / float64(M), Y: floorY + hPlancher, Z: sumInnerZ / float64(M),
+				X:    sumInnerX / float64(M), Y: plancherY, Z: sumInnerZ / float64(M),
 			}).Stage(threejsStage))
 
 			idxFloorCenter := len(basePlateGeom.Vertices)
@@ -842,6 +798,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			for s := 0; s < S; s++ {
 				for i := 0; i < M; i++ {
 					nextI := (i + 1) % M
+					// 1. Outer bulbous wall
 					basePlateGeom.Faces = append(basePlateGeom.Faces,
 						(&threejs.Triangle{
 							Name: fmt.Sprintf("%s %s Outer Wall T1 s%d %d", plant.Name, shapeName, s, i),
@@ -852,33 +809,33 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 							V1:   idxOuter[s][i], V2: idxOuter[s+1][nextI], V3: idxOuter[s+1][i],
 						}).Stage(threejsStage),
 					)
+
+					// 2. Inner curved wall (following scaled Bezier curve, normal pointing inward -r)
+					basePlateGeom.Faces = append(basePlateGeom.Faces,
+						(&threejs.Triangle{
+							Name: fmt.Sprintf("%s %s Inner Wall T1 s%d %d", plant.Name, shapeName, s, i),
+							V1:   idxInner[s][i], V2: idxInner[s+1][nextI], V3: idxInner[s][nextI],
+						}).Stage(threejsStage),
+						(&threejs.Triangle{
+							Name: fmt.Sprintf("%s %s Inner Wall T2 s%d %d", plant.Name, shapeName, s, i),
+							V1:   idxInner[s][i], V2: idxInner[s+1][i], V3: idxInner[s+1][nextI],
+						}).Stage(threejsStage),
+					)
 				}
 			}
 
 			for i := 0; i < M; i++ {
 				nextI := (i + 1) % M
 
-				// 2. Inner vertical wall (normal pointing inward -r):
-				basePlateGeom.Faces = append(basePlateGeom.Faces,
-					(&threejs.Triangle{
-						Name: fmt.Sprintf("%s %s Inner Wall T1 %d", plant.Name, shapeName, i),
-						V1:   idxInnerTop[i], V2: idxInnerTop[nextI], V3: idxInnerPlancher[nextI],
-					}).Stage(threejsStage),
-					(&threejs.Triangle{
-						Name: fmt.Sprintf("%s %s Inner Wall T2 %d", plant.Name, shapeName, i),
-						V1:   idxInnerTop[i], V2: idxInnerPlancher[nextI], V3: idxInnerPlancher[i],
-					}).Stage(threejsStage),
-				)
-
 				// 3. Top annular face at pBottomH (normal pointing up +Y):
 				basePlateGeom.Faces = append(basePlateGeom.Faces,
 					(&threejs.Triangle{
 						Name: fmt.Sprintf("%s %s Top Face T1 %d", plant.Name, shapeName, i),
-						V1:   idxInnerTop[i], V2: idxOuter[0][nextI], V3: idxOuter[0][i],
+						V1:   idxInner[0][i], V2: idxOuter[0][nextI], V3: idxOuter[0][i],
 					}).Stage(threejsStage),
 					(&threejs.Triangle{
 						Name: fmt.Sprintf("%s %s Top Face T2 %d", plant.Name, shapeName, i),
-						V1:   idxInnerTop[i], V2: idxInnerTop[nextI], V3: idxOuter[0][nextI],
+						V1:   idxInner[0][i], V2: idxInner[0][nextI], V3: idxOuter[0][nextI],
 					}).Stage(threejsStage),
 				)
 
@@ -886,7 +843,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				basePlateGeom.Faces = append(basePlateGeom.Faces,
 					(&threejs.Triangle{
 						Name: fmt.Sprintf("%s %s Plancher Face %d", plant.Name, shapeName, i),
-						V1:   idxPlancherCenter, V2: idxInnerPlancher[nextI], V3: idxInnerPlancher[i],
+						V1:   idxPlancherCenter, V2: idxInner[S][nextI], V3: idxInner[S][i],
 					}).Stage(threejsStage),
 				)
 

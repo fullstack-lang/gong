@@ -1407,19 +1407,6 @@ func FillUpFormFromGongstructName(
 		stackgrowthcurve2dstarthalfwayarcshape := new(models.StackGrowthCurve2DStartHalfwayArcShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stackgrowthcurve2dstarthalfwayarcshape, formGroup, probe)
-	case "StackOfCarvedOutVaseTrapezeRingsShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "StackOfCarvedOutVaseTrapezeRingsShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StackOfCarvedOutVaseTrapezeRingsShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		stackofcarvedoutvasetrapezeringsshape := new(models.StackOfCarvedOutVaseTrapezeRingsShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(stackofcarvedoutvasetrapezeringsshape, formGroup, probe)
 	case "StackOfGrowthCurve2D":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1511,32 +1498,6 @@ func FillUpFormFromGongstructName(
 		stackofrotatedgrowthcurve2dribbon := new(models.StackOfRotatedGrowthCurve2DRibbon)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stackofrotatedgrowthcurve2dribbon, formGroup, probe)
-	case "StackOfRotatedVaseTrapezeRingsShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "StackOfRotatedVaseTrapezeRingsShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StackOfRotatedVaseTrapezeRingsShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		stackofrotatedvasetrapezeringsshape := new(models.StackOfRotatedVaseTrapezeRingsShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(stackofrotatedvasetrapezeringsshape, formGroup, probe)
-	case "StackOfVaseTrapezeRingsShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "StackOfVaseTrapezeRingsShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StackOfVaseTrapezeRingsShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		stackofvasetrapezeringsshape := new(models.StackOfVaseTrapezeRingsShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(stackofvasetrapezeringsshape, formGroup, probe)
 	case "StackRotatedGrowthCurve2DEndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

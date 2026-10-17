@@ -148,9 +148,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refCarvedOutBottomCurvePlane1Shape := make(map[*CarvedOutBottomCurvePlane1Shape]bool)
 	refVaseTrapezeRingShape := make(map[*VaseTrapezeRingShape]bool)
 	refCarvedOutVaseTrapezeRingShape := make(map[*CarvedOutVaseTrapezeRingShape]bool)
-	refStackOfVaseTrapezeRingsShape := make(map[*StackOfVaseTrapezeRingsShape]bool)
-	refStackOfCarvedOutVaseTrapezeRingsShape := make(map[*StackOfCarvedOutVaseTrapezeRingsShape]bool)
-	refStackOfRotatedVaseTrapezeRingsShape := make(map[*StackOfRotatedVaseTrapezeRingsShape]bool)
 	refStackOfRotatedCarvedOutVaseTrapezeRingsShape := make(map[*StackOfRotatedCarvedOutVaseTrapezeRingsShape]bool)
 	refVaseTrapezeBasePlateShape := make(map[*VaseTrapezeBasePlateShape]bool)
 
@@ -541,15 +538,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		if diagram.CarvedOutVaseTrapezeRingShape != nil {
 			refCarvedOutVaseTrapezeRingShape[diagram.CarvedOutVaseTrapezeRingShape] = true
 		}
-		if diagram.StackOfVaseTrapezeRingsShape != nil {
-			refStackOfVaseTrapezeRingsShape[diagram.StackOfVaseTrapezeRingsShape] = true
-		}
-		if diagram.StackOfCarvedOutVaseTrapezeRingsShape != nil {
-			refStackOfCarvedOutVaseTrapezeRingsShape[diagram.StackOfCarvedOutVaseTrapezeRingsShape] = true
-		}
-		if diagram.StackOfRotatedVaseTrapezeRingsShape != nil {
-			refStackOfRotatedVaseTrapezeRingsShape[diagram.StackOfRotatedVaseTrapezeRingsShape] = true
-		}
 		if diagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape != nil {
 			refStackOfRotatedCarvedOutVaseTrapezeRingsShape[diagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape] = true
 		}
@@ -939,24 +927,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	}
 	for shape := range *stage.GetInstancesSet[*CarvedOutVaseTrapezeRingShape]() {
 		if !refCarvedOutVaseTrapezeRingShape[shape] {
-			shape.Unstage(stage)
-			needCommit = true
-		}
-	}
-	for shape := range *stage.GetInstancesSet[*StackOfVaseTrapezeRingsShape]() {
-		if !refStackOfVaseTrapezeRingsShape[shape] {
-			shape.Unstage(stage)
-			needCommit = true
-		}
-	}
-	for shape := range *stage.GetInstancesSet[*StackOfCarvedOutVaseTrapezeRingsShape]() {
-		if !refStackOfCarvedOutVaseTrapezeRingsShape[shape] {
-			shape.Unstage(stage)
-			needCommit = true
-		}
-	}
-	for shape := range *stage.GetInstancesSet[*StackOfRotatedVaseTrapezeRingsShape]() {
-		if !refStackOfRotatedVaseTrapezeRingsShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

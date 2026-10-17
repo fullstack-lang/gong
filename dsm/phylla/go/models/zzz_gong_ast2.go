@@ -2985,23 +2985,6 @@ func (u *StackGrowthCurve2DStartHalfwayArcShapeUnmarshaller) UnmarshallField(sta
 	return nil
 }
 
-type StackOfCarvedOutVaseTrapezeRingsShapeUnmarshaller struct{}
-
-func (u *StackOfCarvedOutVaseTrapezeRingsShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	return GongInitialize(new(StackOfCarvedOutVaseTrapezeRingsShape), stage, identifier, instanceName, preserveOrder)
-}
-
-func (u *StackOfCarvedOutVaseTrapezeRingsShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*StackOfCarvedOutVaseTrapezeRingsShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	}
-	return nil
-}
-
 type StackOfGrowthCurve2DUnmarshaller struct{}
 
 func (u *StackOfGrowthCurve2DUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -3133,40 +3116,6 @@ func (u *StackOfRotatedGrowthCurve2DRibbonUnmarshaller) UnmarshallField(stage *S
 		GongUnmarshallSliceOfPointers(&instance.StackRotatedGrowthCurve2DRibbonStartShapes, valueExpr, identifierMap)
 	case "StackRotatedGrowthCurve2DRibbonEndShapes":
 		GongUnmarshallSliceOfPointers(&instance.StackRotatedGrowthCurve2DRibbonEndShapes, valueExpr, identifierMap)
-	}
-	return nil
-}
-
-type StackOfRotatedVaseTrapezeRingsShapeUnmarshaller struct{}
-
-func (u *StackOfRotatedVaseTrapezeRingsShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	return GongInitialize(new(StackOfRotatedVaseTrapezeRingsShape), stage, identifier, instanceName, preserveOrder)
-}
-
-func (u *StackOfRotatedVaseTrapezeRingsShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*StackOfRotatedVaseTrapezeRingsShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	}
-	return nil
-}
-
-type StackOfVaseTrapezeRingsShapeUnmarshaller struct{}
-
-func (u *StackOfVaseTrapezeRingsShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	return GongInitialize(new(StackOfVaseTrapezeRingsShape), stage, identifier, instanceName, preserveOrder)
-}
-
-func (u *StackOfVaseTrapezeRingsShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*StackOfVaseTrapezeRingsShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -4220,12 +4169,6 @@ func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		instance.IsHiddenVaseTrapezeRingShape = GongExtractBool(valueExpr)
 	case "IsHiddenCarvedOutVaseTrapezeRingShape":
 		instance.IsHiddenCarvedOutVaseTrapezeRingShape = GongExtractBool(valueExpr)
-	case "IsHiddenStackOfVaseTrapezeRingsShape":
-		instance.IsHiddenStackOfVaseTrapezeRingsShape = GongExtractBool(valueExpr)
-	case "IsHiddenStackOfCarvedOutVaseTrapezeRingsShape":
-		instance.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape = GongExtractBool(valueExpr)
-	case "IsHiddenStackOfRotatedVaseTrapezeRingsShape":
-		instance.IsHiddenStackOfRotatedVaseTrapezeRingsShape = GongExtractBool(valueExpr)
 	case "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape":
 		instance.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = GongExtractBool(valueExpr)
 	case "IsHiddenVaseTrapezeBasePlateShape":
@@ -4274,12 +4217,6 @@ func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		GongUnmarshallPointer(&instance.VaseTrapezeRingShape, valueExpr, identifierMap)
 	case "CarvedOutVaseTrapezeRingShape":
 		GongUnmarshallPointer(&instance.CarvedOutVaseTrapezeRingShape, valueExpr, identifierMap)
-	case "StackOfVaseTrapezeRingsShape":
-		GongUnmarshallPointer(&instance.StackOfVaseTrapezeRingsShape, valueExpr, identifierMap)
-	case "StackOfCarvedOutVaseTrapezeRingsShape":
-		GongUnmarshallPointer(&instance.StackOfCarvedOutVaseTrapezeRingsShape, valueExpr, identifierMap)
-	case "StackOfRotatedVaseTrapezeRingsShape":
-		GongUnmarshallPointer(&instance.StackOfRotatedVaseTrapezeRingsShape, valueExpr, identifierMap)
 	case "StackOfRotatedCarvedOutVaseTrapezeRingsShape":
 		GongUnmarshallPointer(&instance.StackOfRotatedCarvedOutVaseTrapezeRingsShape, valueExpr, identifierMap)
 	case "VaseTrapezeBasePlateShape":

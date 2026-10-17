@@ -23,42 +23,36 @@ type TubeVase3DDiagram struct {
 	IsHiddenBottomCurvePlane2Shape                     bool
 	IsHiddenCarvedOutTopCurvePlane1Shape               bool
 	IsHiddenCarvedOutBottomCurvePlane1Shape            bool
-	IsHiddenVaseTrapezeRingShape                       bool
-	IsHiddenCarvedOutVaseTrapezeRingShape              bool
-	IsHiddenStackOfVaseTrapezeRingsShape               bool
-	IsHiddenStackOfCarvedOutVaseTrapezeRingsShape      bool
-	IsHiddenStackOfRotatedVaseTrapezeRingsShape        bool
+	IsHiddenVaseTrapezeRingShape                         bool
+	IsHiddenCarvedOutVaseTrapezeRingShape                bool
 	IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape bool
-	IsHiddenVaseTrapezeBasePlateShape                  bool
+	IsHiddenVaseTrapezeBasePlateShape                    bool
 
 	Rendered3DShape *Rendered3DShape
 
-	TorusStackShape                         *TorusStackShape
-	VerticalTorusStackShape                 *VerticalTorusStackShape
-	PartiallyRotatedTorusShape              *PartiallyRotatedTorusShape
-	StackOfPartiallyRotatedTorusShape       *StackOfPartiallyRotatedTorusShape
-	PointsAndLines3DShape                   *PointsAndLines3DShape
-	SampledPoints3DShape                    *SampledPoints3DShape
-	OriginalPoints3DShape                   *OriginalPoints3DShape
-	Angle0Shape                             *Angle0Shape
-	KeyHole3DShape                          *KeyHole3DShape
-	Key3DShape                              *Key3DShape
-	VolumeKey3DShape                        *VolumeKey3DShape
-	TorusEdge3DShape                        *TorusEdge3DShape
-	TiledFloor3DShape                       *TiledFloor3DShape
-	TopCurvePlane1Shape                     *TopCurvePlane1Shape
-	BottomCurvePlane1Shape                  *BottomCurvePlane1Shape
-	TopCurvePlane2Shape                     *TopCurvePlane2Shape
-	BottomCurvePlane2Shape                  *BottomCurvePlane2Shape
-	CarvedOutTopCurvePlane1Shape            *CarvedOutTopCurvePlane1Shape
-	CarvedOutBottomCurvePlane1Shape         *CarvedOutBottomCurvePlane1Shape
-	VaseTrapezeRingShape                    *VaseTrapezeRingShape
-	CarvedOutVaseTrapezeRingShape           *CarvedOutVaseTrapezeRingShape
-	StackOfVaseTrapezeRingsShape            *StackOfVaseTrapezeRingsShape
-	StackOfCarvedOutVaseTrapezeRingsShape   *StackOfCarvedOutVaseTrapezeRingsShape
-	StackOfRotatedVaseTrapezeRingsShape     *StackOfRotatedVaseTrapezeRingsShape
+	TorusStackShape                              *TorusStackShape
+	VerticalTorusStackShape                      *VerticalTorusStackShape
+	PartiallyRotatedTorusShape                   *PartiallyRotatedTorusShape
+	StackOfPartiallyRotatedTorusShape            *StackOfPartiallyRotatedTorusShape
+	PointsAndLines3DShape                        *PointsAndLines3DShape
+	SampledPoints3DShape                         *SampledPoints3DShape
+	OriginalPoints3DShape                        *OriginalPoints3DShape
+	Angle0Shape                                  *Angle0Shape
+	KeyHole3DShape                               *KeyHole3DShape
+	Key3DShape                                   *Key3DShape
+	VolumeKey3DShape                             *VolumeKey3DShape
+	TorusEdge3DShape                             *TorusEdge3DShape
+	TiledFloor3DShape                            *TiledFloor3DShape
+	TopCurvePlane1Shape                          *TopCurvePlane1Shape
+	BottomCurvePlane1Shape                       *BottomCurvePlane1Shape
+	TopCurvePlane2Shape                          *TopCurvePlane2Shape
+	BottomCurvePlane2Shape                       *BottomCurvePlane2Shape
+	CarvedOutTopCurvePlane1Shape                 *CarvedOutTopCurvePlane1Shape
+	CarvedOutBottomCurvePlane1Shape              *CarvedOutBottomCurvePlane1Shape
+	VaseTrapezeRingShape                         *VaseTrapezeRingShape
+	CarvedOutVaseTrapezeRingShape                *CarvedOutVaseTrapezeRingShape
 	StackOfRotatedCarvedOutVaseTrapezeRingsShape *StackOfRotatedCarvedOutVaseTrapezeRingsShape
-	VaseTrapezeBasePlateShape               *VaseTrapezeBasePlateShape
+	VaseTrapezeBasePlateShape                    *VaseTrapezeBasePlateShape
 
 	IsChecked bool
 	AbstractTypeFields
@@ -73,18 +67,6 @@ type VaseTrapezeRingShape struct {
 }
 
 type CarvedOutVaseTrapezeRingShape struct {
-	Name string
-}
-
-type StackOfVaseTrapezeRingsShape struct {
-	Name string
-}
-
-type StackOfCarvedOutVaseTrapezeRingsShape struct {
-	Name string
-}
-
-type StackOfRotatedVaseTrapezeRingsShape struct {
 	Name string
 }
 

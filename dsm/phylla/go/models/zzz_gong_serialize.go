@@ -761,13 +761,6 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
-			for instance := range stage.StackOfCarvedOutVaseTrapezeRingsShapes {
-				instances = append(instances, instance)
-			}
-			stage.SerializeExcelize(f, "StackOfCarvedOutVaseTrapezeRingsShape", instances, (*StackOfCarvedOutVaseTrapezeRingsShape)(nil).GongGetFieldHeaders(), addIDs)
-		}
-		{
-			var instances []GongstructIF
 			for instance := range stage.StackOfGrowthCurve2Ds {
 				instances = append(instances, instance)
 			}
@@ -814,20 +807,6 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "StackOfRotatedGrowthCurve2DRibbon", instances, (*StackOfRotatedGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs)
-		}
-		{
-			var instances []GongstructIF
-			for instance := range stage.StackOfRotatedVaseTrapezeRingsShapes {
-				instances = append(instances, instance)
-			}
-			stage.SerializeExcelize(f, "StackOfRotatedVaseTrapezeRingsShape", instances, (*StackOfRotatedVaseTrapezeRingsShape)(nil).GongGetFieldHeaders(), addIDs)
-		}
-		{
-			var instances []GongstructIF
-			for instance := range stage.StackOfVaseTrapezeRingsShapes {
-				instances = append(instances, instance)
-			}
-			stage.SerializeExcelize(f, "StackOfVaseTrapezeRingsShape", instances, (*StackOfVaseTrapezeRingsShape)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF

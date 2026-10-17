@@ -314,6 +314,52 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			},
 		}
 		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, downloadBtn)
+	} else if plant.PlantType == VaseTrapeze {
+		if currentView == VIEW_VASE_TRAPEZE_3D {
+			baseFirstRingBtn := &tree.Button{
+				Name:            "export base+first ring STL",
+				Icon:            string(buttons.BUTTON_vertical_align_bottom),
+				ToolTipText:     "export base+first ring STL",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					stager.loadStage.Reset()
+					fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+
+					stlContent := GenerateVaseTrapezeBaseAndFirstRingSTL(plant)
+
+					fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
+					fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-base-first-ring.stl"
+					stager.loadStage.Commit()
+
+					time.Sleep(1 * time.Second)
+					stager.load()
+				},
+			}
+			plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, baseFirstRingBtn)
+
+			oneRingBtn := &tree.Button{
+				Name:            "export one ring STL",
+				Icon:            string(buttons.BUTTON_vertical_align_center),
+				ToolTipText:     "export one ring STL",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					stager.loadStage.Reset()
+					fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+
+					stlContent := GenerateVaseTrapezeOneRingSTL(plant)
+
+					fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
+					fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-one-ring.stl"
+					stager.loadStage.Commit()
+
+					time.Sleep(1 * time.Second)
+					stager.load()
+				},
+			}
+			plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, oneRingBtn)
+		}
 	} else {
 		downloadBtn := &tree.Button{
 			Name:            "Download STL",

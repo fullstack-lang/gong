@@ -665,19 +665,6 @@ func StageSetFillUpForm(
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("models.TubeVase3DDiagram", "SampledPoints3DShape", refNames, formGroup, probe.formStage)
 		}
-	case *models.StackOfCarvedOutVaseTrapezeRingsShape:
-		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
-
-		{
-			var refNames []string
-			for src := range probe.stageSet.Stage.TubeVase3DDiagrams {
-				if src.StackOfCarvedOutVaseTrapezeRingsShape == inst {
-					refNames = append(refNames, src.GetName())
-				}
-			}
-			sort.Strings(refNames)
-			StageSetAssociationReverseFieldToForm("models.TubeVase3DDiagram", "StackOfCarvedOutVaseTrapezeRingsShape", refNames, formGroup, probe.formStage)
-		}
 	case *models.StackOfRotatedCarvedOutVaseTrapezeRingsShape:
 		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
 
@@ -690,32 +677,6 @@ func StageSetFillUpForm(
 			}
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("models.TubeVase3DDiagram", "StackOfRotatedCarvedOutVaseTrapezeRingsShape", refNames, formGroup, probe.formStage)
-		}
-	case *models.StackOfRotatedVaseTrapezeRingsShape:
-		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
-
-		{
-			var refNames []string
-			for src := range probe.stageSet.Stage.TubeVase3DDiagrams {
-				if src.StackOfRotatedVaseTrapezeRingsShape == inst {
-					refNames = append(refNames, src.GetName())
-				}
-			}
-			sort.Strings(refNames)
-			StageSetAssociationReverseFieldToForm("models.TubeVase3DDiagram", "StackOfRotatedVaseTrapezeRingsShape", refNames, formGroup, probe.formStage)
-		}
-	case *models.StackOfVaseTrapezeRingsShape:
-		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
-
-		{
-			var refNames []string
-			for src := range probe.stageSet.Stage.TubeVase3DDiagrams {
-				if src.StackOfVaseTrapezeRingsShape == inst {
-					refNames = append(refNames, src.GetName())
-				}
-			}
-			sort.Strings(refNames)
-			StageSetAssociationReverseFieldToForm("models.TubeVase3DDiagram", "StackOfVaseTrapezeRingsShape", refNames, formGroup, probe.formStage)
 		}
 	case *models.StemCylinder3DShape:
 		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
@@ -858,9 +819,6 @@ func StageSetFillUpForm(
 		StageSetBasicFieldtoForm("IsHiddenCarvedOutBottomCurvePlane1Shape", inst.IsHiddenCarvedOutBottomCurvePlane1Shape, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsHiddenVaseTrapezeRingShape", inst.IsHiddenVaseTrapezeRingShape, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsHiddenCarvedOutVaseTrapezeRingShape", inst.IsHiddenCarvedOutVaseTrapezeRingShape, probe.formStage, formGroup)
-		StageSetBasicFieldtoForm("IsHiddenStackOfVaseTrapezeRingsShape", inst.IsHiddenStackOfVaseTrapezeRingsShape, probe.formStage, formGroup)
-		StageSetBasicFieldtoForm("IsHiddenStackOfCarvedOutVaseTrapezeRingsShape", inst.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape, probe.formStage, formGroup)
-		StageSetBasicFieldtoForm("IsHiddenStackOfRotatedVaseTrapezeRingsShape", inst.IsHiddenStackOfRotatedVaseTrapezeRingsShape, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape", inst.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsHiddenVaseTrapezeBasePlateShape", inst.IsHiddenVaseTrapezeBasePlateShape, probe.formStage, formGroup)
 		StageSetAssociationFieldToForm("Rendered3DShape", inst.Rendered3DShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.Rendered3DShape](), probe.formStage)
@@ -885,9 +843,6 @@ func StageSetFillUpForm(
 		StageSetAssociationFieldToForm("CarvedOutBottomCurvePlane1Shape", inst.CarvedOutBottomCurvePlane1Shape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.CarvedOutBottomCurvePlane1Shape](), probe.formStage)
 		StageSetAssociationFieldToForm("VaseTrapezeRingShape", inst.VaseTrapezeRingShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.VaseTrapezeRingShape](), probe.formStage)
 		StageSetAssociationFieldToForm("CarvedOutVaseTrapezeRingShape", inst.CarvedOutVaseTrapezeRingShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.CarvedOutVaseTrapezeRingShape](), probe.formStage)
-		StageSetAssociationFieldToForm("StackOfVaseTrapezeRingsShape", inst.StackOfVaseTrapezeRingsShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.StackOfVaseTrapezeRingsShape](), probe.formStage)
-		StageSetAssociationFieldToForm("StackOfCarvedOutVaseTrapezeRingsShape", inst.StackOfCarvedOutVaseTrapezeRingsShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.StackOfCarvedOutVaseTrapezeRingsShape](), probe.formStage)
-		StageSetAssociationFieldToForm("StackOfRotatedVaseTrapezeRingsShape", inst.StackOfRotatedVaseTrapezeRingsShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.StackOfRotatedVaseTrapezeRingsShape](), probe.formStage)
 		StageSetAssociationFieldToForm("StackOfRotatedCarvedOutVaseTrapezeRingsShape", inst.StackOfRotatedCarvedOutVaseTrapezeRingsShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.StackOfRotatedCarvedOutVaseTrapezeRingsShape](), probe.formStage)
 		StageSetAssociationFieldToForm("VaseTrapezeBasePlateShape", inst.VaseTrapezeBasePlateShape, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.VaseTrapezeBasePlateShape](), probe.formStage)
 		StageSetBasicFieldtoForm("IsChecked", inst.IsChecked, probe.formStage, formGroup)

@@ -155,7 +155,7 @@ func _(stageSet *models.StageSet) {
 	__models__Diagram__00000000_.AlignOnBeginningOfTimeScale = false
 	__models__Diagram__00000000_.ComputedPrefix = `1`
 	__models__Diagram__00000000_.IsExpanded = false
-	__models__Diagram__00000000_.IsChecked = false
+	__models__Diagram__00000000_.IsChecked = true
 	__models__Diagram__00000000_.IsEditable_ = true
 	__models__Diagram__00000000_.IsShowPrefix = false
 	__models__Diagram__00000000_.IsInAutoLayoutMode = true
@@ -204,7 +204,7 @@ func _(stageSet *models.StageSet) {
 	__models__Diagram__00000001_.AlignOnBeginningOfTimeScale = false
 	__models__Diagram__00000001_.ComputedPrefix = `2`
 	__models__Diagram__00000001_.IsExpanded = true
-	__models__Diagram__00000001_.IsChecked = true
+	__models__Diagram__00000001_.IsChecked = false
 	__models__Diagram__00000001_.IsEditable_ = true
 	__models__Diagram__00000001_.IsShowPrefix = false
 	__models__Diagram__00000001_.IsInAutoLayoutMode = true

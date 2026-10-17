@@ -4235,35 +4235,6 @@ func saveStackGrowthCurve2DStartHalfwayArcShapeFields(
 	}
 }
 
-func __gong__New__StackOfCarvedOutVaseTrapezeRingsShapeFormCallback(
-	_instance *models.StackOfCarvedOutVaseTrapezeRingsShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (stackofcarvedoutvasetrapezeringsshapeFormCallback *FormCallback[*models.StackOfCarvedOutVaseTrapezeRingsShape]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveStackOfCarvedOutVaseTrapezeRingsShapeFields,
-	)
-}
-
-type StackOfCarvedOutVaseTrapezeRingsShapeFormCallback = FormCallback[*models.StackOfCarvedOutVaseTrapezeRingsShape]
-
-func saveStackOfCarvedOutVaseTrapezeRingsShapeFields(
-	_instance *models.StackOfCarvedOutVaseTrapezeRingsShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) {
-	for _, formDiv := range formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
-		}
-	}
-}
-
 func __gong__New__StackOfGrowthCurve2DFormCallback(
 	_instance *models.StackOfGrowthCurve2D,
 	probe *Probe,
@@ -4479,64 +4450,6 @@ func saveStackOfRotatedGrowthCurve2DRibbonFields(
 			FormDivSliceOfPointersToField(_instance, "StackRotatedGrowthCurve2DRibbonStartShapes", &(_instance.StackRotatedGrowthCurve2DRibbonStartShapes), formDiv, probe)
 		case "StackRotatedGrowthCurve2DRibbonEndShapes":
 			FormDivSliceOfPointersToField(_instance, "StackRotatedGrowthCurve2DRibbonEndShapes", &(_instance.StackRotatedGrowthCurve2DRibbonEndShapes), formDiv, probe)
-		}
-	}
-}
-
-func __gong__New__StackOfRotatedVaseTrapezeRingsShapeFormCallback(
-	_instance *models.StackOfRotatedVaseTrapezeRingsShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (stackofrotatedvasetrapezeringsshapeFormCallback *FormCallback[*models.StackOfRotatedVaseTrapezeRingsShape]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveStackOfRotatedVaseTrapezeRingsShapeFields,
-	)
-}
-
-type StackOfRotatedVaseTrapezeRingsShapeFormCallback = FormCallback[*models.StackOfRotatedVaseTrapezeRingsShape]
-
-func saveStackOfRotatedVaseTrapezeRingsShapeFields(
-	_instance *models.StackOfRotatedVaseTrapezeRingsShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) {
-	for _, formDiv := range formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
-		}
-	}
-}
-
-func __gong__New__StackOfVaseTrapezeRingsShapeFormCallback(
-	_instance *models.StackOfVaseTrapezeRingsShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (stackofvasetrapezeringsshapeFormCallback *FormCallback[*models.StackOfVaseTrapezeRingsShape]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveStackOfVaseTrapezeRingsShapeFields,
-	)
-}
-
-type StackOfVaseTrapezeRingsShapeFormCallback = FormCallback[*models.StackOfVaseTrapezeRingsShape]
-
-func saveStackOfVaseTrapezeRingsShapeFields(
-	_instance *models.StackOfVaseTrapezeRingsShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) {
-	for _, formDiv := range formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		}
 	}
 }
@@ -6044,12 +5957,6 @@ func saveTubeVase3DDiagramFields(
 			FormDivBasicFieldToField(&(_instance.IsHiddenVaseTrapezeRingShape), formDiv)
 		case "IsHiddenCarvedOutVaseTrapezeRingShape":
 			FormDivBasicFieldToField(&(_instance.IsHiddenCarvedOutVaseTrapezeRingShape), formDiv)
-		case "IsHiddenStackOfVaseTrapezeRingsShape":
-			FormDivBasicFieldToField(&(_instance.IsHiddenStackOfVaseTrapezeRingsShape), formDiv)
-		case "IsHiddenStackOfCarvedOutVaseTrapezeRingsShape":
-			FormDivBasicFieldToField(&(_instance.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape), formDiv)
-		case "IsHiddenStackOfRotatedVaseTrapezeRingsShape":
-			FormDivBasicFieldToField(&(_instance.IsHiddenStackOfRotatedVaseTrapezeRingsShape), formDiv)
 		case "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape":
 			FormDivBasicFieldToField(&(_instance.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape), formDiv)
 		case "IsHiddenVaseTrapezeBasePlateShape":
@@ -6098,12 +6005,6 @@ func saveTubeVase3DDiagramFields(
 			FormDivSelectFieldToField(&(_instance.VaseTrapezeRingShape), probe.stageOfInterest, formDiv)
 		case "CarvedOutVaseTrapezeRingShape":
 			FormDivSelectFieldToField(&(_instance.CarvedOutVaseTrapezeRingShape), probe.stageOfInterest, formDiv)
-		case "StackOfVaseTrapezeRingsShape":
-			FormDivSelectFieldToField(&(_instance.StackOfVaseTrapezeRingsShape), probe.stageOfInterest, formDiv)
-		case "StackOfCarvedOutVaseTrapezeRingsShape":
-			FormDivSelectFieldToField(&(_instance.StackOfCarvedOutVaseTrapezeRingsShape), probe.stageOfInterest, formDiv)
-		case "StackOfRotatedVaseTrapezeRingsShape":
-			FormDivSelectFieldToField(&(_instance.StackOfRotatedVaseTrapezeRingsShape), probe.stageOfInterest, formDiv)
 		case "StackOfRotatedCarvedOutVaseTrapezeRingsShape":
 			FormDivSelectFieldToField(&(_instance.StackOfRotatedCarvedOutVaseTrapezeRingsShape), probe.stageOfInterest, formDiv)
 		case "VaseTrapezeBasePlateShape":

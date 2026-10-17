@@ -2368,16 +2368,6 @@ func FillUpForm(
 				return owner.StackGrowthCurve2DStartHalfwayArcShapes
 			})
 
-	case *models.StackOfCarvedOutVaseTrapezeRingsShape:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
 	case *models.StackOfGrowthCurve2D:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -2450,26 +2440,6 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("StackRotatedGrowthCurve2DRibbonStartShapes", instanceWithInferedType, &instanceWithInferedType.StackRotatedGrowthCurve2DRibbonStartShapes, formGroup, probe)
 		AssociationSliceToForm("StackRotatedGrowthCurve2DRibbonEndShapes", instanceWithInferedType, &instanceWithInferedType.StackRotatedGrowthCurve2DRibbonEndShapes, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
-	case *models.StackOfRotatedVaseTrapezeRingsShape:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
-	case *models.StackOfVaseTrapezeRingsShape:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -3399,12 +3369,6 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenCarvedOutVaseTrapezeRingShape", instanceWithInferedType.IsHiddenCarvedOutVaseTrapezeRingShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenStackOfVaseTrapezeRingsShape", instanceWithInferedType.IsHiddenStackOfVaseTrapezeRingsShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenStackOfCarvedOutVaseTrapezeRingsShape", instanceWithInferedType.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenStackOfRotatedVaseTrapezeRingsShape", instanceWithInferedType.IsHiddenStackOfRotatedVaseTrapezeRingsShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape", instanceWithInferedType.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenVaseTrapezeBasePlateShape", instanceWithInferedType.IsHiddenVaseTrapezeBasePlateShape, instanceWithInferedType, probe.formStage, formGroup,
@@ -3431,9 +3395,6 @@ func FillUpForm(
 		AssociationFieldToForm("CarvedOutBottomCurvePlane1Shape", instanceWithInferedType.CarvedOutBottomCurvePlane1Shape, formGroup, probe)
 		AssociationFieldToForm("VaseTrapezeRingShape", instanceWithInferedType.VaseTrapezeRingShape, formGroup, probe)
 		AssociationFieldToForm("CarvedOutVaseTrapezeRingShape", instanceWithInferedType.CarvedOutVaseTrapezeRingShape, formGroup, probe)
-		AssociationFieldToForm("StackOfVaseTrapezeRingsShape", instanceWithInferedType.StackOfVaseTrapezeRingsShape, formGroup, probe)
-		AssociationFieldToForm("StackOfCarvedOutVaseTrapezeRingsShape", instanceWithInferedType.StackOfCarvedOutVaseTrapezeRingsShape, formGroup, probe)
-		AssociationFieldToForm("StackOfRotatedVaseTrapezeRingsShape", instanceWithInferedType.StackOfRotatedVaseTrapezeRingsShape, formGroup, probe)
 		AssociationFieldToForm("StackOfRotatedCarvedOutVaseTrapezeRingsShape", instanceWithInferedType.StackOfRotatedCarvedOutVaseTrapezeRingsShape, formGroup, probe)
 		AssociationFieldToForm("VaseTrapezeBasePlateShape", instanceWithInferedType.VaseTrapezeBasePlateShape, formGroup, probe)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,

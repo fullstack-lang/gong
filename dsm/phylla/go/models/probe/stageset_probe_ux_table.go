@@ -71,14 +71,8 @@ func (probe *StageSetProbe) ux_table() {
 		updateStageSetTable_Rendered3DShape_Stage(probe)
 	case "models.SampledPoints3DShape":
 		updateStageSetTable_SampledPoints3DShape_Stage(probe)
-	case "models.StackOfCarvedOutVaseTrapezeRingsShape":
-		updateStageSetTable_StackOfCarvedOutVaseTrapezeRingsShape_Stage(probe)
 	case "models.StackOfRotatedCarvedOutVaseTrapezeRingsShape":
 		updateStageSetTable_StackOfRotatedCarvedOutVaseTrapezeRingsShape_Stage(probe)
-	case "models.StackOfRotatedVaseTrapezeRingsShape":
-		updateStageSetTable_StackOfRotatedVaseTrapezeRingsShape_Stage(probe)
-	case "models.StackOfVaseTrapezeRingsShape":
-		updateStageSetTable_StackOfVaseTrapezeRingsShape_Stage(probe)
 	case "models.StemCylinder3DShape":
 		updateStageSetTable_StemCylinder3DShape_Stage(probe)
 	case "models.Stool2DDiagram":
@@ -3586,101 +3580,6 @@ func updateStageSetTable_SampledPoints3DShape_Stage(probe *StageSetProbe) {
 	probe.tableStage.Commit()
 }
 
-func updateStageSetTable_StackOfCarvedOutVaseTrapezeRingsShape_Stage(probe *StageSetProbe) {
-	probe.tableStage.Reset()
-
-	table := new(table_models.Table)
-	table.Name = "models.StackOfCarvedOutVaseTrapezeRingsShape"
-	table.HasColumnSorting = true
-	table.HasFiltering = true
-	table.HasPaginator = true
-
-	colID := new(table_models.DisplayedColumn)
-	colID.Name = "ID"
-	table.DisplayedColumns = append(table.DisplayedColumns, colID)
-
-	colDel := new(table_models.DisplayedColumn)
-	colDel.Name = "Delete"
-	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
-
-	{
-		col := new(table_models.DisplayedColumn)
-		col.Name = "Name"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-	{
-		col := new(table_models.DisplayedColumn)
-		col.Name = "(models.TubeVase3DDiagram) -> StackOfCarvedOutVaseTrapezeRingsShape"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-
-	instances := probe.stageSet.Stage.GetInstancesByOrder[*models.StackOfCarvedOutVaseTrapezeRingsShape]()
-
-	for _, structInstance := range instances {
-		row := new(table_models.Row)
-		row.Name = structInstance.GetName()
-
-		_captured := structInstance
-		row.Impl = &tableRowUpdater{
-			onClick: func() {
-				StageSetFillUpFormFromGongstruct(_captured, probe)
-			},
-		}
-
-		cellID := &table_models.Cell{Name: "ID"}
-		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.Stage.GetOrder(structInstance))}
-		row.Cells = append(row.Cells, cellID)
-
-		cellDel := &table_models.Cell{Name: "Delete Icon"}
-		cellIcon := &table_models.CellIcon{
-			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
-			Icon:                string(maticons.BUTTON_delete),
-			NeedsConfirmation:   true,
-			ConfirmationMessage: "Do you confirm you want to delete this instance?",
-		}
-		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
-			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
-				_captured.UnstageVoid(probe.stageSet.Stage)
-				probe.stageSet.Clean()
-				probe.stageSet.Commit()
-				updateStageSetTable_StackOfCarvedOutVaseTrapezeRingsShape_Stage(probe)
-				probe.ux_tree()
-				if probe.docStager != nil {
-					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
-					probe.docStager.Svg()
-				}
-			},
-		}
-		cellDel.CellIcon = cellIcon
-		row.Cells = append(row.Cells, cellDel)
-
-
-		{
-			cell := &table_models.Cell{Name: "Name"}
-			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		{
-			cell := &table_models.Cell{Name: "(models.TubeVase3DDiagram) -> StackOfCarvedOutVaseTrapezeRingsShape"}
-			var refNames []string
-			for src := range probe.stageSet.Stage.TubeVase3DDiagrams {
-				if src.StackOfCarvedOutVaseTrapezeRingsShape == structInstance {
-					refNames = append(refNames, src.GetName())
-				}
-			}
-			sort.Strings(refNames)
-			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		table.Rows = append(table.Rows, row)
-	}
-
-	probe.tableStage.StageBranch(table)
-	probe.tableStage.Commit()
-}
-
 func updateStageSetTable_StackOfRotatedCarvedOutVaseTrapezeRingsShape_Stage(probe *StageSetProbe) {
 	probe.tableStage.Reset()
 
@@ -3761,196 +3660,6 @@ func updateStageSetTable_StackOfRotatedCarvedOutVaseTrapezeRingsShape_Stage(prob
 			var refNames []string
 			for src := range probe.stageSet.Stage.TubeVase3DDiagrams {
 				if src.StackOfRotatedCarvedOutVaseTrapezeRingsShape == structInstance {
-					refNames = append(refNames, src.GetName())
-				}
-			}
-			sort.Strings(refNames)
-			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		table.Rows = append(table.Rows, row)
-	}
-
-	probe.tableStage.StageBranch(table)
-	probe.tableStage.Commit()
-}
-
-func updateStageSetTable_StackOfRotatedVaseTrapezeRingsShape_Stage(probe *StageSetProbe) {
-	probe.tableStage.Reset()
-
-	table := new(table_models.Table)
-	table.Name = "models.StackOfRotatedVaseTrapezeRingsShape"
-	table.HasColumnSorting = true
-	table.HasFiltering = true
-	table.HasPaginator = true
-
-	colID := new(table_models.DisplayedColumn)
-	colID.Name = "ID"
-	table.DisplayedColumns = append(table.DisplayedColumns, colID)
-
-	colDel := new(table_models.DisplayedColumn)
-	colDel.Name = "Delete"
-	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
-
-	{
-		col := new(table_models.DisplayedColumn)
-		col.Name = "Name"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-	{
-		col := new(table_models.DisplayedColumn)
-		col.Name = "(models.TubeVase3DDiagram) -> StackOfRotatedVaseTrapezeRingsShape"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-
-	instances := probe.stageSet.Stage.GetInstancesByOrder[*models.StackOfRotatedVaseTrapezeRingsShape]()
-
-	for _, structInstance := range instances {
-		row := new(table_models.Row)
-		row.Name = structInstance.GetName()
-
-		_captured := structInstance
-		row.Impl = &tableRowUpdater{
-			onClick: func() {
-				StageSetFillUpFormFromGongstruct(_captured, probe)
-			},
-		}
-
-		cellID := &table_models.Cell{Name: "ID"}
-		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.Stage.GetOrder(structInstance))}
-		row.Cells = append(row.Cells, cellID)
-
-		cellDel := &table_models.Cell{Name: "Delete Icon"}
-		cellIcon := &table_models.CellIcon{
-			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
-			Icon:                string(maticons.BUTTON_delete),
-			NeedsConfirmation:   true,
-			ConfirmationMessage: "Do you confirm you want to delete this instance?",
-		}
-		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
-			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
-				_captured.UnstageVoid(probe.stageSet.Stage)
-				probe.stageSet.Clean()
-				probe.stageSet.Commit()
-				updateStageSetTable_StackOfRotatedVaseTrapezeRingsShape_Stage(probe)
-				probe.ux_tree()
-				if probe.docStager != nil {
-					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
-					probe.docStager.Svg()
-				}
-			},
-		}
-		cellDel.CellIcon = cellIcon
-		row.Cells = append(row.Cells, cellDel)
-
-
-		{
-			cell := &table_models.Cell{Name: "Name"}
-			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		{
-			cell := &table_models.Cell{Name: "(models.TubeVase3DDiagram) -> StackOfRotatedVaseTrapezeRingsShape"}
-			var refNames []string
-			for src := range probe.stageSet.Stage.TubeVase3DDiagrams {
-				if src.StackOfRotatedVaseTrapezeRingsShape == structInstance {
-					refNames = append(refNames, src.GetName())
-				}
-			}
-			sort.Strings(refNames)
-			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		table.Rows = append(table.Rows, row)
-	}
-
-	probe.tableStage.StageBranch(table)
-	probe.tableStage.Commit()
-}
-
-func updateStageSetTable_StackOfVaseTrapezeRingsShape_Stage(probe *StageSetProbe) {
-	probe.tableStage.Reset()
-
-	table := new(table_models.Table)
-	table.Name = "models.StackOfVaseTrapezeRingsShape"
-	table.HasColumnSorting = true
-	table.HasFiltering = true
-	table.HasPaginator = true
-
-	colID := new(table_models.DisplayedColumn)
-	colID.Name = "ID"
-	table.DisplayedColumns = append(table.DisplayedColumns, colID)
-
-	colDel := new(table_models.DisplayedColumn)
-	colDel.Name = "Delete"
-	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
-
-	{
-		col := new(table_models.DisplayedColumn)
-		col.Name = "Name"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-	{
-		col := new(table_models.DisplayedColumn)
-		col.Name = "(models.TubeVase3DDiagram) -> StackOfVaseTrapezeRingsShape"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-
-	instances := probe.stageSet.Stage.GetInstancesByOrder[*models.StackOfVaseTrapezeRingsShape]()
-
-	for _, structInstance := range instances {
-		row := new(table_models.Row)
-		row.Name = structInstance.GetName()
-
-		_captured := structInstance
-		row.Impl = &tableRowUpdater{
-			onClick: func() {
-				StageSetFillUpFormFromGongstruct(_captured, probe)
-			},
-		}
-
-		cellID := &table_models.Cell{Name: "ID"}
-		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.Stage.GetOrder(structInstance))}
-		row.Cells = append(row.Cells, cellID)
-
-		cellDel := &table_models.Cell{Name: "Delete Icon"}
-		cellIcon := &table_models.CellIcon{
-			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
-			Icon:                string(maticons.BUTTON_delete),
-			NeedsConfirmation:   true,
-			ConfirmationMessage: "Do you confirm you want to delete this instance?",
-		}
-		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
-			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
-				_captured.UnstageVoid(probe.stageSet.Stage)
-				probe.stageSet.Clean()
-				probe.stageSet.Commit()
-				updateStageSetTable_StackOfVaseTrapezeRingsShape_Stage(probe)
-				probe.ux_tree()
-				if probe.docStager != nil {
-					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
-					probe.docStager.Svg()
-				}
-			},
-		}
-		cellDel.CellIcon = cellIcon
-		row.Cells = append(row.Cells, cellDel)
-
-
-		{
-			cell := &table_models.Cell{Name: "Name"}
-			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		{
-			cell := &table_models.Cell{Name: "(models.TubeVase3DDiagram) -> StackOfVaseTrapezeRingsShape"}
-			var refNames []string
-			for src := range probe.stageSet.Stage.TubeVase3DDiagrams {
-				if src.StackOfVaseTrapezeRingsShape == structInstance {
 					refNames = append(refNames, src.GetName())
 				}
 			}
@@ -5163,21 +4872,6 @@ func updateStageSetTable_TubeVase3DDiagram_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
-		col.Name = "IsHiddenStackOfVaseTrapezeRingsShape"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-	{
-		col := new(table_models.DisplayedColumn)
-		col.Name = "IsHiddenStackOfCarvedOutVaseTrapezeRingsShape"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-	{
-		col := new(table_models.DisplayedColumn)
-		col.Name = "IsHiddenStackOfRotatedVaseTrapezeRingsShape"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-	{
-		col := new(table_models.DisplayedColumn)
 		col.Name = "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -5294,21 +4988,6 @@ func updateStageSetTable_TubeVase3DDiagram_Stage(probe *StageSetProbe) {
 	{
 		col := new(table_models.DisplayedColumn)
 		col.Name = "CarvedOutVaseTrapezeRingShape"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-	{
-		col := new(table_models.DisplayedColumn)
-		col.Name = "StackOfVaseTrapezeRingsShape"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-	{
-		col := new(table_models.DisplayedColumn)
-		col.Name = "StackOfCarvedOutVaseTrapezeRingsShape"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-	{
-		col := new(table_models.DisplayedColumn)
-		col.Name = "StackOfRotatedVaseTrapezeRingsShape"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -5518,24 +5197,6 @@ func updateStageSetTable_TubeVase3DDiagram_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "IsHiddenCarvedOutVaseTrapezeRingShape"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHiddenCarvedOutVaseTrapezeRingShape}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		{
-			cell := &table_models.Cell{Name: "IsHiddenStackOfVaseTrapezeRingsShape"}
-			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHiddenStackOfVaseTrapezeRingsShape}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		{
-			cell := &table_models.Cell{Name: "IsHiddenStackOfCarvedOutVaseTrapezeRingsShape"}
-			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHiddenStackOfCarvedOutVaseTrapezeRingsShape}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		{
-			cell := &table_models.Cell{Name: "IsHiddenStackOfRotatedVaseTrapezeRingsShape"}
-			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHiddenStackOfRotatedVaseTrapezeRingsShape}
 			row.Cells = append(row.Cells, cell)
 		}
 
@@ -5766,36 +5427,6 @@ func updateStageSetTable_TubeVase3DDiagram_Stage(probe *StageSetProbe) {
 			val := ""
 			if structInstance.CarvedOutVaseTrapezeRingShape != nil {
 				val = structInstance.CarvedOutVaseTrapezeRingShape.GetName()
-			}
-			cell.CellString = &table_models.CellString{Value: val}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		{
-			cell := &table_models.Cell{Name: "StackOfVaseTrapezeRingsShape"}
-			val := ""
-			if structInstance.StackOfVaseTrapezeRingsShape != nil {
-				val = structInstance.StackOfVaseTrapezeRingsShape.GetName()
-			}
-			cell.CellString = &table_models.CellString{Value: val}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		{
-			cell := &table_models.Cell{Name: "StackOfCarvedOutVaseTrapezeRingsShape"}
-			val := ""
-			if structInstance.StackOfCarvedOutVaseTrapezeRingsShape != nil {
-				val = structInstance.StackOfCarvedOutVaseTrapezeRingsShape.GetName()
-			}
-			cell.CellString = &table_models.CellString{Value: val}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		{
-			cell := &table_models.Cell{Name: "StackOfRotatedVaseTrapezeRingsShape"}
-			val := ""
-			if structInstance.StackOfRotatedVaseTrapezeRingsShape != nil {
-				val = structInstance.StackOfRotatedVaseTrapezeRingsShape.GetName()
 			}
 			cell.CellString = &table_models.CellString{Value: val}
 			row.Cells = append(row.Cells, cell)
