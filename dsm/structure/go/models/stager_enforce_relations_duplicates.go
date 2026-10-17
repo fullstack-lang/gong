@@ -23,15 +23,22 @@ func removeDuplicateRelation[SourceAT AbstractType, TargetAT AbstractType, ACT A
 
 	// Iterate backwards to safely remove items
 	for _, relation := range relations {
+		start := relation.GetAbstractStartElement()
+		end := relation.GetAbstractEndElement()
+		if any(start) == nil || any(end) == nil {
+			continue
+		}
 
 		pairKey := key{
-			source: relation.GetAbstractStartElement().GongGetOrder(stager.stage),
-			target: relation.GetAbstractEndElement().GongGetOrder(stager.stage),
+			source: start.GongGetOrder(stager.stage),
+			target: end.GongGetOrder(stager.stage),
 		}
 
 		if seenPairs[pairKey] {
 			relation.UnstageVoid(stager.stage)
-			stager.probeForm.AddNotification(time.Now(), "Unstaged duplicate relation"+relation.GetName())
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), "Unstaged duplicate relation"+relation.GetName())
+			}
 			needCommit = true
 		} else {
 			// Mark this pair as seen

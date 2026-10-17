@@ -275,8 +275,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", controlflowshapeIdent, __gong__toRawStringLiteral(controlflowshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", controlflowshapeIdent, controlflowshape.StartRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", controlflowshapeIdent, controlflowshape.EndRatio))
-			values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = %s", controlflowshapeIdent, __gong__toRawStringLiteral(string(controlflowshape.StartOrientation))))
-			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", controlflowshapeIdent, __gong__toRawStringLiteral(string(controlflowshape.EndOrientation))))
+			if controlflowshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = models.%s", controlflowshapeIdent, controlflowshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", controlflowshapeIdent))
+			}
+			if controlflowshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = models.%s", controlflowshapeIdent, controlflowshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", controlflowshapeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", controlflowshapeIdent, controlflowshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", controlflowshapeIdent, controlflowshape.IsHidden))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", controlflowshapeIdent, controlflowshape.IsPresentationOverridden))
@@ -341,11 +349,19 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dataflowIdent, __gong__toRawStringLiteral(dataflow.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", dataflowIdent, __gong__toRawStringLiteral(dataflow.Description)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Direction = %s", dataflowIdent, __gong__toRawStringLiteral(string(dataflow.Direction))))
+			if dataflow.Direction.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = models.%s", dataflowIdent, dataflow.Direction.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = \"\"", dataflowIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.IsDatasNodeExpanded = %t", dataflowIdent, dataflow.IsDatasNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", dataflowIdent, __gong__toRawStringLiteral(dataflow.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", dataflowIdent, dataflow.IsExpanded))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", dataflowIdent, __gong__toRawStringLiteral(string(dataflow.Type))))
+			if dataflow.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", dataflowIdent, dataflow.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", dataflowIdent))
+			}
 			if dataflow.StartPort != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -417,8 +433,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", dataflowshapeIdent, dataflowshape.StartRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", dataflowshapeIdent, dataflowshape.EndRatio))
-			values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = %s", dataflowshapeIdent, __gong__toRawStringLiteral(string(dataflowshape.StartOrientation))))
-			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", dataflowshapeIdent, __gong__toRawStringLiteral(string(dataflowshape.EndOrientation))))
+			if dataflowshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = models.%s", dataflowshapeIdent, dataflowshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", dataflowshapeIdent))
+			}
+			if dataflowshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = models.%s", dataflowshapeIdent, dataflowshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", dataflowshapeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", dataflowshapeIdent, dataflowshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", dataflowshapeIdent, dataflowshape.IsHidden))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", dataflowshapeIdent, dataflowshape.IsPresentationOverridden))
@@ -1103,8 +1127,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", notepartshapeIdent, __gong__toRawStringLiteral(notepartshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", notepartshapeIdent, notepartshape.StartRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", notepartshapeIdent, notepartshape.EndRatio))
-			values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = %s", notepartshapeIdent, __gong__toRawStringLiteral(string(notepartshape.StartOrientation))))
-			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", notepartshapeIdent, __gong__toRawStringLiteral(string(notepartshape.EndOrientation))))
+			if notepartshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = models.%s", notepartshapeIdent, notepartshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", notepartshapeIdent))
+			}
+			if notepartshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = models.%s", notepartshapeIdent, notepartshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", notepartshapeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", notepartshapeIdent, notepartshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", notepartshapeIdent, notepartshape.IsHidden))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", notepartshapeIdent, notepartshape.IsPresentationOverridden))
@@ -1155,8 +1187,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", noteportshapeIdent, __gong__toRawStringLiteral(noteportshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", noteportshapeIdent, noteportshape.StartRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", noteportshapeIdent, noteportshape.EndRatio))
-			values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = %s", noteportshapeIdent, __gong__toRawStringLiteral(string(noteportshape.StartOrientation))))
-			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", noteportshapeIdent, __gong__toRawStringLiteral(string(noteportshape.EndOrientation))))
+			if noteportshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = models.%s", noteportshapeIdent, noteportshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", noteportshapeIdent))
+			}
+			if noteportshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = models.%s", noteportshapeIdent, noteportshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", noteportshapeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", noteportshapeIdent, noteportshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", noteportshapeIdent, noteportshape.IsHidden))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", noteportshapeIdent, noteportshape.IsPresentationOverridden))
@@ -1359,7 +1399,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Definition = %s", partanchoredpathIdent, __gong__toRawStringLiteral(partanchoredpath.Definition)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", partanchoredpathIdent, partanchoredpath.X_Offset))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", partanchoredpathIdent, partanchoredpath.Y_Offset))
-			values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = %s", partanchoredpathIdent, __gong__toRawStringLiteral(string(partanchoredpath.RectAnchorType))))
+			if partanchoredpath.RectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = models.%s", partanchoredpathIdent, partanchoredpath.RectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = \"\"", partanchoredpathIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.ScalePropotionnally = %t", partanchoredpathIdent, partanchoredpath.ScalePropotionnally))
 			values.WriteString(fmt.Sprintf("\n\t%s.AppliedScaling = %f", partanchoredpathIdent, partanchoredpath.AppliedScaling))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", partanchoredpathIdent, __gong__toRawStringLiteral(partanchoredpath.Color)))
@@ -1958,9 +2002,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "EndRatio":
 						inst.EndRatio = GongExtractFloat(rhs)
 					case "StartOrientation":
-						inst.StartOrientation = OrientationType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
 					case "EndOrientation":
-						inst.EndOrientation = OrientationType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
 					case "CornerOffsetRatio":
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
@@ -2014,7 +2058,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Description":
 						inst.Description = GongExtractString(rhs)
 					case "Direction":
-						inst.Direction = DataFlowDirection(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Direction, rhs)
 					case "IsDatasNodeExpanded":
 						inst.IsDatasNodeExpanded = GongExtractBool(rhs)
 					case "ComputedPrefix":
@@ -2022,7 +2066,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "Type":
-						inst.Type = DataFlowType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					}
 				case *DataFlowShape:
 					switch fieldName {
@@ -2035,9 +2079,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "EndRatio":
 						inst.EndRatio = GongExtractFloat(rhs)
 					case "StartOrientation":
-						inst.StartOrientation = OrientationType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
 					case "EndOrientation":
-						inst.EndOrientation = OrientationType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
 					case "CornerOffsetRatio":
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
@@ -2299,9 +2343,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "EndRatio":
 						inst.EndRatio = GongExtractFloat(rhs)
 					case "StartOrientation":
-						inst.StartOrientation = OrientationType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
 					case "EndOrientation":
-						inst.EndOrientation = OrientationType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
 					case "CornerOffsetRatio":
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
@@ -2334,9 +2378,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "EndRatio":
 						inst.EndRatio = GongExtractFloat(rhs)
 					case "StartOrientation":
-						inst.StartOrientation = OrientationType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
 					case "EndOrientation":
-						inst.EndOrientation = OrientationType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
 					case "CornerOffsetRatio":
 						inst.CornerOffsetRatio = GongExtractFloat(rhs)
 					case "IsHidden":
@@ -2441,7 +2485,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Y_Offset":
 						inst.Y_Offset = GongExtractFloat(rhs)
 					case "RectAnchorType":
-						inst.RectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.RectAnchorType, rhs)
 					case "ScalePropotionnally":
 						inst.ScalePropotionnally = GongExtractBool(rhs)
 					case "AppliedScaling":
@@ -2714,11 +2758,45 @@ func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map
 }
 
 func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
-	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-			if target, ok := identifierMap[rIdent.Name]; ok {
-				if typedTarget, ok := target.(*T); ok {
-					*slice = append(*slice, typedTarget)
+	if call, ok := rhs.(*ast.CallExpr); ok {
+		funcName := ""
+		var isSlices bool
+		if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+			if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+				isSlices = true
+				funcName = sel.Sel.Name
+			}
+		} else if ident, ok := call.Fun.(*ast.Ident); ok {
+			funcName = ident.Name
+		}
+
+		if isSlices {
+			if funcName == "Delete" && len(call.Args) == 3 {
+				start := GongExtractInt(call.Args[1])
+				end := GongExtractInt(call.Args[2])
+				if end <= len(*slice) {
+					*slice = slices.Delete(*slice, start, end)
+				}
+			} else if funcName == "Insert" && len(call.Args) == 3 {
+				index := GongExtractInt(call.Args[1])
+				if index <= len(*slice) {
+					if rIdent, ok := call.Args[2].(*ast.Ident); ok {
+						if target, ok := identifierMap[rIdent.Name]; ok {
+							if typedTarget, ok := target.(*T); ok {
+								*slice = slices.Insert(*slice, index, typedTarget)
+							}
+						}
+					}
+				}
+			}
+		} else if funcName == "append" && len(call.Args) >= 2 {
+			for i := 1; i < len(call.Args); i++ {
+				if rIdent, ok := call.Args[i].(*ast.Ident); ok {
+					if target, ok := identifierMap[rIdent.Name]; ok {
+						if typedTarget, ok := target.(*T); ok {
+							*slice = append(*slice, typedTarget)
+						}
+					}
 				}
 			}
 		}

@@ -242,8 +242,8 @@ func (stager *Stager) enforceShapesAbstractConsistency() bool {
 			if shape.GetAbstractElement() == nil {
 				shape.UnstageVoid(stage)
 				needCommit = true
+				continue
 			}
-			continue
 		}
 		if associationShape, ok := instance.(AssociationConcreteType); ok {
 			if associationShape.GetAbstractStartElement() == nil {

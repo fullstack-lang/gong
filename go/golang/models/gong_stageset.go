@@ -20,7 +20,9 @@ type StageSetStructField struct {
 	TargetStructName  string
 	BasicKind         types.BasicKind
 	IsEnum            bool
+	IsGongEnum        bool
 	EnumTypeQual      string
+	EnumPkgAlias      string
 	IsDuration        bool
 	IsTime            bool
 }
@@ -135,19 +137,40 @@ func ExtractStructFields(mPkg *models.ModelPkg, structName string, pkgPathToFiel
 				}
 				if basic, ok := namedType.Underlying().(*types.Basic); ok {
 					qual := namedType.Obj().Name()
-					if namedType.Obj().Pkg() != nil && namedType.Obj().Pkg().Path() != mPkg.PkgPath {
-						pkgPath := namedType.Obj().Pkg().Path()
+					enumPkgAlias := mPkg.PkgGoName
+					if enumPkgAlias == "" {
+						enumPkgAlias = "models"
+					}
+					pkgPath := mPkg.PkgPath
+					if namedType.Obj().Pkg() != nil {
+						pkgPath = namedType.Obj().Pkg().Path()
 						if p2f != nil && p2f[pkgPath] != nil {
-							qual = p2f[pkgPath].ImportAlias + "." + qual
+							enumPkgAlias = p2f[pkgPath].ImportAlias
 						} else {
-							qual = namedType.Obj().Pkg().Name() + "." + qual
+							enumPkgAlias = namedType.Obj().Pkg().Name()
+						}
+						if pkgPath != mPkg.PkgPath {
+							qual = enumPkgAlias + "." + qual
+						}
+					} else if p2f != nil && p2f[mPkg.PkgPath] != nil {
+						enumPkgAlias = p2f[mPkg.PkgPath].ImportAlias
+					}
+					_, isGongEnum := mPkg.GongEnums[pkgPath+"."+namedType.Obj().Name()]
+					if !isGongEnum {
+						_, isGongEnum = mPkg.GongEnums[mPkg.PkgPath+"."+namedType.Obj().Name()]
+					}
+					if !isGongEnum {
+						if types.NewMethodSet(types.NewPointer(namedType)).Lookup(nil, "FromCodeString") != nil {
+							isGongEnum = true
 						}
 					}
 					result = append(result, StageSetStructField{
 						Name:         fld.Name(),
 						IsEnum:       true,
+						IsGongEnum:   isGongEnum,
 						BasicKind:    basic.Kind(),
 						EnumTypeQual: qual,
+						EnumPkgAlias: enumPkgAlias,
 					})
 					continue
 				}
@@ -351,6 +374,15 @@ func CodeGeneratorModelGongStageSet(
 				if fld.IsPointer || fld.IsSliceOfPointer {
 					continue
 				}
+				if fld.IsGongEnum {
+					switch fld.BasicKind {
+					case types.Int, types.Int64, types.Int32, types.Int16, types.Int8, types.Uint, types.Uint64, types.Uint32, types.Uint16, types.Uint8:
+						marshallBody.WriteString(fmt.Sprintf("\t\t\tif %s.%s.ToCodeString() != \"\" {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %s.%%s\", %sIdent, %s.%s.ToCodeString()))\n\t\t\t} else {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = 0\", %sIdent))\n\t\t\t}\n", sVar, fld.Name, fld.Name, fld.EnumPkgAlias, sVar, sVar, fld.Name, fld.Name, sVar))
+					default:
+						marshallBody.WriteString(fmt.Sprintf("\t\t\tif %s.%s.ToCodeString() != \"\" {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %s.%%s\", %sIdent, %s.%s.ToCodeString()))\n\t\t\t} else {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = \\\"\\\"\", %sIdent))\n\t\t\t}\n", sVar, fld.Name, fld.Name, fld.EnumPkgAlias, sVar, sVar, fld.Name, fld.Name, sVar))
+					}
+					continue
+				}
 				switch fld.BasicKind {
 				case types.String:
 					if fld.IsEnum {
@@ -500,6 +532,8 @@ func CodeGeneratorModelGongStageSet(
 						}
 						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\t__gong__assignSliceOfPointers(&inst.%s, rhs, identifierMap)\n", fld.Name, fld.Name))
 					}
+				} else if fld.IsGongEnum {
+					assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tGongUnmarshallEnum(&inst.%s, rhs)\n", fld.Name, fld.Name))
 				} else {
 					switch fld.BasicKind {
 					case types.String:

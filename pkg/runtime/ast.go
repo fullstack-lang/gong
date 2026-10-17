@@ -204,7 +204,7 @@ func ExtractString(expr ast.Expr) string {
 	return ""
 }
 
-// ExtractInt extracts an integer from AST expression (including negative integers)
+// ExtractInt extracts an integer from AST expression (including negative integers and type casts like time.Duration(x))
 func ExtractInt(expr ast.Expr) int {
 	if bl, ok := expr.(*ast.BasicLit); ok {
 		val, _ := strconv.Atoi(bl.Value)
@@ -215,6 +215,9 @@ func ExtractInt(expr ast.Expr) int {
 			val, _ := strconv.Atoi(bl.Value)
 			return -val
 		}
+	}
+	if call, ok := expr.(*ast.CallExpr); ok && len(call.Args) == 1 {
+		return ExtractInt(call.Args[0])
 	}
 	return 0
 }
@@ -379,7 +382,7 @@ func UnmarshallPointer[T any, M any](
 	}
 }
 
-// UnmarshallEnum handles assignment of enum fields (via SelectorExpr or String fallback)
+// UnmarshallEnum handles assignment of enum fields (via SelectorExpr, Int literal, or String fallback)
 func UnmarshallEnum[T interface{ FromCodeString(string) error }](
 	ptr T,
 	valueExpr ast.Expr,
@@ -387,6 +390,23 @@ func UnmarshallEnum[T interface{ FromCodeString(string) error }](
 	if sel, ok := valueExpr.(*ast.SelectorExpr); ok {
 		if err := ptr.FromCodeString(sel.Sel.Name); err != nil {
 			log.Printf("UnmarshallEnum: Error parsing code string '%s': %v", sel.Sel.Name, err)
+		}
+	} else if intEnum, ok := any(ptr).(interface{ FromInt(int) error }); ok {
+		if bl, ok := valueExpr.(*ast.BasicLit); ok && bl.Kind == token.INT {
+			if err := intEnum.FromInt(ExtractInt(valueExpr)); err != nil {
+				log.Printf("UnmarshallEnum: Error parsing int literal '%s': %v", bl.Value, err)
+			}
+		} else if ue, ok := valueExpr.(*ast.UnaryExpr); ok && ue.Op == token.SUB {
+			if err := intEnum.FromInt(ExtractInt(valueExpr)); err != nil {
+				log.Printf("UnmarshallEnum: Error parsing negative int literal: %v", err)
+			}
+		} else {
+			valStr := ExtractString(valueExpr)
+			if valStr != "" {
+				if err := ptr.FromCodeString(valStr); err != nil {
+					log.Printf("UnmarshallEnum: Error parsing string literal '%s': %v", valStr, err)
+				}
+			}
 		}
 	} else {
 		valStr := ExtractString(valueExpr)

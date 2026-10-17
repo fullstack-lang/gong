@@ -845,8 +845,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.StackHeight = %d", plantabstractIdent, plantabstract.StackHeight))
 			values.WriteString(fmt.Sprintf("\n\t%s.RhombusInsideAngle = %f", plantabstractIdent, plantabstract.RhombusInsideAngle))
 			values.WriteString(fmt.Sprintf("\n\t%s.RhombusSideLength = %f", plantabstractIdent, plantabstract.RhombusSideLength))
-			values.WriteString(fmt.Sprintf("\n\t%s.PlantType = %s", plantabstractIdent, __gong__toRawStringLiteral(string(plantabstract.PlantType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.CurrentView = %s", plantabstractIdent, __gong__toRawStringLiteral(string(plantabstract.CurrentView))))
+			if plantabstract.PlantType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.PlantType = models.%s", plantabstractIdent, plantabstract.PlantType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.PlantType = \"\"", plantabstractIdent))
+			}
+			if plantabstract.CurrentView.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.CurrentView = models.%s", plantabstractIdent, plantabstract.CurrentView.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.CurrentView = \"\"", plantabstractIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", plantabstractIdent, __gong__toRawStringLiteral(plantabstract.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", plantabstractIdent, plantabstract.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsSelected = %t", plantabstractIdent, plantabstract.IsSelected))
@@ -2107,7 +2115,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "RhombusSideLength":
 						inst.RhombusSideLength = GongExtractFloat(rhs)
 					case "PlantType":
-						inst.PlantType = PlantType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.PlantType, rhs)
 					case "TubeVaseAbstract":
 						__gong__assignPointer(&inst.TubeVaseAbstract, rhs, identifierMap)
 					case "StoolAbstract":
@@ -2117,7 +2125,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "MusicAbstract":
 						__gong__assignPointer(&inst.MusicAbstract, rhs, identifierMap)
 					case "CurrentView":
-						inst.CurrentView = ViewType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.CurrentView, rhs)
 					case "ComputedPrefix":
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
@@ -2568,11 +2576,45 @@ func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map
 }
 
 func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
-	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-			if target, ok := identifierMap[rIdent.Name]; ok {
-				if typedTarget, ok := target.(*T); ok {
-					*slice = append(*slice, typedTarget)
+	if call, ok := rhs.(*ast.CallExpr); ok {
+		funcName := ""
+		var isSlices bool
+		if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+			if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+				isSlices = true
+				funcName = sel.Sel.Name
+			}
+		} else if ident, ok := call.Fun.(*ast.Ident); ok {
+			funcName = ident.Name
+		}
+
+		if isSlices {
+			if funcName == "Delete" && len(call.Args) == 3 {
+				start := GongExtractInt(call.Args[1])
+				end := GongExtractInt(call.Args[2])
+				if end <= len(*slice) {
+					*slice = slices.Delete(*slice, start, end)
+				}
+			} else if funcName == "Insert" && len(call.Args) == 3 {
+				index := GongExtractInt(call.Args[1])
+				if index <= len(*slice) {
+					if rIdent, ok := call.Args[2].(*ast.Ident); ok {
+						if target, ok := identifierMap[rIdent.Name]; ok {
+							if typedTarget, ok := target.(*T); ok {
+								*slice = slices.Insert(*slice, index, typedTarget)
+							}
+						}
+					}
+				}
+			}
+		} else if funcName == "append" && len(call.Args) >= 2 {
+			for i := 1; i < len(call.Args); i++ {
+				if rIdent, ok := call.Args[i].(*ast.Ident); ok {
+					if target, ok := identifierMap[rIdent.Name]; ok {
+						if typedTarget, ok := target.(*T); ok {
+							*slice = append(*slice, typedTarget)
+						}
+					}
 				}
 			}
 		}

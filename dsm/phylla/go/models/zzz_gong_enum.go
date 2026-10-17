@@ -299,6 +299,8 @@ func (stlexportpart STLExportPart) ToInt() (res int) {
 		res = 2
 	case STLExportBottomRing:
 		res = 3
+	case STLExportVaseTrapezeBaseAndFirstRing:
+		res = 4
 	}
 	return
 }
@@ -319,6 +321,9 @@ func (stlexportpart *STLExportPart) FromInt(input int) (err error) {
 	case 3:
 		*stlexportpart = STLExportBottomRing
 		return
+	case 4:
+		*stlexportpart = STLExportVaseTrapezeBaseAndFirstRing
+		return
 	default:
 		return errUnkownEnum
 	}
@@ -336,6 +341,8 @@ func (stlexportpart *STLExportPart) FromCodeString(input string) (err error) {
 		*stlexportpart = STLExportOneRing
 	case "STLExportBottomRing":
 		*stlexportpart = STLExportBottomRing
+	case "STLExportVaseTrapezeBaseAndFirstRing":
+		*stlexportpart = STLExportVaseTrapezeBaseAndFirstRing
 	default:
 		err = errUnkownEnum
 	}
@@ -354,6 +361,8 @@ func (stlexportpart *STLExportPart) ToCodeString() (res string) {
 		res = "STLExportOneRing"
 	case STLExportBottomRing:
 		res = "STLExportBottomRing"
+	case STLExportVaseTrapezeBaseAndFirstRing:
+		res = "STLExportVaseTrapezeBaseAndFirstRing"
 	}
 	return
 }
@@ -367,6 +376,7 @@ func (stlexportpart STLExportPart) Codes() (res []string) {
 	res = append(res, "STLExportTopRing")
 	res = append(res, "STLExportOneRing")
 	res = append(res, "STLExportBottomRing")
+	res = append(res, "STLExportVaseTrapezeBaseAndFirstRing")
 
 	return
 }
@@ -380,6 +390,7 @@ func (stlexportpart STLExportPart) CodeValues() (res []int) {
 	res = append(res, 1)
 	res = append(res, 2)
 	res = append(res, 3)
+	res = append(res, 4)
 
 	return
 }

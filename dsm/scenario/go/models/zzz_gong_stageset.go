@@ -155,7 +155,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", actorstateIdent, __gong__toRawStringLiteral(actorstate.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", actorstateIdent, __gong__toRawStringLiteral(actorstate.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsWithProbaility = %t", actorstateIdent, actorstate.IsWithProbaility))
-			values.WriteString(fmt.Sprintf("\n\t%s.Probability = %s", actorstateIdent, __gong__toRawStringLiteral(string(actorstate.Probability))))
+			if actorstate.Probability.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Probability = models.%s", actorstateIdent, actorstate.Probability.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Probability = \"\"", actorstateIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", actorstateIdent, __gong__toRawStringLiteral(actorstate.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", actorstateIdent, actorstate.IsExpanded))
 		}
@@ -1056,7 +1060,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parametershapeIdent, __gong__toRawStringLiteral(parametershape.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Direction = %s", parametershapeIdent, __gong__toRawStringLiteral(string(parametershape.Direction))))
+			if parametershape.Direction.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = models.%s", parametershapeIdent, parametershape.Direction.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = \"\"", parametershapeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.ShapeIsComputedFromModel = %t", parametershapeIdent, parametershape.ShapeIsComputedFromModel))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", parametershapeIdent, parametershape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", parametershapeIdent, parametershape.Y))
@@ -1136,7 +1144,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parametersaggregateshapeIdent, __gong__toRawStringLiteral(parametersaggregateshape.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Direction = %s", parametersaggregateshapeIdent, __gong__toRawStringLiteral(string(parametersaggregateshape.Direction))))
+			if parametersaggregateshape.Direction.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = models.%s", parametersaggregateshapeIdent, parametersaggregateshape.Direction.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = \"\"", parametersaggregateshapeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", parametersaggregateshapeIdent, parametersaggregateshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", parametersaggregateshapeIdent, parametersaggregateshape.Y))
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", parametersaggregateshapeIdent, parametersaggregateshape.Width))
@@ -1689,7 +1701,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsWithProbaility":
 						inst.IsWithProbaility = GongExtractBool(rhs)
 					case "Probability":
-						inst.Probability = ProbabilityEnum(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Probability, rhs)
 					case "ComputedPrefix":
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
@@ -2101,7 +2113,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Parameter":
 						__gong__assignPointer(&inst.Parameter, rhs, identifierMap)
 					case "Direction":
-						inst.Direction = DirectionType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Direction, rhs)
 					case "ShapeIsComputedFromModel":
 						inst.ShapeIsComputedFromModel = GongExtractBool(rhs)
 					case "X":
@@ -2159,7 +2171,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "ScenarioParameter":
 						__gong__assignPointer(&inst.ScenarioParameter, rhs, identifierMap)
 					case "Direction":
-						inst.Direction = DirectionType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Direction, rhs)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -2349,11 +2361,45 @@ func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map
 }
 
 func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
-	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-			if target, ok := identifierMap[rIdent.Name]; ok {
-				if typedTarget, ok := target.(*T); ok {
-					*slice = append(*slice, typedTarget)
+	if call, ok := rhs.(*ast.CallExpr); ok {
+		funcName := ""
+		var isSlices bool
+		if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+			if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+				isSlices = true
+				funcName = sel.Sel.Name
+			}
+		} else if ident, ok := call.Fun.(*ast.Ident); ok {
+			funcName = ident.Name
+		}
+
+		if isSlices {
+			if funcName == "Delete" && len(call.Args) == 3 {
+				start := GongExtractInt(call.Args[1])
+				end := GongExtractInt(call.Args[2])
+				if end <= len(*slice) {
+					*slice = slices.Delete(*slice, start, end)
+				}
+			} else if funcName == "Insert" && len(call.Args) == 3 {
+				index := GongExtractInt(call.Args[1])
+				if index <= len(*slice) {
+					if rIdent, ok := call.Args[2].(*ast.Ident); ok {
+						if target, ok := identifierMap[rIdent.Name]; ok {
+							if typedTarget, ok := target.(*T); ok {
+								*slice = slices.Insert(*slice, index, typedTarget)
+							}
+						}
+					}
+				}
+			}
+		} else if funcName == "append" && len(call.Args) >= 2 {
+			for i := 1; i < len(call.Args); i++ {
+				if rIdent, ok := call.Args[i].(*ast.Ident); ok {
+					if target, ok := identifierMap[rIdent.Name]; ok {
+						if typedTarget, ok := target.(*T); ok {
+							*slice = append(*slice, typedTarget)
+						}
+					}
 				}
 			}
 		}

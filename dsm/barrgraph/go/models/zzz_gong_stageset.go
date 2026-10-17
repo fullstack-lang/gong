@@ -252,7 +252,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_Height = %f", artistshapeIdent, artistshape.ImagePng_Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_X_Offset = %f", artistshapeIdent, artistshape.ImagePng_X_Offset))
 			values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_Y_Offset = %f", artistshapeIdent, artistshape.ImagePng_Y_Offset))
-			values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_RectAnchorType = %s", artistshapeIdent, __gong__toRawStringLiteral(string(artistshape.ImagePng_RectAnchorType))))
+			if artistshape.ImagePng_RectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_RectAnchorType = models.%s", artistshapeIdent, artistshape.ImagePng_RectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_RectAnchorType = \"\"", artistshapeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.ImagePngBase64Content = %s", artistshapeIdent, __gong__toRawStringLiteral(artistshape.ImagePngBase64Content)))
 			if artistshape.Artist != nil {
 				if lastStagePtr != "Stage" {
@@ -365,9 +369,21 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.BottomBoxFontFamily = %s", diagramIdent, __gong__toRawStringLiteral(diagram.BottomBoxFontFamily)))
 			values.WriteString(fmt.Sprintf("\n\t%s.BottomBoxLetterSpacing = %s", diagramIdent, __gong__toRawStringLiteral(diagram.BottomBoxLetterSpacing)))
 			values.WriteString(fmt.Sprintf("\n\t%s.BottomBoxLetterColorCode = %s", diagramIdent, __gong__toRawStringLiteral(diagram.BottomBoxLetterColorCode)))
-			values.WriteString(fmt.Sprintf("\n\t%s.MovementRectAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.MovementRectAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.MovementTextAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.MovementTextAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.MovementDominantBaselineType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.MovementDominantBaselineType))))
+			if diagram.MovementRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementRectAnchorType = models.%s", diagramIdent, diagram.MovementRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.MovementTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementTextAnchorType = models.%s", diagramIdent, diagram.MovementTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.MovementDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDominantBaselineType = models.%s", diagramIdent, diagram.MovementDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDominantBaselineType = \"\"", diagramIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.MovementFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementFontSize)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MajorMovementFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MajorMovementFontSize)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MinorMovementFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MinorMovementFontSize)))
@@ -375,47 +391,127 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.MovementFontFamily = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementFontFamily)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MovementLetterSpacing = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementLetterSpacing)))
 			values.WriteString(fmt.Sprintf("\n\t%s.AbstractMovementFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.AbstractMovementFontSize)))
-			values.WriteString(fmt.Sprintf("\n\t%s.AbstractMovementRectAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.AbstractMovementRectAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.AbstractMovementTextAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.AbstractMovementTextAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.AbstractDominantBaselineType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.AbstractDominantBaselineType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.MovementDateRectAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.MovementDateRectAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.MovementDateTextAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.MovementDateTextAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.MovementDateTextDominantBaselineType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.MovementDateTextDominantBaselineType))))
+			if diagram.AbstractMovementRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.AbstractMovementRectAnchorType = models.%s", diagramIdent, diagram.AbstractMovementRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.AbstractMovementRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.AbstractMovementTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.AbstractMovementTextAnchorType = models.%s", diagramIdent, diagram.AbstractMovementTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.AbstractMovementTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.AbstractDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.AbstractDominantBaselineType = models.%s", diagramIdent, diagram.AbstractDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.AbstractDominantBaselineType = \"\"", diagramIdent))
+			}
+			if diagram.MovementDateRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDateRectAnchorType = models.%s", diagramIdent, diagram.MovementDateRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDateRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.MovementDateTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDateTextAnchorType = models.%s", diagramIdent, diagram.MovementDateTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDateTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.MovementDateTextDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDateTextDominantBaselineType = models.%s", diagramIdent, diagram.MovementDateTextDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDateTextDominantBaselineType = \"\"", diagramIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.MovementDateAndPlacesFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementDateAndPlacesFontSize)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MovementDateAndPlacesFontWeigth = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementDateAndPlacesFontWeigth)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MovementDateAndPlacesFontFamily = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementDateAndPlacesFontFamily)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MovementDateAndPlacesLetterSpacing = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementDateAndPlacesLetterSpacing)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MovementBelowArcY_Offset = %f", diagramIdent, diagram.MovementBelowArcY_Offset))
 			values.WriteString(fmt.Sprintf("\n\t%s.MovementBelowArcY_OffsetPerPlace = %f", diagramIdent, diagram.MovementBelowArcY_OffsetPerPlace))
-			values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesRectAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.MovementPlacesRectAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesTextAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.MovementPlacesTextAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesDominantBaselineType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.MovementPlacesDominantBaselineType))))
+			if diagram.MovementPlacesRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesRectAnchorType = models.%s", diagramIdent, diagram.MovementPlacesRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.MovementPlacesTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesTextAnchorType = models.%s", diagramIdent, diagram.MovementPlacesTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.MovementPlacesDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesDominantBaselineType = models.%s", diagramIdent, diagram.MovementPlacesDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesDominantBaselineType = \"\"", diagramIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtefactTypeFontSize)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeFontWeigth = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtefactTypeFontWeigth)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeFontFamily = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtefactTypeFontFamily)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeLetterSpacing = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtefactTypeLetterSpacing)))
-			values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeRectAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.ArtefactTypeRectAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.ArtefactDominantBaselineType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.ArtefactDominantBaselineType))))
+			if diagram.ArtefactTypeRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeRectAnchorType = models.%s", diagramIdent, diagram.ArtefactTypeRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtefactDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtefactDominantBaselineType = models.%s", diagramIdent, diagram.ArtefactDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtefactDominantBaselineType = \"\"", diagramIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeStrokeWidth = %f", diagramIdent, diagram.ArtefactTypeStrokeWidth))
-			values.WriteString(fmt.Sprintf("\n\t%s.ArtistRectAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.ArtistRectAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.ArtistTextAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.ArtistTextAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.ArtistDominantBaselineType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.ArtistDominantBaselineType))))
+			if diagram.ArtistRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistRectAnchorType = models.%s", diagramIdent, diagram.ArtistRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtistTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistTextAnchorType = models.%s", diagramIdent, diagram.ArtistTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtistDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDominantBaselineType = models.%s", diagramIdent, diagram.ArtistDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDominantBaselineType = \"\"", diagramIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtistFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistFontSize)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MajorArtistFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MajorArtistFontSize)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MinorArtistFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MinorArtistFontSize)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtistFontWeigth = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistFontWeigth)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtistFontFamily = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistFontFamily)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtistLetterSpacing = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistLetterSpacing)))
-			values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateRectAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.ArtistDateRectAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateTextAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.ArtistDateTextAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateDominantBaselineType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.ArtistDateDominantBaselineType))))
+			if diagram.ArtistDateRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateRectAnchorType = models.%s", diagramIdent, diagram.ArtistDateRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtistDateTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateTextAnchorType = models.%s", diagramIdent, diagram.ArtistDateTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtistDateDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateDominantBaselineType = models.%s", diagramIdent, diagram.ArtistDateDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateDominantBaselineType = \"\"", diagramIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateAndPlacesFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistDateAndPlacesFontSize)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateAndPlacesFontWeigth = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistDateAndPlacesFontWeigth)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateAndPlacesFontFamily = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistDateAndPlacesFontFamily)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateAndPlacesLetterSpacing = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistDateAndPlacesLetterSpacing)))
-			values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesRectAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.ArtistPlacesRectAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesTextAnchorType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.ArtistPlacesTextAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesDominantBaselineType = %s", diagramIdent, __gong__toRawStringLiteral(string(diagram.ArtistPlacesDominantBaselineType))))
+			if diagram.ArtistPlacesRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesRectAnchorType = models.%s", diagramIdent, diagram.ArtistPlacesRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtistPlacesTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesTextAnchorType = models.%s", diagramIdent, diagram.ArtistPlacesTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtistPlacesDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesDominantBaselineType = models.%s", diagramIdent, diagram.ArtistPlacesDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesDominantBaselineType = \"\"", diagramIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.InfluenceArrowSize = %f", diagramIdent, diagram.InfluenceArrowSize))
 			values.WriteString(fmt.Sprintf("\n\t%s.InfluenceArrowStartOffset = %f", diagramIdent, diagram.InfluenceArrowStartOffset))
 			values.WriteString(fmt.Sprintf("\n\t%s.InfluenceArrowEndOffset = %f", diagramIdent, diagram.InfluenceArrowEndOffset))
@@ -991,7 +1087,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "ImagePng_Y_Offset":
 						inst.ImagePng_Y_Offset = GongExtractFloat(rhs)
 					case "ImagePng_RectAnchorType":
-						inst.ImagePng_RectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ImagePng_RectAnchorType, rhs)
 					case "ImagePngBase64Content":
 						inst.ImagePngBase64Content = GongExtractString(rhs)
 					}
@@ -1088,11 +1184,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "BottomBoxLetterColorCode":
 						inst.BottomBoxLetterColorCode = GongExtractString(rhs)
 					case "MovementRectAnchorType":
-						inst.MovementRectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.MovementRectAnchorType, rhs)
 					case "MovementTextAnchorType":
-						inst.MovementTextAnchorType = TextAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.MovementTextAnchorType, rhs)
 					case "MovementDominantBaselineType":
-						inst.MovementDominantBaselineType = DominantBaselineType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.MovementDominantBaselineType, rhs)
 					case "MovementFontSize":
 						inst.MovementFontSize = GongExtractString(rhs)
 					case "MajorMovementFontSize":
@@ -1108,17 +1204,17 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "AbstractMovementFontSize":
 						inst.AbstractMovementFontSize = GongExtractString(rhs)
 					case "AbstractMovementRectAnchorType":
-						inst.AbstractMovementRectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.AbstractMovementRectAnchorType, rhs)
 					case "AbstractMovementTextAnchorType":
-						inst.AbstractMovementTextAnchorType = TextAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.AbstractMovementTextAnchorType, rhs)
 					case "AbstractDominantBaselineType":
-						inst.AbstractDominantBaselineType = DominantBaselineType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.AbstractDominantBaselineType, rhs)
 					case "MovementDateRectAnchorType":
-						inst.MovementDateRectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.MovementDateRectAnchorType, rhs)
 					case "MovementDateTextAnchorType":
-						inst.MovementDateTextAnchorType = TextAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.MovementDateTextAnchorType, rhs)
 					case "MovementDateTextDominantBaselineType":
-						inst.MovementDateTextDominantBaselineType = DominantBaselineType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.MovementDateTextDominantBaselineType, rhs)
 					case "MovementDateAndPlacesFontSize":
 						inst.MovementDateAndPlacesFontSize = GongExtractString(rhs)
 					case "MovementDateAndPlacesFontWeigth":
@@ -1132,11 +1228,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "MovementBelowArcY_OffsetPerPlace":
 						inst.MovementBelowArcY_OffsetPerPlace = GongExtractFloat(rhs)
 					case "MovementPlacesRectAnchorType":
-						inst.MovementPlacesRectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.MovementPlacesRectAnchorType, rhs)
 					case "MovementPlacesTextAnchorType":
-						inst.MovementPlacesTextAnchorType = TextAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.MovementPlacesTextAnchorType, rhs)
 					case "MovementPlacesDominantBaselineType":
-						inst.MovementPlacesDominantBaselineType = DominantBaselineType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.MovementPlacesDominantBaselineType, rhs)
 					case "ArtefactTypeFontSize":
 						inst.ArtefactTypeFontSize = GongExtractString(rhs)
 					case "ArtefactTypeFontWeigth":
@@ -1146,17 +1242,17 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "ArtefactTypeLetterSpacing":
 						inst.ArtefactTypeLetterSpacing = GongExtractString(rhs)
 					case "ArtefactTypeRectAnchorType":
-						inst.ArtefactTypeRectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ArtefactTypeRectAnchorType, rhs)
 					case "ArtefactDominantBaselineType":
-						inst.ArtefactDominantBaselineType = DominantBaselineType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ArtefactDominantBaselineType, rhs)
 					case "ArtefactTypeStrokeWidth":
 						inst.ArtefactTypeStrokeWidth = GongExtractFloat(rhs)
 					case "ArtistRectAnchorType":
-						inst.ArtistRectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ArtistRectAnchorType, rhs)
 					case "ArtistTextAnchorType":
-						inst.ArtistTextAnchorType = TextAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ArtistTextAnchorType, rhs)
 					case "ArtistDominantBaselineType":
-						inst.ArtistDominantBaselineType = DominantBaselineType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ArtistDominantBaselineType, rhs)
 					case "ArtistFontSize":
 						inst.ArtistFontSize = GongExtractString(rhs)
 					case "MajorArtistFontSize":
@@ -1170,11 +1266,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "ArtistLetterSpacing":
 						inst.ArtistLetterSpacing = GongExtractString(rhs)
 					case "ArtistDateRectAnchorType":
-						inst.ArtistDateRectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ArtistDateRectAnchorType, rhs)
 					case "ArtistDateTextAnchorType":
-						inst.ArtistDateTextAnchorType = TextAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ArtistDateTextAnchorType, rhs)
 					case "ArtistDateDominantBaselineType":
-						inst.ArtistDateDominantBaselineType = DominantBaselineType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ArtistDateDominantBaselineType, rhs)
 					case "ArtistDateAndPlacesFontSize":
 						inst.ArtistDateAndPlacesFontSize = GongExtractString(rhs)
 					case "ArtistDateAndPlacesFontWeigth":
@@ -1184,11 +1280,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "ArtistDateAndPlacesLetterSpacing":
 						inst.ArtistDateAndPlacesLetterSpacing = GongExtractString(rhs)
 					case "ArtistPlacesRectAnchorType":
-						inst.ArtistPlacesRectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ArtistPlacesRectAnchorType, rhs)
 					case "ArtistPlacesTextAnchorType":
-						inst.ArtistPlacesTextAnchorType = TextAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ArtistPlacesTextAnchorType, rhs)
 					case "ArtistPlacesDominantBaselineType":
-						inst.ArtistPlacesDominantBaselineType = DominantBaselineType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ArtistPlacesDominantBaselineType, rhs)
 					case "InfluenceArrowSize":
 						inst.InfluenceArrowSize = GongExtractFloat(rhs)
 					case "InfluenceArrowStartOffset":
@@ -1368,11 +1464,45 @@ func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map
 }
 
 func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
-	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-			if target, ok := identifierMap[rIdent.Name]; ok {
-				if typedTarget, ok := target.(*T); ok {
-					*slice = append(*slice, typedTarget)
+	if call, ok := rhs.(*ast.CallExpr); ok {
+		funcName := ""
+		var isSlices bool
+		if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+			if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+				isSlices = true
+				funcName = sel.Sel.Name
+			}
+		} else if ident, ok := call.Fun.(*ast.Ident); ok {
+			funcName = ident.Name
+		}
+
+		if isSlices {
+			if funcName == "Delete" && len(call.Args) == 3 {
+				start := GongExtractInt(call.Args[1])
+				end := GongExtractInt(call.Args[2])
+				if end <= len(*slice) {
+					*slice = slices.Delete(*slice, start, end)
+				}
+			} else if funcName == "Insert" && len(call.Args) == 3 {
+				index := GongExtractInt(call.Args[1])
+				if index <= len(*slice) {
+					if rIdent, ok := call.Args[2].(*ast.Ident); ok {
+						if target, ok := identifierMap[rIdent.Name]; ok {
+							if typedTarget, ok := target.(*T); ok {
+								*slice = slices.Insert(*slice, index, typedTarget)
+							}
+						}
+					}
+				}
+			}
+		} else if funcName == "append" && len(call.Args) >= 2 {
+			for i := 1; i < len(call.Args); i++ {
+				if rIdent, ok := call.Args[i].(*ast.Ident); ok {
+					if target, ok := identifierMap[rIdent.Name]; ok {
+						if typedTarget, ok := target.(*T); ok {
+							*slice = append(*slice, typedTarget)
+						}
+					}
 				}
 			}
 		}

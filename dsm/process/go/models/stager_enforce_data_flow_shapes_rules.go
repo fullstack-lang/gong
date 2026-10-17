@@ -46,6 +46,8 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 						df.EndExternalParticipant == nil || !externalParticipantsInDiagram[df.EndExternalParticipant] {
 						isValid = false
 					}
+				default:
+					isValid = false
 				}
 			} else {
 				isValid = false

@@ -76,6 +76,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		// concrete semantic check
 		{"Enforce at least one diagram per process", stager.enforceAtLeastOneDiagramPerProcess},
 		{"Enforce a process diagram has its owning process", stager.enforceAProcessDiagramHasItsOwningProcess},
+		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
 		{"Enforce node shape duplicates", stager.enforceNodeShapeDuplicates},
 		{"Enforce relation duplicates", stager.enforceRelationDuplicates},
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
@@ -83,7 +84,6 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce data flow shapes rules", stager.enforceDataFlowShapesRules},
 		{"Enforce participant shape semantic", stager.enforceParticipantShapeSemantic},
 		{"Enforce task shape within participant", stager.enforceTaskShapeWithinParticipant},
-		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
 		{"Enforce diagram size", stager.enforceDiagramSize},
 	}
 

@@ -7,6 +7,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/fullstack-lang/gong/dsm/process/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/process/go/models"
 )
 
@@ -709,3 +710,53 @@ func TestLoadAndVerifyStage(t *testing.T) {
 	}
 }
 
+func TestIssue1500_EditSimpleGoAndEnforceSemantic(t *testing.T) {
+	stack := level1stack.NewLevel1StackDelta("process", "../cmd/process/data/simple.go", "", true, true, true)
+	stage := stack.Stage
+
+	// Verify that enum values on DataFlow and DataFlowShape were properly unmarshalled via StageSet
+	dataFlows := stage.GetInstancesSorted[*models.DataFlow]()
+	if len(dataFlows) != 2 {
+		t.Fatalf("expected 2 DataFlows in simple.go, got %d", len(dataFlows))
+	}
+	for _, df := range dataFlows {
+		if df.Type != models.DataFlow_Task2Task && df.Type != models.DataFlow_ExternalParticipant2Task {
+			t.Errorf("expected DataFlow %q Type to be unmarshalled, got %q", df.Name, df.Type)
+		}
+	}
+
+	dataFlowShapes := stage.GetInstancesSorted[*models.DataFlowShape]()
+	if len(dataFlowShapes) != 2 {
+		t.Fatalf("expected 2 DataFlowShapes in simple.go, got %d", len(dataFlowShapes))
+	}
+	for _, dfs := range dataFlowShapes {
+		if dfs.StartOrientation == "" || dfs.EndOrientation == "" {
+			t.Errorf("expected DataFlowShape %q orientations to be unmarshalled, got start=%q end=%q",
+				dfs.Name, dfs.StartOrientation, dfs.EndOrientation)
+		}
+	}
+
+	// Run NewStager (which runs enforceSemantic) exactly as 'go run . edit data/simple.go' does
+	models.NewStager(stack.R, stack.Stage, stack.Probe)
+
+	// Verify DataFlows and DataFlowShapes remain staged after enforceSemantic
+	if got := len(stage.GetInstancesSorted[*models.DataFlow]()); got != 2 {
+		t.Errorf("expected 2 DataFlows after enforceSemantic, got %d", got)
+	}
+	if got := len(stage.GetInstancesSorted[*models.DataFlowShape]()); got != 2 {
+		t.Errorf("expected 2 DataFlowShapes after enforceSemantic, got %d", got)
+	}
+
+	// Also verify that if a DataFlow is unstaged (leaving a dangling DataFlowShape),
+	// Commit (which runs beforeCommit -> enforceSemantic) cleans and unstages the shape without nil pointer dereference
+	dataFlows = stage.GetInstancesSorted[*models.DataFlow]()
+	dataFlows[0].UnstageVoid(stage)
+	stage.Commit()
+
+	if got := len(stage.GetInstancesSorted[*models.DataFlow]()); got != 1 {
+		t.Errorf("expected 1 DataFlow after unstaging one, got %d", got)
+	}
+	if got := len(stage.GetInstancesSorted[*models.DataFlowShape]()); got != 1 {
+		t.Errorf("expected 1 DataFlowShape after unstaging its DataFlow, got %d", got)
+	}
+}
