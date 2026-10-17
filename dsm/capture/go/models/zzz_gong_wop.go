@@ -556,6 +556,56 @@ func (from *DeliverableShape) GongCopyBasicFields(to *DeliverableShape) {
 	to.FontColor = from.FontColor
 }
 
+type DeliverableViewShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
+}
+
+func (from *DeliverableViewShape) GongCopyBasicFields(to *DeliverableViewShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
+}
+
 type Diagram_WOP struct {
 	// insertion point
 
@@ -580,6 +630,8 @@ type Diagram_WOP struct {
 	Height float64
 
 	IsRequirementsNodeExpanded bool
+
+	IsViewsNodeExpanded bool
 
 	IsConceptsNodeExpanded bool
 
@@ -607,6 +659,7 @@ func (from *Diagram) GongCopyBasicFields(to *Diagram) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsRequirementsNodeExpanded = from.IsRequirementsNodeExpanded
+	to.IsViewsNodeExpanded = from.IsViewsNodeExpanded
 	to.IsConceptsNodeExpanded = from.IsConceptsNodeExpanded
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsConcernsNodeExpanded = from.IsConcernsNodeExpanded
@@ -1213,6 +1266,138 @@ type Tool_WOP struct {
 func (from *Tool) GongCopyBasicFields(to *Tool) {
 	// insertion point
 	*to = *from
+}
+
+type View_WOP struct {
+	// insertion point
+
+	Name string
+
+	ComputedPrefix string
+
+	IsExpanded bool
+
+	Description string
+}
+
+func (from *View) GongCopyBasicFields(to *View) {
+	// insertion point
+	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.Description = from.Description
+}
+
+type ViewConceptShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
+}
+
+func (from *ViewConceptShape) GongCopyBasicFields(to *ViewConceptShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
+}
+
+type ViewShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	RX float64
+
+	FontSize string
+
+	FontWeight string
+
+	FontColor string
+}
+
+func (from *ViewShape) GongCopyBasicFields(to *ViewShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.RX = from.RX
+	to.FontSize = from.FontSize
+	to.FontWeight = from.FontWeight
+	to.FontColor = from.FontColor
 }
 
 // end of insertion point

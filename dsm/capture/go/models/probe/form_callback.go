@@ -160,12 +160,16 @@ func saveConceptFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Concepts", func(owner *models.Deliverable) *[]*models.Concept { return &owner.Concepts })
 		case "Diagram:ConceptsWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ConceptsWhoseNodeIsExpanded", func(owner *models.Diagram) *[]*models.Concept { return &owner.ConceptsWhoseNodeIsExpanded })
+		case "Diagram:ConceptsWhoseViewsNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ConceptsWhoseViewsNodeIsExpanded", func(owner *models.Diagram) *[]*models.Concept { return &owner.ConceptsWhoseViewsNodeIsExpanded })
 		case "Diagram:ConceptsWhoseDeliverablesNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ConceptsWhoseDeliverablesNodeIsExpanded", func(owner *models.Diagram) *[]*models.Concept { return &owner.ConceptsWhoseDeliverablesNodeIsExpanded })
 		case "Library:RootConcepts":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "RootConcepts", func(owner *models.Library) *[]*models.Concept { return &owner.RootConcepts })
 		case "Requirement:Concepts":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Concepts", func(owner *models.Requirement) *[]*models.Concept { return &owner.Concepts })
+		case "View:Concepts":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Concepts", func(owner *models.View) *[]*models.Concept { return &owner.Concepts })
 		}
 	}
 }
@@ -605,6 +609,8 @@ func saveControlPointShapeFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlPointShapes", func(owner *models.DeliverableCompositionShape) *[]*models.ControlPointShape { return &owner.ControlPointShapes })
 		case "DeliverableConceptShape:ControlPointShapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlPointShapes", func(owner *models.DeliverableConceptShape) *[]*models.ControlPointShape { return &owner.ControlPointShapes })
+		case "DeliverableViewShape:ControlPointShapes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlPointShapes", func(owner *models.DeliverableViewShape) *[]*models.ControlPointShape { return &owner.ControlPointShapes })
 		case "NoteDeliverableShape:ControlPointShapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlPointShapes", func(owner *models.NoteDeliverableShape) *[]*models.ControlPointShape { return &owner.ControlPointShapes })
 		case "NoteStakeholderShape:ControlPointShapes":
@@ -615,6 +621,8 @@ func saveControlPointShapeFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlPointShapes", func(owner *models.StakeholderCompositionShape) *[]*models.ControlPointShape { return &owner.ControlPointShapes })
 		case "StakeholderConcernShape:ControlPointShapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlPointShapes", func(owner *models.StakeholderConcernShape) *[]*models.ControlPointShape { return &owner.ControlPointShapes })
+		case "ViewConceptShape:ControlPointShapes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlPointShapes", func(owner *models.ViewConceptShape) *[]*models.ControlPointShape { return &owner.ControlPointShapes })
 		}
 	}
 }
@@ -656,6 +664,8 @@ func saveDeliverableFields(
 			FormDivBasicFieldToField(&(_instance.IsProducersNodeExpanded), formDiv)
 		case "IsConsumersNodeExpanded":
 			FormDivBasicFieldToField(&(_instance.IsConsumersNodeExpanded), formDiv)
+		case "Views":
+			FormDivSliceOfPointersToField(_instance, "Views", &(_instance.Views), formDiv, probe)
 		case "Concepts":
 			FormDivSliceOfPointersToField(_instance, "Concepts", &(_instance.Concepts), formDiv, probe)
 		case "Concern:Inputs":
@@ -666,6 +676,8 @@ func saveDeliverableFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SubDeliverables", func(owner *models.Deliverable) *[]*models.Deliverable { return &owner.SubDeliverables })
 		case "Diagram:DeliverablesWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DeliverablesWhoseNodeIsExpanded", func(owner *models.Diagram) *[]*models.Deliverable { return &owner.DeliverablesWhoseNodeIsExpanded })
+		case "Diagram:DeliverablesWhoseViewsNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DeliverablesWhoseViewsNodeIsExpanded", func(owner *models.Diagram) *[]*models.Deliverable { return &owner.DeliverablesWhoseViewsNodeIsExpanded })
 		case "Diagram:DeliverablesWhoseConceptsNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DeliverablesWhoseConceptsNodeIsExpanded", func(owner *models.Diagram) *[]*models.Deliverable { return &owner.DeliverablesWhoseConceptsNodeIsExpanded })
 		case "Library:RootDeliverables":
@@ -867,6 +879,69 @@ func saveDeliverableShapeFields(
 	}
 }
 
+func __gong__New__DeliverableViewShapeFormCallback(
+	_instance *models.DeliverableViewShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (deliverableviewshapeFormCallback *FormCallback[*models.DeliverableViewShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveDeliverableViewShapeFields,
+	)
+}
+
+type DeliverableViewShapeFormCallback = FormCallback[*models.DeliverableViewShape]
+
+func saveDeliverableViewShapeFields(
+	_instance *models.DeliverableViewShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Deliverable":
+			FormDivSelectFieldToField(&(_instance.Deliverable), probe.stageOfInterest, formDiv)
+		case "View":
+			FormDivSelectFieldToField(&(_instance.View), probe.stageOfInterest, formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&(_instance.StartRatio), formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&(_instance.EndRatio), formDiv)
+		case "StartOrientation":
+			FormDivEnumStringFieldToField(&(_instance.StartOrientation), formDiv)
+		case "EndOrientation":
+			FormDivEnumStringFieldToField(&(_instance.EndOrientation), formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
+		case "ControlPointShapes":
+			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
+		case "Diagram:DeliverableViewShapes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DeliverableViewShapes", func(owner *models.Diagram) *[]*models.DeliverableViewShape { return &owner.DeliverableViewShapes })
+		}
+	}
+}
+
 func __gong__New__DiagramFormCallback(
 	_instance *models.Diagram,
 	probe *Probe,
@@ -914,12 +989,16 @@ func saveDiagramFields(
 			FormDivSliceOfPointersToField(_instance, "ConcernsWhoseRequirementsNodeIsExpanded", &(_instance.ConcernsWhoseRequirementsNodeIsExpanded), formDiv, probe)
 		case "IsRequirementsNodeExpanded":
 			FormDivBasicFieldToField(&(_instance.IsRequirementsNodeExpanded), formDiv)
+		case "IsViewsNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsViewsNodeExpanded), formDiv)
 		case "IsConceptsNodeExpanded":
 			FormDivBasicFieldToField(&(_instance.IsConceptsNodeExpanded), formDiv)
 		case "Deliverable_Shapes":
 			FormDivSliceOfPointersToField(_instance, "Deliverable_Shapes", &(_instance.Deliverable_Shapes), formDiv, probe)
 		case "DeliverablesWhoseNodeIsExpanded":
 			FormDivSliceOfPointersToField(_instance, "DeliverablesWhoseNodeIsExpanded", &(_instance.DeliverablesWhoseNodeIsExpanded), formDiv, probe)
+		case "DeliverablesWhoseViewsNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "DeliverablesWhoseViewsNodeIsExpanded", &(_instance.DeliverablesWhoseViewsNodeIsExpanded), formDiv, probe)
 		case "DeliverablesWhoseConceptsNodeIsExpanded":
 			FormDivSliceOfPointersToField(_instance, "DeliverablesWhoseConceptsNodeIsExpanded", &(_instance.DeliverablesWhoseConceptsNodeIsExpanded), formDiv, probe)
 		case "IsPBSNodeExpanded":
@@ -970,10 +1049,24 @@ func saveDiagramFields(
 			FormDivSliceOfPointersToField(_instance, "Requirement_Shapes", &(_instance.Requirement_Shapes), formDiv, probe)
 		case "RequirementsWhoseNodeIsExpanded":
 			FormDivSliceOfPointersToField(_instance, "RequirementsWhoseNodeIsExpanded", &(_instance.RequirementsWhoseNodeIsExpanded), formDiv, probe)
+		case "View_Shapes":
+			FormDivSliceOfPointersToField(_instance, "View_Shapes", &(_instance.View_Shapes), formDiv, probe)
+		case "ViewsWhoseNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "ViewsWhoseNodeIsExpanded", &(_instance.ViewsWhoseNodeIsExpanded), formDiv, probe)
+		case "ViewsWhoseDeliverablesNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "ViewsWhoseDeliverablesNodeIsExpanded", &(_instance.ViewsWhoseDeliverablesNodeIsExpanded), formDiv, probe)
+		case "ViewsWhoseConceptsNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "ViewsWhoseConceptsNodeIsExpanded", &(_instance.ViewsWhoseConceptsNodeIsExpanded), formDiv, probe)
+		case "DeliverableViewShapes":
+			FormDivSliceOfPointersToField(_instance, "DeliverableViewShapes", &(_instance.DeliverableViewShapes), formDiv, probe)
+		case "ViewConceptShapes":
+			FormDivSliceOfPointersToField(_instance, "ViewConceptShapes", &(_instance.ViewConceptShapes), formDiv, probe)
 		case "Concept_Shapes":
 			FormDivSliceOfPointersToField(_instance, "Concept_Shapes", &(_instance.Concept_Shapes), formDiv, probe)
 		case "ConceptsWhoseNodeIsExpanded":
 			FormDivSliceOfPointersToField(_instance, "ConceptsWhoseNodeIsExpanded", &(_instance.ConceptsWhoseNodeIsExpanded), formDiv, probe)
+		case "ConceptsWhoseViewsNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "ConceptsWhoseViewsNodeIsExpanded", &(_instance.ConceptsWhoseViewsNodeIsExpanded), formDiv, probe)
 		case "ConceptsWhoseDeliverablesNodeIsExpanded":
 			FormDivSliceOfPointersToField(_instance, "ConceptsWhoseDeliverablesNodeIsExpanded", &(_instance.ConceptsWhoseDeliverablesNodeIsExpanded), formDiv, probe)
 		case "DeliverableConceptShapes":
@@ -1098,6 +1191,8 @@ func saveLibraryFields(
 			FormDivSliceOfPointersToField(_instance, "RootStakeholders", &(_instance.RootStakeholders), formDiv, probe)
 		case "RootRequirements":
 			FormDivSliceOfPointersToField(_instance, "RootRequirements", &(_instance.RootRequirements), formDiv, probe)
+		case "RootViews":
+			FormDivSliceOfPointersToField(_instance, "RootViews", &(_instance.RootViews), formDiv, probe)
 		case "RootConcepts":
 			FormDivSliceOfPointersToField(_instance, "RootConcepts", &(_instance.RootConcepts), formDiv, probe)
 		case "AnalysisNeeds":
@@ -1825,6 +1920,183 @@ func saveToolFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Concept:Tools":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Tools", func(owner *models.Concept) *[]*models.Tool { return &owner.Tools })
+		}
+	}
+}
+
+func __gong__New__ViewFormCallback(
+	_instance *models.View,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (viewFormCallback *FormCallback[*models.View]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveViewFields,
+	)
+}
+
+type ViewFormCallback = FormCallback[*models.View]
+
+func saveViewFields(
+	_instance *models.View,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(_instance.Description), formDiv)
+		case "Concepts":
+			FormDivSliceOfPointersToField(_instance, "Concepts", &(_instance.Concepts), formDiv, probe)
+		case "Deliverable:Views":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Views", func(owner *models.Deliverable) *[]*models.View { return &owner.Views })
+		case "Diagram:ViewsWhoseNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ViewsWhoseNodeIsExpanded", func(owner *models.Diagram) *[]*models.View { return &owner.ViewsWhoseNodeIsExpanded })
+		case "Diagram:ViewsWhoseDeliverablesNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ViewsWhoseDeliverablesNodeIsExpanded", func(owner *models.Diagram) *[]*models.View { return &owner.ViewsWhoseDeliverablesNodeIsExpanded })
+		case "Diagram:ViewsWhoseConceptsNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ViewsWhoseConceptsNodeIsExpanded", func(owner *models.Diagram) *[]*models.View { return &owner.ViewsWhoseConceptsNodeIsExpanded })
+		case "Library:RootViews":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "RootViews", func(owner *models.Library) *[]*models.View { return &owner.RootViews })
+		}
+	}
+}
+
+func __gong__New__ViewConceptShapeFormCallback(
+	_instance *models.ViewConceptShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (viewconceptshapeFormCallback *FormCallback[*models.ViewConceptShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveViewConceptShapeFields,
+	)
+}
+
+type ViewConceptShapeFormCallback = FormCallback[*models.ViewConceptShape]
+
+func saveViewConceptShapeFields(
+	_instance *models.ViewConceptShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "View":
+			FormDivSelectFieldToField(&(_instance.View), probe.stageOfInterest, formDiv)
+		case "Concept":
+			FormDivSelectFieldToField(&(_instance.Concept), probe.stageOfInterest, formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&(_instance.StartRatio), formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&(_instance.EndRatio), formDiv)
+		case "StartOrientation":
+			FormDivEnumStringFieldToField(&(_instance.StartOrientation), formDiv)
+		case "EndOrientation":
+			FormDivEnumStringFieldToField(&(_instance.EndOrientation), formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
+		case "ControlPointShapes":
+			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
+		case "Diagram:ViewConceptShapes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ViewConceptShapes", func(owner *models.Diagram) *[]*models.ViewConceptShape { return &owner.ViewConceptShapes })
+		}
+	}
+}
+
+func __gong__New__ViewShapeFormCallback(
+	_instance *models.ViewShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (viewshapeFormCallback *FormCallback[*models.ViewShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveViewShapeFields,
+	)
+}
+
+type ViewShapeFormCallback = FormCallback[*models.ViewShape]
+
+func saveViewShapeFields(
+	_instance *models.ViewShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "View":
+			FormDivSelectFieldToField(&(_instance.View), probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(_instance.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(_instance.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(_instance.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(_instance.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
+		case "Diagram:View_Shapes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "View_Shapes", func(owner *models.Diagram) *[]*models.ViewShape { return &owner.View_Shapes })
 		}
 	}
 }

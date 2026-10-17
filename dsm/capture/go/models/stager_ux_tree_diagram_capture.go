@@ -29,12 +29,17 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 				diagram_.IsChecked = false
 			}
 			diagram.IsChecked = true
+			if stager.probeForm != nil {
+				stager.probeForm.FillUpFormFromGongstruct(diagram, "Diagram")
+			}
+			clearShapeAppearanceForm(stager)
 		} else {
 			diagram.IsChecked = false
 			// reset all ddiagram selection
 			for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 				diagram_.IsChecked = false
 			}
+			clearShapeAppearanceForm(stager)
 		}
 		stager.stage.Commit()
 	}
@@ -47,10 +52,7 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 		diagram.SetIsInRenameMode(false)
 		stager.stage.Commit()
 	}
-	diagramNode.OnClick = func(frontNode *tree.Node) {
-		stager.probeForm.FillUpFormFromGongstruct(diagram, "Diagram")
-		stager.stage.Commit()
-	}
+	diagramNode.OnClick = onNodeClicked(stager, diagram)
 
 	{
 		editButton := &tree.Button{
@@ -69,6 +71,9 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 			editButton.ToolTipText = "Stop editing diagram"
 		}
 		diagramNode.Buttons = append(diagramNode.Buttons, editButton)
+	}
+	if diagramNode.Menu == nil {
+		diagramNode.Menu = &tree.Menu{Name: "Menu"}
 	}
 	{
 		copyButton := &tree.Button{
@@ -114,51 +119,200 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 		diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, showAllButton)
 	}
 
-	diagramsCategoryNode := &tree.Node{
-		Name:                 "Diagrams",
-		FontStyle:            tree.ITALIC,
-		IsExpanded:           diagram.IsDiagramsNodeExpanded,
-		IsNodeClickable:      true,
-		IsWithPreceedingIcon: true,
-		PreceedingIcon:       string(buttons.BUTTON_folder),
-	}
-	diagramNode.Children = append(diagramNode.Children, diagramsCategoryNode)
-	diagramsCategoryNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsDiagramsNodeExpanded)
+	// Menu buttons on diagramNode to create root items and their shapes in the diagram
+	{
+		confMenuNotes := ItemAndShapeButtonConfiguration[
+			Note, *Note,
+			Library, *Library,
+			NoteShape, *NoteShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Note, *Note,
+				Library, *Library,
+			]{
+				parentNode:                         diagramNode,
+				sliceForNewAddedItem:               &library.Notes,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsNotesNodeExpanded,
+				IsButtonInMenu:                     true,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Note_Shapes,
+		}
+		cbMenuNotes := addCreateItemAndShapeButton(stager, confMenuNotes)
+		cbMenuNotes.OnBeforeCommit = func() {
+			diagram.IsNotesNodeExpanded = true
+			diagram.IsExpanded = true
+		}
 
-	if diagram.IsDiagramsNodeExpanded {
-		stager.treeDiagramBSinDiagram(diagram, stager.GetRootLibrary(), diagramsCategoryNode)
-	}
+		confMenuConcepts := ItemAndShapeButtonConfiguration[
+			Concept, *Concept,
+			Library, *Library,
+			ConceptShape, *ConceptShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Concept, *Concept,
+				Library, *Library,
+			]{
+				parentNode:                         diagramNode,
+				sliceForNewAddedItem:               &library.RootConcepts,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsConceptsNodeExpanded,
+				IsButtonInMenu:                     true,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Concept_Shapes,
+		}
+		cbMenuConcepts := addCreateItemAndShapeButton(stager, confMenuConcepts)
+		cbMenuConcepts.OnBeforeCommit = func() {
+			diagram.IsConceptsNodeExpanded = true
+			diagram.IsExpanded = true
+		}
 
-	wbsNode := &tree.Node{
-		Name:                 "Concerns",
-		FontStyle:            tree.ITALIC,
-		IsExpanded:           diagram.IsConcernsNodeExpanded,
-		IsNodeClickable:      true,
-		IsWithPreceedingIcon: true,
-		PreceedingIcon:       string(buttons.BUTTON_folder),
-	}
-	diagramNode.Children = append(diagramNode.Children, wbsNode)
-	wbsNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsConcernsNodeExpanded)
+		confMenuViews := ItemAndShapeButtonConfiguration[
+			View, *View,
+			Library, *Library,
+			ViewShape, *ViewShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				View, *View,
+				Library, *Library,
+			]{
+				parentNode:                         diagramNode,
+				sliceForNewAddedItem:               &library.RootViews,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsViewsNodeExpanded,
+				IsButtonInMenu:                     true,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.View_Shapes,
+		}
+		cbMenuViews := addCreateItemAndShapeButton(stager, confMenuViews)
+		cbMenuViews.OnBeforeCommit = func() {
+			diagram.IsViewsNodeExpanded = true
+			diagram.IsExpanded = true
+		}
 
-	confRootConcerns := ItemAndShapeButtonConfiguration[
-		Concern, *Concern,
-		Library, *Library,
-		ConcernShape, *ConcernShape,
-	]{
-		ItemButtonConfiguration: ItemButtonConfiguration[
+		confMenuRequirements := ItemAndShapeButtonConfiguration[
+			Requirement, *Requirement,
+			Library, *Library,
+			RequirementShape, *RequirementShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Requirement, *Requirement,
+				Library, *Library,
+			]{
+				parentNode:                         diagramNode,
+				sliceForNewAddedItem:               &library.RootRequirements,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsRequirementsNodeExpanded,
+				IsButtonInMenu:                     true,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Requirement_Shapes,
+		}
+		cbMenuRequirements := addCreateItemAndShapeButton(stager, confMenuRequirements)
+		cbMenuRequirements.OnBeforeCommit = func() {
+			diagram.IsRequirementsNodeExpanded = true
+			diagram.IsExpanded = true
+		}
+
+		confMenuDeliverables := ItemAndShapeButtonConfiguration[
+			Deliverable, *Deliverable,
+			Library, *Library,
+			DeliverableShape, *DeliverableShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Deliverable, *Deliverable,
+				Library, *Library,
+			]{
+				parentNode:                         diagramNode,
+				sliceForNewAddedItem:               &library.RootDeliverables,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsPBSNodeExpanded,
+				IsButtonInMenu:                     true,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Deliverable_Shapes,
+		}
+		cbMenuDeliverables := addCreateItemAndShapeButton(stager, confMenuDeliverables)
+		cbMenuDeliverables.OnBeforeCommit = func() {
+			diagram.IsPBSNodeExpanded = true
+			diagram.IsExpanded = true
+		}
+
+		confMenuStakeholders := ItemAndShapeButtonConfiguration[
+			Stakeholder, *Stakeholder,
+			Library, *Library,
+			StakeholderShape, *StakeholderShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Stakeholder, *Stakeholder,
+				Library, *Library,
+			]{
+				parentNode:                         diagramNode,
+				sliceForNewAddedItem:               &library.RootStakeholders,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsStakeholdersNodeExpanded,
+				IsButtonInMenu:                     true,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Stakeholder_Shapes,
+		}
+		cbMenuStakeholders := addCreateItemAndShapeButton(stager, confMenuStakeholders)
+		cbMenuStakeholders.OnBeforeCommit = func() {
+			diagram.IsStakeholdersNodeExpanded = true
+			diagram.IsExpanded = true
+		}
+
+		confMenuConcerns := ItemAndShapeButtonConfiguration[
 			Concern, *Concern,
 			Library, *Library,
+			ConcernShape, *ConcernShape,
 		]{
-			parentNode:                         wbsNode,
-			sliceForNewAddedItem:               &library.RootConcerns,
-			isParentNodeExpandedByAddOperation: true,
-			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-			parentNodeExpansionBooleanValue:    &diagram.IsConcernsNodeExpanded,
-		},
-		receivingDiagram:      diagram,
-		sliceForNewAddedShape: &diagram.Concern_Shapes,
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Concern, *Concern,
+				Library, *Library,
+			]{
+				parentNode:                         diagramNode,
+				sliceForNewAddedItem:               &library.RootConcerns,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsConcernsNodeExpanded,
+				IsButtonInMenu:                     true,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Concern_Shapes,
+		}
+		cbMenuConcerns := addCreateItemAndShapeButton(stager, confMenuConcerns)
+		cbMenuConcerns.OnBeforeCommit = func() {
+			diagram.IsConcernsNodeExpanded = true
+			diagram.IsExpanded = true
+		}
 	}
-	addCreateItemAndShapeButton(stager, confRootConcerns)
+
+	if len(stager.stage.GetInstancesSorted[*Diagram]()) > 1 {
+		diagramsCategoryNode := &tree.Node{
+			Name:                 "Diagrams",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           diagram.IsDiagramsNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
+		}
+		diagramNode.Children = append(diagramNode.Children, diagramsCategoryNode)
+		diagramsCategoryNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsDiagramsNodeExpanded)
+
+		if diagram.IsDiagramsNodeExpanded {
+			stager.treeDiagramBSinDiagram(diagram, stager.GetRootLibrary(), diagramsCategoryNode)
+		}
+	}
 
 	diagram.map_Concern_ConcernCompositionShape = make(map[*Concern]*ConcernCompositionShape)
 	for _, shape := range diagram.ConcernComposition_Shapes {
@@ -167,151 +321,229 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 		}
 	}
 
-	stakeholderNode := &tree.Node{
-		Name:                 "Stakeholders",
-		FontStyle:            tree.ITALIC,
-		IsExpanded:           diagram.IsStakeholdersNodeExpanded,
-		IsNodeClickable:      true,
-		IsWithPreceedingIcon: true,
-		PreceedingIcon:       string(buttons.BUTTON_folder),
-	}
-	diagramNode.Children = append(diagramNode.Children, stakeholderNode)
-	stakeholderNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsStakeholdersNodeExpanded)
+	if len(library.RootConcerns) > 0 {
+		wbsNode := &tree.Node{
+			Name:                 "Concerns",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           diagram.IsConcernsNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
+		}
+		diagramNode.Children = append(diagramNode.Children, wbsNode)
+		wbsNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsConcernsNodeExpanded)
 
-	confRootStakeholders := ItemAndShapeButtonConfiguration[
-		Stakeholder, *Stakeholder,
-		Library, *Library,
-		StakeholderShape, *StakeholderShape,
-	]{
-		ItemButtonConfiguration: ItemButtonConfiguration[
+		confRootConcerns := ItemAndShapeButtonConfiguration[
+			Concern, *Concern,
+			Library, *Library,
+			ConcernShape, *ConcernShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Concern, *Concern,
+				Library, *Library,
+			]{
+				parentNode:                         wbsNode,
+				sliceForNewAddedItem:               &library.RootConcerns,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsConcernsNodeExpanded,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Concern_Shapes,
+		}
+		addCreateItemAndShapeButton(stager, confRootConcerns)
+
+		for _, x := range library.RootConcerns {
+			stager.treeConcernBSinDiagram(diagram, x, wbsNode)
+		}
+	}
+
+	if len(library.RootStakeholders) > 0 {
+		stakeholderNode := &tree.Node{
+			Name:                 "Stakeholders",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           diagram.IsStakeholdersNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
+		}
+		diagramNode.Children = append(diagramNode.Children, stakeholderNode)
+		stakeholderNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsStakeholdersNodeExpanded)
+
+		confRootStakeholders := ItemAndShapeButtonConfiguration[
 			Stakeholder, *Stakeholder,
 			Library, *Library,
+			StakeholderShape, *StakeholderShape,
 		]{
-			parentNode:                         stakeholderNode,
-			sliceForNewAddedItem:               &library.RootStakeholders,
-			isParentNodeExpandedByAddOperation: true,
-			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-			parentNodeExpansionBooleanValue:    &diagram.IsStakeholdersNodeExpanded,
-		},
-		receivingDiagram:      diagram,
-		sliceForNewAddedShape: &diagram.Stakeholder_Shapes,
-	}
-	addCreateItemAndShapeButton(stager, confRootStakeholders)
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Stakeholder, *Stakeholder,
+				Library, *Library,
+			]{
+				parentNode:                         stakeholderNode,
+				sliceForNewAddedItem:               &library.RootStakeholders,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsStakeholdersNodeExpanded,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Stakeholder_Shapes,
+		}
+		addCreateItemAndShapeButton(stager, confRootStakeholders)
 
-	for _, x := range library.RootStakeholders {
-		stager.treeStakeholderBSinDiagram(diagram, x, stakeholderNode)
+		for _, x := range library.RootStakeholders {
+			stager.treeStakeholderBSinDiagram(diagram, x, stakeholderNode)
+		}
 	}
 
-	for _, x := range library.RootConcerns {
-		stager.treeConcernBSinDiagram(diagram, x, wbsNode)
-	}
+	if len(library.RootDeliverables) > 0 {
+		delivarablesNode := &tree.Node{
+			Name:                 "Deliverables",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           diagram.IsPBSNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
+		}
+		diagramNode.Children = append(diagramNode.Children, delivarablesNode)
+		delivarablesNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded)
 
-	delivarablesNode := &tree.Node{
-		Name:                 "Deliverables",
-		FontStyle:            tree.ITALIC,
-		IsExpanded:           diagram.IsPBSNodeExpanded,
-		IsNodeClickable:      true,
-		IsWithPreceedingIcon: true,
-		PreceedingIcon:       string(buttons.BUTTON_folder),
-	}
-	diagramNode.Children = append(diagramNode.Children, delivarablesNode)
-	delivarablesNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded)
-
-	confRootDeliverables := ItemAndShapeButtonConfiguration[
-		Deliverable, *Deliverable,
-		Library, *Library,
-		DeliverableShape, *DeliverableShape,
-	]{
-		ItemButtonConfiguration: ItemButtonConfiguration[
+		confRootDeliverables := ItemAndShapeButtonConfiguration[
 			Deliverable, *Deliverable,
 			Library, *Library,
+			DeliverableShape, *DeliverableShape,
 		]{
-			parentNode:                         delivarablesNode,
-			sliceForNewAddedItem:               &library.RootDeliverables,
-			isParentNodeExpandedByAddOperation: true,
-			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-			parentNodeExpansionBooleanValue:    &diagram.IsPBSNodeExpanded,
-		},
-		receivingDiagram:      diagram,
-		sliceForNewAddedShape: &diagram.Deliverable_Shapes,
-	}
-	addCreateItemAndShapeButton(stager, confRootDeliverables)
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Deliverable, *Deliverable,
+				Library, *Library,
+			]{
+				parentNode:                         delivarablesNode,
+				sliceForNewAddedItem:               &library.RootDeliverables,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsPBSNodeExpanded,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Deliverable_Shapes,
+		}
+		addCreateItemAndShapeButton(stager, confRootDeliverables)
 
-	for _, x := range library.RootDeliverables {
-		stager.treeDeliverableRecusriveInDiagram(diagram, x, delivarablesNode)
+		for _, x := range library.RootDeliverables {
+			stager.treeDeliverableRecusriveInDiagram(diagram, x, delivarablesNode)
+		}
 	}
 
-	requirementsNode := &tree.Node{
-		Name:                 "Requirements",
-		FontStyle:            tree.ITALIC,
-		IsExpanded:           diagram.IsRequirementsNodeExpanded,
-		IsNodeClickable:      true,
-		IsWithPreceedingIcon: true,
-		PreceedingIcon:       string(buttons.BUTTON_folder),
-	}
-	diagramNode.Children = append(diagramNode.Children, requirementsNode)
-	requirementsNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsRequirementsNodeExpanded)
+	if len(library.RootRequirements) > 0 {
+		requirementsNode := &tree.Node{
+			Name:                 "Requirements",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           diagram.IsRequirementsNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
+		}
+		diagramNode.Children = append(diagramNode.Children, requirementsNode)
+		requirementsNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsRequirementsNodeExpanded)
 
-	confRootRequirements := ItemAndShapeButtonConfiguration[
-		Requirement, *Requirement,
-		Library, *Library,
-		RequirementShape, *RequirementShape,
-	]{
-		ItemButtonConfiguration: ItemButtonConfiguration[
+		confRootRequirements := ItemAndShapeButtonConfiguration[
 			Requirement, *Requirement,
 			Library, *Library,
+			RequirementShape, *RequirementShape,
 		]{
-			parentNode:                         requirementsNode,
-			sliceForNewAddedItem:               &library.RootRequirements,
-			isParentNodeExpandedByAddOperation: true,
-			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-			parentNodeExpansionBooleanValue:    &diagram.IsRequirementsNodeExpanded,
-		},
-		receivingDiagram:      diagram,
-		sliceForNewAddedShape: &diagram.Requirement_Shapes,
-	}
-	addCreateItemAndShapeButton(stager, confRootRequirements)
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Requirement, *Requirement,
+				Library, *Library,
+			]{
+				parentNode:                         requirementsNode,
+				sliceForNewAddedItem:               &library.RootRequirements,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsRequirementsNodeExpanded,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Requirement_Shapes,
+		}
+		addCreateItemAndShapeButton(stager, confRootRequirements)
 
-	for _, req := range library.RootRequirements {
-		stager.treeRequirementBSinDiagram(diagram, req, requirementsNode)
+		for _, req := range library.RootRequirements {
+			stager.treeRequirementBSinDiagram(diagram, req, requirementsNode)
+		}
 	}
 
-	conceptsNode := &tree.Node{
-		Name:                 "Concepts",
-		FontStyle:            tree.ITALIC,
-		IsExpanded:           diagram.IsConceptsNodeExpanded,
-		IsNodeClickable:      true,
-		IsWithPreceedingIcon: true,
-		PreceedingIcon:       string(buttons.BUTTON_folder),
-	}
-	diagramNode.Children = append(diagramNode.Children, conceptsNode)
-	conceptsNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsConceptsNodeExpanded)
+	if len(library.RootViews) > 0 {
+		viewsNode := &tree.Node{
+			Name:                 "Views",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           diagram.IsViewsNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
+		}
+		diagramNode.Children = append(diagramNode.Children, viewsNode)
+		viewsNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsViewsNodeExpanded)
 
-	confRootConcepts := ItemAndShapeButtonConfiguration[
-		Concept, *Concept,
-		Library, *Library,
-		ConceptShape, *ConceptShape,
-	]{
-		ItemButtonConfiguration: ItemButtonConfiguration[
+		confRootViews := ItemAndShapeButtonConfiguration[
+			View, *View,
+			Library, *Library,
+			ViewShape, *ViewShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				View, *View,
+				Library, *Library,
+			]{
+				parentNode:                         viewsNode,
+				sliceForNewAddedItem:               &library.RootViews,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsViewsNodeExpanded,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.View_Shapes,
+		}
+		addCreateItemAndShapeButton(stager, confRootViews)
+
+		for _, view := range library.RootViews {
+			stager.treeViewBSinDiagram(diagram, view, viewsNode)
+		}
+	}
+
+	if len(library.RootConcepts) > 0 {
+		conceptsNode := &tree.Node{
+			Name:                 "Concepts",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           diagram.IsConceptsNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
+		}
+		diagramNode.Children = append(diagramNode.Children, conceptsNode)
+		conceptsNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsConceptsNodeExpanded)
+
+		confRootConcepts := ItemAndShapeButtonConfiguration[
 			Concept, *Concept,
 			Library, *Library,
+			ConceptShape, *ConceptShape,
 		]{
-			parentNode:                         conceptsNode,
-			sliceForNewAddedItem:               &library.RootConcepts,
-			isParentNodeExpandedByAddOperation: true,
-			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-			parentNodeExpansionBooleanValue:    &diagram.IsConceptsNodeExpanded,
-		},
-		receivingDiagram:      diagram,
-		sliceForNewAddedShape: &diagram.Concept_Shapes,
-	}
-	addCreateItemAndShapeButton(stager, confRootConcepts)
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Concept, *Concept,
+				Library, *Library,
+			]{
+				parentNode:                         conceptsNode,
+				sliceForNewAddedItem:               &library.RootConcepts,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsConceptsNodeExpanded,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Concept_Shapes,
+		}
+		addCreateItemAndShapeButton(stager, confRootConcepts)
 
-	for _, concept := range library.RootConcepts {
-		stager.treeConceptBSinDiagram(diagram, concept, conceptsNode)
+		for _, concept := range library.RootConcepts {
+			stager.treeConceptBSinDiagram(diagram, concept, conceptsNode)
+		}
 	}
 
-	{
+	if len(library.Notes) > 0 {
 		notesNode := &tree.Node{
 			Name:                 "Notes",
 			FontStyle:            tree.ITALIC,
@@ -485,4 +717,6 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 			}
 		}
 	}
+
+	EnsureRenameIsFirst(diagramNode)
 }

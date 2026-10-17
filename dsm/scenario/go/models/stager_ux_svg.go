@@ -268,6 +268,8 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			}
 		}
 
+		syncRectPresentation(shape, rect)
+
 		map_ActorStateShape_Rect[shape] = rect
 	}
 
@@ -284,6 +286,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		stager.formatText(rect, 20)
 
 		stager.appendArrows(rect, shape.Direction)
+		syncRectPresentation(shape, rect)
 
 		map_ParameterShape_Rect[shape] = rect
 	}
@@ -301,6 +304,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		stager.formatText(rect, 20)
 
 		stager.appendArrows(rect, shape.Direction)
+		syncRectPresentation(shape, rect)
 
 		map_ScenarioParameterShape_Rect[shape] = rect
 	}
@@ -316,6 +320,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		rect.StrokeWidth = 1.5
 		rect.FillOpacity = 1.0
 		stager.formatText(rect, 20)
+		syncRectPresentation(shape, rect)
 	}
 
 	//

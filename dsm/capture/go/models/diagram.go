@@ -22,11 +22,13 @@ type Diagram struct {
 	ConcernsWhoseRequirementsNodeIsExpanded []*Concern
 
 	IsRequirementsNodeExpanded bool
+	IsViewsNodeExpanded        bool
 	IsConceptsNodeExpanded     bool
 
 	Deliverable_Shapes                      []*DeliverableShape
 	map_Deliverable_DeliverableShape        map[*Deliverable]*DeliverableShape
 	DeliverablesWhoseNodeIsExpanded         []*Deliverable // to be made private once in production (no need to persist)
+	DeliverablesWhoseViewsNodeIsExpanded    []*Deliverable
 	DeliverablesWhoseConceptsNodeIsExpanded []*Deliverable
 	IsPBSNodeExpanded                       bool
 
@@ -80,9 +82,22 @@ type Diagram struct {
 	map_Requirement_RequirementShape map[*Requirement]*RequirementShape
 	RequirementsWhoseNodeIsExpanded  []*Requirement
 
+	View_Shapes                       []*ViewShape
+	map_View_ViewShape                map[*View]*ViewShape
+	ViewsWhoseNodeIsExpanded          []*View
+	ViewsWhoseDeliverablesNodeIsExpanded []*View
+	ViewsWhoseConceptsNodeIsExpanded     []*View
+
+	DeliverableViewShapes                       []*DeliverableViewShape
+	map_DeliverableViewKey_DeliverableViewShape map[deliverableViewKey]*DeliverableViewShape
+
+	ViewConceptShapes                   []*ViewConceptShape
+	map_ViewConceptKey_ViewConceptShape map[viewConceptKey]*ViewConceptShape
+
 	Concept_Shapes                          []*ConceptShape
 	map_Concept_ConceptShape                map[*Concept]*ConceptShape
 	ConceptsWhoseNodeIsExpanded             []*Concept
+	ConceptsWhoseViewsNodeIsExpanded        []*Concept
 	ConceptsWhoseDeliverablesNodeIsExpanded []*Concept
 
 	DeliverableConceptShapes                          []*DeliverableConceptShape
@@ -93,6 +108,7 @@ type Diagram struct {
 	map_Note_Rect        map[*Note]*svg.Rect
 	map_Stakeholder_Rect map[*Stakeholder]*svg.Rect
 	map_Requirement_Rect map[*Requirement]*svg.Rect
+	map_View_Rect        map[*View]*svg.Rect
 	map_Concept_Rect     map[*Concept]*svg.Rect
 
 	map_SvgRect_DeliverableShape map[*svg.Rect]*DeliverableShape
@@ -100,6 +116,7 @@ type Diagram struct {
 	map_SvgRect_NoteShape        map[*svg.Rect]*NoteShape
 	map_SvgRect_StakeholderShape map[*svg.Rect]*StakeholderShape
 	map_SvgRect_RequirementShape map[*svg.Rect]*RequirementShape
+	map_SvgRect_ViewShape        map[*svg.Rect]*ViewShape
 	map_SvgRect_ConceptShape     map[*svg.Rect]*ConceptShape
 	map_SvgRect_DiagramShape     map[*svg.Rect]*DiagramShape
 

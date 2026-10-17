@@ -2,6 +2,7 @@ package models
 
 import (
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
 )
 
 func getFileName(stager *Stager) string {
@@ -97,9 +98,10 @@ func (stager *Stager) createViews() {
 										Name:             "form",
 										ShowNameInHeader: false,
 										Size:             20,
-										Form: &split.Form{
-											StackName: stager.probeForm.GetFormStage().GetName(),
-										},
+										AsSplit: gongprobe.CreateFormsLayout(
+											stager.probeForm.GetFormStage().GetName(),
+											stager.shapeFormStage.GetName(),
+										),
 									},
 								},
 							},

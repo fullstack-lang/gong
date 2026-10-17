@@ -71,6 +71,57 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 
 	needCommit = needCommit || reattachToLibraryRoots(
 		stager,
+		func() []*Requirement {
+			roots := make([]*Requirement, 0)
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
+				roots = append(roots, library.RootRequirements...)
+			}
+			return roots
+		},
+		func(req *Requirement) {
+			req.GetOwningLibrary().RootRequirements = append(req.GetOwningLibrary().RootRequirements, req)
+		},
+		func(req *Requirement) []*Requirement {
+			return []*Requirement{}
+		},
+	)
+
+	needCommit = needCommit || reattachToLibraryRoots(
+		stager,
+		func() []*View {
+			roots := make([]*View, 0)
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
+				roots = append(roots, library.RootViews...)
+			}
+			return roots
+		},
+		func(view *View) {
+			view.GetOwningLibrary().RootViews = append(view.GetOwningLibrary().RootViews, view)
+		},
+		func(view *View) []*View {
+			return []*View{}
+		},
+	)
+
+	needCommit = needCommit || reattachToLibraryRoots(
+		stager,
+		func() []*Concept {
+			roots := make([]*Concept, 0)
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
+				roots = append(roots, library.RootConcepts...)
+			}
+			return roots
+		},
+		func(concept *Concept) {
+			concept.GetOwningLibrary().RootConcepts = append(concept.GetOwningLibrary().RootConcepts, concept)
+		},
+		func(concept *Concept) []*Concept {
+			return []*Concept{}
+		},
+	)
+
+	needCommit = needCommit || reattachToLibraryRoots(
+		stager,
 		func() []*Diagram {
 			roots := make([]*Diagram, 0)
 			for _, library := range stager.stage.GetInstancesSorted[*Library]() {

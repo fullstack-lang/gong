@@ -40,8 +40,6 @@ func (stager *Stager) svg() {
 // to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
 // internal maps to link abstract elements with their visual SVG counterparts.
 func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
-	svgStage := stager.svgStage
-
 	stager.svgObject = (&svg.SVG{Name: `SVG`})
 	stager.diagram = diagram
 	stager.svgObject.OnUpdate = stager.onUpdateSVG
@@ -51,6 +49,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	diagram.map_Note_Rect = make(map[*Note]*svg.Rect)
 	diagram.map_Stakeholder_Rect = make(map[*Stakeholder]*svg.Rect)
 	diagram.map_Requirement_Rect = make(map[*Requirement]*svg.Rect)
+	diagram.map_View_Rect = make(map[*View]*svg.Rect)
 	diagram.map_Concept_Rect = make(map[*Concept]*svg.Rect)
 	diagram.map_Diagram_Rect = make(map[*Diagram]*svg.Rect)
 
@@ -59,6 +58,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	diagram.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
 	diagram.map_SvgRect_StakeholderShape = make(map[*svg.Rect]*StakeholderShape)
 	diagram.map_SvgRect_RequirementShape = make(map[*svg.Rect]*RequirementShape)
+	diagram.map_SvgRect_ViewShape = make(map[*svg.Rect]*ViewShape)
 	diagram.map_SvgRect_ConceptShape = make(map[*svg.Rect]*ConceptShape)
 	diagram.map_SvgRect_DiagramShape = make(map[*svg.Rect]*DiagramShape)
 
@@ -323,6 +323,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.Stroke = "#555555"
 		link.StrokeWidth = 1.5
 		link.HasEndArrow = true
+		syncLinkPresentation(taskInputShape, link)
 		configureLinkWithControlPoints(stager, link, &taskInputShape.ControlPointShapes, startRect.Name)
 	}
 
@@ -355,6 +356,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.Stroke = "#555555"
 		link.StrokeWidth = 1.5
 		link.HasEndArrow = true
+		syncLinkPresentation(taskOutputShape, link)
 		configureLinkWithControlPoints(stager, link, &taskOutputShape.ControlPointShapes, startRect.Name)
 	}
 
@@ -431,6 +433,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			true,
 		)
 		link.HasEndArrow = false
+		syncLinkPresentation(noteDeliverableShape, link)
 		configureLinkWithControlPoints(stager, link, &noteDeliverableShape.ControlPointShapes, startRect.Name)
 	}
 
@@ -453,6 +456,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			true,
 		)
 		link.HasEndArrow = false
+		syncLinkPresentation(noteTaskShape, link)
 		configureLinkWithControlPoints(stager, link, &noteTaskShape.ControlPointShapes, startRect.Name)
 	}
 
@@ -543,6 +547,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			true,
 		)
 		link.HasEndArrow = false
+		syncLinkPresentation(noteResourceShape, link)
 		configureLinkWithControlPoints(stager, link, &noteResourceShape.ControlPointShapes, startRect.Name)
 	}
 
@@ -596,6 +601,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.Stroke = "#555555"
 		link.StrokeWidth = 1.5
 		link.HasEndArrow = true
+		syncLinkPresentation(resourceTaskShape, link)
 		configureLinkWithControlPoints(stager, link, &resourceTaskShape.ControlPointShapes, startRect.Name)
 	}
 
@@ -730,6 +736,85 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		}
 	}
 
+	for _, viewShape := range diagram.View_Shapes {
+		if viewShape.IsHidden {
+			continue
+		}
+
+		rect := svgRect(
+			stager,
+			diagram,
+			viewShape,
+			layer)
+		rect.RX = 8
+		rect.Color = "#E0F2F1"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#4DB6AC"
+		rect.StrokeWidth = 1.5
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			title := rect.RectAnchoredTexts[0]
+			title.Color = "#333333"
+			title.FontWeight = "500"
+			title.FontSize = "16px"
+			title.FontFamily = "sans-serif"
+		}
+
+		diagram.map_View_Rect[viewShape.View] = rect
+		diagram.map_SvgRect_ViewShape[rect] = viewShape
+
+		viewLogo := new(svg.RectAnchoredPath)
+		viewLogo.Name = "View"
+		viewLogo.Stroke = svg.Black.ToString()
+		viewLogo.StrokeWidth = 1
+		viewLogo.StrokeOpacity = 1
+		viewLogo.Color = svg.Black.ToString()
+		viewLogo.FillOpacity = 0.2
+		viewLogo.ScalePropotionnally = true
+		viewLogo.AppliedScaling = 1.0
+
+		// Material 'visibility' icon path
+		viewLogo.Definition = "M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+
+		distanceFromBorder := 5.0
+		iconWidth := 20.0
+
+		viewLogo.X_Offset = distanceFromBorder
+		viewLogo.Y_Offset = distanceFromBorder
+		viewLogo.RectAnchorType = svg.RECT_TOP_LEFT
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, viewLogo)
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			padding := 10.0
+			AdjustRectTitleForLeftIcon(stager, diagram, viewShape, rect, distanceFromBorder+iconWidth+padding)
+		}
+	}
+
+	for _, deliverableViewShape := range diagram.DeliverableViewShapes {
+		if deliverableViewShape.GetIsHidden() {
+			continue
+		}
+		deliverable := deliverableViewShape.Deliverable
+		view := deliverableViewShape.View
+		if deliverable == nil || view == nil {
+			log.Panic("There should be a deliverable and a view")
+		}
+		startRect := diagram.map_Deliverable_Rect[deliverable]
+		endRect := diagram.map_View_Rect[view]
+		if startRect == nil || endRect == nil {
+			continue
+		}
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			deliverableViewShape,
+			deliverable,
+			layer,
+			true,
+		)
+		configureLinkWithControlPoints(stager, link, &deliverableViewShape.ControlPointShapes, startRect.Name)
+	}
+
 	for _, conceptShape := range diagram.Concept_Shapes {
 		if conceptShape.IsHidden {
 			continue
@@ -785,6 +870,31 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		}
 	}
 
+	for _, viewConceptShape := range diagram.ViewConceptShapes {
+		if viewConceptShape.GetIsHidden() {
+			continue
+		}
+		view := viewConceptShape.View
+		concept := viewConceptShape.Concept
+		if view == nil || concept == nil {
+			log.Panic("There should be a view and a concept")
+		}
+		startRect := diagram.map_View_Rect[view]
+		endRect := diagram.map_Concept_Rect[concept]
+		if startRect == nil || endRect == nil {
+			continue
+		}
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			viewConceptShape,
+			view,
+			layer,
+			true,
+		)
+		configureLinkWithControlPoints(stager, link, &viewConceptShape.ControlPointShapes, startRect.Name)
+	}
+
 	for _, deliverableConceptShape := range diagram.DeliverableConceptShapes {
 		if deliverableConceptShape.GetIsHidden() {
 			continue
@@ -809,9 +919,6 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		)
 		configureLinkWithControlPoints(stager, link, &deliverableConceptShape.ControlPointShapes, startRect.Name)
 	}
-
-	svgStage.StageBranch(stager.svgObject)
-	stager.svgStage.Commit()
 
 	return stager.svgObject
 }

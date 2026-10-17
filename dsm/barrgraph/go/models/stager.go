@@ -25,6 +25,9 @@ import (
 
 	markdown "github.com/fullstack-lang/gong/lib/markdown/go/models"
 	markdown_stack "github.com/fullstack-lang/gong/lib/markdown/go/stack"
+
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	form_stack "github.com/fullstack-lang/gong/lib/form/go/stack"
 )
 
 type Stager struct {
@@ -43,6 +46,7 @@ type Stager struct {
 	fileName            string // fileName is used to store the name of the file to load or save
 	buttonStage         *button.Stage
 	markdownStage       *markdown.Stage
+	shapeFormStage      *form.Stage
 
 	probeForm ProbeIF
 
@@ -74,6 +78,7 @@ func NewStager(
 	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.markdownStage = markdown_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.shapeFormStage = form_stack.NewStack(r, "shapeForm", "", "", "", true, true).Stage
 	stager.createViews()
 
 	beforeCommit := func(stage *Stage) {
@@ -106,4 +111,8 @@ func (stager *Stager) GetGongtreeStage() *tree.Stage {
 
 func (stager *Stager) GetSvgObject() *svg.SVG {
 	return stager.svgObject
+}
+
+func (stager *Stager) GetShapeFormStage() *form.Stage {
+	return stager.shapeFormStage
 }

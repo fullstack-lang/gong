@@ -211,6 +211,19 @@ func FillUpFormFromGongstructName(
 		deliverableshape := new(models.DeliverableShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(deliverableshape, formGroup, probe)
+	case "DeliverableViewShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "DeliverableViewShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DeliverableViewShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		deliverableviewshape := new(models.DeliverableViewShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(deliverableviewshape, formGroup, probe)
 	case "Diagram":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -419,6 +432,45 @@ func FillUpFormFromGongstructName(
 		tool := new(models.Tool)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(tool, formGroup, probe)
+	case "View":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "View Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ViewFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		view := new(models.View)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(view, formGroup, probe)
+	case "ViewConceptShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ViewConceptShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ViewConceptShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		viewconceptshape := new(models.ViewConceptShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(viewconceptshape, formGroup, probe)
+	case "ViewShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ViewShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ViewShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		viewshape := new(models.ViewShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(viewshape, formGroup, probe)
 	}
 	formStage.Commit()
 }

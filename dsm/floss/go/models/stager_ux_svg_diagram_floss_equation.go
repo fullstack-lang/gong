@@ -1550,7 +1550,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		rect.StrokeWidth = 1.5
 		rect.StrokeOpacity = 1.0
 		rect.RX = 2
-		rect.OnSelect = onSelectRectElement(stager, noteShape.Note)
+		rect.OnSelect = onSelectRectShape(stager, noteShape.Note, noteShape)
 
 		rect.CanMoveHorizontaly = true
 		rect.CanMoveVerticaly = true
@@ -1585,6 +1585,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		title.X_Offset = 10
 		title.Y_Offset = 18
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
+		syncRectPresentation(noteShape, rect)
 	}
 
 	if diagram.AreCPEArrowsVisible {
@@ -1611,6 +1612,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			link.StrokeWidth = 1.5
 			link.StrokeDashArray = "5 5"
 			link.StrokeOpacity = 1.0
+			s := shape
+			link.OnSelect = func() {
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.probeForm.FillUpFormFromGongstruct(s.Note, s.Note.GongGetGongstructName())
+				fillUpShapeAppearanceForm(stager, s)
+			}
+			syncLinkPresentation(shape, link)
 		}
 
 		for _, shape := range diagram.NotePerformanceShapes {
@@ -1636,6 +1644,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			link.StrokeWidth = 1.5
 			link.StrokeDashArray = "5 5"
 			link.StrokeOpacity = 1.0
+			s := shape
+			link.OnSelect = func() {
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.probeForm.FillUpFormFromGongstruct(s.Note, s.Note.GongGetGongstructName())
+				fillUpShapeAppearanceForm(stager, s)
+			}
+			syncLinkPresentation(shape, link)
 		}
 
 		for _, shape := range diagram.NoteEffortShapes {
@@ -1661,6 +1676,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			link.StrokeWidth = 1.5
 			link.StrokeDashArray = "5 5"
 			link.StrokeOpacity = 1.0
+			s := shape
+			link.OnSelect = func() {
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.probeForm.FillUpFormFromGongstruct(s.Note, s.Note.GongGetGongstructName())
+				fillUpShapeAppearanceForm(stager, s)
+			}
+			syncLinkPresentation(shape, link)
 		}
 	}
 

@@ -365,6 +365,32 @@ func (deliverableshape *DeliverableShape) GongAfterDeleteFromFront(stage *Stage,
 	}
 }
 
+func (deliverableviewshape *DeliverableViewShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterDeliverableViewShapeCreateCallback != nil {
+		stage.OnAfterDeliverableViewShapeCreateCallback.OnAfterCreate(stage, deliverableviewshape)
+	}
+}
+
+func (deliverableviewshape *DeliverableViewShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDeliverableViewShapeUpdateCallback != nil {
+		var frontDeliverableViewShape *DeliverableViewShape
+		if front != nil {
+			frontDeliverableViewShape, _ = front.(*DeliverableViewShape)
+		}
+		stage.OnAfterDeliverableViewShapeUpdateCallback.OnAfterUpdate(stage, deliverableviewshape, frontDeliverableViewShape)
+	}
+}
+
+func (deliverableviewshape *DeliverableViewShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDeliverableViewShapeDeleteCallback != nil {
+		var frontDeliverableViewShape *DeliverableViewShape
+		if front != nil {
+			frontDeliverableViewShape, _ = front.(*DeliverableViewShape)
+		}
+		stage.OnAfterDeliverableViewShapeDeleteCallback.OnAfterDelete(stage, deliverableviewshape, frontDeliverableViewShape)
+	}
+}
+
 func (diagram *Diagram) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterDiagramCreateCallback != nil {
 		stage.OnAfterDiagramCreateCallback.OnAfterCreate(stage, diagram)
@@ -778,6 +804,84 @@ func (tool *Tool) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
 			frontTool, _ = front.(*Tool)
 		}
 		stage.OnAfterToolDeleteCallback.OnAfterDelete(stage, tool, frontTool)
+	}
+}
+
+func (view *View) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterViewCreateCallback != nil {
+		stage.OnAfterViewCreateCallback.OnAfterCreate(stage, view)
+	}
+}
+
+func (view *View) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterViewUpdateCallback != nil {
+		var frontView *View
+		if front != nil {
+			frontView, _ = front.(*View)
+		}
+		stage.OnAfterViewUpdateCallback.OnAfterUpdate(stage, view, frontView)
+	}
+}
+
+func (view *View) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterViewDeleteCallback != nil {
+		var frontView *View
+		if front != nil {
+			frontView, _ = front.(*View)
+		}
+		stage.OnAfterViewDeleteCallback.OnAfterDelete(stage, view, frontView)
+	}
+}
+
+func (viewconceptshape *ViewConceptShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterViewConceptShapeCreateCallback != nil {
+		stage.OnAfterViewConceptShapeCreateCallback.OnAfterCreate(stage, viewconceptshape)
+	}
+}
+
+func (viewconceptshape *ViewConceptShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterViewConceptShapeUpdateCallback != nil {
+		var frontViewConceptShape *ViewConceptShape
+		if front != nil {
+			frontViewConceptShape, _ = front.(*ViewConceptShape)
+		}
+		stage.OnAfterViewConceptShapeUpdateCallback.OnAfterUpdate(stage, viewconceptshape, frontViewConceptShape)
+	}
+}
+
+func (viewconceptshape *ViewConceptShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterViewConceptShapeDeleteCallback != nil {
+		var frontViewConceptShape *ViewConceptShape
+		if front != nil {
+			frontViewConceptShape, _ = front.(*ViewConceptShape)
+		}
+		stage.OnAfterViewConceptShapeDeleteCallback.OnAfterDelete(stage, viewconceptshape, frontViewConceptShape)
+	}
+}
+
+func (viewshape *ViewShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterViewShapeCreateCallback != nil {
+		stage.OnAfterViewShapeCreateCallback.OnAfterCreate(stage, viewshape)
+	}
+}
+
+func (viewshape *ViewShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterViewShapeUpdateCallback != nil {
+		var frontViewShape *ViewShape
+		if front != nil {
+			frontViewShape, _ = front.(*ViewShape)
+		}
+		stage.OnAfterViewShapeUpdateCallback.OnAfterUpdate(stage, viewshape, frontViewShape)
+	}
+}
+
+func (viewshape *ViewShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterViewShapeDeleteCallback != nil {
+		var frontViewShape *ViewShape
+		if front != nil {
+			frontViewShape, _ = front.(*ViewShape)
+		}
+		stage.OnAfterViewShapeDeleteCallback.OnAfterDelete(stage, viewshape, frontViewShape)
 	}
 }
 

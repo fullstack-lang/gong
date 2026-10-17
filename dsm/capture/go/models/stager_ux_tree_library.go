@@ -45,6 +45,132 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	}
 	addCreateItemButton(stager, confSubLibraries)
 
+	confNotes := ItemButtonConfiguration[
+		Note, *Note,
+		Library, *Library,
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.Notes,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksNotes := addCreateItemButton(stager, confNotes)
+	callbacksNotes.OnBeforeCommit = func() {
+		for _, diagram := range library.Diagrams {
+			diagram.IsNotesNodeExpanded = true
+		}
+	}
+
+	confConcepts := ItemButtonConfiguration[
+		Concept, *Concept,
+		Library, *Library,
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.RootConcepts,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksConcepts := addCreateItemButton(stager, confConcepts)
+	callbacksConcepts.OnBeforeCommit = func() {
+		for _, diagram := range library.Diagrams {
+			diagram.IsConceptsNodeExpanded = true
+		}
+	}
+
+	confViews := ItemButtonConfiguration[
+		View, *View,
+		Library, *Library,
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.RootViews,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksViews := addCreateItemButton(stager, confViews)
+	callbacksViews.OnBeforeCommit = func() {
+		for _, diagram := range library.Diagrams {
+			diagram.IsViewsNodeExpanded = true
+		}
+	}
+
+	confRequirements := ItemButtonConfiguration[
+		Requirement, *Requirement,
+		Library, *Library,
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.RootRequirements,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksRequirements := addCreateItemButton(stager, confRequirements)
+	callbacksRequirements.OnBeforeCommit = func() {
+		for _, diagram := range library.Diagrams {
+			diagram.IsRequirementsNodeExpanded = true
+		}
+	}
+
+	confDeliverables := ItemButtonConfiguration[
+		Deliverable, *Deliverable,
+		Library, *Library,
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.RootDeliverables,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksDeliverables := addCreateItemButton(stager, confDeliverables)
+	callbacksDeliverables.OnBeforeCommit = func() {
+		for _, diagram := range library.Diagrams {
+			diagram.IsPBSNodeExpanded = true
+		}
+	}
+
+	confStakeholders := ItemButtonConfiguration[
+		Stakeholder, *Stakeholder,
+		Library, *Library,
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.RootStakeholders,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksStakeholders := addCreateItemButton(stager, confStakeholders)
+	callbacksStakeholders.OnBeforeCommit = func() {
+		for _, diagram := range library.Diagrams {
+			diagram.IsStakeholdersNodeExpanded = true
+		}
+	}
+
+	confConcerns := ItemButtonConfiguration[
+		Concern, *Concern,
+		Library, *Library,
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.RootConcerns,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksConcerns := addCreateItemButton(stager, confConcerns)
+	callbacksConcerns.OnBeforeCommit = func() {
+		for _, diagram := range library.Diagrams {
+			diagram.IsConcernsNodeExpanded = true
+		}
+	}
+
 	confDiagrams := ItemButtonConfiguration[
 		Diagram, *Diagram,
 		Library, *Library,
@@ -54,7 +180,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
 		parentNodeExpansionBooleanValue:    &library.IsExpanded,
-		IsButtonInMenu:                     false,
+		IsButtonInMenu:                     true,
 	}
 	diagramItemAdderCallback := addCreateItemButton(stager, confDiagrams)
 
@@ -68,31 +194,6 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		newDiagram.IsChecked = true
 	}
 
-	// Also add "Add Diagram" into menu for discoverability
-	if libraryNode.Menu == nil {
-		libraryNode.Menu = &tree.Menu{Name: "Menu"}
-	}
-	libraryNode.Menu.Buttons = append([]*tree.Button{
-		{
-			Name:            "Add Diagram",
-			Icon:            string(buttons.BUTTON_add),
-			ToolTipText:     "Add a Diagram to \"" + libraryNode.Name + "\"",
-			HasToolTip:      true,
-			ToolTipPosition: tree.Right,
-			OnClick: func() {
-				callbacks := &itemAdderCallback[*Diagram]{}
-				newAbstractElement := processAbstractItemAddition(stager, confDiagrams, callbacks)
-				newAbstractElement.IsEditable_ = true
-				newAbstractElement.IsExpanded = true
-				for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
-					diagram_.IsChecked = false
-				}
-				newAbstractElement.IsChecked = true
-				stager.stage.Commit()
-			},
-		},
-	}, libraryNode.Menu.Buttons...)
-
 	for _, diagram := range library.Diagrams {
 		stager.treeDiagramCapture(library, diagram, libraryNode)
 	}
@@ -100,6 +201,8 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	for _, subLibrary := range library.SubLibraries {
 		stager.treeLibrary(treeInstance, subLibrary, &libraryNode.Children)
 	}
+
+	EnsureRenameIsFirst(libraryNode)
 }
 
 func (stager *Stager) OnUpdateExpansion(isExpanded *bool) func(isExpanded bool) {

@@ -74,6 +74,15 @@ func FillUpForm(
 			})
 		AssociationReverseSliceToForm(
 			"Diagram",
+			"ConceptsWhoseViewsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Diagram) []*models.Concept {
+				return owner.ConceptsWhoseViewsNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Diagram",
 			"ConceptsWhoseDeliverablesNodeIsExpanded",
 			instanceWithInferedType,
 			formGroup,
@@ -97,6 +106,15 @@ func FillUpForm(
 			formGroup,
 			probe,
 			func(owner *models.Requirement) []*models.Concept {
+				return owner.Concepts
+			})
+		AssociationReverseSliceToForm(
+			"View",
+			"Concepts",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.View) []*models.Concept {
 				return owner.Concepts
 			})
 
@@ -517,6 +535,15 @@ func FillUpForm(
 				return owner.ControlPointShapes
 			})
 		AssociationReverseSliceToForm(
+			"DeliverableViewShape",
+			"ControlPointShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DeliverableViewShape) []*models.ControlPointShape {
+				return owner.ControlPointShapes
+			})
+		AssociationReverseSliceToForm(
 			"NoteDeliverableShape",
 			"ControlPointShapes",
 			instanceWithInferedType,
@@ -561,6 +588,15 @@ func FillUpForm(
 			func(owner *models.StakeholderConcernShape) []*models.ControlPointShape {
 				return owner.ControlPointShapes
 			})
+		AssociationReverseSliceToForm(
+			"ViewConceptShape",
+			"ControlPointShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ViewConceptShape) []*models.ControlPointShape {
+				return owner.ControlPointShapes
+			})
 
 	case *models.Deliverable:
 		// insertion point
@@ -577,6 +613,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsConsumersNodeExpanded", instanceWithInferedType.IsConsumersNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Views", instanceWithInferedType, &instanceWithInferedType.Views, formGroup, probe)
 		AssociationSliceToForm("Concepts", instanceWithInferedType, &instanceWithInferedType.Concepts, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -618,6 +655,15 @@ func FillUpForm(
 			probe,
 			func(owner *models.Diagram) []*models.Deliverable {
 				return owner.DeliverablesWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Diagram",
+			"DeliverablesWhoseViewsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Diagram) []*models.Deliverable {
+				return owner.DeliverablesWhoseViewsNodeIsExpanded
 			})
 		AssociationReverseSliceToForm(
 			"Diagram",
@@ -792,6 +838,52 @@ func FillUpForm(
 				return owner.Deliverable_Shapes
 			})
 
+	case *models.DeliverableViewShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Deliverable", instanceWithInferedType.Deliverable, formGroup, probe)
+		AssociationFieldToForm("View", instanceWithInferedType.View, formGroup, probe)
+		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndRatio", instanceWithInferedType.EndRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		EnumTypeStringToForm("StartOrientation", instanceWithInferedType.StartOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("EndOrientation", instanceWithInferedType.EndOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("CornerOffsetRatio", instanceWithInferedType.CornerOffsetRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsPresentationOverridden", instanceWithInferedType.IsPresentationOverridden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Stroke", instanceWithInferedType.Stroke, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeWidth", instanceWithInferedType.StrokeWidth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeOpacity", instanceWithInferedType.StrokeOpacity, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeDashArray", instanceWithInferedType.StrokeDashArray, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FontSize", instanceWithInferedType.FontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FontColor", instanceWithInferedType.FontColor, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("ControlPointShapes", instanceWithInferedType, &instanceWithInferedType.ControlPointShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Diagram",
+			"DeliverableViewShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Diagram) []*models.DeliverableViewShape {
+				return owner.DeliverableViewShapes
+			})
+
 	case *models.Diagram:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -817,10 +909,13 @@ func FillUpForm(
 		AssociationSliceToForm("ConcernsWhoseRequirementsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ConcernsWhoseRequirementsNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsRequirementsNodeExpanded", instanceWithInferedType.IsRequirementsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsViewsNodeExpanded", instanceWithInferedType.IsViewsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsConceptsNodeExpanded", instanceWithInferedType.IsConceptsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Deliverable_Shapes", instanceWithInferedType, &instanceWithInferedType.Deliverable_Shapes, formGroup, probe)
 		AssociationSliceToForm("DeliverablesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DeliverablesWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("DeliverablesWhoseViewsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DeliverablesWhoseViewsNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("DeliverablesWhoseConceptsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DeliverablesWhoseConceptsNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsPBSNodeExpanded", instanceWithInferedType.IsPBSNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -850,8 +945,15 @@ func FillUpForm(
 		AssociationSliceToForm("StakeholderConcernShapes", instanceWithInferedType, &instanceWithInferedType.StakeholderConcernShapes, formGroup, probe)
 		AssociationSliceToForm("Requirement_Shapes", instanceWithInferedType, &instanceWithInferedType.Requirement_Shapes, formGroup, probe)
 		AssociationSliceToForm("RequirementsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.RequirementsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("View_Shapes", instanceWithInferedType, &instanceWithInferedType.View_Shapes, formGroup, probe)
+		AssociationSliceToForm("ViewsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ViewsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("ViewsWhoseDeliverablesNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ViewsWhoseDeliverablesNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("ViewsWhoseConceptsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ViewsWhoseConceptsNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("DeliverableViewShapes", instanceWithInferedType, &instanceWithInferedType.DeliverableViewShapes, formGroup, probe)
+		AssociationSliceToForm("ViewConceptShapes", instanceWithInferedType, &instanceWithInferedType.ViewConceptShapes, formGroup, probe)
 		AssociationSliceToForm("Concept_Shapes", instanceWithInferedType, &instanceWithInferedType.Concept_Shapes, formGroup, probe)
 		AssociationSliceToForm("ConceptsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ConceptsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("ConceptsWhoseViewsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ConceptsWhoseViewsNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("ConceptsWhoseDeliverablesNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ConceptsWhoseDeliverablesNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("DeliverableConceptShapes", instanceWithInferedType, &instanceWithInferedType.DeliverableConceptShapes, formGroup, probe)
 		AssociationSliceToForm("Diagram_Shapes", instanceWithInferedType, &instanceWithInferedType.Diagram_Shapes, formGroup, probe)
@@ -950,6 +1052,7 @@ func FillUpForm(
 		AssociationSliceToForm("RootConcerns", instanceWithInferedType, &instanceWithInferedType.RootConcerns, formGroup, probe)
 		AssociationSliceToForm("RootStakeholders", instanceWithInferedType, &instanceWithInferedType.RootStakeholders, formGroup, probe)
 		AssociationSliceToForm("RootRequirements", instanceWithInferedType, &instanceWithInferedType.RootRequirements, formGroup, probe)
+		AssociationSliceToForm("RootViews", instanceWithInferedType, &instanceWithInferedType.RootViews, formGroup, probe)
 		AssociationSliceToForm("RootConcepts", instanceWithInferedType, &instanceWithInferedType.RootConcepts, formGroup, probe)
 		AssociationSliceToForm("AnalysisNeeds", instanceWithInferedType, &instanceWithInferedType.AnalysisNeeds, formGroup, probe)
 		AssociationSliceToForm("Notes", instanceWithInferedType, &instanceWithInferedType.Notes, formGroup, probe)
@@ -1534,6 +1637,168 @@ func FillUpForm(
 			probe,
 			func(owner *models.Concept) []*models.Tool {
 				return owner.Tools
+			})
+
+	case *models.View:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
+			true, false, 0, false, 0, false)
+		AssociationSliceToForm("Concepts", instanceWithInferedType, &instanceWithInferedType.Concepts, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Deliverable",
+			"Views",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Deliverable) []*models.View {
+				return owner.Views
+			})
+		AssociationReverseSliceToForm(
+			"Diagram",
+			"ViewsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Diagram) []*models.View {
+				return owner.ViewsWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Diagram",
+			"ViewsWhoseDeliverablesNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Diagram) []*models.View {
+				return owner.ViewsWhoseDeliverablesNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Diagram",
+			"ViewsWhoseConceptsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Diagram) []*models.View {
+				return owner.ViewsWhoseConceptsNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"RootViews",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.View {
+				return owner.RootViews
+			})
+
+	case *models.ViewConceptShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("View", instanceWithInferedType.View, formGroup, probe)
+		AssociationFieldToForm("Concept", instanceWithInferedType.Concept, formGroup, probe)
+		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndRatio", instanceWithInferedType.EndRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		EnumTypeStringToForm("StartOrientation", instanceWithInferedType.StartOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("EndOrientation", instanceWithInferedType.EndOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("CornerOffsetRatio", instanceWithInferedType.CornerOffsetRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsPresentationOverridden", instanceWithInferedType.IsPresentationOverridden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Stroke", instanceWithInferedType.Stroke, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeWidth", instanceWithInferedType.StrokeWidth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeOpacity", instanceWithInferedType.StrokeOpacity, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeDashArray", instanceWithInferedType.StrokeDashArray, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FontSize", instanceWithInferedType.FontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FontColor", instanceWithInferedType.FontColor, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("ControlPointShapes", instanceWithInferedType, &instanceWithInferedType.ControlPointShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Diagram",
+			"ViewConceptShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Diagram) []*models.ViewConceptShape {
+				return owner.ViewConceptShapes
+			})
+
+	case *models.ViewShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("View", instanceWithInferedType.View, formGroup, probe)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsPresentationOverridden", instanceWithInferedType.IsPresentationOverridden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FillOpacity", instanceWithInferedType.FillOpacity, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Stroke", instanceWithInferedType.Stroke, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeWidth", instanceWithInferedType.StrokeWidth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeOpacity", instanceWithInferedType.StrokeOpacity, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeDashArray", instanceWithInferedType.StrokeDashArray, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RX", instanceWithInferedType.RX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FontSize", instanceWithInferedType.FontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FontWeight", instanceWithInferedType.FontWeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FontColor", instanceWithInferedType.FontColor, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Diagram",
+			"View_Shapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Diagram) []*models.ViewShape {
+				return owner.View_Shapes
 			})
 
 	default:

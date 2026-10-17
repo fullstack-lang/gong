@@ -80,6 +80,11 @@ func (deliverableshape *DeliverableShape) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (deliverableviewshape *DeliverableViewShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DeliverableViewShapes[deliverableviewshape]
+	return ok
+}
+
 func (diagram *Diagram) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.Diagrams[diagram]
 	return ok
@@ -157,6 +162,21 @@ func (supportlevel *SupportLevel) GongIsStaged(stage *Stage) bool {
 
 func (tool *Tool) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.Tools[tool]
+	return ok
+}
+
+func (view *View) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Views[view]
+	return ok
+}
+
+func (viewconceptshape *ViewConceptShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ViewConceptShapes[viewconceptshape]
+	return ok
+}
+
+func (viewshape *ViewShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ViewShapes[viewshape]
 	return ok
 }
 
@@ -363,6 +383,9 @@ func (deliverable *Deliverable) GongStageBranch(stage *Stage) {
 	for _, _deliverable := range deliverable.SubDeliverables {
 		stage.StageBranch(_deliverable)
 	}
+	for _, _view := range deliverable.Views {
+		stage.StageBranch(_view)
+	}
 	for _, _concept := range deliverable.Concepts {
 		stage.StageBranch(_concept)
 	}
@@ -432,6 +455,30 @@ func (deliverableshape *DeliverableShape) GongStageBranch(stage *Stage) {
 
 }
 
+func (deliverableviewshape *DeliverableViewShape) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(deliverableviewshape) {
+		return
+	}
+
+	deliverableviewshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if deliverableviewshape.Deliverable != nil {
+		stage.StageBranch(deliverableviewshape.Deliverable)
+	}
+	if deliverableviewshape.View != nil {
+		stage.StageBranch(deliverableviewshape.View)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range deliverableviewshape.ControlPointShapes {
+		stage.StageBranch(_controlpointshape)
+	}
+
+}
+
 func (diagram *Diagram) GongStageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -451,6 +498,9 @@ func (diagram *Diagram) GongStageBranch(stage *Stage) {
 		stage.StageBranch(_deliverableshape)
 	}
 	for _, _deliverable := range diagram.DeliverablesWhoseNodeIsExpanded {
+		stage.StageBranch(_deliverable)
+	}
+	for _, _deliverable := range diagram.DeliverablesWhoseViewsNodeIsExpanded {
 		stage.StageBranch(_deliverable)
 	}
 	for _, _deliverable := range diagram.DeliverablesWhoseConceptsNodeIsExpanded {
@@ -516,10 +566,31 @@ func (diagram *Diagram) GongStageBranch(stage *Stage) {
 	for _, _requirement := range diagram.RequirementsWhoseNodeIsExpanded {
 		stage.StageBranch(_requirement)
 	}
+	for _, _viewshape := range diagram.View_Shapes {
+		stage.StageBranch(_viewshape)
+	}
+	for _, _view := range diagram.ViewsWhoseNodeIsExpanded {
+		stage.StageBranch(_view)
+	}
+	for _, _view := range diagram.ViewsWhoseDeliverablesNodeIsExpanded {
+		stage.StageBranch(_view)
+	}
+	for _, _view := range diagram.ViewsWhoseConceptsNodeIsExpanded {
+		stage.StageBranch(_view)
+	}
+	for _, _deliverableviewshape := range diagram.DeliverableViewShapes {
+		stage.StageBranch(_deliverableviewshape)
+	}
+	for _, _viewconceptshape := range diagram.ViewConceptShapes {
+		stage.StageBranch(_viewconceptshape)
+	}
 	for _, _conceptshape := range diagram.Concept_Shapes {
 		stage.StageBranch(_conceptshape)
 	}
 	for _, _concept := range diagram.ConceptsWhoseNodeIsExpanded {
+		stage.StageBranch(_concept)
+	}
+	for _, _concept := range diagram.ConceptsWhoseViewsNodeIsExpanded {
 		stage.StageBranch(_concept)
 	}
 	for _, _concept := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
@@ -578,6 +649,9 @@ func (library *Library) GongStageBranch(stage *Stage) {
 	}
 	for _, _requirement := range library.RootRequirements {
 		stage.StageBranch(_requirement)
+	}
+	for _, _view := range library.RootViews {
+		stage.StageBranch(_view)
 	}
 	for _, _concept := range library.RootConcepts {
 		stage.StageBranch(_concept)
@@ -867,6 +941,66 @@ func (tool *Tool) GongStageBranch(stage *Stage) {
 
 }
 
+func (view *View) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(view) {
+		return
+	}
+
+	view.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _concept := range view.Concepts {
+		stage.StageBranch(_concept)
+	}
+
+}
+
+func (viewconceptshape *ViewConceptShape) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(viewconceptshape) {
+		return
+	}
+
+	viewconceptshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if viewconceptshape.View != nil {
+		stage.StageBranch(viewconceptshape.View)
+	}
+	if viewconceptshape.Concept != nil {
+		stage.StageBranch(viewconceptshape.Concept)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range viewconceptshape.ControlPointShapes {
+		stage.StageBranch(_controlpointshape)
+	}
+
+}
+
+func (viewshape *ViewShape) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(viewshape) {
+		return
+	}
+
+	viewshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if viewshape.View != nil {
+		stage.StageBranch(viewshape.View)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -928,6 +1062,10 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *DeliverableShape:
 		toT := GongCopyBranchDeliverableShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *DeliverableViewShape:
+		toT := GongCopyBranchDeliverableViewShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Diagram:
@@ -992,6 +1130,18 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Tool:
 		toT := GongCopyBranchTool(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *View:
+		toT := GongCopyBranchView(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ViewConceptShape:
+		toT := GongCopyBranchViewConceptShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ViewShape:
+		toT := GongCopyBranchViewShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -1195,6 +1345,9 @@ func GongCopyBranchDeliverable(mapOrigCopy map[any]any, deliverableFrom *Deliver
 	for _, _deliverable := range deliverableFrom.SubDeliverables {
 		deliverableTo.SubDeliverables = append(deliverableTo.SubDeliverables, GongCopyBranchDeliverable(mapOrigCopy, _deliverable))
 	}
+	for _, _view := range deliverableFrom.Views {
+		deliverableTo.Views = append(deliverableTo.Views, GongCopyBranchView(mapOrigCopy, _view))
+	}
 	for _, _concept := range deliverableFrom.Concepts {
 		deliverableTo.Concepts = append(deliverableTo.Concepts, GongCopyBranchConcept(mapOrigCopy, _concept))
 	}
@@ -1265,6 +1418,30 @@ func GongCopyBranchDeliverableShape(mapOrigCopy map[any]any, deliverableshapeFro
 	return
 }
 
+func GongCopyBranchDeliverableViewShape(mapOrigCopy map[any]any, deliverableviewshapeFrom *DeliverableViewShape) (deliverableviewshapeTo *DeliverableViewShape) {
+	var alreadyCopied bool
+	deliverableviewshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, deliverableviewshapeFrom)
+	if alreadyCopied {
+		return
+	}
+	deliverableviewshapeFrom.GongCopyBasicFields(deliverableviewshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if deliverableviewshapeFrom.Deliverable != nil {
+		deliverableviewshapeTo.Deliverable = GongCopyBranchDeliverable(mapOrigCopy, deliverableviewshapeFrom.Deliverable)
+	}
+	if deliverableviewshapeFrom.View != nil {
+		deliverableviewshapeTo.View = GongCopyBranchView(mapOrigCopy, deliverableviewshapeFrom.View)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range deliverableviewshapeFrom.ControlPointShapes {
+		deliverableviewshapeTo.ControlPointShapes = append(deliverableviewshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
+
+	return
+}
+
 func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
 	var alreadyCopied bool
 	diagramTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, diagramFrom)
@@ -1284,6 +1461,9 @@ func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagr
 	}
 	for _, _deliverable := range diagramFrom.DeliverablesWhoseNodeIsExpanded {
 		diagramTo.DeliverablesWhoseNodeIsExpanded = append(diagramTo.DeliverablesWhoseNodeIsExpanded, GongCopyBranchDeliverable(mapOrigCopy, _deliverable))
+	}
+	for _, _deliverable := range diagramFrom.DeliverablesWhoseViewsNodeIsExpanded {
+		diagramTo.DeliverablesWhoseViewsNodeIsExpanded = append(diagramTo.DeliverablesWhoseViewsNodeIsExpanded, GongCopyBranchDeliverable(mapOrigCopy, _deliverable))
 	}
 	for _, _deliverable := range diagramFrom.DeliverablesWhoseConceptsNodeIsExpanded {
 		diagramTo.DeliverablesWhoseConceptsNodeIsExpanded = append(diagramTo.DeliverablesWhoseConceptsNodeIsExpanded, GongCopyBranchDeliverable(mapOrigCopy, _deliverable))
@@ -1348,11 +1528,32 @@ func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagr
 	for _, _requirement := range diagramFrom.RequirementsWhoseNodeIsExpanded {
 		diagramTo.RequirementsWhoseNodeIsExpanded = append(diagramTo.RequirementsWhoseNodeIsExpanded, GongCopyBranchRequirement(mapOrigCopy, _requirement))
 	}
+	for _, _viewshape := range diagramFrom.View_Shapes {
+		diagramTo.View_Shapes = append(diagramTo.View_Shapes, GongCopyBranchViewShape(mapOrigCopy, _viewshape))
+	}
+	for _, _view := range diagramFrom.ViewsWhoseNodeIsExpanded {
+		diagramTo.ViewsWhoseNodeIsExpanded = append(diagramTo.ViewsWhoseNodeIsExpanded, GongCopyBranchView(mapOrigCopy, _view))
+	}
+	for _, _view := range diagramFrom.ViewsWhoseDeliverablesNodeIsExpanded {
+		diagramTo.ViewsWhoseDeliverablesNodeIsExpanded = append(diagramTo.ViewsWhoseDeliverablesNodeIsExpanded, GongCopyBranchView(mapOrigCopy, _view))
+	}
+	for _, _view := range diagramFrom.ViewsWhoseConceptsNodeIsExpanded {
+		diagramTo.ViewsWhoseConceptsNodeIsExpanded = append(diagramTo.ViewsWhoseConceptsNodeIsExpanded, GongCopyBranchView(mapOrigCopy, _view))
+	}
+	for _, _deliverableviewshape := range diagramFrom.DeliverableViewShapes {
+		diagramTo.DeliverableViewShapes = append(diagramTo.DeliverableViewShapes, GongCopyBranchDeliverableViewShape(mapOrigCopy, _deliverableviewshape))
+	}
+	for _, _viewconceptshape := range diagramFrom.ViewConceptShapes {
+		diagramTo.ViewConceptShapes = append(diagramTo.ViewConceptShapes, GongCopyBranchViewConceptShape(mapOrigCopy, _viewconceptshape))
+	}
 	for _, _conceptshape := range diagramFrom.Concept_Shapes {
 		diagramTo.Concept_Shapes = append(diagramTo.Concept_Shapes, GongCopyBranchConceptShape(mapOrigCopy, _conceptshape))
 	}
 	for _, _concept := range diagramFrom.ConceptsWhoseNodeIsExpanded {
 		diagramTo.ConceptsWhoseNodeIsExpanded = append(diagramTo.ConceptsWhoseNodeIsExpanded, GongCopyBranchConcept(mapOrigCopy, _concept))
+	}
+	for _, _concept := range diagramFrom.ConceptsWhoseViewsNodeIsExpanded {
+		diagramTo.ConceptsWhoseViewsNodeIsExpanded = append(diagramTo.ConceptsWhoseViewsNodeIsExpanded, GongCopyBranchConcept(mapOrigCopy, _concept))
 	}
 	for _, _concept := range diagramFrom.ConceptsWhoseDeliverablesNodeIsExpanded {
 		diagramTo.ConceptsWhoseDeliverablesNodeIsExpanded = append(diagramTo.ConceptsWhoseDeliverablesNodeIsExpanded, GongCopyBranchConcept(mapOrigCopy, _concept))
@@ -1410,6 +1611,9 @@ func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libra
 	}
 	for _, _requirement := range libraryFrom.RootRequirements {
 		libraryTo.RootRequirements = append(libraryTo.RootRequirements, GongCopyBranchRequirement(mapOrigCopy, _requirement))
+	}
+	for _, _view := range libraryFrom.RootViews {
+		libraryTo.RootViews = append(libraryTo.RootViews, GongCopyBranchView(mapOrigCopy, _view))
 	}
 	for _, _concept := range libraryFrom.RootConcepts {
 		libraryTo.RootConcepts = append(libraryTo.RootConcepts, GongCopyBranchConcept(mapOrigCopy, _concept))
@@ -1700,6 +1904,66 @@ func GongCopyBranchTool(mapOrigCopy map[any]any, toolFrom *Tool) (toolTo *Tool) 
 	return
 }
 
+func GongCopyBranchView(mapOrigCopy map[any]any, viewFrom *View) (viewTo *View) {
+	var alreadyCopied bool
+	viewTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, viewFrom)
+	if alreadyCopied {
+		return
+	}
+	viewFrom.GongCopyBasicFields(viewTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _concept := range viewFrom.Concepts {
+		viewTo.Concepts = append(viewTo.Concepts, GongCopyBranchConcept(mapOrigCopy, _concept))
+	}
+
+	return
+}
+
+func GongCopyBranchViewConceptShape(mapOrigCopy map[any]any, viewconceptshapeFrom *ViewConceptShape) (viewconceptshapeTo *ViewConceptShape) {
+	var alreadyCopied bool
+	viewconceptshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, viewconceptshapeFrom)
+	if alreadyCopied {
+		return
+	}
+	viewconceptshapeFrom.GongCopyBasicFields(viewconceptshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if viewconceptshapeFrom.View != nil {
+		viewconceptshapeTo.View = GongCopyBranchView(mapOrigCopy, viewconceptshapeFrom.View)
+	}
+	if viewconceptshapeFrom.Concept != nil {
+		viewconceptshapeTo.Concept = GongCopyBranchConcept(mapOrigCopy, viewconceptshapeFrom.Concept)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range viewconceptshapeFrom.ControlPointShapes {
+		viewconceptshapeTo.ControlPointShapes = append(viewconceptshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
+
+	return
+}
+
+func GongCopyBranchViewShape(mapOrigCopy map[any]any, viewshapeFrom *ViewShape) (viewshapeTo *ViewShape) {
+	var alreadyCopied bool
+	viewshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, viewshapeFrom)
+	if alreadyCopied {
+		return
+	}
+	viewshapeFrom.GongCopyBasicFields(viewshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if viewshapeFrom.View != nil {
+		viewshapeTo.View = GongCopyBranchView(mapOrigCopy, viewshapeFrom.View)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -1907,6 +2171,9 @@ func (deliverable *Deliverable) GongUnstageBranch(stage *Stage) {
 	for _, _deliverable := range deliverable.SubDeliverables {
 		stage.UnstageBranch(_deliverable)
 	}
+	for _, _view := range deliverable.Views {
+		stage.UnstageBranch(_view)
+	}
 	for _, _concept := range deliverable.Concepts {
 		stage.UnstageBranch(_concept)
 	}
@@ -1976,6 +2243,30 @@ func (deliverableshape *DeliverableShape) GongUnstageBranch(stage *Stage) {
 
 }
 
+func (deliverableviewshape *DeliverableViewShape) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(deliverableviewshape) {
+		return
+	}
+
+	deliverableviewshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if deliverableviewshape.Deliverable != nil {
+		stage.UnstageBranch(deliverableviewshape.Deliverable)
+	}
+	if deliverableviewshape.View != nil {
+		stage.UnstageBranch(deliverableviewshape.View)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range deliverableviewshape.ControlPointShapes {
+		stage.UnstageBranch(_controlpointshape)
+	}
+
+}
+
 func (diagram *Diagram) GongUnstageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -1995,6 +2286,9 @@ func (diagram *Diagram) GongUnstageBranch(stage *Stage) {
 		stage.UnstageBranch(_deliverableshape)
 	}
 	for _, _deliverable := range diagram.DeliverablesWhoseNodeIsExpanded {
+		stage.UnstageBranch(_deliverable)
+	}
+	for _, _deliverable := range diagram.DeliverablesWhoseViewsNodeIsExpanded {
 		stage.UnstageBranch(_deliverable)
 	}
 	for _, _deliverable := range diagram.DeliverablesWhoseConceptsNodeIsExpanded {
@@ -2060,10 +2354,31 @@ func (diagram *Diagram) GongUnstageBranch(stage *Stage) {
 	for _, _requirement := range diagram.RequirementsWhoseNodeIsExpanded {
 		stage.UnstageBranch(_requirement)
 	}
+	for _, _viewshape := range diagram.View_Shapes {
+		stage.UnstageBranch(_viewshape)
+	}
+	for _, _view := range diagram.ViewsWhoseNodeIsExpanded {
+		stage.UnstageBranch(_view)
+	}
+	for _, _view := range diagram.ViewsWhoseDeliverablesNodeIsExpanded {
+		stage.UnstageBranch(_view)
+	}
+	for _, _view := range diagram.ViewsWhoseConceptsNodeIsExpanded {
+		stage.UnstageBranch(_view)
+	}
+	for _, _deliverableviewshape := range diagram.DeliverableViewShapes {
+		stage.UnstageBranch(_deliverableviewshape)
+	}
+	for _, _viewconceptshape := range diagram.ViewConceptShapes {
+		stage.UnstageBranch(_viewconceptshape)
+	}
 	for _, _conceptshape := range diagram.Concept_Shapes {
 		stage.UnstageBranch(_conceptshape)
 	}
 	for _, _concept := range diagram.ConceptsWhoseNodeIsExpanded {
+		stage.UnstageBranch(_concept)
+	}
+	for _, _concept := range diagram.ConceptsWhoseViewsNodeIsExpanded {
 		stage.UnstageBranch(_concept)
 	}
 	for _, _concept := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
@@ -2122,6 +2437,9 @@ func (library *Library) GongUnstageBranch(stage *Stage) {
 	}
 	for _, _requirement := range library.RootRequirements {
 		stage.UnstageBranch(_requirement)
+	}
+	for _, _view := range library.RootViews {
+		stage.UnstageBranch(_view)
 	}
 	for _, _concept := range library.RootConcepts {
 		stage.UnstageBranch(_concept)
@@ -2411,6 +2729,66 @@ func (tool *Tool) GongUnstageBranch(stage *Stage) {
 
 }
 
+func (view *View) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(view) {
+		return
+	}
+
+	view.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _concept := range view.Concepts {
+		stage.UnstageBranch(_concept)
+	}
+
+}
+
+func (viewconceptshape *ViewConceptShape) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(viewconceptshape) {
+		return
+	}
+
+	viewconceptshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if viewconceptshape.View != nil {
+		stage.UnstageBranch(viewconceptshape.View)
+	}
+	if viewconceptshape.Concept != nil {
+		stage.UnstageBranch(viewconceptshape.Concept)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range viewconceptshape.ControlPointShapes {
+		stage.UnstageBranch(_controlpointshape)
+	}
+
+}
+
+func (viewshape *ViewShape) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(viewshape) {
+		return
+	}
+
+	viewshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if viewshape.View != nil {
+		stage.UnstageBranch(viewshape.View)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // insertion point for pointer reconstruction from references
 func (reference *AnalysisNeed) GongReconstructPointersFromReferences(stage *Stage, instance *AnalysisNeed) {
 	// insertion point for pointers field
@@ -2476,6 +2854,7 @@ func (reference *Deliverable) GongReconstructPointersFromReferences(stage *Stage
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.SubDeliverables, stage.Deliverables_reference, instance.SubDeliverables)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Views, stage.Views_reference, instance.Views)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Concepts, stage.Concepts_reference, instance.Concepts)
 }
 
@@ -2500,12 +2879,21 @@ func (reference *DeliverableShape) GongReconstructPointersFromReferences(stage *
 	// insertion point for slice of pointers field
 }
 
+func (reference *DeliverableViewShape) GongReconstructPointersFromReferences(stage *Stage, instance *DeliverableViewShape) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Deliverable, stage.Deliverables_reference, instance.Deliverable)
+	__gong__reconstructPointer(&reference.View, stage.Views_reference, instance.View)
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
+}
+
 func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ConcernsWhoseRequirementsNodeIsExpanded, stage.Concerns_reference, instance.ConcernsWhoseRequirementsNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Deliverable_Shapes, stage.DeliverableShapes_reference, instance.Deliverable_Shapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverablesWhoseNodeIsExpanded, stage.Deliverables_reference, instance.DeliverablesWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverablesWhoseViewsNodeIsExpanded, stage.Deliverables_reference, instance.DeliverablesWhoseViewsNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverablesWhoseConceptsNodeIsExpanded, stage.Deliverables_reference, instance.DeliverablesWhoseConceptsNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverableComposition_Shapes, stage.DeliverableCompositionShapes_reference, instance.DeliverableComposition_Shapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Concern_Shapes, stage.ConcernShapes_reference, instance.Concern_Shapes)
@@ -2527,8 +2915,15 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	__gong__reconstructSliceOfPointersFromReferences(&reference.StakeholderConcernShapes, stage.StakeholderConcernShapes_reference, instance.StakeholderConcernShapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Requirement_Shapes, stage.RequirementShapes_reference, instance.Requirement_Shapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.RequirementsWhoseNodeIsExpanded, stage.Requirements_reference, instance.RequirementsWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.View_Shapes, stage.ViewShapes_reference, instance.View_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ViewsWhoseNodeIsExpanded, stage.Views_reference, instance.ViewsWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ViewsWhoseDeliverablesNodeIsExpanded, stage.Views_reference, instance.ViewsWhoseDeliverablesNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ViewsWhoseConceptsNodeIsExpanded, stage.Views_reference, instance.ViewsWhoseConceptsNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverableViewShapes, stage.DeliverableViewShapes_reference, instance.DeliverableViewShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ViewConceptShapes, stage.ViewConceptShapes_reference, instance.ViewConceptShapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Concept_Shapes, stage.ConceptShapes_reference, instance.Concept_Shapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ConceptsWhoseNodeIsExpanded, stage.Concepts_reference, instance.ConceptsWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ConceptsWhoseViewsNodeIsExpanded, stage.Concepts_reference, instance.ConceptsWhoseViewsNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ConceptsWhoseDeliverablesNodeIsExpanded, stage.Concepts_reference, instance.ConceptsWhoseDeliverablesNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverableConceptShapes, stage.DeliverableConceptShapes_reference, instance.DeliverableConceptShapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Diagram_Shapes, stage.DiagramShapes_reference, instance.Diagram_Shapes)
@@ -2548,6 +2943,7 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	__gong__reconstructSliceOfPointersFromReferences(&reference.RootConcerns, stage.Concerns_reference, instance.RootConcerns)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.RootStakeholders, stage.Stakeholders_reference, instance.RootStakeholders)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.RootRequirements, stage.Requirements_reference, instance.RootRequirements)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RootViews, stage.Views_reference, instance.RootViews)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.RootConcepts, stage.Concepts_reference, instance.RootConcepts)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.AnalysisNeeds, stage.AnalysisNeeds_reference, instance.AnalysisNeeds)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Notes, stage.Notes_reference, instance.Notes)
@@ -2645,6 +3041,26 @@ func (reference *Tool) GongReconstructPointersFromReferences(stage *Stage, insta
 	// insertion point for slice of pointers field
 }
 
+func (reference *View) GongReconstructPointersFromReferences(stage *Stage, instance *View) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Concepts, stage.Concepts_reference, instance.Concepts)
+}
+
+func (reference *ViewConceptShape) GongReconstructPointersFromReferences(stage *Stage, instance *ViewConceptShape) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.View, stage.Views_reference, instance.View)
+	__gong__reconstructPointer(&reference.Concept, stage.Concepts_reference, instance.Concept)
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
+}
+
+func (reference *ViewShape) GongReconstructPointersFromReferences(stage *Stage, instance *ViewShape) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.View, stage.Views_reference, instance.View)
+	// insertion point for slice of pointers field
+}
+
 // insertion point for pointer reconstruction from instances
 func (reference *AnalysisNeed) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
@@ -2710,6 +3126,7 @@ func (reference *Deliverable) GongReconstructPointersFromInstances(stage *Stage)
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.SubDeliverables, stage.Deliverables_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Views, stage.Views_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Concepts, stage.Concepts_instance)
 }
 
@@ -2734,12 +3151,21 @@ func (reference *DeliverableShape) GongReconstructPointersFromInstances(stage *S
 	// insertion point for slice of pointers fields
 }
 
+func (reference *DeliverableViewShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Deliverable, stage.Deliverables_instance)
+	__gong__reconstructPointerFromInstance(&reference.View, stage.Views_instance)
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
+}
+
 func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ConcernsWhoseRequirementsNodeIsExpanded, stage.Concerns_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Deliverable_Shapes, stage.DeliverableShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverablesWhoseNodeIsExpanded, stage.Deliverables_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverablesWhoseViewsNodeIsExpanded, stage.Deliverables_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverablesWhoseConceptsNodeIsExpanded, stage.Deliverables_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverableComposition_Shapes, stage.DeliverableCompositionShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Concern_Shapes, stage.ConcernShapes_instance)
@@ -2761,8 +3187,15 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.StakeholderConcernShapes, stage.StakeholderConcernShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Requirement_Shapes, stage.RequirementShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.RequirementsWhoseNodeIsExpanded, stage.Requirements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.View_Shapes, stage.ViewShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ViewsWhoseNodeIsExpanded, stage.Views_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ViewsWhoseDeliverablesNodeIsExpanded, stage.Views_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ViewsWhoseConceptsNodeIsExpanded, stage.Views_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverableViewShapes, stage.DeliverableViewShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ViewConceptShapes, stage.ViewConceptShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Concept_Shapes, stage.ConceptShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ConceptsWhoseNodeIsExpanded, stage.Concepts_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ConceptsWhoseViewsNodeIsExpanded, stage.Concepts_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ConceptsWhoseDeliverablesNodeIsExpanded, stage.Concepts_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverableConceptShapes, stage.DeliverableConceptShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Diagram_Shapes, stage.DiagramShapes_instance)
@@ -2782,6 +3215,7 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.RootConcerns, stage.Concerns_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.RootStakeholders, stage.Stakeholders_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.RootRequirements, stage.Requirements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RootViews, stage.Views_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.RootConcepts, stage.Concepts_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.AnalysisNeeds, stage.AnalysisNeeds_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Notes, stage.Notes_instance)
@@ -2876,6 +3310,26 @@ func (reference *SupportLevel) GongReconstructPointersFromInstances(stage *Stage
 
 func (reference *Tool) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *View) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Concepts, stage.Concepts_instance)
+}
+
+func (reference *ViewConceptShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.View, stage.Views_instance)
+	__gong__reconstructPointerFromInstance(&reference.Concept, stage.Concepts_instance)
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
+}
+
+func (reference *ViewShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.View, stage.Views_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -3316,6 +3770,9 @@ func (deliverable *Deliverable) GongDiff(stage *Stage, deliverableOther *Deliver
 	if deliverable.IsConsumersNodeExpanded != deliverableOther.IsConsumersNodeExpanded {
 		diffs = append(diffs, deliverable.GongMarshallField(stage, "IsConsumersNodeExpanded"))
 	}
+	if ops := __gong__diffSliceOfPointers(stage, deliverable, "Views", deliverableOther.Views, deliverable.Views); ops != "" {
+		diffs = append(diffs, ops)
+	}
 	if ops := __gong__diffSliceOfPointers(stage, deliverable, "Concepts", deliverableOther.Concepts, deliverable.Concepts); ops != "" {
 		diffs = append(diffs, ops)
 	}
@@ -3505,6 +3962,65 @@ func (deliverableshape *DeliverableShape) GongDiff(stage *Stage, deliverableshap
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (deliverableviewshape *DeliverableViewShape) GongDiff(stage *Stage, deliverableviewshapeOther *DeliverableViewShape) (diffs []string) {
+	// insertion point for field diffs
+	if deliverableviewshape.Name != deliverableviewshapeOther.Name {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "Name"))
+	}
+	if deliverableviewshape.Deliverable != deliverableviewshapeOther.Deliverable {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "Deliverable"))
+	}
+	if deliverableviewshape.View != deliverableviewshapeOther.View {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "View"))
+	}
+	if deliverableviewshape.StartRatio != deliverableviewshapeOther.StartRatio {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if deliverableviewshape.EndRatio != deliverableviewshapeOther.EndRatio {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if deliverableviewshape.StartOrientation != deliverableviewshapeOther.StartOrientation {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if deliverableviewshape.EndOrientation != deliverableviewshapeOther.EndOrientation {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if deliverableviewshape.CornerOffsetRatio != deliverableviewshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if deliverableviewshape.IsHidden != deliverableviewshapeOther.IsHidden {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if deliverableviewshape.IsPresentationOverridden != deliverableviewshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if deliverableviewshape.Stroke != deliverableviewshapeOther.Stroke {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "Stroke"))
+	}
+	if deliverableviewshape.StrokeWidth != deliverableviewshapeOther.StrokeWidth {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if deliverableviewshape.StrokeOpacity != deliverableviewshapeOther.StrokeOpacity {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if deliverableviewshape.StrokeDashArray != deliverableviewshapeOther.StrokeDashArray {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if deliverableviewshape.FontSize != deliverableviewshapeOther.FontSize {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "FontSize"))
+	}
+	if deliverableviewshape.FontColor != deliverableviewshapeOther.FontColor {
+		diffs = append(diffs, deliverableviewshape.GongMarshallField(stage, "FontColor"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, deliverableviewshape, "ControlPointShapes", deliverableviewshapeOther.ControlPointShapes, deliverableviewshape.ControlPointShapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []string) {
 	// insertion point for field diffs
 	if diagram.Name != diagramOther.Name {
@@ -3543,6 +4059,9 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.IsRequirementsNodeExpanded != diagramOther.IsRequirementsNodeExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsRequirementsNodeExpanded"))
 	}
+	if diagram.IsViewsNodeExpanded != diagramOther.IsViewsNodeExpanded {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsViewsNodeExpanded"))
+	}
 	if diagram.IsConceptsNodeExpanded != diagramOther.IsConceptsNodeExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsConceptsNodeExpanded"))
 	}
@@ -3550,6 +4069,9 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "DeliverablesWhoseNodeIsExpanded", diagramOther.DeliverablesWhoseNodeIsExpanded, diagram.DeliverablesWhoseNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "DeliverablesWhoseViewsNodeIsExpanded", diagramOther.DeliverablesWhoseViewsNodeIsExpanded, diagram.DeliverablesWhoseViewsNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "DeliverablesWhoseConceptsNodeIsExpanded", diagramOther.DeliverablesWhoseConceptsNodeIsExpanded, diagram.DeliverablesWhoseConceptsNodeIsExpanded); ops != "" {
@@ -3627,10 +4149,31 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "RequirementsWhoseNodeIsExpanded", diagramOther.RequirementsWhoseNodeIsExpanded, diagram.RequirementsWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "View_Shapes", diagramOther.View_Shapes, diagram.View_Shapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ViewsWhoseNodeIsExpanded", diagramOther.ViewsWhoseNodeIsExpanded, diagram.ViewsWhoseNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ViewsWhoseDeliverablesNodeIsExpanded", diagramOther.ViewsWhoseDeliverablesNodeIsExpanded, diagram.ViewsWhoseDeliverablesNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ViewsWhoseConceptsNodeIsExpanded", diagramOther.ViewsWhoseConceptsNodeIsExpanded, diagram.ViewsWhoseConceptsNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "DeliverableViewShapes", diagramOther.DeliverableViewShapes, diagram.DeliverableViewShapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ViewConceptShapes", diagramOther.ViewConceptShapes, diagram.ViewConceptShapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "Concept_Shapes", diagramOther.Concept_Shapes, diagram.Concept_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConceptsWhoseNodeIsExpanded", diagramOther.ConceptsWhoseNodeIsExpanded, diagram.ConceptsWhoseNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConceptsWhoseViewsNodeIsExpanded", diagramOther.ConceptsWhoseViewsNodeIsExpanded, diagram.ConceptsWhoseViewsNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConceptsWhoseDeliverablesNodeIsExpanded", diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded, diagram.ConceptsWhoseDeliverablesNodeIsExpanded); ops != "" {
@@ -3743,6 +4286,9 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, library, "RootRequirements", libraryOther.RootRequirements, library.RootRequirements); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, library, "RootViews", libraryOther.RootViews, library.RootViews); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, library, "RootConcepts", libraryOther.RootConcepts, library.RootConcepts); ops != "" {
@@ -4352,6 +4898,153 @@ func (tool *Tool) GongDiff(stage *Stage, toolOther *Tool) (diffs []string) {
 	// insertion point for field diffs
 	if tool.Name != toolOther.Name {
 		diffs = append(diffs, tool.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (view *View) GongDiff(stage *Stage, viewOther *View) (diffs []string) {
+	// insertion point for field diffs
+	if view.Name != viewOther.Name {
+		diffs = append(diffs, view.GongMarshallField(stage, "Name"))
+	}
+	if view.ComputedPrefix != viewOther.ComputedPrefix {
+		diffs = append(diffs, view.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if view.IsExpanded != viewOther.IsExpanded {
+		diffs = append(diffs, view.GongMarshallField(stage, "IsExpanded"))
+	}
+	if view.Description != viewOther.Description {
+		diffs = append(diffs, view.GongMarshallField(stage, "Description"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, view, "Concepts", viewOther.Concepts, view.Concepts); ops != "" {
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (viewconceptshape *ViewConceptShape) GongDiff(stage *Stage, viewconceptshapeOther *ViewConceptShape) (diffs []string) {
+	// insertion point for field diffs
+	if viewconceptshape.Name != viewconceptshapeOther.Name {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "Name"))
+	}
+	if viewconceptshape.View != viewconceptshapeOther.View {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "View"))
+	}
+	if viewconceptshape.Concept != viewconceptshapeOther.Concept {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "Concept"))
+	}
+	if viewconceptshape.StartRatio != viewconceptshapeOther.StartRatio {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if viewconceptshape.EndRatio != viewconceptshapeOther.EndRatio {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if viewconceptshape.StartOrientation != viewconceptshapeOther.StartOrientation {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if viewconceptshape.EndOrientation != viewconceptshapeOther.EndOrientation {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if viewconceptshape.CornerOffsetRatio != viewconceptshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if viewconceptshape.IsHidden != viewconceptshapeOther.IsHidden {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if viewconceptshape.IsPresentationOverridden != viewconceptshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if viewconceptshape.Stroke != viewconceptshapeOther.Stroke {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "Stroke"))
+	}
+	if viewconceptshape.StrokeWidth != viewconceptshapeOther.StrokeWidth {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if viewconceptshape.StrokeOpacity != viewconceptshapeOther.StrokeOpacity {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if viewconceptshape.StrokeDashArray != viewconceptshapeOther.StrokeDashArray {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if viewconceptshape.FontSize != viewconceptshapeOther.FontSize {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "FontSize"))
+	}
+	if viewconceptshape.FontColor != viewconceptshapeOther.FontColor {
+		diffs = append(diffs, viewconceptshape.GongMarshallField(stage, "FontColor"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, viewconceptshape, "ControlPointShapes", viewconceptshapeOther.ControlPointShapes, viewconceptshape.ControlPointShapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (viewshape *ViewShape) GongDiff(stage *Stage, viewshapeOther *ViewShape) (diffs []string) {
+	// insertion point for field diffs
+	if viewshape.Name != viewshapeOther.Name {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "Name"))
+	}
+	if viewshape.View != viewshapeOther.View {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "View"))
+	}
+	if viewshape.IsExpanded != viewshapeOther.IsExpanded {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "IsExpanded"))
+	}
+	if viewshape.X != viewshapeOther.X {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "X"))
+	}
+	if viewshape.Y != viewshapeOther.Y {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "Y"))
+	}
+	if viewshape.Width != viewshapeOther.Width {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "Width"))
+	}
+	if viewshape.Height != viewshapeOther.Height {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "Height"))
+	}
+	if viewshape.IsHidden != viewshapeOther.IsHidden {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if viewshape.IsPresentationOverridden != viewshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if viewshape.Color != viewshapeOther.Color {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "Color"))
+	}
+	if viewshape.FillOpacity != viewshapeOther.FillOpacity {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "FillOpacity"))
+	}
+	if viewshape.Stroke != viewshapeOther.Stroke {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "Stroke"))
+	}
+	if viewshape.StrokeWidth != viewshapeOther.StrokeWidth {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if viewshape.StrokeOpacity != viewshapeOther.StrokeOpacity {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if viewshape.StrokeDashArray != viewshapeOther.StrokeDashArray {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if viewshape.RX != viewshapeOther.RX {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "RX"))
+	}
+	if viewshape.FontSize != viewshapeOther.FontSize {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "FontSize"))
+	}
+	if viewshape.FontWeight != viewshapeOther.FontWeight {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "FontWeight"))
+	}
+	if viewshape.FontColor != viewshapeOther.FontColor {
+		diffs = append(diffs, viewshape.GongMarshallField(stage, "FontColor"))
 	}
 
 	return

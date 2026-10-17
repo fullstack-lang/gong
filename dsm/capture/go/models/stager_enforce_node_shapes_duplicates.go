@@ -12,6 +12,10 @@ func (stager *Stager) enforceNodeShapeDuplicates() (needCommit bool) {
 		needCommit = removeDuplicateNodeShape(stager, &diagram.Concern_Shapes) || needCommit
 		needCommit = removeDuplicateNodeShape(stager, &diagram.Note_Shapes) || needCommit
 		needCommit = removeDuplicateNodeShape(stager, &diagram.Stakeholder_Shapes) || needCommit
+		needCommit = removeDuplicateNodeShape(stager, &diagram.Requirement_Shapes) || needCommit
+		needCommit = removeDuplicateNodeShape(stager, &diagram.View_Shapes) || needCommit
+		needCommit = removeDuplicateNodeShape(stager, &diagram.Concept_Shapes) || needCommit
+		needCommit = removeDuplicateNodeShape(stager, &diagram.Diagram_Shapes) || needCommit
 	}
 	return
 }

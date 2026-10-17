@@ -271,6 +271,8 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Deliverable_SubDeliverables_reverseMap map[*Deliverable]*Deliverable
 
+	Deliverable_Views_reverseMap map[*View]*Deliverable
+
 	Deliverable_Concepts_reverseMap map[*Concept]*Deliverable
 
 	OnAfterDeliverableCreateCallback GongOnAfterCreateInterface[Deliverable]
@@ -323,6 +325,22 @@ type Stage struct {
 	OnAfterDeliverableShapeUpdateCallback GongOnAfterUpdateInterface[DeliverableShape]
 	OnAfterDeliverableShapeDeleteCallback GongOnAfterDeleteInterface[DeliverableShape]
 
+	DeliverableViewShapes                map[*DeliverableViewShape]struct{}
+	DeliverableViewShapes_instance       map[*DeliverableViewShape]*DeliverableViewShape
+	DeliverableViewShapes_mapString      map[string]*DeliverableViewShape
+	DeliverableViewShapeOrder            uint
+	DeliverableViewShape_stagedOrder     map[*DeliverableViewShape]uint
+	DeliverableViewShape_orderStaged     map[uint]*DeliverableViewShape
+	DeliverableViewShapes_reference      map[*DeliverableViewShape]*DeliverableViewShape
+	DeliverableViewShapes_referenceOrder map[*DeliverableViewShape]uint
+
+	// insertion point for slice of pointers maps
+	DeliverableViewShape_ControlPointShapes_reverseMap map[*ControlPointShape]*DeliverableViewShape
+
+	OnAfterDeliverableViewShapeCreateCallback GongOnAfterCreateInterface[DeliverableViewShape]
+	OnAfterDeliverableViewShapeUpdateCallback GongOnAfterUpdateInterface[DeliverableViewShape]
+	OnAfterDeliverableViewShapeDeleteCallback GongOnAfterDeleteInterface[DeliverableViewShape]
+
 	Diagrams                map[*Diagram]struct{}
 	Diagrams_instance       map[*Diagram]*Diagram
 	Diagrams_mapString      map[string]*Diagram
@@ -338,6 +356,8 @@ type Stage struct {
 	Diagram_Deliverable_Shapes_reverseMap map[*DeliverableShape]*Diagram
 
 	Diagram_DeliverablesWhoseNodeIsExpanded_reverseMap map[*Deliverable]*Diagram
+
+	Diagram_DeliverablesWhoseViewsNodeIsExpanded_reverseMap map[*Deliverable]*Diagram
 
 	Diagram_DeliverablesWhoseConceptsNodeIsExpanded_reverseMap map[*Deliverable]*Diagram
 
@@ -381,9 +401,23 @@ type Stage struct {
 
 	Diagram_RequirementsWhoseNodeIsExpanded_reverseMap map[*Requirement]*Diagram
 
+	Diagram_View_Shapes_reverseMap map[*ViewShape]*Diagram
+
+	Diagram_ViewsWhoseNodeIsExpanded_reverseMap map[*View]*Diagram
+
+	Diagram_ViewsWhoseDeliverablesNodeIsExpanded_reverseMap map[*View]*Diagram
+
+	Diagram_ViewsWhoseConceptsNodeIsExpanded_reverseMap map[*View]*Diagram
+
+	Diagram_DeliverableViewShapes_reverseMap map[*DeliverableViewShape]*Diagram
+
+	Diagram_ViewConceptShapes_reverseMap map[*ViewConceptShape]*Diagram
+
 	Diagram_Concept_Shapes_reverseMap map[*ConceptShape]*Diagram
 
 	Diagram_ConceptsWhoseNodeIsExpanded_reverseMap map[*Concept]*Diagram
+
+	Diagram_ConceptsWhoseViewsNodeIsExpanded_reverseMap map[*Concept]*Diagram
 
 	Diagram_ConceptsWhoseDeliverablesNodeIsExpanded_reverseMap map[*Concept]*Diagram
 
@@ -428,6 +462,8 @@ type Stage struct {
 	Library_RootStakeholders_reverseMap map[*Stakeholder]*Library
 
 	Library_RootRequirements_reverseMap map[*Requirement]*Library
+
+	Library_RootViews_reverseMap map[*View]*Library
 
 	Library_RootConcepts_reverseMap map[*Concept]*Library
 
@@ -649,6 +685,52 @@ type Stage struct {
 	OnAfterToolUpdateCallback GongOnAfterUpdateInterface[Tool]
 	OnAfterToolDeleteCallback GongOnAfterDeleteInterface[Tool]
 
+	Views                map[*View]struct{}
+	Views_instance       map[*View]*View
+	Views_mapString      map[string]*View
+	ViewOrder            uint
+	View_stagedOrder     map[*View]uint
+	View_orderStaged     map[uint]*View
+	Views_reference      map[*View]*View
+	Views_referenceOrder map[*View]uint
+
+	// insertion point for slice of pointers maps
+	View_Concepts_reverseMap map[*Concept]*View
+
+	OnAfterViewCreateCallback GongOnAfterCreateInterface[View]
+	OnAfterViewUpdateCallback GongOnAfterUpdateInterface[View]
+	OnAfterViewDeleteCallback GongOnAfterDeleteInterface[View]
+
+	ViewConceptShapes                map[*ViewConceptShape]struct{}
+	ViewConceptShapes_instance       map[*ViewConceptShape]*ViewConceptShape
+	ViewConceptShapes_mapString      map[string]*ViewConceptShape
+	ViewConceptShapeOrder            uint
+	ViewConceptShape_stagedOrder     map[*ViewConceptShape]uint
+	ViewConceptShape_orderStaged     map[uint]*ViewConceptShape
+	ViewConceptShapes_reference      map[*ViewConceptShape]*ViewConceptShape
+	ViewConceptShapes_referenceOrder map[*ViewConceptShape]uint
+
+	// insertion point for slice of pointers maps
+	ViewConceptShape_ControlPointShapes_reverseMap map[*ControlPointShape]*ViewConceptShape
+
+	OnAfterViewConceptShapeCreateCallback GongOnAfterCreateInterface[ViewConceptShape]
+	OnAfterViewConceptShapeUpdateCallback GongOnAfterUpdateInterface[ViewConceptShape]
+	OnAfterViewConceptShapeDeleteCallback GongOnAfterDeleteInterface[ViewConceptShape]
+
+	ViewShapes                map[*ViewShape]struct{}
+	ViewShapes_instance       map[*ViewShape]*ViewShape
+	ViewShapes_mapString      map[string]*ViewShape
+	ViewShapeOrder            uint
+	ViewShape_stagedOrder     map[*ViewShape]uint
+	ViewShape_orderStaged     map[uint]*ViewShape
+	ViewShapes_reference      map[*ViewShape]*ViewShape
+	ViewShapes_referenceOrder map[*ViewShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterViewShapeCreateCallback GongOnAfterCreateInterface[ViewShape]
+	OnAfterViewShapeUpdateCallback GongOnAfterUpdateInterface[ViewShape]
+	OnAfterViewShapeDeleteCallback GongOnAfterDeleteInterface[ViewShape]
+
 	BackRepo GongBackRepoInterface
 
 	// if set will be called before each commit to the back repo
@@ -756,6 +838,8 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.DeliverableShapes_reference, &stage.DeliverableShapes_instance, &stage.DeliverableShapes_referenceOrder)
 
+	__gong__clearReferences(&stage.DeliverableViewShapes_reference, &stage.DeliverableViewShapes_instance, &stage.DeliverableViewShapes_referenceOrder)
+
 	__gong__clearReferences(&stage.Diagrams_reference, &stage.Diagrams_instance, &stage.Diagrams_referenceOrder)
 
 	__gong__clearReferences(&stage.DiagramShapes_reference, &stage.DiagramShapes_instance, &stage.DiagramShapes_referenceOrder)
@@ -787,6 +871,12 @@ func (stage *Stage) Squash() {
 	__gong__clearReferences(&stage.SupportLevels_reference, &stage.SupportLevels_instance, &stage.SupportLevels_referenceOrder)
 
 	__gong__clearReferences(&stage.Tools_reference, &stage.Tools_instance, &stage.Tools_referenceOrder)
+
+	__gong__clearReferences(&stage.Views_reference, &stage.Views_instance, &stage.Views_referenceOrder)
+
+	__gong__clearReferences(&stage.ViewConceptShapes_reference, &stage.ViewConceptShapes_instance, &stage.ViewConceptShapes_referenceOrder)
+
+	__gong__clearReferences(&stage.ViewShapes_reference, &stage.ViewShapes_instance, &stage.ViewShapes_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -837,6 +927,8 @@ func (stage *Stage) recomputeOrders() {
 
 	stage.DeliverableShapeOrder = __gong__recomputeOrder(stage.DeliverableShape_stagedOrder)
 
+	stage.DeliverableViewShapeOrder = __gong__recomputeOrder(stage.DeliverableViewShape_stagedOrder)
+
 	stage.DiagramOrder = __gong__recomputeOrder(stage.Diagram_stagedOrder)
 
 	stage.DiagramShapeOrder = __gong__recomputeOrder(stage.DiagramShape_stagedOrder)
@@ -868,6 +960,12 @@ func (stage *Stage) recomputeOrders() {
 	stage.SupportLevelOrder = __gong__recomputeOrder(stage.SupportLevel_stagedOrder)
 
 	stage.ToolOrder = __gong__recomputeOrder(stage.Tool_stagedOrder)
+
+	stage.ViewOrder = __gong__recomputeOrder(stage.View_stagedOrder)
+
+	stage.ViewConceptShapeOrder = __gong__recomputeOrder(stage.ViewConceptShape_stagedOrder)
+
+	stage.ViewShapeOrder = __gong__recomputeOrder(stage.ViewShape_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -1143,6 +1241,26 @@ func (*DeliverableShape) GongGetInstancesSet(stage *Stage) any {
 
 func (*DeliverableShape) GongNewInstance() any {
 	return new(DeliverableShape)
+}
+
+func (*DeliverableViewShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.DeliverableViewShapes, stage.DeliverableViewShape_stagedOrder)
+}
+
+func (*DeliverableViewShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.DeliverableViewShape_orderStaged[order]
+}
+
+func (*DeliverableViewShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.DeliverableViewShapes_mapString
+}
+
+func (*DeliverableViewShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.DeliverableViewShapes
+}
+
+func (*DeliverableViewShape) GongNewInstance() any {
+	return new(DeliverableViewShape)
 }
 
 func (*Diagram) GongGetInstancesByOrder(stage *Stage) any {
@@ -1465,6 +1583,66 @@ func (*Tool) GongNewInstance() any {
 	return new(Tool)
 }
 
+func (*View) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Views, stage.View_stagedOrder)
+}
+
+func (*View) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.View_orderStaged[order]
+}
+
+func (*View) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Views_mapString
+}
+
+func (*View) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Views
+}
+
+func (*View) GongNewInstance() any {
+	return new(View)
+}
+
+func (*ViewConceptShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ViewConceptShapes, stage.ViewConceptShape_stagedOrder)
+}
+
+func (*ViewConceptShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ViewConceptShape_orderStaged[order]
+}
+
+func (*ViewConceptShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ViewConceptShapes_mapString
+}
+
+func (*ViewConceptShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ViewConceptShapes
+}
+
+func (*ViewConceptShape) GongNewInstance() any {
+	return new(ViewConceptShape)
+}
+
+func (*ViewShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ViewShapes, stage.ViewShape_stagedOrder)
+}
+
+func (*ViewShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ViewShape_orderStaged[order]
+}
+
+func (*ViewShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ViewShapes_mapString
+}
+
+func (*ViewShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ViewShapes
+}
+
+func (*ViewShape) GongNewInstance() any {
+	return new(ViewShape)
+}
+
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -1685,6 +1863,9 @@ func NewStage(name string) (stage *Stage) {
 		DeliverableShapes:           make(map[*DeliverableShape]struct{}),
 		DeliverableShapes_mapString: make(map[string]*DeliverableShape),
 
+		DeliverableViewShapes:           make(map[*DeliverableViewShape]struct{}),
+		DeliverableViewShapes_mapString: make(map[string]*DeliverableViewShape),
+
 		Diagrams:           make(map[*Diagram]struct{}),
 		Diagrams_mapString: make(map[string]*Diagram),
 
@@ -1732,6 +1913,15 @@ func NewStage(name string) (stage *Stage) {
 
 		Tools:           make(map[*Tool]struct{}),
 		Tools_mapString: make(map[string]*Tool),
+
+		Views:           make(map[*View]struct{}),
+		Views_mapString: make(map[string]*View),
+
+		ViewConceptShapes:           make(map[*ViewConceptShape]struct{}),
+		ViewConceptShapes_mapString: make(map[string]*ViewConceptShape),
+
+		ViewShapes:           make(map[*ViewShape]struct{}),
+		ViewShapes_mapString: make(map[string]*ViewShape),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -1792,6 +1982,10 @@ func NewStage(name string) (stage *Stage) {
 		DeliverableShape_stagedOrder: make(map[*DeliverableShape]uint),
 		DeliverableShape_orderStaged: make(map[uint]*DeliverableShape),
 		DeliverableShapes_reference:  make(map[*DeliverableShape]*DeliverableShape),
+
+		DeliverableViewShape_stagedOrder: make(map[*DeliverableViewShape]uint),
+		DeliverableViewShape_orderStaged: make(map[uint]*DeliverableViewShape),
+		DeliverableViewShapes_reference:  make(map[*DeliverableViewShape]*DeliverableViewShape),
 
 		Diagram_stagedOrder: make(map[*Diagram]uint),
 		Diagram_orderStaged: make(map[uint]*Diagram),
@@ -1857,6 +2051,18 @@ func NewStage(name string) (stage *Stage) {
 		Tool_orderStaged: make(map[uint]*Tool),
 		Tools_reference:  make(map[*Tool]*Tool),
 
+		View_stagedOrder: make(map[*View]uint),
+		View_orderStaged: make(map[uint]*View),
+		Views_reference:  make(map[*View]*View),
+
+		ViewConceptShape_stagedOrder: make(map[*ViewConceptShape]uint),
+		ViewConceptShape_orderStaged: make(map[uint]*ViewConceptShape),
+		ViewConceptShapes_reference:  make(map[*ViewConceptShape]*ViewConceptShape),
+
+		ViewShape_stagedOrder: make(map[*ViewShape]uint),
+		ViewShape_orderStaged: make(map[uint]*ViewShape),
+		ViewShapes_reference:  make(map[*ViewShape]*ViewShape),
+
 		// end of insertion point
 		GongUnmarshallers: map[string]GongModelUnmarshaller{ // insertion point for unmarshallers
 			"AnalysisNeed": &AnalysisNeedUnmarshaller{},
@@ -1884,6 +2090,8 @@ func NewStage(name string) (stage *Stage) {
 			"DeliverableConceptShape": &DeliverableConceptShapeUnmarshaller{},
 
 			"DeliverableShape": &DeliverableShapeUnmarshaller{},
+
+			"DeliverableViewShape": &DeliverableViewShapeUnmarshaller{},
 
 			"Diagram": &DiagramUnmarshaller{},
 
@@ -1916,6 +2124,12 @@ func NewStage(name string) (stage *Stage) {
 			"SupportLevel": &SupportLevelUnmarshaller{},
 
 			"Tool": &ToolUnmarshaller{},
+
+			"View": &ViewUnmarshaller{},
+
+			"ViewConceptShape": &ViewConceptShapeUnmarshaller{},
+
+			"ViewShape": &ViewShapeUnmarshaller{},
 
 			// end of insertion point
 		},
@@ -2012,6 +2226,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["DeliverableCompositionShape"] = len(stage.DeliverableCompositionShapes)
 	stage.Map_GongStructName_InstancesNb["DeliverableConceptShape"] = len(stage.DeliverableConceptShapes)
 	stage.Map_GongStructName_InstancesNb["DeliverableShape"] = len(stage.DeliverableShapes)
+	stage.Map_GongStructName_InstancesNb["DeliverableViewShape"] = len(stage.DeliverableViewShapes)
 	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
 	stage.Map_GongStructName_InstancesNb["DiagramShape"] = len(stage.DiagramShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
@@ -2028,6 +2243,9 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["StakeholderShape"] = len(stage.StakeholderShapes)
 	stage.Map_GongStructName_InstancesNb["SupportLevel"] = len(stage.SupportLevels)
 	stage.Map_GongStructName_InstancesNb["Tool"] = len(stage.Tools)
+	stage.Map_GongStructName_InstancesNb["View"] = len(stage.Views)
+	stage.Map_GongStructName_InstancesNb["ViewConceptShape"] = len(stage.ViewConceptShapes)
+	stage.Map_GongStructName_InstancesNb["ViewShape"] = len(stage.ViewShapes)
 }
 
 func (stage *Stage) Checkout() {
@@ -2586,6 +2804,46 @@ func (deliverableshape *DeliverableShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (deliverableshape *DeliverableShape) SetName(name string) {
 	deliverableshape.Name = name
+}
+
+// Stage puts deliverableviewshape to the model stage
+func (deliverableviewshape *DeliverableViewShape) Stage(stage *Stage) *DeliverableViewShape {
+	__gong__stage(stage.DeliverableViewShapes, stage.DeliverableViewShape_stagedOrder, stage.DeliverableViewShape_orderStaged, &stage.DeliverableViewShapeOrder, stage.DeliverableViewShapes_mapString, deliverableviewshape, deliverableviewshape.Name)
+	return deliverableviewshape
+}
+
+// StagePreserveOrder puts deliverableviewshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DeliverableViewShapeOrder
+// - update stage.DeliverableViewShapeOrder accordingly
+func (deliverableviewshape *DeliverableViewShape) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.DeliverableViewShapes, stage.DeliverableViewShape_stagedOrder, stage.DeliverableViewShape_orderStaged, &stage.DeliverableViewShapeOrder, stage.DeliverableViewShapes_mapString, deliverableviewshape, order, deliverableviewshape.Name)
+}
+
+// Unstage removes deliverableviewshape off the model stage
+func (deliverableviewshape *DeliverableViewShape) Unstage(stage *Stage) *DeliverableViewShape {
+	__gong__unstage(stage.DeliverableViewShapes, stage.DeliverableViewShapes_mapString, deliverableviewshape, deliverableviewshape.Name)
+	return deliverableviewshape
+}
+
+// UnstageVoid removes deliverableviewshape off the model stage
+func (deliverableviewshape *DeliverableViewShape) UnstageVoid(stage *Stage) {
+	deliverableviewshape.Unstage(stage)
+}
+
+func (deliverableviewshape *DeliverableViewShape) StageVoid(stage *Stage) {
+	deliverableviewshape.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (deliverableviewshape *DeliverableViewShape) GetName() (res string) {
+	return deliverableviewshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (deliverableviewshape *DeliverableViewShape) SetName(name string) {
+	deliverableviewshape.Name = name
 }
 
 // Stage puts diagram to the model stage
@@ -3228,6 +3486,126 @@ func (tool *Tool) SetName(name string) {
 	tool.Name = name
 }
 
+// Stage puts view to the model stage
+func (view *View) Stage(stage *Stage) *View {
+	__gong__stage(stage.Views, stage.View_stagedOrder, stage.View_orderStaged, &stage.ViewOrder, stage.Views_mapString, view, view.Name)
+	return view
+}
+
+// StagePreserveOrder puts view to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ViewOrder
+// - update stage.ViewOrder accordingly
+func (view *View) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.Views, stage.View_stagedOrder, stage.View_orderStaged, &stage.ViewOrder, stage.Views_mapString, view, order, view.Name)
+}
+
+// Unstage removes view off the model stage
+func (view *View) Unstage(stage *Stage) *View {
+	__gong__unstage(stage.Views, stage.Views_mapString, view, view.Name)
+	return view
+}
+
+// UnstageVoid removes view off the model stage
+func (view *View) UnstageVoid(stage *Stage) {
+	view.Unstage(stage)
+}
+
+func (view *View) StageVoid(stage *Stage) {
+	view.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (view *View) GetName() (res string) {
+	return view.Name
+}
+
+// for satisfaction of GongStruct interface
+func (view *View) SetName(name string) {
+	view.Name = name
+}
+
+// Stage puts viewconceptshape to the model stage
+func (viewconceptshape *ViewConceptShape) Stage(stage *Stage) *ViewConceptShape {
+	__gong__stage(stage.ViewConceptShapes, stage.ViewConceptShape_stagedOrder, stage.ViewConceptShape_orderStaged, &stage.ViewConceptShapeOrder, stage.ViewConceptShapes_mapString, viewconceptshape, viewconceptshape.Name)
+	return viewconceptshape
+}
+
+// StagePreserveOrder puts viewconceptshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ViewConceptShapeOrder
+// - update stage.ViewConceptShapeOrder accordingly
+func (viewconceptshape *ViewConceptShape) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.ViewConceptShapes, stage.ViewConceptShape_stagedOrder, stage.ViewConceptShape_orderStaged, &stage.ViewConceptShapeOrder, stage.ViewConceptShapes_mapString, viewconceptshape, order, viewconceptshape.Name)
+}
+
+// Unstage removes viewconceptshape off the model stage
+func (viewconceptshape *ViewConceptShape) Unstage(stage *Stage) *ViewConceptShape {
+	__gong__unstage(stage.ViewConceptShapes, stage.ViewConceptShapes_mapString, viewconceptshape, viewconceptshape.Name)
+	return viewconceptshape
+}
+
+// UnstageVoid removes viewconceptshape off the model stage
+func (viewconceptshape *ViewConceptShape) UnstageVoid(stage *Stage) {
+	viewconceptshape.Unstage(stage)
+}
+
+func (viewconceptshape *ViewConceptShape) StageVoid(stage *Stage) {
+	viewconceptshape.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (viewconceptshape *ViewConceptShape) GetName() (res string) {
+	return viewconceptshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (viewconceptshape *ViewConceptShape) SetName(name string) {
+	viewconceptshape.Name = name
+}
+
+// Stage puts viewshape to the model stage
+func (viewshape *ViewShape) Stage(stage *Stage) *ViewShape {
+	__gong__stage(stage.ViewShapes, stage.ViewShape_stagedOrder, stage.ViewShape_orderStaged, &stage.ViewShapeOrder, stage.ViewShapes_mapString, viewshape, viewshape.Name)
+	return viewshape
+}
+
+// StagePreserveOrder puts viewshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ViewShapeOrder
+// - update stage.ViewShapeOrder accordingly
+func (viewshape *ViewShape) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.ViewShapes, stage.ViewShape_stagedOrder, stage.ViewShape_orderStaged, &stage.ViewShapeOrder, stage.ViewShapes_mapString, viewshape, order, viewshape.Name)
+}
+
+// Unstage removes viewshape off the model stage
+func (viewshape *ViewShape) Unstage(stage *Stage) *ViewShape {
+	__gong__unstage(stage.ViewShapes, stage.ViewShapes_mapString, viewshape, viewshape.Name)
+	return viewshape
+}
+
+// UnstageVoid removes viewshape off the model stage
+func (viewshape *ViewShape) UnstageVoid(stage *Stage) {
+	viewshape.Unstage(stage)
+}
+
+func (viewshape *ViewShape) StageVoid(stage *Stage) {
+	viewshape.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (viewshape *ViewShape) GetName() (res string) {
+	return viewshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (viewshape *ViewShape) SetName(name string) {
+	viewshape.Name = name
+}
+
 func (stage *Stage) Reset() { // insertion point for array reset
 	__gong__resetStageType(&stage.AnalysisNeeds, &stage.AnalysisNeeds_mapString, &stage.AnalysisNeed_stagedOrder, &stage.AnalysisNeedOrder)
 
@@ -3254,6 +3632,8 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	__gong__resetStageType(&stage.DeliverableConceptShapes, &stage.DeliverableConceptShapes_mapString, &stage.DeliverableConceptShape_stagedOrder, &stage.DeliverableConceptShapeOrder)
 
 	__gong__resetStageType(&stage.DeliverableShapes, &stage.DeliverableShapes_mapString, &stage.DeliverableShape_stagedOrder, &stage.DeliverableShapeOrder)
+
+	__gong__resetStageType(&stage.DeliverableViewShapes, &stage.DeliverableViewShapes_mapString, &stage.DeliverableViewShape_stagedOrder, &stage.DeliverableViewShapeOrder)
 
 	__gong__resetStageType(&stage.Diagrams, &stage.Diagrams_mapString, &stage.Diagram_stagedOrder, &stage.DiagramOrder)
 
@@ -3286,6 +3666,12 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	__gong__resetStageType(&stage.SupportLevels, &stage.SupportLevels_mapString, &stage.SupportLevel_stagedOrder, &stage.SupportLevelOrder)
 
 	__gong__resetStageType(&stage.Tools, &stage.Tools_mapString, &stage.Tool_stagedOrder, &stage.ToolOrder)
+
+	__gong__resetStageType(&stage.Views, &stage.Views_mapString, &stage.View_stagedOrder, &stage.ViewOrder)
+
+	__gong__resetStageType(&stage.ViewConceptShapes, &stage.ViewConceptShapes_mapString, &stage.ViewConceptShape_stagedOrder, &stage.ViewConceptShapeOrder)
+
+	__gong__resetStageType(&stage.ViewShapes, &stage.ViewShapes_mapString, &stage.ViewShape_stagedOrder, &stage.ViewShapeOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -3454,6 +3840,7 @@ func (ControlPointShape) GongGetAssociationName() any {
 func (Deliverable) GongGetAssociationName() any {
 	return &Deliverable{
 			SubDeliverables: []*Deliverable{{Name: "SubDeliverables"}},
+			Views: []*View{{Name: "Views"}},
 			Concepts: []*Concept{{Name: "Concepts"}},
 	}
 }
@@ -3479,11 +3866,20 @@ func (DeliverableShape) GongGetAssociationName() any {
 	}
 }
 
+func (DeliverableViewShape) GongGetAssociationName() any {
+	return &DeliverableViewShape{
+			Deliverable: &Deliverable{Name: "Deliverable"},
+			View: &View{Name: "View"},
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
+	}
+}
+
 func (Diagram) GongGetAssociationName() any {
 	return &Diagram{
 			ConcernsWhoseRequirementsNodeIsExpanded: []*Concern{{Name: "ConcernsWhoseRequirementsNodeIsExpanded"}},
 			Deliverable_Shapes: []*DeliverableShape{{Name: "Deliverable_Shapes"}},
 			DeliverablesWhoseNodeIsExpanded: []*Deliverable{{Name: "DeliverablesWhoseNodeIsExpanded"}},
+			DeliverablesWhoseViewsNodeIsExpanded: []*Deliverable{{Name: "DeliverablesWhoseViewsNodeIsExpanded"}},
 			DeliverablesWhoseConceptsNodeIsExpanded: []*Deliverable{{Name: "DeliverablesWhoseConceptsNodeIsExpanded"}},
 			DeliverableComposition_Shapes: []*DeliverableCompositionShape{{Name: "DeliverableComposition_Shapes"}},
 			Concern_Shapes: []*ConcernShape{{Name: "Concern_Shapes"}},
@@ -3505,8 +3901,15 @@ func (Diagram) GongGetAssociationName() any {
 			StakeholderConcernShapes: []*StakeholderConcernShape{{Name: "StakeholderConcernShapes"}},
 			Requirement_Shapes: []*RequirementShape{{Name: "Requirement_Shapes"}},
 			RequirementsWhoseNodeIsExpanded: []*Requirement{{Name: "RequirementsWhoseNodeIsExpanded"}},
+			View_Shapes: []*ViewShape{{Name: "View_Shapes"}},
+			ViewsWhoseNodeIsExpanded: []*View{{Name: "ViewsWhoseNodeIsExpanded"}},
+			ViewsWhoseDeliverablesNodeIsExpanded: []*View{{Name: "ViewsWhoseDeliverablesNodeIsExpanded"}},
+			ViewsWhoseConceptsNodeIsExpanded: []*View{{Name: "ViewsWhoseConceptsNodeIsExpanded"}},
+			DeliverableViewShapes: []*DeliverableViewShape{{Name: "DeliverableViewShapes"}},
+			ViewConceptShapes: []*ViewConceptShape{{Name: "ViewConceptShapes"}},
 			Concept_Shapes: []*ConceptShape{{Name: "Concept_Shapes"}},
 			ConceptsWhoseNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseNodeIsExpanded"}},
+			ConceptsWhoseViewsNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseViewsNodeIsExpanded"}},
 			ConceptsWhoseDeliverablesNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseDeliverablesNodeIsExpanded"}},
 			DeliverableConceptShapes: []*DeliverableConceptShape{{Name: "DeliverableConceptShapes"}},
 			Diagram_Shapes: []*DiagramShape{{Name: "Diagram_Shapes"}},
@@ -3526,6 +3929,7 @@ func (Library) GongGetAssociationName() any {
 			RootConcerns: []*Concern{{Name: "RootConcerns"}},
 			RootStakeholders: []*Stakeholder{{Name: "RootStakeholders"}},
 			RootRequirements: []*Requirement{{Name: "RootRequirements"}},
+			RootViews: []*View{{Name: "RootViews"}},
 			RootConcepts: []*Concept{{Name: "RootConcepts"}},
 			AnalysisNeeds: []*AnalysisNeed{{Name: "AnalysisNeeds"}},
 			Notes: []*Note{{Name: "Notes"}},
@@ -3621,6 +4025,26 @@ func (SupportLevel) GongGetAssociationName() any {
 
 func (Tool) GongGetAssociationName() any {
 	return &Tool{
+	}
+}
+
+func (View) GongGetAssociationName() any {
+	return &View{
+			Concepts: []*Concept{{Name: "Concepts"}},
+	}
+}
+
+func (ViewConceptShape) GongGetAssociationName() any {
+	return &ViewConceptShape{
+			View: &View{Name: "View"},
+			Concept: &Concept{Name: "Concept"},
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
+	}
+}
+
+func (ViewShape) GongGetAssociationName() any {
+	return &ViewShape{
+			View: &View{Name: "View"},
 	}
 }
 
@@ -3895,6 +4319,45 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					deliverableshapes = append(deliverableshapes, deliverableshape)
 					res[deliverable_] = deliverableshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of DeliverableViewShape
+	case DeliverableViewShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Deliverable":
+			res := make(map[*Deliverable][]*DeliverableViewShape)
+			for deliverableviewshape := range stage.DeliverableViewShapes {
+				if deliverableviewshape.Deliverable != nil {
+					deliverable_ := deliverableviewshape.Deliverable
+					var deliverableviewshapes []*DeliverableViewShape
+					_, ok := res[deliverable_]
+					if ok {
+						deliverableviewshapes = res[deliverable_]
+					} else {
+						deliverableviewshapes = make([]*DeliverableViewShape, 0)
+					}
+					deliverableviewshapes = append(deliverableviewshapes, deliverableviewshape)
+					res[deliverable_] = deliverableviewshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "View":
+			res := make(map[*View][]*DeliverableViewShape)
+			for deliverableviewshape := range stage.DeliverableViewShapes {
+				if deliverableviewshape.View != nil {
+					view_ := deliverableviewshape.View
+					var deliverableviewshapes []*DeliverableViewShape
+					_, ok := res[view_]
+					if ok {
+						deliverableviewshapes = res[view_]
+					} else {
+						deliverableviewshapes = make([]*DeliverableViewShape, 0)
+					}
+					deliverableviewshapes = append(deliverableviewshapes, deliverableviewshape)
+					res[view_] = deliverableviewshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4217,6 +4680,72 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of View
+	case View:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ViewConceptShape
+	case ViewConceptShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "View":
+			res := make(map[*View][]*ViewConceptShape)
+			for viewconceptshape := range stage.ViewConceptShapes {
+				if viewconceptshape.View != nil {
+					view_ := viewconceptshape.View
+					var viewconceptshapes []*ViewConceptShape
+					_, ok := res[view_]
+					if ok {
+						viewconceptshapes = res[view_]
+					} else {
+						viewconceptshapes = make([]*ViewConceptShape, 0)
+					}
+					viewconceptshapes = append(viewconceptshapes, viewconceptshape)
+					res[view_] = viewconceptshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Concept":
+			res := make(map[*Concept][]*ViewConceptShape)
+			for viewconceptshape := range stage.ViewConceptShapes {
+				if viewconceptshape.Concept != nil {
+					concept_ := viewconceptshape.Concept
+					var viewconceptshapes []*ViewConceptShape
+					_, ok := res[concept_]
+					if ok {
+						viewconceptshapes = res[concept_]
+					} else {
+						viewconceptshapes = make([]*ViewConceptShape, 0)
+					}
+					viewconceptshapes = append(viewconceptshapes, viewconceptshape)
+					res[concept_] = viewconceptshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ViewShape
+	case ViewShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "View":
+			res := make(map[*View][]*ViewShape)
+			for viewshape := range stage.ViewShapes {
+				if viewshape.View != nil {
+					view_ := viewshape.View
+					var viewshapes []*ViewShape
+					_, ok := res[view_]
+					if ok {
+						viewshapes = res[view_]
+					} else {
+						viewshapes = make([]*ViewShape, 0)
+					}
+					viewshapes = append(viewshapes, viewshape)
+					res[view_] = viewshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	}
 	return nil
 }
@@ -4348,6 +4877,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Views":
+			res := make(map[*View][]*Deliverable)
+			for deliverable := range stage.Deliverables {
+				for _, view_ := range deliverable.Views {
+					res[view_] = append(res[view_], deliverable)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Concepts":
 			res := make(map[*Concept][]*Deliverable)
 			for deliverable := range stage.Deliverables {
@@ -4388,6 +4925,19 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of DeliverableViewShape
+	case DeliverableViewShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*DeliverableViewShape)
+			for deliverableviewshape := range stage.DeliverableViewShapes {
+				for _, controlpointshape_ := range deliverableviewshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], deliverableviewshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Diagram
 	case Diagram:
 		switch fieldname {
@@ -4412,6 +4962,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			res := make(map[*Deliverable][]*Diagram)
 			for diagram := range stage.Diagrams {
 				for _, deliverable_ := range diagram.DeliverablesWhoseNodeIsExpanded {
+					res[deliverable_] = append(res[deliverable_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DeliverablesWhoseViewsNodeIsExpanded":
+			res := make(map[*Deliverable][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, deliverable_ := range diagram.DeliverablesWhoseViewsNodeIsExpanded {
 					res[deliverable_] = append(res[deliverable_], diagram)
 				}
 			}
@@ -4584,6 +5142,54 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "View_Shapes":
+			res := make(map[*ViewShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, viewshape_ := range diagram.View_Shapes {
+					res[viewshape_] = append(res[viewshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ViewsWhoseNodeIsExpanded":
+			res := make(map[*View][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, view_ := range diagram.ViewsWhoseNodeIsExpanded {
+					res[view_] = append(res[view_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ViewsWhoseDeliverablesNodeIsExpanded":
+			res := make(map[*View][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, view_ := range diagram.ViewsWhoseDeliverablesNodeIsExpanded {
+					res[view_] = append(res[view_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ViewsWhoseConceptsNodeIsExpanded":
+			res := make(map[*View][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, view_ := range diagram.ViewsWhoseConceptsNodeIsExpanded {
+					res[view_] = append(res[view_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DeliverableViewShapes":
+			res := make(map[*DeliverableViewShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, deliverableviewshape_ := range diagram.DeliverableViewShapes {
+					res[deliverableviewshape_] = append(res[deliverableviewshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ViewConceptShapes":
+			res := make(map[*ViewConceptShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, viewconceptshape_ := range diagram.ViewConceptShapes {
+					res[viewconceptshape_] = append(res[viewconceptshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Concept_Shapes":
 			res := make(map[*ConceptShape][]*Diagram)
 			for diagram := range stage.Diagrams {
@@ -4596,6 +5202,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			res := make(map[*Concept][]*Diagram)
 			for diagram := range stage.Diagrams {
 				for _, concept_ := range diagram.ConceptsWhoseNodeIsExpanded {
+					res[concept_] = append(res[concept_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ConceptsWhoseViewsNodeIsExpanded":
+			res := make(map[*Concept][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, concept_ := range diagram.ConceptsWhoseViewsNodeIsExpanded {
 					res[concept_] = append(res[concept_], diagram)
 				}
 			}
@@ -4671,6 +5285,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			for library := range stage.Librarys {
 				for _, requirement_ := range library.RootRequirements {
 					res[requirement_] = append(res[requirement_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RootViews":
+			res := make(map[*View][]*Library)
+			for library := range stage.Librarys {
+				for _, view_ := range library.RootViews {
+					res[view_] = append(res[view_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4876,6 +5498,37 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of View
+	case View:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Concepts":
+			res := make(map[*Concept][]*View)
+			for view := range stage.Views {
+				for _, concept_ := range view.Concepts {
+					res[concept_] = append(res[concept_], view)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ViewConceptShape
+	case ViewConceptShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*ViewConceptShape)
+			for viewconceptshape := range stage.ViewConceptShapes {
+				for _, controlpointshape_ := range viewconceptshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], viewconceptshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ViewShape
+	case ViewShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -4946,6 +5599,10 @@ func (*Concept) GongGetReverseFields() []GongReverseField {
 		},
 		{
 			GongstructName: "Diagram",
+			Fieldname: "ConceptsWhoseViewsNodeIsExpanded",
+		},
+		{
+			GongstructName: "Diagram",
 			Fieldname: "ConceptsWhoseDeliverablesNodeIsExpanded",
 		},
 		{
@@ -4954,6 +5611,10 @@ func (*Concept) GongGetReverseFields() []GongReverseField {
 		},
 		{
 			GongstructName: "Requirement",
+			Fieldname: "Concepts",
+		},
+		{
+			GongstructName: "View",
 			Fieldname: "Concepts",
 		},
 	}
@@ -5068,6 +5729,10 @@ func (*ControlPointShape) GongGetReverseFields() []GongReverseField {
 			Fieldname: "ControlPointShapes",
 		},
 		{
+			GongstructName: "DeliverableViewShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
 			GongstructName: "NoteDeliverableShape",
 			Fieldname: "ControlPointShapes",
 		},
@@ -5085,6 +5750,10 @@ func (*ControlPointShape) GongGetReverseFields() []GongReverseField {
 		},
 		{
 			GongstructName: "StakeholderConcernShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "ViewConceptShape",
 			Fieldname: "ControlPointShapes",
 		},
 	}
@@ -5107,6 +5776,10 @@ func (*Deliverable) GongGetReverseFields() []GongReverseField {
 		{
 			GongstructName: "Diagram",
 			Fieldname: "DeliverablesWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "DeliverablesWhoseViewsNodeIsExpanded",
 		},
 		{
 			GongstructName: "Diagram",
@@ -5146,6 +5819,15 @@ func (*DeliverableShape) GongGetReverseFields() []GongReverseField {
 		{
 			GongstructName: "Diagram",
 			Fieldname: "Deliverable_Shapes",
+		},
+	}
+}
+
+func (*DeliverableViewShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "DeliverableViewShapes",
 		},
 	}
 }
@@ -5318,6 +6000,49 @@ func (*Tool) GongGetReverseFields() []GongReverseField {
 		{
 			GongstructName: "Concept",
 			Fieldname: "Tools",
+		},
+	}
+}
+
+func (*View) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Deliverable",
+			Fieldname: "Views",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ViewsWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ViewsWhoseDeliverablesNodeIsExpanded",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ViewsWhoseConceptsNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "RootViews",
+		},
+	}
+}
+
+func (*ViewConceptShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "ViewConceptShapes",
+		},
+	}
+}
+
+func (*ViewShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "View_Shapes",
 		},
 	}
 }
@@ -5907,6 +6632,11 @@ func (deliverable *Deliverable) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:                 "Views",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "View",
+		},
+		{
 			Name:                 "Concepts",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Concept",
@@ -6154,6 +6884,86 @@ func (deliverableshape *DeliverableShape) GongGetFieldHeaders() (res []GongField
 	return
 }
 
+func (deliverableviewshape *DeliverableViewShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Deliverable",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Deliverable",
+		},
+		{
+			Name:                 "View",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "View",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "StartOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:                 "EndOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
+		},
+	}
+	return
+}
+
 func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -6207,6 +7017,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsViewsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsConceptsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -6217,6 +7031,11 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:                 "DeliverablesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Deliverable",
+		},
+		{
+			Name:                 "DeliverablesWhoseViewsNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Deliverable",
 		},
@@ -6342,12 +7161,47 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Requirement",
 		},
 		{
+			Name:                 "View_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ViewShape",
+		},
+		{
+			Name:                 "ViewsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "View",
+		},
+		{
+			Name:                 "ViewsWhoseDeliverablesNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "View",
+		},
+		{
+			Name:                 "ViewsWhoseConceptsNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "View",
+		},
+		{
+			Name:                 "DeliverableViewShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DeliverableViewShape",
+		},
+		{
+			Name:                 "ViewConceptShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ViewConceptShape",
+		},
+		{
 			Name:                 "Concept_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ConceptShape",
 		},
 		{
 			Name:                 "ConceptsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Concept",
+		},
+		{
+			Name:                 "ConceptsWhoseViewsNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Concept",
 		},
@@ -6501,6 +7355,11 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "RootRequirements",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Requirement",
+		},
+		{
+			Name:                 "RootViews",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "View",
 		},
 		{
 			Name:                 "RootConcepts",
@@ -7309,6 +8168,198 @@ func (tool *Tool) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (view *View) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Concepts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Concept",
+		},
+	}
+	return
+}
+
+func (viewconceptshape *ViewConceptShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "View",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "View",
+		},
+		{
+			Name:                 "Concept",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Concept",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "StartOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:                 "EndOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
+		},
+	}
+	return
+}
+
+func (viewshape *ViewShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "View",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "View",
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FillOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontWeight",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 // GongGetFieldsFromPointer return the array of the fields
 func GongGetFieldsFromPointer[Type GongstructPtr]() (res []GongFieldHeader) {
 	var ret Type
@@ -7892,6 +8943,16 @@ func (deliverable *Deliverable) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%t", deliverable.IsConsumersNodeExpanded)
 		res.valueBool = deliverable.IsConsumersNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Views":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range deliverable.Views {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Concepts":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range deliverable.Concepts {
@@ -8117,6 +9178,79 @@ func (deliverableshape *DeliverableShape) GongGetFieldValue(fieldName string, st
 	return
 }
 
+func (deliverableviewshape *DeliverableViewShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = deliverableviewshape.Name
+	case "Deliverable":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if deliverableviewshape.Deliverable != nil {
+			res.valueString = deliverableviewshape.Deliverable.Name
+			res.ids = deliverableviewshape.Deliverable.GongGetUUID(stage)
+		}
+	case "View":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if deliverableviewshape.View != nil {
+			res.valueString = deliverableviewshape.View.Name
+			res.ids = deliverableviewshape.View.GongGetUUID(stage)
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", deliverableviewshape.StartRatio)
+		res.valueFloat = deliverableviewshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", deliverableviewshape.EndRatio)
+		res.valueFloat = deliverableviewshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := deliverableviewshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := deliverableviewshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", deliverableviewshape.CornerOffsetRatio)
+		res.valueFloat = deliverableviewshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", deliverableviewshape.IsHidden)
+		res.valueBool = deliverableviewshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", deliverableviewshape.IsPresentationOverridden)
+		res.valueBool = deliverableviewshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Stroke":
+		res.valueString = deliverableviewshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", deliverableviewshape.StrokeWidth)
+		res.valueFloat = deliverableviewshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", deliverableviewshape.StrokeOpacity)
+		res.valueFloat = deliverableviewshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = deliverableviewshape.StrokeDashArray
+	case "FontSize":
+		res.valueString = deliverableviewshape.FontSize
+	case "FontColor":
+		res.valueString = deliverableviewshape.FontColor
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range deliverableviewshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -8170,6 +9304,10 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsRequirementsNodeExpanded)
 		res.valueBool = diagram.IsRequirementsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsViewsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsViewsNodeExpanded)
+		res.valueBool = diagram.IsViewsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsConceptsNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", diagram.IsConceptsNodeExpanded)
 		res.valueBool = diagram.IsConceptsNodeExpanded
@@ -8187,6 +9325,16 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "DeliverablesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.DeliverablesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "DeliverablesWhoseViewsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.DeliverablesWhoseViewsNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8420,6 +9568,66 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "View_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.View_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ViewsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ViewsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ViewsWhoseDeliverablesNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ViewsWhoseDeliverablesNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ViewsWhoseConceptsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ViewsWhoseConceptsNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "DeliverableViewShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.DeliverableViewShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ViewConceptShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ViewConceptShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Concept_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.Concept_Shapes {
@@ -8433,6 +9641,16 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "ConceptsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.ConceptsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ConceptsWhoseViewsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ConceptsWhoseViewsNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8607,6 +9825,16 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "RootRequirements":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.RootRequirements {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RootViews":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootViews {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -9387,6 +10615,177 @@ func (tool *Tool) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	return
 }
 
+func (view *View) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = view.Name
+	case "ComputedPrefix":
+		res.valueString = view.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", view.IsExpanded)
+		res.valueBool = view.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Description":
+		res.valueString = view.Description
+	case "Concepts":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range view.Concepts {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (viewconceptshape *ViewConceptShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = viewconceptshape.Name
+	case "View":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if viewconceptshape.View != nil {
+			res.valueString = viewconceptshape.View.Name
+			res.ids = viewconceptshape.View.GongGetUUID(stage)
+		}
+	case "Concept":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if viewconceptshape.Concept != nil {
+			res.valueString = viewconceptshape.Concept.Name
+			res.ids = viewconceptshape.Concept.GongGetUUID(stage)
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", viewconceptshape.StartRatio)
+		res.valueFloat = viewconceptshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", viewconceptshape.EndRatio)
+		res.valueFloat = viewconceptshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := viewconceptshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := viewconceptshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", viewconceptshape.CornerOffsetRatio)
+		res.valueFloat = viewconceptshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", viewconceptshape.IsHidden)
+		res.valueBool = viewconceptshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", viewconceptshape.IsPresentationOverridden)
+		res.valueBool = viewconceptshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Stroke":
+		res.valueString = viewconceptshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", viewconceptshape.StrokeWidth)
+		res.valueFloat = viewconceptshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", viewconceptshape.StrokeOpacity)
+		res.valueFloat = viewconceptshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = viewconceptshape.StrokeDashArray
+	case "FontSize":
+		res.valueString = viewconceptshape.FontSize
+	case "FontColor":
+		res.valueString = viewconceptshape.FontColor
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range viewconceptshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (viewshape *ViewShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = viewshape.Name
+	case "View":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if viewshape.View != nil {
+			res.valueString = viewshape.View.Name
+			res.ids = viewshape.View.GongGetUUID(stage)
+		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", viewshape.IsExpanded)
+		res.valueBool = viewshape.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "X":
+		res.valueString = fmt.Sprintf("%f", viewshape.X)
+		res.valueFloat = viewshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", viewshape.Y)
+		res.valueFloat = viewshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", viewshape.Width)
+		res.valueFloat = viewshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", viewshape.Height)
+		res.valueFloat = viewshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", viewshape.IsHidden)
+		res.valueBool = viewshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", viewshape.IsPresentationOverridden)
+		res.valueBool = viewshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Color":
+		res.valueString = viewshape.Color
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", viewshape.FillOpacity)
+		res.valueFloat = viewshape.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Stroke":
+		res.valueString = viewshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", viewshape.StrokeWidth)
+		res.valueFloat = viewshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", viewshape.StrokeOpacity)
+		res.valueFloat = viewshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = viewshape.StrokeDashArray
+	case "RX":
+		res.valueString = fmt.Sprintf("%f", viewshape.RX)
+		res.valueFloat = viewshape.RX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FontSize":
+		res.valueString = viewshape.FontSize
+	case "FontWeight":
+		res.valueString = viewshape.FontWeight
+	case "FontColor":
+		res.valueString = viewshape.FontColor
+	}
+	return
+}
+
 func (stage *Stage) GetFieldStringValueFromPointer(instance GongstructIF, fieldName string) (res GongFieldValue) {
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
@@ -9447,6 +10846,10 @@ func (deliverableconceptshape *DeliverableConceptShape) GongGetGongstructName() 
 
 func (deliverableshape *DeliverableShape) GongGetGongstructName() string {
 	return "DeliverableShape"
+}
+
+func (deliverableviewshape *DeliverableViewShape) GongGetGongstructName() string {
+	return "DeliverableViewShape"
 }
 
 func (diagram *Diagram) GongGetGongstructName() string {
@@ -9513,6 +10916,18 @@ func (tool *Tool) GongGetGongstructName() string {
 	return "Tool"
 }
 
+func (view *View) GongGetGongstructName() string {
+	return "View"
+}
+
+func (viewconceptshape *ViewConceptShape) GongGetGongstructName() string {
+	return "ViewConceptShape"
+}
+
+func (viewshape *ViewShape) GongGetGongstructName() string {
+	return "ViewShape"
+}
+
 func GongGetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()
 	return
@@ -9550,6 +10965,8 @@ func (stage *Stage) ResetMapStrings() {
 
 	__gong__rebuildMapString(stage.DeliverableShapes, &stage.DeliverableShapes_mapString)
 
+	__gong__rebuildMapString(stage.DeliverableViewShapes, &stage.DeliverableViewShapes_mapString)
+
 	__gong__rebuildMapString(stage.Diagrams, &stage.Diagrams_mapString)
 
 	__gong__rebuildMapString(stage.DiagramShapes, &stage.DiagramShapes_mapString)
@@ -9581,6 +10998,12 @@ func (stage *Stage) ResetMapStrings() {
 	__gong__rebuildMapString(stage.SupportLevels, &stage.SupportLevels_mapString)
 
 	__gong__rebuildMapString(stage.Tools, &stage.Tools_mapString)
+
+	__gong__rebuildMapString(stage.Views, &stage.Views_mapString)
+
+	__gong__rebuildMapString(stage.ViewConceptShapes, &stage.ViewConceptShapes_mapString)
+
+	__gong__rebuildMapString(stage.ViewShapes, &stage.ViewShapes_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

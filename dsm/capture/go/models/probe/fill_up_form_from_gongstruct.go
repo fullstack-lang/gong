@@ -188,6 +188,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.DeliverableViewShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "DeliverableViewShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DeliverableViewShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Diagram:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -390,6 +403,45 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "Tool",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ToolFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.View:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "View",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ViewFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ViewConceptShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "ViewConceptShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ViewConceptShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ViewShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "ViewShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ViewShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

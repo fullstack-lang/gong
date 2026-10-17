@@ -146,6 +146,37 @@ func (stager *Stager) enforceDiagramMaps() {
 			}
 		}
 
+		diagram.map_View_ViewShape = make(map[*View]*ViewShape)
+		for _, shape := range diagram.View_Shapes {
+			if shape.View != nil {
+				diagram.map_View_ViewShape[shape.View] = shape
+				var diagrams = stager.map_Element_Diagrams[shape.View]
+
+				if diagrams == nil {
+					diagrams = []*Diagram{diagram}
+				}
+
+				if !slices.Contains(diagrams, diagram) {
+					diagrams = append(diagrams, diagram)
+				}
+				stager.map_Element_Diagrams[shape.View] = diagrams
+			}
+		}
+
+		diagram.map_DeliverableViewKey_DeliverableViewShape = make(map[deliverableViewKey]*DeliverableViewShape)
+		for _, shape := range diagram.DeliverableViewShapes {
+			if shape.Deliverable != nil && shape.View != nil {
+				diagram.map_DeliverableViewKey_DeliverableViewShape[deliverableViewKey{Deliverable: shape.Deliverable, View: shape.View}] = shape
+			}
+		}
+
+		diagram.map_ViewConceptKey_ViewConceptShape = make(map[viewConceptKey]*ViewConceptShape)
+		for _, shape := range diagram.ViewConceptShapes {
+			if shape.View != nil && shape.Concept != nil {
+				diagram.map_ViewConceptKey_ViewConceptShape[viewConceptKey{View: shape.View, Concept: shape.Concept}] = shape
+			}
+		}
+
 		diagram.map_Concept_ConceptShape = make(map[*Concept]*ConceptShape)
 		for _, shape := range diagram.Concept_Shapes {
 			if shape.Concept != nil {
@@ -167,6 +198,13 @@ func (stager *Stager) enforceDiagramMaps() {
 		for _, shape := range diagram.DeliverableConceptShapes {
 			if shape.Deliverable != nil && shape.Concept != nil {
 				diagram.map_DeliverableConceptKey_DeliverableConceptShape[deliverableConceptKey{Deliverable: shape.Deliverable, Concept: shape.Concept}] = shape
+			}
+		}
+
+		diagram.map_Diagram_DiagramShape = make(map[*Diagram]*DiagramShape)
+		for _, shape := range diagram.Diagram_Shapes {
+			if shape.Diagram != nil {
+				diagram.map_Diagram_DiagramShape[shape.Diagram] = shape
 			}
 		}
 	}

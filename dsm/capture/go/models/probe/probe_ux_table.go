@@ -50,6 +50,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.DeliverableConceptShape](probe)
 	case "DeliverableShape":
 		updateProbeTable[*models.DeliverableShape](probe)
+	case "DeliverableViewShape":
+		updateProbeTable[*models.DeliverableViewShape](probe)
 	case "Diagram":
 		updateProbeTable[*models.Diagram](probe)
 	case "DiagramShape":
@@ -82,6 +84,12 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.SupportLevel](probe)
 	case "Tool":
 		updateProbeTable[*models.Tool](probe)
+	case "View":
+		updateProbeTable[*models.View](probe)
+	case "ViewConceptShape":
+		updateProbeTable[*models.ViewConceptShape](probe)
+	case "ViewShape":
+		updateProbeTable[*models.ViewShape](probe)
 	}
 }
 

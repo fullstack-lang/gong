@@ -1,6 +1,9 @@
 package models
 
-import split "github.com/fullstack-lang/gong/lib/splitlite/go/models"
+import (
+	split "github.com/fullstack-lang/gong/lib/splitlite/go/models"
+	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
+)
 
 func getPersistanceFile(stager *Stager) string {
 	if stager.stage.OnInitCommitCallback != nil {
@@ -73,24 +76,10 @@ func (stager *Stager) createViews() {
 			},
 			{
 				Size: 525,
-				AsSplit: &split.AsSplit{
-					Name:      "as split forms",
-					Direction: split.Vertical,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Size: 75,
-							Form: &split.Form{
-								StackName: stager.probeForm.GetFormStage().GetName(),
-							},
-						},
-						{
-							Size: 25,
-							Form: &split.Form{
-								StackName: stager.shapeFormStage.GetName(),
-							},
-						},
-					},
-				},
+				AsSplit: gongprobe.CreateFormsLayoutSplitlite(
+					stager.probeForm.GetFormStage().GetName(),
+					stager.shapeFormStage.GetName(),
+				),
 			},
 		},
 	})
@@ -125,24 +114,10 @@ func (stager *Stager) createViews() {
 						},
 						{
 							Size: 62,
-							AsSplit: &split.AsSplit{
-								Name:      "as split forms probe view",
-								Direction: split.Vertical,
-								AsSplitAreas: []*split.AsSplitArea{
-									{
-										Size: 75,
-										Form: &split.Form{
-											StackName: stager.probeForm.GetFormStage().GetName(),
-										},
-									},
-									{
-										Size: 25,
-										Form: &split.Form{
-											StackName: stager.shapeFormStage.GetName(),
-										},
-									},
-								},
-							},
+							AsSplit: gongprobe.CreateFormsLayoutSplitlite(
+								stager.probeForm.GetFormStage().GetName(),
+								stager.shapeFormStage.GetName(),
+							),
 						},
 					},
 				},

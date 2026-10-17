@@ -23,12 +23,16 @@ import (
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
+
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	form_stack "github.com/fullstack-lang/gong/lib/form/go/stack"
 )
 
 type Stager struct {
-	stage      *Stage
-	splitStage *split.Stage
-	probeForm  ProbeIF
+	stage          *Stage
+	splitStage     *split.Stage
+	probeForm      ProbeIF
+	shapeFormStage *form.Stage
 
 	treeStage   *tree.Stage
 	svgStage    *svg.Stage
@@ -71,6 +75,7 @@ func NewStager(
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
 	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.shapeFormStage = form_stack.NewStack(r, "shapeForm", "", "", "", true, true).Stage
 
 	stager.createViews()
 
@@ -98,3 +103,8 @@ func NewStager(
 func (stager *Stager) GetSvgObject() *svg.SVG {
 	return stager.svgObject
 }
+
+func (stager *Stager) GetShapeFormStage() *form.Stage {
+	return stager.shapeFormStage
+}
+

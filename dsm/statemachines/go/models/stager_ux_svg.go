@@ -105,7 +105,7 @@ func (stager *Stager) svg() {
 		stager.svgGenerateLink(
 			diagram,
 			startRect, endRect,
-			&transtionShape.LinkShape, transition, layer, false)
+			transtionShape, transition, layer, false)
 	}
 
 	map_Note_Rect := make(map[*Note]*svg.Rect)

@@ -110,6 +110,7 @@ func (concernshape *ConcernShape) GongClean(stage *Stage) (modified bool) {
 func (deliverable *Deliverable) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&deliverable.SubDeliverables) || modified
+	modified = stage.CleanSlice(&deliverable.Views) || modified
 	modified = stage.CleanSlice(&deliverable.Concepts) || modified
 	// insertion point per field
 	return
@@ -142,12 +143,23 @@ func (deliverableshape *DeliverableShape) GongClean(stage *Stage) (modified bool
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by DeliverableViewShape
+func (deliverableviewshape *DeliverableViewShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = stage.CleanSlice(&deliverableviewshape.ControlPointShapes) || modified
+	// insertion point per field
+	modified = stage.CleanPointer(&deliverableviewshape.Deliverable) || modified
+	modified = stage.CleanPointer(&deliverableviewshape.View) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&diagram.ConcernsWhoseRequirementsNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagram.Deliverable_Shapes) || modified
 	modified = stage.CleanSlice(&diagram.DeliverablesWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagram.DeliverablesWhoseViewsNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagram.DeliverablesWhoseConceptsNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagram.DeliverableComposition_Shapes) || modified
 	modified = stage.CleanSlice(&diagram.Concern_Shapes) || modified
@@ -169,8 +181,15 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&diagram.StakeholderConcernShapes) || modified
 	modified = stage.CleanSlice(&diagram.Requirement_Shapes) || modified
 	modified = stage.CleanSlice(&diagram.RequirementsWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagram.View_Shapes) || modified
+	modified = stage.CleanSlice(&diagram.ViewsWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagram.ViewsWhoseDeliverablesNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagram.ViewsWhoseConceptsNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagram.DeliverableViewShapes) || modified
+	modified = stage.CleanSlice(&diagram.ViewConceptShapes) || modified
 	modified = stage.CleanSlice(&diagram.Concept_Shapes) || modified
 	modified = stage.CleanSlice(&diagram.ConceptsWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagram.ConceptsWhoseViewsNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagram.ConceptsWhoseDeliverablesNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagram.DeliverableConceptShapes) || modified
 	modified = stage.CleanSlice(&diagram.Diagram_Shapes) || modified
@@ -194,6 +213,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&library.RootConcerns) || modified
 	modified = stage.CleanSlice(&library.RootStakeholders) || modified
 	modified = stage.CleanSlice(&library.RootRequirements) || modified
+	modified = stage.CleanSlice(&library.RootViews) || modified
 	modified = stage.CleanSlice(&library.RootConcepts) || modified
 	modified = stage.CleanSlice(&library.AnalysisNeeds) || modified
 	modified = stage.CleanSlice(&library.Notes) || modified
@@ -309,6 +329,32 @@ func (supportlevel *SupportLevel) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&supportlevel.Tool) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by View
+func (view *View) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = stage.CleanSlice(&view.Concepts) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ViewConceptShape
+func (viewconceptshape *ViewConceptShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = stage.CleanSlice(&viewconceptshape.ControlPointShapes) || modified
+	// insertion point per field
+	modified = stage.CleanPointer(&viewconceptshape.View) || modified
+	modified = stage.CleanPointer(&viewconceptshape.Concept) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ViewShape
+func (viewshape *ViewShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&viewshape.View) || modified
 	return
 }
 

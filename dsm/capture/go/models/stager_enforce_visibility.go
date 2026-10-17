@@ -14,6 +14,10 @@ func (stager *Stager) enforceVisibility() (needCommit bool) {
 		collectVisibleElements(diagram.Concern_Shapes, visibleElements)
 		collectVisibleElements(diagram.Note_Shapes, visibleElements)
 		collectVisibleElements(diagram.Stakeholder_Shapes, visibleElements)
+		collectVisibleElements(diagram.Requirement_Shapes, visibleElements)
+		collectVisibleElements(diagram.View_Shapes, visibleElements)
+		collectVisibleElements(diagram.Concept_Shapes, visibleElements)
+		collectVisibleElements(diagram.Diagram_Shapes, visibleElements)
 
 		needCommit = removeInvisibleShapes(stager, &diagram.DeliverableComposition_Shapes, visibleElements) || needCommit
 
@@ -27,6 +31,10 @@ func (stager *Stager) enforceVisibility() (needCommit bool) {
 
 		needCommit = removeInvisibleShapes(stager, &diagram.ResourceComposition_Shapes, visibleElements) || needCommit
 		needCommit = removeInvisibleShapes(stager, &diagram.StakeholderConcernShapes, visibleElements) || needCommit
+
+		needCommit = removeInvisibleShapes(stager, &diagram.DeliverableViewShapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagram.ViewConceptShapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagram.DeliverableConceptShapes, visibleElements) || needCommit
 	}
 	return
 }

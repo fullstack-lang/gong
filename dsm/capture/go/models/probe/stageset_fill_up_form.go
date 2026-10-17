@@ -117,6 +117,20 @@ func StageSetFillUpForm(
 		{
 			var refNames []string
 			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.ConceptsWhoseViewsNodeIsExpanded {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Diagram", "ConceptsWhoseViewsNodeIsExpanded", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
 				for _, target := range src.ConceptsWhoseDeliverablesNodeIsExpanded {
 					if target == inst {
 						refNames = append(refNames, src.GetName())
@@ -154,6 +168,31 @@ func StageSetFillUpForm(
 			}
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("models.Requirement", "Concepts", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.Views {
+				for _, target := range src.Concepts {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.View", "Concepts", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.ViewConceptShapes {
+				if src.Concept == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.ViewConceptShape", "Concept", refNames, formGroup, probe.formStage)
 		}
 	case *models.ConceptShape:
 		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
@@ -736,6 +775,20 @@ func StageSetFillUpForm(
 
 		{
 			var refNames []string
+			for src := range probe.stageSet.Stage.DeliverableViewShapes {
+				for _, target := range src.ControlPointShapes {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.DeliverableViewShape", "ControlPointShapes", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
 			for src := range probe.stageSet.Stage.NoteDeliverableShapes {
 				for _, target := range src.ControlPointShapes {
 					if target == inst {
@@ -803,6 +856,20 @@ func StageSetFillUpForm(
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("models.StakeholderConcernShape", "ControlPointShapes", refNames, formGroup, probe.formStage)
 		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.ViewConceptShapes {
+				for _, target := range src.ControlPointShapes {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.ViewConceptShape", "ControlPointShapes", refNames, formGroup, probe.formStage)
+		}
 	case *models.Deliverable:
 		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("ComputedPrefix", inst.ComputedPrefix, probe.formStage, formGroup)
@@ -830,6 +897,26 @@ func StageSetFillUpForm(
 		}
 		StageSetBasicFieldtoForm("IsProducersNodeExpanded", inst.IsProducersNodeExpanded, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsConsumersNodeExpanded", inst.IsConsumersNodeExpanded, probe.formStage, formGroup)
+
+		{
+			// Slice of pointers: Views
+			div := (&form.FormDiv{Name: "Views"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.Views {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "Views",
+				Label: "Views",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
 
 		{
 			// Slice of pointers: Concepts
@@ -950,6 +1037,17 @@ func StageSetFillUpForm(
 
 		{
 			var refNames []string
+			for src := range probe.stageSet.Stage.DeliverableViewShapes {
+				if src.Deliverable == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.DeliverableViewShape", "Deliverable", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
 			for src := range probe.stageSet.Stage.Diagrams {
 				for _, target := range src.DeliverablesWhoseNodeIsExpanded {
 					if target == inst {
@@ -960,6 +1058,20 @@ func StageSetFillUpForm(
 			}
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("models.Diagram", "DeliverablesWhoseNodeIsExpanded", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.DeliverablesWhoseViewsNodeIsExpanded {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Diagram", "DeliverablesWhoseViewsNodeIsExpanded", refNames, formGroup, probe.formStage)
 		}
 
 		{
@@ -1149,6 +1261,57 @@ func StageSetFillUpForm(
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("models.Diagram", "Deliverable_Shapes", refNames, formGroup, probe.formStage)
 		}
+	case *models.DeliverableViewShape:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Deliverable", inst.Deliverable, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.Deliverable](), probe.formStage)
+		StageSetAssociationFieldToForm("View", inst.View, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.View](), probe.formStage)
+		StageSetBasicFieldtoForm("StartRatio", inst.StartRatio, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EndRatio", inst.EndRatio, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("StartOrientation", inst.StartOrientation, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("EndOrientation", inst.EndOrientation, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("CornerOffsetRatio", inst.CornerOffsetRatio, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsHidden", inst.IsHidden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsPresentationOverridden", inst.IsPresentationOverridden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Stroke", inst.Stroke, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeWidth", inst.StrokeWidth, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeOpacity", inst.StrokeOpacity, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeDashArray", inst.StrokeDashArray, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontSize", inst.FontSize, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontColor", inst.FontColor, probe.formStage, formGroup)
+
+		{
+			// Slice of pointers: ControlPointShapes
+			div := (&form.FormDiv{Name: "ControlPointShapes"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.ControlPointShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "ControlPointShapes",
+				Label: "ControlPointShapes",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.DeliverableViewShapes {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Diagram", "DeliverableViewShapes", refNames, formGroup, probe.formStage)
+		}
 	case *models.Diagram:
 		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("ComputedPrefix", inst.ComputedPrefix, probe.formStage, formGroup)
@@ -1181,6 +1344,7 @@ func StageSetFillUpForm(
 			div.FormFields = append(div.FormFields, fld)
 		}
 		StageSetBasicFieldtoForm("IsRequirementsNodeExpanded", inst.IsRequirementsNodeExpanded, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsViewsNodeExpanded", inst.IsViewsNodeExpanded, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsConceptsNodeExpanded", inst.IsConceptsNodeExpanded, probe.formStage, formGroup)
 
 		{
@@ -1216,6 +1380,26 @@ func StageSetFillUpForm(
 			fld := (&form.FormField{
 				Name:  "DeliverablesWhoseNodeIsExpanded",
 				Label: "DeliverablesWhoseNodeIsExpanded",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			// Slice of pointers: DeliverablesWhoseViewsNodeIsExpanded
+			div := (&form.FormDiv{Name: "DeliverablesWhoseViewsNodeIsExpanded"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.DeliverablesWhoseViewsNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "DeliverablesWhoseViewsNodeIsExpanded",
+				Label: "DeliverablesWhoseViewsNodeIsExpanded",
 				FormFieldString: &form.FormFieldString{
 					Value: strings.Join(names, ", "),
 				},
@@ -1648,6 +1832,126 @@ func StageSetFillUpForm(
 		}
 
 		{
+			// Slice of pointers: View_Shapes
+			div := (&form.FormDiv{Name: "View_Shapes"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.View_Shapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "View_Shapes",
+				Label: "View_Shapes",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			// Slice of pointers: ViewsWhoseNodeIsExpanded
+			div := (&form.FormDiv{Name: "ViewsWhoseNodeIsExpanded"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.ViewsWhoseNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "ViewsWhoseNodeIsExpanded",
+				Label: "ViewsWhoseNodeIsExpanded",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			// Slice of pointers: ViewsWhoseDeliverablesNodeIsExpanded
+			div := (&form.FormDiv{Name: "ViewsWhoseDeliverablesNodeIsExpanded"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.ViewsWhoseDeliverablesNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "ViewsWhoseDeliverablesNodeIsExpanded",
+				Label: "ViewsWhoseDeliverablesNodeIsExpanded",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			// Slice of pointers: ViewsWhoseConceptsNodeIsExpanded
+			div := (&form.FormDiv{Name: "ViewsWhoseConceptsNodeIsExpanded"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.ViewsWhoseConceptsNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "ViewsWhoseConceptsNodeIsExpanded",
+				Label: "ViewsWhoseConceptsNodeIsExpanded",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			// Slice of pointers: DeliverableViewShapes
+			div := (&form.FormDiv{Name: "DeliverableViewShapes"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.DeliverableViewShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "DeliverableViewShapes",
+				Label: "DeliverableViewShapes",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			// Slice of pointers: ViewConceptShapes
+			div := (&form.FormDiv{Name: "ViewConceptShapes"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.ViewConceptShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "ViewConceptShapes",
+				Label: "ViewConceptShapes",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
 			// Slice of pointers: Concept_Shapes
 			div := (&form.FormDiv{Name: "Concept_Shapes"}).Stage(probe.formStage)
 			formGroup.FormDivs = append(formGroup.FormDivs, div)
@@ -1680,6 +1984,26 @@ func StageSetFillUpForm(
 			fld := (&form.FormField{
 				Name:  "ConceptsWhoseNodeIsExpanded",
 				Label: "ConceptsWhoseNodeIsExpanded",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			// Slice of pointers: ConceptsWhoseViewsNodeIsExpanded
+			div := (&form.FormDiv{Name: "ConceptsWhoseViewsNodeIsExpanded"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.ConceptsWhoseViewsNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "ConceptsWhoseViewsNodeIsExpanded",
+				Label: "ConceptsWhoseViewsNodeIsExpanded",
 				FormFieldString: &form.FormFieldString{
 					Value: strings.Join(names, ", "),
 				},
@@ -1919,6 +2243,26 @@ func StageSetFillUpForm(
 			fld := (&form.FormField{
 				Name:  "RootRequirements",
 				Label: "RootRequirements",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			// Slice of pointers: RootViews
+			div := (&form.FormDiv{Name: "RootViews"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.RootViews {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "RootViews",
+				Label: "RootViews",
 				FormFieldString: &form.FormFieldString{
 					Value: strings.Join(names, ", "),
 				},
@@ -2818,6 +3162,219 @@ func StageSetFillUpForm(
 			}
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("models.SupportLevel", "Tool", refNames, formGroup, probe.formStage)
+		}
+	case *models.View:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("ComputedPrefix", inst.ComputedPrefix, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsExpanded", inst.IsExpanded, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Description", inst.Description, probe.formStage, formGroup)
+
+		{
+			// Slice of pointers: Concepts
+			div := (&form.FormDiv{Name: "Concepts"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.Concepts {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "Concepts",
+				Label: "Concepts",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.Deliverables {
+				for _, target := range src.Views {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Deliverable", "Views", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.DeliverableViewShapes {
+				if src.View == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.DeliverableViewShape", "View", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.ViewsWhoseNodeIsExpanded {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Diagram", "ViewsWhoseNodeIsExpanded", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.ViewsWhoseDeliverablesNodeIsExpanded {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Diagram", "ViewsWhoseDeliverablesNodeIsExpanded", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.ViewsWhoseConceptsNodeIsExpanded {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Diagram", "ViewsWhoseConceptsNodeIsExpanded", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.Librarys {
+				for _, target := range src.RootViews {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Library", "RootViews", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.ViewConceptShapes {
+				if src.View == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.ViewConceptShape", "View", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.ViewShapes {
+				if src.View == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.ViewShape", "View", refNames, formGroup, probe.formStage)
+		}
+	case *models.ViewConceptShape:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("View", inst.View, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.View](), probe.formStage)
+		StageSetAssociationFieldToForm("Concept", inst.Concept, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.Concept](), probe.formStage)
+		StageSetBasicFieldtoForm("StartRatio", inst.StartRatio, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EndRatio", inst.EndRatio, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("StartOrientation", inst.StartOrientation, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("EndOrientation", inst.EndOrientation, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("CornerOffsetRatio", inst.CornerOffsetRatio, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsHidden", inst.IsHidden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsPresentationOverridden", inst.IsPresentationOverridden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Stroke", inst.Stroke, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeWidth", inst.StrokeWidth, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeOpacity", inst.StrokeOpacity, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeDashArray", inst.StrokeDashArray, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontSize", inst.FontSize, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontColor", inst.FontColor, probe.formStage, formGroup)
+
+		{
+			// Slice of pointers: ControlPointShapes
+			div := (&form.FormDiv{Name: "ControlPointShapes"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.ControlPointShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "ControlPointShapes",
+				Label: "ControlPointShapes",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.ViewConceptShapes {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Diagram", "ViewConceptShapes", refNames, formGroup, probe.formStage)
+		}
+	case *models.ViewShape:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("View", inst.View, formGroup, probe.stageSet.Stage.GetInstancesSet[*models.View](), probe.formStage)
+		StageSetBasicFieldtoForm("IsExpanded", inst.IsExpanded, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("X", inst.X, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Y", inst.Y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Width", inst.Width, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Height", inst.Height, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsHidden", inst.IsHidden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsPresentationOverridden", inst.IsPresentationOverridden, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FillOpacity", inst.FillOpacity, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Stroke", inst.Stroke, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeWidth", inst.StrokeWidth, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeOpacity", inst.StrokeOpacity, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("StrokeDashArray", inst.StrokeDashArray, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("RX", inst.RX, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontSize", inst.FontSize, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontWeight", inst.FontWeight, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("FontColor", inst.FontColor, probe.formStage, formGroup)
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.View_Shapes {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Diagram", "View_Shapes", refNames, formGroup, probe.formStage)
 		}
 	default:
 		_ = inst

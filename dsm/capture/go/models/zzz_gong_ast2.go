@@ -566,6 +566,8 @@ func (u *DeliverableUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.IsProducersNodeExpanded = GongExtractBool(valueExpr)
 	case "IsConsumersNodeExpanded":
 		instance.IsConsumersNodeExpanded = GongExtractBool(valueExpr)
+	case "Views":
+		GongUnmarshallSliceOfPointers(&instance.Views, valueExpr, identifierMap)
 	case "Concepts":
 		GongUnmarshallSliceOfPointers(&instance.Concepts, valueExpr, identifierMap)
 	}
@@ -721,6 +723,55 @@ func (u *DeliverableShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	return nil
 }
 
+type DeliverableViewShapeUnmarshaller struct{}
+
+func (u *DeliverableViewShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(DeliverableViewShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *DeliverableViewShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DeliverableViewShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Deliverable":
+		GongUnmarshallPointer(&instance.Deliverable, valueExpr, identifierMap)
+	case "View":
+		GongUnmarshallPointer(&instance.View, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type DiagramUnmarshaller struct{}
 
 func (u *DiagramUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -756,12 +807,16 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.ConcernsWhoseRequirementsNodeIsExpanded, valueExpr, identifierMap)
 	case "IsRequirementsNodeExpanded":
 		instance.IsRequirementsNodeExpanded = GongExtractBool(valueExpr)
+	case "IsViewsNodeExpanded":
+		instance.IsViewsNodeExpanded = GongExtractBool(valueExpr)
 	case "IsConceptsNodeExpanded":
 		instance.IsConceptsNodeExpanded = GongExtractBool(valueExpr)
 	case "Deliverable_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Deliverable_Shapes, valueExpr, identifierMap)
 	case "DeliverablesWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.DeliverablesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "DeliverablesWhoseViewsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DeliverablesWhoseViewsNodeIsExpanded, valueExpr, identifierMap)
 	case "DeliverablesWhoseConceptsNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.DeliverablesWhoseConceptsNodeIsExpanded, valueExpr, identifierMap)
 	case "IsPBSNodeExpanded":
@@ -812,10 +867,24 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.Requirement_Shapes, valueExpr, identifierMap)
 	case "RequirementsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.RequirementsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "View_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.View_Shapes, valueExpr, identifierMap)
+	case "ViewsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ViewsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ViewsWhoseDeliverablesNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ViewsWhoseDeliverablesNodeIsExpanded, valueExpr, identifierMap)
+	case "ViewsWhoseConceptsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ViewsWhoseConceptsNodeIsExpanded, valueExpr, identifierMap)
+	case "DeliverableViewShapes":
+		GongUnmarshallSliceOfPointers(&instance.DeliverableViewShapes, valueExpr, identifierMap)
+	case "ViewConceptShapes":
+		GongUnmarshallSliceOfPointers(&instance.ViewConceptShapes, valueExpr, identifierMap)
 	case "Concept_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Concept_Shapes, valueExpr, identifierMap)
 	case "ConceptsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ConceptsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ConceptsWhoseViewsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ConceptsWhoseViewsNodeIsExpanded, valueExpr, identifierMap)
 	case "ConceptsWhoseDeliverablesNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ConceptsWhoseDeliverablesNodeIsExpanded, valueExpr, identifierMap)
 	case "DeliverableConceptShapes":
@@ -910,6 +979,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.RootStakeholders, valueExpr, identifierMap)
 	case "RootRequirements":
 		GongUnmarshallSliceOfPointers(&instance.RootRequirements, valueExpr, identifierMap)
+	case "RootViews":
+		GongUnmarshallSliceOfPointers(&instance.RootViews, valueExpr, identifierMap)
 	case "RootConcepts":
 		GongUnmarshallSliceOfPointers(&instance.RootConcepts, valueExpr, identifierMap)
 	case "AnalysisNeeds":
@@ -1441,6 +1512,133 @@ func (u *ToolUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type ViewUnmarshaller struct{}
+
+func (u *ViewUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(View), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *ViewUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*View)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "Concepts":
+		GongUnmarshallSliceOfPointers(&instance.Concepts, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type ViewConceptShapeUnmarshaller struct{}
+
+func (u *ViewConceptShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(ViewConceptShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *ViewConceptShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ViewConceptShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "View":
+		GongUnmarshallPointer(&instance.View, valueExpr, identifierMap)
+	case "Concept":
+		GongUnmarshallPointer(&instance.Concept, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type ViewShapeUnmarshaller struct{}
+
+func (u *ViewShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(ViewShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *ViewShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ViewShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "View":
+		GongUnmarshallPointer(&instance.View, valueExpr, identifierMap)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }

@@ -1,6 +1,9 @@
 package models
 
-import split "github.com/fullstack-lang/gong/lib/split/go/models"
+import (
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
+)
 
 func (stager *Stager) createViews() {
 	stager.splitStage.Reset()
@@ -40,16 +43,17 @@ func (stager *Stager) createViews() {
 							},
 						},
 						{
-							Size: 40,
+							Size: 60,
 							Svg: (&split.Svg{
 								StackName: stager.svgStage.GetName(),
 							}),
 						},
 						{
-							Size: 40,
-							Split: (&split.Split{
-								StackName: stager.stage.GetProbeSplitStageName(),
-							}),
+							Size: 20,
+							AsSplit: gongprobe.CreateFormsLayout(
+								stager.probeForm.GetFormStage().GetName(),
+								stager.shapeFormStage.GetName(),
+							),
 						},
 					},
 				},

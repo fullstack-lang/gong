@@ -54,6 +54,8 @@ func (probe *StageSetProbe) ux_table() {
 		updateStageSetTable_DeliverableConceptShape_Stage(probe)
 	case "models.DeliverableShape":
 		updateStageSetTable_DeliverableShape_Stage(probe)
+	case "models.DeliverableViewShape":
+		updateStageSetTable_DeliverableViewShape_Stage(probe)
 	case "models.Diagram":
 		updateStageSetTable_Diagram_Stage(probe)
 	case "models.DiagramShape":
@@ -86,6 +88,12 @@ func (probe *StageSetProbe) ux_table() {
 		updateStageSetTable_SupportLevel_Stage(probe)
 	case "models.Tool":
 		updateStageSetTable_Tool_Stage(probe)
+	case "models.View":
+		updateStageSetTable_View_Stage(probe)
+	case "models.ViewConceptShape":
+		updateStageSetTable_ViewConceptShape_Stage(probe)
+	case "models.ViewShape":
+		updateStageSetTable_ViewShape_Stage(probe)
 	}
 }
 
@@ -268,6 +276,11 @@ func updateStageSetTable_Concept_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> ConceptsWhoseViewsNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.Diagram) -> ConceptsWhoseDeliverablesNodeIsExpanded"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -279,6 +292,16 @@ func updateStageSetTable_Concept_Stage(probe *StageSetProbe) {
 	{
 		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.Requirement) -> Concepts"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.View) -> Concepts"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.ViewConceptShape) -> Concept"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 
@@ -412,6 +435,22 @@ func updateStageSetTable_Concept_Stage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> ConceptsWhoseViewsNodeIsExpanded"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.ConceptsWhoseViewsNodeIsExpanded {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "(models.Diagram) -> ConceptsWhoseDeliverablesNodeIsExpanded"}
 			var refNames []string
 			for src := range probe.stageSet.Stage.Diagrams {
@@ -452,6 +491,35 @@ func updateStageSetTable_Concept_Stage(probe *StageSetProbe) {
 						refNames = append(refNames, src.GetName())
 						break
 					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.View) -> Concepts"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Views {
+				for _, target := range src.Concepts {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.ViewConceptShape) -> Concept"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.ViewConceptShapes {
+				if src.Concept == structInstance {
+					refNames = append(refNames, src.GetName())
 				}
 			}
 			sort.Strings(refNames)
@@ -2520,6 +2588,11 @@ func updateStageSetTable_ControlPointShape_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.DeliverableViewShape) -> ControlPointShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.NoteDeliverableShape) -> ControlPointShapes"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -2541,6 +2614,11 @@ func updateStageSetTable_ControlPointShape_Stage(probe *StageSetProbe) {
 	{
 		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.StakeholderConcernShape) -> ControlPointShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.ViewConceptShape) -> ControlPointShapes"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 
@@ -2690,6 +2768,22 @@ func updateStageSetTable_ControlPointShape_Stage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "(models.DeliverableViewShape) -> ControlPointShapes"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.DeliverableViewShapes {
+				for _, target := range src.ControlPointShapes {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "(models.NoteDeliverableShape) -> ControlPointShapes"}
 			var refNames []string
 			for src := range probe.stageSet.Stage.NoteDeliverableShapes {
@@ -2769,6 +2863,22 @@ func updateStageSetTable_ControlPointShape_Stage(probe *StageSetProbe) {
 			row.Cells = append(row.Cells, cell)
 		}
 
+		{
+			cell := &table_models.Cell{Name: "(models.ViewConceptShape) -> ControlPointShapes"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.ViewConceptShapes {
+				for _, target := range src.ControlPointShapes {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
 		table.Rows = append(table.Rows, row)
 	}
 
@@ -2830,6 +2940,11 @@ func updateStageSetTable_Deliverable_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "Views"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "Concepts"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -2875,7 +2990,17 @@ func updateStageSetTable_Deliverable_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.DeliverableViewShape) -> Deliverable"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.Diagram) -> DeliverablesWhoseNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> DeliverablesWhoseViewsNodeIsExpanded"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -2985,6 +3110,18 @@ func updateStageSetTable_Deliverable_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "IsConsumersNodeExpanded"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsConsumersNodeExpanded}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Views"}
+			var names []string
+			for _, elem := range structInstance.Views {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
 			row.Cells = append(row.Cells, cell)
 		}
 
@@ -3114,10 +3251,39 @@ func updateStageSetTable_Deliverable_Stage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "(models.DeliverableViewShape) -> Deliverable"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.DeliverableViewShapes {
+				if src.Deliverable == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "(models.Diagram) -> DeliverablesWhoseNodeIsExpanded"}
 			var refNames []string
 			for src := range probe.stageSet.Stage.Diagrams {
 				for _, target := range src.DeliverablesWhoseNodeIsExpanded {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> DeliverablesWhoseViewsNodeIsExpanded"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.DeliverablesWhoseViewsNodeIsExpanded {
 					if target == structInstance {
 						refNames = append(refNames, src.GetName())
 						break
@@ -4058,6 +4224,294 @@ func updateStageSetTable_DeliverableShape_Stage(probe *StageSetProbe) {
 	probe.tableStage.Commit()
 }
 
+func updateStageSetTable_DeliverableViewShape_Stage(probe *StageSetProbe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "models.DeliverableViewShape"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Deliverable"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "View"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StartRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "EndRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StartOrientation"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "EndOrientation"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "CornerOffsetRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsHidden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ControlPointShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> DeliverableViewShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageSet.Stage.GetInstancesByOrder[*models.DeliverableViewShape]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				StageSetFillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.Stage.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageSet.Stage)
+				probe.stageSet.Clean()
+				probe.stageSet.Commit()
+				updateStageSetTable_DeliverableViewShape_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Deliverable"}
+			val := ""
+			if structInstance.Deliverable != nil {
+				val = structInstance.Deliverable.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "View"}
+			val := ""
+			if structInstance.View != nil {
+				val = structInstance.View.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StartRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StartRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "EndRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.EndRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StartOrientation"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StartOrientation)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "EndOrientation"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.EndOrientation)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "CornerOffsetRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.CornerOffsetRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsHidden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ControlPointShapes"}
+			var names []string
+			for _, elem := range structInstance.ControlPointShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> DeliverableViewShapes"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.DeliverableViewShapes {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+
 func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 	probe.tableStage.Reset()
 
@@ -4137,6 +4591,11 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "IsViewsNodeExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "IsConceptsNodeExpanded"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -4148,6 +4607,11 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 	{
 		col := new(table_models.DisplayedColumn)
 		col.Name = "DeliverablesWhoseNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "DeliverablesWhoseViewsNodeIsExpanded"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -4277,12 +4741,47 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "View_Shapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ViewsWhoseNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ViewsWhoseDeliverablesNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ViewsWhoseConceptsNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "DeliverableViewShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ViewConceptShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "Concept_Shapes"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
 		col := new(table_models.DisplayedColumn)
 		col.Name = "ConceptsWhoseNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ConceptsWhoseViewsNodeIsExpanded"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -4446,6 +4945,12 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "IsViewsNodeExpanded"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsViewsNodeExpanded}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "IsConceptsNodeExpanded"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsConceptsNodeExpanded}
 			row.Cells = append(row.Cells, cell)
@@ -4467,6 +4972,18 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 			cell := &table_models.Cell{Name: "DeliverablesWhoseNodeIsExpanded"}
 			var names []string
 			for _, elem := range structInstance.DeliverablesWhoseNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "DeliverablesWhoseViewsNodeIsExpanded"}
+			var names []string
+			for _, elem := range structInstance.DeliverablesWhoseViewsNodeIsExpanded {
 				if elem != nil {
 					names = append(names, elem.GetName())
 				}
@@ -4752,6 +5269,78 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "View_Shapes"}
+			var names []string
+			for _, elem := range structInstance.View_Shapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ViewsWhoseNodeIsExpanded"}
+			var names []string
+			for _, elem := range structInstance.ViewsWhoseNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ViewsWhoseDeliverablesNodeIsExpanded"}
+			var names []string
+			for _, elem := range structInstance.ViewsWhoseDeliverablesNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ViewsWhoseConceptsNodeIsExpanded"}
+			var names []string
+			for _, elem := range structInstance.ViewsWhoseConceptsNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "DeliverableViewShapes"}
+			var names []string
+			for _, elem := range structInstance.DeliverableViewShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ViewConceptShapes"}
+			var names []string
+			for _, elem := range structInstance.ViewConceptShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "Concept_Shapes"}
 			var names []string
 			for _, elem := range structInstance.Concept_Shapes {
@@ -4767,6 +5356,18 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 			cell := &table_models.Cell{Name: "ConceptsWhoseNodeIsExpanded"}
 			var names []string
 			for _, elem := range structInstance.ConceptsWhoseNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ConceptsWhoseViewsNodeIsExpanded"}
+			var names []string
+			for _, elem := range structInstance.ConceptsWhoseViewsNodeIsExpanded {
 				if elem != nil {
 					names = append(names, elem.GetName())
 				}
@@ -5240,6 +5841,11 @@ func updateStageSetTable_Library_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "RootViews"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "RootConcepts"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -5379,6 +5985,18 @@ func updateStageSetTable_Library_Stage(probe *StageSetProbe) {
 			cell := &table_models.Cell{Name: "RootRequirements"}
 			var names []string
 			for _, elem := range structInstance.RootRequirements {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RootViews"}
+			var names []string
+			for _, elem := range structInstance.RootViews {
 				if elem != nil {
 					names = append(names, elem.GetName())
 				}
@@ -8805,6 +9423,880 @@ func updateStageSetTable_Tool_Stage(probe *StageSetProbe) {
 			for src := range probe.stageSet.Stage.SupportLevels {
 				if src.Tool == structInstance {
 					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+
+func updateStageSetTable_View_Stage(probe *StageSetProbe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "models.View"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ComputedPrefix"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Description"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Concepts"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Deliverable) -> Views"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.DeliverableViewShape) -> View"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> ViewsWhoseNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> ViewsWhoseDeliverablesNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> ViewsWhoseConceptsNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Library) -> RootViews"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.ViewConceptShape) -> View"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.ViewShape) -> View"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageSet.Stage.GetInstancesByOrder[*models.View]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				StageSetFillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.Stage.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageSet.Stage)
+				probe.stageSet.Clean()
+				probe.stageSet.Commit()
+				updateStageSetTable_View_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ComputedPrefix"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.ComputedPrefix)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsExpanded"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsExpanded}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Description"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Description)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Concepts"}
+			var names []string
+			for _, elem := range structInstance.Concepts {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Deliverable) -> Views"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Deliverables {
+				for _, target := range src.Views {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.DeliverableViewShape) -> View"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.DeliverableViewShapes {
+				if src.View == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> ViewsWhoseNodeIsExpanded"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.ViewsWhoseNodeIsExpanded {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> ViewsWhoseDeliverablesNodeIsExpanded"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.ViewsWhoseDeliverablesNodeIsExpanded {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> ViewsWhoseConceptsNodeIsExpanded"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.ViewsWhoseConceptsNodeIsExpanded {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Library) -> RootViews"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Librarys {
+				for _, target := range src.RootViews {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.ViewConceptShape) -> View"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.ViewConceptShapes {
+				if src.View == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.ViewShape) -> View"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.ViewShapes {
+				if src.View == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+
+func updateStageSetTable_ViewConceptShape_Stage(probe *StageSetProbe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "models.ViewConceptShape"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "View"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Concept"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StartRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "EndRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StartOrientation"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "EndOrientation"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "CornerOffsetRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsHidden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ControlPointShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> ViewConceptShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageSet.Stage.GetInstancesByOrder[*models.ViewConceptShape]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				StageSetFillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.Stage.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageSet.Stage)
+				probe.stageSet.Clean()
+				probe.stageSet.Commit()
+				updateStageSetTable_ViewConceptShape_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "View"}
+			val := ""
+			if structInstance.View != nil {
+				val = structInstance.View.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Concept"}
+			val := ""
+			if structInstance.Concept != nil {
+				val = structInstance.Concept.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StartRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StartRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "EndRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.EndRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StartOrientation"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StartOrientation)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "EndOrientation"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.EndOrientation)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "CornerOffsetRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.CornerOffsetRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsHidden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ControlPointShapes"}
+			var names []string
+			for _, elem := range structInstance.ControlPointShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> ViewConceptShapes"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.ViewConceptShapes {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+
+func updateStageSetTable_ViewShape_Stage(probe *StageSetProbe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "models.ViewShape"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "View"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "X"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Y"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Width"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Height"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsHidden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Color"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FillOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RX"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontWeight"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> View_Shapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageSet.Stage.GetInstancesByOrder[*models.ViewShape]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				StageSetFillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.Stage.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageSet.Stage)
+				probe.stageSet.Clean()
+				probe.stageSet.Commit()
+				updateStageSetTable_ViewShape_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "View"}
+			val := ""
+			if structInstance.View != nil {
+				val = structInstance.View.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsExpanded"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsExpanded}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "X"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.X)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Y"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.Y)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Width"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.Width)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Height"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.Height)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsHidden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Color"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Color)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FillOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.FillOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RX"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RX)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontWeight"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontWeight)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> View_Shapes"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.View_Shapes {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
 				}
 			}
 			sort.Strings(refNames)

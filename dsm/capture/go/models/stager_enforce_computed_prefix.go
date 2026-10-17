@@ -18,6 +18,9 @@ func (stager *Stager) enforceComputedPrefix() (needCommit bool) {
 		needCommit = numberNodes(stager, library.RootConcerns, "", []int{}, func(t *Concern) []*Concern { return t.SubConcerns }, make(map[*Concern]bool)) || needCommit
 		needCommit = numberNodes(stager, library.Notes, "", []int{}, func(n *Note) []*Note { return nil }, make(map[*Note]bool)) || needCommit
 		needCommit = numberNodes(stager, library.RootStakeholders, "", []int{}, func(r *Stakeholder) []*Stakeholder { return r.SubStakeholders }, make(map[*Stakeholder]bool)) || needCommit
+		needCommit = numberNodes(stager, library.RootRequirements, "", []int{}, func(r *Requirement) []*Requirement { return nil }, make(map[*Requirement]bool)) || needCommit
+		needCommit = numberNodes(stager, library.RootViews, "", []int{}, func(v *View) []*View { return nil }, make(map[*View]bool)) || needCommit
+		needCommit = numberNodes(stager, library.RootConcepts, "", []int{}, func(c *Concept) []*Concept { return nil }, make(map[*Concept]bool)) || needCommit
 		needCommit = numberNodes(stager, library.Diagrams, "", []int{}, func(d *Diagram) []*Diagram { return nil }, make(map[*Diagram]bool)) || needCommit
 		// needCommit = numberNodes(stager, library.SubLibraries, "", []int{}, func(l *Library) []*Library { return l.SubLibraries }, make(map[*Library]bool))
 	}

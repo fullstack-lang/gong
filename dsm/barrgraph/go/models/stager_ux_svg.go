@@ -252,6 +252,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 		rect.OnSelect = func() {
 			stager.stage.probeIF.FillUpFormFromGongstruct(movementShape.Movement,
 				GetGongstructNameFromPointer(movementShape.Movement))
+			fillUpShapeAppearanceForm(stager, movementShape)
 		}
 		rect.OnMove = func(x, y float64) {
 			movementShape.X = x
@@ -325,6 +326,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 		rect.OnSelect = func() {
 			stager.stage.probeIF.FillUpFormFromGongstruct(artefactTypeShape.ArtefactType,
 				GetGongstructNameFromPointer(artefactTypeShape.ArtefactType))
+			fillUpShapeAppearanceForm(stager, artefactTypeShape)
 		}
 		rect.OnMove = func(x, y float64) {
 			artefactTypeShape.X = x
@@ -462,6 +464,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 		rect.OnSelect = func() {
 			stager.stage.probeIF.FillUpFormFromGongstruct(artistShape.Artist,
 				GetGongstructNameFromPointer(artistShape.Artist))
+			fillUpShapeAppearanceForm(stager, artistShape)
 		}
 		rect.OnMove = func(x, y float64) {
 			artistShape.X = x

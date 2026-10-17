@@ -114,12 +114,11 @@ func (stager *Stager) drawSystemShapes(diagramStructure *DiagramStructure, layer
 			title.FontWeight = "500"
 			title.FontSize = "18px"
 		}
+		syncRectPresentation(systemShape, rect)
 
 		// override default behavior, we need to commit when the rect is moved
 		// we need to update the position of the parts shapes and port shapes that are within the system
-		rect.OnSelect = func() {
-			stager.probeForm.FillUpFormFromGongstruct(systemShape.System, GetPointerToGongstructName[*System]())
-		}
+		rect.OnSelect = onSelectRectShape(stager, systemShape.System, systemShape)
 		rect.OnMove = onMoveRectElement(stager, systemShape, false)
 		rect.OnResize = onResizeRectElement(stager, systemShape)
 		diagramStructure.map_System_Rect[systemShape.System] = rect
@@ -174,9 +173,7 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 		partRect.StrokeWidth = 1
 
 		// override default behavior, we need to commit when the rect is moved
-		partRect.OnSelect = func() {
-			stager.probeForm.FillUpFormFromGongstruct(partShape.Part, GetPointerToGongstructName[*Part]())
-		}
+		partRect.OnSelect = onSelectRectShape(stager, partShape.Part, partShape)
 		partRect.OnMove = onMoveRectElement(stager, partShape, true)
 		partRect.OnResize = onResizeRectElement(stager, partShape)
 
@@ -209,6 +206,7 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 
 			partRect.RectAnchoredTexts = append(partRect.RectAnchoredTexts, title)
 		}
+		syncRectPresentation(partShape, partRect)
 
 		for _, path := range partShape.Part.PartAnchoredPath {
 			rectAnchoredPath := &svg.RectAnchoredPath{
@@ -289,8 +287,9 @@ func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure,
 		rect.Color = "#F8F9FA"
 		rect.FillOpacity = 1.0
 		rect.Stroke = "#E0E0E0"
+		syncRectPresentation(externalPartShape, rect)
 
-		rect.OnSelect = onSelectRectElement(stager, externalPartShape.Part)
+		rect.OnSelect = onSelectRectShape(stager, externalPartShape.Part, externalPartShape)
 		rect.OnMove = onMoveRectElement(stager, externalPartShape, false)
 		rect.OnResize = onResizeRectElement(stager, externalPartShape)
 
@@ -426,6 +425,9 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 			portRect.RectAnchoredTexts[0].RectAnchorType = svg.RECT_TOP
 			portRect.RectAnchoredTexts[0].Y_Offset = -15
 		}
+		if !diagramStructure.IsWithDiscretePorts {
+			syncRectPresentation(portShape, portRect)
+		}
 
 		diagramStructure.map_Port_Rect[portShape.Port] = portRect
 	}
@@ -460,6 +462,7 @@ func (stager *Stager) drawControlFlowShapes(diagramStructure *DiagramStructure, 
 
 		link.Stroke = "#333333"
 		link.StrokeWidth = 1.5
+		syncLinkPresentation(controlFlowShape, link)
 		_ = link
 	}
 }
@@ -500,6 +503,7 @@ func (stager *Stager) drawNotePartShapes(diagramStructure *DiagramStructure, lay
 		link.Presentation.StrokeDashArray = "5,5"
 		link.Stroke = "#9E9E9E"
 		link.StrokeWidth = 1.5
+		syncLinkPresentation(notePartShape, link)
 
 		_ = link
 	}
@@ -549,6 +553,7 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 		link.Presentation.StrokeDashArray = "5,5"
 		link.Stroke = "#4CAF50"
 		link.StrokeWidth = 1.5
+		syncLinkPresentation(dataFlowShape, link)
 
 		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
 		link.StartAnchorType = svg.ANCHOR_CENTER
@@ -671,5 +676,6 @@ func (stager *Stager) drawNotePortShapes(diagramStructure *DiagramStructure, lay
 		link.Presentation.StrokeDashArray = "5,5"
 		link.Stroke = "#9E9E9E"
 		link.StrokeWidth = 1.5
+		syncLinkPresentation(notePortShape, link)
 	}
 }

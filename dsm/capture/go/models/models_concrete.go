@@ -662,3 +662,105 @@ func (s *DeliverableConceptShape) SetAbstractStartElement(abstractElement Abstra
 }
 
 var _ AssociationConcreteType = (*DeliverableConceptShape)(nil)
+
+// ViewShape
+type ViewShape struct {
+	Name string
+	View *View
+
+	IsExpanded bool
+
+	RectShape
+}
+
+func (s *ViewShape) GetAbstractElement() AbstractType {
+	if s.View == nil {
+		return nil
+	}
+	return s.View
+}
+
+func (s *ViewShape) SetAbstractElement(abstractElement AbstractType) {
+	s.View = abstractElement.(*View)
+}
+
+var _ ConcreteType = (*ViewShape)(nil)
+
+type deliverableViewKey struct {
+	Deliverable *Deliverable
+	View        *View
+}
+
+type DeliverableViewShape struct {
+	Name string
+
+	Deliverable *Deliverable
+	View        *View
+
+	LinkShape
+	ControlPointShapes []*ControlPointShape
+}
+
+func (s *DeliverableViewShape) GetAbstractEndElement() AbstractType {
+	if s.View == nil {
+		return nil
+	}
+	return s.View
+}
+
+func (s *DeliverableViewShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.View = abstractElement.(*View)
+}
+
+func (s *DeliverableViewShape) GetAbstractStartElement() AbstractType {
+	if s.Deliverable == nil {
+		return nil
+	}
+	return s.Deliverable
+}
+
+func (s *DeliverableViewShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Deliverable = abstractElement.(*Deliverable)
+}
+
+var _ AssociationConcreteType = (*DeliverableViewShape)(nil)
+
+type viewConceptKey struct {
+	View    *View
+	Concept *Concept
+}
+
+type ViewConceptShape struct {
+	Name string
+
+	View    *View
+	Concept *Concept
+
+	LinkShape
+	ControlPointShapes []*ControlPointShape
+}
+
+func (s *ViewConceptShape) GetAbstractEndElement() AbstractType {
+	if s.Concept == nil {
+		return nil
+	}
+	return s.Concept
+}
+
+func (s *ViewConceptShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Concept = abstractElement.(*Concept)
+}
+
+func (s *ViewConceptShape) GetAbstractStartElement() AbstractType {
+	if s.View == nil {
+		return nil
+	}
+	return s.View
+}
+
+func (s *ViewConceptShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.View = abstractElement.(*View)
+}
+
+var _ AssociationConcreteType = (*ViewConceptShape)(nil)
+

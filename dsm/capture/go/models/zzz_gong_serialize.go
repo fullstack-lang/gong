@@ -117,6 +117,13 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.DeliverableViewShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "DeliverableViewShape", instances, (*DeliverableViewShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.Diagrams {
 				instances = append(instances, instance)
 			}
@@ -226,6 +233,27 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "Tool", instances, (*Tool)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Views {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "View", instances, (*View)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ViewConceptShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ViewConceptShape", instances, (*ViewConceptShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ViewShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ViewShape", instances, (*ViewShape)(nil).GongGetFieldHeaders(), addIDs)
 		}
 	}
 

@@ -610,6 +610,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubDeliverables = append(%s.SubDeliverables, %s)", deliverableIdent, deliverableIdent, targetIdent))
 			}
+			for _, elem := range deliverable.Views {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Views = append(%s.Views, %s)", deliverableIdent, deliverableIdent, targetIdent))
+			}
 			for _, elem := range deliverable.Concepts {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -799,6 +809,76 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
+		for _, deliverableviewshape := range __gong__sortStageSetInstances(stageSet.Stage.DeliverableViewShapes, stageSet.Stage.DeliverableViewShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			deliverableviewshapeIdent := "__models" + deliverableviewshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DeliverableViewShape{Name: %s}).Stage(stageSet.Stage)", deliverableviewshapeIdent, __gong__toRawStringLiteral(deliverableviewshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", deliverableviewshapeIdent, __gong__toRawStringLiteral(deliverableviewshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", deliverableviewshapeIdent, deliverableviewshape.StartRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", deliverableviewshapeIdent, deliverableviewshape.EndRatio))
+			if deliverableviewshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = models.%s", deliverableviewshapeIdent, deliverableviewshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", deliverableviewshapeIdent))
+			}
+			if deliverableviewshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = models.%s", deliverableviewshapeIdent, deliverableviewshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", deliverableviewshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", deliverableviewshapeIdent, deliverableviewshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", deliverableviewshapeIdent, deliverableviewshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", deliverableviewshapeIdent, deliverableviewshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", deliverableviewshapeIdent, __gong__toRawStringLiteral(deliverableviewshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", deliverableviewshapeIdent, deliverableviewshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", deliverableviewshapeIdent, deliverableviewshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", deliverableviewshapeIdent, __gong__toRawStringLiteral(deliverableviewshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", deliverableviewshapeIdent, __gong__toRawStringLiteral(deliverableviewshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", deliverableviewshapeIdent, __gong__toRawStringLiteral(deliverableviewshape.FontColor)))
+			if deliverableviewshape.Deliverable != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + deliverableviewshape.Deliverable.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Deliverable = %s", deliverableviewshapeIdent, targetIdent))
+			}
+			if deliverableviewshape.View != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + deliverableviewshape.View.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.View = %s", deliverableviewshapeIdent, targetIdent))
+			}
+			for _, elem := range deliverableviewshape.ControlPointShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlPointShapes = append(%s.ControlPointShapes, %s)", deliverableviewshapeIdent, deliverableviewshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stageSet.Stage != nil {
 		for _, diagram := range __gong__sortStageSetInstances(stageSet.Stage.Diagrams, stageSet.Stage.Diagram_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
@@ -825,6 +905,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", diagramIdent, diagram.Width))
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", diagramIdent, diagram.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsRequirementsNodeExpanded = %t", diagramIdent, diagram.IsRequirementsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsViewsNodeExpanded = %t", diagramIdent, diagram.IsViewsNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsConceptsNodeExpanded = %t", diagramIdent, diagram.IsConceptsNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsPBSNodeExpanded = %t", diagramIdent, diagram.IsPBSNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsConcernsNodeExpanded = %t", diagramIdent, diagram.IsConcernsNodeExpanded))
@@ -860,6 +941,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				}
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DeliverablesWhoseNodeIsExpanded = append(%s.DeliverablesWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.DeliverablesWhoseViewsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DeliverablesWhoseViewsNodeIsExpanded = append(%s.DeliverablesWhoseViewsNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.DeliverablesWhoseConceptsNodeIsExpanded {
 				if lastStagePtr != "Stage" {
@@ -1071,6 +1162,66 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RequirementsWhoseNodeIsExpanded = append(%s.RequirementsWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
+			for _, elem := range diagram.View_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.View_Shapes = append(%s.View_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ViewsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ViewsWhoseNodeIsExpanded = append(%s.ViewsWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ViewsWhoseDeliverablesNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ViewsWhoseDeliverablesNodeIsExpanded = append(%s.ViewsWhoseDeliverablesNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ViewsWhoseConceptsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ViewsWhoseConceptsNodeIsExpanded = append(%s.ViewsWhoseConceptsNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.DeliverableViewShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DeliverableViewShapes = append(%s.DeliverableViewShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ViewConceptShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ViewConceptShapes = append(%s.ViewConceptShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
 			for _, elem := range diagram.Concept_Shapes {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1090,6 +1241,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				}
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ConceptsWhoseNodeIsExpanded = append(%s.ConceptsWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ConceptsWhoseViewsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ConceptsWhoseViewsNodeIsExpanded = append(%s.ConceptsWhoseViewsNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
 				if lastStagePtr != "Stage" {
@@ -1239,6 +1400,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				}
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootRequirements = append(%s.RootRequirements, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.RootViews {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RootViews = append(%s.RootViews, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootConcepts {
 				if lastStagePtr != "Stage" {
@@ -1953,6 +2124,154 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", toolIdent, __gong__toRawStringLiteral(tool.Name)))
 		}
 	}
+	if stageSet.Stage != nil {
+		for _, view := range __gong__sortStageSetInstances(stageSet.Stage.Views, stageSet.Stage.View_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			viewIdent := "__models" + view.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.View{Name: %s}).Stage(stageSet.Stage)", viewIdent, __gong__toRawStringLiteral(view.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", viewIdent, __gong__toRawStringLiteral(view.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", viewIdent, __gong__toRawStringLiteral(view.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", viewIdent, view.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", viewIdent, __gong__toRawStringLiteral(view.Description)))
+			for _, elem := range view.Concepts {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Concepts = append(%s.Concepts, %s)", viewIdent, viewIdent, targetIdent))
+			}
+		}
+	}
+	if stageSet.Stage != nil {
+		for _, viewconceptshape := range __gong__sortStageSetInstances(stageSet.Stage.ViewConceptShapes, stageSet.Stage.ViewConceptShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			viewconceptshapeIdent := "__models" + viewconceptshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ViewConceptShape{Name: %s}).Stage(stageSet.Stage)", viewconceptshapeIdent, __gong__toRawStringLiteral(viewconceptshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", viewconceptshapeIdent, __gong__toRawStringLiteral(viewconceptshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", viewconceptshapeIdent, viewconceptshape.StartRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", viewconceptshapeIdent, viewconceptshape.EndRatio))
+			if viewconceptshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = models.%s", viewconceptshapeIdent, viewconceptshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", viewconceptshapeIdent))
+			}
+			if viewconceptshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = models.%s", viewconceptshapeIdent, viewconceptshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", viewconceptshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", viewconceptshapeIdent, viewconceptshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", viewconceptshapeIdent, viewconceptshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", viewconceptshapeIdent, viewconceptshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", viewconceptshapeIdent, __gong__toRawStringLiteral(viewconceptshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", viewconceptshapeIdent, viewconceptshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", viewconceptshapeIdent, viewconceptshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", viewconceptshapeIdent, __gong__toRawStringLiteral(viewconceptshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", viewconceptshapeIdent, __gong__toRawStringLiteral(viewconceptshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", viewconceptshapeIdent, __gong__toRawStringLiteral(viewconceptshape.FontColor)))
+			if viewconceptshape.View != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + viewconceptshape.View.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.View = %s", viewconceptshapeIdent, targetIdent))
+			}
+			if viewconceptshape.Concept != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + viewconceptshape.Concept.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Concept = %s", viewconceptshapeIdent, targetIdent))
+			}
+			for _, elem := range viewconceptshape.ControlPointShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlPointShapes = append(%s.ControlPointShapes, %s)", viewconceptshapeIdent, viewconceptshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stageSet.Stage != nil {
+		for _, viewshape := range __gong__sortStageSetInstances(stageSet.Stage.ViewShapes, stageSet.Stage.ViewShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			viewshapeIdent := "__models" + viewshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ViewShape{Name: %s}).Stage(stageSet.Stage)", viewshapeIdent, __gong__toRawStringLiteral(viewshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", viewshapeIdent, __gong__toRawStringLiteral(viewshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", viewshapeIdent, viewshape.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", viewshapeIdent, viewshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", viewshapeIdent, viewshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", viewshapeIdent, viewshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", viewshapeIdent, viewshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", viewshapeIdent, viewshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", viewshapeIdent, viewshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", viewshapeIdent, __gong__toRawStringLiteral(viewshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", viewshapeIdent, viewshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", viewshapeIdent, __gong__toRawStringLiteral(viewshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", viewshapeIdent, viewshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", viewshapeIdent, viewshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", viewshapeIdent, __gong__toRawStringLiteral(viewshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", viewshapeIdent, viewshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", viewshapeIdent, __gong__toRawStringLiteral(viewshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", viewshapeIdent, __gong__toRawStringLiteral(viewshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", viewshapeIdent, __gong__toRawStringLiteral(viewshape.FontColor)))
+			if viewshape.View != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + viewshape.View.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.View = %s", viewshapeIdent, targetIdent))
+			}
+		}
+	}
 
 
 	var goModuleVersion string
@@ -2135,6 +2454,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					identifierMap[ident.Name] = __gong__stageSetInit(new(DeliverableConceptShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DeliverableShape":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(DeliverableShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
+				case "DeliverableViewShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DeliverableViewShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Diagram":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Diagram), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "DiagramShape":
@@ -2167,6 +2488,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					identifierMap[ident.Name] = __gong__stageSetInit(new(SupportLevel), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Tool":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Tool), stageSet.Stage, ident.Name, instanceName, preserveOrder)
+				case "View":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(View), stageSet.Stage, ident.Name, instanceName, preserveOrder)
+				case "ViewConceptShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ViewConceptShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
+				case "ViewShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ViewShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -2450,6 +2777,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.IsProducersNodeExpanded = GongExtractBool(rhs)
 					case "IsConsumersNodeExpanded":
 						inst.IsConsumersNodeExpanded = GongExtractBool(rhs)
+					case "Views":
+						__gong__assignSliceOfPointers(&inst.Views, rhs, identifierMap)
 					case "Concepts":
 						__gong__assignSliceOfPointers(&inst.Concepts, rhs, identifierMap)
 					}
@@ -2566,6 +2895,43 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "FontColor":
 						inst.FontColor = GongExtractString(rhs)
 					}
+				case *DeliverableViewShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Deliverable":
+						__gong__assignPointer(&inst.Deliverable, rhs, identifierMap)
+					case "View":
+						__gong__assignPointer(&inst.View, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					case "ControlPointShapes":
+						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
+					}
 				case *Diagram:
 					switch fieldName {
 					case "Name":
@@ -2592,12 +2958,16 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						__gong__assignSliceOfPointers(&inst.ConcernsWhoseRequirementsNodeIsExpanded, rhs, identifierMap)
 					case "IsRequirementsNodeExpanded":
 						inst.IsRequirementsNodeExpanded = GongExtractBool(rhs)
+					case "IsViewsNodeExpanded":
+						inst.IsViewsNodeExpanded = GongExtractBool(rhs)
 					case "IsConceptsNodeExpanded":
 						inst.IsConceptsNodeExpanded = GongExtractBool(rhs)
 					case "Deliverable_Shapes":
 						__gong__assignSliceOfPointers(&inst.Deliverable_Shapes, rhs, identifierMap)
 					case "DeliverablesWhoseNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.DeliverablesWhoseNodeIsExpanded, rhs, identifierMap)
+					case "DeliverablesWhoseViewsNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.DeliverablesWhoseViewsNodeIsExpanded, rhs, identifierMap)
 					case "DeliverablesWhoseConceptsNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.DeliverablesWhoseConceptsNodeIsExpanded, rhs, identifierMap)
 					case "IsPBSNodeExpanded":
@@ -2648,10 +3018,24 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						__gong__assignSliceOfPointers(&inst.Requirement_Shapes, rhs, identifierMap)
 					case "RequirementsWhoseNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.RequirementsWhoseNodeIsExpanded, rhs, identifierMap)
+					case "View_Shapes":
+						__gong__assignSliceOfPointers(&inst.View_Shapes, rhs, identifierMap)
+					case "ViewsWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.ViewsWhoseNodeIsExpanded, rhs, identifierMap)
+					case "ViewsWhoseDeliverablesNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.ViewsWhoseDeliverablesNodeIsExpanded, rhs, identifierMap)
+					case "ViewsWhoseConceptsNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.ViewsWhoseConceptsNodeIsExpanded, rhs, identifierMap)
+					case "DeliverableViewShapes":
+						__gong__assignSliceOfPointers(&inst.DeliverableViewShapes, rhs, identifierMap)
+					case "ViewConceptShapes":
+						__gong__assignSliceOfPointers(&inst.ViewConceptShapes, rhs, identifierMap)
 					case "Concept_Shapes":
 						__gong__assignSliceOfPointers(&inst.Concept_Shapes, rhs, identifierMap)
 					case "ConceptsWhoseNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.ConceptsWhoseNodeIsExpanded, rhs, identifierMap)
+					case "ConceptsWhoseViewsNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.ConceptsWhoseViewsNodeIsExpanded, rhs, identifierMap)
 					case "ConceptsWhoseDeliverablesNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.ConceptsWhoseDeliverablesNodeIsExpanded, rhs, identifierMap)
 					case "DeliverableConceptShapes":
@@ -2722,6 +3106,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						__gong__assignSliceOfPointers(&inst.RootStakeholders, rhs, identifierMap)
 					case "RootRequirements":
 						__gong__assignSliceOfPointers(&inst.RootRequirements, rhs, identifierMap)
+					case "RootViews":
+						__gong__assignSliceOfPointers(&inst.RootViews, rhs, identifierMap)
 					case "RootConcepts":
 						__gong__assignSliceOfPointers(&inst.RootConcepts, rhs, identifierMap)
 					case "AnalysisNeeds":
@@ -3097,6 +3483,97 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					}
+				case *View:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "Description":
+						inst.Description = GongExtractString(rhs)
+					case "Concepts":
+						__gong__assignSliceOfPointers(&inst.Concepts, rhs, identifierMap)
+					}
+				case *ViewConceptShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "View":
+						__gong__assignPointer(&inst.View, rhs, identifierMap)
+					case "Concept":
+						__gong__assignPointer(&inst.Concept, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					case "ControlPointShapes":
+						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
+					}
+				case *ViewShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "View":
+						__gong__assignPointer(&inst.View, rhs, identifierMap)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "X":
+						inst.X = GongExtractFloat(rhs)
+					case "Y":
+						inst.Y = GongExtractFloat(rhs)
+					case "Width":
+						inst.Width = GongExtractFloat(rhs)
+					case "Height":
+						inst.Height = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					}
 							}
 						}

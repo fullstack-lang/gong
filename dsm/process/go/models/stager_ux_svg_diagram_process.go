@@ -108,12 +108,11 @@ func (stager *Stager) drawProcessShapes(diagramProcess *DiagramProcess, layer *s
 			title.FontWeight = "500"
 			title.FontSize = "18px"
 		}
+		syncRectPresentation(processShape, rect)
 
 		// override default behavior, we need to commit when the rect is moved
 		// we need to update the position of the participants shapes and task shapes that are within the process
-		rect.OnSelect = func() {
-			stager.probeForm.FillUpFormFromGongstruct(processShape.Process, GetPointerToGongstructName[*Process]())
-		}
+		rect.OnSelect = onSelectRectShape(stager, processShape.Process, processShape)
 		rect.OnMove = func(x, y float64) {
 			processShape.SetX(x)
 			processShape.SetY(y)
@@ -224,9 +223,7 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 		rectOfOwningProcess.Peers = append(rectOfOwningProcess.Peers, rect)
 
 		// override default behavior, we need to commit when the rect is moved
-		rect.OnSelect = func() {
-			stager.probeForm.FillUpFormFromGongstruct(participantShape.Participant, GetPointerToGongstructName[*Participant]())
-		}
+		rect.OnSelect = onSelectRectShape(stager, participantShape.Participant, participantShape)
 		rect.OnMove = func(x, y float64) {}
 		rect.OnResize = func(x, y, width, height float64) {
 			if width != participantWidth {
@@ -276,6 +273,7 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		}
+		syncRectPresentation(participantShape, rect)
 		titleBox := &svg.RectAnchoredRect{
 			Name:           participantShape.GetAbstractElement().GetName(),
 			Stroke:         "#E0E0E0",
@@ -393,8 +391,9 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		}
+		syncRectPresentation(externalParticipantShape, rect)
 
-		rect.OnSelect = onSelectRectElement(stager, externalParticipantShape.Participant)
+		rect.OnSelect = onSelectRectShape(stager, externalParticipantShape.Participant, externalParticipantShape)
 		rect.OnMove = onMoveRectElement(stager, externalParticipantShape, false)
 		rect.OnResize = onResizeRectElement(stager, externalParticipantShape)
 
@@ -531,6 +530,9 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 			rect.RectAnchoredTexts[0].FontFamily = "sans-serif"
 			rect.RectAnchoredTexts[0].Color = "#333333"
 		}
+		if !task.IsStartTask && !task.IsEndTask {
+			syncRectPresentation(taskShape, rect)
+		}
 
 		// pick up the title of the rect
 		stateTitleText := rect.RectAnchoredTexts[0]
@@ -657,6 +659,7 @@ func (stager *Stager) drawControlFlowShapes(diagramProcess *DiagramProcess, laye
 
 		link.Stroke = "#333333"
 		link.StrokeWidth = 1.5
+		syncLinkPresentation(controlFlowShape, link)
 		_ = link
 	}
 }
@@ -705,6 +708,7 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 		link.Presentation.StrokeDashArray = "5,5"
 		link.Stroke = "#4CAF50"
 		link.StrokeWidth = 1.5
+		syncLinkPresentation(dataFlowShape, link)
 
 		nbDataShapes := len(dataFlowShape.dataShapes)
 		for idx, dataShape := range dataFlowShape.dataShapes {
@@ -813,6 +817,7 @@ func (stager *Stager) drawNoteTaskShapes(diagramProcess *DiagramProcess, layer *
 		link.Stroke = "#9E9E9E"
 		link.StrokeWidth = 1.5
 		link.StrokeOpacity = 1.0
+		syncLinkPresentation(noteTaskShape, link)
 	}
 }
 

@@ -14,6 +14,9 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 		needCommit = removeDuplicatesSlice(stager, &diagram.DeliverableComposition_Shapes) || needCommit
 
 		needCommit = removeDuplicatesSlice(stager, &diagram.Requirement_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.View_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.DeliverableViewShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.ViewConceptShapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.Concept_Shapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.DeliverableConceptShapes) || needCommit
 
@@ -36,12 +39,20 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 		needCommit = removeDuplicatesSlice(stager, &library.RootDeliverables) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &library.RootConcerns) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &library.RootStakeholders) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &library.RootRequirements) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &library.RootViews) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &library.RootConcepts) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &library.Notes) || needCommit
 	}
 
 	for deliverable := range *stage.GetInstancesSet[*Deliverable]() {
 		needCommit = removeDuplicatesSlice(stager, &deliverable.SubDeliverables) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &deliverable.Views) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &deliverable.Concepts) || needCommit
+	}
+
+	for view := range *stage.GetInstancesSet[*View]() {
+		needCommit = removeDuplicatesSlice(stager, &view.Concepts) || needCommit
 	}
 
 	for concern := range *stage.GetInstancesSet[*Concern]() {

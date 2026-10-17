@@ -12,6 +12,7 @@ type Library struct {
 	RootConcerns     []*Concern
 	RootStakeholders []*Stakeholder
 	RootRequirements []*Requirement
+	RootViews        []*View
 	RootConcepts     []*Concept
 	AnalysisNeeds    []*AnalysisNeed
 
@@ -137,6 +138,7 @@ type Deliverable struct {
 	// deliverable is a root deliverable or an orphaned deliverable
 	parentDeliverable *Deliverable
 
+	Views    []*View
 	Concepts []*Concept
 }
 
@@ -178,6 +180,18 @@ type SupportLevel struct {
 	Tool *Tool
 }
 
+type View struct {
+	Name string
+
+	LibraryAbstractFields
+	AbstractTypeFields
+
+	//gong:text width:300 height:300
+	Description string
+
+	Concepts []*Concept
+}
+
 type Concept struct {
 	Name string
 
@@ -210,6 +224,7 @@ var (
 	_ AbstractType = (*Note)(nil)
 	_ AbstractType = (*Stakeholder)(nil)
 	_ AbstractType = (*Requirement)(nil)
+	_ AbstractType = (*View)(nil)
 	_ AbstractType = (*Concept)(nil)
 	_ AbstractType = (*AnalysisNeed)(nil)
 )

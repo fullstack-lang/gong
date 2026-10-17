@@ -18,6 +18,9 @@ import (
 
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
+
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	form_stack "github.com/fullstack-lang/gong/lib/form/go/stack"
 )
 
 type Stager struct {
@@ -31,6 +34,7 @@ type Stager struct {
 	loadStageMultistage        *load.Stage
 	buttonTransitionsStage     *button.Stage
 	buttonStage                *button.Stage
+	shapeFormStage             *form.Stage
 
 	// maps
 
@@ -55,6 +59,10 @@ type Stager struct {
 	fileName             string
 
 	// End of DSM Mandatory
+}
+
+func (stager *Stager) GetShapeFormStage() *form.Stage {
+	return stager.shapeFormStage
 }
 
 func (stager *Stager) GetStage() *Stage {
@@ -95,6 +103,7 @@ func NewStager(
 	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
 	stager.buttonTransitionsStage = button_stack.NewStack(r, stackName+"-transitions", "", "", "", false, false).Stage
 	stager.buttonStage = button_stack.NewStack(r, stackName+"-exportXL", "", "", "", true, true).Stage
+	stager.shapeFormStage = form_stack.NewStack(r, "shapeForm", "", "", "", true, true).Stage
 
 	stager.createViews()
 

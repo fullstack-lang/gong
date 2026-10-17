@@ -22,10 +22,21 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
+	validDeliverableViews := make(map[deliverableViewKey]bool)
 	validDeliverableConcepts := make(map[deliverableConceptKey]bool)
 	for _, deliverable := range stage.GetInstancesSorted[*Deliverable]() {
+		for _, view := range deliverable.Views {
+			validDeliverableViews[deliverableViewKey{Deliverable: deliverable, View: view}] = true
+		}
 		for _, concept := range deliverable.Concepts {
 			validDeliverableConcepts[deliverableConceptKey{Deliverable: deliverable, Concept: concept}] = true
+		}
+	}
+
+	validViewConcepts := make(map[viewConceptKey]bool)
+	for _, view := range stage.GetInstancesSorted[*View]() {
+		for _, concept := range view.Concepts {
+			validViewConcepts[viewConceptKey{View: view, Concept: concept}] = true
 		}
 	}
 
@@ -106,6 +117,26 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 			if !validResourceTasks[stakeholderConcernKey{Stakeholder: shape.Stakeholder, Concern: shape.Concern}] {
 				shape.UnstageVoid(stage)
 				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ResourceTaskShape %s", shape.GetName()))
+				needCommit = true
+			}
+		}
+	}
+
+	for _, shape := range stage.GetInstancesSorted[*DeliverableViewShape]() {
+		if shape.Deliverable != nil && shape.View != nil {
+			if !validDeliverableViews[deliverableViewKey{Deliverable: shape.Deliverable, View: shape.View}] {
+				shape.UnstageVoid(stage)
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid DeliverableViewShape %s", shape.GetName()))
+				needCommit = true
+			}
+		}
+	}
+
+	for _, shape := range stage.GetInstancesSorted[*ViewConceptShape]() {
+		if shape.View != nil && shape.Concept != nil {
+			if !validViewConcepts[viewConceptKey{View: shape.View, Concept: shape.Concept}] {
+				shape.UnstageVoid(stage)
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ViewConceptShape %s", shape.GetName()))
 				needCommit = true
 			}
 		}

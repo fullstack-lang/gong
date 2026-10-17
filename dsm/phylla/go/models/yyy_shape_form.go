@@ -11,12 +11,20 @@ func getShapeFormStage(stager *Stager) *form.Stage {
 		return nil
 	}
 	if sfs, ok := any(stager).(interface{ GetShapeFormStage() *form.Stage }); ok {
-		return sfs.GetShapeFormStage()
+		if stage := sfs.GetShapeFormStage(); stage != nil {
+			return stage
+		}
+	}
+	if stager.probeForm != nil {
+		if sfs, ok := any(stager.probeForm).(interface{ GetShapeFormStage() *form.Stage }); ok {
+			return sfs.GetShapeFormStage()
+		}
 	}
 	return nil
 }
 
 type rectShapeAppearanceCallback struct {
+	stager    *Stager
 	stage     *Stage
 	formStage *form.Stage
 	formGroup *form.FormGroup
@@ -77,9 +85,15 @@ func (cb *rectShapeAppearanceCallback) OnSave() {
 		}
 	}
 	cb.stage.Commit()
+	if cb.stager != nil {
+		if gs, ok := cb.shape.(GongstructIF); ok {
+			fillUpShapeAppearanceForm(cb.stager, gs)
+		}
+	}
 }
 
 type linkShapeAppearanceCallback struct {
+	stager    *Stager
 	stage     *Stage
 	formStage *form.Stage
 	formGroup *form.FormGroup
@@ -124,6 +138,11 @@ func (cb *linkShapeAppearanceCallback) OnSave() {
 		}
 	}
 	cb.stage.Commit()
+	if cb.stager != nil {
+		if gs, ok := cb.shape.(GongstructIF); ok {
+			fillUpShapeAppearanceForm(cb.stager, gs)
+		}
+	}
 }
 
 func fillUpShapeAppearanceForm(stager *Stager, shape GongstructIF) {
@@ -150,6 +169,7 @@ func fillUpShapeAppearanceForm(stager *Stager, shape GongstructIF) {
 			TypeLabel: typeLabel,
 		}).Stage(formStage)
 		formGroup.OnSave = &rectShapeAppearanceCallback{
+			stager:    stager,
 			stage:     stager.stage,
 			formStage: formStage,
 			formGroup: formGroup,
@@ -184,6 +204,7 @@ func fillUpShapeAppearanceForm(stager *Stager, shape GongstructIF) {
 			TypeLabel: typeLabel,
 		}).Stage(formStage)
 		formGroup.OnSave = &linkShapeAppearanceCallback{
+			stager:    stager,
 			stage:     stager.stage,
 			formStage: formStage,
 			formGroup: formGroup,

@@ -178,3 +178,52 @@ func CreateDataEditorLayoutSplitlite(
 		},
 	}
 }
+
+func CreateFormsLayout(
+	formStackName string,
+	shapeFormStackName string,
+) *split.AsSplit {
+	return &split.AsSplit{
+		Name:      "as split forms",
+		Direction: split.Vertical,
+		AsSplitAreas: []*split.AsSplitArea{
+			{
+				Size: 75,
+				Form: &split.Form{
+					StackName: formStackName,
+				},
+			},
+			{
+				Size: 25,
+				Form: &split.Form{
+					StackName: shapeFormStackName,
+				},
+			},
+		},
+	}
+}
+
+func CreateFormsLayoutSplitlite(
+	formStackName string,
+	shapeFormStackName string,
+) *splitlite.AsSplit {
+	return &splitlite.AsSplit{
+		Name:      "as split forms",
+		Direction: splitlite.Vertical,
+		AsSplitAreas: []*splitlite.AsSplitArea{
+			{
+				Size: 75,
+				Form: &splitlite.Form{
+					StackName: formStackName,
+				},
+			},
+			{
+				Size: 25,
+				Form: &splitlite.Form{
+					StackName: shapeFormStackName,
+				},
+			},
+		},
+	}
+}
+

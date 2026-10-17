@@ -10,7 +10,7 @@ func (stager *Stager) svgGenerateLink(
 	diagram *Diagram,
 	startRect *svg.Rect,
 	endRect *svg.Rect,
-	transitionShape *LinkShape,
+	transitionShape LinkShapeInterface,
 	transition *Transition,
 	layer *svg.Layer,
 	isDashed bool) {
@@ -66,20 +66,21 @@ func (stager *Stager) svgGenerateLink(
 	link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
 
 	link.Start = startRect
-	link.StartOrientation = svg.OrientationType(transitionShape.StartOrientation)
-	link.StartRatio = transitionShape.StartRatio
+	link.StartOrientation = svg.OrientationType(transitionShape.GetStartOrientation())
+	link.StartRatio = transitionShape.GetStartRatio()
 
 	link.End = endRect
-	link.EndOrientation = svg.OrientationType(transitionShape.EndOrientation)
-	link.EndRatio = transitionShape.EndRatio
+	link.EndOrientation = svg.OrientationType(transitionShape.GetEndOrientation())
+	link.EndRatio = transitionShape.GetEndRatio()
 	link.HasEndArrow = true
 	link.EndArrowSize = 10
 
-	link.CornerOffsetRatio = transitionShape.CornerOffsetRatio
+	link.CornerOffsetRatio = transitionShape.GetCornerOffsetRatio()
 	link.CornerRadius = 15
 	if isDashed {
 		link.StrokeDashArray = "5 5"
 	}
+	syncLinkPresentation(transitionShape, link)
 
 	link.Impl = NewStateTransition_LinkShapeProxy(
 		transitionShape,
@@ -168,6 +169,9 @@ func (p *StateTransition_LinkShapeProxy) LinkUpdated(updatedLink *svg.Link) {
 	if !diff {
 		p.stager.stage.CommitWithSuspendedCallbacks()
 		p.stager.probeForm.FillUpFormFromGongstruct(p.transition, "Transition")
+		if gs, ok := p.linkShapeInterface.(GongstructIF); ok {
+			fillUpShapeAppearanceForm(p.stager, gs)
+		}
 	} else {
 		p.stager.stage.Commit()
 	}
@@ -243,6 +247,7 @@ func (stager *Stager) svgGenerateNoteLink(
 	link.Stroke = "#9E9E9E"
 	link.StrokeWidth = 1.5
 	link.StrokeOpacity = 1.0
+	syncLinkPresentation(linkShapeInterface, link)
 
 	layer.Links = append(layer.Links, link)
 

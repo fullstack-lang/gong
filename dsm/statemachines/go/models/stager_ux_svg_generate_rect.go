@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"reflect"
 	"strings"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
@@ -20,7 +19,7 @@ var smallRadius = 10.0
 var bigRadius = 18.0
 
 func (stager *Stager) svgGenerateRect(
-	diagram diagramInterface, // might be ni
+	diagram *Diagram, // might be nil
 	stateShape *StateShape,
 	isSelected bool,
 	hasSubStatesDisplayed bool,
@@ -42,7 +41,7 @@ func (stager *Stager) svgGenerateRect(
 	rect.RX = 15
 
 	// rect is editable if diagram is not null
-	if !reflect.ValueOf(diagram).IsNil() {
+	if diagram != nil {
 		if diagram.IsEditable() {
 			rect.CanHaveBottomHandle = true
 			rect.CanHaveLeftHandle = true
@@ -55,6 +54,7 @@ func (stager *Stager) svgGenerateRect(
 			rect.OnSelect = func() {
 				stager.stage.CommitWithSuspendedCallbacks()
 				stager.probeForm.FillUpFormFromGongstruct(state, "State")
+				fillUpShapeAppearanceForm(stager, stateShape)
 				stager.ux_tree()
 			}
 			rect.OnMove = func(x, y float64) {
@@ -263,13 +263,16 @@ func (stager *Stager) svgGenerateRect(
 	if state.IsFictious {
 		rect.StrokeDashArray = "5 5"
 	}
+	if !isSelected && !state.IsDecisionNode && !isStartState && !state.IsEndState {
+		syncRectPresentation(stateShape, rect)
+	}
 
 	layer.Rects = append(layer.Rects, rect)
 	return rect
 }
 
 func (stager *Stager) svgGenerateNoteRect(
-	diagram diagramInterface,
+	diagram *Diagram,
 	noteShape *NoteShape,
 	isSelected bool,
 	layer *svg.Layer,
@@ -290,7 +293,7 @@ func (stager *Stager) svgGenerateNoteRect(
 	rect.Height = noteShape.Height
 	rect.RX = 0
 
-	if !reflect.ValueOf(diagram).IsNil() {
+	if diagram != nil {
 		if diagram.IsEditable() {
 			rect.CanHaveBottomHandle = true
 			rect.CanHaveLeftHandle = true
@@ -303,6 +306,7 @@ func (stager *Stager) svgGenerateNoteRect(
 			rect.OnSelect = func() {
 				stager.stage.CommitWithSuspendedCallbacks()
 				stager.probeForm.FillUpFormFromGongstruct(note, "Note")
+				fillUpShapeAppearanceForm(stager, noteShape)
 				stager.ux_tree()
 			}
 			rect.OnMove = func(x, y float64) {
@@ -349,6 +353,10 @@ func (stager *Stager) svgGenerateNoteRect(
 	noteTitleText.X_Offset = 10
 	noteTitleText.Y_Offset = 20
 	rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, noteTitleText)
+
+	if !isSelected {
+		syncRectPresentation(noteShape, rect)
+	}
 
 	layer.Rects = append(layer.Rects, rect)
 

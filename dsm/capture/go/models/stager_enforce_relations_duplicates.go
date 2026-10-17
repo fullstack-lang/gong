@@ -16,6 +16,10 @@ func (stager *Stager) enforceRelationDuplicates() (needCommit bool) {
 
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ResourceComposition_Shapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.StakeholderConcernShapes)
+
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.DeliverableViewShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ViewConceptShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.DeliverableConceptShapes)
 	}
 	return
 }

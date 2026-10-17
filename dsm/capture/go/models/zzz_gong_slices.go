@@ -100,6 +100,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Deliverable_SubDeliverables_reverseMap[_deliverable] = deliverable
 		}
 	}
+	stage.Deliverable_Views_reverseMap = make(map[*View]*Deliverable)
+	for deliverable := range stage.Deliverables {
+		_ = deliverable
+		for _, _view := range deliverable.Views {
+			stage.Deliverable_Views_reverseMap[_view] = deliverable
+		}
+	}
 	stage.Deliverable_Concepts_reverseMap = make(map[*Concept]*Deliverable)
 	for deliverable := range stage.Deliverables {
 		_ = deliverable
@@ -128,6 +135,16 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct DeliverableViewShape
+	// insertion point per field
+	stage.DeliverableViewShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*DeliverableViewShape)
+	for deliverableviewshape := range stage.DeliverableViewShapes {
+		_ = deliverableviewshape
+		for _, _controlpointshape := range deliverableviewshape.ControlPointShapes {
+			stage.DeliverableViewShape_ControlPointShapes_reverseMap[_controlpointshape] = deliverableviewshape
+		}
+	}
+
 	// Compute reverse map for named struct Diagram
 	// insertion point per field
 	stage.Diagram_ConcernsWhoseRequirementsNodeIsExpanded_reverseMap = make(map[*Concern]*Diagram)
@@ -149,6 +166,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = diagram
 		for _, _deliverable := range diagram.DeliverablesWhoseNodeIsExpanded {
 			stage.Diagram_DeliverablesWhoseNodeIsExpanded_reverseMap[_deliverable] = diagram
+		}
+	}
+	stage.Diagram_DeliverablesWhoseViewsNodeIsExpanded_reverseMap = make(map[*Deliverable]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _deliverable := range diagram.DeliverablesWhoseViewsNodeIsExpanded {
+			stage.Diagram_DeliverablesWhoseViewsNodeIsExpanded_reverseMap[_deliverable] = diagram
 		}
 	}
 	stage.Diagram_DeliverablesWhoseConceptsNodeIsExpanded_reverseMap = make(map[*Deliverable]*Diagram)
@@ -298,6 +322,48 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_RequirementsWhoseNodeIsExpanded_reverseMap[_requirement] = diagram
 		}
 	}
+	stage.Diagram_View_Shapes_reverseMap = make(map[*ViewShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _viewshape := range diagram.View_Shapes {
+			stage.Diagram_View_Shapes_reverseMap[_viewshape] = diagram
+		}
+	}
+	stage.Diagram_ViewsWhoseNodeIsExpanded_reverseMap = make(map[*View]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _view := range diagram.ViewsWhoseNodeIsExpanded {
+			stage.Diagram_ViewsWhoseNodeIsExpanded_reverseMap[_view] = diagram
+		}
+	}
+	stage.Diagram_ViewsWhoseDeliverablesNodeIsExpanded_reverseMap = make(map[*View]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _view := range diagram.ViewsWhoseDeliverablesNodeIsExpanded {
+			stage.Diagram_ViewsWhoseDeliverablesNodeIsExpanded_reverseMap[_view] = diagram
+		}
+	}
+	stage.Diagram_ViewsWhoseConceptsNodeIsExpanded_reverseMap = make(map[*View]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _view := range diagram.ViewsWhoseConceptsNodeIsExpanded {
+			stage.Diagram_ViewsWhoseConceptsNodeIsExpanded_reverseMap[_view] = diagram
+		}
+	}
+	stage.Diagram_DeliverableViewShapes_reverseMap = make(map[*DeliverableViewShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _deliverableviewshape := range diagram.DeliverableViewShapes {
+			stage.Diagram_DeliverableViewShapes_reverseMap[_deliverableviewshape] = diagram
+		}
+	}
+	stage.Diagram_ViewConceptShapes_reverseMap = make(map[*ViewConceptShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _viewconceptshape := range diagram.ViewConceptShapes {
+			stage.Diagram_ViewConceptShapes_reverseMap[_viewconceptshape] = diagram
+		}
+	}
 	stage.Diagram_Concept_Shapes_reverseMap = make(map[*ConceptShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
@@ -310,6 +376,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = diagram
 		for _, _concept := range diagram.ConceptsWhoseNodeIsExpanded {
 			stage.Diagram_ConceptsWhoseNodeIsExpanded_reverseMap[_concept] = diagram
+		}
+	}
+	stage.Diagram_ConceptsWhoseViewsNodeIsExpanded_reverseMap = make(map[*Concept]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _concept := range diagram.ConceptsWhoseViewsNodeIsExpanded {
+			stage.Diagram_ConceptsWhoseViewsNodeIsExpanded_reverseMap[_concept] = diagram
 		}
 	}
 	stage.Diagram_ConceptsWhoseDeliverablesNodeIsExpanded_reverseMap = make(map[*Concept]*Diagram)
@@ -369,6 +442,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = library
 		for _, _requirement := range library.RootRequirements {
 			stage.Library_RootRequirements_reverseMap[_requirement] = library
+		}
+	}
+	stage.Library_RootViews_reverseMap = make(map[*View]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _view := range library.RootViews {
+			stage.Library_RootViews_reverseMap[_view] = library
 		}
 	}
 	stage.Library_RootConcepts_reverseMap = make(map[*Concept]*Library)
@@ -515,6 +595,26 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct View
+	// insertion point per field
+	stage.View_Concepts_reverseMap = make(map[*Concept]*View)
+	for view := range stage.Views {
+		_ = view
+		for _, _concept := range view.Concepts {
+			stage.View_Concepts_reverseMap[_concept] = view
+		}
+	}
+
+	// Compute reverse map for named struct ViewConceptShape
+	// insertion point per field
+	stage.ViewConceptShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*ViewConceptShape)
+	for viewconceptshape := range stage.ViewConceptShapes {
+		_ = viewconceptshape
+		for _, _controlpointshape := range viewconceptshape.ControlPointShapes {
+			stage.ViewConceptShape_ControlPointShapes_reverseMap[_controlpointshape] = viewconceptshape
+		}
+	}
+
 	// end of insertion point per named struct
 }
 
@@ -545,6 +645,8 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	res = __gong__appendInstances(res, stage.DeliverableConceptShapes)
 
 	res = __gong__appendInstances(res, stage.DeliverableShapes)
+
+	res = __gong__appendInstances(res, stage.DeliverableViewShapes)
 
 	res = __gong__appendInstances(res, stage.Diagrams)
 
@@ -577,6 +679,12 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	res = __gong__appendInstances(res, stage.SupportLevels)
 
 	res = __gong__appendInstances(res, stage.Tools)
+
+	res = __gong__appendInstances(res, stage.Views)
+
+	res = __gong__appendInstances(res, stage.ViewConceptShapes)
+
+	res = __gong__appendInstances(res, stage.ViewShapes)
 
 	return
 }
@@ -657,6 +765,12 @@ func (deliverableconceptshape *DeliverableConceptShape) GongCopy() GongstructIF 
 func (deliverableshape *DeliverableShape) GongCopy() GongstructIF {
 	newInstance := new(DeliverableShape)
 	deliverableshape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (deliverableviewshape *DeliverableViewShape) GongCopy() GongstructIF {
+	newInstance := new(DeliverableViewShape)
+	deliverableviewshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -756,6 +870,24 @@ func (tool *Tool) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (view *View) GongCopy() GongstructIF {
+	newInstance := new(View)
+	view.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (viewconceptshape *ViewConceptShape) GongCopy() GongstructIF {
+	newInstance := new(ViewConceptShape)
+	viewconceptshape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (viewshape *ViewShape) GongCopy() GongstructIF {
+	newInstance := new(ViewShape)
+	viewshape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
 // insertion point per named struct
 func (analysisneed *AnalysisNeed) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, analysisneed)
@@ -807,6 +939,10 @@ func (deliverableconceptshape *DeliverableConceptShape) GongGetUUID(stage *Stage
 
 func (deliverableshape *DeliverableShape) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, deliverableshape)
+}
+
+func (deliverableviewshape *DeliverableViewShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, deliverableviewshape)
 }
 
 func (diagram *Diagram) GongGetUUID(stage *Stage) string {
@@ -871,6 +1007,18 @@ func (supportlevel *SupportLevel) GongGetUUID(stage *Stage) string {
 
 func (tool *Tool) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, tool)
+}
+
+func (view *View) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, view)
+}
+
+func (viewconceptshape *ViewConceptShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, viewconceptshape)
+}
+
+func (viewshape *ViewShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, viewshape)
 }
 
 
@@ -1196,6 +1344,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.DeliverableViewShapes,
+		stage.DeliverableViewShape_stagedOrder,
+		stage.DeliverableViewShapes_reference,
+		&stage.DeliverableViewShapes_referenceOrder,
+		stage.DeliverableViewShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.Diagrams,
 		stage.Diagram_stagedOrder,
 		stage.Diagrams_reference,
@@ -1466,6 +1631,57 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		&lenDeletedInstances,
 		&lenModifiedInstances,
 	)
+	computeCommitsForType(
+		stage,
+		stage.Views,
+		stage.View_stagedOrder,
+		stage.Views_reference,
+		&stage.Views_referenceOrder,
+		stage.Views_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ViewConceptShapes,
+		stage.ViewConceptShape_stagedOrder,
+		stage.ViewConceptShapes_reference,
+		&stage.ViewConceptShapes_referenceOrder,
+		stage.ViewConceptShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ViewShapes,
+		stage.ViewShape_stagedOrder,
+		stage.ViewShapes_reference,
+		&stage.ViewShapes_referenceOrder,
+		stage.ViewShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 
@@ -1527,6 +1743,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.DeliverableShapes, &stage.DeliverableShapes_reference, &stage.DeliverableShapes_referenceOrder, &stage.DeliverableShapes_instance)
 
+	__gong__computeReferencePass1(stage, stage.DeliverableViewShapes, &stage.DeliverableViewShapes_reference, &stage.DeliverableViewShapes_referenceOrder, &stage.DeliverableViewShapes_instance)
+
 	__gong__computeReferencePass1(stage, stage.Diagrams, &stage.Diagrams_reference, &stage.Diagrams_referenceOrder, &stage.Diagrams_instance)
 
 	__gong__computeReferencePass1(stage, stage.DiagramShapes, &stage.DiagramShapes_reference, &stage.DiagramShapes_referenceOrder, &stage.DiagramShapes_instance)
@@ -1559,6 +1777,12 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.Tools, &stage.Tools_reference, &stage.Tools_referenceOrder, &stage.Tools_instance)
 
+	__gong__computeReferencePass1(stage, stage.Views, &stage.Views_reference, &stage.Views_referenceOrder, &stage.Views_instance)
+
+	__gong__computeReferencePass1(stage, stage.ViewConceptShapes, &stage.ViewConceptShapes_reference, &stage.ViewConceptShapes_referenceOrder, &stage.ViewConceptShapes_instance)
+
+	__gong__computeReferencePass1(stage, stage.ViewShapes, &stage.ViewShapes_reference, &stage.ViewShapes_referenceOrder, &stage.ViewShapes_instance)
+
 	// insertion point per named struct
 	__gong__computeReferencePass2(stage.AnalysisNeeds, stage.AnalysisNeeds_reference, stage)
 
@@ -1585,6 +1809,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.DeliverableConceptShapes, stage.DeliverableConceptShapes_reference, stage)
 
 	__gong__computeReferencePass2(stage.DeliverableShapes, stage.DeliverableShapes_reference, stage)
+
+	__gong__computeReferencePass2(stage.DeliverableViewShapes, stage.DeliverableViewShapes_reference, stage)
 
 	__gong__computeReferencePass2(stage.Diagrams, stage.Diagrams_reference, stage)
 
@@ -1617,6 +1843,12 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.SupportLevels, stage.SupportLevels_reference, stage)
 
 	__gong__computeReferencePass2(stage.Tools, stage.Tools_reference, stage)
+
+	__gong__computeReferencePass2(stage.Views, stage.Views_reference, stage)
+
+	__gong__computeReferencePass2(stage.ViewConceptShapes, stage.ViewConceptShapes_reference, stage)
+
+	__gong__computeReferencePass2(stage.ViewShapes, stage.ViewShapes_reference, stage)
 
 	stage.recomputeOrders()
 }
@@ -1678,6 +1910,10 @@ func (deliverableconceptshape *DeliverableConceptShape) GongGetOrder(stage *Stag
 
 func (deliverableshape *DeliverableShape) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.DeliverableShape_stagedOrder, stage.DeliverableShapes_referenceOrder, deliverableshape, "DeliverableShape")
+}
+
+func (deliverableviewshape *DeliverableViewShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.DeliverableViewShape_stagedOrder, stage.DeliverableViewShapes_referenceOrder, deliverableviewshape, "DeliverableViewShape")
 }
 
 func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
@@ -1742,6 +1978,18 @@ func (supportlevel *SupportLevel) GongGetOrder(stage *Stage) uint {
 
 func (tool *Tool) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Tool_stagedOrder, stage.Tools_referenceOrder, tool, "Tool")
+}
+
+func (view *View) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.View_stagedOrder, stage.Views_referenceOrder, view, "View")
+}
+
+func (viewconceptshape *ViewConceptShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.ViewConceptShape_stagedOrder, stage.ViewConceptShapes_referenceOrder, viewconceptshape, "ViewConceptShape")
+}
+
+func (viewshape *ViewShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.ViewShape_stagedOrder, stage.ViewShapes_referenceOrder, viewshape, "ViewShape")
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -1864,6 +2112,15 @@ func (deliverableshape *DeliverableShape) GongGetIdentifier(stage *Stage) string
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (deliverableshape *DeliverableShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return deliverableshape.GongGetIdentifier(stage)
+}
+
+func (deliverableviewshape *DeliverableViewShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(deliverableviewshape, deliverableviewshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (deliverableviewshape *DeliverableViewShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return deliverableviewshape.GongGetIdentifier(stage)
 }
 
 func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
@@ -2010,6 +2267,33 @@ func (tool *Tool) GongGetReferenceIdentifier(stage *Stage) string {
 	return tool.GongGetIdentifier(stage)
 }
 
+func (view *View) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(view, view.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (view *View) GongGetReferenceIdentifier(stage *Stage) string {
+	return view.GongGetIdentifier(stage)
+}
+
+func (viewconceptshape *ViewConceptShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(viewconceptshape, viewconceptshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (viewconceptshape *ViewConceptShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return viewconceptshape.GongGetIdentifier(stage)
+}
+
+func (viewshape *ViewShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(viewshape, viewshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (viewshape *ViewShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return viewshape.GongGetIdentifier(stage)
+}
+
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
@@ -2063,6 +2347,10 @@ func (deliverableconceptshape *DeliverableConceptShape) GongMarshallIdentifier(s
 
 func (deliverableshape *DeliverableShape) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(deliverableshape.GongGetIdentifier(stage), "DeliverableShape", deliverableshape.Name)
+}
+
+func (deliverableviewshape *DeliverableViewShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(deliverableviewshape.GongGetIdentifier(stage), "DeliverableViewShape", deliverableviewshape.Name)
 }
 
 func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) string {
@@ -2129,6 +2417,18 @@ func (tool *Tool) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(tool.GongGetIdentifier(stage), "Tool", tool.Name)
 }
 
+func (view *View) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(view.GongGetIdentifier(stage), "View", view.Name)
+}
+
+func (viewconceptshape *ViewConceptShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(viewconceptshape.GongGetIdentifier(stage), "ViewConceptShape", viewconceptshape.Name)
+}
+
+func (viewshape *ViewShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(viewshape.GongGetIdentifier(stage), "ViewShape", viewshape.Name)
+}
+
 // insertion point for unstaging
 func (analysisneed *AnalysisNeed) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(analysisneed.GongGetReferenceIdentifier(stage))
@@ -2180,6 +2480,10 @@ func (deliverableconceptshape *DeliverableConceptShape) GongMarshallUnstaging(st
 
 func (deliverableshape *DeliverableShape) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(deliverableshape.GongGetReferenceIdentifier(stage))
+}
+
+func (deliverableviewshape *DeliverableViewShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(deliverableviewshape.GongGetReferenceIdentifier(stage))
 }
 
 func (diagram *Diagram) GongMarshallUnstaging(stage *Stage) string {
@@ -2244,6 +2548,18 @@ func (supportlevel *SupportLevel) GongMarshallUnstaging(stage *Stage) string {
 
 func (tool *Tool) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(tool.GongGetReferenceIdentifier(stage))
+}
+
+func (view *View) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(view.GongGetReferenceIdentifier(stage))
+}
+
+func (viewconceptshape *ViewConceptShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(viewconceptshape.GongGetReferenceIdentifier(stage))
+}
+
+func (viewshape *ViewShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(viewshape.GongGetReferenceIdentifier(stage))
 }
 
 func GongIntToLetters(number int32) (letters string) {

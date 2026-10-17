@@ -38,6 +38,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		ASSOCATIONN_TYPE_RESOURCE_COMPOSITION associationType = "ResourceComposition"
 		ASSOCIATION_TYPE_RESOURCE_TASK        associationType = "ResourceTask"
 
+		ASSOCIATION_TYPE_DELIVERABLE_VIEW    associationType = "DeliverableView"
+		ASSOCIATION_TYPE_VIEW_CONCEPT        associationType = "ViewConcept"
 		ASSOCIATION_TYPE_DELIVERABLE_CONCEPT associationType = "DeliverableConcept"
 	)
 
@@ -109,6 +111,20 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			assocType = ASSOCIATION_TYPE_RESOURCE_TASK
 			sourceAbstratctElement = resourceShape.Stakeholder
 			targetAbstractElement = taskShape.Concern
+		}
+	}
+	if deliverableShape, ok := diagram.map_SvgRect_DeliverableShape[startRect]; ok {
+		if viewShape, ok := diagram.map_SvgRect_ViewShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_DELIVERABLE_VIEW
+			sourceAbstratctElement = deliverableShape.Deliverable
+			targetAbstractElement = viewShape.View
+		}
+	}
+	if viewShape, ok := diagram.map_SvgRect_ViewShape[startRect]; ok {
+		if conceptShape, ok := diagram.map_SvgRect_ConceptShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_VIEW_CONCEPT
+			sourceAbstratctElement = viewShape.View
+			targetAbstractElement = conceptShape.Concept
 		}
 	}
 	if deliverableShape, ok := diagram.map_SvgRect_DeliverableShape[startRect]; ok {
@@ -219,6 +235,20 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 		resource.Concerns = append(resource.Concerns, task)
 		addAssociationShapeToDiagram(stager, resource, task, &diagram.StakeholderConcernShapes)
+
+	case ASSOCIATION_TYPE_DELIVERABLE_VIEW:
+		deliverable := sourceAbstratctElement.(*Deliverable)
+		view := targetAbstractElement.(*View)
+
+		deliverable.Views = append(deliverable.Views, view)
+		addAssociationShapeToDiagram(stager, deliverable, view, &diagram.DeliverableViewShapes)
+
+	case ASSOCIATION_TYPE_VIEW_CONCEPT:
+		view := sourceAbstratctElement.(*View)
+		concept := targetAbstractElement.(*Concept)
+
+		view.Concepts = append(view.Concepts, concept)
+		addAssociationShapeToDiagram(stager, view, concept, &diagram.ViewConceptShapes)
 
 	case ASSOCIATION_TYPE_DELIVERABLE_CONCEPT:
 		deliverable := sourceAbstratctElement.(*Deliverable)

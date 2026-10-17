@@ -26,6 +26,100 @@ func (stager *Stager) treeConceptBSinDiagram(diagram *Diagram, concept *Concept,
 	}
 	conceptNode := addNodeToTreeWithoutLink(stager, confNode)
 
+	var views []*View
+	for view := range *stager.stage.GetInstancesSet[*View]() {
+		if slices.Contains(view.Concepts, concept) {
+			views = append(views, view)
+		}
+	}
+
+	if len(views) > 0 {
+		slices.SortFunc(views, func(a, b *View) int {
+			return cmp.Compare(a.Name, b.Name)
+		})
+
+		viewsNode := &tree.Node{
+			Name:                 fmt.Sprintf("Views (%d)", len(views)),
+			IsExpanded:           slices.Index(diagram.ConceptsWhoseViewsNodeIsExpanded, concept) != -1,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_input),
+		}
+		conceptNode.Children = append(conceptNode.Children, viewsNode)
+
+		setCallbacksExpandableNode(stager, viewsNode, concept, &diagram.ConceptsWhoseViewsNodeIsExpanded)
+
+		for _, view := range views {
+			viewNode := &tree.Node{
+				Name:                    view.GetName(),
+				IsExpanded:              true,
+				IsNodeClickable:         true,
+				IsInEditMode:            view.GetIsInRenameMode(),
+				CheckboxHasToolTip:      true,
+				CheckboxToolTipPosition: tree.Right,
+			}
+			viewsNode.Children = append(viewsNode.Children, viewNode)
+			addRenameButton(view, viewNode, stager)
+			viewNode.OnNameChange = func(newName string) {
+				view.SetName(newName)
+				view.SetIsInRenameMode(false)
+				stager.stage.Commit()
+			}
+
+			if _, ok := diagram.map_View_ViewShape[view]; ok {
+				if _, ok := diagram.map_Concept_ConceptShape[concept]; ok {
+
+					viewNode.HasCheckboxButton = true
+
+					key := viewConceptKey{
+						View:    view,
+						Concept: concept,
+					}
+					associationShape, ok := diagram.map_ViewConceptKey_ViewConceptShape[key]
+					viewNode.IsChecked = ok
+
+					if ok {
+						viewNode.CheckboxToolTipText = "Uncheck to remove shape from diagram"
+					} else {
+						viewNode.CheckboxToolTipText = "Check to add shape to diagram"
+					}
+
+					viewNode.OnIsCheckedChanged = func(isChecked bool) {
+						if isChecked {
+							addAssociationShapeToDiagram(stager, view, concept, &diagram.ViewConceptShapes)
+							stager.stage.Commit()
+						} else {
+							associationShape.UnstageVoid(stager.stage)
+							stager.stage.Commit()
+						}
+					}
+
+					viewNode.Buttons = []*tree.Button{
+						{
+							Name:            diagram.GetName(),
+							Icon:            string(buttons.BUTTON_visibility_off),
+							ToolTipText:     "Hide link from diagram",
+							HasToolTip:      true,
+							ToolTipPosition: tree.Right,
+							OnClick: func() {
+								associationShape.SetIsHidden(!associationShape.GetIsHidden())
+								stager.stage.Commit()
+							},
+						},
+					}
+					if ok {
+						if associationShape.GetIsHidden() {
+							viewNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+							viewNode.Buttons[0].ToolTipText = "Show link on diagram"
+						}
+					} else {
+						viewNode.Buttons[0].IsDisabled = true
+					}
+				}
+			}
+		}
+	}
+
 	var deliverables []*Deliverable
 	for deliverable := range *stager.stage.GetInstancesSet[*Deliverable]() {
 		if slices.Contains(deliverable.Concepts, concept) {

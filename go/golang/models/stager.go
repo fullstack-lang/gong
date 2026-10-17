@@ -74,6 +74,11 @@ func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
 `, splitImport)
 	}
 
+	createFormsLayoutCall := "gongprobe.CreateFormsLayout"
+	if useSplitlite {
+		createFormsLayoutCall = "gongprobe.CreateFormsLayoutSplitlite"
+	}
+
 	return fmt.Sprintf(`// generated boilerplate code
 // edit the file for adding other stages
 package models
@@ -82,6 +87,9 @@ import (
 	"net/http"
 
 	%s
+
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	form_stack "github.com/fullstack-lang/gong/lib/form/go/stack"
 
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
@@ -95,6 +103,8 @@ import (
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
+
+	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
 )
 
 type Stager struct {
@@ -107,11 +117,16 @@ type Stager struct {
 	loadStage           *load.Stage
 	loadStageMultistage *load.Stage
 	buttonStage         *button.Stage
+	shapeFormStage      *form.Stage
 
 	svgObject *svg.SVG
 	fileName  string
 
 	map_Element_Diagrams map[AbstractType][]DiagramIF
+}
+
+func (stager *Stager) GetShapeFormStage() *form.Stage {
+	return stager.shapeFormStage
 }
 
 func (stager *Stager) GetSvgObject() *svg.SVG {
@@ -264,9 +279,10 @@ func (stager *Stager) createViews() {
 			},
 			{
 				Size: 20,
-				Form: &split.Form{
-					StackName: stager.probeForm.GetFormStage().GetName(),
-				},
+				AsSplit: %s(
+					stager.probeForm.GetFormStage().GetName(),
+					stager.shapeFormStage.GetName(),
+				),
 			},
 		},
 	})
@@ -307,6 +323,7 @@ func NewStager(
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
 	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.shapeFormStage = form_stack.NewStack(r, "shapeForm", "", "", "", true, true).Stage
 
 	stager.createViews()
 
@@ -334,7 +351,7 @@ func NewStager(
 
 	return
 }
-`, splitImport)
+`, splitImport, createFormsLayoutCall)
 }
 
 var StagerFileTemplate = GetStagerTemplate(false, false)

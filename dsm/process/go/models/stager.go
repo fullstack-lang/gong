@@ -23,6 +23,9 @@ import (
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
+
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	form_stack "github.com/fullstack-lang/gong/lib/form/go/stack"
 )
 
 type Stager struct {
@@ -30,7 +33,7 @@ type Stager struct {
 	splitStage *split.Stage
 	probeForm  ProbeIF
 
-	treeStage *tree.Stage
+	treeStage                *tree.Stage
 	processDiagramSvgStage   *svg.Stage
 	structureDiagramSvgStage *svg.Stage
 	ssgStage                 *ssg.Stage
@@ -38,6 +41,7 @@ type Stager struct {
 	loadStageMultistage      *load.Stage
 	fileName                 string // fileName is used to store the name of the file to load or save
 	buttonStage              *button.Stage
+	shapeFormStage           *form.Stage
 
 	svgObjectDiagramProcess *svg.SVG
 	diagramProcess          *DiagramProcess // diagram is the current diagram being displayed
@@ -71,6 +75,7 @@ func NewStager(
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
 	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.shapeFormStage = form_stack.NewStack(r, "shapeForm", "", "", "", true, true).Stage
 
 	stager.createViews()
 
@@ -103,4 +108,8 @@ func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
 
 func (stager *Stager) GetSvgObject() *svg.SVG {
 	return stager.svgObjectDiagramProcess
+}
+
+func (stager *Stager) GetShapeFormStage() *form.Stage {
+	return stager.shapeFormStage
 }

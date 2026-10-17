@@ -17,6 +17,16 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	reachableNoteDeliverableShapes := make(map[*NoteDeliverableShape]struct{})
 	reachableNoteTaskShapes := make(map[*NoteTaskShape]struct{})
 	reachableNoteResourceShapes := make(map[*NoteStakeholderShape]struct{})
+	reachableStakeholderShapes := make(map[*StakeholderShape]struct{})
+	reachableResourceCompositionShapes := make(map[*StakeholderCompositionShape]struct{})
+	reachableStakeholderConcernShapes := make(map[*StakeholderConcernShape]struct{})
+	reachableRequirementShapes := make(map[*RequirementShape]struct{})
+	reachableViewShapes := make(map[*ViewShape]struct{})
+	reachableDeliverableViewShapes := make(map[*DeliverableViewShape]struct{})
+	reachableViewConceptShapes := make(map[*ViewConceptShape]struct{})
+	reachableConceptShapes := make(map[*ConceptShape]struct{})
+	reachableDeliverableConceptShapes := make(map[*DeliverableConceptShape]struct{})
+	reachableDiagramShapes := make(map[*DiagramShape]struct{})
 
 	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 		collectShapes(diagram.Deliverable_Shapes, reachableDeliverableShapes)
@@ -29,6 +39,16 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		collectShapes(diagram.NoteDeliverableShapes, reachableNoteDeliverableShapes)
 		collectShapes(diagram.NoteTaskShapes, reachableNoteTaskShapes)
 		collectShapes(diagram.NoteResourceShapes, reachableNoteResourceShapes)
+		collectShapes(diagram.Stakeholder_Shapes, reachableStakeholderShapes)
+		collectShapes(diagram.ResourceComposition_Shapes, reachableResourceCompositionShapes)
+		collectShapes(diagram.StakeholderConcernShapes, reachableStakeholderConcernShapes)
+		collectShapes(diagram.Requirement_Shapes, reachableRequirementShapes)
+		collectShapes(diagram.View_Shapes, reachableViewShapes)
+		collectShapes(diagram.DeliverableViewShapes, reachableDeliverableViewShapes)
+		collectShapes(diagram.ViewConceptShapes, reachableViewConceptShapes)
+		collectShapes(diagram.Concept_Shapes, reachableConceptShapes)
+		collectShapes(diagram.DeliverableConceptShapes, reachableDeliverableConceptShapes)
+		collectShapes(diagram.Diagram_Shapes, reachableDiagramShapes)
 	}
 
 	// 2. unstage shapes that are not attached to a diagram
@@ -42,6 +62,16 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteDeliverableShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteTaskShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteResourceShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableStakeholderShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableResourceCompositionShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableStakeholderConcernShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableRequirementShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableViewShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableDeliverableViewShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableViewConceptShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableConceptShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableDeliverableConceptShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableDiagramShapes) || needCommit
 
 	return
 }
