@@ -315,51 +315,49 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		}
 		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, downloadBtn)
 	} else if plant.PlantType == VaseTrapeze {
-		if currentView == VIEW_VASE_TRAPEZE_3D {
-			baseFirstRingBtn := &tree.Button{
-				Name:            "export base+first ring STL",
-				Icon:            string(buttons.BUTTON_vertical_align_bottom),
-				ToolTipText:     "export base+first ring STL",
-				HasToolTip:      true,
-				ToolTipPosition: tree.Right,
-				OnClick: func() {
-					stager.loadStage.Reset()
-					fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+		baseFirstRingBtn := &tree.Button{
+			Name:            "export base+first ring STL",
+			Icon:            string(buttons.BUTTON_vertical_align_bottom),
+			ToolTipText:     "export base+first ring STL",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				stager.loadStage.Reset()
+				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
 
-					stlContent := GenerateVaseTrapezeBaseAndFirstRingSTL(plant)
+				stlContent := GenerateVaseTrapezeBaseAndFirstRingSTL(plant)
 
-					fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
-					fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-base-first-ring.stl"
-					stager.loadStage.Commit()
+				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
+				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-base-first-ring.stl"
+				stager.loadStage.Commit()
 
-					time.Sleep(1 * time.Second)
-					stager.load()
-				},
-			}
-			plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, baseFirstRingBtn)
-
-			oneRingBtn := &tree.Button{
-				Name:            "export one ring STL",
-				Icon:            string(buttons.BUTTON_vertical_align_center),
-				ToolTipText:     "export one ring STL",
-				HasToolTip:      true,
-				ToolTipPosition: tree.Right,
-				OnClick: func() {
-					stager.loadStage.Reset()
-					fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
-
-					stlContent := GenerateVaseTrapezeOneRingSTL(plant)
-
-					fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
-					fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-one-ring.stl"
-					stager.loadStage.Commit()
-
-					time.Sleep(1 * time.Second)
-					stager.load()
-				},
-			}
-			plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, oneRingBtn)
+				time.Sleep(1 * time.Second)
+				stager.load()
+			},
 		}
+		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, baseFirstRingBtn)
+
+		oneRingBtn := &tree.Button{
+			Name:            "export one ring STL",
+			Icon:            string(buttons.BUTTON_vertical_align_center),
+			ToolTipText:     "export one ring STL",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				stager.loadStage.Reset()
+				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+
+				stlContent := GenerateVaseTrapezeOneRingSTL(plant)
+
+				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
+				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-one-ring.stl"
+				stager.loadStage.Commit()
+
+				time.Sleep(1 * time.Second)
+				stager.load()
+			},
+		}
+		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, oneRingBtn)
 	} else {
 		downloadBtn := &tree.Button{
 			Name:            "Download STL",
@@ -395,11 +393,10 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			parentNodeExpansionBooleanValue:    &plant.IsExpanded,
 			IsButtonInMenu:                     true,
 		}
-		addCreateItemButton(stager, confPlant2D)
-		if len(plantNode.Menu.Buttons) > 0 {
-			btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
-			btn.Name = "Add Plant 2D Diagram"
-			btn.ToolTipText = "Add a Plant 2D Diagram"
+		cb := addCreateItemButton(stager, confPlant2D)
+		if cb != nil && cb.button != nil {
+			cb.button.Name = "Add Plant 2D Diagram"
+			cb.button.ToolTipText = "Add a Plant 2D Diagram"
 		}
 		for _, diag := range plant.Plant2DDiagrams {
 			stager.treePlant2DDiagram(plant, diag, &plantNode.Children, false)
@@ -413,11 +410,10 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			parentNodeExpansionBooleanValue:    &plant.IsExpanded,
 			IsButtonInMenu:                     true,
 		}
-		addCreateItemButton(stager, confPlant3D)
-		if len(plantNode.Menu.Buttons) > 0 {
-			btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
-			btn.Name = "Add Plant 3D Diagram"
-			btn.ToolTipText = "Add a Plant 3D Diagram"
+		cb := addCreateItemButton(stager, confPlant3D)
+		if cb != nil && cb.button != nil {
+			cb.button.Name = "Add Plant 3D Diagram"
+			cb.button.ToolTipText = "Add a Plant 3D Diagram"
 		}
 		for _, diag := range plant.Plant3DDiagrams {
 			stager.treePlant3DDiagram(plant, diag, &plantNode.Children, true)
@@ -432,15 +428,14 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				parentNodeExpansionBooleanValue:    &plant.IsExpanded,
 				IsButtonInMenu:                     true,
 			}
-			addCreateItemButton(stager, confVase2D)
-			if len(plantNode.Menu.Buttons) > 0 {
-				btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
+			cb := addCreateItemButton(stager, confVase2D)
+			if cb != nil && cb.button != nil {
 				if plant.PlantType == VaseTrapeze {
-					btn.Name = "Add Vase Trapeze 2D Diagram"
-					btn.ToolTipText = "Add a Vase Trapeze 2D Diagram"
+					cb.button.Name = "Add Vase Trapeze 2D Diagram"
+					cb.button.ToolTipText = "Add a Vase Trapeze 2D Diagram"
 				} else {
-					btn.Name = "Add Tube Vase 2D Diagram"
-					btn.ToolTipText = "Add a Tube Vase 2D Diagram"
+					cb.button.Name = "Add Tube Vase 2D Diagram"
+					cb.button.ToolTipText = "Add a Tube Vase 2D Diagram"
 				}
 			}
 			for _, diag := range plant.Vase2DDiagrams {
@@ -457,15 +452,14 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				parentNodeExpansionBooleanValue:    &plant.IsExpanded,
 				IsButtonInMenu:                     true,
 			}
-			addCreateItemButton(stager, confTubeVase3D)
-			if len(plantNode.Menu.Buttons) > 0 {
-				btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
+			cb := addCreateItemButton(stager, confTubeVase3D)
+			if cb != nil && cb.button != nil {
 				if plant.PlantType == VaseTrapeze {
-					btn.Name = "Add Vase Trapeze 3D Diagram"
-					btn.ToolTipText = "Add a Vase Trapeze 3D Diagram"
+					cb.button.Name = "Add Vase Trapeze 3D Diagram"
+					cb.button.ToolTipText = "Add a Vase Trapeze 3D Diagram"
 				} else {
-					btn.Name = "Add Tube Vase 3D Diagram"
-					btn.ToolTipText = "Add a Tube Vase 3D Diagram"
+					cb.button.Name = "Add Tube Vase 3D Diagram"
+					cb.button.ToolTipText = "Add a Tube Vase 3D Diagram"
 				}
 			}
 			for _, diag := range plant.TubeVase3DDiagrams {
@@ -482,11 +476,10 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				parentNodeExpansionBooleanValue:    &plant.IsExpanded,
 				IsButtonInMenu:                     true,
 			}
-			addCreateItemButton(stager, confStool3D)
-			if len(plantNode.Menu.Buttons) > 0 {
-				btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
-				btn.Name = "Add Stool 3D Diagram"
-				btn.ToolTipText = "Add a Stool 3D Diagram"
+			cb := addCreateItemButton(stager, confStool3D)
+			if cb != nil && cb.button != nil {
+				cb.button.Name = "Add Stool 3D Diagram"
+				cb.button.ToolTipText = "Add a Stool 3D Diagram"
 			}
 			for _, diag := range plant.Stool3DDiagrams {
 				stager.treeStool3DDiagram(plant, diag, &plantNode.Children, true)
@@ -502,11 +495,10 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				parentNodeExpansionBooleanValue:    &plant.IsExpanded,
 				IsButtonInMenu:                     true,
 			}
-			addCreateItemButton(stager, confClock3D)
-			if len(plantNode.Menu.Buttons) > 0 {
-				btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
-				btn.Name = "Add Clock 3D Diagram"
-				btn.ToolTipText = "Add a Clock 3D Diagram"
+			cb := addCreateItemButton(stager, confClock3D)
+			if cb != nil && cb.button != nil {
+				cb.button.Name = "Add Clock 3D Diagram"
+				cb.button.ToolTipText = "Add a Clock 3D Diagram"
 			}
 			for _, diag := range plant.Clock3DDiagrams {
 				stager.treeClock3DDiagram(plant, diag, &plantNode.Children, true)

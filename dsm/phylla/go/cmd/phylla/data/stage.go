@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
-	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"
-	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"
 )
 
 var (
@@ -1080,3 +1080,4 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVase3DDiagram__00000001_.StackOfRotatedCarvedOutVaseTrapezeRingsShape = __models__StackOfRotatedCarvedOutVaseTrapezeRingsShape__00000001_
 	__models__TubeVase3DDiagram__00000001_.VaseTrapezeBasePlateShape = __models__VaseTrapezeBasePlateShape__00000000_
 }
+
