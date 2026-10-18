@@ -40,6 +40,21 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
+	validRequirementConcerns := make(map[requirementConcernKey]bool)
+	validRequirementViews := make(map[requirementViewKey]bool)
+	validRequirementConcepts := make(map[requirementConceptKey]bool)
+	for _, req := range stage.GetInstancesSorted[*Requirement]() {
+		for _, concern := range req.Concerns {
+			validRequirementConcerns[requirementConcernKey{Requirement: req, Concern: concern}] = true
+		}
+		for _, view := range req.Views {
+			validRequirementViews[requirementViewKey{Requirement: req, View: view}] = true
+		}
+		for _, concept := range req.Concepts {
+			validRequirementConcepts[requirementConceptKey{Requirement: req, Concept: concept}] = true
+		}
+	}
+
 	validNoteDeliverables := make(map[noteDeliverableKey]bool)
 	validNoteTasks := make(map[noteTaskKey]bool)
 	validNoteResources := make(map[noteResourceKey]bool)
@@ -137,6 +152,36 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 			if !validViewConcepts[viewConceptKey{View: shape.View, Concept: shape.Concept}] {
 				shape.UnstageVoid(stage)
 				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ViewConceptShape %s", shape.GetName()))
+				needCommit = true
+			}
+		}
+	}
+
+	for _, shape := range stage.GetInstancesSorted[*RequirementConcernShape]() {
+		if shape.Requirement != nil && shape.Concern != nil {
+			if !validRequirementConcerns[requirementConcernKey{Requirement: shape.Requirement, Concern: shape.Concern}] {
+				shape.UnstageVoid(stage)
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid RequirementConcernShape %s", shape.GetName()))
+				needCommit = true
+			}
+		}
+	}
+
+	for _, shape := range stage.GetInstancesSorted[*RequirementViewShape]() {
+		if shape.Requirement != nil && shape.View != nil {
+			if !validRequirementViews[requirementViewKey{Requirement: shape.Requirement, View: shape.View}] {
+				shape.UnstageVoid(stage)
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid RequirementViewShape %s", shape.GetName()))
+				needCommit = true
+			}
+		}
+	}
+
+	for _, shape := range stage.GetInstancesSorted[*RequirementConceptShape]() {
+		if shape.Requirement != nil && shape.Concept != nil {
+			if !validRequirementConcepts[requirementConceptKey{Requirement: shape.Requirement, Concept: shape.Concept}] {
+				shape.UnstageVoid(stage)
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid RequirementConceptShape %s", shape.GetName()))
 				needCommit = true
 			}
 		}

@@ -323,32 +323,100 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 				}
 			}
 
-			// n.Buttons = []*tree.Button{
-			// 	{
-			// 		Name: diagram.GetName(),
-			// 		Icon: string(buttons.BUTTON_visibility_off),
-			// 		// SVGIcon:         svgIconLinkVisibilityOff,
-			// 		ToolTipText: func() string {
-			// 			return "Remove link from diagram"
-			// 		}(),
-			// 		HasToolTip:      true,
-			// 		ToolTipPosition: tree.Right,
-			// 		OnClick: func() {
-			// 			stakeholderShape.SetIsHidden(!stakeholderShape.GetIsHidden())
-			// 			stage.Commit()
-			// 		},
-			// 	},
-			// }
-			// if ok {
-			// 	if stakeholderShape.GetIsHidden() {
-			// 		n.Buttons[0].Icon = string(buttons.BUTTON_visibility)
-			// 		// inputDeliverableNode.Buttons[0].SVGIcon = svgIconLinkVisibilityOn
-			// 		n.Buttons[0].ToolTipText = "Show link on diagram"
-			// 	}
-			// } else {
-			// 	n.Buttons[0].IsDisabled = true
-			// }
+		}
+	}
 
+	var requirements []*Requirement
+	for requirement := range *stager.stage.GetInstancesSet[*Requirement]() {
+		if slices.Contains(requirement.Concerns, concern) {
+			requirements = append(requirements, requirement)
+		}
+	}
+
+	if len(requirements) > 0 {
+		slices.SortFunc(requirements, func(a, b *Requirement) int {
+			return cmp.Compare(a.Name, b.Name)
+		})
+
+		requirementsNode := &tree.Node{
+			Name:                 fmt.Sprintf("Requirements (%d)", len(requirements)),
+			IsExpanded:           slices.Index(diagram.ConcernsWhoseRequirementsNodeIsExpanded, concern) != -1,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_input),
+		}
+		concernNode.Children = append(concernNode.Children, requirementsNode)
+
+		setCallbacksExpandableNode(stager, requirementsNode, concern, &diagram.ConcernsWhoseRequirementsNodeIsExpanded)
+
+		for _, requirement := range requirements {
+			requirementNode := &tree.Node{
+				Name:                    requirement.GetName(),
+				IsExpanded:              true,
+				IsNodeClickable:         true,
+				IsInEditMode:            requirement.GetIsInRenameMode(),
+				CheckboxHasToolTip:      true,
+				CheckboxToolTipPosition: tree.Right,
+			}
+			requirementsNode.Children = append(requirementsNode.Children, requirementNode)
+			addRenameButton(requirement, requirementNode, stager)
+			requirementNode.OnNameChange = func(newName string) {
+				requirement.SetName(newName)
+				requirement.SetIsInRenameMode(false)
+				stager.stage.Commit()
+			}
+
+			if _, ok := diagram.map_Requirement_RequirementShape[requirement]; ok {
+				if _, ok := diagram.map_Concern_ConcernShape[concern]; ok {
+
+					requirementNode.HasCheckboxButton = true
+
+					key := requirementConcernKey{
+						Requirement: requirement,
+						Concern:     concern,
+					}
+					associationShape, ok := diagram.map_RequirementConcernKey_RequirementConcernShape[key]
+					requirementNode.IsChecked = ok
+
+					if ok {
+						requirementNode.CheckboxToolTipText = "Uncheck to remove shape from diagram"
+					} else {
+						requirementNode.CheckboxToolTipText = "Check to add shape to diagram"
+					}
+
+					requirementNode.OnIsCheckedChanged = func(isChecked bool) {
+						if isChecked {
+							addAssociationShapeToDiagram(stager, requirement, concern, &diagram.RequirementConcernShapes)
+							stager.stage.Commit()
+						} else {
+							associationShape.UnstageVoid(stager.stage)
+							stager.stage.Commit()
+						}
+					}
+
+					requirementNode.Buttons = []*tree.Button{
+						{
+							Name:            diagram.GetName(),
+							Icon:            string(buttons.BUTTON_visibility_off),
+							ToolTipText:     "Hide link from diagram",
+							HasToolTip:      true,
+							ToolTipPosition: tree.Right,
+							OnClick: func() {
+								associationShape.SetIsHidden(!associationShape.GetIsHidden())
+								stager.stage.Commit()
+							},
+						},
+					}
+					if ok {
+						if associationShape.GetIsHidden() {
+							requirementNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+							requirementNode.Buttons[0].ToolTipText = "Show link on diagram"
+						}
+					} else {
+						requirementNode.Buttons[0].IsDisabled = true
+					}
+				}
+			}
 		}
 	}
 }

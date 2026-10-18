@@ -314,8 +314,6 @@ func (u *ConcernUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsWithCompletion = GongExtractBool(valueExpr)
 	case "Completion":
 		GongUnmarshallEnum(&instance.Completion, valueExpr)
-	case "Requirements":
-		GongUnmarshallSliceOfPointers(&instance.Requirements, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -867,6 +865,18 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.Requirement_Shapes, valueExpr, identifierMap)
 	case "RequirementsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.RequirementsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "RequirementsWhoseConcernsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.RequirementsWhoseConcernsNodeIsExpanded, valueExpr, identifierMap)
+	case "RequirementsWhoseViewsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.RequirementsWhoseViewsNodeIsExpanded, valueExpr, identifierMap)
+	case "RequirementsWhoseConceptsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.RequirementsWhoseConceptsNodeIsExpanded, valueExpr, identifierMap)
+	case "RequirementConcernShapes":
+		GongUnmarshallSliceOfPointers(&instance.RequirementConcernShapes, valueExpr, identifierMap)
+	case "RequirementViewShapes":
+		GongUnmarshallSliceOfPointers(&instance.RequirementViewShapes, valueExpr, identifierMap)
+	case "RequirementConceptShapes":
+		GongUnmarshallSliceOfPointers(&instance.RequirementConceptShapes, valueExpr, identifierMap)
 	case "View_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.View_Shapes, valueExpr, identifierMap)
 	case "ViewsWhoseNodeIsExpanded":
@@ -875,6 +885,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.ViewsWhoseDeliverablesNodeIsExpanded, valueExpr, identifierMap)
 	case "ViewsWhoseConceptsNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ViewsWhoseConceptsNodeIsExpanded, valueExpr, identifierMap)
+	case "ViewsWhoseRequirementsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ViewsWhoseRequirementsNodeIsExpanded, valueExpr, identifierMap)
 	case "DeliverableViewShapes":
 		GongUnmarshallSliceOfPointers(&instance.DeliverableViewShapes, valueExpr, identifierMap)
 	case "ViewConceptShapes":
@@ -887,6 +899,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.ConceptsWhoseViewsNodeIsExpanded, valueExpr, identifierMap)
 	case "ConceptsWhoseDeliverablesNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ConceptsWhoseDeliverablesNodeIsExpanded, valueExpr, identifierMap)
+	case "ConceptsWhoseRequirementsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ConceptsWhoseRequirementsNodeIsExpanded, valueExpr, identifierMap)
 	case "DeliverableConceptShapes":
 		GongUnmarshallSliceOfPointers(&instance.DeliverableConceptShapes, valueExpr, identifierMap)
 	case "Diagram_Shapes":
@@ -1243,8 +1257,110 @@ func (u *RequirementUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "SupportLevels":
 		GongUnmarshallSliceOfPointers(&instance.SupportLevels, valueExpr, identifierMap)
+	case "Concerns":
+		GongUnmarshallSliceOfPointers(&instance.Concerns, valueExpr, identifierMap)
+	case "Views":
+		GongUnmarshallSliceOfPointers(&instance.Views, valueExpr, identifierMap)
 	case "Concepts":
 		GongUnmarshallSliceOfPointers(&instance.Concepts, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type RequirementConceptShapeUnmarshaller struct{}
+
+func (u *RequirementConceptShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(RequirementConceptShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *RequirementConceptShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*RequirementConceptShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Requirement":
+		GongUnmarshallPointer(&instance.Requirement, valueExpr, identifierMap)
+	case "Concept":
+		GongUnmarshallPointer(&instance.Concept, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type RequirementConcernShapeUnmarshaller struct{}
+
+func (u *RequirementConcernShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(RequirementConcernShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *RequirementConcernShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*RequirementConcernShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Requirement":
+		GongUnmarshallPointer(&instance.Requirement, valueExpr, identifierMap)
+	case "Concern":
+		GongUnmarshallPointer(&instance.Concern, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1298,6 +1414,55 @@ func (u *RequirementShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.FontWeight = GongExtractString(valueExpr)
 	case "FontColor":
 		instance.FontColor = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type RequirementViewShapeUnmarshaller struct{}
+
+func (u *RequirementViewShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(RequirementViewShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *RequirementViewShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*RequirementViewShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Requirement":
+		GongUnmarshallPointer(&instance.Requirement, valueExpr, identifierMap)
+	case "View":
+		GongUnmarshallPointer(&instance.View, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }

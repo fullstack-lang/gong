@@ -44,6 +44,10 @@ func (inst *Concept) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Go
 			if _diagram, ok := stage.Diagram_ConceptsWhoseDeliverablesNodeIsExpanded_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
+		case "ConceptsWhoseRequirementsNodeIsExpanded":
+			if _diagram, ok := stage.Diagram_ConceptsWhoseRequirementsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
 		}
 	case "Library":
 		switch reverseField.Fieldname {
@@ -133,6 +137,13 @@ func (inst *Concern) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Go
 		case "Tasks":
 			if _note, ok := stage.Note_Tasks_reverseMap[inst]; ok {
 				res = _note.Name
+			}
+		}
+	case "Requirement":
+		switch reverseField.Fieldname {
+		case "Concerns":
+			if _requirement, ok := stage.Requirement_Concerns_reverseMap[inst]; ok {
+				res = _requirement.Name
 			}
 		}
 	case "Stakeholder":
@@ -276,6 +287,27 @@ func (inst *ControlPointShape) GongGetReverseFieldOwnerName(stage *Stage, revers
 		case "ControlPointShapes":
 			if _notetaskshape, ok := stage.NoteTaskShape_ControlPointShapes_reverseMap[inst]; ok {
 				res = _notetaskshape.Name
+			}
+		}
+	case "RequirementConceptShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _requirementconceptshape, ok := stage.RequirementConceptShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _requirementconceptshape.Name
+			}
+		}
+	case "RequirementConcernShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _requirementconcernshape, ok := stage.RequirementConcernShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _requirementconcernshape.Name
+			}
+		}
+	case "RequirementViewShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _requirementviewshape, ok := stage.RequirementViewShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _requirementviewshape.Name
 			}
 		}
 	case "StakeholderCompositionShape":
@@ -570,17 +602,22 @@ func (inst *Requirement) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Concern":
-		switch reverseField.Fieldname {
-		case "Requirements":
-			if _concern, ok := stage.Concern_Requirements_reverseMap[inst]; ok {
-				res = _concern.Name
-			}
-		}
 	case "Diagram":
 		switch reverseField.Fieldname {
 		case "RequirementsWhoseNodeIsExpanded":
 			if _diagram, ok := stage.Diagram_RequirementsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		case "RequirementsWhoseConcernsNodeIsExpanded":
+			if _diagram, ok := stage.Diagram_RequirementsWhoseConcernsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		case "RequirementsWhoseViewsNodeIsExpanded":
+			if _diagram, ok := stage.Diagram_RequirementsWhoseViewsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		case "RequirementsWhoseConceptsNodeIsExpanded":
+			if _diagram, ok := stage.Diagram_RequirementsWhoseConceptsNodeIsExpanded_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
 		}
@@ -589,6 +626,38 @@ func (inst *Requirement) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 		case "RootRequirements":
 			if _library, ok := stage.Library_RootRequirements_reverseMap[inst]; ok {
 				res = _library.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *RequirementConceptShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "RequirementConceptShapes":
+			if _diagram, ok := stage.Diagram_RequirementConceptShapes_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *RequirementConcernShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "RequirementConcernShapes":
+			if _diagram, ok := stage.Diagram_RequirementConcernShapes_reverseMap[inst]; ok {
+				res = _diagram.Name
 			}
 		}
 	}
@@ -604,6 +673,22 @@ func (inst *RequirementShape) GongGetReverseFieldOwnerName(stage *Stage, reverse
 		switch reverseField.Fieldname {
 		case "Requirement_Shapes":
 			if _diagram, ok := stage.Diagram_Requirement_Shapes_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *RequirementViewShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "RequirementViewShapes":
+			if _diagram, ok := stage.Diagram_RequirementViewShapes_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
 		}
@@ -754,12 +839,23 @@ func (inst *View) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongR
 			if _diagram, ok := stage.Diagram_ViewsWhoseConceptsNodeIsExpanded_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
+		case "ViewsWhoseRequirementsNodeIsExpanded":
+			if _diagram, ok := stage.Diagram_ViewsWhoseRequirementsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
 		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "RootViews":
 			if _library, ok := stage.Library_RootViews_reverseMap[inst]; ok {
 				res = _library.Name
+			}
+		}
+	case "Requirement":
+		switch reverseField.Fieldname {
+		case "Views":
+			if _requirement, ok := stage.Requirement_Views_reverseMap[inst]; ok {
+				res = _requirement.Name
 			}
 		}
 	}

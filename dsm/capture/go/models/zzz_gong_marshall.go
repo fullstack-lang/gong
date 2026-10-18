@@ -400,7 +400,10 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	gongMarshallInstances(stage, stage.NoteStakeholderShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.NoteTaskShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.Requirements, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.RequirementConceptShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.RequirementConcernShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.RequirementShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.RequirementViewShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.Stakeholders, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.StakeholderCompositionShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	gongMarshallInstances(stage, stage.StakeholderConcernShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
@@ -613,12 +616,6 @@ func (concern *Concern) GongMarshallField(stage *Stage, fieldName string) (res s
 		var sb strings.Builder
 		for _, _deliverable := range concern.Outputs {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Outputs", _deliverable.GongGetIdentifier(stage)))
-		}
-		res = sb.String()
-	case "Requirements":
-		var sb strings.Builder
-		for _, _requirement := range concern.Requirements {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Requirements", _requirement.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -1314,6 +1311,42 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RequirementsWhoseNodeIsExpanded", _requirement.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
+	case "RequirementsWhoseConcernsNodeIsExpanded":
+		var sb strings.Builder
+		for _, _requirement := range diagram.RequirementsWhoseConcernsNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RequirementsWhoseConcernsNodeIsExpanded", _requirement.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "RequirementsWhoseViewsNodeIsExpanded":
+		var sb strings.Builder
+		for _, _requirement := range diagram.RequirementsWhoseViewsNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RequirementsWhoseViewsNodeIsExpanded", _requirement.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "RequirementsWhoseConceptsNodeIsExpanded":
+		var sb strings.Builder
+		for _, _requirement := range diagram.RequirementsWhoseConceptsNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RequirementsWhoseConceptsNodeIsExpanded", _requirement.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "RequirementConcernShapes":
+		var sb strings.Builder
+		for _, _requirementconcernshape := range diagram.RequirementConcernShapes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RequirementConcernShapes", _requirementconcernshape.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "RequirementViewShapes":
+		var sb strings.Builder
+		for _, _requirementviewshape := range diagram.RequirementViewShapes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RequirementViewShapes", _requirementviewshape.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "RequirementConceptShapes":
+		var sb strings.Builder
+		for _, _requirementconceptshape := range diagram.RequirementConceptShapes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RequirementConceptShapes", _requirementconceptshape.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	case "View_Shapes":
 		var sb strings.Builder
 		for _, _viewshape := range diagram.View_Shapes {
@@ -1336,6 +1369,12 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		var sb strings.Builder
 		for _, _view := range diagram.ViewsWhoseConceptsNodeIsExpanded {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ViewsWhoseConceptsNodeIsExpanded", _view.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "ViewsWhoseRequirementsNodeIsExpanded":
+		var sb strings.Builder
+		for _, _view := range diagram.ViewsWhoseRequirementsNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ViewsWhoseRequirementsNodeIsExpanded", _view.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "DeliverableViewShapes":
@@ -1372,6 +1411,12 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		var sb strings.Builder
 		for _, _concept := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ConceptsWhoseDeliverablesNodeIsExpanded", _concept.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "ConceptsWhoseRequirementsNodeIsExpanded":
+		var sb strings.Builder
+		for _, _concept := range diagram.ConceptsWhoseRequirementsNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ConceptsWhoseRequirementsNodeIsExpanded", _concept.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "DeliverableConceptShapes":
@@ -1808,6 +1853,18 @@ func (requirement *Requirement) GongMarshallField(stage *Stage, fieldName string
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "SupportLevels", _supportlevel.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
+	case "Concerns":
+		var sb strings.Builder
+		for _, _concern := range requirement.Concerns {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Concerns", _concern.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "Views":
+		var sb strings.Builder
+		for _, _view := range requirement.Views {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Views", _view.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	case "Concepts":
 		var sb strings.Builder
 		for _, _concept := range requirement.Concepts {
@@ -1816,6 +1873,120 @@ func (requirement *Requirement) GongMarshallField(stage *Stage, fieldName string
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Requirement", fieldName)
+	}
+	return
+}
+
+func (requirementconceptshape *RequirementConceptShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := requirementconceptshape.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", requirementconceptshape.Name)
+	case "StartRatio":
+		res = __gong__marshallFloat(ident, "StartRatio", requirementconceptshape.StartRatio)
+	case "EndRatio":
+		res = __gong__marshallFloat(ident, "EndRatio", requirementconceptshape.EndRatio)
+	case "StartOrientation":
+		res = __gong__marshallEnumString(ident, "StartOrientation", requirementconceptshape.StartOrientation.ToCodeString())
+	case "EndOrientation":
+		res = __gong__marshallEnumString(ident, "EndOrientation", requirementconceptshape.EndOrientation.ToCodeString())
+	case "CornerOffsetRatio":
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", requirementconceptshape.CornerOffsetRatio)
+	case "IsHidden":
+		res = __gong__marshallBool(ident, "IsHidden", requirementconceptshape.IsHidden)
+	case "IsPresentationOverridden":
+		res = __gong__marshallBool(ident, "IsPresentationOverridden", requirementconceptshape.IsPresentationOverridden)
+	case "Stroke":
+		res = __gong__marshallString(ident, "Stroke", requirementconceptshape.Stroke)
+	case "StrokeWidth":
+		res = __gong__marshallFloat(ident, "StrokeWidth", requirementconceptshape.StrokeWidth)
+	case "StrokeOpacity":
+		res = __gong__marshallFloat(ident, "StrokeOpacity", requirementconceptshape.StrokeOpacity)
+	case "StrokeDashArray":
+		res = __gong__marshallString(ident, "StrokeDashArray", requirementconceptshape.StrokeDashArray)
+	case "FontSize":
+		res = __gong__marshallString(ident, "FontSize", requirementconceptshape.FontSize)
+	case "FontColor":
+		res = __gong__marshallString(ident, "FontColor", requirementconceptshape.FontColor)
+
+	case "Requirement":
+		if requirementconceptshape.Requirement != nil {
+			res = __gong__marshallPointer(ident, "Requirement", requirementconceptshape.Requirement.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Requirement", "nil")
+		}
+	case "Concept":
+		if requirementconceptshape.Concept != nil {
+			res = __gong__marshallPointer(ident, "Concept", requirementconceptshape.Concept.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Concept", "nil")
+		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range requirementconceptshape.ControlPointShapes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ControlPointShapes", _controlpointshape.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct RequirementConceptShape", fieldName)
+	}
+	return
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := requirementconcernshape.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", requirementconcernshape.Name)
+	case "StartRatio":
+		res = __gong__marshallFloat(ident, "StartRatio", requirementconcernshape.StartRatio)
+	case "EndRatio":
+		res = __gong__marshallFloat(ident, "EndRatio", requirementconcernshape.EndRatio)
+	case "StartOrientation":
+		res = __gong__marshallEnumString(ident, "StartOrientation", requirementconcernshape.StartOrientation.ToCodeString())
+	case "EndOrientation":
+		res = __gong__marshallEnumString(ident, "EndOrientation", requirementconcernshape.EndOrientation.ToCodeString())
+	case "CornerOffsetRatio":
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", requirementconcernshape.CornerOffsetRatio)
+	case "IsHidden":
+		res = __gong__marshallBool(ident, "IsHidden", requirementconcernshape.IsHidden)
+	case "IsPresentationOverridden":
+		res = __gong__marshallBool(ident, "IsPresentationOverridden", requirementconcernshape.IsPresentationOverridden)
+	case "Stroke":
+		res = __gong__marshallString(ident, "Stroke", requirementconcernshape.Stroke)
+	case "StrokeWidth":
+		res = __gong__marshallFloat(ident, "StrokeWidth", requirementconcernshape.StrokeWidth)
+	case "StrokeOpacity":
+		res = __gong__marshallFloat(ident, "StrokeOpacity", requirementconcernshape.StrokeOpacity)
+	case "StrokeDashArray":
+		res = __gong__marshallString(ident, "StrokeDashArray", requirementconcernshape.StrokeDashArray)
+	case "FontSize":
+		res = __gong__marshallString(ident, "FontSize", requirementconcernshape.FontSize)
+	case "FontColor":
+		res = __gong__marshallString(ident, "FontColor", requirementconcernshape.FontColor)
+
+	case "Requirement":
+		if requirementconcernshape.Requirement != nil {
+			res = __gong__marshallPointer(ident, "Requirement", requirementconcernshape.Requirement.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Requirement", "nil")
+		}
+	case "Concern":
+		if requirementconcernshape.Concern != nil {
+			res = __gong__marshallPointer(ident, "Concern", requirementconcernshape.Concern.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Concern", "nil")
+		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range requirementconcernshape.ControlPointShapes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ControlPointShapes", _controlpointshape.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct RequirementConcernShape", fieldName)
 	}
 	return
 }
@@ -1869,6 +2040,63 @@ func (requirementshape *RequirementShape) GongMarshallField(stage *Stage, fieldN
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct RequirementShape", fieldName)
+	}
+	return
+}
+
+func (requirementviewshape *RequirementViewShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := requirementviewshape.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", requirementviewshape.Name)
+	case "StartRatio":
+		res = __gong__marshallFloat(ident, "StartRatio", requirementviewshape.StartRatio)
+	case "EndRatio":
+		res = __gong__marshallFloat(ident, "EndRatio", requirementviewshape.EndRatio)
+	case "StartOrientation":
+		res = __gong__marshallEnumString(ident, "StartOrientation", requirementviewshape.StartOrientation.ToCodeString())
+	case "EndOrientation":
+		res = __gong__marshallEnumString(ident, "EndOrientation", requirementviewshape.EndOrientation.ToCodeString())
+	case "CornerOffsetRatio":
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", requirementviewshape.CornerOffsetRatio)
+	case "IsHidden":
+		res = __gong__marshallBool(ident, "IsHidden", requirementviewshape.IsHidden)
+	case "IsPresentationOverridden":
+		res = __gong__marshallBool(ident, "IsPresentationOverridden", requirementviewshape.IsPresentationOverridden)
+	case "Stroke":
+		res = __gong__marshallString(ident, "Stroke", requirementviewshape.Stroke)
+	case "StrokeWidth":
+		res = __gong__marshallFloat(ident, "StrokeWidth", requirementviewshape.StrokeWidth)
+	case "StrokeOpacity":
+		res = __gong__marshallFloat(ident, "StrokeOpacity", requirementviewshape.StrokeOpacity)
+	case "StrokeDashArray":
+		res = __gong__marshallString(ident, "StrokeDashArray", requirementviewshape.StrokeDashArray)
+	case "FontSize":
+		res = __gong__marshallString(ident, "FontSize", requirementviewshape.FontSize)
+	case "FontColor":
+		res = __gong__marshallString(ident, "FontColor", requirementviewshape.FontColor)
+
+	case "Requirement":
+		if requirementviewshape.Requirement != nil {
+			res = __gong__marshallPointer(ident, "Requirement", requirementviewshape.Requirement.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Requirement", "nil")
+		}
+	case "View":
+		if requirementviewshape.View != nil {
+			res = __gong__marshallPointer(ident, "View", requirementviewshape.View.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "View", "nil")
+		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range requirementviewshape.ControlPointShapes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ControlPointShapes", _controlpointshape.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct RequirementViewShape", fieldName)
 	}
 	return
 }
@@ -2309,7 +2537,6 @@ func (concern *Concern) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(concern.GongMarshallField(stage, "IsOutputsNodeExpanded"))
 		initializerStatements.WriteString(concern.GongMarshallField(stage, "IsWithCompletion"))
 		initializerStatements.WriteString(concern.GongMarshallField(stage, "Completion"))
-		pointersInitializesStatements.WriteString(concern.GongMarshallField(stage, "Requirements"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2613,16 +2840,24 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "StakeholderConcernShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Requirement_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "RequirementsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "RequirementsWhoseConcernsNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "RequirementsWhoseViewsNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "RequirementsWhoseConceptsNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "RequirementConcernShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "RequirementViewShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "RequirementConceptShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "View_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ViewsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ViewsWhoseDeliverablesNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ViewsWhoseConceptsNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ViewsWhoseRequirementsNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "DeliverableViewShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ViewConceptShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Concept_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ConceptsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ConceptsWhoseViewsNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ConceptsWhoseDeliverablesNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ConceptsWhoseRequirementsNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "DeliverableConceptShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Diagram_Shapes"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsDiagramsNodeExpanded"))
@@ -2821,7 +3056,63 @@ func (requirement *Requirement) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(requirement.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(requirement.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(requirement.GongMarshallField(stage, "SupportLevels"))
+		pointersInitializesStatements.WriteString(requirement.GongMarshallField(stage, "Concerns"))
+		pointersInitializesStatements.WriteString(requirement.GongMarshallField(stage, "Views"))
 		pointersInitializesStatements.WriteString(requirement.GongMarshallField(stage, "Concepts"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (requirementconceptshape *RequirementConceptShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "Requirement"))
+		pointersInitializesStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "Concept"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "IsPresentationOverridden"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "FontSize"))
+		initializerStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "FontColor"))
+		pointersInitializesStatements.WriteString(requirementconceptshape.GongMarshallField(stage, "ControlPointShapes"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (requirementconcernshape *RequirementConcernShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "Requirement"))
+		pointersInitializesStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "Concern"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "IsPresentationOverridden"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "FontSize"))
+		initializerStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "FontColor"))
+		pointersInitializesStatements.WriteString(requirementconcernshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2851,6 +3142,33 @@ func (requirementshape *RequirementShape) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "FontSize"))
 		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "FontWeight"))
 		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "FontColor"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (requirementviewshape *RequirementViewShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(requirementviewshape.GongMarshallField(stage, "Requirement"))
+		pointersInitializesStatements.WriteString(requirementviewshape.GongMarshallField(stage, "View"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "IsPresentationOverridden"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "FontSize"))
+		initializerStatements.WriteString(requirementviewshape.GongMarshallField(stage, "FontColor"))
+		pointersInitializesStatements.WriteString(requirementviewshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

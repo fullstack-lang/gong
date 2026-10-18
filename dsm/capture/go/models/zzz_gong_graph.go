@@ -130,8 +130,23 @@ func (requirement *Requirement) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (requirementconceptshape *RequirementConceptShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.RequirementConceptShapes[requirementconceptshape]
+	return ok
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.RequirementConcernShapes[requirementconcernshape]
+	return ok
+}
+
 func (requirementshape *RequirementShape) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.RequirementShapes[requirementshape]
+	return ok
+}
+
+func (requirementviewshape *RequirementViewShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.RequirementViewShapes[requirementviewshape]
 	return ok
 }
 
@@ -259,9 +274,6 @@ func (concern *Concern) GongStageBranch(stage *Stage) {
 	}
 	for _, _deliverable := range concern.Outputs {
 		stage.StageBranch(_deliverable)
-	}
-	for _, _requirement := range concern.Requirements {
-		stage.StageBranch(_requirement)
 	}
 
 }
@@ -566,6 +578,24 @@ func (diagram *Diagram) GongStageBranch(stage *Stage) {
 	for _, _requirement := range diagram.RequirementsWhoseNodeIsExpanded {
 		stage.StageBranch(_requirement)
 	}
+	for _, _requirement := range diagram.RequirementsWhoseConcernsNodeIsExpanded {
+		stage.StageBranch(_requirement)
+	}
+	for _, _requirement := range diagram.RequirementsWhoseViewsNodeIsExpanded {
+		stage.StageBranch(_requirement)
+	}
+	for _, _requirement := range diagram.RequirementsWhoseConceptsNodeIsExpanded {
+		stage.StageBranch(_requirement)
+	}
+	for _, _requirementconcernshape := range diagram.RequirementConcernShapes {
+		stage.StageBranch(_requirementconcernshape)
+	}
+	for _, _requirementviewshape := range diagram.RequirementViewShapes {
+		stage.StageBranch(_requirementviewshape)
+	}
+	for _, _requirementconceptshape := range diagram.RequirementConceptShapes {
+		stage.StageBranch(_requirementconceptshape)
+	}
 	for _, _viewshape := range diagram.View_Shapes {
 		stage.StageBranch(_viewshape)
 	}
@@ -576,6 +606,9 @@ func (diagram *Diagram) GongStageBranch(stage *Stage) {
 		stage.StageBranch(_view)
 	}
 	for _, _view := range diagram.ViewsWhoseConceptsNodeIsExpanded {
+		stage.StageBranch(_view)
+	}
+	for _, _view := range diagram.ViewsWhoseRequirementsNodeIsExpanded {
 		stage.StageBranch(_view)
 	}
 	for _, _deliverableviewshape := range diagram.DeliverableViewShapes {
@@ -594,6 +627,9 @@ func (diagram *Diagram) GongStageBranch(stage *Stage) {
 		stage.StageBranch(_concept)
 	}
 	for _, _concept := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
+		stage.StageBranch(_concept)
+	}
+	for _, _concept := range diagram.ConceptsWhoseRequirementsNodeIsExpanded {
 		stage.StageBranch(_concept)
 	}
 	for _, _deliverableconceptshape := range diagram.DeliverableConceptShapes {
@@ -800,8 +836,62 @@ func (requirement *Requirement) GongStageBranch(stage *Stage) {
 	for _, _supportlevel := range requirement.SupportLevels {
 		stage.StageBranch(_supportlevel)
 	}
+	for _, _concern := range requirement.Concerns {
+		stage.StageBranch(_concern)
+	}
+	for _, _view := range requirement.Views {
+		stage.StageBranch(_view)
+	}
 	for _, _concept := range requirement.Concepts {
 		stage.StageBranch(_concept)
+	}
+
+}
+
+func (requirementconceptshape *RequirementConceptShape) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(requirementconceptshape) {
+		return
+	}
+
+	requirementconceptshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if requirementconceptshape.Requirement != nil {
+		stage.StageBranch(requirementconceptshape.Requirement)
+	}
+	if requirementconceptshape.Concept != nil {
+		stage.StageBranch(requirementconceptshape.Concept)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range requirementconceptshape.ControlPointShapes {
+		stage.StageBranch(_controlpointshape)
+	}
+
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(requirementconcernshape) {
+		return
+	}
+
+	requirementconcernshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if requirementconcernshape.Requirement != nil {
+		stage.StageBranch(requirementconcernshape.Requirement)
+	}
+	if requirementconcernshape.Concern != nil {
+		stage.StageBranch(requirementconcernshape.Concern)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range requirementconcernshape.ControlPointShapes {
+		stage.StageBranch(_controlpointshape)
 	}
 
 }
@@ -821,6 +911,30 @@ func (requirementshape *RequirementShape) GongStageBranch(stage *Stage) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (requirementviewshape *RequirementViewShape) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(requirementviewshape) {
+		return
+	}
+
+	requirementviewshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if requirementviewshape.Requirement != nil {
+		stage.StageBranch(requirementviewshape.Requirement)
+	}
+	if requirementviewshape.View != nil {
+		stage.StageBranch(requirementviewshape.View)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range requirementviewshape.ControlPointShapes {
+		stage.StageBranch(_controlpointshape)
+	}
 
 }
 
@@ -1104,8 +1218,20 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchRequirement(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *RequirementConceptShape:
+		toT := GongCopyBranchRequirementConceptShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *RequirementConcernShape:
+		toT := GongCopyBranchRequirementConcernShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *RequirementShape:
 		toT := GongCopyBranchRequirementShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *RequirementViewShape:
+		toT := GongCopyBranchRequirementViewShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Stakeholder:
@@ -1221,9 +1347,6 @@ func GongCopyBranchConcern(mapOrigCopy map[any]any, concernFrom *Concern) (conce
 	}
 	for _, _deliverable := range concernFrom.Outputs {
 		concernTo.Outputs = append(concernTo.Outputs, GongCopyBranchDeliverable(mapOrigCopy, _deliverable))
-	}
-	for _, _requirement := range concernFrom.Requirements {
-		concernTo.Requirements = append(concernTo.Requirements, GongCopyBranchRequirement(mapOrigCopy, _requirement))
 	}
 
 	return
@@ -1528,6 +1651,24 @@ func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagr
 	for _, _requirement := range diagramFrom.RequirementsWhoseNodeIsExpanded {
 		diagramTo.RequirementsWhoseNodeIsExpanded = append(diagramTo.RequirementsWhoseNodeIsExpanded, GongCopyBranchRequirement(mapOrigCopy, _requirement))
 	}
+	for _, _requirement := range diagramFrom.RequirementsWhoseConcernsNodeIsExpanded {
+		diagramTo.RequirementsWhoseConcernsNodeIsExpanded = append(diagramTo.RequirementsWhoseConcernsNodeIsExpanded, GongCopyBranchRequirement(mapOrigCopy, _requirement))
+	}
+	for _, _requirement := range diagramFrom.RequirementsWhoseViewsNodeIsExpanded {
+		diagramTo.RequirementsWhoseViewsNodeIsExpanded = append(diagramTo.RequirementsWhoseViewsNodeIsExpanded, GongCopyBranchRequirement(mapOrigCopy, _requirement))
+	}
+	for _, _requirement := range diagramFrom.RequirementsWhoseConceptsNodeIsExpanded {
+		diagramTo.RequirementsWhoseConceptsNodeIsExpanded = append(diagramTo.RequirementsWhoseConceptsNodeIsExpanded, GongCopyBranchRequirement(mapOrigCopy, _requirement))
+	}
+	for _, _requirementconcernshape := range diagramFrom.RequirementConcernShapes {
+		diagramTo.RequirementConcernShapes = append(diagramTo.RequirementConcernShapes, GongCopyBranchRequirementConcernShape(mapOrigCopy, _requirementconcernshape))
+	}
+	for _, _requirementviewshape := range diagramFrom.RequirementViewShapes {
+		diagramTo.RequirementViewShapes = append(diagramTo.RequirementViewShapes, GongCopyBranchRequirementViewShape(mapOrigCopy, _requirementviewshape))
+	}
+	for _, _requirementconceptshape := range diagramFrom.RequirementConceptShapes {
+		diagramTo.RequirementConceptShapes = append(diagramTo.RequirementConceptShapes, GongCopyBranchRequirementConceptShape(mapOrigCopy, _requirementconceptshape))
+	}
 	for _, _viewshape := range diagramFrom.View_Shapes {
 		diagramTo.View_Shapes = append(diagramTo.View_Shapes, GongCopyBranchViewShape(mapOrigCopy, _viewshape))
 	}
@@ -1539,6 +1680,9 @@ func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagr
 	}
 	for _, _view := range diagramFrom.ViewsWhoseConceptsNodeIsExpanded {
 		diagramTo.ViewsWhoseConceptsNodeIsExpanded = append(diagramTo.ViewsWhoseConceptsNodeIsExpanded, GongCopyBranchView(mapOrigCopy, _view))
+	}
+	for _, _view := range diagramFrom.ViewsWhoseRequirementsNodeIsExpanded {
+		diagramTo.ViewsWhoseRequirementsNodeIsExpanded = append(diagramTo.ViewsWhoseRequirementsNodeIsExpanded, GongCopyBranchView(mapOrigCopy, _view))
 	}
 	for _, _deliverableviewshape := range diagramFrom.DeliverableViewShapes {
 		diagramTo.DeliverableViewShapes = append(diagramTo.DeliverableViewShapes, GongCopyBranchDeliverableViewShape(mapOrigCopy, _deliverableviewshape))
@@ -1557,6 +1701,9 @@ func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagr
 	}
 	for _, _concept := range diagramFrom.ConceptsWhoseDeliverablesNodeIsExpanded {
 		diagramTo.ConceptsWhoseDeliverablesNodeIsExpanded = append(diagramTo.ConceptsWhoseDeliverablesNodeIsExpanded, GongCopyBranchConcept(mapOrigCopy, _concept))
+	}
+	for _, _concept := range diagramFrom.ConceptsWhoseRequirementsNodeIsExpanded {
+		diagramTo.ConceptsWhoseRequirementsNodeIsExpanded = append(diagramTo.ConceptsWhoseRequirementsNodeIsExpanded, GongCopyBranchConcept(mapOrigCopy, _concept))
 	}
 	for _, _deliverableconceptshape := range diagramFrom.DeliverableConceptShapes {
 		diagramTo.DeliverableConceptShapes = append(diagramTo.DeliverableConceptShapes, GongCopyBranchDeliverableConceptShape(mapOrigCopy, _deliverableconceptshape))
@@ -1762,8 +1909,62 @@ func GongCopyBranchRequirement(mapOrigCopy map[any]any, requirementFrom *Require
 	for _, _supportlevel := range requirementFrom.SupportLevels {
 		requirementTo.SupportLevels = append(requirementTo.SupportLevels, GongCopyBranchSupportLevel(mapOrigCopy, _supportlevel))
 	}
+	for _, _concern := range requirementFrom.Concerns {
+		requirementTo.Concerns = append(requirementTo.Concerns, GongCopyBranchConcern(mapOrigCopy, _concern))
+	}
+	for _, _view := range requirementFrom.Views {
+		requirementTo.Views = append(requirementTo.Views, GongCopyBranchView(mapOrigCopy, _view))
+	}
 	for _, _concept := range requirementFrom.Concepts {
 		requirementTo.Concepts = append(requirementTo.Concepts, GongCopyBranchConcept(mapOrigCopy, _concept))
+	}
+
+	return
+}
+
+func GongCopyBranchRequirementConceptShape(mapOrigCopy map[any]any, requirementconceptshapeFrom *RequirementConceptShape) (requirementconceptshapeTo *RequirementConceptShape) {
+	var alreadyCopied bool
+	requirementconceptshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, requirementconceptshapeFrom)
+	if alreadyCopied {
+		return
+	}
+	requirementconceptshapeFrom.GongCopyBasicFields(requirementconceptshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if requirementconceptshapeFrom.Requirement != nil {
+		requirementconceptshapeTo.Requirement = GongCopyBranchRequirement(mapOrigCopy, requirementconceptshapeFrom.Requirement)
+	}
+	if requirementconceptshapeFrom.Concept != nil {
+		requirementconceptshapeTo.Concept = GongCopyBranchConcept(mapOrigCopy, requirementconceptshapeFrom.Concept)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range requirementconceptshapeFrom.ControlPointShapes {
+		requirementconceptshapeTo.ControlPointShapes = append(requirementconceptshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
+
+	return
+}
+
+func GongCopyBranchRequirementConcernShape(mapOrigCopy map[any]any, requirementconcernshapeFrom *RequirementConcernShape) (requirementconcernshapeTo *RequirementConcernShape) {
+	var alreadyCopied bool
+	requirementconcernshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, requirementconcernshapeFrom)
+	if alreadyCopied {
+		return
+	}
+	requirementconcernshapeFrom.GongCopyBasicFields(requirementconcernshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if requirementconcernshapeFrom.Requirement != nil {
+		requirementconcernshapeTo.Requirement = GongCopyBranchRequirement(mapOrigCopy, requirementconcernshapeFrom.Requirement)
+	}
+	if requirementconcernshapeFrom.Concern != nil {
+		requirementconcernshapeTo.Concern = GongCopyBranchConcern(mapOrigCopy, requirementconcernshapeFrom.Concern)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range requirementconcernshapeFrom.ControlPointShapes {
+		requirementconcernshapeTo.ControlPointShapes = append(requirementconcernshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
 
 	return
@@ -1783,6 +1984,30 @@ func GongCopyBranchRequirementShape(mapOrigCopy map[any]any, requirementshapeFro
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchRequirementViewShape(mapOrigCopy map[any]any, requirementviewshapeFrom *RequirementViewShape) (requirementviewshapeTo *RequirementViewShape) {
+	var alreadyCopied bool
+	requirementviewshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, requirementviewshapeFrom)
+	if alreadyCopied {
+		return
+	}
+	requirementviewshapeFrom.GongCopyBasicFields(requirementviewshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if requirementviewshapeFrom.Requirement != nil {
+		requirementviewshapeTo.Requirement = GongCopyBranchRequirement(mapOrigCopy, requirementviewshapeFrom.Requirement)
+	}
+	if requirementviewshapeFrom.View != nil {
+		requirementviewshapeTo.View = GongCopyBranchView(mapOrigCopy, requirementviewshapeFrom.View)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range requirementviewshapeFrom.ControlPointShapes {
+		requirementviewshapeTo.ControlPointShapes = append(requirementviewshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
 
 	return
 }
@@ -2047,9 +2272,6 @@ func (concern *Concern) GongUnstageBranch(stage *Stage) {
 	}
 	for _, _deliverable := range concern.Outputs {
 		stage.UnstageBranch(_deliverable)
-	}
-	for _, _requirement := range concern.Requirements {
-		stage.UnstageBranch(_requirement)
 	}
 
 }
@@ -2354,6 +2576,24 @@ func (diagram *Diagram) GongUnstageBranch(stage *Stage) {
 	for _, _requirement := range diagram.RequirementsWhoseNodeIsExpanded {
 		stage.UnstageBranch(_requirement)
 	}
+	for _, _requirement := range diagram.RequirementsWhoseConcernsNodeIsExpanded {
+		stage.UnstageBranch(_requirement)
+	}
+	for _, _requirement := range diagram.RequirementsWhoseViewsNodeIsExpanded {
+		stage.UnstageBranch(_requirement)
+	}
+	for _, _requirement := range diagram.RequirementsWhoseConceptsNodeIsExpanded {
+		stage.UnstageBranch(_requirement)
+	}
+	for _, _requirementconcernshape := range diagram.RequirementConcernShapes {
+		stage.UnstageBranch(_requirementconcernshape)
+	}
+	for _, _requirementviewshape := range diagram.RequirementViewShapes {
+		stage.UnstageBranch(_requirementviewshape)
+	}
+	for _, _requirementconceptshape := range diagram.RequirementConceptShapes {
+		stage.UnstageBranch(_requirementconceptshape)
+	}
 	for _, _viewshape := range diagram.View_Shapes {
 		stage.UnstageBranch(_viewshape)
 	}
@@ -2364,6 +2604,9 @@ func (diagram *Diagram) GongUnstageBranch(stage *Stage) {
 		stage.UnstageBranch(_view)
 	}
 	for _, _view := range diagram.ViewsWhoseConceptsNodeIsExpanded {
+		stage.UnstageBranch(_view)
+	}
+	for _, _view := range diagram.ViewsWhoseRequirementsNodeIsExpanded {
 		stage.UnstageBranch(_view)
 	}
 	for _, _deliverableviewshape := range diagram.DeliverableViewShapes {
@@ -2382,6 +2625,9 @@ func (diagram *Diagram) GongUnstageBranch(stage *Stage) {
 		stage.UnstageBranch(_concept)
 	}
 	for _, _concept := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
+		stage.UnstageBranch(_concept)
+	}
+	for _, _concept := range diagram.ConceptsWhoseRequirementsNodeIsExpanded {
 		stage.UnstageBranch(_concept)
 	}
 	for _, _deliverableconceptshape := range diagram.DeliverableConceptShapes {
@@ -2588,8 +2834,62 @@ func (requirement *Requirement) GongUnstageBranch(stage *Stage) {
 	for _, _supportlevel := range requirement.SupportLevels {
 		stage.UnstageBranch(_supportlevel)
 	}
+	for _, _concern := range requirement.Concerns {
+		stage.UnstageBranch(_concern)
+	}
+	for _, _view := range requirement.Views {
+		stage.UnstageBranch(_view)
+	}
 	for _, _concept := range requirement.Concepts {
 		stage.UnstageBranch(_concept)
+	}
+
+}
+
+func (requirementconceptshape *RequirementConceptShape) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(requirementconceptshape) {
+		return
+	}
+
+	requirementconceptshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if requirementconceptshape.Requirement != nil {
+		stage.UnstageBranch(requirementconceptshape.Requirement)
+	}
+	if requirementconceptshape.Concept != nil {
+		stage.UnstageBranch(requirementconceptshape.Concept)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range requirementconceptshape.ControlPointShapes {
+		stage.UnstageBranch(_controlpointshape)
+	}
+
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(requirementconcernshape) {
+		return
+	}
+
+	requirementconcernshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if requirementconcernshape.Requirement != nil {
+		stage.UnstageBranch(requirementconcernshape.Requirement)
+	}
+	if requirementconcernshape.Concern != nil {
+		stage.UnstageBranch(requirementconcernshape.Concern)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range requirementconcernshape.ControlPointShapes {
+		stage.UnstageBranch(_controlpointshape)
 	}
 
 }
@@ -2609,6 +2909,30 @@ func (requirementshape *RequirementShape) GongUnstageBranch(stage *Stage) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (requirementviewshape *RequirementViewShape) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(requirementviewshape) {
+		return
+	}
+
+	requirementviewshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if requirementviewshape.Requirement != nil {
+		stage.UnstageBranch(requirementviewshape.Requirement)
+	}
+	if requirementviewshape.View != nil {
+		stage.UnstageBranch(requirementviewshape.View)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range requirementviewshape.ControlPointShapes {
+		stage.UnstageBranch(_controlpointshape)
+	}
 
 }
 
@@ -2813,7 +3137,6 @@ func (reference *Concern) GongReconstructPointersFromReferences(stage *Stage, in
 	__gong__reconstructSliceOfPointersFromReferences(&reference.SubConcerns, stage.Concerns_reference, instance.SubConcerns)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Inputs, stage.Deliverables_reference, instance.Inputs)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Outputs, stage.Deliverables_reference, instance.Outputs)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.Requirements, stage.Requirements_reference, instance.Requirements)
 }
 
 func (reference *ConcernCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernCompositionShape) {
@@ -2915,16 +3238,24 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	__gong__reconstructSliceOfPointersFromReferences(&reference.StakeholderConcernShapes, stage.StakeholderConcernShapes_reference, instance.StakeholderConcernShapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Requirement_Shapes, stage.RequirementShapes_reference, instance.Requirement_Shapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.RequirementsWhoseNodeIsExpanded, stage.Requirements_reference, instance.RequirementsWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RequirementsWhoseConcernsNodeIsExpanded, stage.Requirements_reference, instance.RequirementsWhoseConcernsNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RequirementsWhoseViewsNodeIsExpanded, stage.Requirements_reference, instance.RequirementsWhoseViewsNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RequirementsWhoseConceptsNodeIsExpanded, stage.Requirements_reference, instance.RequirementsWhoseConceptsNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RequirementConcernShapes, stage.RequirementConcernShapes_reference, instance.RequirementConcernShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RequirementViewShapes, stage.RequirementViewShapes_reference, instance.RequirementViewShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RequirementConceptShapes, stage.RequirementConceptShapes_reference, instance.RequirementConceptShapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.View_Shapes, stage.ViewShapes_reference, instance.View_Shapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ViewsWhoseNodeIsExpanded, stage.Views_reference, instance.ViewsWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ViewsWhoseDeliverablesNodeIsExpanded, stage.Views_reference, instance.ViewsWhoseDeliverablesNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ViewsWhoseConceptsNodeIsExpanded, stage.Views_reference, instance.ViewsWhoseConceptsNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ViewsWhoseRequirementsNodeIsExpanded, stage.Views_reference, instance.ViewsWhoseRequirementsNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverableViewShapes, stage.DeliverableViewShapes_reference, instance.DeliverableViewShapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ViewConceptShapes, stage.ViewConceptShapes_reference, instance.ViewConceptShapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Concept_Shapes, stage.ConceptShapes_reference, instance.Concept_Shapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ConceptsWhoseNodeIsExpanded, stage.Concepts_reference, instance.ConceptsWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ConceptsWhoseViewsNodeIsExpanded, stage.Concepts_reference, instance.ConceptsWhoseViewsNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ConceptsWhoseDeliverablesNodeIsExpanded, stage.Concepts_reference, instance.ConceptsWhoseDeliverablesNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ConceptsWhoseRequirementsNodeIsExpanded, stage.Concepts_reference, instance.ConceptsWhoseRequirementsNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverableConceptShapes, stage.DeliverableConceptShapes_reference, instance.DeliverableConceptShapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Diagram_Shapes, stage.DiagramShapes_reference, instance.Diagram_Shapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DiagramsWhoseNodeIsExpanded, stage.Diagrams_reference, instance.DiagramsWhoseNodeIsExpanded)
@@ -2993,13 +3324,39 @@ func (reference *Requirement) GongReconstructPointersFromReferences(stage *Stage
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.SupportLevels, stage.SupportLevels_reference, instance.SupportLevels)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Concerns, stage.Concerns_reference, instance.Concerns)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Views, stage.Views_reference, instance.Views)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Concepts, stage.Concepts_reference, instance.Concepts)
+}
+
+func (reference *RequirementConceptShape) GongReconstructPointersFromReferences(stage *Stage, instance *RequirementConceptShape) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Requirement, stage.Requirements_reference, instance.Requirement)
+	__gong__reconstructPointer(&reference.Concept, stage.Concepts_reference, instance.Concept)
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
+}
+
+func (reference *RequirementConcernShape) GongReconstructPointersFromReferences(stage *Stage, instance *RequirementConcernShape) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Requirement, stage.Requirements_reference, instance.Requirement)
+	__gong__reconstructPointer(&reference.Concern, stage.Concerns_reference, instance.Concern)
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *RequirementShape) GongReconstructPointersFromReferences(stage *Stage, instance *RequirementShape) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Requirement, stage.Requirements_reference, instance.Requirement)
 	// insertion point for slice of pointers field
+}
+
+func (reference *RequirementViewShape) GongReconstructPointersFromReferences(stage *Stage, instance *RequirementViewShape) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Requirement, stage.Requirements_reference, instance.Requirement)
+	__gong__reconstructPointer(&reference.View, stage.Views_reference, instance.View)
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *Stakeholder) GongReconstructPointersFromReferences(stage *Stage, instance *Stakeholder) {
@@ -3085,7 +3442,6 @@ func (reference *Concern) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.SubConcerns, stage.Concerns_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Inputs, stage.Deliverables_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Outputs, stage.Deliverables_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.Requirements, stage.Requirements_instance)
 }
 
 func (reference *ConcernCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3187,16 +3543,24 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.StakeholderConcernShapes, stage.StakeholderConcernShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Requirement_Shapes, stage.RequirementShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.RequirementsWhoseNodeIsExpanded, stage.Requirements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RequirementsWhoseConcernsNodeIsExpanded, stage.Requirements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RequirementsWhoseViewsNodeIsExpanded, stage.Requirements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RequirementsWhoseConceptsNodeIsExpanded, stage.Requirements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RequirementConcernShapes, stage.RequirementConcernShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RequirementViewShapes, stage.RequirementViewShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RequirementConceptShapes, stage.RequirementConceptShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.View_Shapes, stage.ViewShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ViewsWhoseNodeIsExpanded, stage.Views_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ViewsWhoseDeliverablesNodeIsExpanded, stage.Views_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ViewsWhoseConceptsNodeIsExpanded, stage.Views_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ViewsWhoseRequirementsNodeIsExpanded, stage.Views_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverableViewShapes, stage.DeliverableViewShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ViewConceptShapes, stage.ViewConceptShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Concept_Shapes, stage.ConceptShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ConceptsWhoseNodeIsExpanded, stage.Concepts_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ConceptsWhoseViewsNodeIsExpanded, stage.Concepts_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ConceptsWhoseDeliverablesNodeIsExpanded, stage.Concepts_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ConceptsWhoseRequirementsNodeIsExpanded, stage.Concepts_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverableConceptShapes, stage.DeliverableConceptShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Diagram_Shapes, stage.DiagramShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DiagramsWhoseNodeIsExpanded, stage.Diagrams_instance)
@@ -3265,13 +3629,39 @@ func (reference *Requirement) GongReconstructPointersFromInstances(stage *Stage)
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.SupportLevels, stage.SupportLevels_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Concerns, stage.Concerns_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Views, stage.Views_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Concepts, stage.Concepts_instance)
+}
+
+func (reference *RequirementConceptShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Requirement, stage.Requirements_instance)
+	__gong__reconstructPointerFromInstance(&reference.Concept, stage.Concepts_instance)
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
+}
+
+func (reference *RequirementConcernShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Requirement, stage.Requirements_instance)
+	__gong__reconstructPointerFromInstance(&reference.Concern, stage.Concerns_instance)
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *RequirementShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Requirement, stage.Requirements_instance)
 	// insertion point for slice of pointers fields
+}
+
+func (reference *RequirementViewShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Requirement, stage.Requirements_instance)
+	__gong__reconstructPointerFromInstance(&reference.View, stage.Views_instance)
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *Stakeholder) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3478,9 +3868,6 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 	}
 	if concern.Completion != concernOther.Completion {
 		diffs = append(diffs, concern.GongMarshallField(stage, "Completion"))
-	}
-	if ops := __gong__diffSliceOfPointers(stage, concern, "Requirements", concernOther.Requirements, concern.Requirements); ops != "" {
-		diffs = append(diffs, ops)
 	}
 
 	return
@@ -4149,6 +4536,24 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "RequirementsWhoseNodeIsExpanded", diagramOther.RequirementsWhoseNodeIsExpanded, diagram.RequirementsWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "RequirementsWhoseConcernsNodeIsExpanded", diagramOther.RequirementsWhoseConcernsNodeIsExpanded, diagram.RequirementsWhoseConcernsNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "RequirementsWhoseViewsNodeIsExpanded", diagramOther.RequirementsWhoseViewsNodeIsExpanded, diagram.RequirementsWhoseViewsNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "RequirementsWhoseConceptsNodeIsExpanded", diagramOther.RequirementsWhoseConceptsNodeIsExpanded, diagram.RequirementsWhoseConceptsNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "RequirementConcernShapes", diagramOther.RequirementConcernShapes, diagram.RequirementConcernShapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "RequirementViewShapes", diagramOther.RequirementViewShapes, diagram.RequirementViewShapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "RequirementConceptShapes", diagramOther.RequirementConceptShapes, diagram.RequirementConceptShapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "View_Shapes", diagramOther.View_Shapes, diagram.View_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
@@ -4159,6 +4564,9 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "ViewsWhoseConceptsNodeIsExpanded", diagramOther.ViewsWhoseConceptsNodeIsExpanded, diagram.ViewsWhoseConceptsNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ViewsWhoseRequirementsNodeIsExpanded", diagramOther.ViewsWhoseRequirementsNodeIsExpanded, diagram.ViewsWhoseRequirementsNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "DeliverableViewShapes", diagramOther.DeliverableViewShapes, diagram.DeliverableViewShapes); ops != "" {
@@ -4177,6 +4585,9 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConceptsWhoseDeliverablesNodeIsExpanded", diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded, diagram.ConceptsWhoseDeliverablesNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "ConceptsWhoseRequirementsNodeIsExpanded", diagramOther.ConceptsWhoseRequirementsNodeIsExpanded, diagram.ConceptsWhoseRequirementsNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "DeliverableConceptShapes", diagramOther.DeliverableConceptShapes, diagram.DeliverableConceptShapes); ops != "" {
@@ -4597,7 +5008,131 @@ func (requirement *Requirement) GongDiff(stage *Stage, requirementOther *Require
 	if ops := __gong__diffSliceOfPointers(stage, requirement, "SupportLevels", requirementOther.SupportLevels, requirement.SupportLevels); ops != "" {
 		diffs = append(diffs, ops)
 	}
+	if ops := __gong__diffSliceOfPointers(stage, requirement, "Concerns", requirementOther.Concerns, requirement.Concerns); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, requirement, "Views", requirementOther.Views, requirement.Views); ops != "" {
+		diffs = append(diffs, ops)
+	}
 	if ops := __gong__diffSliceOfPointers(stage, requirement, "Concepts", requirementOther.Concepts, requirement.Concepts); ops != "" {
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (requirementconceptshape *RequirementConceptShape) GongDiff(stage *Stage, requirementconceptshapeOther *RequirementConceptShape) (diffs []string) {
+	// insertion point for field diffs
+	if requirementconceptshape.Name != requirementconceptshapeOther.Name {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "Name"))
+	}
+	if requirementconceptshape.Requirement != requirementconceptshapeOther.Requirement {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "Requirement"))
+	}
+	if requirementconceptshape.Concept != requirementconceptshapeOther.Concept {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "Concept"))
+	}
+	if requirementconceptshape.StartRatio != requirementconceptshapeOther.StartRatio {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if requirementconceptshape.EndRatio != requirementconceptshapeOther.EndRatio {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if requirementconceptshape.StartOrientation != requirementconceptshapeOther.StartOrientation {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if requirementconceptshape.EndOrientation != requirementconceptshapeOther.EndOrientation {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if requirementconceptshape.CornerOffsetRatio != requirementconceptshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if requirementconceptshape.IsHidden != requirementconceptshapeOther.IsHidden {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if requirementconceptshape.IsPresentationOverridden != requirementconceptshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if requirementconceptshape.Stroke != requirementconceptshapeOther.Stroke {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "Stroke"))
+	}
+	if requirementconceptshape.StrokeWidth != requirementconceptshapeOther.StrokeWidth {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if requirementconceptshape.StrokeOpacity != requirementconceptshapeOther.StrokeOpacity {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if requirementconceptshape.StrokeDashArray != requirementconceptshapeOther.StrokeDashArray {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if requirementconceptshape.FontSize != requirementconceptshapeOther.FontSize {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "FontSize"))
+	}
+	if requirementconceptshape.FontColor != requirementconceptshapeOther.FontColor {
+		diffs = append(diffs, requirementconceptshape.GongMarshallField(stage, "FontColor"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, requirementconceptshape, "ControlPointShapes", requirementconceptshapeOther.ControlPointShapes, requirementconceptshape.ControlPointShapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (requirementconcernshape *RequirementConcernShape) GongDiff(stage *Stage, requirementconcernshapeOther *RequirementConcernShape) (diffs []string) {
+	// insertion point for field diffs
+	if requirementconcernshape.Name != requirementconcernshapeOther.Name {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "Name"))
+	}
+	if requirementconcernshape.Requirement != requirementconcernshapeOther.Requirement {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "Requirement"))
+	}
+	if requirementconcernshape.Concern != requirementconcernshapeOther.Concern {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "Concern"))
+	}
+	if requirementconcernshape.StartRatio != requirementconcernshapeOther.StartRatio {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if requirementconcernshape.EndRatio != requirementconcernshapeOther.EndRatio {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if requirementconcernshape.StartOrientation != requirementconcernshapeOther.StartOrientation {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if requirementconcernshape.EndOrientation != requirementconcernshapeOther.EndOrientation {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if requirementconcernshape.CornerOffsetRatio != requirementconcernshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if requirementconcernshape.IsHidden != requirementconcernshapeOther.IsHidden {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if requirementconcernshape.IsPresentationOverridden != requirementconcernshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if requirementconcernshape.Stroke != requirementconcernshapeOther.Stroke {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "Stroke"))
+	}
+	if requirementconcernshape.StrokeWidth != requirementconcernshapeOther.StrokeWidth {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if requirementconcernshape.StrokeOpacity != requirementconcernshapeOther.StrokeOpacity {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if requirementconcernshape.StrokeDashArray != requirementconcernshapeOther.StrokeDashArray {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if requirementconcernshape.FontSize != requirementconcernshapeOther.FontSize {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "FontSize"))
+	}
+	if requirementconcernshape.FontColor != requirementconcernshapeOther.FontColor {
+		diffs = append(diffs, requirementconcernshape.GongMarshallField(stage, "FontColor"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, requirementconcernshape, "ControlPointShapes", requirementconcernshapeOther.ControlPointShapes, requirementconcernshape.ControlPointShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 
@@ -4664,6 +5199,65 @@ func (requirementshape *RequirementShape) GongDiff(stage *Stage, requirementshap
 	}
 	if requirementshape.FontColor != requirementshapeOther.FontColor {
 		diffs = append(diffs, requirementshape.GongMarshallField(stage, "FontColor"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (requirementviewshape *RequirementViewShape) GongDiff(stage *Stage, requirementviewshapeOther *RequirementViewShape) (diffs []string) {
+	// insertion point for field diffs
+	if requirementviewshape.Name != requirementviewshapeOther.Name {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "Name"))
+	}
+	if requirementviewshape.Requirement != requirementviewshapeOther.Requirement {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "Requirement"))
+	}
+	if requirementviewshape.View != requirementviewshapeOther.View {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "View"))
+	}
+	if requirementviewshape.StartRatio != requirementviewshapeOther.StartRatio {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if requirementviewshape.EndRatio != requirementviewshapeOther.EndRatio {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if requirementviewshape.StartOrientation != requirementviewshapeOther.StartOrientation {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if requirementviewshape.EndOrientation != requirementviewshapeOther.EndOrientation {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if requirementviewshape.CornerOffsetRatio != requirementviewshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if requirementviewshape.IsHidden != requirementviewshapeOther.IsHidden {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if requirementviewshape.IsPresentationOverridden != requirementviewshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if requirementviewshape.Stroke != requirementviewshapeOther.Stroke {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "Stroke"))
+	}
+	if requirementviewshape.StrokeWidth != requirementviewshapeOther.StrokeWidth {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if requirementviewshape.StrokeOpacity != requirementviewshapeOther.StrokeOpacity {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if requirementviewshape.StrokeDashArray != requirementviewshapeOther.StrokeDashArray {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if requirementviewshape.FontSize != requirementviewshapeOther.FontSize {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "FontSize"))
+	}
+	if requirementviewshape.FontColor != requirementviewshapeOther.FontColor {
+		diffs = append(diffs, requirementviewshape.GongMarshallField(stage, "FontColor"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, requirementviewshape, "ControlPointShapes", requirementviewshapeOther.ControlPointShapes, requirementviewshape.ControlPointShapes); ops != "" {
+		diffs = append(diffs, ops)
 	}
 
 	return

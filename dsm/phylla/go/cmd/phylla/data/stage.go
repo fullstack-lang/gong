@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
-	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
-	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
 )
 
 var (
@@ -628,7 +628,7 @@ func _(stageSet *models.StageSet) {
 	__models__PlantAbstract__00000005_.StackHeight = 5
 	__models__PlantAbstract__00000005_.RhombusInsideAngle = 130.000000
 	__models__PlantAbstract__00000005_.RhombusSideLength = 100.000000
-	__models__PlantAbstract__00000005_.PlantType = `Vase Trapeze`
+	__models__PlantAbstract__00000005_.PlantType = models.TubeVase
 	__models__PlantAbstract__00000005_.CurrentView = `Vase Trapeze 3D`
 	__models__PlantAbstract__00000005_.ComputedPrefix = ``
 	__models__PlantAbstract__00000005_.IsExpanded = true
@@ -1080,4 +1080,3 @@ func _(stageSet *models.StageSet) {
 	__models__TubeVase3DDiagram__00000001_.StackOfRotatedCarvedOutVaseTrapezeRingsShape = __models__StackOfRotatedCarvedOutVaseTrapezeRingsShape__00000001_
 	__models__TubeVase3DDiagram__00000001_.VaseTrapezeBasePlateShape = __models__VaseTrapezeBasePlateShape__00000000_
 }
-

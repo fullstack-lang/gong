@@ -41,6 +41,10 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		ASSOCIATION_TYPE_DELIVERABLE_VIEW    associationType = "DeliverableView"
 		ASSOCIATION_TYPE_VIEW_CONCEPT        associationType = "ViewConcept"
 		ASSOCIATION_TYPE_DELIVERABLE_CONCEPT associationType = "DeliverableConcept"
+
+		ASSOCIATION_TYPE_REQUIREMENT_CONCERN associationType = "RequirementConcern"
+		ASSOCIATION_TYPE_REQUIREMENT_VIEW    associationType = "RequirementView"
+		ASSOCIATION_TYPE_REQUIREMENT_CONCEPT associationType = "RequirementConcept"
 	)
 
 	var assocType associationType
@@ -124,6 +128,23 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		if conceptShape, ok := diagram.map_SvgRect_ConceptShape[endRect]; ok {
 			assocType = ASSOCIATION_TYPE_VIEW_CONCEPT
 			sourceAbstratctElement = viewShape.View
+			targetAbstractElement = conceptShape.Concept
+		}
+	}
+	if requirementShape, ok := diagram.map_SvgRect_RequirementShape[startRect]; ok {
+		if concernShape, ok := diagram.map_SvgRect_ConcernShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_REQUIREMENT_CONCERN
+			sourceAbstratctElement = requirementShape.Requirement
+			targetAbstractElement = concernShape.Concern
+		}
+		if viewShape, ok := diagram.map_SvgRect_ViewShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_REQUIREMENT_VIEW
+			sourceAbstratctElement = requirementShape.Requirement
+			targetAbstractElement = viewShape.View
+		}
+		if conceptShape, ok := diagram.map_SvgRect_ConceptShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_REQUIREMENT_CONCEPT
+			sourceAbstratctElement = requirementShape.Requirement
 			targetAbstractElement = conceptShape.Concept
 		}
 	}
@@ -249,6 +270,27 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 		view.Concepts = append(view.Concepts, concept)
 		addAssociationShapeToDiagram(stager, view, concept, &diagram.ViewConceptShapes)
+
+	case ASSOCIATION_TYPE_REQUIREMENT_CONCERN:
+		requirement := sourceAbstratctElement.(*Requirement)
+		concern := targetAbstractElement.(*Concern)
+
+		requirement.Concerns = append(requirement.Concerns, concern)
+		addAssociationShapeToDiagram(stager, requirement, concern, &diagram.RequirementConcernShapes)
+
+	case ASSOCIATION_TYPE_REQUIREMENT_VIEW:
+		requirement := sourceAbstratctElement.(*Requirement)
+		view := targetAbstractElement.(*View)
+
+		requirement.Views = append(requirement.Views, view)
+		addAssociationShapeToDiagram(stager, requirement, view, &diagram.RequirementViewShapes)
+
+	case ASSOCIATION_TYPE_REQUIREMENT_CONCEPT:
+		requirement := sourceAbstratctElement.(*Requirement)
+		concept := targetAbstractElement.(*Concept)
+
+		requirement.Concepts = append(requirement.Concepts, concept)
+		addAssociationShapeToDiagram(stager, requirement, concept, &diagram.RequirementConceptShapes)
 
 	case ASSOCIATION_TYPE_DELIVERABLE_CONCEPT:
 		deliverable := sourceAbstratctElement.(*Deliverable)

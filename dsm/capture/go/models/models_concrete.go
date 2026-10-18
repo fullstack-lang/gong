@@ -764,3 +764,120 @@ func (s *ViewConceptShape) SetAbstractStartElement(abstractElement AbstractType)
 
 var _ AssociationConcreteType = (*ViewConceptShape)(nil)
 
+type requirementConcernKey struct {
+	Requirement *Requirement
+	Concern     *Concern
+}
+
+type RequirementConcernShape struct {
+	Name string
+
+	Requirement *Requirement
+	Concern     *Concern
+
+	LinkShape
+	ControlPointShapes []*ControlPointShape
+}
+
+func (s *RequirementConcernShape) GetAbstractEndElement() AbstractType {
+	if s.Concern == nil {
+		return nil
+	}
+	return s.Concern
+}
+
+func (s *RequirementConcernShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Concern = abstractElement.(*Concern)
+}
+
+func (s *RequirementConcernShape) GetAbstractStartElement() AbstractType {
+	if s.Requirement == nil {
+		return nil
+	}
+	return s.Requirement
+}
+
+func (s *RequirementConcernShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Requirement = abstractElement.(*Requirement)
+}
+
+var _ AssociationConcreteType = (*RequirementConcernShape)(nil)
+
+type requirementViewKey struct {
+	Requirement *Requirement
+	View        *View
+}
+
+type RequirementViewShape struct {
+	Name string
+
+	Requirement *Requirement
+	View        *View
+
+	LinkShape
+	ControlPointShapes []*ControlPointShape
+}
+
+func (s *RequirementViewShape) GetAbstractEndElement() AbstractType {
+	if s.View == nil {
+		return nil
+	}
+	return s.View
+}
+
+func (s *RequirementViewShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.View = abstractElement.(*View)
+}
+
+func (s *RequirementViewShape) GetAbstractStartElement() AbstractType {
+	if s.Requirement == nil {
+		return nil
+	}
+	return s.Requirement
+}
+
+func (s *RequirementViewShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Requirement = abstractElement.(*Requirement)
+}
+
+var _ AssociationConcreteType = (*RequirementViewShape)(nil)
+
+type requirementConceptKey struct {
+	Requirement *Requirement
+	Concept     *Concept
+}
+
+type RequirementConceptShape struct {
+	Name string
+
+	Requirement *Requirement
+	Concept     *Concept
+
+	LinkShape
+	ControlPointShapes []*ControlPointShape
+}
+
+func (s *RequirementConceptShape) GetAbstractEndElement() AbstractType {
+	if s.Concept == nil {
+		return nil
+	}
+	return s.Concept
+}
+
+func (s *RequirementConceptShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Concept = abstractElement.(*Concept)
+}
+
+func (s *RequirementConceptShape) GetAbstractStartElement() AbstractType {
+	if s.Requirement == nil {
+		return nil
+	}
+	return s.Requirement
+}
+
+func (s *RequirementConceptShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Requirement = abstractElement.(*Requirement)
+}
+
+var _ AssociationConcreteType = (*RequirementConceptShape)(nil)
+

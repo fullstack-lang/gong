@@ -14,6 +14,9 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 		needCommit = removeDuplicatesSlice(stager, &diagram.DeliverableComposition_Shapes) || needCommit
 
 		needCommit = removeDuplicatesSlice(stager, &diagram.Requirement_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.RequirementConcernShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.RequirementViewShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.RequirementConceptShapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.View_Shapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.DeliverableViewShapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.ViewConceptShapes) || needCommit
@@ -53,6 +56,12 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 
 	for view := range *stage.GetInstancesSet[*View]() {
 		needCommit = removeDuplicatesSlice(stager, &view.Concepts) || needCommit
+	}
+
+	for req := range *stage.GetInstancesSet[*Requirement]() {
+		needCommit = removeDuplicatesSlice(stager, &req.Concerns) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &req.Views) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &req.Concepts) || needCommit
 	}
 
 	for concern := range *stage.GetInstancesSet[*Concern]() {

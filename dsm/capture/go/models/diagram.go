@@ -78,15 +78,28 @@ type Diagram struct {
 	StakeholderConcernShapes                          []*StakeholderConcernShape
 	map_StakeholderConcernKey_StakeholderConcernShape map[stakeholderConcernKey]*StakeholderConcernShape
 
-	Requirement_Shapes               []*RequirementShape
-	map_Requirement_RequirementShape map[*Requirement]*RequirementShape
-	RequirementsWhoseNodeIsExpanded  []*Requirement
+	Requirement_Shapes                      []*RequirementShape
+	map_Requirement_RequirementShape        map[*Requirement]*RequirementShape
+	RequirementsWhoseNodeIsExpanded         []*Requirement
+	RequirementsWhoseConcernsNodeIsExpanded []*Requirement
+	RequirementsWhoseViewsNodeIsExpanded    []*Requirement
+	RequirementsWhoseConceptsNodeIsExpanded []*Requirement
 
-	View_Shapes                       []*ViewShape
-	map_View_ViewShape                map[*View]*ViewShape
-	ViewsWhoseNodeIsExpanded          []*View
+	RequirementConcernShapes                          []*RequirementConcernShape
+	map_RequirementConcernKey_RequirementConcernShape map[requirementConcernKey]*RequirementConcernShape
+
+	RequirementViewShapes                       []*RequirementViewShape
+	map_RequirementViewKey_RequirementViewShape map[requirementViewKey]*RequirementViewShape
+
+	RequirementConceptShapes                          []*RequirementConceptShape
+	map_RequirementConceptKey_RequirementConceptShape map[requirementConceptKey]*RequirementConceptShape
+
+	View_Shapes                          []*ViewShape
+	map_View_ViewShape                   map[*View]*ViewShape
+	ViewsWhoseNodeIsExpanded             []*View
 	ViewsWhoseDeliverablesNodeIsExpanded []*View
 	ViewsWhoseConceptsNodeIsExpanded     []*View
+	ViewsWhoseRequirementsNodeIsExpanded []*View
 
 	DeliverableViewShapes                       []*DeliverableViewShape
 	map_DeliverableViewKey_DeliverableViewShape map[deliverableViewKey]*DeliverableViewShape
@@ -99,6 +112,7 @@ type Diagram struct {
 	ConceptsWhoseNodeIsExpanded             []*Concept
 	ConceptsWhoseViewsNodeIsExpanded        []*Concept
 	ConceptsWhoseDeliverablesNodeIsExpanded []*Concept
+	ConceptsWhoseRequirementsNodeIsExpanded []*Concept
 
 	DeliverableConceptShapes                          []*DeliverableConceptShape
 	map_DeliverableConceptKey_DeliverableConceptShape map[deliverableConceptKey]*DeliverableConceptShape

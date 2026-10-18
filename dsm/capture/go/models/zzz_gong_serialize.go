@@ -187,10 +187,31 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.RequirementConceptShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "RequirementConceptShape", instances, (*RequirementConceptShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RequirementConcernShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "RequirementConcernShape", instances, (*RequirementConcernShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.RequirementShapes {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "RequirementShape", instances, (*RequirementShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RequirementViewShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "RequirementViewShape", instances, (*RequirementViewShape)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF

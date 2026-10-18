@@ -21,6 +21,9 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	reachableResourceCompositionShapes := make(map[*StakeholderCompositionShape]struct{})
 	reachableStakeholderConcernShapes := make(map[*StakeholderConcernShape]struct{})
 	reachableRequirementShapes := make(map[*RequirementShape]struct{})
+	reachableRequirementConcernShapes := make(map[*RequirementConcernShape]struct{})
+	reachableRequirementViewShapes := make(map[*RequirementViewShape]struct{})
+	reachableRequirementConceptShapes := make(map[*RequirementConceptShape]struct{})
 	reachableViewShapes := make(map[*ViewShape]struct{})
 	reachableDeliverableViewShapes := make(map[*DeliverableViewShape]struct{})
 	reachableViewConceptShapes := make(map[*ViewConceptShape]struct{})
@@ -43,6 +46,9 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		collectShapes(diagram.ResourceComposition_Shapes, reachableResourceCompositionShapes)
 		collectShapes(diagram.StakeholderConcernShapes, reachableStakeholderConcernShapes)
 		collectShapes(diagram.Requirement_Shapes, reachableRequirementShapes)
+		collectShapes(diagram.RequirementConcernShapes, reachableRequirementConcernShapes)
+		collectShapes(diagram.RequirementViewShapes, reachableRequirementViewShapes)
+		collectShapes(diagram.RequirementConceptShapes, reachableRequirementConceptShapes)
 		collectShapes(diagram.View_Shapes, reachableViewShapes)
 		collectShapes(diagram.DeliverableViewShapes, reachableDeliverableViewShapes)
 		collectShapes(diagram.ViewConceptShapes, reachableViewConceptShapes)
@@ -66,6 +72,9 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	needCommit = unstageUnreachableOrphans(stager, reachableResourceCompositionShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableStakeholderConcernShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableRequirementShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableRequirementConcernShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableRequirementViewShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableRequirementConceptShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableViewShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableDeliverableViewShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableViewConceptShapes) || needCommit

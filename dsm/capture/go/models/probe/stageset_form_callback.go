@@ -487,6 +487,46 @@ func StageSetFillUpFormFromGongstruct(
 			},
 		}
 		StageSetFillUpForm(inst, formGroup, probe)
+	case *models.RequirementConceptShape:
+		formGroup.OnSave = &functionalStageSetFormCallback{
+			onSave: func() {
+				probe.stageSet.Stage.Lock()
+				defer probe.stageSet.Stage.Unlock()
+				probe.formStage.Checkout()
+				saveStageSet_RequirementConceptShape_Stage(inst, probe, formGroup)
+				if formGroup.HasSuppressButtonBeenPressed {
+					inst.UnstageVoid(probe.stageSet.Stage)
+				}
+				probe.stageSet.Stage.Commit()
+				updateStageSetTable_RequirementConceptShape_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		StageSetFillUpForm(inst, formGroup, probe)
+	case *models.RequirementConcernShape:
+		formGroup.OnSave = &functionalStageSetFormCallback{
+			onSave: func() {
+				probe.stageSet.Stage.Lock()
+				defer probe.stageSet.Stage.Unlock()
+				probe.formStage.Checkout()
+				saveStageSet_RequirementConcernShape_Stage(inst, probe, formGroup)
+				if formGroup.HasSuppressButtonBeenPressed {
+					inst.UnstageVoid(probe.stageSet.Stage)
+				}
+				probe.stageSet.Stage.Commit()
+				updateStageSetTable_RequirementConcernShape_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		StageSetFillUpForm(inst, formGroup, probe)
 	case *models.RequirementShape:
 		formGroup.OnSave = &functionalStageSetFormCallback{
 			onSave: func() {
@@ -499,6 +539,26 @@ func StageSetFillUpFormFromGongstruct(
 				}
 				probe.stageSet.Stage.Commit()
 				updateStageSetTable_RequirementShape_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		StageSetFillUpForm(inst, formGroup, probe)
+	case *models.RequirementViewShape:
+		formGroup.OnSave = &functionalStageSetFormCallback{
+			onSave: func() {
+				probe.stageSet.Stage.Lock()
+				defer probe.stageSet.Stage.Unlock()
+				probe.formStage.Checkout()
+				saveStageSet_RequirementViewShape_Stage(inst, probe, formGroup)
+				if formGroup.HasSuppressButtonBeenPressed {
+					inst.UnstageVoid(probe.stageSet.Stage)
+				}
+				probe.stageSet.Stage.Commit()
+				updateStageSetTable_RequirementViewShape_Stage(probe)
 				probe.ux_tree()
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
@@ -1531,6 +1591,92 @@ func saveStageSet_Requirement_Stage(
 	}
 }
 
+func saveStageSet_RequirementConceptShape_Stage(
+	inst *models.RequirementConceptShape,
+	probe *StageSetProbe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		case "Name":
+			FormDivBasicFieldToField(&inst.Name, formDiv)
+		case "Requirement":
+			StageSetFormDivSelectFieldToField(&inst.Requirement, probe.stageSet.Stage.GetInstancesSet[*models.Requirement](), formDiv)
+		case "Concept":
+			StageSetFormDivSelectFieldToField(&inst.Concept, probe.stageSet.Stage.GetInstancesSet[*models.Concept](), formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&inst.StartRatio, formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&inst.EndRatio, formDiv)
+		case "StartOrientation":
+			StageSetFormDivEnumStringFieldToField(&inst.StartOrientation, formDiv)
+		case "EndOrientation":
+			StageSetFormDivEnumStringFieldToField(&inst.EndOrientation, formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
+		}
+	}
+}
+
+func saveStageSet_RequirementConcernShape_Stage(
+	inst *models.RequirementConcernShape,
+	probe *StageSetProbe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		case "Name":
+			FormDivBasicFieldToField(&inst.Name, formDiv)
+		case "Requirement":
+			StageSetFormDivSelectFieldToField(&inst.Requirement, probe.stageSet.Stage.GetInstancesSet[*models.Requirement](), formDiv)
+		case "Concern":
+			StageSetFormDivSelectFieldToField(&inst.Concern, probe.stageSet.Stage.GetInstancesSet[*models.Concern](), formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&inst.StartRatio, formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&inst.EndRatio, formDiv)
+		case "StartOrientation":
+			StageSetFormDivEnumStringFieldToField(&inst.StartOrientation, formDiv)
+		case "EndOrientation":
+			StageSetFormDivEnumStringFieldToField(&inst.EndOrientation, formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
+		}
+	}
+}
+
 func saveStageSet_RequirementShape_Stage(
 	inst *models.RequirementShape,
 	probe *StageSetProbe,
@@ -1574,6 +1720,49 @@ func saveStageSet_RequirementShape_Stage(
 			FormDivBasicFieldToField(&inst.FontSize, formDiv)
 		case "FontWeight":
 			FormDivBasicFieldToField(&inst.FontWeight, formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&inst.FontColor, formDiv)
+		}
+	}
+}
+
+func saveStageSet_RequirementViewShape_Stage(
+	inst *models.RequirementViewShape,
+	probe *StageSetProbe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		case "Name":
+			FormDivBasicFieldToField(&inst.Name, formDiv)
+		case "Requirement":
+			StageSetFormDivSelectFieldToField(&inst.Requirement, probe.stageSet.Stage.GetInstancesSet[*models.Requirement](), formDiv)
+		case "View":
+			StageSetFormDivSelectFieldToField(&inst.View, probe.stageSet.Stage.GetInstancesSet[*models.View](), formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&inst.StartRatio, formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&inst.EndRatio, formDiv)
+		case "StartOrientation":
+			StageSetFormDivEnumStringFieldToField(&inst.StartOrientation, formDiv)
+		case "EndOrientation":
+			StageSetFormDivEnumStringFieldToField(&inst.EndOrientation, formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&inst.CornerOffsetRatio, formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&inst.IsHidden, formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&inst.IsPresentationOverridden, formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&inst.Stroke, formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&inst.StrokeWidth, formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&inst.StrokeOpacity, formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&inst.StrokeDashArray, formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&inst.FontSize, formDiv)
 		case "FontColor":
 			FormDivBasicFieldToField(&inst.FontColor, formDiv)
 		}
@@ -2541,6 +2730,64 @@ func StageSetNewInstance_Requirement_Stage(probe *StageSetProbe) {
 	probe.formStage.Commit()
 }
 
+func StageSetNewInstance_RequirementConceptShape_Stage(probe *StageSetProbe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  "Form",
+		Label: "New RequirementConceptShape",
+	}).Stage(probe.formStage)
+	inst := new(models.RequirementConceptShape)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageSet.Stage.Lock()
+			defer probe.stageSet.Stage.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageSet.Stage)
+			saveStageSet_RequirementConceptShape_Stage(inst, probe, formGroup)
+			probe.stageSet.Stage.Commit()
+			updateStageSetTable_RequirementConceptShape_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			StageSetFillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	StageSetFillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_RequirementConcernShape_Stage(probe *StageSetProbe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  "Form",
+		Label: "New RequirementConcernShape",
+	}).Stage(probe.formStage)
+	inst := new(models.RequirementConcernShape)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageSet.Stage.Lock()
+			defer probe.stageSet.Stage.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageSet.Stage)
+			saveStageSet_RequirementConcernShape_Stage(inst, probe, formGroup)
+			probe.stageSet.Stage.Commit()
+			updateStageSetTable_RequirementConcernShape_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			StageSetFillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	StageSetFillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
 func StageSetNewInstance_RequirementShape_Stage(probe *StageSetProbe) {
 	probe.formStage.Reset()
 	formGroup := (&form.FormGroup{
@@ -2558,6 +2805,35 @@ func StageSetNewInstance_RequirementShape_Stage(probe *StageSetProbe) {
 			saveStageSet_RequirementShape_Stage(inst, probe, formGroup)
 			probe.stageSet.Stage.Commit()
 			updateStageSetTable_RequirementShape_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			StageSetFillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	StageSetFillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_RequirementViewShape_Stage(probe *StageSetProbe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  "Form",
+		Label: "New RequirementViewShape",
+	}).Stage(probe.formStage)
+	inst := new(models.RequirementViewShape)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageSet.Stage.Lock()
+			defer probe.stageSet.Stage.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageSet.Stage)
+			saveStageSet_RequirementViewShape_Stage(inst, probe, formGroup)
+			probe.stageSet.Stage.Commit()
+			updateStageSetTable_RequirementViewShape_Stage(probe)
 			probe.ux_tree()
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())

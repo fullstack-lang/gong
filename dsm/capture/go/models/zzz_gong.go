@@ -177,8 +177,6 @@ type Stage struct {
 
 	Concern_Outputs_reverseMap map[*Deliverable]*Concern
 
-	Concern_Requirements_reverseMap map[*Requirement]*Concern
-
 	OnAfterConcernCreateCallback GongOnAfterCreateInterface[Concern]
 	OnAfterConcernUpdateCallback GongOnAfterUpdateInterface[Concern]
 	OnAfterConcernDeleteCallback GongOnAfterDeleteInterface[Concern]
@@ -401,6 +399,18 @@ type Stage struct {
 
 	Diagram_RequirementsWhoseNodeIsExpanded_reverseMap map[*Requirement]*Diagram
 
+	Diagram_RequirementsWhoseConcernsNodeIsExpanded_reverseMap map[*Requirement]*Diagram
+
+	Diagram_RequirementsWhoseViewsNodeIsExpanded_reverseMap map[*Requirement]*Diagram
+
+	Diagram_RequirementsWhoseConceptsNodeIsExpanded_reverseMap map[*Requirement]*Diagram
+
+	Diagram_RequirementConcernShapes_reverseMap map[*RequirementConcernShape]*Diagram
+
+	Diagram_RequirementViewShapes_reverseMap map[*RequirementViewShape]*Diagram
+
+	Diagram_RequirementConceptShapes_reverseMap map[*RequirementConceptShape]*Diagram
+
 	Diagram_View_Shapes_reverseMap map[*ViewShape]*Diagram
 
 	Diagram_ViewsWhoseNodeIsExpanded_reverseMap map[*View]*Diagram
@@ -408,6 +418,8 @@ type Stage struct {
 	Diagram_ViewsWhoseDeliverablesNodeIsExpanded_reverseMap map[*View]*Diagram
 
 	Diagram_ViewsWhoseConceptsNodeIsExpanded_reverseMap map[*View]*Diagram
+
+	Diagram_ViewsWhoseRequirementsNodeIsExpanded_reverseMap map[*View]*Diagram
 
 	Diagram_DeliverableViewShapes_reverseMap map[*DeliverableViewShape]*Diagram
 
@@ -420,6 +432,8 @@ type Stage struct {
 	Diagram_ConceptsWhoseViewsNodeIsExpanded_reverseMap map[*Concept]*Diagram
 
 	Diagram_ConceptsWhoseDeliverablesNodeIsExpanded_reverseMap map[*Concept]*Diagram
+
+	Diagram_ConceptsWhoseRequirementsNodeIsExpanded_reverseMap map[*Concept]*Diagram
 
 	Diagram_DeliverableConceptShapes_reverseMap map[*DeliverableConceptShape]*Diagram
 
@@ -573,11 +587,47 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Requirement_SupportLevels_reverseMap map[*SupportLevel]*Requirement
 
+	Requirement_Concerns_reverseMap map[*Concern]*Requirement
+
+	Requirement_Views_reverseMap map[*View]*Requirement
+
 	Requirement_Concepts_reverseMap map[*Concept]*Requirement
 
 	OnAfterRequirementCreateCallback GongOnAfterCreateInterface[Requirement]
 	OnAfterRequirementUpdateCallback GongOnAfterUpdateInterface[Requirement]
 	OnAfterRequirementDeleteCallback GongOnAfterDeleteInterface[Requirement]
+
+	RequirementConceptShapes                map[*RequirementConceptShape]struct{}
+	RequirementConceptShapes_instance       map[*RequirementConceptShape]*RequirementConceptShape
+	RequirementConceptShapes_mapString      map[string]*RequirementConceptShape
+	RequirementConceptShapeOrder            uint
+	RequirementConceptShape_stagedOrder     map[*RequirementConceptShape]uint
+	RequirementConceptShape_orderStaged     map[uint]*RequirementConceptShape
+	RequirementConceptShapes_reference      map[*RequirementConceptShape]*RequirementConceptShape
+	RequirementConceptShapes_referenceOrder map[*RequirementConceptShape]uint
+
+	// insertion point for slice of pointers maps
+	RequirementConceptShape_ControlPointShapes_reverseMap map[*ControlPointShape]*RequirementConceptShape
+
+	OnAfterRequirementConceptShapeCreateCallback GongOnAfterCreateInterface[RequirementConceptShape]
+	OnAfterRequirementConceptShapeUpdateCallback GongOnAfterUpdateInterface[RequirementConceptShape]
+	OnAfterRequirementConceptShapeDeleteCallback GongOnAfterDeleteInterface[RequirementConceptShape]
+
+	RequirementConcernShapes                map[*RequirementConcernShape]struct{}
+	RequirementConcernShapes_instance       map[*RequirementConcernShape]*RequirementConcernShape
+	RequirementConcernShapes_mapString      map[string]*RequirementConcernShape
+	RequirementConcernShapeOrder            uint
+	RequirementConcernShape_stagedOrder     map[*RequirementConcernShape]uint
+	RequirementConcernShape_orderStaged     map[uint]*RequirementConcernShape
+	RequirementConcernShapes_reference      map[*RequirementConcernShape]*RequirementConcernShape
+	RequirementConcernShapes_referenceOrder map[*RequirementConcernShape]uint
+
+	// insertion point for slice of pointers maps
+	RequirementConcernShape_ControlPointShapes_reverseMap map[*ControlPointShape]*RequirementConcernShape
+
+	OnAfterRequirementConcernShapeCreateCallback GongOnAfterCreateInterface[RequirementConcernShape]
+	OnAfterRequirementConcernShapeUpdateCallback GongOnAfterUpdateInterface[RequirementConcernShape]
+	OnAfterRequirementConcernShapeDeleteCallback GongOnAfterDeleteInterface[RequirementConcernShape]
 
 	RequirementShapes                map[*RequirementShape]struct{}
 	RequirementShapes_instance       map[*RequirementShape]*RequirementShape
@@ -592,6 +642,22 @@ type Stage struct {
 	OnAfterRequirementShapeCreateCallback GongOnAfterCreateInterface[RequirementShape]
 	OnAfterRequirementShapeUpdateCallback GongOnAfterUpdateInterface[RequirementShape]
 	OnAfterRequirementShapeDeleteCallback GongOnAfterDeleteInterface[RequirementShape]
+
+	RequirementViewShapes                map[*RequirementViewShape]struct{}
+	RequirementViewShapes_instance       map[*RequirementViewShape]*RequirementViewShape
+	RequirementViewShapes_mapString      map[string]*RequirementViewShape
+	RequirementViewShapeOrder            uint
+	RequirementViewShape_stagedOrder     map[*RequirementViewShape]uint
+	RequirementViewShape_orderStaged     map[uint]*RequirementViewShape
+	RequirementViewShapes_reference      map[*RequirementViewShape]*RequirementViewShape
+	RequirementViewShapes_referenceOrder map[*RequirementViewShape]uint
+
+	// insertion point for slice of pointers maps
+	RequirementViewShape_ControlPointShapes_reverseMap map[*ControlPointShape]*RequirementViewShape
+
+	OnAfterRequirementViewShapeCreateCallback GongOnAfterCreateInterface[RequirementViewShape]
+	OnAfterRequirementViewShapeUpdateCallback GongOnAfterUpdateInterface[RequirementViewShape]
+	OnAfterRequirementViewShapeDeleteCallback GongOnAfterDeleteInterface[RequirementViewShape]
 
 	Stakeholders                map[*Stakeholder]struct{}
 	Stakeholders_instance       map[*Stakeholder]*Stakeholder
@@ -858,7 +924,13 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.Requirements_reference, &stage.Requirements_instance, &stage.Requirements_referenceOrder)
 
+	__gong__clearReferences(&stage.RequirementConceptShapes_reference, &stage.RequirementConceptShapes_instance, &stage.RequirementConceptShapes_referenceOrder)
+
+	__gong__clearReferences(&stage.RequirementConcernShapes_reference, &stage.RequirementConcernShapes_instance, &stage.RequirementConcernShapes_referenceOrder)
+
 	__gong__clearReferences(&stage.RequirementShapes_reference, &stage.RequirementShapes_instance, &stage.RequirementShapes_referenceOrder)
+
+	__gong__clearReferences(&stage.RequirementViewShapes_reference, &stage.RequirementViewShapes_instance, &stage.RequirementViewShapes_referenceOrder)
 
 	__gong__clearReferences(&stage.Stakeholders_reference, &stage.Stakeholders_instance, &stage.Stakeholders_referenceOrder)
 
@@ -947,7 +1019,13 @@ func (stage *Stage) recomputeOrders() {
 
 	stage.RequirementOrder = __gong__recomputeOrder(stage.Requirement_stagedOrder)
 
+	stage.RequirementConceptShapeOrder = __gong__recomputeOrder(stage.RequirementConceptShape_stagedOrder)
+
+	stage.RequirementConcernShapeOrder = __gong__recomputeOrder(stage.RequirementConcernShape_stagedOrder)
+
 	stage.RequirementShapeOrder = __gong__recomputeOrder(stage.RequirementShape_stagedOrder)
+
+	stage.RequirementViewShapeOrder = __gong__recomputeOrder(stage.RequirementViewShape_stagedOrder)
 
 	stage.StakeholderOrder = __gong__recomputeOrder(stage.Stakeholder_stagedOrder)
 
@@ -1443,6 +1521,46 @@ func (*Requirement) GongNewInstance() any {
 	return new(Requirement)
 }
 
+func (*RequirementConceptShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RequirementConceptShapes, stage.RequirementConceptShape_stagedOrder)
+}
+
+func (*RequirementConceptShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RequirementConceptShape_orderStaged[order]
+}
+
+func (*RequirementConceptShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RequirementConceptShapes_mapString
+}
+
+func (*RequirementConceptShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RequirementConceptShapes
+}
+
+func (*RequirementConceptShape) GongNewInstance() any {
+	return new(RequirementConceptShape)
+}
+
+func (*RequirementConcernShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RequirementConcernShapes, stage.RequirementConcernShape_stagedOrder)
+}
+
+func (*RequirementConcernShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RequirementConcernShape_orderStaged[order]
+}
+
+func (*RequirementConcernShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RequirementConcernShapes_mapString
+}
+
+func (*RequirementConcernShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RequirementConcernShapes
+}
+
+func (*RequirementConcernShape) GongNewInstance() any {
+	return new(RequirementConcernShape)
+}
+
 func (*RequirementShape) GongGetInstancesByOrder(stage *Stage) any {
 	return __gong__getStructInstancesByOrder(stage.RequirementShapes, stage.RequirementShape_stagedOrder)
 }
@@ -1461,6 +1579,26 @@ func (*RequirementShape) GongGetInstancesSet(stage *Stage) any {
 
 func (*RequirementShape) GongNewInstance() any {
 	return new(RequirementShape)
+}
+
+func (*RequirementViewShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.RequirementViewShapes, stage.RequirementViewShape_stagedOrder)
+}
+
+func (*RequirementViewShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.RequirementViewShape_orderStaged[order]
+}
+
+func (*RequirementViewShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.RequirementViewShapes_mapString
+}
+
+func (*RequirementViewShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.RequirementViewShapes
+}
+
+func (*RequirementViewShape) GongNewInstance() any {
+	return new(RequirementViewShape)
 }
 
 func (*Stakeholder) GongGetInstancesByOrder(stage *Stage) any {
@@ -1893,8 +2031,17 @@ func NewStage(name string) (stage *Stage) {
 		Requirements:           make(map[*Requirement]struct{}),
 		Requirements_mapString: make(map[string]*Requirement),
 
+		RequirementConceptShapes:           make(map[*RequirementConceptShape]struct{}),
+		RequirementConceptShapes_mapString: make(map[string]*RequirementConceptShape),
+
+		RequirementConcernShapes:           make(map[*RequirementConcernShape]struct{}),
+		RequirementConcernShapes_mapString: make(map[string]*RequirementConcernShape),
+
 		RequirementShapes:           make(map[*RequirementShape]struct{}),
 		RequirementShapes_mapString: make(map[string]*RequirementShape),
+
+		RequirementViewShapes:           make(map[*RequirementViewShape]struct{}),
+		RequirementViewShapes_mapString: make(map[string]*RequirementViewShape),
 
 		Stakeholders:           make(map[*Stakeholder]struct{}),
 		Stakeholders_mapString: make(map[string]*Stakeholder),
@@ -2023,9 +2170,21 @@ func NewStage(name string) (stage *Stage) {
 		Requirement_orderStaged: make(map[uint]*Requirement),
 		Requirements_reference:  make(map[*Requirement]*Requirement),
 
+		RequirementConceptShape_stagedOrder: make(map[*RequirementConceptShape]uint),
+		RequirementConceptShape_orderStaged: make(map[uint]*RequirementConceptShape),
+		RequirementConceptShapes_reference:  make(map[*RequirementConceptShape]*RequirementConceptShape),
+
+		RequirementConcernShape_stagedOrder: make(map[*RequirementConcernShape]uint),
+		RequirementConcernShape_orderStaged: make(map[uint]*RequirementConcernShape),
+		RequirementConcernShapes_reference:  make(map[*RequirementConcernShape]*RequirementConcernShape),
+
 		RequirementShape_stagedOrder: make(map[*RequirementShape]uint),
 		RequirementShape_orderStaged: make(map[uint]*RequirementShape),
 		RequirementShapes_reference:  make(map[*RequirementShape]*RequirementShape),
+
+		RequirementViewShape_stagedOrder: make(map[*RequirementViewShape]uint),
+		RequirementViewShape_orderStaged: make(map[uint]*RequirementViewShape),
+		RequirementViewShapes_reference:  make(map[*RequirementViewShape]*RequirementViewShape),
 
 		Stakeholder_stagedOrder: make(map[*Stakeholder]uint),
 		Stakeholder_orderStaged: make(map[uint]*Stakeholder),
@@ -2111,7 +2270,13 @@ func NewStage(name string) (stage *Stage) {
 
 			"Requirement": &RequirementUnmarshaller{},
 
+			"RequirementConceptShape": &RequirementConceptShapeUnmarshaller{},
+
+			"RequirementConcernShape": &RequirementConcernShapeUnmarshaller{},
+
 			"RequirementShape": &RequirementShapeUnmarshaller{},
+
+			"RequirementViewShape": &RequirementViewShapeUnmarshaller{},
 
 			"Stakeholder": &StakeholderUnmarshaller{},
 
@@ -2236,7 +2401,10 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["NoteStakeholderShape"] = len(stage.NoteStakeholderShapes)
 	stage.Map_GongStructName_InstancesNb["NoteTaskShape"] = len(stage.NoteTaskShapes)
 	stage.Map_GongStructName_InstancesNb["Requirement"] = len(stage.Requirements)
+	stage.Map_GongStructName_InstancesNb["RequirementConceptShape"] = len(stage.RequirementConceptShapes)
+	stage.Map_GongStructName_InstancesNb["RequirementConcernShape"] = len(stage.RequirementConcernShapes)
 	stage.Map_GongStructName_InstancesNb["RequirementShape"] = len(stage.RequirementShapes)
+	stage.Map_GongStructName_InstancesNb["RequirementViewShape"] = len(stage.RequirementViewShapes)
 	stage.Map_GongStructName_InstancesNb["Stakeholder"] = len(stage.Stakeholders)
 	stage.Map_GongStructName_InstancesNb["StakeholderCompositionShape"] = len(stage.StakeholderCompositionShapes)
 	stage.Map_GongStructName_InstancesNb["StakeholderConcernShape"] = len(stage.StakeholderConcernShapes)
@@ -3206,6 +3374,86 @@ func (requirement *Requirement) SetName(name string) {
 	requirement.Name = name
 }
 
+// Stage puts requirementconceptshape to the model stage
+func (requirementconceptshape *RequirementConceptShape) Stage(stage *Stage) *RequirementConceptShape {
+	__gong__stage(stage.RequirementConceptShapes, stage.RequirementConceptShape_stagedOrder, stage.RequirementConceptShape_orderStaged, &stage.RequirementConceptShapeOrder, stage.RequirementConceptShapes_mapString, requirementconceptshape, requirementconceptshape.Name)
+	return requirementconceptshape
+}
+
+// StagePreserveOrder puts requirementconceptshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RequirementConceptShapeOrder
+// - update stage.RequirementConceptShapeOrder accordingly
+func (requirementconceptshape *RequirementConceptShape) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.RequirementConceptShapes, stage.RequirementConceptShape_stagedOrder, stage.RequirementConceptShape_orderStaged, &stage.RequirementConceptShapeOrder, stage.RequirementConceptShapes_mapString, requirementconceptshape, order, requirementconceptshape.Name)
+}
+
+// Unstage removes requirementconceptshape off the model stage
+func (requirementconceptshape *RequirementConceptShape) Unstage(stage *Stage) *RequirementConceptShape {
+	__gong__unstage(stage.RequirementConceptShapes, stage.RequirementConceptShapes_mapString, requirementconceptshape, requirementconceptshape.Name)
+	return requirementconceptshape
+}
+
+// UnstageVoid removes requirementconceptshape off the model stage
+func (requirementconceptshape *RequirementConceptShape) UnstageVoid(stage *Stage) {
+	requirementconceptshape.Unstage(stage)
+}
+
+func (requirementconceptshape *RequirementConceptShape) StageVoid(stage *Stage) {
+	requirementconceptshape.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (requirementconceptshape *RequirementConceptShape) GetName() (res string) {
+	return requirementconceptshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (requirementconceptshape *RequirementConceptShape) SetName(name string) {
+	requirementconceptshape.Name = name
+}
+
+// Stage puts requirementconcernshape to the model stage
+func (requirementconcernshape *RequirementConcernShape) Stage(stage *Stage) *RequirementConcernShape {
+	__gong__stage(stage.RequirementConcernShapes, stage.RequirementConcernShape_stagedOrder, stage.RequirementConcernShape_orderStaged, &stage.RequirementConcernShapeOrder, stage.RequirementConcernShapes_mapString, requirementconcernshape, requirementconcernshape.Name)
+	return requirementconcernshape
+}
+
+// StagePreserveOrder puts requirementconcernshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RequirementConcernShapeOrder
+// - update stage.RequirementConcernShapeOrder accordingly
+func (requirementconcernshape *RequirementConcernShape) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.RequirementConcernShapes, stage.RequirementConcernShape_stagedOrder, stage.RequirementConcernShape_orderStaged, &stage.RequirementConcernShapeOrder, stage.RequirementConcernShapes_mapString, requirementconcernshape, order, requirementconcernshape.Name)
+}
+
+// Unstage removes requirementconcernshape off the model stage
+func (requirementconcernshape *RequirementConcernShape) Unstage(stage *Stage) *RequirementConcernShape {
+	__gong__unstage(stage.RequirementConcernShapes, stage.RequirementConcernShapes_mapString, requirementconcernshape, requirementconcernshape.Name)
+	return requirementconcernshape
+}
+
+// UnstageVoid removes requirementconcernshape off the model stage
+func (requirementconcernshape *RequirementConcernShape) UnstageVoid(stage *Stage) {
+	requirementconcernshape.Unstage(stage)
+}
+
+func (requirementconcernshape *RequirementConcernShape) StageVoid(stage *Stage) {
+	requirementconcernshape.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (requirementconcernshape *RequirementConcernShape) GetName() (res string) {
+	return requirementconcernshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (requirementconcernshape *RequirementConcernShape) SetName(name string) {
+	requirementconcernshape.Name = name
+}
+
 // Stage puts requirementshape to the model stage
 func (requirementshape *RequirementShape) Stage(stage *Stage) *RequirementShape {
 	__gong__stage(stage.RequirementShapes, stage.RequirementShape_stagedOrder, stage.RequirementShape_orderStaged, &stage.RequirementShapeOrder, stage.RequirementShapes_mapString, requirementshape, requirementshape.Name)
@@ -3244,6 +3492,46 @@ func (requirementshape *RequirementShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (requirementshape *RequirementShape) SetName(name string) {
 	requirementshape.Name = name
+}
+
+// Stage puts requirementviewshape to the model stage
+func (requirementviewshape *RequirementViewShape) Stage(stage *Stage) *RequirementViewShape {
+	__gong__stage(stage.RequirementViewShapes, stage.RequirementViewShape_stagedOrder, stage.RequirementViewShape_orderStaged, &stage.RequirementViewShapeOrder, stage.RequirementViewShapes_mapString, requirementviewshape, requirementviewshape.Name)
+	return requirementviewshape
+}
+
+// StagePreserveOrder puts requirementviewshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RequirementViewShapeOrder
+// - update stage.RequirementViewShapeOrder accordingly
+func (requirementviewshape *RequirementViewShape) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.RequirementViewShapes, stage.RequirementViewShape_stagedOrder, stage.RequirementViewShape_orderStaged, &stage.RequirementViewShapeOrder, stage.RequirementViewShapes_mapString, requirementviewshape, order, requirementviewshape.Name)
+}
+
+// Unstage removes requirementviewshape off the model stage
+func (requirementviewshape *RequirementViewShape) Unstage(stage *Stage) *RequirementViewShape {
+	__gong__unstage(stage.RequirementViewShapes, stage.RequirementViewShapes_mapString, requirementviewshape, requirementviewshape.Name)
+	return requirementviewshape
+}
+
+// UnstageVoid removes requirementviewshape off the model stage
+func (requirementviewshape *RequirementViewShape) UnstageVoid(stage *Stage) {
+	requirementviewshape.Unstage(stage)
+}
+
+func (requirementviewshape *RequirementViewShape) StageVoid(stage *Stage) {
+	requirementviewshape.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (requirementviewshape *RequirementViewShape) GetName() (res string) {
+	return requirementviewshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (requirementviewshape *RequirementViewShape) SetName(name string) {
+	requirementviewshape.Name = name
 }
 
 // Stage puts stakeholder to the model stage
@@ -3653,7 +3941,13 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Requirements, &stage.Requirements_mapString, &stage.Requirement_stagedOrder, &stage.RequirementOrder)
 
+	__gong__resetStageType(&stage.RequirementConceptShapes, &stage.RequirementConceptShapes_mapString, &stage.RequirementConceptShape_stagedOrder, &stage.RequirementConceptShapeOrder)
+
+	__gong__resetStageType(&stage.RequirementConcernShapes, &stage.RequirementConcernShapes_mapString, &stage.RequirementConcernShape_stagedOrder, &stage.RequirementConcernShapeOrder)
+
 	__gong__resetStageType(&stage.RequirementShapes, &stage.RequirementShapes_mapString, &stage.RequirementShape_stagedOrder, &stage.RequirementShapeOrder)
+
+	__gong__resetStageType(&stage.RequirementViewShapes, &stage.RequirementViewShapes_mapString, &stage.RequirementViewShape_stagedOrder, &stage.RequirementViewShapeOrder)
 
 	__gong__resetStageType(&stage.Stakeholders, &stage.Stakeholders_mapString, &stage.Stakeholder_stagedOrder, &stage.StakeholderOrder)
 
@@ -3799,7 +4093,6 @@ func (Concern) GongGetAssociationName() any {
 			SubConcerns: []*Concern{{Name: "SubConcerns"}},
 			Inputs: []*Deliverable{{Name: "Inputs"}},
 			Outputs: []*Deliverable{{Name: "Outputs"}},
-			Requirements: []*Requirement{{Name: "Requirements"}},
 	}
 }
 
@@ -3901,16 +4194,24 @@ func (Diagram) GongGetAssociationName() any {
 			StakeholderConcernShapes: []*StakeholderConcernShape{{Name: "StakeholderConcernShapes"}},
 			Requirement_Shapes: []*RequirementShape{{Name: "Requirement_Shapes"}},
 			RequirementsWhoseNodeIsExpanded: []*Requirement{{Name: "RequirementsWhoseNodeIsExpanded"}},
+			RequirementsWhoseConcernsNodeIsExpanded: []*Requirement{{Name: "RequirementsWhoseConcernsNodeIsExpanded"}},
+			RequirementsWhoseViewsNodeIsExpanded: []*Requirement{{Name: "RequirementsWhoseViewsNodeIsExpanded"}},
+			RequirementsWhoseConceptsNodeIsExpanded: []*Requirement{{Name: "RequirementsWhoseConceptsNodeIsExpanded"}},
+			RequirementConcernShapes: []*RequirementConcernShape{{Name: "RequirementConcernShapes"}},
+			RequirementViewShapes: []*RequirementViewShape{{Name: "RequirementViewShapes"}},
+			RequirementConceptShapes: []*RequirementConceptShape{{Name: "RequirementConceptShapes"}},
 			View_Shapes: []*ViewShape{{Name: "View_Shapes"}},
 			ViewsWhoseNodeIsExpanded: []*View{{Name: "ViewsWhoseNodeIsExpanded"}},
 			ViewsWhoseDeliverablesNodeIsExpanded: []*View{{Name: "ViewsWhoseDeliverablesNodeIsExpanded"}},
 			ViewsWhoseConceptsNodeIsExpanded: []*View{{Name: "ViewsWhoseConceptsNodeIsExpanded"}},
+			ViewsWhoseRequirementsNodeIsExpanded: []*View{{Name: "ViewsWhoseRequirementsNodeIsExpanded"}},
 			DeliverableViewShapes: []*DeliverableViewShape{{Name: "DeliverableViewShapes"}},
 			ViewConceptShapes: []*ViewConceptShape{{Name: "ViewConceptShapes"}},
 			Concept_Shapes: []*ConceptShape{{Name: "Concept_Shapes"}},
 			ConceptsWhoseNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseNodeIsExpanded"}},
 			ConceptsWhoseViewsNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseViewsNodeIsExpanded"}},
 			ConceptsWhoseDeliverablesNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseDeliverablesNodeIsExpanded"}},
+			ConceptsWhoseRequirementsNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseRequirementsNodeIsExpanded"}},
 			DeliverableConceptShapes: []*DeliverableConceptShape{{Name: "DeliverableConceptShapes"}},
 			Diagram_Shapes: []*DiagramShape{{Name: "Diagram_Shapes"}},
 			DiagramsWhoseNodeIsExpanded: []*Diagram{{Name: "DiagramsWhoseNodeIsExpanded"}},
@@ -3979,13 +4280,39 @@ func (NoteTaskShape) GongGetAssociationName() any {
 func (Requirement) GongGetAssociationName() any {
 	return &Requirement{
 			SupportLevels: []*SupportLevel{{Name: "SupportLevels"}},
+			Concerns: []*Concern{{Name: "Concerns"}},
+			Views: []*View{{Name: "Views"}},
 			Concepts: []*Concept{{Name: "Concepts"}},
+	}
+}
+
+func (RequirementConceptShape) GongGetAssociationName() any {
+	return &RequirementConceptShape{
+			Requirement: &Requirement{Name: "Requirement"},
+			Concept: &Concept{Name: "Concept"},
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
+	}
+}
+
+func (RequirementConcernShape) GongGetAssociationName() any {
+	return &RequirementConcernShape{
+			Requirement: &Requirement{Name: "Requirement"},
+			Concern: &Concern{Name: "Concern"},
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 	}
 }
 
 func (RequirementShape) GongGetAssociationName() any {
 	return &RequirementShape{
 			Requirement: &Requirement{Name: "Requirement"},
+	}
+}
+
+func (RequirementViewShape) GongGetAssociationName() any {
+	return &RequirementViewShape{
+			Requirement: &Requirement{Name: "Requirement"},
+			View: &View{Name: "View"},
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 	}
 }
 
@@ -4543,6 +4870,84 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of RequirementConceptShape
+	case RequirementConceptShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Requirement":
+			res := make(map[*Requirement][]*RequirementConceptShape)
+			for requirementconceptshape := range stage.RequirementConceptShapes {
+				if requirementconceptshape.Requirement != nil {
+					requirement_ := requirementconceptshape.Requirement
+					var requirementconceptshapes []*RequirementConceptShape
+					_, ok := res[requirement_]
+					if ok {
+						requirementconceptshapes = res[requirement_]
+					} else {
+						requirementconceptshapes = make([]*RequirementConceptShape, 0)
+					}
+					requirementconceptshapes = append(requirementconceptshapes, requirementconceptshape)
+					res[requirement_] = requirementconceptshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Concept":
+			res := make(map[*Concept][]*RequirementConceptShape)
+			for requirementconceptshape := range stage.RequirementConceptShapes {
+				if requirementconceptshape.Concept != nil {
+					concept_ := requirementconceptshape.Concept
+					var requirementconceptshapes []*RequirementConceptShape
+					_, ok := res[concept_]
+					if ok {
+						requirementconceptshapes = res[concept_]
+					} else {
+						requirementconceptshapes = make([]*RequirementConceptShape, 0)
+					}
+					requirementconceptshapes = append(requirementconceptshapes, requirementconceptshape)
+					res[concept_] = requirementconceptshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of RequirementConcernShape
+	case RequirementConcernShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Requirement":
+			res := make(map[*Requirement][]*RequirementConcernShape)
+			for requirementconcernshape := range stage.RequirementConcernShapes {
+				if requirementconcernshape.Requirement != nil {
+					requirement_ := requirementconcernshape.Requirement
+					var requirementconcernshapes []*RequirementConcernShape
+					_, ok := res[requirement_]
+					if ok {
+						requirementconcernshapes = res[requirement_]
+					} else {
+						requirementconcernshapes = make([]*RequirementConcernShape, 0)
+					}
+					requirementconcernshapes = append(requirementconcernshapes, requirementconcernshape)
+					res[requirement_] = requirementconcernshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Concern":
+			res := make(map[*Concern][]*RequirementConcernShape)
+			for requirementconcernshape := range stage.RequirementConcernShapes {
+				if requirementconcernshape.Concern != nil {
+					concern_ := requirementconcernshape.Concern
+					var requirementconcernshapes []*RequirementConcernShape
+					_, ok := res[concern_]
+					if ok {
+						requirementconcernshapes = res[concern_]
+					} else {
+						requirementconcernshapes = make([]*RequirementConcernShape, 0)
+					}
+					requirementconcernshapes = append(requirementconcernshapes, requirementconcernshape)
+					res[concern_] = requirementconcernshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of RequirementShape
 	case RequirementShape:
 		switch fieldname {
@@ -4561,6 +4966,45 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					requirementshapes = append(requirementshapes, requirementshape)
 					res[requirement_] = requirementshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of RequirementViewShape
+	case RequirementViewShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Requirement":
+			res := make(map[*Requirement][]*RequirementViewShape)
+			for requirementviewshape := range stage.RequirementViewShapes {
+				if requirementviewshape.Requirement != nil {
+					requirement_ := requirementviewshape.Requirement
+					var requirementviewshapes []*RequirementViewShape
+					_, ok := res[requirement_]
+					if ok {
+						requirementviewshapes = res[requirement_]
+					} else {
+						requirementviewshapes = make([]*RequirementViewShape, 0)
+					}
+					requirementviewshapes = append(requirementviewshapes, requirementviewshape)
+					res[requirement_] = requirementviewshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "View":
+			res := make(map[*View][]*RequirementViewShape)
+			for requirementviewshape := range stage.RequirementViewShapes {
+				if requirementviewshape.View != nil {
+					view_ := requirementviewshape.View
+					var requirementviewshapes []*RequirementViewShape
+					_, ok := res[view_]
+					if ok {
+						requirementviewshapes = res[view_]
+					} else {
+						requirementviewshapes = make([]*RequirementViewShape, 0)
+					}
+					requirementviewshapes = append(requirementviewshapes, requirementviewshape)
+					res[view_] = requirementviewshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4804,14 +5248,6 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			for concern := range stage.Concerns {
 				for _, deliverable_ := range concern.Outputs {
 					res[deliverable_] = append(res[deliverable_], concern)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Requirements":
-			res := make(map[*Requirement][]*Concern)
-			for concern := range stage.Concerns {
-				for _, requirement_ := range concern.Requirements {
-					res[requirement_] = append(res[requirement_], concern)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5142,6 +5578,54 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RequirementsWhoseConcernsNodeIsExpanded":
+			res := make(map[*Requirement][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, requirement_ := range diagram.RequirementsWhoseConcernsNodeIsExpanded {
+					res[requirement_] = append(res[requirement_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RequirementsWhoseViewsNodeIsExpanded":
+			res := make(map[*Requirement][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, requirement_ := range diagram.RequirementsWhoseViewsNodeIsExpanded {
+					res[requirement_] = append(res[requirement_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RequirementsWhoseConceptsNodeIsExpanded":
+			res := make(map[*Requirement][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, requirement_ := range diagram.RequirementsWhoseConceptsNodeIsExpanded {
+					res[requirement_] = append(res[requirement_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RequirementConcernShapes":
+			res := make(map[*RequirementConcernShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, requirementconcernshape_ := range diagram.RequirementConcernShapes {
+					res[requirementconcernshape_] = append(res[requirementconcernshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RequirementViewShapes":
+			res := make(map[*RequirementViewShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, requirementviewshape_ := range diagram.RequirementViewShapes {
+					res[requirementviewshape_] = append(res[requirementviewshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RequirementConceptShapes":
+			res := make(map[*RequirementConceptShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, requirementconceptshape_ := range diagram.RequirementConceptShapes {
+					res[requirementconceptshape_] = append(res[requirementconceptshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "View_Shapes":
 			res := make(map[*ViewShape][]*Diagram)
 			for diagram := range stage.Diagrams {
@@ -5170,6 +5654,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			res := make(map[*View][]*Diagram)
 			for diagram := range stage.Diagrams {
 				for _, view_ := range diagram.ViewsWhoseConceptsNodeIsExpanded {
+					res[view_] = append(res[view_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ViewsWhoseRequirementsNodeIsExpanded":
+			res := make(map[*View][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, view_ := range diagram.ViewsWhoseRequirementsNodeIsExpanded {
 					res[view_] = append(res[view_], diagram)
 				}
 			}
@@ -5218,6 +5710,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			res := make(map[*Concept][]*Diagram)
 			for diagram := range stage.Diagrams {
 				for _, concept_ := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
+					res[concept_] = append(res[concept_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ConceptsWhoseRequirementsNodeIsExpanded":
+			res := make(map[*Concept][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, concept_ := range diagram.ConceptsWhoseRequirementsNodeIsExpanded {
 					res[concept_] = append(res[concept_], diagram)
 				}
 			}
@@ -5422,6 +5922,22 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Concerns":
+			res := make(map[*Concern][]*Requirement)
+			for requirement := range stage.Requirements {
+				for _, concern_ := range requirement.Concerns {
+					res[concern_] = append(res[concern_], requirement)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Views":
+			res := make(map[*View][]*Requirement)
+			for requirement := range stage.Requirements {
+				for _, view_ := range requirement.Views {
+					res[view_] = append(res[view_], requirement)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Concepts":
 			res := make(map[*Concept][]*Requirement)
 			for requirement := range stage.Requirements {
@@ -5431,10 +5947,49 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of RequirementConceptShape
+	case RequirementConceptShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*RequirementConceptShape)
+			for requirementconceptshape := range stage.RequirementConceptShapes {
+				for _, controlpointshape_ := range requirementconceptshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], requirementconceptshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of RequirementConcernShape
+	case RequirementConcernShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*RequirementConcernShape)
+			for requirementconcernshape := range stage.RequirementConcernShapes {
+				for _, controlpointshape_ := range requirementconcernshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], requirementconcernshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of RequirementShape
 	case RequirementShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of RequirementViewShape
+	case RequirementViewShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*RequirementViewShape)
+			for requirementviewshape := range stage.RequirementViewShapes {
+				for _, controlpointshape_ := range requirementviewshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], requirementviewshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Stakeholder
 	case Stakeholder:
@@ -5606,6 +6161,10 @@ func (*Concept) GongGetReverseFields() []GongReverseField {
 			Fieldname: "ConceptsWhoseDeliverablesNodeIsExpanded",
 		},
 		{
+			GongstructName: "Diagram",
+			Fieldname: "ConceptsWhoseRequirementsNodeIsExpanded",
+		},
+		{
 			GongstructName: "Library",
 			Fieldname: "RootConcepts",
 		},
@@ -5662,6 +6221,10 @@ func (*Concern) GongGetReverseFields() []GongReverseField {
 		{
 			GongstructName: "Note",
 			Fieldname: "Tasks",
+		},
+		{
+			GongstructName: "Requirement",
+			Fieldname: "Concerns",
 		},
 		{
 			GongstructName: "Stakeholder",
@@ -5742,6 +6305,18 @@ func (*ControlPointShape) GongGetReverseFields() []GongReverseField {
 		},
 		{
 			GongstructName: "NoteTaskShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "RequirementConceptShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "RequirementConcernShape",
+			Fieldname: "ControlPointShapes",
+		},
+		{
+			GongstructName: "RequirementViewShape",
 			Fieldname: "ControlPointShapes",
 		},
 		{
@@ -5915,16 +6490,42 @@ func (*NoteTaskShape) GongGetReverseFields() []GongReverseField {
 func (*Requirement) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 		{
-			GongstructName: "Concern",
-			Fieldname: "Requirements",
-		},
-		{
 			GongstructName: "Diagram",
 			Fieldname: "RequirementsWhoseNodeIsExpanded",
 		},
 		{
+			GongstructName: "Diagram",
+			Fieldname: "RequirementsWhoseConcernsNodeIsExpanded",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "RequirementsWhoseViewsNodeIsExpanded",
+		},
+		{
+			GongstructName: "Diagram",
+			Fieldname: "RequirementsWhoseConceptsNodeIsExpanded",
+		},
+		{
 			GongstructName: "Library",
 			Fieldname: "RootRequirements",
+		},
+	}
+}
+
+func (*RequirementConceptShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "RequirementConceptShapes",
+		},
+	}
+}
+
+func (*RequirementConcernShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "RequirementConcernShapes",
 		},
 	}
 }
@@ -5934,6 +6535,15 @@ func (*RequirementShape) GongGetReverseFields() []GongReverseField {
 		{
 			GongstructName: "Diagram",
 			Fieldname: "Requirement_Shapes",
+		},
+	}
+}
+
+func (*RequirementViewShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "RequirementViewShapes",
 		},
 	}
 }
@@ -6023,8 +6633,16 @@ func (*View) GongGetReverseFields() []GongReverseField {
 			Fieldname: "ViewsWhoseConceptsNodeIsExpanded",
 		},
 		{
+			GongstructName: "Diagram",
+			Fieldname: "ViewsWhoseRequirementsNodeIsExpanded",
+		},
+		{
 			GongstructName: "Library",
 			Fieldname: "RootViews",
+		},
+		{
+			GongstructName: "Requirement",
+			Fieldname: "Views",
 		},
 	}
 }
@@ -6247,11 +6865,6 @@ func (concern *Concern) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Completion",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "CompletionEnum",
-		},
-		{
-			Name:                 "Requirements",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Requirement",
 		},
 	}
 	return
@@ -7161,6 +7774,36 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Requirement",
 		},
 		{
+			Name:                 "RequirementsWhoseConcernsNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Requirement",
+		},
+		{
+			Name:                 "RequirementsWhoseViewsNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Requirement",
+		},
+		{
+			Name:                 "RequirementsWhoseConceptsNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Requirement",
+		},
+		{
+			Name:                 "RequirementConcernShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "RequirementConcernShape",
+		},
+		{
+			Name:                 "RequirementViewShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "RequirementViewShape",
+		},
+		{
+			Name:                 "RequirementConceptShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "RequirementConceptShape",
+		},
+		{
 			Name:                 "View_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ViewShape",
@@ -7177,6 +7820,11 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:                 "ViewsWhoseConceptsNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "View",
+		},
+		{
+			Name:                 "ViewsWhoseRequirementsNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "View",
 		},
@@ -7207,6 +7855,11 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:                 "ConceptsWhoseDeliverablesNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Concept",
+		},
+		{
+			Name:                 "ConceptsWhoseRequirementsNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Concept",
 		},
@@ -7773,9 +8426,179 @@ func (requirement *Requirement) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "SupportLevel",
 		},
 		{
+			Name:                 "Concerns",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Concern",
+		},
+		{
+			Name:                 "Views",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "View",
+		},
+		{
 			Name:                 "Concepts",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Concept",
+		},
+	}
+	return
+}
+
+func (requirementconceptshape *RequirementConceptShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Requirement",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Requirement",
+		},
+		{
+			Name:                 "Concept",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Concept",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "StartOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:                 "EndOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
+		},
+	}
+	return
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Requirement",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Requirement",
+		},
+		{
+			Name:                 "Concern",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Concern",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "StartOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:                 "EndOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
 		},
 	}
 	return
@@ -7860,6 +8683,86 @@ func (requirementshape *RequirementShape) GongGetFieldHeaders() (res []GongField
 		{
 			Name:               "FontColor",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (requirementviewshape *RequirementViewShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Requirement",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Requirement",
+		},
+		{
+			Name:                 "View",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "View",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "StartOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:                 "EndOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
 		},
 	}
 	return
@@ -8593,16 +9496,6 @@ func (concern *Concern) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "Completion":
 		enum := concern.Completion
 		res.valueString = enum.ToCodeString()
-	case "Requirements":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range concern.Requirements {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
 	}
 	return
 }
@@ -9568,6 +10461,66 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "RequirementsWhoseConcernsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.RequirementsWhoseConcernsNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RequirementsWhoseViewsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.RequirementsWhoseViewsNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RequirementsWhoseConceptsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.RequirementsWhoseConceptsNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RequirementConcernShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.RequirementConcernShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RequirementViewShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.RequirementViewShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RequirementConceptShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.RequirementConceptShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "View_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.View_Shapes {
@@ -9601,6 +10554,16 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "ViewsWhoseConceptsNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.ViewsWhoseConceptsNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ViewsWhoseRequirementsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ViewsWhoseRequirementsNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -9661,6 +10624,16 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "ConceptsWhoseDeliverablesNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ConceptsWhoseRequirementsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ConceptsWhoseRequirementsNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -10256,9 +11229,175 @@ func (requirement *Requirement) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "Concerns":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range requirement.Concerns {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Views":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range requirement.Views {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Concepts":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range requirement.Concepts {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (requirementconceptshape *RequirementConceptShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = requirementconceptshape.Name
+	case "Requirement":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if requirementconceptshape.Requirement != nil {
+			res.valueString = requirementconceptshape.Requirement.Name
+			res.ids = requirementconceptshape.Requirement.GongGetUUID(stage)
+		}
+	case "Concept":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if requirementconceptshape.Concept != nil {
+			res.valueString = requirementconceptshape.Concept.Name
+			res.ids = requirementconceptshape.Concept.GongGetUUID(stage)
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", requirementconceptshape.StartRatio)
+		res.valueFloat = requirementconceptshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", requirementconceptshape.EndRatio)
+		res.valueFloat = requirementconceptshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := requirementconceptshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := requirementconceptshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", requirementconceptshape.CornerOffsetRatio)
+		res.valueFloat = requirementconceptshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", requirementconceptshape.IsHidden)
+		res.valueBool = requirementconceptshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", requirementconceptshape.IsPresentationOverridden)
+		res.valueBool = requirementconceptshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Stroke":
+		res.valueString = requirementconceptshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", requirementconceptshape.StrokeWidth)
+		res.valueFloat = requirementconceptshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", requirementconceptshape.StrokeOpacity)
+		res.valueFloat = requirementconceptshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = requirementconceptshape.StrokeDashArray
+	case "FontSize":
+		res.valueString = requirementconceptshape.FontSize
+	case "FontColor":
+		res.valueString = requirementconceptshape.FontColor
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range requirementconceptshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = requirementconcernshape.Name
+	case "Requirement":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if requirementconcernshape.Requirement != nil {
+			res.valueString = requirementconcernshape.Requirement.Name
+			res.ids = requirementconcernshape.Requirement.GongGetUUID(stage)
+		}
+	case "Concern":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if requirementconcernshape.Concern != nil {
+			res.valueString = requirementconcernshape.Concern.Name
+			res.ids = requirementconcernshape.Concern.GongGetUUID(stage)
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", requirementconcernshape.StartRatio)
+		res.valueFloat = requirementconcernshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", requirementconcernshape.EndRatio)
+		res.valueFloat = requirementconcernshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := requirementconcernshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := requirementconcernshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", requirementconcernshape.CornerOffsetRatio)
+		res.valueFloat = requirementconcernshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", requirementconcernshape.IsHidden)
+		res.valueBool = requirementconcernshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", requirementconcernshape.IsPresentationOverridden)
+		res.valueBool = requirementconcernshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Stroke":
+		res.valueString = requirementconcernshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", requirementconcernshape.StrokeWidth)
+		res.valueFloat = requirementconcernshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", requirementconcernshape.StrokeOpacity)
+		res.valueFloat = requirementconcernshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = requirementconcernshape.StrokeDashArray
+	case "FontSize":
+		res.valueString = requirementconcernshape.FontSize
+	case "FontColor":
+		res.valueString = requirementconcernshape.FontColor
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range requirementconcernshape.ControlPointShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -10337,6 +11476,79 @@ func (requirementshape *RequirementShape) GongGetFieldValue(fieldName string, st
 		res.valueString = requirementshape.FontWeight
 	case "FontColor":
 		res.valueString = requirementshape.FontColor
+	}
+	return
+}
+
+func (requirementviewshape *RequirementViewShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = requirementviewshape.Name
+	case "Requirement":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if requirementviewshape.Requirement != nil {
+			res.valueString = requirementviewshape.Requirement.Name
+			res.ids = requirementviewshape.Requirement.GongGetUUID(stage)
+		}
+	case "View":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if requirementviewshape.View != nil {
+			res.valueString = requirementviewshape.View.Name
+			res.ids = requirementviewshape.View.GongGetUUID(stage)
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", requirementviewshape.StartRatio)
+		res.valueFloat = requirementviewshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", requirementviewshape.EndRatio)
+		res.valueFloat = requirementviewshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := requirementviewshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := requirementviewshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", requirementviewshape.CornerOffsetRatio)
+		res.valueFloat = requirementviewshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", requirementviewshape.IsHidden)
+		res.valueBool = requirementviewshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", requirementviewshape.IsPresentationOverridden)
+		res.valueBool = requirementviewshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Stroke":
+		res.valueString = requirementviewshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", requirementviewshape.StrokeWidth)
+		res.valueFloat = requirementviewshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", requirementviewshape.StrokeOpacity)
+		res.valueFloat = requirementviewshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = requirementviewshape.StrokeDashArray
+	case "FontSize":
+		res.valueString = requirementviewshape.FontSize
+	case "FontColor":
+		res.valueString = requirementviewshape.FontColor
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range requirementviewshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -10888,8 +12100,20 @@ func (requirement *Requirement) GongGetGongstructName() string {
 	return "Requirement"
 }
 
+func (requirementconceptshape *RequirementConceptShape) GongGetGongstructName() string {
+	return "RequirementConceptShape"
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongGetGongstructName() string {
+	return "RequirementConcernShape"
+}
+
 func (requirementshape *RequirementShape) GongGetGongstructName() string {
 	return "RequirementShape"
+}
+
+func (requirementviewshape *RequirementViewShape) GongGetGongstructName() string {
+	return "RequirementViewShape"
 }
 
 func (stakeholder *Stakeholder) GongGetGongstructName() string {
@@ -10985,7 +12209,13 @@ func (stage *Stage) ResetMapStrings() {
 
 	__gong__rebuildMapString(stage.Requirements, &stage.Requirements_mapString)
 
+	__gong__rebuildMapString(stage.RequirementConceptShapes, &stage.RequirementConceptShapes_mapString)
+
+	__gong__rebuildMapString(stage.RequirementConcernShapes, &stage.RequirementConcernShapes_mapString)
+
 	__gong__rebuildMapString(stage.RequirementShapes, &stage.RequirementShapes_mapString)
+
+	__gong__rebuildMapString(stage.RequirementViewShapes, &stage.RequirementViewShapes_mapString)
 
 	__gong__rebuildMapString(stage.Stakeholders, &stage.Stakeholders_mapString)
 

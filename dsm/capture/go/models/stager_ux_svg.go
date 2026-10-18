@@ -895,6 +895,81 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		configureLinkWithControlPoints(stager, link, &viewConceptShape.ControlPointShapes, startRect.Name)
 	}
 
+	for _, requirementConcernShape := range diagram.RequirementConcernShapes {
+		if requirementConcernShape.GetIsHidden() {
+			continue
+		}
+		requirement := requirementConcernShape.Requirement
+		concern := requirementConcernShape.Concern
+		if requirement == nil || concern == nil {
+			log.Panic("There should be a requirement and a concern")
+		}
+		startRect := diagram.map_Requirement_Rect[requirement]
+		endRect := diagram.map_Task_Rect[concern]
+		if startRect == nil || endRect == nil {
+			continue
+		}
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			requirementConcernShape,
+			requirement,
+			layer,
+			true,
+		)
+		configureLinkWithControlPoints(stager, link, &requirementConcernShape.ControlPointShapes, startRect.Name)
+	}
+
+	for _, requirementViewShape := range diagram.RequirementViewShapes {
+		if requirementViewShape.GetIsHidden() {
+			continue
+		}
+		requirement := requirementViewShape.Requirement
+		view := requirementViewShape.View
+		if requirement == nil || view == nil {
+			log.Panic("There should be a requirement and a view")
+		}
+		startRect := diagram.map_Requirement_Rect[requirement]
+		endRect := diagram.map_View_Rect[view]
+		if startRect == nil || endRect == nil {
+			continue
+		}
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			requirementViewShape,
+			requirement,
+			layer,
+			true,
+		)
+		configureLinkWithControlPoints(stager, link, &requirementViewShape.ControlPointShapes, startRect.Name)
+	}
+
+	for _, requirementConceptShape := range diagram.RequirementConceptShapes {
+		if requirementConceptShape.GetIsHidden() {
+			continue
+		}
+		requirement := requirementConceptShape.Requirement
+		concept := requirementConceptShape.Concept
+		if requirement == nil || concept == nil {
+			log.Panic("There should be a requirement and a concept")
+		}
+		startRect := diagram.map_Requirement_Rect[requirement]
+		endRect := diagram.map_Concept_Rect[concept]
+		if startRect == nil || endRect == nil {
+			continue
+		}
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			requirementConceptShape,
+			requirement,
+			layer,
+			true,
+		)
+		configureLinkWithControlPoints(stager, link, &requirementConceptShape.ControlPointShapes, startRect.Name)
+	}
+
 	for _, deliverableConceptShape := range diagram.DeliverableConceptShapes {
 		if deliverableConceptShape.GetIsHidden() {
 			continue

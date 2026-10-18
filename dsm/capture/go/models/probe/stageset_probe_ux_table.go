@@ -74,8 +74,14 @@ func (probe *StageSetProbe) ux_table() {
 		updateStageSetTable_NoteTaskShape_Stage(probe)
 	case "models.Requirement":
 		updateStageSetTable_Requirement_Stage(probe)
+	case "models.RequirementConceptShape":
+		updateStageSetTable_RequirementConceptShape_Stage(probe)
+	case "models.RequirementConcernShape":
+		updateStageSetTable_RequirementConcernShape_Stage(probe)
 	case "models.RequirementShape":
 		updateStageSetTable_RequirementShape_Stage(probe)
+	case "models.RequirementViewShape":
+		updateStageSetTable_RequirementViewShape_Stage(probe)
 	case "models.Stakeholder":
 		updateStageSetTable_Stakeholder_Stage(probe)
 	case "models.StakeholderCompositionShape":
@@ -286,12 +292,22 @@ func updateStageSetTable_Concept_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> ConceptsWhoseRequirementsNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.Library) -> RootConcepts"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
 		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.Requirement) -> Concepts"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.RequirementConceptShape) -> Concept"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -467,6 +483,22 @@ func updateStageSetTable_Concept_Stage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> ConceptsWhoseRequirementsNodeIsExpanded"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.ConceptsWhoseRequirementsNodeIsExpanded {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "(models.Library) -> RootConcepts"}
 			var refNames []string
 			for src := range probe.stageSet.Stage.Librarys {
@@ -491,6 +523,19 @@ func updateStageSetTable_Concept_Stage(probe *StageSetProbe) {
 						refNames = append(refNames, src.GetName())
 						break
 					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.RequirementConceptShape) -> Concept"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.RequirementConceptShapes {
+				if src.Concept == structInstance {
+					refNames = append(refNames, src.GetName())
 				}
 			}
 			sort.Strings(refNames)
@@ -918,11 +963,6 @@ func updateStageSetTable_Concern_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
-		col.Name = "Requirements"
-		table.DisplayedColumns = append(table.DisplayedColumns, col)
-	}
-	{
-		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.Concern) -> SubConcerns"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -984,6 +1024,16 @@ func updateStageSetTable_Concern_Stage(probe *StageSetProbe) {
 	{
 		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.NoteTaskShape) -> Task"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Requirement) -> Concerns"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.RequirementConcernShape) -> Concern"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -1131,18 +1181,6 @@ func updateStageSetTable_Concern_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "Completion"}
 			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Completion)}
-			row.Cells = append(row.Cells, cell)
-		}
-
-		{
-			cell := &table_models.Cell{Name: "Requirements"}
-			var names []string
-			for _, elem := range structInstance.Requirements {
-				if elem != nil {
-					names = append(names, elem.GetName())
-				}
-			}
-			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
 			row.Cells = append(row.Cells, cell)
 		}
 
@@ -1331,6 +1369,35 @@ func updateStageSetTable_Concern_Stage(probe *StageSetProbe) {
 			var refNames []string
 			for src := range probe.stageSet.Stage.NoteTaskShapes {
 				if src.Task == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Requirement) -> Concerns"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Requirements {
+				for _, target := range src.Concerns {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.RequirementConcernShape) -> Concern"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.RequirementConcernShapes {
+				if src.Concern == structInstance {
 					refNames = append(refNames, src.GetName())
 				}
 			}
@@ -2608,6 +2675,21 @@ func updateStageSetTable_ControlPointShape_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.RequirementConceptShape) -> ControlPointShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.RequirementConcernShape) -> ControlPointShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.RequirementViewShape) -> ControlPointShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.StakeholderCompositionShape) -> ControlPointShapes"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -2819,6 +2901,54 @@ func updateStageSetTable_ControlPointShape_Stage(probe *StageSetProbe) {
 			cell := &table_models.Cell{Name: "(models.NoteTaskShape) -> ControlPointShapes"}
 			var refNames []string
 			for src := range probe.stageSet.Stage.NoteTaskShapes {
+				for _, target := range src.ControlPointShapes {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.RequirementConceptShape) -> ControlPointShapes"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.RequirementConceptShapes {
+				for _, target := range src.ControlPointShapes {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.RequirementConcernShape) -> ControlPointShapes"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.RequirementConcernShapes {
+				for _, target := range src.ControlPointShapes {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.RequirementViewShape) -> ControlPointShapes"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.RequirementViewShapes {
 				for _, target := range src.ControlPointShapes {
 					if target == structInstance {
 						refNames = append(refNames, src.GetName())
@@ -4741,6 +4871,36 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "RequirementsWhoseConcernsNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RequirementsWhoseViewsNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RequirementsWhoseConceptsNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RequirementConcernShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RequirementViewShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RequirementConceptShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "View_Shapes"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -4757,6 +4917,11 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 	{
 		col := new(table_models.DisplayedColumn)
 		col.Name = "ViewsWhoseConceptsNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ViewsWhoseRequirementsNodeIsExpanded"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -4787,6 +4952,11 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 	{
 		col := new(table_models.DisplayedColumn)
 		col.Name = "ConceptsWhoseDeliverablesNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ConceptsWhoseRequirementsNodeIsExpanded"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -5269,6 +5439,78 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "RequirementsWhoseConcernsNodeIsExpanded"}
+			var names []string
+			for _, elem := range structInstance.RequirementsWhoseConcernsNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RequirementsWhoseViewsNodeIsExpanded"}
+			var names []string
+			for _, elem := range structInstance.RequirementsWhoseViewsNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RequirementsWhoseConceptsNodeIsExpanded"}
+			var names []string
+			for _, elem := range structInstance.RequirementsWhoseConceptsNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RequirementConcernShapes"}
+			var names []string
+			for _, elem := range structInstance.RequirementConcernShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RequirementViewShapes"}
+			var names []string
+			for _, elem := range structInstance.RequirementViewShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RequirementConceptShapes"}
+			var names []string
+			for _, elem := range structInstance.RequirementConceptShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "View_Shapes"}
 			var names []string
 			for _, elem := range structInstance.View_Shapes {
@@ -5308,6 +5550,18 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 			cell := &table_models.Cell{Name: "ViewsWhoseConceptsNodeIsExpanded"}
 			var names []string
 			for _, elem := range structInstance.ViewsWhoseConceptsNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ViewsWhoseRequirementsNodeIsExpanded"}
+			var names []string
+			for _, elem := range structInstance.ViewsWhoseRequirementsNodeIsExpanded {
 				if elem != nil {
 					names = append(names, elem.GetName())
 				}
@@ -5380,6 +5634,18 @@ func updateStageSetTable_Diagram_Stage(probe *StageSetProbe) {
 			cell := &table_models.Cell{Name: "ConceptsWhoseDeliverablesNodeIsExpanded"}
 			var names []string
 			for _, elem := range structInstance.ConceptsWhoseDeliverablesNodeIsExpanded {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ConceptsWhoseRequirementsNodeIsExpanded"}
+			var names []string
+			for _, elem := range structInstance.ConceptsWhoseRequirementsNodeIsExpanded {
 				if elem != nil {
 					names = append(names, elem.GetName())
 				}
@@ -7561,12 +7827,17 @@ func updateStageSetTable_Requirement_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
-		col.Name = "Concepts"
+		col.Name = "Concerns"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
 		col := new(table_models.DisplayedColumn)
-		col.Name = "(models.Concern) -> Requirements"
+		col.Name = "Views"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Concepts"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -7576,12 +7847,42 @@ func updateStageSetTable_Requirement_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> RequirementsWhoseConcernsNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> RequirementsWhoseViewsNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> RequirementsWhoseConceptsNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.Library) -> RootRequirements"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.RequirementConceptShape) -> Requirement"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.RequirementConcernShape) -> Requirement"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.RequirementShape) -> Requirement"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.RequirementViewShape) -> Requirement"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 
@@ -7657,6 +7958,30 @@ func updateStageSetTable_Requirement_Stage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "Concerns"}
+			var names []string
+			for _, elem := range structInstance.Concerns {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Views"}
+			var names []string
+			for _, elem := range structInstance.Views {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "Concepts"}
 			var names []string
 			for _, elem := range structInstance.Concepts {
@@ -7669,10 +7994,10 @@ func updateStageSetTable_Requirement_Stage(probe *StageSetProbe) {
 		}
 
 		{
-			cell := &table_models.Cell{Name: "(models.Concern) -> Requirements"}
+			cell := &table_models.Cell{Name: "(models.Diagram) -> RequirementsWhoseNodeIsExpanded"}
 			var refNames []string
-			for src := range probe.stageSet.Stage.Concerns {
-				for _, target := range src.Requirements {
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.RequirementsWhoseNodeIsExpanded {
 					if target == structInstance {
 						refNames = append(refNames, src.GetName())
 						break
@@ -7685,10 +8010,42 @@ func updateStageSetTable_Requirement_Stage(probe *StageSetProbe) {
 		}
 
 		{
-			cell := &table_models.Cell{Name: "(models.Diagram) -> RequirementsWhoseNodeIsExpanded"}
+			cell := &table_models.Cell{Name: "(models.Diagram) -> RequirementsWhoseConcernsNodeIsExpanded"}
 			var refNames []string
 			for src := range probe.stageSet.Stage.Diagrams {
-				for _, target := range src.RequirementsWhoseNodeIsExpanded {
+				for _, target := range src.RequirementsWhoseConcernsNodeIsExpanded {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> RequirementsWhoseViewsNodeIsExpanded"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.RequirementsWhoseViewsNodeIsExpanded {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> RequirementsWhoseConceptsNodeIsExpanded"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.RequirementsWhoseConceptsNodeIsExpanded {
 					if target == structInstance {
 						refNames = append(refNames, src.GetName())
 						break
@@ -7717,11 +8074,626 @@ func updateStageSetTable_Requirement_Stage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "(models.RequirementConceptShape) -> Requirement"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.RequirementConceptShapes {
+				if src.Requirement == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.RequirementConcernShape) -> Requirement"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.RequirementConcernShapes {
+				if src.Requirement == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "(models.RequirementShape) -> Requirement"}
 			var refNames []string
 			for src := range probe.stageSet.Stage.RequirementShapes {
 				if src.Requirement == structInstance {
 					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.RequirementViewShape) -> Requirement"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.RequirementViewShapes {
+				if src.Requirement == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+
+func updateStageSetTable_RequirementConceptShape_Stage(probe *StageSetProbe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "models.RequirementConceptShape"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Requirement"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Concept"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StartRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "EndRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StartOrientation"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "EndOrientation"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "CornerOffsetRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsHidden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ControlPointShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> RequirementConceptShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageSet.Stage.GetInstancesByOrder[*models.RequirementConceptShape]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				StageSetFillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.Stage.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageSet.Stage)
+				probe.stageSet.Clean()
+				probe.stageSet.Commit()
+				updateStageSetTable_RequirementConceptShape_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Requirement"}
+			val := ""
+			if structInstance.Requirement != nil {
+				val = structInstance.Requirement.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Concept"}
+			val := ""
+			if structInstance.Concept != nil {
+				val = structInstance.Concept.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StartRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StartRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "EndRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.EndRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StartOrientation"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StartOrientation)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "EndOrientation"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.EndOrientation)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "CornerOffsetRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.CornerOffsetRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsHidden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ControlPointShapes"}
+			var names []string
+			for _, elem := range structInstance.ControlPointShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> RequirementConceptShapes"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.RequirementConceptShapes {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+
+func updateStageSetTable_RequirementConcernShape_Stage(probe *StageSetProbe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "models.RequirementConcernShape"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Requirement"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Concern"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StartRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "EndRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StartOrientation"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "EndOrientation"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "CornerOffsetRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsHidden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ControlPointShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> RequirementConcernShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageSet.Stage.GetInstancesByOrder[*models.RequirementConcernShape]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				StageSetFillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.Stage.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageSet.Stage)
+				probe.stageSet.Clean()
+				probe.stageSet.Commit()
+				updateStageSetTable_RequirementConcernShape_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Requirement"}
+			val := ""
+			if structInstance.Requirement != nil {
+				val = structInstance.Requirement.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Concern"}
+			val := ""
+			if structInstance.Concern != nil {
+				val = structInstance.Concern.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StartRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StartRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "EndRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.EndRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StartOrientation"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StartOrientation)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "EndOrientation"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.EndOrientation)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "CornerOffsetRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.CornerOffsetRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsHidden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ControlPointShapes"}
+			var names []string
+			for _, elem := range structInstance.ControlPointShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> RequirementConcernShapes"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.RequirementConcernShapes {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
 				}
 			}
 			sort.Strings(refNames)
@@ -8018,6 +8990,294 @@ func updateStageSetTable_RequirementShape_Stage(probe *StageSetProbe) {
 			var refNames []string
 			for src := range probe.stageSet.Stage.Diagrams {
 				for _, target := range src.Requirement_Shapes {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+
+func updateStageSetTable_RequirementViewShape_Stage(probe *StageSetProbe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "models.RequirementViewShape"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Requirement"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "View"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StartRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "EndRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StartOrientation"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "EndOrientation"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "CornerOffsetRatio"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsHidden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsPresentationOverridden"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Stroke"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeOpacity"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "StrokeDashArray"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontSize"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FontColor"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "ControlPointShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> RequirementViewShapes"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageSet.Stage.GetInstancesByOrder[*models.RequirementViewShape]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				StageSetFillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.Stage.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageSet.Stage)
+				probe.stageSet.Clean()
+				probe.stageSet.Commit()
+				updateStageSetTable_RequirementViewShape_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Requirement"}
+			val := ""
+			if structInstance.Requirement != nil {
+				val = structInstance.Requirement.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "View"}
+			val := ""
+			if structInstance.View != nil {
+				val = structInstance.View.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StartRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StartRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "EndRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.EndRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StartOrientation"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StartOrientation)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "EndOrientation"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.EndOrientation)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "CornerOffsetRatio"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.CornerOffsetRatio)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsHidden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHidden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsPresentationOverridden"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsPresentationOverridden}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Stroke"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Stroke)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeOpacity"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.StrokeOpacity)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "StrokeDashArray"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.StrokeDashArray)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontSize"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontSize)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FontColor"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.FontColor)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "ControlPointShapes"}
+			var names []string
+			for _, elem := range structInstance.ControlPointShapes {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> RequirementViewShapes"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.RequirementViewShapes {
 					if target == structInstance {
 						refNames = append(refNames, src.GetName())
 						break
@@ -9506,7 +10766,22 @@ func updateStageSetTable_View_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Diagram) -> ViewsWhoseRequirementsNodeIsExpanded"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.Library) -> RootViews"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.Requirement) -> Views"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.RequirementViewShape) -> View"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -9675,6 +10950,22 @@ func updateStageSetTable_View_Stage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "(models.Diagram) -> ViewsWhoseRequirementsNodeIsExpanded"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Diagrams {
+				for _, target := range src.ViewsWhoseRequirementsNodeIsExpanded {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "(models.Library) -> RootViews"}
 			var refNames []string
 			for src := range probe.stageSet.Stage.Librarys {
@@ -9683,6 +10974,35 @@ func updateStageSetTable_View_Stage(probe *StageSetProbe) {
 						refNames = append(refNames, src.GetName())
 						break
 					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.Requirement) -> Views"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.Requirements {
+				for _, target := range src.Views {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.RequirementViewShape) -> View"}
+			var refNames []string
+			for src := range probe.stageSet.Stage.RequirementViewShapes {
+				if src.View == structInstance {
+					refNames = append(refNames, src.GetName())
 				}
 			}
 			sort.Strings(refNames)

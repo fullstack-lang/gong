@@ -298,16 +298,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Outputs = append(%s.Outputs, %s)", concernIdent, concernIdent, targetIdent))
 			}
-			for _, elem := range concern.Requirements {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Requirements = append(%s.Requirements, %s)", concernIdent, concernIdent, targetIdent))
-			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -1162,6 +1152,66 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RequirementsWhoseNodeIsExpanded = append(%s.RequirementsWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
+			for _, elem := range diagram.RequirementsWhoseConcernsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RequirementsWhoseConcernsNodeIsExpanded = append(%s.RequirementsWhoseConcernsNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.RequirementsWhoseViewsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RequirementsWhoseViewsNodeIsExpanded = append(%s.RequirementsWhoseViewsNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.RequirementsWhoseConceptsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RequirementsWhoseConceptsNodeIsExpanded = append(%s.RequirementsWhoseConceptsNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.RequirementConcernShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RequirementConcernShapes = append(%s.RequirementConcernShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.RequirementViewShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RequirementViewShapes = append(%s.RequirementViewShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.RequirementConceptShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RequirementConceptShapes = append(%s.RequirementConceptShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
 			for _, elem := range diagram.View_Shapes {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1201,6 +1251,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				}
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ViewsWhoseConceptsNodeIsExpanded = append(%s.ViewsWhoseConceptsNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ViewsWhoseRequirementsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ViewsWhoseRequirementsNodeIsExpanded = append(%s.ViewsWhoseRequirementsNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.DeliverableViewShapes {
 				if lastStagePtr != "Stage" {
@@ -1261,6 +1321,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				}
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ConceptsWhoseDeliverablesNodeIsExpanded = append(%s.ConceptsWhoseDeliverablesNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ConceptsWhoseRequirementsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ConceptsWhoseRequirementsNodeIsExpanded = append(%s.ConceptsWhoseRequirementsNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.DeliverableConceptShapes {
 				if lastStagePtr != "Stage" {
@@ -1799,6 +1869,26 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SupportLevels = append(%s.SupportLevels, %s)", requirementIdent, requirementIdent, targetIdent))
 			}
+			for _, elem := range requirement.Concerns {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Concerns = append(%s.Concerns, %s)", requirementIdent, requirementIdent, targetIdent))
+			}
+			for _, elem := range requirement.Views {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Views = append(%s.Views, %s)", requirementIdent, requirementIdent, targetIdent))
+			}
 			for _, elem := range requirement.Concepts {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1808,6 +1898,146 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				}
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Concepts = append(%s.Concepts, %s)", requirementIdent, requirementIdent, targetIdent))
+			}
+		}
+	}
+	if stageSet.Stage != nil {
+		for _, requirementconceptshape := range __gong__sortStageSetInstances(stageSet.Stage.RequirementConceptShapes, stageSet.Stage.RequirementConceptShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			requirementconceptshapeIdent := "__models" + requirementconceptshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.RequirementConceptShape{Name: %s}).Stage(stageSet.Stage)", requirementconceptshapeIdent, __gong__toRawStringLiteral(requirementconceptshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", requirementconceptshapeIdent, __gong__toRawStringLiteral(requirementconceptshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", requirementconceptshapeIdent, requirementconceptshape.StartRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", requirementconceptshapeIdent, requirementconceptshape.EndRatio))
+			if requirementconceptshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = models.%s", requirementconceptshapeIdent, requirementconceptshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", requirementconceptshapeIdent))
+			}
+			if requirementconceptshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = models.%s", requirementconceptshapeIdent, requirementconceptshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", requirementconceptshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", requirementconceptshapeIdent, requirementconceptshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", requirementconceptshapeIdent, requirementconceptshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", requirementconceptshapeIdent, requirementconceptshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", requirementconceptshapeIdent, __gong__toRawStringLiteral(requirementconceptshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", requirementconceptshapeIdent, requirementconceptshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", requirementconceptshapeIdent, requirementconceptshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", requirementconceptshapeIdent, __gong__toRawStringLiteral(requirementconceptshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", requirementconceptshapeIdent, __gong__toRawStringLiteral(requirementconceptshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", requirementconceptshapeIdent, __gong__toRawStringLiteral(requirementconceptshape.FontColor)))
+			if requirementconceptshape.Requirement != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + requirementconceptshape.Requirement.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Requirement = %s", requirementconceptshapeIdent, targetIdent))
+			}
+			if requirementconceptshape.Concept != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + requirementconceptshape.Concept.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Concept = %s", requirementconceptshapeIdent, targetIdent))
+			}
+			for _, elem := range requirementconceptshape.ControlPointShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlPointShapes = append(%s.ControlPointShapes, %s)", requirementconceptshapeIdent, requirementconceptshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stageSet.Stage != nil {
+		for _, requirementconcernshape := range __gong__sortStageSetInstances(stageSet.Stage.RequirementConcernShapes, stageSet.Stage.RequirementConcernShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			requirementconcernshapeIdent := "__models" + requirementconcernshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.RequirementConcernShape{Name: %s}).Stage(stageSet.Stage)", requirementconcernshapeIdent, __gong__toRawStringLiteral(requirementconcernshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", requirementconcernshapeIdent, __gong__toRawStringLiteral(requirementconcernshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", requirementconcernshapeIdent, requirementconcernshape.StartRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", requirementconcernshapeIdent, requirementconcernshape.EndRatio))
+			if requirementconcernshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = models.%s", requirementconcernshapeIdent, requirementconcernshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", requirementconcernshapeIdent))
+			}
+			if requirementconcernshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = models.%s", requirementconcernshapeIdent, requirementconcernshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", requirementconcernshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", requirementconcernshapeIdent, requirementconcernshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", requirementconcernshapeIdent, requirementconcernshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", requirementconcernshapeIdent, requirementconcernshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", requirementconcernshapeIdent, __gong__toRawStringLiteral(requirementconcernshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", requirementconcernshapeIdent, requirementconcernshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", requirementconcernshapeIdent, requirementconcernshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", requirementconcernshapeIdent, __gong__toRawStringLiteral(requirementconcernshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", requirementconcernshapeIdent, __gong__toRawStringLiteral(requirementconcernshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", requirementconcernshapeIdent, __gong__toRawStringLiteral(requirementconcernshape.FontColor)))
+			if requirementconcernshape.Requirement != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + requirementconcernshape.Requirement.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Requirement = %s", requirementconcernshapeIdent, targetIdent))
+			}
+			if requirementconcernshape.Concern != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + requirementconcernshape.Concern.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Concern = %s", requirementconcernshapeIdent, targetIdent))
+			}
+			for _, elem := range requirementconcernshape.ControlPointShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlPointShapes = append(%s.ControlPointShapes, %s)", requirementconcernshapeIdent, requirementconcernshapeIdent, targetIdent))
 			}
 		}
 	}
@@ -1854,6 +2084,76 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				}
 				targetIdent := "__models" + requirementshape.Requirement.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Requirement = %s", requirementshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stageSet.Stage != nil {
+		for _, requirementviewshape := range __gong__sortStageSetInstances(stageSet.Stage.RequirementViewShapes, stageSet.Stage.RequirementViewShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			requirementviewshapeIdent := "__models" + requirementviewshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.RequirementViewShape{Name: %s}).Stage(stageSet.Stage)", requirementviewshapeIdent, __gong__toRawStringLiteral(requirementviewshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", requirementviewshapeIdent, __gong__toRawStringLiteral(requirementviewshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", requirementviewshapeIdent, requirementviewshape.StartRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", requirementviewshapeIdent, requirementviewshape.EndRatio))
+			if requirementviewshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = models.%s", requirementviewshapeIdent, requirementviewshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", requirementviewshapeIdent))
+			}
+			if requirementviewshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = models.%s", requirementviewshapeIdent, requirementviewshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", requirementviewshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", requirementviewshapeIdent, requirementviewshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", requirementviewshapeIdent, requirementviewshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", requirementviewshapeIdent, requirementviewshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", requirementviewshapeIdent, __gong__toRawStringLiteral(requirementviewshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", requirementviewshapeIdent, requirementviewshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", requirementviewshapeIdent, requirementviewshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", requirementviewshapeIdent, __gong__toRawStringLiteral(requirementviewshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", requirementviewshapeIdent, __gong__toRawStringLiteral(requirementviewshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", requirementviewshapeIdent, __gong__toRawStringLiteral(requirementviewshape.FontColor)))
+			if requirementviewshape.Requirement != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + requirementviewshape.Requirement.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Requirement = %s", requirementviewshapeIdent, targetIdent))
+			}
+			if requirementviewshape.View != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + requirementviewshape.View.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.View = %s", requirementviewshapeIdent, targetIdent))
+			}
+			for _, elem := range requirementviewshape.ControlPointShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlPointShapes = append(%s.ControlPointShapes, %s)", requirementviewshapeIdent, requirementviewshapeIdent, targetIdent))
 			}
 		}
 	}
@@ -2474,8 +2774,14 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteTaskShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Requirement":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Requirement), stageSet.Stage, ident.Name, instanceName, preserveOrder)
+				case "RequirementConceptShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(RequirementConceptShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
+				case "RequirementConcernShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(RequirementConcernShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "RequirementShape":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(RequirementShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
+				case "RequirementViewShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(RequirementViewShape), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "Stakeholder":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Stakeholder), stageSet.Stage, ident.Name, instanceName, preserveOrder)
 				case "StakeholderCompositionShape":
@@ -2597,8 +2903,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.IsWithCompletion = GongExtractBool(rhs)
 					case "Completion":
 						GongUnmarshallEnum(&inst.Completion, rhs)
-					case "Requirements":
-						__gong__assignSliceOfPointers(&inst.Requirements, rhs, identifierMap)
 					}
 				case *ConcernCompositionShape:
 					switch fieldName {
@@ -3018,6 +3322,18 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						__gong__assignSliceOfPointers(&inst.Requirement_Shapes, rhs, identifierMap)
 					case "RequirementsWhoseNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.RequirementsWhoseNodeIsExpanded, rhs, identifierMap)
+					case "RequirementsWhoseConcernsNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.RequirementsWhoseConcernsNodeIsExpanded, rhs, identifierMap)
+					case "RequirementsWhoseViewsNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.RequirementsWhoseViewsNodeIsExpanded, rhs, identifierMap)
+					case "RequirementsWhoseConceptsNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.RequirementsWhoseConceptsNodeIsExpanded, rhs, identifierMap)
+					case "RequirementConcernShapes":
+						__gong__assignSliceOfPointers(&inst.RequirementConcernShapes, rhs, identifierMap)
+					case "RequirementViewShapes":
+						__gong__assignSliceOfPointers(&inst.RequirementViewShapes, rhs, identifierMap)
+					case "RequirementConceptShapes":
+						__gong__assignSliceOfPointers(&inst.RequirementConceptShapes, rhs, identifierMap)
 					case "View_Shapes":
 						__gong__assignSliceOfPointers(&inst.View_Shapes, rhs, identifierMap)
 					case "ViewsWhoseNodeIsExpanded":
@@ -3026,6 +3342,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						__gong__assignSliceOfPointers(&inst.ViewsWhoseDeliverablesNodeIsExpanded, rhs, identifierMap)
 					case "ViewsWhoseConceptsNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.ViewsWhoseConceptsNodeIsExpanded, rhs, identifierMap)
+					case "ViewsWhoseRequirementsNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.ViewsWhoseRequirementsNodeIsExpanded, rhs, identifierMap)
 					case "DeliverableViewShapes":
 						__gong__assignSliceOfPointers(&inst.DeliverableViewShapes, rhs, identifierMap)
 					case "ViewConceptShapes":
@@ -3038,6 +3356,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						__gong__assignSliceOfPointers(&inst.ConceptsWhoseViewsNodeIsExpanded, rhs, identifierMap)
 					case "ConceptsWhoseDeliverablesNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.ConceptsWhoseDeliverablesNodeIsExpanded, rhs, identifierMap)
+					case "ConceptsWhoseRequirementsNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.ConceptsWhoseRequirementsNodeIsExpanded, rhs, identifierMap)
 					case "DeliverableConceptShapes":
 						__gong__assignSliceOfPointers(&inst.DeliverableConceptShapes, rhs, identifierMap)
 					case "Diagram_Shapes":
@@ -3298,8 +3618,86 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "SupportLevels":
 						__gong__assignSliceOfPointers(&inst.SupportLevels, rhs, identifierMap)
+					case "Concerns":
+						__gong__assignSliceOfPointers(&inst.Concerns, rhs, identifierMap)
+					case "Views":
+						__gong__assignSliceOfPointers(&inst.Views, rhs, identifierMap)
 					case "Concepts":
 						__gong__assignSliceOfPointers(&inst.Concepts, rhs, identifierMap)
+					}
+				case *RequirementConceptShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Requirement":
+						__gong__assignPointer(&inst.Requirement, rhs, identifierMap)
+					case "Concept":
+						__gong__assignPointer(&inst.Concept, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					case "ControlPointShapes":
+						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
+					}
+				case *RequirementConcernShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Requirement":
+						__gong__assignPointer(&inst.Requirement, rhs, identifierMap)
+					case "Concern":
+						__gong__assignPointer(&inst.Concern, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					case "ControlPointShapes":
+						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
 				case *RequirementShape:
 					switch fieldName {
@@ -3341,6 +3739,43 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.FontWeight = GongExtractString(rhs)
 					case "FontColor":
 						inst.FontColor = GongExtractString(rhs)
+					}
+				case *RequirementViewShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Requirement":
+						__gong__assignPointer(&inst.Requirement, rhs, identifierMap)
+					case "View":
+						__gong__assignPointer(&inst.View, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					case "ControlPointShapes":
+						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
 				case *Stakeholder:
 					switch fieldName {

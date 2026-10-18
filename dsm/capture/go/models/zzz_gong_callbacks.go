@@ -625,6 +625,58 @@ func (requirement *Requirement) GongAfterDeleteFromFront(stage *Stage, front Gon
 	}
 }
 
+func (requirementconceptshape *RequirementConceptShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterRequirementConceptShapeCreateCallback != nil {
+		stage.OnAfterRequirementConceptShapeCreateCallback.OnAfterCreate(stage, requirementconceptshape)
+	}
+}
+
+func (requirementconceptshape *RequirementConceptShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRequirementConceptShapeUpdateCallback != nil {
+		var frontRequirementConceptShape *RequirementConceptShape
+		if front != nil {
+			frontRequirementConceptShape, _ = front.(*RequirementConceptShape)
+		}
+		stage.OnAfterRequirementConceptShapeUpdateCallback.OnAfterUpdate(stage, requirementconceptshape, frontRequirementConceptShape)
+	}
+}
+
+func (requirementconceptshape *RequirementConceptShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRequirementConceptShapeDeleteCallback != nil {
+		var frontRequirementConceptShape *RequirementConceptShape
+		if front != nil {
+			frontRequirementConceptShape, _ = front.(*RequirementConceptShape)
+		}
+		stage.OnAfterRequirementConceptShapeDeleteCallback.OnAfterDelete(stage, requirementconceptshape, frontRequirementConceptShape)
+	}
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterRequirementConcernShapeCreateCallback != nil {
+		stage.OnAfterRequirementConcernShapeCreateCallback.OnAfterCreate(stage, requirementconcernshape)
+	}
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRequirementConcernShapeUpdateCallback != nil {
+		var frontRequirementConcernShape *RequirementConcernShape
+		if front != nil {
+			frontRequirementConcernShape, _ = front.(*RequirementConcernShape)
+		}
+		stage.OnAfterRequirementConcernShapeUpdateCallback.OnAfterUpdate(stage, requirementconcernshape, frontRequirementConcernShape)
+	}
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRequirementConcernShapeDeleteCallback != nil {
+		var frontRequirementConcernShape *RequirementConcernShape
+		if front != nil {
+			frontRequirementConcernShape, _ = front.(*RequirementConcernShape)
+		}
+		stage.OnAfterRequirementConcernShapeDeleteCallback.OnAfterDelete(stage, requirementconcernshape, frontRequirementConcernShape)
+	}
+}
+
 func (requirementshape *RequirementShape) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterRequirementShapeCreateCallback != nil {
 		stage.OnAfterRequirementShapeCreateCallback.OnAfterCreate(stage, requirementshape)
@@ -648,6 +700,32 @@ func (requirementshape *RequirementShape) GongAfterDeleteFromFront(stage *Stage,
 			frontRequirementShape, _ = front.(*RequirementShape)
 		}
 		stage.OnAfterRequirementShapeDeleteCallback.OnAfterDelete(stage, requirementshape, frontRequirementShape)
+	}
+}
+
+func (requirementviewshape *RequirementViewShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterRequirementViewShapeCreateCallback != nil {
+		stage.OnAfterRequirementViewShapeCreateCallback.OnAfterCreate(stage, requirementviewshape)
+	}
+}
+
+func (requirementviewshape *RequirementViewShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRequirementViewShapeUpdateCallback != nil {
+		var frontRequirementViewShape *RequirementViewShape
+		if front != nil {
+			frontRequirementViewShape, _ = front.(*RequirementViewShape)
+		}
+		stage.OnAfterRequirementViewShapeUpdateCallback.OnAfterUpdate(stage, requirementviewshape, frontRequirementViewShape)
+	}
+}
+
+func (requirementviewshape *RequirementViewShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRequirementViewShapeDeleteCallback != nil {
+		var frontRequirementViewShape *RequirementViewShape
+		if front != nil {
+			frontRequirementViewShape, _ = front.(*RequirementViewShape)
+		}
+		stage.OnAfterRequirementViewShapeDeleteCallback.OnAfterDelete(stage, requirementviewshape, frontRequirementViewShape)
 	}
 }
 

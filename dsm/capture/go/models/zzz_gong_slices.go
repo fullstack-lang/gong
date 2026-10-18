@@ -53,13 +53,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Concern_Outputs_reverseMap[_deliverable] = concern
 		}
 	}
-	stage.Concern_Requirements_reverseMap = make(map[*Requirement]*Concern)
-	for concern := range stage.Concerns {
-		_ = concern
-		for _, _requirement := range concern.Requirements {
-			stage.Concern_Requirements_reverseMap[_requirement] = concern
-		}
-	}
 
 	// Compute reverse map for named struct ConcernCompositionShape
 	// insertion point per field
@@ -322,6 +315,48 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_RequirementsWhoseNodeIsExpanded_reverseMap[_requirement] = diagram
 		}
 	}
+	stage.Diagram_RequirementsWhoseConcernsNodeIsExpanded_reverseMap = make(map[*Requirement]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _requirement := range diagram.RequirementsWhoseConcernsNodeIsExpanded {
+			stage.Diagram_RequirementsWhoseConcernsNodeIsExpanded_reverseMap[_requirement] = diagram
+		}
+	}
+	stage.Diagram_RequirementsWhoseViewsNodeIsExpanded_reverseMap = make(map[*Requirement]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _requirement := range diagram.RequirementsWhoseViewsNodeIsExpanded {
+			stage.Diagram_RequirementsWhoseViewsNodeIsExpanded_reverseMap[_requirement] = diagram
+		}
+	}
+	stage.Diagram_RequirementsWhoseConceptsNodeIsExpanded_reverseMap = make(map[*Requirement]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _requirement := range diagram.RequirementsWhoseConceptsNodeIsExpanded {
+			stage.Diagram_RequirementsWhoseConceptsNodeIsExpanded_reverseMap[_requirement] = diagram
+		}
+	}
+	stage.Diagram_RequirementConcernShapes_reverseMap = make(map[*RequirementConcernShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _requirementconcernshape := range diagram.RequirementConcernShapes {
+			stage.Diagram_RequirementConcernShapes_reverseMap[_requirementconcernshape] = diagram
+		}
+	}
+	stage.Diagram_RequirementViewShapes_reverseMap = make(map[*RequirementViewShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _requirementviewshape := range diagram.RequirementViewShapes {
+			stage.Diagram_RequirementViewShapes_reverseMap[_requirementviewshape] = diagram
+		}
+	}
+	stage.Diagram_RequirementConceptShapes_reverseMap = make(map[*RequirementConceptShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _requirementconceptshape := range diagram.RequirementConceptShapes {
+			stage.Diagram_RequirementConceptShapes_reverseMap[_requirementconceptshape] = diagram
+		}
+	}
 	stage.Diagram_View_Shapes_reverseMap = make(map[*ViewShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
@@ -348,6 +383,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = diagram
 		for _, _view := range diagram.ViewsWhoseConceptsNodeIsExpanded {
 			stage.Diagram_ViewsWhoseConceptsNodeIsExpanded_reverseMap[_view] = diagram
+		}
+	}
+	stage.Diagram_ViewsWhoseRequirementsNodeIsExpanded_reverseMap = make(map[*View]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _view := range diagram.ViewsWhoseRequirementsNodeIsExpanded {
+			stage.Diagram_ViewsWhoseRequirementsNodeIsExpanded_reverseMap[_view] = diagram
 		}
 	}
 	stage.Diagram_DeliverableViewShapes_reverseMap = make(map[*DeliverableViewShape]*Diagram)
@@ -390,6 +432,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = diagram
 		for _, _concept := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
 			stage.Diagram_ConceptsWhoseDeliverablesNodeIsExpanded_reverseMap[_concept] = diagram
+		}
+	}
+	stage.Diagram_ConceptsWhoseRequirementsNodeIsExpanded_reverseMap = make(map[*Concept]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _concept := range diagram.ConceptsWhoseRequirementsNodeIsExpanded {
+			stage.Diagram_ConceptsWhoseRequirementsNodeIsExpanded_reverseMap[_concept] = diagram
 		}
 	}
 	stage.Diagram_DeliverableConceptShapes_reverseMap = make(map[*DeliverableConceptShape]*Diagram)
@@ -550,11 +599,55 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Requirement_SupportLevels_reverseMap[_supportlevel] = requirement
 		}
 	}
+	stage.Requirement_Concerns_reverseMap = make(map[*Concern]*Requirement)
+	for requirement := range stage.Requirements {
+		_ = requirement
+		for _, _concern := range requirement.Concerns {
+			stage.Requirement_Concerns_reverseMap[_concern] = requirement
+		}
+	}
+	stage.Requirement_Views_reverseMap = make(map[*View]*Requirement)
+	for requirement := range stage.Requirements {
+		_ = requirement
+		for _, _view := range requirement.Views {
+			stage.Requirement_Views_reverseMap[_view] = requirement
+		}
+	}
 	stage.Requirement_Concepts_reverseMap = make(map[*Concept]*Requirement)
 	for requirement := range stage.Requirements {
 		_ = requirement
 		for _, _concept := range requirement.Concepts {
 			stage.Requirement_Concepts_reverseMap[_concept] = requirement
+		}
+	}
+
+	// Compute reverse map for named struct RequirementConceptShape
+	// insertion point per field
+	stage.RequirementConceptShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*RequirementConceptShape)
+	for requirementconceptshape := range stage.RequirementConceptShapes {
+		_ = requirementconceptshape
+		for _, _controlpointshape := range requirementconceptshape.ControlPointShapes {
+			stage.RequirementConceptShape_ControlPointShapes_reverseMap[_controlpointshape] = requirementconceptshape
+		}
+	}
+
+	// Compute reverse map for named struct RequirementConcernShape
+	// insertion point per field
+	stage.RequirementConcernShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*RequirementConcernShape)
+	for requirementconcernshape := range stage.RequirementConcernShapes {
+		_ = requirementconcernshape
+		for _, _controlpointshape := range requirementconcernshape.ControlPointShapes {
+			stage.RequirementConcernShape_ControlPointShapes_reverseMap[_controlpointshape] = requirementconcernshape
+		}
+	}
+
+	// Compute reverse map for named struct RequirementViewShape
+	// insertion point per field
+	stage.RequirementViewShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*RequirementViewShape)
+	for requirementviewshape := range stage.RequirementViewShapes {
+		_ = requirementviewshape
+		for _, _controlpointshape := range requirementviewshape.ControlPointShapes {
+			stage.RequirementViewShape_ControlPointShapes_reverseMap[_controlpointshape] = requirementviewshape
 		}
 	}
 
@@ -666,7 +759,13 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.Requirements)
 
+	res = __gong__appendInstances(res, stage.RequirementConceptShapes)
+
+	res = __gong__appendInstances(res, stage.RequirementConcernShapes)
+
 	res = __gong__appendInstances(res, stage.RequirementShapes)
+
+	res = __gong__appendInstances(res, stage.RequirementViewShapes)
 
 	res = __gong__appendInstances(res, stage.Stakeholders)
 
@@ -828,9 +927,27 @@ func (requirement *Requirement) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (requirementconceptshape *RequirementConceptShape) GongCopy() GongstructIF {
+	newInstance := new(RequirementConceptShape)
+	requirementconceptshape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongCopy() GongstructIF {
+	newInstance := new(RequirementConcernShape)
+	requirementconcernshape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (requirementshape *RequirementShape) GongCopy() GongstructIF {
 	newInstance := new(RequirementShape)
 	requirementshape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (requirementviewshape *RequirementViewShape) GongCopy() GongstructIF {
+	newInstance := new(RequirementViewShape)
+	requirementviewshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -981,8 +1098,20 @@ func (requirement *Requirement) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, requirement)
 }
 
+func (requirementconceptshape *RequirementConceptShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, requirementconceptshape)
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, requirementconcernshape)
+}
+
 func (requirementshape *RequirementShape) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, requirementshape)
+}
+
+func (requirementviewshape *RequirementViewShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, requirementviewshape)
 }
 
 func (stakeholder *Stakeholder) GongGetUUID(stage *Stage) string {
@@ -1514,11 +1643,62 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.RequirementConceptShapes,
+		stage.RequirementConceptShape_stagedOrder,
+		stage.RequirementConceptShapes_reference,
+		&stage.RequirementConceptShapes_referenceOrder,
+		stage.RequirementConceptShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.RequirementConcernShapes,
+		stage.RequirementConcernShape_stagedOrder,
+		stage.RequirementConcernShapes_reference,
+		&stage.RequirementConcernShapes_referenceOrder,
+		stage.RequirementConcernShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.RequirementShapes,
 		stage.RequirementShape_stagedOrder,
 		stage.RequirementShapes_reference,
 		&stage.RequirementShapes_referenceOrder,
 		stage.RequirementShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.RequirementViewShapes,
+		stage.RequirementViewShape_stagedOrder,
+		stage.RequirementViewShapes_reference,
+		&stage.RequirementViewShapes_referenceOrder,
+		stage.RequirementViewShapes_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -1763,7 +1943,13 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.Requirements, &stage.Requirements_reference, &stage.Requirements_referenceOrder, &stage.Requirements_instance)
 
+	__gong__computeReferencePass1(stage, stage.RequirementConceptShapes, &stage.RequirementConceptShapes_reference, &stage.RequirementConceptShapes_referenceOrder, &stage.RequirementConceptShapes_instance)
+
+	__gong__computeReferencePass1(stage, stage.RequirementConcernShapes, &stage.RequirementConcernShapes_reference, &stage.RequirementConcernShapes_referenceOrder, &stage.RequirementConcernShapes_instance)
+
 	__gong__computeReferencePass1(stage, stage.RequirementShapes, &stage.RequirementShapes_reference, &stage.RequirementShapes_referenceOrder, &stage.RequirementShapes_instance)
+
+	__gong__computeReferencePass1(stage, stage.RequirementViewShapes, &stage.RequirementViewShapes_reference, &stage.RequirementViewShapes_referenceOrder, &stage.RequirementViewShapes_instance)
 
 	__gong__computeReferencePass1(stage, stage.Stakeholders, &stage.Stakeholders_reference, &stage.Stakeholders_referenceOrder, &stage.Stakeholders_instance)
 
@@ -1830,7 +2016,13 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass2(stage.Requirements, stage.Requirements_reference, stage)
 
+	__gong__computeReferencePass2(stage.RequirementConceptShapes, stage.RequirementConceptShapes_reference, stage)
+
+	__gong__computeReferencePass2(stage.RequirementConcernShapes, stage.RequirementConcernShapes_reference, stage)
+
 	__gong__computeReferencePass2(stage.RequirementShapes, stage.RequirementShapes_reference, stage)
+
+	__gong__computeReferencePass2(stage.RequirementViewShapes, stage.RequirementViewShapes_reference, stage)
 
 	__gong__computeReferencePass2(stage.Stakeholders, stage.Stakeholders_reference, stage)
 
@@ -1952,8 +2144,20 @@ func (requirement *Requirement) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Requirement_stagedOrder, stage.Requirements_referenceOrder, requirement, "Requirement")
 }
 
+func (requirementconceptshape *RequirementConceptShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.RequirementConceptShape_stagedOrder, stage.RequirementConceptShapes_referenceOrder, requirementconceptshape, "RequirementConceptShape")
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.RequirementConcernShape_stagedOrder, stage.RequirementConcernShapes_referenceOrder, requirementconcernshape, "RequirementConcernShape")
+}
+
 func (requirementshape *RequirementShape) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.RequirementShape_stagedOrder, stage.RequirementShapes_referenceOrder, requirementshape, "RequirementShape")
+}
+
+func (requirementviewshape *RequirementViewShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.RequirementViewShape_stagedOrder, stage.RequirementViewShapes_referenceOrder, requirementviewshape, "RequirementViewShape")
 }
 
 func (stakeholder *Stakeholder) GongGetOrder(stage *Stage) uint {
@@ -2204,6 +2408,24 @@ func (requirement *Requirement) GongGetReferenceIdentifier(stage *Stage) string 
 	return requirement.GongGetIdentifier(stage)
 }
 
+func (requirementconceptshape *RequirementConceptShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(requirementconceptshape, requirementconceptshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (requirementconceptshape *RequirementConceptShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return requirementconceptshape.GongGetIdentifier(stage)
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(requirementconcernshape, requirementconcernshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (requirementconcernshape *RequirementConcernShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return requirementconcernshape.GongGetIdentifier(stage)
+}
+
 func (requirementshape *RequirementShape) GongGetIdentifier(stage *Stage) string {
 	return __gong__formatIdentifier(requirementshape, requirementshape.GongGetOrder(stage))
 }
@@ -2211,6 +2433,15 @@ func (requirementshape *RequirementShape) GongGetIdentifier(stage *Stage) string
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (requirementshape *RequirementShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return requirementshape.GongGetIdentifier(stage)
+}
+
+func (requirementviewshape *RequirementViewShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(requirementviewshape, requirementviewshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (requirementviewshape *RequirementViewShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return requirementviewshape.GongGetIdentifier(stage)
 }
 
 func (stakeholder *Stakeholder) GongGetIdentifier(stage *Stage) string {
@@ -2389,8 +2620,20 @@ func (requirement *Requirement) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(requirement.GongGetIdentifier(stage), "Requirement", requirement.Name)
 }
 
+func (requirementconceptshape *RequirementConceptShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(requirementconceptshape.GongGetIdentifier(stage), "RequirementConceptShape", requirementconceptshape.Name)
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(requirementconcernshape.GongGetIdentifier(stage), "RequirementConcernShape", requirementconcernshape.Name)
+}
+
 func (requirementshape *RequirementShape) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(requirementshape.GongGetIdentifier(stage), "RequirementShape", requirementshape.Name)
+}
+
+func (requirementviewshape *RequirementViewShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(requirementviewshape.GongGetIdentifier(stage), "RequirementViewShape", requirementviewshape.Name)
 }
 
 func (stakeholder *Stakeholder) GongMarshallIdentifier(stage *Stage) string {
@@ -2522,8 +2765,20 @@ func (requirement *Requirement) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(requirement.GongGetReferenceIdentifier(stage))
 }
 
+func (requirementconceptshape *RequirementConceptShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(requirementconceptshape.GongGetReferenceIdentifier(stage))
+}
+
+func (requirementconcernshape *RequirementConcernShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(requirementconcernshape.GongGetReferenceIdentifier(stage))
+}
+
 func (requirementshape *RequirementShape) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(requirementshape.GongGetReferenceIdentifier(stage))
+}
+
+func (requirementviewshape *RequirementViewShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(requirementviewshape.GongGetReferenceIdentifier(stage))
 }
 
 func (stakeholder *Stakeholder) GongMarshallUnstaging(stage *Stage) string {

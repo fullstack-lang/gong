@@ -318,6 +318,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.RequirementConceptShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "RequirementConceptShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RequirementConceptShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.RequirementConcernShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "RequirementConcernShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RequirementConcernShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.RequirementShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -325,6 +351,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "RequirementShape",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__RequirementShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.RequirementViewShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "RequirementViewShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RequirementViewShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

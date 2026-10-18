@@ -80,8 +80,6 @@ type Concern struct {
 	// Completion Management
 	IsWithCompletion bool
 	Completion       CompletionEnum
-
-	Requirements []*Requirement
 }
 
 // GetIDAirbus implements [withIDAirbus].
@@ -172,6 +170,8 @@ type Requirement struct {
 	AbstractTypeFields
 
 	SupportLevels []*SupportLevel
+	Concerns      []*Concern
+	Views         []*View
 	Concepts      []*Concept
 }
 

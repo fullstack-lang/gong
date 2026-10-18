@@ -177,6 +177,27 @@ func (stager *Stager) enforceDiagramMaps() {
 			}
 		}
 
+		diagram.map_RequirementConcernKey_RequirementConcernShape = make(map[requirementConcernKey]*RequirementConcernShape)
+		for _, shape := range diagram.RequirementConcernShapes {
+			if shape.Requirement != nil && shape.Concern != nil {
+				diagram.map_RequirementConcernKey_RequirementConcernShape[requirementConcernKey{Requirement: shape.Requirement, Concern: shape.Concern}] = shape
+			}
+		}
+
+		diagram.map_RequirementViewKey_RequirementViewShape = make(map[requirementViewKey]*RequirementViewShape)
+		for _, shape := range diagram.RequirementViewShapes {
+			if shape.Requirement != nil && shape.View != nil {
+				diagram.map_RequirementViewKey_RequirementViewShape[requirementViewKey{Requirement: shape.Requirement, View: shape.View}] = shape
+			}
+		}
+
+		diagram.map_RequirementConceptKey_RequirementConceptShape = make(map[requirementConceptKey]*RequirementConceptShape)
+		for _, shape := range diagram.RequirementConceptShapes {
+			if shape.Requirement != nil && shape.Concept != nil {
+				diagram.map_RequirementConceptKey_RequirementConceptShape[requirementConceptKey{Requirement: shape.Requirement, Concept: shape.Concept}] = shape
+			}
+		}
+
 		diagram.map_Concept_ConceptShape = make(map[*Concept]*ConceptShape)
 		for _, shape := range diagram.Concept_Shapes {
 			if shape.Concept != nil {

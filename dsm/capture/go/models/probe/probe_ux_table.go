@@ -70,8 +70,14 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.NoteTaskShape](probe)
 	case "Requirement":
 		updateProbeTable[*models.Requirement](probe)
+	case "RequirementConceptShape":
+		updateProbeTable[*models.RequirementConceptShape](probe)
+	case "RequirementConcernShape":
+		updateProbeTable[*models.RequirementConcernShape](probe)
 	case "RequirementShape":
 		updateProbeTable[*models.RequirementShape](probe)
+	case "RequirementViewShape":
+		updateProbeTable[*models.RequirementViewShape](probe)
 	case "Stakeholder":
 		updateProbeTable[*models.Stakeholder](probe)
 	case "StakeholderCompositionShape":
