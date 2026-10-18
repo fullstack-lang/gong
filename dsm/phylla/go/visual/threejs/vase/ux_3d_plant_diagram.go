@@ -264,6 +264,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 		p1H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.TopPlaneHeight*scaleY
 		p2H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.BottomPlaneHeight*scaleY
+		p2H_base := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.BaseRingBottomPlaneHeight*scaleY
 		projAngleRad := -plant.TubeVaseAbstract.ProjectionAngle * math.Pi / 180.0
 
 		projectCurve := func(srcCurve *threejs.Curve, planeHeight float64, dy float64, curveName string) *threejs.Curve {
@@ -330,6 +331,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		cBottomP1 := projectCurve(trapezeBottomCurve, p1H, 0, plant.Name+" Bottom Curve Plane 1")
 		cTopP2 := projectCurve(trapezeTopCurve, p2H, 0, plant.Name+" Top Curve Plane 2")
 		cBottomP2 := projectCurve(trapezeBottomCurve, p2H, 0, plant.Name+" Bottom Curve Plane 2")
+		cTopP2_base := projectCurve(trapezeTopCurve, p2H_base, 0, plant.Name+" Top Curve Base Plane 2")
+		cBottomP2_base := projectCurve(trapezeBottomCurve, p2H_base, 0, plant.Name+" Bottom Curve Base Plane 2")
 
 		if !checkedDiagram.IsHiddenTopCurvePlane1Shape {
 			addProjectedMesh(cTopP1, plant.Name+" Top Curve Plane 1", "royalblue")
@@ -584,10 +587,15 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 					curBottomCurve, curTopCurve = u.computeMassiveCurves(stager, thetaOffset, fmt.Sprintf("Trapeze Rotated Carved Stack h%d", h), plant, resampledBaseBottom, resampledBaseTop)
 				}
 
+				curP2H := p2H
+				if h == 0 {
+					curP2H = p2H_base
+				}
+
 				ringTopP1 := projectCurve(curTopCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P1 h%d", plant.Name, h))
 				ringBottomP1 := projectCurve(curBottomCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P1 h%d", plant.Name, h))
-				ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P2 h%d", plant.Name, h))
-				ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P2 h%d", plant.Name, h))
+				ringTopP2 := projectCurve(curTopCurve, curP2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P2 h%d", plant.Name, h))
+				ringBottomP2 := projectCurve(curBottomCurve, curP2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P2 h%d", plant.Name, h))
 
 				ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Top P1 h%d", plant.Name, h))
 				ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Bottom P1 h%d", plant.Name, h))
@@ -600,7 +608,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			if M < 3 {
 				return
 			}
-			pBottomH := p2H
+			pBottomH := p2H_base
 			floorY := floorMinY
 			if pBottomH <= floorY {
 				return
@@ -885,7 +893,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 
 		if !checkedDiagram.IsHiddenVaseTrapezeBasePlateShape {
-			buildBasePlateMesh(cTopP1, cBottomP1, cTopP2, cBottomP2, "Vase Trapeze Base Plate")
+			buildBasePlateMesh(cTopP1, cBottomP1, cTopP2_base, cBottomP2_base, "Vase Trapeze Base Plate")
 		}
 	}
 

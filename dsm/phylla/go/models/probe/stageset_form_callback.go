@@ -1495,6 +1495,8 @@ func saveStageSet_TubeVaseAbstract_Stage(
 			FormDivBasicFieldToField(&inst.TopPlaneHeight, formDiv)
 		case "BottomPlaneHeight":
 			FormDivBasicFieldToField(&inst.BottomPlaneHeight, formDiv)
+		case "BaseRingBottomPlaneHeight":
+			FormDivBasicFieldToField(&inst.BaseRingBottomPlaneHeight, formDiv)
 		case "ProjectionAngle":
 			FormDivBasicFieldToField(&inst.ProjectionAngle, formDiv)
 		case "BasePlateHeight":

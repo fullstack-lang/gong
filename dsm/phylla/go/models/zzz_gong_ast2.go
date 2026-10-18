@@ -4252,6 +4252,8 @@ func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.TopPlaneHeight = GongExtractFloat(valueExpr)
 	case "BottomPlaneHeight":
 		instance.BottomPlaneHeight = GongExtractFloat(valueExpr)
+	case "BaseRingBottomPlaneHeight":
+		instance.BaseRingBottomPlaneHeight = GongExtractFloat(valueExpr)
 	case "ProjectionAngle":
 		instance.ProjectionAngle = GongExtractFloat(valueExpr)
 	case "BasePlateHeight":

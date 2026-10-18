@@ -868,6 +868,7 @@ func StageSetFillUpForm(
 		StageSetBasicFieldtoForm("RibbonVerticalScale", inst.RibbonVerticalScale, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("TopPlaneHeight", inst.TopPlaneHeight, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("BottomPlaneHeight", inst.BottomPlaneHeight, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("BaseRingBottomPlaneHeight", inst.BaseRingBottomPlaneHeight, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("ProjectionAngle", inst.ProjectionAngle, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("BasePlateHeight", inst.BasePlateHeight, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("CarvedOutTopRingsParameter", inst.CarvedOutTopRingsParameter, probe.formStage, formGroup)

@@ -13893,6 +13893,9 @@ func (tubevaseabstract *TubeVaseAbstract) GongDiff(stage *Stage, tubevaseabstrac
 	if tubevaseabstract.BottomPlaneHeight != tubevaseabstractOther.BottomPlaneHeight {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "BottomPlaneHeight"))
 	}
+	if tubevaseabstract.BaseRingBottomPlaneHeight != tubevaseabstractOther.BaseRingBottomPlaneHeight {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "BaseRingBottomPlaneHeight"))
+	}
 	if tubevaseabstract.ProjectionAngle != tubevaseabstractOther.ProjectionAngle {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "ProjectionAngle"))
 	}

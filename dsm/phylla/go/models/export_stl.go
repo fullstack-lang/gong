@@ -800,7 +800,11 @@ func writeVaseTrapezeSTL(
 	}
 
 	p1H := vase.Z_Ribbon + vase.TopPlaneHeight*scaleY
-	p2H := vase.Z_Ribbon + vase.BottomPlaneHeight*scaleY
+	bottomPlaneHeight := vase.BottomPlaneHeight
+	if part == STLExportVaseTrapezeBaseAndFirstRing || part == STLExportAll {
+		bottomPlaneHeight = vase.BaseRingBottomPlaneHeight
+	}
+	p2H := vase.Z_Ribbon + bottomPlaneHeight*scaleY
 	projAngleRad := -vase.ProjectionAngle * math.Pi / 180.0
 
 	projectCurve := func(srcCurve []vector3, planeHeight float64, dy float64) []vector3 {

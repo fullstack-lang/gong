@@ -16,6 +16,9 @@ type TubeVaseAbstract struct {
 	// BottomPlaneHeight is the height of the second projection plane relative to Z_Ribbon (for Vase Trapeze).
 	BottomPlaneHeight float64
 
+	// BaseRingBottomPlaneHeight is the height of the bottom projection plane for the base ring (h == 0) relative to Z_Ribbon (for Vase Trapeze).
+	BaseRingBottomPlaneHeight float64
+
 	// ProjectionAngle is the constant projection angle in degrees (for Vase Trapeze).
 	ProjectionAngle float64
 

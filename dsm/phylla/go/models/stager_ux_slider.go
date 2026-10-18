@@ -252,6 +252,14 @@ func (stager *Stager) ux_slider() {
 					),
 					m.NewSlider(
 						stager,
+						"Base Ring Bottom Plane",
+						-200.0,
+						800.0,
+						1.0,
+						&plant.TubeVaseAbstract.BaseRingBottomPlaneHeight,
+					),
+					m.NewSlider(
+						stager,
 						"Projection Angle",
 						-90.0,
 						90.0,

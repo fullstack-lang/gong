@@ -1401,6 +1401,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.RibbonVerticalScale = %f", tubevaseabstractIdent, tubevaseabstract.RibbonVerticalScale))
 			values.WriteString(fmt.Sprintf("\n\t%s.TopPlaneHeight = %f", tubevaseabstractIdent, tubevaseabstract.TopPlaneHeight))
 			values.WriteString(fmt.Sprintf("\n\t%s.BottomPlaneHeight = %f", tubevaseabstractIdent, tubevaseabstract.BottomPlaneHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.BaseRingBottomPlaneHeight = %f", tubevaseabstractIdent, tubevaseabstract.BaseRingBottomPlaneHeight))
 			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", tubevaseabstractIdent, tubevaseabstract.ProjectionAngle))
 			values.WriteString(fmt.Sprintf("\n\t%s.BasePlateHeight = %f", tubevaseabstractIdent, tubevaseabstract.BasePlateHeight))
 			values.WriteString(fmt.Sprintf("\n\t%s.CarvedOutTopRingsParameter = %f", tubevaseabstractIdent, tubevaseabstract.CarvedOutTopRingsParameter))
@@ -2376,6 +2377,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.TopPlaneHeight = GongExtractFloat(rhs)
 					case "BottomPlaneHeight":
 						inst.BottomPlaneHeight = GongExtractFloat(rhs)
+					case "BaseRingBottomPlaneHeight":
+						inst.BaseRingBottomPlaneHeight = GongExtractFloat(rhs)
 					case "ProjectionAngle":
 						inst.ProjectionAngle = GongExtractFloat(rhs)
 					case "BasePlateHeight":

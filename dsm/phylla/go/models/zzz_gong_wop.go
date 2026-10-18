@@ -2995,6 +2995,8 @@ type TubeVaseAbstract_WOP struct {
 
 	BottomPlaneHeight float64
 
+	BaseRingBottomPlaneHeight float64
+
 	ProjectionAngle float64
 
 	BasePlateHeight float64
@@ -3053,6 +3055,7 @@ func (from *TubeVaseAbstract) GongCopyBasicFields(to *TubeVaseAbstract) {
 	to.RibbonVerticalScale = from.RibbonVerticalScale
 	to.TopPlaneHeight = from.TopPlaneHeight
 	to.BottomPlaneHeight = from.BottomPlaneHeight
+	to.BaseRingBottomPlaneHeight = from.BaseRingBottomPlaneHeight
 	to.ProjectionAngle = from.ProjectionAngle
 	to.BasePlateHeight = from.BasePlateHeight
 	to.CarvedOutTopRingsParameter = from.CarvedOutTopRingsParameter

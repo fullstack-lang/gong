@@ -5544,6 +5544,11 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "BaseRingBottomPlaneHeight"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "ProjectionAngle"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -5871,6 +5876,12 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *StageSetProbe) {
 		{
 			cell := &table_models.Cell{Name: "BottomPlaneHeight"}
 			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.BottomPlaneHeight)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "BaseRingBottomPlaneHeight"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.BaseRingBottomPlaneHeight)}
 			row.Cells = append(row.Cells, cell)
 		}
 

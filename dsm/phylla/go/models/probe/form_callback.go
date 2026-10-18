@@ -6054,6 +6054,8 @@ func saveTubeVaseAbstractFields(
 			FormDivBasicFieldToField(&(_instance.TopPlaneHeight), formDiv)
 		case "BottomPlaneHeight":
 			FormDivBasicFieldToField(&(_instance.BottomPlaneHeight), formDiv)
+		case "BaseRingBottomPlaneHeight":
+			FormDivBasicFieldToField(&(_instance.BaseRingBottomPlaneHeight), formDiv)
 		case "ProjectionAngle":
 			FormDivBasicFieldToField(&(_instance.ProjectionAngle), formDiv)
 		case "BasePlateHeight":

@@ -3430,6 +3430,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("BottomPlaneHeight", instanceWithInferedType.BottomPlaneHeight, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BaseRingBottomPlaneHeight", instanceWithInferedType.BaseRingBottomPlaneHeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ProjectionAngle", instanceWithInferedType.ProjectionAngle, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("BasePlateHeight", instanceWithInferedType.BasePlateHeight, instanceWithInferedType, probe.formStage, formGroup,
