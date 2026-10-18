@@ -11,6 +11,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"slices"
 	"sort"
 	"strconv"
@@ -184,8 +185,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_measureIdent, __gong__toRawStringLiteral(a_measure.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %s", a_measureIdent, __gong__toRawStringLiteral(a_measure.Number)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Text = %s", a_measureIdent, __gong__toRawStringLiteral(a_measure.Text)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Implicit = %s", a_measureIdent, __gong__toRawStringLiteral(string(a_measure.Implicit))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Non_controlling = %s", a_measureIdent, __gong__toRawStringLiteral(string(a_measure.Non_controlling))))
+			if a_measure.Implicit.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Implicit = models.%s", a_measureIdent, a_measure.Implicit.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Implicit = \"\"", a_measureIdent))
+			}
+			if a_measure.Non_controlling.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Non_controlling = models.%s", a_measureIdent, a_measure.Non_controlling.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Non_controlling = \"\"", a_measureIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %s", a_measureIdent, __gong__toRawStringLiteral(a_measure.Width)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", a_measureIdent, __gong__toRawStringLiteral(a_measure.Id)))
 			for _, elem := range a_measure.Note {
@@ -349,8 +358,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_measure_1Ident, __gong__toRawStringLiteral(a_measure_1.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %s", a_measure_1Ident, __gong__toRawStringLiteral(a_measure_1.Number)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Text = %s", a_measure_1Ident, __gong__toRawStringLiteral(a_measure_1.Text)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Implicit = %s", a_measure_1Ident, __gong__toRawStringLiteral(string(a_measure_1.Implicit))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Non_controlling = %s", a_measure_1Ident, __gong__toRawStringLiteral(string(a_measure_1.Non_controlling))))
+			if a_measure_1.Implicit.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Implicit = models.%s", a_measure_1Ident, a_measure_1.Implicit.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Implicit = \"\"", a_measure_1Ident))
+			}
+			if a_measure_1.Non_controlling.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Non_controlling = models.%s", a_measure_1Ident, a_measure_1.Non_controlling.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Non_controlling = \"\"", a_measure_1Ident))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %s", a_measure_1Ident, __gong__toRawStringLiteral(a_measure_1.Width)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", a_measure_1Ident, __gong__toRawStringLiteral(a_measure_1.Id)))
 			for _, elem := range a_measure_1.Part {
@@ -573,11 +590,27 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Cautionary = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Cautionary)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Editorial = %s", accidentalIdent, __gong__toRawStringLiteral(string(accidental.Editorial))))
+			if accidental.Editorial.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Editorial = models.%s", accidentalIdent, accidental.Editorial.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Editorial = \"\"", accidentalIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Smufl)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = %s", accidentalIdent, __gong__toRawStringLiteral(string(accidental.Parentheses))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Bracket = %s", accidentalIdent, __gong__toRawStringLiteral(string(accidental.Bracket))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Size = %s", accidentalIdent, __gong__toRawStringLiteral(string(accidental.Size))))
+			if accidental.Parentheses.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = models.%s", accidentalIdent, accidental.Parentheses.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = \"\"", accidentalIdent))
+			}
+			if accidental.Bracket.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Bracket = models.%s", accidentalIdent, accidental.Bracket.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Bracket = \"\"", accidentalIdent))
+			}
+			if accidental.Size.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Size = models.%s", accidentalIdent, accidental.Size.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Size = \"\"", accidentalIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Relative_x)))
@@ -608,9 +641,21 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Smufl)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = %s", accidental_markIdent, __gong__toRawStringLiteral(string(accidental_mark.Parentheses))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Bracket = %s", accidental_markIdent, __gong__toRawStringLiteral(string(accidental_mark.Bracket))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Size = %s", accidental_markIdent, __gong__toRawStringLiteral(string(accidental_mark.Size))))
+			if accidental_mark.Parentheses.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = models.%s", accidental_markIdent, accidental_mark.Parentheses.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = \"\"", accidental_markIdent))
+			}
+			if accidental_mark.Bracket.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Bracket = models.%s", accidental_markIdent, accidental_mark.Bracket.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Bracket = \"\"", accidental_markIdent))
+			}
+			if accidental_mark.Size.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Size = models.%s", accidental_markIdent, accidental_mark.Size.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Size = \"\"", accidental_markIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Relative_x)))
@@ -622,7 +667,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Placement)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Id)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", accidental_markIdent, __gong__toRawStringLiteral(string(accidental_mark.EnclosedText))))
+			if accidental_mark.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", accidental_markIdent, accidental_mark.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", accidental_markIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -645,7 +694,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Smufl)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Lang = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Lang)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Space = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Space)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Justify = %s", accidental_textIdent, __gong__toRawStringLiteral(string(accidental_text.Justify))))
+			if accidental_text.Justify.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = models.%s", accidental_textIdent, accidental_text.Justify.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = \"\"", accidental_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Relative_x)))
@@ -665,7 +718,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_height = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Line_height)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Dir = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Dir)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Enclosure)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", accidental_textIdent, __gong__toRawStringLiteral(string(accidental_text.EnclosedText))))
+			if accidental_text.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", accidental_textIdent, accidental_text.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", accidental_textIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -686,7 +743,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", accordIdent, __gong__toRawStringLiteral(accord.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.String = %d", accordIdent, accord.String))
-			values.WriteString(fmt.Sprintf("\n\t%s.Tuning_step = %s", accordIdent, __gong__toRawStringLiteral(string(accord.Tuning_step))))
+			if accord.Tuning_step.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Tuning_step = models.%s", accordIdent, accord.Tuning_step.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Tuning_step = \"\"", accordIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Tuning_alter = %s", accordIdent, __gong__toRawStringLiteral(accord.Tuning_alter)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Tuning_octave = %d", accordIdent, accord.Tuning_octave))
 		}
@@ -813,7 +874,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", arpeggiateIdent, arpeggiate.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Direction = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Direction)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Unbroken = %s", arpeggiateIdent, __gong__toRawStringLiteral(string(arpeggiate.Unbroken))))
+			if arpeggiate.Unbroken.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Unbroken = models.%s", arpeggiateIdent, arpeggiate.Unbroken.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Unbroken = \"\"", arpeggiateIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Relative_x)))
@@ -1064,7 +1129,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", assessIdent, __gong__toRawStringLiteral(assess.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", assessIdent, __gong__toRawStringLiteral(string(assess.Type))))
+			if assess.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", assessIdent, assess.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", assessIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Player = %s", assessIdent, __gong__toRawStringLiteral(assess.Player)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", assessIdent, __gong__toRawStringLiteral(assess.Time_only)))
 		}
@@ -1495,7 +1564,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", beamIdent, __gong__toRawStringLiteral(beam.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", beamIdent, beam.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Repeater = %s", beamIdent, __gong__toRawStringLiteral(string(beam.Repeater))))
+			if beam.Repeater.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Repeater = models.%s", beamIdent, beam.Repeater.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Repeater = \"\"", beamIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Fan = %s", beamIdent, __gong__toRawStringLiteral(beam.Fan)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", beamIdent, __gong__toRawStringLiteral(beam.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", beamIdent, __gong__toRawStringLiteral(beam.Id)))
@@ -1519,10 +1592,22 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", beat_repeatIdent, __gong__toRawStringLiteral(beat_repeat.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", beat_repeatIdent, __gong__toRawStringLiteral(string(beat_repeat.Type))))
+			if beat_repeat.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", beat_repeatIdent, beat_repeat.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", beat_repeatIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Slashes = %d", beat_repeatIdent, beat_repeat.Slashes))
-			values.WriteString(fmt.Sprintf("\n\t%s.Use_dots = %s", beat_repeatIdent, __gong__toRawStringLiteral(string(beat_repeat.Use_dots))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Slash_type = %s", beat_repeatIdent, __gong__toRawStringLiteral(string(beat_repeat.Slash_type))))
+			if beat_repeat.Use_dots.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Use_dots = models.%s", beat_repeatIdent, beat_repeat.Use_dots.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Use_dots = \"\"", beat_repeatIdent))
+			}
+			if beat_repeat.Slash_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Slash_type = models.%s", beat_repeatIdent, beat_repeat.Slash_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Slash_type = \"\"", beat_repeatIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Slash_dot = %s", beat_repeatIdent, __gong__toRawStringLiteral(beat_repeat.Slash_dot)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Except_voice = %s", beat_repeatIdent, __gong__toRawStringLiteral(beat_repeat.Except_voice)))
 		}
@@ -1544,7 +1629,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", beat_unit_tiedIdent, __gong__toRawStringLiteral(beat_unit_tied.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Beat_unit = %s", beat_unit_tiedIdent, __gong__toRawStringLiteral(string(beat_unit_tied.Beat_unit))))
+			if beat_unit_tied.Beat_unit.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Beat_unit = models.%s", beat_unit_tiedIdent, beat_unit_tied.Beat_unit.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Beat_unit = \"\"", beat_unit_tiedIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Beat_unit_dot = %s", beat_unit_tiedIdent, __gong__toRawStringLiteral(beat_unit_tied.Beat_unit_dot)))
 		}
 	}
@@ -1596,7 +1685,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", bendIdent, __gong__toRawStringLiteral(bend.Font_size)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", bendIdent, __gong__toRawStringLiteral(bend.Font_weight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", bendIdent, __gong__toRawStringLiteral(bend.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = %s", bendIdent, __gong__toRawStringLiteral(string(bend.Accelerate))))
+			if bend.Accelerate.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = models.%s", bendIdent, bend.Accelerate.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = \"\"", bendIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Beats = %s", bendIdent, __gong__toRawStringLiteral(bend.Beats)))
 			values.WriteString(fmt.Sprintf("\n\t%s.First_beat = %s", bendIdent, __gong__toRawStringLiteral(bend.First_beat)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Last_beat = %s", bendIdent, __gong__toRawStringLiteral(bend.Last_beat)))
@@ -1778,9 +1871,17 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", clefIdent, __gong__toRawStringLiteral(clef.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", clefIdent, clef.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Additional = %s", clefIdent, __gong__toRawStringLiteral(string(clef.Additional))))
+			if clef.Additional.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Additional = models.%s", clefIdent, clef.Additional.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Additional = \"\"", clefIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Size = %s", clefIdent, __gong__toRawStringLiteral(clef.Size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.After_barline = %s", clefIdent, __gong__toRawStringLiteral(string(clef.After_barline))))
+			if clef.After_barline.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.After_barline = models.%s", clefIdent, clef.After_barline.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.After_barline = \"\"", clefIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", clefIdent, __gong__toRawStringLiteral(clef.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", clefIdent, __gong__toRawStringLiteral(clef.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", clefIdent, __gong__toRawStringLiteral(clef.Relative_x)))
@@ -1790,7 +1891,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", clefIdent, __gong__toRawStringLiteral(clef.Font_size)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", clefIdent, __gong__toRawStringLiteral(clef.Font_weight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", clefIdent, __gong__toRawStringLiteral(clef.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", clefIdent, __gong__toRawStringLiteral(string(clef.Print_object))))
+			if clef.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", clefIdent, clef.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", clefIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", clefIdent, __gong__toRawStringLiteral(clef.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Sign = %s", clefIdent, __gong__toRawStringLiteral(clef.Sign)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line = %d", clefIdent, clef.Line))
@@ -1918,7 +2023,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dashesIdent, __gong__toRawStringLiteral(dashes.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", dashesIdent, __gong__toRawStringLiteral(string(dashes.Type))))
+			if dashes.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", dashesIdent, dashes.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", dashesIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", dashesIdent, dashes.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", dashesIdent, __gong__toRawStringLiteral(dashes.Dash_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Space_length = %s", dashesIdent, __gong__toRawStringLiteral(dashes.Space_length)))
@@ -2057,7 +2166,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", degreeIdent, __gong__toRawStringLiteral(degree.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", degreeIdent, __gong__toRawStringLiteral(string(degree.Print_object))))
+			if degree.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", degreeIdent, degree.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", degreeIdent))
+			}
 			if degree.Degree_value != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -2107,7 +2220,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", degree_alterIdent, __gong__toRawStringLiteral(degree_alter.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Plus_minus = %s", degree_alterIdent, __gong__toRawStringLiteral(string(degree_alter.Plus_minus))))
+			if degree_alter.Plus_minus.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Plus_minus = models.%s", degree_alterIdent, degree_alter.Plus_minus.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Plus_minus = \"\"", degree_alterIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", degree_alterIdent, __gong__toRawStringLiteral(degree_alter.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", degree_alterIdent, __gong__toRawStringLiteral(degree_alter.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", degree_alterIdent, __gong__toRawStringLiteral(degree_alter.Relative_x)))
@@ -2199,8 +2316,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", directionIdent, __gong__toRawStringLiteral(direction.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", directionIdent, __gong__toRawStringLiteral(direction.Placement)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Directive = %s", directionIdent, __gong__toRawStringLiteral(string(direction.Directive))))
-			values.WriteString(fmt.Sprintf("\n\t%s.System = %s", directionIdent, __gong__toRawStringLiteral(string(direction.System))))
+			if direction.Directive.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Directive = models.%s", directionIdent, direction.Directive.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Directive = \"\"", directionIdent))
+			}
+			if direction.System.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.System = models.%s", directionIdent, direction.System.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.System = \"\"", directionIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", directionIdent, __gong__toRawStringLiteral(direction.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Voice = %s", directionIdent, __gong__toRawStringLiteral(direction.Voice)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Staff = %d", directionIdent, direction.Staff))
@@ -2564,7 +2689,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", doubleIdent, __gong__toRawStringLiteral(double.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Above = %s", doubleIdent, __gong__toRawStringLiteral(string(double.Above))))
+			if double.Above.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Above = models.%s", doubleIdent, double.Above.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Above = \"\"", doubleIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -2838,7 +2967,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(string(empty_print_object_style_align.Print_object))))
+			if empty_print_object_style_align.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", empty_print_object_style_alignIdent, empty_print_object_style_align.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", empty_print_object_style_alignIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Relative_x)))
@@ -2971,7 +3104,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Start_note = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Start_note)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Trill_step)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Two_note_turn)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(string(empty_trill_sound.Accelerate))))
+			if empty_trill_sound.Accelerate.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = models.%s", empty_trill_soundIdent, empty_trill_sound.Accelerate.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = \"\"", empty_trill_soundIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Beats = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Beats)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Second_beat = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Second_beat)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Last_beat = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Last_beat)))
@@ -3040,7 +3177,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.End_length = %s", endingIdent, __gong__toRawStringLiteral(ending.End_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Text_x = %s", endingIdent, __gong__toRawStringLiteral(ending.Text_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Text_y = %s", endingIdent, __gong__toRawStringLiteral(ending.Text_y)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", endingIdent, __gong__toRawStringLiteral(string(ending.Print_object))))
+			if ending.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", endingIdent, ending.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", endingIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", endingIdent, __gong__toRawStringLiteral(ending.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", endingIdent, __gong__toRawStringLiteral(ending.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", endingIdent, __gong__toRawStringLiteral(ending.Relative_x)))
@@ -3050,7 +3191,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", endingIdent, __gong__toRawStringLiteral(ending.Font_size)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", endingIdent, __gong__toRawStringLiteral(ending.Font_weight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", endingIdent, __gong__toRawStringLiteral(ending.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.System = %s", endingIdent, __gong__toRawStringLiteral(string(ending.System))))
+			if ending.System.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.System = models.%s", endingIdent, ending.System.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.System = \"\"", endingIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", endingIdent, __gong__toRawStringLiteral(ending.EnclosedText)))
 		}
 	}
@@ -3071,7 +3216,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", extendIdent, __gong__toRawStringLiteral(extend.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", extendIdent, __gong__toRawStringLiteral(string(extend.Type))))
+			if extend.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", extendIdent, extend.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", extendIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", extendIdent, __gong__toRawStringLiteral(extend.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", extendIdent, __gong__toRawStringLiteral(extend.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", extendIdent, __gong__toRawStringLiteral(extend.Relative_x)))
@@ -3227,7 +3376,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = %s", figured_bassIdent, __gong__toRawStringLiteral(string(figured_bass.Parentheses))))
+			if figured_bass.Parentheses.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = models.%s", figured_bassIdent, figured_bass.Parentheses.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = \"\"", figured_bassIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Relative_x)))
@@ -3240,10 +3393,26 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Halign)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Valign)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Placement)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_dot = %s", figured_bassIdent, __gong__toRawStringLiteral(string(figured_bass.Print_dot))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_lyric = %s", figured_bassIdent, __gong__toRawStringLiteral(string(figured_bass.Print_lyric))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", figured_bassIdent, __gong__toRawStringLiteral(string(figured_bass.Print_object))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_spacing = %s", figured_bassIdent, __gong__toRawStringLiteral(string(figured_bass.Print_spacing))))
+			if figured_bass.Print_dot.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_dot = models.%s", figured_bassIdent, figured_bass.Print_dot.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_dot = \"\"", figured_bassIdent))
+			}
+			if figured_bass.Print_lyric.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_lyric = models.%s", figured_bassIdent, figured_bass.Print_lyric.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_lyric = \"\"", figured_bassIdent))
+			}
+			if figured_bass.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", figured_bassIdent, figured_bass.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", figured_bassIdent))
+			}
+			if figured_bass.Print_spacing.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_spacing = models.%s", figured_bassIdent, figured_bass.Print_spacing.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_spacing = \"\"", figured_bassIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Duration = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Duration)))
 			for _, elem := range figured_bass.Figure {
@@ -3295,8 +3464,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Substitution = %s", fingeringIdent, __gong__toRawStringLiteral(string(fingering.Substitution))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Alternate = %s", fingeringIdent, __gong__toRawStringLiteral(string(fingering.Alternate))))
+			if fingering.Substitution.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Substitution = models.%s", fingeringIdent, fingering.Substitution.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Substitution = \"\"", fingeringIdent))
+			}
+			if fingering.Alternate.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Alternate = models.%s", fingeringIdent, fingering.Alternate.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Alternate = \"\"", fingeringIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.Relative_x)))
@@ -3390,7 +3567,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Justify = %s", formatted_symbolIdent, __gong__toRawStringLiteral(string(formatted_symbol.Justify))))
+			if formatted_symbol.Justify.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = models.%s", formatted_symbolIdent, formatted_symbol.Justify.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = \"\"", formatted_symbolIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Relative_x)))
@@ -3430,7 +3611,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Justify = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(string(formatted_symbol_id.Justify))))
+			if formatted_symbol_id.Justify.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = models.%s", formatted_symbol_idIdent, formatted_symbol_id.Justify.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = \"\"", formatted_symbol_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Relative_x)))
@@ -3473,7 +3658,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Lang = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Lang)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Space = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Space)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Justify = %s", formatted_textIdent, __gong__toRawStringLiteral(string(formatted_text.Justify))))
+			if formatted_text.Justify.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = models.%s", formatted_textIdent, formatted_text.Justify.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = \"\"", formatted_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Relative_x)))
@@ -3515,7 +3704,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Lang = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Lang)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Space = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Space)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Justify = %s", formatted_text_idIdent, __gong__toRawStringLiteral(string(formatted_text_id.Justify))))
+			if formatted_text_id.Justify.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = models.%s", formatted_text_idIdent, formatted_text_id.Justify.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = \"\"", formatted_text_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Relative_x)))
@@ -3755,7 +3948,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", glissandoIdent, __gong__toRawStringLiteral(string(glissando.Type))))
+			if glissando.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", glissandoIdent, glissando.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", glissandoIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", glissandoIdent, glissando.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Line_type)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Dash_length)))
@@ -3814,7 +4011,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Steal_time_previous = %s", graceIdent, __gong__toRawStringLiteral(grace.Steal_time_previous)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Steal_time_following = %s", graceIdent, __gong__toRawStringLiteral(grace.Steal_time_following)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Make_time = %s", graceIdent, __gong__toRawStringLiteral(grace.Make_time)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Slash = %s", graceIdent, __gong__toRawStringLiteral(string(grace.Slash))))
+			if grace.Slash.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Slash = models.%s", graceIdent, grace.Slash.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Slash = \"\"", graceIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -3864,7 +4065,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", group_nameIdent, __gong__toRawStringLiteral(group_name.Font_size)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", group_nameIdent, __gong__toRawStringLiteral(group_name.Font_weight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", group_nameIdent, __gong__toRawStringLiteral(group_name.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Justify = %s", group_nameIdent, __gong__toRawStringLiteral(string(group_name.Justify))))
+			if group_name.Justify.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = models.%s", group_nameIdent, group_name.Justify.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = \"\"", group_nameIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", group_nameIdent, __gong__toRawStringLiteral(group_name.EnclosedText)))
 		}
 	}
@@ -3943,7 +4148,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(string(hammer_on_pull_off.Type))))
+			if hammer_on_pull_off.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", hammer_on_pull_offIdent, hammer_on_pull_off.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", hammer_on_pull_offIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", hammer_on_pull_offIdent, hammer_on_pull_off.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Default_y)))
@@ -4065,7 +4274,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", harmonicIdent, __gong__toRawStringLiteral(string(harmonic.Print_object))))
+			if harmonic.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", harmonicIdent, harmonic.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", harmonicIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Relative_x)))
@@ -4101,9 +4314,21 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Type)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_frame = %s", harmonyIdent, __gong__toRawStringLiteral(string(harmony.Print_frame))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Arrangement = %s", harmonyIdent, __gong__toRawStringLiteral(string(harmony.Arrangement))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", harmonyIdent, __gong__toRawStringLiteral(string(harmony.Print_object))))
+			if harmony.Print_frame.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_frame = models.%s", harmonyIdent, harmony.Print_frame.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_frame = \"\"", harmonyIdent))
+			}
+			if harmony.Arrangement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Arrangement = models.%s", harmonyIdent, harmony.Arrangement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Arrangement = \"\"", harmonyIdent))
+			}
+			if harmony.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", harmonyIdent, harmony.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", harmonyIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Relative_x)))
@@ -4114,7 +4339,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Font_weight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Placement)))
-			values.WriteString(fmt.Sprintf("\n\t%s.System = %s", harmonyIdent, __gong__toRawStringLiteral(string(harmony.System))))
+			if harmony.System.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.System = models.%s", harmonyIdent, harmony.System.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.System = \"\"", harmonyIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Staff = %d", harmonyIdent, harmony.Staff))
 			if harmony.Root != nil {
@@ -4246,8 +4475,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", harmony_alterIdent, __gong__toRawStringLiteral(harmony_alter.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Location = %s", harmony_alterIdent, __gong__toRawStringLiteral(string(harmony_alter.Location))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", harmony_alterIdent, __gong__toRawStringLiteral(string(harmony_alter.Print_object))))
+			if harmony_alter.Location.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Location = models.%s", harmony_alterIdent, harmony_alter.Location.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Location = \"\"", harmony_alterIdent))
+			}
+			if harmony_alter.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", harmony_alterIdent, harmony_alter.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", harmony_alterIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", harmony_alterIdent, __gong__toRawStringLiteral(harmony_alter.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", harmony_alterIdent, __gong__toRawStringLiteral(harmony_alter.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", harmony_alterIdent, __gong__toRawStringLiteral(harmony_alter.Relative_x)))
@@ -4399,7 +4636,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Slash = %s", horizontal_turnIdent, __gong__toRawStringLiteral(string(horizontal_turn.Slash))))
+			if horizontal_turn.Slash.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Slash = models.%s", horizontal_turnIdent, horizontal_turn.Slash.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Slash = \"\"", horizontal_turnIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Relative_x)))
@@ -4413,7 +4654,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Start_note = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Start_note)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Trill_step)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Two_note_turn)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = %s", horizontal_turnIdent, __gong__toRawStringLiteral(string(horizontal_turn.Accelerate))))
+			if horizontal_turn.Accelerate.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = models.%s", horizontal_turnIdent, horizontal_turn.Accelerate.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = \"\"", horizontal_turnIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Beats = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Beats)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Second_beat = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Second_beat)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Last_beat = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Last_beat)))
@@ -4673,11 +4918,19 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", keyIdent, __gong__toRawStringLiteral(key.Font_size)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", keyIdent, __gong__toRawStringLiteral(key.Font_weight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", keyIdent, __gong__toRawStringLiteral(key.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", keyIdent, __gong__toRawStringLiteral(string(key.Print_object))))
+			if key.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", keyIdent, key.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", keyIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", keyIdent, __gong__toRawStringLiteral(key.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Fifths = %d", keyIdent, key.Fifths))
 			values.WriteString(fmt.Sprintf("\n\t%s.Mode = %s", keyIdent, __gong__toRawStringLiteral(key.Mode)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Key_step = %s", keyIdent, __gong__toRawStringLiteral(string(key.Key_step))))
+			if key.Key_step.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Key_step = models.%s", keyIdent, key.Key_step.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Key_step = \"\"", keyIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Key_alter = %s", keyIdent, __gong__toRawStringLiteral(key.Key_alter)))
 			if key.Cancel != nil {
 				if lastStagePtr != "Stage" {
@@ -4729,7 +4982,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", key_accidentalIdent, __gong__toRawStringLiteral(key_accidental.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", key_accidentalIdent, __gong__toRawStringLiteral(key_accidental.Smufl)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", key_accidentalIdent, __gong__toRawStringLiteral(string(key_accidental.EnclosedText))))
+			if key_accidental.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", key_accidentalIdent, key_accidental.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", key_accidentalIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -4750,7 +5007,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", key_octaveIdent, __gong__toRawStringLiteral(key_octave.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", key_octaveIdent, key_octave.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Cancel = %s", key_octaveIdent, __gong__toRawStringLiteral(string(key_octave.Cancel))))
+			if key_octave.Cancel.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Cancel = models.%s", key_octaveIdent, key_octave.Cancel.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Cancel = \"\"", key_octaveIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", key_octaveIdent, key_octave.EnclosedText))
 		}
 	}
@@ -4771,11 +5032,27 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", kindIdent, __gong__toRawStringLiteral(kind.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Use_symbols = %s", kindIdent, __gong__toRawStringLiteral(string(kind.Use_symbols))))
+			if kind.Use_symbols.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Use_symbols = models.%s", kindIdent, kind.Use_symbols.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Use_symbols = \"\"", kindIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Text = %s", kindIdent, __gong__toRawStringLiteral(kind.Text)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Stack_degrees = %s", kindIdent, __gong__toRawStringLiteral(string(kind.Stack_degrees))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Parentheses_degrees = %s", kindIdent, __gong__toRawStringLiteral(string(kind.Parentheses_degrees))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Bracket_degrees = %s", kindIdent, __gong__toRawStringLiteral(string(kind.Bracket_degrees))))
+			if kind.Stack_degrees.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Stack_degrees = models.%s", kindIdent, kind.Stack_degrees.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Stack_degrees = \"\"", kindIdent))
+			}
+			if kind.Parentheses_degrees.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses_degrees = models.%s", kindIdent, kind.Parentheses_degrees.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses_degrees = \"\"", kindIdent))
+			}
+			if kind.Bracket_degrees.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Bracket_degrees = models.%s", kindIdent, kind.Bracket_degrees.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Bracket_degrees = \"\"", kindIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", kindIdent, __gong__toRawStringLiteral(kind.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", kindIdent, __gong__toRawStringLiteral(kind.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", kindIdent, __gong__toRawStringLiteral(kind.Relative_x)))
@@ -4807,11 +5084,31 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", levelIdent, __gong__toRawStringLiteral(level.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Reference = %s", levelIdent, __gong__toRawStringLiteral(string(level.Reference))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", levelIdent, __gong__toRawStringLiteral(string(level.Type))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = %s", levelIdent, __gong__toRawStringLiteral(string(level.Parentheses))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Bracket = %s", levelIdent, __gong__toRawStringLiteral(string(level.Bracket))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Size = %s", levelIdent, __gong__toRawStringLiteral(string(level.Size))))
+			if level.Reference.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Reference = models.%s", levelIdent, level.Reference.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Reference = \"\"", levelIdent))
+			}
+			if level.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", levelIdent, level.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", levelIdent))
+			}
+			if level.Parentheses.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = models.%s", levelIdent, level.Parentheses.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = \"\"", levelIdent))
+			}
+			if level.Bracket.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Bracket = models.%s", levelIdent, level.Bracket.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Bracket = \"\"", levelIdent))
+			}
+			if level.Size.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Size = models.%s", levelIdent, level.Size.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Size = \"\"", levelIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", levelIdent, __gong__toRawStringLiteral(level.EnclosedText)))
 		}
 	}
@@ -4836,7 +5133,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %s", line_detailIdent, __gong__toRawStringLiteral(line_detail.Width)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", line_detailIdent, __gong__toRawStringLiteral(line_detail.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", line_detailIdent, __gong__toRawStringLiteral(line_detail.Line_type)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", line_detailIdent, __gong__toRawStringLiteral(string(line_detail.Print_object))))
+			if line_detail.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", line_detailIdent, line_detail.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", line_detailIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -5009,15 +5310,27 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Number)))
 			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", lyricIdent, __gong__toRawStringLiteral(lyric.NameXSD)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", lyricIdent, __gong__toRawStringLiteral(string(lyric.Time_only))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Justify = %s", lyricIdent, __gong__toRawStringLiteral(string(lyric.Justify))))
+			if lyric.Time_only.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", lyricIdent, lyric.Time_only.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", lyricIdent))
+			}
+			if lyric.Justify.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = models.%s", lyricIdent, lyric.Justify.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = \"\"", lyricIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Placement)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", lyricIdent, __gong__toRawStringLiteral(string(lyric.Print_object))))
+			if lyric.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", lyricIdent, lyric.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", lyricIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Syllabic = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Syllabic)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Laughing = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Laughing)))
@@ -5162,8 +5475,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.System = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.System)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Staff = %d", measure_numberingIdent, measure_numbering.Staff))
-			values.WriteString(fmt.Sprintf("\n\t%s.Multiple_rest_always = %s", measure_numberingIdent, __gong__toRawStringLiteral(string(measure_numbering.Multiple_rest_always))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Multiple_rest_range = %s", measure_numberingIdent, __gong__toRawStringLiteral(string(measure_numbering.Multiple_rest_range))))
+			if measure_numbering.Multiple_rest_always.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Multiple_rest_always = models.%s", measure_numberingIdent, measure_numbering.Multiple_rest_always.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Multiple_rest_always = \"\"", measure_numberingIdent))
+			}
+			if measure_numbering.Multiple_rest_range.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Multiple_rest_range = models.%s", measure_numberingIdent, measure_numbering.Multiple_rest_range.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Multiple_rest_range = \"\"", measure_numberingIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Relative_x)))
@@ -5195,7 +5516,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", measure_repeatIdent, __gong__toRawStringLiteral(measure_repeat.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", measure_repeatIdent, __gong__toRawStringLiteral(string(measure_repeat.Type))))
+			if measure_repeat.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", measure_repeatIdent, measure_repeat.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", measure_repeatIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Slashes = %d", measure_repeatIdent, measure_repeat.Slashes))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", measure_repeatIdent, __gong__toRawStringLiteral(measure_repeat.EnclosedText)))
 		}
@@ -5325,7 +5650,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = %s", metronomeIdent, __gong__toRawStringLiteral(string(metronome.Parentheses))))
+			if metronome.Parentheses.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = models.%s", metronomeIdent, metronome.Parentheses.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = \"\"", metronomeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Relative_x)))
@@ -5337,10 +5666,22 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Halign)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Valign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", metronomeIdent, __gong__toRawStringLiteral(string(metronome.Print_object))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Justify = %s", metronomeIdent, __gong__toRawStringLiteral(string(metronome.Justify))))
+			if metronome.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", metronomeIdent, metronome.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", metronomeIdent))
+			}
+			if metronome.Justify.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = models.%s", metronomeIdent, metronome.Justify.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = \"\"", metronomeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Id)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Beat_unit = %s", metronomeIdent, __gong__toRawStringLiteral(string(metronome.Beat_unit))))
+			if metronome.Beat_unit.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Beat_unit = models.%s", metronomeIdent, metronome.Beat_unit.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Beat_unit = \"\"", metronomeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Beat_unit_dot = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Beat_unit_dot)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Metronome_arrows = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Metronome_arrows)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Metronome_relation = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Metronome_relation)))
@@ -5394,7 +5735,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", metronome_beamIdent, __gong__toRawStringLiteral(metronome_beam.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", metronome_beamIdent, metronome_beam.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", metronome_beamIdent, __gong__toRawStringLiteral(string(metronome_beam.EnclosedText))))
+			if metronome_beam.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", metronome_beamIdent, metronome_beam.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", metronome_beamIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -5465,7 +5810,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", metronome_tiedIdent, __gong__toRawStringLiteral(metronome_tied.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", metronome_tiedIdent, __gong__toRawStringLiteral(string(metronome_tied.Type))))
+			if metronome_tied.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", metronome_tiedIdent, metronome_tied.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", metronome_tiedIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -5623,7 +5972,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", multiple_restIdent, __gong__toRawStringLiteral(multiple_rest.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Use_symbols = %s", multiple_restIdent, __gong__toRawStringLiteral(string(multiple_rest.Use_symbols))))
+			if multiple_rest.Use_symbols.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Use_symbols = models.%s", multiple_restIdent, multiple_rest.Use_symbols.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Use_symbols = \"\"", multiple_restIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", multiple_restIdent, multiple_rest.EnclosedText))
 		}
 	}
@@ -5644,7 +5997,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", name_displayIdent, __gong__toRawStringLiteral(name_display.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", name_displayIdent, __gong__toRawStringLiteral(string(name_display.Print_object))))
+			if name_display.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", name_displayIdent, name_display.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", name_displayIdent))
+			}
 			for _, elem := range name_display.Display_text {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -5712,7 +6069,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", notationsIdent, __gong__toRawStringLiteral(notations.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", notationsIdent, __gong__toRawStringLiteral(string(notations.Print_object))))
+			if notations.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", notationsIdent, notations.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", notationsIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", notationsIdent, __gong__toRawStringLiteral(notations.Id)))
 			if notations.Footnote != nil {
 				if lastStagePtr != "Stage" {
@@ -5893,13 +6254,25 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", noteIdent, __gong__toRawStringLiteral(note.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_leger = %s", noteIdent, __gong__toRawStringLiteral(string(note.Print_leger))))
+			if note.Print_leger.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_leger = models.%s", noteIdent, note.Print_leger.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_leger = \"\"", noteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Dynamics = %s", noteIdent, __gong__toRawStringLiteral(note.Dynamics)))
 			values.WriteString(fmt.Sprintf("\n\t%s.End_dynamics = %s", noteIdent, __gong__toRawStringLiteral(note.End_dynamics)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Attack = %s", noteIdent, __gong__toRawStringLiteral(note.Attack)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Release = %s", noteIdent, __gong__toRawStringLiteral(note.Release)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", noteIdent, __gong__toRawStringLiteral(string(note.Time_only))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Pizzicato = %s", noteIdent, __gong__toRawStringLiteral(string(note.Pizzicato))))
+			if note.Time_only.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", noteIdent, note.Time_only.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", noteIdent))
+			}
+			if note.Pizzicato.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Pizzicato = models.%s", noteIdent, note.Pizzicato.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Pizzicato = \"\"", noteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", noteIdent, __gong__toRawStringLiteral(note.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", noteIdent, __gong__toRawStringLiteral(note.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", noteIdent, __gong__toRawStringLiteral(note.Relative_x)))
@@ -5909,10 +6282,26 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", noteIdent, __gong__toRawStringLiteral(note.Font_size)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", noteIdent, __gong__toRawStringLiteral(note.Font_weight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", noteIdent, __gong__toRawStringLiteral(note.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_dot = %s", noteIdent, __gong__toRawStringLiteral(string(note.Print_dot))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_lyric = %s", noteIdent, __gong__toRawStringLiteral(string(note.Print_lyric))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", noteIdent, __gong__toRawStringLiteral(string(note.Print_object))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_spacing = %s", noteIdent, __gong__toRawStringLiteral(string(note.Print_spacing))))
+			if note.Print_dot.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_dot = models.%s", noteIdent, note.Print_dot.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_dot = \"\"", noteIdent))
+			}
+			if note.Print_lyric.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_lyric = models.%s", noteIdent, note.Print_lyric.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_lyric = \"\"", noteIdent))
+			}
+			if note.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", noteIdent, note.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", noteIdent))
+			}
+			if note.Print_spacing.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_spacing = models.%s", noteIdent, note.Print_spacing.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_spacing = \"\"", noteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", noteIdent, __gong__toRawStringLiteral(note.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Chord = %s", noteIdent, __gong__toRawStringLiteral(note.Chord)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Cue = %s", noteIdent, __gong__toRawStringLiteral(note.Cue)))
@@ -6159,8 +6548,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", note_typeIdent, __gong__toRawStringLiteral(note_type.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Size = %s", note_typeIdent, __gong__toRawStringLiteral(string(note_type.Size))))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", note_typeIdent, __gong__toRawStringLiteral(string(note_type.EnclosedText))))
+			if note_type.Size.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Size = models.%s", note_typeIdent, note_type.Size.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Size = \"\"", note_typeIdent))
+			}
+			if note_type.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", note_typeIdent, note_type.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", note_typeIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -6180,8 +6577,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", noteheadIdent, __gong__toRawStringLiteral(notehead.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Filled = %s", noteheadIdent, __gong__toRawStringLiteral(string(notehead.Filled))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = %s", noteheadIdent, __gong__toRawStringLiteral(string(notehead.Parentheses))))
+			if notehead.Filled.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Filled = models.%s", noteheadIdent, notehead.Filled.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Filled = \"\"", noteheadIdent))
+			}
+			if notehead.Parentheses.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = models.%s", noteheadIdent, notehead.Parentheses.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = \"\"", noteheadIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", noteheadIdent, __gong__toRawStringLiteral(notehead.Font_family)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", noteheadIdent, __gong__toRawStringLiteral(notehead.Font_style)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", noteheadIdent, __gong__toRawStringLiteral(notehead.Font_size)))
@@ -6296,7 +6701,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", numeral_keyIdent, __gong__toRawStringLiteral(numeral_key.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", numeral_keyIdent, __gong__toRawStringLiteral(string(numeral_key.Print_object))))
+			if numeral_key.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", numeral_keyIdent, numeral_key.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", numeral_keyIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Numeral_fifths = %d", numeral_keyIdent, numeral_key.Numeral_fifths))
 			values.WriteString(fmt.Sprintf("\n\t%s.Numeral_mode = %s", numeral_keyIdent, __gong__toRawStringLiteral(numeral_key.Numeral_mode)))
 		}
@@ -6382,7 +6791,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", offsetIdent, __gong__toRawStringLiteral(offset.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Sound = %s", offsetIdent, __gong__toRawStringLiteral(string(offset.Sound))))
+			if offset.Sound.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Sound = models.%s", offsetIdent, offset.Sound.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Sound = \"\"", offsetIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", offsetIdent, __gong__toRawStringLiteral(offset.EnclosedText)))
 		}
 	}
@@ -6629,7 +7042,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", other_directionIdent, __gong__toRawStringLiteral(string(other_direction.Print_object))))
+			if other_direction.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", other_directionIdent, other_direction.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", other_directionIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Relative_x)))
@@ -6665,7 +7082,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", other_listeningIdent, __gong__toRawStringLiteral(other_listening.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", other_listeningIdent, __gong__toRawStringLiteral(other_listening.Type)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Player = %s", other_listeningIdent, __gong__toRawStringLiteral(other_listening.Player)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", other_listeningIdent, __gong__toRawStringLiteral(string(other_listening.Time_only))))
+			if other_listening.Time_only.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", other_listeningIdent, other_listening.Time_only.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", other_listeningIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", other_listeningIdent, __gong__toRawStringLiteral(other_listening.EnclosedText)))
 		}
 	}
@@ -6686,9 +7107,17 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", other_notationIdent, __gong__toRawStringLiteral(string(other_notation.Type))))
+			if other_notation.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", other_notationIdent, other_notation.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", other_notationIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", other_notationIdent, other_notation.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", other_notationIdent, __gong__toRawStringLiteral(string(other_notation.Print_object))))
+			if other_notation.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", other_notationIdent, other_notation.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", other_notationIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Relative_x)))
@@ -6871,7 +7300,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", part_groupIdent, __gong__toRawStringLiteral(part_group.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", part_groupIdent, __gong__toRawStringLiteral(string(part_group.Type))))
+			if part_group.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", part_groupIdent, part_group.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", part_groupIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %s", part_groupIdent, __gong__toRawStringLiteral(part_group.Number)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Group_time = %s", part_groupIdent, __gong__toRawStringLiteral(part_group.Group_time)))
 			if part_group.Group_name != nil {
@@ -7057,8 +7490,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", part_nameIdent, __gong__toRawStringLiteral(part_name.Font_size)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", part_nameIdent, __gong__toRawStringLiteral(part_name.Font_weight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", part_nameIdent, __gong__toRawStringLiteral(part_name.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", part_nameIdent, __gong__toRawStringLiteral(string(part_name.Print_object))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Justify = %s", part_nameIdent, __gong__toRawStringLiteral(string(part_name.Justify))))
+			if part_name.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", part_nameIdent, part_name.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", part_nameIdent))
+			}
+			if part_name.Justify.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = models.%s", part_nameIdent, part_name.Justify.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Justify = \"\"", part_nameIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", part_nameIdent, __gong__toRawStringLiteral(part_name.EnclosedText)))
 		}
 	}
@@ -7086,7 +7527,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", part_symbolIdent, __gong__toRawStringLiteral(part_symbol.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", part_symbolIdent, __gong__toRawStringLiteral(part_symbol.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", part_symbolIdent, __gong__toRawStringLiteral(part_symbol.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", part_symbolIdent, __gong__toRawStringLiteral(string(part_symbol.EnclosedText))))
+			if part_symbol.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", part_symbolIdent, part_symbol.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", part_symbolIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -7131,9 +7576,21 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Type)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", pedalIdent, pedal.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Line = %s", pedalIdent, __gong__toRawStringLiteral(string(pedal.Line))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Sign = %s", pedalIdent, __gong__toRawStringLiteral(string(pedal.Sign))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Abbreviated = %s", pedalIdent, __gong__toRawStringLiteral(string(pedal.Abbreviated))))
+			if pedal.Line.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line = models.%s", pedalIdent, pedal.Line.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line = \"\"", pedalIdent))
+			}
+			if pedal.Sign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Sign = models.%s", pedalIdent, pedal.Sign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Sign = \"\"", pedalIdent))
+			}
+			if pedal.Abbreviated.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Abbreviated = models.%s", pedalIdent, pedal.Abbreviated.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Abbreviated = \"\"", pedalIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Relative_x)))
@@ -7165,7 +7622,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pedal_tuningIdent, __gong__toRawStringLiteral(pedal_tuning.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Pedal_step = %s", pedal_tuningIdent, __gong__toRawStringLiteral(string(pedal_tuning.Pedal_step))))
+			if pedal_tuning.Pedal_step.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Pedal_step = models.%s", pedal_tuningIdent, pedal_tuning.Pedal_step.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Pedal_step = \"\"", pedal_tuningIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Pedal_alter = %s", pedal_tuningIdent, __gong__toRawStringLiteral(pedal_tuning.Pedal_alter)))
 		}
 	}
@@ -7343,7 +7804,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pitchIdent, __gong__toRawStringLiteral(pitch.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Step = %s", pitchIdent, __gong__toRawStringLiteral(string(pitch.Step))))
+			if pitch.Step.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Step = models.%s", pitchIdent, pitch.Step.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Step = \"\"", pitchIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Alter = %s", pitchIdent, __gong__toRawStringLiteral(pitch.Alter)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Octave = %d", pitchIdent, pitch.Octave))
 		}
@@ -7470,7 +7935,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", principal_voiceIdent, __gong__toRawStringLiteral(string(principal_voice.Type))))
+			if principal_voice.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", principal_voiceIdent, principal_voice.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", principal_voiceIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Symbol = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Symbol)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Default_y)))
@@ -7505,8 +7974,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", printIdent, __gong__toRawStringLiteral(print.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Staff_spacing = %s", printIdent, __gong__toRawStringLiteral(print.Staff_spacing)))
-			values.WriteString(fmt.Sprintf("\n\t%s.New_system = %s", printIdent, __gong__toRawStringLiteral(string(print.New_system))))
-			values.WriteString(fmt.Sprintf("\n\t%s.New_page = %s", printIdent, __gong__toRawStringLiteral(string(print.New_page))))
+			if print.New_system.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.New_system = models.%s", printIdent, print.New_system.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.New_system = \"\"", printIdent))
+			}
+			if print.New_page.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.New_page = models.%s", printIdent, print.New_page.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.New_page = \"\"", printIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Blank_page = %d", printIdent, print.Blank_page))
 			values.WriteString(fmt.Sprintf("\n\t%s.Page_number = %s", printIdent, __gong__toRawStringLiteral(print.Page_number)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", printIdent, __gong__toRawStringLiteral(print.Id)))
@@ -7620,7 +8097,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", repeatIdent, __gong__toRawStringLiteral(repeat.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Direction = %s", repeatIdent, __gong__toRawStringLiteral(repeat.Direction)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Times = %d", repeatIdent, repeat.Times))
-			values.WriteString(fmt.Sprintf("\n\t%s.After_jump = %s", repeatIdent, __gong__toRawStringLiteral(string(repeat.After_jump))))
+			if repeat.After_jump.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.After_jump = models.%s", repeatIdent, repeat.After_jump.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.After_jump = \"\"", repeatIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Winged = %s", repeatIdent, __gong__toRawStringLiteral(repeat.Winged)))
 		}
 	}
@@ -7641,8 +8122,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", restIdent, __gong__toRawStringLiteral(rest.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Measure = %s", restIdent, __gong__toRawStringLiteral(string(rest.Measure))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Display_step = %s", restIdent, __gong__toRawStringLiteral(string(rest.Display_step))))
+			if rest.Measure.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Measure = models.%s", restIdent, rest.Measure.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Measure = \"\"", restIdent))
+			}
+			if rest.Display_step.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Display_step = models.%s", restIdent, rest.Display_step.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Display_step = \"\"", restIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Display_octave = %d", restIdent, rest.Display_octave))
 		}
 	}
@@ -7712,7 +8201,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", root_stepIdent, __gong__toRawStringLiteral(root_step.Font_size)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", root_stepIdent, __gong__toRawStringLiteral(root_step.Font_weight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", root_stepIdent, __gong__toRawStringLiteral(root_step.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", root_stepIdent, __gong__toRawStringLiteral(string(root_step.EnclosedText))))
+			if root_step.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", root_stepIdent, root_step.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", root_stepIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -8135,10 +8628,26 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", slashIdent, __gong__toRawStringLiteral(slash.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", slashIdent, __gong__toRawStringLiteral(string(slash.Type))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Use_dots = %s", slashIdent, __gong__toRawStringLiteral(string(slash.Use_dots))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Use_stems = %s", slashIdent, __gong__toRawStringLiteral(string(slash.Use_stems))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Slash_type = %s", slashIdent, __gong__toRawStringLiteral(string(slash.Slash_type))))
+			if slash.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", slashIdent, slash.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", slashIdent))
+			}
+			if slash.Use_dots.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Use_dots = models.%s", slashIdent, slash.Use_dots.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Use_dots = \"\"", slashIdent))
+			}
+			if slash.Use_stems.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Use_stems = models.%s", slashIdent, slash.Use_stems.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Use_stems = \"\"", slashIdent))
+			}
+			if slash.Slash_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Slash_type = models.%s", slashIdent, slash.Slash_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Slash_type = \"\"", slashIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Slash_dot = %s", slashIdent, __gong__toRawStringLiteral(slash.Slash_dot)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Except_voice = %s", slashIdent, __gong__toRawStringLiteral(slash.Except_voice)))
 		}
@@ -8160,7 +8669,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", slideIdent, __gong__toRawStringLiteral(slide.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", slideIdent, __gong__toRawStringLiteral(string(slide.Type))))
+			if slide.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", slideIdent, slide.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", slideIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", slideIdent, slide.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", slideIdent, __gong__toRawStringLiteral(slide.Line_type)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", slideIdent, __gong__toRawStringLiteral(slide.Dash_length)))
@@ -8174,7 +8687,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", slideIdent, __gong__toRawStringLiteral(slide.Font_size)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", slideIdent, __gong__toRawStringLiteral(slide.Font_weight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", slideIdent, __gong__toRawStringLiteral(slide.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = %s", slideIdent, __gong__toRawStringLiteral(string(slide.Accelerate))))
+			if slide.Accelerate.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = models.%s", slideIdent, slide.Accelerate.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = \"\"", slideIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Beats = %s", slideIdent, __gong__toRawStringLiteral(slide.Beats)))
 			values.WriteString(fmt.Sprintf("\n\t%s.First_beat = %s", slideIdent, __gong__toRawStringLiteral(slide.First_beat)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Last_beat = %s", slideIdent, __gong__toRawStringLiteral(slide.Last_beat)))
@@ -8199,7 +8716,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", slurIdent, __gong__toRawStringLiteral(slur.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", slurIdent, __gong__toRawStringLiteral(string(slur.Type))))
+			if slur.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", slurIdent, slur.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", slurIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", slurIdent, slur.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", slurIdent, __gong__toRawStringLiteral(slur.Line_type)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", slurIdent, __gong__toRawStringLiteral(slur.Dash_length)))
@@ -8239,16 +8760,32 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", soundIdent, __gong__toRawStringLiteral(sound.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Tempo = %s", soundIdent, __gong__toRawStringLiteral(sound.Tempo)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Dynamics = %s", soundIdent, __gong__toRawStringLiteral(sound.Dynamics)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Dacapo = %s", soundIdent, __gong__toRawStringLiteral(string(sound.Dacapo))))
+			if sound.Dacapo.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dacapo = models.%s", soundIdent, sound.Dacapo.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dacapo = \"\"", soundIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Segno = %s", soundIdent, __gong__toRawStringLiteral(sound.Segno)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Dalsegno = %s", soundIdent, __gong__toRawStringLiteral(sound.Dalsegno)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Coda = %s", soundIdent, __gong__toRawStringLiteral(sound.Coda)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Tocoda = %s", soundIdent, __gong__toRawStringLiteral(sound.Tocoda)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Divisions = %s", soundIdent, __gong__toRawStringLiteral(sound.Divisions)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Forward_repeat = %s", soundIdent, __gong__toRawStringLiteral(string(sound.Forward_repeat))))
+			if sound.Forward_repeat.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Forward_repeat = models.%s", soundIdent, sound.Forward_repeat.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Forward_repeat = \"\"", soundIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Fine = %s", soundIdent, __gong__toRawStringLiteral(sound.Fine)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", soundIdent, __gong__toRawStringLiteral(string(sound.Time_only))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Pizzicato = %s", soundIdent, __gong__toRawStringLiteral(string(sound.Pizzicato))))
+			if sound.Time_only.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", soundIdent, sound.Time_only.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", soundIdent))
+			}
+			if sound.Pizzicato.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Pizzicato = models.%s", soundIdent, sound.Pizzicato.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Pizzicato = \"\"", soundIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Pan = %s", soundIdent, __gong__toRawStringLiteral(sound.Pan)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Elevation = %s", soundIdent, __gong__toRawStringLiteral(sound.Elevation)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Damper_pedal = %s", soundIdent, __gong__toRawStringLiteral(sound.Damper_pedal)))
@@ -8336,8 +8873,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", staff_detailsIdent, __gong__toRawStringLiteral(staff_details.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", staff_detailsIdent, staff_details.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Show_frets = %s", staff_detailsIdent, __gong__toRawStringLiteral(staff_details.Show_frets)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", staff_detailsIdent, __gong__toRawStringLiteral(string(staff_details.Print_object))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_spacing = %s", staff_detailsIdent, __gong__toRawStringLiteral(string(staff_details.Print_spacing))))
+			if staff_details.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", staff_detailsIdent, staff_details.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", staff_detailsIdent))
+			}
+			if staff_details.Print_spacing.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_spacing = models.%s", staff_detailsIdent, staff_details.Print_spacing.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_spacing = \"\"", staff_detailsIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Staff_type = %s", staff_detailsIdent, __gong__toRawStringLiteral(staff_details.Staff_type)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Staff_lines = %d", staff_detailsIdent, staff_details.Staff_lines))
 			values.WriteString(fmt.Sprintf("\n\t%s.Capo = %d", staff_detailsIdent, staff_details.Capo))
@@ -8465,7 +9010,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", staff_tuningIdent, __gong__toRawStringLiteral(staff_tuning.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line = %d", staff_tuningIdent, staff_tuning.Line))
-			values.WriteString(fmt.Sprintf("\n\t%s.Tuning_step = %s", staff_tuningIdent, __gong__toRawStringLiteral(string(staff_tuning.Tuning_step))))
+			if staff_tuning.Tuning_step.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Tuning_step = models.%s", staff_tuningIdent, staff_tuning.Tuning_step.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Tuning_step = \"\"", staff_tuningIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Tuning_alter = %s", staff_tuningIdent, __gong__toRawStringLiteral(staff_tuning.Tuning_alter)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Tuning_octave = %d", staff_tuningIdent, staff_tuning.Tuning_octave))
 		}
@@ -8512,9 +9061,21 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", stickIdent, __gong__toRawStringLiteral(stick.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Tip = %s", stickIdent, __gong__toRawStringLiteral(string(stick.Tip))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = %s", stickIdent, __gong__toRawStringLiteral(string(stick.Parentheses))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Dashed_circle = %s", stickIdent, __gong__toRawStringLiteral(string(stick.Dashed_circle))))
+			if stick.Tip.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Tip = models.%s", stickIdent, stick.Tip.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Tip = \"\"", stickIdent))
+			}
+			if stick.Parentheses.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = models.%s", stickIdent, stick.Parentheses.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = \"\"", stickIdent))
+			}
+			if stick.Dashed_circle.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dashed_circle = models.%s", stickIdent, stick.Dashed_circle.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dashed_circle = \"\"", stickIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Stick_type = %s", stickIdent, __gong__toRawStringLiteral(stick.Stick_type)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Stick_material = %s", stickIdent, __gong__toRawStringLiteral(stick.Stick_material)))
 		}
@@ -8646,7 +9207,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", supportsIdent, __gong__toRawStringLiteral(supports.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", supportsIdent, __gong__toRawStringLiteral(string(supports.Type))))
+			if supports.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", supportsIdent, supports.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", supportsIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Element = %s", supportsIdent, __gong__toRawStringLiteral(supports.Element)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Attribute = %s", supportsIdent, __gong__toRawStringLiteral(supports.Attribute)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", supportsIdent, __gong__toRawStringLiteral(supports.Value)))
@@ -8672,7 +9237,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Straight = %s", swingIdent, __gong__toRawStringLiteral(swing.Straight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.First = %d", swingIdent, swing.First))
 			values.WriteString(fmt.Sprintf("\n\t%s.Second = %d", swingIdent, swing.Second))
-			values.WriteString(fmt.Sprintf("\n\t%s.Swing_type = %s", swingIdent, __gong__toRawStringLiteral(string(swing.Swing_type))))
+			if swing.Swing_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Swing_type = models.%s", swingIdent, swing.Swing_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Swing_type = \"\"", swingIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Swing_style = %s", swingIdent, __gong__toRawStringLiteral(swing.Swing_style)))
 		}
 	}
@@ -8696,7 +9265,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", syncIdent, __gong__toRawStringLiteral(sync.Type)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Latency = %d", syncIdent, sync.Latency))
 			values.WriteString(fmt.Sprintf("\n\t%s.Player = %s", syncIdent, __gong__toRawStringLiteral(sync.Player)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", syncIdent, __gong__toRawStringLiteral(string(sync.Time_only))))
+			if sync.Time_only.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", syncIdent, sync.Time_only.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", syncIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -9210,8 +9783,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tieIdent, __gong__toRawStringLiteral(tie.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", tieIdent, __gong__toRawStringLiteral(string(tie.Type))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", tieIdent, __gong__toRawStringLiteral(string(tie.Time_only))))
+			if tie.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", tieIdent, tie.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", tieIdent))
+			}
+			if tie.Time_only.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", tieIdent, tie.Time_only.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", tieIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -9270,8 +9851,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", timeIdent, __gong__toRawStringLiteral(time.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", timeIdent, time.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Symbol = %s", timeIdent, __gong__toRawStringLiteral(string(time.Symbol))))
-			values.WriteString(fmt.Sprintf("\n\t%s.Separator = %s", timeIdent, __gong__toRawStringLiteral(string(time.Separator))))
+			if time.Symbol.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Symbol = models.%s", timeIdent, time.Symbol.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Symbol = \"\"", timeIdent))
+			}
+			if time.Separator.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Separator = models.%s", timeIdent, time.Separator.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Separator = \"\"", timeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", timeIdent, __gong__toRawStringLiteral(time.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", timeIdent, __gong__toRawStringLiteral(time.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", timeIdent, __gong__toRawStringLiteral(time.Relative_x)))
@@ -9283,7 +9872,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", timeIdent, __gong__toRawStringLiteral(time.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", timeIdent, __gong__toRawStringLiteral(time.Halign)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", timeIdent, __gong__toRawStringLiteral(time.Valign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Print_object = %s", timeIdent, __gong__toRawStringLiteral(string(time.Print_object))))
+			if time.Print_object.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", timeIdent, time.Print_object.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", timeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", timeIdent, __gong__toRawStringLiteral(time.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Beats = %s", timeIdent, __gong__toRawStringLiteral(time.Beats)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Beat_type = %s", timeIdent, __gong__toRawStringLiteral(time.Beat_type)))
@@ -9319,7 +9912,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", time_modificationIdent, __gong__toRawStringLiteral(time_modification.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Actual_notes = %d", time_modificationIdent, time_modification.Actual_notes))
 			values.WriteString(fmt.Sprintf("\n\t%s.Normal_notes = %d", time_modificationIdent, time_modification.Normal_notes))
-			values.WriteString(fmt.Sprintf("\n\t%s.Normal_type = %s", time_modificationIdent, __gong__toRawStringLiteral(string(time_modification.Normal_type))))
+			if time_modification.Normal_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Normal_type = models.%s", time_modificationIdent, time_modification.Normal_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Normal_type = \"\"", time_modificationIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Normal_dot = %s", time_modificationIdent, __gong__toRawStringLiteral(time_modification.Normal_dot)))
 		}
 	}
@@ -9417,11 +10014,23 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", tupletIdent, __gong__toRawStringLiteral(string(tuplet.Type))))
+			if tuplet.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", tupletIdent, tuplet.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", tupletIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", tupletIdent, tuplet.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Bracket = %s", tupletIdent, __gong__toRawStringLiteral(string(tuplet.Bracket))))
+			if tuplet.Bracket.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Bracket = models.%s", tupletIdent, tuplet.Bracket.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Bracket = \"\"", tupletIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Show_number = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Show_number)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Show_type = %s", tupletIdent, __gong__toRawStringLiteral(string(tuplet.Show_type))))
+			if tuplet.Show_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Show_type = models.%s", tupletIdent, tuplet.Show_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Show_type = \"\"", tupletIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_shape = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Line_shape)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Default_y)))
@@ -9571,7 +10180,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", tuplet_typeIdent, __gong__toRawStringLiteral(tuplet_type.Font_size)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", tuplet_typeIdent, __gong__toRawStringLiteral(tuplet_type.Font_weight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", tuplet_typeIdent, __gong__toRawStringLiteral(tuplet_type.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", tuplet_typeIdent, __gong__toRawStringLiteral(string(tuplet_type.EnclosedText))))
+			if tuplet_type.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", tuplet_typeIdent, tuplet_type.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", tuplet_typeIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -9612,7 +10225,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", unpitchedIdent, __gong__toRawStringLiteral(unpitched.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Display_step = %s", unpitchedIdent, __gong__toRawStringLiteral(string(unpitched.Display_step))))
+			if unpitched.Display_step.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Display_step = models.%s", unpitchedIdent, unpitched.Display_step.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Display_step = \"\"", unpitchedIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Display_octave = %d", unpitchedIdent, unpitched.Display_octave))
 		}
 	}
@@ -9655,7 +10272,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", waitIdent, __gong__toRawStringLiteral(wait.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Player = %s", waitIdent, __gong__toRawStringLiteral(wait.Player)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", waitIdent, __gong__toRawStringLiteral(string(wait.Time_only))))
+			if wait.Time_only.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", waitIdent, wait.Time_only.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", waitIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -9675,7 +10296,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", wavy_lineIdent, __gong__toRawStringLiteral(string(wavy_line.Type))))
+			if wavy_line.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", wavy_lineIdent, wavy_line.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", wavy_lineIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", wavy_lineIdent, wavy_line.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Smufl)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Default_x)))
@@ -9687,7 +10312,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Start_note = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Start_note)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Trill_step)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Two_note_turn)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = %s", wavy_lineIdent, __gong__toRawStringLiteral(string(wavy_line.Accelerate))))
+			if wavy_line.Accelerate.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = models.%s", wavy_lineIdent, wavy_line.Accelerate.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = \"\"", wavy_lineIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Beats = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Beats)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Second_beat = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Second_beat)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Last_beat = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Last_beat)))
@@ -9713,7 +10342,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", wedgeIdent, __gong__toRawStringLiteral(wedge.Type)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", wedgeIdent, wedge.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Spread = %s", wedgeIdent, __gong__toRawStringLiteral(wedge.Spread)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Niente = %s", wedgeIdent, __gong__toRawStringLiteral(string(wedge.Niente))))
+			if wedge.Niente.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Niente = models.%s", wedgeIdent, wedge.Niente.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Niente = \"\"", wedgeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", wedgeIdent, __gong__toRawStringLiteral(wedge.Line_type)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", wedgeIdent, __gong__toRawStringLiteral(wedge.Dash_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Space_length = %s", wedgeIdent, __gong__toRawStringLiteral(wedge.Space_length)))
@@ -9779,7 +10412,21 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	}
 
 
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	goModuleVersionWithoutDirty := strings.ReplaceAll(goModuleVersion, "+dirty", "")
+	if goModuleVersionWithoutDirty == "" || goModuleVersionWithoutDirty == "(devel)" {
+		goModuleVersionWithoutDirty = "latest"
+	}
+
 	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+/* to edit this file with the default probe, use the command
+go run github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/probe/cmd/probe@%s stage.go
+*/
 package %s
 
 import (
@@ -9811,7 +10458,7 @@ func _(stageSet *models.StageSet) {
 	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
 	// ------------------------------------------------------------------------%s
 }
-`, packageName, declarations.String(), values.String(), pointers.String())
+`, goModuleVersion, goModuleVersionWithoutDirty, packageName, declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }
@@ -10431,9 +11078,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Text":
 						inst.Text = GongExtractString(rhs)
 					case "Implicit":
-						inst.Implicit = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Implicit, rhs)
 					case "Non_controlling":
-						inst.Non_controlling = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Non_controlling, rhs)
 					case "Width":
 						inst.Width = GongExtractString(rhs)
 					case "Id":
@@ -10476,9 +11123,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Text":
 						inst.Text = GongExtractString(rhs)
 					case "Implicit":
-						inst.Implicit = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Implicit, rhs)
 					case "Non_controlling":
-						inst.Non_controlling = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Non_controlling, rhs)
 					case "Width":
 						inst.Width = GongExtractString(rhs)
 					case "Id":
@@ -10537,15 +11184,15 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Cautionary":
 						inst.Cautionary = GongExtractString(rhs)
 					case "Editorial":
-						inst.Editorial = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Editorial, rhs)
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "Parentheses":
-						inst.Parentheses = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
 					case "Bracket":
-						inst.Bracket = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Bracket, rhs)
 					case "Size":
-						inst.Size = Enum_Symbol_size(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Size, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -10574,11 +11221,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "Parentheses":
-						inst.Parentheses = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
 					case "Bracket":
-						inst.Bracket = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Bracket, rhs)
 					case "Size":
-						inst.Size = Enum_Symbol_size(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Size, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -10602,7 +11249,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = Enum_Accidental_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Accidental_text:
 					switch fieldName {
@@ -10615,7 +11262,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Space":
 						inst.Space = GongExtractString(rhs)
 					case "Justify":
-						inst.Justify = Enum_Left_center_right(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Justify, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -10655,7 +11302,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Enclosure":
 						inst.Enclosure = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = Enum_Accidental_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Accord:
 					switch fieldName {
@@ -10664,7 +11311,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "String":
 						inst.String = GongExtractInt(rhs)
 					case "Tuning_step":
-						inst.Tuning_step = Enum_Step(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Tuning_step, rhs)
 					case "Tuning_alter":
 						inst.Tuning_alter = GongExtractString(rhs)
 					case "Tuning_octave":
@@ -10729,7 +11376,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Direction":
 						inst.Direction = GongExtractString(rhs)
 					case "Unbroken":
-						inst.Unbroken = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Unbroken, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -10826,7 +11473,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Player":
 						inst.Player = GongExtractString(rhs)
 					case "Time_only":
@@ -10974,7 +11621,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Repeater":
-						inst.Repeater = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Repeater, rhs)
 					case "Fan":
 						inst.Fan = GongExtractString(rhs)
 					case "Color":
@@ -10989,13 +11636,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Slashes":
 						inst.Slashes = GongExtractInt(rhs)
 					case "Use_dots":
-						inst.Use_dots = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Use_dots, rhs)
 					case "Slash_type":
-						inst.Slash_type = Enum_Note_type_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Slash_type, rhs)
 					case "Slash_dot":
 						inst.Slash_dot = GongExtractString(rhs)
 					case "Except_voice":
@@ -11006,7 +11653,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Beat_unit":
-						inst.Beat_unit = Enum_Note_type_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Beat_unit, rhs)
 					case "Beat_unit_dot":
 						inst.Beat_unit_dot = GongExtractString(rhs)
 					}
@@ -11044,7 +11691,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Accelerate":
-						inst.Accelerate = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Accelerate, rhs)
 					case "Beats":
 						inst.Beats = GongExtractString(rhs)
 					case "First_beat":
@@ -11174,11 +11821,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Additional":
-						inst.Additional = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Additional, rhs)
 					case "Size":
 						inst.Size = GongExtractString(rhs)
 					case "After_barline":
-						inst.After_barline = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.After_barline, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -11198,7 +11845,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Sign":
@@ -11265,7 +11912,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop_continue(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Dash_length":
@@ -11315,7 +11962,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Degree_value":
 						__gong__assignPointer(&inst.Degree_value, rhs, identifierMap)
 					case "Degree_alter":
@@ -11328,7 +11975,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Plus_minus":
-						inst.Plus_minus = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Plus_minus, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -11413,9 +12060,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Placement":
 						inst.Placement = GongExtractString(rhs)
 					case "Directive":
-						inst.Directive = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Directive, rhs)
 					case "System":
-						inst.System = Enum_System_relation_number(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.System, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Direction_type":
@@ -11504,7 +12151,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Above":
-						inst.Above = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Above, rhs)
 					}
 				case *Dynamics:
 					switch fieldName {
@@ -11737,7 +12384,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -11871,7 +12518,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Two_note_turn":
 						inst.Two_note_turn = GongExtractString(rhs)
 					case "Accelerate":
-						inst.Accelerate = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Accelerate, rhs)
 					case "Beats":
 						inst.Beats = GongExtractString(rhs)
 					case "Second_beat":
@@ -11907,7 +12554,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Text_y":
 						inst.Text_y = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -11927,7 +12574,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "System":
-						inst.System = Enum_System_relation_number(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.System, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -11936,7 +12583,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop_continue(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -12008,7 +12655,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Parentheses":
-						inst.Parentheses = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -12034,13 +12681,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Placement":
 						inst.Placement = GongExtractString(rhs)
 					case "Print_dot":
-						inst.Print_dot = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_dot, rhs)
 					case "Print_lyric":
-						inst.Print_lyric = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_lyric, rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Print_spacing":
-						inst.Print_spacing = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_spacing, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Figure":
@@ -12057,9 +12704,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Substitution":
-						inst.Substitution = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Substitution, rhs)
 					case "Alternate":
-						inst.Alternate = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Alternate, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -12112,7 +12759,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Justify":
-						inst.Justify = Enum_Left_center_right(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Justify, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -12159,7 +12806,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Justify":
-						inst.Justify = Enum_Left_center_right(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Justify, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -12212,7 +12859,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Space":
 						inst.Space = GongExtractString(rhs)
 					case "Justify":
-						inst.Justify = Enum_Left_center_right(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Justify, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -12263,7 +12910,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Space":
 						inst.Space = GongExtractString(rhs)
 					case "Justify":
-						inst.Justify = Enum_Left_center_right(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Justify, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -12401,7 +13048,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Line_type":
@@ -12453,7 +13100,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Make_time":
 						inst.Make_time = GongExtractString(rhs)
 					case "Slash":
-						inst.Slash = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Slash, rhs)
 					}
 				case *Group_barline:
 					switch fieldName {
@@ -12487,7 +13134,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Justify":
-						inst.Justify = Enum_Left_center_right(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Justify, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -12528,7 +13175,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Default_x":
@@ -12622,7 +13269,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -12661,11 +13308,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Type":
 						inst.Type = GongExtractString(rhs)
 					case "Print_frame":
-						inst.Print_frame = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_frame, rhs)
 					case "Arrangement":
-						inst.Arrangement = Enum_Harmony_arrangement(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Arrangement, rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -12687,7 +13334,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Placement":
 						inst.Placement = GongExtractString(rhs)
 					case "System":
-						inst.System = Enum_System_relation_number(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.System, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Root":
@@ -12720,9 +13367,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Location":
-						inst.Location = Enum_Left_right(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Location, rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -12825,7 +13472,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Slash":
-						inst.Slash = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Slash, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -12853,7 +13500,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Two_note_turn":
 						inst.Two_note_turn = GongExtractString(rhs)
 					case "Accelerate":
-						inst.Accelerate = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Accelerate, rhs)
 					case "Beats":
 						inst.Beats = GongExtractString(rhs)
 					case "Second_beat":
@@ -13001,7 +13648,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Cancel":
@@ -13011,7 +13658,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Mode":
 						inst.Mode = GongExtractString(rhs)
 					case "Key_step":
-						inst.Key_step = Enum_Step(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Key_step, rhs)
 					case "Key_alter":
 						inst.Key_alter = GongExtractString(rhs)
 					case "Key_accidental":
@@ -13026,7 +13673,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = Enum_Accidental_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Key_octave:
 					switch fieldName {
@@ -13035,7 +13682,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Cancel":
-						inst.Cancel = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Cancel, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractInt(rhs)
 					}
@@ -13044,15 +13691,15 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Use_symbols":
-						inst.Use_symbols = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Use_symbols, rhs)
 					case "Text":
 						inst.Text = GongExtractString(rhs)
 					case "Stack_degrees":
-						inst.Stack_degrees = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Stack_degrees, rhs)
 					case "Parentheses_degrees":
-						inst.Parentheses_degrees = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Parentheses_degrees, rhs)
 					case "Bracket_degrees":
-						inst.Bracket_degrees = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Bracket_degrees, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -13083,15 +13730,15 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Reference":
-						inst.Reference = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Reference, rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop_single(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Parentheses":
-						inst.Parentheses = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
 					case "Bracket":
-						inst.Bracket = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Bracket, rhs)
 					case "Size":
-						inst.Size = Enum_Symbol_size(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Size, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -13108,7 +13755,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Line_type":
 						inst.Line_type = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					}
 				case *Line_width:
 					switch fieldName {
@@ -13181,9 +13828,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "NameXSD":
 						inst.NameXSD = GongExtractString(rhs)
 					case "Time_only":
-						inst.Time_only = Enum_Time_only(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Time_only, rhs)
 					case "Justify":
-						inst.Justify = Enum_Left_center_right(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Justify, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -13197,7 +13844,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Elision":
@@ -13265,9 +13912,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Staff":
 						inst.Staff = GongExtractInt(rhs)
 					case "Multiple_rest_always":
-						inst.Multiple_rest_always = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Multiple_rest_always, rhs)
 					case "Multiple_rest_range":
-						inst.Multiple_rest_range = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Multiple_rest_range, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -13298,7 +13945,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Slashes":
 						inst.Slashes = GongExtractInt(rhs)
 					case "EnclosedText":
@@ -13354,7 +14001,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Parentheses":
-						inst.Parentheses = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -13378,13 +14025,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Valign":
 						inst.Valign = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Justify":
-						inst.Justify = Enum_Left_center_right(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Justify, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Beat_unit":
-						inst.Beat_unit = Enum_Note_type_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Beat_unit, rhs)
 					case "Beat_unit_dot":
 						inst.Beat_unit_dot = GongExtractString(rhs)
 					case "Per_minute":
@@ -13405,7 +14052,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = Enum_Beam_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Metronome_note:
 					switch fieldName {
@@ -13427,7 +14074,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					}
 				case *Metronome_tuplet:
 					switch fieldName {
@@ -13494,7 +14141,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Use_symbols":
-						inst.Use_symbols = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Use_symbols, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractInt(rhs)
 					}
@@ -13503,7 +14150,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Display_text":
 						__gong__assignSliceOfPointers(&inst.Display_text, rhs, identifierMap)
 					case "Accidental_text":
@@ -13537,7 +14184,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Footnote":
@@ -13578,7 +14225,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Print_leger":
-						inst.Print_leger = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_leger, rhs)
 					case "Dynamics":
 						inst.Dynamics = GongExtractString(rhs)
 					case "End_dynamics":
@@ -13588,9 +14235,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Release":
 						inst.Release = GongExtractString(rhs)
 					case "Time_only":
-						inst.Time_only = Enum_Time_only(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Time_only, rhs)
 					case "Pizzicato":
-						inst.Pizzicato = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Pizzicato, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -13610,13 +14257,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Print_dot":
-						inst.Print_dot = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_dot, rhs)
 					case "Print_lyric":
-						inst.Print_lyric = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_lyric, rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Print_spacing":
-						inst.Print_spacing = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_spacing, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Grace":
@@ -13684,18 +14331,18 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Size":
-						inst.Size = Enum_Symbol_size(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Size, rhs)
 					case "EnclosedText":
-						inst.EnclosedText = Enum_Note_type_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Notehead:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Filled":
-						inst.Filled = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Filled, rhs)
 					case "Parentheses":
-						inst.Parentheses = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
@@ -13736,7 +14383,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Numeral_fifths":
 						inst.Numeral_fifths = GongExtractInt(rhs)
 					case "Numeral_mode":
@@ -13809,7 +14456,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Sound":
-						inst.Sound = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Sound, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -13883,7 +14530,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -13922,7 +14569,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Player":
 						inst.Player = GongExtractString(rhs)
 					case "Time_only":
-						inst.Time_only = Enum_Time_only(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Time_only, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -13931,11 +14578,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop_single(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -14052,7 +14699,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Number":
 						inst.Number = GongExtractString(rhs)
 					case "Group_name":
@@ -14127,9 +14774,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Justify":
-						inst.Justify = Enum_Left_center_right(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Justify, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -14152,7 +14799,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = Enum_Group_symbol_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Part_transpose:
 					switch fieldName {
@@ -14176,11 +14823,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Line":
-						inst.Line = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Line, rhs)
 					case "Sign":
-						inst.Sign = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Sign, rhs)
 					case "Abbreviated":
-						inst.Abbreviated = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Abbreviated, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -14211,7 +14858,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Pedal_step":
-						inst.Pedal_step = Enum_Step(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Pedal_step, rhs)
 					case "Pedal_alter":
 						inst.Pedal_alter = GongExtractString(rhs)
 					}
@@ -14288,7 +14935,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Step":
-						inst.Step = Enum_Step(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Step, rhs)
 					case "Alter":
 						inst.Alter = GongExtractString(rhs)
 					case "Octave":
@@ -14359,7 +15006,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Symbol":
 						inst.Symbol = GongExtractString(rhs)
 					case "Default_x":
@@ -14396,9 +15043,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Staff_spacing":
 						inst.Staff_spacing = GongExtractString(rhs)
 					case "New_system":
-						inst.New_system = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.New_system, rhs)
 					case "New_page":
-						inst.New_page = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.New_page, rhs)
 					case "Blank_page":
 						inst.Blank_page = GongExtractInt(rhs)
 					case "Page_number":
@@ -14434,7 +15081,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Times":
 						inst.Times = GongExtractInt(rhs)
 					case "After_jump":
-						inst.After_jump = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.After_jump, rhs)
 					case "Winged":
 						inst.Winged = GongExtractString(rhs)
 					}
@@ -14443,9 +15090,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Measure":
-						inst.Measure = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Measure, rhs)
 					case "Display_step":
-						inst.Display_step = Enum_Step(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Display_step, rhs)
 					case "Display_octave":
 						inst.Display_octave = GongExtractInt(rhs)
 					}
@@ -14483,7 +15130,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = Enum_Step(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Scaling:
 					switch fieldName {
@@ -14633,13 +15280,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Use_dots":
-						inst.Use_dots = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Use_dots, rhs)
 					case "Use_stems":
-						inst.Use_stems = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Use_stems, rhs)
 					case "Slash_type":
-						inst.Slash_type = Enum_Note_type_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Slash_type, rhs)
 					case "Slash_dot":
 						inst.Slash_dot = GongExtractString(rhs)
 					case "Except_voice":
@@ -14650,7 +15297,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Line_type":
@@ -14678,7 +15325,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Accelerate":
-						inst.Accelerate = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Accelerate, rhs)
 					case "Beats":
 						inst.Beats = GongExtractString(rhs)
 					case "First_beat":
@@ -14695,7 +15342,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop_continue(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Line_type":
@@ -14742,7 +15389,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Dynamics":
 						inst.Dynamics = GongExtractString(rhs)
 					case "Dacapo":
-						inst.Dacapo = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Dacapo, rhs)
 					case "Segno":
 						inst.Segno = GongExtractString(rhs)
 					case "Dalsegno":
@@ -14754,13 +15401,13 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Divisions":
 						inst.Divisions = GongExtractString(rhs)
 					case "Forward_repeat":
-						inst.Forward_repeat = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Forward_repeat, rhs)
 					case "Fine":
 						inst.Fine = GongExtractString(rhs)
 					case "Time_only":
-						inst.Time_only = Enum_Time_only(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Time_only, rhs)
 					case "Pizzicato":
-						inst.Pizzicato = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Pizzicato, rhs)
 					case "Pan":
 						inst.Pan = GongExtractString(rhs)
 					case "Elevation":
@@ -14795,9 +15442,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Show_frets":
 						inst.Show_frets = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Print_spacing":
-						inst.Print_spacing = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_spacing, rhs)
 					case "Staff_type":
 						inst.Staff_type = GongExtractString(rhs)
 					case "Staff_lines":
@@ -14867,7 +15514,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Line":
 						inst.Line = GongExtractInt(rhs)
 					case "Tuning_step":
-						inst.Tuning_step = Enum_Step(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Tuning_step, rhs)
 					case "Tuning_alter":
 						inst.Tuning_alter = GongExtractString(rhs)
 					case "Tuning_octave":
@@ -14895,11 +15542,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Tip":
-						inst.Tip = Enum_Tip_direction(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Tip, rhs)
 					case "Parentheses":
-						inst.Parentheses = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
 					case "Dashed_circle":
-						inst.Dashed_circle = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Dashed_circle, rhs)
 					case "Stick_type":
 						inst.Stick_type = GongExtractString(rhs)
 					case "Stick_material":
@@ -14998,7 +15645,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Element":
 						inst.Element = GongExtractString(rhs)
 					case "Attribute":
@@ -15017,7 +15664,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Second":
 						inst.Second = GongExtractInt(rhs)
 					case "Swing_type":
-						inst.Swing_type = Enum_Note_type_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Swing_type, rhs)
 					case "Swing_style":
 						inst.Swing_style = GongExtractString(rhs)
 					}
@@ -15032,7 +15679,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Player":
 						inst.Player = GongExtractString(rhs)
 					case "Time_only":
-						inst.Time_only = Enum_Time_only(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Time_only, rhs)
 					}
 				case *System_dividers:
 					switch fieldName {
@@ -15199,9 +15846,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Time_only":
-						inst.Time_only = Enum_Time_only(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Time_only, rhs)
 					}
 				case *Tied:
 					switch fieldName {
@@ -15253,9 +15900,9 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Symbol":
-						inst.Symbol = Enum_Time_symbol(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Symbol, rhs)
 					case "Separator":
-						inst.Separator = Enum_Time_separator(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Separator, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -15279,7 +15926,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Valign":
 						inst.Valign = GongExtractString(rhs)
 					case "Print_object":
-						inst.Print_object = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Beats":
@@ -15300,7 +15947,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Normal_notes":
 						inst.Normal_notes = GongExtractInt(rhs)
 					case "Normal_type":
-						inst.Normal_type = Enum_Note_type_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Normal_type, rhs)
 					case "Normal_dot":
 						inst.Normal_dot = GongExtractString(rhs)
 					}
@@ -15364,15 +16011,15 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Bracket":
-						inst.Bracket = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Bracket, rhs)
 					case "Show_number":
 						inst.Show_number = GongExtractString(rhs)
 					case "Show_type":
-						inst.Show_type = Enum_Show_tuplet(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Show_type, rhs)
 					case "Line_shape":
 						inst.Line_shape = GongExtractString(rhs)
 					case "Default_x":
@@ -15450,7 +16097,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = Enum_Note_type_value(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Typed_text:
 					switch fieldName {
@@ -15466,7 +16113,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Display_step":
-						inst.Display_step = Enum_Step(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Display_step, rhs)
 					case "Display_octave":
 						inst.Display_octave = GongExtractInt(rhs)
 					}
@@ -15486,14 +16133,14 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Player":
 						inst.Player = GongExtractString(rhs)
 					case "Time_only":
-						inst.Time_only = Enum_Time_only(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Time_only, rhs)
 					}
 				case *Wavy_line:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = Enum_Start_stop_continue(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Smufl":
@@ -15517,7 +16164,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Two_note_turn":
 						inst.Two_note_turn = GongExtractString(rhs)
 					case "Accelerate":
-						inst.Accelerate = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Accelerate, rhs)
 					case "Beats":
 						inst.Beats = GongExtractString(rhs)
 					case "Second_beat":
@@ -15536,7 +16183,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Spread":
 						inst.Spread = GongExtractString(rhs)
 					case "Niente":
-						inst.Niente = Enum_Yes_no(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Niente, rhs)
 					case "Line_type":
 						inst.Line_type = GongExtractString(rhs)
 					case "Dash_length":
@@ -15634,11 +16281,45 @@ func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map
 }
 
 func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
-	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-			if target, ok := identifierMap[rIdent.Name]; ok {
-				if typedTarget, ok := target.(*T); ok {
-					*slice = append(*slice, typedTarget)
+	if call, ok := rhs.(*ast.CallExpr); ok {
+		funcName := ""
+		var isSlices bool
+		if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+			if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+				isSlices = true
+				funcName = sel.Sel.Name
+			}
+		} else if ident, ok := call.Fun.(*ast.Ident); ok {
+			funcName = ident.Name
+		}
+
+		if isSlices {
+			if funcName == "Delete" && len(call.Args) == 3 {
+				start := GongExtractInt(call.Args[1])
+				end := GongExtractInt(call.Args[2])
+				if end <= len(*slice) {
+					*slice = slices.Delete(*slice, start, end)
+				}
+			} else if funcName == "Insert" && len(call.Args) == 3 {
+				index := GongExtractInt(call.Args[1])
+				if index <= len(*slice) {
+					if rIdent, ok := call.Args[2].(*ast.Ident); ok {
+						if target, ok := identifierMap[rIdent.Name]; ok {
+							if typedTarget, ok := target.(*T); ok {
+								*slice = slices.Insert(*slice, index, typedTarget)
+							}
+						}
+					}
+				}
+			}
+		} else if funcName == "append" && len(call.Args) >= 2 {
+			for i := 1; i < len(call.Args); i++ {
+				if rIdent, ok := call.Args[i].(*ast.Ident); ok {
+					if target, ok := identifierMap[rIdent.Name]; ok {
+						if typedTarget, ok := target.(*T); ok {
+							*slice = append(*slice, typedTarget)
+						}
+					}
 				}
 			}
 		}

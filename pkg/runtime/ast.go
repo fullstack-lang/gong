@@ -382,7 +382,7 @@ func UnmarshallPointer[T any, M any](
 	}
 }
 
-// UnmarshallEnum handles assignment of enum fields (via SelectorExpr, Int literal, or String fallback)
+// UnmarshallEnum handles assignment of enum fields (via SelectorExpr, Ident, CallExpr, Int literal, or String fallback)
 func UnmarshallEnum[T interface{ FromCodeString(string) error }](
 	ptr T,
 	valueExpr ast.Expr,
@@ -391,9 +391,16 @@ func UnmarshallEnum[T interface{ FromCodeString(string) error }](
 		if err := ptr.FromCodeString(sel.Sel.Name); err != nil {
 			log.Printf("UnmarshallEnum: Error parsing code string '%s': %v", sel.Sel.Name, err)
 		}
+	} else if ident, ok := valueExpr.(*ast.Ident); ok {
+		if err := ptr.FromCodeString(ident.Name); err != nil {
+			log.Printf("UnmarshallEnum: Error parsing ident '%s': %v", ident.Name, err)
+		}
+	} else if call, ok := valueExpr.(*ast.CallExpr); ok && len(call.Args) == 1 {
+		UnmarshallEnum(ptr, call.Args[0])
 	} else if intEnum, ok := any(ptr).(interface{ FromInt(int) error }); ok {
 		if bl, ok := valueExpr.(*ast.BasicLit); ok && bl.Kind == token.INT {
-			if err := intEnum.FromInt(ExtractInt(valueExpr)); err != nil {
+			val := ExtractInt(valueExpr)
+			if err := intEnum.FromInt(val); err != nil && val != 0 {
 				log.Printf("UnmarshallEnum: Error parsing int literal '%s': %v", bl.Value, err)
 			}
 		} else if ue, ok := valueExpr.(*ast.UnaryExpr); ok && ue.Op == token.SUB {
@@ -410,10 +417,15 @@ func UnmarshallEnum[T interface{ FromCodeString(string) error }](
 		}
 	} else {
 		valStr := ExtractString(valueExpr)
-		if valStr != "" {
-			if err := ptr.FromCodeString(valStr); err != nil {
+		if err := ptr.FromCodeString(valStr); err != nil {
+			if strEnum, ok := any(ptr).(interface{ FromString(string) error }); ok {
+				if err2 := strEnum.FromString(valStr); err2 != nil && valStr != "" {
+					log.Printf("UnmarshallEnum: Error parsing string literal '%s': %v", valStr, err)
+				}
+			} else if valStr != "" {
 				log.Printf("UnmarshallEnum: Error parsing string literal '%s': %v", valStr, err)
 			}
 		}
 	}
 }
+

@@ -533,8 +533,8 @@ func _(stageSet *models.StageSet) {
 	__models__PlantAbstract__00000000_.StackHeight = 5
 	__models__PlantAbstract__00000000_.RhombusInsideAngle = 108.000000
 	__models__PlantAbstract__00000000_.RhombusSideLength = 195.000000
-	__models__PlantAbstract__00000000_.PlantType = `Tube Vase`
-	__models__PlantAbstract__00000000_.CurrentView = `Tube Vase 3D`
+	__models__PlantAbstract__00000000_.PlantType = models.TubeVase
+	__models__PlantAbstract__00000000_.CurrentView = models.VIEW_TUBE_VASE_3D
 	__models__PlantAbstract__00000000_.ComputedPrefix = ``
 	__models__PlantAbstract__00000000_.IsExpanded = false
 	__models__PlantAbstract__00000000_.IsSelected = false
@@ -552,8 +552,8 @@ func _(stageSet *models.StageSet) {
 	__models__PlantAbstract__00000001_.StackHeight = 2
 	__models__PlantAbstract__00000001_.RhombusInsideAngle = 152.000000
 	__models__PlantAbstract__00000001_.RhombusSideLength = 90.000000
-	__models__PlantAbstract__00000001_.PlantType = `Plant`
-	__models__PlantAbstract__00000001_.CurrentView = `Plant 3D`
+	__models__PlantAbstract__00000001_.PlantType = models.Plant
+	__models__PlantAbstract__00000001_.CurrentView = models.VIEW_PLANT_3D
 	__models__PlantAbstract__00000001_.ComputedPrefix = ``
 	__models__PlantAbstract__00000001_.IsExpanded = false
 	__models__PlantAbstract__00000001_.IsSelected = false
@@ -571,8 +571,8 @@ func _(stageSet *models.StageSet) {
 	__models__PlantAbstract__00000002_.StackHeight = 2
 	__models__PlantAbstract__00000002_.RhombusInsideAngle = 119.000000
 	__models__PlantAbstract__00000002_.RhombusSideLength = 95.000000
-	__models__PlantAbstract__00000002_.PlantType = `Stool`
-	__models__PlantAbstract__00000002_.CurrentView = `Stool 3D`
+	__models__PlantAbstract__00000002_.PlantType = models.Stool
+	__models__PlantAbstract__00000002_.CurrentView = models.VIEW_STOOL_3D
 	__models__PlantAbstract__00000002_.ComputedPrefix = ``
 	__models__PlantAbstract__00000002_.IsExpanded = true
 	__models__PlantAbstract__00000002_.IsSelected = false
@@ -590,8 +590,8 @@ func _(stageSet *models.StageSet) {
 	__models__PlantAbstract__00000003_.StackHeight = 1
 	__models__PlantAbstract__00000003_.RhombusInsideAngle = 138.000000
 	__models__PlantAbstract__00000003_.RhombusSideLength = 260.000000
-	__models__PlantAbstract__00000003_.PlantType = `Clock`
-	__models__PlantAbstract__00000003_.CurrentView = `Clock 3D`
+	__models__PlantAbstract__00000003_.PlantType = models.Clock
+	__models__PlantAbstract__00000003_.CurrentView = models.VIEW_CLOCK_3D
 	__models__PlantAbstract__00000003_.ComputedPrefix = ``
 	__models__PlantAbstract__00000003_.IsExpanded = false
 	__models__PlantAbstract__00000003_.IsSelected = false
@@ -609,8 +609,8 @@ func _(stageSet *models.StageSet) {
 	__models__PlantAbstract__00000004_.StackHeight = 3
 	__models__PlantAbstract__00000004_.RhombusInsideAngle = 132.000000
 	__models__PlantAbstract__00000004_.RhombusSideLength = 130.000000
-	__models__PlantAbstract__00000004_.PlantType = `Music`
-	__models__PlantAbstract__00000004_.CurrentView = `Plant 2D`
+	__models__PlantAbstract__00000004_.PlantType = models.Music
+	__models__PlantAbstract__00000004_.CurrentView = models.VIEW_PLANT_2D
 	__models__PlantAbstract__00000004_.ComputedPrefix = ``
 	__models__PlantAbstract__00000004_.IsExpanded = true
 	__models__PlantAbstract__00000004_.IsSelected = false
@@ -628,8 +628,8 @@ func _(stageSet *models.StageSet) {
 	__models__PlantAbstract__00000005_.StackHeight = 5
 	__models__PlantAbstract__00000005_.RhombusInsideAngle = 130.000000
 	__models__PlantAbstract__00000005_.RhombusSideLength = 100.000000
-	__models__PlantAbstract__00000005_.PlantType = models.TubeVase
-	__models__PlantAbstract__00000005_.CurrentView = `Vase Trapeze 3D`
+	__models__PlantAbstract__00000005_.PlantType = models.VaseTrapeze
+	__models__PlantAbstract__00000005_.CurrentView = models.VIEW_VASE_TRAPEZE_3D
 	__models__PlantAbstract__00000005_.ComputedPrefix = ``
 	__models__PlantAbstract__00000005_.IsExpanded = true
 	__models__PlantAbstract__00000005_.IsSelected = true

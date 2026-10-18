@@ -11,6 +11,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"slices"
 	"sort"
 	"strconv"
@@ -156,7 +157,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsDisabled = %t", buttonIdent, button.IsDisabled))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", buttonIdent, button.HasToolTip))
 			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", buttonIdent, __gong__toRawStringLiteral(button.ToolTipText)))
-			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = %s", buttonIdent, __gong__toRawStringLiteral(string(button.ToolTipPosition))))
+			if button.ToolTipPosition.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = models.%s", buttonIdent, button.ToolTipPosition.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = \"\"", buttonIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.ClientOnX = %f", buttonIdent, button.ClientOnX))
 			values.WriteString(fmt.Sprintf("\n\t%s.ClientOnY = %f", buttonIdent, button.ClientOnY))
 			if button.SVGIcon != nil {
@@ -219,7 +224,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", nodeIdent, __gong__toRawStringLiteral(node.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsWithPrefix = %t", nodeIdent, node.IsWithPrefix))
 			values.WriteString(fmt.Sprintf("\n\t%s.Prefix = %s", nodeIdent, __gong__toRawStringLiteral(node.Prefix)))
-			values.WriteString(fmt.Sprintf("\n\t%s.FontStyle = %s", nodeIdent, __gong__toRawStringLiteral(string(node.FontStyle))))
+			if node.FontStyle.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.FontStyle = models.%s", nodeIdent, node.FontStyle.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.FontStyle = \"\"", nodeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.BackgroundColor = %s", nodeIdent, __gong__toRawStringLiteral(node.BackgroundColor)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", nodeIdent, node.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasCheckboxButton = %t", nodeIdent, node.HasCheckboxButton))
@@ -227,17 +236,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsCheckboxDisabled = %t", nodeIdent, node.IsCheckboxDisabled))
 			values.WriteString(fmt.Sprintf("\n\t%s.CheckboxHasToolTip = %t", nodeIdent, node.CheckboxHasToolTip))
 			values.WriteString(fmt.Sprintf("\n\t%s.CheckboxToolTipText = %s", nodeIdent, __gong__toRawStringLiteral(node.CheckboxToolTipText)))
-			values.WriteString(fmt.Sprintf("\n\t%s.CheckboxToolTipPosition = %s", nodeIdent, __gong__toRawStringLiteral(string(node.CheckboxToolTipPosition))))
+			if node.CheckboxToolTipPosition.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.CheckboxToolTipPosition = models.%s", nodeIdent, node.CheckboxToolTipPosition.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.CheckboxToolTipPosition = \"\"", nodeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.HasSecondCheckboxButton = %t", nodeIdent, node.HasSecondCheckboxButton))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsSecondCheckboxChecked = %t", nodeIdent, node.IsSecondCheckboxChecked))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsSecondCheckboxDisabled = %t", nodeIdent, node.IsSecondCheckboxDisabled))
 			values.WriteString(fmt.Sprintf("\n\t%s.SecondCheckboxHasToolTip = %t", nodeIdent, node.SecondCheckboxHasToolTip))
 			values.WriteString(fmt.Sprintf("\n\t%s.SecondCheckboxToolTipText = %s", nodeIdent, __gong__toRawStringLiteral(node.SecondCheckboxToolTipText)))
-			values.WriteString(fmt.Sprintf("\n\t%s.SecondCheckboxToolTipPosition = %s", nodeIdent, __gong__toRawStringLiteral(string(node.SecondCheckboxToolTipPosition))))
+			if node.SecondCheckboxToolTipPosition.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.SecondCheckboxToolTipPosition = models.%s", nodeIdent, node.SecondCheckboxToolTipPosition.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.SecondCheckboxToolTipPosition = \"\"", nodeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.TextAfterSecondCheckbox = %s", nodeIdent, __gong__toRawStringLiteral(node.TextAfterSecondCheckbox)))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", nodeIdent, node.HasToolTip))
 			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", nodeIdent, __gong__toRawStringLiteral(node.ToolTipText)))
-			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = %s", nodeIdent, __gong__toRawStringLiteral(string(node.ToolTipPosition))))
+			if node.ToolTipPosition.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = models.%s", nodeIdent, node.ToolTipPosition.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = \"\"", nodeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.ClientOnY = %f", nodeIdent, node.ClientOnY))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsInEditMode = %t", nodeIdent, node.IsInEditMode))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsNodeClickable = %t", nodeIdent, node.IsNodeClickable))
@@ -337,7 +358,21 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	}
 
 
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	goModuleVersionWithoutDirty := strings.ReplaceAll(goModuleVersion, "+dirty", "")
+	if goModuleVersionWithoutDirty == "" || goModuleVersionWithoutDirty == "(devel)" {
+		goModuleVersionWithoutDirty = "latest"
+	}
+
 	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+/* to edit this file with the default probe, use the command
+go run github.com/fullstack-lang/gong/lib/tree/go/models/probe/cmd/probe@%s stage.go
+*/
 package %s
 
 import (
@@ -369,7 +404,7 @@ func _(stageSet *models.StageSet) {
 	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
 	// ------------------------------------------------------------------------%s
 }
-`, packageName, declarations.String(), values.String(), pointers.String())
+`, goModuleVersion, goModuleVersionWithoutDirty, packageName, declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }
@@ -516,7 +551,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "ToolTipText":
 						inst.ToolTipText = GongExtractString(rhs)
 					case "ToolTipPosition":
-						inst.ToolTipPosition = ToolTipPositionEnum(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ToolTipPosition, rhs)
 					case "ClientOnX":
 						inst.ClientOnX = GongExtractFloat(rhs)
 					case "ClientOnY":
@@ -538,7 +573,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Prefix":
 						inst.Prefix = GongExtractString(rhs)
 					case "FontStyle":
-						inst.FontStyle = FontStyleEnum(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.FontStyle, rhs)
 					case "BackgroundColor":
 						inst.BackgroundColor = GongExtractString(rhs)
 					case "IsExpanded":
@@ -554,7 +589,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "CheckboxToolTipText":
 						inst.CheckboxToolTipText = GongExtractString(rhs)
 					case "CheckboxToolTipPosition":
-						inst.CheckboxToolTipPosition = ToolTipPositionEnum(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.CheckboxToolTipPosition, rhs)
 					case "HasSecondCheckboxButton":
 						inst.HasSecondCheckboxButton = GongExtractBool(rhs)
 					case "IsSecondCheckboxChecked":
@@ -566,7 +601,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "SecondCheckboxToolTipText":
 						inst.SecondCheckboxToolTipText = GongExtractString(rhs)
 					case "SecondCheckboxToolTipPosition":
-						inst.SecondCheckboxToolTipPosition = ToolTipPositionEnum(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.SecondCheckboxToolTipPosition, rhs)
 					case "TextAfterSecondCheckbox":
 						inst.TextAfterSecondCheckbox = GongExtractString(rhs)
 					case "HasToolTip":
@@ -574,7 +609,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "ToolTipText":
 						inst.ToolTipText = GongExtractString(rhs)
 					case "ToolTipPosition":
-						inst.ToolTipPosition = ToolTipPositionEnum(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ToolTipPosition, rhs)
 					case "ClientOnY":
 						inst.ClientOnY = GongExtractFloat(rhs)
 					case "IsInEditMode":
@@ -668,11 +703,45 @@ func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map
 }
 
 func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
-	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-			if target, ok := identifierMap[rIdent.Name]; ok {
-				if typedTarget, ok := target.(*T); ok {
-					*slice = append(*slice, typedTarget)
+	if call, ok := rhs.(*ast.CallExpr); ok {
+		funcName := ""
+		var isSlices bool
+		if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+			if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+				isSlices = true
+				funcName = sel.Sel.Name
+			}
+		} else if ident, ok := call.Fun.(*ast.Ident); ok {
+			funcName = ident.Name
+		}
+
+		if isSlices {
+			if funcName == "Delete" && len(call.Args) == 3 {
+				start := GongExtractInt(call.Args[1])
+				end := GongExtractInt(call.Args[2])
+				if end <= len(*slice) {
+					*slice = slices.Delete(*slice, start, end)
+				}
+			} else if funcName == "Insert" && len(call.Args) == 3 {
+				index := GongExtractInt(call.Args[1])
+				if index <= len(*slice) {
+					if rIdent, ok := call.Args[2].(*ast.Ident); ok {
+						if target, ok := identifierMap[rIdent.Name]; ok {
+							if typedTarget, ok := target.(*T); ok {
+								*slice = slices.Insert(*slice, index, typedTarget)
+							}
+						}
+					}
+				}
+			}
+		} else if funcName == "append" && len(call.Args) >= 2 {
+			for i := 1; i < len(call.Args); i++ {
+				if rIdent, ok := call.Args[i].(*ast.Ident); ok {
+					if target, ok := identifierMap[rIdent.Name]; ok {
+						if typedTarget, ok := target.(*T); ok {
+							*slice = append(*slice, typedTarget)
+						}
+					}
 				}
 			}
 		}

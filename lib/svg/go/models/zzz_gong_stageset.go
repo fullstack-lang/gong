@@ -11,6 +11,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"slices"
 	"sort"
 	"strconv"
@@ -490,13 +491,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linkIdent, __gong__toRawStringLiteral(link.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", linkIdent, __gong__toRawStringLiteral(string(link.Type))))
+			if link.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", linkIdent, link.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", linkIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.IsBezierCurve = %t", linkIdent, link.IsBezierCurve))
-			values.WriteString(fmt.Sprintf("\n\t%s.StartAnchorType = %s", linkIdent, __gong__toRawStringLiteral(string(link.StartAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.EndAnchorType = %s", linkIdent, __gong__toRawStringLiteral(string(link.EndAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = %s", linkIdent, __gong__toRawStringLiteral(string(link.StartOrientation))))
+			if link.StartAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartAnchorType = models.%s", linkIdent, link.StartAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartAnchorType = \"\"", linkIdent))
+			}
+			if link.EndAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndAnchorType = models.%s", linkIdent, link.EndAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndAnchorType = \"\"", linkIdent))
+			}
+			if link.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = models.%s", linkIdent, link.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", linkIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", linkIdent, link.StartRatio))
-			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", linkIdent, __gong__toRawStringLiteral(string(link.EndOrientation))))
+			if link.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = models.%s", linkIdent, link.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", linkIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", linkIdent, link.EndRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", linkIdent, link.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerRadius = %f", linkIdent, link.CornerRadius))
@@ -516,7 +537,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", linkIdent, __gong__toRawStringLiteral(link.Transform)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MouseX = %f", linkIdent, link.MouseX))
 			values.WriteString(fmt.Sprintf("\n\t%s.MouseY = %f", linkIdent, link.MouseY))
-			values.WriteString(fmt.Sprintf("\n\t%s.MouseEventKey = %s", linkIdent, __gong__toRawStringLiteral(string(link.MouseEventKey))))
+			if link.MouseEventKey.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MouseEventKey = models.%s", linkIdent, link.MouseEventKey.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MouseEventKey = \"\"", linkIdent))
+			}
 			if link.Start != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -660,7 +685,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.Content)))
 			values.WriteString(fmt.Sprintf("\n\t%s.AutomaticLayout = %t", linkanchoredtextIdent, linkanchoredtext.AutomaticLayout))
-			values.WriteString(fmt.Sprintf("\n\t%s.LinkAnchorType = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(string(linkanchoredtext.LinkAnchorType))))
+			if linkanchoredtext.LinkAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.LinkAnchorType = models.%s", linkanchoredtextIdent, linkanchoredtext.LinkAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.LinkAnchorType = \"\"", linkanchoredtextIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", linkanchoredtextIdent, linkanchoredtext.X_Offset))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", linkanchoredtextIdent, linkanchoredtext.Y_Offset))
 			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.FontWeight)))
@@ -668,7 +697,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.FontStyle = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.FontStyle)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LetterSpacing = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.LetterSpacing)))
 			values.WriteString(fmt.Sprintf("\n\t%s.FontFamily = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.FontFamily)))
-			values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(string(linkanchoredtext.WhiteSpace))))
+			if linkanchoredtext.WhiteSpace.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = models.%s", linkanchoredtextIdent, linkanchoredtext.WhiteSpace.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = \"\"", linkanchoredtextIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", linkanchoredtextIdent, linkanchoredtext.FillOpacity))
 			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.Stroke)))
@@ -874,12 +907,24 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.OriginalFillOpacity = %f", rectIdent, rect.OriginalFillOpacity))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", rectIdent, rect.HasToolTip))
 			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", rectIdent, __gong__toRawStringLiteral(rect.ToolTipText)))
-			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = %s", rectIdent, __gong__toRawStringLiteral(string(rect.ToolTipPosition))))
+			if rect.ToolTipPosition.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = models.%s", rectIdent, rect.ToolTipPosition.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = \"\"", rectIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.MouseX = %f", rectIdent, rect.MouseX))
 			values.WriteString(fmt.Sprintf("\n\t%s.MouseY = %f", rectIdent, rect.MouseY))
-			values.WriteString(fmt.Sprintf("\n\t%s.MouseEventKey = %s", rectIdent, __gong__toRawStringLiteral(string(rect.MouseEventKey))))
+			if rect.MouseEventKey.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MouseEventKey = models.%s", rectIdent, rect.MouseEventKey.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MouseEventKey = \"\"", rectIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.URLPath = %s", rectIdent, __gong__toRawStringLiteral(rect.URLPath)))
-			values.WriteString(fmt.Sprintf("\n\t%s.URLTarget = %s", rectIdent, __gong__toRawStringLiteral(string(rect.URLTarget))))
+			if rect.URLTarget.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.URLTarget = models.%s", rectIdent, rect.URLTarget.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.URLTarget = \"\"", rectIdent))
+			}
 			for _, elem := range rect.Peers {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1012,7 +1057,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Definition = %s", rectanchoredpathIdent, __gong__toRawStringLiteral(rectanchoredpath.Definition)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", rectanchoredpathIdent, rectanchoredpath.X_Offset))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", rectanchoredpathIdent, rectanchoredpath.Y_Offset))
-			values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = %s", rectanchoredpathIdent, __gong__toRawStringLiteral(string(rectanchoredpath.RectAnchorType))))
+			if rectanchoredpath.RectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = models.%s", rectanchoredpathIdent, rectanchoredpath.RectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = \"\"", rectanchoredpathIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.ScalePropotionnally = %t", rectanchoredpathIdent, rectanchoredpath.ScalePropotionnally))
 			values.WriteString(fmt.Sprintf("\n\t%s.AppliedScaling = %f", rectanchoredpathIdent, rectanchoredpath.AppliedScaling))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", rectanchoredpathIdent, __gong__toRawStringLiteral(rectanchoredpath.Color)))
@@ -1049,7 +1098,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", rectanchoredpngimageIdent, rectanchoredpngimage.RX))
 			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", rectanchoredpngimageIdent, rectanchoredpngimage.X_Offset))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", rectanchoredpngimageIdent, rectanchoredpngimage.Y_Offset))
-			values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = %s", rectanchoredpngimageIdent, __gong__toRawStringLiteral(string(rectanchoredpngimage.RectAnchorType))))
+			if rectanchoredpngimage.RectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = models.%s", rectanchoredpngimageIdent, rectanchoredpngimage.RectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = \"\"", rectanchoredpngimageIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Base64Content = %s", rectanchoredpngimageIdent, __gong__toRawStringLiteral(rectanchoredpngimage.Base64Content)))
 		}
 	}
@@ -1077,7 +1130,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", rectanchoredrectIdent, rectanchoredrect.RX))
 			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", rectanchoredrectIdent, rectanchoredrect.X_Offset))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", rectanchoredrectIdent, rectanchoredrect.Y_Offset))
-			values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = %s", rectanchoredrectIdent, __gong__toRawStringLiteral(string(rectanchoredrect.RectAnchorType))))
+			if rectanchoredrect.RectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = models.%s", rectanchoredrectIdent, rectanchoredrect.RectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = \"\"", rectanchoredrectIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.WidthFollowRect = %t", rectanchoredrectIdent, rectanchoredrect.WidthFollowRect))
 			values.WriteString(fmt.Sprintf("\n\t%s.HeightFollowRect = %t", rectanchoredrectIdent, rectanchoredrect.HeightFollowRect))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", rectanchoredrectIdent, rectanchoredrect.HasToolTip))
@@ -1115,13 +1172,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.FontStyle = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.FontStyle)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LetterSpacing = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.LetterSpacing)))
 			values.WriteString(fmt.Sprintf("\n\t%s.FontFamily = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.FontFamily)))
-			values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(string(rectanchoredtext.WhiteSpace))))
+			if rectanchoredtext.WhiteSpace.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = models.%s", rectanchoredtextIdent, rectanchoredtext.WhiteSpace.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = \"\"", rectanchoredtextIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", rectanchoredtextIdent, rectanchoredtext.X_Offset))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", rectanchoredtextIdent, rectanchoredtext.Y_Offset))
-			values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(string(rectanchoredtext.RectAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.TextAnchorType = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(string(rectanchoredtext.TextAnchorType))))
-			values.WriteString(fmt.Sprintf("\n\t%s.DominantBaseline = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(string(rectanchoredtext.DominantBaseline))))
-			values.WriteString(fmt.Sprintf("\n\t%s.WritingMode = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(string(rectanchoredtext.WritingMode))))
+			if rectanchoredtext.RectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = models.%s", rectanchoredtextIdent, rectanchoredtext.RectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = \"\"", rectanchoredtextIdent))
+			}
+			if rectanchoredtext.TextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.TextAnchorType = models.%s", rectanchoredtextIdent, rectanchoredtext.TextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.TextAnchorType = \"\"", rectanchoredtextIdent))
+			}
+			if rectanchoredtext.DominantBaseline.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.DominantBaseline = models.%s", rectanchoredtextIdent, rectanchoredtext.DominantBaseline.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.DominantBaseline = \"\"", rectanchoredtextIdent))
+			}
+			if rectanchoredtext.WritingMode.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.WritingMode = models.%s", rectanchoredtextIdent, rectanchoredtext.WritingMode.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.WritingMode = \"\"", rectanchoredtextIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", rectanchoredtextIdent, rectanchoredtext.FillOpacity))
 			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.Stroke)))
@@ -1131,7 +1208,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.StrokeDashArrayWhenSelected)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.Transform)))
 			values.WriteString(fmt.Sprintf("\n\t%s.URLPath = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.URLPath)))
-			values.WriteString(fmt.Sprintf("\n\t%s.URLTarget = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(string(rectanchoredtext.URLTarget))))
+			if rectanchoredtext.URLTarget.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.URLTarget = models.%s", rectanchoredtextIdent, rectanchoredtext.URLTarget.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.URLTarget = \"\"", rectanchoredtextIdent))
+			}
 			for _, elem := range rectanchoredtext.Animates {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1209,7 +1290,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", svgIdent, __gong__toRawStringLiteral(svg.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.DrawingState = %s", svgIdent, __gong__toRawStringLiteral(string(svg.DrawingState))))
+			if svg.DrawingState.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.DrawingState = models.%s", svgIdent, svg.DrawingState.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.DrawingState = \"\"", svgIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.IsEditable = %t", svgIdent, svg.IsEditable))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsSVGFrontEndFileGenerated = %t", svgIdent, svg.IsSVGFrontEndFileGenerated))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsSVGBackEndFileGenerated = %t", svgIdent, svg.IsSVGBackEndFileGenerated))
@@ -1307,7 +1392,11 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.FontStyle = %s", textIdent, __gong__toRawStringLiteral(text.FontStyle)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LetterSpacing = %s", textIdent, __gong__toRawStringLiteral(text.LetterSpacing)))
 			values.WriteString(fmt.Sprintf("\n\t%s.FontFamily = %s", textIdent, __gong__toRawStringLiteral(text.FontFamily)))
-			values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = %s", textIdent, __gong__toRawStringLiteral(string(text.WhiteSpace))))
+			if text.WhiteSpace.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = models.%s", textIdent, text.WhiteSpace.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = \"\"", textIdent))
+			}
 			for _, elem := range text.Animates {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1322,7 +1411,21 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	}
 
 
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	goModuleVersionWithoutDirty := strings.ReplaceAll(goModuleVersion, "+dirty", "")
+	if goModuleVersionWithoutDirty == "" || goModuleVersionWithoutDirty == "(devel)" {
+		goModuleVersionWithoutDirty = "latest"
+	}
+
 	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+/* to edit this file with the default probe, use the command
+go run github.com/fullstack-lang/gong/lib/svg/go/models/probe/cmd/probe@%s stage.go
+*/
 package %s
 
 import (
@@ -1354,7 +1457,7 @@ func _(stageSet *models.StageSet) {
 	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
 	// ------------------------------------------------------------------------%s
 }
-`, packageName, declarations.String(), values.String(), pointers.String())
+`, goModuleVersion, goModuleVersionWithoutDirty, packageName, declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }
@@ -1689,23 +1792,23 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Type":
-						inst.Type = LinkType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.Type, rhs)
 					case "IsBezierCurve":
 						inst.IsBezierCurve = GongExtractBool(rhs)
 					case "Start":
 						__gong__assignPointer(&inst.Start, rhs, identifierMap)
 					case "StartAnchorType":
-						inst.StartAnchorType = AnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.StartAnchorType, rhs)
 					case "End":
 						__gong__assignPointer(&inst.End, rhs, identifierMap)
 					case "EndAnchorType":
-						inst.EndAnchorType = AnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EndAnchorType, rhs)
 					case "StartOrientation":
-						inst.StartOrientation = OrientationType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
 					case "StartRatio":
 						inst.StartRatio = GongExtractFloat(rhs)
 					case "EndOrientation":
-						inst.EndOrientation = OrientationType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
 					case "EndRatio":
 						inst.EndRatio = GongExtractFloat(rhs)
 					case "CornerOffsetRatio":
@@ -1759,7 +1862,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "MouseY":
 						inst.MouseY = GongExtractFloat(rhs)
 					case "MouseEventKey":
-						inst.MouseEventKey = MouseEventKey(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.MouseEventKey, rhs)
 					}
 				case *LinkAnchoredPath:
 					switch fieldName {
@@ -1801,7 +1904,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "AutomaticLayout":
 						inst.AutomaticLayout = GongExtractBool(rhs)
 					case "LinkAnchorType":
-						inst.LinkAnchorType = LinkAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.LinkAnchorType, rhs)
 					case "X_Offset":
 						inst.X_Offset = GongExtractFloat(rhs)
 					case "Y_Offset":
@@ -1817,7 +1920,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "FontFamily":
 						inst.FontFamily = GongExtractString(rhs)
 					case "WhiteSpace":
-						inst.WhiteSpace = WhiteSpaceEnum(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.WhiteSpace, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "FillOpacity":
@@ -2014,17 +2117,17 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "ToolTipText":
 						inst.ToolTipText = GongExtractString(rhs)
 					case "ToolTipPosition":
-						inst.ToolTipPosition = ToolTipPositionEnum(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.ToolTipPosition, rhs)
 					case "MouseX":
 						inst.MouseX = GongExtractFloat(rhs)
 					case "MouseY":
 						inst.MouseY = GongExtractFloat(rhs)
 					case "MouseEventKey":
-						inst.MouseEventKey = MouseEventKey(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.MouseEventKey, rhs)
 					case "URLPath":
 						inst.URLPath = GongExtractString(rhs)
 					case "URLTarget":
-						inst.URLTarget = LinkTargetType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.URLTarget, rhs)
 					}
 				case *RectAnchoredPath:
 					switch fieldName {
@@ -2037,7 +2140,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Y_Offset":
 						inst.Y_Offset = GongExtractFloat(rhs)
 					case "RectAnchorType":
-						inst.RectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.RectAnchorType, rhs)
 					case "ScalePropotionnally":
 						inst.ScalePropotionnally = GongExtractBool(rhs)
 					case "AppliedScaling":
@@ -2078,7 +2181,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Y_Offset":
 						inst.Y_Offset = GongExtractFloat(rhs)
 					case "RectAnchorType":
-						inst.RectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.RectAnchorType, rhs)
 					case "Base64Content":
 						inst.Base64Content = GongExtractString(rhs)
 					}
@@ -2101,7 +2204,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Y_Offset":
 						inst.Y_Offset = GongExtractFloat(rhs)
 					case "RectAnchorType":
-						inst.RectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.RectAnchorType, rhs)
 					case "WidthFollowRect":
 						inst.WidthFollowRect = GongExtractBool(rhs)
 					case "HeightFollowRect":
@@ -2144,19 +2247,19 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "FontFamily":
 						inst.FontFamily = GongExtractString(rhs)
 					case "WhiteSpace":
-						inst.WhiteSpace = WhiteSpaceEnum(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.WhiteSpace, rhs)
 					case "X_Offset":
 						inst.X_Offset = GongExtractFloat(rhs)
 					case "Y_Offset":
 						inst.Y_Offset = GongExtractFloat(rhs)
 					case "RectAnchorType":
-						inst.RectAnchorType = RectAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.RectAnchorType, rhs)
 					case "TextAnchorType":
-						inst.TextAnchorType = TextAnchorType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.TextAnchorType, rhs)
 					case "DominantBaseline":
-						inst.DominantBaseline = DominantBaselineType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.DominantBaseline, rhs)
 					case "WritingMode":
-						inst.WritingMode = WritingMode(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.WritingMode, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "FillOpacity":
@@ -2178,7 +2281,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "URLPath":
 						inst.URLPath = GongExtractString(rhs)
 					case "URLTarget":
-						inst.URLTarget = LinkTargetType(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.URLTarget, rhs)
 					}
 				case *RectLinkLink:
 					switch fieldName {
@@ -2214,7 +2317,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Layers":
 						__gong__assignSliceOfPointers(&inst.Layers, rhs, identifierMap)
 					case "DrawingState":
-						inst.DrawingState = DrawingState(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.DrawingState, rhs)
 					case "StartRect":
 						__gong__assignPointer(&inst.StartRect, rhs, identifierMap)
 					case "EndRect":
@@ -2288,7 +2391,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "FontFamily":
 						inst.FontFamily = GongExtractString(rhs)
 					case "WhiteSpace":
-						inst.WhiteSpace = WhiteSpaceEnum(GongExtractString(rhs))
+						GongUnmarshallEnum(&inst.WhiteSpace, rhs)
 					case "Animates":
 						__gong__assignSliceOfPointers(&inst.Animates, rhs, identifierMap)
 					}
@@ -2350,11 +2453,45 @@ func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map
 }
 
 func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
-	if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-		if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-			if target, ok := identifierMap[rIdent.Name]; ok {
-				if typedTarget, ok := target.(*T); ok {
-					*slice = append(*slice, typedTarget)
+	if call, ok := rhs.(*ast.CallExpr); ok {
+		funcName := ""
+		var isSlices bool
+		if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+			if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+				isSlices = true
+				funcName = sel.Sel.Name
+			}
+		} else if ident, ok := call.Fun.(*ast.Ident); ok {
+			funcName = ident.Name
+		}
+
+		if isSlices {
+			if funcName == "Delete" && len(call.Args) == 3 {
+				start := GongExtractInt(call.Args[1])
+				end := GongExtractInt(call.Args[2])
+				if end <= len(*slice) {
+					*slice = slices.Delete(*slice, start, end)
+				}
+			} else if funcName == "Insert" && len(call.Args) == 3 {
+				index := GongExtractInt(call.Args[1])
+				if index <= len(*slice) {
+					if rIdent, ok := call.Args[2].(*ast.Ident); ok {
+						if target, ok := identifierMap[rIdent.Name]; ok {
+							if typedTarget, ok := target.(*T); ok {
+								*slice = slices.Insert(*slice, index, typedTarget)
+							}
+						}
+					}
+				}
+			}
+		} else if funcName == "append" && len(call.Args) >= 2 {
+			for i := 1; i < len(call.Args); i++ {
+				if rIdent, ok := call.Args[i].(*ast.Ident); ok {
+					if target, ok := identifierMap[rIdent.Name]; ok {
+						if typedTarget, ok := target.(*T); ok {
+							*slice = append(*slice, typedTarget)
+						}
+					}
 				}
 			}
 		}
