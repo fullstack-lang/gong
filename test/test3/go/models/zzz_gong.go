@@ -913,6 +913,9 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return nil
 	}
 	var t Type
+	if any(t) == nil {
+		return nil
+	}
 	return t.GongGetInstancesMapByName(stage).(map[string]Type)
 }
 
@@ -1089,6 +1092,9 @@ func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 	var t Type
+	if any(t) == nil {
+		return ""
+	}
 	return t.GongGetGongstructName()
 }
 
@@ -1130,6 +1136,9 @@ func (*C) GongGetReverseFields() []GongReverseField {
 
 func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 	var t Type
+	if any(t) == nil {
+		return nil
+	}
 	return t.GongGetReverseFields()
 }
 

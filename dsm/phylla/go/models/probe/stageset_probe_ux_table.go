@@ -15,6 +15,13 @@ import (
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"
 )
 
+var (
+	_ = fmt.Sprintf
+	_ = sort.Strings
+	_ = strings.Join
+	_ = maticons.BUTTON_delete
+)
+
 type tableRowUpdater struct {
 	onClick func()
 }

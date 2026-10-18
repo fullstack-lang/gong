@@ -22,16 +22,21 @@ var (
 	port               int
 	unmarshallFromCode string
 	marshallOnCommit   string
+	editOut            string
 )
 
 var editCmd = &cobra.Command{
-	Use:   "edit [data/stage.go]",
-	Short: "Edit a stage file",
-	Args:  cobra.MaximumNArgs(1),
+	Use:     "edit [data/stage.go]",
+	Aliases: []string{"edit-stageset", "stageset", "edit-multistage"},
+	Short:   "Edit a stage file",
+	Args:    cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
 			unmarshallFromCode = args[0]
 			marshallOnCommit = args[0]
+		}
+		if editOut != "" {
+			marshallOnCommit = editOut
 		}
 		executeServer()
 	},
@@ -83,6 +88,7 @@ var rootCmd = &cobra.Command{
 }
 
 func main() {
+	editCmd.Flags().StringVar(&editOut, "out", "", "specify a different file to save commits to")
 	rootCmd.AddCommand(editCmd)
 	rootCmd.PersistentFlags().BoolVar(&embeddedDiagrams, "embedded-diagrams", true, "parse/analysis go/models and go/embeddedDiagrams")
 	rootCmd.PersistentFlags().IntVar(&port, "port", 8080, "port server")

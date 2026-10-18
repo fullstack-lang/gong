@@ -15,6 +15,13 @@ import (
 	model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"
 )
 
+var (
+	_ = fmt.Sprintf
+	_ = sort.Strings
+	_ = strings.Join
+	_ = maticons.BUTTON_delete
+)
+
 type tableRowUpdater struct {
 	onClick func()
 }

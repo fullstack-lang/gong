@@ -1403,6 +1403,13 @@ import (
 	"%s/models"%s
 )
 
+var (
+	_ = fmt.Sprintf
+	_ = sort.Strings
+	_ = strings.Join
+	_ = maticons.BUTTON_delete
+)
+
 type tableRowUpdater struct {
 	onClick func()
 }

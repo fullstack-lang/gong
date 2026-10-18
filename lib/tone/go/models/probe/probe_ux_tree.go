@@ -85,18 +85,6 @@ func (probe *Probe) ux_tree() {
 	}
 	topNode.Buttons = append(topNode.Buttons, exportExcelButton)
 
-	exportGoButton := &tree_models.Button{
-		Name:            "ExportGoButton" + " " + string(tree_buttons.BUTTON_file_download),
-		Icon:            string(tree_buttons.BUTTON_file_download),
-		HasToolTip:      true,
-		ToolTipText:     "Export Go",
-		ToolTipPosition: tree_models.Below,
-		OnClick: func() {
-			probe.ExportStage()
-		},
-	}
-	topNode.Buttons = append(topNode.Buttons, exportGoButton)
-
 	resetButton := &tree_models.Button{
 		Name:            "ResetButton" + " " + string(tree_buttons.BUTTON_reset_tv),
 		Icon:            string(tree_buttons.BUTTON_reset_tv),
