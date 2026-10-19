@@ -625,8 +625,8 @@ func uncheckAllDiagrams(stager *Stager) {
 	for d := range *stager.stage.GetInstancesSet[*Clock3DDiagram]() {
 		d.IsChecked = false
 	}
-	if stager.stageSet != nil && stager.stageSet.MusicStage != nil {
-		for ma := range *stager.stageSet.MusicStage.GetInstancesSet[*music.MusicAbstract]() {
+	if stager.stage != nil && stager.stage.MusicStage != nil {
+		for ma := range *stager.stage.MusicStage.GetInstancesSet[*music.MusicAbstract]() {
 			ma.IsChecked = false
 		}
 	}

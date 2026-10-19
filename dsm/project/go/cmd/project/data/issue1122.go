@@ -16,31 +16,31 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: `Root`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000000_ := (&__stage_0__.Product{Name: `P1`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000001_ := (&__stage_0__.Product{Name: `P1.1`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000002_ := (&__stage_0__.Product{Name: `P1.2`}).Stage(stageSet.Stage)
-	__stage_0__ProductCompositionShape__00000000_ := (&__stage_0__.ProductCompositionShape{Name: `P1 to P1.1`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000000_ := (&__stage_0__.ProductShape{Name: `P1-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000001_ := (&__stage_0__.ProductShape{Name: `P1.1-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__Task__00000000_ := (&__stage_0__.Task{Name: `L1.W1`}).Stage(stageSet.Stage)
-	__stage_0__Task__00000001_ := (&__stage_0__.Task{Name: `L1.W2`}).Stage(stageSet.Stage)
-	__stage_0__Task__00000002_ := (&__stage_0__.Task{Name: `L2.W1`}).Stage(stageSet.Stage)
-	__stage_0__TaskGroup__00000000_ := (&__stage_0__.TaskGroup{Name: `L1`}).Stage(stageSet.Stage)
-	__stage_0__TaskGroup__00000001_ := (&__stage_0__.TaskGroup{Name: `L2`}).Stage(stageSet.Stage)
-	__stage_0__TaskGroup__00000002_ := (&__stage_0__.TaskGroup{Name: `L3`}).Stage(stageSet.Stage)
-	__stage_0__TaskGroupShape__00000000_ := (&__stage_0__.TaskGroupShape{Name: `L1-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__TaskGroupShape__00000001_ := (&__stage_0__.TaskGroupShape{Name: `L3-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__TaskGroupShape__00000002_ := (&__stage_0__.TaskGroupShape{Name: `L2-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__TaskShape__00000000_ := (&__stage_0__.TaskShape{Name: `-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__TaskShape__00000001_ := (&__stage_0__.TaskShape{Name: `L1.W1-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__TaskShape__00000002_ := (&__stage_0__.TaskShape{Name: `L1.W2-Default Diagram`}).Stage(stageSet.Stage)
+	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `Default Diagram`}).Stage(stage)
+	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: `Root`}).Stage(stage)
+	__stage_0__Product__00000000_ := (&__stage_0__.Product{Name: `P1`}).Stage(stage)
+	__stage_0__Product__00000001_ := (&__stage_0__.Product{Name: `P1.1`}).Stage(stage)
+	__stage_0__Product__00000002_ := (&__stage_0__.Product{Name: `P1.2`}).Stage(stage)
+	__stage_0__ProductCompositionShape__00000000_ := (&__stage_0__.ProductCompositionShape{Name: `P1 to P1.1`}).Stage(stage)
+	__stage_0__ProductShape__00000000_ := (&__stage_0__.ProductShape{Name: `P1-Default Diagram`}).Stage(stage)
+	__stage_0__ProductShape__00000001_ := (&__stage_0__.ProductShape{Name: `P1.1-Default Diagram`}).Stage(stage)
+	__stage_0__Task__00000000_ := (&__stage_0__.Task{Name: `L1.W1`}).Stage(stage)
+	__stage_0__Task__00000001_ := (&__stage_0__.Task{Name: `L1.W2`}).Stage(stage)
+	__stage_0__Task__00000002_ := (&__stage_0__.Task{Name: `L2.W1`}).Stage(stage)
+	__stage_0__TaskGroup__00000000_ := (&__stage_0__.TaskGroup{Name: `L1`}).Stage(stage)
+	__stage_0__TaskGroup__00000001_ := (&__stage_0__.TaskGroup{Name: `L2`}).Stage(stage)
+	__stage_0__TaskGroup__00000002_ := (&__stage_0__.TaskGroup{Name: `L3`}).Stage(stage)
+	__stage_0__TaskGroupShape__00000000_ := (&__stage_0__.TaskGroupShape{Name: `L1-Default Diagram`}).Stage(stage)
+	__stage_0__TaskGroupShape__00000001_ := (&__stage_0__.TaskGroupShape{Name: `L3-Default Diagram`}).Stage(stage)
+	__stage_0__TaskGroupShape__00000002_ := (&__stage_0__.TaskGroupShape{Name: `L2-Default Diagram`}).Stage(stage)
+	__stage_0__TaskShape__00000000_ := (&__stage_0__.TaskShape{Name: `-Default Diagram`}).Stage(stage)
+	__stage_0__TaskShape__00000001_ := (&__stage_0__.TaskShape{Name: `L1.W1-Default Diagram`}).Stage(stage)
+	__stage_0__TaskShape__00000002_ := (&__stage_0__.TaskShape{Name: `L1.W2-Default Diagram`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

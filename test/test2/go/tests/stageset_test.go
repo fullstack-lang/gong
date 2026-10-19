@@ -11,36 +11,28 @@ import (
 )
 
 func TestMultiPackageStageSetRoundTrip(t *testing.T) {
-	// 1. Initialize StageSet with 3 stages
-	stageModels := models.NewStage("stage_models")
-	stageX := x.NewStage("stage_x")
-	stageY := y.NewStage("stage_y")
+	// 1. Initialize Stage with sub-stages
+	stage := models.NewStage("stage_models")
 
-	stageSet := &models.StageSet{
-		Stage:  stageModels,
-		XStage: stageX,
-		YStage: stageY,
-	}
+	// 2. Stage multiple Y instances in stage.YStage
+	yParis := (&y.Y{Name: "Y_Paris"}).Stage(stage.YStage)
+	yTokyo := (&y.Y{Name: "Y_Tokyo"}).Stage(stage.YStage)
+	yNewYork := (&y.Y{Name: "Y_NewYork"}).Stage(stage.YStage)
+	stage.YStage.Commit()
 
-	// 2. Stage multiple Y instances in stageY
-	yParis := (&y.Y{Name: "Y_Paris"}).Stage(stageSet.YStage)
-	yTokyo := (&y.Y{Name: "Y_Tokyo"}).Stage(stageSet.YStage)
-	yNewYork := (&y.Y{Name: "Y_NewYork"}).Stage(stageSet.YStage)
-	stageSet.YStage.Commit()
+	// 3. Stage multiple X instances in stage.XStage referencing stage.YStage instances
+	xAlpha := (&x.X{Name: "X_Alpha", Y: yParis}).Stage(stage.XStage)
+	xBeta := (&x.X{Name: "X_Beta", Y: yTokyo}).Stage(stage.XStage)
+	xGamma := (&x.X{Name: "X_Gamma", Y: yParis}).Stage(stage.XStage) // shares yParis
+	xDelta := (&x.X{Name: "X_Delta", Y: nil}).Stage(stage.XStage)    // nil pointer
+	stage.XStage.Commit()
 
-	// 3. Stage multiple X instances in stageX referencing stageY instances
-	xAlpha := (&x.X{Name: "X_Alpha", Y: yParis}).Stage(stageSet.XStage)
-	xBeta := (&x.X{Name: "X_Beta", Y: yTokyo}).Stage(stageSet.XStage)
-	xGamma := (&x.X{Name: "X_Gamma", Y: yParis}).Stage(stageSet.XStage) // shares yParis
-	xDelta := (&x.X{Name: "X_Delta", Y: nil}).Stage(stageSet.XStage)    // nil pointer
-	stageSet.XStage.Commit()
+	// 4. Stage multiple B instances in stage
+	bComp1 := (&models.B{Name: "B_Component1"}).Stage(stage)
+	bComp2 := (&models.B{Name: "B_Component2"}).Stage(stage)
+	bComp3 := (&models.B{Name: "B_Component3"}).Stage(stage)
 
-	// 4. Stage multiple B instances in stageModels
-	bComp1 := (&models.B{Name: "B_Component1"}).Stage(stageSet.Stage)
-	bComp2 := (&models.B{Name: "B_Component2"}).Stage(stageSet.Stage)
-	bComp3 := (&models.B{Name: "B_Component3"}).Stage(stageSet.Stage)
-
-	// 5. Stage multiple A instances in stageModels with intra-stage and cross-stage pointers
+	// 5. Stage multiple A instances in stage with intra-stage and cross-stage pointers
 	aSys1 := (&models.A{
 		Name:        "A_System1",
 		NumberField: 100,
@@ -52,7 +44,7 @@ func TestMultiPackageStageSetRoundTrip(t *testing.T) {
 			Bar:   3.14,
 			Zorgh: "First A instance",
 		},
-	}).Stage(stageSet.Stage)
+	}).Stage(stage)
 
 	aSys2 := (&models.A{
 		Name:        "A_System2",
@@ -65,7 +57,7 @@ func TestMultiPackageStageSetRoundTrip(t *testing.T) {
 			Bar:   6.28,
 			Zorgh: "Second A instance",
 		},
-	}).Stage(stageSet.Stage)
+	}).Stage(stage)
 
 	aSys3 := (&models.A{
 		Name:        "A_System3",
@@ -78,7 +70,7 @@ func TestMultiPackageStageSetRoundTrip(t *testing.T) {
 			Bar:   9.42,
 			Zorgh: "Third A instance",
 		},
-	}).Stage(stageSet.Stage)
+	}).Stage(stage)
 
 	aSys4 := (&models.A{
 		Name:        "A_System4_NoX",
@@ -91,9 +83,9 @@ func TestMultiPackageStageSetRoundTrip(t *testing.T) {
 			Bar:   0.0,
 			Zorgh: "Fourth A instance without X",
 		},
-	}).Stage(stageSet.Stage)
+	}).Stage(stage)
 
-	stageSet.Stage.Commit()
+	stage.Commit()
 
 	// Suppress unused variable warnings if any
 	_ = aSys1
@@ -108,20 +100,12 @@ func TestMultiPackageStageSetRoundTrip(t *testing.T) {
 	testDir := filepath.Dir(currentFile)
 	resultFilePath := filepath.Join(testDir, "result.go")
 
-	stageSet.MarshallFile(resultFilePath, "main")
+	stage.MarshallFile(resultFilePath, "main")
 
-	// 7. Unmarshall into a brand new StageSet
-	newStageModels := models.NewStage("stage2_models")
-	newStageX := x.NewStage("stage2_x")
-	newStageY := y.NewStage("stage2_y")
+	// 7. Unmarshall into a brand new Stage
+	newStage := models.NewStage("stage2_models")
 
-	newStageSet := &models.StageSet{
-		Stage:  newStageModels,
-		XStage: newStageX,
-		YStage: newStageY,
-	}
-
-	err := newStageSet.ParseAstFile(resultFilePath, false)
+	err := newStage.ParseAstFile(resultFilePath, false)
 	if err != nil {
 		t.Fatalf("ParseAstFile failed: %s", err)
 	}
@@ -129,11 +113,11 @@ func TestMultiPackageStageSetRoundTrip(t *testing.T) {
 	// 8. Verifications on the unmarshalled stages
 
 	// Verify Y instances
-	if len(newStageSet.YStage.Ys) != 3 {
-		t.Fatalf("expected 3 Y instances, got %d", len(newStageSet.YStage.Ys))
+	if len(newStage.YStage.Ys) != 3 {
+		t.Fatalf("expected 3 Y instances, got %d", len(newStage.YStage.Ys))
 	}
 	yMap := make(map[string]*y.Y)
-	for yInst := range newStageSet.YStage.Ys {
+	for yInst := range newStage.YStage.Ys {
 		yMap[yInst.Name] = yInst
 	}
 	for _, name := range []string{"Y_Paris", "Y_Tokyo", "Y_NewYork"} {
@@ -143,11 +127,11 @@ func TestMultiPackageStageSetRoundTrip(t *testing.T) {
 	}
 
 	// Verify X instances
-	if len(newStageSet.XStage.Xs) != 4 {
-		t.Fatalf("expected 4 X instances, got %d", len(newStageSet.XStage.Xs))
+	if len(newStage.XStage.Xs) != 4 {
+		t.Fatalf("expected 4 X instances, got %d", len(newStage.XStage.Xs))
 	}
 	xMap := make(map[string]*x.X)
-	for xInst := range newStageSet.XStage.Xs {
+	for xInst := range newStage.XStage.Xs {
 		xMap[xInst.Name] = xInst
 	}
 	for _, name := range []string{"X_Alpha", "X_Beta", "X_Gamma", "X_Delta"} {
@@ -171,11 +155,11 @@ func TestMultiPackageStageSetRoundTrip(t *testing.T) {
 	}
 
 	// Verify B instances
-	if len(newStageSet.Stage.Bs) != 3 {
-		t.Fatalf("expected 3 B instances, got %d", len(newStageSet.Stage.Bs))
+	if len(newStage.Bs) != 3 {
+		t.Fatalf("expected 3 B instances, got %d", len(newStage.Bs))
 	}
 	bMap := make(map[string]*models.B)
-	for bInst := range newStageSet.Stage.Bs {
+	for bInst := range newStage.Bs {
 		bMap[bInst.Name] = bInst
 	}
 	for _, name := range []string{"B_Component1", "B_Component2", "B_Component3"} {
@@ -185,11 +169,11 @@ func TestMultiPackageStageSetRoundTrip(t *testing.T) {
 	}
 
 	// Verify A instances
-	if len(newStageSet.Stage.As) != 4 {
-		t.Fatalf("expected 4 A instances, got %d", len(newStageSet.Stage.As))
+	if len(newStage.As) != 4 {
+		t.Fatalf("expected 4 A instances, got %d", len(newStage.As))
 	}
 	aMap := make(map[string]*models.A)
-	for aInst := range newStageSet.Stage.As {
+	for aInst := range newStage.As {
 		aMap[aInst.Name] = aInst
 	}
 

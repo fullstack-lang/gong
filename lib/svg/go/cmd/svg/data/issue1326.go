@@ -16,17 +16,17 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Layer__00000000_ := (&__stage_0__.Layer{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__Rect__00000000_ := (&__stage_0__.Rect{Name: `Application Engineering`}).Stage(stageSet.Stage)
-	__stage_0__Rect__00000001_ := (&__stage_0__.Rect{Name: `Domain Engineering`}).Stage(stageSet.Stage)
-	__stage_0__RectAnchoredText__00000000_ := (&__stage_0__.RectAnchoredText{Name: `Application engineering`}).Stage(stageSet.Stage)
-	__stage_0__RectAnchoredText__00000001_ := (&__stage_0__.RectAnchoredText{Name: `Domain Engineering`}).Stage(stageSet.Stage)
-	__stage_0__SVG__00000000_ := (&__stage_0__.SVG{Name: ``}).Stage(stageSet.Stage)
+	__stage_0__Layer__00000000_ := (&__stage_0__.Layer{Name: ``}).Stage(stage)
+	__stage_0__Rect__00000000_ := (&__stage_0__.Rect{Name: `Application Engineering`}).Stage(stage)
+	__stage_0__Rect__00000001_ := (&__stage_0__.Rect{Name: `Domain Engineering`}).Stage(stage)
+	__stage_0__RectAnchoredText__00000000_ := (&__stage_0__.RectAnchoredText{Name: `Application engineering`}).Stage(stage)
+	__stage_0__RectAnchoredText__00000001_ := (&__stage_0__.RectAnchoredText{Name: `Domain Engineering`}).Stage(stage)
+	__stage_0__SVG__00000000_ := (&__stage_0__.SVG{Name: ``}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

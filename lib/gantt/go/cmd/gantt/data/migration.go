@@ -16,21 +16,21 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Arrow__00000000_ := (&__stage_0__.Arrow{Name: `Lane 1 - Bar 1 to Lan 2 - Bar 1`}).Stage(stageSet.Stage)
-	__stage_0__Bar__00000000_ := (&__stage_0__.Bar{Name: `Bar 3`}).Stage(stageSet.Stage)
-	__stage_0__Bar__00000001_ := (&__stage_0__.Bar{Name: `Conversion MMP`}).Stage(stageSet.Stage)
-	__stage_0__Bar__00000002_ := (&__stage_0__.Bar{Name: `Conversion modèle`}).Stage(stageSet.Stage)
-	__stage_0__Gantt__00000000_ := (&__stage_0__.Gantt{Name: `Migration`}).Stage(stageSet.Stage)
-	__stage_0__Group__00000000_ := (&__stage_0__.Group{Name: `Sprint 2`}).Stage(stageSet.Stage)
-	__stage_0__Lane__00000000_ := (&__stage_0__.Lane{Name: `Lane-2`}).Stage(stageSet.Stage)
-	__stage_0__Lane__00000001_ := (&__stage_0__.Lane{Name: `Lane-4`}).Stage(stageSet.Stage)
-	__stage_0__Lane__00000002_ := (&__stage_0__.Lane{Name: `Sprint 2.1`}).Stage(stageSet.Stage)
-	__stage_0__Lane__00000003_ := (&__stage_0__.Lane{Name: `Sprint 2.2`}).Stage(stageSet.Stage)
+	__stage_0__Arrow__00000000_ := (&__stage_0__.Arrow{Name: `Lane 1 - Bar 1 to Lan 2 - Bar 1`}).Stage(stage)
+	__stage_0__Bar__00000000_ := (&__stage_0__.Bar{Name: `Bar 3`}).Stage(stage)
+	__stage_0__Bar__00000001_ := (&__stage_0__.Bar{Name: `Conversion MMP`}).Stage(stage)
+	__stage_0__Bar__00000002_ := (&__stage_0__.Bar{Name: `Conversion modèle`}).Stage(stage)
+	__stage_0__Gantt__00000000_ := (&__stage_0__.Gantt{Name: `Migration`}).Stage(stage)
+	__stage_0__Group__00000000_ := (&__stage_0__.Group{Name: `Sprint 2`}).Stage(stage)
+	__stage_0__Lane__00000000_ := (&__stage_0__.Lane{Name: `Lane-2`}).Stage(stage)
+	__stage_0__Lane__00000001_ := (&__stage_0__.Lane{Name: `Lane-4`}).Stage(stage)
+	__stage_0__Lane__00000002_ := (&__stage_0__.Lane{Name: `Sprint 2.1`}).Stage(stage)
+	__stage_0__Lane__00000003_ := (&__stage_0__.Lane{Name: `Sprint 2.2`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

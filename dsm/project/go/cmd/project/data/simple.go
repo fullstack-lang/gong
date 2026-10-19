@@ -16,23 +16,23 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `D1`}).Stage(stageSet.Stage)
-	__stage_0__Diagram__00000001_ := (&__stage_0__.Diagram{Name: `Default Diagram copy`}).Stage(stageSet.Stage)
-	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__Note__00000000_ := (&__stage_0__.Note{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__NoteShape__00000000_ := (&__stage_0__.NoteShape{Name: `D1-`}).Stage(stageSet.Stage)
-	__stage_0__NoteShape__00000001_ := (&__stage_0__.NoteShape{Name: `Default Diagram copy-`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000000_ := (&__stage_0__.Product{Name: `G3`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000001_ := (&__stage_0__.Product{Name: `G3.1`}).Stage(stageSet.Stage)
-	__stage_0__ProductCompositionShape__00000000_ := (&__stage_0__.ProductCompositionShape{Name: `D1-G3-G3.1`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000000_ := (&__stage_0__.ProductShape{Name: `D1-G3`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000001_ := (&__stage_0__.ProductShape{Name: `D1-G3.1`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000002_ := (&__stage_0__.ProductShape{Name: `Default Diagram copy-G3`}).Stage(stageSet.Stage)
+	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `D1`}).Stage(stage)
+	__stage_0__Diagram__00000001_ := (&__stage_0__.Diagram{Name: `Default Diagram copy`}).Stage(stage)
+	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: ``}).Stage(stage)
+	__stage_0__Note__00000000_ := (&__stage_0__.Note{Name: ``}).Stage(stage)
+	__stage_0__NoteShape__00000000_ := (&__stage_0__.NoteShape{Name: `D1-`}).Stage(stage)
+	__stage_0__NoteShape__00000001_ := (&__stage_0__.NoteShape{Name: `Default Diagram copy-`}).Stage(stage)
+	__stage_0__Product__00000000_ := (&__stage_0__.Product{Name: `G3`}).Stage(stage)
+	__stage_0__Product__00000001_ := (&__stage_0__.Product{Name: `G3.1`}).Stage(stage)
+	__stage_0__ProductCompositionShape__00000000_ := (&__stage_0__.ProductCompositionShape{Name: `D1-G3-G3.1`}).Stage(stage)
+	__stage_0__ProductShape__00000000_ := (&__stage_0__.ProductShape{Name: `D1-G3`}).Stage(stage)
+	__stage_0__ProductShape__00000001_ := (&__stage_0__.ProductShape{Name: `D1-G3.1`}).Stage(stage)
+	__stage_0__ProductShape__00000002_ := (&__stage_0__.ProductShape{Name: `Default Diagram copy-G3`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

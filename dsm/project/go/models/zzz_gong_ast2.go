@@ -3,15 +3,27 @@ package models
 
 import (
 	"embed"
+	"errors"
 	"go/ast"
+	"go/parser"
 	"go/token"
 	"log"
+	"path/filepath"
+	"slices"
+	"strings"
 	"time"
 
 	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
-var _ = time.Hour
+var (
+	_ = errors.New
+	_ = parser.ParseFile
+	_ = filepath.Base
+	_ = slices.Index[[]int, int]
+	_ = strings.Trim
+	_ = time.Hour
+)
 
 // swagger:ignore
 type GONG__ExpressionType = gong_runtime.GONG__ExpressionType
@@ -60,68 +72,1112 @@ func (stage *Stage) ParseAstEmbeddedFile(directory embed.FS, pathToFile string) 
 
 // ParseAstString parses the Go source code from a string
 func (stage *Stage) ParseAstString(blob string, preserveOrder bool) error {
-	inFile, fset, err := gong_runtime.ParseAstString(blob)
-	if err != nil {
-		return err
+	var inFile *ast.File
+	var fset *token.FileSet
+	var err error
+	if strings.HasPrefix(strings.TrimSpace(blob), "package ") || strings.Contains(blob, "\npackage ") {
+		fset = token.NewFileSet()
+		inFile, err = parser.ParseFile(fset, "", blob, parser.ParseComments)
+		if err != nil {
+			return errors.New("Unable to parse " + err.Error())
+		}
+	} else {
+		inFile, fset, err = gong_runtime.ParseAstString(blob)
+		if err != nil {
+			return err
+		}
 	}
 	return stage.ParseAstFileFromAst(inFile, fset, preserveOrder)
 }
 
-// ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
+// ParseAstFileFromAst traverses the AST and stages instances across stage and its sub-stages
 func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	gong_runtime.CheckModuleVersion(stage.GetProbeIF(), inFile)
 
-	// 1. Remove Global Variables: Use a local map to track variable names to instances
-	identifierMap := make(map[string]GongstructIF)
+	identifierMap := make(map[string]any)
 
-	for _, instance := range stage.GetInstances() {
-		identifierMap[instance.GongGetIdentifier(stage)] = instance
+	if stage != nil {
+		for _, instance := range stage.GetInstances() {
+			identifierMap[instance.GongGetIdentifier(stage)] = instance
+			identifierMap["__models"+instance.GongGetIdentifier(stage)] = instance
+		}
 	}
 
-	return gong_runtime.WalkAstFile(inFile,
-		func(identName string, typeName string, instanceName string) {
-			if typeName != "" {
-				if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-					instance, err := unmarshaller.Initialize(stage, identName, instanceName, preserveOrder)
-					if err == nil {
-						identifierMap[identName] = instance
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/dsm/project/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
+	ast.Inspect(inFile, func(n ast.Node) bool {
+		switch node := n.(type) {
+		case *ast.AssignStmt:
+			if len(node.Lhs) < 1 || len(node.Rhs) < 1 {
+				return true
+			}
+
+			// CASE 1: Initialization ( := )
+			if node.Tok == token.DEFINE {
+				if ident, ok := node.Lhs[0].(*ast.Ident); ok {
+					var pkgAlias string
+					var typeName string
+					var instanceName string
+
+					ast.Inspect(node.Rhs[0], func(expr ast.Node) bool {
+						if compLit, ok := expr.(*ast.CompositeLit); ok {
+							if selExpr, ok := compLit.Type.(*ast.SelectorExpr); ok {
+								if pkgId, ok := selExpr.X.(*ast.Ident); ok {
+									pkgAlias = pkgId.Name
+								}
+								typeName = selExpr.Sel.Name
+								for _, elt := range compLit.Elts {
+									if kv, ok := elt.(*ast.KeyValueExpr); ok {
+										if k, ok := kv.Key.(*ast.Ident); ok && k.Name == "Name" {
+											if v, ok := kv.Value.(*ast.BasicLit); ok {
+												instanceName = strings.Trim(v.Value, "\"`")
+											}
+										}
+									}
+								}
+								return false
+							}
+						}
+						return true
+					})
+
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					} else if pkgAlias == "" || pkgAlias == "models" || len(inFile.Imports) == 0 {
+						pkgAlias = "models"
+					}
+
+					switch pkgAlias {
+			case "models":
+				switch typeName {
+				case "Diagram":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Diagram), stage, ident.Name, instanceName, preserveOrder)
+				case "Library":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Library), stage, ident.Name, instanceName, preserveOrder)
+				case "Note":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Note), stage, ident.Name, instanceName, preserveOrder)
+				case "NoteProductShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteProductShape), stage, ident.Name, instanceName, preserveOrder)
+				case "NoteResourceShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteResourceShape), stage, ident.Name, instanceName, preserveOrder)
+				case "NoteShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteShape), stage, ident.Name, instanceName, preserveOrder)
+				case "NoteTaskShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteTaskShape), stage, ident.Name, instanceName, preserveOrder)
+				case "Product":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Product), stage, ident.Name, instanceName, preserveOrder)
+				case "ProductCompositionShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ProductCompositionShape), stage, ident.Name, instanceName, preserveOrder)
+				case "ProductReferenceShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ProductReferenceShape), stage, ident.Name, instanceName, preserveOrder)
+				case "ProductShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ProductShape), stage, ident.Name, instanceName, preserveOrder)
+				case "Resource":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Resource), stage, ident.Name, instanceName, preserveOrder)
+				case "ResourceCompositionShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ResourceCompositionShape), stage, ident.Name, instanceName, preserveOrder)
+				case "ResourceShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ResourceShape), stage, ident.Name, instanceName, preserveOrder)
+				case "ResourceTaskShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ResourceTaskShape), stage, ident.Name, instanceName, preserveOrder)
+				case "Task":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Task), stage, ident.Name, instanceName, preserveOrder)
+				case "TaskCompositionShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TaskCompositionShape), stage, ident.Name, instanceName, preserveOrder)
+				case "TaskGroup":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TaskGroup), stage, ident.Name, instanceName, preserveOrder)
+				case "TaskGroupShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TaskGroupShape), stage, ident.Name, instanceName, preserveOrder)
+				case "TaskInputShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TaskInputShape), stage, ident.Name, instanceName, preserveOrder)
+				case "TaskOutputShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TaskOutputShape), stage, ident.Name, instanceName, preserveOrder)
+				case "TaskPredecessorShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TaskPredecessorShape), stage, ident.Name, instanceName, preserveOrder)
+				case "TaskShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TaskShape), stage, ident.Name, instanceName, preserveOrder)
+				}
+					}
+				}
+				return false
+			}
+
+			// CASE 2: Assignment ( = )
+			if node.Tok == token.ASSIGN {
+				if selExpr, ok := node.Lhs[0].(*ast.SelectorExpr); ok {
+					if ident, ok := selExpr.X.(*ast.Ident); ok {
+						if instance, exists := identifierMap[ident.Name]; exists {
+							fieldName := selExpr.Sel.Name
+							rhs := node.Rhs[0]
+							switch inst := instance.(type) {
+				case *Diagram:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "DefaultBoxWidth":
+						inst.DefaultBoxWidth = GongExtractFloat(rhs)
+					case "DefaultBoxHeigth":
+						inst.DefaultBoxHeigth = GongExtractFloat(rhs)
+					case "DateFormat":
+						inst.DateFormat = GongExtractString(rhs)
+					case "Width":
+						inst.Width = GongExtractFloat(rhs)
+					case "Height":
+						inst.Height = GongExtractFloat(rhs)
+					case "IsTimeDiagram":
+						inst.IsTimeDiagram = GongExtractBool(rhs)
+					case "ComputedStart":
+						inst.ComputedStart = GongExtractDate(rhs)
+					case "ComputedEnd":
+						inst.ComputedEnd = GongExtractDate(rhs)
+					case "ComputedDuration":
+						inst.ComputedDuration = time.Duration(GongExtractInt(rhs))
+					case "DrawVerticalTimeLines":
+						inst.DrawVerticalTimeLines = GongExtractBool(rhs)
+					case "DrawSecondaryVerticalTimeLines":
+						inst.DrawSecondaryVerticalTimeLines = GongExtractBool(rhs)
+					case "HideWeekendsPeriod":
+						inst.HideWeekendsPeriod = GongExtractBool(rhs)
+					case "UseManualStartAndEndDates":
+						inst.UseManualStartAndEndDates = GongExtractBool(rhs)
+					case "ManualStart":
+						inst.ManualStart = GongExtractDate(rhs)
+					case "ManualEnd":
+						inst.ManualEnd = GongExtractDate(rhs)
+					case "TimeStep":
+						inst.TimeStep = GongExtractInt(rhs)
+					case "TimeStepScale":
+						GongUnmarshallEnum(&inst.TimeStepScale, rhs)
+					case "SecondaryTimeStep":
+						inst.SecondaryTimeStep = GongExtractInt(rhs)
+					case "SecondaryTimeStepScale":
+						GongUnmarshallEnum(&inst.SecondaryTimeStepScale, rhs)
+					case "LaneHeight":
+						inst.LaneHeight = GongExtractFloat(rhs)
+					case "RatioBarToLaneHeight":
+						inst.RatioBarToLaneHeight = GongExtractFloat(rhs)
+					case "YTopMargin":
+						inst.YTopMargin = GongExtractFloat(rhs)
+					case "XLeftText":
+						inst.XLeftText = GongExtractFloat(rhs)
+					case "TextHeight":
+						inst.TextHeight = GongExtractFloat(rhs)
+					case "XLeftLanes":
+						inst.XLeftLanes = GongExtractFloat(rhs)
+					case "XRightMargin":
+						inst.XRightMargin = GongExtractFloat(rhs)
+					case "ArrowLengthToTheRightOfStartBar":
+						inst.ArrowLengthToTheRightOfStartBar = GongExtractFloat(rhs)
+					case "ArrowTipLenght":
+						inst.ArrowTipLenght = GongExtractFloat(rhs)
+					case "TimeLine_Color":
+						inst.TimeLine_Color = GongExtractString(rhs)
+					case "TimeLine_FillOpacity":
+						inst.TimeLine_FillOpacity = GongExtractFloat(rhs)
+					case "TimeLine_Stroke":
+						inst.TimeLine_Stroke = GongExtractString(rhs)
+					case "TimeLine_StrokeWidth":
+						inst.TimeLine_StrokeWidth = GongExtractFloat(rhs)
+					case "Group_Stroke":
+						inst.Group_Stroke = GongExtractString(rhs)
+					case "Group_StrokeWidth":
+						inst.Group_StrokeWidth = GongExtractFloat(rhs)
+					case "Group_StrokeDashArray":
+						inst.Group_StrokeDashArray = GongExtractString(rhs)
+					case "DateYOffset":
+						inst.DateYOffset = GongExtractFloat(rhs)
+					case "AlignOnBeginningOfTimeScale":
+						inst.AlignOnBeginningOfTimeScale = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "IsChecked":
+						inst.IsChecked = GongExtractBool(rhs)
+					case "IsEditable_":
+						inst.IsEditable_ = GongExtractBool(rhs)
+					case "IsShowPrefix":
+						inst.IsShowPrefix = GongExtractBool(rhs)
+					case "IsInAutoLayoutMode":
+						inst.IsInAutoLayoutMode = GongExtractBool(rhs)
+					case "Product_Shapes":
+						__gong__assignSliceOfPointers(&inst.Product_Shapes, rhs, identifierMap)
+					case "ProductsWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.ProductsWhoseNodeIsExpanded, rhs, identifierMap)
+					case "IsPBSNodeExpanded":
+						inst.IsPBSNodeExpanded = GongExtractBool(rhs)
+					case "ProductComposition_Shapes":
+						__gong__assignSliceOfPointers(&inst.ProductComposition_Shapes, rhs, identifierMap)
+					case "ProductReference_Shapes":
+						__gong__assignSliceOfPointers(&inst.ProductReference_Shapes, rhs, identifierMap)
+					case "IsWBSNodeExpanded":
+						inst.IsWBSNodeExpanded = GongExtractBool(rhs)
+					case "Task_Shapes":
+						__gong__assignSliceOfPointers(&inst.Task_Shapes, rhs, identifierMap)
+					case "TasksWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.TasksWhoseNodeIsExpanded, rhs, identifierMap)
+					case "TasksWhoseInputNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.TasksWhoseInputNodeIsExpanded, rhs, identifierMap)
+					case "TasksWhoseOutputNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.TasksWhoseOutputNodeIsExpanded, rhs, identifierMap)
+					case "TasksWhosePredecessorNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.TasksWhosePredecessorNodeIsExpanded, rhs, identifierMap)
+					case "IsTaskGroupsNodeExpanded":
+						inst.IsTaskGroupsNodeExpanded = GongExtractBool(rhs)
+					case "TaskGroupShapes":
+						__gong__assignSliceOfPointers(&inst.TaskGroupShapes, rhs, identifierMap)
+					case "TaskGroupsWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.TaskGroupsWhoseNodeIsExpanded, rhs, identifierMap)
+					case "TaskComposition_Shapes":
+						__gong__assignSliceOfPointers(&inst.TaskComposition_Shapes, rhs, identifierMap)
+					case "TaskInputShapes":
+						__gong__assignSliceOfPointers(&inst.TaskInputShapes, rhs, identifierMap)
+					case "TaskOutputShapes":
+						__gong__assignSliceOfPointers(&inst.TaskOutputShapes, rhs, identifierMap)
+					case "TaskPredecessorShapes":
+						__gong__assignSliceOfPointers(&inst.TaskPredecessorShapes, rhs, identifierMap)
+					case "Note_Shapes":
+						__gong__assignSliceOfPointers(&inst.Note_Shapes, rhs, identifierMap)
+					case "NotesWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.NotesWhoseNodeIsExpanded, rhs, identifierMap)
+					case "IsNotesNodeExpanded":
+						inst.IsNotesNodeExpanded = GongExtractBool(rhs)
+					case "NoteProductShapes":
+						__gong__assignSliceOfPointers(&inst.NoteProductShapes, rhs, identifierMap)
+					case "NoteTaskShapes":
+						__gong__assignSliceOfPointers(&inst.NoteTaskShapes, rhs, identifierMap)
+					case "NoteResourceShapes":
+						__gong__assignSliceOfPointers(&inst.NoteResourceShapes, rhs, identifierMap)
+					case "Resource_Shapes":
+						__gong__assignSliceOfPointers(&inst.Resource_Shapes, rhs, identifierMap)
+					case "ResourcesWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.ResourcesWhoseNodeIsExpanded, rhs, identifierMap)
+					case "IsResourcesNodeExpanded":
+						inst.IsResourcesNodeExpanded = GongExtractBool(rhs)
+					case "ResourceComposition_Shapes":
+						__gong__assignSliceOfPointers(&inst.ResourceComposition_Shapes, rhs, identifierMap)
+					case "ResourceTaskShapes":
+						__gong__assignSliceOfPointers(&inst.ResourceTaskShapes, rhs, identifierMap)
+					}
+				case *Library:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "SubLibraries":
+						__gong__assignSliceOfPointers(&inst.SubLibraries, rhs, identifierMap)
+					case "NbPixPerCharacter":
+						inst.NbPixPerCharacter = GongExtractFloat(rhs)
+					case "LogoSVGFile":
+						inst.LogoSVGFile = GongExtractString(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "IsRootLibrary":
+						inst.IsRootLibrary = GongExtractBool(rhs)
+					case "RootProducts":
+						__gong__assignSliceOfPointers(&inst.RootProducts, rhs, identifierMap)
+					case "RootTasks":
+						__gong__assignSliceOfPointers(&inst.RootTasks, rhs, identifierMap)
+					case "RootTaskGroups":
+						__gong__assignSliceOfPointers(&inst.RootTaskGroups, rhs, identifierMap)
+					case "RootResources":
+						__gong__assignSliceOfPointers(&inst.RootResources, rhs, identifierMap)
+					case "Notes":
+						__gong__assignSliceOfPointers(&inst.Notes, rhs, identifierMap)
+					case "Diagrams":
+						__gong__assignSliceOfPointers(&inst.Diagrams, rhs, identifierMap)
+					}
+				case *Note:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "LayoutDirection":
+						GongUnmarshallEnum(&inst.LayoutDirection, rhs)
+					case "Products":
+						__gong__assignSliceOfPointers(&inst.Products, rhs, identifierMap)
+					case "Tasks":
+						__gong__assignSliceOfPointers(&inst.Tasks, rhs, identifierMap)
+					case "Resources":
+						__gong__assignSliceOfPointers(&inst.Resources, rhs, identifierMap)
+					}
+				case *NoteProductShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Note":
+						__gong__assignPointer(&inst.Note, rhs, identifierMap)
+					case "Product":
+						__gong__assignPointer(&inst.Product, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *NoteResourceShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Note":
+						__gong__assignPointer(&inst.Note, rhs, identifierMap)
+					case "Resource":
+						__gong__assignPointer(&inst.Resource, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *NoteShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Note":
+						__gong__assignPointer(&inst.Note, rhs, identifierMap)
+					case "IsLayoutDirectionDifferent":
+						inst.IsLayoutDirectionDifferent = GongExtractBool(rhs)
+					case "X":
+						inst.X = GongExtractFloat(rhs)
+					case "Y":
+						inst.Y = GongExtractFloat(rhs)
+					case "Width":
+						inst.Width = GongExtractFloat(rhs)
+					case "Height":
+						inst.Height = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *NoteTaskShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Note":
+						__gong__assignPointer(&inst.Note, rhs, identifierMap)
+					case "Task":
+						__gong__assignPointer(&inst.Task, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *Product:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Description":
+						inst.Description = GongExtractString(rhs)
+					case "SubProducts":
+						__gong__assignSliceOfPointers(&inst.SubProducts, rhs, identifierMap)
+					case "IsProducersNodeExpanded":
+						inst.IsProducersNodeExpanded = GongExtractBool(rhs)
+					case "IsConsumersNodeExpanded":
+						inst.IsConsumersNodeExpanded = GongExtractBool(rhs)
+					case "IsImport":
+						inst.IsImport = GongExtractBool(rhs)
+					case "ReferencedProduct":
+						__gong__assignPointer(&inst.ReferencedProduct, rhs, identifierMap)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "LayoutDirection":
+						GongUnmarshallEnum(&inst.LayoutDirection, rhs)
+					}
+				case *ProductCompositionShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Product":
+						__gong__assignPointer(&inst.Product, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *ProductReferenceShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Product":
+						__gong__assignPointer(&inst.Product, rhs, identifierMap)
+					case "ReferencedProduct":
+						__gong__assignPointer(&inst.ReferencedProduct, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *ProductShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Product":
+						__gong__assignPointer(&inst.Product, rhs, identifierMap)
+					case "IsShowType":
+						inst.IsShowType = GongExtractBool(rhs)
+					case "IsLayoutDirectionDifferent":
+						inst.IsLayoutDirectionDifferent = GongExtractBool(rhs)
+					case "X":
+						inst.X = GongExtractFloat(rhs)
+					case "Y":
+						inst.Y = GongExtractFloat(rhs)
+					case "Width":
+						inst.Width = GongExtractFloat(rhs)
+					case "Height":
+						inst.Height = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *Resource:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Description":
+						inst.Description = GongExtractString(rhs)
+					case "Tasks":
+						__gong__assignSliceOfPointers(&inst.Tasks, rhs, identifierMap)
+					case "SubResources":
+						__gong__assignSliceOfPointers(&inst.SubResources, rhs, identifierMap)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "LayoutDirection":
+						GongUnmarshallEnum(&inst.LayoutDirection, rhs)
+					case "IsImport":
+						inst.IsImport = GongExtractBool(rhs)
+					case "ReferencedResource":
+						__gong__assignPointer(&inst.ReferencedResource, rhs, identifierMap)
+					}
+				case *ResourceCompositionShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Resource":
+						__gong__assignPointer(&inst.Resource, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *ResourceShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Resource":
+						__gong__assignPointer(&inst.Resource, rhs, identifierMap)
+					case "IsLayoutDirectionDifferent":
+						inst.IsLayoutDirectionDifferent = GongExtractBool(rhs)
+					case "X":
+						inst.X = GongExtractFloat(rhs)
+					case "Y":
+						inst.Y = GongExtractFloat(rhs)
+					case "Width":
+						inst.Width = GongExtractFloat(rhs)
+					case "Height":
+						inst.Height = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *ResourceTaskShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Resource":
+						__gong__assignPointer(&inst.Resource, rhs, identifierMap)
+					case "Task":
+						__gong__assignPointer(&inst.Task, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *Task:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Description":
+						inst.Description = GongExtractString(rhs)
+					case "Start":
+						inst.Start = GongExtractDate(rhs)
+					case "End":
+						inst.End = GongExtractDate(rhs)
+					case "IsAllDay":
+						inst.IsAllDay = GongExtractBool(rhs)
+					case "IsMilestone":
+						inst.IsMilestone = GongExtractBool(rhs)
+					case "TaskGroups":
+						__gong__assignSliceOfPointers(&inst.TaskGroups, rhs, identifierMap)
+					case "Predecessors":
+						__gong__assignSliceOfPointers(&inst.Predecessors, rhs, identifierMap)
+					case "DependencyType":
+						GongUnmarshallEnum(&inst.DependencyType, rhs)
+					case "DependencyDurationYears":
+						inst.DependencyDurationYears = GongExtractFloat(rhs)
+					case "DependencyDurationMonths":
+						inst.DependencyDurationMonths = GongExtractFloat(rhs)
+					case "DependencyDurationWeeks":
+						inst.DependencyDurationWeeks = GongExtractFloat(rhs)
+					case "DependencyDurationDays":
+						inst.DependencyDurationDays = GongExtractFloat(rhs)
+					case "DependencyDurationHours":
+						inst.DependencyDurationHours = GongExtractFloat(rhs)
+					case "DurationYears":
+						inst.DurationYears = GongExtractFloat(rhs)
+					case "DurationMonths":
+						inst.DurationMonths = GongExtractFloat(rhs)
+					case "DurationWeeks":
+						inst.DurationWeeks = GongExtractFloat(rhs)
+					case "DurationDays":
+						inst.DurationDays = GongExtractFloat(rhs)
+					case "DurationHours":
+						inst.DurationHours = GongExtractFloat(rhs)
+					case "IsEndDateComputedFromDuration":
+						inst.IsEndDateComputedFromDuration = GongExtractBool(rhs)
+					case "Inputs":
+						__gong__assignSliceOfPointers(&inst.Inputs, rhs, identifierMap)
+					case "Outputs":
+						__gong__assignSliceOfPointers(&inst.Outputs, rhs, identifierMap)
+					case "SubTasks":
+						__gong__assignSliceOfPointers(&inst.SubTasks, rhs, identifierMap)
+					case "IsWithCompletion":
+						inst.IsWithCompletion = GongExtractBool(rhs)
+					case "Completion":
+						GongUnmarshallEnum(&inst.Completion, rhs)
+					case "TaskGroupsToDisplay":
+						__gong__assignSliceOfPointers(&inst.TaskGroupsToDisplay, rhs, identifierMap)
+					case "TextPosition":
+						GongUnmarshallEnum(&inst.TextPosition, rhs)
+					case "XOffset":
+						inst.XOffset = GongExtractFloat(rhs)
+					case "YOffset":
+						inst.YOffset = GongExtractFloat(rhs)
+					case "IsImport":
+						inst.IsImport = GongExtractBool(rhs)
+					case "ReferencedTask":
+						__gong__assignPointer(&inst.ReferencedTask, rhs, identifierMap)
+					case "IsInputsNodeExpanded":
+						inst.IsInputsNodeExpanded = GongExtractBool(rhs)
+					case "IsOutputsNodeExpanded":
+						inst.IsOutputsNodeExpanded = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "LayoutDirection":
+						GongUnmarshallEnum(&inst.LayoutDirection, rhs)
+					}
+				case *TaskCompositionShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Task":
+						__gong__assignPointer(&inst.Task, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *TaskGroup:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "Tasks":
+						__gong__assignSliceOfPointers(&inst.Tasks, rhs, identifierMap)
+					}
+				case *TaskGroupShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "TaskGroup":
+						__gong__assignPointer(&inst.TaskGroup, rhs, identifierMap)
+					case "X":
+						inst.X = GongExtractFloat(rhs)
+					case "Y":
+						inst.Y = GongExtractFloat(rhs)
+					case "Width":
+						inst.Width = GongExtractFloat(rhs)
+					case "Height":
+						inst.Height = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *TaskInputShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Product":
+						__gong__assignPointer(&inst.Product, rhs, identifierMap)
+					case "Task":
+						__gong__assignPointer(&inst.Task, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *TaskOutputShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Task":
+						__gong__assignPointer(&inst.Task, rhs, identifierMap)
+					case "Product":
+						__gong__assignPointer(&inst.Product, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *TaskPredecessorShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Predecessor":
+						__gong__assignPointer(&inst.Predecessor, rhs, identifierMap)
+					case "Task":
+						__gong__assignPointer(&inst.Task, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *TaskShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Task":
+						__gong__assignPointer(&inst.Task, rhs, identifierMap)
+					case "IsShowDate":
+						inst.IsShowDate = GongExtractBool(rhs)
+					case "VerticalOffset":
+						inst.VerticalOffset = GongExtractFloat(rhs)
+					case "DisplayVerticalBar":
+						inst.DisplayVerticalBar = GongExtractBool(rhs)
+					case "IsLayoutDirectionDifferent":
+						inst.IsLayoutDirectionDifferent = GongExtractBool(rhs)
+					case "X":
+						inst.X = GongExtractFloat(rhs)
+					case "Y":
+						inst.Y = GongExtractFloat(rhs)
+					case "Width":
+						inst.Width = GongExtractFloat(rhs)
+					case "Height":
+						inst.Height = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+							}
+						}
 					}
 				}
 			}
-		},
-		func(identName string, fieldName string, valueExpr ast.Expr) {
-			if instance, exists := identifierMap[identName]; exists {
-				typeName := instance.GongGetGongstructName()
-				if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-					unmarshaller.UnmarshallField(stage, instance, fieldName, valueExpr, identifierMap)
+		case *ast.ExprStmt:
+			if call, ok := node.X.(*ast.CallExpr); ok {
+				if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+					if sel.Sel.Name == "Unstage" {
+						if ident, ok := sel.X.(*ast.Ident); ok {
+							if instance, ok := identifierMap[ident.Name]; ok {
+								if inst, ok := instance.(GongstructIF); ok {
+									inst.UnstageVoid(stage)
+								}
+							}
+						}
+					}
+					if sel.Sel.Name == "Commit" {
+						if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "stage" {
+							if stage.IsInDeltaMode() && stage.GetNavigationMode() != GongNavigationModeNavigating {
+								stage.Commit()
+							} else {
+								stage.ComputeInstancesNb()
+								stage.ComputeReferenceAndOrders()
+								if stage.OnInitCommitCallback != nil {
+									stage.OnInitCommitCallback.BeforeCommit(stage)
+								}
+								if stage.OnInitCommitFromBackCallback != nil {
+									stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+								}
+								stage.RunBeforeCommitHooks()
+								stage.RunAfterCommitHooks()
+							}
+						}
+					}
 				}
 			}
-		},
-		func(identName string) {
-			if instance, ok := identifierMap[identName]; ok {
-				instance.UnstageVoid(stage)
-			}
-		},
-		func() {
-			if stage.IsInDeltaMode() && stage.GetNavigationMode() != GongNavigationModeNavigating {
-				stage.Commit()
-			} else {
-				stage.ComputeInstancesNb()
-				stage.ComputeReferenceAndOrders()
-				if stage.OnInitCommitCallback != nil {
-					stage.OnInitCommitCallback.BeforeCommit(stage)
-				}
-				if stage.OnInitCommitFromBackCallback != nil {
-					stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
-				}
-				// 1. Run all Before Commit hooks
-				stage.RunBeforeCommitHooks()
+		}
+		return true
+	})
 
-				// 2. Run all After Commit hooks
-				stage.RunAfterCommitHooks()
-			}
-		},
-	)
+	return nil
 }
 
 // --- Generic Helpers for Unmarshallers (delegating to gong_runtime) ---
@@ -135,6 +1191,85 @@ var GongExtractDate = gong_runtime.ExtractDate
 
 func __gong__extractMiddleUint(input string) (uint, error) {
 	return gong_runtime.ExtractMiddleUint(input)
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok {
+		funcName := ""
+		var isSlices bool
+		if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+			if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+				isSlices = true
+				funcName = sel.Sel.Name
+			}
+		} else if ident, ok := call.Fun.(*ast.Ident); ok {
+			funcName = ident.Name
+		}
+
+		if isSlices {
+			if funcName == "Delete" && len(call.Args) == 3 {
+				start := GongExtractInt(call.Args[1])
+				end := GongExtractInt(call.Args[2])
+				if end <= len(*slice) {
+					*slice = slices.Delete(*slice, start, end)
+				}
+			} else if funcName == "Insert" && len(call.Args) == 3 {
+				index := GongExtractInt(call.Args[1])
+				if index <= len(*slice) {
+					if rIdent, ok := call.Args[2].(*ast.Ident); ok {
+						if target, ok := identifierMap[rIdent.Name]; ok {
+							if typedTarget, ok := target.(*T); ok {
+								*slice = slices.Insert(*slice, index, typedTarget)
+							}
+						}
+					}
+				}
+			}
+		} else if funcName == "append" && len(call.Args) >= 2 {
+			for i := 1; i < len(call.Args); i++ {
+				if rIdent, ok := call.Args[i].(*ast.Ident); ok {
+					if target, ok := identifierMap[rIdent.Name]; ok {
+						if typedTarget, ok := target.(*T); ok {
+							*slice = append(*slice, typedTarget)
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 // GongUnmarshallSliceOfPointers handles append, slices.Delete, and slices.Insert for slice fields

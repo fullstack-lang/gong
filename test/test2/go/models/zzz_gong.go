@@ -13,6 +13,9 @@ import (
 	"time"
 
 	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
+	"github.com/fullstack-lang/gong/test/test2/go/models/x"
+	"github.com/fullstack-lang/gong/test/test2/go/models/y"
+	model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"
 )
 
 // can be used for
@@ -178,6 +181,9 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF GongProbeIF
+	XStage *x.Stage
+	YStage *y.Stage
+	ModelStage *model.Stage
 }
 
 type GongStage = Stage
@@ -529,6 +535,21 @@ func NewStage(name string) (stage *Stage) {
 	}
 	stage.StageCore.SetName(name)
 	stage.StageCore.SetNavigationMode(GongNavigationModeNormal)
+	subPath_XStage := "x"
+	if name != "" {
+		subPath_XStage = name + "_x"
+	}
+	stage.XStage = x.NewStage(subPath_XStage)
+	subPath_YStage := "y"
+	if name != "" {
+		subPath_YStage = name + "_y"
+	}
+	stage.YStage = y.NewStage(subPath_YStage)
+	subPath_ModelStage := "model"
+	if name != "" {
+		subPath_ModelStage = name + "_model"
+	}
+	stage.ModelStage = model.NewStage(subPath_ModelStage)
 
 	return
 }
@@ -568,6 +589,15 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 }
 
 func (stage *Stage) Commit() {
+	if stage.ModelStage != nil {
+		stage.ModelStage.Commit()
+	}
+	if stage.YStage != nil {
+		stage.YStage.Commit()
+	}
+	if stage.XStage != nil {
+		stage.XStage.Commit()
+	}
 	stage.ComputeReverseMaps()
 
 	if stage.OnInitCommitCallback != nil {
@@ -605,12 +635,30 @@ func (stage *Stage) Commit() {
 }
 
 func (stage *Stage) ComputeInstancesNb() {
+	if stage.ModelStage != nil {
+		stage.ModelStage.ComputeInstancesNb()
+	}
+	if stage.YStage != nil {
+		stage.YStage.ComputeInstancesNb()
+	}
+	if stage.XStage != nil {
+		stage.XStage.ComputeInstancesNb()
+	}
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["A"] = len(stage.As)
 	stage.Map_GongStructName_InstancesNb["B"] = len(stage.Bs)
 }
 
 func (stage *Stage) Checkout() {
+	if stage.ModelStage != nil {
+		stage.ModelStage.Checkout()
+	}
+	if stage.YStage != nil {
+		stage.YStage.Checkout()
+	}
+	if stage.XStage != nil {
+		stage.XStage.Checkout()
+	}
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
 	}
@@ -733,6 +781,15 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Bs, &stage.Bs_mapString, &stage.B_stagedOrder, &stage.BOrder)
 
+	if stage.ModelStage != nil {
+		stage.ModelStage.Reset()
+	}
+	if stage.YStage != nil {
+		stage.YStage.Reset()
+	}
+	if stage.XStage != nil {
+		stage.XStage.Reset()
+	}
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}

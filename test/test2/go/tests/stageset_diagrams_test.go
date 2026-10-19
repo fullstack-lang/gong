@@ -263,23 +263,23 @@ func TestStageSetDiagramsParseAndMarshall(t *testing.T) {
 
 func TestStageSetProbeEmbedsDiagramArea(t *testing.T) {
 	mux := http.NewServeMux()
-	stageSet := models.NewStageSet("test_stageset_diagram_probe")
+	stage := models.NewStage("test_stageset_diagram_probe")
 
-	p := probe.NewStageSetProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, true, stageSet)
+	p := probe.NewProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, true, stage)
 	if p == nil {
-		t.Fatal("expected non-nil StageSetProbe")
+		t.Fatal("expected non-nil Probe")
 	}
 
 	// 1. Verify docStager is initialized
 	docStager := p.GetDocStager()
 	if docStager == nil {
-		t.Fatal("expected non-nil DocStager in StageSetProbe")
+		t.Fatal("expected non-nil DocStager in Probe")
 	}
 
 	// 2. Verify split stage contains the diagram editor
 	splitStage := p.GetSplitStage()
 	if splitStage == nil {
-		t.Fatal("expected non-nil SplitStage in StageSetProbe")
+		t.Fatal("expected non-nil SplitStage in Probe")
 	}
 
 	views := splitStage.GetInstancesSorted[*split.View]()
@@ -306,16 +306,16 @@ func TestStageSetProbeEmbedsDiagramArea(t *testing.T) {
 
 func TestStageSetDiagramInstancesNb(t *testing.T) {
 	mux := http.NewServeMux()
-	stageSet := models.NewStageSet("test_instances_nb")
+	stage := models.NewStage("test_instances_nb")
 
 	// Stage 2 A instances and 1 X instance
-	(&models.A{Name: "A_First"}).Stage(stageSet.Stage)
-	(&models.A{Name: "A_Second"}).Stage(stageSet.Stage)
-	(&x.X{Name: "X_First"}).Stage(stageSet.XStage)
+	(&models.A{Name: "A_First"}).Stage(stage)
+	(&models.A{Name: "A_Second"}).Stage(stage)
+	(&x.X{Name: "X_First"}).Stage(stage.XStage)
 
-	p := probe.NewStageSetProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, true, stageSet)
+	p := probe.NewProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, true, stage)
 	if p == nil {
-		t.Fatal("expected non-nil StageSetProbe")
+		t.Fatal("expected non-nil Probe")
 	}
 
 	instancesMap := p.ComputeInstancesNb()
@@ -332,8 +332,8 @@ func TestStageSetDiagramInstancesNb(t *testing.T) {
 	}
 
 	// Select StageSet_Diagram and ensure ShowNbInstances is true
-	stage := docStager.GetStage()
-	for _, dp := range stage.GetInstancesSorted[*doc_models.DiagramPackage]() {
+	docStage := docStager.GetStage()
+	for _, dp := range docStage.GetInstancesSorted[*doc_models.DiagramPackage]() {
 		for _, cd := range dp.Classdiagrams {
 			if cd.Name == "StageSet_Diagram" {
 				dp.SelectedClassdiagram = cd
@@ -381,18 +381,18 @@ func TestStageSetDiagramInstancesNb(t *testing.T) {
 
 func TestStageSetProbeTableStableOrder(t *testing.T) {
 	mux := http.NewServeMux()
-	stageSet := models.NewStageSet("test_table_order")
+	stage := models.NewStage("test_table_order")
 
 	// Stage elements in specific order
-	a1 := (&models.A{Name: "A_System1"}).Stage(stageSet.Stage)
-	a2 := (&models.A{Name: "A_System2"}).Stage(stageSet.Stage)
-	a3 := (&models.A{Name: "A_System3"}).Stage(stageSet.Stage)
+	a1 := (&models.A{Name: "A_System1"}).Stage(stage)
+	a2 := (&models.A{Name: "A_System2"}).Stage(stage)
+	a3 := (&models.A{Name: "A_System3"}).Stage(stage)
 
-	p := probe.NewStageSetProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, true, stageSet)
+	p := probe.NewProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, true, stage)
 	p.Refresh()
 
 	// Open form for a1 which also sets up probe state, then call updateStageSetTable_A_Stage
-	probe.StageSetFillUpFormFromGongstruct(a1, p)
+	probe.FillUpFormFromGongstruct(a1, p)
 	// Refresh probe updates tree and table
 	p.Refresh()
 
@@ -416,20 +416,20 @@ func TestStageSetProbeTableStableOrder(t *testing.T) {
 	}
 
 	// Let's now add a new element "A0" which comes alphabetically before "A_System1"
-	a0 := (&models.A{Name: "A0"}).Stage(stageSet.Stage)
+	a0 := (&models.A{Name: "A0"}).Stage(stage)
 
 	// Verify orders in stage
-	if stageSet.Stage.GetOrder(a1) != 0 {
-		t.Errorf("expected a1 order 0, got %d", stageSet.Stage.GetOrder(a1))
+	if stage.GetOrder(a1) != 0 {
+		t.Errorf("expected a1 order 0, got %d", stage.GetOrder(a1))
 	}
-	if stageSet.Stage.GetOrder(a2) != 1 {
-		t.Errorf("expected a2 order 1, got %d", stageSet.Stage.GetOrder(a2))
+	if stage.GetOrder(a2) != 1 {
+		t.Errorf("expected a2 order 1, got %d", stage.GetOrder(a2))
 	}
-	if stageSet.Stage.GetOrder(a3) != 2 {
-		t.Errorf("expected a3 order 2, got %d", stageSet.Stage.GetOrder(a3))
+	if stage.GetOrder(a3) != 2 {
+		t.Errorf("expected a3 order 2, got %d", stage.GetOrder(a3))
 	}
-	if stageSet.Stage.GetOrder(a0) != 3 {
-		t.Errorf("expected newly staged a0 to have order 3, got %d", stageSet.Stage.GetOrder(a0))
+	if stage.GetOrder(a0) != 3 {
+		t.Errorf("expected newly staged a0 to have order 3, got %d", stage.GetOrder(a0))
 	}
 
 	// Refresh probe to regenerate table
@@ -458,7 +458,7 @@ func TestStageSetProbeTableStableOrder(t *testing.T) {
 	}
 
 	// Verify GetInstancesByOrder preserves order 0, 1, 2, 3
-	ordered := stageSet.Stage.GetInstancesByOrder[*models.A]()
+	ordered := stage.GetInstancesByOrder[*models.A]()
 	if len(ordered) != 4 {
 		t.Fatalf("expected 4 ordered instances, got %d", len(ordered))
 	}

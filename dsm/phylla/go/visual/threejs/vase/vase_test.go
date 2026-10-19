@@ -12,17 +12,17 @@ import (
 
 func TestInspectBasePlateAndRing(t *testing.T) {
 	stagePath := filepath.Join("..", "..", "..", "cmd", "phylla", "data", "stage.go")
-	stageSet := models.NewStageSet("test_stageset")
-	err := stageSet.ParseAstFile(stagePath, true)
+	stage := models.NewStage("test_stageset")
+	err := stage.ParseAstFile(stagePath, true)
 	if err != nil {
 		t.Fatalf("failed to parse stage.go: %v", err)
 	}
-	stageSet.ComputeReverseMaps()
-	stageSet.ComputeInstancesNb()
-	stageSet.ComputeReferenceAndOrders()
+	stage.ComputeReverseMaps()
+	stage.ComputeInstancesNb()
+	stage.ComputeReferenceAndOrders()
 
 	var targetPlant *models.PlantAbstract
-	for plant := range stageSet.Stage.PlantAbstracts {
+	for plant := range stage.PlantAbstracts {
 		if plant.Name == "Vase Trapeze" {
 			plant.IsSelected = true
 			targetPlant = plant
@@ -30,11 +30,10 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 			plant.IsSelected = false
 		}
 	}
-	stager := models.NewStagerForTest(stageSet.Stage)
-	stager.SetStageSet(stageSet)
+	stager := models.NewStagerForTest(stage)
 	stager.EnforceSemanticForTest()
 	stager.SetCurrentPlant(targetPlant)
-	for d := range stageSet.Stage.TubeVase3DDiagrams {
+	for d := range stage.TubeVase3DDiagrams {
 		if d.Name == "Vase Trapeze-TubeVase3DDiagram" {
 			d.IsChecked = true
 			d.IsHiddenTiledFloor3DShape = true

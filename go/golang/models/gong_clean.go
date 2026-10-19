@@ -59,7 +59,7 @@ type GongCleaner interface {
 // insertion point per named struct{{` + string(rune(GongCleanRangeElements)) + `}}
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
-	for _, instance := range stage.GetInstances() {
+{{SubStageCleanStatements}}	for _, instance := range stage.GetInstances() {
 		if cleaner, ok := any(instance).(GongCleaner); ok {
 			modified = cleaner.GongClean(stage) || modified
 		}
@@ -222,6 +222,8 @@ func CodeGeneratorModelGongClean(
 		pkgPathRoot = strings.ReplaceAll(pkgGoPath, "/models", "")
 	}
 
+	resolved := ResolveSubStages(modelPkg, pkgPath)
+
 	caserEnglish := cases.Title(language.English)
 	codeGO = models.Replace(codeGO,
 		"{{PkgName}}", pkgName,
@@ -230,6 +232,7 @@ func CodeGeneratorModelGongClean(
 		"{{PkgGoName}}", modelPkg.PkgGoName,
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 		"{{PkgPathRoot}}", pkgPathRoot,
+		"{{SubStageCleanStatements}}", resolved.CleanStatements,
 	)
 
 	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongCleanGoFilePath)))

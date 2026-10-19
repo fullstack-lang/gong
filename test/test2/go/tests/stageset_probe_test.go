@@ -17,12 +17,12 @@ import (
 
 func TestStageSetProbe(t *testing.T) {
 	mux := http.NewServeMux()
-	stageSet := models.NewStageSet("test_stageset_probe")
+	stage := models.NewStage("test_stageset_probe")
 
 	// 1. Create instances in all 3 stages
-	yInst := (&y.Y{Name: "Y1"}).Stage(stageSet.YStage)
-	xInst := (&x.X{Name: "X1", Y: yInst}).Stage(stageSet.XStage)
-	bInst := (&models.B{Name: "B1"}).Stage(stageSet.Stage)
+	yInst := (&y.Y{Name: "Y1"}).Stage(stage.YStage)
+	xInst := (&x.X{Name: "X1", Y: yInst}).Stage(stage.XStage)
+	bInst := (&models.B{Name: "B1"}).Stage(stage)
 	_ = (&models.A{
 		Name:        "A1",
 		NumberField: 100,
@@ -31,22 +31,22 @@ func TestStageSetProbe(t *testing.T) {
 		Foo:         42,
 		Bar:         3.14,
 		Zorgh:       "Test",
-	}).Stage(stageSet.Stage)
+	}).Stage(stage)
 
-	stageSet.Commit()
+	stage.Commit()
 
-	// 2. Instantiate StageSetProbe
-	p := probe.NewStageSetProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, true, stageSet)
+	// 2. Instantiate Probe
+	p := probe.NewProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, true, stage)
 	if p == nil {
-		t.Fatal("expected non-nil StageSetProbe")
+		t.Fatal("expected non-nil Probe")
 	}
 
 	// 3. Refresh probe
 	p.Refresh()
 
-	// Verify stageSet split stage name
-	splitName := stageSet.GetProbeSplitStageName()
-	expectedSplitName := "github.com/fullstack-lang/gong/test/test2/go/models:test_stageset_probe:probe of the probe_stageset"
+	// Verify stage split stage name
+	splitName := stage.GetProbeSplitStageName()
+	expectedSplitName := "github.com/fullstack-lang/gong/test/test2/go/models:test_stageset_probe:probe of the probe"
 	if splitName != expectedSplitName {
 		t.Fatalf("unexpected split name: %s, expected %s", splitName, expectedSplitName)
 	}
@@ -62,8 +62,8 @@ func TestStageSetProbe(t *testing.T) {
 		break
 	}
 	topNode := rootTree.RootNodes[0]
-	if topNode.Name != "StageSet" {
-		t.Fatalf("expected top node 'StageSet', got %s", topNode.Name)
+	if topNode.Name != "test_stageset_probe" {
+		t.Fatalf("expected top node 'test_stageset_probe', got %s", topNode.Name)
 	}
 
 	// Verify that root package 'models' node is not present at the root,
@@ -175,15 +175,15 @@ func TestStageSetProbe(t *testing.T) {
 	formStage.Commit()
 	formGroup.OnSave.OnSave()
 
-	// Verify new instance A2 exists in stageSet.Stage
+	// Verify new instance A2 exists in stage
 	var foundA2 bool
-	for a := range stageSet.Stage.As {
+	for a := range stage.As {
 		if a.Name == "A2" {
 			foundA2 = true
 			break
 		}
 	}
 	if !foundA2 {
-		t.Fatal("expected new instance A2 to be staged in stageSet.Stage")
+		t.Fatal("expected new instance A2 to be staged in stage")
 	}
 }

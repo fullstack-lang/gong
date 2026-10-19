@@ -80,21 +80,12 @@ func (stager *Stager) treeLibrary(
 							fset := token.NewFileSet()
 							file, err := parser.ParseFile(fset, "", string(content), parser.ParseComments)
 							if err == nil {
-								if stager.stageSet != nil {
-									stager.stageSet.Reset()
-									stager.stageSet.ParseAstFileFromAst(file, fset, true)
-									stager.stageSet.ComputeReverseMaps()
-									stager.stageSet.ComputeInstancesNb()
-									stager.stageSet.ComputeReferenceAndOrders()
-									stager.stageSet.Commit()
-								} else {
-									stager.stage.Reset()
-									stager.stage.ParseAstFileFromAst(file, fset, true)
-									stager.stage.ComputeReverseMaps()
-									stager.stage.ComputeInstancesNb()
-									stager.stage.ComputeReferenceAndOrders()
-									stager.stage.Commit()
-								}
+								stager.stage.Reset()
+								stager.stage.ParseAstFileFromAst(file, fset, true)
+								stager.stage.ComputeReverseMaps()
+								stager.stage.ComputeInstancesNb()
+								stager.stage.ComputeReferenceAndOrders()
+								stager.stage.Commit()
 								stager.probeForm.Refresh()
 							}
 						}

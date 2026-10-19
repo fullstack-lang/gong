@@ -16,44 +16,44 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `Use cases and requirements`}).Stage(stageSet.Stage)
-	__stage_0__Diagram__00000001_ := (&__stage_0__.Diagram{Name: `Products`}).Stage(stageSet.Stage)
-	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: ``}).Stage(stageSet.Stage)
+	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `Use cases and requirements`}).Stage(stage)
+	__stage_0__Diagram__00000001_ := (&__stage_0__.Diagram{Name: `Products`}).Stage(stage)
+	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: ``}).Stage(stage)
 	__stage_0__Note__00000000_ := (&__stage_0__.Note{Name: `325 is the multi package evolution.
 
 Use case number one: a domain specific model with more than 10 concept. The number of abstract and concrete structures will be above 20 this is too much for one package.
 
-Use case number two: combination of more than one domain specific model`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000001_ := (&__stage_0__.Note{Name: `Driving requirements: the existing stage architecture be kept. That is a DSM with a a single package and stage can be used with a probe and a stage.`}).Stage(stageSet.Stage)
+Use case number two: combination of more than one domain specific model`}).Stage(stage)
+	__stage_0__Note__00000001_ := (&__stage_0__.Note{Name: `Driving requirements: the existing stage architecture be kept. That is a DSM with a a single package and stage can be used with a probe and a stage.`}).Stage(stage)
 	__stage_0__Note__00000002_ := (&__stage_0__.Note{Name: `The big idea: add stages as field to a stage.
-no new concepts.`}).Stage(stageSet.Stage)
+no new concepts.`}).Stage(stage)
 	__stage_0__NoteShape__00000000_ := (&__stage_0__.NoteShape{Name: `Use cases and requirements-325 is the multi package evolution.
 
 Use case number one: a domain specific model with more than 10 concept. The number of abstract and concrete structures will be above 20 this is too much for one package.
 
-Use case number two: combination of more than one domain specific model`}).Stage(stageSet.Stage)
-	__stage_0__NoteShape__00000001_ := (&__stage_0__.NoteShape{Name: `Use cases and requirements-Driving requirements: the existing stage architecture be kept. That is a DSM with a a single package and stage can be used with a probe and a stage.`}).Stage(stageSet.Stage)
+Use case number two: combination of more than one domain specific model`}).Stage(stage)
+	__stage_0__NoteShape__00000001_ := (&__stage_0__.NoteShape{Name: `Use cases and requirements-Driving requirements: the existing stage architecture be kept. That is a DSM with a a single package and stage can be used with a probe and a stage.`}).Stage(stage)
 	__stage_0__NoteShape__00000002_ := (&__stage_0__.NoteShape{Name: `Use cases and requirements-The big idea: add stages as field to a stage.
-no new concepts.`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000000_ := (&__stage_0__.Product{Name: `DSM/go`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000001_ := (&__stage_0__.Product{Name: `probe`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000002_ := (&__stage_0__.Product{Name: `diagrams`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000003_ := (&__stage_0__.Product{Name: `Stager`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000004_ := (&__stage_0__.Product{Name: `models`}).Stage(stageSet.Stage)
-	__stage_0__ProductCompositionShape__00000000_ := (&__stage_0__.ProductCompositionShape{Name: `Products-models-probe`}).Stage(stageSet.Stage)
-	__stage_0__ProductCompositionShape__00000001_ := (&__stage_0__.ProductCompositionShape{Name: `Products-models-diagrams`}).Stage(stageSet.Stage)
-	__stage_0__ProductCompositionShape__00000002_ := (&__stage_0__.ProductCompositionShape{Name: `Products-DSM/go-Stager`}).Stage(stageSet.Stage)
-	__stage_0__ProductCompositionShape__00000003_ := (&__stage_0__.ProductCompositionShape{Name: `Products-DSM/go-models`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000000_ := (&__stage_0__.ProductShape{Name: `Products-DSM/go`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000001_ := (&__stage_0__.ProductShape{Name: `Products-probe`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000002_ := (&__stage_0__.ProductShape{Name: `Products-diagrams`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000003_ := (&__stage_0__.ProductShape{Name: `Products-Stager`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000004_ := (&__stage_0__.ProductShape{Name: `Products-models`}).Stage(stageSet.Stage)
+no new concepts.`}).Stage(stage)
+	__stage_0__Product__00000000_ := (&__stage_0__.Product{Name: `DSM/go`}).Stage(stage)
+	__stage_0__Product__00000001_ := (&__stage_0__.Product{Name: `probe`}).Stage(stage)
+	__stage_0__Product__00000002_ := (&__stage_0__.Product{Name: `diagrams`}).Stage(stage)
+	__stage_0__Product__00000003_ := (&__stage_0__.Product{Name: `Stager`}).Stage(stage)
+	__stage_0__Product__00000004_ := (&__stage_0__.Product{Name: `models`}).Stage(stage)
+	__stage_0__ProductCompositionShape__00000000_ := (&__stage_0__.ProductCompositionShape{Name: `Products-models-probe`}).Stage(stage)
+	__stage_0__ProductCompositionShape__00000001_ := (&__stage_0__.ProductCompositionShape{Name: `Products-models-diagrams`}).Stage(stage)
+	__stage_0__ProductCompositionShape__00000002_ := (&__stage_0__.ProductCompositionShape{Name: `Products-DSM/go-Stager`}).Stage(stage)
+	__stage_0__ProductCompositionShape__00000003_ := (&__stage_0__.ProductCompositionShape{Name: `Products-DSM/go-models`}).Stage(stage)
+	__stage_0__ProductShape__00000000_ := (&__stage_0__.ProductShape{Name: `Products-DSM/go`}).Stage(stage)
+	__stage_0__ProductShape__00000001_ := (&__stage_0__.ProductShape{Name: `Products-probe`}).Stage(stage)
+	__stage_0__ProductShape__00000002_ := (&__stage_0__.ProductShape{Name: `Products-diagrams`}).Stage(stage)
+	__stage_0__ProductShape__00000003_ := (&__stage_0__.ProductShape{Name: `Products-Stager`}).Stage(stage)
+	__stage_0__ProductShape__00000004_ := (&__stage_0__.ProductShape{Name: `Products-models`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

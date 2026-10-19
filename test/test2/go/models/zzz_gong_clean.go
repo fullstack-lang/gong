@@ -53,6 +53,15 @@ func (a *A) GongClean(stage *Stage) (modified bool) {
 
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
+	if stage.ModelStage != nil {
+		modified = stage.ModelStage.Clean() || modified
+	}
+	if stage.YStage != nil {
+		modified = stage.YStage.Clean() || modified
+	}
+	if stage.XStage != nil {
+		modified = stage.XStage.Clean() || modified
+	}
 	for _, instance := range stage.GetInstances() {
 		if cleaner, ok := any(instance).(GongCleaner); ok {
 			modified = cleaner.GongClean(stage) || modified

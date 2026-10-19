@@ -20,17 +20,17 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *models.StageSet) {
+func _(stage *models.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__models__Diagram__00000000_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stageSet.Stage)
-	__models__Library__00000000_ := (&models.Library{Name: ``}).Stage(stageSet.Stage)
-	__models__Task__00000000_ := (&models.Task{Name: `winter 26`}).Stage(stageSet.Stage)
-	__models__Task__00000001_ := (&models.Task{Name: `spring 26`}).Stage(stageSet.Stage)
-	__models__TaskShape__00000000_ := (&models.TaskShape{Name: `Default Diagram-winter 26`}).Stage(stageSet.Stage)
-	__models__TaskShape__00000001_ := (&models.TaskShape{Name: `Default Diagram-spring 26`}).Stage(stageSet.Stage)
+	__models__Diagram__00000000_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
+	__models__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
+	__models__Task__00000000_ := (&models.Task{Name: `winter 26`}).Stage(stage)
+	__models__Task__00000001_ := (&models.Task{Name: `spring 26`}).Stage(stage)
+	__models__TaskShape__00000000_ := (&models.TaskShape{Name: `Default Diagram-winter 26`}).Stage(stage)
+	__models__TaskShape__00000001_ := (&models.TaskShape{Name: `Default Diagram-spring 26`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

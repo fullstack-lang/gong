@@ -3,8 +3,6 @@ package models
 import (
 	"fmt"
 	"go/types"
-	"log"
-	"os"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -25,6 +23,7 @@ type StageSetStructField struct {
 	EnumPkgAlias      string
 	IsDuration        bool
 	IsTime            bool
+	IsAny             bool
 }
 
 func ExtractStructFields(mPkg *models.ModelPkg, structName string, pkgPathToField ...map[string]*models.StageSetField) []StageSetStructField {
@@ -33,163 +32,270 @@ func ExtractStructFields(mPkg *models.ModelPkg, structName string, pkgPathToFiel
 		p2f = pkgPathToField[0]
 	}
 	var result []StageSetStructField
-	if mPkg.TypesPkg == nil {
-		return result
-	}
-	obj := mPkg.TypesPkg.Scope().Lookup(structName)
-	if obj == nil {
-		return result
-	}
-	named, ok := obj.Type().(*types.Named)
-	if !ok {
-		return result
-	}
-	st, ok := named.Underlying().(*types.Struct)
-	if !ok {
-		return result
-	}
+	if mPkg.TypesPkg != nil {
+		if obj := mPkg.TypesPkg.Scope().Lookup(structName); obj != nil {
+			if named, ok := obj.Type().(*types.Named); ok {
+				if st, ok := named.Underlying().(*types.Struct); ok {
+					var inspectFields func(st *types.Struct)
+					inspectFields = func(st *types.Struct) {
+						for i := 0; i < st.NumFields(); i++ {
+							fld := st.Field(i)
+							if fld.Anonymous() {
+								embType := fld.Type()
+								if ptr, ok := embType.(*types.Pointer); ok {
+									embType = ptr.Elem()
+								}
+								if embNamed, ok := embType.(*types.Named); ok {
+									if embSt, ok := embNamed.Underlying().(*types.Struct); ok {
+										inspectFields(embSt)
+									}
+								}
+								continue
+							}
+							// check pointer
+							if ptr, ok := fld.Type().(*types.Pointer); ok {
+								if targetNamed, ok := ptr.Elem().(*types.Named); ok {
+									if targetPkg := targetNamed.Obj().Pkg(); targetPkg != nil {
+										targetName := targetNamed.Obj().Name()
+										if targetPkg.Path() == mPkg.PkgPath {
+											if _, ok := mPkg.GongStructs[mPkg.PkgPath+"."+targetName]; !ok {
+												continue
+											}
+										} else {
+											if p2f == nil || p2f[targetPkg.Path()] == nil {
+												continue
+											}
+										}
+										result = append(result, StageSetStructField{
+											Name:              fld.Name(),
+											IsPointer:         true,
+											TargetPackagePath: targetPkg.Path(),
+											TargetStructName:  targetName,
+										})
+										continue
+									}
+								}
+							}
+							// check slice of pointer
+							if sl, ok := fld.Type().(*types.Slice); ok {
+								if ptr, ok := sl.Elem().(*types.Pointer); ok {
+									if targetNamed, ok := ptr.Elem().(*types.Named); ok {
+										if targetPkg := targetNamed.Obj().Pkg(); targetPkg != nil {
+											targetName := targetNamed.Obj().Name()
+											if targetPkg.Path() == mPkg.PkgPath {
+												if _, ok := mPkg.GongStructs[mPkg.PkgPath+"."+targetName]; !ok {
+													continue
+												}
+											} else {
+												if p2f == nil || p2f[targetPkg.Path()] == nil {
+													continue
+												}
+											}
+											result = append(result, StageSetStructField{
+												Name:              fld.Name(),
+												IsSliceOfPointer:  true,
+												TargetPackagePath: targetPkg.Path(),
+												TargetStructName:  targetName,
+											})
+											continue
+										}
+									}
+								}
+							}
+							// check empty interface (any)
+							if iface, ok := fld.Type().Underlying().(*types.Interface); ok && iface.Empty() {
+								result = append(result, StageSetStructField{
+									Name:  fld.Name(),
+									IsAny: true,
+								})
+								continue
+							}
+							// check basic type
+							if basic, ok := fld.Type().(*types.Basic); ok {
+								result = append(result, StageSetStructField{
+									Name:      fld.Name(),
+									BasicKind: basic.Kind(),
+								})
+								continue
+							}
+							// check named basic (enum or time.Duration / time.Time)
+							if namedType, ok := fld.Type().(*types.Named); ok {
+								if namedType.Obj().Pkg() != nil && namedType.Obj().Pkg().Path() == "time" && namedType.Obj().Name() == "Duration" {
+									result = append(result, StageSetStructField{
+										Name:       fld.Name(),
+										IsDuration: true,
+									})
+									continue
+								}
+								if namedType.Obj().Pkg() != nil && namedType.Obj().Pkg().Path() == "time" && namedType.Obj().Name() == "Time" {
+									result = append(result, StageSetStructField{
+										Name:   fld.Name(),
+										IsTime: true,
+									})
+									continue
+								}
+								if basic, ok := namedType.Underlying().(*types.Basic); ok {
+									qual := namedType.Obj().Name()
+									enumPkgAlias := mPkg.PkgGoName
+									if enumPkgAlias == "" {
+										enumPkgAlias = "models"
+									}
+									pkgPath := mPkg.PkgPath
+									if namedType.Obj().Pkg() != nil {
+										pkgPath = namedType.Obj().Pkg().Path()
+										if p2f != nil && p2f[pkgPath] != nil {
+											enumPkgAlias = p2f[pkgPath].ImportAlias
+										} else {
+											enumPkgAlias = namedType.Obj().Pkg().Name()
+										}
+										if pkgPath != mPkg.PkgPath {
+											qual = enumPkgAlias + "." + qual
+										}
+									} else if p2f != nil && p2f[mPkg.PkgPath] != nil {
+										enumPkgAlias = p2f[mPkg.PkgPath].ImportAlias
+									}
+									_, isGongEnum := mPkg.GongEnums[pkgPath+"."+namedType.Obj().Name()]
+									if !isGongEnum {
+										_, isGongEnum = mPkg.GongEnums[mPkg.PkgPath+"."+namedType.Obj().Name()]
+									}
+									if !isGongEnum {
+										if types.NewMethodSet(types.NewPointer(namedType)).Lookup(nil, "FromCodeString") != nil {
+											isGongEnum = true
+										}
+									}
+									result = append(result, StageSetStructField{
+										Name:         fld.Name(),
+										IsEnum:       true,
+										IsGongEnum:   isGongEnum,
+										BasicKind:    basic.Kind(),
+										EnumTypeQual: qual,
+										EnumPkgAlias: enumPkgAlias,
+									})
+									continue
+								}
+							}
+						}
+					}
 
-	var inspectFields func(st *types.Struct)
-	inspectFields = func(st *types.Struct) {
-		for i := 0; i < st.NumFields(); i++ {
-			fld := st.Field(i)
-			if fld.Anonymous() {
-				if embNamed, ok := fld.Type().(*types.Named); ok {
-					if embSt, ok := embNamed.Underlying().(*types.Struct); ok {
-						inspectFields(embSt)
-					}
-				}
-				continue
-			}
-			// check pointer
-			if ptr, ok := fld.Type().(*types.Pointer); ok {
-				if targetNamed, ok := ptr.Elem().(*types.Named); ok {
-					if targetPkg := targetNamed.Obj().Pkg(); targetPkg != nil {
-						targetName := targetNamed.Obj().Name()
-						if targetPkg.Path() == mPkg.PkgPath {
-							if _, ok := mPkg.GongStructs[mPkg.PkgPath+"."+targetName]; !ok {
-								continue
-							}
-						} else {
-							if p2f == nil || p2f[targetPkg.Path()] == nil {
-								continue
-							}
-						}
-						result = append(result, StageSetStructField{
-							Name:              fld.Name(),
-							IsPointer:         true,
-							TargetPackagePath: targetPkg.Path(),
-							TargetStructName:  targetName,
-						})
-						continue
-					}
-				}
-			}
-			// check slice of pointer
-			if sl, ok := fld.Type().(*types.Slice); ok {
-				if ptr, ok := sl.Elem().(*types.Pointer); ok {
-					if targetNamed, ok := ptr.Elem().(*types.Named); ok {
-						if targetPkg := targetNamed.Obj().Pkg(); targetPkg != nil {
-							targetName := targetNamed.Obj().Name()
-							if targetPkg.Path() == mPkg.PkgPath {
-								if _, ok := mPkg.GongStructs[mPkg.PkgPath+"."+targetName]; !ok {
-									continue
-								}
-							} else {
-								if p2f == nil || p2f[targetPkg.Path()] == nil {
-									continue
-								}
-							}
-							result = append(result, StageSetStructField{
-								Name:              fld.Name(),
-								IsSliceOfPointer:  true,
-								TargetPackagePath: targetPkg.Path(),
-								TargetStructName:  targetName,
-							})
-							continue
-						}
-					}
-				}
-			}
-			// check basic type
-			if basic, ok := fld.Type().(*types.Basic); ok {
-				result = append(result, StageSetStructField{
-					Name:      fld.Name(),
-					BasicKind: basic.Kind(),
-				})
-				continue
-			}
-			// check named basic (enum or time.Duration / time.Time)
-			if namedType, ok := fld.Type().(*types.Named); ok {
-				if namedType.Obj().Pkg() != nil && namedType.Obj().Pkg().Path() == "time" && namedType.Obj().Name() == "Duration" {
-					result = append(result, StageSetStructField{
-						Name:       fld.Name(),
-						IsDuration: true,
-					})
-					continue
-				}
-				if namedType.Obj().Pkg() != nil && namedType.Obj().Pkg().Path() == "time" && namedType.Obj().Name() == "Time" {
-					result = append(result, StageSetStructField{
-						Name:   fld.Name(),
-						IsTime: true,
-					})
-					continue
-				}
-				if basic, ok := namedType.Underlying().(*types.Basic); ok {
-					qual := namedType.Obj().Name()
-					enumPkgAlias := mPkg.PkgGoName
-					if enumPkgAlias == "" {
-						enumPkgAlias = "models"
-					}
-					pkgPath := mPkg.PkgPath
-					if namedType.Obj().Pkg() != nil {
-						pkgPath = namedType.Obj().Pkg().Path()
-						if p2f != nil && p2f[pkgPath] != nil {
-							enumPkgAlias = p2f[pkgPath].ImportAlias
-						} else {
-							enumPkgAlias = namedType.Obj().Pkg().Name()
-						}
-						if pkgPath != mPkg.PkgPath {
-							qual = enumPkgAlias + "." + qual
-						}
-					} else if p2f != nil && p2f[mPkg.PkgPath] != nil {
-						enumPkgAlias = p2f[mPkg.PkgPath].ImportAlias
-					}
-					_, isGongEnum := mPkg.GongEnums[pkgPath+"."+namedType.Obj().Name()]
-					if !isGongEnum {
-						_, isGongEnum = mPkg.GongEnums[mPkg.PkgPath+"."+namedType.Obj().Name()]
-					}
-					if !isGongEnum {
-						if types.NewMethodSet(types.NewPointer(namedType)).Lookup(nil, "FromCodeString") != nil {
-							isGongEnum = true
-						}
-					}
-					result = append(result, StageSetStructField{
-						Name:         fld.Name(),
-						IsEnum:       true,
-						IsGongEnum:   isGongEnum,
-						BasicKind:    basic.Kind(),
-						EnumTypeQual: qual,
-						EnumPkgAlias: enumPkgAlias,
-					})
-					continue
+					inspectFields(st)
 				}
 			}
 		}
 	}
 
-	inspectFields(st)
+	if len(result) == 0 {
+		if gs, ok := mPkg.GongStructs[mPkg.PkgPath+"."+structName]; ok {
+			enumPkgAlias := mPkg.PkgGoName
+			if enumPkgAlias == "" {
+				enumPkgAlias = "models"
+			}
+			if p2f != nil && p2f[mPkg.PkgPath] != nil {
+				enumPkgAlias = p2f[mPkg.PkgPath].ImportAlias
+			}
+			for _, field := range gs.Fields {
+				switch f := field.(type) {
+				case *models.GongBasicField:
+					if f.GetBasicKind() == types.UntypedNil {
+						result = append(result, StageSetStructField{
+							Name:  f.Name,
+							IsAny: true,
+						})
+					} else if f.DeclaredType == "time.Duration" {
+						result = append(result, StageSetStructField{
+							Name:       f.Name,
+							IsDuration: true,
+						})
+					} else if f.GongEnum != nil {
+						result = append(result, StageSetStructField{
+							Name:         f.Name,
+							IsEnum:       true,
+							IsGongEnum:   true,
+							BasicKind:    f.GetBasicKind(),
+							EnumTypeQual: f.GongEnum.Name,
+							EnumPkgAlias: enumPkgAlias,
+						})
+					} else {
+						result = append(result, StageSetStructField{
+							Name:      f.Name,
+							BasicKind: f.GetBasicKind(),
+						})
+					}
+				case *models.GongTimeField:
+					result = append(result, StageSetStructField{
+						Name:   f.Name,
+						IsTime: true,
+					})
+				case *models.PointerToGongStructField:
+					if f.GongStruct != nil {
+						result = append(result, StageSetStructField{
+							Name:              f.Name,
+							IsPointer:         true,
+							TargetPackagePath: mPkg.PkgPath,
+							TargetStructName:  f.GongStruct.Name,
+						})
+					}
+				case *models.SliceOfPointerToGongStructField:
+					if f.GongStruct != nil {
+						result = append(result, StageSetStructField{
+							Name:              f.Name,
+							IsSliceOfPointer:  true,
+							TargetPackagePath: mPkg.PkgPath,
+							TargetStructName:  f.GongStruct.Name,
+						})
+					}
+				}
+			}
+		}
+	}
+
 	return result
 }
 
-func CodeGeneratorModelGongStageSet(
+type ResolvedSubStages struct {
+	ExternalImports                      string
+	SubStageFields                       string
+	NewSubStageStatements                string
+	CommitStatements                     string
+	CheckoutStatements                   string
+	ResetStatements                      string
+	CleanStatements                      string
+	ComputeReverseMapsStatements         string
+	ComputeInstancesNbStatements         string
+	ComputeReferenceAndOrdersStatements  string
+	SyntheticImports                     string
+	DummyDeclarations                    string
+	MainPkgImportAlias                   string
+	ProbePackageName                     string
+	MarshallBody                         string
+	ImportPathCases                      string
+	PrepopulateIdentifierMapStatements   string
+	DefineCases                          string
+	AssignCases                          string
+	UnstageCases                         string
+}
+
+func ResolveSubStages(
 	modelPkg *models.ModelPkg,
-	pkgName string,
 	pkgPath string,
-) {
+) *ResolvedSubStages {
 	stageSet := modelPkg.StageSet
+	rootPkgGoName := modelPkg.PkgGoName
+	if rootPkgGoName == "" {
+		rootPkgGoName = "models"
+	}
 	if stageSet == nil || len(stageSet.Fields) == 0 {
-		return
+		stageSet = &models.StageSetModel{
+			Name: "StageSet",
+			Fields: []*models.StageSetField{
+				{
+					Name:        "Stage",
+					PackageName: rootPkgGoName,
+					PackagePath: modelPkg.PkgPath,
+					IsLocal:     true,
+					ImportAlias: rootPkgGoName,
+				},
+			},
+		}
 	}
 
 	goModDir, modPath := models.FindGoMod(pkgPath)
@@ -238,6 +344,8 @@ func CodeGeneratorModelGongStageSet(
 	})
 
 	var externalImports strings.Builder
+	var subStageFields strings.Builder
+	var newSubStageStatements strings.Builder
 	for _, f := range stageSet.Fields {
 		if !f.IsLocal {
 			if f.ImportAlias != f.PackageName {
@@ -245,6 +353,8 @@ func CodeGeneratorModelGongStageSet(
 			} else {
 				externalImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
 			}
+			subStageFields.WriteString(fmt.Sprintf("\t%s *%s.Stage\n", f.Name, f.ImportAlias))
+			newSubStageStatements.WriteString(fmt.Sprintf("\tsubPath_%s := \"%s\"\n\tif name != \"\" {\n\t\tsubPath_%s = name + \"_%s\"\n\t}\n\tstage.%s = %s.NewStage(subPath_%s)\n", f.Name, f.ImportAlias, f.Name, f.ImportAlias, f.Name, f.ImportAlias, f.Name))
 		}
 	}
 
@@ -256,26 +366,14 @@ func CodeGeneratorModelGongStageSet(
 	var computeInstancesNbStatements strings.Builder
 	var computeReferenceAndOrdersStatements strings.Builder
 	for _, f := range orderedFields {
-		commitStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.Commit()\n\t}\n", f.Name, f.Name))
-		checkoutStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.Checkout()\n\t}\n", f.Name, f.Name))
-		resetStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.Reset()\n\t}\n", f.Name, f.Name))
-		cleanStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.Clean()\n\t}\n", f.Name, f.Name))
-		computeReverseMapsStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.ComputeReverseMaps()\n\t}\n", f.Name, f.Name))
-		computeInstancesNbStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.ComputeInstancesNb()\n\t}\n", f.Name, f.Name))
-		computeReferenceAndOrdersStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.ComputeReferenceAndOrders()\n\t}\n", f.Name, f.Name))
-	}
-
-	var newStageStatements strings.Builder
-	var newStageFromStageStatements strings.Builder
-	localFieldName := "Stage"
-	for _, f := range stageSet.Fields {
-		if f.IsLocal {
-			localFieldName = f.Name
-			newStageStatements.WriteString(fmt.Sprintf("\tstageSet.%s = NewStage(path)\n", f.Name))
-			newStageFromStageStatements.WriteString(fmt.Sprintf("\tstageSet.%s = stage\n", f.Name))
-		} else {
-			newStageStatements.WriteString(fmt.Sprintf("\tsubPath_%s := \"%s\"\n\tif path != \"\" {\n\tsubPath_%s = path + \"_%s\"\n\t}\n\tstageSet.%s = %s.NewStage(subPath_%s)\n", f.Name, f.ImportAlias, f.Name, f.ImportAlias, f.Name, f.ImportAlias, f.Name))
-			newStageFromStageStatements.WriteString(fmt.Sprintf("\tsubPath_%s := \"%s\"\n\tif stage != nil && stage.GetName() != \"\" {\n\tsubPath_%s = stage.GetName() + \"_%s\"\n\t}\n\tstageSet.%s = %s.NewStage(subPath_%s)\n", f.Name, f.ImportAlias, f.Name, f.ImportAlias, f.Name, f.ImportAlias, f.Name))
+		if !f.IsLocal {
+			commitStatements.WriteString(fmt.Sprintf("\tif stage.%s != nil {\n\t\tstage.%s.Commit()\n\t}\n", f.Name, f.Name))
+			checkoutStatements.WriteString(fmt.Sprintf("\tif stage.%s != nil {\n\t\tstage.%s.Checkout()\n\t}\n", f.Name, f.Name))
+			resetStatements.WriteString(fmt.Sprintf("\tif stage.%s != nil {\n\t\tstage.%s.Reset()\n\t}\n", f.Name, f.Name))
+			cleanStatements.WriteString(fmt.Sprintf("\tif stage.%s != nil {\n\t\tmodified = stage.%s.Clean() || modified\n\t}\n", f.Name, f.Name))
+			computeReverseMapsStatements.WriteString(fmt.Sprintf("\tif stage.%s != nil {\n\t\tstage.%s.ComputeReverseMaps()\n\t}\n", f.Name, f.Name))
+			computeInstancesNbStatements.WriteString(fmt.Sprintf("\tif stage.%s != nil {\n\t\tstage.%s.ComputeInstancesNb()\n\t}\n", f.Name, f.Name))
+			computeReferenceAndOrdersStatements.WriteString(fmt.Sprintf("\tif stage.%s != nil {\n\t\tstage.%s.ComputeReferenceAndOrders()\n\t}\n", f.Name, f.Name))
 		}
 	}
 
@@ -299,6 +397,9 @@ func CodeGeneratorModelGongStageSet(
 	}
 	if mainPkgImportAlias == "" && len(stageSet.Fields) > 0 {
 		mainPkgImportAlias = stageSet.Fields[0].ImportAlias
+	}
+	if mainPkgImportAlias == "" {
+		mainPkgImportAlias = rootPkgGoName
 	}
 
 	var mainPkgPath string
@@ -326,7 +427,12 @@ func CodeGeneratorModelGongStageSet(
 	marshallBody.WriteString("\tvar lastStagePtr string\n")
 	marshallBody.WriteString("\t_ = lastStageDecl\n")
 	marshallBody.WriteString("\t_ = lastStageVal\n")
-	marshallBody.WriteString("\t_ = lastStagePtr\n\n")
+	marshallBody.WriteString("\t_ = lastStagePtr\n")
+	marshallBody.WriteString(fmt.Sprintf("\tlocalAliasPrefix := \"__%s\"\n", mainPkgImportAlias))
+	marshallBody.WriteString("\tif stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {\n")
+	marshallBody.WriteString("\t\tlocalAliasPrefix = \"\"\n")
+	marshallBody.WriteString("\t}\n")
+	marshallBody.WriteString("\t_ = localAliasPrefix\n\n")
 
 	for _, f := range orderedFields {
 		mPkg := fieldToModelPkg[f]
@@ -343,7 +449,12 @@ func CodeGeneratorModelGongStageSet(
 		}
 		sort.Strings(structNames)
 
-		aliasPrefix := "__" + f.ImportAlias
+		stageExpr := "stage"
+		aliasPrefixExpr := "localAliasPrefix"
+		if !f.IsLocal {
+			stageExpr = "stage." + f.Name
+			aliasPrefixExpr = fmt.Sprintf("\"__%s\"", f.ImportAlias)
+		}
 
 		for _, sName := range structNames {
 			sVar := strings.ToLower(sName)
@@ -351,17 +462,17 @@ func CodeGeneratorModelGongStageSet(
 
 			fields := ExtractStructFields(mPkg, sName, pkgPathToField)
 
-			marshallBody.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n", f.Name))
-			marshallBody.WriteString(fmt.Sprintf("\t\tfor _, %s := range __gong__sortStageSetInstances(stageSet.%s.%s, stageSet.%s.%s_stagedOrder) {\n", sVar, f.Name, sPlural, f.Name, sName))
+			marshallBody.WriteString(fmt.Sprintf("\tif %s != nil {\n", stageExpr))
+			marshallBody.WriteString(fmt.Sprintf("\t\tfor _, %s := range __gong__sortStageSetInstances(%s.%s, %s.%s_stagedOrder) {\n", sVar, stageExpr, sPlural, stageExpr, sName))
 			marshallBody.WriteString(fmt.Sprintf("\t\t\tif lastStageDecl != %q {\n", f.Name))
 			marshallBody.WriteString("\t\t\t\tif declarations.Len() > 0 {\n")
 			marshallBody.WriteString("\t\t\t\t\tdeclarations.WriteString(\"\\n\")\n")
 			marshallBody.WriteString("\t\t\t\t}\n")
 			marshallBody.WriteString(fmt.Sprintf("\t\t\t\tlastStageDecl = %q\n", f.Name))
 			marshallBody.WriteString("\t\t\t}\n")
-			marshallBody.WriteString(fmt.Sprintf("\t\t\t%sIdent := \"%s\" + %s.GongGetIdentifier(stageSet.%s)\n", sVar, aliasPrefix, sVar, f.Name))
+			marshallBody.WriteString(fmt.Sprintf("\t\t\t%sIdent := %s + %s.GongGetIdentifier(%s)\n", sVar, aliasPrefixExpr, sVar, stageExpr))
 			// Phase 1 declaration
-			marshallBody.WriteString(fmt.Sprintf("\t\t\tdeclarations.WriteString(fmt.Sprintf(\"\\n\\t%%s := (&%s.%s{Name: %%s}).Stage(stageSet.%s)\", %sIdent, __gong__toRawStringLiteral(%s.Name)))\n", f.ImportAlias, sName, f.Name, sVar, sVar))
+			marshallBody.WriteString(fmt.Sprintf("\t\t\tdeclarations.WriteString(fmt.Sprintf(\"\\n\\t%%s := (&%s.%s{Name: %%s}).Stage(%s)\", %sIdent, __gong__toRawStringLiteral(%s.Name)))\n", f.ImportAlias, sName, stageExpr, sVar, sVar))
 
 			// Phase 2 values
 			marshallBody.WriteString(fmt.Sprintf("\t\t\tif lastStageVal != %q {\n", f.Name))
@@ -372,6 +483,10 @@ func CodeGeneratorModelGongStageSet(
 			marshallBody.WriteString("\t\t\t}\n")
 			for _, fld := range fields {
 				if fld.IsPointer || fld.IsSliceOfPointer {
+					continue
+				}
+				if fld.IsAny {
+					marshallBody.WriteString(fmt.Sprintf("\t\t\tif str, ok := %s.%s.(string); ok {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, str))\n\t\t\t}\n", sVar, fld.Name, fld.Name, sVar))
 					continue
 				}
 				if fld.IsGongEnum {
@@ -430,7 +545,12 @@ func CodeGeneratorModelGongStageSet(
 								continue
 							}
 						}
-						targetAliasPrefix := "__" + targetSSF.ImportAlias
+						targetStageExpr := "stage"
+						targetAliasPrefixExpr := "localAliasPrefix"
+						if !targetSSF.IsLocal {
+							targetStageExpr = "stage." + targetSSF.Name
+							targetAliasPrefixExpr = fmt.Sprintf("\"__%s\"", targetSSF.ImportAlias)
+						}
 						marshallBody.WriteString(fmt.Sprintf("\t\t\tif %s.%s != nil {\n", sVar, fld.Name))
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tif lastStagePtr != %q {\n", f.Name))
 						marshallBody.WriteString("\t\t\t\t\tif pointers.Len() > 0 {\n")
@@ -438,7 +558,7 @@ func CodeGeneratorModelGongStageSet(
 						marshallBody.WriteString("\t\t\t\t\t}\n")
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\t\tlastStagePtr = %q\n", f.Name))
 						marshallBody.WriteString("\t\t\t\t}\n")
-						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := \"%s\" + %s.%s.GongGetIdentifier(stageSet.%s)\n", targetAliasPrefix, sVar, fld.Name, targetSSF.Name))
+						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := %s + %s.%s.GongGetIdentifier(%s)\n", targetAliasPrefixExpr, sVar, fld.Name, targetStageExpr))
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tpointers.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, targetIdent))\n", fld.Name, sVar))
 						marshallBody.WriteString("\t\t\t}\n")
 					}
@@ -451,7 +571,12 @@ func CodeGeneratorModelGongStageSet(
 								continue
 							}
 						}
-						targetAliasPrefix := "__" + targetSSF.ImportAlias
+						targetStageExpr := "stage"
+						targetAliasPrefixExpr := "localAliasPrefix"
+						if !targetSSF.IsLocal {
+							targetStageExpr = "stage." + targetSSF.Name
+							targetAliasPrefixExpr = fmt.Sprintf("\"__%s\"", targetSSF.ImportAlias)
+						}
 						marshallBody.WriteString(fmt.Sprintf("\t\t\tfor _, elem := range %s.%s {\n", sVar, fld.Name))
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tif lastStagePtr != %q {\n", f.Name))
 						marshallBody.WriteString("\t\t\t\t\tif pointers.Len() > 0 {\n")
@@ -459,7 +584,7 @@ func CodeGeneratorModelGongStageSet(
 						marshallBody.WriteString("\t\t\t\t\t}\n")
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\t\tlastStagePtr = %q\n", f.Name))
 						marshallBody.WriteString("\t\t\t\t}\n")
-						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := \"%s\" + elem.GongGetIdentifier(stageSet.%s)\n", targetAliasPrefix, targetSSF.Name))
+						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := %s + elem.GongGetIdentifier(%s)\n", targetAliasPrefixExpr, targetStageExpr))
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tpointers.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = append(%%s.%s, %%s)\", %sIdent, %sIdent, targetIdent))\n", fld.Name, fld.Name, sVar, sVar))
 						marshallBody.WriteString("\t\t\t}\n")
 					}
@@ -472,8 +597,10 @@ func CodeGeneratorModelGongStageSet(
 	}
 
 	// Build AST Parsing (ParseAstFileFromAst)
+	var prepopulateIdentifierMap strings.Builder
 	var defineCases strings.Builder
 	var assignCases strings.Builder
+	var unstageCases strings.Builder
 
 	for _, f := range orderedFields {
 		mPkg := fieldToModelPkg[f]
@@ -488,6 +615,30 @@ func CodeGeneratorModelGongStageSet(
 		}
 		sort.Strings(structNames)
 
+		stageExpr := "stage"
+		if !f.IsLocal {
+			stageExpr = "stage." + f.Name
+		}
+
+		if len(structNames) > 0 {
+			prepopulateIdentifierMap.WriteString(fmt.Sprintf("\tif %s != nil {\n", stageExpr))
+			prepopulateIdentifierMap.WriteString(fmt.Sprintf("\t\tfor _, instance := range %s.GetInstances() {\n", stageExpr))
+			prepopulateIdentifierMap.WriteString(fmt.Sprintf("\t\t\tidentifierMap[instance.GongGetIdentifier(%s)] = instance\n", stageExpr))
+			prepopulateIdentifierMap.WriteString(fmt.Sprintf("\t\t\tidentifierMap[\"__%s\"+instance.GongGetIdentifier(%s)] = instance\n", f.ImportAlias, stageExpr))
+			prepopulateIdentifierMap.WriteString("\t\t}\n")
+			prepopulateIdentifierMap.WriteString("\t}\n")
+
+			if f.IsLocal {
+				unstageCases.WriteString("\t\t\t\t\t\t\t\tif inst, ok := instance.(GongstructIF); ok {\n")
+				unstageCases.WriteString("\t\t\t\t\t\t\t\t\tinst.UnstageVoid(stage)\n")
+				unstageCases.WriteString("\t\t\t\t\t\t\t\t}\n")
+			} else {
+				unstageCases.WriteString(fmt.Sprintf("\t\t\t\t\t\t\t\tif inst, ok := instance.(%s.GongstructIF); ok && stage.%s != nil {\n", f.ImportAlias, f.Name))
+				unstageCases.WriteString(fmt.Sprintf("\t\t\t\t\t\t\t\t\tinst.UnstageVoid(stage.%s)\n", f.Name))
+				unstageCases.WriteString("\t\t\t\t\t\t\t\t}\n")
+			}
+		}
+
 		defineCases.WriteString(fmt.Sprintf("\t\t\tcase \"%s\":\n", f.ImportAlias))
 		defineCases.WriteString("\t\t\t\tswitch typeName {\n")
 		for _, sName := range structNames {
@@ -496,7 +647,7 @@ func CodeGeneratorModelGongStageSet(
 				typeQual = f.ImportAlias + "." + sName
 			}
 			defineCases.WriteString(fmt.Sprintf("\t\t\t\tcase \"%s\":\n", sName))
-			defineCases.WriteString(fmt.Sprintf("\t\t\t\t\tidentifierMap[ident.Name] = __gong__stageSetInit(new(%s), stageSet.%s, ident.Name, instanceName, preserveOrder)\n", typeQual, f.Name))
+			defineCases.WriteString(fmt.Sprintf("\t\t\t\t\tidentifierMap[ident.Name] = __gong__stageSetInit(new(%s), %s, ident.Name, instanceName, preserveOrder)\n", typeQual, stageExpr))
 		}
 		defineCases.WriteString("\t\t\t\t}\n")
 
@@ -532,6 +683,8 @@ func CodeGeneratorModelGongStageSet(
 						}
 						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\t__gong__assignSliceOfPointers(&inst.%s, rhs, identifierMap)\n", fld.Name, fld.Name))
 					}
+				} else if fld.IsAny {
+					assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = GongExtractExpr(rhs)\n", fld.Name, fld.Name))
 				} else if fld.IsGongEnum {
 					assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tGongUnmarshallEnum(&inst.%s, rhs)\n", fld.Name, fld.Name))
 				} else {
@@ -635,56 +788,34 @@ func CodeGeneratorModelGongStageSet(
 		}
 	}
 
-	var stageSetStructDefinition string
-	if !stageSet.IsManual {
-		var stageSetStructFields strings.Builder
-		for _, f := range stageSet.Fields {
-			if f.IsLocal {
-				stageSetStructFields.WriteString(fmt.Sprintf("\t%s *Stage\n", f.Name))
-			} else {
-				stageSetStructFields.WriteString(fmt.Sprintf("\t%s *%s.Stage\n", f.Name, f.ImportAlias))
-			}
-		}
-		stageSetStructDefinition = fmt.Sprintf(`// StageSet coordinates multiple stages across packages
-type StageSet struct {
-%s}
-
-`, stageSetStructFields.String())
-	}
-
 	var importPathCases strings.Builder
 	for _, f := range orderedFields {
-		importPathCases.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\taliasToCanonical[alias] = \"%s\"\n", f.PackagePath, f.ImportAlias))
+		if f.PackagePath != "" {
+			importPathCases.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\taliasToCanonical[alias] = \"%s\"\n", f.PackagePath, f.ImportAlias))
+		}
 	}
 
-	codeGO := ModelGongStageSetTemplate
-	codeGO = strings.ReplaceAll(codeGO, "{{PkgGoName}}", modelPkg.PkgGoName)
-	codeGO = strings.ReplaceAll(codeGO, "{{ExternalImports}}", externalImports.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{StageSetStructDefinition}}", stageSetStructDefinition)
-	codeGO = strings.ReplaceAll(codeGO, "{{CommitStatements}}", commitStatements.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{CheckoutStatements}}", checkoutStatements.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{ResetStatements}}", resetStatements.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{CleanStatements}}", cleanStatements.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{ComputeReverseMapsStatements}}", computeReverseMapsStatements.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{ComputeInstancesNbStatements}}", computeInstancesNbStatements.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{ComputeReferenceAndOrdersStatements}}", computeReferenceAndOrdersStatements.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{NewStageStatements}}", newStageStatements.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{NewStageFromStageStatements}}", newStageFromStageStatements.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{LocalFieldName}}", localFieldName)
-	codeGO = strings.ReplaceAll(codeGO, "{{SyntheticImports}}", syntheticImports.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{DummyDeclarations}}", dummyDeclarations.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{MainPkgImportAlias}}", mainPkgImportAlias)
-	codeGO = strings.ReplaceAll(codeGO, "{{ProbePackageName}}", probePackageName)
-	codeGO = strings.ReplaceAll(codeGO, "{{MarshallBody}}", marshallBody.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{ImportPathCases}}", importPathCases.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{DefineCases}}", defineCases.String())
-	codeGO = strings.ReplaceAll(codeGO, "{{AssignCases}}", assignCases.String())
-
-	outFile := filepath.Join(pkgPath, string(models.GeneratedGongStageSetGoFilePath))
-	file, err := os.Create(outFile)
-	if err != nil {
-		log.Panic(err)
+	return &ResolvedSubStages{
+		ExternalImports:                     externalImports.String(),
+		SubStageFields:                      subStageFields.String(),
+		NewSubStageStatements:               newSubStageStatements.String(),
+		CommitStatements:                    commitStatements.String(),
+		CheckoutStatements:                  checkoutStatements.String(),
+		ResetStatements:                     resetStatements.String(),
+		CleanStatements:                     cleanStatements.String(),
+		ComputeReverseMapsStatements:        computeReverseMapsStatements.String(),
+		ComputeInstancesNbStatements:        computeInstancesNbStatements.String(),
+		ComputeReferenceAndOrdersStatements: computeReferenceAndOrdersStatements.String(),
+		SyntheticImports:                    syntheticImports.String(),
+		DummyDeclarations:                   dummyDeclarations.String(),
+		MainPkgImportAlias:                  mainPkgImportAlias,
+		ProbePackageName:                    probePackageName,
+		MarshallBody:                        marshallBody.String(),
+		ImportPathCases:                     importPathCases.String(),
+		PrepopulateIdentifierMapStatements:  prepopulateIdentifierMap.String(),
+		DefineCases:                         defineCases.String(),
+		AssignCases:                         assignCases.String(),
+		UnstageCases:                        unstageCases.String(),
 	}
-	defer file.Close()
-	fmt.Fprint(file, codeGO)
 }
+

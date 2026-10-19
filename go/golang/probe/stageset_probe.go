@@ -23,6 +23,13 @@ type structInfo struct {
 	fields     []golang_models.StageSetStructField
 }
 
+func stageAccessor(f *models.StageSetField) string {
+	if f.IsLocal {
+		return "probe.stageOfInterest"
+	}
+	return "probe.stageOfInterest." + f.Name
+}
+
 func CodeGeneratorStageSetProbe(
 	modelPkg *models.ModelPkg,
 	pkgName string,
@@ -31,7 +38,7 @@ func CodeGeneratorStageSetProbe(
 	useSplitlite bool,
 ) {
 	stageSet := modelPkg.StageSet
-	if stageSet == nil || len(stageSet.Fields) == 0 {
+	if stageSet == nil || len(stageSet.Fields) <= 1 {
 		return
 	}
 
@@ -42,8 +49,6 @@ func CodeGeneratorStageSetProbe(
 	}
 
 	goModDir, modPath := models.FindGoMod(pkgPath)
-	depPkgPaths, _ := models.DiscoverModelDependencies(pkgPath)
-	_ = depPkgPaths
 
 	fieldToModelPkg := make(map[*models.StageSetField]*models.ModelPkg)
 	pkgPathToField := make(map[string]*models.StageSetField)
@@ -100,22 +105,22 @@ func CodeGeneratorStageSetProbe(
 		}
 	}
 
-	// Generate probe/stageset_form_helpers.go
+	// Generate probe/form_helpers.go
 	generateStageSetFormHelpers(pkgPath)
 
-	// Generate probe/stageset_probe.go
+	// Generate probe/probe.go
 	generateStageSetProbeMain(pkgPath, pkgPathRoot, modelPkg, stageSet, useSplitlite)
 
-	// Generate probe/stageset_probe_ux_tree.go
+	// Generate probe/probe_ux_tree.go
 	generateStageSetProbeUxTree(pkgPath, pkgPathRoot, modelPkg, stageSet, fieldToModelPkg)
 
-	// Generate probe/stageset_probe_ux_table.go
+	// Generate probe/probe_ux_table.go
 	generateStageSetProbeUxTable(pkgPath, pkgPathRoot, modelPkg, stageSet, allStructs, pkgPathToField)
 
-	// Generate probe/stageset_fill_up_form.go
+	// Generate probe/fill_up_form.go
 	generateStageSetFillUpForm(pkgPath, pkgPathRoot, modelPkg, stageSet, allStructs, pkgPathToField)
 
-	// Generate probe/stageset_form_callback.go
+	// Generate probe/form_callback.go, probe/fill_up_form_from_gongstruct.go, probe/probe_ux_form.go
 	generateStageSetFormCallback(pkgPath, pkgPathRoot, modelPkg, stageSet, allStructs, pkgPathToField)
 }
 
@@ -481,7 +486,7 @@ func StageSetFormDivEnumIntFieldToField[TF interface {
 	}
 }
 `
-	writeFile(filepath.Join(pkgPath, "probe/stageset_form_helpers.go"), code)
+	writeFile(filepath.Join(pkgPath, "probe/form_helpers.go"), code)
 }
 
 func generateStageSetProbeMain(
@@ -513,22 +518,23 @@ func generateStageSetProbeMain(
 
 	var computeInstancesNbCode strings.Builder
 	for _, f := range stageSet.Fields {
+		accessor := stageAccessor(f)
 		if f.IsLocal {
-			computeInstancesNbCode.WriteString(`	if probe.stageSet.Stage != nil {
-		for k, v := range probe.stageSet.Stage.Map_GongStructName_InstancesNb {
+			computeInstancesNbCode.WriteString(fmt.Sprintf(`	if %s != nil {
+		for k, v := range %s.Map_GongStructName_InstancesNb {
 			res[k] = v
 			res["models."+k] = v
 		}
 	}
-`)
+`, accessor, accessor))
 		} else {
-			computeInstancesNbCode.WriteString(fmt.Sprintf(`	if probe.stageSet.%s != nil {
-		for k, v := range probe.stageSet.%s.Map_GongStructName_InstancesNb {
+			computeInstancesNbCode.WriteString(fmt.Sprintf(`	if %s != nil {
+		for k, v := range %s.Map_GongStructName_InstancesNb {
 			res[k] = v
 			res["%s."+k] = v
 		}
 	}
-`, f.Name, f.Name, f.ImportAlias))
+`, accessor, accessor, f.ImportAlias))
 		}
 	}
 
@@ -551,6 +557,9 @@ import (
 	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 
+	gong_models "github.com/fullstack-lang/gong/go/models"
+	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
+
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 	{{SplitPkg}} "{{SplitImportPath}}/go/models"
@@ -560,9 +569,14 @@ import (
 	"{{PkgPathRoot}}/models"
 )
 
-type StageSetProbe struct {
+type Notification = gongprobe.Notification
+
+const NbNotificationMax = gongprobe.NbNotificationMax
+
+type Probe struct {
 	r                      *http.ServeMux
-	stageSet               *models.StageSet
+	stageOfInterest        *models.Stage
+	gongStage              *gong_models.Stage
 	treeStage              *tree.Stage
 	treeNavigationStage    *tree.Stage
 	formStage              *form.Stage
@@ -583,36 +597,78 @@ type StageSetProbe struct {
 	maxElementsNbPerGongStructNode int
 	commitMode                     bool
 	bulkDeleteMode                 bool
+
+	updateSliceOfPointersCallback func(instance any, fieldName string, slicePtr any)
 }
 
-func NewStageSetProbe(
+func (probe *Probe) UpdateSliceOfPointersCallback(instance any, fieldName string, slicePtr any) {
+	if probe.updateSliceOfPointersCallback != nil {
+		probe.updateSliceOfPointersCallback(instance, fieldName, slicePtr)
+	}
+}
+
+func (probe *Probe) SetUpdateSliceOfPointersCallback(cb func(instance any, fieldName string, slicePtr any)) {
+	probe.updateSliceOfPointersCallback = cb
+}
+
+func (probe *Probe) SetCommitMode(commitMode bool) {
+	probe.commitMode = commitMode
+}
+
+func (probe *Probe) GetCommitMode() bool {
+	return probe.commitMode
+}
+
+func (probe *Probe) SetMaxElementsNbPerGongStructNode(nb int) {
+	probe.maxElementsNbPerGongStructNode = nb
+}
+
+func (probe *Probe) GetMaxElementsNbPerGongStructNode() int {
+	return probe.maxElementsNbPerGongStructNode
+}
+
+func (probe *Probe) RefreshNavigationTree() {
+	probe.ux_navigation_tree()
+}
+
+func (probe *Probe) GetProbeLoadStageName() string {
+	return probe.stageOfInterest.GetProbeLoadStageName()
+}
+
+func NewProbe(
 	r *http.ServeMux,
 	goModelsDir embed.FS,
 	goDiagramsDir embed.FS,
 	embeddedDiagrams bool,
-	stageSet *models.StageSet,
-) (probe *StageSetProbe) {
+	stageOfInterest *models.Stage,
+) (probe *Probe) {
 
-	splitStage, _ := {{SplitPkg}}_fullstack.NewStackInstance(r, stageSet.GetProbeSplitStageName())
+	splitStage, _ := {{SplitPkg}}_fullstack.NewStackInstance(r, stageOfInterest.GetProbeSplitStageName())
 	splitStage.Commit()
 
-	treeStage, _ := tree_fullstack.NewStackInstance(r, stageSet.GetProbeSplitStageName()+"-tree")
-	treeNavigationStage, _ := tree_fullstack.NewStackInstance(r, stageSet.GetProbeSplitStageName()+"-tree-nav")
+	stageOfInterest.MetaPackageImportPath = "{{PkgPathRoot}}/models"
 
-	tableStage, _ := table_fullstack.NewStackInstance(r, stageSet.GetProbeSplitStageName()+"-table")
+	stage := gong_models.NewStage(stageOfInterest.GetName())
+	gong_models.LoadEmbedded(stage, goModelsDir)
+
+	treeStage, _ := tree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTreeSidebarStageName())
+	treeNavigationStage, _ := tree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeNavigationTreeSidebarStageName())
+
+	tableStage, _ := table_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTableStageName())
 	tableStage.Commit()
 
-	notificationTableStage, _ := table_fullstack.NewStackInstance(r, stageSet.GetProbeSplitStageName()+"-notif")
+	notificationTableStage, _ := table_fullstack.NewStackInstance(r, stageOfInterest.GetProbeNotificationTableStageName())
 	notificationTableStage.Commit()
 
-	formStage, _ := form_fullstack.NewStackInstance(r, stageSet.GetProbeSplitStageName()+"-form")
+	formStage, _ := form_fullstack.NewStackInstance(r, stageOfInterest.GetProbeFormStageName())
 	formStage.Commit()
 
-	loadStage, _ := load_fullstack.NewStackInstance(r, stageSet.GetProbeSplitStageName()+"-load")
+	loadStage, _ := load_fullstack.NewStackInstance(r, stageOfInterest.GetProbeLoadStageName())
 
-	probe = &StageSetProbe{
+	probe = &Probe{
 		r:                              r,
-		stageSet:                       stageSet,
+		stageOfInterest:                stageOfInterest,
+		gongStage:                      stage,
 		treeStage:                      treeStage,
 		treeNavigationStage:            treeNavigationStage,
 		formStage:                      formStage,
@@ -636,7 +692,7 @@ func NewStageSetProbe(
 	probe.docStager = prepare.PrepareStageSet{{PrepareStageSetSuffix}}(
 		r,
 		embeddedDiagrams,
-		"{{PkgPathRoot}}:"+stageSet.GetProbeSplitStageName(),
+		"{{PkgPathRoot}}:"+stageOfInterest.GetName(),
 		metaPackageImports,
 		goModelsDir,
 		goDiagramsDir,
@@ -644,85 +700,17 @@ func NewStageSetProbe(
 		probe.ComputeInstancesNb(),
 	)
 
-	probe.dataEditor = &{{SplitPkg}}.AsSplit{
-		Name:          "StageSet Top, sidebar, table & form",
-		Direction:     {{SplitPkg}}.Horizontal,
-		IsSizeInPixel: true,
-		AsSplitAreas: []*{{SplitPkg}}.AsSplitArea{
-			{
-				Name: "sidebar",
-				Size: 525,
-				AsSplit: &{{SplitPkg}}.AsSplit{
-					Direction:              {{SplitPkg}}.Vertical,
-					IsSizeInPixel:          true,
-					IsWithCustomGutterSize: true,
-					GutterSize:             1,
-					AsSplitAreas: []*{{SplitPkg}}.AsSplitArea{
-						{
-							Name: "sidebar tree",
-							Size: 53,
-							Tree: &{{SplitPkg}}.Tree{
-								Name:      "Sidebar",
-								StackName: probe.treeNavigationStage.GetName(),
-							},
-						},
-						{
-							Name:  "sidebar tree",
-							IsAny: true,
-							Tree: &{{SplitPkg}}.Tree{
-								Name:      "Sidebar",
-								StackName: probe.treeStage.GetName(),
-							},
-						},
-						{
-							Name: "load",
-							Size: 70,
-							Load: &{{SplitPkg}}.Load{
-								Name:      "Table",
-								StackName: probe.loadStage.GetName(),
-							},
-						},
-					},
-				},
-			},
-			{
-				Name:  "both tables",
-				IsAny: true,
-				AsSplit: &{{SplitPkg}}.AsSplit{
-					Direction: {{SplitPkg}}.Vertical,
-					AsSplitAreas: []*{{SplitPkg}}.AsSplitArea{
-						{
-							Name: "table",
-							Size: 50,
-							Table: &{{SplitPkg}}.Table{
-								Name:      "Table",
-								StackName: probe.tableStage.GetName(),
-							},
-						},
-						{
-							Name: "notification table",
-							Size: 50,
-							Table: &{{SplitPkg}}.Table{
-								Name:      "Table",
-								StackName: probe.notificationTableStage.GetName(),
-							},
-						},
-					},
-				},
-			},
-			{
-				Name: "form",
-				Size: 525,
-				Form: &{{SplitPkg}}.Form{
-					Name:      "Form",
-					StackName: probe.formStage.GetName(),
-				},
-			},
-		},
-	}
+	probe.dataEditor = gongprobe.CreateDataEditorLayout{{PrepareStageSetSuffix}}(
+		probe.treeNavigationStage.GetName(),
+		probe.treeStage.GetName(),
+		probe.loadStage.GetName(),
+		probe.tableStage.GetName(),
+		probe.notificationTableStage.GetName(),
+		probe.formStage.GetName(),
+	)
 
 	probe.splitStage.StageBranch(&{{SplitPkg}}.View{
-		Name: "StageSet Main view",
+		Name: "Main view",
 		RootAsSplitAreas: []*{{SplitPkg}}.AsSplitArea{
 			{
 				Name:    "Top",
@@ -740,100 +728,100 @@ func NewStageSetProbe(
 	return probe
 }
 
-func (probe *StageSetProbe) GetDocStager() *doc_models.Stager {
+func (probe *Probe) GetDocStager() *doc_models.Stager {
 	return probe.docStager
 }
 
-func (probe *StageSetProbe) GetStageSet() *models.StageSet {
-	return probe.stageSet
+func (probe *Probe) GetStage() *models.Stage {
+	return probe.stageOfInterest
 }
 
-func (probe *StageSetProbe) GetSplitStage() *{{SplitPkg}}.Stage {
+func (probe *Probe) GetSplitStage() *{{SplitPkg}}.Stage {
 	return probe.splitStage
 }
 
-func (probe *StageSetProbe) GetTreeStage() *tree.Stage {
+func (probe *Probe) GetTreeStage() *tree.Stage {
 	return probe.treeStage
 }
 
-func (probe *StageSetProbe) GetFormStage() *form.Stage {
+func (probe *Probe) GetFormStage() *form.Stage {
 	return probe.formStage
 }
 
-func (probe *StageSetProbe) GetTableStage() *table.Stage {
+func (probe *Probe) GetTableStage() *table.Stage {
 	return probe.tableStage
 }
 
-func (probe *StageSetProbe) SetMaxElementsNbPerGongStructNode(nb int) {
-	probe.maxElementsNbPerGongStructNode = nb
+func (probe *Probe) GetNavigationTreeStage() *tree.Stage {
+	return probe.treeNavigationStage
 }
 
-func (probe *StageSetProbe) GetMaxElementsNbPerGongStructNode() int {
-	return probe.maxElementsNbPerGongStructNode
+func (probe *Probe) GetDataEditor() *{{SplitPkg}}.AsSplit {
+	return probe.dataEditor
 }
 
-func (probe *StageSetProbe) ComputeInstancesNb() map[string]int {
-	probe.stageSet.ComputeInstancesNb()
+func (probe *Probe) GetDiagramEditor() *{{SplitPkg}}.AsSplitArea {
+	return probe.diagramEditor
+}
+
+func (probe *Probe) ComputeInstancesNb() map[string]int {
+	probe.stageOfInterest.ComputeInstancesNb()
 	res := make(map[string]int)
 {{ComputeInstancesNbCode}}	return res
 }
 
-func (probe *StageSetProbe) Refresh() {
+func (probe *Probe) Refresh() {
 	if probe.docStager != nil {
 		probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 		probe.docStager.Svg()
 	}
 	probe.ux_tree()
 	probe.ux_table()
+	probe.ux_form()
 }
 
-func (probe *StageSetProbe) AddNotification(date time.Time, message string) {
-	notification := &Notification{
-		Date:    date,
-		Message: message,
-	}
-	probe.notification = append(probe.notification, notification)
+func (probe *Probe) AddNotification(date time.Time, message string) {
+	gongprobe.AddNotification(&probe.notification, date, message)
 }
 
-func (probe *StageSetProbe) CommitNotificationTable() {
-	probe.notificationTableStage.Reset()
-	tableInstance := new(table.Table)
-	tableInstance.Name = "Notifications"
-	tableInstance.HasFiltering = true
-
-	column := new(table.DisplayedColumn)
-	column.Name = "Date"
-	tableInstance.DisplayedColumns = append(tableInstance.DisplayedColumns, column)
-
-	column = new(table.DisplayedColumn)
-	column.Name = "Message"
-	tableInstance.DisplayedColumns = append(tableInstance.DisplayedColumns, column)
-
-	for _, notification := range probe.notification {
-		row := new(table.Row)
-		row.Name = notification.Date.Format(time.StampMicro)
-
-		cell := &table.Cell{Name: "Date"}
-		cell.CellString = &table.CellString{Value: notification.Date.Format(time.StampMicro)}
-		row.Cells = append(row.Cells, cell)
-
-		cell = &table.Cell{Name: "Message"}
-		cell.CellString = &table.CellString{Value: notification.Message}
-		row.Cells = append(row.Cells, cell)
-
-		tableInstance.Rows = append(tableInstance.Rows, row)
-	}
-
-	probe.notificationTableStage.StageBranch(tableInstance)
-	probe.notificationTableStage.Commit()
+func (probe *Probe) CommitNotificationTable() {
+	probe.UpdateAndCommitNotificationTable()
 }
 
-func (probe *StageSetProbe) ExportStage() {
+func (probe *Probe) ResetNotifications() {
+	probe.notification = make([]*Notification, 0)
+	probe.UpdateAndCommitNotificationTable()
+}
+
+func (probe *Probe) FillUpFormFromGongstruct(instance any, formName string) {
+	FillUpFormFromGongstruct(instance, probe)
+}
+
+func (probe *Probe) DownloadNotificationsCSV() {
+	gongprobe.DownloadNotificationsCSV(probe.notification, probe.loadStage, probe.initLoadStage)
+}
+
+func (probe *Probe) ExportStageExcel() {
+	excelBytes, err := probe.stageOfInterest.SerializeStageAsBytes(false)
+	gongprobe.ExportStageExcel(
+		excelBytes,
+		err,
+		probe.fileName,
+		"{{ModelPkgLower}}",
+		probe.stageOfInterest.GetName(),
+		probe.loadStage,
+		probe.initLoadStage,
+		probe.AddNotification,
+		probe.CommitNotificationTable,
+	)
+}
+
+func (probe *Probe) ExportStage() {
 	probe.loadStage.Reset()
 
 	fileToDownload := new(load.FileToDownload)
 	if probe.fileName == "" {
-		probe.fileName = "{{ModelPkgName}}-stageset.go"
+		probe.fileName = "{{ModelPkgName}}-stage.go"
 	}
 
 	prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
@@ -841,7 +829,7 @@ func (probe *StageSetProbe) ExportStage() {
 
 	fileToDownload.Name = time.Now().Format("20060102 1504 ") + cleanFileName
 
-	stageString, err := probe.stageSet.MarshallToString("main")
+	stageString, err := probe.stageOfInterest.MarshallToString("main")
 	if err != nil {
 		probe.AddNotification(time.Now(), "Error serializing stage: "+err.Error())
 		probe.CommitNotificationTable()
@@ -856,32 +844,32 @@ func (probe *StageSetProbe) ExportStage() {
 	probe.initLoadStage()
 }
 
-type stageSetLoadProxy struct {
-	probe *StageSetProbe
+type stageLoadProxy struct {
+	probe *Probe
 }
 
-func (proxy *stageSetLoadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
+func (proxy *stageLoadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 	proxy.probe.fileName = uploadedFile.GetName()
 	decodedBytes, err := base64.StdEncoding.DecodeString(uploadedFile.Base64EncodedContent)
 	if err != nil {
 		return fmt.Errorf("base64.StdEncoding.DecodeString failed: %w", err)
 	}
-	proxy.probe.stageSet.Reset()
-	err = proxy.probe.stageSet.ParseAstString(string(decodedBytes), true)
+	proxy.probe.stageOfInterest.Reset()
+	err = proxy.probe.stageOfInterest.ParseAstString(string(decodedBytes), true)
 	if err != nil {
 		return err
 	}
-	proxy.probe.stageSet.Commit()
+	proxy.probe.stageOfInterest.Commit()
 	proxy.probe.Refresh()
 	return nil
 }
 
-func (probe *StageSetProbe) initLoadStage() {
+func (probe *Probe) initLoadStage() {
 	probe.loadStage.Reset()
 
 	fileToUpload := &load.FileToUpload{
 		Name: "Name of file",
-		FileToUploadProxy: &stageSetLoadProxy{
+		FileToUploadProxy: &stageLoadProxy{
 			probe: probe,
 		},
 	}
@@ -907,8 +895,9 @@ func (probe *StageSetProbe) initLoadStage() {
 	code = strings.ReplaceAll(code, "{{PrepareStageSetSuffix}}", prepareStageSetSuffix)
 	code = strings.ReplaceAll(code, "{{ComputeInstancesNbCode}}", computeInstancesNbCode.String())
 	code = strings.ReplaceAll(code, "{{ModelPkgName}}", modelPkg.Name)
+	code = strings.ReplaceAll(code, "{{ModelPkgLower}}", strings.ToLower(modelPkg.Name))
 
-	writeFile(filepath.Join(pkgPath, "probe/stageset_probe.go"), code)
+	writeFile(filepath.Join(pkgPath, "probe/probe.go"), code)
 }
 
 func generateStageSetProbeUxTree(
@@ -965,6 +954,7 @@ func generateStageSetProbeUxTree(
 		}
 		sort.Strings(sNames)
 
+		accessor := stageAccessor(f)
 		for _, sName := range sNames {
 			sPlural := sName + "s"
 			typeQual := sName
@@ -976,7 +966,7 @@ func generateStageSetProbeUxTree(
 
 			pkgTreeNodes.WriteString(fmt.Sprintf(`
 	{
-		count := len(probe.stageSet.%s.%s)
+		count := len(%s.%s)
 		nodeGongstruct := &tree_models.Node{
 			Name:            fmt.Sprintf("%s (%%d)", count),
 			HasToolTip:      true,
@@ -1013,7 +1003,7 @@ func generateStageSetProbeUxTree(
 		}
 
 		instCount := 0
-		for _, _inst := range probe.stageSet.%s.GetInstancesByOrder[*%s]() {
+		for _, _inst := range %s.GetInstancesByOrder[*%s]() {
 			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
 				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 				break
@@ -1024,7 +1014,7 @@ func generateStageSetProbeUxTree(
 				Name:            _captured.GetName(),
 				IsNodeClickable: true,
 				OnClick: func(frontNode *tree_models.Node) {
-					StageSetFillUpFormFromGongstruct(_captured, probe)
+					FillUpFormFromGongstruct(_captured, probe)
 					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 						node.BackgroundColor = ""
 					}
@@ -1035,7 +1025,7 @@ func generateStageSetProbeUxTree(
 			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 		}
 	}
-`, f.Name, sPlural, sName, sName, parentVarName, parentVarName, sName, sName, sName, f.Name, sName, f.Name, f.Name, typeQual))
+`, accessor, sPlural, sName, sName, parentVarName, parentVarName, sName, sName, sName, f.Name, sName, f.Name, accessor, typeQual))
 		}
 	}
 
@@ -1087,24 +1077,44 @@ import (
 
 	tree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
+	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
 
 	"%s/models"%s
 )
 
-func (probe *StageSetProbe) ux_navigation_tree() {
+func (probe *Probe) ux_navigation_tree() {
+	stageOfInterest := probe.stageOfInterest
+	if !stageOfInterest.IsInDeltaMode() {
+		return
+	}
 	probe.treeNavigationStage.Reset()
 	sidebar := &tree_models.Tree{Name: "Sidebar"}
+	probe.AddCommitNavigationNode(func(node models.GongNodeIF) {
+		sidebar.RootNodes = append(sidebar.RootNodes, node.(*tree_models.Node))
+	})
 	probe.treeNavigationStage.StageBranch(sidebar)
 	probe.treeNavigationStage.Commit()
 }
 
-func (probe *StageSetProbe) ux_tree() {
+func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.GongNodeIF)) {
+	gongprobe.AddCommitNavigationNode(
+		probe.stageOfInterest,
+		probe.Refresh,
+		probe.AddNotification,
+		probe.CommitNotificationTable,
+		func(node any) {
+			appendChildrenNodeFunc(node.(models.GongNodeIF))
+		},
+	)
+}
+
+func (probe *Probe) ux_tree() {
 	probe.ux_navigation_tree()
 	probe.treeStage.Reset()
 
 	sidebar := &tree_models.Tree{Name: "Sidebar"}
 	topNode := &tree_models.Node{
-		Name:       "StageSet",
+		Name:       probe.stageOfInterest.GetName(),
 		IsExpanded: true,
 	}
 	topNode.OnIsExpandedChange = func(isExpanded bool) {
@@ -1124,15 +1134,27 @@ func (probe *StageSetProbe) ux_tree() {
 	}
 	topNode.Buttons = append(topNode.Buttons, refreshButton)
 
+	exportExcelButton := &tree_models.Button{
+		Name:            "ExportExcelButton " + string(tree_buttons.BUTTON_download),
+		Icon:            string(tree_buttons.BUTTON_download),
+		HasToolTip:      true,
+		ToolTipText:     "Export XL",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.ExportStageExcel()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, exportExcelButton)
+
 	resetButton := &tree_models.Button{
 		Name:            "ResetButton " + string(tree_buttons.BUTTON_reset_tv),
 		Icon:            string(tree_buttons.BUTTON_reset_tv),
 		HasToolTip:      true,
-		ToolTipText:     "Reset all stages in StageSet",
+		ToolTipText:     "Reset stage",
 		ToolTipPosition: tree_models.Below,
 		OnClick: func() {
-			probe.stageSet.Reset()
-			probe.stageSet.Commit()
+			probe.stageOfInterest.Reset()
+			probe.stageOfInterest.Commit()
 			probe.Refresh()
 		},
 	}
@@ -1142,7 +1164,7 @@ func (probe *StageSetProbe) ux_tree() {
 		Name:            "ExportGoButton " + string(tree_buttons.BUTTON_file_download),
 		Icon:            string(tree_buttons.BUTTON_file_download),
 		HasToolTip:      true,
-		ToolTipText:     "Export Go code for all stages",
+		ToolTipText:     "Export Go code for stage",
 		ToolTipPosition: tree_models.Below,
 		OnClick: func() {
 			probe.ExportStage()
@@ -1155,7 +1177,7 @@ func (probe *StageSetProbe) ux_tree() {
 }
 `, pkgPathRoot, extImports.String(), pkgTreeNodes.String())
 
-	writeFile(filepath.Join(pkgPath, "probe/stageset_probe_ux_tree.go"), code)
+	writeFile(filepath.Join(pkgPath, "probe/probe_ux_tree.go"), code)
 }
 
 func generateStageSetProbeUxTable(
@@ -1182,21 +1204,25 @@ func generateStageSetProbeUxTable(
 
 	for _, si := range allStructs {
 		tblName := si.typeQual
-		tableSwitchCases.WriteString(fmt.Sprintf("\tcase \"%s\":\n\t\tupdateStageSetTable_%s_%s(probe)\n", tblName, si.structName, si.pkgField.Name))
+		if si.pkgField.IsLocal {
+			tableSwitchCases.WriteString(fmt.Sprintf("\tcase \"%s\", \"%s\":\n\t\tupdateStageSetTable_%s_%s(probe)\n", tblName, si.structName, si.structName, si.pkgField.Name))
+		} else {
+			tableSwitchCases.WriteString(fmt.Sprintf("\tcase \"%s\":\n\t\tupdateStageSetTable_%s_%s(probe)\n", tblName, si.structName, si.pkgField.Name))
+		}
 
 		// Find reverse references: any struct in allStructs that has a pointer to si
 		var reversePointers []struct {
-			sourceStruct   structInfo
-			fieldName      string
-			isSlice        bool
+			sourceStruct structInfo
+			fieldName    string
+			isSlice      bool
 		}
 		for _, other := range allStructs {
 			for _, fld := range other.fields {
 				if (fld.IsPointer || fld.IsSliceOfPointer) && fld.TargetPackagePath == si.pkgPath && fld.TargetStructName == si.structName {
 					reversePointers = append(reversePointers, struct {
-						sourceStruct   structInfo
-						fieldName      string
-						isSlice        bool
+						sourceStruct structInfo
+						fieldName    string
+						isSlice      bool
 					}{
 						sourceStruct: other,
 						fieldName:    fld.Name,
@@ -1284,12 +1310,13 @@ func generateStageSetProbeUxTable(
 
 		for _, rev := range reversePointers {
 			colName := fmt.Sprintf("(%s) -> %s", rev.sourceStruct.typeQual, rev.fieldName)
+			revAccessor := stageAccessor(rev.sourceStruct.pkgField)
 			if rev.isSlice {
 				cellAssignments.WriteString(fmt.Sprintf(`
 		{
 			cell := &table_models.Cell{Name: "%s"}
 			var refNames []string
-			for src := range probe.stageSet.%s.%ss {
+			for src := range %s.%ss {
 				for _, target := range src.%s {
 					if target == structInstance {
 						refNames = append(refNames, src.GetName())
@@ -1301,13 +1328,13 @@ func generateStageSetProbeUxTable(
 			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
 			row.Cells = append(row.Cells, cell)
 		}
-`, colName, rev.sourceStruct.pkgField.Name, rev.sourceStruct.structName, rev.fieldName))
+`, colName, revAccessor, rev.sourceStruct.structName, rev.fieldName))
 			} else {
 				cellAssignments.WriteString(fmt.Sprintf(`
 		{
 			cell := &table_models.Cell{Name: "%s"}
 			var refNames []string
-			for src := range probe.stageSet.%s.%ss {
+			for src := range %s.%ss {
 				if src.%s == structInstance {
 					refNames = append(refNames, src.GetName())
 				}
@@ -1316,12 +1343,13 @@ func generateStageSetProbeUxTable(
 			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
 			row.Cells = append(row.Cells, cell)
 		}
-`, colName, rev.sourceStruct.pkgField.Name, rev.sourceStruct.structName, rev.fieldName))
+`, colName, revAccessor, rev.sourceStruct.structName, rev.fieldName))
 			}
 		}
 
+		siAccessor := stageAccessor(si.pkgField)
 		tableFunctions.WriteString(fmt.Sprintf(`
-func updateStageSetTable_%s_%s(probe *StageSetProbe) {
+func updateStageSetTable_%s_%s(probe *Probe) {
 	probe.tableStage.Reset()
 
 	table := new(table_models.Table)
@@ -1339,7 +1367,7 @@ func updateStageSetTable_%s_%s(probe *StageSetProbe) {
 	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
 
 %s
-	instances := probe.stageSet.%s.GetInstancesByOrder[*%s]()
+	instances := %s.GetInstancesByOrder[*%s]()
 
 	for _, structInstance := range instances {
 		row := new(table_models.Row)
@@ -1348,12 +1376,12 @@ func updateStageSetTable_%s_%s(probe *StageSetProbe) {
 		_captured := structInstance
 		row.Impl = &tableRowUpdater{
 			onClick: func() {
-				StageSetFillUpFormFromGongstruct(_captured, probe)
+				FillUpFormFromGongstruct(_captured, probe)
 			},
 		}
 
 		cellID := &table_models.Cell{Name: "ID"}
-		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.%s.GetOrder(structInstance))}
+		cellID.CellInt = &table_models.CellInt{Value: int(%s.GetOrder(structInstance))}
 		row.Cells = append(row.Cells, cellID)
 
 		cellDel := &table_models.Cell{Name: "Delete Icon"}
@@ -1365,9 +1393,9 @@ func updateStageSetTable_%s_%s(probe *StageSetProbe) {
 		}
 		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
 			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
-				_captured.UnstageVoid(probe.stageSet.%s)
-				probe.stageSet.Clean()
-				probe.stageSet.Commit()
+				_captured.UnstageVoid(%s)
+				probe.stageOfInterest.Clean()
+				probe.stageOfInterest.Commit()
 				updateStageSetTable_%s_%s(probe)
 				probe.ux_tree()
 				if probe.docStager != nil {
@@ -1386,7 +1414,7 @@ func updateStageSetTable_%s_%s(probe *StageSetProbe) {
 	probe.tableStage.StageBranch(table)
 	probe.tableStage.Commit()
 }
-`, si.structName, si.pkgField.Name, si.typeQual, columnDefs.String(), si.pkgField.Name, si.typeQual, si.pkgField.Name, si.pkgField.Name, si.structName, si.pkgField.Name, cellAssignments.String()))
+`, si.structName, si.pkgField.Name, si.typeQual, columnDefs.String(), siAccessor, si.typeQual, siAccessor, siAccessor, si.structName, si.pkgField.Name, cellAssignments.String()))
 	}
 
 	code := fmt.Sprintf(`// generated code - do not edit
@@ -1396,12 +1424,16 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+	"time"
 
 	table_models "github.com/fullstack-lang/gong/lib/table/go/models"
+	tree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	maticons "github.com/fullstack-lang/maticons/maticons"
 
 	"%s/models"%s
 )
+
+const TableName = "Table"
 
 var (
 	_ = fmt.Sprintf
@@ -1420,7 +1452,7 @@ func (u *tableRowUpdater) RowUpdated(stage *table_models.Stage, row, updatedRow 
 	}
 }
 
-func (probe *StageSetProbe) ux_table() {
+func (probe *Probe) ux_table() {
 	var tableName string
 	for tbl := range probe.tableStage.Tables {
 		tableName = tbl.Name
@@ -1428,10 +1460,82 @@ func (probe *StageSetProbe) ux_table() {
 	switch tableName {
 %s	}
 }
+
+func (probe *Probe) UpdateAndCommitNotificationTable() {
+	probe.notificationTableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = TableName
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+	table.HasCheckableRows = false
+	table.HasSaveButton = false
+
+	notificationsResetButton := &table_models.Button{
+		Name:            "NotificationsResetButton",
+		Icon:            string(tree_buttons.BUTTON_playlist_remove),
+		HasToolTip:      true,
+		ToolTipText:     "Reset notification table",
+		ToolTipPosition: table_models.Below,
+		OnClick: func() {
+			probe.ResetNotifications()
+		},
+	}
+	table.Buttons = append(table.Buttons, notificationsResetButton)
+
+	notificationsDownloadCSVButton := &table_models.Button{
+		Name:            "NotificationsDownloadCSVButton",
+		Icon:            string(tree_buttons.BUTTON_download),
+		HasToolTip:      true,
+		ToolTipText:     "Download notifications as CSV",
+		ToolTipPosition: table_models.Below,
+		OnClick: func() {
+			probe.DownloadNotificationsCSV()
+		},
+	}
+	table.Buttons = append(table.Buttons, notificationsDownloadCSVButton)
+
+	column := new(table_models.DisplayedColumn)
+	column.Name = "Date"
+	table.DisplayedColumns = append(table.DisplayedColumns, column)
+
+	column = new(table_models.DisplayedColumn)
+	column.Name = "Message"
+	table.DisplayedColumns = append(table.DisplayedColumns, column)
+
+	sort.Slice(probe.notification, func(i, j int) bool {
+		return probe.notification[i].Date.After(probe.notification[j].Date)
+	})
+
+	for _, notification := range probe.notification {
+		row := new(table_models.Row)
+		table.Rows = append(table.Rows, row)
+
+		{
+			cell := new(table_models.Cell)
+			cellString := new(table_models.CellString)
+			cell.CellString = cellString
+			cellString.Value = notification.Date.Format(time.StampMicro)
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := new(table_models.Cell)
+			cellString := new(table_models.CellString)
+			cell.CellString = cellString
+			cellString.Value = notification.Message
+			row.Cells = append(row.Cells, cell)
+		}
+	}
+
+	probe.notificationTableStage.StageBranch(table)
+	probe.notificationTableStage.Commit()
+}
 %s
 `, pkgPathRoot, extImports.String(), tableSwitchCases.String(), tableFunctions.String())
 
-	writeFile(filepath.Join(pkgPath, "probe/stageset_probe_ux_table.go"), code)
+	writeFile(filepath.Join(pkgPath, "probe/probe_ux_table.go"), code)
 }
 
 func generateStageSetFillUpForm(
@@ -1467,12 +1571,15 @@ func generateStageSetFillUpForm(
 					} else {
 						targetTypeQual = "models." + fld.TargetStructName
 					}
-					cases.WriteString(fmt.Sprintf("\t\tStageSetAssociationFieldToForm(\"%s\", inst.%s, formGroup, probe.stageSet.%s.GetInstancesSet[*%s](), probe.formStage)\n", fld.Name, fld.Name, targetSSF.Name, targetTypeQual))
+					cases.WriteString(fmt.Sprintf("\t\tStageSetAssociationFieldToForm(\"%s\", inst.%s, formGroup, %s.GetInstancesSet[*%s](), probe.formStage)\n", fld.Name, fld.Name, stageAccessor(targetSSF), targetTypeQual))
 				}
 			} else if fld.IsSliceOfPointer {
 				targetSSF := pkgPathToField[fld.TargetPackagePath]
 				if targetSSF != nil {
-					cases.WriteString(fmt.Sprintf(`
+					if si.pkgField.IsLocal && targetSSF.IsLocal {
+						cases.WriteString(fmt.Sprintf("\t\tAssociationSliceToForm(\"%s\", inst, &inst.%s, formGroup, probe)\n", fld.Name, fld.Name))
+					} else {
+						cases.WriteString(fmt.Sprintf(`
 		{
 			// Slice of pointers: %s
 			div := (&form.FormDiv{Name: "%s"}).Stage(probe.formStage)
@@ -1493,6 +1600,7 @@ func generateStageSetFillUpForm(
 			div.FormFields = append(div.FormFields, fld)
 		}
 `, fld.Name, fld.Name, fld.Name, fld.Name, fld.Name))
+					}
 				}
 			} else if fld.IsEnum {
 				if fld.BasicKind == types.Int || fld.BasicKind == types.Int8 || fld.BasicKind == types.Int16 || fld.BasicKind == types.Int32 || fld.BasicKind == types.Int64 {
@@ -1507,12 +1615,13 @@ func generateStageSetFillUpForm(
 
 		// Reverse pointers pointing to this struct
 		for _, other := range allStructs {
+			otherAccessor := stageAccessor(other.pkgField)
 			for _, fld := range other.fields {
 				if fld.IsPointer && fld.TargetPackagePath == si.pkgPath && fld.TargetStructName == si.structName {
 					cases.WriteString(fmt.Sprintf(`
 		{
 			var refNames []string
-			for src := range probe.stageSet.%s.%ss {
+			for src := range %s.%ss {
 				if src.%s == inst {
 					refNames = append(refNames, src.GetName())
 				}
@@ -1520,13 +1629,13 @@ func generateStageSetFillUpForm(
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("%s", "%s", refNames, formGroup, probe.formStage)
 		}
-`, other.pkgField.Name, other.structName, fld.Name, other.typeQual, fld.Name))
+`, otherAccessor, other.structName, fld.Name, other.typeQual, fld.Name))
 				}
 				if fld.IsSliceOfPointer && fld.TargetPackagePath == si.pkgPath && fld.TargetStructName == si.structName {
 					cases.WriteString(fmt.Sprintf(`
 		{
 			var refNames []string
-			for src := range probe.stageSet.%s.%ss {
+			for src := range %s.%ss {
 				for _, target := range src.%s {
 					if target == inst {
 						refNames = append(refNames, src.GetName())
@@ -1537,7 +1646,7 @@ func generateStageSetFillUpForm(
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("%s", "%s", refNames, formGroup, probe.formStage)
 		}
-`, other.pkgField.Name, other.structName, fld.Name, other.typeQual, fld.Name))
+`, otherAccessor, other.structName, fld.Name, other.typeQual, fld.Name))
 				}
 			}
 		}
@@ -1555,15 +1664,17 @@ import (
 	"%s/models"%s
 )
 
+const FormName = "Form"
+
 var (
 	_ = sort.Strings
 	_ = strings.Join
 )
 
-func StageSetFillUpForm(
+func FillUpForm(
 	instance any,
 	formGroup *form.FormGroup,
-	probe *StageSetProbe,
+	probe *Probe,
 ) {
 	switch inst := instance.(type) {
 %s	default:
@@ -1572,7 +1683,7 @@ func StageSetFillUpForm(
 }
 `, pkgPathRoot, extImports.String(), cases.String())
 
-	writeFile(filepath.Join(pkgPath, "probe/stageset_fill_up_form.go"), code)
+	writeFile(filepath.Join(pkgPath, "probe/fill_up_form.go"), code)
 }
 
 func generateStageSetFormCallback(
@@ -1595,21 +1706,29 @@ func generateStageSetFormCallback(
 	}
 
 	var fillUpDispatchCases strings.Builder
+	var fillUpByNameCases strings.Builder
 	var saveFunctions strings.Builder
 	var newInstanceFunctions strings.Builder
 
 	for _, si := range allStructs {
+		siAccessor := stageAccessor(si.pkgField)
 		fillUpDispatchCases.WriteString(fmt.Sprintf(`	case *%s:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     inst.GetName(),
+			TypeLabel: "%s",
+		}).Stage(formStage)
+		formGroup.HasSuppressButton = true
 		formGroup.OnSave = &functionalStageSetFormCallback{
 			onSave: func() {
-				probe.stageSet.%s.Lock()
-				defer probe.stageSet.%s.Unlock()
+				%s.Lock()
+				defer %s.Unlock()
 				probe.formStage.Checkout()
 				saveStageSet_%s_%s(inst, probe, formGroup)
 				if formGroup.HasSuppressButtonBeenPressed {
-					inst.UnstageVoid(probe.stageSet.%s)
+					inst.UnstageVoid(%s)
 				}
-				probe.stageSet.%s.Commit()
+				%s.Commit()
 				updateStageSetTable_%s_%s(probe)
 				probe.ux_tree()
 				if probe.docStager != nil {
@@ -1618,8 +1737,18 @@ func generateStageSetFormCallback(
 				}
 			},
 		}
-		StageSetFillUpForm(inst, formGroup, probe)
-`, si.typeQual, si.pkgField.Name, si.pkgField.Name, si.structName, si.pkgField.Name, si.pkgField.Name, si.pkgField.Name, si.structName, si.pkgField.Name))
+		FillUpForm(inst, formGroup, probe)
+`, si.typeQual, si.structName, siAccessor, siAccessor, si.structName, si.pkgField.Name, siAccessor, siAccessor, si.structName, si.pkgField.Name))
+
+		if si.pkgField.IsLocal {
+			fillUpByNameCases.WriteString(fmt.Sprintf(`	case "%s", "%s":
+		StageSetNewInstance_%s_%s(probe)
+`, si.structName, si.typeQual, si.structName, si.pkgField.Name))
+		} else {
+			fillUpByNameCases.WriteString(fmt.Sprintf(`	case "%s":
+		StageSetNewInstance_%s_%s(probe)
+`, si.typeQual, si.structName, si.pkgField.Name))
+		}
 
 		var fieldSaves strings.Builder
 		for _, fld := range si.fields {
@@ -1632,7 +1761,12 @@ func generateStageSetFormCallback(
 					} else {
 						targetTypeQual = "models." + fld.TargetStructName
 					}
-					fieldSaves.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\tStageSetFormDivSelectFieldToField(&inst.%s, probe.stageSet.%s.GetInstancesSet[*%s](), formDiv)\n", fld.Name, fld.Name, targetSSF.Name, targetTypeQual))
+					fieldSaves.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\tStageSetFormDivSelectFieldToField(&inst.%s, %s.GetInstancesSet[*%s](), formDiv)\n", fld.Name, fld.Name, stageAccessor(targetSSF), targetTypeQual))
+				}
+			} else if fld.IsSliceOfPointer {
+				targetSSF := pkgPathToField[fld.TargetPackagePath]
+				if targetSSF != nil && si.pkgField.IsLocal && targetSSF.IsLocal {
+					fieldSaves.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\tFormDivSliceOfPointersToField(inst, \"%s\", &inst.%s, formDiv, probe)\n", fld.Name, fld.Name, fld.Name))
 				}
 			} else if fld.IsEnum {
 				if fld.BasicKind == types.Int || fld.BasicKind == types.Int8 || fld.BasicKind == types.Int16 || fld.BasicKind == types.Int32 || fld.BasicKind == types.Int64 {
@@ -1642,7 +1776,7 @@ func generateStageSetFormCallback(
 				}
 			} else if fld.IsTime {
 				fieldSaves.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\tFormDivTimeFieldToField(&inst.%s, formDiv, false)\n", fld.Name, fld.Name))
-			} else if !fld.IsSliceOfPointer {
+			} else {
 				fieldSaves.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\tFormDivBasicFieldToField(&inst.%s, formDiv)\n", fld.Name, fld.Name))
 			}
 		}
@@ -1650,7 +1784,7 @@ func generateStageSetFormCallback(
 		saveFunctions.WriteString(fmt.Sprintf(`
 func saveStageSet_%s_%s(
 	inst *%s,
-	probe *StageSetProbe,
+	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
@@ -1661,38 +1795,38 @@ func saveStageSet_%s_%s(
 `, si.structName, si.pkgField.Name, si.typeQual, fieldSaves.String()))
 
 		newInstanceFunctions.WriteString(fmt.Sprintf(`
-func StageSetNewInstance_%s_%s(probe *StageSetProbe) {
+func StageSetNewInstance_%s_%s(probe *Probe) {
 	probe.formStage.Reset()
 	formGroup := (&form.FormGroup{
-		Name:  "Form",
+		Name:  FormName,
 		Label: "New %s",
 	}).Stage(probe.formStage)
 	inst := new(%s)
 	formGroup.HasSuppressButton = false
 	formGroup.OnSave = &functionalStageSetFormCallback{
 		onSave: func() {
-			probe.stageSet.%s.Lock()
-			defer probe.stageSet.%s.Unlock()
+			%s.Lock()
+			defer %s.Unlock()
 			probe.formStage.Checkout()
-			inst.Stage(probe.stageSet.%s)
+			inst.Stage(%s)
 			saveStageSet_%s_%s(inst, probe, formGroup)
-			probe.stageSet.%s.Commit()
+			%s.Commit()
 			updateStageSetTable_%s_%s(probe)
 			probe.ux_tree()
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
 			}
-			StageSetFillUpFormFromGongstruct(inst, probe)
+			FillUpFormFromGongstruct(inst, probe)
 		},
 	}
-	StageSetFillUpForm(inst, formGroup, probe)
+	FillUpForm(inst, formGroup, probe)
 	probe.formStage.Commit()
 }
-`, si.structName, si.pkgField.Name, si.structName, si.typeQual, si.pkgField.Name, si.pkgField.Name, si.pkgField.Name, si.structName, si.pkgField.Name, si.pkgField.Name, si.structName, si.pkgField.Name))
+`, si.structName, si.pkgField.Name, si.structName, si.typeQual, siAccessor, siAccessor, siAccessor, si.structName, si.pkgField.Name, siAccessor, si.structName, si.pkgField.Name))
 	}
 
-	code := fmt.Sprintf(`// generated code - do not edit
+	fillUpFromGongstructCode := fmt.Sprintf(`// generated code - do not edit
 package probe
 
 import (
@@ -1700,6 +1834,58 @@ import (
 
 	"%s/models"%s
 )
+
+func FillUpFormFromGongstruct(instance any, probe *Probe) {
+	formStage := probe.formStage
+	formStage.Reset()
+
+	FillUpNamedFormFromGongstruct(instance, probe, formStage, FormName)
+}
+
+func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.Stage, formName string) {
+	switch inst := instance.(type) {
+%s	default:
+		_ = inst
+	}
+
+	if probe.GetCommitMode() {
+		formStage.Commit()
+	}
+}
+`, pkgPathRoot, extImports.String(), fillUpDispatchCases.String())
+
+	writeFile(filepath.Join(pkgPath, "probe/fill_up_form_from_gongstruct.go"), fillUpFromGongstructCode)
+
+	probeUxFormCode := fmt.Sprintf(`// generated code - do not edit
+package probe
+
+func (probe *Probe) ux_form() {
+}
+
+func FillUpFormFromGongstructName(
+	probe *Probe,
+	gongstructName string,
+	isNewInstance bool,
+) {
+	_ = isNewInstance
+	switch gongstructName {
+%s	}
+}
+`, fillUpByNameCases.String())
+
+	writeFile(filepath.Join(pkgPath, "probe/probe_ux_form.go"), probeUxFormCode)
+
+	formCallbackCode := fmt.Sprintf(`// generated code - do not edit
+package probe
+
+import (
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
+
+	"%s/models"%s
+)
+
+type FormCallbackIF = gongprobe.FormCallbackIF
 
 type functionalStageSetFormCallback struct {
 	onSave func()
@@ -1710,28 +1896,11 @@ func (cb *functionalStageSetFormCallback) OnSave() {
 		cb.onSave()
 	}
 }
-
-func StageSetFillUpFormFromGongstruct(
-	instance any,
-	probe *StageSetProbe,
-) {
-	probe.formStage.Reset()
-	formGroup := (&form.FormGroup{
-		Name: "Form",
-	}).Stage(probe.formStage)
-
-	switch inst := instance.(type) {
-%s	default:
-		_ = inst
-	}
-
-	probe.formStage.Commit()
-}
 %s
 %s
-`, pkgPathRoot, extImports.String(), fillUpDispatchCases.String(), saveFunctions.String(), newInstanceFunctions.String())
+`, pkgPathRoot, extImports.String(), saveFunctions.String(), newInstanceFunctions.String())
 
-	writeFile(filepath.Join(pkgPath, "probe/stageset_form_callback.go"), code)
+	writeFile(filepath.Join(pkgPath, "probe/form_callback.go"), formCallbackCode)
 }
 
 func writeFile(filePath string, content string) {

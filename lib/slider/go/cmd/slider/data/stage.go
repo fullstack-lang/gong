@@ -16,16 +16,16 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Checkbox__00000000_ := (&__stage_0__.Checkbox{Name: `Checkbox 1`}).Stage(stageSet.Stage)
-	__stage_0__Group__00000000_ := (&__stage_0__.Group{Name: `group 1`}).Stage(stageSet.Stage)
-	__stage_0__Group__00000001_ := (&__stage_0__.Group{Name: `Group 2`}).Stage(stageSet.Stage)
-	__stage_0__Layout__00000000_ := (&__stage_0__.Layout{Name: `layout`}).Stage(stageSet.Stage)
-	__stage_0__Slider__00000000_ := (&__stage_0__.Slider{Name: `slider int`}).Stage(stageSet.Stage)
+	__stage_0__Checkbox__00000000_ := (&__stage_0__.Checkbox{Name: `Checkbox 1`}).Stage(stage)
+	__stage_0__Group__00000000_ := (&__stage_0__.Group{Name: `group 1`}).Stage(stage)
+	__stage_0__Group__00000001_ := (&__stage_0__.Group{Name: `Group 2`}).Stage(stage)
+	__stage_0__Layout__00000000_ := (&__stage_0__.Layout{Name: `layout`}).Stage(stage)
+	__stage_0__Slider__00000000_ := (&__stage_0__.Slider{Name: `slider int`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

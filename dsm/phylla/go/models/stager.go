@@ -64,24 +64,18 @@ type Plant3DStageUpdaterInterface interface {
 	UpdatePlant3DStage(stager *Stager)
 }
 
-type StageSetProbeIF interface {
-	Refresh()
-}
-
 type Stager struct {
-	stage         *Stage
-	stageSet      *StageSet
-	splitStage    *split.Stage
-	probeForm     ProbeIF
-	stageSetProbe StageSetProbeIF
+	stage      *Stage
+	splitStage *split.Stage
+	probeForm  ProbeIF
 
-	buttonStage  *button.Stage  // "buttonStage" is the DSM mandatory name (to be changed)
-	loadStage    *load.Stage    // mandatory
+	buttonStage         *button.Stage  // "buttonStage" is the DSM mandatory name (to be changed)
+	loadStage           *load.Stage    // mandatory
 	loadStageMultistage *load.Stage
-	threejsStage     *threejs.Stage // "treeStage" is the DSM mandatory name (to be changed)
-	stool3dStage     *threejs.Stage
-	clock3dStage     *threejs.Stage
-	plant3dStage     *threejs.Stage
+	threejsStage        *threejs.Stage // "treeStage" is the DSM mandatory name (to be changed)
+	stool3dStage        *threejs.Stage
+	clock3dStage        *threejs.Stage
+	plant3dStage        *threejs.Stage
 
 	treeStage2D      *tree.Stage
 	treeStage3D      *tree.Stage
@@ -137,33 +131,10 @@ func NewStager(
 	clock3DUpdater Clock3DStageUpdaterInterface,
 	plant3DUpdater Plant3DStageUpdaterInterface,
 ) (stager *Stager) {
-	return NewStagerStageSet(
-		r,
-		NewStageSetFromStage(stage),
-		probeForm,
-		persistanceFile,
-		threeJSUpdater,
-		stool3DUpdater,
-		clock3DUpdater,
-		plant3DUpdater,
-	)
-}
-
-func NewStagerStageSet(
-	r *http.ServeMux,
-	stageSet *StageSet,
-	probeForm ProbeIF,
-	persistanceFile string,
-	threeJSUpdater ThreeJSStageUpdaterInterface,
-	stool3DUpdater Stool3DStageUpdaterInterface,
-	clock3DUpdater Clock3DStageUpdaterInterface,
-	plant3DUpdater Plant3DStageUpdaterInterface,
-) (stager *Stager) {
 
 	stager = new(Stager)
 
-	stager.stage = stageSet.Stage
-	stager.stageSet = stageSet
+	stager.stage = stage
 	stager.probeForm = probeForm
 	stager.persistanceFile = persistanceFile
 	stager.threeJSUpdater = threeJSUpdater
@@ -210,9 +181,6 @@ func NewStagerStageSet(
 	}
 	afterCommit := func(stage *Stage) {
 		stager.createViews()
-		if stager.stageSetProbe != nil {
-			stager.stageSetProbe.Refresh()
-		}
 		stager.ux_tree() // DSM mandatory name, to be changed
 		stager.button()
 		stager.load()
@@ -251,21 +219,6 @@ func NewStagerStageSet(
 
 func (stager *Stager) GetStage() *Stage {
 	return stager.stage
-}
-
-func (stager *Stager) GetStageSet() *StageSet {
-	return stager.stageSet
-}
-
-func (stager *Stager) SetStageSet(stageSet *StageSet) {
-	stager.stageSet = stageSet
-	if stageSet != nil && stageSet.Stage != nil {
-		stager.stage = stageSet.Stage
-	}
-}
-
-func (stager *Stager) SetStageSetProbe(stageSetProbe StageSetProbeIF) {
-	stager.stageSetProbe = stageSetProbe
 }
 
 func (stager *Stager) EnforceSemantic() {

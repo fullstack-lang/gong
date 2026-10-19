@@ -16,16 +16,16 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__A__00000000_ := (&__stage_0__.A{Name: `A0`}).Stage(stageSet.Stage)
-	__stage_0__A__00000001_ := (&__stage_0__.A{Name: `A1`}).Stage(stageSet.Stage)
-	__stage_0__B__00000000_ := (&__stage_0__.B{Name: `B0`}).Stage(stageSet.Stage)
-	__stage_0__B__00000001_ := (&__stage_0__.B{Name: `B1`}).Stage(stageSet.Stage)
-	__stage_0__B__00000002_ := (&__stage_0__.B{Name: `B2`}).Stage(stageSet.Stage)
+	__stage_0__A__00000000_ := (&__stage_0__.A{Name: `A0`}).Stage(stage)
+	__stage_0__A__00000001_ := (&__stage_0__.A{Name: `A1`}).Stage(stage)
+	__stage_0__B__00000000_ := (&__stage_0__.B{Name: `B0`}).Stage(stage)
+	__stage_0__B__00000001_ := (&__stage_0__.B{Name: `B1`}).Stage(stage)
+	__stage_0__B__00000002_ := (&__stage_0__.B{Name: `B2`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

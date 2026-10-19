@@ -16,28 +16,28 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Button__00000000_ := (&__stage_0__.Button{Name: `One`}).Stage(stageSet.Stage)
-	__stage_0__Button__00000001_ := (&__stage_0__.Button{Name: `Two`}).Stage(stageSet.Stage)
-	__stage_0__Button__00000002_ := (&__stage_0__.Button{Name: `Three`}).Stage(stageSet.Stage)
-	__stage_0__Button__00000003_ := (&__stage_0__.Button{Name: `Four`}).Stage(stageSet.Stage)
-	__stage_0__Button__00000004_ := (&__stage_0__.Button{Name: `Five`}).Stage(stageSet.Stage)
-	__stage_0__Button__00000005_ := (&__stage_0__.Button{Name: `Un`}).Stage(stageSet.Stage)
-	__stage_0__ButtonToggle__00000000_ := (&__stage_0__.ButtonToggle{Name: `small`}).Stage(stageSet.Stage)
-	__stage_0__ButtonToggle__00000001_ := (&__stage_0__.ButtonToggle{Name: `medium`}).Stage(stageSet.Stage)
-	__stage_0__ButtonToggle__00000002_ := (&__stage_0__.ButtonToggle{Name: `large`}).Stage(stageSet.Stage)
-	__stage_0__ButtonToggle__00000003_ := (&__stage_0__.ButtonToggle{Name: `flour`}).Stage(stageSet.Stage)
-	__stage_0__ButtonToggle__00000004_ := (&__stage_0__.ButtonToggle{Name: `eggs`}).Stage(stageSet.Stage)
-	__stage_0__ButtonToggle__00000005_ := (&__stage_0__.ButtonToggle{Name: `sugar`}).Stage(stageSet.Stage)
-	__stage_0__Group__00000000_ := (&__stage_0__.Group{Name: `Group 1`}).Stage(stageSet.Stage)
-	__stage_0__Group__00000001_ := (&__stage_0__.Group{Name: `Groupe 2`}).Stage(stageSet.Stage)
-	__stage_0__GroupToogle__00000000_ := (&__stage_0__.GroupToogle{Name: `Group toggle single selector`}).Stage(stageSet.Stage)
-	__stage_0__GroupToogle__00000001_ := (&__stage_0__.GroupToogle{Name: `Group toggle multi selector`}).Stage(stageSet.Stage)
-	__stage_0__Layout__00000000_ := (&__stage_0__.Layout{Name: `layout`}).Stage(stageSet.Stage)
+	__stage_0__Button__00000000_ := (&__stage_0__.Button{Name: `One`}).Stage(stage)
+	__stage_0__Button__00000001_ := (&__stage_0__.Button{Name: `Two`}).Stage(stage)
+	__stage_0__Button__00000002_ := (&__stage_0__.Button{Name: `Three`}).Stage(stage)
+	__stage_0__Button__00000003_ := (&__stage_0__.Button{Name: `Four`}).Stage(stage)
+	__stage_0__Button__00000004_ := (&__stage_0__.Button{Name: `Five`}).Stage(stage)
+	__stage_0__Button__00000005_ := (&__stage_0__.Button{Name: `Un`}).Stage(stage)
+	__stage_0__ButtonToggle__00000000_ := (&__stage_0__.ButtonToggle{Name: `small`}).Stage(stage)
+	__stage_0__ButtonToggle__00000001_ := (&__stage_0__.ButtonToggle{Name: `medium`}).Stage(stage)
+	__stage_0__ButtonToggle__00000002_ := (&__stage_0__.ButtonToggle{Name: `large`}).Stage(stage)
+	__stage_0__ButtonToggle__00000003_ := (&__stage_0__.ButtonToggle{Name: `flour`}).Stage(stage)
+	__stage_0__ButtonToggle__00000004_ := (&__stage_0__.ButtonToggle{Name: `eggs`}).Stage(stage)
+	__stage_0__ButtonToggle__00000005_ := (&__stage_0__.ButtonToggle{Name: `sugar`}).Stage(stage)
+	__stage_0__Group__00000000_ := (&__stage_0__.Group{Name: `Group 1`}).Stage(stage)
+	__stage_0__Group__00000001_ := (&__stage_0__.Group{Name: `Groupe 2`}).Stage(stage)
+	__stage_0__GroupToogle__00000000_ := (&__stage_0__.GroupToogle{Name: `Group toggle single selector`}).Stage(stage)
+	__stage_0__GroupToogle__00000001_ := (&__stage_0__.GroupToogle{Name: `Group toggle multi selector`}).Stage(stage)
+	__stage_0__Layout__00000000_ := (&__stage_0__.Layout{Name: `layout`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

@@ -16,16 +16,16 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Layer__00000000_ := (&__stage_0__.Layer{}).Stage(stageSet.Stage)
-	__stage_0__Path__00000000_ := (&__stage_0__.Path{}).Stage(stageSet.Stage)
-	__stage_0__Rect__00000000_ := (&__stage_0__.Rect{}).Stage(stageSet.Stage)
-	__stage_0__RectAnchoredPath__00000000_ := (&__stage_0__.RectAnchoredPath{}).Stage(stageSet.Stage)
-	__stage_0__SVG__00000000_ := (&__stage_0__.SVG{}).Stage(stageSet.Stage)
+	__stage_0__Layer__00000000_ := (&__stage_0__.Layer{}).Stage(stage)
+	__stage_0__Path__00000000_ := (&__stage_0__.Path{}).Stage(stage)
+	__stage_0__Rect__00000000_ := (&__stage_0__.Rect{}).Stage(stage)
+	__stage_0__RectAnchoredPath__00000000_ := (&__stage_0__.RectAnchoredPath{}).Stage(stage)
+	__stage_0__SVG__00000000_ := (&__stage_0__.SVG{}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

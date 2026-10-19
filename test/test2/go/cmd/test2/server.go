@@ -15,30 +15,14 @@ import (
 func executeServer() {
 
 	// setup
-	// - model level1 stack with its probe and stageset probe
+	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with multi-stage data
 	stack := level1stack.NewLevel1Stack("test2", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams)
 
-	// refresh the probes, therefore we can see what has been unmarshalled
+	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
-	if stack.StageSetProbe != nil {
-		stack.StageSetProbe.Refresh()
-	}
 
 	rootSplitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
-
-	if stack.StageSet != nil {
-		rootSplitStage.StageBranch(&split.View{
-			Name: "StageSet Probe",
-			RootAsSplitAreas: []*split.AsSplitArea{
-				{
-					Split: &split.Split{
-						StackName: stack.StageSet.GetProbeSplitStageName(),
-					},
-				},
-			},
-		})
-	}
 
 	rootSplitStage.StageBranch(&split.View{
 		Name: "Data Probe & Data Model",
@@ -57,8 +41,4 @@ func executeServer() {
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
-}
-
-func executeServerStageSet() {
-	executeServer()
 }

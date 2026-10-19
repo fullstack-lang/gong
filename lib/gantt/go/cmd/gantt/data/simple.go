@@ -16,14 +16,14 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Bar__00000000_ := (&__stage_0__.Bar{Name: `One Task`}).Stage(stageSet.Stage)
-	__stage_0__Gantt__00000000_ := (&__stage_0__.Gantt{Name: `Test`}).Stage(stageSet.Stage)
-	__stage_0__Lane__00000000_ := (&__stage_0__.Lane{Name: `Lane-1`}).Stage(stageSet.Stage)
+	__stage_0__Bar__00000000_ := (&__stage_0__.Bar{Name: `One Task`}).Stage(stage)
+	__stage_0__Gantt__00000000_ := (&__stage_0__.Gantt{Name: `Test`}).Stage(stage)
+	__stage_0__Lane__00000000_ := (&__stage_0__.Lane{Name: `Lane-1`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

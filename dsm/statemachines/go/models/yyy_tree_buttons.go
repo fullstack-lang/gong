@@ -1170,8 +1170,7 @@ func (stager *Stager) button() {
 
 			fileToDownload.Name = "PROMPT_SAVE_FILE_DIALOG_" + time.Now().Format("20060102 1504 ") + multiFileName
 
-			stageSet := NewStageSetFromStage(stager.stage)
-			stageString, err := stageSet.MarshallToString("main")
+			stageString, err := stager.stage.MarshallToString("", "main")
 			if err != nil {
 				log.Println("Error serializing multistage: " + err.Error())
 				return
@@ -1183,7 +1182,7 @@ func (stager *Stager) button() {
 
 			fileToUpload := &load.FileToUpload{
 				Name: "Name of file",
-				FileToUploadProxy: &loadStageSetProxy{
+				FileToUploadProxy: &loadProxy{
 					stager: stager,
 				},
 			}
@@ -1354,7 +1353,7 @@ func (stager *Stager) load() {
 
 	fileToUpload := &load.FileToUpload{
 		Name: "Name of file",
-		FileToUploadProxy: &loadStageSetProxy{
+		FileToUploadProxy: &loadProxy{
 			stager: stager,
 		},
 	}
@@ -1382,15 +1381,6 @@ type loadProxy struct {
 }
 
 func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
-	p := &loadStageSetProxy{stager: proxy.stager}
-	return p.OnFileUpload(uploadedFile)
-}
-
-type loadStageSetProxy struct {
-	stager *Stager
-}
-
-func (proxy *loadStageSetProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 	fmt.Println("OnFileUpload (multistage): start")
 	proxy.stager.fileName = uploadedFile.GetName()
 
@@ -1405,17 +1395,9 @@ func (proxy *loadStageSetProxy) OnFileUpload(uploadedFile *load.FileToUpload) er
 
 	proxy.stager.stage.Reset()
 	fmt.Println("OnFileUpload (multistage): after reset")
-	if strings.Contains(string(decodedBytes), "stageSet *models.StageSet") {
-		stageSet := NewStageSetFromStage(proxy.stager.stage)
-		err = stageSet.ParseAstString(string(decodedBytes), false)
-		if err != nil {
-			return fmt.Errorf("stageSet.ParseAstString failed: %w", err)
-		}
-	} else {
-		err = ParseAstFromBytes(proxy.stager.stage, decodedBytes)
-		if err != nil {
-			return fmt.Errorf("ParseAstFromBytes failed: %w", err)
-		}
+	err = ParseAstFromBytes(proxy.stager.stage, decodedBytes)
+	if err != nil {
+		return fmt.Errorf("ParseAstFromBytes failed: %w", err)
 	}
 	fmt.Println("OnFileUpload (multistage): after parse")
 

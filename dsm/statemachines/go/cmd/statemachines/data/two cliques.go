@@ -16,39 +16,39 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `New Diagram`}).Stage(stageSet.Stage)
-	__stage_0__Diagram__00000001_ := (&__stage_0__.Diagram{Name: `two cliques`}).Stage(stageSet.Stage)
-	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: `two cliques`}).Stage(stageSet.Stage)
-	__stage_0__State__00000000_ := (&__stage_0__.State{Name: `Start`}).Stage(stageSet.Stage)
+	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `New Diagram`}).Stage(stage)
+	__stage_0__Diagram__00000001_ := (&__stage_0__.Diagram{Name: `two cliques`}).Stage(stage)
+	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: `two cliques`}).Stage(stage)
+	__stage_0__State__00000000_ := (&__stage_0__.State{Name: `Start`}).Stage(stage)
 	__stage_0__State__00000001_ := (&__stage_0__.State{Name: `Clique 2 - State 2
-`}).Stage(stageSet.Stage)
-	__stage_0__State__00000002_ := (&__stage_0__.State{Name: `Clique 1 - State 2`}).Stage(stageSet.Stage)
+`}).Stage(stage)
+	__stage_0__State__00000002_ := (&__stage_0__.State{Name: `Clique 1 - State 2`}).Stage(stage)
 	__stage_0__State__00000003_ := (&__stage_0__.State{Name: `Clique 2 - State 1
-`}).Stage(stageSet.Stage)
-	__stage_0__State__00000004_ := (&__stage_0__.State{Name: `Clique 2 - State 2`}).Stage(stageSet.Stage)
-	__stage_0__State__00000005_ := (&__stage_0__.State{Name: `End`}).Stage(stageSet.Stage)
-	__stage_0__StateMachine__00000000_ := (&__stage_0__.StateMachine{Name: `two cliques`}).Stage(stageSet.Stage)
-	__stage_0__StateShape__00000000_ := (&__stage_0__.StateShape{Name: `Start`}).Stage(stageSet.Stage)
+`}).Stage(stage)
+	__stage_0__State__00000004_ := (&__stage_0__.State{Name: `Clique 2 - State 2`}).Stage(stage)
+	__stage_0__State__00000005_ := (&__stage_0__.State{Name: `End`}).Stage(stage)
+	__stage_0__StateMachine__00000000_ := (&__stage_0__.StateMachine{Name: `two cliques`}).Stage(stage)
+	__stage_0__StateShape__00000000_ := (&__stage_0__.StateShape{Name: `Start`}).Stage(stage)
 	__stage_0__StateShape__00000001_ := (&__stage_0__.StateShape{Name: `Clique 2 - State 2
-`}).Stage(stageSet.Stage)
-	__stage_0__StateShape__00000002_ := (&__stage_0__.StateShape{Name: `Clique 1 - State 2`}).Stage(stageSet.Stage)
+`}).Stage(stage)
+	__stage_0__StateShape__00000002_ := (&__stage_0__.StateShape{Name: `Clique 1 - State 2`}).Stage(stage)
 	__stage_0__StateShape__00000003_ := (&__stage_0__.StateShape{Name: `Clique 2 - State 1
-`}).Stage(stageSet.Stage)
-	__stage_0__StateShape__00000004_ := (&__stage_0__.StateShape{Name: `Clique 2 - State 2`}).Stage(stageSet.Stage)
-	__stage_0__StateShape__00000005_ := (&__stage_0__.StateShape{Name: `End`}).Stage(stageSet.Stage)
-	__stage_0__Transition__00000000_ := (&__stage_0__.Transition{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__Transition__00000001_ := (&__stage_0__.Transition{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__Transition__00000002_ := (&__stage_0__.Transition{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__Transition__00000003_ := (&__stage_0__.Transition{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__Transition_Shape__00000000_ := (&__stage_0__.Transition_Shape{Name: `-two cliques`}).Stage(stageSet.Stage)
-	__stage_0__Transition_Shape__00000001_ := (&__stage_0__.Transition_Shape{Name: `-two cliques`}).Stage(stageSet.Stage)
-	__stage_0__Transition_Shape__00000002_ := (&__stage_0__.Transition_Shape{Name: `-two cliques`}).Stage(stageSet.Stage)
-	__stage_0__Transition_Shape__00000003_ := (&__stage_0__.Transition_Shape{Name: `-two cliques`}).Stage(stageSet.Stage)
+`}).Stage(stage)
+	__stage_0__StateShape__00000004_ := (&__stage_0__.StateShape{Name: `Clique 2 - State 2`}).Stage(stage)
+	__stage_0__StateShape__00000005_ := (&__stage_0__.StateShape{Name: `End`}).Stage(stage)
+	__stage_0__Transition__00000000_ := (&__stage_0__.Transition{Name: ``}).Stage(stage)
+	__stage_0__Transition__00000001_ := (&__stage_0__.Transition{Name: ``}).Stage(stage)
+	__stage_0__Transition__00000002_ := (&__stage_0__.Transition{Name: ``}).Stage(stage)
+	__stage_0__Transition__00000003_ := (&__stage_0__.Transition{Name: ``}).Stage(stage)
+	__stage_0__Transition_Shape__00000000_ := (&__stage_0__.Transition_Shape{Name: `-two cliques`}).Stage(stage)
+	__stage_0__Transition_Shape__00000001_ := (&__stage_0__.Transition_Shape{Name: `-two cliques`}).Stage(stage)
+	__stage_0__Transition_Shape__00000002_ := (&__stage_0__.Transition_Shape{Name: `-two cliques`}).Stage(stage)
+	__stage_0__Transition_Shape__00000003_ := (&__stage_0__.Transition_Shape{Name: `-two cliques`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

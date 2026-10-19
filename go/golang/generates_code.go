@@ -511,7 +511,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		filepath.Join(pkgPath, "probe/form_div_field.go"),
 		probe.FormDivToFieldTemplate)
 
-	if modelPkg.StageSet != nil {
+	if modelPkg.StageSet != nil && len(modelPkg.StageSet.Fields) > 1 {
 		probe.CodeGeneratorStageSetProbe(
 			modelPkg,
 			modelPkg.Name,
@@ -523,7 +523,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 
 	probeCmdName := "probe"
 	probeCmdMainFile := filepath.Join(pkgPath, "probe/cmd", probeCmdName, "main.go")
-	
+
 	// Create directory for probe cmd
 	os.MkdirAll(filepath.Dir(probeCmdMainFile), os.ModePerm)
 
@@ -654,12 +654,4 @@ func GeneratesGoModelPackageCode(modelPkg *gong_models.ModelPkg, pkgPath string,
 		pkgPath,
 		modelPkg.PkgPath,
 	)
-
-	if modelPkg.StageSet != nil {
-		models.CodeGeneratorModelGongStageSet(
-			modelPkg,
-			modelPkg.Name,
-			pkgPath,
-		)
-	}
 }

@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"{{ExternalImports}}
 )
 
 // can be used for
@@ -150,7 +150,7 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF GongProbeIF
-}
+{{SubStageFields}}}
 
 type GongStage = Stage
 
@@ -435,7 +435,7 @@ func NewStage(name string) (stage *Stage) {
 	}
 	stage.StageCore.SetName(name)
 	stage.StageCore.SetNavigationMode(GongNavigationModeNormal)
-
+{{NewSubStageStatements}}
 	return
 }
 
@@ -474,7 +474,7 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 }
 
 func (stage *Stage) Commit() {
-	stage.ComputeReverseMaps()
+{{SubStageCommitStatements}}	stage.ComputeReverseMaps()
 
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
@@ -511,11 +511,11 @@ func (stage *Stage) Commit() {
 }
 
 func (stage *Stage) ComputeInstancesNb() {
-	// insertion point for computing the map of number of instances per gongstruct{{` + string(rune(ModelGongStructInsertionComputeNbInstances)) + `}}
+{{SubStageComputeInstancesNbStatements}}	// insertion point for computing the map of number of instances per gongstruct{{` + string(rune(ModelGongStructInsertionComputeNbInstances)) + `}}
 }
 
 func (stage *Stage) Checkout() {
-	if stage.BackRepo != nil {
+{{SubStageCheckoutStatements}}	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
 	}
 
@@ -553,7 +553,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 
 // insertion point for cumulative sub template with model space calls{{` + string(rune(ModelGongStructInsertionStageFunctions)) + `}}
 func (stage *Stage) Reset() { // insertion point for array reset{{` + string(rune(ModelGongStructInsertionArrayReset)) + `}}
-	if stage.GetProbeIF() != nil {
+{{SubStageResetStatements}}	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
 	if stage.IsInDeltaMode() {

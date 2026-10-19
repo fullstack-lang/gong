@@ -12,47 +12,47 @@ func TestStageSetUnmarshallStageFile(t *testing.T) {
 		t.Skipf("stage.go not found at %s", stagePath)
 	}
 
-	stageSet := NewStageSet("test_stageset")
-	err := stageSet.ParseAstFile(stagePath, true)
+	stage := NewStage("test_stageset")
+	err := stage.ParseAstFile(stagePath, true)
 	if err != nil {
-		t.Fatalf("failed to parse stage.go with stageSet: %v", err)
+		t.Fatalf("failed to parse stage.go with stage: %v", err)
 	}
 
-	stageSet.ComputeReverseMaps()
-	stageSet.ComputeInstancesNb()
-	stageSet.ComputeReferenceAndOrders()
+	stage.ComputeReverseMaps()
+	stage.ComputeInstancesNb()
+	stage.ComputeReferenceAndOrders()
 
-	plantCount := len(stageSet.Stage.PlantAbstracts)
+	plantCount := len(stage.PlantAbstracts)
 	if plantCount == 0 {
 		t.Errorf("expected PlantAbstracts in Stage, got 0")
 	}
 
-	clockCount := len(stageSet.ClockStage.ClockAbstracts)
+	clockCount := len(stage.ClockStage.ClockAbstracts)
 	if clockCount == 0 {
 		t.Errorf("expected ClockAbstracts in ClockStage, got 0")
 	}
 
-	musicCount := len(stageSet.MusicStage.MusicAbstracts)
+	musicCount := len(stage.MusicStage.MusicAbstracts)
 	if musicCount == 0 {
 		t.Errorf("expected MusicAbstracts in MusicStage, got 0")
 	}
 
-	stoolCount := len(stageSet.StoolStage.StoolAbstracts)
+	stoolCount := len(stage.StoolStage.StoolAbstracts)
 	if stoolCount == 0 {
 		t.Errorf("expected StoolAbstracts in StoolStage, got 0")
 	}
 
-	t.Logf("Successfully unmarshalled StageSet: %d plants, %d clocks, %d musics, %d stools",
+	t.Logf("Successfully unmarshalled Stage: %d plants, %d clocks, %d musics, %d stools",
 		plantCount, clockCount, musicCount, stoolCount)
 
 	// Verify VaseTrapezeBasePlateShape and BasePlateHeight
-	basePlateCount := len(stageSet.Stage.VaseTrapezeBasePlateShapes)
+	basePlateCount := len(stage.VaseTrapezeBasePlateShapes)
 	if basePlateCount == 0 {
 		t.Errorf("expected VaseTrapezeBasePlateShapes in Stage, got 0")
 	}
 
 	foundBasePlateHeight := false
-	for vase := range stageSet.Stage.TubeVaseAbstracts {
+	for vase := range stage.TubeVaseAbstracts {
 		if vase.BasePlateHeight > 0 {
 			foundBasePlateHeight = true
 			break
@@ -63,35 +63,34 @@ func TestStageSetUnmarshallStageFile(t *testing.T) {
 	}
 
 	// Ensure diagrams have shapes via stager
-	stager := NewStagerForTest(stageSet.Stage)
-	stager.SetStageSet(stageSet)
+	stager := NewStagerForTest(stage)
 	stager.enforceDiagramShapes()
 
-	for vase := range stageSet.Stage.TubeVaseAbstracts {
+	for vase := range stage.TubeVaseAbstracts {
 		if vase.Name == "Vase Trapeze-TubeVaseAbstract" && vase.CarvedOutTopRingsParameter == 0 {
 			vase.CarvedOutTopRingsParameter = 0.2
 		}
 	}
 
-	stageSet.MarshallFile(stagePath, "main")
+	stage.MarshallFile(stagePath, "main")
 
 	// Re-parse and verify roundtrip
-	stageSet2 := NewStageSet("test_stageset_2")
-	err = stageSet2.ParseAstFile(stagePath, true)
+	stage2 := NewStage("test_stageset_2")
+	err = stage2.ParseAstFile(stagePath, true)
 	if err != nil {
 		t.Fatalf("failed to re-parse stage.go: %v", err)
 	}
-	stageSet2.ComputeReverseMaps()
-	stageSet2.ComputeInstancesNb()
-	stageSet2.ComputeReferenceAndOrders()
+	stage2.ComputeReverseMaps()
+	stage2.ComputeInstancesNb()
+	stage2.ComputeReferenceAndOrders()
 
-	carvedRingCount := len(stageSet2.Stage.CarvedOutVaseTrapezeRingShapes)
+	carvedRingCount := len(stage2.CarvedOutVaseTrapezeRingShapes)
 	if carvedRingCount == 0 {
 		t.Errorf("expected CarvedOutVaseTrapezeRingShapes in Stage, got 0")
 	}
 
 	foundCarvedParam := false
-	for vase := range stageSet2.Stage.TubeVaseAbstracts {
+	for vase := range stage2.TubeVaseAbstracts {
 		if vase.CarvedOutTopRingsParameter > 0 {
 			foundCarvedParam = true
 			break
@@ -102,7 +101,7 @@ func TestStageSetUnmarshallStageFile(t *testing.T) {
 	}
 
 	foundBulbousParam := false
-	for vase := range stageSet2.Stage.TubeVaseAbstracts {
+	for vase := range stage2.TubeVaseAbstracts {
 		if vase.BulbousEndAngle > 0 && vase.BulbousStartTangentMagnitude > 0 {
 			foundBulbousParam = true
 			break
@@ -112,7 +111,7 @@ func TestStageSetUnmarshallStageFile(t *testing.T) {
 		t.Errorf("expected at least one TubeVaseAbstract with BulbousEndAngle > 0 and BulbousStartTangentMagnitude > 0")
 	}
 
-	for diagram := range stageSet2.Stage.TubeVase3DDiagrams {
+	for diagram := range stage2.TubeVase3DDiagrams {
 		if diagram.Name == "Vase Trapeze-TubeVase3DDiagram" {
 			if diagram.VaseTrapezeBasePlateShape == nil {
 				t.Errorf("expected VaseTrapeze-TubeVase3DDiagram to have VaseTrapezeBasePlateShape")

@@ -773,6 +773,8 @@ func CodeGeneratorModelGong(
 		pkgPathRoot = strings.ReplaceAll(modelPkg.PkgPath, "/models", "")
 	}
 
+	resolved := ResolveSubStages(modelPkg, pkgPath)
+
 	codeGO = models.Replace(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
@@ -782,6 +784,13 @@ func CodeGeneratorModelGong(
 		"{{PkgPathRoot}}", pkgPathRoot,
 		"{{PkgPath}}", modelPkg.PkgPath,
 		"{{PkgGoName}}", modelPkg.PkgGoName,
+		"{{ExternalImports}}", resolved.ExternalImports,
+		"{{SubStageFields}}", resolved.SubStageFields,
+		"{{NewSubStageStatements}}", resolved.NewSubStageStatements,
+		"{{SubStageCommitStatements}}", resolved.CommitStatements,
+		"{{SubStageCheckoutStatements}}", resolved.CheckoutStatements,
+		"{{SubStageResetStatements}}", resolved.ResetStatements,
+		"{{SubStageComputeInstancesNbStatements}}", resolved.ComputeInstancesNbStatements,
 	)
 
 	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongGoFilePath)))

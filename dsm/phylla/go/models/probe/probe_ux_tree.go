@@ -3,16 +3,15 @@ package probe
 
 import (
 	"fmt"
-	"sort"
-	"strings"
 
 	tree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
 
-	gong_models "github.com/fullstack-lang/gong/go/models"
-
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"
 )
 
 func (probe *Probe) ux_navigation_tree() {
@@ -21,5035 +20,12 @@ func (probe *Probe) ux_navigation_tree() {
 		return
 	}
 	probe.treeNavigationStage.Reset()
-
 	sidebar := &tree_models.Tree{Name: "Sidebar"}
-
 	probe.AddCommitNavigationNode(func(node models.GongNodeIF) {
 		sidebar.RootNodes = append(sidebar.RootNodes, node.(*tree_models.Node))
 	})
-
 	probe.treeNavigationStage.StageBranch(sidebar)
-
 	probe.treeNavigationStage.Commit()
-}
-
-func (probe *Probe) ux_tree() {
-	probe.ux_navigation_tree()
-	probe.treeStage.Reset()
-	stageOfInterest := probe.stageOfInterest
-
-	// keep in memory which nodes have been unfolded / folded
-	expandedNodesSet := make(map[string]any, 0)
-	var _sidebar *tree_models.Tree
-	for __sidebar := range probe.treeStage.Trees {
-		_sidebar = __sidebar
-	}
-	if _sidebar != nil {
-		for _, node := range _sidebar.RootNodes {
-			if node.IsExpanded {
-				expandedNodesSet[strings.Fields(node.Name)[0]] = true
-			}
-		}
-	}
-
-	// create tree
-	sidebar := &tree_models.Tree{Name: "Sidebar"}
-	topNode := &tree_models.Node{Name: fmt.Sprintf("%s", stageOfInterest.GetName())}
-	sidebar.RootNodes = append(sidebar.RootNodes, topNode)
-
-	refreshButton := &tree_models.Button{
-		Name:            "RefreshButton" + " " + string(tree_buttons.BUTTON_refresh),
-		Icon:            string(tree_buttons.BUTTON_refresh),
-		HasToolTip:      true,
-		ToolTipText:     "Refresh probe",
-		ToolTipPosition: tree_models.Below,
-		OnClick: func() {
-			probe.stageOfInterest.ComputeInstancesNb()
-			probe.docStager.SetMap_GongStructName_InstancesNb(
-				probe.stageOfInterest.Map_GongStructName_InstancesNb,
-			)
-			probe.Refresh()
-		},
-	}
-	topNode.Buttons = append(topNode.Buttons, refreshButton)
-
-	exportExcelButton := &tree_models.Button{
-		Name:            "ExportExcelButton" + " " + string(tree_buttons.BUTTON_download),
-		Icon:            string(tree_buttons.BUTTON_download),
-		HasToolTip:      true,
-		ToolTipText:     "Export XL",
-		ToolTipPosition: tree_models.Below,
-		OnClick: func() {
-			probe.ExportStageExcel()
-		},
-	}
-	topNode.Buttons = append(topNode.Buttons, exportExcelButton)
-
-	resetButton := &tree_models.Button{
-		Name:            "ResetButton" + " " + string(tree_buttons.BUTTON_reset_tv),
-		Icon:            string(tree_buttons.BUTTON_reset_tv),
-		HasToolTip:      true,
-		ToolTipText:     "Reset stage",
-		ToolTipPosition: tree_models.Below,
-		OnClick: func() {
-			probe.stageOfInterest.Reset()
-			probe.stageOfInterest.Commit()
-		},
-	}
-	topNode.Buttons = append(topNode.Buttons, resetButton)
-
-	// collect all gong struct to construe the true
-	setOfGongStructs := *probe.gongStage.GetInstancesSet[*gong_models.GongStruct]()
-
-	sliceOfGongStructsSorted := make([]*gong_models.GongStruct, len(setOfGongStructs))
-	i := 0
-	for k := range setOfGongStructs {
-		sliceOfGongStructsSorted[i] = k
-		i++
-	}
-	sort.Slice(sliceOfGongStructsSorted, func(i, j int) bool {
-		return sliceOfGongStructsSorted[i].Name < sliceOfGongStructsSorted[j].Name
-	})
-
-	for _, gongStruct := range sliceOfGongStructsSorted {
-
-		name := gongStruct.Name + " (" +
-			fmt.Sprintf("%d", probe.stageOfInterest.Map_GongStructName_InstancesNb[gongStruct.Name]) + ")"
-
-		nodeGongstruct := &tree_models.Node{Name: name}
-		nodeGongstruct.HasToolTip = true
-		nodeGongstruct.ToolTipText = "Display table of all " + name + " instances"
-		nodeGongstruct.ToolTipPosition = tree_models.Right
-
-		nodeGongstruct.IsExpanded = false
-		if _, ok := expandedNodesSet[strings.Fields(name)[0]]; ok {
-			nodeGongstruct.IsExpanded = true
-		}
-
-		switch gongStruct.Name {
-		// insertion point
-		case "Angle0Shape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Angle0Shape]()
-			count := 0
-			for _angle0shape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _angle0shape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_angle0shape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Angle0Shape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ArcNormalVectorShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ArcNormalVectorShape]()
-			count := 0
-			for _arcnormalvectorshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _arcnormalvectorshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_arcnormalvectorshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ArcNormalVectorShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ArcNormalVectorShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ArcNormalVectorShapeGrid]()
-			count := 0
-			for _arcnormalvectorshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _arcnormalvectorshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_arcnormalvectorshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ArcNormalVectorShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "AxesShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.AxesShape]()
-			count := 0
-			for _axesshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _axesshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_axesshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.AxesShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "BaseVectorShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.BaseVectorShape]()
-			count := 0
-			for _basevectorshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _basevectorshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_basevectorshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.BaseVectorShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "BaseVectorShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.BaseVectorShapeGrid]()
-			count := 0
-			for _basevectorshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _basevectorshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_basevectorshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.BaseVectorShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "BottomCurvePlane1Shape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.BottomCurvePlane1Shape]()
-			count := 0
-			for _bottomcurveplane1shape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _bottomcurveplane1shape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_bottomcurveplane1shape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.BottomCurvePlane1Shape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "BottomCurvePlane2Shape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.BottomCurvePlane2Shape]()
-			count := 0
-			for _bottomcurveplane2shape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _bottomcurveplane2shape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_bottomcurveplane2shape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.BottomCurvePlane2Shape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "CarvedOutBottomCurvePlane1Shape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.CarvedOutBottomCurvePlane1Shape]()
-			count := 0
-			for _carvedoutbottomcurveplane1shape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _carvedoutbottomcurveplane1shape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_carvedoutbottomcurveplane1shape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.CarvedOutBottomCurvePlane1Shape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "CarvedOutTopCurvePlane1Shape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.CarvedOutTopCurvePlane1Shape]()
-			count := 0
-			for _carvedouttopcurveplane1shape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _carvedouttopcurveplane1shape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_carvedouttopcurveplane1shape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.CarvedOutTopCurvePlane1Shape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "CarvedOutVaseTrapezeRingShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.CarvedOutVaseTrapezeRingShape]()
-			count := 0
-			for _carvedoutvasetrapezeringshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _carvedoutvasetrapezeringshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_carvedoutvasetrapezeringshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.CarvedOutVaseTrapezeRingShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ChosenP1P2PairShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ChosenP1P2PairShape]()
-			count := 0
-			for _chosenp1p2pairshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _chosenp1p2pairshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_chosenp1p2pairshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ChosenP1P2PairShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "CircleGridShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.CircleGridShape]()
-			count := 0
-			for _circlegridshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _circlegridshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_circlegridshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.CircleGridShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Circumference3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Circumference3DShape]()
-			count := 0
-			for _circumference3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _circumference3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_circumference3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Circumference3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Clock2DDiagram":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Clock2DDiagram]()
-			count := 0
-			for _clock2ddiagram := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _clock2ddiagram.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_clock2ddiagram, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Clock2DDiagram](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Clock3DDiagram":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Clock3DDiagram]()
-			count := 0
-			for _clock3ddiagram := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _clock3ddiagram.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_clock3ddiagram, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Clock3DDiagram](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ClockTopCurveShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ClockTopCurveShape]()
-			count := 0
-			for _clocktopcurveshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _clocktopcurveshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_clocktopcurveshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ClockTopCurveShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "CutLine3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.CutLine3DShape]()
-			count := 0
-			for _cutline3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _cutline3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_cutline3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.CutLine3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "EndArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.EndArcShape]()
-			count := 0
-			for _endarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _endarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_endarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.EndArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "EndArcShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.EndArcShapeGrid]()
-			count := 0
-			for _endarcshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _endarcshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_endarcshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.EndArcShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "EndHalfwayArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.EndHalfwayArcShape]()
-			count := 0
-			for _endhalfwayarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _endhalfwayarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_endhalfwayarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.EndHalfwayArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "EndHalfwayArcShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.EndHalfwayArcShapeGrid]()
-			count := 0
-			for _endhalfwayarcshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _endhalfwayarcshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_endhalfwayarcshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.EndHalfwayArcShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ExplanationTextShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ExplanationTextShape]()
-			count := 0
-			for _explanationtextshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _explanationtextshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_explanationtextshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ExplanationTextShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Eye3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Eye3DShape]()
-			count := 0
-			for _eye3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _eye3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_eye3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Eye3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "EyeCornersSampledPoints3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.EyeCornersSampledPoints3DShape]()
-			count := 0
-			for _eyecornerssampledpoints3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _eyecornerssampledpoints3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_eyecornerssampledpoints3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.EyeCornersSampledPoints3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "EyeSampledPoints3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.EyeSampledPoints3DShape]()
-			count := 0
-			for _eyesampledpoints3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _eyesampledpoints3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_eyesampledpoints3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.EyeSampledPoints3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "EyeSeatBottomCurveShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.EyeSeatBottomCurveShape]()
-			count := 0
-			for _eyeseatbottomcurveshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _eyeseatbottomcurveshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_eyeseatbottomcurveshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.EyeSeatBottomCurveShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "EyeStoolBottomCurveShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.EyeStoolBottomCurveShape]()
-			count := 0
-			for _eyestoolbottomcurveshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _eyestoolbottomcurveshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_eyestoolbottomcurveshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.EyeStoolBottomCurveShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "EyeVolume3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.EyeVolume3DShape]()
-			count := 0
-			for _eyevolume3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _eyevolume3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_eyevolume3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.EyeVolume3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "GridPathShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.GridPathShape]()
-			count := 0
-			for _gridpathshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _gridpathshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_gridpathshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.GridPathShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "GrowthCurve2D":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.GrowthCurve2D]()
-			count := 0
-			for _growthcurve2d := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _growthcurve2d.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_growthcurve2d, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.GrowthCurve2D](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "GrowthCurve2DRibbon":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.GrowthCurve2DRibbon]()
-			count := 0
-			for _growthcurve2dribbon := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _growthcurve2dribbon.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_growthcurve2dribbon, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.GrowthCurve2DRibbon](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "GrowthCurve2DRibbonEndShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.GrowthCurve2DRibbonEndShape]()
-			count := 0
-			for _growthcurve2dribbonendshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _growthcurve2dribbonendshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_growthcurve2dribbonendshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.GrowthCurve2DRibbonEndShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "GrowthCurve2DRibbonStartShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.GrowthCurve2DRibbonStartShape]()
-			count := 0
-			for _growthcurve2dribbonstartshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _growthcurve2dribbonstartshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_growthcurve2dribbonstartshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.GrowthCurve2DRibbonStartShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "GrowthCurveRhombusGridShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.GrowthCurveRhombusGridShape]()
-			count := 0
-			for _growthcurverhombusgridshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _growthcurverhombusgridshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_growthcurverhombusgridshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.GrowthCurveRhombusGridShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "GrowthCurveRhombusShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.GrowthCurveRhombusShape]()
-			count := 0
-			for _growthcurverhombusshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _growthcurverhombusshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_growthcurverhombusshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.GrowthCurveRhombusShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "GrowthVectorShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.GrowthVectorShape]()
-			count := 0
-			for _growthvectorshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _growthvectorshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_growthvectorshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.GrowthVectorShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "InitialRhombusGridShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.InitialRhombusGridShape]()
-			count := 0
-			for _initialrhombusgridshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _initialrhombusgridshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_initialrhombusgridshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.InitialRhombusGridShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "InitialRhombusShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.InitialRhombusShape]()
-			count := 0
-			for _initialrhombusshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _initialrhombusshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_initialrhombusshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.InitialRhombusShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Key3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Key3DShape]()
-			count := 0
-			for _key3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _key3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_key3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Key3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "KeyHole3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.KeyHole3DShape]()
-			count := 0
-			for _keyhole3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _keyhole3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_keyhole3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.KeyHole3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "KeyHoleShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.KeyHoleShape]()
-			count := 0
-			for _keyholeshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _keyholeshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_keyholeshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.KeyHoleShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Leaves3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Leaves3DShape]()
-			count := 0
-			for _leaves3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _leaves3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_leaves3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Leaves3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Library":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Library]()
-			count := 0
-			for _library := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _library.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_library, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Library](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "MidArcVectorShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.MidArcVectorShape]()
-			count := 0
-			for _midarcvectorshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _midarcvectorshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_midarcvectorshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.MidArcVectorShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "MidArcVectorShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.MidArcVectorShapeGrid]()
-			count := 0
-			for _midarcvectorshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _midarcvectorshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_midarcvectorshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.MidArcVectorShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "OriginalPoints3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.OriginalPoints3DShape]()
-			count := 0
-			for _originalpoints3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _originalpoints3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_originalpoints3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.OriginalPoints3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ParastichyMCurves3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ParastichyMCurves3DShape]()
-			count := 0
-			for _parastichymcurves3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _parastichymcurves3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_parastichymcurves3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ParastichyMCurves3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ParastichyNCurves3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ParastichyNCurves3DShape]()
-			count := 0
-			for _parastichyncurves3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _parastichyncurves3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_parastichyncurves3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ParastichyNCurves3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyGrowthCurve2DRibbon":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DRibbon]()
-			count := 0
-			for _partiallygrowthcurve2dribbon := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallygrowthcurve2dribbon.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallygrowthcurve2dribbon, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyGrowthCurve2DRibbon](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyGrowthCurve2DRibbonEndShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DRibbonEndShape]()
-			count := 0
-			for _partiallygrowthcurve2dribbonendshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallygrowthcurve2dribbonendshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallygrowthcurve2dribbonendshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyGrowthCurve2DRibbonEndShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyGrowthCurve2DRibbonStartShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DRibbonStartShape]()
-			count := 0
-			for _partiallygrowthcurve2dribbonstartshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallygrowthcurve2dribbonstartshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallygrowthcurve2dribbonstartshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyGrowthCurve2DRibbonStartShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyGrowthCurve2DTrajectory":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectory]()
-			count := 0
-			for _partiallygrowthcurve2dtrajectory := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallygrowthcurve2dtrajectory.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallygrowthcurve2dtrajectory, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyGrowthCurve2DTrajectory](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyGrowthCurve2DTrajectoryP1CurveShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape]()
-			count := 0
-			for _partiallygrowthcurve2dtrajectoryp1curveshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallygrowthcurve2dtrajectoryp1curveshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallygrowthcurve2dtrajectoryp1curveshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyGrowthCurve2DTrajectoryP1P2":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP1P2]()
-			count := 0
-			for _partiallygrowthcurve2dtrajectoryp1p2 := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallygrowthcurve2dtrajectoryp1p2.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallygrowthcurve2dtrajectoryp1p2, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP1P2](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]()
-			count := 0
-			for _partiallygrowthcurve2dtrajectoryp1p2pairlineshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallygrowthcurve2dtrajectoryp1p2pairlineshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallygrowthcurve2dtrajectoryp1p2pairlineshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyGrowthCurve2DTrajectoryP1PointShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP1PointShape]()
-			count := 0
-			for _partiallygrowthcurve2dtrajectoryp1pointshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallygrowthcurve2dtrajectoryp1pointshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallygrowthcurve2dtrajectoryp1pointshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP1PointShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyGrowthCurve2DTrajectoryP2CurveShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape]()
-			count := 0
-			for _partiallygrowthcurve2dtrajectoryp2curveshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallygrowthcurve2dtrajectoryp2curveshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallygrowthcurve2dtrajectoryp2curveshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyGrowthCurve2DTrajectoryP2PointShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP2PointShape]()
-			count := 0
-			for _partiallygrowthcurve2dtrajectoryp2pointshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallygrowthcurve2dtrajectoryp2pointshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallygrowthcurve2dtrajectoryp2pointshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP2PointShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyGrowthCurve2DTrajectoryShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryShape]()
-			count := 0
-			for _partiallygrowthcurve2dtrajectoryshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallygrowthcurve2dtrajectoryshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallygrowthcurve2dtrajectoryshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyRotatedSeatBottomCurveShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyRotatedSeatBottomCurveShape]()
-			count := 0
-			for _partiallyrotatedseatbottomcurveshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallyrotatedseatbottomcurveshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallyrotatedseatbottomcurveshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyRotatedSeatBottomCurveShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyRotatedSeatTopCurveShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyRotatedSeatTopCurveShape]()
-			count := 0
-			for _partiallyrotatedseattopcurveshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallyrotatedseattopcurveshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallyrotatedseattopcurveshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyRotatedSeatTopCurveShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PartiallyRotatedTorusShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PartiallyRotatedTorusShape]()
-			count := 0
-			for _partiallyrotatedtorusshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _partiallyrotatedtorusshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_partiallyrotatedtorusshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PartiallyRotatedTorusShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PerpendicularVector":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PerpendicularVector]()
-			count := 0
-			for _perpendicularvector := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _perpendicularvector.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_perpendicularvector, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PerpendicularVector](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PerpendicularVectorGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PerpendicularVectorGrid]()
-			count := 0
-			for _perpendicularvectorgrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _perpendicularvectorgrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_perpendicularvectorgrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PerpendicularVectorGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PerpendicularVectorGridHalfway":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PerpendicularVectorGridHalfway]()
-			count := 0
-			for _perpendicularvectorgridhalfway := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _perpendicularvectorgridhalfway.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_perpendicularvectorgridhalfway, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PerpendicularVectorGridHalfway](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PerpendicularVectorHalfway":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PerpendicularVectorHalfway]()
-			count := 0
-			for _perpendicularvectorhalfway := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _perpendicularvectorhalfway.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_perpendicularvectorhalfway, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PerpendicularVectorHalfway](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Plant2DDiagram":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Plant2DDiagram]()
-			count := 0
-			for _plant2ddiagram := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _plant2ddiagram.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_plant2ddiagram, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Plant2DDiagram](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Plant3DDiagram":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Plant3DDiagram]()
-			count := 0
-			for _plant3ddiagram := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _plant3ddiagram.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_plant3ddiagram, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Plant3DDiagram](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PlantAbstract":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PlantAbstract]()
-			count := 0
-			for _plantabstract := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _plantabstract.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_plantabstract, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PlantAbstract](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PlantCircumferenceShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PlantCircumferenceShape]()
-			count := 0
-			for _plantcircumferenceshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _plantcircumferenceshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_plantcircumferenceshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PlantCircumferenceShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PointsAndLines3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PointsAndLines3DShape]()
-			count := 0
-			for _pointsandlines3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _pointsandlines3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_pointsandlines3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PointsAndLines3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "PxShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.PxShape]()
-			count := 0
-			for _pxshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _pxshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_pxshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.PxShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Rendered3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Rendered3DShape]()
-			count := 0
-			for _rendered3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _rendered3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_rendered3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Rendered3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "RhombusShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.RhombusShape]()
-			count := 0
-			for _rhombusshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _rhombusshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_rhombusshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.RhombusShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "RhombusStuff":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.RhombusStuff]()
-			count := 0
-			for _rhombusstuff := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _rhombusstuff.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_rhombusstuff, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.RhombusStuff](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "RotatedRhombusGridShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.RotatedRhombusGridShape]()
-			count := 0
-			for _rotatedrhombusgridshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _rotatedrhombusgridshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_rotatedrhombusgridshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.RotatedRhombusGridShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "RotatedRhombusShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.RotatedRhombusShape]()
-			count := 0
-			for _rotatedrhombusshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _rotatedrhombusshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_rotatedrhombusshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.RotatedRhombusShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "RotatedSampledPoints3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.RotatedSampledPoints3DShape]()
-			count := 0
-			for _rotatedsampledpoints3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _rotatedsampledpoints3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_rotatedsampledpoints3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.RotatedSampledPoints3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "RotatedSeatAndLegs3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.RotatedSeatAndLegs3DShape]()
-			count := 0
-			for _rotatedseatandlegs3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _rotatedseatandlegs3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_rotatedseatandlegs3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.RotatedSeatAndLegs3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "SampledPoints3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.SampledPoints3DShape]()
-			count := 0
-			for _sampledpoints3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _sampledpoints3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_sampledpoints3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.SampledPoints3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Seat3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Seat3DShape]()
-			count := 0
-			for _seat3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _seat3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_seat3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Seat3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "SeatAndLegs3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.SeatAndLegs3DShape]()
-			count := 0
-			for _seatandlegs3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _seatandlegs3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_seatandlegs3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.SeatAndLegs3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "SeatBottomCurveShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.SeatBottomCurveShape]()
-			count := 0
-			for _seatbottomcurveshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _seatbottomcurveshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_seatbottomcurveshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.SeatBottomCurveShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "SeatTopCurveShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.SeatTopCurveShape]()
-			count := 0
-			for _seattopcurveshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _seattopcurveshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_seattopcurveshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.SeatTopCurveShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedBottomTopStartArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedBottomTopStartArcShape]()
-			count := 0
-			for _shiftedbottomtopstartarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedbottomtopstartarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedbottomtopstartarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedBottomTopStartArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedBottomTopStartArcShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedBottomTopStartArcShapeGrid]()
-			count := 0
-			for _shiftedbottomtopstartarcshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedbottomtopstartarcshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedbottomtopstartarcshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedBottomTopStartArcShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedLeftGrowthCurve2DRibbon":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftGrowthCurve2DRibbon]()
-			count := 0
-			for _shiftedleftgrowthcurve2dribbon := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedleftgrowthcurve2dribbon.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedleftgrowthcurve2dribbon, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedLeftGrowthCurve2DRibbon](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedLeftGrowthCurve2DRibbonEndShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftGrowthCurve2DRibbonEndShape]()
-			count := 0
-			for _shiftedleftgrowthcurve2dribbonendshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedleftgrowthcurve2dribbonendshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedleftgrowthcurve2dribbonendshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedLeftGrowthCurve2DRibbonEndShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedLeftGrowthCurve2DRibbonStartShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftGrowthCurve2DRibbonStartShape]()
-			count := 0
-			for _shiftedleftgrowthcurve2dribbonstartshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedleftgrowthcurve2dribbonstartshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedleftgrowthcurve2dribbonstartshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedLeftGrowthCurve2DRibbonStartShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftPartiallyGrowthCurve2DRibbon]()
-			count := 0
-			for _shiftedleftpartiallygrowthcurve2dribbon := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedleftpartiallygrowthcurve2dribbon.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedleftpartiallygrowthcurve2dribbon, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedLeftPartiallyGrowthCurve2DRibbon](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]()
-			count := 0
-			for _shiftedleftpartiallygrowthcurve2dribbonendshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedleftpartiallygrowthcurve2dribbonendshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedleftpartiallygrowthcurve2dribbonendshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]()
-			count := 0
-			for _shiftedleftpartiallygrowthcurve2dribbonstartshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedleftpartiallygrowthcurve2dribbonstartshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedleftpartiallygrowthcurve2dribbonstartshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedLeftStackGrowthCurveEndArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftStackGrowthCurveEndArcShape]()
-			count := 0
-			for _shiftedleftstackgrowthcurveendarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedleftstackgrowthcurveendarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedleftstackgrowthcurveendarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedLeftStackGrowthCurveEndArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedLeftStackGrowthCurveStartArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftStackGrowthCurveStartArcShape]()
-			count := 0
-			for _shiftedleftstackgrowthcurvestartarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedleftstackgrowthcurvestartarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedleftstackgrowthcurvestartarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedLeftStackGrowthCurveStartArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedLeftStackNormalVector":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftStackNormalVector]()
-			count := 0
-			for _shiftedleftstacknormalvector := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedleftstacknormalvector.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedleftstacknormalvector, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedLeftStackNormalVector](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedLeftStackOfGrowthCurve":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftStackOfGrowthCurve]()
-			count := 0
-			for _shiftedleftstackofgrowthcurve := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedleftstackofgrowthcurve.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedleftstackofgrowthcurve, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedLeftStackOfGrowthCurve](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedLeftStackOfNormalVector":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftStackOfNormalVector]()
-			count := 0
-			for _shiftedleftstackofnormalvector := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedleftstackofnormalvector.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedleftstackofnormalvector, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedLeftStackOfNormalVector](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedRightGrowthCurve2DRibbon":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedRightGrowthCurve2DRibbon]()
-			count := 0
-			for _shiftedrightgrowthcurve2dribbon := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedrightgrowthcurve2dribbon.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedrightgrowthcurve2dribbon, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedRightGrowthCurve2DRibbon](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedRightGrowthCurve2DRibbonEndShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedRightGrowthCurve2DRibbonEndShape]()
-			count := 0
-			for _shiftedrightgrowthcurve2dribbonendshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedrightgrowthcurve2dribbonendshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedrightgrowthcurve2dribbonendshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedRightGrowthCurve2DRibbonEndShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "ShiftedRightGrowthCurve2DRibbonStartShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.ShiftedRightGrowthCurve2DRibbonStartShape]()
-			count := 0
-			for _shiftedrightgrowthcurve2dribbonstartshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _shiftedrightgrowthcurve2dribbonstartshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_shiftedrightgrowthcurve2dribbonstartshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.ShiftedRightGrowthCurve2DRibbonStartShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackGrowthCurve2DEndHalfwayArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackGrowthCurve2DEndHalfwayArcShape]()
-			count := 0
-			for _stackgrowthcurve2dendhalfwayarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackgrowthcurve2dendhalfwayarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackgrowthcurve2dendhalfwayarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackGrowthCurve2DEndHalfwayArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackGrowthCurve2DRibbonEndShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackGrowthCurve2DRibbonEndShape]()
-			count := 0
-			for _stackgrowthcurve2dribbonendshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackgrowthcurve2dribbonendshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackgrowthcurve2dribbonendshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackGrowthCurve2DRibbonEndShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackGrowthCurve2DRibbonStartShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackGrowthCurve2DRibbonStartShape]()
-			count := 0
-			for _stackgrowthcurve2dribbonstartshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackgrowthcurve2dribbonstartshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackgrowthcurve2dribbonstartshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackGrowthCurve2DRibbonStartShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackGrowthCurve2DStartHalfwayArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackGrowthCurve2DStartHalfwayArcShape]()
-			count := 0
-			for _stackgrowthcurve2dstarthalfwayarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackgrowthcurve2dstarthalfwayarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackgrowthcurve2dstarthalfwayarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackGrowthCurve2DStartHalfwayArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackOfGrowthCurve2D":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackOfGrowthCurve2D]()
-			count := 0
-			for _stackofgrowthcurve2d := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackofgrowthcurve2d.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackofgrowthcurve2d, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackOfGrowthCurve2D](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackOfGrowthCurve2DByGrowthVector":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackOfGrowthCurve2DByGrowthVector]()
-			count := 0
-			for _stackofgrowthcurve2dbygrowthvector := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackofgrowthcurve2dbygrowthvector.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackofgrowthcurve2dbygrowthvector, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackOfGrowthCurve2DByGrowthVector](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackOfGrowthCurve2DRibbon":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackOfGrowthCurve2DRibbon]()
-			count := 0
-			for _stackofgrowthcurve2dribbon := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackofgrowthcurve2dribbon.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackofgrowthcurve2dribbon, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackOfGrowthCurve2DRibbon](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackOfPartiallyRotatedTorusShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackOfPartiallyRotatedTorusShape]()
-			count := 0
-			for _stackofpartiallyrotatedtorusshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackofpartiallyrotatedtorusshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackofpartiallyrotatedtorusshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackOfPartiallyRotatedTorusShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackOfRotatedCarvedOutVaseTrapezeRingsShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackOfRotatedCarvedOutVaseTrapezeRingsShape]()
-			count := 0
-			for _stackofrotatedcarvedoutvasetrapezeringsshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackofrotatedcarvedoutvasetrapezeringsshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackofrotatedcarvedoutvasetrapezeringsshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackOfRotatedCarvedOutVaseTrapezeRingsShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackOfRotatedGrowthCurve2D":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackOfRotatedGrowthCurve2D]()
-			count := 0
-			for _stackofrotatedgrowthcurve2d := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackofrotatedgrowthcurve2d.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackofrotatedgrowthcurve2d, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackOfRotatedGrowthCurve2D](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackOfRotatedGrowthCurve2DRibbon":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackOfRotatedGrowthCurve2DRibbon]()
-			count := 0
-			for _stackofrotatedgrowthcurve2dribbon := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackofrotatedgrowthcurve2dribbon.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackofrotatedgrowthcurve2dribbon, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackOfRotatedGrowthCurve2DRibbon](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackRotatedGrowthCurve2DEndArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackRotatedGrowthCurve2DEndArcShape]()
-			count := 0
-			for _stackrotatedgrowthcurve2dendarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackrotatedgrowthcurve2dendarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackrotatedgrowthcurve2dendarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackRotatedGrowthCurve2DEndArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackRotatedGrowthCurve2DRibbonEndShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackRotatedGrowthCurve2DRibbonEndShape]()
-			count := 0
-			for _stackrotatedgrowthcurve2dribbonendshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackrotatedgrowthcurve2dribbonendshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackrotatedgrowthcurve2dribbonendshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackRotatedGrowthCurve2DRibbonEndShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackRotatedGrowthCurve2DRibbonStartShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackRotatedGrowthCurve2DRibbonStartShape]()
-			count := 0
-			for _stackrotatedgrowthcurve2dribbonstartshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackrotatedgrowthcurve2dribbonstartshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackrotatedgrowthcurve2dribbonstartshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackRotatedGrowthCurve2DRibbonStartShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StackRotatedGrowthCurve2DStartArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StackRotatedGrowthCurve2DStartArcShape]()
-			count := 0
-			for _stackrotatedgrowthcurve2dstartarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stackrotatedgrowthcurve2dstartarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackrotatedgrowthcurve2dstartarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackRotatedGrowthCurve2DStartArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StartArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StartArcShape]()
-			count := 0
-			for _startarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _startarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_startarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StartArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StartArcShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StartArcShapeGrid]()
-			count := 0
-			for _startarcshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _startarcshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_startarcshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StartArcShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StartHalfwayArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StartHalfwayArcShape]()
-			count := 0
-			for _starthalfwayarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _starthalfwayarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_starthalfwayarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StartHalfwayArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StartHalfwayArcShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StartHalfwayArcShapeGrid]()
-			count := 0
-			for _starthalfwayarcshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _starthalfwayarcshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_starthalfwayarcshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StartHalfwayArcShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "StemCylinder3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.StemCylinder3DShape]()
-			count := 0
-			for _stemcylinder3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stemcylinder3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stemcylinder3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StemCylinder3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Stool2DDiagram":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Stool2DDiagram]()
-			count := 0
-			for _stool2ddiagram := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stool2ddiagram.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stool2ddiagram, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Stool2DDiagram](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Stool3DDiagram":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Stool3DDiagram]()
-			count := 0
-			for _stool3ddiagram := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _stool3ddiagram.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stool3ddiagram, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Stool3DDiagram](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TiledFloor3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TiledFloor3DShape]()
-			count := 0
-			for _tiledfloor3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _tiledfloor3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_tiledfloor3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TiledFloor3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopCurvePlane1Shape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopCurvePlane1Shape]()
-			count := 0
-			for _topcurveplane1shape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topcurveplane1shape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topcurveplane1shape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopCurvePlane1Shape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopCurvePlane2Shape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopCurvePlane2Shape]()
-			count := 0
-			for _topcurveplane2shape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topcurveplane2shape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topcurveplane2shape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopCurvePlane2Shape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopEndArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopEndArcShape]()
-			count := 0
-			for _topendarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topendarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topendarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopEndArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopEndArcShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopEndArcShapeGrid]()
-			count := 0
-			for _topendarcshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topendarcshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topendarcshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopEndArcShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopEndHalfwayArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopEndHalfwayArcShape]()
-			count := 0
-			for _topendhalfwayarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topendhalfwayarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topendhalfwayarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopEndHalfwayArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopEndHalfwayArcShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopEndHalfwayArcShapeGrid]()
-			count := 0
-			for _topendhalfwayarcshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topendhalfwayarcshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topendhalfwayarcshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopEndHalfwayArcShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopGrowthCurve2D":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopGrowthCurve2D]()
-			count := 0
-			for _topgrowthcurve2d := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topgrowthcurve2d.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topgrowthcurve2d, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopGrowthCurve2D](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopMidArcVectorShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopMidArcVectorShape]()
-			count := 0
-			for _topmidarcvectorshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topmidarcvectorshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topmidarcvectorshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopMidArcVectorShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopMidArcVectorShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopMidArcVectorShapeGrid]()
-			count := 0
-			for _topmidarcvectorshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topmidarcvectorshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topmidarcvectorshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopMidArcVectorShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopStackGrowthCurve2DEndHalfwayArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopStackGrowthCurve2DEndHalfwayArcShape]()
-			count := 0
-			for _topstackgrowthcurve2dendhalfwayarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topstackgrowthcurve2dendhalfwayarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstackgrowthcurve2dendhalfwayarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStackGrowthCurve2DEndHalfwayArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopStackGrowthCurve2DStartHalfwayArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopStackGrowthCurve2DStartHalfwayArcShape]()
-			count := 0
-			for _topstackgrowthcurve2dstarthalfwayarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topstackgrowthcurve2dstarthalfwayarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstackgrowthcurve2dstarthalfwayarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStackGrowthCurve2DStartHalfwayArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopStackOfGrowthCurve2D":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopStackOfGrowthCurve2D]()
-			count := 0
-			for _topstackofgrowthcurve2d := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topstackofgrowthcurve2d.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstackofgrowthcurve2d, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStackOfGrowthCurve2D](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopStackOfRotatedGrowthCurve2D":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopStackOfRotatedGrowthCurve2D]()
-			count := 0
-			for _topstackofrotatedgrowthcurve2d := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topstackofrotatedgrowthcurve2d.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstackofrotatedgrowthcurve2d, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStackOfRotatedGrowthCurve2D](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopStackOfRotatedGrowthCurve2DEndArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopStackOfRotatedGrowthCurve2DEndArcShape]()
-			count := 0
-			for _topstackofrotatedgrowthcurve2dendarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topstackofrotatedgrowthcurve2dendarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstackofrotatedgrowthcurve2dendarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStackOfRotatedGrowthCurve2DEndArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopStackOfRotatedGrowthCurve2DStartArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopStackOfRotatedGrowthCurve2DStartArcShape]()
-			count := 0
-			for _topstackofrotatedgrowthcurve2dstartarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topstackofrotatedgrowthcurve2dstartarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstackofrotatedgrowthcurve2dstartarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStackOfRotatedGrowthCurve2DStartArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopStartArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopStartArcShape]()
-			count := 0
-			for _topstartarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topstartarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstartarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStartArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopStartArcShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopStartArcShapeGrid]()
-			count := 0
-			for _topstartarcshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topstartarcshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstartarcshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStartArcShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopStartHalfwayArcShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopStartHalfwayArcShape]()
-			count := 0
-			for _topstarthalfwayarcshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topstarthalfwayarcshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstarthalfwayarcshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStartHalfwayArcShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TopStartHalfwayArcShapeGrid":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TopStartHalfwayArcShapeGrid]()
-			count := 0
-			for _topstarthalfwayarcshapegrid := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _topstarthalfwayarcshapegrid.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstarthalfwayarcshapegrid, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStartHalfwayArcShapeGrid](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Torus3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Torus3DShape]()
-			count := 0
-			for _torus3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _torus3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_torus3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Torus3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TorusEdge3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TorusEdge3DShape]()
-			count := 0
-			for _torusedge3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _torusedge3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_torusedge3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TorusEdge3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TorusStackShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TorusStackShape]()
-			count := 0
-			for _torusstackshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _torusstackshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_torusstackshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TorusStackShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TubeVase3DDiagram":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TubeVase3DDiagram]()
-			count := 0
-			for _tubevase3ddiagram := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _tubevase3ddiagram.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_tubevase3ddiagram, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TubeVase3DDiagram](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "TubeVaseAbstract":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.TubeVaseAbstract]()
-			count := 0
-			for _tubevaseabstract := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _tubevaseabstract.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_tubevaseabstract, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TubeVaseAbstract](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "Vase2DDiagram":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.Vase2DDiagram]()
-			count := 0
-			for _vase2ddiagram := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _vase2ddiagram.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_vase2ddiagram, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Vase2DDiagram](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "VaseTrapezeBasePlateShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.VaseTrapezeBasePlateShape]()
-			count := 0
-			for _vasetrapezebaseplateshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _vasetrapezebaseplateshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_vasetrapezebaseplateshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.VaseTrapezeBasePlateShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "VaseTrapezeRingShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.VaseTrapezeRingShape]()
-			count := 0
-			for _vasetrapezeringshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _vasetrapezeringshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_vasetrapezeringshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.VaseTrapezeRingShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "VerticalTorusStackShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.VerticalTorusStackShape]()
-			count := 0
-			for _verticaltorusstackshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _verticaltorusstackshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_verticaltorusstackshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.VerticalTorusStackShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		case "VolumeKey3DShape":
-			nodeGongstruct.Name = name
-			set := *probe.stageOfInterest.GetInstancesSet[*models.VolumeKey3DShape]()
-			count := 0
-			for _volumekey3dshape := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _volumekey3dshape.GetName(),
-					IsNodeClickable: true,
-					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_volumekey3dshape, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
-				nodeGongstruct.IsExpanded = isExpanded
-				// no commit, it will be done in the refresh
-			}
-			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.VolumeKey3DShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
-					node.BackgroundColor = ""
-				}
-				nodeGongstruct.BackgroundColor = "lightgrey"
-				probe.treeStage.Commit()
-			}
-		}
-
-		nodeGongstruct.IsNodeClickable = true
-
-		// add add button
-		addButton := &tree_models.Button{
-			Name:            gongStruct.Name + " " + string(tree_buttons.BUTTON_add),
-			Icon:            string(tree_buttons.BUTTON_add),
-			HasToolTip:      true,
-			ToolTipText:     "Add an instance of " + gongStruct.GetName(),
-			ToolTipPosition: tree_models.Right,
-			OnClick: func() {
-				FillUpFormFromGongstructName(
-					probe,
-					gongStruct.Name,
-					true,
-				)
-			},
-		}
-		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
-		sidebar.RootNodes = append(sidebar.RootNodes, nodeGongstruct)
-	}
-
-	probe.treeStage.StageBranch(sidebar)
-
-	probe.treeStage.Commit()
 }
 
 func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.GongNodeIF)) {
@@ -5062,4 +38,2176 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 			appendChildrenNodeFunc(node.(models.GongNodeIF))
 		},
 	)
+}
+
+func (probe *Probe) ux_tree() {
+	probe.ux_navigation_tree()
+	probe.treeStage.Reset()
+
+	sidebar := &tree_models.Tree{Name: "Sidebar"}
+	topNode := &tree_models.Node{
+		Name:       probe.stageOfInterest.GetName(),
+		IsExpanded: true,
+	}
+	topNode.OnIsExpandedChange = func(isExpanded bool) {
+		topNode.IsExpanded = isExpanded
+	}
+	sidebar.RootNodes = append(sidebar.RootNodes, topNode)
+
+	refreshButton := &tree_models.Button{
+		Name:            "RefreshButton " + string(tree_buttons.BUTTON_refresh),
+		Icon:            string(tree_buttons.BUTTON_refresh),
+		HasToolTip:      true,
+		ToolTipText:     "Refresh probe",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.Refresh()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, refreshButton)
+
+	exportExcelButton := &tree_models.Button{
+		Name:            "ExportExcelButton " + string(tree_buttons.BUTTON_download),
+		Icon:            string(tree_buttons.BUTTON_download),
+		HasToolTip:      true,
+		ToolTipText:     "Export XL",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.ExportStageExcel()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, exportExcelButton)
+
+	resetButton := &tree_models.Button{
+		Name:            "ResetButton " + string(tree_buttons.BUTTON_reset_tv),
+		Icon:            string(tree_buttons.BUTTON_reset_tv),
+		HasToolTip:      true,
+		ToolTipText:     "Reset stage",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.stageOfInterest.Reset()
+			probe.stageOfInterest.Commit()
+			probe.Refresh()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, resetButton)
+
+	exportGoButton := &tree_models.Button{
+		Name:            "ExportGoButton " + string(tree_buttons.BUTTON_file_download),
+		Icon:            string(tree_buttons.BUTTON_file_download),
+		HasToolTip:      true,
+		ToolTipText:     "Export Go code for stage",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.ExportStage()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, exportGoButton)
+
+	{
+		count := len(probe.stageOfInterest.Angle0Shapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("Angle0Shape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all Angle0Shape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "Angle0Shape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Angle0Shape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Angle0Shape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_Angle0Shape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.Angle0Shape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.BottomCurvePlane1Shapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("BottomCurvePlane1Shape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all BottomCurvePlane1Shape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "BottomCurvePlane1Shape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of BottomCurvePlane1Shape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_BottomCurvePlane1Shape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_BottomCurvePlane1Shape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.BottomCurvePlane1Shape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.BottomCurvePlane2Shapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("BottomCurvePlane2Shape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all BottomCurvePlane2Shape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "BottomCurvePlane2Shape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of BottomCurvePlane2Shape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_BottomCurvePlane2Shape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_BottomCurvePlane2Shape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.BottomCurvePlane2Shape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.CarvedOutBottomCurvePlane1Shapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("CarvedOutBottomCurvePlane1Shape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all CarvedOutBottomCurvePlane1Shape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "CarvedOutBottomCurvePlane1Shape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of CarvedOutBottomCurvePlane1Shape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_CarvedOutBottomCurvePlane1Shape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_CarvedOutBottomCurvePlane1Shape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.CarvedOutBottomCurvePlane1Shape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.CarvedOutTopCurvePlane1Shapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("CarvedOutTopCurvePlane1Shape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all CarvedOutTopCurvePlane1Shape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "CarvedOutTopCurvePlane1Shape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of CarvedOutTopCurvePlane1Shape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_CarvedOutTopCurvePlane1Shape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_CarvedOutTopCurvePlane1Shape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.CarvedOutTopCurvePlane1Shape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.CarvedOutVaseTrapezeRingShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("CarvedOutVaseTrapezeRingShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all CarvedOutVaseTrapezeRingShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "CarvedOutVaseTrapezeRingShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of CarvedOutVaseTrapezeRingShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_CarvedOutVaseTrapezeRingShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_CarvedOutVaseTrapezeRingShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.CarvedOutVaseTrapezeRingShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.Circumference3DShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("Circumference3DShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all Circumference3DShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "Circumference3DShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Circumference3DShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Circumference3DShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_Circumference3DShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.Circumference3DShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.Clock2DDiagrams)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("Clock2DDiagram (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all Clock2DDiagram instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "Clock2DDiagram " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Clock2DDiagram",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Clock2DDiagram_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_Clock2DDiagram_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.Clock2DDiagram]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.Clock3DDiagrams)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("Clock3DDiagram (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all Clock3DDiagram instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "Clock3DDiagram " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Clock3DDiagram",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Clock3DDiagram_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_Clock3DDiagram_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.Clock3DDiagram]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.CutLine3DShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("CutLine3DShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all CutLine3DShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "CutLine3DShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of CutLine3DShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_CutLine3DShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_CutLine3DShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.CutLine3DShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.Leaves3DShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("Leaves3DShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all Leaves3DShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "Leaves3DShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Leaves3DShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Leaves3DShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_Leaves3DShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.Leaves3DShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.Librarys)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("Library (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all Library instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "Library " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Library",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Library_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_Library_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.Library]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.OriginalPoints3DShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("OriginalPoints3DShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all OriginalPoints3DShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "OriginalPoints3DShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of OriginalPoints3DShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_OriginalPoints3DShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_OriginalPoints3DShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.OriginalPoints3DShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.ParastichyMCurves3DShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("ParastichyMCurves3DShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all ParastichyMCurves3DShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "ParastichyMCurves3DShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of ParastichyMCurves3DShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_ParastichyMCurves3DShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_ParastichyMCurves3DShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.ParastichyMCurves3DShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.ParastichyNCurves3DShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("ParastichyNCurves3DShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all ParastichyNCurves3DShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "ParastichyNCurves3DShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of ParastichyNCurves3DShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_ParastichyNCurves3DShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_ParastichyNCurves3DShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.ParastichyNCurves3DShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.Plant2DDiagrams)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("Plant2DDiagram (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all Plant2DDiagram instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "Plant2DDiagram " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Plant2DDiagram",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Plant2DDiagram_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_Plant2DDiagram_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.Plant2DDiagram]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.Plant3DDiagrams)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("Plant3DDiagram (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all Plant3DDiagram instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "Plant3DDiagram " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Plant3DDiagram",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Plant3DDiagram_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_Plant3DDiagram_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.Plant3DDiagram]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.PlantAbstracts)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("PlantAbstract (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all PlantAbstract instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "PlantAbstract " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of PlantAbstract",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_PlantAbstract_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_PlantAbstract_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.PlantAbstract]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.Rendered3DShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("Rendered3DShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all Rendered3DShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "Rendered3DShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Rendered3DShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Rendered3DShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_Rendered3DShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.Rendered3DShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.SampledPoints3DShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("SampledPoints3DShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all SampledPoints3DShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "SampledPoints3DShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of SampledPoints3DShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_SampledPoints3DShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_SampledPoints3DShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.SampledPoints3DShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.StackOfRotatedCarvedOutVaseTrapezeRingsShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("StackOfRotatedCarvedOutVaseTrapezeRingsShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all StackOfRotatedCarvedOutVaseTrapezeRingsShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "StackOfRotatedCarvedOutVaseTrapezeRingsShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of StackOfRotatedCarvedOutVaseTrapezeRingsShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_StackOfRotatedCarvedOutVaseTrapezeRingsShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_StackOfRotatedCarvedOutVaseTrapezeRingsShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.StackOfRotatedCarvedOutVaseTrapezeRingsShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.StemCylinder3DShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("StemCylinder3DShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all StemCylinder3DShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "StemCylinder3DShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of StemCylinder3DShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_StemCylinder3DShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_StemCylinder3DShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.StemCylinder3DShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.Stool2DDiagrams)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("Stool2DDiagram (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all Stool2DDiagram instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "Stool2DDiagram " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Stool2DDiagram",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Stool2DDiagram_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_Stool2DDiagram_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.Stool2DDiagram]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.Stool3DDiagrams)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("Stool3DDiagram (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all Stool3DDiagram instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "Stool3DDiagram " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Stool3DDiagram",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Stool3DDiagram_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_Stool3DDiagram_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.Stool3DDiagram]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.TopCurvePlane1Shapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("TopCurvePlane1Shape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all TopCurvePlane1Shape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "TopCurvePlane1Shape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of TopCurvePlane1Shape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_TopCurvePlane1Shape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_TopCurvePlane1Shape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.TopCurvePlane1Shape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.TopCurvePlane2Shapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("TopCurvePlane2Shape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all TopCurvePlane2Shape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "TopCurvePlane2Shape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of TopCurvePlane2Shape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_TopCurvePlane2Shape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_TopCurvePlane2Shape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.TopCurvePlane2Shape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.TubeVase3DDiagrams)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("TubeVase3DDiagram (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all TubeVase3DDiagram instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "TubeVase3DDiagram " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of TubeVase3DDiagram",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_TubeVase3DDiagram_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_TubeVase3DDiagram_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.TubeVase3DDiagram]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.TubeVaseAbstracts)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("TubeVaseAbstract (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all TubeVaseAbstract instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "TubeVaseAbstract " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of TubeVaseAbstract",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_TubeVaseAbstract_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_TubeVaseAbstract_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.TubeVaseAbstract]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.Vase2DDiagrams)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("Vase2DDiagram (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all Vase2DDiagram instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "Vase2DDiagram " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Vase2DDiagram",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Vase2DDiagram_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_Vase2DDiagram_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.Vase2DDiagram]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.VaseTrapezeBasePlateShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("VaseTrapezeBasePlateShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all VaseTrapezeBasePlateShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "VaseTrapezeBasePlateShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of VaseTrapezeBasePlateShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_VaseTrapezeBasePlateShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_VaseTrapezeBasePlateShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.VaseTrapezeBasePlateShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
+		count := len(probe.stageOfInterest.VaseTrapezeRingShapes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("VaseTrapezeRingShape (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all VaseTrapezeRingShape instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "VaseTrapezeRingShape " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of VaseTrapezeRingShape",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_VaseTrapezeRingShape_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_VaseTrapezeRingShape_Stage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GetInstancesByOrder[*models.VaseTrapezeRingShape]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	// Package node: stool
+	pkgNode_StoolStage := &tree_models.Node{
+		Name:       "stool",
+		IsExpanded: true,
+	}
+	pkgNode_StoolStage.OnIsExpandedChange = func(isExpanded bool) {
+		pkgNode_StoolStage.IsExpanded = isExpanded
+	}
+	topNode.Children = append(topNode.Children, pkgNode_StoolStage)
+
+	{
+		count := len(probe.stageOfInterest.StoolStage.StoolAbstracts)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("StoolAbstract (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all StoolAbstract instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		pkgNode_StoolStage.Children = append(pkgNode_StoolStage.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "StoolAbstract " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of StoolAbstract",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_StoolAbstract_StoolStage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_StoolAbstract_StoolStage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.StoolStage.GetInstancesByOrder[*stool.StoolAbstract]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	// Package node: music
+	pkgNode_MusicStage := &tree_models.Node{
+		Name:       "music",
+		IsExpanded: true,
+	}
+	pkgNode_MusicStage.OnIsExpandedChange = func(isExpanded bool) {
+		pkgNode_MusicStage.IsExpanded = isExpanded
+	}
+	topNode.Children = append(topNode.Children, pkgNode_MusicStage)
+
+	{
+		count := len(probe.stageOfInterest.MusicStage.MusicAbstracts)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("MusicAbstract (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all MusicAbstract instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		pkgNode_MusicStage.Children = append(pkgNode_MusicStage.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "MusicAbstract " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of MusicAbstract",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_MusicAbstract_MusicStage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_MusicAbstract_MusicStage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.MusicStage.GetInstancesByOrder[*music.MusicAbstract]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	// Package node: clock
+	pkgNode_ClockStage := &tree_models.Node{
+		Name:       "clock",
+		IsExpanded: true,
+	}
+	pkgNode_ClockStage.OnIsExpandedChange = func(isExpanded bool) {
+		pkgNode_ClockStage.IsExpanded = isExpanded
+	}
+	topNode.Children = append(topNode.Children, pkgNode_ClockStage)
+
+	{
+		count := len(probe.stageOfInterest.ClockStage.ClockAbstracts)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("ClockAbstract (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all ClockAbstract instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		pkgNode_ClockStage.Children = append(pkgNode_ClockStage.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "ClockAbstract " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of ClockAbstract",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_ClockAbstract_ClockStage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_ClockAbstract_ClockStage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.ClockStage.GetInstancesByOrder[*clock.ClockAbstract]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	probe.treeStage.StageBranch(sidebar)
+	probe.treeStage.Commit()
 }

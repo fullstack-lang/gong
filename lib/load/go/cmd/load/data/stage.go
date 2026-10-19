@@ -16,12 +16,12 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__FileToUpload__00000000_ := (&__stage_0__.FileToUpload{Name: `erze.txt`}).Stage(stageSet.Stage)
+	__stage_0__FileToUpload__00000000_ := (&__stage_0__.FileToUpload{Name: `erze.txt`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

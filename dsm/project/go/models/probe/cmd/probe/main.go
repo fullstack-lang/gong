@@ -52,25 +52,9 @@ func executeServer() {
 
 	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
-	if stack.StageSetProbe != nil {
-		stack.StageSetProbe.Refresh()
-	}
 
 	// Create root split stage for the probe
 	rootSplitStage := splitlite_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
-
-	if stack.StageSet != nil {
-		rootSplitStage.StageBranch(&splitlite.View{
-			Name: "StageSet Probe",
-			RootAsSplitAreas: []*splitlite.AsSplitArea{
-				{
-					Split: &splitlite.Split{
-						StackName: stack.StageSet.GetProbeSplitStageName(),
-					},
-				},
-			},
-		})
-	}
 
 	rootSplitStage.StageBranch(&splitlite.View{
 		Name: "Data Probe & Data Model",
@@ -95,7 +79,7 @@ var migrateOut string
 
 var migrateCmd = &cobra.Command{
 	Use:   "migrate [data/stage.go]",
-	Short: "Migrate a single-stage data file to multiple-stage StageSet format",
+	Short: "Migrate a single-stage data file to multi-stage format",
 	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		inputFile := "data/stage.go"
@@ -111,8 +95,7 @@ var migrateCmd = &cobra.Command{
 		if err := stage.ParseAstFile(inputFile, true); err != nil {
 			log.Fatalf("failed to parse input stage file: %v", err)
 		}
-		stageSet := models.NewStageSetFromStage(stage)
-		stageSet.MarshallFile(outputFile, "main")
+		stage.MarshallFile(outputFile, "main")
 		log.Printf("Successfully migrated %s to %s", inputFile, outputFile)
 	},
 }

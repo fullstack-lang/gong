@@ -116,21 +116,19 @@ func TestModelsStageBasicFunctionalities(t *testing.T) {
 }
 
 func TestStageSetMarshallAndUnmarshall(t *testing.T) {
+	stage := NewStage("stage_models")
+
 	// 0. Stage in package models/x/models
-	stageSub := model.NewStage("stage_sub")
-	subModelInstance := (&model.SubModel{Name: "SubModel_Root"}).Stage(stageSub)
+	subModelInstance := (&model.SubModel{Name: "SubModel_Root"}).Stage(stage.ModelStage)
 
 	// 1. Stage in package y
-	stageY := y.NewStage("stage_y")
-	yInstance := (&y.Y{Name: "Y_Root", SubModel: subModelInstance}).Stage(stageY)
+	yInstance := (&y.Y{Name: "Y_Root", SubModel: subModelInstance}).Stage(stage.YStage)
 
 	// 2. Stage in package x referencing y
-	stageX := x.NewStage("stage_x")
-	xInstance := (&x.X{Name: "X_Root", Y: yInstance}).Stage(stageX)
+	xInstance := (&x.X{Name: "X_Root", Y: yInstance}).Stage(stage.XStage)
 
 	// 3. Stage in package models referencing x and local B
-	stageModels := NewStage("stage_models")
-	bInstance := (&B{Name: "B_Root"}).Stage(stageModels)
+	bInstance := (&B{Name: "B_Root"}).Stage(stage)
 	aInstance := (&A{
 		Name:        "A_Root",
 		NumberField: 42,
@@ -140,18 +138,12 @@ func TestStageSetMarshallAndUnmarshall(t *testing.T) {
 		Foo:         123,
 		Bar:         45.67,
 		Zorgh:       "Hello Gong",
-	}).Stage(stageModels)
+	}).Stage(stage)
 
-	stageSet := &StageSet{
-		Stage:      stageModels,
-		XStage:     stageX,
-		YStage:     stageY,
-		ModelStage: stageSub,
-	}
-	stageSet.Commit()
+	stage.Commit()
 
 	// 4. Marshall to string
-	marshalledCode, err := stageSet.MarshallToString("main")
+	marshalledCode, err := stage.MarshallToString("main")
 	if err != nil {
 		t.Fatalf("MarshallToString failed: %v", err)
 	}
@@ -168,13 +160,13 @@ func TestStageSetMarshallAndUnmarshall(t *testing.T) {
 		// Aliased import for colliding package name
 		"model \"github.com/fullstack-lang/gong/test/test2/go/models/x/models\"",
 		// Function header
-		"func _(stageSet *models.StageSet)",
+		"func _(stage *models.Stage)",
 		// Instance declarations with readable prefixes: __<alias>__<Struct>__<order>_
-		"__model__SubModel__00000000_ := (&model.SubModel{Name: `SubModel_Root`}).Stage(stageSet.ModelStage)",
-		"__y__Y__00000000_ := (&y.Y{Name: `Y_Root`}).Stage(stageSet.YStage)",
-		"__x__X__00000000_ := (&x.X{Name: `X_Root`}).Stage(stageSet.XStage)",
-		"__models__A__00000000_ := (&models.A{Name: `A_Root`}).Stage(stageSet.Stage)",
-		"__models__B__00000000_ := (&models.B{Name: `B_Root`}).Stage(stageSet.Stage)",
+		"__model__SubModel__00000000_ := (&model.SubModel{Name: `SubModel_Root`}).Stage(stage.ModelStage)",
+		"__y__Y__00000000_ := (&y.Y{Name: `Y_Root`}).Stage(stage.YStage)",
+		"__x__X__00000000_ := (&x.X{Name: `X_Root`}).Stage(stage.XStage)",
+		"__models__A__00000000_ := (&models.A{Name: `A_Root`}).Stage(stage)",
+		"__models__B__00000000_ := (&models.B{Name: `B_Root`}).Stage(stage)",
 		// Values
 		"__model__SubModel__00000000_.Name = `SubModel_Root`",
 		"__y__Y__00000000_.Name = `Y_Root`",
@@ -200,61 +192,51 @@ func TestStageSetMarshallAndUnmarshall(t *testing.T) {
 	}
 
 	// Verify blank line separation between stages in declarations
-	declSubModelToY := "__model__SubModel__00000000_ := (&model.SubModel{Name: `SubModel_Root`}).Stage(stageSet.ModelStage)\n\n\t__y__Y__00000000_ :="
+	declSubModelToY := "__model__SubModel__00000000_ := (&model.SubModel{Name: `SubModel_Root`}).Stage(stage.ModelStage)\n\n\t__y__Y__00000000_ :="
 	if !strings.Contains(marshalledCode, declSubModelToY) {
 		t.Errorf("expected empty line between ModelStage and YStage declarations, code was:\n%s", marshalledCode)
 	}
-	declYToX := "__y__Y__00000000_ := (&y.Y{Name: `Y_Root`}).Stage(stageSet.YStage)\n\n\t__x__X__00000000_ :="
+	declYToX := "__y__Y__00000000_ := (&y.Y{Name: `Y_Root`}).Stage(stage.YStage)\n\n\t__x__X__00000000_ :="
 	if !strings.Contains(marshalledCode, declYToX) {
 		t.Errorf("expected empty line between YStage and XStage declarations")
 	}
-	declXToModels := "__x__X__00000000_ := (&x.X{Name: `X_Root`}).Stage(stageSet.XStage)\n\n\t__models__A__00000000_ :="
+	declXToModels := "__x__X__00000000_ := (&x.X{Name: `X_Root`}).Stage(stage.XStage)\n\n\t__models__A__00000000_ :="
 	if !strings.Contains(marshalledCode, declXToModels) {
 		t.Errorf("expected empty line between XStage and ModelsStage declarations")
 	}
 
 	// 5. Unmarshall into fresh stages
-	newStageModels := NewStage("new_models")
-	newStageX := x.NewStage("new_x")
-	newStageY := y.NewStage("new_y")
-	newStageSub := model.NewStage("new_sub")
+	newStage := NewStage("new_models")
 
-	newStageSet := &StageSet{
-		Stage:      newStageModels,
-		XStage:     newStageX,
-		YStage:     newStageY,
-		ModelStage: newStageSub,
-	}
-
-	err = newStageSet.ParseAstString(marshalledCode, true)
+	err = newStage.ParseAstString(marshalledCode, true)
 	if err != nil {
 		t.Fatalf("ParseAstString failed: %v", err)
 	}
 
 	// Verify instances in new stages
-	newSubMap := newStageSub.GetInstancesMapByName[*model.SubModel]()
+	newSubMap := newStage.ModelStage.GetInstancesMapByName[*model.SubModel]()
 	if len(newSubMap) != 1 || newSubMap["SubModel_Root"] == nil {
-		t.Fatalf("expected SubModel_Root in newStageSub")
+		t.Fatalf("expected SubModel_Root in newStage.ModelStage")
 	}
 
-	newYMap := newStageY.GetInstancesMapByName[*y.Y]()
+	newYMap := newStage.YStage.GetInstancesMapByName[*y.Y]()
 	if len(newYMap) != 1 || newYMap["Y_Root"] == nil {
-		t.Fatalf("expected Y_Root in newStageY")
+		t.Fatalf("expected Y_Root in newStage.YStage")
 	}
 
-	newXMap := newStageX.GetInstancesMapByName[*x.X]()
+	newXMap := newStage.XStage.GetInstancesMapByName[*x.X]()
 	if len(newXMap) != 1 || newXMap["X_Root"] == nil {
-		t.Fatalf("expected X_Root in newStageX")
+		t.Fatalf("expected X_Root in newStage.XStage")
 	}
 
-	newBMap := newStageModels.GetInstancesMapByName[*B]()
+	newBMap := newStage.GetInstancesMapByName[*B]()
 	if len(newBMap) != 1 || newBMap["B_Root"] == nil {
-		t.Fatalf("expected B_Root in newStageModels")
+		t.Fatalf("expected B_Root in newStage")
 	}
 
-	newAMap := newStageModels.GetInstancesMapByName[*A]()
+	newAMap := newStage.GetInstancesMapByName[*A]()
 	if len(newAMap) != 1 || newAMap["A_Root"] == nil {
-		t.Fatalf("expected A_Root in newStageModels")
+		t.Fatalf("expected A_Root in newStage")
 	}
 
 	newA := newAMap["A_Root"]
@@ -308,23 +290,13 @@ func TestStageSetMarshallAndUnmarshall(t *testing.T) {
 
 func TestStageSetEmptyStages(t *testing.T) {
 	// Test robustness to empty stages (some or all stages having 0 instances)
-	stageModels := NewStage("empty_models")
-	stageX := x.NewStage("empty_x")
-	stageY := y.NewStage("empty_y")
-	stageSub := model.NewStage("empty_sub")
+	stage := NewStage("empty_models")
 
 	// Only stage an instance in models; x, y, and model are completely empty
-	b := (&B{Name: "Lone_B"}).Stage(stageModels)
+	b := (&B{Name: "Lone_B"}).Stage(stage)
 	_ = b
 
-	stageSet := &StageSet{
-		Stage:      stageModels,
-		XStage:     stageX,
-		YStage:     stageY,
-		ModelStage: stageSub,
-	}
-
-	code, err := stageSet.MarshallToString("main")
+	code, err := stage.MarshallToString("main")
 	if err != nil {
 		t.Fatalf("MarshallToString on empty stages failed: %v", err)
 	}
@@ -337,19 +309,14 @@ func TestStageSetEmptyStages(t *testing.T) {
 		t.Errorf("expected dummy declarations for all stages to prevent unused imports, got:\n%s", code)
 	}
 
-	newStageSet := &StageSet{
-		Stage:      NewStage("fresh_models"),
-		XStage:     x.NewStage("fresh_x"),
-		YStage:     y.NewStage("fresh_y"),
-		ModelStage: model.NewStage("fresh_sub"),
-	}
+	newStage := NewStage("fresh_models")
 
-	err = newStageSet.ParseAstString(code, true)
+	err = newStage.ParseAstString(code, true)
 	if err != nil {
 		t.Fatalf("ParseAstString on empty stages failed: %v", err)
 	}
 
-	bMap := newStageSet.Stage.GetInstancesMapByName[*B]()
+	bMap := newStage.GetInstancesMapByName[*B]()
 	if len(bMap) != 1 || bMap["Lone_B"] == nil {
 		t.Fatalf("expected Lone_B to be parsed")
 	}
@@ -358,48 +325,30 @@ func TestStageSetEmptyStages(t *testing.T) {
 func TestStageSetMarshallFileAndParseAstFile(t *testing.T) {
 	tmpFile := filepath.Join(t.TempDir(), "stage_set_data.go")
 
-	stageSub := model.NewStage("stage_sub")
-	subInst := (&model.SubModel{Name: "File_Sub"}).Stage(stageSub)
-
-	stageY := y.NewStage("stage_y")
-	yInst := (&y.Y{Name: "File_Y", SubModel: subInst}).Stage(stageY)
-
-	stageX := x.NewStage("stage_x")
-	xInst := (&x.X{Name: "File_X", Y: yInst}).Stage(stageX)
-
-	stageModels := NewStage("stage_models")
-	aInst := (&A{Name: "File_A", X: xInst}).Stage(stageModels)
+	stage := NewStage("stage_models")
+	subInst := (&model.SubModel{Name: "File_Sub"}).Stage(stage.ModelStage)
+	yInst := (&y.Y{Name: "File_Y", SubModel: subInst}).Stage(stage.YStage)
+	xInst := (&x.X{Name: "File_X", Y: yInst}).Stage(stage.XStage)
+	aInst := (&A{Name: "File_A", X: xInst}).Stage(stage)
 	_ = aInst
 
-	stageSet := &StageSet{
-		Stage:      stageModels,
-		XStage:     stageX,
-		YStage:     stageY,
-		ModelStage: stageSub,
-	}
-
-	stageSet.MarshallFile(tmpFile, "main")
+	stage.MarshallFile(tmpFile, "main")
 
 	// Read and verify file exists
 	if _, err := os.Stat(tmpFile); err != nil {
 		t.Fatalf("expected file to exist: %v", err)
 	}
 
-	newStageSet := &StageSet{
-		Stage:      NewStage("new_models"),
-		XStage:     x.NewStage("new_x"),
-		YStage:     y.NewStage("new_y"),
-		ModelStage: model.NewStage("new_sub"),
-	}
+	newStage := NewStage("new_models")
 
-	err := newStageSet.ParseAstFile(tmpFile, true)
+	err := newStage.ParseAstFile(tmpFile, true)
 	if err != nil {
 		t.Fatalf("ParseAstFile failed: %v", err)
 	}
 
-	aMap := newStageSet.Stage.GetInstancesMapByName[*A]()
+	aMap := newStage.GetInstancesMapByName[*A]()
 	if len(aMap) != 1 || aMap["File_A"] == nil {
-		t.Fatalf("expected File_A in newStageSet")
+		t.Fatalf("expected File_A in newStage")
 	}
 	if aMap["File_A"].X == nil || aMap["File_A"].X.Name != "File_X" {
 		t.Fatalf("expected File_A.X to link to File_X")

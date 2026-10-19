@@ -16,21 +16,21 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__FormDiv__00000000_ := (&__stage_0__.FormDiv{Name: `PlantType`}).Stage(stageSet.Stage)
-	__stage_0__FormField__00000000_ := (&__stage_0__.FormField{Name: `PlantType`}).Stage(stageSet.Stage)
-	__stage_0__FormFieldSelect__00000000_ := (&__stage_0__.FormFieldSelect{Name: `enum`}).Stage(stageSet.Stage)
-	__stage_0__FormGroup__00000000_ := (&__stage_0__.FormGroup{Name: `Plant Form`}).Stage(stageSet.Stage)
-	__stage_0__Option__00000000_ := (&__stage_0__.Option{Name: `TrapezeVase`}).Stage(stageSet.Stage)
-	__stage_0__Option__00000001_ := (&__stage_0__.Option{Name: `Plant`}).Stage(stageSet.Stage)
-	__stage_0__Option__00000002_ := (&__stage_0__.Option{Name: `TubeVase`}).Stage(stageSet.Stage)
-	__stage_0__Option__00000003_ := (&__stage_0__.Option{Name: `Stool`}).Stage(stageSet.Stage)
-	__stage_0__Option__00000004_ := (&__stage_0__.Option{Name: `Clock`}).Stage(stageSet.Stage)
-	__stage_0__Option__00000005_ := (&__stage_0__.Option{Name: `Music`}).Stage(stageSet.Stage)
+	__stage_0__FormDiv__00000000_ := (&__stage_0__.FormDiv{Name: `PlantType`}).Stage(stage)
+	__stage_0__FormField__00000000_ := (&__stage_0__.FormField{Name: `PlantType`}).Stage(stage)
+	__stage_0__FormFieldSelect__00000000_ := (&__stage_0__.FormFieldSelect{Name: `enum`}).Stage(stage)
+	__stage_0__FormGroup__00000000_ := (&__stage_0__.FormGroup{Name: `Plant Form`}).Stage(stage)
+	__stage_0__Option__00000000_ := (&__stage_0__.Option{Name: `TrapezeVase`}).Stage(stage)
+	__stage_0__Option__00000001_ := (&__stage_0__.Option{Name: `Plant`}).Stage(stage)
+	__stage_0__Option__00000002_ := (&__stage_0__.Option{Name: `TubeVase`}).Stage(stage)
+	__stage_0__Option__00000003_ := (&__stage_0__.Option{Name: `Stool`}).Stage(stage)
+	__stage_0__Option__00000004_ := (&__stage_0__.Option{Name: `Clock`}).Stage(stage)
+	__stage_0__Option__00000005_ := (&__stage_0__.Option{Name: `Music`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

@@ -20,34 +20,34 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *models.StageSet) {
+func _(stage *models.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__models__Diagram__00000000_ := (&models.Diagram{Name: `gantt`}).Stage(stageSet.Stage)
-	__models__Diagram__00000001_ := (&models.Diagram{Name: `wbs`}).Stage(stageSet.Stage)
-	__models__Library__00000000_ := (&models.Library{Name: ``}).Stage(stageSet.Stage)
-	__models__Note__00000000_ := (&models.Note{Name: `Note AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA  AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA`}).Stage(stageSet.Stage)
-	__models__NoteShape__00000000_ := (&models.NoteShape{Name: `gantt-Note AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA  AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA`}).Stage(stageSet.Stage)
-	__models__NoteTaskShape__00000000_ := (&models.NoteTaskShape{Name: `gantt-Note AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA  AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA-Milestone`}).Stage(stageSet.Stage)
-	__models__Product__00000000_ := (&models.Product{Name: `task 1 output`}).Stage(stageSet.Stage)
-	__models__ProductShape__00000001_ := (&models.ProductShape{Name: `wbs-task 1 output`}).Stage(stageSet.Stage)
-	__models__ProductShape__00000002_ := (&models.ProductShape{Name: `gantt-task 1 output`}).Stage(stageSet.Stage)
-	__models__Task__00000000_ := (&models.Task{Name: `Task 1 (before task 2)`}).Stage(stageSet.Stage)
-	__models__Task__00000001_ := (&models.Task{Name: `Task 2`}).Stage(stageSet.Stage)
-	__models__Task__00000002_ := (&models.Task{Name: `Milestone`}).Stage(stageSet.Stage)
-	__models__TaskGroup__00000000_ := (&models.TaskGroup{Name: `Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 `}).Stage(stageSet.Stage)
-	__models__TaskGroup__00000001_ := (&models.TaskGroup{Name: `Task 2`}).Stage(stageSet.Stage)
-	__models__TaskGroupShape__00000000_ := (&models.TaskGroupShape{Name: `gantt-Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 `}).Stage(stageSet.Stage)
-	__models__TaskGroupShape__00000001_ := (&models.TaskGroupShape{Name: `gantt-Task 2`}).Stage(stageSet.Stage)
-	__models__TaskOutputShape__00000000_ := (&models.TaskOutputShape{Name: `gantt-Task 1 (before task 2)-task 1 output`}).Stage(stageSet.Stage)
-	__models__TaskPredecessorShape__00000000_ := (&models.TaskPredecessorShape{Name: `gantt-Task 1 (before task 2)-Task 2`}).Stage(stageSet.Stage)
-	__models__TaskShape__00000000_ := (&models.TaskShape{Name: `gantt-Task 1 (before task 2)`}).Stage(stageSet.Stage)
-	__models__TaskShape__00000001_ := (&models.TaskShape{Name: `gantt-Task 2`}).Stage(stageSet.Stage)
-	__models__TaskShape__00000002_ := (&models.TaskShape{Name: `wbs-Task 1 (before task 2)`}).Stage(stageSet.Stage)
-	__models__TaskShape__00000003_ := (&models.TaskShape{Name: `wbs-Task 2`}).Stage(stageSet.Stage)
-	__models__TaskShape__00000004_ := (&models.TaskShape{Name: `gantt-Milestone`}).Stage(stageSet.Stage)
+	__models__Diagram__00000000_ := (&models.Diagram{Name: `gantt`}).Stage(stage)
+	__models__Diagram__00000001_ := (&models.Diagram{Name: `wbs`}).Stage(stage)
+	__models__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
+	__models__Note__00000000_ := (&models.Note{Name: `Note AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA  AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA`}).Stage(stage)
+	__models__NoteShape__00000000_ := (&models.NoteShape{Name: `gantt-Note AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA  AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA`}).Stage(stage)
+	__models__NoteTaskShape__00000000_ := (&models.NoteTaskShape{Name: `gantt-Note AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA  AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA-Milestone`}).Stage(stage)
+	__models__Product__00000000_ := (&models.Product{Name: `task 1 output`}).Stage(stage)
+	__models__ProductShape__00000001_ := (&models.ProductShape{Name: `wbs-task 1 output`}).Stage(stage)
+	__models__ProductShape__00000002_ := (&models.ProductShape{Name: `gantt-task 1 output`}).Stage(stage)
+	__models__Task__00000000_ := (&models.Task{Name: `Task 1 (before task 2)`}).Stage(stage)
+	__models__Task__00000001_ := (&models.Task{Name: `Task 2`}).Stage(stage)
+	__models__Task__00000002_ := (&models.Task{Name: `Milestone`}).Stage(stage)
+	__models__TaskGroup__00000000_ := (&models.TaskGroup{Name: `Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 `}).Stage(stage)
+	__models__TaskGroup__00000001_ := (&models.TaskGroup{Name: `Task 2`}).Stage(stage)
+	__models__TaskGroupShape__00000000_ := (&models.TaskGroupShape{Name: `gantt-Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 Task 1 `}).Stage(stage)
+	__models__TaskGroupShape__00000001_ := (&models.TaskGroupShape{Name: `gantt-Task 2`}).Stage(stage)
+	__models__TaskOutputShape__00000000_ := (&models.TaskOutputShape{Name: `gantt-Task 1 (before task 2)-task 1 output`}).Stage(stage)
+	__models__TaskPredecessorShape__00000000_ := (&models.TaskPredecessorShape{Name: `gantt-Task 1 (before task 2)-Task 2`}).Stage(stage)
+	__models__TaskShape__00000000_ := (&models.TaskShape{Name: `gantt-Task 1 (before task 2)`}).Stage(stage)
+	__models__TaskShape__00000001_ := (&models.TaskShape{Name: `gantt-Task 2`}).Stage(stage)
+	__models__TaskShape__00000002_ := (&models.TaskShape{Name: `wbs-Task 1 (before task 2)`}).Stage(stage)
+	__models__TaskShape__00000003_ := (&models.TaskShape{Name: `wbs-Task 2`}).Stage(stage)
+	__models__TaskShape__00000004_ := (&models.TaskShape{Name: `gantt-Milestone`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

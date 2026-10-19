@@ -16,25 +16,25 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Activities__00000000_ := (&__stage_0__.Activities{Name: `Show Muti Checkbox`}).Stage(stageSet.Stage)
-	__stage_0__Activities__00000001_ := (&__stage_0__.Activities{Name: `Hide Multi Checkbox`}).Stage(stageSet.Stage)
-	__stage_0__Activities__00000002_ := (&__stage_0__.Activities{Name: `Fill Empty Form`}).Stage(stageSet.Stage)
-	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `New Diagram`}).Stage(stageSet.Stage)
-	__stage_0__Diagram__00000001_ := (&__stage_0__.Diagram{Name: `New Diagram`}).Stage(stageSet.Stage)
-	__stage_0__StateMachine__00000000_ := (&__stage_0__.StateMachine{Name: `New StateMachine`}).Stage(stageSet.Stage)
-	__stage_0__StateShape__00000000_ := (&__stage_0__.StateShape{Name: `Single Item Selectiond`}).Stage(stageSet.Stage)
-	__stage_0__StateShape__00000001_ := (&__stage_0__.StateShape{Name: `Multi Item Selection`}).Stage(stageSet.Stage)
-	__stage_0__State__00000000_ := (&__stage_0__.State{Name: `Single Item Selectiond`}).Stage(stageSet.Stage)
-	__stage_0__State__00000001_ := (&__stage_0__.State{Name: `Multi Item Selection`}).Stage(stageSet.Stage)
-	__stage_0__Transition_Shape__00000000_ := (&__stage_0__.Transition_Shape{Name: `Single Item Selection to New State`}).Stage(stageSet.Stage)
-	__stage_0__Transition_Shape__00000001_ := (&__stage_0__.Transition_Shape{Name: `Multi Item Selection to Single Item Selection`}).Stage(stageSet.Stage)
-	__stage_0__Transition__00000000_ := (&__stage_0__.Transition{Name: `Click Multi Edit`}).Stage(stageSet.Stage)
-	__stage_0__Transition__00000001_ := (&__stage_0__.Transition{Name: `Click Muti Edit Off`}).Stage(stageSet.Stage)
+	__stage_0__Activities__00000000_ := (&__stage_0__.Activities{Name: `Show Muti Checkbox`}).Stage(stage)
+	__stage_0__Activities__00000001_ := (&__stage_0__.Activities{Name: `Hide Multi Checkbox`}).Stage(stage)
+	__stage_0__Activities__00000002_ := (&__stage_0__.Activities{Name: `Fill Empty Form`}).Stage(stage)
+	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `New Diagram`}).Stage(stage)
+	__stage_0__Diagram__00000001_ := (&__stage_0__.Diagram{Name: `New Diagram`}).Stage(stage)
+	__stage_0__StateMachine__00000000_ := (&__stage_0__.StateMachine{Name: `New StateMachine`}).Stage(stage)
+	__stage_0__StateShape__00000000_ := (&__stage_0__.StateShape{Name: `Single Item Selectiond`}).Stage(stage)
+	__stage_0__StateShape__00000001_ := (&__stage_0__.StateShape{Name: `Multi Item Selection`}).Stage(stage)
+	__stage_0__State__00000000_ := (&__stage_0__.State{Name: `Single Item Selectiond`}).Stage(stage)
+	__stage_0__State__00000001_ := (&__stage_0__.State{Name: `Multi Item Selection`}).Stage(stage)
+	__stage_0__Transition_Shape__00000000_ := (&__stage_0__.Transition_Shape{Name: `Single Item Selection to New State`}).Stage(stage)
+	__stage_0__Transition_Shape__00000001_ := (&__stage_0__.Transition_Shape{Name: `Multi Item Selection to Single Item Selection`}).Stage(stage)
+	__stage_0__Transition__00000000_ := (&__stage_0__.Transition{Name: `Click Multi Edit`}).Stage(stage)
+	__stage_0__Transition__00000001_ := (&__stage_0__.Transition{Name: `Click Muti Edit Off`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations
@@ -130,5 +130,5 @@ func _(stageSet *__stage_0__.StageSet) {
 	__stage_0__Transition__00000001_.Guard = nil
 	__stage_0__Transition__00000001_.Diagrams = append(__stage_0__Transition__00000001_.Diagrams, __stage_0__Diagram__00000000_)
 
-	stageSet.Commit()
+	stage.Commit()
 }

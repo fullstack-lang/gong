@@ -16,28 +16,28 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `1428`}).Stage(stageSet.Stage)
-	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: `1428`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000000_ := (&__stage_0__.Note{Name: `FFA`}).Stage(stageSet.Stage)
-	__stage_0__NoteShape__00000000_ := (&__stage_0__.NoteShape{Name: `1428-FFA`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000000_ := (&__stage_0__.Product{Name: `P1`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000001_ := (&__stage_0__.Product{Name: `P1.1`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000002_ := (&__stage_0__.Product{Name: `P1.2`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000003_ := (&__stage_0__.Product{Name: `P1.2.1`}).Stage(stageSet.Stage)
-	__stage_0__ProductCompositionShape__00000000_ := (&__stage_0__.ProductCompositionShape{Name: `1428-P1-P1.1`}).Stage(stageSet.Stage)
-	__stage_0__ProductCompositionShape__00000001_ := (&__stage_0__.ProductCompositionShape{Name: `1428-P1-P1.2`}).Stage(stageSet.Stage)
-	__stage_0__ProductCompositionShape__00000002_ := (&__stage_0__.ProductCompositionShape{Name: `1428-P1.2-P1.2.1`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000000_ := (&__stage_0__.ProductShape{Name: `1428-P1`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000001_ := (&__stage_0__.ProductShape{Name: `1428-P1.1`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000002_ := (&__stage_0__.ProductShape{Name: `1428-P1.2`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000003_ := (&__stage_0__.ProductShape{Name: `1428-P1.2.1`}).Stage(stageSet.Stage)
-	__stage_0__Task__00000000_ := (&__stage_0__.Task{Name: `Task1`}).Stage(stageSet.Stage)
-	__stage_0__TaskShape__00000000_ := (&__stage_0__.TaskShape{Name: `1428-Task1`}).Stage(stageSet.Stage)
+	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `1428`}).Stage(stage)
+	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: `1428`}).Stage(stage)
+	__stage_0__Note__00000000_ := (&__stage_0__.Note{Name: `FFA`}).Stage(stage)
+	__stage_0__NoteShape__00000000_ := (&__stage_0__.NoteShape{Name: `1428-FFA`}).Stage(stage)
+	__stage_0__Product__00000000_ := (&__stage_0__.Product{Name: `P1`}).Stage(stage)
+	__stage_0__Product__00000001_ := (&__stage_0__.Product{Name: `P1.1`}).Stage(stage)
+	__stage_0__Product__00000002_ := (&__stage_0__.Product{Name: `P1.2`}).Stage(stage)
+	__stage_0__Product__00000003_ := (&__stage_0__.Product{Name: `P1.2.1`}).Stage(stage)
+	__stage_0__ProductCompositionShape__00000000_ := (&__stage_0__.ProductCompositionShape{Name: `1428-P1-P1.1`}).Stage(stage)
+	__stage_0__ProductCompositionShape__00000001_ := (&__stage_0__.ProductCompositionShape{Name: `1428-P1-P1.2`}).Stage(stage)
+	__stage_0__ProductCompositionShape__00000002_ := (&__stage_0__.ProductCompositionShape{Name: `1428-P1.2-P1.2.1`}).Stage(stage)
+	__stage_0__ProductShape__00000000_ := (&__stage_0__.ProductShape{Name: `1428-P1`}).Stage(stage)
+	__stage_0__ProductShape__00000001_ := (&__stage_0__.ProductShape{Name: `1428-P1.1`}).Stage(stage)
+	__stage_0__ProductShape__00000002_ := (&__stage_0__.ProductShape{Name: `1428-P1.2`}).Stage(stage)
+	__stage_0__ProductShape__00000003_ := (&__stage_0__.ProductShape{Name: `1428-P1.2.1`}).Stage(stage)
+	__stage_0__Task__00000000_ := (&__stage_0__.Task{Name: `Task1`}).Stage(stage)
+	__stage_0__TaskShape__00000000_ := (&__stage_0__.TaskShape{Name: `1428-Task1`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

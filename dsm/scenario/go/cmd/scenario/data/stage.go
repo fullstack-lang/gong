@@ -16,26 +16,26 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__ActorState__00000000_ := (&__stage_0__.ActorState{Name: `A`}).Stage(stageSet.Stage)
-	__stage_0__ActorState__00000001_ := (&__stage_0__.ActorState{Name: `B`}).Stage(stageSet.Stage)
-	__stage_0__ActorStateShape__00000000_ := (&__stage_0__.ActorStateShape{Name: `A-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__ActorStateShape__00000001_ := (&__stage_0__.ActorStateShape{Name: `B-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__ActorStateTransition__00000000_ := (&__stage_0__.ActorStateTransition{Name: `A to B`}).Stage(stageSet.Stage)
-	__stage_0__Analysis__00000000_ := (&__stage_0__.Analysis{Name: `A`}).Stage(stageSet.Stage)
-	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__EvolutionDirection__00000000_ := (&__stage_0__.EvolutionDirection{Name: `Better`}).Stage(stageSet.Stage)
-	__stage_0__EvolutionDirection__00000001_ := (&__stage_0__.EvolutionDirection{Name: `worse`}).Stage(stageSet.Stage)
-	__stage_0__EvolutionDirectionShape__00000000_ := (&__stage_0__.EvolutionDirectionShape{Name: `Better-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__EvolutionDirectionShape__00000001_ := (&__stage_0__.EvolutionDirectionShape{Name: `worse-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__Parameter__00000000_ := (&__stage_0__.Parameter{Name: `P1`}).Stage(stageSet.Stage)
-	__stage_0__ParameterShape__00000000_ := (&__stage_0__.ParameterShape{Name: `P1-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__Scenario__00000000_ := (&__stage_0__.Scenario{Name: `S1`}).Stage(stageSet.Stage)
+	__stage_0__ActorState__00000000_ := (&__stage_0__.ActorState{Name: `A`}).Stage(stage)
+	__stage_0__ActorState__00000001_ := (&__stage_0__.ActorState{Name: `B`}).Stage(stage)
+	__stage_0__ActorStateShape__00000000_ := (&__stage_0__.ActorStateShape{Name: `A-Default Diagram`}).Stage(stage)
+	__stage_0__ActorStateShape__00000001_ := (&__stage_0__.ActorStateShape{Name: `B-Default Diagram`}).Stage(stage)
+	__stage_0__ActorStateTransition__00000000_ := (&__stage_0__.ActorStateTransition{Name: `A to B`}).Stage(stage)
+	__stage_0__Analysis__00000000_ := (&__stage_0__.Analysis{Name: `A`}).Stage(stage)
+	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `Default Diagram`}).Stage(stage)
+	__stage_0__EvolutionDirection__00000000_ := (&__stage_0__.EvolutionDirection{Name: `Better`}).Stage(stage)
+	__stage_0__EvolutionDirection__00000001_ := (&__stage_0__.EvolutionDirection{Name: `worse`}).Stage(stage)
+	__stage_0__EvolutionDirectionShape__00000000_ := (&__stage_0__.EvolutionDirectionShape{Name: `Better-Default Diagram`}).Stage(stage)
+	__stage_0__EvolutionDirectionShape__00000001_ := (&__stage_0__.EvolutionDirectionShape{Name: `worse-Default Diagram`}).Stage(stage)
+	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: ``}).Stage(stage)
+	__stage_0__Parameter__00000000_ := (&__stage_0__.Parameter{Name: `P1`}).Stage(stage)
+	__stage_0__ParameterShape__00000000_ := (&__stage_0__.ParameterShape{Name: `P1-Default Diagram`}).Stage(stage)
+	__stage_0__Scenario__00000000_ := (&__stage_0__.Scenario{Name: `S1`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

@@ -16,13 +16,13 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Content__00000000_ := (&__stage_0__.Content{Name: `bargraph`}).Stage(stageSet.Stage)
-	__stage_0__SvgImage__00000000_ := (&__stage_0__.SvgImage{Name: `barrgraph`}).Stage(stageSet.Stage)
+	__stage_0__Content__00000000_ := (&__stage_0__.Content{Name: `bargraph`}).Stage(stage)
+	__stage_0__SvgImage__00000000_ := (&__stage_0__.SvgImage{Name: `barrgraph`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

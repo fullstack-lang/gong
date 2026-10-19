@@ -31,22 +31,22 @@ func TestCLIMigrationToStageSet(t *testing.T) {
 	}
 	content := string(data)
 
-	if !strings.Contains(content, `func _(stageSet *__stage_0__.StageSet)`) {
-		t.Errorf("missing StageSet function signature in:\n%s", content)
+	if !strings.Contains(content, `func _(stage *__stage_0__.Stage)`) {
+		t.Errorf("missing Stage function signature in:\n%s", content)
 	}
 	if !strings.Contains(content, `__stage_0__ "github.com/fullstack-lang/gong/test/test2/go/models"`) {
 		t.Errorf("missing __stage_0__ import in:\n%s", content)
 	}
 
-	// 3. Parse migrated file into a new StageSet
-	stageSet := models.NewStageSet("test_migration")
-	if err := stageSet.ParseAstFile(migratedStageSetFile, false); err != nil {
-		t.Fatalf("failed to parse migrated StageSet file: %v", err)
+	// 3. Parse migrated file into a new Stage
+	stage := models.NewStage("test_migration")
+	if err := stage.ParseAstFile(migratedStageSetFile, false); err != nil {
+		t.Fatalf("failed to parse migrated Stage file: %v", err)
 	}
 
 	// 4. Verify instances and relationships
-	as := stageSet.Stage.GetInstancesSorted[*models.A]()
-	bs := stageSet.Stage.GetInstancesSorted[*models.B]()
+	as := stage.GetInstancesSorted[*models.A]()
+	bs := stage.GetInstancesSorted[*models.B]()
 
 	if len(as) != 1 {
 		t.Fatalf("expected 1 A instance, found %d", len(as))
@@ -92,17 +92,14 @@ func TestInAppMigrationRoundTrip(t *testing.T) {
 		t.Fatalf("stage.ParseAstFile failed: %v", err)
 	}
 
-	// 2. Create StageSet from existing Stage
-	stageSet := models.NewStageSetFromStage(stage)
-
-	// 3. Marshall to Go code string
-	marshalled, err := stageSet.MarshallToString("main")
+	// 2. Marshall to Go code string
+	marshalled, err := stage.MarshallToString("main")
 	if err != nil {
-		t.Fatalf("stageSet.MarshallToString failed: %v", err)
+		t.Fatalf("stage.MarshallToString failed: %v", err)
 	}
 
-	if !strings.Contains(marshalled, `func _(stageSet *models.StageSet)`) {
-		t.Errorf("missing StageSet signature in in-app marshalled code:\n%s", marshalled)
+	if !strings.Contains(marshalled, `func _(stage *models.Stage)`) {
+		t.Errorf("missing Stage signature in in-app marshalled code:\n%s", marshalled)
 	}
 	if !strings.Contains(marshalled, `__models__A__00000000_ := (&models.A{Name: `) {
 		t.Errorf("missing A declaration in in-app marshalled code:\n%s", marshalled)
@@ -111,17 +108,17 @@ func TestInAppMigrationRoundTrip(t *testing.T) {
 		t.Errorf("missing A.B pointer setup in in-app marshalled code:\n%s", marshalled)
 	}
 
-	// 4. Parse the marshalled string into another clean StageSet and verify
-	stageSet2 := models.NewStageSet("verification_stageset")
-	if err := stageSet2.ParseAstString(marshalled, false); err != nil {
-		t.Fatalf("stageSet2.ParseAstString failed: %v", err)
+	// 3. Parse the marshalled string into another clean Stage and verify
+	stage2 := models.NewStage("verification_stage")
+	if err := stage2.ParseAstString(marshalled, false); err != nil {
+		t.Fatalf("stage2.ParseAstString failed: %v", err)
 	}
 
-	as := stageSet2.Stage.GetInstancesSorted[*models.A]()
+	as := stage2.GetInstancesSorted[*models.A]()
 	if len(as) != 1 {
 		t.Fatalf("expected 1 A instance, got %d", len(as))
 	}
 	if as[0].B == nil || as[0].B.Name != "B1" {
-		t.Errorf("expected A.B to point to B1 in round-trip unmarshalled StageSet")
+		t.Errorf("expected A.B to point to B1 in round-trip unmarshalled Stage")
 	}
 }

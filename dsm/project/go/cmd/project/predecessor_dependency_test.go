@@ -140,12 +140,12 @@ func TestEnforceTaskDependencyDuration(t *testing.T) {
 
 	// FS with lag: 1 week and 3 days (10 days lag from T1 End)
 	taskFSLag := (&models.Task{
-		Name:                    "TaskFSLag",
-		Predecessors:            []*models.Task{t1},
-		DependencyType:          models.FINISH_TO_START,
-		DependencyDurationWeeks: 1,
-		DependencyDurationDays:  3,
-		DurationDays:            5,
+		Name:                          "TaskFSLag",
+		Predecessors:                  []*models.Task{t1},
+		DependencyType:                models.FINISH_TO_START,
+		DependencyDurationWeeks:       1,
+		DependencyDurationDays:        3,
+		DurationDays:                  5,
 		IsEndDateComputedFromDuration: true,
 	}).Stage(stage)
 
@@ -363,8 +363,7 @@ func TestEditMultiStageIssue1337(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to read output file: %v", err)
 	}
-	if !strings.Contains(string(content), "stageSet *models.StageSet") && !strings.Contains(string(content), "stageSet *") {
+	if !strings.Contains(string(content), "stage *models.Stage") && !strings.Contains(string(content), "stage *") {
 		t.Errorf("expected multi-stage format in output file, got:\n%s", string(content))
 	}
 }
-

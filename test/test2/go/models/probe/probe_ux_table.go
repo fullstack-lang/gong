@@ -4,278 +4,55 @@ package probe
 import (
 	"fmt"
 	"sort"
+	"strings"
 	"time"
 
 	table_models "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
-
-	"github.com/fullstack-lang/maticons/maticons"
+	maticons "github.com/fullstack-lang/maticons/maticons"
 
 	"github.com/fullstack-lang/gong/test/test2/go/models"
+	"github.com/fullstack-lang/gong/test/test2/go/models/x"
+	"github.com/fullstack-lang/gong/test/test2/go/models/y"
+	model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"
 )
 
 const TableName = "Table"
 
-// update the current table if there is one
+var (
+	_ = fmt.Sprintf
+	_ = sort.Strings
+	_ = strings.Join
+	_ = maticons.BUTTON_delete
+)
+
+type tableRowUpdater struct {
+	onClick func()
+}
+
+func (u *tableRowUpdater) RowUpdated(stage *table_models.Stage, row, updatedRow *table_models.Row) {
+	if u.onClick != nil {
+		u.onClick()
+	}
+}
+
 func (probe *Probe) ux_table() {
 	var tableName string
-	for table := range probe.tableStage.Tables {
-		tableName = table.Name
+	for tbl := range probe.tableStage.Tables {
+		tableName = tbl.Name
 	}
 	switch tableName {
-	// insertion point
-	case "A":
-		updateProbeTable[*models.A](probe)
-	case "B":
-		updateProbeTable[*models.B](probe)
+	case "models.A", "A":
+		updateStageSetTable_A_Stage(probe)
+	case "models.B", "B":
+		updateStageSetTable_B_Stage(probe)
+	case "x.X":
+		updateStageSetTable_X_XStage(probe)
+	case "y.Y":
+		updateStageSetTable_Y_YStage(probe)
+	case "model.SubModel":
+		updateStageSetTable_SubModel_ModelStage(probe)
 	}
-}
-
-func updateProbeTable[T models.PointerToGongstruct](
-	probe *Probe,
-) {
-	probe.tableStage.Reset()
-
-	table := new(table_models.Table)
-	table.Name = models.GetPointerToGongstructName[T]()
-	table.HasColumnSorting = true
-	table.HasFiltering = true
-	table.HasPaginator = true
-	table.HasCheckableRows = probe.bulkDeleteMode
-	table.HasBulkDeleteButton = probe.bulkDeleteMode
-	table.BulkDeleteButtonTooltip = "Select rows to delete and click to delete them"
-	table.HasSaveButton = false
-
-	fields := models.GetFieldsFromPointer[T]()
-	reverseFields := models.GetReverseFields[T]()
-
-	if !probe.bulkDeleteMode {
-		table.NbOfStickyColumns = 3
-	} else {
-		table.NbOfStickyColumns = 2
-	}
-
-	setOfStructs := (*probe.stageOfInterest.GetInstancesSet[T]())
-	sliceOfGongStructsSorted := make([]T, len(setOfStructs))
-	i := 0
-	for k := range setOfStructs {
-		sliceOfGongStructsSorted[i] = k
-		i++
-	}
-	sort.Slice(sliceOfGongStructsSorted, func(i, j int) bool {
-		return probe.stageOfInterest.GetOrder(sliceOfGongStructsSorted[i]) <
-			probe.stageOfInterest.GetOrder(sliceOfGongStructsSorted[j])
-	})
-
-	// add a button for bulk delete
-	bulkDeleteModeButton := &table_models.Button{
-		Name: "BulkDeleteButton",
-		Icon: func() string {
-			if probe.bulkDeleteMode {
-				return string(maticons.BUTTON_deselect)
-			}
-			return string(maticons.BUTTON_delete_sweep)
-		}(),
-		HasToolTip: true,
-		ToolTipText: func() string {
-			if probe.bulkDeleteMode {
-				return "Cancel bulk delete"
-			}
-			return "Select instances to delete"
-		}(),
-		ToolTipPosition: table_models.Below,
-	}
-
-	bulkDeleteModeButton.OnClick = func() {
-		probe.bulkDeleteMode = !probe.bulkDeleteMode
-		updateProbeTable[T](probe)
-	}
-	table.Buttons = append(table.Buttons, bulkDeleteModeButton)
-
-	column := new(table_models.DisplayedColumn)
-	column.Name = "ID"
-	table.DisplayedColumns = append(table.DisplayedColumns, column)
-
-	if !probe.bulkDeleteMode {
-		column = new(table_models.DisplayedColumn)
-		column.Name = "Delete"
-		table.DisplayedColumns = append(table.DisplayedColumns, column)
-	} else {
-		table.OnUpdate = func(stage *table_models.Stage, updatedTable *table_models.Table) {
-			// log.Println("Table updated, selectedRowIDsForBulkDelete:", updatedTable.BulkDeleteSelectedRowsIDsJson)
-
-			for _, row := range updatedTable.RowsSelectedForBulkDelete {
-				cellID := row.Cells[0]
-				id := cellID.CellInt.Value
-				instance := probe.stageOfInterest.GetInstanceFromOrder[T](uint(id))
-				var zeroInstance T
-				if instance == zeroInstance {
-					continue
-				}
-				instance.UnstageVoid(probe.stageOfInterest)
-			}
-			if len(updatedTable.RowsSelectedForBulkDelete) > 0 {
-				// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
-				// reference the deleted instance.
-				// therefore, it is mandatory to clean the stage of interest
-				probe.bulkDeleteMode = false
-				probe.stageOfInterest.Clean()
-				probe.stageOfInterest.Commit()
-				probe.Refresh()
-			}
-
-			probe.stageOfInterest.Commit()
-		}
-	}
-
-	for _, fieldName := range fields {
-		column := new(table_models.DisplayedColumn)
-		column.Name = fieldName.Name
-		table.DisplayedColumns = append(table.DisplayedColumns, column)
-	}
-	for _, reverseField := range reverseFields {
-		column := new(table_models.DisplayedColumn)
-		column.Name = "(" + reverseField.GongstructName + ") -> " + reverseField.Fieldname
-		table.DisplayedColumns = append(table.DisplayedColumns, column)
-	}
-
-	fieldIndex := 0
-	for _, structInstance := range sliceOfGongStructsSorted {
-		row := new(table_models.Row)
-		value := models.GetFieldStringValueFromPointer(structInstance, "Name", probe.stageOfInterest)
-		row.Name = value.GetValueString()
-
-		updater := NewRowUpdate(structInstance, probe)
-		updater.Instance = structInstance
-		row.Impl = updater
-
-		table.Rows = append(table.Rows, row)
-
-		cell := &table_models.Cell{
-			Name: "ID",
-		}
-		row.Cells = append(row.Cells, cell)
-		cellInt := &table_models.CellInt{
-			Name: "ID",
-			Value: int(probe.stageOfInterest.GetOrder(
-				structInstance,
-			)),
-		}
-		cell.CellInt = cellInt
-
-		if !probe.bulkDeleteMode {
-			cell = &table_models.Cell{
-				Name: "Delete Icon",
-			}
-			row.Cells = append(row.Cells, cell)
-			cellIcon := &table_models.CellIcon{
-				Name: fmt.Sprintf("Delete Icon %d", probe.stageOfInterest.GetOrder(
-					structInstance,
-				)),
-				Icon:                string(maticons.BUTTON_delete),
-				NeedsConfirmation:   true,
-				ConfirmationMessage: "Do you confirm tou want to delete this instance ?",
-			}
-			cellIcon.Impl = &table_models.FunctionalCellIconProxy{
-				OnUpdated: func(stage *table_models.Stage, cellIcon, updatedCellIcon *table_models.CellIcon) {
-					structInstance.UnstageVoid(probe.stageOfInterest)
-
-					// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
-					// reference the deleted instance.
-					// therefore, it is mandatory to clean the stage of interest
-					probe.stageOfInterest.Clean()
-					probe.stageOfInterest.Commit()
-
-					updateProbeTable[T](probe)
-					probe.ux_tree()
-				},
-			}
-			cell.CellIcon = cellIcon
-		}
-
-		for _, fieldName := range fields {
-			value := models.GetFieldStringValueFromPointer(structInstance, fieldName.Name, probe.stageOfInterest)
-			name := fmt.Sprintf("%d", fieldIndex) + " " + value.GetValueString()
-			fieldIndex++
-			// log.Println(fieldName, value)
-			cell := &table_models.Cell{
-				Name: name,
-			}
-			row.Cells = append(row.Cells, cell)
-
-			switch value.GongFieldValueType {
-			case models.GongFieldValueTypeInt:
-				cellInt := &table_models.CellInt{
-					Name:  name,
-					Value: value.GetValueInt(),
-				}
-				cell.CellInt = cellInt
-			case models.GongFieldValueTypeFloat:
-				cellFloat := &table_models.CellFloat64{
-					Name:  name,
-					Value: value.GetValueFloat(),
-				}
-				cell.CellFloat64 = cellFloat
-			case models.GongFieldValueTypeBool:
-				cellBool := &table_models.CellBoolean{
-					Name:  name,
-					Value: value.GetValueBool(),
-				}
-				cell.CellBool = cellBool
-			default:
-				cellString := &table_models.CellString{
-					Name:  name,
-					Value: value.GetValueString(),
-				}
-				cell.CellString = cellString
-
-			}
-		}
-		for _, reverseField := range reverseFields {
-
-			value := structInstance.GongGetReverseFieldOwnerName(
-				probe.stageOfInterest,
-				&reverseField)
-			name := fmt.Sprintf("%d", fieldIndex) + " " + value
-			fieldIndex++
-			// log.Println(fieldName, value)
-			cell := &table_models.Cell{
-				Name: name,
-			}
-			row.Cells = append(row.Cells, cell)
-
-			cellString := &table_models.CellString{
-				Name:  name,
-				Value: value,
-			}
-			cell.CellString = cellString
-		}
-	}
-
-	probe.tableStage.StageBranch(table)
-
-	probe.tableStage.Commit()
-}
-
-func NewRowUpdate[T models.PointerToGongstruct](
-	Instance T,
-	probe *Probe,
-) (rowUpdate *RowUpdate[T]) {
-	rowUpdate = new(RowUpdate[T])
-	rowUpdate.Instance = Instance
-	rowUpdate.probe = probe
-	return
-}
-
-type RowUpdate[T models.PointerToGongstruct] struct {
-	Instance T
-	probe    *Probe
-}
-
-func (rowUpdate *RowUpdate[T]) RowUpdated(stage *table_models.Stage, row, updatedRow *table_models.Row) {
-	// log.Println("RowUpdate: RowUpdated", updatedRow.Name)
-
-	FillUpFormFromGongstruct(rowUpdate.Instance, rowUpdate.probe)
 }
 
 func (probe *Probe) UpdateAndCommitNotificationTable() {
@@ -321,7 +98,6 @@ func (probe *Probe) UpdateAndCommitNotificationTable() {
 	column.Name = "Message"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
-	// sort notifications by date
 	sort.Slice(probe.notification, func(i, j int) bool {
 		return probe.notification[i].Date.After(probe.notification[j].Date)
 	})
@@ -348,6 +124,605 @@ func (probe *Probe) UpdateAndCommitNotificationTable() {
 	}
 
 	probe.notificationTableStage.StageBranch(table)
-
 	probe.notificationTableStage.Commit()
 }
+
+func updateStageSetTable_A_Stage(probe *Probe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "models.A"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "NumberField"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "B"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Bs"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "X"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Foo"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Bar"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Zorgh"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageOfInterest.GetInstancesByOrder[*models.A]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				FillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageOfInterest.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageOfInterest)
+				probe.stageOfInterest.Clean()
+				probe.stageOfInterest.Commit()
+				updateStageSetTable_A_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "NumberField"}
+			cell.CellInt = &table_models.CellInt{Value: int(structInstance.NumberField)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "B"}
+			val := ""
+			if structInstance.B != nil {
+				val = structInstance.B.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Bs"}
+			var names []string
+			for _, elem := range structInstance.Bs {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "X"}
+			val := ""
+			if structInstance.X != nil {
+				val = structInstance.X.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Foo"}
+			cell.CellInt = &table_models.CellInt{Value: int(structInstance.Foo)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Bar"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.Bar)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Zorgh"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Zorgh)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+
+func updateStageSetTable_B_Stage(probe *Probe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "models.B"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.A) -> B"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.A) -> Bs"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageOfInterest.GetInstancesByOrder[*models.B]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				FillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageOfInterest.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageOfInterest)
+				probe.stageOfInterest.Clean()
+				probe.stageOfInterest.Commit()
+				updateStageSetTable_B_Stage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.A) -> B"}
+			var refNames []string
+			for src := range probe.stageOfInterest.As {
+				if src.B == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.A) -> Bs"}
+			var refNames []string
+			for src := range probe.stageOfInterest.As {
+				for _, target := range src.Bs {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+
+func updateStageSetTable_X_XStage(probe *Probe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "x.X"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Y"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(models.A) -> X"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageOfInterest.XStage.GetInstancesByOrder[*x.X]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				FillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageOfInterest.XStage.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageOfInterest.XStage)
+				probe.stageOfInterest.Clean()
+				probe.stageOfInterest.Commit()
+				updateStageSetTable_X_XStage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Y"}
+			val := ""
+			if structInstance.Y != nil {
+				val = structInstance.Y.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(models.A) -> X"}
+			var refNames []string
+			for src := range probe.stageOfInterest.As {
+				if src.X == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+
+func updateStageSetTable_Y_YStage(probe *Probe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "y.Y"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "SubModel"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(x.X) -> Y"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageOfInterest.YStage.GetInstancesByOrder[*y.Y]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				FillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageOfInterest.YStage.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageOfInterest.YStage)
+				probe.stageOfInterest.Clean()
+				probe.stageOfInterest.Commit()
+				updateStageSetTable_Y_YStage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "SubModel"}
+			val := ""
+			if structInstance.SubModel != nil {
+				val = structInstance.SubModel.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(x.X) -> Y"}
+			var refNames []string
+			for src := range probe.stageOfInterest.XStage.Xs {
+				if src.Y == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+
+func updateStageSetTable_SubModel_ModelStage(probe *Probe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "model.SubModel"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(y.Y) -> SubModel"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageOfInterest.ModelStage.GetInstancesByOrder[*model.SubModel]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				FillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageOfInterest.ModelStage.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageOfInterest.ModelStage)
+				probe.stageOfInterest.Clean()
+				probe.stageOfInterest.Commit()
+				updateStageSetTable_SubModel_ModelStage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(y.Y) -> SubModel"}
+			var refNames []string
+			for src := range probe.stageOfInterest.YStage.Ys {
+				if src.SubModel == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+

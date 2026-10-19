@@ -16,21 +16,21 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Artist__00000000_ := (&__stage_0__.Artist{Name: `Isamo Noguchi`}).Stage(stageSet.Stage)
-	__stage_0__ArtistShape__00000000_ := (&__stage_0__.ArtistShape{Name: `isamo`}).Stage(stageSet.Stage)
-	__stage_0__Desk__00000000_ := (&__stage_0__.Desk{Name: `Desk`}).Stage(stageSet.Stage)
-	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `  AVIVA    STOOL  BACKGROUND`}).Stage(stageSet.Stage)
-	__stage_0__Movement__00000000_ := (&__stage_0__.Movement{Name: `biomorphism`}).Stage(stageSet.Stage)
-	__stage_0__Movement__00000001_ := (&__stage_0__.Movement{Name: `computer design`}).Stage(stageSet.Stage)
-	__stage_0__MovementShape__00000000_ := (&__stage_0__.MovementShape{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__MovementShape__00000001_ := (&__stage_0__.MovementShape{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__Place__00000000_ := (&__stage_0__.Place{Name: `Paris`}).Stage(stageSet.Stage)
-	__stage_0__Place__00000001_ := (&__stage_0__.Place{Name: `New York`}).Stage(stageSet.Stage)
+	__stage_0__Artist__00000000_ := (&__stage_0__.Artist{Name: `Isamo Noguchi`}).Stage(stage)
+	__stage_0__ArtistShape__00000000_ := (&__stage_0__.ArtistShape{Name: `isamo`}).Stage(stage)
+	__stage_0__Desk__00000000_ := (&__stage_0__.Desk{Name: `Desk`}).Stage(stage)
+	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `  AVIVA    STOOL  BACKGROUND`}).Stage(stage)
+	__stage_0__Movement__00000000_ := (&__stage_0__.Movement{Name: `biomorphism`}).Stage(stage)
+	__stage_0__Movement__00000001_ := (&__stage_0__.Movement{Name: `computer design`}).Stage(stage)
+	__stage_0__MovementShape__00000000_ := (&__stage_0__.MovementShape{Name: ``}).Stage(stage)
+	__stage_0__MovementShape__00000001_ := (&__stage_0__.MovementShape{Name: ``}).Stage(stage)
+	__stage_0__Place__00000000_ := (&__stage_0__.Place{Name: `Paris`}).Stage(stage)
+	__stage_0__Place__00000001_ := (&__stage_0__.Place{Name: `New York`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

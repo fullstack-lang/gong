@@ -94,9 +94,22 @@ func (probe *Probe) ux_tree() {
 		OnClick: func() {
 			probe.stageOfInterest.Reset()
 			probe.stageOfInterest.Commit()
+			probe.Refresh()
 		},
 	}
 	topNode.Buttons = append(topNode.Buttons, resetButton)
+
+	exportGoButton := &tree_models.Button{
+		Name:            "ExportGoButton" + " " + string(tree_buttons.BUTTON_file_download),
+		Icon:            string(tree_buttons.BUTTON_file_download),
+		HasToolTip:      true,
+		ToolTipText:     "Export Go code for stage",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.ExportStage()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, exportGoButton)
 
 	// collect all gong struct to construe the true
 	setOfGongStructs := *probe.gongStage.GetInstancesSet[*gong_models.GongStruct]()

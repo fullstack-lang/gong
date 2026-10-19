@@ -512,6 +512,15 @@ func (tubevaseabstract *TubeVaseAbstract) GongClean(stage *Stage) (modified bool
 
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
+	if stage.ClockStage != nil {
+		modified = stage.ClockStage.Clean() || modified
+	}
+	if stage.MusicStage != nil {
+		modified = stage.MusicStage.Clean() || modified
+	}
+	if stage.StoolStage != nil {
+		modified = stage.StoolStage.Clean() || modified
+	}
 	for _, instance := range stage.GetInstances() {
 		if cleaner, ok := any(instance).(GongCleaner); ok {
 			modified = cleaner.GongClean(stage) || modified

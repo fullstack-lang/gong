@@ -29,8 +29,7 @@ var migrateCmd = &cobra.Command{
 		if err := stage.ParseAstFile(inputFile, true); err != nil {
 			log.Fatalf("failed to parse input stage file: %v", err)
 		}
-		stageSet := models.NewStageSetFromStage(stage)
-		stageSet.MarshallFile(outputFile, "main")
+		stage.MarshallFile(outputFile, "main")
 		log.Printf("Successfully migrated %s to %s", inputFile, outputFile)
 	},
 }

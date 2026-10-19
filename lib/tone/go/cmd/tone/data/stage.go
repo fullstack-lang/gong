@@ -16,29 +16,29 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Freqency__00000000_ := (&__stage_0__.Freqency{Name: `B4`}).Stage(stageSet.Stage)
-	__stage_0__Freqency__00000001_ := (&__stage_0__.Freqency{Name: `Bb4`}).Stage(stageSet.Stage)
-	__stage_0__Freqency__00000002_ := (&__stage_0__.Freqency{Name: `C5`}).Stage(stageSet.Stage)
-	__stage_0__Freqency__00000003_ := (&__stage_0__.Freqency{Name: `D5`}).Stage(stageSet.Stage)
-	__stage_0__Freqency__00000004_ := (&__stage_0__.Freqency{Name: `Eb4`}).Stage(stageSet.Stage)
-	__stage_0__Freqency__00000005_ := (&__stage_0__.Freqency{Name: `G#4`}).Stage(stageSet.Stage)
-	__stage_0__Freqency__00000006_ := (&__stage_0__.Freqency{Name: `G4`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000000_ := (&__stage_0__.Note{Name: `1 C5`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000001_ := (&__stage_0__.Note{Name: `10. G4`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000002_ := (&__stage_0__.Note{Name: `2. B4`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000003_ := (&__stage_0__.Note{Name: `3. C5`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000004_ := (&__stage_0__.Note{Name: `4. G4`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000005_ := (&__stage_0__.Note{Name: `5. G4#`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000006_ := (&__stage_0__.Note{Name: `6. C5`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000007_ := (&__stage_0__.Note{Name: `7. B4`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000008_ := (&__stage_0__.Note{Name: `8. C5`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000009_ := (&__stage_0__.Note{Name: `9. D5`}).Stage(stageSet.Stage)
-	__stage_0__Player__00000000_ := (&__stage_0__.Player{Name: `player`}).Stage(stageSet.Stage)
+	__stage_0__Freqency__00000000_ := (&__stage_0__.Freqency{Name: `B4`}).Stage(stage)
+	__stage_0__Freqency__00000001_ := (&__stage_0__.Freqency{Name: `Bb4`}).Stage(stage)
+	__stage_0__Freqency__00000002_ := (&__stage_0__.Freqency{Name: `C5`}).Stage(stage)
+	__stage_0__Freqency__00000003_ := (&__stage_0__.Freqency{Name: `D5`}).Stage(stage)
+	__stage_0__Freqency__00000004_ := (&__stage_0__.Freqency{Name: `Eb4`}).Stage(stage)
+	__stage_0__Freqency__00000005_ := (&__stage_0__.Freqency{Name: `G#4`}).Stage(stage)
+	__stage_0__Freqency__00000006_ := (&__stage_0__.Freqency{Name: `G4`}).Stage(stage)
+	__stage_0__Note__00000000_ := (&__stage_0__.Note{Name: `1 C5`}).Stage(stage)
+	__stage_0__Note__00000001_ := (&__stage_0__.Note{Name: `10. G4`}).Stage(stage)
+	__stage_0__Note__00000002_ := (&__stage_0__.Note{Name: `2. B4`}).Stage(stage)
+	__stage_0__Note__00000003_ := (&__stage_0__.Note{Name: `3. C5`}).Stage(stage)
+	__stage_0__Note__00000004_ := (&__stage_0__.Note{Name: `4. G4`}).Stage(stage)
+	__stage_0__Note__00000005_ := (&__stage_0__.Note{Name: `5. G4#`}).Stage(stage)
+	__stage_0__Note__00000006_ := (&__stage_0__.Note{Name: `6. C5`}).Stage(stage)
+	__stage_0__Note__00000007_ := (&__stage_0__.Note{Name: `7. B4`}).Stage(stage)
+	__stage_0__Note__00000008_ := (&__stage_0__.Note{Name: `8. C5`}).Stage(stage)
+	__stage_0__Note__00000009_ := (&__stage_0__.Note{Name: `9. D5`}).Stage(stage)
+	__stage_0__Player__00000000_ := (&__stage_0__.Player{Name: `player`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

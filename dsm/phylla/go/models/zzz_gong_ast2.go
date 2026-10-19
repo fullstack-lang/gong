@@ -3,15 +3,30 @@ package models
 
 import (
 	"embed"
+	"errors"
 	"go/ast"
+	"go/parser"
 	"go/token"
 	"log"
+	"path/filepath"
+	"slices"
+	"strings"
 	"time"
 
 	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"
 )
 
-var _ = time.Hour
+var (
+	_ = errors.New
+	_ = parser.ParseFile
+	_ = filepath.Base
+	_ = slices.Index[[]int, int]
+	_ = strings.Trim
+	_ = time.Hour
+)
 
 // swagger:ignore
 type GONG__ExpressionType = gong_runtime.GONG__ExpressionType
@@ -60,68 +75,999 @@ func (stage *Stage) ParseAstEmbeddedFile(directory embed.FS, pathToFile string) 
 
 // ParseAstString parses the Go source code from a string
 func (stage *Stage) ParseAstString(blob string, preserveOrder bool) error {
-	inFile, fset, err := gong_runtime.ParseAstString(blob)
-	if err != nil {
-		return err
+	var inFile *ast.File
+	var fset *token.FileSet
+	var err error
+	if strings.HasPrefix(strings.TrimSpace(blob), "package ") || strings.Contains(blob, "\npackage ") {
+		fset = token.NewFileSet()
+		inFile, err = parser.ParseFile(fset, "", blob, parser.ParseComments)
+		if err != nil {
+			return errors.New("Unable to parse " + err.Error())
+		}
+	} else {
+		inFile, fset, err = gong_runtime.ParseAstString(blob)
+		if err != nil {
+			return err
+		}
 	}
 	return stage.ParseAstFileFromAst(inFile, fset, preserveOrder)
 }
 
-// ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
+// ParseAstFileFromAst traverses the AST and stages instances across stage and its sub-stages
 func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	gong_runtime.CheckModuleVersion(stage.GetProbeIF(), inFile)
 
-	// 1. Remove Global Variables: Use a local map to track variable names to instances
-	identifierMap := make(map[string]GongstructIF)
+	identifierMap := make(map[string]any)
 
-	for _, instance := range stage.GetInstances() {
-		identifierMap[instance.GongGetIdentifier(stage)] = instance
+	if stage.ClockStage != nil {
+		for _, instance := range stage.ClockStage.GetInstances() {
+			identifierMap[instance.GongGetIdentifier(stage.ClockStage)] = instance
+			identifierMap["__clock"+instance.GongGetIdentifier(stage.ClockStage)] = instance
+		}
+	}
+	if stage.MusicStage != nil {
+		for _, instance := range stage.MusicStage.GetInstances() {
+			identifierMap[instance.GongGetIdentifier(stage.MusicStage)] = instance
+			identifierMap["__music"+instance.GongGetIdentifier(stage.MusicStage)] = instance
+		}
+	}
+	if stage.StoolStage != nil {
+		for _, instance := range stage.StoolStage.GetInstances() {
+			identifierMap[instance.GongGetIdentifier(stage.StoolStage)] = instance
+			identifierMap["__stool"+instance.GongGetIdentifier(stage.StoolStage)] = instance
+		}
+	}
+	if stage != nil {
+		for _, instance := range stage.GetInstances() {
+			identifierMap[instance.GongGetIdentifier(stage)] = instance
+			identifierMap["__models"+instance.GongGetIdentifier(stage)] = instance
+		}
 	}
 
-	return gong_runtime.WalkAstFile(inFile,
-		func(identName string, typeName string, instanceName string) {
-			if typeName != "" {
-				if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-					instance, err := unmarshaller.Initialize(stage, identName, instanceName, preserveOrder)
-					if err == nil {
-						identifierMap[identName] = instance
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock":
+			aliasToCanonical[alias] = "clock"
+		case "github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music":
+			aliasToCanonical[alias] = "music"
+		case "github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool":
+			aliasToCanonical[alias] = "stool"
+		case "github.com/fullstack-lang/gong/dsm/phylla/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
+	ast.Inspect(inFile, func(n ast.Node) bool {
+		switch node := n.(type) {
+		case *ast.AssignStmt:
+			if len(node.Lhs) < 1 || len(node.Rhs) < 1 {
+				return true
+			}
+
+			// CASE 1: Initialization ( := )
+			if node.Tok == token.DEFINE {
+				if ident, ok := node.Lhs[0].(*ast.Ident); ok {
+					var pkgAlias string
+					var typeName string
+					var instanceName string
+
+					ast.Inspect(node.Rhs[0], func(expr ast.Node) bool {
+						if compLit, ok := expr.(*ast.CompositeLit); ok {
+							if selExpr, ok := compLit.Type.(*ast.SelectorExpr); ok {
+								if pkgId, ok := selExpr.X.(*ast.Ident); ok {
+									pkgAlias = pkgId.Name
+								}
+								typeName = selExpr.Sel.Name
+								for _, elt := range compLit.Elts {
+									if kv, ok := elt.(*ast.KeyValueExpr); ok {
+										if k, ok := kv.Key.(*ast.Ident); ok && k.Name == "Name" {
+											if v, ok := kv.Value.(*ast.BasicLit); ok {
+												instanceName = strings.Trim(v.Value, "\"`")
+											}
+										}
+									}
+								}
+								return false
+							}
+						}
+						return true
+					})
+
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					} else if pkgAlias == "" || pkgAlias == "models" || len(inFile.Imports) == 0 {
+						pkgAlias = "models"
+					}
+
+					switch pkgAlias {
+			case "clock":
+				switch typeName {
+				case "ClockAbstract":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(clock.ClockAbstract), stage.ClockStage, ident.Name, instanceName, preserveOrder)
+				}
+			case "music":
+				switch typeName {
+				case "MusicAbstract":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(music.MusicAbstract), stage.MusicStage, ident.Name, instanceName, preserveOrder)
+				}
+			case "stool":
+				switch typeName {
+				case "StoolAbstract":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(stool.StoolAbstract), stage.StoolStage, ident.Name, instanceName, preserveOrder)
+				}
+			case "models":
+				switch typeName {
+				case "Angle0Shape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Angle0Shape), stage, ident.Name, instanceName, preserveOrder)
+				case "BottomCurvePlane1Shape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(BottomCurvePlane1Shape), stage, ident.Name, instanceName, preserveOrder)
+				case "BottomCurvePlane2Shape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(BottomCurvePlane2Shape), stage, ident.Name, instanceName, preserveOrder)
+				case "CarvedOutBottomCurvePlane1Shape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(CarvedOutBottomCurvePlane1Shape), stage, ident.Name, instanceName, preserveOrder)
+				case "CarvedOutTopCurvePlane1Shape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(CarvedOutTopCurvePlane1Shape), stage, ident.Name, instanceName, preserveOrder)
+				case "CarvedOutVaseTrapezeRingShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(CarvedOutVaseTrapezeRingShape), stage, ident.Name, instanceName, preserveOrder)
+				case "Circumference3DShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Circumference3DShape), stage, ident.Name, instanceName, preserveOrder)
+				case "Clock2DDiagram":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Clock2DDiagram), stage, ident.Name, instanceName, preserveOrder)
+				case "Clock3DDiagram":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Clock3DDiagram), stage, ident.Name, instanceName, preserveOrder)
+				case "CutLine3DShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(CutLine3DShape), stage, ident.Name, instanceName, preserveOrder)
+				case "Leaves3DShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Leaves3DShape), stage, ident.Name, instanceName, preserveOrder)
+				case "Library":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Library), stage, ident.Name, instanceName, preserveOrder)
+				case "OriginalPoints3DShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(OriginalPoints3DShape), stage, ident.Name, instanceName, preserveOrder)
+				case "ParastichyMCurves3DShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ParastichyMCurves3DShape), stage, ident.Name, instanceName, preserveOrder)
+				case "ParastichyNCurves3DShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ParastichyNCurves3DShape), stage, ident.Name, instanceName, preserveOrder)
+				case "Plant2DDiagram":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Plant2DDiagram), stage, ident.Name, instanceName, preserveOrder)
+				case "Plant3DDiagram":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Plant3DDiagram), stage, ident.Name, instanceName, preserveOrder)
+				case "PlantAbstract":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(PlantAbstract), stage, ident.Name, instanceName, preserveOrder)
+				case "Rendered3DShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Rendered3DShape), stage, ident.Name, instanceName, preserveOrder)
+				case "SampledPoints3DShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SampledPoints3DShape), stage, ident.Name, instanceName, preserveOrder)
+				case "StackOfRotatedCarvedOutVaseTrapezeRingsShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(StackOfRotatedCarvedOutVaseTrapezeRingsShape), stage, ident.Name, instanceName, preserveOrder)
+				case "StemCylinder3DShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(StemCylinder3DShape), stage, ident.Name, instanceName, preserveOrder)
+				case "Stool2DDiagram":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Stool2DDiagram), stage, ident.Name, instanceName, preserveOrder)
+				case "Stool3DDiagram":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Stool3DDiagram), stage, ident.Name, instanceName, preserveOrder)
+				case "TopCurvePlane1Shape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TopCurvePlane1Shape), stage, ident.Name, instanceName, preserveOrder)
+				case "TopCurvePlane2Shape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TopCurvePlane2Shape), stage, ident.Name, instanceName, preserveOrder)
+				case "TubeVase3DDiagram":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TubeVase3DDiagram), stage, ident.Name, instanceName, preserveOrder)
+				case "TubeVaseAbstract":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(TubeVaseAbstract), stage, ident.Name, instanceName, preserveOrder)
+				case "Vase2DDiagram":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Vase2DDiagram), stage, ident.Name, instanceName, preserveOrder)
+				case "VaseTrapezeBasePlateShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(VaseTrapezeBasePlateShape), stage, ident.Name, instanceName, preserveOrder)
+				case "VaseTrapezeRingShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(VaseTrapezeRingShape), stage, ident.Name, instanceName, preserveOrder)
+				}
+					}
+				}
+				return false
+			}
+
+			// CASE 2: Assignment ( = )
+			if node.Tok == token.ASSIGN {
+				if selExpr, ok := node.Lhs[0].(*ast.SelectorExpr); ok {
+					if ident, ok := selExpr.X.(*ast.Ident); ok {
+						if instance, exists := identifierMap[ident.Name]; exists {
+							fieldName := selExpr.Sel.Name
+							rhs := node.Rhs[0]
+							switch inst := instance.(type) {
+				case *clock.ClockAbstract:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "RadialRepetitions":
+						inst.RadialRepetitions = GongExtractInt(rhs)
+					case "Transparency":
+						inst.Transparency = GongExtractFloat(rhs)
+					case "RelativeTubeDiameter":
+						inst.RelativeTubeDiameter = GongExtractFloat(rhs)
+					case "RelativeHeight3DTorus":
+						inst.RelativeHeight3DTorus = GongExtractFloat(rhs)
+					case "ClockTorusVerticalScale":
+						inst.ClockTorusVerticalScale = GongExtractFloat(rhs)
+					case "RelativeHeight":
+						inst.RelativeHeight = GongExtractFloat(rhs)
+					case "ProjectionAngle":
+						inst.ProjectionAngle = GongExtractFloat(rhs)
+					}
+				case *music.MusicAbstract:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "IsChecked":
+						inst.IsChecked = GongExtractBool(rhs)
+					case "PitchHeight":
+						inst.PitchHeight = GongExtractFloat(rhs)
+					case "NbOfBeatsInTheme":
+						inst.NbOfBeatsInTheme = GongExtractInt(rhs)
+					case "BeatsPerSecond":
+						inst.BeatsPerSecond = GongExtractFloat(rhs)
+					case "FirstVoiceShiftX":
+						inst.FirstVoiceShiftX = GongExtractFloat(rhs)
+					case "FirstVoiceShiftY":
+						inst.FirstVoiceShiftY = GongExtractFloat(rhs)
+					case "PitchDifference":
+						inst.PitchDifference = GongExtractInt(rhs)
+					case "Level":
+						inst.Level = GongExtractFloat(rhs)
+					case "ActualBeatsTemporalShift":
+						inst.ActualBeatsTemporalShift = GongExtractInt(rhs)
+					case "IsMinor":
+						inst.IsMinor = GongExtractBool(rhs)
+					case "ThemeBinaryEncoding":
+						inst.ThemeBinaryEncoding = GongExtractInt(rhs)
+					case "BezierControlLengthRatio":
+						inst.BezierControlLengthRatio = GongExtractFloat(rhs)
+					case "NbPitchLines":
+						inst.NbPitchLines = GongExtractInt(rhs)
+					case "NbBeatLines":
+						inst.NbBeatLines = GongExtractInt(rhs)
+					case "OriginX":
+						inst.OriginX = GongExtractFloat(rhs)
+					case "OriginY":
+						inst.OriginY = GongExtractFloat(rhs)
+					case "ScoreScale":
+						inst.ScoreScale = GongExtractFloat(rhs)
+					case "ShowFirstVoice":
+						inst.ShowFirstVoice = GongExtractBool(rhs)
+					case "ShowFirstVoiceShiftRight":
+						inst.ShowFirstVoiceShiftRight = GongExtractBool(rhs)
+					case "ShowSecondVoice":
+						inst.ShowSecondVoice = GongExtractBool(rhs)
+					case "ShowSecondVoiceShiftRight":
+						inst.ShowSecondVoiceShiftRight = GongExtractBool(rhs)
+					case "ShowFirstVoiceNotes":
+						inst.ShowFirstVoiceNotes = GongExtractBool(rhs)
+					case "ShowFirstVoiceNotesShiftRight":
+						inst.ShowFirstVoiceNotesShiftRight = GongExtractBool(rhs)
+					case "ShowSecondVoiceNotes":
+						inst.ShowSecondVoiceNotes = GongExtractBool(rhs)
+					case "ShowSecondVoiceNotesShiftRight":
+						inst.ShowSecondVoiceNotesShiftRight = GongExtractBool(rhs)
+					case "IsComposerNodeExpanded":
+						inst.IsComposerNodeExpanded = GongExtractBool(rhs)
+					}
+				case *stool.StoolAbstract:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "RadialRepetitions":
+						inst.RadialRepetitions = GongExtractInt(rhs)
+					case "Transparency":
+						inst.Transparency = GongExtractFloat(rhs)
+					case "RelativeTubeDiameter":
+						inst.RelativeTubeDiameter = GongExtractFloat(rhs)
+					case "RelativeHeight3DTorus":
+						inst.RelativeHeight3DTorus = GongExtractFloat(rhs)
+					case "StoolTorusVerticalScale":
+						inst.StoolTorusVerticalScale = GongExtractFloat(rhs)
+					case "RelativeHeight":
+						inst.RelativeHeight = GongExtractFloat(rhs)
+					case "RelativeSeatThickness":
+						inst.RelativeSeatThickness = GongExtractFloat(rhs)
+					case "ProjectionAngle":
+						inst.ProjectionAngle = GongExtractFloat(rhs)
+					case "RelativeEyeSeparationCriteria":
+						inst.RelativeEyeSeparationCriteria = GongExtractFloat(rhs)
+					case "RelativeEyeCornerControlVectorStrength":
+						inst.RelativeEyeCornerControlVectorStrength = GongExtractFloat(rhs)
+					}
+				case *Angle0Shape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *BottomCurvePlane1Shape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *BottomCurvePlane2Shape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *CarvedOutBottomCurvePlane1Shape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *CarvedOutTopCurvePlane1Shape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *CarvedOutVaseTrapezeRingShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *Circumference3DShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *Clock2DDiagram:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Zoom":
+						inst.Zoom = GongExtractFloat(rhs)
+					case "IsHiddenAxesShape":
+						inst.IsHiddenAxesShape = GongExtractBool(rhs)
+					case "IsChecked":
+						inst.IsChecked = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					}
+				case *Clock3DDiagram:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "IsHiddenClockTopCurveShape":
+						inst.IsHiddenClockTopCurveShape = GongExtractBool(rhs)
+					case "IsHiddenTorus3DShape":
+						inst.IsHiddenTorus3DShape = GongExtractBool(rhs)
+					case "IsHiddenSampledPoints3DShape":
+						inst.IsHiddenSampledPoints3DShape = GongExtractBool(rhs)
+					case "SampledPoints3DShape":
+						__gong__assignPointer(&inst.SampledPoints3DShape, rhs, identifierMap)
+					case "IsHiddenTiledFloor3DShape":
+						inst.IsHiddenTiledFloor3DShape = GongExtractBool(rhs)
+					case "Rendered3DShape":
+						__gong__assignPointer(&inst.Rendered3DShape, rhs, identifierMap)
+					case "IsChecked":
+						inst.IsChecked = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					}
+				case *CutLine3DShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *Leaves3DShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *Library:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Plants":
+						__gong__assignSliceOfPointers(&inst.Plants, rhs, identifierMap)
+					case "SubLibraries":
+						__gong__assignSliceOfPointers(&inst.SubLibraries, rhs, identifierMap)
+					case "NbPixPerCharacter":
+						inst.NbPixPerCharacter = GongExtractFloat(rhs)
+					case "LogoSVGFile":
+						inst.LogoSVGFile = GongExtractString(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "IsRootLibrary":
+						inst.IsRootLibrary = GongExtractBool(rhs)
+					}
+				case *OriginalPoints3DShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *ParastichyMCurves3DShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *ParastichyNCurves3DShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *Plant2DDiagram:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "OriginX":
+						inst.OriginX = GongExtractFloat(rhs)
+					case "OriginY":
+						inst.OriginY = GongExtractFloat(rhs)
+					case "Zoom":
+						inst.Zoom = GongExtractFloat(rhs)
+					case "IsRhombusNodesExpanded":
+						inst.IsRhombusNodesExpanded = GongExtractBool(rhs)
+					case "IsArcNodesExpanded":
+						inst.IsArcNodesExpanded = GongExtractBool(rhs)
+					case "IsHiddenAxesShape":
+						inst.IsHiddenAxesShape = GongExtractBool(rhs)
+					case "IsHiddenReferenceRhombus":
+						inst.IsHiddenReferenceRhombus = GongExtractBool(rhs)
+					case "IsHiddenPlantCircumferenceShape":
+						inst.IsHiddenPlantCircumferenceShape = GongExtractBool(rhs)
+					case "IsHiddenGridPathShape":
+						inst.IsHiddenGridPathShape = GongExtractBool(rhs)
+					case "IsHiddenRhombusGridShape":
+						inst.IsHiddenRhombusGridShape = GongExtractBool(rhs)
+					case "IsHiddenExplanationTextShape":
+						inst.IsHiddenExplanationTextShape = GongExtractBool(rhs)
+					case "IsHiddenRotatedReferenceRhombus":
+						inst.IsHiddenRotatedReferenceRhombus = GongExtractBool(rhs)
+					case "IsHiddenRotatedPlantCircumferenceShape":
+						inst.IsHiddenRotatedPlantCircumferenceShape = GongExtractBool(rhs)
+					case "IsHiddenRotatedGridPathShape":
+						inst.IsHiddenRotatedGridPathShape = GongExtractBool(rhs)
+					case "IsHiddenRotatedRhombusGridShape":
+						inst.IsHiddenRotatedRhombusGridShape = GongExtractBool(rhs)
+					case "IsHiddenGrowthPathRhombusGridShape":
+						inst.IsHiddenGrowthPathRhombusGridShape = GongExtractBool(rhs)
+					case "IsHiddenGrowthVectorShape":
+						inst.IsHiddenGrowthVectorShape = GongExtractBool(rhs)
+					case "IsHiddenPerpendicularVectorGrid":
+						inst.IsHiddenPerpendicularVectorGrid = GongExtractBool(rhs)
+					case "IsHiddenBaseVectorShapeGrid":
+						inst.IsHiddenBaseVectorShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenArcNormalVectorShapeGrid":
+						inst.IsHiddenArcNormalVectorShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenStartArcShapeGrid":
+						inst.IsHiddenStartArcShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenMidArcVectorShapeGrid":
+						inst.IsHiddenMidArcVectorShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenEndArcShapeGrid":
+						inst.IsHiddenEndArcShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenGrowthCurve2D":
+						inst.IsHiddenGrowthCurve2D = GongExtractBool(rhs)
+					case "IsHiddenStackOfGrowthCurve2DByGrowthVector":
+						inst.IsHiddenStackOfGrowthCurve2DByGrowthVector = GongExtractBool(rhs)
+					case "IsChecked":
+						inst.IsChecked = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					}
+				case *Plant3DDiagram:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "IsHiddenStemCylinder3DShape":
+						inst.IsHiddenStemCylinder3DShape = GongExtractBool(rhs)
+					case "StemCylinder3DShape":
+						__gong__assignPointer(&inst.StemCylinder3DShape, rhs, identifierMap)
+					case "IsHiddenParastichyNCurves3DShape":
+						inst.IsHiddenParastichyNCurves3DShape = GongExtractBool(rhs)
+					case "ParastichyNCurves3DShape":
+						__gong__assignPointer(&inst.ParastichyNCurves3DShape, rhs, identifierMap)
+					case "IsHiddenParastichyMCurves3DShape":
+						inst.IsHiddenParastichyMCurves3DShape = GongExtractBool(rhs)
+					case "ParastichyMCurves3DShape":
+						__gong__assignPointer(&inst.ParastichyMCurves3DShape, rhs, identifierMap)
+					case "IsHiddenCutLine3DShape":
+						inst.IsHiddenCutLine3DShape = GongExtractBool(rhs)
+					case "CutLine3DShape":
+						__gong__assignPointer(&inst.CutLine3DShape, rhs, identifierMap)
+					case "IsHiddenCircumference3DShape":
+						inst.IsHiddenCircumference3DShape = GongExtractBool(rhs)
+					case "Circumference3DShape":
+						__gong__assignPointer(&inst.Circumference3DShape, rhs, identifierMap)
+					case "IsHiddenTiledFloor3DShape":
+						inst.IsHiddenTiledFloor3DShape = GongExtractBool(rhs)
+					case "IsHiddenLeaves3DShape":
+						inst.IsHiddenLeaves3DShape = GongExtractBool(rhs)
+					case "Leaves3DShape":
+						__gong__assignPointer(&inst.Leaves3DShape, rhs, identifierMap)
+					case "Rendered3DShape":
+						__gong__assignPointer(&inst.Rendered3DShape, rhs, identifierMap)
+					case "IsChecked":
+						inst.IsChecked = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					}
+				case *PlantAbstract:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "N":
+						inst.N = GongExtractInt(rhs)
+					case "M":
+						inst.M = GongExtractInt(rhs)
+					case "StackHeight":
+						inst.StackHeight = GongExtractInt(rhs)
+					case "RhombusInsideAngle":
+						inst.RhombusInsideAngle = GongExtractFloat(rhs)
+					case "RhombusSideLength":
+						inst.RhombusSideLength = GongExtractFloat(rhs)
+					case "PlantType":
+						GongUnmarshallEnum(&inst.PlantType, rhs)
+					case "TubeVaseAbstract":
+						__gong__assignPointer(&inst.TubeVaseAbstract, rhs, identifierMap)
+					case "StoolAbstract":
+						__gong__assignPointer(&inst.StoolAbstract, rhs, identifierMap)
+					case "ClockAbstract":
+						__gong__assignPointer(&inst.ClockAbstract, rhs, identifierMap)
+					case "MusicAbstract":
+						__gong__assignPointer(&inst.MusicAbstract, rhs, identifierMap)
+					case "CurrentView":
+						GongUnmarshallEnum(&inst.CurrentView, rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "IsSelected":
+						inst.IsSelected = GongExtractBool(rhs)
+					case "IsPlant2DDiagramsNodeExpanded":
+						inst.IsPlant2DDiagramsNodeExpanded = GongExtractBool(rhs)
+					case "Plant2DDiagrams":
+						__gong__assignSliceOfPointers(&inst.Plant2DDiagrams, rhs, identifierMap)
+					case "IsPlant3DDiagramsNodeExpanded":
+						inst.IsPlant3DDiagramsNodeExpanded = GongExtractBool(rhs)
+					case "Plant3DDiagrams":
+						__gong__assignSliceOfPointers(&inst.Plant3DDiagrams, rhs, identifierMap)
+					case "IsVase2DDiagramsNodeExpanded":
+						inst.IsVase2DDiagramsNodeExpanded = GongExtractBool(rhs)
+					case "Vase2DDiagrams":
+						__gong__assignSliceOfPointers(&inst.Vase2DDiagrams, rhs, identifierMap)
+					case "IsTubeVase3DDiagramsNodeExpanded":
+						inst.IsTubeVase3DDiagramsNodeExpanded = GongExtractBool(rhs)
+					case "TubeVase3DDiagrams":
+						__gong__assignSliceOfPointers(&inst.TubeVase3DDiagrams, rhs, identifierMap)
+					case "IsStool2DDiagramsNodeExpanded":
+						inst.IsStool2DDiagramsNodeExpanded = GongExtractBool(rhs)
+					case "Stool2DDiagrams":
+						__gong__assignSliceOfPointers(&inst.Stool2DDiagrams, rhs, identifierMap)
+					case "IsStool3DDiagramsNodeExpanded":
+						inst.IsStool3DDiagramsNodeExpanded = GongExtractBool(rhs)
+					case "Stool3DDiagrams":
+						__gong__assignSliceOfPointers(&inst.Stool3DDiagrams, rhs, identifierMap)
+					case "IsClock2DDiagramsNodeExpanded":
+						inst.IsClock2DDiagramsNodeExpanded = GongExtractBool(rhs)
+					case "Clock2DDiagrams":
+						__gong__assignSliceOfPointers(&inst.Clock2DDiagrams, rhs, identifierMap)
+					case "IsClock3DDiagramsNodeExpanded":
+						inst.IsClock3DDiagramsNodeExpanded = GongExtractBool(rhs)
+					case "Clock3DDiagrams":
+						__gong__assignSliceOfPointers(&inst.Clock3DDiagrams, rhs, identifierMap)
+					}
+				case *Rendered3DShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "ViewX":
+						inst.ViewX = GongExtractFloat(rhs)
+					case "ViewY":
+						inst.ViewY = GongExtractFloat(rhs)
+					case "ViewZ":
+						inst.ViewZ = GongExtractFloat(rhs)
+					case "TargetX":
+						inst.TargetX = GongExtractFloat(rhs)
+					case "TargetY":
+						inst.TargetY = GongExtractFloat(rhs)
+					case "TargetZ":
+						inst.TargetZ = GongExtractFloat(rhs)
+					case "Fov":
+						inst.Fov = GongExtractFloat(rhs)
+					}
+				case *SampledPoints3DShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *StackOfRotatedCarvedOutVaseTrapezeRingsShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *StemCylinder3DShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Transparency":
+						inst.Transparency = GongExtractFloat(rhs)
+					}
+				case *Stool2DDiagram:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Zoom":
+						inst.Zoom = GongExtractFloat(rhs)
+					case "IsHiddenAxesShape":
+						inst.IsHiddenAxesShape = GongExtractBool(rhs)
+					case "IsChecked":
+						inst.IsChecked = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					}
+				case *Stool3DDiagram:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "IsHiddenSeatTopCurveShape":
+						inst.IsHiddenSeatTopCurveShape = GongExtractBool(rhs)
+					case "IsHiddenRotatedSeatTopCurveShape":
+						inst.IsHiddenRotatedSeatTopCurveShape = GongExtractBool(rhs)
+					case "IsHiddenSeatBottomCurveShape":
+						inst.IsHiddenSeatBottomCurveShape = GongExtractBool(rhs)
+					case "IsHiddenRotatedSeatBottomCurveShape":
+						inst.IsHiddenRotatedSeatBottomCurveShape = GongExtractBool(rhs)
+					case "IsHiddenTorus3DShape":
+						inst.IsHiddenTorus3DShape = GongExtractBool(rhs)
+					case "IsHiddenRotatedTorusShape":
+						inst.IsHiddenRotatedTorusShape = GongExtractBool(rhs)
+					case "IsHiddenSampledPoints3DShape":
+						inst.IsHiddenSampledPoints3DShape = GongExtractBool(rhs)
+					case "SampledPoints3DShape":
+						__gong__assignPointer(&inst.SampledPoints3DShape, rhs, identifierMap)
+					case "IsHiddenRotatedSampledPoints3DShape":
+						inst.IsHiddenRotatedSampledPoints3DShape = GongExtractBool(rhs)
+					case "IsHiddenEyeSampledPoints3DShape":
+						inst.IsHiddenEyeSampledPoints3DShape = GongExtractBool(rhs)
+					case "IsHiddenEyeCornersSampledPoints3DShape":
+						inst.IsHiddenEyeCornersSampledPoints3DShape = GongExtractBool(rhs)
+					case "IsHiddenEye3DShape":
+						inst.IsHiddenEye3DShape = GongExtractBool(rhs)
+					case "IsHiddenEyeSeatBottomCurveShape":
+						inst.IsHiddenEyeSeatBottomCurveShape = GongExtractBool(rhs)
+					case "IsHiddenEyeStoolBottomCurveShape":
+						inst.IsHiddenEyeStoolBottomCurveShape = GongExtractBool(rhs)
+					case "IsHiddenSeat3DShape":
+						inst.IsHiddenSeat3DShape = GongExtractBool(rhs)
+					case "IsHiddenEyeVolume3DShape":
+						inst.IsHiddenEyeVolume3DShape = GongExtractBool(rhs)
+					case "IsHiddenSeatAndLegs3DShape":
+						inst.IsHiddenSeatAndLegs3DShape = GongExtractBool(rhs)
+					case "IsHiddenRotatedSeatAndLegs3DShape":
+						inst.IsHiddenRotatedSeatAndLegs3DShape = GongExtractBool(rhs)
+					case "IsHiddenTiledFloor3DShape":
+						inst.IsHiddenTiledFloor3DShape = GongExtractBool(rhs)
+					case "Rendered3DShape":
+						__gong__assignPointer(&inst.Rendered3DShape, rhs, identifierMap)
+					case "IsChecked":
+						inst.IsChecked = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					}
+				case *TopCurvePlane1Shape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *TopCurvePlane2Shape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *TubeVase3DDiagram:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
+						inst.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = GongExtractBool(rhs)
+					case "IsHiddenTorusStackShape":
+						inst.IsHiddenTorusStackShape = GongExtractBool(rhs)
+					case "IsHiddenVerticalTorusStackShape":
+						inst.IsHiddenVerticalTorusStackShape = GongExtractBool(rhs)
+					case "IsHiddenPartiallyRotatedTorusShape":
+						inst.IsHiddenPartiallyRotatedTorusShape = GongExtractBool(rhs)
+					case "IsHiddenStackOfPartiallyRotatedTorusShape":
+						inst.IsHiddenStackOfPartiallyRotatedTorusShape = GongExtractBool(rhs)
+					case "IsHiddenPointsAndLines3DShape":
+						inst.IsHiddenPointsAndLines3DShape = GongExtractBool(rhs)
+					case "IsHiddenKeyHole3DShape":
+						inst.IsHiddenKeyHole3DShape = GongExtractBool(rhs)
+					case "IsHiddenKey3DShape":
+						inst.IsHiddenKey3DShape = GongExtractBool(rhs)
+					case "IsHiddenVolumeKey3DShape":
+						inst.IsHiddenVolumeKey3DShape = GongExtractBool(rhs)
+					case "IsHiddenTorusEdge3DShape":
+						inst.IsHiddenTorusEdge3DShape = GongExtractBool(rhs)
+					case "IsHiddenSampledPoints3DShape":
+						inst.IsHiddenSampledPoints3DShape = GongExtractBool(rhs)
+					case "IsHiddenOriginalPoints3DShape":
+						inst.IsHiddenOriginalPoints3DShape = GongExtractBool(rhs)
+					case "IsHiddenAngle0Shape":
+						inst.IsHiddenAngle0Shape = GongExtractBool(rhs)
+					case "IsHiddenTiledFloor3DShape":
+						inst.IsHiddenTiledFloor3DShape = GongExtractBool(rhs)
+					case "IsHiddenTopCurvePlane1Shape":
+						inst.IsHiddenTopCurvePlane1Shape = GongExtractBool(rhs)
+					case "IsHiddenBottomCurvePlane1Shape":
+						inst.IsHiddenBottomCurvePlane1Shape = GongExtractBool(rhs)
+					case "IsHiddenTopCurvePlane2Shape":
+						inst.IsHiddenTopCurvePlane2Shape = GongExtractBool(rhs)
+					case "IsHiddenBottomCurvePlane2Shape":
+						inst.IsHiddenBottomCurvePlane2Shape = GongExtractBool(rhs)
+					case "IsHiddenCarvedOutTopCurvePlane1Shape":
+						inst.IsHiddenCarvedOutTopCurvePlane1Shape = GongExtractBool(rhs)
+					case "IsHiddenCarvedOutBottomCurvePlane1Shape":
+						inst.IsHiddenCarvedOutBottomCurvePlane1Shape = GongExtractBool(rhs)
+					case "IsHiddenVaseTrapezeRingShape":
+						inst.IsHiddenVaseTrapezeRingShape = GongExtractBool(rhs)
+					case "IsHiddenCarvedOutVaseTrapezeRingShape":
+						inst.IsHiddenCarvedOutVaseTrapezeRingShape = GongExtractBool(rhs)
+					case "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape":
+						inst.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = GongExtractBool(rhs)
+					case "IsHiddenVaseTrapezeBasePlateShape":
+						inst.IsHiddenVaseTrapezeBasePlateShape = GongExtractBool(rhs)
+					case "Rendered3DShape":
+						__gong__assignPointer(&inst.Rendered3DShape, rhs, identifierMap)
+					case "SampledPoints3DShape":
+						__gong__assignPointer(&inst.SampledPoints3DShape, rhs, identifierMap)
+					case "OriginalPoints3DShape":
+						__gong__assignPointer(&inst.OriginalPoints3DShape, rhs, identifierMap)
+					case "Angle0Shape":
+						__gong__assignPointer(&inst.Angle0Shape, rhs, identifierMap)
+					case "TopCurvePlane1Shape":
+						__gong__assignPointer(&inst.TopCurvePlane1Shape, rhs, identifierMap)
+					case "BottomCurvePlane1Shape":
+						__gong__assignPointer(&inst.BottomCurvePlane1Shape, rhs, identifierMap)
+					case "TopCurvePlane2Shape":
+						__gong__assignPointer(&inst.TopCurvePlane2Shape, rhs, identifierMap)
+					case "BottomCurvePlane2Shape":
+						__gong__assignPointer(&inst.BottomCurvePlane2Shape, rhs, identifierMap)
+					case "CarvedOutTopCurvePlane1Shape":
+						__gong__assignPointer(&inst.CarvedOutTopCurvePlane1Shape, rhs, identifierMap)
+					case "CarvedOutBottomCurvePlane1Shape":
+						__gong__assignPointer(&inst.CarvedOutBottomCurvePlane1Shape, rhs, identifierMap)
+					case "VaseTrapezeRingShape":
+						__gong__assignPointer(&inst.VaseTrapezeRingShape, rhs, identifierMap)
+					case "CarvedOutVaseTrapezeRingShape":
+						__gong__assignPointer(&inst.CarvedOutVaseTrapezeRingShape, rhs, identifierMap)
+					case "StackOfRotatedCarvedOutVaseTrapezeRingsShape":
+						__gong__assignPointer(&inst.StackOfRotatedCarvedOutVaseTrapezeRingsShape, rhs, identifierMap)
+					case "VaseTrapezeBasePlateShape":
+						__gong__assignPointer(&inst.VaseTrapezeBasePlateShape, rhs, identifierMap)
+					case "IsChecked":
+						inst.IsChecked = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					}
+				case *TubeVaseAbstract:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Z_Ribbon":
+						inst.Z_Ribbon = GongExtractFloat(rhs)
+					case "RibbonVerticalScale":
+						inst.RibbonVerticalScale = GongExtractFloat(rhs)
+					case "TopPlaneHeight":
+						inst.TopPlaneHeight = GongExtractFloat(rhs)
+					case "BottomPlaneHeight":
+						inst.BottomPlaneHeight = GongExtractFloat(rhs)
+					case "BaseRingBottomPlaneHeight":
+						inst.BaseRingBottomPlaneHeight = GongExtractFloat(rhs)
+					case "ProjectionAngle":
+						inst.ProjectionAngle = GongExtractFloat(rhs)
+					case "BasePlateHeight":
+						inst.BasePlateHeight = GongExtractFloat(rhs)
+					case "CarvedOutTopRingsParameter":
+						inst.CarvedOutTopRingsParameter = GongExtractFloat(rhs)
+					case "BulbousStartTangentMagnitude":
+						inst.BulbousStartTangentMagnitude = GongExtractFloat(rhs)
+					case "BulbousEndAngle":
+						inst.BulbousEndAngle = GongExtractFloat(rhs)
+					case "BulbousEndTangentMagnitude":
+						inst.BulbousEndTangentMagnitude = GongExtractFloat(rhs)
+					case "RelativeVerticalThickness":
+						inst.RelativeVerticalThickness = GongExtractFloat(rhs)
+					case "RelativeRadialThickness":
+						inst.RelativeRadialThickness = GongExtractFloat(rhs)
+					case "RelativeCuttedStackFloorHeight":
+						inst.RelativeCuttedStackFloorHeight = GongExtractFloat(rhs)
+					case "RelativeRotatedTorusSeparation":
+						inst.RelativeRotatedTorusSeparation = GongExtractFloat(rhs)
+					case "RotationRatio":
+						inst.RotationRatio = GongExtractFloat(rhs)
+					case "RadialRepetitions":
+						inst.RadialRepetitions = GongExtractInt(rhs)
+					case "Transparency":
+						inst.Transparency = GongExtractFloat(rhs)
+					case "HasAlternatingRingColors":
+						inst.HasAlternatingRingColors = GongExtractBool(rhs)
+					case "RelativeTrajectoryOffsetX":
+						inst.RelativeTrajectoryOffsetX = GongExtractFloat(rhs)
+					case "RelativeTrajectoryOffsetY":
+						inst.RelativeTrajectoryOffsetY = GongExtractFloat(rhs)
+					case "NbStepP1P2":
+						inst.NbStepP1P2 = GongExtractInt(rhs)
+					case "ChosenStep":
+						inst.ChosenStep = GongExtractInt(rhs)
+					case "RelativeHorizontalRingsHeight":
+						inst.RelativeHorizontalRingsHeight = GongExtractFloat(rhs)
+					case "OffsetKeyX":
+						inst.OffsetKeyX = GongExtractFloat(rhs)
+					case "OffsetKeyY":
+						inst.OffsetKeyY = GongExtractFloat(rhs)
+					case "HeightKey":
+						inst.HeightKey = GongExtractFloat(rhs)
+					case "WidthKey":
+						inst.WidthKey = GongExtractFloat(rhs)
+					case "RelativeKeySize":
+						inst.RelativeKeySize = GongExtractFloat(rhs)
+					case "MovieNbFrames":
+						inst.MovieNbFrames = GongExtractInt(rhs)
+					}
+				case *Vase2DDiagram:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Zoom":
+						inst.Zoom = GongExtractFloat(rhs)
+					case "IsVaseArcNodesExpanded":
+						inst.IsVaseArcNodesExpanded = GongExtractBool(rhs)
+					case "IsVaseClampingNodesExpanded":
+						inst.IsVaseClampingNodesExpanded = GongExtractBool(rhs)
+					case "IsHiddenAxesShape":
+						inst.IsHiddenAxesShape = GongExtractBool(rhs)
+					case "IsHiddenBottomStartArcShapeGrid":
+						inst.IsHiddenBottomStartArcShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenBottomEndArcShapeGrid":
+						inst.IsHiddenBottomEndArcShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenBottomStackOfGrowthCurve":
+						inst.IsHiddenBottomStackOfGrowthCurve = GongExtractBool(rhs)
+					case "IsHiddenShiftedLeftStackOfGrowthCurve":
+						inst.IsHiddenShiftedLeftStackOfGrowthCurve = GongExtractBool(rhs)
+					case "IsHiddenShiftedLeftStackOfNormalVector":
+						inst.IsHiddenShiftedLeftStackOfNormalVector = GongExtractBool(rhs)
+					case "IsHiddenPerpendicularVectorGridHalfway":
+						inst.IsHiddenPerpendicularVectorGridHalfway = GongExtractBool(rhs)
+					case "IsHiddenTopStartArcShapeGrid":
+						inst.IsHiddenTopStartArcShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenShiftedBottomTopStartArcShapeGrid":
+						inst.IsHiddenShiftedBottomTopStartArcShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenTopMidArcVectorShapeGrid":
+						inst.IsHiddenTopMidArcVectorShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenStartHalfwayArcShapeGrid":
+						inst.IsHiddenStartHalfwayArcShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenTopStartHalfwayArcShapeGrid":
+						inst.IsHiddenTopStartHalfwayArcShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenEndHalfwayArcShapeGrid":
+						inst.IsHiddenEndHalfwayArcShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenTopEndHalfwayArcShapeGrid":
+						inst.IsHiddenTopEndHalfwayArcShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenTopEndArcShapeGrid":
+						inst.IsHiddenTopEndArcShapeGrid = GongExtractBool(rhs)
+					case "IsHiddenStackOfGrowthCurve":
+						inst.IsHiddenStackOfGrowthCurve = GongExtractBool(rhs)
+					case "IsHiddenTopStackOfGrowthCurve":
+						inst.IsHiddenTopStackOfGrowthCurve = GongExtractBool(rhs)
+					case "IsHiddenTopGrowthCurve2D":
+						inst.IsHiddenTopGrowthCurve2D = GongExtractBool(rhs)
+					case "IsHiddenStackOfGrowthCurve2D":
+						inst.IsHiddenStackOfGrowthCurve2D = GongExtractBool(rhs)
+					case "IsHiddenTopStackOfGrowthCurve2D":
+						inst.IsHiddenTopStackOfGrowthCurve2D = GongExtractBool(rhs)
+					case "IsHiddenGrowthCurve2DRibbon":
+						inst.IsHiddenGrowthCurve2DRibbon = GongExtractBool(rhs)
+					case "IsHiddenShiftedRightGrowthCurve2DRibbon":
+						inst.IsHiddenShiftedRightGrowthCurve2DRibbon = GongExtractBool(rhs)
+					case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
+						inst.IsHiddenShiftedLeftGrowthCurve2DRibbon = GongExtractBool(rhs)
+					case "IsHiddenStackOfGrowthCurve2DRibbon":
+						inst.IsHiddenStackOfGrowthCurve2DRibbon = GongExtractBool(rhs)
+					case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
+						inst.IsHiddenStackOfRotatedGrowthCurve2DRibbon = GongExtractBool(rhs)
+					case "IsHiddenPartiallyGrowthCurve2DRibbon":
+						inst.IsHiddenPartiallyGrowthCurve2DRibbon = GongExtractBool(rhs)
+					case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
+						inst.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = GongExtractBool(rhs)
+					case "IsHiddenPartiallyGrowthCurve2DTrajectory":
+						inst.IsHiddenPartiallyGrowthCurve2DTrajectory = GongExtractBool(rhs)
+					case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
+						inst.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = GongExtractBool(rhs)
+					case "IsHiddenPxShape":
+						inst.IsHiddenPxShape = GongExtractBool(rhs)
+					case "IsHiddenChosenP1P2PairShape":
+						inst.IsHiddenChosenP1P2PairShape = GongExtractBool(rhs)
+					case "IsHiddenKeyHoleShape":
+						inst.IsHiddenKeyHoleShape = GongExtractBool(rhs)
+					case "IsChecked":
+						inst.IsChecked = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					}
+				case *VaseTrapezeBasePlateShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *VaseTrapezeRingShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+							}
+						}
 					}
 				}
 			}
-		},
-		func(identName string, fieldName string, valueExpr ast.Expr) {
-			if instance, exists := identifierMap[identName]; exists {
-				typeName := instance.GongGetGongstructName()
-				if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-					unmarshaller.UnmarshallField(stage, instance, fieldName, valueExpr, identifierMap)
+		case *ast.ExprStmt:
+			if call, ok := node.X.(*ast.CallExpr); ok {
+				if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+					if sel.Sel.Name == "Unstage" {
+						if ident, ok := sel.X.(*ast.Ident); ok {
+							if instance, ok := identifierMap[ident.Name]; ok {
+								if inst, ok := instance.(clock.GongstructIF); ok && stage.ClockStage != nil {
+									inst.UnstageVoid(stage.ClockStage)
+								}
+								if inst, ok := instance.(music.GongstructIF); ok && stage.MusicStage != nil {
+									inst.UnstageVoid(stage.MusicStage)
+								}
+								if inst, ok := instance.(stool.GongstructIF); ok && stage.StoolStage != nil {
+									inst.UnstageVoid(stage.StoolStage)
+								}
+								if inst, ok := instance.(GongstructIF); ok {
+									inst.UnstageVoid(stage)
+								}
+							}
+						}
+					}
+					if sel.Sel.Name == "Commit" {
+						if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "stage" {
+							if stage.IsInDeltaMode() && stage.GetNavigationMode() != GongNavigationModeNavigating {
+								stage.Commit()
+							} else {
+								stage.ComputeInstancesNb()
+								stage.ComputeReferenceAndOrders()
+								if stage.OnInitCommitCallback != nil {
+									stage.OnInitCommitCallback.BeforeCommit(stage)
+								}
+								if stage.OnInitCommitFromBackCallback != nil {
+									stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+								}
+								stage.RunBeforeCommitHooks()
+								stage.RunAfterCommitHooks()
+							}
+						}
+					}
 				}
 			}
-		},
-		func(identName string) {
-			if instance, ok := identifierMap[identName]; ok {
-				instance.UnstageVoid(stage)
-			}
-		},
-		func() {
-			if stage.IsInDeltaMode() && stage.GetNavigationMode() != GongNavigationModeNavigating {
-				stage.Commit()
-			} else {
-				stage.ComputeInstancesNb()
-				stage.ComputeReferenceAndOrders()
-				if stage.OnInitCommitCallback != nil {
-					stage.OnInitCommitCallback.BeforeCommit(stage)
-				}
-				if stage.OnInitCommitFromBackCallback != nil {
-					stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
-				}
-				// 1. Run all Before Commit hooks
-				stage.RunBeforeCommitHooks()
+		}
+		return true
+	})
 
-				// 2. Run all After Commit hooks
-				stage.RunAfterCommitHooks()
-			}
-		},
-	)
+	return nil
 }
 
 // --- Generic Helpers for Unmarshallers (delegating to gong_runtime) ---
@@ -135,6 +1081,85 @@ var GongExtractDate = gong_runtime.ExtractDate
 
 func __gong__extractMiddleUint(input string) (uint, error) {
 	return gong_runtime.ExtractMiddleUint(input)
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok {
+		funcName := ""
+		var isSlices bool
+		if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+			if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+				isSlices = true
+				funcName = sel.Sel.Name
+			}
+		} else if ident, ok := call.Fun.(*ast.Ident); ok {
+			funcName = ident.Name
+		}
+
+		if isSlices {
+			if funcName == "Delete" && len(call.Args) == 3 {
+				start := GongExtractInt(call.Args[1])
+				end := GongExtractInt(call.Args[2])
+				if end <= len(*slice) {
+					*slice = slices.Delete(*slice, start, end)
+				}
+			} else if funcName == "Insert" && len(call.Args) == 3 {
+				index := GongExtractInt(call.Args[1])
+				if index <= len(*slice) {
+					if rIdent, ok := call.Args[2].(*ast.Ident); ok {
+						if target, ok := identifierMap[rIdent.Name]; ok {
+							if typedTarget, ok := target.(*T); ok {
+								*slice = slices.Insert(*slice, index, typedTarget)
+							}
+						}
+					}
+				}
+			}
+		} else if funcName == "append" && len(call.Args) >= 2 {
+			for i := 1; i < len(call.Args); i++ {
+				if rIdent, ok := call.Args[i].(*ast.Ident); ok {
+					if target, ok := identifierMap[rIdent.Name]; ok {
+						if typedTarget, ok := target.(*T); ok {
+							*slice = append(*slice, typedTarget)
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 // GongUnmarshallSliceOfPointers handles append, slices.Delete, and slices.Insert for slice fields

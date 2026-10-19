@@ -16,14 +16,14 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__FileToUpload__00000000_ := (&__stage_0__.FileToUpload{Name: `DOORS export sample 1.reqif`}).Stage(stageSet.Stage)
+	__stage_0__FileToUpload__00000000_ := (&__stage_0__.FileToUpload{Name: `DOORS export sample 1.reqif`}).Stage(stage)
 	__stage_0__Message__00000000_ := (&__stage_0__.Message{Name: `
-Drop your <put your name here> file`}).Stage(stageSet.Stage)
+Drop your <put your name here> file`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

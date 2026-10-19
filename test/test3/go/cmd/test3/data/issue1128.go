@@ -16,7 +16,7 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -25,7 +25,7 @@ func _(stageSet *__stage_0__.StageSet) {
 
 A0 Double quote (Quotation mark) " Backtick (Grave accent) ` + "`" + ` Forward slash / Backslash \ 
 
-A0 Double quote (Quotation mark) " Backtick (Grave accent) ` + "`" + ` Forward slash / Backslash \ `}).Stage(stageSet.Stage)
+A0 Double quote (Quotation mark) " Backtick (Grave accent) ` + "`" + ` Forward slash / Backslash \ `}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

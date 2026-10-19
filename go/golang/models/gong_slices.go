@@ -34,7 +34,7 @@ var (
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
-	// insertion point per named struct{{` + string(rune(GongSliceReverseMapCompute)) + `}}
+{{SubStageComputeReverseMapsStatements}}	// insertion point per named struct{{` + string(rune(GongSliceReverseMapCompute)) + `}}
 	// end of insertion point per named struct
 }
 
@@ -179,7 +179,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
-	// insertion point per named struct{{` + string(rune(GongSliceGongComputeReferencePass1)) + `}}
+{{SubStageComputeReferenceAndOrdersStatements}}	// insertion point per named struct{{` + string(rune(GongSliceGongComputeReferencePass1)) + `}}
 	// insertion point per named struct{{` + string(rune(GongSliceGongComputeReferencePass2)) + `}}
 	stage.recomputeOrders()
 }
@@ -534,6 +534,8 @@ func CodeGeneratorModelGongSlice(
 		pkgPathRoot = strings.ReplaceAll(pkgGoPath, "/models", "")
 	}
 
+	resolved := ResolveSubStages(modelPkg, pkgPath)
+
 	caserEnglish := cases.Title(language.English)
 	codeGO = models.Replace(codeGO,
 		"{{PkgName}}", pkgName,
@@ -542,6 +544,8 @@ func CodeGeneratorModelGongSlice(
 		"{{PkgGoName}}", modelPkg.PkgGoName,
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 		"{{PkgPathRoot}}", pkgPathRoot,
+		"{{SubStageComputeReverseMapsStatements}}", resolved.ComputeReverseMapsStatements,
+		"{{SubStageComputeReferenceAndOrdersStatements}}", resolved.ComputeReferenceAndOrdersStatements,
 	)
 
 	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongSlicesGoFilePath)))

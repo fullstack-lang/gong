@@ -48,8 +48,8 @@ func _(stage *models.Stage) {
 	}
 
 	// Assertions on the output
-	if !strings.Contains(out, `func _(stageSet *__stage_0__.StageSet)`) {
-		t.Errorf("expected StageSet function header, got:\n%s", out)
+	if !strings.Contains(out, `func _(stage *__stage_0__.Stage)`) {
+		t.Errorf("expected Stage function header, got:\n%s", out)
 	}
 	if !strings.Contains(out, `__stage_0__ "github.com/fullstack-lang/gong/test/test2/go/models"`) {
 		t.Errorf("expected __stage_0__ models import, got:\n%s", out)
@@ -57,10 +57,10 @@ func _(stage *models.Stage) {
 	if !strings.Contains(out, `_ *__stage_0__.Stage`) {
 		t.Errorf("expected dummy declaration _ *__stage_0__.Stage, got:\n%s", out)
 	}
-	if !strings.Contains(out, `__stage_0__A__00000000_ := (&__stage_0__.A{Name: "A1"}).Stage(stageSet.Stage)`) {
+	if !strings.Contains(out, `__stage_0__A__00000000_ := (&__stage_0__.A{Name: "A1"}).Stage(stage)`) {
 		t.Errorf("expected migrated A declaration, got:\n%s", out)
 	}
-	if !strings.Contains(out, `__stage_0__B__00000000_ := (&__stage_0__.B{Name: "B1"}).Stage(stageSet.Stage)`) {
+	if !strings.Contains(out, `__stage_0__B__00000000_ := (&__stage_0__.B{Name: "B1"}).Stage(stage)`) {
 		t.Errorf("expected migrated B declaration, got:\n%s", out)
 	}
 	if !strings.Contains(out, `__stage_0__A__00000000_.NumberField = 42`) {
@@ -78,8 +78,8 @@ func _(stage *models.Stage) {
 	if err != nil {
 		t.Fatalf("MigrateStageSource on already migrated code failed: %v", err)
 	}
-	if !strings.Contains(out2, `func _(stageSet *__stage_0__.StageSet)`) {
-		t.Errorf("expected idempotent StageSet output, got:\n%s", out2)
+	if !strings.Contains(out2, `func _(stage *__stage_0__.Stage)`) {
+		t.Errorf("expected idempotent Stage output, got:\n%s", out2)
 	}
 }
 
@@ -143,8 +143,8 @@ func TestMigrateStageFile(t *testing.T) {
 	}
 
 	content := string(data)
-	if !strings.Contains(content, `func _(stageSet *__stage_0__.StageSet)`) {
-		t.Errorf("expected StageSet function in migrated file, got:\n%s", content)
+	if !strings.Contains(content, `func _(stage *__stage_0__.Stage)`) {
+		t.Errorf("expected Stage function in migrated file, got:\n%s", content)
 	}
 	if !strings.Contains(content, `__stage_0__A__00000000_ := (&__stage_0__.A{Name: `) {
 		t.Errorf("expected migrated instance A1, got:\n%s", content)
@@ -156,4 +156,3 @@ func TestMigrateStageFile(t *testing.T) {
 		t.Errorf("expected migrated pointer A.B, got:\n%s", content)
 	}
 }
-

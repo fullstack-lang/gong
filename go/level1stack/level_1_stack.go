@@ -21,7 +21,7 @@ type BeforeCommitImplementation struct {
 	marshallOnCommit string
 
 	packageName string
-	stageSet *models.StageSet
+	stage *models.Stage
 }
 
 func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
@@ -42,19 +42,17 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 		packageName = "main"
 	}
 
-	if impl.stageSet != nil {
+	if impl.stage != nil {
 		targetPath := filename
 		if !filepath.IsAbs(targetPath) && !strings.HasPrefix(targetPath, "./") && !strings.HasPrefix(targetPath, "../") {
 			targetPath = "./" + targetPath
 		}
-		impl.stageSet.MarshallFile(targetPath, packageName)
+		impl.stage.MarshallFile(targetPath, packageName)
 	}
 }
 
 type Level1Stack struct {
 	Stage *models.Stage
-	StageSet      *models.StageSet
-	StageSetProbe *probe.StageSetProbe
 	Probe *probe.Probe
 	R     *http.ServeMux
 }
@@ -84,27 +82,6 @@ func NewLevel1StackDelta(
 	return newLevel1Stack(stackPath, unmarshallFromCode, marshallOnCommit, withProbe, embeddedDiagrams, deltaMode)
 }
 
-func NewLevel1StackStageSet(
-	stackPath string,
-	unmarshallFromCode string,
-	marshallOnCommit string,
-	withProbe bool,
-	embeddedDiagrams bool,
-) (level1Stack *Level1Stack) {
-	return NewLevel1StackDelta(stackPath, unmarshallFromCode, marshallOnCommit, withProbe, embeddedDiagrams, false)
-}
-
-func NewLevel1StackStageSetDelta(
-	stackPath string,
-	unmarshallFromCode string,
-	marshallOnCommit string,
-	withProbe bool,
-	embeddedDiagrams bool,
-	deltaMode bool,
-) (level1Stack *Level1Stack) {
-	return newLevel1Stack(stackPath, unmarshallFromCode, marshallOnCommit, withProbe, embeddedDiagrams, deltaMode)
-}
-
 func newLevel1Stack(
 	stackPath string,
 	unmarshallFromCode string,
@@ -122,8 +99,6 @@ func newLevel1Stack(
 	}
 
 	level1Stack.Stage = stage
-	stageSet := models.NewStageSetFromStage(stage)
-	level1Stack.StageSet = stageSet
 
 	level1Stack.R = split_static.ServeStaticFiles(false)
 	if withProbe {
@@ -139,17 +114,10 @@ func newLevel1Stack(
 		)
 
 		stage.SetProbeIF(level1Stack.Probe)
-		level1Stack.StageSetProbe = probe.NewStageSetProbe(
-			level1Stack.R,
-			embeddedgo.GoModelsDir,
-			embeddedgo.GoDiagramsDir,
-			embeddedDiagrams,
-			stageSet,
-		)
 	}
 
 	if unmarshallFromCode != "" {
-		err := stageSet.ParseAstFile(unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -157,19 +125,19 @@ func newLevel1Stack(
 			log.Println("no file to read " + err.Error())
 		}
 
-		stageSet.ComputeReverseMaps()
-		stageSet.ComputeInstancesNb()
-		stageSet.ComputeReferenceAndOrders()
+		stage.ComputeReverseMaps()
+		stage.ComputeInstancesNb()
+		stage.ComputeReferenceAndOrders()
 	} else {
 		// in case the database is used, checkout the content to the stage
-		stageSet.Checkout()
+		stage.Checkout()
 	}
 
 	// hook automatic marshall to go code at every commit
 	if marshallOnCommit != "" {
 		hook := new(BeforeCommitImplementation)
 		hook.marshallOnCommit = marshallOnCommit
-		hook.stageSet = stageSet
+		hook.stage = stage
 		stage.OnInitCommitCallback = hook
 	}
 

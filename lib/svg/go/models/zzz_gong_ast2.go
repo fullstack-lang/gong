@@ -3,15 +3,27 @@ package models
 
 import (
 	"embed"
+	"errors"
 	"go/ast"
+	"go/parser"
 	"go/token"
 	"log"
+	"path/filepath"
+	"slices"
+	"strings"
 	"time"
 
 	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
-var _ = time.Hour
+var (
+	_ = errors.New
+	_ = parser.ParseFile
+	_ = filepath.Base
+	_ = slices.Index[[]int, int]
+	_ = strings.Trim
+	_ = time.Hour
+)
 
 // swagger:ignore
 type GONG__ExpressionType = gong_runtime.GONG__ExpressionType
@@ -60,68 +72,967 @@ func (stage *Stage) ParseAstEmbeddedFile(directory embed.FS, pathToFile string) 
 
 // ParseAstString parses the Go source code from a string
 func (stage *Stage) ParseAstString(blob string, preserveOrder bool) error {
-	inFile, fset, err := gong_runtime.ParseAstString(blob)
-	if err != nil {
-		return err
+	var inFile *ast.File
+	var fset *token.FileSet
+	var err error
+	if strings.HasPrefix(strings.TrimSpace(blob), "package ") || strings.Contains(blob, "\npackage ") {
+		fset = token.NewFileSet()
+		inFile, err = parser.ParseFile(fset, "", blob, parser.ParseComments)
+		if err != nil {
+			return errors.New("Unable to parse " + err.Error())
+		}
+	} else {
+		inFile, fset, err = gong_runtime.ParseAstString(blob)
+		if err != nil {
+			return err
+		}
 	}
 	return stage.ParseAstFileFromAst(inFile, fset, preserveOrder)
 }
 
-// ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
+// ParseAstFileFromAst traverses the AST and stages instances across stage and its sub-stages
 func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	gong_runtime.CheckModuleVersion(stage.GetProbeIF(), inFile)
 
-	// 1. Remove Global Variables: Use a local map to track variable names to instances
-	identifierMap := make(map[string]GongstructIF)
+	identifierMap := make(map[string]any)
 
-	for _, instance := range stage.GetInstances() {
-		identifierMap[instance.GongGetIdentifier(stage)] = instance
+	if stage != nil {
+		for _, instance := range stage.GetInstances() {
+			identifierMap[instance.GongGetIdentifier(stage)] = instance
+			identifierMap["__models"+instance.GongGetIdentifier(stage)] = instance
+		}
 	}
 
-	return gong_runtime.WalkAstFile(inFile,
-		func(identName string, typeName string, instanceName string) {
-			if typeName != "" {
-				if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-					instance, err := unmarshaller.Initialize(stage, identName, instanceName, preserveOrder)
-					if err == nil {
-						identifierMap[identName] = instance
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/lib/svg/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
+	ast.Inspect(inFile, func(n ast.Node) bool {
+		switch node := n.(type) {
+		case *ast.AssignStmt:
+			if len(node.Lhs) < 1 || len(node.Rhs) < 1 {
+				return true
+			}
+
+			// CASE 1: Initialization ( := )
+			if node.Tok == token.DEFINE {
+				if ident, ok := node.Lhs[0].(*ast.Ident); ok {
+					var pkgAlias string
+					var typeName string
+					var instanceName string
+
+					ast.Inspect(node.Rhs[0], func(expr ast.Node) bool {
+						if compLit, ok := expr.(*ast.CompositeLit); ok {
+							if selExpr, ok := compLit.Type.(*ast.SelectorExpr); ok {
+								if pkgId, ok := selExpr.X.(*ast.Ident); ok {
+									pkgAlias = pkgId.Name
+								}
+								typeName = selExpr.Sel.Name
+								for _, elt := range compLit.Elts {
+									if kv, ok := elt.(*ast.KeyValueExpr); ok {
+										if k, ok := kv.Key.(*ast.Ident); ok && k.Name == "Name" {
+											if v, ok := kv.Value.(*ast.BasicLit); ok {
+												instanceName = strings.Trim(v.Value, "\"`")
+											}
+										}
+									}
+								}
+								return false
+							}
+						}
+						return true
+					})
+
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					} else if pkgAlias == "" || pkgAlias == "models" || len(inFile.Imports) == 0 {
+						pkgAlias = "models"
+					}
+
+					switch pkgAlias {
+			case "models":
+				switch typeName {
+				case "Animate":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Animate), stage, ident.Name, instanceName, preserveOrder)
+				case "Circle":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Circle), stage, ident.Name, instanceName, preserveOrder)
+				case "Condition":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Condition), stage, ident.Name, instanceName, preserveOrder)
+				case "ControlPoint":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ControlPoint), stage, ident.Name, instanceName, preserveOrder)
+				case "Ellipse":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Ellipse), stage, ident.Name, instanceName, preserveOrder)
+				case "FileToDownload":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FileToDownload), stage, ident.Name, instanceName, preserveOrder)
+				case "Layer":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Layer), stage, ident.Name, instanceName, preserveOrder)
+				case "Line":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Line), stage, ident.Name, instanceName, preserveOrder)
+				case "Link":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Link), stage, ident.Name, instanceName, preserveOrder)
+				case "LinkAnchoredPath":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(LinkAnchoredPath), stage, ident.Name, instanceName, preserveOrder)
+				case "LinkAnchoredText":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(LinkAnchoredText), stage, ident.Name, instanceName, preserveOrder)
+				case "Path":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Path), stage, ident.Name, instanceName, preserveOrder)
+				case "Point":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Point), stage, ident.Name, instanceName, preserveOrder)
+				case "Polygone":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Polygone), stage, ident.Name, instanceName, preserveOrder)
+				case "Polyline":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Polyline), stage, ident.Name, instanceName, preserveOrder)
+				case "Rect":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Rect), stage, ident.Name, instanceName, preserveOrder)
+				case "RectAnchoredPath":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(RectAnchoredPath), stage, ident.Name, instanceName, preserveOrder)
+				case "RectAnchoredPngImage":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(RectAnchoredPngImage), stage, ident.Name, instanceName, preserveOrder)
+				case "RectAnchoredRect":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(RectAnchoredRect), stage, ident.Name, instanceName, preserveOrder)
+				case "RectAnchoredText":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(RectAnchoredText), stage, ident.Name, instanceName, preserveOrder)
+				case "RectLinkLink":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(RectLinkLink), stage, ident.Name, instanceName, preserveOrder)
+				case "SVG":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SVG), stage, ident.Name, instanceName, preserveOrder)
+				case "SvgText":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(SvgText), stage, ident.Name, instanceName, preserveOrder)
+				case "Text":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Text), stage, ident.Name, instanceName, preserveOrder)
+				}
+					}
+				}
+				return false
+			}
+
+			// CASE 2: Assignment ( = )
+			if node.Tok == token.ASSIGN {
+				if selExpr, ok := node.Lhs[0].(*ast.SelectorExpr); ok {
+					if ident, ok := selExpr.X.(*ast.Ident); ok {
+						if instance, exists := identifierMap[ident.Name]; exists {
+							fieldName := selExpr.Sel.Name
+							rhs := node.Rhs[0]
+							switch inst := instance.(type) {
+				case *Animate:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "AttributeName":
+						inst.AttributeName = GongExtractString(rhs)
+					case "Values":
+						inst.Values = GongExtractString(rhs)
+					case "From":
+						inst.From = GongExtractString(rhs)
+					case "To":
+						inst.To = GongExtractString(rhs)
+					case "Dur":
+						inst.Dur = GongExtractString(rhs)
+					case "RepeatCount":
+						inst.RepeatCount = GongExtractString(rhs)
+					}
+				case *Circle:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "CX":
+						inst.CX = GongExtractFloat(rhs)
+					case "CY":
+						inst.CY = GongExtractFloat(rhs)
+					case "Radius":
+						inst.Radius = GongExtractFloat(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					case "Animations":
+						__gong__assignSliceOfPointers(&inst.Animations, rhs, identifierMap)
+					}
+				case *Condition:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *ControlPoint:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "X_Relative":
+						inst.X_Relative = GongExtractFloat(rhs)
+					case "Y_Relative":
+						inst.Y_Relative = GongExtractFloat(rhs)
+					case "ClosestRect":
+						__gong__assignPointer(&inst.ClosestRect, rhs, identifierMap)
+					}
+				case *Ellipse:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "CX":
+						inst.CX = GongExtractFloat(rhs)
+					case "CY":
+						inst.CY = GongExtractFloat(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "RY":
+						inst.RY = GongExtractFloat(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					case "Animates":
+						__gong__assignSliceOfPointers(&inst.Animates, rhs, identifierMap)
+					}
+				case *FileToDownload:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Base64EncodedContent":
+						inst.Base64EncodedContent = GongExtractString(rhs)
+					}
+				case *Layer:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Rects":
+						__gong__assignSliceOfPointers(&inst.Rects, rhs, identifierMap)
+					case "Texts":
+						__gong__assignSliceOfPointers(&inst.Texts, rhs, identifierMap)
+					case "Circles":
+						__gong__assignSliceOfPointers(&inst.Circles, rhs, identifierMap)
+					case "Lines":
+						__gong__assignSliceOfPointers(&inst.Lines, rhs, identifierMap)
+					case "Ellipses":
+						__gong__assignSliceOfPointers(&inst.Ellipses, rhs, identifierMap)
+					case "Polylines":
+						__gong__assignSliceOfPointers(&inst.Polylines, rhs, identifierMap)
+					case "Polygones":
+						__gong__assignSliceOfPointers(&inst.Polygones, rhs, identifierMap)
+					case "Paths":
+						__gong__assignSliceOfPointers(&inst.Paths, rhs, identifierMap)
+					case "Links":
+						__gong__assignSliceOfPointers(&inst.Links, rhs, identifierMap)
+					case "RectLinkLinks":
+						__gong__assignSliceOfPointers(&inst.RectLinkLinks, rhs, identifierMap)
+					}
+				case *Line:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "X1":
+						inst.X1 = GongExtractFloat(rhs)
+					case "Y1":
+						inst.Y1 = GongExtractFloat(rhs)
+					case "X2":
+						inst.X2 = GongExtractFloat(rhs)
+					case "Y2":
+						inst.Y2 = GongExtractFloat(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					case "Animates":
+						__gong__assignSliceOfPointers(&inst.Animates, rhs, identifierMap)
+					case "MouseClickX":
+						inst.MouseClickX = GongExtractFloat(rhs)
+					case "MouseClickY":
+						inst.MouseClickY = GongExtractFloat(rhs)
+					}
+				case *Link:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "IsBezierCurve":
+						inst.IsBezierCurve = GongExtractBool(rhs)
+					case "Start":
+						__gong__assignPointer(&inst.Start, rhs, identifierMap)
+					case "StartAnchorType":
+						GongUnmarshallEnum(&inst.StartAnchorType, rhs)
+					case "End":
+						__gong__assignPointer(&inst.End, rhs, identifierMap)
+					case "EndAnchorType":
+						GongUnmarshallEnum(&inst.EndAnchorType, rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "CornerRadius":
+						inst.CornerRadius = GongExtractFloat(rhs)
+					case "HasEndArrow":
+						inst.HasEndArrow = GongExtractBool(rhs)
+					case "EndArrowSize":
+						inst.EndArrowSize = GongExtractFloat(rhs)
+					case "EndArrowOffset":
+						inst.EndArrowOffset = GongExtractFloat(rhs)
+					case "HasStartArrow":
+						inst.HasStartArrow = GongExtractBool(rhs)
+					case "StartArrowSize":
+						inst.StartArrowSize = GongExtractFloat(rhs)
+					case "StartArrowOffset":
+						inst.StartArrowOffset = GongExtractFloat(rhs)
+					case "TextAtArrowStart":
+						__gong__assignSliceOfPointers(&inst.TextAtArrowStart, rhs, identifierMap)
+					case "TextAtArrowEnd":
+						__gong__assignSliceOfPointers(&inst.TextAtArrowEnd, rhs, identifierMap)
+					case "TextAtCorner":
+						__gong__assignSliceOfPointers(&inst.TextAtCorner, rhs, identifierMap)
+					case "PathAtArrowStart":
+						__gong__assignSliceOfPointers(&inst.PathAtArrowStart, rhs, identifierMap)
+					case "PathAtArrowEnd":
+						__gong__assignSliceOfPointers(&inst.PathAtArrowEnd, rhs, identifierMap)
+					case "PathAtCorner":
+						__gong__assignSliceOfPointers(&inst.PathAtCorner, rhs, identifierMap)
+					case "ControlPoints":
+						__gong__assignSliceOfPointers(&inst.ControlPoints, rhs, identifierMap)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					case "MouseX":
+						inst.MouseX = GongExtractFloat(rhs)
+					case "MouseY":
+						inst.MouseY = GongExtractFloat(rhs)
+					case "MouseEventKey":
+						GongUnmarshallEnum(&inst.MouseEventKey, rhs)
+					}
+				case *LinkAnchoredPath:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Definition":
+						inst.Definition = GongExtractString(rhs)
+					case "X_Offset":
+						inst.X_Offset = GongExtractFloat(rhs)
+					case "Y_Offset":
+						inst.Y_Offset = GongExtractFloat(rhs)
+					case "ScalePropotionnally":
+						inst.ScalePropotionnally = GongExtractBool(rhs)
+					case "AppliedScaling":
+						inst.AppliedScaling = GongExtractFloat(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					}
+				case *LinkAnchoredText:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Content":
+						inst.Content = GongExtractString(rhs)
+					case "AutomaticLayout":
+						inst.AutomaticLayout = GongExtractBool(rhs)
+					case "LinkAnchorType":
+						GongUnmarshallEnum(&inst.LinkAnchorType, rhs)
+					case "X_Offset":
+						inst.X_Offset = GongExtractFloat(rhs)
+					case "Y_Offset":
+						inst.Y_Offset = GongExtractFloat(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontStyle":
+						inst.FontStyle = GongExtractString(rhs)
+					case "LetterSpacing":
+						inst.LetterSpacing = GongExtractString(rhs)
+					case "FontFamily":
+						inst.FontFamily = GongExtractString(rhs)
+					case "WhiteSpace":
+						GongUnmarshallEnum(&inst.WhiteSpace, rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					case "Animates":
+						__gong__assignSliceOfPointers(&inst.Animates, rhs, identifierMap)
+					}
+				case *Path:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Definition":
+						inst.Definition = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					case "Animates":
+						__gong__assignSliceOfPointers(&inst.Animates, rhs, identifierMap)
+					}
+				case *Point:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "X":
+						inst.X = GongExtractFloat(rhs)
+					case "Y":
+						inst.Y = GongExtractFloat(rhs)
+					}
+				case *Polygone:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Points":
+						inst.Points = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					case "Animates":
+						__gong__assignSliceOfPointers(&inst.Animates, rhs, identifierMap)
+					}
+				case *Polyline:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Points":
+						inst.Points = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					case "Animates":
+						__gong__assignSliceOfPointers(&inst.Animates, rhs, identifierMap)
+					}
+				case *Rect:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "X":
+						inst.X = GongExtractFloat(rhs)
+					case "Y":
+						inst.Y = GongExtractFloat(rhs)
+					case "Width":
+						inst.Width = GongExtractFloat(rhs)
+					case "Height":
+						inst.Height = GongExtractFloat(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "Peers":
+						__gong__assignSliceOfPointers(&inst.Peers, rhs, identifierMap)
+					case "EnclosingRect":
+						__gong__assignPointer(&inst.EnclosingRect, rhs, identifierMap)
+					case "Obstacles":
+						__gong__assignSliceOfPointers(&inst.Obstacles, rhs, identifierMap)
+					case "AnchoredTo":
+						__gong__assignPointer(&inst.AnchoredTo, rhs, identifierMap)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					case "HoveringTrigger":
+						__gong__assignSliceOfPointers(&inst.HoveringTrigger, rhs, identifierMap)
+					case "DisplayConditions":
+						__gong__assignSliceOfPointers(&inst.DisplayConditions, rhs, identifierMap)
+					case "Animations":
+						__gong__assignSliceOfPointers(&inst.Animations, rhs, identifierMap)
+					case "IsSelectable":
+						inst.IsSelectable = GongExtractBool(rhs)
+					case "IsSelected":
+						inst.IsSelected = GongExtractBool(rhs)
+					case "CanHaveLeftHandle":
+						inst.CanHaveLeftHandle = GongExtractBool(rhs)
+					case "HasLeftHandle":
+						inst.HasLeftHandle = GongExtractBool(rhs)
+					case "CanHaveRightHandle":
+						inst.CanHaveRightHandle = GongExtractBool(rhs)
+					case "HasRightHandle":
+						inst.HasRightHandle = GongExtractBool(rhs)
+					case "CanHaveTopHandle":
+						inst.CanHaveTopHandle = GongExtractBool(rhs)
+					case "HasTopHandle":
+						inst.HasTopHandle = GongExtractBool(rhs)
+					case "IsScalingProportionally":
+						inst.IsScalingProportionally = GongExtractBool(rhs)
+					case "CanHaveBottomHandle":
+						inst.CanHaveBottomHandle = GongExtractBool(rhs)
+					case "HasBottomHandle":
+						inst.HasBottomHandle = GongExtractBool(rhs)
+					case "CanMoveHorizontaly":
+						inst.CanMoveHorizontaly = GongExtractBool(rhs)
+					case "CanMoveVerticaly":
+						inst.CanMoveVerticaly = GongExtractBool(rhs)
+					case "RectAnchoredTexts":
+						__gong__assignSliceOfPointers(&inst.RectAnchoredTexts, rhs, identifierMap)
+					case "RectAnchoredRects":
+						__gong__assignSliceOfPointers(&inst.RectAnchoredRects, rhs, identifierMap)
+					case "RectAnchoredPaths":
+						__gong__assignSliceOfPointers(&inst.RectAnchoredPaths, rhs, identifierMap)
+					case "RectAnchoredPngImages":
+						__gong__assignSliceOfPointers(&inst.RectAnchoredPngImages, rhs, identifierMap)
+					case "ChangeColorWhenHovered":
+						inst.ChangeColorWhenHovered = GongExtractBool(rhs)
+					case "ColorWhenHovered":
+						inst.ColorWhenHovered = GongExtractString(rhs)
+					case "OriginalColor":
+						inst.OriginalColor = GongExtractString(rhs)
+					case "FillOpacityWhenHovered":
+						inst.FillOpacityWhenHovered = GongExtractFloat(rhs)
+					case "OriginalFillOpacity":
+						inst.OriginalFillOpacity = GongExtractFloat(rhs)
+					case "HasToolTip":
+						inst.HasToolTip = GongExtractBool(rhs)
+					case "ToolTipText":
+						inst.ToolTipText = GongExtractString(rhs)
+					case "ToolTipPosition":
+						GongUnmarshallEnum(&inst.ToolTipPosition, rhs)
+					case "MouseX":
+						inst.MouseX = GongExtractFloat(rhs)
+					case "MouseY":
+						inst.MouseY = GongExtractFloat(rhs)
+					case "MouseEventKey":
+						GongUnmarshallEnum(&inst.MouseEventKey, rhs)
+					case "URLPath":
+						inst.URLPath = GongExtractString(rhs)
+					case "URLTarget":
+						GongUnmarshallEnum(&inst.URLTarget, rhs)
+					}
+				case *RectAnchoredPath:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Definition":
+						inst.Definition = GongExtractString(rhs)
+					case "X_Offset":
+						inst.X_Offset = GongExtractFloat(rhs)
+					case "Y_Offset":
+						inst.Y_Offset = GongExtractFloat(rhs)
+					case "RectAnchorType":
+						GongUnmarshallEnum(&inst.RectAnchorType, rhs)
+					case "ScalePropotionnally":
+						inst.ScalePropotionnally = GongExtractBool(rhs)
+					case "AppliedScaling":
+						inst.AppliedScaling = GongExtractFloat(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					}
+				case *RectAnchoredPngImage:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "X":
+						inst.X = GongExtractFloat(rhs)
+					case "Y":
+						inst.Y = GongExtractFloat(rhs)
+					case "Width":
+						inst.Width = GongExtractFloat(rhs)
+					case "Height":
+						inst.Height = GongExtractFloat(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "X_Offset":
+						inst.X_Offset = GongExtractFloat(rhs)
+					case "Y_Offset":
+						inst.Y_Offset = GongExtractFloat(rhs)
+					case "RectAnchorType":
+						GongUnmarshallEnum(&inst.RectAnchorType, rhs)
+					case "Base64Content":
+						inst.Base64Content = GongExtractString(rhs)
+					}
+				case *RectAnchoredRect:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "X":
+						inst.X = GongExtractFloat(rhs)
+					case "Y":
+						inst.Y = GongExtractFloat(rhs)
+					case "Width":
+						inst.Width = GongExtractFloat(rhs)
+					case "Height":
+						inst.Height = GongExtractFloat(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "X_Offset":
+						inst.X_Offset = GongExtractFloat(rhs)
+					case "Y_Offset":
+						inst.Y_Offset = GongExtractFloat(rhs)
+					case "RectAnchorType":
+						GongUnmarshallEnum(&inst.RectAnchorType, rhs)
+					case "WidthFollowRect":
+						inst.WidthFollowRect = GongExtractBool(rhs)
+					case "HeightFollowRect":
+						inst.HeightFollowRect = GongExtractBool(rhs)
+					case "HasToolTip":
+						inst.HasToolTip = GongExtractBool(rhs)
+					case "ToolTipText":
+						inst.ToolTipText = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					}
+				case *RectAnchoredText:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Content":
+						inst.Content = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontStyle":
+						inst.FontStyle = GongExtractString(rhs)
+					case "LetterSpacing":
+						inst.LetterSpacing = GongExtractString(rhs)
+					case "FontFamily":
+						inst.FontFamily = GongExtractString(rhs)
+					case "WhiteSpace":
+						GongUnmarshallEnum(&inst.WhiteSpace, rhs)
+					case "X_Offset":
+						inst.X_Offset = GongExtractFloat(rhs)
+					case "Y_Offset":
+						inst.Y_Offset = GongExtractFloat(rhs)
+					case "RectAnchorType":
+						GongUnmarshallEnum(&inst.RectAnchorType, rhs)
+					case "TextAnchorType":
+						GongUnmarshallEnum(&inst.TextAnchorType, rhs)
+					case "DominantBaseline":
+						GongUnmarshallEnum(&inst.DominantBaseline, rhs)
+					case "WritingMode":
+						GongUnmarshallEnum(&inst.WritingMode, rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					case "Animates":
+						__gong__assignSliceOfPointers(&inst.Animates, rhs, identifierMap)
+					case "URLPath":
+						inst.URLPath = GongExtractString(rhs)
+					case "URLTarget":
+						GongUnmarshallEnum(&inst.URLTarget, rhs)
+					}
+				case *RectLinkLink:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Start":
+						__gong__assignPointer(&inst.Start, rhs, identifierMap)
+					case "End":
+						__gong__assignPointer(&inst.End, rhs, identifierMap)
+					case "TargetAnchorPosition":
+						inst.TargetAnchorPosition = GongExtractFloat(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					}
+				case *SVG:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Layers":
+						__gong__assignSliceOfPointers(&inst.Layers, rhs, identifierMap)
+					case "DrawingState":
+						GongUnmarshallEnum(&inst.DrawingState, rhs)
+					case "StartRect":
+						__gong__assignPointer(&inst.StartRect, rhs, identifierMap)
+					case "EndRect":
+						__gong__assignPointer(&inst.EndRect, rhs, identifierMap)
+					case "IsEditable":
+						inst.IsEditable = GongExtractBool(rhs)
+					case "IsSVGFrontEndFileGenerated":
+						inst.IsSVGFrontEndFileGenerated = GongExtractBool(rhs)
+					case "IsSVGBackEndFileGenerated":
+						inst.IsSVGBackEndFileGenerated = GongExtractBool(rhs)
+					case "DefaultDirectoryForGeneratedImages":
+						inst.DefaultDirectoryForGeneratedImages = GongExtractString(rhs)
+					case "IsControlBannerHidden":
+						inst.IsControlBannerHidden = GongExtractBool(rhs)
+					case "PanX":
+						inst.PanX = GongExtractFloat(rhs)
+					case "PanY":
+						inst.PanY = GongExtractFloat(rhs)
+					case "Zoom":
+						inst.Zoom = GongExtractFloat(rhs)
+					case "OverrideWidth":
+						inst.OverrideWidth = GongExtractBool(rhs)
+					case "OverriddenWidth":
+						inst.OverriddenWidth = GongExtractFloat(rhs)
+					case "OverrideHeight":
+						inst.OverrideHeight = GongExtractBool(rhs)
+					case "OverriddenHeight":
+						inst.OverriddenHeight = GongExtractFloat(rhs)
+					}
+				case *SvgText:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Text":
+						inst.Text = GongExtractString(rhs)
+					}
+				case *Text:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "X":
+						inst.X = GongExtractFloat(rhs)
+					case "Y":
+						inst.Y = GongExtractFloat(rhs)
+					case "Content":
+						inst.Content = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "StrokeDashArrayWhenSelected":
+						inst.StrokeDashArrayWhenSelected = GongExtractString(rhs)
+					case "Transform":
+						inst.Transform = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontStyle":
+						inst.FontStyle = GongExtractString(rhs)
+					case "LetterSpacing":
+						inst.LetterSpacing = GongExtractString(rhs)
+					case "FontFamily":
+						inst.FontFamily = GongExtractString(rhs)
+					case "WhiteSpace":
+						GongUnmarshallEnum(&inst.WhiteSpace, rhs)
+					case "Animates":
+						__gong__assignSliceOfPointers(&inst.Animates, rhs, identifierMap)
+					}
+							}
+						}
 					}
 				}
 			}
-		},
-		func(identName string, fieldName string, valueExpr ast.Expr) {
-			if instance, exists := identifierMap[identName]; exists {
-				typeName := instance.GongGetGongstructName()
-				if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-					unmarshaller.UnmarshallField(stage, instance, fieldName, valueExpr, identifierMap)
+		case *ast.ExprStmt:
+			if call, ok := node.X.(*ast.CallExpr); ok {
+				if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+					if sel.Sel.Name == "Unstage" {
+						if ident, ok := sel.X.(*ast.Ident); ok {
+							if instance, ok := identifierMap[ident.Name]; ok {
+								if inst, ok := instance.(GongstructIF); ok {
+									inst.UnstageVoid(stage)
+								}
+							}
+						}
+					}
+					if sel.Sel.Name == "Commit" {
+						if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "stage" {
+							if stage.IsInDeltaMode() && stage.GetNavigationMode() != GongNavigationModeNavigating {
+								stage.Commit()
+							} else {
+								stage.ComputeInstancesNb()
+								stage.ComputeReferenceAndOrders()
+								if stage.OnInitCommitCallback != nil {
+									stage.OnInitCommitCallback.BeforeCommit(stage)
+								}
+								if stage.OnInitCommitFromBackCallback != nil {
+									stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+								}
+								stage.RunBeforeCommitHooks()
+								stage.RunAfterCommitHooks()
+							}
+						}
+					}
 				}
 			}
-		},
-		func(identName string) {
-			if instance, ok := identifierMap[identName]; ok {
-				instance.UnstageVoid(stage)
-			}
-		},
-		func() {
-			if stage.IsInDeltaMode() && stage.GetNavigationMode() != GongNavigationModeNavigating {
-				stage.Commit()
-			} else {
-				stage.ComputeInstancesNb()
-				stage.ComputeReferenceAndOrders()
-				if stage.OnInitCommitCallback != nil {
-					stage.OnInitCommitCallback.BeforeCommit(stage)
-				}
-				if stage.OnInitCommitFromBackCallback != nil {
-					stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
-				}
-				// 1. Run all Before Commit hooks
-				stage.RunBeforeCommitHooks()
+		}
+		return true
+	})
 
-				// 2. Run all After Commit hooks
-				stage.RunAfterCommitHooks()
-			}
-		},
-	)
+	return nil
 }
 
 // --- Generic Helpers for Unmarshallers (delegating to gong_runtime) ---
@@ -135,6 +1046,85 @@ var GongExtractDate = gong_runtime.ExtractDate
 
 func __gong__extractMiddleUint(input string) (uint, error) {
 	return gong_runtime.ExtractMiddleUint(input)
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok {
+		funcName := ""
+		var isSlices bool
+		if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+			if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+				isSlices = true
+				funcName = sel.Sel.Name
+			}
+		} else if ident, ok := call.Fun.(*ast.Ident); ok {
+			funcName = ident.Name
+		}
+
+		if isSlices {
+			if funcName == "Delete" && len(call.Args) == 3 {
+				start := GongExtractInt(call.Args[1])
+				end := GongExtractInt(call.Args[2])
+				if end <= len(*slice) {
+					*slice = slices.Delete(*slice, start, end)
+				}
+			} else if funcName == "Insert" && len(call.Args) == 3 {
+				index := GongExtractInt(call.Args[1])
+				if index <= len(*slice) {
+					if rIdent, ok := call.Args[2].(*ast.Ident); ok {
+						if target, ok := identifierMap[rIdent.Name]; ok {
+							if typedTarget, ok := target.(*T); ok {
+								*slice = slices.Insert(*slice, index, typedTarget)
+							}
+						}
+					}
+				}
+			}
+		} else if funcName == "append" && len(call.Args) >= 2 {
+			for i := 1; i < len(call.Args); i++ {
+				if rIdent, ok := call.Args[i].(*ast.Ident); ok {
+					if target, ok := identifierMap[rIdent.Name]; ok {
+						if typedTarget, ok := target.(*T); ok {
+							*slice = append(*slice, typedTarget)
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 // GongUnmarshallSliceOfPointers handles append, slices.Delete, and slices.Insert for slice fields

@@ -13,6 +13,9 @@ import (
 	"time"
 
 	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"
 )
 
 // can be used for
@@ -2408,6 +2411,9 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF GongProbeIF
+	StoolStage *stool.Stage
+	MusicStage *music.Stage
+	ClockStage *clock.Stage
 }
 
 type GongStage = Stage
@@ -7742,6 +7748,21 @@ func NewStage(name string) (stage *Stage) {
 	}
 	stage.StageCore.SetName(name)
 	stage.StageCore.SetNavigationMode(GongNavigationModeNormal)
+	subPath_StoolStage := "stool"
+	if name != "" {
+		subPath_StoolStage = name + "_stool"
+	}
+	stage.StoolStage = stool.NewStage(subPath_StoolStage)
+	subPath_MusicStage := "music"
+	if name != "" {
+		subPath_MusicStage = name + "_music"
+	}
+	stage.MusicStage = music.NewStage(subPath_MusicStage)
+	subPath_ClockStage := "clock"
+	if name != "" {
+		subPath_ClockStage = name + "_clock"
+	}
+	stage.ClockStage = clock.NewStage(subPath_ClockStage)
 
 	return
 }
@@ -7781,6 +7802,15 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 }
 
 func (stage *Stage) Commit() {
+	if stage.ClockStage != nil {
+		stage.ClockStage.Commit()
+	}
+	if stage.MusicStage != nil {
+		stage.MusicStage.Commit()
+	}
+	if stage.StoolStage != nil {
+		stage.StoolStage.Commit()
+	}
 	stage.ComputeReverseMaps()
 
 	if stage.OnInitCommitCallback != nil {
@@ -7818,6 +7848,15 @@ func (stage *Stage) Commit() {
 }
 
 func (stage *Stage) ComputeInstancesNb() {
+	if stage.ClockStage != nil {
+		stage.ClockStage.ComputeInstancesNb()
+	}
+	if stage.MusicStage != nil {
+		stage.MusicStage.ComputeInstancesNb()
+	}
+	if stage.StoolStage != nil {
+		stage.StoolStage.ComputeInstancesNb()
+	}
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Angle0Shape"] = len(stage.Angle0Shapes)
 	stage.Map_GongStructName_InstancesNb["ArcNormalVectorShape"] = len(stage.ArcNormalVectorShapes)
@@ -7975,6 +8014,15 @@ func (stage *Stage) ComputeInstancesNb() {
 }
 
 func (stage *Stage) Checkout() {
+	if stage.ClockStage != nil {
+		stage.ClockStage.Checkout()
+	}
+	if stage.MusicStage != nil {
+		stage.MusicStage.Checkout()
+	}
+	if stage.StoolStage != nil {
+		stage.StoolStage.Checkout()
+	}
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
 	}
@@ -14439,6 +14487,15 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.VolumeKey3DShapes, &stage.VolumeKey3DShapes_mapString, &stage.VolumeKey3DShape_stagedOrder, &stage.VolumeKey3DShapeOrder)
 
+	if stage.ClockStage != nil {
+		stage.ClockStage.Reset()
+	}
+	if stage.MusicStage != nil {
+		stage.MusicStage.Reset()
+	}
+	if stage.StoolStage != nil {
+		stage.StoolStage.Reset()
+	}
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}

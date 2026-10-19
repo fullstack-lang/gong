@@ -19,6 +19,15 @@ var (
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
+	if stage.ModelStage != nil {
+		stage.ModelStage.ComputeReverseMaps()
+	}
+	if stage.YStage != nil {
+		stage.YStage.ComputeReverseMaps()
+	}
+	if stage.XStage != nil {
+		stage.XStage.ComputeReverseMaps()
+	}
 	// insertion point per named struct
 	// Compute reverse map for named struct A
 	// insertion point per field
@@ -232,6 +241,15 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
+	if stage.ModelStage != nil {
+		stage.ModelStage.ComputeReferenceAndOrders()
+	}
+	if stage.YStage != nil {
+		stage.YStage.ComputeReferenceAndOrders()
+	}
+	if stage.XStage != nil {
+		stage.XStage.ComputeReferenceAndOrders()
+	}
 	// insertion point per named struct
 	__gong__computeReferencePass1(stage, stage.As, &stage.As_reference, &stage.As_referenceOrder, &stage.As_instance)
 

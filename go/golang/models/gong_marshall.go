@@ -277,12 +277,20 @@ func CodeGeneratorModelGongMarshall(
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}
 
+	resolved := ResolveSubStages(modelPkg, pkgPath)
+
 	caserEnglish := cases.Title(language.English)
 	codeGO = models.Replace(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
 		"{{pkgname}}", strings.ToLower(pkgName),
 		"{{PkgGoName}}", modelPkg.PkgGoName,
+		"{{PkgPath}}", modelPkg.PkgPath,
+		"{{SyntheticImports}}", resolved.SyntheticImports,
+		"{{DummyDeclarations}}", resolved.DummyDeclarations,
+		"{{MainPkgImportAlias}}", resolved.MainPkgImportAlias,
+		"{{ProbePackageName}}", resolved.ProbePackageName,
+		"{{MarshallBody}}", resolved.MarshallBody,
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 	)
 

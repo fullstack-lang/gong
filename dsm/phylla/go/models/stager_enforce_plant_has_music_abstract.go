@@ -7,10 +7,10 @@ import (
 )
 
 func (stager *Stager) enforcePlantHasMusicAbstract() (needCommit bool) {
-	if stager.stageSet == nil || stager.stageSet.MusicStage == nil {
+	if stager.stage == nil || stager.stage.MusicStage == nil {
 		return false
 	}
-	musicStage := stager.stageSet.MusicStage
+	musicStage := stager.stage.MusicStage
 
 	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == Music {

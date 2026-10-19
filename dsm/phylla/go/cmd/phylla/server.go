@@ -22,20 +22,17 @@ func executeServer() {
 
 	// setup
 	models.DataFS = &dataFS
-	// - model level1 stack with its probe and stageset probe
+	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1StackStageSetDelta("phylla", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, true)
+	stack := level1stack.NewLevel1StackDelta("phylla", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, true)
 
 	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
-	if stack.StageSetProbe != nil {
-		stack.StageSetProbe.Refresh()
-	}
 
 	// initiates the UX loop
-	stager := models.NewStagerStageSet(
+	models.NewStager(
 		stack.R,
-		stack.StageSet,
+		stack.Stage,
 		stack.Probe,
 		marshallOnCommit,
 		threejs_vase.NewThreeJSStageUpdater(),
@@ -43,9 +40,6 @@ func executeServer() {
 		threejs_clock.NewClock3DStageUpdater(),
 		threejs_plant.NewPlant3DStageUpdater(),
 	)
-	if stack.StageSetProbe != nil {
-		stager.SetStageSetProbe(stack.StageSetProbe)
-	}
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
 	err := stack.Run(":" + strconv.Itoa(port))

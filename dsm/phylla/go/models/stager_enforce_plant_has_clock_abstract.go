@@ -7,10 +7,10 @@ import (
 )
 
 func (stager *Stager) enforcePlantHasClockAbstract() (needCommit bool) {
-	if stager.stageSet == nil || stager.stageSet.ClockStage == nil {
+	if stager.stage == nil || stager.stage.ClockStage == nil {
 		return false
 	}
-	clockStage := stager.stageSet.ClockStage
+	clockStage := stager.stage.ClockStage
 
 	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == Clock {

@@ -16,16 +16,16 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Content__00000000_ := (&__stage_0__.Content{Name: `Dummy`}).Stage(stageSet.Stage)
-	__stage_0__JpgImage__00000000_ := (&__stage_0__.JpgImage{Name: `circular`}).Stage(stageSet.Stage)
-	__stage_0__PngImage__00000000_ := (&__stage_0__.PngImage{Name: `chessboard`}).Stage(stageSet.Stage)
-	__stage_0__PngImage__00000001_ := (&__stage_0__.PngImage{Name: `chessboard png gemini`}).Stage(stageSet.Stage)
-	__stage_0__SvgImage__00000000_ := (&__stage_0__.SvgImage{Name: `vera rubin logo`}).Stage(stageSet.Stage)
+	__stage_0__Content__00000000_ := (&__stage_0__.Content{Name: `Dummy`}).Stage(stage)
+	__stage_0__JpgImage__00000000_ := (&__stage_0__.JpgImage{Name: `circular`}).Stage(stage)
+	__stage_0__PngImage__00000000_ := (&__stage_0__.PngImage{Name: `chessboard`}).Stage(stage)
+	__stage_0__PngImage__00000001_ := (&__stage_0__.PngImage{Name: `chessboard png gemini`}).Stage(stage)
+	__stage_0__SvgImage__00000000_ := (&__stage_0__.SvgImage{Name: `vera rubin logo`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

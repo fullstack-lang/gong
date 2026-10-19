@@ -16,22 +16,22 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Arrow__00000000_ := (&__stage_0__.Arrow{}).Stage(stageSet.Stage)
-	__stage_0__Bar__00000000_ := (&__stage_0__.Bar{}).Stage(stageSet.Stage)
-	__stage_0__Bar__00000001_ := (&__stage_0__.Bar{}).Stage(stageSet.Stage)
-	__stage_0__Bar__00000002_ := (&__stage_0__.Bar{}).Stage(stageSet.Stage)
-	__stage_0__Bar__00000003_ := (&__stage_0__.Bar{}).Stage(stageSet.Stage)
-	__stage_0__Gantt__00000000_ := (&__stage_0__.Gantt{}).Stage(stageSet.Stage)
-	__stage_0__Lane__00000000_ := (&__stage_0__.Lane{}).Stage(stageSet.Stage)
-	__stage_0__Lane__00000001_ := (&__stage_0__.Lane{}).Stage(stageSet.Stage)
-	__stage_0__Lane__00000002_ := (&__stage_0__.Lane{}).Stage(stageSet.Stage)
-	__stage_0__Lane__00000003_ := (&__stage_0__.Lane{}).Stage(stageSet.Stage)
-	__stage_0__Milestone__00000000_ := (&__stage_0__.Milestone{}).Stage(stageSet.Stage)
+	__stage_0__Arrow__00000000_ := (&__stage_0__.Arrow{}).Stage(stage)
+	__stage_0__Bar__00000000_ := (&__stage_0__.Bar{}).Stage(stage)
+	__stage_0__Bar__00000001_ := (&__stage_0__.Bar{}).Stage(stage)
+	__stage_0__Bar__00000002_ := (&__stage_0__.Bar{}).Stage(stage)
+	__stage_0__Bar__00000003_ := (&__stage_0__.Bar{}).Stage(stage)
+	__stage_0__Gantt__00000000_ := (&__stage_0__.Gantt{}).Stage(stage)
+	__stage_0__Lane__00000000_ := (&__stage_0__.Lane{}).Stage(stage)
+	__stage_0__Lane__00000001_ := (&__stage_0__.Lane{}).Stage(stage)
+	__stage_0__Lane__00000002_ := (&__stage_0__.Lane{}).Stage(stage)
+	__stage_0__Lane__00000003_ := (&__stage_0__.Lane{}).Stage(stage)
+	__stage_0__Milestone__00000000_ := (&__stage_0__.Milestone{}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

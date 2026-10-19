@@ -3,6 +3,9 @@ package probe
 
 import (
 	"embed"
+	"encoding/base64"
+	"fmt"
+	"regexp"
 	"time"
 
 	"net/http"
@@ -200,8 +203,46 @@ func NewProbe(
 	return
 }
 
+type stageLoadProxy struct {
+	probe *Probe
+}
+
+func (proxy *stageLoadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
+	proxy.probe.fileName = uploadedFile.GetName()
+	decodedBytes, err := base64.StdEncoding.DecodeString(uploadedFile.Base64EncodedContent)
+	if err != nil {
+		return fmt.Errorf("base64.StdEncoding.DecodeString failed: %w", err)
+	}
+	proxy.probe.stageOfInterest.Reset()
+	err = proxy.probe.stageOfInterest.ParseAstString(string(decodedBytes), true)
+	if err != nil {
+		return err
+	}
+	proxy.probe.stageOfInterest.Commit()
+	proxy.probe.Refresh()
+	return nil
+}
+
 func (probe *Probe) initLoadStage() {
 	probe.loadStage.Reset()
+
+	fileToUpload := &load.FileToUpload{
+		Name: "Name of file",
+		FileToUploadProxy: &stageLoadProxy{
+			probe: probe,
+		},
+	}
+
+	probe.loadStage.StageBranch(
+		fileToUpload,
+	)
+
+	message := &load.Message{
+		Name: "Drop your stage.go file here or ",
+	}
+
+	message.Stage(probe.loadStage)
+
 	probe.loadStage.Commit()
 }
 
@@ -229,8 +270,28 @@ func (probe *Probe) ResetNotifications() {
 	probe.UpdateAndCommitNotificationTable()
 }
 
+func (probe *Probe) GetDocStager() *doc.Stager {
+	return probe.docStager
+}
+
+func (probe *Probe) GetStage() *models.Stage {
+	return probe.stageOfInterest
+}
+
+func (probe *Probe) GetSplitStage() *split.Stage {
+	return probe.splitStage
+}
+
+func (probe *Probe) GetTreeStage() *tree.Stage {
+	return probe.treeStage
+}
+
 func (probe *Probe) GetFormStage() *form.Stage {
 	return probe.formStage
+}
+
+func (probe *Probe) GetTableStage() *table.Stage {
+	return probe.tableStage
 }
 
 func (probe *Probe) GetNavigationTreeStage() *tree.Stage {
@@ -245,12 +306,50 @@ func (probe *Probe) GetDiagramEditor() *split.AsSplitArea {
 	return probe.diagramEditor
 }
 
+func (probe *Probe) ComputeInstancesNb() map[string]int {
+	probe.stageOfInterest.ComputeInstancesNb()
+	res := make(map[string]int)
+	for k, v := range probe.stageOfInterest.Map_GongStructName_InstancesNb {
+		res[k] = v
+		res["models."+k] = v
+	}
+	return res
+}
+
 func (probe *Probe) FillUpFormFromGongstruct(instance any, formName string) {
 	FillUpFormFromGongstruct(instance, probe)
 }
 
 func (probe *Probe) DownloadNotificationsCSV() {
 	gongprobe.DownloadNotificationsCSV(probe.notification, probe.loadStage, probe.initLoadStage)
+}
+
+func (probe *Probe) ExportStage() {
+	probe.loadStage.Reset()
+
+	fileToDownload := new(load.FileToDownload)
+	if probe.fileName == "" {
+		probe.fileName = "test1-stage.go"
+	}
+
+	prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
+	cleanFileName := prefixRegex.ReplaceAllString(probe.fileName, "")
+
+	fileToDownload.Name = time.Now().Format("20060102 1504 ") + cleanFileName
+
+	stageString, err := probe.stageOfInterest.MarshallToString("main")
+	if err != nil {
+		probe.AddNotification(time.Now(), "Error serializing stage: "+err.Error())
+		probe.CommitNotificationTable()
+		return
+	}
+
+	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stageString))
+	probe.loadStage.StageBranch(fileToDownload)
+	probe.loadStage.Commit()
+
+	time.Sleep(1 * time.Second)
+	probe.initLoadStage()
 }
 
 func (probe *Probe) ExportStageExcel() {

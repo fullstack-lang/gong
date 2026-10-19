@@ -16,22 +16,22 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Astruct__00000000_ := (&__stage_0__.Astruct{Name: `A0xxdd`}).Stage(stageSet.Stage)
-	__stage_0__Astruct__00000001_ := (&__stage_0__.Astruct{Name: `A1`}).Stage(stageSet.Stage)
-	__stage_0__Astruct__00000002_ := (&__stage_0__.Astruct{Name: `A5`}).Stage(stageSet.Stage)
-	__stage_0__Astruct__00000003_ := (&__stage_0__.Astruct{Name: `A6`}).Stage(stageSet.Stage)
-	__stage_0__AstructBstruct2Use__00000000_ := (&__stage_0__.AstructBstruct2Use{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__AstructBstruct2Use__00000001_ := (&__stage_0__.AstructBstruct2Use{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__Bstruct__00000000_ := (&__stage_0__.Bstruct{Name: `B0`}).Stage(stageSet.Stage)
-	__stage_0__Bstruct__00000001_ := (&__stage_0__.Bstruct{Name: `vv`}).Stage(stageSet.Stage)
-	__stage_0__Dstruct__00000000_ := (&__stage_0__.Dstruct{Name: `D1`}).Stage(stageSet.Stage)
-	__stage_0__Gstruct__00000000_ := (&__stage_0__.Gstruct{}).Stage(stageSet.Stage)
-	__stage_0__Gstruct__00000001_ := (&__stage_0__.Gstruct{}).Stage(stageSet.Stage)
+	__stage_0__Astruct__00000000_ := (&__stage_0__.Astruct{Name: `A0xxdd`}).Stage(stage)
+	__stage_0__Astruct__00000001_ := (&__stage_0__.Astruct{Name: `A1`}).Stage(stage)
+	__stage_0__Astruct__00000002_ := (&__stage_0__.Astruct{Name: `A5`}).Stage(stage)
+	__stage_0__Astruct__00000003_ := (&__stage_0__.Astruct{Name: `A6`}).Stage(stage)
+	__stage_0__AstructBstruct2Use__00000000_ := (&__stage_0__.AstructBstruct2Use{Name: ``}).Stage(stage)
+	__stage_0__AstructBstruct2Use__00000001_ := (&__stage_0__.AstructBstruct2Use{Name: ``}).Stage(stage)
+	__stage_0__Bstruct__00000000_ := (&__stage_0__.Bstruct{Name: `B0`}).Stage(stage)
+	__stage_0__Bstruct__00000001_ := (&__stage_0__.Bstruct{Name: `vv`}).Stage(stage)
+	__stage_0__Dstruct__00000000_ := (&__stage_0__.Dstruct{Name: `D1`}).Stage(stage)
+	__stage_0__Gstruct__00000000_ := (&__stage_0__.Gstruct{}).Stage(stage)
+	__stage_0__Gstruct__00000001_ := (&__stage_0__.Gstruct{}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

@@ -16,23 +16,23 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__Diagram__00000001_ := (&__stage_0__.Diagram{Name: `Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: `Root Lib`}).Stage(stageSet.Stage)
-	__stage_0__Library__00000001_ := (&__stage_0__.Library{Name: `Sub Library`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000000_ := (&__stage_0__.Note{Name: `Example of note`}).Stage(stageSet.Stage)
-	__stage_0__NoteShape__00000000_ := (&__stage_0__.NoteShape{Name: `-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000000_ := (&__stage_0__.Product{Name: `P1`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000001_ := (&__stage_0__.Product{Name: `P1* (sub lib)`}).Stage(stageSet.Stage)
-	__stage_0__Product__00000002_ := (&__stage_0__.Product{Name: `Imported P1 (from sub lib)`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000000_ := (&__stage_0__.ProductShape{Name: `-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000001_ := (&__stage_0__.ProductShape{Name: `-Default Diagram`}).Stage(stageSet.Stage)
-	__stage_0__ProductShape__00000002_ := (&__stage_0__.ProductShape{Name: `-Default Diagram`}).Stage(stageSet.Stage)
+	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `Default Diagram`}).Stage(stage)
+	__stage_0__Diagram__00000001_ := (&__stage_0__.Diagram{Name: `Default Diagram`}).Stage(stage)
+	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: `Root Lib`}).Stage(stage)
+	__stage_0__Library__00000001_ := (&__stage_0__.Library{Name: `Sub Library`}).Stage(stage)
+	__stage_0__Note__00000000_ := (&__stage_0__.Note{Name: `Example of note`}).Stage(stage)
+	__stage_0__NoteShape__00000000_ := (&__stage_0__.NoteShape{Name: `-Default Diagram`}).Stage(stage)
+	__stage_0__Product__00000000_ := (&__stage_0__.Product{Name: `P1`}).Stage(stage)
+	__stage_0__Product__00000001_ := (&__stage_0__.Product{Name: `P1* (sub lib)`}).Stage(stage)
+	__stage_0__Product__00000002_ := (&__stage_0__.Product{Name: `Imported P1 (from sub lib)`}).Stage(stage)
+	__stage_0__ProductShape__00000000_ := (&__stage_0__.ProductShape{Name: `-Default Diagram`}).Stage(stage)
+	__stage_0__ProductShape__00000001_ := (&__stage_0__.ProductShape{Name: `-Default Diagram`}).Stage(stage)
+	__stage_0__ProductShape__00000002_ := (&__stage_0__.ProductShape{Name: `-Default Diagram`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

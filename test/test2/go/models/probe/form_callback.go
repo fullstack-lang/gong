@@ -2,163 +2,253 @@
 package probe
 
 import (
-	"log"
-	"slices"
-	"time"
-
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
 
 	"github.com/fullstack-lang/gong/test/test2/go/models"
+	"github.com/fullstack-lang/gong/test/test2/go/models/x"
+	"github.com/fullstack-lang/gong/test/test2/go/models/y"
+	model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"
 )
-
-// to avoid errors when time and slices packages are not used in the generated code
-const _ = time.Nanosecond
-
-var _ = slices.Delete([]string{"a"}, 0, 1)
-
-var _ = log.Panicf
 
 type FormCallbackIF = gongprobe.FormCallbackIF
 
-
-type FormCallback[T models.PointerToGongstruct] struct {
-	Instance     T
-	CreationMode bool
-	probe        *Probe
-	formGroup    *form.FormGroup
-	saveFields   func(instance T, probe *Probe, formGroup *form.FormGroup)
+type functionalStageSetFormCallback struct {
+	onSave func()
 }
 
-func NewFormCallback[T models.PointerToGongstruct](
-	instance T,
-	probe *Probe,
-	formGroup *form.FormGroup,
-	saveFields func(instance T, probe *Probe, formGroup *form.FormGroup),
-) *FormCallback[T] {
-	var zero T
-	return &FormCallback[T]{
-		Instance:     instance,
-		CreationMode: instance == zero,
-		probe:        probe,
-		formGroup:    formGroup,
-		saveFields:   saveFields,
+func (cb *functionalStageSetFormCallback) OnSave() {
+	if cb.onSave != nil {
+		cb.onSave()
 	}
 }
 
-func (cb *FormCallback[T]) GetCreationMode() bool     { return cb.CreationMode }
-func (cb *FormCallback[T]) GetInstance() any           { return cb.Instance }
-func (cb *FormCallback[T]) GetGongstructName() string { return models.GetPointerToGongstructName[T]() }
-
-func (cb *FormCallback[T]) OnSave() {
-	cb.probe.stageOfInterest.Lock()
-	defer cb.probe.stageOfInterest.Unlock()
-
-	cb.probe.formStage.Checkout()
-
-	var zero T
-	if cb.Instance == zero {
-		cb.Instance = cb.probe.stageOfInterest.GongNewInstance[T]()
-	}
-
-	cb.saveFields(cb.Instance, cb.probe, cb.formGroup)
-
-	if cb.formGroup.HasSuppressButtonBeenPressed {
-		cb.Instance.UnstageVoid(cb.probe.stageOfInterest)
-	}
-
-	cb.probe.stageOfInterest.Commit()
-	updateProbeTable[T](cb.probe)
-
-	if cb.CreationMode || cb.formGroup.HasSuppressButtonBeenPressed {
-		cb.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(cb.probe.formStage)
-		newFormGroup.OnSave = NewFormCallback[T](
-			*new(T),
-			cb.probe,
-			newFormGroup,
-			cb.saveFields,
-		)
-		newInstance := models.GongNewInstance[T]()
-		FillUpForm(newInstance, newFormGroup, cb.probe)
-		cb.probe.formStage.Commit()
-	}
-
-	cb.probe.ux_tree()
-}
-
-// insertion point
-func __gong__New__AFormCallback(
-	_instance *models.A,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (aFormCallback *FormCallback[*models.A]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveAFields,
-	)
-}
-
-type AFormCallback = FormCallback[*models.A]
-
-func saveAFields(
-	_instance *models.A,
+func saveStageSet_A_Stage(
+	inst *models.A,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "NumberField":
-			FormDivBasicFieldToField(&(_instance.NumberField), formDiv)
+			FormDivBasicFieldToField(&inst.NumberField, formDiv)
 		case "B":
-			FormDivSelectFieldToField(&(_instance.B), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.B, probe.stageOfInterest.GetInstancesSet[*models.B](), formDiv)
 		case "Bs":
-			FormDivSliceOfPointersToField(_instance, "Bs", &(_instance.Bs), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "Bs", &inst.Bs, formDiv, probe)
+		case "X":
+			StageSetFormDivSelectFieldToField(&inst.X, probe.stageOfInterest.XStage.GetInstancesSet[*x.X](), formDiv)
 		case "Foo":
-			FormDivBasicFieldToField(&(_instance.Foo), formDiv)
+			FormDivBasicFieldToField(&inst.Foo, formDiv)
 		case "Bar":
-			FormDivBasicFieldToField(&(_instance.Bar), formDiv)
+			FormDivBasicFieldToField(&inst.Bar, formDiv)
 		case "Zorgh":
-			FormDivBasicFieldToField(&(_instance.Zorgh), formDiv)
+			FormDivBasicFieldToField(&inst.Zorgh, formDiv)
 		}
 	}
 }
 
-func __gong__New__BFormCallback(
-	_instance *models.B,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (bFormCallback *FormCallback[*models.B]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveBFields,
-	)
-}
-
-type BFormCallback = FormCallback[*models.B]
-
-func saveBFields(
-	_instance *models.B,
+func saveStageSet_B_Stage(
+	inst *models.B,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
-		case "A:Bs":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Bs", func(owner *models.A) *[]*models.B { return &owner.Bs })
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		}
 	}
+}
+
+func saveStageSet_X_XStage(
+	inst *x.X,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		case "Name":
+			FormDivBasicFieldToField(&inst.Name, formDiv)
+		case "Y":
+			StageSetFormDivSelectFieldToField(&inst.Y, probe.stageOfInterest.YStage.GetInstancesSet[*y.Y](), formDiv)
+		}
+	}
+}
+
+func saveStageSet_Y_YStage(
+	inst *y.Y,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		case "Name":
+			FormDivBasicFieldToField(&inst.Name, formDiv)
+		case "SubModel":
+			StageSetFormDivSelectFieldToField(&inst.SubModel, probe.stageOfInterest.ModelStage.GetInstancesSet[*model.SubModel](), formDiv)
+		}
+	}
+}
+
+func saveStageSet_SubModel_ModelStage(
+	inst *model.SubModel,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		case "Name":
+			FormDivBasicFieldToField(&inst.Name, formDiv)
+		}
+	}
+}
+
+
+func StageSetNewInstance_A_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A",
+	}).Stage(probe.formStage)
+	inst := new(models.A)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_B_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New B",
+	}).Stage(probe.formStage)
+	inst := new(models.B)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_B_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_B_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_X_XStage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New X",
+	}).Stage(probe.formStage)
+	inst := new(x.X)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.XStage.Lock()
+			defer probe.stageOfInterest.XStage.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest.XStage)
+			saveStageSet_X_XStage(inst, probe, formGroup)
+			probe.stageOfInterest.XStage.Commit()
+			updateStageSetTable_X_XStage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_Y_YStage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New Y",
+	}).Stage(probe.formStage)
+	inst := new(y.Y)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.YStage.Lock()
+			defer probe.stageOfInterest.YStage.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest.YStage)
+			saveStageSet_Y_YStage(inst, probe, formGroup)
+			probe.stageOfInterest.YStage.Commit()
+			updateStageSetTable_Y_YStage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_SubModel_ModelStage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New SubModel",
+	}).Stage(probe.formStage)
+	inst := new(model.SubModel)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.ModelStage.Lock()
+			defer probe.stageOfInterest.ModelStage.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest.ModelStage)
+			saveStageSet_SubModel_ModelStage(inst, probe, formGroup)
+			probe.stageOfInterest.ModelStage.Commit()
+			updateStageSetTable_SubModel_ModelStage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
 }
 

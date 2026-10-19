@@ -134,8 +134,7 @@ func MigrateStageSource(src []byte, pkgOverride string, filePath string) (string
 
 	// 6. Rewrite AST nodes in staging function body:
 	// - Identifiers in renameMap
-	// - (&models.Struct{...}).Stage(stage) -> (&__stage_0__.Struct{...}).Stage(stageSet.Stage)
-	// - stage.Commit() -> stageSet.Commit()
+	// - (&models.Struct{...}).Stage(stage) -> (&__stage_0__.Struct{...}).Stage(stage)
 	// - models.EnumConstant -> __stage_0__.EnumConstant
 	for _, stmt := range stagingFunc.Body.List {
 		if assignStmt, ok := stmt.(*ast.AssignStmt); ok && assignStmt.Tok == token.DEFINE {
@@ -149,7 +148,7 @@ func MigrateStageSource(src []byte, pkgOverride string, filePath string) (string
 			}
 			// Rewrite RHS:
 			// Change (&models.Foo{...}).Stage(stage)
-			// to (&__stage_0__.Foo{...}).Stage(stageSet.Stage)
+			// to (&__stage_0__.Foo{...}).Stage(stage)
 			rewriteStageCall(assignStmt.Rhs[0])
 		}
 
@@ -158,14 +157,6 @@ func MigrateStageSource(src []byte, pkgOverride string, filePath string) (string
 			if ident, ok := n.(*ast.Ident); ok {
 				if newIdent, exists := renameMap[ident.Name]; exists {
 					ident.Name = newIdent
-				}
-			}
-			// Rewrite stage.Commit() -> stageSet.Commit()
-			if call, ok := n.(*ast.CallExpr); ok {
-				if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
-					if id, ok := sel.X.(*ast.Ident); ok && id.Name == "stage" {
-						id.Name = "stageSet"
-					}
 				}
 			}
 			// Rewrite models.<Ident> -> __stage_0__.<Ident>
@@ -231,7 +222,7 @@ func MigrateStageSource(src []byte, pkgOverride string, filePath string) (string
 	sb.WriteString(")\n\n")
 
 	sb.WriteString("// function will stage objects across all coordinated stages\n")
-	sb.WriteString("func _(stageSet *__stage_0__.StageSet) {\n\n")
+	sb.WriteString("func _(stage *__stage_0__.Stage) {\n\n")
 
 	sb.WriteString("\t// ------------------------------------------------------------------------\n")
 	sb.WriteString("\t// Phase 1: Declarations (in topological order: leaves first)\n")
@@ -302,11 +293,7 @@ func isStageSetFunction(fn *ast.FuncDecl) bool {
 		if starExpr, ok := field.Type.(*ast.StarExpr); ok {
 			switch t := starExpr.X.(type) {
 			case *ast.SelectorExpr:
-				if t.Sel.Name == "StageSet" {
-					return true
-				}
-			case *ast.Ident:
-				if t.Name == "StageSet" {
+				if id, ok := t.X.(*ast.Ident); ok && id.Name == "__stage_0__" && t.Sel.Name == "Stage" {
 					return true
 				}
 			}
@@ -434,12 +421,8 @@ func rewriteStageCall(rhs ast.Expr) {
 	// Look for call to .Stage(stage)
 	if call, ok := rhs.(*ast.CallExpr); ok {
 		if sel, ok := call.Fun.(*ast.SelectorExpr); ok && sel.Sel.Name == "Stage" {
-			// Change argument from `stage` to `stageSet.Stage`
 			call.Args = []ast.Expr{
-				&ast.SelectorExpr{
-					X:   ast.NewIdent("stageSet"),
-					Sel: ast.NewIdent("Stage"),
-				},
+				ast.NewIdent("stage"),
 			}
 			// Check receiver: (&models.A{...})
 			if paren, ok := sel.X.(*ast.ParenExpr); ok {

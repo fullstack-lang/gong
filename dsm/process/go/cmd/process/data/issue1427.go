@@ -16,31 +16,31 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Data__00000000_ := (&__stage_0__.Data{Name: `D1`}).Stage(stageSet.Stage)
-	__stage_0__DataFlow__00000000_ := (&__stage_0__.DataFlow{Name: `"T1" to "T2"`}).Stage(stageSet.Stage)
-	__stage_0__DataFlowShape__00000000_ := (&__stage_0__.DataFlowShape{Name: `"T1" to "T2"`}).Stage(stageSet.Stage)
-	__stage_0__DataShape__00000000_ := (&__stage_0__.DataShape{Name: `D1`}).Stage(stageSet.Stage)
-	__stage_0__DiagramProcess__00000000_ := (&__stage_0__.DiagramProcess{Name: `P1`}).Stage(stageSet.Stage)
-	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: `issue 1427`}).Stage(stageSet.Stage)
-	__stage_0__Note__00000000_ := (&__stage_0__.Note{Name: `AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA`}).Stage(stageSet.Stage)
-	__stage_0__NoteShape__00000000_ := (&__stage_0__.NoteShape{Name: `AAA AAA AAA shape`}).Stage(stageSet.Stage)
-	__stage_0__Participant__00000000_ := (&__stage_0__.Participant{Name: `Pa 1`}).Stage(stageSet.Stage)
-	__stage_0__Participant__00000001_ := (&__stage_0__.Participant{Name: `Pa2`}).Stage(stageSet.Stage)
-	__stage_0__Participant__00000002_ := (&__stage_0__.Participant{Name: `P5`}).Stage(stageSet.Stage)
-	__stage_0__ParticipantShape__00000000_ := (&__stage_0__.ParticipantShape{Name: `Pa 1-P1`}).Stage(stageSet.Stage)
-	__stage_0__ParticipantShape__00000001_ := (&__stage_0__.ParticipantShape{Name: `Pa2-P1`}).Stage(stageSet.Stage)
-	__stage_0__ParticipantShape__00000002_ := (&__stage_0__.ParticipantShape{Name: `-P1`}).Stage(stageSet.Stage)
-	__stage_0__Process__00000000_ := (&__stage_0__.Process{Name: `P1`}).Stage(stageSet.Stage)
-	__stage_0__ProcessShape__00000000_ := (&__stage_0__.ProcessShape{Name: `ProcessShape`}).Stage(stageSet.Stage)
-	__stage_0__Task__00000000_ := (&__stage_0__.Task{Name: `T1`}).Stage(stageSet.Stage)
-	__stage_0__Task__00000001_ := (&__stage_0__.Task{Name: `T2`}).Stage(stageSet.Stage)
-	__stage_0__TaskShape__00000000_ := (&__stage_0__.TaskShape{Name: `-P1`}).Stage(stageSet.Stage)
-	__stage_0__TaskShape__00000001_ := (&__stage_0__.TaskShape{Name: `-P1`}).Stage(stageSet.Stage)
+	__stage_0__Data__00000000_ := (&__stage_0__.Data{Name: `D1`}).Stage(stage)
+	__stage_0__DataFlow__00000000_ := (&__stage_0__.DataFlow{Name: `"T1" to "T2"`}).Stage(stage)
+	__stage_0__DataFlowShape__00000000_ := (&__stage_0__.DataFlowShape{Name: `"T1" to "T2"`}).Stage(stage)
+	__stage_0__DataShape__00000000_ := (&__stage_0__.DataShape{Name: `D1`}).Stage(stage)
+	__stage_0__DiagramProcess__00000000_ := (&__stage_0__.DiagramProcess{Name: `P1`}).Stage(stage)
+	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: `issue 1427`}).Stage(stage)
+	__stage_0__Note__00000000_ := (&__stage_0__.Note{Name: `AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA`}).Stage(stage)
+	__stage_0__NoteShape__00000000_ := (&__stage_0__.NoteShape{Name: `AAA AAA AAA shape`}).Stage(stage)
+	__stage_0__Participant__00000000_ := (&__stage_0__.Participant{Name: `Pa 1`}).Stage(stage)
+	__stage_0__Participant__00000001_ := (&__stage_0__.Participant{Name: `Pa2`}).Stage(stage)
+	__stage_0__Participant__00000002_ := (&__stage_0__.Participant{Name: `P5`}).Stage(stage)
+	__stage_0__ParticipantShape__00000000_ := (&__stage_0__.ParticipantShape{Name: `Pa 1-P1`}).Stage(stage)
+	__stage_0__ParticipantShape__00000001_ := (&__stage_0__.ParticipantShape{Name: `Pa2-P1`}).Stage(stage)
+	__stage_0__ParticipantShape__00000002_ := (&__stage_0__.ParticipantShape{Name: `-P1`}).Stage(stage)
+	__stage_0__Process__00000000_ := (&__stage_0__.Process{Name: `P1`}).Stage(stage)
+	__stage_0__ProcessShape__00000000_ := (&__stage_0__.ProcessShape{Name: `ProcessShape`}).Stage(stage)
+	__stage_0__Task__00000000_ := (&__stage_0__.Task{Name: `T1`}).Stage(stage)
+	__stage_0__Task__00000001_ := (&__stage_0__.Task{Name: `T2`}).Stage(stage)
+	__stage_0__TaskShape__00000000_ := (&__stage_0__.TaskShape{Name: `-P1`}).Stage(stage)
+	__stage_0__TaskShape__00000001_ := (&__stage_0__.TaskShape{Name: `-P1`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

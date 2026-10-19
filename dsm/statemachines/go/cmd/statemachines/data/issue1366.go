@@ -16,44 +16,44 @@ var (
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stage *__stage_0__.Stage) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `New Diagram`}).Stage(stageSet.Stage)
-	__stage_0__Guard__00000000_ := (&__stage_0__.Guard{Name: `guard1`}).Stage(stageSet.Stage)
-	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: `Issue 1366, statemachines: problem with text layout`}).Stage(stageSet.Stage)
-	__stage_0__State__00000000_ := (&__stage_0__.State{Name: `Start State, with a long name to show that there is a layout issue`}).Stage(stageSet.Stage)
-	__stage_0__State__00000001_ := (&__stage_0__.State{Name: `Decision node, with a long name to show that there is a layout issue`}).Stage(stageSet.Stage)
+	__stage_0__Diagram__00000000_ := (&__stage_0__.Diagram{Name: `New Diagram`}).Stage(stage)
+	__stage_0__Guard__00000000_ := (&__stage_0__.Guard{Name: `guard1`}).Stage(stage)
+	__stage_0__Library__00000000_ := (&__stage_0__.Library{Name: `Issue 1366, statemachines: problem with text layout`}).Stage(stage)
+	__stage_0__State__00000000_ := (&__stage_0__.State{Name: `Start State, with a long name to show that there is a layout issue`}).Stage(stage)
+	__stage_0__State__00000001_ := (&__stage_0__.State{Name: `Decision node, with a long name to show that there is a layout issue`}).Stage(stage)
 	__stage_0__State__00000002_ := (&__stage_0__.State{Name: `A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
-`}).Stage(stageSet.Stage)
-	__stage_0__State__00000003_ := (&__stage_0__.State{Name: `End state, Start State, with a long name to show that there is a layout issue fdsfqdsfqs sf sdqf `}).Stage(stageSet.Stage)
+`}).Stage(stage)
+	__stage_0__State__00000003_ := (&__stage_0__.State{Name: `End state, Start State, with a long name to show that there is a layout issue fdsfqdsfqs sf sdqf `}).Stage(stage)
 	__stage_0__State__00000004_ := (&__stage_0__.State{Name: `A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
 
-`}).Stage(stageSet.Stage)
-	__stage_0__StateMachine__00000000_ := (&__stage_0__.StateMachine{Name: `Dummy`}).Stage(stageSet.Stage)
-	__stage_0__StateShape__00000000_ := (&__stage_0__.StateShape{Name: `Start State, with a long name to show that there is a layout issue`}).Stage(stageSet.Stage)
-	__stage_0__StateShape__00000001_ := (&__stage_0__.StateShape{Name: `Decision node, with a long name to show that there is a layout issue`}).Stage(stageSet.Stage)
+`}).Stage(stage)
+	__stage_0__StateMachine__00000000_ := (&__stage_0__.StateMachine{Name: `Dummy`}).Stage(stage)
+	__stage_0__StateShape__00000000_ := (&__stage_0__.StateShape{Name: `Start State, with a long name to show that there is a layout issue`}).Stage(stage)
+	__stage_0__StateShape__00000001_ := (&__stage_0__.StateShape{Name: `Decision node, with a long name to show that there is a layout issue`}).Stage(stage)
 	__stage_0__StateShape__00000002_ := (&__stage_0__.StateShape{Name: `A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
-`}).Stage(stageSet.Stage)
-	__stage_0__StateShape__00000003_ := (&__stage_0__.StateShape{Name: `End state, Start State, with a long name to show that there is a layout issue fdsfqdsfqs sf sdqf `}).Stage(stageSet.Stage)
+`}).Stage(stage)
+	__stage_0__StateShape__00000003_ := (&__stage_0__.StateShape{Name: `End state, Start State, with a long name to show that there is a layout issue fdsfqdsfqs sf sdqf `}).Stage(stage)
 	__stage_0__StateShape__00000004_ := (&__stage_0__.StateShape{Name: `A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
 
-`}).Stage(stageSet.Stage)
-	__stage_0__Transition__00000000_ := (&__stage_0__.Transition{Name: `transition`}).Stage(stageSet.Stage)
-	__stage_0__Transition__00000001_ := (&__stage_0__.Transition{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__Transition__00000002_ := (&__stage_0__.Transition{Name: `transition name`}).Stage(stageSet.Stage)
-	__stage_0__Transition__00000003_ := (&__stage_0__.Transition{Name: ``}).Stage(stageSet.Stage)
-	__stage_0__Transition__00000004_ := (&__stage_0__.Transition{Name: `qsdqdqdqs`}).Stage(stageSet.Stage)
-	__stage_0__Transition_Shape__00000000_ := (&__stage_0__.Transition_Shape{Name: `Start State, with a long name to show that there is a layout issue to Decision node, with a long name to show that there is a layout issue`}).Stage(stageSet.Stage)
-	__stage_0__Transition_Shape__00000001_ := (&__stage_0__.Transition_Shape{Name: `Decision node, with a long name to show that there is a layout issue to End state, Start State, with a long name to show that there is a layout issue`}).Stage(stageSet.Stage)
+`}).Stage(stage)
+	__stage_0__Transition__00000000_ := (&__stage_0__.Transition{Name: `transition`}).Stage(stage)
+	__stage_0__Transition__00000001_ := (&__stage_0__.Transition{Name: ``}).Stage(stage)
+	__stage_0__Transition__00000002_ := (&__stage_0__.Transition{Name: `transition name`}).Stage(stage)
+	__stage_0__Transition__00000003_ := (&__stage_0__.Transition{Name: ``}).Stage(stage)
+	__stage_0__Transition__00000004_ := (&__stage_0__.Transition{Name: `qsdqdqdqs`}).Stage(stage)
+	__stage_0__Transition_Shape__00000000_ := (&__stage_0__.Transition_Shape{Name: `Start State, with a long name to show that there is a layout issue to Decision node, with a long name to show that there is a layout issue`}).Stage(stage)
+	__stage_0__Transition_Shape__00000001_ := (&__stage_0__.Transition_Shape{Name: `Decision node, with a long name to show that there is a layout issue to End state, Start State, with a long name to show that there is a layout issue`}).Stage(stage)
 	__stage_0__Transition_Shape__00000002_ := (&__stage_0__.Transition_Shape{Name: `A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
  to A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
 
-`}).Stage(stageSet.Stage)
-	__stage_0__Transition_Shape__00000003_ := (&__stage_0__.Transition_Shape{Name: `Transition-New Diagram`}).Stage(stageSet.Stage)
-	__stage_0__Transition_Shape__00000004_ := (&__stage_0__.Transition_Shape{Name: `-New Diagram`}).Stage(stageSet.Stage)
+`}).Stage(stage)
+	__stage_0__Transition_Shape__00000003_ := (&__stage_0__.Transition_Shape{Name: `Transition-New Diagram`}).Stage(stage)
+	__stage_0__Transition_Shape__00000004_ := (&__stage_0__.Transition_Shape{Name: `-New Diagram`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations

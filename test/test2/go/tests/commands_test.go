@@ -31,19 +31,19 @@ func TestSingleStageAndMultiStageLevel1Stack(t *testing.T) {
 		t.Fatalf("expected A1 instance in single-stage")
 	}
 
-	// 2. Verify NewLevel1StackStageSet (Multi-stage mode used by edit-stageset)
-	stackMulti := level1stack.NewLevel1StackStageSet("test2_multi", multiStageFile, "", false, false)
+	// 2. Verify NewLevel1Stack with multi-stage file
+	stackMulti := level1stack.NewLevel1Stack("test2_multi", multiStageFile, "", false, false)
 	if stackMulti == nil {
 		t.Fatal("expected non-nil stackMulti")
 	}
-	if stackMulti.StageSet == nil {
-		t.Fatal("expected non-nil stackMulti.StageSet")
+	if stackMulti.Stage == nil {
+		t.Fatal("expected non-nil stackMulti.Stage")
 	}
-	aMultiMap := stackMulti.StageSet.Stage.GetInstancesMapByName[*models.A]()
+	aMultiMap := stackMulti.Stage.GetInstancesMapByName[*models.A]()
 	if len(aMultiMap) != 10 {
 		t.Fatalf("expected 10 A instances in multi-stage, got %d", len(aMultiMap))
 	}
-	yMultiMap := stackMulti.StageSet.YStage.GetInstancesMapByName[*y.Y]()
+	yMultiMap := stackMulti.Stage.YStage.GetInstancesMapByName[*y.Y]()
 	if len(yMultiMap) != 3 {
 		t.Fatalf("expected 3 Y instances in multi-stage YStage, got %d", len(yMultiMap))
 	}

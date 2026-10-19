@@ -6,8 +6,8 @@ import (
 )
 
 func TestStageSetMarshallVersionComment(t *testing.T) {
-	stageSet := NewStageSet("test")
-	res, err := stageSet.MarshallToString("main")
+	stage := NewStage("test")
+	res, err := stage.MarshallToString("main")
 	if err != nil {
 		t.Fatalf("MarshallToString failed: %v", err)
 	}
@@ -28,8 +28,8 @@ func TestStageSetMarshallVersionComment(t *testing.T) {
 	}
 
 	// Verify unmarshalling works seamlessly with the version and probe comment header
-	stageSet2 := NewStageSet("test2")
-	if err := stageSet2.ParseAstString(res, true); err != nil {
+	stage2 := NewStage("test2")
+	if err := stage2.ParseAstString(res, true); err != nil {
 		t.Fatalf("ParseAstString failed with header comments: %v", err)
 	}
 }

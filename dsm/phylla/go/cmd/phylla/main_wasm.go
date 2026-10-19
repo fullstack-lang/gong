@@ -33,22 +33,19 @@ func main() {
 	embeddedDiagrams := true
 
 	// setup
-	// - model level1 stack with its probe and stageset probe
+	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1StackStageSetDelta("phylla", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, true)
+	stack := level1stack.NewLevel1StackDelta("phylla", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, true)
 	stack.Stage.SetGongMarshallingMode(models.GongMarshallingAppendCommit)
 	stack.Stage.SetIsWithGenesisCommit(true) // the genesis commit is the first commit of the stage, it is the one that contains the initial data. It cannot be rollbacked.
 
 	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
-	if stack.StageSetProbe != nil {
-		stack.StageSetProbe.Refresh()
-	}
 
 	// initiates the UX loop
-	stager := models.NewStagerStageSet(
+	models.NewStager(
 		stack.R,
-		stack.StageSet,
+		stack.Stage,
 		stack.Probe,
 		marshallOnCommit,
 		threejs_vase.NewThreeJSStageUpdater(),
@@ -56,9 +53,6 @@ func main() {
 		threejs_clock.NewClock3DStageUpdater(),
 		threejs_plant.NewPlant3DStageUpdater(),
 	)
-	if stack.StageSetProbe != nil {
-		stager.SetStageSetProbe(stack.StageSetProbe)
-	}
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
 	wasmregistry.SetupWasmHooks(stack.R)

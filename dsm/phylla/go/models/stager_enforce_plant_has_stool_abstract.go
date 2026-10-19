@@ -7,10 +7,10 @@ import (
 )
 
 func (stager *Stager) enforcePlantHasStoolAbstract() (needCommit bool) {
-	if stager.stageSet == nil || stager.stageSet.StoolStage == nil {
+	if stager.stage == nil || stager.stage.StoolStage == nil {
 		return false
 	}
-	stoolStage := stager.stageSet.StoolStage
+	stoolStage := stager.stage.StoolStage
 
 	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == Stool {

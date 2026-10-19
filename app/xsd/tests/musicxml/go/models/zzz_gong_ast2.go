@@ -3,15 +3,27 @@ package models
 
 import (
 	"embed"
+	"errors"
 	"go/ast"
+	"go/parser"
 	"go/token"
 	"log"
+	"path/filepath"
+	"slices"
+	"strings"
 	"time"
 
 	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
-var _ = time.Hour
+var (
+	_ = errors.New
+	_ = parser.ParseFile
+	_ = filepath.Base
+	_ = slices.Index[[]int, int]
+	_ = strings.Trim
+	_ = time.Hour
+)
 
 // swagger:ignore
 type GONG__ExpressionType = gong_runtime.GONG__ExpressionType
@@ -60,68 +72,5794 @@ func (stage *Stage) ParseAstEmbeddedFile(directory embed.FS, pathToFile string) 
 
 // ParseAstString parses the Go source code from a string
 func (stage *Stage) ParseAstString(blob string, preserveOrder bool) error {
-	inFile, fset, err := gong_runtime.ParseAstString(blob)
-	if err != nil {
-		return err
+	var inFile *ast.File
+	var fset *token.FileSet
+	var err error
+	if strings.HasPrefix(strings.TrimSpace(blob), "package ") || strings.Contains(blob, "\npackage ") {
+		fset = token.NewFileSet()
+		inFile, err = parser.ParseFile(fset, "", blob, parser.ParseComments)
+		if err != nil {
+			return errors.New("Unable to parse " + err.Error())
+		}
+	} else {
+		inFile, fset, err = gong_runtime.ParseAstString(blob)
+		if err != nil {
+			return err
+		}
 	}
 	return stage.ParseAstFileFromAst(inFile, fset, preserveOrder)
 }
 
-// ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
+// ParseAstFileFromAst traverses the AST and stages instances across stage and its sub-stages
 func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	gong_runtime.CheckModuleVersion(stage.GetProbeIF(), inFile)
 
-	// 1. Remove Global Variables: Use a local map to track variable names to instances
-	identifierMap := make(map[string]GongstructIF)
+	identifierMap := make(map[string]any)
 
-	for _, instance := range stage.GetInstances() {
-		identifierMap[instance.GongGetIdentifier(stage)] = instance
+	if stage != nil {
+		for _, instance := range stage.GetInstances() {
+			identifierMap[instance.GongGetIdentifier(stage)] = instance
+			identifierMap["__models"+instance.GongGetIdentifier(stage)] = instance
+		}
 	}
 
-	return gong_runtime.WalkAstFile(inFile,
-		func(identName string, typeName string, instanceName string) {
-			if typeName != "" {
-				if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-					instance, err := unmarshaller.Initialize(stage, identName, instanceName, preserveOrder)
-					if err == nil {
-						identifierMap[identName] = instance
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
+	ast.Inspect(inFile, func(n ast.Node) bool {
+		switch node := n.(type) {
+		case *ast.AssignStmt:
+			if len(node.Lhs) < 1 || len(node.Rhs) < 1 {
+				return true
+			}
+
+			// CASE 1: Initialization ( := )
+			if node.Tok == token.DEFINE {
+				if ident, ok := node.Lhs[0].(*ast.Ident); ok {
+					var pkgAlias string
+					var typeName string
+					var instanceName string
+
+					ast.Inspect(node.Rhs[0], func(expr ast.Node) bool {
+						if compLit, ok := expr.(*ast.CompositeLit); ok {
+							if selExpr, ok := compLit.Type.(*ast.SelectorExpr); ok {
+								if pkgId, ok := selExpr.X.(*ast.Ident); ok {
+									pkgAlias = pkgId.Name
+								}
+								typeName = selExpr.Sel.Name
+								for _, elt := range compLit.Elts {
+									if kv, ok := elt.(*ast.KeyValueExpr); ok {
+										if k, ok := kv.Key.(*ast.Ident); ok && k.Name == "Name" {
+											if v, ok := kv.Value.(*ast.BasicLit); ok {
+												instanceName = strings.Trim(v.Value, "\"`")
+											}
+										}
+									}
+								}
+								return false
+							}
+						}
+						return true
+					})
+
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					} else if pkgAlias == "" || pkgAlias == "models" || len(inFile.Imports) == 0 {
+						pkgAlias = "models"
+					}
+
+					switch pkgAlias {
+			case "models":
+				switch typeName {
+				case "A_directive":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_directive), stage, ident.Name, instanceName, preserveOrder)
+				case "A_measure":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_measure), stage, ident.Name, instanceName, preserveOrder)
+				case "A_measure_1":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_measure_1), stage, ident.Name, instanceName, preserveOrder)
+				case "A_part":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_part), stage, ident.Name, instanceName, preserveOrder)
+				case "A_part_1":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_part_1), stage, ident.Name, instanceName, preserveOrder)
+				case "Accidental":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Accidental), stage, ident.Name, instanceName, preserveOrder)
+				case "Accidental_mark":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Accidental_mark), stage, ident.Name, instanceName, preserveOrder)
+				case "Accidental_text":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Accidental_text), stage, ident.Name, instanceName, preserveOrder)
+				case "Accord":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Accord), stage, ident.Name, instanceName, preserveOrder)
+				case "Accordion_registration":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Accordion_registration), stage, ident.Name, instanceName, preserveOrder)
+				case "Appearance":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Appearance), stage, ident.Name, instanceName, preserveOrder)
+				case "Arpeggiate":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Arpeggiate), stage, ident.Name, instanceName, preserveOrder)
+				case "Arrow":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Arrow), stage, ident.Name, instanceName, preserveOrder)
+				case "Articulations":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Articulations), stage, ident.Name, instanceName, preserveOrder)
+				case "Assess":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Assess), stage, ident.Name, instanceName, preserveOrder)
+				case "Attributes":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Attributes), stage, ident.Name, instanceName, preserveOrder)
+				case "Backup":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Backup), stage, ident.Name, instanceName, preserveOrder)
+				case "Bar_style_color":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Bar_style_color), stage, ident.Name, instanceName, preserveOrder)
+				case "Barline":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Barline), stage, ident.Name, instanceName, preserveOrder)
+				case "Barre":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Barre), stage, ident.Name, instanceName, preserveOrder)
+				case "Bass":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Bass), stage, ident.Name, instanceName, preserveOrder)
+				case "Bass_step":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Bass_step), stage, ident.Name, instanceName, preserveOrder)
+				case "Beam":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Beam), stage, ident.Name, instanceName, preserveOrder)
+				case "Beat_repeat":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Beat_repeat), stage, ident.Name, instanceName, preserveOrder)
+				case "Beat_unit_tied":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Beat_unit_tied), stage, ident.Name, instanceName, preserveOrder)
+				case "Beater":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Beater), stage, ident.Name, instanceName, preserveOrder)
+				case "Bend":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Bend), stage, ident.Name, instanceName, preserveOrder)
+				case "Bookmark":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Bookmark), stage, ident.Name, instanceName, preserveOrder)
+				case "Bracket":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Bracket), stage, ident.Name, instanceName, preserveOrder)
+				case "Breath_mark":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Breath_mark), stage, ident.Name, instanceName, preserveOrder)
+				case "Caesura":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Caesura), stage, ident.Name, instanceName, preserveOrder)
+				case "Cancel":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Cancel), stage, ident.Name, instanceName, preserveOrder)
+				case "Clef":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Clef), stage, ident.Name, instanceName, preserveOrder)
+				case "Coda":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Coda), stage, ident.Name, instanceName, preserveOrder)
+				case "Credit":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Credit), stage, ident.Name, instanceName, preserveOrder)
+				case "Dashes":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Dashes), stage, ident.Name, instanceName, preserveOrder)
+				case "Defaults":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Defaults), stage, ident.Name, instanceName, preserveOrder)
+				case "Degree":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Degree), stage, ident.Name, instanceName, preserveOrder)
+				case "Degree_alter":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Degree_alter), stage, ident.Name, instanceName, preserveOrder)
+				case "Degree_type":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Degree_type), stage, ident.Name, instanceName, preserveOrder)
+				case "Degree_value":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Degree_value), stage, ident.Name, instanceName, preserveOrder)
+				case "Direction":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Direction), stage, ident.Name, instanceName, preserveOrder)
+				case "Direction_type":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Direction_type), stage, ident.Name, instanceName, preserveOrder)
+				case "Distance":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Distance), stage, ident.Name, instanceName, preserveOrder)
+				case "Double":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Double), stage, ident.Name, instanceName, preserveOrder)
+				case "Dynamics":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Dynamics), stage, ident.Name, instanceName, preserveOrder)
+				case "Effect":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Effect), stage, ident.Name, instanceName, preserveOrder)
+				case "Elision":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Elision), stage, ident.Name, instanceName, preserveOrder)
+				case "Empty":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Empty), stage, ident.Name, instanceName, preserveOrder)
+				case "Empty_font":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Empty_font), stage, ident.Name, instanceName, preserveOrder)
+				case "Empty_line":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Empty_line), stage, ident.Name, instanceName, preserveOrder)
+				case "Empty_placement":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Empty_placement), stage, ident.Name, instanceName, preserveOrder)
+				case "Empty_placement_smufl":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Empty_placement_smufl), stage, ident.Name, instanceName, preserveOrder)
+				case "Empty_print_object_style_align":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Empty_print_object_style_align), stage, ident.Name, instanceName, preserveOrder)
+				case "Empty_print_style":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Empty_print_style), stage, ident.Name, instanceName, preserveOrder)
+				case "Empty_print_style_align":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Empty_print_style_align), stage, ident.Name, instanceName, preserveOrder)
+				case "Empty_print_style_align_id":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Empty_print_style_align_id), stage, ident.Name, instanceName, preserveOrder)
+				case "Empty_trill_sound":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Empty_trill_sound), stage, ident.Name, instanceName, preserveOrder)
+				case "Encoding":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Encoding), stage, ident.Name, instanceName, preserveOrder)
+				case "Ending":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Ending), stage, ident.Name, instanceName, preserveOrder)
+				case "Extend":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Extend), stage, ident.Name, instanceName, preserveOrder)
+				case "Feature":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Feature), stage, ident.Name, instanceName, preserveOrder)
+				case "Fermata":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Fermata), stage, ident.Name, instanceName, preserveOrder)
+				case "Figure":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Figure), stage, ident.Name, instanceName, preserveOrder)
+				case "Figured_bass":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Figured_bass), stage, ident.Name, instanceName, preserveOrder)
+				case "Fingering":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Fingering), stage, ident.Name, instanceName, preserveOrder)
+				case "First_fret":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(First_fret), stage, ident.Name, instanceName, preserveOrder)
+				case "For_part":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(For_part), stage, ident.Name, instanceName, preserveOrder)
+				case "Formatted_symbol":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Formatted_symbol), stage, ident.Name, instanceName, preserveOrder)
+				case "Formatted_symbol_id":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Formatted_symbol_id), stage, ident.Name, instanceName, preserveOrder)
+				case "Formatted_text":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Formatted_text), stage, ident.Name, instanceName, preserveOrder)
+				case "Formatted_text_id":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Formatted_text_id), stage, ident.Name, instanceName, preserveOrder)
+				case "Forward":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Forward), stage, ident.Name, instanceName, preserveOrder)
+				case "Frame":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Frame), stage, ident.Name, instanceName, preserveOrder)
+				case "Frame_note":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Frame_note), stage, ident.Name, instanceName, preserveOrder)
+				case "Fret":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Fret), stage, ident.Name, instanceName, preserveOrder)
+				case "Glass":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Glass), stage, ident.Name, instanceName, preserveOrder)
+				case "Glissando":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Glissando), stage, ident.Name, instanceName, preserveOrder)
+				case "Glyph":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Glyph), stage, ident.Name, instanceName, preserveOrder)
+				case "Grace":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Grace), stage, ident.Name, instanceName, preserveOrder)
+				case "Group_barline":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Group_barline), stage, ident.Name, instanceName, preserveOrder)
+				case "Group_name":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Group_name), stage, ident.Name, instanceName, preserveOrder)
+				case "Group_symbol":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Group_symbol), stage, ident.Name, instanceName, preserveOrder)
+				case "Grouping":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Grouping), stage, ident.Name, instanceName, preserveOrder)
+				case "Hammer_on_pull_off":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Hammer_on_pull_off), stage, ident.Name, instanceName, preserveOrder)
+				case "Handbell":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Handbell), stage, ident.Name, instanceName, preserveOrder)
+				case "Harmon_closed":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Harmon_closed), stage, ident.Name, instanceName, preserveOrder)
+				case "Harmon_mute":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Harmon_mute), stage, ident.Name, instanceName, preserveOrder)
+				case "Harmonic":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Harmonic), stage, ident.Name, instanceName, preserveOrder)
+				case "Harmony":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Harmony), stage, ident.Name, instanceName, preserveOrder)
+				case "Harmony_alter":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Harmony_alter), stage, ident.Name, instanceName, preserveOrder)
+				case "Harp_pedals":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Harp_pedals), stage, ident.Name, instanceName, preserveOrder)
+				case "Heel_toe":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Heel_toe), stage, ident.Name, instanceName, preserveOrder)
+				case "Hole":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Hole), stage, ident.Name, instanceName, preserveOrder)
+				case "Hole_closed":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Hole_closed), stage, ident.Name, instanceName, preserveOrder)
+				case "Horizontal_turn":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Horizontal_turn), stage, ident.Name, instanceName, preserveOrder)
+				case "Identification":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Identification), stage, ident.Name, instanceName, preserveOrder)
+				case "Image":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Image), stage, ident.Name, instanceName, preserveOrder)
+				case "Instrument":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Instrument), stage, ident.Name, instanceName, preserveOrder)
+				case "Instrument_change":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Instrument_change), stage, ident.Name, instanceName, preserveOrder)
+				case "Instrument_link":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Instrument_link), stage, ident.Name, instanceName, preserveOrder)
+				case "Interchangeable":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Interchangeable), stage, ident.Name, instanceName, preserveOrder)
+				case "Inversion":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Inversion), stage, ident.Name, instanceName, preserveOrder)
+				case "Key":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Key), stage, ident.Name, instanceName, preserveOrder)
+				case "Key_accidental":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Key_accidental), stage, ident.Name, instanceName, preserveOrder)
+				case "Key_octave":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Key_octave), stage, ident.Name, instanceName, preserveOrder)
+				case "Kind":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Kind), stage, ident.Name, instanceName, preserveOrder)
+				case "Level":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Level), stage, ident.Name, instanceName, preserveOrder)
+				case "Line_detail":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Line_detail), stage, ident.Name, instanceName, preserveOrder)
+				case "Line_width":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Line_width), stage, ident.Name, instanceName, preserveOrder)
+				case "Link":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Link), stage, ident.Name, instanceName, preserveOrder)
+				case "Listen":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Listen), stage, ident.Name, instanceName, preserveOrder)
+				case "Listening":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Listening), stage, ident.Name, instanceName, preserveOrder)
+				case "Lyric":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Lyric), stage, ident.Name, instanceName, preserveOrder)
+				case "Lyric_font":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Lyric_font), stage, ident.Name, instanceName, preserveOrder)
+				case "Lyric_language":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Lyric_language), stage, ident.Name, instanceName, preserveOrder)
+				case "Measure_layout":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Measure_layout), stage, ident.Name, instanceName, preserveOrder)
+				case "Measure_numbering":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Measure_numbering), stage, ident.Name, instanceName, preserveOrder)
+				case "Measure_repeat":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Measure_repeat), stage, ident.Name, instanceName, preserveOrder)
+				case "Measure_style":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Measure_style), stage, ident.Name, instanceName, preserveOrder)
+				case "Membrane":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Membrane), stage, ident.Name, instanceName, preserveOrder)
+				case "Metal":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Metal), stage, ident.Name, instanceName, preserveOrder)
+				case "Metronome":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Metronome), stage, ident.Name, instanceName, preserveOrder)
+				case "Metronome_beam":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Metronome_beam), stage, ident.Name, instanceName, preserveOrder)
+				case "Metronome_note":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Metronome_note), stage, ident.Name, instanceName, preserveOrder)
+				case "Metronome_tied":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Metronome_tied), stage, ident.Name, instanceName, preserveOrder)
+				case "Metronome_tuplet":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Metronome_tuplet), stage, ident.Name, instanceName, preserveOrder)
+				case "Midi_device":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Midi_device), stage, ident.Name, instanceName, preserveOrder)
+				case "Midi_instrument":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Midi_instrument), stage, ident.Name, instanceName, preserveOrder)
+				case "Miscellaneous":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Miscellaneous), stage, ident.Name, instanceName, preserveOrder)
+				case "Miscellaneous_field":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Miscellaneous_field), stage, ident.Name, instanceName, preserveOrder)
+				case "Mordent":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Mordent), stage, ident.Name, instanceName, preserveOrder)
+				case "Multiple_rest":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Multiple_rest), stage, ident.Name, instanceName, preserveOrder)
+				case "Name_display":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Name_display), stage, ident.Name, instanceName, preserveOrder)
+				case "Non_arpeggiate":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Non_arpeggiate), stage, ident.Name, instanceName, preserveOrder)
+				case "Notations":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Notations), stage, ident.Name, instanceName, preserveOrder)
+				case "Note":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Note), stage, ident.Name, instanceName, preserveOrder)
+				case "Note_size":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Note_size), stage, ident.Name, instanceName, preserveOrder)
+				case "Note_type":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Note_type), stage, ident.Name, instanceName, preserveOrder)
+				case "Notehead":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Notehead), stage, ident.Name, instanceName, preserveOrder)
+				case "Notehead_text":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Notehead_text), stage, ident.Name, instanceName, preserveOrder)
+				case "Numeral":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Numeral), stage, ident.Name, instanceName, preserveOrder)
+				case "Numeral_key":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Numeral_key), stage, ident.Name, instanceName, preserveOrder)
+				case "Numeral_root":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Numeral_root), stage, ident.Name, instanceName, preserveOrder)
+				case "Octave_shift":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Octave_shift), stage, ident.Name, instanceName, preserveOrder)
+				case "Offset":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Offset), stage, ident.Name, instanceName, preserveOrder)
+				case "Opus":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Opus), stage, ident.Name, instanceName, preserveOrder)
+				case "Ornaments":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Ornaments), stage, ident.Name, instanceName, preserveOrder)
+				case "Other_appearance":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Other_appearance), stage, ident.Name, instanceName, preserveOrder)
+				case "Other_direction":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Other_direction), stage, ident.Name, instanceName, preserveOrder)
+				case "Other_listening":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Other_listening), stage, ident.Name, instanceName, preserveOrder)
+				case "Other_notation":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Other_notation), stage, ident.Name, instanceName, preserveOrder)
+				case "Other_placement_text":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Other_placement_text), stage, ident.Name, instanceName, preserveOrder)
+				case "Other_play":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Other_play), stage, ident.Name, instanceName, preserveOrder)
+				case "Other_text":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Other_text), stage, ident.Name, instanceName, preserveOrder)
+				case "Page_layout":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Page_layout), stage, ident.Name, instanceName, preserveOrder)
+				case "Page_margins":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Page_margins), stage, ident.Name, instanceName, preserveOrder)
+				case "Part_clef":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Part_clef), stage, ident.Name, instanceName, preserveOrder)
+				case "Part_group":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Part_group), stage, ident.Name, instanceName, preserveOrder)
+				case "Part_link":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Part_link), stage, ident.Name, instanceName, preserveOrder)
+				case "Part_list":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Part_list), stage, ident.Name, instanceName, preserveOrder)
+				case "Part_name":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Part_name), stage, ident.Name, instanceName, preserveOrder)
+				case "Part_symbol":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Part_symbol), stage, ident.Name, instanceName, preserveOrder)
+				case "Part_transpose":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Part_transpose), stage, ident.Name, instanceName, preserveOrder)
+				case "Pedal":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Pedal), stage, ident.Name, instanceName, preserveOrder)
+				case "Pedal_tuning":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Pedal_tuning), stage, ident.Name, instanceName, preserveOrder)
+				case "Per_minute":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Per_minute), stage, ident.Name, instanceName, preserveOrder)
+				case "Percussion":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Percussion), stage, ident.Name, instanceName, preserveOrder)
+				case "Pitch":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Pitch), stage, ident.Name, instanceName, preserveOrder)
+				case "Pitched":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Pitched), stage, ident.Name, instanceName, preserveOrder)
+				case "Placement_text":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Placement_text), stage, ident.Name, instanceName, preserveOrder)
+				case "Play":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Play), stage, ident.Name, instanceName, preserveOrder)
+				case "Player":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Player), stage, ident.Name, instanceName, preserveOrder)
+				case "Principal_voice":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Principal_voice), stage, ident.Name, instanceName, preserveOrder)
+				case "Print":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Print), stage, ident.Name, instanceName, preserveOrder)
+				case "Release":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Release), stage, ident.Name, instanceName, preserveOrder)
+				case "Repeat":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Repeat), stage, ident.Name, instanceName, preserveOrder)
+				case "Rest":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Rest), stage, ident.Name, instanceName, preserveOrder)
+				case "Root":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Root), stage, ident.Name, instanceName, preserveOrder)
+				case "Root_step":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Root_step), stage, ident.Name, instanceName, preserveOrder)
+				case "Scaling":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Scaling), stage, ident.Name, instanceName, preserveOrder)
+				case "Scordatura":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Scordatura), stage, ident.Name, instanceName, preserveOrder)
+				case "Score_instrument":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Score_instrument), stage, ident.Name, instanceName, preserveOrder)
+				case "Score_part":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Score_part), stage, ident.Name, instanceName, preserveOrder)
+				case "Score_partwise":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Score_partwise), stage, ident.Name, instanceName, preserveOrder)
+				case "Score_timewise":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Score_timewise), stage, ident.Name, instanceName, preserveOrder)
+				case "Segno":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Segno), stage, ident.Name, instanceName, preserveOrder)
+				case "Slash":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Slash), stage, ident.Name, instanceName, preserveOrder)
+				case "Slide":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Slide), stage, ident.Name, instanceName, preserveOrder)
+				case "Slur":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Slur), stage, ident.Name, instanceName, preserveOrder)
+				case "Sound":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Sound), stage, ident.Name, instanceName, preserveOrder)
+				case "Staff_details":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Staff_details), stage, ident.Name, instanceName, preserveOrder)
+				case "Staff_divide":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Staff_divide), stage, ident.Name, instanceName, preserveOrder)
+				case "Staff_layout":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Staff_layout), stage, ident.Name, instanceName, preserveOrder)
+				case "Staff_size":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Staff_size), stage, ident.Name, instanceName, preserveOrder)
+				case "Staff_tuning":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Staff_tuning), stage, ident.Name, instanceName, preserveOrder)
+				case "Stem":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Stem), stage, ident.Name, instanceName, preserveOrder)
+				case "Stick":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Stick), stage, ident.Name, instanceName, preserveOrder)
+				case "String_mute":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(String_mute), stage, ident.Name, instanceName, preserveOrder)
+				case "String_type":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(String_type), stage, ident.Name, instanceName, preserveOrder)
+				case "Strong_accent":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Strong_accent), stage, ident.Name, instanceName, preserveOrder)
+				case "Style_text":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Style_text), stage, ident.Name, instanceName, preserveOrder)
+				case "Supports":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Supports), stage, ident.Name, instanceName, preserveOrder)
+				case "Swing":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Swing), stage, ident.Name, instanceName, preserveOrder)
+				case "Sync":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Sync), stage, ident.Name, instanceName, preserveOrder)
+				case "System_dividers":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(System_dividers), stage, ident.Name, instanceName, preserveOrder)
+				case "System_layout":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(System_layout), stage, ident.Name, instanceName, preserveOrder)
+				case "System_margins":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(System_margins), stage, ident.Name, instanceName, preserveOrder)
+				case "Tap":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Tap), stage, ident.Name, instanceName, preserveOrder)
+				case "Technical":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Technical), stage, ident.Name, instanceName, preserveOrder)
+				case "Text_element_data":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Text_element_data), stage, ident.Name, instanceName, preserveOrder)
+				case "Tie":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Tie), stage, ident.Name, instanceName, preserveOrder)
+				case "Tied":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Tied), stage, ident.Name, instanceName, preserveOrder)
+				case "Time":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Time), stage, ident.Name, instanceName, preserveOrder)
+				case "Time_modification":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Time_modification), stage, ident.Name, instanceName, preserveOrder)
+				case "Timpani":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Timpani), stage, ident.Name, instanceName, preserveOrder)
+				case "Transpose":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Transpose), stage, ident.Name, instanceName, preserveOrder)
+				case "Tremolo":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Tremolo), stage, ident.Name, instanceName, preserveOrder)
+				case "Tuplet":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Tuplet), stage, ident.Name, instanceName, preserveOrder)
+				case "Tuplet_dot":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Tuplet_dot), stage, ident.Name, instanceName, preserveOrder)
+				case "Tuplet_number":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Tuplet_number), stage, ident.Name, instanceName, preserveOrder)
+				case "Tuplet_portion":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Tuplet_portion), stage, ident.Name, instanceName, preserveOrder)
+				case "Tuplet_type":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Tuplet_type), stage, ident.Name, instanceName, preserveOrder)
+				case "Typed_text":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Typed_text), stage, ident.Name, instanceName, preserveOrder)
+				case "Unpitched":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Unpitched), stage, ident.Name, instanceName, preserveOrder)
+				case "Virtual_instrument":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Virtual_instrument), stage, ident.Name, instanceName, preserveOrder)
+				case "Wait":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Wait), stage, ident.Name, instanceName, preserveOrder)
+				case "Wavy_line":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Wavy_line), stage, ident.Name, instanceName, preserveOrder)
+				case "Wedge":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Wedge), stage, ident.Name, instanceName, preserveOrder)
+				case "Wood":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Wood), stage, ident.Name, instanceName, preserveOrder)
+				case "Work":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Work), stage, ident.Name, instanceName, preserveOrder)
+				}
+					}
+				}
+				return false
+			}
+
+			// CASE 2: Assignment ( = )
+			if node.Tok == token.ASSIGN {
+				if selExpr, ok := node.Lhs[0].(*ast.SelectorExpr); ok {
+					if ident, ok := selExpr.X.(*ast.Ident); ok {
+						if instance, exists := identifierMap[ident.Name]; exists {
+							fieldName := selExpr.Sel.Name
+							rhs := node.Rhs[0]
+							switch inst := instance.(type) {
+				case *A_directive:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Lang":
+						inst.Lang = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *A_measure:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractString(rhs)
+					case "Text":
+						inst.Text = GongExtractString(rhs)
+					case "Implicit":
+						GongUnmarshallEnum(&inst.Implicit, rhs)
+					case "Non_controlling":
+						GongUnmarshallEnum(&inst.Non_controlling, rhs)
+					case "Width":
+						inst.Width = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Note":
+						__gong__assignSliceOfPointers(&inst.Note, rhs, identifierMap)
+					case "Backup":
+						__gong__assignSliceOfPointers(&inst.Backup, rhs, identifierMap)
+					case "Forward":
+						__gong__assignSliceOfPointers(&inst.Forward, rhs, identifierMap)
+					case "Direction":
+						__gong__assignSliceOfPointers(&inst.Direction, rhs, identifierMap)
+					case "Attributes":
+						__gong__assignSliceOfPointers(&inst.Attributes, rhs, identifierMap)
+					case "Harmony":
+						__gong__assignSliceOfPointers(&inst.Harmony, rhs, identifierMap)
+					case "Figured_bass":
+						__gong__assignSliceOfPointers(&inst.Figured_bass, rhs, identifierMap)
+					case "Print":
+						__gong__assignSliceOfPointers(&inst.Print, rhs, identifierMap)
+					case "Sound":
+						__gong__assignSliceOfPointers(&inst.Sound, rhs, identifierMap)
+					case "Listening":
+						__gong__assignSliceOfPointers(&inst.Listening, rhs, identifierMap)
+					case "Barline":
+						__gong__assignSliceOfPointers(&inst.Barline, rhs, identifierMap)
+					case "Grouping":
+						__gong__assignSliceOfPointers(&inst.Grouping, rhs, identifierMap)
+					case "Link":
+						__gong__assignSliceOfPointers(&inst.Link, rhs, identifierMap)
+					case "Bookmark":
+						__gong__assignSliceOfPointers(&inst.Bookmark, rhs, identifierMap)
+					}
+				case *A_measure_1:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractString(rhs)
+					case "Text":
+						inst.Text = GongExtractString(rhs)
+					case "Implicit":
+						GongUnmarshallEnum(&inst.Implicit, rhs)
+					case "Non_controlling":
+						GongUnmarshallEnum(&inst.Non_controlling, rhs)
+					case "Width":
+						inst.Width = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Part":
+						__gong__assignSliceOfPointers(&inst.Part, rhs, identifierMap)
+					}
+				case *A_part:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Measure":
+						__gong__assignSliceOfPointers(&inst.Measure, rhs, identifierMap)
+					}
+				case *A_part_1:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Note":
+						__gong__assignSliceOfPointers(&inst.Note, rhs, identifierMap)
+					case "Backup":
+						__gong__assignSliceOfPointers(&inst.Backup, rhs, identifierMap)
+					case "Forward":
+						__gong__assignSliceOfPointers(&inst.Forward, rhs, identifierMap)
+					case "Direction":
+						__gong__assignSliceOfPointers(&inst.Direction, rhs, identifierMap)
+					case "Attributes":
+						__gong__assignSliceOfPointers(&inst.Attributes, rhs, identifierMap)
+					case "Harmony":
+						__gong__assignSliceOfPointers(&inst.Harmony, rhs, identifierMap)
+					case "Figured_bass":
+						__gong__assignSliceOfPointers(&inst.Figured_bass, rhs, identifierMap)
+					case "Print":
+						__gong__assignSliceOfPointers(&inst.Print, rhs, identifierMap)
+					case "Sound":
+						__gong__assignSliceOfPointers(&inst.Sound, rhs, identifierMap)
+					case "Listening":
+						__gong__assignSliceOfPointers(&inst.Listening, rhs, identifierMap)
+					case "Barline":
+						__gong__assignSliceOfPointers(&inst.Barline, rhs, identifierMap)
+					case "Grouping":
+						__gong__assignSliceOfPointers(&inst.Grouping, rhs, identifierMap)
+					case "Link":
+						__gong__assignSliceOfPointers(&inst.Link, rhs, identifierMap)
+					case "Bookmark":
+						__gong__assignSliceOfPointers(&inst.Bookmark, rhs, identifierMap)
+					}
+				case *Accidental:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Cautionary":
+						inst.Cautionary = GongExtractString(rhs)
+					case "Editorial":
+						GongUnmarshallEnum(&inst.Editorial, rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "Parentheses":
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
+					case "Bracket":
+						GongUnmarshallEnum(&inst.Bracket, rhs)
+					case "Size":
+						GongUnmarshallEnum(&inst.Size, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Accidental_mark:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "Parentheses":
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
+					case "Bracket":
+						GongUnmarshallEnum(&inst.Bracket, rhs)
+					case "Size":
+						GongUnmarshallEnum(&inst.Size, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "EnclosedText":
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
+					}
+				case *Accidental_text:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "Lang":
+						inst.Lang = GongExtractString(rhs)
+					case "Space":
+						inst.Space = GongExtractString(rhs)
+					case "Justify":
+						GongUnmarshallEnum(&inst.Justify, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Underline":
+						inst.Underline = GongExtractInt(rhs)
+					case "Overline":
+						inst.Overline = GongExtractInt(rhs)
+					case "Line_through":
+						inst.Line_through = GongExtractInt(rhs)
+					case "Rotation":
+						inst.Rotation = GongExtractString(rhs)
+					case "Letter_spacing":
+						inst.Letter_spacing = GongExtractString(rhs)
+					case "Line_height":
+						inst.Line_height = GongExtractString(rhs)
+					case "Dir":
+						inst.Dir = GongExtractString(rhs)
+					case "Enclosure":
+						inst.Enclosure = GongExtractString(rhs)
+					case "EnclosedText":
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
+					}
+				case *Accord:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "String":
+						inst.String = GongExtractInt(rhs)
+					case "Tuning_step":
+						GongUnmarshallEnum(&inst.Tuning_step, rhs)
+					case "Tuning_alter":
+						inst.Tuning_alter = GongExtractString(rhs)
+					case "Tuning_octave":
+						inst.Tuning_octave = GongExtractInt(rhs)
+					}
+				case *Accordion_registration:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Accordion_high":
+						inst.Accordion_high = GongExtractString(rhs)
+					case "Accordion_middle":
+						inst.Accordion_middle = GongExtractInt(rhs)
+					case "Accordion_low":
+						inst.Accordion_low = GongExtractString(rhs)
+					}
+				case *Appearance:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Line_width":
+						__gong__assignSliceOfPointers(&inst.Line_width, rhs, identifierMap)
+					case "Note_size":
+						__gong__assignSliceOfPointers(&inst.Note_size, rhs, identifierMap)
+					case "Distance":
+						__gong__assignSliceOfPointers(&inst.Distance, rhs, identifierMap)
+					case "Glyph":
+						__gong__assignSliceOfPointers(&inst.Glyph, rhs, identifierMap)
+					case "Other_appearance":
+						__gong__assignSliceOfPointers(&inst.Other_appearance, rhs, identifierMap)
+					}
+				case *Arpeggiate:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Direction":
+						inst.Direction = GongExtractString(rhs)
+					case "Unbroken":
+						GongUnmarshallEnum(&inst.Unbroken, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Arrow:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "Arrow_direction":
+						inst.Arrow_direction = GongExtractString(rhs)
+					case "Arrow_style":
+						inst.Arrow_style = GongExtractString(rhs)
+					case "Arrowhead":
+						inst.Arrowhead = GongExtractString(rhs)
+					case "Circular_arrow":
+						inst.Circular_arrow = GongExtractString(rhs)
+					}
+				case *Articulations:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Accent":
+						__gong__assignSliceOfPointers(&inst.Accent, rhs, identifierMap)
+					case "Strong_accent":
+						__gong__assignSliceOfPointers(&inst.Strong_accent, rhs, identifierMap)
+					case "Staccato":
+						__gong__assignSliceOfPointers(&inst.Staccato, rhs, identifierMap)
+					case "Tenuto":
+						__gong__assignSliceOfPointers(&inst.Tenuto, rhs, identifierMap)
+					case "Detached_legato":
+						__gong__assignSliceOfPointers(&inst.Detached_legato, rhs, identifierMap)
+					case "Staccatissimo":
+						__gong__assignSliceOfPointers(&inst.Staccatissimo, rhs, identifierMap)
+					case "Spiccato":
+						__gong__assignSliceOfPointers(&inst.Spiccato, rhs, identifierMap)
+					case "Scoop":
+						__gong__assignSliceOfPointers(&inst.Scoop, rhs, identifierMap)
+					case "Plop":
+						__gong__assignSliceOfPointers(&inst.Plop, rhs, identifierMap)
+					case "Doit":
+						__gong__assignSliceOfPointers(&inst.Doit, rhs, identifierMap)
+					case "Falloff":
+						__gong__assignSliceOfPointers(&inst.Falloff, rhs, identifierMap)
+					case "Breath_mark":
+						__gong__assignSliceOfPointers(&inst.Breath_mark, rhs, identifierMap)
+					case "Caesura":
+						__gong__assignSliceOfPointers(&inst.Caesura, rhs, identifierMap)
+					case "Stress":
+						__gong__assignSliceOfPointers(&inst.Stress, rhs, identifierMap)
+					case "Unstress":
+						__gong__assignSliceOfPointers(&inst.Unstress, rhs, identifierMap)
+					case "Soft_accent":
+						__gong__assignSliceOfPointers(&inst.Soft_accent, rhs, identifierMap)
+					case "Other_articulation":
+						__gong__assignSliceOfPointers(&inst.Other_articulation, rhs, identifierMap)
+					}
+				case *Assess:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Player":
+						inst.Player = GongExtractString(rhs)
+					case "Time_only":
+						inst.Time_only = GongExtractString(rhs)
+					}
+				case *Attributes:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Footnote":
+						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
+					case "Level":
+						__gong__assignPointer(&inst.Level, rhs, identifierMap)
+					case "Divisions":
+						inst.Divisions = GongExtractString(rhs)
+					case "Key":
+						__gong__assignSliceOfPointers(&inst.Key, rhs, identifierMap)
+					case "Time":
+						__gong__assignSliceOfPointers(&inst.Time, rhs, identifierMap)
+					case "Staves":
+						inst.Staves = GongExtractInt(rhs)
+					case "Part_symbol":
+						__gong__assignPointer(&inst.Part_symbol, rhs, identifierMap)
+					case "Instruments":
+						inst.Instruments = GongExtractInt(rhs)
+					case "Clef":
+						__gong__assignSliceOfPointers(&inst.Clef, rhs, identifierMap)
+					case "Staff_details":
+						__gong__assignSliceOfPointers(&inst.Staff_details, rhs, identifierMap)
+					case "Transpose":
+						__gong__assignSliceOfPointers(&inst.Transpose, rhs, identifierMap)
+					case "For_part":
+						__gong__assignSliceOfPointers(&inst.For_part, rhs, identifierMap)
+					case "Directive":
+						__gong__assignSliceOfPointers(&inst.Directive, rhs, identifierMap)
+					case "Measure_style":
+						__gong__assignSliceOfPointers(&inst.Measure_style, rhs, identifierMap)
+					}
+				case *Backup:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Duration":
+						inst.Duration = GongExtractString(rhs)
+					case "Footnote":
+						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
+					case "Level":
+						__gong__assignPointer(&inst.Level, rhs, identifierMap)
+					}
+				case *Bar_style_color:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Barline:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Location":
+						inst.Location = GongExtractString(rhs)
+					case "Segno":
+						inst.Segno = GongExtractString(rhs)
+					case "Coda":
+						inst.Coda = GongExtractString(rhs)
+					case "Divisions":
+						inst.Divisions = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Bar_style":
+						__gong__assignPointer(&inst.Bar_style, rhs, identifierMap)
+					case "Footnote":
+						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
+					case "Level":
+						__gong__assignPointer(&inst.Level, rhs, identifierMap)
+					case "Wavy_line":
+						__gong__assignPointer(&inst.Wavy_line, rhs, identifierMap)
+					case "Segno_1":
+						__gong__assignPointer(&inst.Segno_1, rhs, identifierMap)
+					case "Coda_1":
+						__gong__assignPointer(&inst.Coda_1, rhs, identifierMap)
+					case "Fermata":
+						__gong__assignPointer(&inst.Fermata, rhs, identifierMap)
+					case "Ending":
+						__gong__assignPointer(&inst.Ending, rhs, identifierMap)
+					case "Repeat":
+						__gong__assignPointer(&inst.Repeat, rhs, identifierMap)
+					}
+				case *Barre:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					}
+				case *Bass:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Arrangement":
+						inst.Arrangement = GongExtractString(rhs)
+					case "Bass_separator":
+						__gong__assignPointer(&inst.Bass_separator, rhs, identifierMap)
+					case "Bass_step":
+						__gong__assignPointer(&inst.Bass_step, rhs, identifierMap)
+					case "Bass_alter":
+						__gong__assignPointer(&inst.Bass_alter, rhs, identifierMap)
+					}
+				case *Bass_step:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Text":
+						inst.Text = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Beam:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Repeater":
+						GongUnmarshallEnum(&inst.Repeater, rhs)
+					case "Fan":
+						inst.Fan = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Beat_repeat:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Slashes":
+						inst.Slashes = GongExtractInt(rhs)
+					case "Use_dots":
+						GongUnmarshallEnum(&inst.Use_dots, rhs)
+					case "Slash_type":
+						GongUnmarshallEnum(&inst.Slash_type, rhs)
+					case "Slash_dot":
+						inst.Slash_dot = GongExtractString(rhs)
+					case "Except_voice":
+						inst.Except_voice = GongExtractString(rhs)
+					}
+				case *Beat_unit_tied:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Beat_unit":
+						GongUnmarshallEnum(&inst.Beat_unit, rhs)
+					case "Beat_unit_dot":
+						inst.Beat_unit_dot = GongExtractString(rhs)
+					}
+				case *Beater:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Tip":
+						inst.Tip = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Bend:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Shape":
+						inst.Shape = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Accelerate":
+						GongUnmarshallEnum(&inst.Accelerate, rhs)
+					case "Beats":
+						inst.Beats = GongExtractString(rhs)
+					case "First_beat":
+						inst.First_beat = GongExtractString(rhs)
+					case "Last_beat":
+						inst.Last_beat = GongExtractString(rhs)
+					case "Bend_alter":
+						inst.Bend_alter = GongExtractString(rhs)
+					case "Pre_bend":
+						inst.Pre_bend = GongExtractString(rhs)
+					case "Release":
+						__gong__assignPointer(&inst.Release, rhs, identifierMap)
+					case "With_bar":
+						__gong__assignPointer(&inst.With_bar, rhs, identifierMap)
+					}
+				case *Bookmark:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "NameXSD":
+						inst.NameXSD = GongExtractString(rhs)
+					case "Element":
+						inst.Element = GongExtractString(rhs)
+					case "Position":
+						inst.Position = GongExtractInt(rhs)
+					}
+				case *Bracket:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Line_end":
+						inst.Line_end = GongExtractString(rhs)
+					case "End_length":
+						inst.End_length = GongExtractString(rhs)
+					case "Line_type":
+						inst.Line_type = GongExtractString(rhs)
+					case "Dash_length":
+						inst.Dash_length = GongExtractString(rhs)
+					case "Space_length":
+						inst.Space_length = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Breath_mark:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Caesura:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Cancel:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Location":
+						inst.Location = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractInt(rhs)
+					}
+				case *Clef:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Additional":
+						GongUnmarshallEnum(&inst.Additional, rhs)
+					case "Size":
+						inst.Size = GongExtractString(rhs)
+					case "After_barline":
+						GongUnmarshallEnum(&inst.After_barline, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Sign":
+						inst.Sign = GongExtractString(rhs)
+					case "Line":
+						inst.Line = GongExtractInt(rhs)
+					case "Clef_octave_change":
+						inst.Clef_octave_change = GongExtractInt(rhs)
+					}
+				case *Coda:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Credit:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Page":
+						inst.Page = GongExtractInt(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Credit_type":
+						inst.Credit_type = GongExtractString(rhs)
+					case "Credit_image":
+						__gong__assignPointer(&inst.Credit_image, rhs, identifierMap)
+					case "Link":
+						__gong__assignSliceOfPointers(&inst.Link, rhs, identifierMap)
+					case "Bookmark":
+						__gong__assignSliceOfPointers(&inst.Bookmark, rhs, identifierMap)
+					case "Credit_words":
+						__gong__assignSliceOfPointers(&inst.Credit_words, rhs, identifierMap)
+					case "Credit_symbol":
+						__gong__assignSliceOfPointers(&inst.Credit_symbol, rhs, identifierMap)
+					}
+				case *Dashes:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Dash_length":
+						inst.Dash_length = GongExtractString(rhs)
+					case "Space_length":
+						inst.Space_length = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Defaults:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Scaling":
+						__gong__assignPointer(&inst.Scaling, rhs, identifierMap)
+					case "Concert_score":
+						inst.Concert_score = GongExtractString(rhs)
+					case "Page_layout":
+						__gong__assignPointer(&inst.Page_layout, rhs, identifierMap)
+					case "System_layout":
+						__gong__assignPointer(&inst.System_layout, rhs, identifierMap)
+					case "Staff_layout":
+						__gong__assignSliceOfPointers(&inst.Staff_layout, rhs, identifierMap)
+					case "Appearance":
+						__gong__assignPointer(&inst.Appearance, rhs, identifierMap)
+					case "Music_font":
+						__gong__assignPointer(&inst.Music_font, rhs, identifierMap)
+					case "Word_font":
+						__gong__assignPointer(&inst.Word_font, rhs, identifierMap)
+					case "Lyric_font":
+						__gong__assignSliceOfPointers(&inst.Lyric_font, rhs, identifierMap)
+					case "Lyric_language":
+						__gong__assignSliceOfPointers(&inst.Lyric_language, rhs, identifierMap)
+					}
+				case *Degree:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Degree_value":
+						__gong__assignPointer(&inst.Degree_value, rhs, identifierMap)
+					case "Degree_alter":
+						__gong__assignPointer(&inst.Degree_alter, rhs, identifierMap)
+					case "Degree_type":
+						__gong__assignPointer(&inst.Degree_type, rhs, identifierMap)
+					}
+				case *Degree_alter:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Plus_minus":
+						GongUnmarshallEnum(&inst.Plus_minus, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Degree_type:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Text":
+						inst.Text = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Degree_value:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Symbol":
+						inst.Symbol = GongExtractString(rhs)
+					case "Text":
+						inst.Text = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractInt(rhs)
+					}
+				case *Direction:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Directive":
+						GongUnmarshallEnum(&inst.Directive, rhs)
+					case "System":
+						GongUnmarshallEnum(&inst.System, rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Direction_type":
+						__gong__assignSliceOfPointers(&inst.Direction_type, rhs, identifierMap)
+					case "Offset":
+						__gong__assignPointer(&inst.Offset, rhs, identifierMap)
+					case "Footnote":
+						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
+					case "Level":
+						__gong__assignPointer(&inst.Level, rhs, identifierMap)
+					case "Voice":
+						inst.Voice = GongExtractString(rhs)
+					case "Staff":
+						inst.Staff = GongExtractInt(rhs)
+					case "Sound":
+						__gong__assignPointer(&inst.Sound, rhs, identifierMap)
+					case "Listening":
+						__gong__assignPointer(&inst.Listening, rhs, identifierMap)
+					}
+				case *Direction_type:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Rehearsal":
+						__gong__assignSliceOfPointers(&inst.Rehearsal, rhs, identifierMap)
+					case "Segno":
+						__gong__assignSliceOfPointers(&inst.Segno, rhs, identifierMap)
+					case "Coda":
+						__gong__assignSliceOfPointers(&inst.Coda, rhs, identifierMap)
+					case "Words":
+						__gong__assignSliceOfPointers(&inst.Words, rhs, identifierMap)
+					case "Symbol":
+						__gong__assignSliceOfPointers(&inst.Symbol, rhs, identifierMap)
+					case "Wedge":
+						__gong__assignPointer(&inst.Wedge, rhs, identifierMap)
+					case "Dynamics":
+						__gong__assignSliceOfPointers(&inst.Dynamics, rhs, identifierMap)
+					case "Dashes":
+						__gong__assignPointer(&inst.Dashes, rhs, identifierMap)
+					case "Bracket":
+						__gong__assignPointer(&inst.Bracket, rhs, identifierMap)
+					case "Pedal":
+						__gong__assignPointer(&inst.Pedal, rhs, identifierMap)
+					case "Metronome":
+						__gong__assignPointer(&inst.Metronome, rhs, identifierMap)
+					case "Octave_shift":
+						__gong__assignPointer(&inst.Octave_shift, rhs, identifierMap)
+					case "Harp_pedals":
+						__gong__assignPointer(&inst.Harp_pedals, rhs, identifierMap)
+					case "Damp":
+						__gong__assignPointer(&inst.Damp, rhs, identifierMap)
+					case "Damp_all":
+						__gong__assignPointer(&inst.Damp_all, rhs, identifierMap)
+					case "Eyeglasses":
+						__gong__assignPointer(&inst.Eyeglasses, rhs, identifierMap)
+					case "String_mute":
+						__gong__assignPointer(&inst.String_mute, rhs, identifierMap)
+					case "Scordatura":
+						__gong__assignPointer(&inst.Scordatura, rhs, identifierMap)
+					case "Image":
+						__gong__assignPointer(&inst.Image, rhs, identifierMap)
+					case "Principal_voice":
+						__gong__assignPointer(&inst.Principal_voice, rhs, identifierMap)
+					case "Percussion":
+						__gong__assignSliceOfPointers(&inst.Percussion, rhs, identifierMap)
+					case "Accordion_registration":
+						__gong__assignPointer(&inst.Accordion_registration, rhs, identifierMap)
+					case "Staff_divide":
+						__gong__assignPointer(&inst.Staff_divide, rhs, identifierMap)
+					case "Other_direction":
+						__gong__assignPointer(&inst.Other_direction, rhs, identifierMap)
+					}
+				case *Distance:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Double:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Above":
+						GongUnmarshallEnum(&inst.Above, rhs)
+					}
+				case *Dynamics:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Underline":
+						inst.Underline = GongExtractInt(rhs)
+					case "Overline":
+						inst.Overline = GongExtractInt(rhs)
+					case "Line_through":
+						inst.Line_through = GongExtractInt(rhs)
+					case "Enclosure":
+						inst.Enclosure = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "P":
+						inst.P = GongExtractString(rhs)
+					case "Pp":
+						inst.Pp = GongExtractString(rhs)
+					case "Ppp":
+						inst.Ppp = GongExtractString(rhs)
+					case "Pppp":
+						inst.Pppp = GongExtractString(rhs)
+					case "Ppppp":
+						inst.Ppppp = GongExtractString(rhs)
+					case "Pppppp":
+						inst.Pppppp = GongExtractString(rhs)
+					case "F":
+						inst.F = GongExtractString(rhs)
+					case "Ff":
+						inst.Ff = GongExtractString(rhs)
+					case "Fff":
+						inst.Fff = GongExtractString(rhs)
+					case "Ffff":
+						inst.Ffff = GongExtractString(rhs)
+					case "Fffff":
+						inst.Fffff = GongExtractString(rhs)
+					case "Ffffff":
+						inst.Ffffff = GongExtractString(rhs)
+					case "Mp":
+						inst.Mp = GongExtractString(rhs)
+					case "Mf":
+						inst.Mf = GongExtractString(rhs)
+					case "Sf":
+						inst.Sf = GongExtractString(rhs)
+					case "Sfp":
+						inst.Sfp = GongExtractString(rhs)
+					case "Sfpp":
+						inst.Sfpp = GongExtractString(rhs)
+					case "Fp":
+						inst.Fp = GongExtractString(rhs)
+					case "Rf":
+						inst.Rf = GongExtractString(rhs)
+					case "Rfz":
+						inst.Rfz = GongExtractString(rhs)
+					case "Sfz":
+						inst.Sfz = GongExtractString(rhs)
+					case "Sffz":
+						inst.Sffz = GongExtractString(rhs)
+					case "Fz":
+						inst.Fz = GongExtractString(rhs)
+					case "N":
+						inst.N = GongExtractString(rhs)
+					case "Pf":
+						inst.Pf = GongExtractString(rhs)
+					case "Sfzp":
+						inst.Sfzp = GongExtractString(rhs)
+					case "Other_dynamics":
+						__gong__assignSliceOfPointers(&inst.Other_dynamics, rhs, identifierMap)
+					}
+				case *Effect:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Elision:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Empty:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *Empty_font:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					}
+				case *Empty_line:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Line_shape":
+						inst.Line_shape = GongExtractString(rhs)
+					case "Line_type":
+						inst.Line_type = GongExtractString(rhs)
+					case "Line_length":
+						inst.Line_length = GongExtractString(rhs)
+					case "Dash_length":
+						inst.Dash_length = GongExtractString(rhs)
+					case "Space_length":
+						inst.Space_length = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					}
+				case *Empty_placement:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					}
+				case *Empty_placement_smufl:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					}
+				case *Empty_print_object_style_align:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					}
+				case *Empty_print_style:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					}
+				case *Empty_print_style_align:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					}
+				case *Empty_print_style_align_id:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Empty_trill_sound:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Start_note":
+						inst.Start_note = GongExtractString(rhs)
+					case "Trill_step":
+						inst.Trill_step = GongExtractString(rhs)
+					case "Two_note_turn":
+						inst.Two_note_turn = GongExtractString(rhs)
+					case "Accelerate":
+						GongUnmarshallEnum(&inst.Accelerate, rhs)
+					case "Beats":
+						inst.Beats = GongExtractString(rhs)
+					case "Second_beat":
+						inst.Second_beat = GongExtractString(rhs)
+					case "Last_beat":
+						inst.Last_beat = GongExtractString(rhs)
+					}
+				case *Encoding:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Encoder":
+						__gong__assignSliceOfPointers(&inst.Encoder, rhs, identifierMap)
+					case "Software":
+						inst.Software = GongExtractString(rhs)
+					case "Encoding_description":
+						inst.Encoding_description = GongExtractString(rhs)
+					case "Supports":
+						__gong__assignSliceOfPointers(&inst.Supports, rhs, identifierMap)
+					}
+				case *Ending:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "End_length":
+						inst.End_length = GongExtractString(rhs)
+					case "Text_x":
+						inst.Text_x = GongExtractString(rhs)
+					case "Text_y":
+						inst.Text_y = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "System":
+						GongUnmarshallEnum(&inst.System, rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Extend:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					}
+				case *Feature:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Fermata:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Figure:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Prefix":
+						__gong__assignPointer(&inst.Prefix, rhs, identifierMap)
+					case "Figure_number":
+						__gong__assignPointer(&inst.Figure_number, rhs, identifierMap)
+					case "Suffix":
+						__gong__assignPointer(&inst.Suffix, rhs, identifierMap)
+					case "Extend":
+						__gong__assignPointer(&inst.Extend, rhs, identifierMap)
+					case "Footnote":
+						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
+					case "Level":
+						__gong__assignPointer(&inst.Level, rhs, identifierMap)
+					}
+				case *Figured_bass:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Parentheses":
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Print_dot":
+						GongUnmarshallEnum(&inst.Print_dot, rhs)
+					case "Print_lyric":
+						GongUnmarshallEnum(&inst.Print_lyric, rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Print_spacing":
+						GongUnmarshallEnum(&inst.Print_spacing, rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Figure":
+						__gong__assignSliceOfPointers(&inst.Figure, rhs, identifierMap)
+					case "Duration":
+						inst.Duration = GongExtractString(rhs)
+					case "Footnote":
+						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
+					case "Level":
+						__gong__assignPointer(&inst.Level, rhs, identifierMap)
+					}
+				case *Fingering:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Substitution":
+						GongUnmarshallEnum(&inst.Substitution, rhs)
+					case "Alternate":
+						GongUnmarshallEnum(&inst.Alternate, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *First_fret:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Text":
+						inst.Text = GongExtractString(rhs)
+					case "Location":
+						inst.Location = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractInt(rhs)
+					}
+				case *For_part:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Part_clef":
+						__gong__assignPointer(&inst.Part_clef, rhs, identifierMap)
+					case "Part_transpose":
+						__gong__assignPointer(&inst.Part_transpose, rhs, identifierMap)
+					}
+				case *Formatted_symbol:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Justify":
+						GongUnmarshallEnum(&inst.Justify, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Underline":
+						inst.Underline = GongExtractInt(rhs)
+					case "Overline":
+						inst.Overline = GongExtractInt(rhs)
+					case "Line_through":
+						inst.Line_through = GongExtractInt(rhs)
+					case "Rotation":
+						inst.Rotation = GongExtractString(rhs)
+					case "Letter_spacing":
+						inst.Letter_spacing = GongExtractString(rhs)
+					case "Line_height":
+						inst.Line_height = GongExtractString(rhs)
+					case "Dir":
+						inst.Dir = GongExtractString(rhs)
+					case "Enclosure":
+						inst.Enclosure = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Formatted_symbol_id:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Justify":
+						GongUnmarshallEnum(&inst.Justify, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Underline":
+						inst.Underline = GongExtractInt(rhs)
+					case "Overline":
+						inst.Overline = GongExtractInt(rhs)
+					case "Line_through":
+						inst.Line_through = GongExtractInt(rhs)
+					case "Rotation":
+						inst.Rotation = GongExtractString(rhs)
+					case "Letter_spacing":
+						inst.Letter_spacing = GongExtractString(rhs)
+					case "Line_height":
+						inst.Line_height = GongExtractString(rhs)
+					case "Dir":
+						inst.Dir = GongExtractString(rhs)
+					case "Enclosure":
+						inst.Enclosure = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Formatted_text:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Lang":
+						inst.Lang = GongExtractString(rhs)
+					case "Space":
+						inst.Space = GongExtractString(rhs)
+					case "Justify":
+						GongUnmarshallEnum(&inst.Justify, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Underline":
+						inst.Underline = GongExtractInt(rhs)
+					case "Overline":
+						inst.Overline = GongExtractInt(rhs)
+					case "Line_through":
+						inst.Line_through = GongExtractInt(rhs)
+					case "Rotation":
+						inst.Rotation = GongExtractString(rhs)
+					case "Letter_spacing":
+						inst.Letter_spacing = GongExtractString(rhs)
+					case "Line_height":
+						inst.Line_height = GongExtractString(rhs)
+					case "Dir":
+						inst.Dir = GongExtractString(rhs)
+					case "Enclosure":
+						inst.Enclosure = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Formatted_text_id:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Lang":
+						inst.Lang = GongExtractString(rhs)
+					case "Space":
+						inst.Space = GongExtractString(rhs)
+					case "Justify":
+						GongUnmarshallEnum(&inst.Justify, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Underline":
+						inst.Underline = GongExtractInt(rhs)
+					case "Overline":
+						inst.Overline = GongExtractInt(rhs)
+					case "Line_through":
+						inst.Line_through = GongExtractInt(rhs)
+					case "Rotation":
+						inst.Rotation = GongExtractString(rhs)
+					case "Letter_spacing":
+						inst.Letter_spacing = GongExtractString(rhs)
+					case "Line_height":
+						inst.Line_height = GongExtractString(rhs)
+					case "Dir":
+						inst.Dir = GongExtractString(rhs)
+					case "Enclosure":
+						inst.Enclosure = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Forward:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Duration":
+						inst.Duration = GongExtractString(rhs)
+					case "Footnote":
+						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
+					case "Level":
+						__gong__assignPointer(&inst.Level, rhs, identifierMap)
+					case "Voice":
+						inst.Voice = GongExtractString(rhs)
+					case "Staff":
+						inst.Staff = GongExtractInt(rhs)
+					}
+				case *Frame:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Height":
+						inst.Height = GongExtractString(rhs)
+					case "Width":
+						inst.Width = GongExtractString(rhs)
+					case "Unplayed":
+						inst.Unplayed = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Frame_strings":
+						inst.Frame_strings = GongExtractInt(rhs)
+					case "Frame_frets":
+						inst.Frame_frets = GongExtractInt(rhs)
+					case "First_fret":
+						__gong__assignPointer(&inst.First_fret, rhs, identifierMap)
+					case "Frame_note":
+						__gong__assignSliceOfPointers(&inst.Frame_note, rhs, identifierMap)
+					}
+				case *Frame_note:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "String":
+						__gong__assignPointer(&inst.String, rhs, identifierMap)
+					case "Fret":
+						__gong__assignPointer(&inst.Fret, rhs, identifierMap)
+					case "Fingering":
+						__gong__assignPointer(&inst.Fingering, rhs, identifierMap)
+					case "Barre":
+						__gong__assignPointer(&inst.Barre, rhs, identifierMap)
+					}
+				case *Fret:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractInt(rhs)
+					}
+				case *Glass:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Glissando:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Line_type":
+						inst.Line_type = GongExtractString(rhs)
+					case "Dash_length":
+						inst.Dash_length = GongExtractString(rhs)
+					case "Space_length":
+						inst.Space_length = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Glyph:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Grace:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Steal_time_previous":
+						inst.Steal_time_previous = GongExtractString(rhs)
+					case "Steal_time_following":
+						inst.Steal_time_following = GongExtractString(rhs)
+					case "Make_time":
+						inst.Make_time = GongExtractString(rhs)
+					case "Slash":
+						GongUnmarshallEnum(&inst.Slash, rhs)
+					}
+				case *Group_barline:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Group_name:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Justify":
+						GongUnmarshallEnum(&inst.Justify, rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Group_symbol:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Grouping:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractString(rhs)
+					case "Member_of":
+						inst.Member_of = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Feature":
+						__gong__assignSliceOfPointers(&inst.Feature, rhs, identifierMap)
+					}
+				case *Hammer_on_pull_off:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Handbell:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Harmon_closed:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Location":
+						inst.Location = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Harmon_mute:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Harmon_closed":
+						__gong__assignPointer(&inst.Harmon_closed, rhs, identifierMap)
+					}
+				case *Harmonic:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Natural":
+						inst.Natural = GongExtractString(rhs)
+					case "Artificial":
+						inst.Artificial = GongExtractString(rhs)
+					case "Base_pitch":
+						inst.Base_pitch = GongExtractString(rhs)
+					case "Touching_pitch":
+						inst.Touching_pitch = GongExtractString(rhs)
+					case "Sounding_pitch":
+						inst.Sounding_pitch = GongExtractString(rhs)
+					}
+				case *Harmony:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Print_frame":
+						GongUnmarshallEnum(&inst.Print_frame, rhs)
+					case "Arrangement":
+						GongUnmarshallEnum(&inst.Arrangement, rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "System":
+						GongUnmarshallEnum(&inst.System, rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Root":
+						__gong__assignPointer(&inst.Root, rhs, identifierMap)
+					case "Numeral":
+						__gong__assignPointer(&inst.Numeral, rhs, identifierMap)
+					case "Function":
+						__gong__assignPointer(&inst.Function, rhs, identifierMap)
+					case "Kind":
+						__gong__assignPointer(&inst.Kind, rhs, identifierMap)
+					case "Inversion":
+						__gong__assignPointer(&inst.Inversion, rhs, identifierMap)
+					case "Bass":
+						__gong__assignPointer(&inst.Bass, rhs, identifierMap)
+					case "Degree":
+						__gong__assignSliceOfPointers(&inst.Degree, rhs, identifierMap)
+					case "Frame":
+						__gong__assignPointer(&inst.Frame, rhs, identifierMap)
+					case "Offset":
+						__gong__assignPointer(&inst.Offset, rhs, identifierMap)
+					case "Footnote":
+						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
+					case "Level":
+						__gong__assignPointer(&inst.Level, rhs, identifierMap)
+					case "Staff":
+						inst.Staff = GongExtractInt(rhs)
+					}
+				case *Harmony_alter:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Location":
+						GongUnmarshallEnum(&inst.Location, rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Harp_pedals:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Pedal_tuning":
+						__gong__assignSliceOfPointers(&inst.Pedal_tuning, rhs, identifierMap)
+					}
+				case *Heel_toe:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *Hole:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Hole_type":
+						inst.Hole_type = GongExtractString(rhs)
+					case "Hole_closed":
+						__gong__assignPointer(&inst.Hole_closed, rhs, identifierMap)
+					case "Hole_shape":
+						inst.Hole_shape = GongExtractString(rhs)
+					}
+				case *Hole_closed:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Location":
+						inst.Location = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Horizontal_turn:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Slash":
+						GongUnmarshallEnum(&inst.Slash, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Start_note":
+						inst.Start_note = GongExtractString(rhs)
+					case "Trill_step":
+						inst.Trill_step = GongExtractString(rhs)
+					case "Two_note_turn":
+						inst.Two_note_turn = GongExtractString(rhs)
+					case "Accelerate":
+						GongUnmarshallEnum(&inst.Accelerate, rhs)
+					case "Beats":
+						inst.Beats = GongExtractString(rhs)
+					case "Second_beat":
+						inst.Second_beat = GongExtractString(rhs)
+					case "Last_beat":
+						inst.Last_beat = GongExtractString(rhs)
+					}
+				case *Identification:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Creator":
+						__gong__assignSliceOfPointers(&inst.Creator, rhs, identifierMap)
+					case "Rights":
+						__gong__assignSliceOfPointers(&inst.Rights, rhs, identifierMap)
+					case "Encoding":
+						__gong__assignPointer(&inst.Encoding, rhs, identifierMap)
+					case "Source":
+						inst.Source = GongExtractString(rhs)
+					case "Relation":
+						__gong__assignSliceOfPointers(&inst.Relation, rhs, identifierMap)
+					case "Miscellaneous":
+						__gong__assignPointer(&inst.Miscellaneous, rhs, identifierMap)
+					}
+				case *Image:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Source":
+						inst.Source = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Height":
+						inst.Height = GongExtractString(rhs)
+					case "Width":
+						inst.Width = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Instrument:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Instrument_change:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Instrument_sound":
+						inst.Instrument_sound = GongExtractString(rhs)
+					case "Solo":
+						inst.Solo = GongExtractString(rhs)
+					case "Ensemble":
+						inst.Ensemble = GongExtractString(rhs)
+					case "Virtual_instrument":
+						__gong__assignPointer(&inst.Virtual_instrument, rhs, identifierMap)
+					}
+				case *Instrument_link:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Interchangeable:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Symbol":
+						inst.Symbol = GongExtractString(rhs)
+					case "Separator":
+						inst.Separator = GongExtractString(rhs)
+					case "Time_relation":
+						inst.Time_relation = GongExtractString(rhs)
+					case "Beats":
+						inst.Beats = GongExtractString(rhs)
+					case "Beat_type":
+						inst.Beat_type = GongExtractString(rhs)
+					}
+				case *Inversion:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Text":
+						inst.Text = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractInt(rhs)
+					}
+				case *Key:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Cancel":
+						__gong__assignPointer(&inst.Cancel, rhs, identifierMap)
+					case "Fifths":
+						inst.Fifths = GongExtractInt(rhs)
+					case "Mode":
+						inst.Mode = GongExtractString(rhs)
+					case "Key_step":
+						GongUnmarshallEnum(&inst.Key_step, rhs)
+					case "Key_alter":
+						inst.Key_alter = GongExtractString(rhs)
+					case "Key_accidental":
+						__gong__assignPointer(&inst.Key_accidental, rhs, identifierMap)
+					case "Key_octave":
+						__gong__assignSliceOfPointers(&inst.Key_octave, rhs, identifierMap)
+					}
+				case *Key_accidental:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "EnclosedText":
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
+					}
+				case *Key_octave:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Cancel":
+						GongUnmarshallEnum(&inst.Cancel, rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractInt(rhs)
+					}
+				case *Kind:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Use_symbols":
+						GongUnmarshallEnum(&inst.Use_symbols, rhs)
+					case "Text":
+						inst.Text = GongExtractString(rhs)
+					case "Stack_degrees":
+						GongUnmarshallEnum(&inst.Stack_degrees, rhs)
+					case "Parentheses_degrees":
+						GongUnmarshallEnum(&inst.Parentheses_degrees, rhs)
+					case "Bracket_degrees":
+						GongUnmarshallEnum(&inst.Bracket_degrees, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Level:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Reference":
+						GongUnmarshallEnum(&inst.Reference, rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Parentheses":
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
+					case "Bracket":
+						GongUnmarshallEnum(&inst.Bracket, rhs)
+					case "Size":
+						GongUnmarshallEnum(&inst.Size, rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Line_detail:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Line":
+						inst.Line = GongExtractInt(rhs)
+					case "Width":
+						inst.Width = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Line_type":
+						inst.Line_type = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					}
+				case *Line_width:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Link:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "NameXSD":
+						inst.NameXSD = GongExtractString(rhs)
+					case "Href":
+						inst.Href = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Role":
+						inst.Role = GongExtractString(rhs)
+					case "Title":
+						inst.Title = GongExtractString(rhs)
+					case "Show":
+						inst.Show = GongExtractString(rhs)
+					case "Actuate":
+						inst.Actuate = GongExtractString(rhs)
+					case "Element":
+						inst.Element = GongExtractString(rhs)
+					case "Position":
+						inst.Position = GongExtractInt(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					}
+				case *Listen:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Assess":
+						__gong__assignSliceOfPointers(&inst.Assess, rhs, identifierMap)
+					case "Wait":
+						__gong__assignSliceOfPointers(&inst.Wait, rhs, identifierMap)
+					case "Other_listen":
+						__gong__assignSliceOfPointers(&inst.Other_listen, rhs, identifierMap)
+					}
+				case *Listening:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Sync":
+						__gong__assignSliceOfPointers(&inst.Sync, rhs, identifierMap)
+					case "Other_listening":
+						__gong__assignSliceOfPointers(&inst.Other_listening, rhs, identifierMap)
+					case "Offset":
+						__gong__assignPointer(&inst.Offset, rhs, identifierMap)
+					}
+				case *Lyric:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractString(rhs)
+					case "NameXSD":
+						inst.NameXSD = GongExtractString(rhs)
+					case "Time_only":
+						GongUnmarshallEnum(&inst.Time_only, rhs)
+					case "Justify":
+						GongUnmarshallEnum(&inst.Justify, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Elision":
+						__gong__assignSliceOfPointers(&inst.Elision, rhs, identifierMap)
+					case "Syllabic":
+						inst.Syllabic = GongExtractString(rhs)
+					case "Text":
+						__gong__assignSliceOfPointers(&inst.Text, rhs, identifierMap)
+					case "Extend":
+						__gong__assignPointer(&inst.Extend, rhs, identifierMap)
+					case "Laughing":
+						inst.Laughing = GongExtractString(rhs)
+					case "Humming":
+						inst.Humming = GongExtractString(rhs)
+					case "End_line":
+						inst.End_line = GongExtractString(rhs)
+					case "End_paragraph":
+						inst.End_paragraph = GongExtractString(rhs)
+					case "Footnote":
+						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
+					case "Level":
+						__gong__assignPointer(&inst.Level, rhs, identifierMap)
+					}
+				case *Lyric_font:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractString(rhs)
+					case "NameXSD":
+						inst.NameXSD = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					}
+				case *Lyric_language:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractString(rhs)
+					case "NameXSD":
+						inst.NameXSD = GongExtractString(rhs)
+					case "Lang":
+						inst.Lang = GongExtractString(rhs)
+					}
+				case *Measure_layout:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Measure_distance":
+						inst.Measure_distance = GongExtractString(rhs)
+					}
+				case *Measure_numbering:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "System":
+						inst.System = GongExtractString(rhs)
+					case "Staff":
+						inst.Staff = GongExtractInt(rhs)
+					case "Multiple_rest_always":
+						GongUnmarshallEnum(&inst.Multiple_rest_always, rhs)
+					case "Multiple_rest_range":
+						GongUnmarshallEnum(&inst.Multiple_rest_range, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Measure_repeat:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Slashes":
+						inst.Slashes = GongExtractInt(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Measure_style:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Multiple_rest":
+						__gong__assignPointer(&inst.Multiple_rest, rhs, identifierMap)
+					case "Measure_repeat":
+						__gong__assignPointer(&inst.Measure_repeat, rhs, identifierMap)
+					case "Beat_repeat":
+						__gong__assignPointer(&inst.Beat_repeat, rhs, identifierMap)
+					case "Slash":
+						__gong__assignPointer(&inst.Slash, rhs, identifierMap)
+					}
+				case *Membrane:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Metal:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Metronome:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Parentheses":
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Justify":
+						GongUnmarshallEnum(&inst.Justify, rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Beat_unit":
+						GongUnmarshallEnum(&inst.Beat_unit, rhs)
+					case "Beat_unit_dot":
+						inst.Beat_unit_dot = GongExtractString(rhs)
+					case "Per_minute":
+						__gong__assignPointer(&inst.Per_minute, rhs, identifierMap)
+					case "Beat_unit_tied":
+						__gong__assignSliceOfPointers(&inst.Beat_unit_tied, rhs, identifierMap)
+					case "Metronome_arrows":
+						inst.Metronome_arrows = GongExtractString(rhs)
+					case "Metronome_relation":
+						inst.Metronome_relation = GongExtractString(rhs)
+					case "Metronome_note":
+						__gong__assignSliceOfPointers(&inst.Metronome_note, rhs, identifierMap)
+					}
+				case *Metronome_beam:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "EnclosedText":
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
+					}
+				case *Metronome_note:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Metronome_type":
+						inst.Metronome_type = GongExtractString(rhs)
+					case "Metronome_dot":
+						inst.Metronome_dot = GongExtractString(rhs)
+					case "Metronome_beam":
+						__gong__assignSliceOfPointers(&inst.Metronome_beam, rhs, identifierMap)
+					case "Metronome_tied":
+						__gong__assignPointer(&inst.Metronome_tied, rhs, identifierMap)
+					case "Metronome_tuplet":
+						__gong__assignPointer(&inst.Metronome_tuplet, rhs, identifierMap)
+					}
+				case *Metronome_tied:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					}
+				case *Metronome_tuplet:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *Midi_device:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Port":
+						inst.Port = GongExtractInt(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Midi_instrument:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Midi_channel":
+						inst.Midi_channel = GongExtractInt(rhs)
+					case "Midi_name":
+						inst.Midi_name = GongExtractString(rhs)
+					case "Midi_bank":
+						inst.Midi_bank = GongExtractInt(rhs)
+					case "Midi_program":
+						inst.Midi_program = GongExtractInt(rhs)
+					case "Midi_unpitched":
+						inst.Midi_unpitched = GongExtractInt(rhs)
+					case "Volume":
+						inst.Volume = GongExtractString(rhs)
+					case "Pan":
+						inst.Pan = GongExtractString(rhs)
+					case "Elevation":
+						inst.Elevation = GongExtractString(rhs)
+					}
+				case *Miscellaneous:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Miscellaneous_field":
+						__gong__assignSliceOfPointers(&inst.Miscellaneous_field, rhs, identifierMap)
+					}
+				case *Miscellaneous_field:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "NameXSD":
+						inst.NameXSD = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Mordent:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *Multiple_rest:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Use_symbols":
+						GongUnmarshallEnum(&inst.Use_symbols, rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractInt(rhs)
+					}
+				case *Name_display:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Display_text":
+						__gong__assignSliceOfPointers(&inst.Display_text, rhs, identifierMap)
+					case "Accidental_text":
+						__gong__assignSliceOfPointers(&inst.Accidental_text, rhs, identifierMap)
+					}
+				case *Non_arpeggiate:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Notations:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Footnote":
+						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
+					case "Level":
+						__gong__assignPointer(&inst.Level, rhs, identifierMap)
+					case "Tied":
+						__gong__assignSliceOfPointers(&inst.Tied, rhs, identifierMap)
+					case "Slur":
+						__gong__assignSliceOfPointers(&inst.Slur, rhs, identifierMap)
+					case "Tuplet":
+						__gong__assignSliceOfPointers(&inst.Tuplet, rhs, identifierMap)
+					case "Glissando":
+						__gong__assignSliceOfPointers(&inst.Glissando, rhs, identifierMap)
+					case "Slide":
+						__gong__assignSliceOfPointers(&inst.Slide, rhs, identifierMap)
+					case "Ornaments":
+						__gong__assignSliceOfPointers(&inst.Ornaments, rhs, identifierMap)
+					case "Technical":
+						__gong__assignSliceOfPointers(&inst.Technical, rhs, identifierMap)
+					case "Articulations":
+						__gong__assignSliceOfPointers(&inst.Articulations, rhs, identifierMap)
+					case "Dynamics":
+						__gong__assignSliceOfPointers(&inst.Dynamics, rhs, identifierMap)
+					case "Fermata":
+						__gong__assignSliceOfPointers(&inst.Fermata, rhs, identifierMap)
+					case "Arpeggiate":
+						__gong__assignSliceOfPointers(&inst.Arpeggiate, rhs, identifierMap)
+					case "Non_arpeggiate":
+						__gong__assignSliceOfPointers(&inst.Non_arpeggiate, rhs, identifierMap)
+					case "Accidental_mark":
+						__gong__assignSliceOfPointers(&inst.Accidental_mark, rhs, identifierMap)
+					case "Other_notation":
+						__gong__assignSliceOfPointers(&inst.Other_notation, rhs, identifierMap)
+					}
+				case *Note:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Print_leger":
+						GongUnmarshallEnum(&inst.Print_leger, rhs)
+					case "Dynamics":
+						inst.Dynamics = GongExtractString(rhs)
+					case "End_dynamics":
+						inst.End_dynamics = GongExtractString(rhs)
+					case "Attack":
+						inst.Attack = GongExtractString(rhs)
+					case "Release":
+						inst.Release = GongExtractString(rhs)
+					case "Time_only":
+						GongUnmarshallEnum(&inst.Time_only, rhs)
+					case "Pizzicato":
+						GongUnmarshallEnum(&inst.Pizzicato, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Print_dot":
+						GongUnmarshallEnum(&inst.Print_dot, rhs)
+					case "Print_lyric":
+						GongUnmarshallEnum(&inst.Print_lyric, rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Print_spacing":
+						GongUnmarshallEnum(&inst.Print_spacing, rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Grace":
+						__gong__assignPointer(&inst.Grace, rhs, identifierMap)
+					case "Chord":
+						inst.Chord = GongExtractString(rhs)
+					case "Pitch":
+						__gong__assignPointer(&inst.Pitch, rhs, identifierMap)
+					case "Unpitched":
+						__gong__assignPointer(&inst.Unpitched, rhs, identifierMap)
+					case "Rest":
+						__gong__assignPointer(&inst.Rest, rhs, identifierMap)
+					case "Tie":
+						__gong__assignPointer(&inst.Tie, rhs, identifierMap)
+					case "Cue":
+						inst.Cue = GongExtractString(rhs)
+					case "Duration":
+						inst.Duration = GongExtractString(rhs)
+					case "Instrument":
+						__gong__assignSliceOfPointers(&inst.Instrument, rhs, identifierMap)
+					case "Footnote":
+						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
+					case "Level":
+						__gong__assignPointer(&inst.Level, rhs, identifierMap)
+					case "Voice":
+						inst.Voice = GongExtractString(rhs)
+					case "Type":
+						__gong__assignPointer(&inst.Type, rhs, identifierMap)
+					case "Dot":
+						__gong__assignSliceOfPointers(&inst.Dot, rhs, identifierMap)
+					case "Accidental":
+						__gong__assignPointer(&inst.Accidental, rhs, identifierMap)
+					case "Time_modification":
+						__gong__assignPointer(&inst.Time_modification, rhs, identifierMap)
+					case "Stem":
+						__gong__assignPointer(&inst.Stem, rhs, identifierMap)
+					case "Notehead":
+						__gong__assignPointer(&inst.Notehead, rhs, identifierMap)
+					case "Notehead_text":
+						__gong__assignPointer(&inst.Notehead_text, rhs, identifierMap)
+					case "Staff":
+						inst.Staff = GongExtractInt(rhs)
+					case "Beam":
+						__gong__assignPointer(&inst.Beam, rhs, identifierMap)
+					case "Notations":
+						__gong__assignSliceOfPointers(&inst.Notations, rhs, identifierMap)
+					case "Lyric":
+						__gong__assignSliceOfPointers(&inst.Lyric, rhs, identifierMap)
+					case "Play":
+						__gong__assignPointer(&inst.Play, rhs, identifierMap)
+					case "Listen":
+						__gong__assignPointer(&inst.Listen, rhs, identifierMap)
+					}
+				case *Note_size:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Note_type:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Size":
+						GongUnmarshallEnum(&inst.Size, rhs)
+					case "EnclosedText":
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
+					}
+				case *Notehead:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Filled":
+						GongUnmarshallEnum(&inst.Filled, rhs)
+					case "Parentheses":
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Notehead_text:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Display_text":
+						__gong__assignSliceOfPointers(&inst.Display_text, rhs, identifierMap)
+					case "Accidental_text":
+						__gong__assignSliceOfPointers(&inst.Accidental_text, rhs, identifierMap)
+					}
+				case *Numeral:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Numeral_root":
+						__gong__assignPointer(&inst.Numeral_root, rhs, identifierMap)
+					case "Numeral_alter":
+						__gong__assignPointer(&inst.Numeral_alter, rhs, identifierMap)
+					case "Numeral_key":
+						__gong__assignPointer(&inst.Numeral_key, rhs, identifierMap)
+					}
+				case *Numeral_key:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Numeral_fifths":
+						inst.Numeral_fifths = GongExtractInt(rhs)
+					case "Numeral_mode":
+						inst.Numeral_mode = GongExtractString(rhs)
+					}
+				case *Numeral_root:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Text":
+						inst.Text = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractInt(rhs)
+					}
+				case *Octave_shift:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Size":
+						inst.Size = GongExtractInt(rhs)
+					case "Dash_length":
+						inst.Dash_length = GongExtractString(rhs)
+					case "Space_length":
+						inst.Space_length = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Offset:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Sound":
+						GongUnmarshallEnum(&inst.Sound, rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Opus:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Href":
+						inst.Href = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Role":
+						inst.Role = GongExtractString(rhs)
+					case "Title":
+						inst.Title = GongExtractString(rhs)
+					case "Show":
+						inst.Show = GongExtractString(rhs)
+					case "Actuate":
+						inst.Actuate = GongExtractString(rhs)
+					}
+				case *Ornaments:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Trill_mark":
+						__gong__assignSliceOfPointers(&inst.Trill_mark, rhs, identifierMap)
+					case "Turn":
+						__gong__assignSliceOfPointers(&inst.Turn, rhs, identifierMap)
+					case "Delayed_turn":
+						__gong__assignSliceOfPointers(&inst.Delayed_turn, rhs, identifierMap)
+					case "Inverted_turn":
+						__gong__assignSliceOfPointers(&inst.Inverted_turn, rhs, identifierMap)
+					case "Delayed_inverted_turn":
+						__gong__assignSliceOfPointers(&inst.Delayed_inverted_turn, rhs, identifierMap)
+					case "Vertical_turn":
+						__gong__assignSliceOfPointers(&inst.Vertical_turn, rhs, identifierMap)
+					case "Inverted_vertical_turn":
+						__gong__assignSliceOfPointers(&inst.Inverted_vertical_turn, rhs, identifierMap)
+					case "Shake":
+						__gong__assignSliceOfPointers(&inst.Shake, rhs, identifierMap)
+					case "Wavy_line":
+						__gong__assignSliceOfPointers(&inst.Wavy_line, rhs, identifierMap)
+					case "Mordent":
+						__gong__assignSliceOfPointers(&inst.Mordent, rhs, identifierMap)
+					case "Inverted_mordent":
+						__gong__assignSliceOfPointers(&inst.Inverted_mordent, rhs, identifierMap)
+					case "Schleifer":
+						__gong__assignSliceOfPointers(&inst.Schleifer, rhs, identifierMap)
+					case "Tremolo":
+						__gong__assignSliceOfPointers(&inst.Tremolo, rhs, identifierMap)
+					case "Haydn":
+						__gong__assignSliceOfPointers(&inst.Haydn, rhs, identifierMap)
+					case "Other_ornament":
+						__gong__assignSliceOfPointers(&inst.Other_ornament, rhs, identifierMap)
+					case "Accidental_mark":
+						__gong__assignSliceOfPointers(&inst.Accidental_mark, rhs, identifierMap)
+					}
+				case *Other_appearance:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Other_direction:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Other_listening:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Player":
+						inst.Player = GongExtractString(rhs)
+					case "Time_only":
+						GongUnmarshallEnum(&inst.Time_only, rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Other_notation:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Other_placement_text:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Other_play:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Other_text:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Page_layout:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Page_height":
+						inst.Page_height = GongExtractString(rhs)
+					case "Page_width":
+						inst.Page_width = GongExtractString(rhs)
+					case "Page_margins":
+						__gong__assignPointer(&inst.Page_margins, rhs, identifierMap)
+					}
+				case *Page_margins:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Left_margin":
+						inst.Left_margin = GongExtractString(rhs)
+					case "Right_margin":
+						inst.Right_margin = GongExtractString(rhs)
+					case "Top_margin":
+						inst.Top_margin = GongExtractString(rhs)
+					case "Bottom_margin":
+						inst.Bottom_margin = GongExtractString(rhs)
+					}
+				case *Part_clef:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Sign":
+						inst.Sign = GongExtractString(rhs)
+					case "Line":
+						inst.Line = GongExtractInt(rhs)
+					case "Clef_octave_change":
+						inst.Clef_octave_change = GongExtractInt(rhs)
+					}
+				case *Part_group:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Number":
+						inst.Number = GongExtractString(rhs)
+					case "Group_name":
+						__gong__assignPointer(&inst.Group_name, rhs, identifierMap)
+					case "Group_name_display":
+						__gong__assignPointer(&inst.Group_name_display, rhs, identifierMap)
+					case "Group_abbreviation":
+						__gong__assignPointer(&inst.Group_abbreviation, rhs, identifierMap)
+					case "Group_abbreviation_display":
+						__gong__assignPointer(&inst.Group_abbreviation_display, rhs, identifierMap)
+					case "Group_symbol":
+						__gong__assignPointer(&inst.Group_symbol, rhs, identifierMap)
+					case "Group_barline":
+						__gong__assignPointer(&inst.Group_barline, rhs, identifierMap)
+					case "Group_time":
+						inst.Group_time = GongExtractString(rhs)
+					case "Footnote":
+						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
+					case "Level":
+						__gong__assignPointer(&inst.Level, rhs, identifierMap)
+					}
+				case *Part_link:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Href":
+						inst.Href = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Role":
+						inst.Role = GongExtractString(rhs)
+					case "Title":
+						inst.Title = GongExtractString(rhs)
+					case "Show":
+						inst.Show = GongExtractString(rhs)
+					case "Actuate":
+						inst.Actuate = GongExtractString(rhs)
+					case "Instrument_link":
+						__gong__assignSliceOfPointers(&inst.Instrument_link, rhs, identifierMap)
+					case "Group_link":
+						inst.Group_link = GongExtractString(rhs)
+					}
+				case *Part_list:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Part_group":
+						__gong__assignPointer(&inst.Part_group, rhs, identifierMap)
+					case "Score_part":
+						__gong__assignPointer(&inst.Score_part, rhs, identifierMap)
+					}
+				case *Part_name:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Justify":
+						GongUnmarshallEnum(&inst.Justify, rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Part_symbol:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Top_staff":
+						inst.Top_staff = GongExtractInt(rhs)
+					case "Bottom_staff":
+						inst.Bottom_staff = GongExtractInt(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
+					}
+				case *Part_transpose:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Diatonic":
+						inst.Diatonic = GongExtractInt(rhs)
+					case "Chromatic":
+						inst.Chromatic = GongExtractString(rhs)
+					case "Octave_change":
+						inst.Octave_change = GongExtractInt(rhs)
+					case "Double":
+						inst.Double = GongExtractFloat(rhs)
+					}
+				case *Pedal:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Line":
+						GongUnmarshallEnum(&inst.Line, rhs)
+					case "Sign":
+						GongUnmarshallEnum(&inst.Sign, rhs)
+					case "Abbreviated":
+						GongUnmarshallEnum(&inst.Abbreviated, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Pedal_tuning:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Pedal_step":
+						GongUnmarshallEnum(&inst.Pedal_step, rhs)
+					case "Pedal_alter":
+						inst.Pedal_alter = GongExtractString(rhs)
+					}
+				case *Per_minute:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Percussion:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Enclosure":
+						inst.Enclosure = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Glass":
+						__gong__assignPointer(&inst.Glass, rhs, identifierMap)
+					case "Metal":
+						__gong__assignPointer(&inst.Metal, rhs, identifierMap)
+					case "Wood":
+						__gong__assignPointer(&inst.Wood, rhs, identifierMap)
+					case "Pitched":
+						__gong__assignPointer(&inst.Pitched, rhs, identifierMap)
+					case "Membrane":
+						__gong__assignPointer(&inst.Membrane, rhs, identifierMap)
+					case "Effect":
+						__gong__assignPointer(&inst.Effect, rhs, identifierMap)
+					case "Timpani":
+						__gong__assignPointer(&inst.Timpani, rhs, identifierMap)
+					case "Beater":
+						__gong__assignPointer(&inst.Beater, rhs, identifierMap)
+					case "Stick":
+						__gong__assignPointer(&inst.Stick, rhs, identifierMap)
+					case "Stick_location":
+						inst.Stick_location = GongExtractString(rhs)
+					case "Other_percussion":
+						__gong__assignPointer(&inst.Other_percussion, rhs, identifierMap)
+					}
+				case *Pitch:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Step":
+						GongUnmarshallEnum(&inst.Step, rhs)
+					case "Alter":
+						inst.Alter = GongExtractString(rhs)
+					case "Octave":
+						inst.Octave = GongExtractInt(rhs)
+					}
+				case *Pitched:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Placement_text:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Play:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Ipa":
+						inst.Ipa = GongExtractString(rhs)
+					case "Mute":
+						inst.Mute = GongExtractString(rhs)
+					case "Semi_pitched":
+						inst.Semi_pitched = GongExtractString(rhs)
+					case "Other_play":
+						__gong__assignSliceOfPointers(&inst.Other_play, rhs, identifierMap)
+					}
+				case *Player:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Player_name":
+						inst.Player_name = GongExtractString(rhs)
+					}
+				case *Principal_voice:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Symbol":
+						inst.Symbol = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Print:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Staff_spacing":
+						inst.Staff_spacing = GongExtractString(rhs)
+					case "New_system":
+						GongUnmarshallEnum(&inst.New_system, rhs)
+					case "New_page":
+						GongUnmarshallEnum(&inst.New_page, rhs)
+					case "Blank_page":
+						inst.Blank_page = GongExtractInt(rhs)
+					case "Page_number":
+						inst.Page_number = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Page_layout":
+						__gong__assignPointer(&inst.Page_layout, rhs, identifierMap)
+					case "System_layout":
+						__gong__assignPointer(&inst.System_layout, rhs, identifierMap)
+					case "Staff_layout":
+						__gong__assignSliceOfPointers(&inst.Staff_layout, rhs, identifierMap)
+					case "Measure_layout":
+						__gong__assignPointer(&inst.Measure_layout, rhs, identifierMap)
+					case "Measure_numbering":
+						__gong__assignPointer(&inst.Measure_numbering, rhs, identifierMap)
+					case "Part_name_display":
+						__gong__assignPointer(&inst.Part_name_display, rhs, identifierMap)
+					case "Part_abbreviation_display":
+						__gong__assignPointer(&inst.Part_abbreviation_display, rhs, identifierMap)
+					}
+				case *Release:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *Repeat:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Direction":
+						inst.Direction = GongExtractString(rhs)
+					case "Times":
+						inst.Times = GongExtractInt(rhs)
+					case "After_jump":
+						GongUnmarshallEnum(&inst.After_jump, rhs)
+					case "Winged":
+						inst.Winged = GongExtractString(rhs)
+					}
+				case *Rest:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Measure":
+						GongUnmarshallEnum(&inst.Measure, rhs)
+					case "Display_step":
+						GongUnmarshallEnum(&inst.Display_step, rhs)
+					case "Display_octave":
+						inst.Display_octave = GongExtractInt(rhs)
+					}
+				case *Root:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Root_step":
+						__gong__assignPointer(&inst.Root_step, rhs, identifierMap)
+					case "Root_alter":
+						__gong__assignPointer(&inst.Root_alter, rhs, identifierMap)
+					}
+				case *Root_step:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Text":
+						inst.Text = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
+					}
+				case *Scaling:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Millimeters":
+						inst.Millimeters = GongExtractString(rhs)
+					case "Tenths":
+						inst.Tenths = GongExtractString(rhs)
+					}
+				case *Scordatura:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Accord":
+						__gong__assignSliceOfPointers(&inst.Accord, rhs, identifierMap)
+					}
+				case *Score_instrument:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Instrument_name":
+						inst.Instrument_name = GongExtractString(rhs)
+					case "Instrument_abbreviation":
+						inst.Instrument_abbreviation = GongExtractString(rhs)
+					case "Instrument_sound":
+						inst.Instrument_sound = GongExtractString(rhs)
+					case "Solo":
+						inst.Solo = GongExtractString(rhs)
+					case "Ensemble":
+						inst.Ensemble = GongExtractString(rhs)
+					case "Virtual_instrument":
+						__gong__assignPointer(&inst.Virtual_instrument, rhs, identifierMap)
+					}
+				case *Score_part:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Identification":
+						__gong__assignPointer(&inst.Identification, rhs, identifierMap)
+					case "Part_link":
+						__gong__assignSliceOfPointers(&inst.Part_link, rhs, identifierMap)
+					case "Part_name":
+						__gong__assignPointer(&inst.Part_name, rhs, identifierMap)
+					case "Part_name_display":
+						__gong__assignPointer(&inst.Part_name_display, rhs, identifierMap)
+					case "Part_abbreviation":
+						__gong__assignPointer(&inst.Part_abbreviation, rhs, identifierMap)
+					case "Part_abbreviation_display":
+						__gong__assignPointer(&inst.Part_abbreviation_display, rhs, identifierMap)
+					case "Group":
+						inst.Group = GongExtractString(rhs)
+					case "Score_instrument":
+						__gong__assignSliceOfPointers(&inst.Score_instrument, rhs, identifierMap)
+					case "Player":
+						__gong__assignSliceOfPointers(&inst.Player, rhs, identifierMap)
+					case "Midi_device":
+						__gong__assignSliceOfPointers(&inst.Midi_device, rhs, identifierMap)
+					case "Midi_instrument":
+						__gong__assignSliceOfPointers(&inst.Midi_instrument, rhs, identifierMap)
+					}
+				case *Score_partwise:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Version":
+						inst.Version = GongExtractString(rhs)
+					case "Work":
+						__gong__assignPointer(&inst.Work, rhs, identifierMap)
+					case "Movement_number":
+						inst.Movement_number = GongExtractString(rhs)
+					case "Movement_title":
+						inst.Movement_title = GongExtractString(rhs)
+					case "Identification":
+						__gong__assignPointer(&inst.Identification, rhs, identifierMap)
+					case "Defaults":
+						__gong__assignPointer(&inst.Defaults, rhs, identifierMap)
+					case "Credit":
+						__gong__assignSliceOfPointers(&inst.Credit, rhs, identifierMap)
+					case "Part_list":
+						__gong__assignPointer(&inst.Part_list, rhs, identifierMap)
+					case "Part":
+						__gong__assignSliceOfPointers(&inst.Part, rhs, identifierMap)
+					}
+				case *Score_timewise:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Version":
+						inst.Version = GongExtractString(rhs)
+					case "Work":
+						__gong__assignPointer(&inst.Work, rhs, identifierMap)
+					case "Movement_number":
+						inst.Movement_number = GongExtractString(rhs)
+					case "Movement_title":
+						inst.Movement_title = GongExtractString(rhs)
+					case "Identification":
+						__gong__assignPointer(&inst.Identification, rhs, identifierMap)
+					case "Defaults":
+						__gong__assignPointer(&inst.Defaults, rhs, identifierMap)
+					case "Credit":
+						__gong__assignSliceOfPointers(&inst.Credit, rhs, identifierMap)
+					case "Part_list":
+						__gong__assignPointer(&inst.Part_list, rhs, identifierMap)
+					case "Measure":
+						__gong__assignSliceOfPointers(&inst.Measure, rhs, identifierMap)
+					}
+				case *Segno:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Slash:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Use_dots":
+						GongUnmarshallEnum(&inst.Use_dots, rhs)
+					case "Use_stems":
+						GongUnmarshallEnum(&inst.Use_stems, rhs)
+					case "Slash_type":
+						GongUnmarshallEnum(&inst.Slash_type, rhs)
+					case "Slash_dot":
+						inst.Slash_dot = GongExtractString(rhs)
+					case "Except_voice":
+						inst.Except_voice = GongExtractString(rhs)
+					}
+				case *Slide:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Line_type":
+						inst.Line_type = GongExtractString(rhs)
+					case "Dash_length":
+						inst.Dash_length = GongExtractString(rhs)
+					case "Space_length":
+						inst.Space_length = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Accelerate":
+						GongUnmarshallEnum(&inst.Accelerate, rhs)
+					case "Beats":
+						inst.Beats = GongExtractString(rhs)
+					case "First_beat":
+						inst.First_beat = GongExtractString(rhs)
+					case "Last_beat":
+						inst.Last_beat = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Slur:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Line_type":
+						inst.Line_type = GongExtractString(rhs)
+					case "Dash_length":
+						inst.Dash_length = GongExtractString(rhs)
+					case "Space_length":
+						inst.Space_length = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Orientation":
+						inst.Orientation = GongExtractString(rhs)
+					case "Bezier_x":
+						inst.Bezier_x = GongExtractString(rhs)
+					case "Bezier_y":
+						inst.Bezier_y = GongExtractString(rhs)
+					case "Bezier_x2":
+						inst.Bezier_x2 = GongExtractString(rhs)
+					case "Bezier_y2":
+						inst.Bezier_y2 = GongExtractString(rhs)
+					case "Bezier_offset":
+						inst.Bezier_offset = GongExtractString(rhs)
+					case "Bezier_offset2":
+						inst.Bezier_offset2 = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Sound:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Tempo":
+						inst.Tempo = GongExtractString(rhs)
+					case "Dynamics":
+						inst.Dynamics = GongExtractString(rhs)
+					case "Dacapo":
+						GongUnmarshallEnum(&inst.Dacapo, rhs)
+					case "Segno":
+						inst.Segno = GongExtractString(rhs)
+					case "Dalsegno":
+						inst.Dalsegno = GongExtractString(rhs)
+					case "Coda":
+						inst.Coda = GongExtractString(rhs)
+					case "Tocoda":
+						inst.Tocoda = GongExtractString(rhs)
+					case "Divisions":
+						inst.Divisions = GongExtractString(rhs)
+					case "Forward_repeat":
+						GongUnmarshallEnum(&inst.Forward_repeat, rhs)
+					case "Fine":
+						inst.Fine = GongExtractString(rhs)
+					case "Time_only":
+						GongUnmarshallEnum(&inst.Time_only, rhs)
+					case "Pizzicato":
+						GongUnmarshallEnum(&inst.Pizzicato, rhs)
+					case "Pan":
+						inst.Pan = GongExtractString(rhs)
+					case "Elevation":
+						inst.Elevation = GongExtractString(rhs)
+					case "Damper_pedal":
+						inst.Damper_pedal = GongExtractString(rhs)
+					case "Soft_pedal":
+						inst.Soft_pedal = GongExtractString(rhs)
+					case "Sostenuto_pedal":
+						inst.Sostenuto_pedal = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Instrument_change":
+						__gong__assignSliceOfPointers(&inst.Instrument_change, rhs, identifierMap)
+					case "Midi_device":
+						__gong__assignSliceOfPointers(&inst.Midi_device, rhs, identifierMap)
+					case "Midi_instrument":
+						__gong__assignSliceOfPointers(&inst.Midi_instrument, rhs, identifierMap)
+					case "Play":
+						__gong__assignSliceOfPointers(&inst.Play, rhs, identifierMap)
+					case "Swing":
+						__gong__assignPointer(&inst.Swing, rhs, identifierMap)
+					case "Offset":
+						__gong__assignPointer(&inst.Offset, rhs, identifierMap)
+					}
+				case *Staff_details:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Show_frets":
+						inst.Show_frets = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Print_spacing":
+						GongUnmarshallEnum(&inst.Print_spacing, rhs)
+					case "Staff_type":
+						inst.Staff_type = GongExtractString(rhs)
+					case "Staff_lines":
+						inst.Staff_lines = GongExtractInt(rhs)
+					case "Line_detail":
+						__gong__assignSliceOfPointers(&inst.Line_detail, rhs, identifierMap)
+					case "Staff_tuning":
+						__gong__assignSliceOfPointers(&inst.Staff_tuning, rhs, identifierMap)
+					case "Capo":
+						inst.Capo = GongExtractInt(rhs)
+					case "Staff_size":
+						__gong__assignPointer(&inst.Staff_size, rhs, identifierMap)
+					}
+				case *Staff_divide:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Staff_layout:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Staff_distance":
+						inst.Staff_distance = GongExtractString(rhs)
+					}
+				case *Staff_size:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Scaling":
+						inst.Scaling = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Staff_tuning:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Line":
+						inst.Line = GongExtractInt(rhs)
+					case "Tuning_step":
+						GongUnmarshallEnum(&inst.Tuning_step, rhs)
+					case "Tuning_alter":
+						inst.Tuning_alter = GongExtractString(rhs)
+					case "Tuning_octave":
+						inst.Tuning_octave = GongExtractInt(rhs)
+					}
+				case *Stem:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Stick:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Tip":
+						GongUnmarshallEnum(&inst.Tip, rhs)
+					case "Parentheses":
+						GongUnmarshallEnum(&inst.Parentheses, rhs)
+					case "Dashed_circle":
+						GongUnmarshallEnum(&inst.Dashed_circle, rhs)
+					case "Stick_type":
+						inst.Stick_type = GongExtractString(rhs)
+					case "Stick_material":
+						inst.Stick_material = GongExtractString(rhs)
+					}
+				case *String_mute:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *String_type:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractInt(rhs)
+					}
+				case *Strong_accent:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *Style_text:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Supports:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Element":
+						inst.Element = GongExtractString(rhs)
+					case "Attribute":
+						inst.Attribute = GongExtractString(rhs)
+					case "Value":
+						inst.Value = GongExtractString(rhs)
+					}
+				case *Swing:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Straight":
+						inst.Straight = GongExtractString(rhs)
+					case "First":
+						inst.First = GongExtractInt(rhs)
+					case "Second":
+						inst.Second = GongExtractInt(rhs)
+					case "Swing_type":
+						GongUnmarshallEnum(&inst.Swing_type, rhs)
+					case "Swing_style":
+						inst.Swing_style = GongExtractString(rhs)
+					}
+				case *Sync:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Latency":
+						inst.Latency = GongExtractInt(rhs)
+					case "Player":
+						inst.Player = GongExtractString(rhs)
+					case "Time_only":
+						GongUnmarshallEnum(&inst.Time_only, rhs)
+					}
+				case *System_dividers:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Left_divider":
+						__gong__assignPointer(&inst.Left_divider, rhs, identifierMap)
+					case "Right_divider":
+						__gong__assignPointer(&inst.Right_divider, rhs, identifierMap)
+					}
+				case *System_layout:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "System_margins":
+						__gong__assignPointer(&inst.System_margins, rhs, identifierMap)
+					case "System_distance":
+						inst.System_distance = GongExtractString(rhs)
+					case "Top_system_distance":
+						inst.Top_system_distance = GongExtractString(rhs)
+					case "System_dividers":
+						__gong__assignPointer(&inst.System_dividers, rhs, identifierMap)
+					}
+				case *System_margins:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Left_margin":
+						inst.Left_margin = GongExtractString(rhs)
+					case "Right_margin":
+						inst.Right_margin = GongExtractString(rhs)
+					}
+				case *Tap:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Hand":
+						inst.Hand = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Technical:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Up_bow":
+						__gong__assignSliceOfPointers(&inst.Up_bow, rhs, identifierMap)
+					case "Down_bow":
+						__gong__assignSliceOfPointers(&inst.Down_bow, rhs, identifierMap)
+					case "Harmonic":
+						__gong__assignSliceOfPointers(&inst.Harmonic, rhs, identifierMap)
+					case "Open_string":
+						__gong__assignSliceOfPointers(&inst.Open_string, rhs, identifierMap)
+					case "Thumb_position":
+						__gong__assignSliceOfPointers(&inst.Thumb_position, rhs, identifierMap)
+					case "Fingering":
+						__gong__assignSliceOfPointers(&inst.Fingering, rhs, identifierMap)
+					case "Pluck":
+						__gong__assignSliceOfPointers(&inst.Pluck, rhs, identifierMap)
+					case "Double_tongue":
+						__gong__assignSliceOfPointers(&inst.Double_tongue, rhs, identifierMap)
+					case "Triple_tongue":
+						__gong__assignSliceOfPointers(&inst.Triple_tongue, rhs, identifierMap)
+					case "Stopped":
+						__gong__assignSliceOfPointers(&inst.Stopped, rhs, identifierMap)
+					case "Snap_pizzicato":
+						__gong__assignSliceOfPointers(&inst.Snap_pizzicato, rhs, identifierMap)
+					case "Fret":
+						__gong__assignSliceOfPointers(&inst.Fret, rhs, identifierMap)
+					case "String":
+						__gong__assignSliceOfPointers(&inst.String, rhs, identifierMap)
+					case "Hammer_on":
+						__gong__assignSliceOfPointers(&inst.Hammer_on, rhs, identifierMap)
+					case "Pull_off":
+						__gong__assignSliceOfPointers(&inst.Pull_off, rhs, identifierMap)
+					case "Bend":
+						__gong__assignSliceOfPointers(&inst.Bend, rhs, identifierMap)
+					case "Tap":
+						__gong__assignSliceOfPointers(&inst.Tap, rhs, identifierMap)
+					case "Heel":
+						__gong__assignSliceOfPointers(&inst.Heel, rhs, identifierMap)
+					case "Toe":
+						__gong__assignSliceOfPointers(&inst.Toe, rhs, identifierMap)
+					case "Fingernails":
+						__gong__assignSliceOfPointers(&inst.Fingernails, rhs, identifierMap)
+					case "Hole":
+						__gong__assignSliceOfPointers(&inst.Hole, rhs, identifierMap)
+					case "Arrow":
+						__gong__assignSliceOfPointers(&inst.Arrow, rhs, identifierMap)
+					case "Handbell":
+						__gong__assignSliceOfPointers(&inst.Handbell, rhs, identifierMap)
+					case "Brass_bend":
+						__gong__assignSliceOfPointers(&inst.Brass_bend, rhs, identifierMap)
+					case "Flip":
+						__gong__assignSliceOfPointers(&inst.Flip, rhs, identifierMap)
+					case "Smear":
+						__gong__assignSliceOfPointers(&inst.Smear, rhs, identifierMap)
+					case "Open":
+						__gong__assignSliceOfPointers(&inst.Open, rhs, identifierMap)
+					case "Half_muted":
+						__gong__assignSliceOfPointers(&inst.Half_muted, rhs, identifierMap)
+					case "Harmon_mute":
+						__gong__assignSliceOfPointers(&inst.Harmon_mute, rhs, identifierMap)
+					case "Golpe":
+						__gong__assignSliceOfPointers(&inst.Golpe, rhs, identifierMap)
+					case "Other_technical":
+						__gong__assignSliceOfPointers(&inst.Other_technical, rhs, identifierMap)
+					}
+				case *Text_element_data:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Lang":
+						inst.Lang = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Underline":
+						inst.Underline = GongExtractInt(rhs)
+					case "Overline":
+						inst.Overline = GongExtractInt(rhs)
+					case "Line_through":
+						inst.Line_through = GongExtractInt(rhs)
+					case "Rotation":
+						inst.Rotation = GongExtractString(rhs)
+					case "Letter_spacing":
+						inst.Letter_spacing = GongExtractString(rhs)
+					case "Dir":
+						inst.Dir = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Tie:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Time_only":
+						GongUnmarshallEnum(&inst.Time_only, rhs)
+					}
+				case *Tied:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Line_type":
+						inst.Line_type = GongExtractString(rhs)
+					case "Dash_length":
+						inst.Dash_length = GongExtractString(rhs)
+					case "Space_length":
+						inst.Space_length = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Orientation":
+						inst.Orientation = GongExtractString(rhs)
+					case "Bezier_x":
+						inst.Bezier_x = GongExtractString(rhs)
+					case "Bezier_y":
+						inst.Bezier_y = GongExtractString(rhs)
+					case "Bezier_x2":
+						inst.Bezier_x2 = GongExtractString(rhs)
+					case "Bezier_y2":
+						inst.Bezier_y2 = GongExtractString(rhs)
+					case "Bezier_offset":
+						inst.Bezier_offset = GongExtractString(rhs)
+					case "Bezier_offset2":
+						inst.Bezier_offset2 = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Time:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Symbol":
+						GongUnmarshallEnum(&inst.Symbol, rhs)
+					case "Separator":
+						GongUnmarshallEnum(&inst.Separator, rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Halign":
+						inst.Halign = GongExtractString(rhs)
+					case "Valign":
+						inst.Valign = GongExtractString(rhs)
+					case "Print_object":
+						GongUnmarshallEnum(&inst.Print_object, rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Beats":
+						inst.Beats = GongExtractString(rhs)
+					case "Beat_type":
+						inst.Beat_type = GongExtractString(rhs)
+					case "Interchangeable":
+						__gong__assignPointer(&inst.Interchangeable, rhs, identifierMap)
+					case "Senza_misura":
+						inst.Senza_misura = GongExtractString(rhs)
+					}
+				case *Time_modification:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Actual_notes":
+						inst.Actual_notes = GongExtractInt(rhs)
+					case "Normal_notes":
+						inst.Normal_notes = GongExtractInt(rhs)
+					case "Normal_type":
+						GongUnmarshallEnum(&inst.Normal_type, rhs)
+					case "Normal_dot":
+						inst.Normal_dot = GongExtractString(rhs)
+					}
+				case *Timpani:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					}
+				case *Transpose:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Diatonic":
+						inst.Diatonic = GongExtractInt(rhs)
+					case "Chromatic":
+						inst.Chromatic = GongExtractString(rhs)
+					case "Octave_change":
+						inst.Octave_change = GongExtractInt(rhs)
+					case "Double":
+						inst.Double = GongExtractFloat(rhs)
+					}
+				case *Tremolo:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractInt(rhs)
+					}
+				case *Tuplet:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Bracket":
+						GongUnmarshallEnum(&inst.Bracket, rhs)
+					case "Show_number":
+						inst.Show_number = GongExtractString(rhs)
+					case "Show_type":
+						GongUnmarshallEnum(&inst.Show_type, rhs)
+					case "Line_shape":
+						inst.Line_shape = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					case "Tuplet_actual":
+						__gong__assignPointer(&inst.Tuplet_actual, rhs, identifierMap)
+					case "Tuplet_normal":
+						__gong__assignPointer(&inst.Tuplet_normal, rhs, identifierMap)
+					}
+				case *Tuplet_dot:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					}
+				case *Tuplet_number:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractInt(rhs)
+					}
+				case *Tuplet_portion:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Tuplet_number":
+						__gong__assignPointer(&inst.Tuplet_number, rhs, identifierMap)
+					case "Tuplet_type":
+						__gong__assignPointer(&inst.Tuplet_type, rhs, identifierMap)
+					case "Tuplet_dot":
+						__gong__assignSliceOfPointers(&inst.Tuplet_dot, rhs, identifierMap)
+					}
+				case *Tuplet_type:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						inst.Font_style = GongExtractString(rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						inst.Font_weight = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "EnclosedText":
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
+					}
+				case *Typed_text:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Unpitched:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Display_step":
+						GongUnmarshallEnum(&inst.Display_step, rhs)
+					case "Display_octave":
+						inst.Display_octave = GongExtractInt(rhs)
+					}
+				case *Virtual_instrument:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Virtual_library":
+						inst.Virtual_library = GongExtractString(rhs)
+					case "Virtual_name":
+						inst.Virtual_name = GongExtractString(rhs)
+					}
+				case *Wait:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Player":
+						inst.Player = GongExtractString(rhs)
+					case "Time_only":
+						GongUnmarshallEnum(&inst.Time_only, rhs)
+					}
+				case *Wavy_line:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Placement":
+						inst.Placement = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Start_note":
+						inst.Start_note = GongExtractString(rhs)
+					case "Trill_step":
+						inst.Trill_step = GongExtractString(rhs)
+					case "Two_note_turn":
+						inst.Two_note_turn = GongExtractString(rhs)
+					case "Accelerate":
+						GongUnmarshallEnum(&inst.Accelerate, rhs)
+					case "Beats":
+						inst.Beats = GongExtractString(rhs)
+					case "Second_beat":
+						inst.Second_beat = GongExtractString(rhs)
+					case "Last_beat":
+						inst.Last_beat = GongExtractString(rhs)
+					}
+				case *Wedge:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type":
+						inst.Type = GongExtractString(rhs)
+					case "Number":
+						inst.Number = GongExtractInt(rhs)
+					case "Spread":
+						inst.Spread = GongExtractString(rhs)
+					case "Niente":
+						GongUnmarshallEnum(&inst.Niente, rhs)
+					case "Line_type":
+						inst.Line_type = GongExtractString(rhs)
+					case "Dash_length":
+						inst.Dash_length = GongExtractString(rhs)
+					case "Space_length":
+						inst.Space_length = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Id":
+						inst.Id = GongExtractString(rhs)
+					}
+				case *Wood:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Smufl":
+						inst.Smufl = GongExtractString(rhs)
+					case "EnclosedText":
+						inst.EnclosedText = GongExtractString(rhs)
+					}
+				case *Work:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Work_number":
+						inst.Work_number = GongExtractString(rhs)
+					case "Work_title":
+						inst.Work_title = GongExtractString(rhs)
+					case "Opus":
+						__gong__assignPointer(&inst.Opus, rhs, identifierMap)
+					}
+							}
+						}
 					}
 				}
 			}
-		},
-		func(identName string, fieldName string, valueExpr ast.Expr) {
-			if instance, exists := identifierMap[identName]; exists {
-				typeName := instance.GongGetGongstructName()
-				if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-					unmarshaller.UnmarshallField(stage, instance, fieldName, valueExpr, identifierMap)
+		case *ast.ExprStmt:
+			if call, ok := node.X.(*ast.CallExpr); ok {
+				if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+					if sel.Sel.Name == "Unstage" {
+						if ident, ok := sel.X.(*ast.Ident); ok {
+							if instance, ok := identifierMap[ident.Name]; ok {
+								if inst, ok := instance.(GongstructIF); ok {
+									inst.UnstageVoid(stage)
+								}
+							}
+						}
+					}
+					if sel.Sel.Name == "Commit" {
+						if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "stage" {
+							if stage.IsInDeltaMode() && stage.GetNavigationMode() != GongNavigationModeNavigating {
+								stage.Commit()
+							} else {
+								stage.ComputeInstancesNb()
+								stage.ComputeReferenceAndOrders()
+								if stage.OnInitCommitCallback != nil {
+									stage.OnInitCommitCallback.BeforeCommit(stage)
+								}
+								if stage.OnInitCommitFromBackCallback != nil {
+									stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+								}
+								stage.RunBeforeCommitHooks()
+								stage.RunAfterCommitHooks()
+							}
+						}
+					}
 				}
 			}
-		},
-		func(identName string) {
-			if instance, ok := identifierMap[identName]; ok {
-				instance.UnstageVoid(stage)
-			}
-		},
-		func() {
-			if stage.IsInDeltaMode() && stage.GetNavigationMode() != GongNavigationModeNavigating {
-				stage.Commit()
-			} else {
-				stage.ComputeInstancesNb()
-				stage.ComputeReferenceAndOrders()
-				if stage.OnInitCommitCallback != nil {
-					stage.OnInitCommitCallback.BeforeCommit(stage)
-				}
-				if stage.OnInitCommitFromBackCallback != nil {
-					stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
-				}
-				// 1. Run all Before Commit hooks
-				stage.RunBeforeCommitHooks()
+		}
+		return true
+	})
 
-				// 2. Run all After Commit hooks
-				stage.RunAfterCommitHooks()
-			}
-		},
-	)
+	return nil
 }
 
 // --- Generic Helpers for Unmarshallers (delegating to gong_runtime) ---
@@ -135,6 +5873,85 @@ var GongExtractDate = gong_runtime.ExtractDate
 
 func __gong__extractMiddleUint(input string) (uint, error) {
 	return gong_runtime.ExtractMiddleUint(input)
+}
+
+func __gong__stageSetInit[P interface {
+	SetName(string)
+	StageVoid(S)
+	StagePreserveOrder(S, uint)
+}, S any](instance P, stage S, identifier string, instanceName string, preserveOrder bool) any {
+	instance.SetName(instanceName)
+	if !preserveOrder {
+		instance.StageVoid(stage)
+	} else {
+		if order, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifier", identifier)
+			instance.StageVoid(stage)
+		} else {
+			instance.StagePreserveOrder(stage, order)
+		}
+	}
+	return instance
+}
+
+func __gong__assignPointer[T any](targetPtr **T, rhs ast.Expr, identifierMap map[string]any) {
+	if rIdent, ok := rhs.(*ast.Ident); ok {
+		if rIdent.Name == "nil" {
+			*targetPtr = nil
+			return
+		}
+		if target, ok := identifierMap[rIdent.Name]; ok {
+			if typedTarget, ok := target.(*T); ok {
+				*targetPtr = typedTarget
+			}
+		}
+	}
+}
+
+func __gong__assignSliceOfPointers[T any](slice *[]*T, rhs ast.Expr, identifierMap map[string]any) {
+	if call, ok := rhs.(*ast.CallExpr); ok {
+		funcName := ""
+		var isSlices bool
+		if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+			if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+				isSlices = true
+				funcName = sel.Sel.Name
+			}
+		} else if ident, ok := call.Fun.(*ast.Ident); ok {
+			funcName = ident.Name
+		}
+
+		if isSlices {
+			if funcName == "Delete" && len(call.Args) == 3 {
+				start := GongExtractInt(call.Args[1])
+				end := GongExtractInt(call.Args[2])
+				if end <= len(*slice) {
+					*slice = slices.Delete(*slice, start, end)
+				}
+			} else if funcName == "Insert" && len(call.Args) == 3 {
+				index := GongExtractInt(call.Args[1])
+				if index <= len(*slice) {
+					if rIdent, ok := call.Args[2].(*ast.Ident); ok {
+						if target, ok := identifierMap[rIdent.Name]; ok {
+							if typedTarget, ok := target.(*T); ok {
+								*slice = slices.Insert(*slice, index, typedTarget)
+							}
+						}
+					}
+				}
+			}
+		} else if funcName == "append" && len(call.Args) >= 2 {
+			for i := 1; i < len(call.Args); i++ {
+				if rIdent, ok := call.Args[i].(*ast.Ident); ok {
+					if target, ok := identifierMap[rIdent.Name]; ok {
+						if typedTarget, ok := target.(*T); ok {
+							*slice = append(*slice, typedTarget)
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 // GongUnmarshallSliceOfPointers handles append, slices.Delete, and slices.Insert for slice fields
