@@ -29,7 +29,7 @@ const (
 	GONG__IDENTIFIER_CONST     GONG__ExpressionType = "IDENTIFIER_CONST"
 )
 
-var middleUintRegex = regexp.MustCompile(`__.*?__(\d+)_.*`)
+var middleUintRegex = regexp.MustCompile(`__(\d+)_[^_]*$`)
 
 // NotificationProbeIF abstracts notifications from probes
 type NotificationProbeIF interface {
@@ -428,4 +428,3 @@ func UnmarshallEnum[T interface{ FromCodeString(string) error }](
 		}
 	}
 }
-

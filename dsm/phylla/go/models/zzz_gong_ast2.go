@@ -102,25 +102,21 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 	if stage.ClockStage != nil {
 		for _, instance := range stage.ClockStage.GetInstances() {
 			identifierMap[instance.GongGetIdentifier(stage.ClockStage)] = instance
-			identifierMap["__clock"+instance.GongGetIdentifier(stage.ClockStage)] = instance
 		}
 	}
 	if stage.MusicStage != nil {
 		for _, instance := range stage.MusicStage.GetInstances() {
 			identifierMap[instance.GongGetIdentifier(stage.MusicStage)] = instance
-			identifierMap["__music"+instance.GongGetIdentifier(stage.MusicStage)] = instance
 		}
 	}
 	if stage.StoolStage != nil {
 		for _, instance := range stage.StoolStage.GetInstances() {
 			identifierMap[instance.GongGetIdentifier(stage.StoolStage)] = instance
-			identifierMap["__stool"+instance.GongGetIdentifier(stage.StoolStage)] = instance
 		}
 	}
 	if stage != nil {
 		for _, instance := range stage.GetInstances() {
 			identifierMap[instance.GongGetIdentifier(stage)] = instance
-			identifierMap["__models"+instance.GongGetIdentifier(stage)] = instance
 		}
 	}
 

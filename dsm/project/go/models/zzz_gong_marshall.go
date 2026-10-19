@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, diagram := range __gong__sortStageSetInstances(stage.Diagrams, stage.Diagram_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			diagramIdent := localAliasPrefix + diagram.GongGetIdentifier(stage)
+			diagramIdent := diagram.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Diagram{Name: %s}).Stage(stage)", diagramIdent, __gong__toRawStringLiteral(diagram.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -409,7 +404,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Product_Shapes = append(%s.Product_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ProductsWhoseNodeIsExpanded {
@@ -419,7 +414,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ProductsWhoseNodeIsExpanded = append(%s.ProductsWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ProductComposition_Shapes {
@@ -429,7 +424,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ProductComposition_Shapes = append(%s.ProductComposition_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ProductReference_Shapes {
@@ -439,7 +434,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ProductReference_Shapes = append(%s.ProductReference_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.Task_Shapes {
@@ -449,7 +444,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task_Shapes = append(%s.Task_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.TasksWhoseNodeIsExpanded {
@@ -459,7 +454,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TasksWhoseNodeIsExpanded = append(%s.TasksWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.TasksWhoseInputNodeIsExpanded {
@@ -469,7 +464,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TasksWhoseInputNodeIsExpanded = append(%s.TasksWhoseInputNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.TasksWhoseOutputNodeIsExpanded {
@@ -479,7 +474,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TasksWhoseOutputNodeIsExpanded = append(%s.TasksWhoseOutputNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.TasksWhosePredecessorNodeIsExpanded {
@@ -489,7 +484,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TasksWhosePredecessorNodeIsExpanded = append(%s.TasksWhosePredecessorNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.TaskGroupShapes {
@@ -499,7 +494,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskGroupShapes = append(%s.TaskGroupShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.TaskGroupsWhoseNodeIsExpanded {
@@ -509,7 +504,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskGroupsWhoseNodeIsExpanded = append(%s.TaskGroupsWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.TaskComposition_Shapes {
@@ -519,7 +514,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskComposition_Shapes = append(%s.TaskComposition_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.TaskInputShapes {
@@ -529,7 +524,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskInputShapes = append(%s.TaskInputShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.TaskOutputShapes {
@@ -539,7 +534,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskOutputShapes = append(%s.TaskOutputShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.TaskPredecessorShapes {
@@ -549,7 +544,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskPredecessorShapes = append(%s.TaskPredecessorShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.Note_Shapes {
@@ -559,7 +554,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Note_Shapes = append(%s.Note_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.NotesWhoseNodeIsExpanded {
@@ -569,7 +564,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.NotesWhoseNodeIsExpanded = append(%s.NotesWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.NoteProductShapes {
@@ -579,7 +574,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.NoteProductShapes = append(%s.NoteProductShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.NoteTaskShapes {
@@ -589,7 +584,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.NoteTaskShapes = append(%s.NoteTaskShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.NoteResourceShapes {
@@ -599,7 +594,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.NoteResourceShapes = append(%s.NoteResourceShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.Resource_Shapes {
@@ -609,7 +604,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Resource_Shapes = append(%s.Resource_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ResourcesWhoseNodeIsExpanded {
@@ -619,7 +614,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ResourcesWhoseNodeIsExpanded = append(%s.ResourcesWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ResourceComposition_Shapes {
@@ -629,7 +624,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ResourceComposition_Shapes = append(%s.ResourceComposition_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ResourceTaskShapes {
@@ -639,7 +634,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ResourceTaskShapes = append(%s.ResourceTaskShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 		}
@@ -652,7 +647,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			libraryIdent := localAliasPrefix + library.GongGetIdentifier(stage)
+			libraryIdent := library.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Library{Name: %s}).Stage(stage)", libraryIdent, __gong__toRawStringLiteral(library.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -673,7 +668,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibraries = append(%s.SubLibraries, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootProducts {
@@ -683,7 +678,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootProducts = append(%s.RootProducts, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootTasks {
@@ -693,7 +688,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootTasks = append(%s.RootTasks, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootTaskGroups {
@@ -703,7 +698,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootTaskGroups = append(%s.RootTaskGroups, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootResources {
@@ -713,7 +708,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootResources = append(%s.RootResources, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.Notes {
@@ -723,7 +718,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Notes = append(%s.Notes, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.Diagrams {
@@ -733,7 +728,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Diagrams = append(%s.Diagrams, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 		}
@@ -746,7 +741,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			noteIdent := localAliasPrefix + note.GongGetIdentifier(stage)
+			noteIdent := note.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Note{Name: %s}).Stage(stage)", noteIdent, __gong__toRawStringLiteral(note.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -769,7 +764,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Products = append(%s.Products, %s)", noteIdent, noteIdent, targetIdent))
 			}
 			for _, elem := range note.Tasks {
@@ -779,7 +774,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Tasks = append(%s.Tasks, %s)", noteIdent, noteIdent, targetIdent))
 			}
 			for _, elem := range note.Resources {
@@ -789,7 +784,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Resources = append(%s.Resources, %s)", noteIdent, noteIdent, targetIdent))
 			}
 		}
@@ -802,7 +797,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			noteproductshapeIdent := localAliasPrefix + noteproductshape.GongGetIdentifier(stage)
+			noteproductshapeIdent := noteproductshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.NoteProductShape{Name: %s}).Stage(stage)", noteproductshapeIdent, __gong__toRawStringLiteral(noteproductshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -839,7 +834,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + noteproductshape.Note.GongGetIdentifier(stage)
+				targetIdent := noteproductshape.Note.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", noteproductshapeIdent, targetIdent))
 			}
 			if noteproductshape.Product != nil {
@@ -849,7 +844,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + noteproductshape.Product.GongGetIdentifier(stage)
+				targetIdent := noteproductshape.Product.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Product = %s", noteproductshapeIdent, targetIdent))
 			}
 		}
@@ -862,7 +857,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			noteresourceshapeIdent := localAliasPrefix + noteresourceshape.GongGetIdentifier(stage)
+			noteresourceshapeIdent := noteresourceshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.NoteResourceShape{Name: %s}).Stage(stage)", noteresourceshapeIdent, __gong__toRawStringLiteral(noteresourceshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -899,7 +894,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + noteresourceshape.Note.GongGetIdentifier(stage)
+				targetIdent := noteresourceshape.Note.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", noteresourceshapeIdent, targetIdent))
 			}
 			if noteresourceshape.Resource != nil {
@@ -909,7 +904,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + noteresourceshape.Resource.GongGetIdentifier(stage)
+				targetIdent := noteresourceshape.Resource.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Resource = %s", noteresourceshapeIdent, targetIdent))
 			}
 		}
@@ -922,7 +917,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			noteshapeIdent := localAliasPrefix + noteshape.GongGetIdentifier(stage)
+			noteshapeIdent := noteshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.NoteShape{Name: %s}).Stage(stage)", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -955,7 +950,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + noteshape.Note.GongGetIdentifier(stage)
+				targetIdent := noteshape.Note.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", noteshapeIdent, targetIdent))
 			}
 		}
@@ -968,7 +963,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			notetaskshapeIdent := localAliasPrefix + notetaskshape.GongGetIdentifier(stage)
+			notetaskshapeIdent := notetaskshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.NoteTaskShape{Name: %s}).Stage(stage)", notetaskshapeIdent, __gong__toRawStringLiteral(notetaskshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1005,7 +1000,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + notetaskshape.Note.GongGetIdentifier(stage)
+				targetIdent := notetaskshape.Note.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", notetaskshapeIdent, targetIdent))
 			}
 			if notetaskshape.Task != nil {
@@ -1015,7 +1010,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + notetaskshape.Task.GongGetIdentifier(stage)
+				targetIdent := notetaskshape.Task.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task = %s", notetaskshapeIdent, targetIdent))
 			}
 		}
@@ -1028,7 +1023,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			productIdent := localAliasPrefix + product.GongGetIdentifier(stage)
+			productIdent := product.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Product{Name: %s}).Stage(stage)", productIdent, __gong__toRawStringLiteral(product.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1055,7 +1050,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubProducts = append(%s.SubProducts, %s)", productIdent, productIdent, targetIdent))
 			}
 			if product.ReferencedProduct != nil {
@@ -1065,7 +1060,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + product.ReferencedProduct.GongGetIdentifier(stage)
+				targetIdent := product.ReferencedProduct.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ReferencedProduct = %s", productIdent, targetIdent))
 			}
 		}
@@ -1078,7 +1073,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			productcompositionshapeIdent := localAliasPrefix + productcompositionshape.GongGetIdentifier(stage)
+			productcompositionshapeIdent := productcompositionshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ProductCompositionShape{Name: %s}).Stage(stage)", productcompositionshapeIdent, __gong__toRawStringLiteral(productcompositionshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1115,7 +1110,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + productcompositionshape.Product.GongGetIdentifier(stage)
+				targetIdent := productcompositionshape.Product.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Product = %s", productcompositionshapeIdent, targetIdent))
 			}
 		}
@@ -1128,7 +1123,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			productreferenceshapeIdent := localAliasPrefix + productreferenceshape.GongGetIdentifier(stage)
+			productreferenceshapeIdent := productreferenceshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ProductReferenceShape{Name: %s}).Stage(stage)", productreferenceshapeIdent, __gong__toRawStringLiteral(productreferenceshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1165,7 +1160,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + productreferenceshape.Product.GongGetIdentifier(stage)
+				targetIdent := productreferenceshape.Product.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Product = %s", productreferenceshapeIdent, targetIdent))
 			}
 			if productreferenceshape.ReferencedProduct != nil {
@@ -1175,7 +1170,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + productreferenceshape.ReferencedProduct.GongGetIdentifier(stage)
+				targetIdent := productreferenceshape.ReferencedProduct.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ReferencedProduct = %s", productreferenceshapeIdent, targetIdent))
 			}
 		}
@@ -1188,7 +1183,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			productshapeIdent := localAliasPrefix + productshape.GongGetIdentifier(stage)
+			productshapeIdent := productshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ProductShape{Name: %s}).Stage(stage)", productshapeIdent, __gong__toRawStringLiteral(productshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1222,7 +1217,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + productshape.Product.GongGetIdentifier(stage)
+				targetIdent := productshape.Product.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Product = %s", productshapeIdent, targetIdent))
 			}
 		}
@@ -1235,7 +1230,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			resourceIdent := localAliasPrefix + resource.GongGetIdentifier(stage)
+			resourceIdent := resource.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Resource{Name: %s}).Stage(stage)", resourceIdent, __gong__toRawStringLiteral(resource.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1260,7 +1255,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Tasks = append(%s.Tasks, %s)", resourceIdent, resourceIdent, targetIdent))
 			}
 			for _, elem := range resource.SubResources {
@@ -1270,7 +1265,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubResources = append(%s.SubResources, %s)", resourceIdent, resourceIdent, targetIdent))
 			}
 			if resource.ReferencedResource != nil {
@@ -1280,7 +1275,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + resource.ReferencedResource.GongGetIdentifier(stage)
+				targetIdent := resource.ReferencedResource.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ReferencedResource = %s", resourceIdent, targetIdent))
 			}
 		}
@@ -1293,7 +1288,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			resourcecompositionshapeIdent := localAliasPrefix + resourcecompositionshape.GongGetIdentifier(stage)
+			resourcecompositionshapeIdent := resourcecompositionshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ResourceCompositionShape{Name: %s}).Stage(stage)", resourcecompositionshapeIdent, __gong__toRawStringLiteral(resourcecompositionshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1330,7 +1325,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + resourcecompositionshape.Resource.GongGetIdentifier(stage)
+				targetIdent := resourcecompositionshape.Resource.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Resource = %s", resourcecompositionshapeIdent, targetIdent))
 			}
 		}
@@ -1343,7 +1338,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			resourceshapeIdent := localAliasPrefix + resourceshape.GongGetIdentifier(stage)
+			resourceshapeIdent := resourceshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ResourceShape{Name: %s}).Stage(stage)", resourceshapeIdent, __gong__toRawStringLiteral(resourceshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1376,7 +1371,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + resourceshape.Resource.GongGetIdentifier(stage)
+				targetIdent := resourceshape.Resource.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Resource = %s", resourceshapeIdent, targetIdent))
 			}
 		}
@@ -1389,7 +1384,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			resourcetaskshapeIdent := localAliasPrefix + resourcetaskshape.GongGetIdentifier(stage)
+			resourcetaskshapeIdent := resourcetaskshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ResourceTaskShape{Name: %s}).Stage(stage)", resourcetaskshapeIdent, __gong__toRawStringLiteral(resourcetaskshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1426,7 +1421,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + resourcetaskshape.Resource.GongGetIdentifier(stage)
+				targetIdent := resourcetaskshape.Resource.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Resource = %s", resourcetaskshapeIdent, targetIdent))
 			}
 			if resourcetaskshape.Task != nil {
@@ -1436,7 +1431,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + resourcetaskshape.Task.GongGetIdentifier(stage)
+				targetIdent := resourcetaskshape.Task.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task = %s", resourcetaskshapeIdent, targetIdent))
 			}
 		}
@@ -1449,7 +1444,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			taskIdent := localAliasPrefix + task.GongGetIdentifier(stage)
+			taskIdent := task.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Task{Name: %s}).Stage(stage)", taskIdent, __gong__toRawStringLiteral(task.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1509,7 +1504,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskGroups = append(%s.TaskGroups, %s)", taskIdent, taskIdent, targetIdent))
 			}
 			for _, elem := range task.Predecessors {
@@ -1519,7 +1514,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Predecessors = append(%s.Predecessors, %s)", taskIdent, taskIdent, targetIdent))
 			}
 			for _, elem := range task.Inputs {
@@ -1529,7 +1524,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Inputs = append(%s.Inputs, %s)", taskIdent, taskIdent, targetIdent))
 			}
 			for _, elem := range task.Outputs {
@@ -1539,7 +1534,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Outputs = append(%s.Outputs, %s)", taskIdent, taskIdent, targetIdent))
 			}
 			for _, elem := range task.SubTasks {
@@ -1549,7 +1544,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubTasks = append(%s.SubTasks, %s)", taskIdent, taskIdent, targetIdent))
 			}
 			for _, elem := range task.TaskGroupsToDisplay {
@@ -1559,7 +1554,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskGroupsToDisplay = append(%s.TaskGroupsToDisplay, %s)", taskIdent, taskIdent, targetIdent))
 			}
 			if task.ReferencedTask != nil {
@@ -1569,7 +1564,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + task.ReferencedTask.GongGetIdentifier(stage)
+				targetIdent := task.ReferencedTask.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ReferencedTask = %s", taskIdent, targetIdent))
 			}
 		}
@@ -1582,7 +1577,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			taskcompositionshapeIdent := localAliasPrefix + taskcompositionshape.GongGetIdentifier(stage)
+			taskcompositionshapeIdent := taskcompositionshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TaskCompositionShape{Name: %s}).Stage(stage)", taskcompositionshapeIdent, __gong__toRawStringLiteral(taskcompositionshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1619,7 +1614,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + taskcompositionshape.Task.GongGetIdentifier(stage)
+				targetIdent := taskcompositionshape.Task.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task = %s", taskcompositionshapeIdent, targetIdent))
 			}
 		}
@@ -1632,7 +1627,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			taskgroupIdent := localAliasPrefix + taskgroup.GongGetIdentifier(stage)
+			taskgroupIdent := taskgroup.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TaskGroup{Name: %s}).Stage(stage)", taskgroupIdent, __gong__toRawStringLiteral(taskgroup.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1650,7 +1645,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Tasks = append(%s.Tasks, %s)", taskgroupIdent, taskgroupIdent, targetIdent))
 			}
 		}
@@ -1663,7 +1658,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			taskgroupshapeIdent := localAliasPrefix + taskgroupshape.GongGetIdentifier(stage)
+			taskgroupshapeIdent := taskgroupshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TaskGroupShape{Name: %s}).Stage(stage)", taskgroupshapeIdent, __gong__toRawStringLiteral(taskgroupshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1695,7 +1690,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + taskgroupshape.TaskGroup.GongGetIdentifier(stage)
+				targetIdent := taskgroupshape.TaskGroup.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskGroup = %s", taskgroupshapeIdent, targetIdent))
 			}
 		}
@@ -1708,7 +1703,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			taskinputshapeIdent := localAliasPrefix + taskinputshape.GongGetIdentifier(stage)
+			taskinputshapeIdent := taskinputshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TaskInputShape{Name: %s}).Stage(stage)", taskinputshapeIdent, __gong__toRawStringLiteral(taskinputshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1745,7 +1740,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + taskinputshape.Product.GongGetIdentifier(stage)
+				targetIdent := taskinputshape.Product.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Product = %s", taskinputshapeIdent, targetIdent))
 			}
 			if taskinputshape.Task != nil {
@@ -1755,7 +1750,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + taskinputshape.Task.GongGetIdentifier(stage)
+				targetIdent := taskinputshape.Task.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task = %s", taskinputshapeIdent, targetIdent))
 			}
 		}
@@ -1768,7 +1763,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			taskoutputshapeIdent := localAliasPrefix + taskoutputshape.GongGetIdentifier(stage)
+			taskoutputshapeIdent := taskoutputshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TaskOutputShape{Name: %s}).Stage(stage)", taskoutputshapeIdent, __gong__toRawStringLiteral(taskoutputshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1805,7 +1800,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + taskoutputshape.Task.GongGetIdentifier(stage)
+				targetIdent := taskoutputshape.Task.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task = %s", taskoutputshapeIdent, targetIdent))
 			}
 			if taskoutputshape.Product != nil {
@@ -1815,7 +1810,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + taskoutputshape.Product.GongGetIdentifier(stage)
+				targetIdent := taskoutputshape.Product.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Product = %s", taskoutputshapeIdent, targetIdent))
 			}
 		}
@@ -1828,7 +1823,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			taskpredecessorshapeIdent := localAliasPrefix + taskpredecessorshape.GongGetIdentifier(stage)
+			taskpredecessorshapeIdent := taskpredecessorshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TaskPredecessorShape{Name: %s}).Stage(stage)", taskpredecessorshapeIdent, __gong__toRawStringLiteral(taskpredecessorshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1865,7 +1860,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + taskpredecessorshape.Predecessor.GongGetIdentifier(stage)
+				targetIdent := taskpredecessorshape.Predecessor.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Predecessor = %s", taskpredecessorshapeIdent, targetIdent))
 			}
 			if taskpredecessorshape.Task != nil {
@@ -1875,7 +1870,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + taskpredecessorshape.Task.GongGetIdentifier(stage)
+				targetIdent := taskpredecessorshape.Task.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task = %s", taskpredecessorshapeIdent, targetIdent))
 			}
 		}
@@ -1888,7 +1883,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			taskshapeIdent := localAliasPrefix + taskshape.GongGetIdentifier(stage)
+			taskshapeIdent := taskshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TaskShape{Name: %s}).Stage(stage)", taskshapeIdent, __gong__toRawStringLiteral(taskshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1924,7 +1919,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + taskshape.Task.GongGetIdentifier(stage)
+				targetIdent := taskshape.Task.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task = %s", taskshapeIdent, targetIdent))
 			}
 		}

@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, button := range __gong__sortStageSetInstances(stage.Buttons, stage.Button_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			buttonIdent := localAliasPrefix + button.GongGetIdentifier(stage)
+			buttonIdent := button.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Button{Name: %s}).Stage(stage)", buttonIdent, __gong__toRawStringLiteral(button.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -362,7 +357,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + button.SVGIcon.GongGetIdentifier(stage)
+				targetIdent := button.SVGIcon.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SVGIcon = %s", buttonIdent, targetIdent))
 			}
 		}
@@ -375,7 +370,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			cellIdent := localAliasPrefix + cell.GongGetIdentifier(stage)
+			cellIdent := cell.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Cell{Name: %s}).Stage(stage)", cellIdent, __gong__toRawStringLiteral(cell.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -391,7 +386,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + cell.CellString.GongGetIdentifier(stage)
+				targetIdent := cell.CellString.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CellString = %s", cellIdent, targetIdent))
 			}
 			if cell.CellFloat64 != nil {
@@ -401,7 +396,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + cell.CellFloat64.GongGetIdentifier(stage)
+				targetIdent := cell.CellFloat64.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CellFloat64 = %s", cellIdent, targetIdent))
 			}
 			if cell.CellInt != nil {
@@ -411,7 +406,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + cell.CellInt.GongGetIdentifier(stage)
+				targetIdent := cell.CellInt.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CellInt = %s", cellIdent, targetIdent))
 			}
 			if cell.CellBool != nil {
@@ -421,7 +416,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + cell.CellBool.GongGetIdentifier(stage)
+				targetIdent := cell.CellBool.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CellBool = %s", cellIdent, targetIdent))
 			}
 			if cell.CellIcon != nil {
@@ -431,7 +426,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + cell.CellIcon.GongGetIdentifier(stage)
+				targetIdent := cell.CellIcon.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CellIcon = %s", cellIdent, targetIdent))
 			}
 		}
@@ -444,7 +439,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			cellbooleanIdent := localAliasPrefix + cellboolean.GongGetIdentifier(stage)
+			cellbooleanIdent := cellboolean.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CellBoolean{Name: %s}).Stage(stage)", cellbooleanIdent, __gong__toRawStringLiteral(cellboolean.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -464,7 +459,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			cellfloat64Ident := localAliasPrefix + cellfloat64.GongGetIdentifier(stage)
+			cellfloat64Ident := cellfloat64.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CellFloat64{Name: %s}).Stage(stage)", cellfloat64Ident, __gong__toRawStringLiteral(cellfloat64.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -484,7 +479,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			celliconIdent := localAliasPrefix + cellicon.GongGetIdentifier(stage)
+			celliconIdent := cellicon.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CellIcon{Name: %s}).Stage(stage)", celliconIdent, __gong__toRawStringLiteral(cellicon.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -506,7 +501,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			cellintIdent := localAliasPrefix + cellint.GongGetIdentifier(stage)
+			cellintIdent := cellint.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CellInt{Name: %s}).Stage(stage)", cellintIdent, __gong__toRawStringLiteral(cellint.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -526,7 +521,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			cellstringIdent := localAliasPrefix + cellstring.GongGetIdentifier(stage)
+			cellstringIdent := cellstring.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CellString{Name: %s}).Stage(stage)", cellstringIdent, __gong__toRawStringLiteral(cellstring.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -546,7 +541,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			displayedcolumnIdent := localAliasPrefix + displayedcolumn.GongGetIdentifier(stage)
+			displayedcolumnIdent := displayedcolumn.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DisplayedColumn{Name: %s}).Stage(stage)", displayedcolumnIdent, __gong__toRawStringLiteral(displayedcolumn.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -565,7 +560,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			rowIdent := localAliasPrefix + row.GongGetIdentifier(stage)
+			rowIdent := row.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Row{Name: %s}).Stage(stage)", rowIdent, __gong__toRawStringLiteral(row.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -582,7 +577,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Cells = append(%s.Cells, %s)", rowIdent, rowIdent, targetIdent))
 			}
 		}
@@ -595,7 +590,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			svgiconIdent := localAliasPrefix + svgicon.GongGetIdentifier(stage)
+			svgiconIdent := svgicon.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SVGIcon{Name: %s}).Stage(stage)", svgiconIdent, __gong__toRawStringLiteral(svgicon.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -615,7 +610,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			tableIdent := localAliasPrefix + table.GongGetIdentifier(stage)
+			tableIdent := table.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Table{Name: %s}).Stage(stage)", tableIdent, __gong__toRawStringLiteral(table.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -643,7 +638,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DisplayedColumns = append(%s.DisplayedColumns, %s)", tableIdent, tableIdent, targetIdent))
 			}
 			for _, elem := range table.Rows {
@@ -653,7 +648,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Rows = append(%s.Rows, %s)", tableIdent, tableIdent, targetIdent))
 			}
 			for _, elem := range table.RowsSelectedForBulkDelete {
@@ -663,7 +658,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RowsSelectedForBulkDelete = append(%s.RowsSelectedForBulkDelete, %s)", tableIdent, tableIdent, targetIdent))
 			}
 			for _, elem := range table.Buttons {
@@ -673,7 +668,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Buttons = append(%s.Buttons, %s)", tableIdent, tableIdent, targetIdent))
 			}
 		}

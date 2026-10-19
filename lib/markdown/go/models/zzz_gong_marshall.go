@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, content := range __gong__sortStageSetInstances(stage.Contents, stage.Content_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			contentIdent := localAliasPrefix + content.GongGetIdentifier(stage)
+			contentIdent := content.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Content{Name: %s}).Stage(stage)", contentIdent, __gong__toRawStringLiteral(content.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -357,7 +352,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			jpgimageIdent := localAliasPrefix + jpgimage.GongGetIdentifier(stage)
+			jpgimageIdent := jpgimage.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.JpgImage{Name: %s}).Stage(stage)", jpgimageIdent, __gong__toRawStringLiteral(jpgimage.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -377,7 +372,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			pngimageIdent := localAliasPrefix + pngimage.GongGetIdentifier(stage)
+			pngimageIdent := pngimage.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.PngImage{Name: %s}).Stage(stage)", pngimageIdent, __gong__toRawStringLiteral(pngimage.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -397,7 +392,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			svgimageIdent := localAliasPrefix + svgimage.GongGetIdentifier(stage)
+			svgimageIdent := svgimage.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SvgImage{Name: %s}).Stage(stage)", svgimageIdent, __gong__toRawStringLiteral(svgimage.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

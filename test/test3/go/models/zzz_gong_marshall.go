@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, a := range __gong__sortStageSetInstances(stage.As, stage.A_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			aIdent := localAliasPrefix + a.GongGetIdentifier(stage)
+			aIdent := a.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A{Name: %s}).Stage(stage)", aIdent, __gong__toRawStringLiteral(a.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -368,7 +363,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + a.B.GongGetIdentifier(stage)
+				targetIdent := a.B.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.B = %s", aIdent, targetIdent))
 			}
 			for _, elem := range a.Bs {
@@ -378,7 +373,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Bs = append(%s.Bs, %s)", aIdent, aIdent, targetIdent))
 			}
 		}
@@ -391,7 +386,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			bIdent := localAliasPrefix + b.GongGetIdentifier(stage)
+			bIdent := b.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.B{Name: %s}).Stage(stage)", bIdent, __gong__toRawStringLiteral(b.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

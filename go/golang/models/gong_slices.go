@@ -303,7 +303,7 @@ func __gong__getOrder[T comparable](stagedOrder, refOrder map[T]uint, instance T
 }
 
 func __gong__formatIdentifier(s GongstructIF, order uint) string {
-	return fmt.Sprintf("__%s__%08d_", s.GongGetGongstructName(), order)
+	return fmt.Sprintf("__{{PkgGoName}}__%s__%08d_", s.GongGetGongstructName(), order)
 }
 
 func __gong__marshallIdentifier(identifier, structName, name string) string {

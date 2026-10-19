@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, button := range __gong__sortStageSetInstances(stage.Buttons, stage.Button_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			buttonIdent := localAliasPrefix + button.GongGetIdentifier(stage)
+			buttonIdent := button.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Button{Name: %s}).Stage(stage)", buttonIdent, __gong__toRawStringLiteral(button.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -381,7 +376,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			buttontoggleIdent := localAliasPrefix + buttontoggle.GongGetIdentifier(stage)
+			buttontoggleIdent := buttontoggle.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ButtonToggle{Name: %s}).Stage(stage)", buttontoggleIdent, __gong__toRawStringLiteral(buttontoggle.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -404,7 +399,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			groupIdent := localAliasPrefix + group.GongGetIdentifier(stage)
+			groupIdent := group.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Group{Name: %s}).Stage(stage)", groupIdent, __gong__toRawStringLiteral(group.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -422,7 +417,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Buttons = append(%s.Buttons, %s)", groupIdent, groupIdent, targetIdent))
 			}
 		}
@@ -435,7 +430,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			grouptoogleIdent := localAliasPrefix + grouptoogle.GongGetIdentifier(stage)
+			grouptoogleIdent := grouptoogle.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.GroupToogle{Name: %s}).Stage(stage)", grouptoogleIdent, __gong__toRawStringLiteral(grouptoogle.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -453,7 +448,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ButtonToggles = append(%s.ButtonToggles, %s)", grouptoogleIdent, grouptoogleIdent, targetIdent))
 			}
 		}
@@ -466,7 +461,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			layoutIdent := localAliasPrefix + layout.GongGetIdentifier(stage)
+			layoutIdent := layout.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Layout{Name: %s}).Stage(stage)", layoutIdent, __gong__toRawStringLiteral(layout.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -482,7 +477,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", layoutIdent, layoutIdent, targetIdent))
 			}
 			for _, elem := range layout.GroupToogles {
@@ -492,7 +487,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.GroupToogles = append(%s.GroupToogles, %s)", layoutIdent, layoutIdent, targetIdent))
 			}
 		}

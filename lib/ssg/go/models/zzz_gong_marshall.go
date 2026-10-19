@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, chapter := range __gong__sortStageSetInstances(stage.Chapters, stage.Chapter_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			chapterIdent := localAliasPrefix + chapter.GongGetIdentifier(stage)
+			chapterIdent := chapter.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Chapter{Name: %s}).Stage(stage)", chapterIdent, __gong__toRawStringLiteral(chapter.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -354,7 +349,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Sections = append(%s.Sections, %s)", chapterIdent, chapterIdent, targetIdent))
 			}
 			for _, elem := range chapter.Pages {
@@ -364,7 +359,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Pages = append(%s.Pages, %s)", chapterIdent, chapterIdent, targetIdent))
 			}
 			for _, elem := range chapter.SubChapters {
@@ -374,7 +369,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubChapters = append(%s.SubChapters, %s)", chapterIdent, chapterIdent, targetIdent))
 			}
 		}
@@ -387,7 +382,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			contentIdent := localAliasPrefix + content.GongGetIdentifier(stage)
+			contentIdent := content.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Content{Name: %s}).Stage(stage)", contentIdent, __gong__toRawStringLiteral(content.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -418,7 +413,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Chapters = append(%s.Chapters, %s)", contentIdent, contentIdent, targetIdent))
 			}
 		}
@@ -431,7 +426,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			downloadablefileIdent := localAliasPrefix + downloadablefile.GongGetIdentifier(stage)
+			downloadablefileIdent := downloadablefile.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DownloadableFile{Name: %s}).Stage(stage)", downloadablefileIdent, __gong__toRawStringLiteral(downloadablefile.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -451,7 +446,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			jpgimageIdent := localAliasPrefix + jpgimage.GongGetIdentifier(stage)
+			jpgimageIdent := jpgimage.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.JpgImage{Name: %s}).Stage(stage)", jpgimageIdent, __gong__toRawStringLiteral(jpgimage.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -471,7 +466,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			pageIdent := localAliasPrefix + page.GongGetIdentifier(stage)
+			pageIdent := page.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Page{Name: %s}).Stage(stage)", pageIdent, __gong__toRawStringLiteral(page.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -488,7 +483,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Sections = append(%s.Sections, %s)", pageIdent, pageIdent, targetIdent))
 			}
 		}
@@ -501,7 +496,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			pngimageIdent := localAliasPrefix + pngimage.GongGetIdentifier(stage)
+			pngimageIdent := pngimage.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.PngImage{Name: %s}).Stage(stage)", pngimageIdent, __gong__toRawStringLiteral(pngimage.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -521,7 +516,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			sectionIdent := localAliasPrefix + section.GongGetIdentifier(stage)
+			sectionIdent := section.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Section{Name: %s}).Stage(stage)", sectionIdent, __gong__toRawStringLiteral(section.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -540,7 +535,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + section.SvgImage.GongGetIdentifier(stage)
+				targetIdent := section.SvgImage.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SvgImage = %s", sectionIdent, targetIdent))
 			}
 			if section.PngImage != nil {
@@ -550,7 +545,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + section.PngImage.GongGetIdentifier(stage)
+				targetIdent := section.PngImage.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.PngImage = %s", sectionIdent, targetIdent))
 			}
 			if section.JpgImage != nil {
@@ -560,7 +555,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + section.JpgImage.GongGetIdentifier(stage)
+				targetIdent := section.JpgImage.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.JpgImage = %s", sectionIdent, targetIdent))
 			}
 			if section.DownloadableFile != nil {
@@ -570,7 +565,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + section.DownloadableFile.GongGetIdentifier(stage)
+				targetIdent := section.DownloadableFile.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DownloadableFile = %s", sectionIdent, targetIdent))
 			}
 		}
@@ -583,7 +578,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			svgimageIdent := localAliasPrefix + svgimage.GongGetIdentifier(stage)
+			svgimageIdent := svgimage.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SvgImage{Name: %s}).Stage(stage)", svgimageIdent, __gong__toRawStringLiteral(svgimage.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

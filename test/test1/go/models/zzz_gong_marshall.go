@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, astruct := range __gong__sortStageSetInstances(stage.Astructs, stage.Astruct_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			astructIdent := localAliasPrefix + astruct.GongGetIdentifier(stage)
+			astructIdent := astruct.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Astruct{Name: %s}).Stage(stage)", astructIdent, __gong__toRawStringLiteral(astruct.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -387,7 +382,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + astruct.Associationtob.GongGetIdentifier(stage)
+				targetIdent := astruct.Associationtob.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Associationtob = %s", astructIdent, targetIdent))
 			}
 			for _, elem := range astruct.Anarrayofb {
@@ -397,7 +392,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Anarrayofb = append(%s.Anarrayofb, %s)", astructIdent, astructIdent, targetIdent))
 			}
 			if astruct.Anotherassociationtob_2 != nil {
@@ -407,7 +402,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + astruct.Anotherassociationtob_2.GongGetIdentifier(stage)
+				targetIdent := astruct.Anotherassociationtob_2.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Anotherassociationtob_2 = %s", astructIdent, targetIdent))
 			}
 			if astruct.Bstruct != nil {
@@ -417,7 +412,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + astruct.Bstruct.GongGetIdentifier(stage)
+				targetIdent := astruct.Bstruct.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Bstruct = %s", astructIdent, targetIdent))
 			}
 			if astruct.Bstruct2 != nil {
@@ -427,7 +422,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + astruct.Bstruct2.GongGetIdentifier(stage)
+				targetIdent := astruct.Bstruct2.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Bstruct2 = %s", astructIdent, targetIdent))
 			}
 			if astruct.Dstruct != nil {
@@ -437,7 +432,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + astruct.Dstruct.GongGetIdentifier(stage)
+				targetIdent := astruct.Dstruct.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct = %s", astructIdent, targetIdent))
 			}
 			if astruct.Dstruct2 != nil {
@@ -447,7 +442,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + astruct.Dstruct2.GongGetIdentifier(stage)
+				targetIdent := astruct.Dstruct2.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct2 = %s", astructIdent, targetIdent))
 			}
 			if astruct.Dstruct3 != nil {
@@ -457,7 +452,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + astruct.Dstruct3.GongGetIdentifier(stage)
+				targetIdent := astruct.Dstruct3.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct3 = %s", astructIdent, targetIdent))
 			}
 			if astruct.Dstruct4 != nil {
@@ -467,7 +462,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + astruct.Dstruct4.GongGetIdentifier(stage)
+				targetIdent := astruct.Dstruct4.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct4 = %s", astructIdent, targetIdent))
 			}
 			for _, elem := range astruct.Dstruct4s {
@@ -477,7 +472,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct4s = append(%s.Dstruct4s, %s)", astructIdent, astructIdent, targetIdent))
 			}
 			for _, elem := range astruct.Anarrayofa {
@@ -487,7 +482,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Anarrayofa = append(%s.Anarrayofa, %s)", astructIdent, astructIdent, targetIdent))
 			}
 			for _, elem := range astruct.Anotherarrayofb {
@@ -497,7 +492,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Anotherarrayofb = append(%s.Anotherarrayofb, %s)", astructIdent, astructIdent, targetIdent))
 			}
 			for _, elem := range astruct.AnarrayofbUse {
@@ -507,7 +502,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AnarrayofbUse = append(%s.AnarrayofbUse, %s)", astructIdent, astructIdent, targetIdent))
 			}
 			for _, elem := range astruct.Anarrayofb2Use {
@@ -517,7 +512,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Anarrayofb2Use = append(%s.Anarrayofb2Use, %s)", astructIdent, astructIdent, targetIdent))
 			}
 			if astruct.AnAstruct != nil {
@@ -527,7 +522,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + astruct.AnAstruct.GongGetIdentifier(stage)
+				targetIdent := astruct.AnAstruct.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AnAstruct = %s", astructIdent, targetIdent))
 			}
 		}
@@ -540,7 +535,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			astructbstruct2useIdent := localAliasPrefix + astructbstruct2use.GongGetIdentifier(stage)
+			astructbstruct2useIdent := astructbstruct2use.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.AstructBstruct2Use{Name: %s}).Stage(stage)", astructbstruct2useIdent, __gong__toRawStringLiteral(astructbstruct2use.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -556,7 +551,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + astructbstruct2use.Bstrcut2.GongGetIdentifier(stage)
+				targetIdent := astructbstruct2use.Bstrcut2.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Bstrcut2 = %s", astructbstruct2useIdent, targetIdent))
 			}
 		}
@@ -569,7 +564,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			astructbstructuseIdent := localAliasPrefix + astructbstructuse.GongGetIdentifier(stage)
+			astructbstructuseIdent := astructbstructuse.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.AstructBstructUse{Name: %s}).Stage(stage)", astructbstructuseIdent, __gong__toRawStringLiteral(astructbstructuse.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -585,7 +580,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + astructbstructuse.Bstruct2.GongGetIdentifier(stage)
+				targetIdent := astructbstructuse.Bstruct2.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Bstruct2 = %s", astructbstructuseIdent, targetIdent))
 			}
 		}
@@ -598,7 +593,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			bstructIdent := localAliasPrefix + bstruct.GongGetIdentifier(stage)
+			bstructIdent := bstruct.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Bstruct{Name: %s}).Stage(stage)", bstructIdent, __gong__toRawStringLiteral(bstruct.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -624,7 +619,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			dstructIdent := localAliasPrefix + dstruct.GongGetIdentifier(stage)
+			dstructIdent := dstruct.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Dstruct{Name: %s}).Stage(stage)", dstructIdent, __gong__toRawStringLiteral(dstruct.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -640,7 +635,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Anarrayofb = append(%s.Anarrayofb, %s)", dstructIdent, dstructIdent, targetIdent))
 			}
 			if dstruct.Gstruct != nil {
@@ -650,7 +645,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + dstruct.Gstruct.GongGetIdentifier(stage)
+				targetIdent := dstruct.Gstruct.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Gstruct = %s", dstructIdent, targetIdent))
 			}
 			for _, elem := range dstruct.Gstructs {
@@ -660,7 +655,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Gstructs = append(%s.Gstructs, %s)", dstructIdent, dstructIdent, targetIdent))
 			}
 		}
@@ -673,7 +668,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			f0123456789012345678901234567890Ident := localAliasPrefix + f0123456789012345678901234567890.GongGetIdentifier(stage)
+			f0123456789012345678901234567890Ident := f0123456789012345678901234567890.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.F0123456789012345678901234567890{Name: %s}).Stage(stage)", f0123456789012345678901234567890Ident, __gong__toRawStringLiteral(f0123456789012345678901234567890.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -693,7 +688,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			gstructIdent := localAliasPrefix + gstruct.GongGetIdentifier(stage)
+			gstructIdent := gstruct.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Gstruct{Name: %s}).Stage(stage)", gstructIdent, __gong__toRawStringLiteral(gstruct.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

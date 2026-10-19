@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__clock"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, clockabstract := range __gong__sortStageSetInstances(stage.ClockAbstracts, stage.ClockAbstract_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			clockabstractIdent := localAliasPrefix + clockabstract.GongGetIdentifier(stage)
+			clockabstractIdent := clockabstract.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&clock.ClockAbstract{Name: %s}).Stage(stage)", clockabstractIdent, __gong__toRawStringLiteral(clockabstract.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

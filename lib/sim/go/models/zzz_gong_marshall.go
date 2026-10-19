@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, command := range __gong__sortStageSetInstances(stage.Commands, stage.Command_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			commandIdent := localAliasPrefix + command.GongGetIdentifier(stage)
+			commandIdent := command.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Command{Name: %s}).Stage(stage)", commandIdent, __gong__toRawStringLiteral(command.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -359,7 +354,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + command.Engine.GongGetIdentifier(stage)
+				targetIdent := command.Engine.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Engine = %s", commandIdent, targetIdent))
 			}
 		}
@@ -372,7 +367,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			dummyagentIdent := localAliasPrefix + dummyagent.GongGetIdentifier(stage)
+			dummyagentIdent := dummyagent.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DummyAgent{Name: %s}).Stage(stage)", dummyagentIdent, __gong__toRawStringLiteral(dummyagent.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -389,7 +384,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + dummyagent.Engine.GongGetIdentifier(stage)
+				targetIdent := dummyagent.Engine.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Engine = %s", dummyagentIdent, targetIdent))
 			}
 		}
@@ -402,7 +397,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			engineIdent := localAliasPrefix + engine.GongGetIdentifier(stage)
+			engineIdent := engine.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Engine{Name: %s}).Stage(stage)", engineIdent, __gong__toRawStringLiteral(engine.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -437,7 +432,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			eventIdent := localAliasPrefix + event.GongGetIdentifier(stage)
+			eventIdent := event.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Event{Name: %s}).Stage(stage)", eventIdent, __gong__toRawStringLiteral(event.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -457,7 +452,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			statusIdent := localAliasPrefix + status.GongGetIdentifier(stage)
+			statusIdent := status.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Status{Name: %s}).Stage(stage)", statusIdent, __gong__toRawStringLiteral(status.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -488,7 +483,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			updatestateIdent := localAliasPrefix + updatestate.GongGetIdentifier(stage)
+			updatestateIdent := updatestate.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.UpdateState{Name: %s}).Stage(stage)", updatestateIdent, __gong__toRawStringLiteral(updatestate.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

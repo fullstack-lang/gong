@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, button := range __gong__sortStageSetInstances(stage.Buttons, stage.Button_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			buttonIdent := localAliasPrefix + button.GongGetIdentifier(stage)
+			buttonIdent := button.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Button{Name: %s}).Stage(stage)", buttonIdent, __gong__toRawStringLiteral(button.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -364,7 +359,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + button.SVGIcon.GongGetIdentifier(stage)
+				targetIdent := button.SVGIcon.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SVGIcon = %s", buttonIdent, targetIdent))
 			}
 		}
@@ -377,7 +372,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			menuIdent := localAliasPrefix + menu.GongGetIdentifier(stage)
+			menuIdent := menu.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Menu{Name: %s}).Stage(stage)", menuIdent, __gong__toRawStringLiteral(menu.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -393,7 +388,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Buttons = append(%s.Buttons, %s)", menuIdent, menuIdent, targetIdent))
 			}
 		}
@@ -406,7 +401,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			nodeIdent := localAliasPrefix + node.GongGetIdentifier(stage)
+			nodeIdent := node.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Node{Name: %s}).Stage(stage)", nodeIdent, __gong__toRawStringLiteral(node.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -464,7 +459,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + node.PreceedingSVGIcon.GongGetIdentifier(stage)
+				targetIdent := node.PreceedingSVGIcon.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.PreceedingSVGIcon = %s", nodeIdent, targetIdent))
 			}
 			for _, elem := range node.Children {
@@ -474,7 +469,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Children = append(%s.Children, %s)", nodeIdent, nodeIdent, targetIdent))
 			}
 			for _, elem := range node.Buttons {
@@ -484,7 +479,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Buttons = append(%s.Buttons, %s)", nodeIdent, nodeIdent, targetIdent))
 			}
 			if node.Menu != nil {
@@ -494,7 +489,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + node.Menu.GongGetIdentifier(stage)
+				targetIdent := node.Menu.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Menu = %s", nodeIdent, targetIdent))
 			}
 		}
@@ -507,7 +502,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			svgiconIdent := localAliasPrefix + svgicon.GongGetIdentifier(stage)
+			svgiconIdent := svgicon.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SVGIcon{Name: %s}).Stage(stage)", svgiconIdent, __gong__toRawStringLiteral(svgicon.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -527,7 +522,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			treeIdent := localAliasPrefix + tree.GongGetIdentifier(stage)
+			treeIdent := tree.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Tree{Name: %s}).Stage(stage)", treeIdent, __gong__toRawStringLiteral(tree.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -544,7 +539,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootNodes = append(%s.RootNodes, %s)", treeIdent, treeIdent, targetIdent))
 			}
 		}

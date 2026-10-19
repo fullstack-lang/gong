@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, cursor := range __gong__sortStageSetInstances(stage.Cursors, stage.Cursor_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			cursorIdent := localAliasPrefix + cursor.GongGetIdentifier(stage)
+			cursorIdent := cursor.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Cursor{Name: %s}).Stage(stage)", cursorIdent, __gong__toRawStringLiteral(cursor.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

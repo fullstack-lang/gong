@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, filetodownload := range __gong__sortStageSetInstances(stage.FileToDownloads, stage.FileToDownload_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			filetodownloadIdent := localAliasPrefix + filetodownload.GongGetIdentifier(stage)
+			filetodownloadIdent := filetodownload.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FileToDownload{Name: %s}).Stage(stage)", filetodownloadIdent, __gong__toRawStringLiteral(filetodownload.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -357,7 +352,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			filetouploadIdent := localAliasPrefix + filetoupload.GongGetIdentifier(stage)
+			filetouploadIdent := filetoupload.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FileToUpload{Name: %s}).Stage(stage)", filetouploadIdent, __gong__toRawStringLiteral(filetoupload.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -377,7 +372,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			messageIdent := localAliasPrefix + message.GongGetIdentifier(stage)
+			messageIdent := message.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Message{Name: %s}).Stage(stage)", messageIdent, __gong__toRawStringLiteral(message.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

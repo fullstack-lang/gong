@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, displayselection := range __gong__sortStageSetInstances(stage.DisplaySelections, stage.DisplaySelection_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			displayselectionIdent := localAliasPrefix + displayselection.GongGetIdentifier(stage)
+			displayselectionIdent := displayselection.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DisplaySelection{Name: %s}).Stage(stage)", displayselectionIdent, __gong__toRawStringLiteral(displayselection.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -353,7 +348,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + displayselection.XLFile.GongGetIdentifier(stage)
+				targetIdent := displayselection.XLFile.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.XLFile = %s", displayselectionIdent, targetIdent))
 			}
 			if displayselection.XLSheet != nil {
@@ -363,7 +358,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + displayselection.XLSheet.GongGetIdentifier(stage)
+				targetIdent := displayselection.XLSheet.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.XLSheet = %s", displayselectionIdent, targetIdent))
 			}
 		}
@@ -376,7 +371,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			xlcellIdent := localAliasPrefix + xlcell.GongGetIdentifier(stage)
+			xlcellIdent := xlcell.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.XLCell{Name: %s}).Stage(stage)", xlcellIdent, __gong__toRawStringLiteral(xlcell.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -397,7 +392,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			xlfileIdent := localAliasPrefix + xlfile.GongGetIdentifier(stage)
+			xlfileIdent := xlfile.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.XLFile{Name: %s}).Stage(stage)", xlfileIdent, __gong__toRawStringLiteral(xlfile.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -414,7 +409,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Sheets = append(%s.Sheets, %s)", xlfileIdent, xlfileIdent, targetIdent))
 			}
 		}
@@ -427,7 +422,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			xlrowIdent := localAliasPrefix + xlrow.GongGetIdentifier(stage)
+			xlrowIdent := xlrow.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.XLRow{Name: %s}).Stage(stage)", xlrowIdent, __gong__toRawStringLiteral(xlrow.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -444,7 +439,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Cells = append(%s.Cells, %s)", xlrowIdent, xlrowIdent, targetIdent))
 			}
 		}
@@ -457,7 +452,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			xlsheetIdent := localAliasPrefix + xlsheet.GongGetIdentifier(stage)
+			xlsheetIdent := xlsheet.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.XLSheet{Name: %s}).Stage(stage)", xlsheetIdent, __gong__toRawStringLiteral(xlsheet.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -476,7 +471,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Rows = append(%s.Rows, %s)", xlsheetIdent, xlsheetIdent, targetIdent))
 			}
 			for _, elem := range xlsheet.SheetCells {
@@ -486,7 +481,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SheetCells = append(%s.SheetCells, %s)", xlsheetIdent, xlsheetIdent, targetIdent))
 			}
 		}

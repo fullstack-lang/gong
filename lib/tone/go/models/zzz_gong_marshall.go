@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, freqency := range __gong__sortStageSetInstances(stage.Freqencys, stage.Freqency_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			freqencyIdent := localAliasPrefix + freqency.GongGetIdentifier(stage)
+			freqencyIdent := freqency.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Freqency{Name: %s}).Stage(stage)", freqencyIdent, __gong__toRawStringLiteral(freqency.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -356,7 +351,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			noteIdent := localAliasPrefix + note.GongGetIdentifier(stage)
+			noteIdent := note.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Note{Name: %s}).Stage(stage)", noteIdent, __gong__toRawStringLiteral(note.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -376,7 +371,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Frequencies = append(%s.Frequencies, %s)", noteIdent, noteIdent, targetIdent))
 			}
 		}
@@ -389,7 +384,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			playerIdent := localAliasPrefix + player.GongGetIdentifier(stage)
+			playerIdent := player.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Player{Name: %s}).Stage(stage)", playerIdent, __gong__toRawStringLiteral(player.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

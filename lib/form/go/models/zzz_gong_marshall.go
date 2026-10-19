@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, checkbox := range __gong__sortStageSetInstances(stage.CheckBoxs, stage.CheckBox_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			checkboxIdent := localAliasPrefix + checkbox.GongGetIdentifier(stage)
+			checkboxIdent := checkbox.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CheckBox{Name: %s}).Stage(stage)", checkboxIdent, __gong__toRawStringLiteral(checkbox.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -357,7 +352,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			formdivIdent := localAliasPrefix + formdiv.GongGetIdentifier(stage)
+			formdivIdent := formdiv.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FormDiv{Name: %s}).Stage(stage)", formdivIdent, __gong__toRawStringLiteral(formdiv.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -377,7 +372,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFields = append(%s.FormFields, %s)", formdivIdent, formdivIdent, targetIdent))
 			}
 			for _, elem := range formdiv.CheckBoxs {
@@ -387,7 +382,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CheckBoxs = append(%s.CheckBoxs, %s)", formdivIdent, formdivIdent, targetIdent))
 			}
 			if formdiv.FormEditAssocButton != nil {
@@ -397,7 +392,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + formdiv.FormEditAssocButton.GongGetIdentifier(stage)
+				targetIdent := formdiv.FormEditAssocButton.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.FormEditAssocButton = %s", formdivIdent, targetIdent))
 			}
 			if formdiv.FormSortAssocButton != nil {
@@ -407,7 +402,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + formdiv.FormSortAssocButton.GongGetIdentifier(stage)
+				targetIdent := formdiv.FormSortAssocButton.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.FormSortAssocButton = %s", formdivIdent, targetIdent))
 			}
 		}
@@ -420,7 +415,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			formeditassocbuttonIdent := localAliasPrefix + formeditassocbutton.GongGetIdentifier(stage)
+			formeditassocbuttonIdent := formeditassocbutton.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FormEditAssocButton{Name: %s}).Stage(stage)", formeditassocbuttonIdent, __gong__toRawStringLiteral(formeditassocbutton.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -446,7 +441,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			formfieldIdent := localAliasPrefix + formfield.GongGetIdentifier(stage)
+			formfieldIdent := formfield.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FormField{Name: %s}).Stage(stage)", formfieldIdent, __gong__toRawStringLiteral(formfield.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -473,7 +468,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + formfield.FormFieldString.GongGetIdentifier(stage)
+				targetIdent := formfield.FormFieldString.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldString = %s", formfieldIdent, targetIdent))
 			}
 			if formfield.FormFieldFloat64 != nil {
@@ -483,7 +478,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + formfield.FormFieldFloat64.GongGetIdentifier(stage)
+				targetIdent := formfield.FormFieldFloat64.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldFloat64 = %s", formfieldIdent, targetIdent))
 			}
 			if formfield.FormFieldInt != nil {
@@ -493,7 +488,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + formfield.FormFieldInt.GongGetIdentifier(stage)
+				targetIdent := formfield.FormFieldInt.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldInt = %s", formfieldIdent, targetIdent))
 			}
 			if formfield.FormFieldDate != nil {
@@ -503,7 +498,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + formfield.FormFieldDate.GongGetIdentifier(stage)
+				targetIdent := formfield.FormFieldDate.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldDate = %s", formfieldIdent, targetIdent))
 			}
 			if formfield.FormFieldTime != nil {
@@ -513,7 +508,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + formfield.FormFieldTime.GongGetIdentifier(stage)
+				targetIdent := formfield.FormFieldTime.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldTime = %s", formfieldIdent, targetIdent))
 			}
 			if formfield.FormFieldDateTime != nil {
@@ -523,7 +518,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + formfield.FormFieldDateTime.GongGetIdentifier(stage)
+				targetIdent := formfield.FormFieldDateTime.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldDateTime = %s", formfieldIdent, targetIdent))
 			}
 			if formfield.FormFieldSelect != nil {
@@ -533,7 +528,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + formfield.FormFieldSelect.GongGetIdentifier(stage)
+				targetIdent := formfield.FormFieldSelect.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldSelect = %s", formfieldIdent, targetIdent))
 			}
 		}
@@ -546,7 +541,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			formfielddateIdent := localAliasPrefix + formfielddate.GongGetIdentifier(stage)
+			formfielddateIdent := formfielddate.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FormFieldDate{Name: %s}).Stage(stage)", formfielddateIdent, __gong__toRawStringLiteral(formfielddate.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -566,7 +561,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			formfielddatetimeIdent := localAliasPrefix + formfielddatetime.GongGetIdentifier(stage)
+			formfielddatetimeIdent := formfielddatetime.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FormFieldDateTime{Name: %s}).Stage(stage)", formfielddatetimeIdent, __gong__toRawStringLiteral(formfielddatetime.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -586,7 +581,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			formfieldfloat64Ident := localAliasPrefix + formfieldfloat64.GongGetIdentifier(stage)
+			formfieldfloat64Ident := formfieldfloat64.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FormFieldFloat64{Name: %s}).Stage(stage)", formfieldfloat64Ident, __gong__toRawStringLiteral(formfieldfloat64.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -610,7 +605,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			formfieldintIdent := localAliasPrefix + formfieldint.GongGetIdentifier(stage)
+			formfieldintIdent := formfieldint.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FormFieldInt{Name: %s}).Stage(stage)", formfieldintIdent, __gong__toRawStringLiteral(formfieldint.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -634,7 +629,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			formfieldselectIdent := localAliasPrefix + formfieldselect.GongGetIdentifier(stage)
+			formfieldselectIdent := formfieldselect.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FormFieldSelect{Name: %s}).Stage(stage)", formfieldselectIdent, __gong__toRawStringLiteral(formfieldselect.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -652,7 +647,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + formfieldselect.Value.GongGetIdentifier(stage)
+				targetIdent := formfieldselect.Value.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Value = %s", formfieldselectIdent, targetIdent))
 			}
 			for _, elem := range formfieldselect.Options {
@@ -662,7 +657,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Options = append(%s.Options, %s)", formfieldselectIdent, formfieldselectIdent, targetIdent))
 			}
 		}
@@ -675,7 +670,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			formfieldstringIdent := localAliasPrefix + formfieldstring.GongGetIdentifier(stage)
+			formfieldstringIdent := formfieldstring.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FormFieldString{Name: %s}).Stage(stage)", formfieldstringIdent, __gong__toRawStringLiteral(formfieldstring.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -696,7 +691,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			formfieldtimeIdent := localAliasPrefix + formfieldtime.GongGetIdentifier(stage)
+			formfieldtimeIdent := formfieldtime.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FormFieldTime{Name: %s}).Stage(stage)", formfieldtimeIdent, __gong__toRawStringLiteral(formfieldtime.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -717,7 +712,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			formgroupIdent := localAliasPrefix + formgroup.GongGetIdentifier(stage)
+			formgroupIdent := formgroup.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FormGroup{Name: %s}).Stage(stage)", formgroupIdent, __gong__toRawStringLiteral(formgroup.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -737,7 +732,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.FormDivs = append(%s.FormDivs, %s)", formgroupIdent, formgroupIdent, targetIdent))
 			}
 		}
@@ -750,7 +745,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			formsortassocbuttonIdent := localAliasPrefix + formsortassocbutton.GongGetIdentifier(stage)
+			formsortassocbuttonIdent := formsortassocbutton.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FormSortAssocButton{Name: %s}).Stage(stage)", formsortassocbuttonIdent, __gong__toRawStringLiteral(formsortassocbutton.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -770,7 +765,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + formsortassocbutton.FormEditAssocButton.GongGetIdentifier(stage)
+				targetIdent := formsortassocbutton.FormEditAssocButton.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.FormEditAssocButton = %s", formsortassocbuttonIdent, targetIdent))
 			}
 		}
@@ -783,7 +778,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			optionIdent := localAliasPrefix + option.GongGetIdentifier(stage)
+			optionIdent := option.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Option{Name: %s}).Stage(stage)", optionIdent, __gong__toRawStringLiteral(option.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

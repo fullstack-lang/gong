@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, allocatedprocessshape := range __gong__sortStageSetInstances(stage.AllocatedProcessShapes, stage.AllocatedProcessShape_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			allocatedprocessshapeIdent := localAliasPrefix + allocatedprocessshape.GongGetIdentifier(stage)
+			allocatedprocessshapeIdent := allocatedprocessshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.AllocatedProcessShape{Name: %s}).Stage(stage)", allocatedprocessshapeIdent, __gong__toRawStringLiteral(allocatedprocessshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -353,7 +348,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + allocatedprocessshape.Participant.GongGetIdentifier(stage)
+				targetIdent := allocatedprocessshape.Participant.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant = %s", allocatedprocessshapeIdent, targetIdent))
 			}
 			if allocatedprocessshape.Process != nil {
@@ -363,7 +358,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + allocatedprocessshape.Process.GongGetIdentifier(stage)
+				targetIdent := allocatedprocessshape.Process.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Process = %s", allocatedprocessshapeIdent, targetIdent))
 			}
 		}
@@ -376,7 +371,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			allocatedresourceshapeIdent := localAliasPrefix + allocatedresourceshape.GongGetIdentifier(stage)
+			allocatedresourceshapeIdent := allocatedresourceshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.AllocatedResourceShape{Name: %s}).Stage(stage)", allocatedresourceshapeIdent, __gong__toRawStringLiteral(allocatedresourceshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -392,7 +387,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + allocatedresourceshape.Participant.GongGetIdentifier(stage)
+				targetIdent := allocatedresourceshape.Participant.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant = %s", allocatedresourceshapeIdent, targetIdent))
 			}
 			if allocatedresourceshape.Resource != nil {
@@ -402,7 +397,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + allocatedresourceshape.Resource.GongGetIdentifier(stage)
+				targetIdent := allocatedresourceshape.Resource.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Resource = %s", allocatedresourceshapeIdent, targetIdent))
 			}
 		}
@@ -415,7 +410,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			controlflowIdent := localAliasPrefix + controlflow.GongGetIdentifier(stage)
+			controlflowIdent := controlflow.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ControlFlow{Name: %s}).Stage(stage)", controlflowIdent, __gong__toRawStringLiteral(controlflow.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -434,7 +429,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + controlflow.Start.GongGetIdentifier(stage)
+				targetIdent := controlflow.Start.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Start = %s", controlflowIdent, targetIdent))
 			}
 			if controlflow.End != nil {
@@ -444,7 +439,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + controlflow.End.GongGetIdentifier(stage)
+				targetIdent := controlflow.End.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.End = %s", controlflowIdent, targetIdent))
 			}
 		}
@@ -457,7 +452,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			controlflowshapeIdent := localAliasPrefix + controlflowshape.GongGetIdentifier(stage)
+			controlflowshapeIdent := controlflowshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ControlFlowShape{Name: %s}).Stage(stage)", controlflowshapeIdent, __gong__toRawStringLiteral(controlflowshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -494,7 +489,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + controlflowshape.ControlFlow.GongGetIdentifier(stage)
+				targetIdent := controlflowshape.ControlFlow.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlow = %s", controlflowshapeIdent, targetIdent))
 			}
 		}
@@ -507,7 +502,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			dataIdent := localAliasPrefix + data.GongGetIdentifier(stage)
+			dataIdent := data.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Data{Name: %s}).Stage(stage)", dataIdent, __gong__toRawStringLiteral(data.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -532,7 +527,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			dataflowIdent := localAliasPrefix + dataflow.GongGetIdentifier(stage)
+			dataflowIdent := dataflow.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DataFlow{Name: %s}).Stage(stage)", dataflowIdent, __gong__toRawStringLiteral(dataflow.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -557,7 +552,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Datas = append(%s.Datas, %s)", dataflowIdent, dataflowIdent, targetIdent))
 			}
 			if dataflow.StartTask != nil {
@@ -567,7 +562,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + dataflow.StartTask.GongGetIdentifier(stage)
+				targetIdent := dataflow.StartTask.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.StartTask = %s", dataflowIdent, targetIdent))
 			}
 			if dataflow.EndTask != nil {
@@ -577,7 +572,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + dataflow.EndTask.GongGetIdentifier(stage)
+				targetIdent := dataflow.EndTask.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EndTask = %s", dataflowIdent, targetIdent))
 			}
 			if dataflow.StartExternalParticipant != nil {
@@ -587,7 +582,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + dataflow.StartExternalParticipant.GongGetIdentifier(stage)
+				targetIdent := dataflow.StartExternalParticipant.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.StartExternalParticipant = %s", dataflowIdent, targetIdent))
 			}
 			if dataflow.EndExternalParticipant != nil {
@@ -597,7 +592,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + dataflow.EndExternalParticipant.GongGetIdentifier(stage)
+				targetIdent := dataflow.EndExternalParticipant.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EndExternalParticipant = %s", dataflowIdent, targetIdent))
 			}
 		}
@@ -610,7 +605,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			dataflowshapeIdent := localAliasPrefix + dataflowshape.GongGetIdentifier(stage)
+			dataflowshapeIdent := dataflowshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DataFlowShape{Name: %s}).Stage(stage)", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -647,7 +642,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + dataflowshape.DataFlow.GongGetIdentifier(stage)
+				targetIdent := dataflowshape.DataFlow.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", dataflowshapeIdent, targetIdent))
 			}
 		}
@@ -660,7 +655,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			datashapeIdent := localAliasPrefix + datashape.GongGetIdentifier(stage)
+			datashapeIdent := datashape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DataShape{Name: %s}).Stage(stage)", datashapeIdent, __gong__toRawStringLiteral(datashape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -676,7 +671,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + datashape.Data.GongGetIdentifier(stage)
+				targetIdent := datashape.Data.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Data = %s", datashapeIdent, targetIdent))
 			}
 			if datashape.DataFlow != nil {
@@ -686,7 +681,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + datashape.DataFlow.GongGetIdentifier(stage)
+				targetIdent := datashape.DataFlow.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", datashapeIdent, targetIdent))
 			}
 		}
@@ -699,7 +694,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			diagramprocessIdent := localAliasPrefix + diagramprocess.GongGetIdentifier(stage)
+			diagramprocessIdent := diagramprocess.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DiagramProcess{Name: %s}).Stage(stage)", diagramprocessIdent, __gong__toRawStringLiteral(diagramprocess.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -729,7 +724,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Process_Shapes = append(%s.Process_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ProcesssWhoseNodeIsExpanded {
@@ -739,7 +734,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ProcesssWhoseNodeIsExpanded = append(%s.ProcesssWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.Participant_Shapes {
@@ -749,7 +744,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant_Shapes = append(%s.Participant_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ParticipantWhoseNodeIsExpanded {
@@ -759,7 +754,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParticipantWhoseNodeIsExpanded = append(%s.ParticipantWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ExternalParticipant_Shapes {
@@ -769,7 +764,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipant_Shapes = append(%s.ExternalParticipant_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
@@ -779,7 +774,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipantWhoseNodeIsExpanded = append(%s.ExternalParticipantWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
@@ -789,7 +784,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(%s.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
@@ -799,7 +794,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(%s.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.TasksWhoseNodeIsExpanded {
@@ -809,7 +804,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TasksWhoseNodeIsExpanded = append(%s.TasksWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.Task_Shapes {
@@ -819,7 +814,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task_Shapes = append(%s.Task_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
@@ -829,7 +824,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlowsWhoseNodeIsExpanded = append(%s.ControlFlowsWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ControlFlow_Shapes {
@@ -839,7 +834,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlow_Shapes = append(%s.ControlFlow_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.DataFlowsWhoseNodeIsExpanded {
@@ -849,7 +844,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseNodeIsExpanded = append(%s.DataFlowsWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.DataFlow_Shapes {
@@ -859,7 +854,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow_Shapes = append(%s.DataFlow_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.DatasWhoseNodeIsExpanded {
@@ -869,7 +864,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DatasWhoseNodeIsExpanded = append(%s.DatasWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.Data_Shapes {
@@ -879,7 +874,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Data_Shapes = append(%s.Data_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
@@ -889,7 +884,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseDataNodeIsExpanded = append(%s.DataFlowsWhoseDataNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.AllocatedResourcesWhoseNodeIsExpanded {
@@ -899,7 +894,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AllocatedResourcesWhoseNodeIsExpanded = append(%s.AllocatedResourcesWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.AllocatedResourceShapes {
@@ -909,7 +904,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AllocatedResourceShapes = append(%s.AllocatedResourceShapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
@@ -919,7 +914,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AllocatedProcessesWhoseNodeIsExpanded = append(%s.AllocatedProcessesWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.AllocatedProcessShapes {
@@ -929,7 +924,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AllocatedProcessShapes = append(%s.AllocatedProcessShapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.Note_Shapes {
@@ -939,7 +934,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Note_Shapes = append(%s.Note_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.NotesWhoseNodeIsExpanded {
@@ -949,7 +944,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.NotesWhoseNodeIsExpanded = append(%s.NotesWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.NoteTaskShapes {
@@ -959,7 +954,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.NoteTaskShapes = append(%s.NoteTaskShapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 		}
@@ -972,7 +967,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			externalparticipantshapeIdent := localAliasPrefix + externalparticipantshape.GongGetIdentifier(stage)
+			externalparticipantshapeIdent := externalparticipantshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ExternalParticipantShape{Name: %s}).Stage(stage)", externalparticipantshapeIdent, __gong__toRawStringLiteral(externalparticipantshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1006,7 +1001,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + externalparticipantshape.Participant.GongGetIdentifier(stage)
+				targetIdent := externalparticipantshape.Participant.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant = %s", externalparticipantshapeIdent, targetIdent))
 			}
 		}
@@ -1019,7 +1014,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			libraryIdent := localAliasPrefix + library.GongGetIdentifier(stage)
+			libraryIdent := library.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Library{Name: %s}).Stage(stage)", libraryIdent, __gong__toRawStringLiteral(library.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1048,7 +1043,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibraries = append(%s.SubLibraries, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.SubLibrariesWhoseNodeIsExpanded {
@@ -1058,7 +1053,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibrariesWhoseNodeIsExpanded = append(%s.SubLibrariesWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootProcesses {
@@ -1068,7 +1063,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootProcesses = append(%s.RootProcesses, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.ProcesssWhoseNodeIsExpanded {
@@ -1078,7 +1073,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ProcesssWhoseNodeIsExpanded = append(%s.ProcesssWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootDataFlows {
@@ -1088,7 +1083,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootDataFlows = append(%s.RootDataFlows, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.DataFlowsWhoseNodeIsExpanded {
@@ -1098,7 +1093,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseNodeIsExpanded = append(%s.DataFlowsWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootDatas {
@@ -1108,7 +1103,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootDatas = append(%s.RootDatas, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.DatasWhoseNodeIsExpanded {
@@ -1118,7 +1113,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DatasWhoseNodeIsExpanded = append(%s.DatasWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootResources {
@@ -1128,7 +1123,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootResources = append(%s.RootResources, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.ResourcesWhoseNodeIsExpanded {
@@ -1138,7 +1133,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ResourcesWhoseNodeIsExpanded = append(%s.ResourcesWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.ParticipantsWhoseNodeIsExpanded {
@@ -1148,7 +1143,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParticipantsWhoseNodeIsExpanded = append(%s.ParticipantsWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootNotes {
@@ -1158,7 +1153,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootNotes = append(%s.RootNotes, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.NotesWhoseNodeIsExpanded {
@@ -1168,7 +1163,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.NotesWhoseNodeIsExpanded = append(%s.NotesWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 		}
@@ -1181,7 +1176,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			noteIdent := localAliasPrefix + note.GongGetIdentifier(stage)
+			noteIdent := note.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Note{Name: %s}).Stage(stage)", noteIdent, __gong__toRawStringLiteral(note.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1201,7 +1196,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Tasks = append(%s.Tasks, %s)", noteIdent, noteIdent, targetIdent))
 			}
 		}
@@ -1214,7 +1209,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			noteshapeIdent := localAliasPrefix + noteshape.GongGetIdentifier(stage)
+			noteshapeIdent := noteshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.NoteShape{Name: %s}).Stage(stage)", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1246,7 +1241,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + noteshape.Note.GongGetIdentifier(stage)
+				targetIdent := noteshape.Note.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", noteshapeIdent, targetIdent))
 			}
 		}
@@ -1259,7 +1254,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			notetaskshapeIdent := localAliasPrefix + notetaskshape.GongGetIdentifier(stage)
+			notetaskshapeIdent := notetaskshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.NoteTaskShape{Name: %s}).Stage(stage)", notetaskshapeIdent, __gong__toRawStringLiteral(notetaskshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1296,7 +1291,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + notetaskshape.Note.GongGetIdentifier(stage)
+				targetIdent := notetaskshape.Note.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", notetaskshapeIdent, targetIdent))
 			}
 			if notetaskshape.Task != nil {
@@ -1306,7 +1301,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + notetaskshape.Task.GongGetIdentifier(stage)
+				targetIdent := notetaskshape.Task.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task = %s", notetaskshapeIdent, targetIdent))
 			}
 		}
@@ -1319,7 +1314,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			participantIdent := localAliasPrefix + participant.GongGetIdentifier(stage)
+			participantIdent := participant.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Participant{Name: %s}).Stage(stage)", participantIdent, __gong__toRawStringLiteral(participant.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1344,7 +1339,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Resources = append(%s.Resources, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.Processes {
@@ -1354,7 +1349,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Processes = append(%s.Processes, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.Tasks {
@@ -1364,7 +1359,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Tasks = append(%s.Tasks, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.ControlFlows {
@@ -1374,7 +1369,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlows = append(%s.ControlFlows, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
@@ -1384,7 +1379,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskWhoseOutControlFlowsNodeIsExpanded = append(%s.TaskWhoseOutControlFlowsNodeIsExpanded, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
@@ -1394,7 +1389,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskWhoseInControlFlowsNodeIsExpanded = append(%s.TaskWhoseInControlFlowsNodeIsExpanded, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.TaskWhoseOutDataFlowsNodeIsExpanded {
@@ -1404,7 +1399,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskWhoseOutDataFlowsNodeIsExpanded = append(%s.TaskWhoseOutDataFlowsNodeIsExpanded, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.TaskWhoseInDataFlowsNodeIsExpanded {
@@ -1414,7 +1409,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskWhoseInDataFlowsNodeIsExpanded = append(%s.TaskWhoseInDataFlowsNodeIsExpanded, %s)", participantIdent, participantIdent, targetIdent))
 			}
 		}
@@ -1427,7 +1422,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			participantshapeIdent := localAliasPrefix + participantshape.GongGetIdentifier(stage)
+			participantshapeIdent := participantshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ParticipantShape{Name: %s}).Stage(stage)", participantshapeIdent, __gong__toRawStringLiteral(participantshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1461,7 +1456,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + participantshape.Participant.GongGetIdentifier(stage)
+				targetIdent := participantshape.Participant.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant = %s", participantshapeIdent, targetIdent))
 			}
 		}
@@ -1474,7 +1469,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			processIdent := localAliasPrefix + process.GongGetIdentifier(stage)
+			processIdent := process.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Process{Name: %s}).Stage(stage)", processIdent, __gong__toRawStringLiteral(process.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1497,7 +1492,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DiagramProcesss = append(%s.DiagramProcesss, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.DiagramProcessWhoseNodeIsExpanded {
@@ -1507,7 +1502,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DiagramProcessWhoseNodeIsExpanded = append(%s.DiagramProcessWhoseNodeIsExpanded, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.SubProcesses {
@@ -1517,7 +1512,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubProcesses = append(%s.SubProcesses, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.Participants {
@@ -1527,7 +1522,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participants = append(%s.Participants, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.ParticipantWhoseNodeIsExpanded {
@@ -1537,7 +1532,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParticipantWhoseNodeIsExpanded = append(%s.ParticipantWhoseNodeIsExpanded, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.DataFlows {
@@ -1547,7 +1542,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlows = append(%s.DataFlows, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.ExternalParticipants {
@@ -1557,7 +1552,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipants = append(%s.ExternalParticipants, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.ExternalParticipantWhoseNodeIsExpanded {
@@ -1567,7 +1562,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipantWhoseNodeIsExpanded = append(%s.ExternalParticipantWhoseNodeIsExpanded, %s)", processIdent, processIdent, targetIdent))
 			}
 		}
@@ -1580,7 +1575,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			processshapeIdent := localAliasPrefix + processshape.GongGetIdentifier(stage)
+			processshapeIdent := processshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ProcessShape{Name: %s}).Stage(stage)", processshapeIdent, __gong__toRawStringLiteral(processshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1613,7 +1608,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + processshape.Process.GongGetIdentifier(stage)
+				targetIdent := processshape.Process.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Process = %s", processshapeIdent, targetIdent))
 			}
 		}
@@ -1626,7 +1621,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			resourceIdent := localAliasPrefix + resource.GongGetIdentifier(stage)
+			resourceIdent := resource.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Resource{Name: %s}).Stage(stage)", resourceIdent, __gong__toRawStringLiteral(resource.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1651,7 +1646,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			taskIdent := localAliasPrefix + task.GongGetIdentifier(stage)
+			taskIdent := task.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Task{Name: %s}).Stage(stage)", taskIdent, __gong__toRawStringLiteral(task.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1673,7 +1668,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + task.Type.GongGetIdentifier(stage)
+				targetIdent := task.Type.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Type = %s", taskIdent, targetIdent))
 			}
 		}
@@ -1686,7 +1681,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			taskshapeIdent := localAliasPrefix + taskshape.GongGetIdentifier(stage)
+			taskshapeIdent := taskshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TaskShape{Name: %s}).Stage(stage)", taskshapeIdent, __gong__toRawStringLiteral(taskshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1719,7 +1714,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + taskshape.Task.GongGetIdentifier(stage)
+				targetIdent := taskshape.Task.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task = %s", taskshapeIdent, targetIdent))
 			}
 		}

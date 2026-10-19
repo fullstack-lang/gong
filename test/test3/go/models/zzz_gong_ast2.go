@@ -99,7 +99,6 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 	if stage != nil {
 		for _, instance := range stage.GetInstances() {
 			identifierMap[instance.GongGetIdentifier(stage)] = instance
-			identifierMap["__models"+instance.GongGetIdentifier(stage)] = instance
 		}
 	}
 

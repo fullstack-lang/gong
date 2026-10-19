@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, checkbox := range __gong__sortStageSetInstances(stage.Checkboxs, stage.Checkbox_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			checkboxIdent := localAliasPrefix + checkbox.GongGetIdentifier(stage)
+			checkboxIdent := checkbox.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Checkbox{Name: %s}).Stage(stage)", checkboxIdent, __gong__toRawStringLiteral(checkbox.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -359,7 +354,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			groupIdent := localAliasPrefix + group.GongGetIdentifier(stage)
+			groupIdent := group.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Group{Name: %s}).Stage(stage)", groupIdent, __gong__toRawStringLiteral(group.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -376,7 +371,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Sliders = append(%s.Sliders, %s)", groupIdent, groupIdent, targetIdent))
 			}
 			for _, elem := range group.Checkboxes {
@@ -386,7 +381,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Checkboxes = append(%s.Checkboxes, %s)", groupIdent, groupIdent, targetIdent))
 			}
 		}
@@ -399,7 +394,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			layoutIdent := localAliasPrefix + layout.GongGetIdentifier(stage)
+			layoutIdent := layout.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Layout{Name: %s}).Stage(stage)", layoutIdent, __gong__toRawStringLiteral(layout.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -417,7 +412,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", layoutIdent, layoutIdent, targetIdent))
 			}
 		}
@@ -430,7 +425,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			sliderIdent := localAliasPrefix + slider.GongGetIdentifier(stage)
+			sliderIdent := slider.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Slider{Name: %s}).Stage(stage)", sliderIdent, __gong__toRawStringLiteral(slider.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

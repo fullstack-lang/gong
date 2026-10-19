@@ -252,26 +252,26 @@ func ExtractStructFields(mPkg *models.ModelPkg, structName string, pkgPathToFiel
 }
 
 type ResolvedSubStages struct {
-	ExternalImports                      string
-	SubStageFields                       string
-	NewSubStageStatements                string
-	CommitStatements                     string
-	CheckoutStatements                   string
-	ResetStatements                      string
-	CleanStatements                      string
-	ComputeReverseMapsStatements         string
-	ComputeInstancesNbStatements         string
-	ComputeReferenceAndOrdersStatements  string
-	SyntheticImports                     string
-	DummyDeclarations                    string
-	MainPkgImportAlias                   string
-	ProbePackageName                     string
-	MarshallBody                         string
-	ImportPathCases                      string
-	PrepopulateIdentifierMapStatements   string
-	DefineCases                          string
-	AssignCases                          string
-	UnstageCases                         string
+	ExternalImports                     string
+	SubStageFields                      string
+	NewSubStageStatements               string
+	CommitStatements                    string
+	CheckoutStatements                  string
+	ResetStatements                     string
+	CleanStatements                     string
+	ComputeReverseMapsStatements        string
+	ComputeInstancesNbStatements        string
+	ComputeReferenceAndOrdersStatements string
+	SyntheticImports                    string
+	DummyDeclarations                   string
+	MainPkgImportAlias                  string
+	ProbePackageName                    string
+	MarshallBody                        string
+	ImportPathCases                     string
+	PrepopulateIdentifierMapStatements  string
+	DefineCases                         string
+	AssignCases                         string
+	UnstageCases                        string
 }
 
 func ResolveSubStages(
@@ -427,12 +427,7 @@ func ResolveSubStages(
 	marshallBody.WriteString("\tvar lastStagePtr string\n")
 	marshallBody.WriteString("\t_ = lastStageDecl\n")
 	marshallBody.WriteString("\t_ = lastStageVal\n")
-	marshallBody.WriteString("\t_ = lastStagePtr\n")
-	marshallBody.WriteString(fmt.Sprintf("\tlocalAliasPrefix := \"__%s\"\n", mainPkgImportAlias))
-	marshallBody.WriteString("\tif stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {\n")
-	marshallBody.WriteString("\t\tlocalAliasPrefix = \"\"\n")
-	marshallBody.WriteString("\t}\n")
-	marshallBody.WriteString("\t_ = localAliasPrefix\n\n")
+	marshallBody.WriteString("\t_ = lastStagePtr\n\n")
 
 	for _, f := range orderedFields {
 		mPkg := fieldToModelPkg[f]
@@ -450,10 +445,8 @@ func ResolveSubStages(
 		sort.Strings(structNames)
 
 		stageExpr := "stage"
-		aliasPrefixExpr := "localAliasPrefix"
 		if !f.IsLocal {
 			stageExpr = "stage." + f.Name
-			aliasPrefixExpr = fmt.Sprintf("\"__%s\"", f.ImportAlias)
 		}
 
 		for _, sName := range structNames {
@@ -470,7 +463,7 @@ func ResolveSubStages(
 			marshallBody.WriteString("\t\t\t\t}\n")
 			marshallBody.WriteString(fmt.Sprintf("\t\t\t\tlastStageDecl = %q\n", f.Name))
 			marshallBody.WriteString("\t\t\t}\n")
-			marshallBody.WriteString(fmt.Sprintf("\t\t\t%sIdent := %s + %s.GongGetIdentifier(%s)\n", sVar, aliasPrefixExpr, sVar, stageExpr))
+			marshallBody.WriteString(fmt.Sprintf("\t\t\t%sIdent := %s.GongGetIdentifier(%s)\n", sVar, sVar, stageExpr))
 			// Phase 1 declaration
 			marshallBody.WriteString(fmt.Sprintf("\t\t\tdeclarations.WriteString(fmt.Sprintf(\"\\n\\t%%s := (&%s.%s{Name: %%s}).Stage(%s)\", %sIdent, __gong__toRawStringLiteral(%s.Name)))\n", f.ImportAlias, sName, stageExpr, sVar, sVar))
 
@@ -546,10 +539,8 @@ func ResolveSubStages(
 							}
 						}
 						targetStageExpr := "stage"
-						targetAliasPrefixExpr := "localAliasPrefix"
 						if !targetSSF.IsLocal {
 							targetStageExpr = "stage." + targetSSF.Name
-							targetAliasPrefixExpr = fmt.Sprintf("\"__%s\"", targetSSF.ImportAlias)
 						}
 						marshallBody.WriteString(fmt.Sprintf("\t\t\tif %s.%s != nil {\n", sVar, fld.Name))
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tif lastStagePtr != %q {\n", f.Name))
@@ -558,7 +549,7 @@ func ResolveSubStages(
 						marshallBody.WriteString("\t\t\t\t\t}\n")
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\t\tlastStagePtr = %q\n", f.Name))
 						marshallBody.WriteString("\t\t\t\t}\n")
-						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := %s + %s.%s.GongGetIdentifier(%s)\n", targetAliasPrefixExpr, sVar, fld.Name, targetStageExpr))
+						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := %s.%s.GongGetIdentifier(%s)\n", sVar, fld.Name, targetStageExpr))
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tpointers.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, targetIdent))\n", fld.Name, sVar))
 						marshallBody.WriteString("\t\t\t}\n")
 					}
@@ -572,10 +563,8 @@ func ResolveSubStages(
 							}
 						}
 						targetStageExpr := "stage"
-						targetAliasPrefixExpr := "localAliasPrefix"
 						if !targetSSF.IsLocal {
 							targetStageExpr = "stage." + targetSSF.Name
-							targetAliasPrefixExpr = fmt.Sprintf("\"__%s\"", targetSSF.ImportAlias)
 						}
 						marshallBody.WriteString(fmt.Sprintf("\t\t\tfor _, elem := range %s.%s {\n", sVar, fld.Name))
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tif lastStagePtr != %q {\n", f.Name))
@@ -584,7 +573,7 @@ func ResolveSubStages(
 						marshallBody.WriteString("\t\t\t\t\t}\n")
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\t\tlastStagePtr = %q\n", f.Name))
 						marshallBody.WriteString("\t\t\t\t}\n")
-						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := %s + elem.GongGetIdentifier(%s)\n", targetAliasPrefixExpr, targetStageExpr))
+						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := elem.GongGetIdentifier(%s)\n", targetStageExpr))
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tpointers.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = append(%%s.%s, %%s)\", %sIdent, %sIdent, targetIdent))\n", fld.Name, fld.Name, sVar, sVar))
 						marshallBody.WriteString("\t\t\t}\n")
 					}
@@ -624,7 +613,6 @@ func ResolveSubStages(
 			prepopulateIdentifierMap.WriteString(fmt.Sprintf("\tif %s != nil {\n", stageExpr))
 			prepopulateIdentifierMap.WriteString(fmt.Sprintf("\t\tfor _, instance := range %s.GetInstances() {\n", stageExpr))
 			prepopulateIdentifierMap.WriteString(fmt.Sprintf("\t\t\tidentifierMap[instance.GongGetIdentifier(%s)] = instance\n", stageExpr))
-			prepopulateIdentifierMap.WriteString(fmt.Sprintf("\t\t\tidentifierMap[\"__%s\"+instance.GongGetIdentifier(%s)] = instance\n", f.ImportAlias, stageExpr))
 			prepopulateIdentifierMap.WriteString("\t\t}\n")
 			prepopulateIdentifierMap.WriteString("\t}\n")
 
@@ -818,4 +806,3 @@ func ResolveSubStages(
 		UnstageCases:                        unstageCases.String(),
 	}
 }
-

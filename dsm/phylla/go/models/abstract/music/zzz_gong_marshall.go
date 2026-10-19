@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__music"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, musicabstract := range __gong__sortStageSetInstances(stage.MusicAbstracts, stage.MusicAbstract_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			musicabstractIdent := localAliasPrefix + musicabstract.GongGetIdentifier(stage)
+			musicabstractIdent := musicabstract.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&music.MusicAbstract{Name: %s}).Stage(stage)", musicabstractIdent, __gong__toRawStringLiteral(musicabstract.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

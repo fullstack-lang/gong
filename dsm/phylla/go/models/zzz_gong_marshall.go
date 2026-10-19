@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage.ClockStage != nil {
 		for _, clockabstract := range __gong__sortStageSetInstances(stage.ClockStage.ClockAbstracts, stage.ClockStage.ClockAbstract_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "ClockStage"
 			}
-			clockabstractIdent := "__clock" + clockabstract.GongGetIdentifier(stage.ClockStage)
+			clockabstractIdent := clockabstract.GongGetIdentifier(stage.ClockStage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&clock.ClockAbstract{Name: %s}).Stage(stage.ClockStage)", clockabstractIdent, __gong__toRawStringLiteral(clockabstract.Name)))
 			if lastStageVal != "ClockStage" {
 				if values.Len() > 0 {
@@ -363,7 +358,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "MusicStage"
 			}
-			musicabstractIdent := "__music" + musicabstract.GongGetIdentifier(stage.MusicStage)
+			musicabstractIdent := musicabstract.GongGetIdentifier(stage.MusicStage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&music.MusicAbstract{Name: %s}).Stage(stage.MusicStage)", musicabstractIdent, __gong__toRawStringLiteral(musicabstract.Name)))
 			if lastStageVal != "MusicStage" {
 				if values.Len() > 0 {
@@ -408,7 +403,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "StoolStage"
 			}
-			stoolabstractIdent := "__stool" + stoolabstract.GongGetIdentifier(stage.StoolStage)
+			stoolabstractIdent := stoolabstract.GongGetIdentifier(stage.StoolStage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&stool.StoolAbstract{Name: %s}).Stage(stage.StoolStage)", stoolabstractIdent, __gong__toRawStringLiteral(stoolabstract.Name)))
 			if lastStageVal != "StoolStage" {
 				if values.Len() > 0 {
@@ -437,7 +432,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			angle0shapeIdent := localAliasPrefix + angle0shape.GongGetIdentifier(stage)
+			angle0shapeIdent := angle0shape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Angle0Shape{Name: %s}).Stage(stage)", angle0shapeIdent, __gong__toRawStringLiteral(angle0shape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -456,7 +451,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			bottomcurveplane1shapeIdent := localAliasPrefix + bottomcurveplane1shape.GongGetIdentifier(stage)
+			bottomcurveplane1shapeIdent := bottomcurveplane1shape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.BottomCurvePlane1Shape{Name: %s}).Stage(stage)", bottomcurveplane1shapeIdent, __gong__toRawStringLiteral(bottomcurveplane1shape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -475,7 +470,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			bottomcurveplane2shapeIdent := localAliasPrefix + bottomcurveplane2shape.GongGetIdentifier(stage)
+			bottomcurveplane2shapeIdent := bottomcurveplane2shape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.BottomCurvePlane2Shape{Name: %s}).Stage(stage)", bottomcurveplane2shapeIdent, __gong__toRawStringLiteral(bottomcurveplane2shape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -494,7 +489,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			carvedoutbottomcurveplane1shapeIdent := localAliasPrefix + carvedoutbottomcurveplane1shape.GongGetIdentifier(stage)
+			carvedoutbottomcurveplane1shapeIdent := carvedoutbottomcurveplane1shape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CarvedOutBottomCurvePlane1Shape{Name: %s}).Stage(stage)", carvedoutbottomcurveplane1shapeIdent, __gong__toRawStringLiteral(carvedoutbottomcurveplane1shape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -513,7 +508,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			carvedouttopcurveplane1shapeIdent := localAliasPrefix + carvedouttopcurveplane1shape.GongGetIdentifier(stage)
+			carvedouttopcurveplane1shapeIdent := carvedouttopcurveplane1shape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CarvedOutTopCurvePlane1Shape{Name: %s}).Stage(stage)", carvedouttopcurveplane1shapeIdent, __gong__toRawStringLiteral(carvedouttopcurveplane1shape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -532,7 +527,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			carvedoutvasetrapezeringshapeIdent := localAliasPrefix + carvedoutvasetrapezeringshape.GongGetIdentifier(stage)
+			carvedoutvasetrapezeringshapeIdent := carvedoutvasetrapezeringshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CarvedOutVaseTrapezeRingShape{Name: %s}).Stage(stage)", carvedoutvasetrapezeringshapeIdent, __gong__toRawStringLiteral(carvedoutvasetrapezeringshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -551,7 +546,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			circumference3dshapeIdent := localAliasPrefix + circumference3dshape.GongGetIdentifier(stage)
+			circumference3dshapeIdent := circumference3dshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Circumference3DShape{Name: %s}).Stage(stage)", circumference3dshapeIdent, __gong__toRawStringLiteral(circumference3dshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -570,7 +565,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			clock2ddiagramIdent := localAliasPrefix + clock2ddiagram.GongGetIdentifier(stage)
+			clock2ddiagramIdent := clock2ddiagram.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Clock2DDiagram{Name: %s}).Stage(stage)", clock2ddiagramIdent, __gong__toRawStringLiteral(clock2ddiagram.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -594,7 +589,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			clock3ddiagramIdent := localAliasPrefix + clock3ddiagram.GongGetIdentifier(stage)
+			clock3ddiagramIdent := clock3ddiagram.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Clock3DDiagram{Name: %s}).Stage(stage)", clock3ddiagramIdent, __gong__toRawStringLiteral(clock3ddiagram.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -617,7 +612,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + clock3ddiagram.SampledPoints3DShape.GongGetIdentifier(stage)
+				targetIdent := clock3ddiagram.SampledPoints3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SampledPoints3DShape = %s", clock3ddiagramIdent, targetIdent))
 			}
 			if clock3ddiagram.Rendered3DShape != nil {
@@ -627,7 +622,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + clock3ddiagram.Rendered3DShape.GongGetIdentifier(stage)
+				targetIdent := clock3ddiagram.Rendered3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Rendered3DShape = %s", clock3ddiagramIdent, targetIdent))
 			}
 		}
@@ -640,7 +635,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			cutline3dshapeIdent := localAliasPrefix + cutline3dshape.GongGetIdentifier(stage)
+			cutline3dshapeIdent := cutline3dshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CutLine3DShape{Name: %s}).Stage(stage)", cutline3dshapeIdent, __gong__toRawStringLiteral(cutline3dshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -659,7 +654,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			leaves3dshapeIdent := localAliasPrefix + leaves3dshape.GongGetIdentifier(stage)
+			leaves3dshapeIdent := leaves3dshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Leaves3DShape{Name: %s}).Stage(stage)", leaves3dshapeIdent, __gong__toRawStringLiteral(leaves3dshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -678,7 +673,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			libraryIdent := localAliasPrefix + library.GongGetIdentifier(stage)
+			libraryIdent := library.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Library{Name: %s}).Stage(stage)", libraryIdent, __gong__toRawStringLiteral(library.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -699,7 +694,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Plants = append(%s.Plants, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.SubLibraries {
@@ -709,7 +704,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibraries = append(%s.SubLibraries, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 		}
@@ -722,7 +717,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			originalpoints3dshapeIdent := localAliasPrefix + originalpoints3dshape.GongGetIdentifier(stage)
+			originalpoints3dshapeIdent := originalpoints3dshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.OriginalPoints3DShape{Name: %s}).Stage(stage)", originalpoints3dshapeIdent, __gong__toRawStringLiteral(originalpoints3dshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -741,7 +736,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			parastichymcurves3dshapeIdent := localAliasPrefix + parastichymcurves3dshape.GongGetIdentifier(stage)
+			parastichymcurves3dshapeIdent := parastichymcurves3dshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ParastichyMCurves3DShape{Name: %s}).Stage(stage)", parastichymcurves3dshapeIdent, __gong__toRawStringLiteral(parastichymcurves3dshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -760,7 +755,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			parastichyncurves3dshapeIdent := localAliasPrefix + parastichyncurves3dshape.GongGetIdentifier(stage)
+			parastichyncurves3dshapeIdent := parastichyncurves3dshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ParastichyNCurves3DShape{Name: %s}).Stage(stage)", parastichyncurves3dshapeIdent, __gong__toRawStringLiteral(parastichyncurves3dshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -779,7 +774,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			plant2ddiagramIdent := localAliasPrefix + plant2ddiagram.GongGetIdentifier(stage)
+			plant2ddiagramIdent := plant2ddiagram.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Plant2DDiagram{Name: %s}).Stage(stage)", plant2ddiagramIdent, __gong__toRawStringLiteral(plant2ddiagram.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -826,7 +821,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			plant3ddiagramIdent := localAliasPrefix + plant3ddiagram.GongGetIdentifier(stage)
+			plant3ddiagramIdent := plant3ddiagram.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Plant3DDiagram{Name: %s}).Stage(stage)", plant3ddiagramIdent, __gong__toRawStringLiteral(plant3ddiagram.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -852,7 +847,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + plant3ddiagram.StemCylinder3DShape.GongGetIdentifier(stage)
+				targetIdent := plant3ddiagram.StemCylinder3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.StemCylinder3DShape = %s", plant3ddiagramIdent, targetIdent))
 			}
 			if plant3ddiagram.ParastichyNCurves3DShape != nil {
@@ -862,7 +857,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + plant3ddiagram.ParastichyNCurves3DShape.GongGetIdentifier(stage)
+				targetIdent := plant3ddiagram.ParastichyNCurves3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParastichyNCurves3DShape = %s", plant3ddiagramIdent, targetIdent))
 			}
 			if plant3ddiagram.ParastichyMCurves3DShape != nil {
@@ -872,7 +867,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + plant3ddiagram.ParastichyMCurves3DShape.GongGetIdentifier(stage)
+				targetIdent := plant3ddiagram.ParastichyMCurves3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParastichyMCurves3DShape = %s", plant3ddiagramIdent, targetIdent))
 			}
 			if plant3ddiagram.CutLine3DShape != nil {
@@ -882,7 +877,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + plant3ddiagram.CutLine3DShape.GongGetIdentifier(stage)
+				targetIdent := plant3ddiagram.CutLine3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CutLine3DShape = %s", plant3ddiagramIdent, targetIdent))
 			}
 			if plant3ddiagram.Circumference3DShape != nil {
@@ -892,7 +887,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + plant3ddiagram.Circumference3DShape.GongGetIdentifier(stage)
+				targetIdent := plant3ddiagram.Circumference3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Circumference3DShape = %s", plant3ddiagramIdent, targetIdent))
 			}
 			if plant3ddiagram.Leaves3DShape != nil {
@@ -902,7 +897,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + plant3ddiagram.Leaves3DShape.GongGetIdentifier(stage)
+				targetIdent := plant3ddiagram.Leaves3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Leaves3DShape = %s", plant3ddiagramIdent, targetIdent))
 			}
 			if plant3ddiagram.Rendered3DShape != nil {
@@ -912,7 +907,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + plant3ddiagram.Rendered3DShape.GongGetIdentifier(stage)
+				targetIdent := plant3ddiagram.Rendered3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Rendered3DShape = %s", plant3ddiagramIdent, targetIdent))
 			}
 		}
@@ -925,7 +920,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			plantabstractIdent := localAliasPrefix + plantabstract.GongGetIdentifier(stage)
+			plantabstractIdent := plantabstract.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.PlantAbstract{Name: %s}).Stage(stage)", plantabstractIdent, __gong__toRawStringLiteral(plantabstract.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -967,7 +962,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + plantabstract.TubeVaseAbstract.GongGetIdentifier(stage)
+				targetIdent := plantabstract.TubeVaseAbstract.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TubeVaseAbstract = %s", plantabstractIdent, targetIdent))
 			}
 			if plantabstract.StoolAbstract != nil {
@@ -977,7 +972,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := "__stool" + plantabstract.StoolAbstract.GongGetIdentifier(stage.StoolStage)
+				targetIdent := plantabstract.StoolAbstract.GongGetIdentifier(stage.StoolStage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.StoolAbstract = %s", plantabstractIdent, targetIdent))
 			}
 			if plantabstract.ClockAbstract != nil {
@@ -987,7 +982,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := "__clock" + plantabstract.ClockAbstract.GongGetIdentifier(stage.ClockStage)
+				targetIdent := plantabstract.ClockAbstract.GongGetIdentifier(stage.ClockStage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ClockAbstract = %s", plantabstractIdent, targetIdent))
 			}
 			if plantabstract.MusicAbstract != nil {
@@ -997,7 +992,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := "__music" + plantabstract.MusicAbstract.GongGetIdentifier(stage.MusicStage)
+				targetIdent := plantabstract.MusicAbstract.GongGetIdentifier(stage.MusicStage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.MusicAbstract = %s", plantabstractIdent, targetIdent))
 			}
 			for _, elem := range plantabstract.Plant2DDiagrams {
@@ -1007,7 +1002,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Plant2DDiagrams = append(%s.Plant2DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
 			}
 			for _, elem := range plantabstract.Plant3DDiagrams {
@@ -1017,7 +1012,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Plant3DDiagrams = append(%s.Plant3DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
 			}
 			for _, elem := range plantabstract.Vase2DDiagrams {
@@ -1027,7 +1022,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Vase2DDiagrams = append(%s.Vase2DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
 			}
 			for _, elem := range plantabstract.TubeVase3DDiagrams {
@@ -1037,7 +1032,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TubeVase3DDiagrams = append(%s.TubeVase3DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
 			}
 			for _, elem := range plantabstract.Stool2DDiagrams {
@@ -1047,7 +1042,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Stool2DDiagrams = append(%s.Stool2DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
 			}
 			for _, elem := range plantabstract.Stool3DDiagrams {
@@ -1057,7 +1052,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Stool3DDiagrams = append(%s.Stool3DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
 			}
 			for _, elem := range plantabstract.Clock2DDiagrams {
@@ -1067,7 +1062,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Clock2DDiagrams = append(%s.Clock2DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
 			}
 			for _, elem := range plantabstract.Clock3DDiagrams {
@@ -1077,7 +1072,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Clock3DDiagrams = append(%s.Clock3DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
 			}
 		}
@@ -1090,7 +1085,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			rendered3dshapeIdent := localAliasPrefix + rendered3dshape.GongGetIdentifier(stage)
+			rendered3dshapeIdent := rendered3dshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Rendered3DShape{Name: %s}).Stage(stage)", rendered3dshapeIdent, __gong__toRawStringLiteral(rendered3dshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1116,7 +1111,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			sampledpoints3dshapeIdent := localAliasPrefix + sampledpoints3dshape.GongGetIdentifier(stage)
+			sampledpoints3dshapeIdent := sampledpoints3dshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SampledPoints3DShape{Name: %s}).Stage(stage)", sampledpoints3dshapeIdent, __gong__toRawStringLiteral(sampledpoints3dshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1135,7 +1130,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			stackofrotatedcarvedoutvasetrapezeringsshapeIdent := localAliasPrefix + stackofrotatedcarvedoutvasetrapezeringsshape.GongGetIdentifier(stage)
+			stackofrotatedcarvedoutvasetrapezeringsshapeIdent := stackofrotatedcarvedoutvasetrapezeringsshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.StackOfRotatedCarvedOutVaseTrapezeRingsShape{Name: %s}).Stage(stage)", stackofrotatedcarvedoutvasetrapezeringsshapeIdent, __gong__toRawStringLiteral(stackofrotatedcarvedoutvasetrapezeringsshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1154,7 +1149,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			stemcylinder3dshapeIdent := localAliasPrefix + stemcylinder3dshape.GongGetIdentifier(stage)
+			stemcylinder3dshapeIdent := stemcylinder3dshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.StemCylinder3DShape{Name: %s}).Stage(stage)", stemcylinder3dshapeIdent, __gong__toRawStringLiteral(stemcylinder3dshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1174,7 +1169,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			stool2ddiagramIdent := localAliasPrefix + stool2ddiagram.GongGetIdentifier(stage)
+			stool2ddiagramIdent := stool2ddiagram.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Stool2DDiagram{Name: %s}).Stage(stage)", stool2ddiagramIdent, __gong__toRawStringLiteral(stool2ddiagram.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1198,7 +1193,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			stool3ddiagramIdent := localAliasPrefix + stool3ddiagram.GongGetIdentifier(stage)
+			stool3ddiagramIdent := stool3ddiagram.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Stool3DDiagram{Name: %s}).Stage(stage)", stool3ddiagramIdent, __gong__toRawStringLiteral(stool3ddiagram.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1235,7 +1230,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + stool3ddiagram.SampledPoints3DShape.GongGetIdentifier(stage)
+				targetIdent := stool3ddiagram.SampledPoints3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SampledPoints3DShape = %s", stool3ddiagramIdent, targetIdent))
 			}
 			if stool3ddiagram.Rendered3DShape != nil {
@@ -1245,7 +1240,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + stool3ddiagram.Rendered3DShape.GongGetIdentifier(stage)
+				targetIdent := stool3ddiagram.Rendered3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Rendered3DShape = %s", stool3ddiagramIdent, targetIdent))
 			}
 		}
@@ -1258,7 +1253,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			topcurveplane1shapeIdent := localAliasPrefix + topcurveplane1shape.GongGetIdentifier(stage)
+			topcurveplane1shapeIdent := topcurveplane1shape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TopCurvePlane1Shape{Name: %s}).Stage(stage)", topcurveplane1shapeIdent, __gong__toRawStringLiteral(topcurveplane1shape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1277,7 +1272,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			topcurveplane2shapeIdent := localAliasPrefix + topcurveplane2shape.GongGetIdentifier(stage)
+			topcurveplane2shapeIdent := topcurveplane2shape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TopCurvePlane2Shape{Name: %s}).Stage(stage)", topcurveplane2shapeIdent, __gong__toRawStringLiteral(topcurveplane2shape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1296,7 +1291,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			tubevase3ddiagramIdent := localAliasPrefix + tubevase3ddiagram.GongGetIdentifier(stage)
+			tubevase3ddiagramIdent := tubevase3ddiagram.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TubeVase3DDiagram{Name: %s}).Stage(stage)", tubevase3ddiagramIdent, __gong__toRawStringLiteral(tubevase3ddiagram.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1339,7 +1334,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.Rendered3DShape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.Rendered3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Rendered3DShape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.SampledPoints3DShape != nil {
@@ -1349,7 +1344,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.SampledPoints3DShape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.SampledPoints3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SampledPoints3DShape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.OriginalPoints3DShape != nil {
@@ -1359,7 +1354,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.OriginalPoints3DShape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.OriginalPoints3DShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.OriginalPoints3DShape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.Angle0Shape != nil {
@@ -1369,7 +1364,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.Angle0Shape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.Angle0Shape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Angle0Shape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.TopCurvePlane1Shape != nil {
@@ -1379,7 +1374,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.TopCurvePlane1Shape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.TopCurvePlane1Shape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TopCurvePlane1Shape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.BottomCurvePlane1Shape != nil {
@@ -1389,7 +1384,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.BottomCurvePlane1Shape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.BottomCurvePlane1Shape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.BottomCurvePlane1Shape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.TopCurvePlane2Shape != nil {
@@ -1399,7 +1394,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.TopCurvePlane2Shape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.TopCurvePlane2Shape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TopCurvePlane2Shape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.BottomCurvePlane2Shape != nil {
@@ -1409,7 +1404,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.BottomCurvePlane2Shape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.BottomCurvePlane2Shape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.BottomCurvePlane2Shape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.CarvedOutTopCurvePlane1Shape != nil {
@@ -1419,7 +1414,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.CarvedOutTopCurvePlane1Shape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.CarvedOutTopCurvePlane1Shape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CarvedOutTopCurvePlane1Shape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.CarvedOutBottomCurvePlane1Shape != nil {
@@ -1429,7 +1424,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.CarvedOutBottomCurvePlane1Shape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.CarvedOutBottomCurvePlane1Shape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CarvedOutBottomCurvePlane1Shape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.VaseTrapezeRingShape != nil {
@@ -1439,7 +1434,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.VaseTrapezeRingShape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.VaseTrapezeRingShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.VaseTrapezeRingShape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.CarvedOutVaseTrapezeRingShape != nil {
@@ -1449,7 +1444,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.CarvedOutVaseTrapezeRingShape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.CarvedOutVaseTrapezeRingShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CarvedOutVaseTrapezeRingShape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape != nil {
@@ -1459,7 +1454,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.StackOfRotatedCarvedOutVaseTrapezeRingsShape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.VaseTrapezeBasePlateShape != nil {
@@ -1469,7 +1464,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + tubevase3ddiagram.VaseTrapezeBasePlateShape.GongGetIdentifier(stage)
+				targetIdent := tubevase3ddiagram.VaseTrapezeBasePlateShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.VaseTrapezeBasePlateShape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 		}
@@ -1482,7 +1477,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			tubevaseabstractIdent := localAliasPrefix + tubevaseabstract.GongGetIdentifier(stage)
+			tubevaseabstractIdent := tubevaseabstract.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TubeVaseAbstract{Name: %s}).Stage(stage)", tubevaseabstractIdent, __gong__toRawStringLiteral(tubevaseabstract.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1531,7 +1526,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			vase2ddiagramIdent := localAliasPrefix + vase2ddiagram.GongGetIdentifier(stage)
+			vase2ddiagramIdent := vase2ddiagram.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Vase2DDiagram{Name: %s}).Stage(stage)", vase2ddiagramIdent, __gong__toRawStringLiteral(vase2ddiagram.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1588,7 +1583,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			vasetrapezebaseplateshapeIdent := localAliasPrefix + vasetrapezebaseplateshape.GongGetIdentifier(stage)
+			vasetrapezebaseplateshapeIdent := vasetrapezebaseplateshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.VaseTrapezeBasePlateShape{Name: %s}).Stage(stage)", vasetrapezebaseplateshapeIdent, __gong__toRawStringLiteral(vasetrapezebaseplateshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1607,7 +1602,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			vasetrapezeringshapeIdent := localAliasPrefix + vasetrapezeringshape.GongGetIdentifier(stage)
+			vasetrapezeringshapeIdent := vasetrapezeringshape.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.VaseTrapezeRingShape{Name: %s}).Stage(stage)", vasetrapezeringshapeIdent, __gong__toRawStringLiteral(vasetrapezeringshape.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

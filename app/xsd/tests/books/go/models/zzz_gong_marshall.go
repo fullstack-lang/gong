@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, booktype := range __gong__sortStageSetInstances(stage.BookTypes, stage.BookType_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			booktypeIdent := localAliasPrefix + booktype.GongGetIdentifier(stage)
+			booktypeIdent := booktype.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.BookType{Name: %s}).Stage(stage)", booktypeIdent, __gong__toRawStringLiteral(booktype.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -360,7 +355,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Credit = append(%s.Credit, %s)", booktypeIdent, booktypeIdent, targetIdent))
 			}
 		}
@@ -373,7 +368,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			booksIdent := localAliasPrefix + books.GongGetIdentifier(stage)
+			booksIdent := books.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Books{Name: %s}).Stage(stage)", booksIdent, __gong__toRawStringLiteral(books.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -389,7 +384,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Book = append(%s.Book, %s)", booksIdent, booksIdent, targetIdent))
 			}
 		}
@@ -402,7 +397,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			creditIdent := localAliasPrefix + credit.GongGetIdentifier(stage)
+			creditIdent := credit.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Credit{Name: %s}).Stage(stage)", creditIdent, __gong__toRawStringLiteral(credit.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -422,7 +417,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Link = append(%s.Link, %s)", creditIdent, creditIdent, targetIdent))
 			}
 		}
@@ -435,7 +430,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			linkIdent := localAliasPrefix + link.GongGetIdentifier(stage)
+			linkIdent := link.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Link{Name: %s}).Stage(stage)", linkIdent, __gong__toRawStringLiteral(link.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {

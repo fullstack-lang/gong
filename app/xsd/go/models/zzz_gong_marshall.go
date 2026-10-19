@@ -323,11 +323,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageDecl
 	_ = lastStageVal
 	_ = lastStagePtr
-	localAliasPrefix := "__models"
-	if stage.IsInDeltaMode() || stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-		localAliasPrefix = ""
-	}
-	_ = localAliasPrefix
 
 	if stage != nil {
 		for _, all := range __gong__sortStageSetInstances(stage.Alls, stage.All_stagedOrder) {
@@ -337,7 +332,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			allIdent := localAliasPrefix + all.GongGetIdentifier(stage)
+			allIdent := all.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.All{Name: %s}).Stage(stage)", allIdent, __gong__toRawStringLiteral(all.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -358,7 +353,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + all.Annotation.GongGetIdentifier(stage)
+				targetIdent := all.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", allIdent, targetIdent))
 			}
 			for _, elem := range all.Sequences {
@@ -368,7 +363,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", allIdent, allIdent, targetIdent))
 			}
 			for _, elem := range all.Alls {
@@ -378,7 +373,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", allIdent, allIdent, targetIdent))
 			}
 			for _, elem := range all.Choices {
@@ -388,7 +383,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", allIdent, allIdent, targetIdent))
 			}
 			for _, elem := range all.Groups {
@@ -398,7 +393,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", allIdent, allIdent, targetIdent))
 			}
 			for _, elem := range all.Elements {
@@ -408,7 +403,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", allIdent, allIdent, targetIdent))
 			}
 		}
@@ -421,7 +416,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			annotationIdent := localAliasPrefix + annotation.GongGetIdentifier(stage)
+			annotationIdent := annotation.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Annotation{Name: %s}).Stage(stage)", annotationIdent, __gong__toRawStringLiteral(annotation.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -437,7 +432,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Documentations = append(%s.Documentations, %s)", annotationIdent, annotationIdent, targetIdent))
 			}
 		}
@@ -450,7 +445,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			attributeIdent := localAliasPrefix + attribute.GongGetIdentifier(stage)
+			attributeIdent := attribute.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Attribute{Name: %s}).Stage(stage)", attributeIdent, __gong__toRawStringLiteral(attribute.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -478,7 +473,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + attribute.Annotation.GongGetIdentifier(stage)
+				targetIdent := attribute.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", attributeIdent, targetIdent))
 			}
 		}
@@ -491,7 +486,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			attributegroupIdent := localAliasPrefix + attributegroup.GongGetIdentifier(stage)
+			attributegroupIdent := attributegroup.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.AttributeGroup{Name: %s}).Stage(stage)", attributegroupIdent, __gong__toRawStringLiteral(attributegroup.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -513,7 +508,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + attributegroup.Annotation.GongGetIdentifier(stage)
+				targetIdent := attributegroup.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", attributegroupIdent, targetIdent))
 			}
 			for _, elem := range attributegroup.AttributeGroups {
@@ -523,7 +518,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AttributeGroups = append(%s.AttributeGroups, %s)", attributegroupIdent, attributegroupIdent, targetIdent))
 			}
 			for _, elem := range attributegroup.Attributes {
@@ -533,7 +528,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Attributes = append(%s.Attributes, %s)", attributegroupIdent, attributegroupIdent, targetIdent))
 			}
 		}
@@ -546,7 +541,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			choiceIdent := localAliasPrefix + choice.GongGetIdentifier(stage)
+			choiceIdent := choice.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Choice{Name: %s}).Stage(stage)", choiceIdent, __gong__toRawStringLiteral(choice.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -568,7 +563,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + choice.Annotation.GongGetIdentifier(stage)
+				targetIdent := choice.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", choiceIdent, targetIdent))
 			}
 			for _, elem := range choice.Sequences {
@@ -578,7 +573,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", choiceIdent, choiceIdent, targetIdent))
 			}
 			for _, elem := range choice.Alls {
@@ -588,7 +583,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", choiceIdent, choiceIdent, targetIdent))
 			}
 			for _, elem := range choice.Choices {
@@ -598,7 +593,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", choiceIdent, choiceIdent, targetIdent))
 			}
 			for _, elem := range choice.Groups {
@@ -608,7 +603,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", choiceIdent, choiceIdent, targetIdent))
 			}
 			for _, elem := range choice.Elements {
@@ -618,7 +613,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", choiceIdent, choiceIdent, targetIdent))
 			}
 		}
@@ -631,7 +626,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			complexcontentIdent := localAliasPrefix + complexcontent.GongGetIdentifier(stage)
+			complexcontentIdent := complexcontent.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ComplexContent{Name: %s}).Stage(stage)", complexcontentIdent, __gong__toRawStringLiteral(complexcontent.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -650,7 +645,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			complextypeIdent := localAliasPrefix + complextype.GongGetIdentifier(stage)
+			complextypeIdent := complextype.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ComplexType{Name: %s}).Stage(stage)", complextypeIdent, __gong__toRawStringLiteral(complextype.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -676,7 +671,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + complextype.OuterElement.GongGetIdentifier(stage)
+				targetIdent := complextype.OuterElement.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.OuterElement = %s", complextypeIdent, targetIdent))
 			}
 			if complextype.Annotation != nil {
@@ -686,7 +681,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + complextype.Annotation.GongGetIdentifier(stage)
+				targetIdent := complextype.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", complextypeIdent, targetIdent))
 			}
 			for _, elem := range complextype.Sequences {
@@ -696,7 +691,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", complextypeIdent, complextypeIdent, targetIdent))
 			}
 			for _, elem := range complextype.Alls {
@@ -706,7 +701,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", complextypeIdent, complextypeIdent, targetIdent))
 			}
 			for _, elem := range complextype.Choices {
@@ -716,7 +711,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", complextypeIdent, complextypeIdent, targetIdent))
 			}
 			for _, elem := range complextype.Groups {
@@ -726,7 +721,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", complextypeIdent, complextypeIdent, targetIdent))
 			}
 			for _, elem := range complextype.Elements {
@@ -736,7 +731,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", complextypeIdent, complextypeIdent, targetIdent))
 			}
 			if complextype.Extension != nil {
@@ -746,7 +741,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + complextype.Extension.GongGetIdentifier(stage)
+				targetIdent := complextype.Extension.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = %s", complextypeIdent, targetIdent))
 			}
 			if complextype.SimpleContent != nil {
@@ -756,7 +751,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + complextype.SimpleContent.GongGetIdentifier(stage)
+				targetIdent := complextype.SimpleContent.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SimpleContent = %s", complextypeIdent, targetIdent))
 			}
 			if complextype.ComplexContent != nil {
@@ -766,7 +761,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + complextype.ComplexContent.GongGetIdentifier(stage)
+				targetIdent := complextype.ComplexContent.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ComplexContent = %s", complextypeIdent, targetIdent))
 			}
 			for _, elem := range complextype.Attributes {
@@ -776,7 +771,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Attributes = append(%s.Attributes, %s)", complextypeIdent, complextypeIdent, targetIdent))
 			}
 			for _, elem := range complextype.AttributeGroups {
@@ -786,7 +781,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AttributeGroups = append(%s.AttributeGroups, %s)", complextypeIdent, complextypeIdent, targetIdent))
 			}
 		}
@@ -799,7 +794,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			documentationIdent := localAliasPrefix + documentation.GongGetIdentifier(stage)
+			documentationIdent := documentation.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Documentation{Name: %s}).Stage(stage)", documentationIdent, __gong__toRawStringLiteral(documentation.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -821,7 +816,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			elementIdent := localAliasPrefix + element.GongGetIdentifier(stage)
+			elementIdent := element.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Element{Name: %s}).Stage(stage)", elementIdent, __gong__toRawStringLiteral(element.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -854,7 +849,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + element.Annotation.GongGetIdentifier(stage)
+				targetIdent := element.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", elementIdent, targetIdent))
 			}
 			if element.SimpleType != nil {
@@ -864,7 +859,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + element.SimpleType.GongGetIdentifier(stage)
+				targetIdent := element.SimpleType.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SimpleType = %s", elementIdent, targetIdent))
 			}
 			if element.ComplexType != nil {
@@ -874,7 +869,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + element.ComplexType.GongGetIdentifier(stage)
+				targetIdent := element.ComplexType.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ComplexType = %s", elementIdent, targetIdent))
 			}
 			for _, elem := range element.Groups {
@@ -884,7 +879,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", elementIdent, elementIdent, targetIdent))
 			}
 		}
@@ -897,7 +892,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			enumerationIdent := localAliasPrefix + enumeration.GongGetIdentifier(stage)
+			enumerationIdent := enumeration.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Enumeration{Name: %s}).Stage(stage)", enumerationIdent, __gong__toRawStringLiteral(enumeration.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -914,7 +909,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + enumeration.Annotation.GongGetIdentifier(stage)
+				targetIdent := enumeration.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", enumerationIdent, targetIdent))
 			}
 		}
@@ -927,7 +922,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			extensionIdent := localAliasPrefix + extension.GongGetIdentifier(stage)
+			extensionIdent := extension.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Extension{Name: %s}).Stage(stage)", extensionIdent, __gong__toRawStringLiteral(extension.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -950,7 +945,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", extensionIdent, extensionIdent, targetIdent))
 			}
 			for _, elem := range extension.Alls {
@@ -960,7 +955,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", extensionIdent, extensionIdent, targetIdent))
 			}
 			for _, elem := range extension.Choices {
@@ -970,7 +965,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", extensionIdent, extensionIdent, targetIdent))
 			}
 			for _, elem := range extension.Groups {
@@ -980,7 +975,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", extensionIdent, extensionIdent, targetIdent))
 			}
 			for _, elem := range extension.Elements {
@@ -990,7 +985,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", extensionIdent, extensionIdent, targetIdent))
 			}
 			for _, elem := range extension.Attributes {
@@ -1000,7 +995,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Attributes = append(%s.Attributes, %s)", extensionIdent, extensionIdent, targetIdent))
 			}
 			for _, elem := range extension.AttributeGroups {
@@ -1010,7 +1005,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AttributeGroups = append(%s.AttributeGroups, %s)", extensionIdent, extensionIdent, targetIdent))
 			}
 		}
@@ -1023,7 +1018,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			groupIdent := localAliasPrefix + group.GongGetIdentifier(stage)
+			groupIdent := group.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Group{Name: %s}).Stage(stage)", groupIdent, __gong__toRawStringLiteral(group.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1049,7 +1044,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + group.Annotation.GongGetIdentifier(stage)
+				targetIdent := group.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", groupIdent, targetIdent))
 			}
 			if group.OuterElement != nil {
@@ -1059,7 +1054,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + group.OuterElement.GongGetIdentifier(stage)
+				targetIdent := group.OuterElement.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.OuterElement = %s", groupIdent, targetIdent))
 			}
 			for _, elem := range group.Sequences {
@@ -1069,7 +1064,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", groupIdent, groupIdent, targetIdent))
 			}
 			for _, elem := range group.Alls {
@@ -1079,7 +1074,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", groupIdent, groupIdent, targetIdent))
 			}
 			for _, elem := range group.Choices {
@@ -1089,7 +1084,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", groupIdent, groupIdent, targetIdent))
 			}
 			for _, elem := range group.Groups {
@@ -1099,7 +1094,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", groupIdent, groupIdent, targetIdent))
 			}
 			for _, elem := range group.Elements {
@@ -1109,7 +1104,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", groupIdent, groupIdent, targetIdent))
 			}
 		}
@@ -1122,7 +1117,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			lengthIdent := localAliasPrefix + length.GongGetIdentifier(stage)
+			lengthIdent := length.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Length{Name: %s}).Stage(stage)", lengthIdent, __gong__toRawStringLiteral(length.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1139,7 +1134,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + length.Annotation.GongGetIdentifier(stage)
+				targetIdent := length.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", lengthIdent, targetIdent))
 			}
 		}
@@ -1152,7 +1147,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			maxinclusiveIdent := localAliasPrefix + maxinclusive.GongGetIdentifier(stage)
+			maxinclusiveIdent := maxinclusive.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.MaxInclusive{Name: %s}).Stage(stage)", maxinclusiveIdent, __gong__toRawStringLiteral(maxinclusive.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1169,7 +1164,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + maxinclusive.Annotation.GongGetIdentifier(stage)
+				targetIdent := maxinclusive.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", maxinclusiveIdent, targetIdent))
 			}
 		}
@@ -1182,7 +1177,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			maxlengthIdent := localAliasPrefix + maxlength.GongGetIdentifier(stage)
+			maxlengthIdent := maxlength.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.MaxLength{Name: %s}).Stage(stage)", maxlengthIdent, __gong__toRawStringLiteral(maxlength.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1199,7 +1194,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + maxlength.Annotation.GongGetIdentifier(stage)
+				targetIdent := maxlength.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", maxlengthIdent, targetIdent))
 			}
 		}
@@ -1212,7 +1207,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			mininclusiveIdent := localAliasPrefix + mininclusive.GongGetIdentifier(stage)
+			mininclusiveIdent := mininclusive.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.MinInclusive{Name: %s}).Stage(stage)", mininclusiveIdent, __gong__toRawStringLiteral(mininclusive.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1229,7 +1224,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + mininclusive.Annotation.GongGetIdentifier(stage)
+				targetIdent := mininclusive.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", mininclusiveIdent, targetIdent))
 			}
 		}
@@ -1242,7 +1237,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			minlengthIdent := localAliasPrefix + minlength.GongGetIdentifier(stage)
+			minlengthIdent := minlength.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.MinLength{Name: %s}).Stage(stage)", minlengthIdent, __gong__toRawStringLiteral(minlength.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1259,7 +1254,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + minlength.Annotation.GongGetIdentifier(stage)
+				targetIdent := minlength.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", minlengthIdent, targetIdent))
 			}
 		}
@@ -1272,7 +1267,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			patternIdent := localAliasPrefix + pattern.GongGetIdentifier(stage)
+			patternIdent := pattern.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Pattern{Name: %s}).Stage(stage)", patternIdent, __gong__toRawStringLiteral(pattern.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1289,7 +1284,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + pattern.Annotation.GongGetIdentifier(stage)
+				targetIdent := pattern.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", patternIdent, targetIdent))
 			}
 		}
@@ -1302,7 +1297,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			restrictionIdent := localAliasPrefix + restriction.GongGetIdentifier(stage)
+			restrictionIdent := restriction.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Restriction{Name: %s}).Stage(stage)", restrictionIdent, __gong__toRawStringLiteral(restriction.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1319,7 +1314,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + restriction.Annotation.GongGetIdentifier(stage)
+				targetIdent := restriction.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", restrictionIdent, targetIdent))
 			}
 			for _, elem := range restriction.Enumerations {
@@ -1329,7 +1324,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Enumerations = append(%s.Enumerations, %s)", restrictionIdent, restrictionIdent, targetIdent))
 			}
 			if restriction.MinInclusive != nil {
@@ -1339,7 +1334,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + restriction.MinInclusive.GongGetIdentifier(stage)
+				targetIdent := restriction.MinInclusive.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.MinInclusive = %s", restrictionIdent, targetIdent))
 			}
 			if restriction.MaxInclusive != nil {
@@ -1349,7 +1344,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + restriction.MaxInclusive.GongGetIdentifier(stage)
+				targetIdent := restriction.MaxInclusive.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.MaxInclusive = %s", restrictionIdent, targetIdent))
 			}
 			if restriction.Pattern != nil {
@@ -1359,7 +1354,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + restriction.Pattern.GongGetIdentifier(stage)
+				targetIdent := restriction.Pattern.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Pattern = %s", restrictionIdent, targetIdent))
 			}
 			if restriction.WhiteSpace != nil {
@@ -1369,7 +1364,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + restriction.WhiteSpace.GongGetIdentifier(stage)
+				targetIdent := restriction.WhiteSpace.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = %s", restrictionIdent, targetIdent))
 			}
 			if restriction.MinLength != nil {
@@ -1379,7 +1374,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + restriction.MinLength.GongGetIdentifier(stage)
+				targetIdent := restriction.MinLength.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.MinLength = %s", restrictionIdent, targetIdent))
 			}
 			if restriction.MaxLength != nil {
@@ -1389,7 +1384,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + restriction.MaxLength.GongGetIdentifier(stage)
+				targetIdent := restriction.MaxLength.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.MaxLength = %s", restrictionIdent, targetIdent))
 			}
 			if restriction.Length != nil {
@@ -1399,7 +1394,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + restriction.Length.GongGetIdentifier(stage)
+				targetIdent := restriction.Length.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Length = %s", restrictionIdent, targetIdent))
 			}
 			if restriction.TotalDigit != nil {
@@ -1409,7 +1404,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + restriction.TotalDigit.GongGetIdentifier(stage)
+				targetIdent := restriction.TotalDigit.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TotalDigit = %s", restrictionIdent, targetIdent))
 			}
 		}
@@ -1422,7 +1417,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			schemaIdent := localAliasPrefix + schema.GongGetIdentifier(stage)
+			schemaIdent := schema.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Schema{Name: %s}).Stage(stage)", schemaIdent, __gong__toRawStringLiteral(schema.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1441,7 +1436,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + schema.Annotation.GongGetIdentifier(stage)
+				targetIdent := schema.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", schemaIdent, targetIdent))
 			}
 			for _, elem := range schema.Elements {
@@ -1451,7 +1446,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", schemaIdent, schemaIdent, targetIdent))
 			}
 			for _, elem := range schema.SimpleTypes {
@@ -1461,7 +1456,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SimpleTypes = append(%s.SimpleTypes, %s)", schemaIdent, schemaIdent, targetIdent))
 			}
 			for _, elem := range schema.ComplexTypes {
@@ -1471,7 +1466,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ComplexTypes = append(%s.ComplexTypes, %s)", schemaIdent, schemaIdent, targetIdent))
 			}
 			for _, elem := range schema.AttributeGroups {
@@ -1481,7 +1476,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AttributeGroups = append(%s.AttributeGroups, %s)", schemaIdent, schemaIdent, targetIdent))
 			}
 			for _, elem := range schema.Groups {
@@ -1491,7 +1486,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", schemaIdent, schemaIdent, targetIdent))
 			}
 		}
@@ -1504,7 +1499,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			sequenceIdent := localAliasPrefix + sequence.GongGetIdentifier(stage)
+			sequenceIdent := sequence.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Sequence{Name: %s}).Stage(stage)", sequenceIdent, __gong__toRawStringLiteral(sequence.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1525,7 +1520,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + sequence.Annotation.GongGetIdentifier(stage)
+				targetIdent := sequence.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", sequenceIdent, targetIdent))
 			}
 			for _, elem := range sequence.Sequences {
@@ -1535,7 +1530,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", sequenceIdent, sequenceIdent, targetIdent))
 			}
 			for _, elem := range sequence.Alls {
@@ -1545,7 +1540,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", sequenceIdent, sequenceIdent, targetIdent))
 			}
 			for _, elem := range sequence.Choices {
@@ -1555,7 +1550,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", sequenceIdent, sequenceIdent, targetIdent))
 			}
 			for _, elem := range sequence.Groups {
@@ -1565,7 +1560,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", sequenceIdent, sequenceIdent, targetIdent))
 			}
 			for _, elem := range sequence.Elements {
@@ -1575,7 +1570,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + elem.GongGetIdentifier(stage)
+				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", sequenceIdent, sequenceIdent, targetIdent))
 			}
 		}
@@ -1588,7 +1583,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			simplecontentIdent := localAliasPrefix + simplecontent.GongGetIdentifier(stage)
+			simplecontentIdent := simplecontent.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SimpleContent{Name: %s}).Stage(stage)", simplecontentIdent, __gong__toRawStringLiteral(simplecontent.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1604,7 +1599,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + simplecontent.Extension.GongGetIdentifier(stage)
+				targetIdent := simplecontent.Extension.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = %s", simplecontentIdent, targetIdent))
 			}
 			if simplecontent.Restriction != nil {
@@ -1614,7 +1609,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + simplecontent.Restriction.GongGetIdentifier(stage)
+				targetIdent := simplecontent.Restriction.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Restriction = %s", simplecontentIdent, targetIdent))
 			}
 		}
@@ -1627,7 +1622,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			simpletypeIdent := localAliasPrefix + simpletype.GongGetIdentifier(stage)
+			simpletypeIdent := simpletype.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SimpleType{Name: %s}).Stage(stage)", simpletypeIdent, __gong__toRawStringLiteral(simpletype.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1646,7 +1641,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + simpletype.Annotation.GongGetIdentifier(stage)
+				targetIdent := simpletype.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", simpletypeIdent, targetIdent))
 			}
 			if simpletype.Restriction != nil {
@@ -1656,7 +1651,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + simpletype.Restriction.GongGetIdentifier(stage)
+				targetIdent := simpletype.Restriction.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Restriction = %s", simpletypeIdent, targetIdent))
 			}
 			if simpletype.Union != nil {
@@ -1666,7 +1661,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + simpletype.Union.GongGetIdentifier(stage)
+				targetIdent := simpletype.Union.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Union = %s", simpletypeIdent, targetIdent))
 			}
 		}
@@ -1679,7 +1674,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			totaldigitIdent := localAliasPrefix + totaldigit.GongGetIdentifier(stage)
+			totaldigitIdent := totaldigit.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TotalDigit{Name: %s}).Stage(stage)", totaldigitIdent, __gong__toRawStringLiteral(totaldigit.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1696,7 +1691,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + totaldigit.Annotation.GongGetIdentifier(stage)
+				targetIdent := totaldigit.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", totaldigitIdent, targetIdent))
 			}
 		}
@@ -1709,7 +1704,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			unionIdent := localAliasPrefix + union.GongGetIdentifier(stage)
+			unionIdent := union.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Union{Name: %s}).Stage(stage)", unionIdent, __gong__toRawStringLiteral(union.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1726,7 +1721,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + union.Annotation.GongGetIdentifier(stage)
+				targetIdent := union.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", unionIdent, targetIdent))
 			}
 		}
@@ -1739,7 +1734,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "Stage"
 			}
-			whitespaceIdent := localAliasPrefix + whitespace.GongGetIdentifier(stage)
+			whitespaceIdent := whitespace.GongGetIdentifier(stage)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.WhiteSpace{Name: %s}).Stage(stage)", whitespaceIdent, __gong__toRawStringLiteral(whitespace.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
@@ -1756,7 +1751,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := localAliasPrefix + whitespace.Annotation.GongGetIdentifier(stage)
+				targetIdent := whitespace.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", whitespaceIdent, targetIdent))
 			}
 		}
