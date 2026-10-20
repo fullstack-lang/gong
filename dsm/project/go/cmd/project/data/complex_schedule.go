@@ -120,7 +120,7 @@ func _(stage *models.Stage) {
 	__models__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__models__Diagram__00000000_.DateFormat = ``
 	__models__Diagram__00000000_.Width = 1614.000000
-	__models__Diagram__00000000_.Height = 578.334842
+	__models__Diagram__00000000_.Height = 627.565611
 	__models__Diagram__00000000_.IsTimeDiagram = true
 	__models__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-06 00:00:00 +0000 UTC")
 	__models__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-23 00:00:00 +0000 UTC")

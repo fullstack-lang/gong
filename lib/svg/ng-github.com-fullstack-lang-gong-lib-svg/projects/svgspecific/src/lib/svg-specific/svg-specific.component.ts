@@ -40,6 +40,7 @@ import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
 import { LinkSegmentsPipe } from '../link-segments.pipe'
 
 import { formatSVG, processSVG } from '../cleanandresizesvg'
+import { convertSvgToPptx } from '../svg-to-pptx'
 import { LayoutService } from '../layout.service';
 import { getPosition } from '../get-position';
 import { controlPointToPoint, pointToControlPoint } from '../control-points';
@@ -1297,7 +1298,10 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
       .replace(/\s+_nghost-[^="]*=""/g, '');
 
     // Perform additional custom processing if these functions exist
-    let svg2: string = processSVG(res); // Ensure processSVG is defined and imported
+    let svg2: string = processSVG(res)
+      .replace(/\s*data-rect-id="[^"]*"/g, '')
+      .replace(/\s*data-parent-rect-id="[^"]*"/g, '')
+      .replace(/\s*data-rect-anchor-type="[^"]*"/g, '');
     let svg3: string = formatSVG(svg2); // Ensure formatSVG is defined and imported
 
     // Inject Roboto Font Style
@@ -1334,6 +1338,33 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
       const link: HTMLAnchorElement = document.createElement('a');
       link.href = url;
       link.download = (this.svg?.Name || 'download') + ".svg"; // Use optional chaining for safety
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+  }
+
+  generatesPPTX(download: boolean) {
+    const svgElement: SVGSVGElement = this.svgContainer.nativeElement;
+    const serializer: XMLSerializer = new XMLSerializer();
+    let svgData: string = serializer.serializeToString(svgElement);
+
+    let res: string = svgData
+      .replace(/\s*_ngcontent-[^="]*=""/g, '')
+      .replace(/\s+_nghost-[^="]*=""/g, '');
+
+    const cleanSvg: string = processSVG(res);
+    const pptxBytes: Uint8Array = convertSvgToPptx(cleanSvg);
+
+    if (download == true) {
+      const blob: Blob = new Blob([pptxBytes as BlobPart], {
+        type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+      });
+      const url: string = URL.createObjectURL(blob);
+      const link: HTMLAnchorElement = document.createElement('a');
+      link.href = url;
+      link.download = (this.svg?.Name || 'download') + '.pptx';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -1627,6 +1658,7 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
       anchorX: anchorX,
       anchorY: anchorY,
       firstLineDy: firstLineDy,
+      parentRectId: rect.ID,
     };
   }
 

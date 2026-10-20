@@ -9,9 +9,16 @@
       
       <button mat-icon-button color="primary" 
         (click)="generatesSVG(true)" 
-        matTooltip="Download diagram" 
+        matTooltip="Download diagram as SVG" 
         matTooltipPosition="above">
         <mat-icon>download</mat-icon>
+      </button>
+
+      <button mat-icon-button color="primary" 
+        (click)="generatesPPTX(true)" 
+        matTooltip="Download diagram as PowerPoint slide (.pptx)" 
+        matTooltipPosition="above">
+        <mat-icon>slideshow</mat-icon>
       </button>
 
       <div style="width: 1px; height: 24px; background: #ccc;"></div>
@@ -227,6 +234,7 @@
         @for(rect of layer.Rects; track rect.ID) {
           @if (shouldDisplayRect(rect)) {
             <rect
+              [attr.data-rect-id]="rect.ID"
               [attr.x]="rect.X"
               [attr.y]="rect.Y"
               [attr.width]="rect.Width"
@@ -819,9 +827,11 @@
   </g>
 </svg>
 
-<ng-template #anchoredText let-text="text" let-anchorX="anchorX" let-anchorY="anchorY" let-firstLineDy="firstLineDy">
+<ng-template #anchoredText let-text="text" let-anchorX="anchorX" let-anchorY="anchorY" let-firstLineDy="firstLineDy" let-parentRectId="parentRectId">
     @let lines = splitTextIntoLines(text.Content);
     <svg:text class="click-through"
+      [attr.data-parent-rect-id]="parentRectId"
+      [attr.data-rect-anchor-type]="text.RectAnchorType"
       [attr.x]="anchorX" 
       [attr.y]="anchorY" 
       [attr.fill]="text.Color"    
