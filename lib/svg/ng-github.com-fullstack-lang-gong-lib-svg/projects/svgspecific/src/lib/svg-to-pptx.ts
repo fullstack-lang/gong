@@ -605,6 +605,9 @@ export function convertSvgToPptx(svgString: string): Uint8Array {
     let curY = 0;
     let startX = 0;
     let startY = 0;
+    let lastCtrlX = 0;
+    let lastCtrlY = 0;
+    let lastOp = '';
 
     const toAbsEmu = (x: number, y: number) => ({
       x: toEmuX(x * t.sx + t.tx),
@@ -625,8 +628,10 @@ export function convertSvgToPptx(svgString: string): Uint8Array {
               startX = curX;
               startY = curY;
               cmds.push({ op: 'M', pts: [toAbsEmu(curX, curY)] });
+              lastOp = 'M';
             } else {
               cmds.push({ op: 'L', pts: [toAbsEmu(curX, curY)] });
+              lastOp = 'L';
             }
           }
           break;
@@ -638,89 +643,159 @@ export function convertSvgToPptx(svgString: string): Uint8Array {
               startX = curX;
               startY = curY;
               cmds.push({ op: 'M', pts: [toAbsEmu(curX, curY)] });
+              lastOp = 'M';
             } else {
               cmds.push({ op: 'L', pts: [toAbsEmu(curX, curY)] });
+              lastOp = 'L';
             }
           }
           break;
         case 'L':
-        case 'T':
           for (let i = 0; i < args.length - 1; i += 2) {
             curX = args[i];
             curY = args[i + 1];
             cmds.push({ op: 'L', pts: [toAbsEmu(curX, curY)] });
+            lastOp = 'L';
           }
           break;
         case 'l':
-        case 't':
           for (let i = 0; i < args.length - 1; i += 2) {
             curX += args[i];
             curY += args[i + 1];
             cmds.push({ op: 'L', pts: [toAbsEmu(curX, curY)] });
+            lastOp = 'L';
           }
           break;
         case 'H':
           for (const x of args) {
             curX = x;
             cmds.push({ op: 'L', pts: [toAbsEmu(curX, curY)] });
+            lastOp = 'L';
           }
           break;
         case 'h':
           for (const dx of args) {
             curX += dx;
             cmds.push({ op: 'L', pts: [toAbsEmu(curX, curY)] });
+            lastOp = 'L';
           }
           break;
         case 'V':
           for (const y of args) {
             curY = y;
             cmds.push({ op: 'L', pts: [toAbsEmu(curX, curY)] });
+            lastOp = 'L';
           }
           break;
         case 'v':
           for (const dy of args) {
             curY += dy;
             cmds.push({ op: 'L', pts: [toAbsEmu(curX, curY)] });
+            lastOp = 'L';
           }
           break;
         case 'C':
           for (let i = 0; i < args.length - 5; i += 6) {
             const p1 = toAbsEmu(args[i], args[i + 1]);
-            const p2 = toAbsEmu(args[i + 2], args[i + 3]);
+            lastCtrlX = args[i + 2];
+            lastCtrlY = args[i + 3];
+            const p2 = toAbsEmu(lastCtrlX, lastCtrlY);
             curX = args[i + 4];
             curY = args[i + 5];
             const p3 = toAbsEmu(curX, curY);
             cmds.push({ op: 'C', pts: [p1, p2, p3] });
+            lastOp = 'C';
           }
           break;
         case 'c':
           for (let i = 0; i < args.length - 5; i += 6) {
             const p1 = toAbsEmu(curX + args[i], curY + args[i + 1]);
-            const p2 = toAbsEmu(curX + args[i + 2], curY + args[i + 3]);
+            lastCtrlX = curX + args[i + 2];
+            lastCtrlY = curY + args[i + 3];
+            const p2 = toAbsEmu(lastCtrlX, lastCtrlY);
             curX += args[i + 4];
             curY += args[i + 5];
             const p3 = toAbsEmu(curX, curY);
             cmds.push({ op: 'C', pts: [p1, p2, p3] });
+            lastOp = 'C';
+          }
+          break;
+        case 'S':
+          for (let i = 0; i < args.length - 3; i += 4) {
+            const c1x = lastOp === 'C' || lastOp === 'S' ? 2 * curX - lastCtrlX : curX;
+            const c1y = lastOp === 'C' || lastOp === 'S' ? 2 * curY - lastCtrlY : curY;
+            const p1 = toAbsEmu(c1x, c1y);
+            lastCtrlX = args[i];
+            lastCtrlY = args[i + 1];
+            const p2 = toAbsEmu(lastCtrlX, lastCtrlY);
+            curX = args[i + 2];
+            curY = args[i + 3];
+            const p3 = toAbsEmu(curX, curY);
+            cmds.push({ op: 'C', pts: [p1, p2, p3] });
+            lastOp = 'S';
+          }
+          break;
+        case 's':
+          for (let i = 0; i < args.length - 3; i += 4) {
+            const c1x = lastOp === 'C' || lastOp === 'S' ? 2 * curX - lastCtrlX : curX;
+            const c1y = lastOp === 'C' || lastOp === 'S' ? 2 * curY - lastCtrlY : curY;
+            const p1 = toAbsEmu(c1x, c1y);
+            lastCtrlX = curX + args[i];
+            lastCtrlY = curY + args[i + 1];
+            const p2 = toAbsEmu(lastCtrlX, lastCtrlY);
+            curX += args[i + 2];
+            curY += args[i + 3];
+            const p3 = toAbsEmu(curX, curY);
+            cmds.push({ op: 'C', pts: [p1, p2, p3] });
+            lastOp = 'S';
           }
           break;
         case 'Q':
-        case 'S':
           for (let i = 0; i < args.length - 3; i += 4) {
-            const p1 = toAbsEmu(args[i], args[i + 1]);
+            lastCtrlX = args[i];
+            lastCtrlY = args[i + 1];
+            const p1 = toAbsEmu(lastCtrlX, lastCtrlY);
             curX = args[i + 2];
             curY = args[i + 3];
             const p2 = toAbsEmu(curX, curY);
             cmds.push({ op: 'Q', pts: [p1, p2] });
+            lastOp = 'Q';
           }
           break;
         case 'q':
-        case 's':
           for (let i = 0; i < args.length - 3; i += 4) {
-            const p1 = toAbsEmu(curX + args[i], curY + args[i + 1]);
+            lastCtrlX = curX + args[i];
+            lastCtrlY = curY + args[i + 1];
+            const p1 = toAbsEmu(lastCtrlX, lastCtrlY);
             curX += args[i + 2];
             curY += args[i + 3];
             const p2 = toAbsEmu(curX, curY);
             cmds.push({ op: 'Q', pts: [p1, p2] });
+            lastOp = 'Q';
+          }
+          break;
+        case 'T':
+          for (let i = 0; i < args.length - 1; i += 2) {
+            lastCtrlX = lastOp === 'Q' || lastOp === 'T' ? 2 * curX - lastCtrlX : curX;
+            lastCtrlY = lastOp === 'Q' || lastOp === 'T' ? 2 * curY - lastCtrlY : curY;
+            const p1 = toAbsEmu(lastCtrlX, lastCtrlY);
+            curX = args[i];
+            curY = args[i + 1];
+            const p2 = toAbsEmu(curX, curY);
+            cmds.push({ op: 'Q', pts: [p1, p2] });
+            lastOp = 'T';
+          }
+          break;
+        case 't':
+          for (let i = 0; i < args.length - 1; i += 2) {
+            lastCtrlX = lastOp === 'Q' || lastOp === 'T' ? 2 * curX - lastCtrlX : curX;
+            lastCtrlY = lastOp === 'Q' || lastOp === 'T' ? 2 * curY - lastCtrlY : curY;
+            const p1 = toAbsEmu(lastCtrlX, lastCtrlY);
+            curX += args[i];
+            curY += args[i + 1];
+            const p2 = toAbsEmu(curX, curY);
+            cmds.push({ op: 'Q', pts: [p1, p2] });
+            lastOp = 'T';
           }
           break;
         case 'A':
@@ -732,12 +807,16 @@ export function convertSvgToPptx(svgString: string): Uint8Array {
             const sweepFlag = args[i + 4];
             const endX = args[i + 5];
             const endY = args[i + 6];
-            const arcPts = approximateArc(curX, curY, rx, ry, xAxisRot, largeArcFlag, sweepFlag, endX, endY);
-            for (const pt of arcPts) {
-              cmds.push({ op: 'L', pts: [toAbsEmu(pt.x, pt.y)] });
+            const beziers = arcToCubicBeziers(curX, curY, rx, ry, xAxisRot, largeArcFlag, sweepFlag, endX, endY);
+            for (const b of beziers) {
+              cmds.push({
+                op: 'C',
+                pts: [toAbsEmu(b.cp1x, b.cp1y), toAbsEmu(b.cp2x, b.cp2y), toAbsEmu(b.x, b.y)]
+              });
             }
             curX = endX;
             curY = endY;
+            lastOp = 'A';
           }
           break;
         case 'a':
@@ -749,12 +828,16 @@ export function convertSvgToPptx(svgString: string): Uint8Array {
             const sweepFlag = args[i + 4];
             const endX = curX + args[i + 5];
             const endY = curY + args[i + 6];
-            const arcPts = approximateArc(curX, curY, rx, ry, xAxisRot, largeArcFlag, sweepFlag, endX, endY);
-            for (const pt of arcPts) {
-              cmds.push({ op: 'L', pts: [toAbsEmu(pt.x, pt.y)] });
+            const beziers = arcToCubicBeziers(curX, curY, rx, ry, xAxisRot, largeArcFlag, sweepFlag, endX, endY);
+            for (const b of beziers) {
+              cmds.push({
+                op: 'C',
+                pts: [toAbsEmu(b.cp1x, b.cp1y), toAbsEmu(b.cp2x, b.cp2y), toAbsEmu(b.x, b.y)]
+              });
             }
             curX = endX;
             curY = endY;
+            lastOp = 'A';
           }
           break;
         case 'Z':
@@ -762,6 +845,7 @@ export function convertSvgToPptx(svgString: string): Uint8Array {
           curX = startX;
           curY = startY;
           cmds.push({ op: 'Z', pts: [] });
+          lastOp = 'Z';
           break;
       }
     }
@@ -1043,7 +1127,16 @@ function measureTextWidthPx(
   return text.length * fontSizePx * (isBold ? 0.65 : 0.58);
 }
 
-function approximateArc(
+interface CubicBezierSegment {
+  cp1x: number;
+  cp1y: number;
+  cp2x: number;
+  cp2y: number;
+  x: number;
+  y: number;
+}
+
+function arcToCubicBeziers(
   x1: number,
   y1: number,
   rx: number,
@@ -1053,9 +1146,12 @@ function approximateArc(
   sweepFlag: number,
   x2: number,
   y2: number
-): { x: number; y: number }[] {
-  if ((x1 === x2 && y1 === y2) || rx === 0 || ry === 0) {
-    return [{ x: x2, y: y2 }];
+): CubicBezierSegment[] {
+  if (x1 === x2 && y1 === y2) {
+    return [];
+  }
+  if (rx === 0 || ry === 0) {
+    return [{ cp1x: x1, cp1y: y1, cp2x: x2, cp2y: y2, x: x2, y: y2 }];
   }
   rx = Math.abs(rx);
   ry = Math.abs(ry);
@@ -1108,18 +1204,38 @@ function approximateArc(
     dTheta += 2 * Math.PI;
   }
 
-  const steps = Math.max(4, Math.ceil((Math.abs(dTheta) / (Math.PI / 2)) * 4));
-  const pts: { x: number; y: number }[] = [];
-  for (let i = 1; i <= steps; i++) {
-    const theta = theta1 + (dTheta * i) / steps;
+  // Split arc into segments of at most <= pi/2 for exact cubic Bezier representation
+  const numSegs = Math.max(1, Math.ceil(Math.abs(dTheta) / (Math.PI / 2)));
+  const delta = dTheta / numSegs;
+  const alpha = (4 / 3) * Math.tan(delta / 4);
+
+  const evalPt = (theta: number) => {
     const cosT = Math.cos(theta);
     const sinT = Math.sin(theta);
-    pts.push({
+    return {
       x: cosPhi * rx * cosT - sinPhi * ry * sinT + cx,
-      y: sinPhi * rx * cosT + cosPhi * ry * sinT + cy
+      y: sinPhi * rx * cosT + cosPhi * ry * sinT + cy,
+      dx: -cosPhi * rx * sinT - sinPhi * ry * cosT,
+      dy: -sinPhi * rx * sinT + cosPhi * ry * cosT
+    };
+  };
+
+  const segments: CubicBezierSegment[] = [];
+  let pA = evalPt(theta1);
+  for (let i = 1; i <= numSegs; i++) {
+    const thetaB = theta1 + delta * i;
+    const pB = evalPt(thetaB);
+    segments.push({
+      cp1x: pA.x + alpha * pA.dx,
+      cp1y: pA.y + alpha * pA.dy,
+      cp2x: pB.x - alpha * pB.dx,
+      cp2y: pB.y - alpha * pB.dy,
+      x: i === numSegs ? x2 : pB.x,
+      y: i === numSegs ? y2 : pB.y
     });
+    pA = pB;
   }
-  return pts;
+  return segments;
 }
 
 function parseOpacity(specificAttr: string | null, generalAttr: string | null): number {
