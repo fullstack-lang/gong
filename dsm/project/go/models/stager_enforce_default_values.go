@@ -75,11 +75,11 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				needCommit = true
 			}
 			if diagram.XLeftLanes == 0 {
-				diagram.XLeftLanes = 200.0
+				diagram.XLeftLanes = 100.0
 				needCommit = true
 			}
 			if diagram.XRightMargin == 0 {
-				diagram.XRightMargin = 1000.0
+				diagram.XRightMargin = 900.0
 				needCommit = true
 			}
 			if diagram.ArrowLengthToTheRightOfStartBar == 0 {
