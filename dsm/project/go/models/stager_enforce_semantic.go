@@ -69,6 +69,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce duplicate remove", stager.enforceDuplicateRemove},
 		{"Enforce task group tasks", stager.enforceTaskGroupTasks},
 		{"Enforce library has at least one diagram", stager.enforceLibraryHasAtLeastOneDiagram},
+		{"Enforce at most one diagram is checked", stager.enforceAtMostOneDiagramChecked},
 		{"Enforce task predecessor dates", stager.enforceTaskPredecessorDates},
 		{"Enforce task duration dates", stager.enforceTaskDurationDates},
 		{"Enforce task milestone dates", stager.enforceTaskMilestoneDates},

@@ -371,6 +371,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - process: go run . edit data/issue1507.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/process/go/cmd/process"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/issue1507.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - project: gong generate project",
             "type": "shell",
             "options": {
@@ -594,6 +609,21 @@
                 ".",
                 "edit",
                 "data/issue1415.go"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "dsm - statemachines: go run . edit data/issue1507.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/statemachines/go/cmd/statemachines"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/issue1507.go"
             ],
             "group": "build"
         },
