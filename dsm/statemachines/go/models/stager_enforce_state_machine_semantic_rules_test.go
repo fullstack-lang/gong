@@ -252,4 +252,3 @@ func TestEnforceAtLeastOneDiagramPerStateMachine(t *testing.T) {
 		t.Fatalf("expected still 1 diagram, got %d", len(sm.Diagrams))
 	}
 }
-

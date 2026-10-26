@@ -85,11 +85,11 @@ func (stager *Stager) enforceStateMachineSemanticRules() (needCommit bool) {
 
 			nbComponents := len(roots)
 			if nbComponents != 1 {
-				clickStr := "clicks"
+				clickStr := "cliques"
 				if nbComponents <= 1 {
-					clickStr = "click"
+					clickStr = "clique"
 				}
-				msg := fmt.Sprintf("State Machine \"%s\": state machine graph has to be one click (computed %d %s)", stateMachine.Name, nbComponents, clickStr)
+				msg := fmt.Sprintf("State Machine \"%s\": state machine graph has to be one clique (computed %d %s)", stateMachine.Name, nbComponents, clickStr)
 				log.Println(msg)
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), msg)
