@@ -61,6 +61,6 @@ type NoteStateShape struct {
 
 // GONGDOC(NoteOnConcreteShape):
 //
-// [models.StateShape] & [models.Transition_Shape] are the concrete syntax
+// [models.StateShape] & [models.Transition_Shape] are the concrete syntax.
 // Each concrete instance must reference an abstract instance.
 const NoteOnConcreteShape = ""
