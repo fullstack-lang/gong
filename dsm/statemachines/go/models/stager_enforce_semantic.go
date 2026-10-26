@@ -55,19 +55,24 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		fn   func() bool
 	}{
 		// abstract semantic checks
-		// this is the Clean that delete them from slices and pointers that reference them.
 		{"Clean stage", func() bool { return stage.Clean() }},
 		{"Enforce default values", stager.enforceDefaultValues},
-		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
-		{"Enforce transition semantic rules", stager.enforceTransitionSemanticRules},
-		{"Enforce state machine semantic rules", stager.enforceStateMachineSemanticRules},
+		{"Enforce orphans abstract element",
+			stager.enforceOrphansAbstractElement},
+		{"Enforce transition semantic rules",
+			stager.enforceTransitionSemanticRules},
+		{"Enforce state machine semantic rules",
+			stager.enforceStateMachineSemanticRules},
 
 		// concrete semantic checks
-		{"Enforce at least one diagram per state machine", stager.enforceAtLeastOneDiagramPerStateMachine},
-		{"Enforce node shape duplicates", stager.enforceNodeShapeDuplicates},
+		{"Enforce at least one diagram per state machine",
+			stager.enforceAtLeastOneDiagramPerStateMachine},
+		{"Enforce node shape duplicates",
+			stager.enforceNodeShapeDuplicates},
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
 		{"Enforce shape semantic", stager.enforceShapeSemantic},
-		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
+		{"Enforce shapes abstract consistency",
+			stager.enforceShapesAbstractConsistency},
 	}
 
 	for _, method := range methods {
